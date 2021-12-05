@@ -37,6 +37,7 @@ import Matomo from '../Matomo/Matomo';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { NotificationsStore } from '../Notification';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import ComparisonsStoreInstance from '../Comparisons/Comparisons.store.instance';
 
 /**
  * Loads any custom widget or URL based on the given parameters.
@@ -62,7 +63,7 @@ export default defineComponent({
     return {
       loading: false,
       loadingFailed: '',
-      changeCounter: 0, // TODO: check that there is no rerender here?
+      changeCounter: 0,
       lastWidgetRequest: null,
       currentScope: null,
     };
@@ -115,42 +116,53 @@ export default defineComponent({
         this.currentScope.$destroy();
       }
     },
-    getWidgetUrl(parameters: Record<string, unknown>): Record<string, unknown> {
-      // TODO: test this
-      // happens eg in exported widget etc when URL does not have #?...
-      // if (!Object.keys(hashParams).length
-      //   || hashParams.idSite
-      // ) {
-      //   hashParams = { idSite: '', period: '', date: '' };
-      // }
+    getWidgetUrl(parameters?: Record<string, unknown>): Record<string, unknown> {
+      const urlParams = MatomoUrl.parsed.value;
 
-      const urlParams: { urlParams: Record<string, unknown> } = { ...MatomoUrl.parsed.value };
-      delete urlParams.category;
-      delete urlParams.subcategory;
+      let fullParameters: Record<string, unknown> = { ...(parameters || {}) };
 
-      const credentials: Record<string, unknown> = {};
+      const paramsToForward = Object.keys({
+        ...MatomoUrl.hashParsed.value,
+        idSite: '',
+        period: '',
+        date: '',
+        segment: '',
+        widget: '',
+      });
+
+      paramsToForward.forEach((key) => {
+        if (key === 'category' || key === 'subcategory') {
+          return;
+        }
+
+        if (!(key in fullParameters)) {
+          fullParameters[key] = urlParams[key];
+        }
+      });
+
+      if (ComparisonsStoreInstance.isComparisonEnabled()) {
+        fullParameters = {
+          ...fullParameters,
+          comparePeriods: urlParams.comparePeriods,
+          compareDates: urlParams.compareDates,
+          compareSegments: urlParams.compareSegments,
+        };
+      }
+
+      if (!parameters || !('showtitle' in parameters)) {
+        fullParameters.showtitle = '1';
+      }
+
       if (Matomo.shouldPropagateTokenAuth
         && urlParams.token_auth
       ) {
         if (!Matomo.broadcast.isWidgetizeRequestWithoutSession()) {
-          credentials.force_api_session = '1';
+          fullParameters.force_api_session = '1';
         }
-        credentials.token_auth = urlParams.token_auth;
+        fullParameters.token_auth = urlParams.token_auth;
       }
 
-      const fullParameters = {
-        // defaults
-        ...urlParams,
-        showtitle: '1',
-
-        // given parameters
-        ...parameters,
-
-        // overrides
-        ...(urlParams.segment && { segment: urlParams.segment }),
-        ...credentials,
-        random: Math.floor(Math.random() * 10000),
-      };
+      fullParameters.random = Math.floor(Math.random() * 10000);
 
       return fullParameters;
     },
@@ -163,7 +175,7 @@ export default defineComponent({
       this.lastWidgetRequest = AjaxHelper.fetch(this.getWidgetUrl(parameters), {
         format: 'html',
         headers: {
-          'X-Requested-With': 'XMLHttpRequest', // TODO: test this
+          'X-Requested-With': 'XMLHttpRequest',
         },
       });
 

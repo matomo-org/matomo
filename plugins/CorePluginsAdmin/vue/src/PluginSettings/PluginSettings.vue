@@ -9,8 +9,8 @@
     <div
       class="card"
       v-for="settings in settingsPerPlugin"
-      :id="settings.pluginNamePluginSettings"
-      :key="settings.pluginNamePluginSettings"
+      :id="`${settings.pluginName}PluginSettings`"
+      :key="`${settings.pluginName}PluginSettings`"
     >
       <div class="card-content">
         <h2
@@ -63,7 +63,7 @@
           href=""
           class="modal-action modal-close btn"
           :disabled="!passwordConfirmation ? 'disabled' : undefined"
-          @click="save(this.settingsToSave)"
+          @click="$event.preventDefault(); save(this.settingsToSave)"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""

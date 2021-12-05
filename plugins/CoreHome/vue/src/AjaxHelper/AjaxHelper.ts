@@ -5,6 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/* eslint-disable max-classes-per-file */
+
 import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
@@ -15,6 +17,7 @@ interface AjaxOptions {
   postParams?: QueryParameters;
   headers?: Record<string, string>;
   format?: string;
+  createErrorNotification?: boolean;
 }
 
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
@@ -73,6 +76,8 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
     loadingError.show();
   }
 }
+
+class ApiResponseError extends Error {}
 
 /**
  * Global ajax helper to handle requests within Matomo
@@ -178,7 +183,22 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     if (options.headers) {
       helper.headers = options.headers;
     }
-    return helper.send();
+
+    if (typeof options.createErrorNotification !== 'undefined'
+      && !options.createErrorNotification
+    ) {
+      helper.useCallbackInCaseOfError();
+    }
+
+    return helper.send().then((data) => {
+      // check for error if not using default notification behavior
+      if (data.result === 'error') {
+        console.log('found error', data);
+        throw new ApiResponseError(data.message);
+      }
+
+      return data;
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
