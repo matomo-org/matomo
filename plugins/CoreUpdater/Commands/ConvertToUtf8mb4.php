@@ -87,7 +87,6 @@ class ConvertToUtf8mb4 extends ConsoleCommand
             $output->writeln("\n" . Piwik::translate('CoreUpdater_ConsoleStartingDbUpgrade'));
 
             try {
-                throw new \Exception();
                 foreach ($queries as $query) {
                     $output->write("\n" . 'Executing ' . $query . '... ');
                     Db::get()->exec($query);
@@ -101,8 +100,8 @@ class ConvertToUtf8mb4 extends ConsoleCommand
                 if (!$keepTracking) {
                     $output->writeln("\n" . Piwik::translate('Enabling Matomo Tracking'));
                     $config->Tracker['record_statistics'] = '1';
-                    $config->forceSave();
                 }
+                $config->forceSave();
             }
 
             $this->writeSuccessMessage($output, array('Conversion to utf8mb4 successful.'));
