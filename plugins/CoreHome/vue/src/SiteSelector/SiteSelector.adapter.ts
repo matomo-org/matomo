@@ -66,7 +66,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       setTimeout(() => scope.$apply());
     },
   },
-  postCreate(vm, scope, element, attrs, controller, $timeout: ITimeoutService) {
+  postCreate(vm, scope, element, attrs, controller) {
     const ngModel = controller as INgModelController;
 
     scope.$watch('value', (newVal) => {
@@ -75,11 +75,18 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       }
     });
 
+    if (attrs.siteid && attrs.sitename) {
+      vm.modelValue = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
+    } else if (Matomo.idSite) {
+      vm.modelValue = {
+        id: Matomo.idSite,
+        name: Matomo.helper.htmlDecode(Matomo.siteName),
+      };
+    }
+
     // setup ng-model mapping
     if (ngModel) {
-      if (vm.modelValue) {
-        ngModel.$setViewValue(vm.modelValue);
-      }
+      ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = () => {
         nextTick(() => {
@@ -91,12 +98,5 @@ export default createAngularJsAdapter<[ITimeoutService]>({
         });
       };
     }
-
-    $timeout(() => {
-      if (attrs.siteid && attrs.sitename) {
-        vm.modelValue = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
-        ngModel.$setViewValue({ ...vm.modelValue });
-      }
-    });
   },
 });

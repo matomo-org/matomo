@@ -9,6 +9,7 @@ import {
   DeepReadonly,
   reactive,
   createVNode,
+  readonly,
 } from 'vue';
 import NotificationComponent from './Notification.vue';
 import Matomo from '../Matomo/Matomo';
@@ -52,8 +53,10 @@ interface Notification {
   /**
    * The type of the notification: Either 'toast' or 'transient'. 'persistent' is valid, but
    * has no effect if only specified client side.
+   *
+   * 'help' is only used by ReportingMenu.vue.
    */
-  type: 'toast'|'persistent'|'transient';
+  type: 'toast'|'persistent'|'transient'|'help';
 
   /**
    * If set, the close icon is not displayed.
@@ -103,7 +106,7 @@ class NotificationsStore {
   private nextNotificationId = 0;
 
   get state(): DeepReadonly<NotificationsData> {
-    return this.privateState;
+    return readonly(this.privateState);
   }
 
   appendNotification(notification: Notification): void {
