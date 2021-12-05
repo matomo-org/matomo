@@ -116,10 +116,10 @@ export default defineComponent({
         this.currentScope.$destroy();
       }
     },
-    getWidgetUrl(parameters: Record<string, unknown>): Record<string, unknown> {
+    getWidgetUrl(parameters?: Record<string, unknown>): Record<string, unknown> {
       const urlParams = MatomoUrl.parsed.value;
 
-      let fullParameters: Record<string, unknown> = { ...parameters };
+      let fullParameters: Record<string, unknown> = { ...(parameters || {}) };
 
       const paramsToForward = Object.keys({
         ...MatomoUrl.hashParsed.value,
@@ -149,7 +149,7 @@ export default defineComponent({
         };
       }
 
-      if (!fullParameters.showtitle) {
+      if (!parameters || !('showtitle' in parameters)) {
         fullParameters.showtitle = '1';
       }
 
