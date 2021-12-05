@@ -17,3 +17,12 @@ window.tslib = tslib;
 window.vueSanitize = DOMPurify.sanitize.bind(DOMPurify);
 
 import './jqueryNativeEventTrigger';
+
+// modify Vue's escaping functionality to also escape angularjs {{ fields.
+// vue doesn't do this since it doesn't have this problem;
+const oldToDisplayString = window.Vue.toDisplayString;
+window.Vue.toDisplayString = function matomoToDisplayString(val: unknown): string {
+  let result = oldToDisplayString.call(this, val);
+  result = result.replace(/{{/g, '{&#8291;{');
+  return result;
+};
