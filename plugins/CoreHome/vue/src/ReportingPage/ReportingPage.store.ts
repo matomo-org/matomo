@@ -103,7 +103,7 @@ export class ReportingPageStore {
 
     if (widgets.length === 1) {
       // if there is only one widget, we always display it full width
-      return widgets;
+      return markWidgetsInFirstRowOfPage(widgets);
     }
 
     let groupedWidgets = [];
