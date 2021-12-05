@@ -80,6 +80,16 @@ class MatomoUrl {
     window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
   }
 
+  // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
+  updateLocation(params: QueryParameters|string) {
+    if (Matomo.helper.isAngularRenderingThePage()) {
+      this.updateHash(params);
+      return;
+    }
+
+    this.updateUrl(params);
+  }
+
   getSearchParam(paramName: string): string {
     const hash = window.location.href.split('#');
 
