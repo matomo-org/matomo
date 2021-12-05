@@ -556,6 +556,7 @@ describe("UsersManager", function () {
 
         it('should allow editing user permissions for admin users', async function () {
             await page.click('.userEditForm .menuPermissions');
+            await page.mouse.move(-10, -10);
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_edit_permissions');
         });

@@ -924,12 +924,13 @@ abstract class Controller
         $periodValidator = new PeriodValidator();
 
         $currentPeriod = Common::getRequestVar('period');
-        $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
             throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
+
+        $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
 
         $found = array_search($currentPeriod, $availablePeriods);
         unset($availablePeriods[$found]);
