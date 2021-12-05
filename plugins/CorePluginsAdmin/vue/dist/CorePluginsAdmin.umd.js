@@ -2412,7 +2412,7 @@ function handleJsonValue(value, varType, uiControl) {
     // value, but only for 'site' uicontrols. this only happened for site selectors, no others.
 
 
-    if (scope.uicontrol === 'site') {
+    if (scope.uicontrol === 'site' && ngModel.$viewValue) {
       setTimeout(function () {
         ngModel.$setViewValue(Field_adapter_objectSpread({}, ngModel.$viewValue));
       });
