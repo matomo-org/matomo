@@ -7,13 +7,12 @@
 <template>
   <div>
     <div
-      v-for="(widget, index) in container"
+      v-for="(widget, index) in actualContainer"
       :key="index"
     >
       <div>
         <Widget
           :widget="widget"
-          :parameters="getModifiedParameters(widget)"
           :prevent-recursion="true"
         />
       </div>
@@ -26,8 +25,6 @@ import { defineComponent } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 import { WidgetData } from '../Widget/Widgets.store';
 
-// TODO: need to test dashboard removal/move/etc.
-
 // since we're recursing, don't import the plugin directly
 const Widget = useExternalPluginComponent('CoreHome', 'Widget');
 
@@ -38,15 +35,28 @@ export default defineComponent({
   components: {
     Widget,
   },
-  methods: {
-    getModifiedParameters(widget: WidgetData) {
-      const isWidgetized = widget.parameters.widget === '1';
+  computed: {
+    actualContainer() {
+      const { container }: { container: WidgetData[] } = this;
+
+      if (!container?.[0]?.parameters) {
+        return container;
+      }
+
+      const [widget] = container;
+      const isWidgetized = widget.parameters.widget === '1' || widget.parameters.widget === 1;
+
       const isGraphEvolution = isWidgetized && widget.viewDataTable === 'graphEvolution';
-      return {
-        ...widget.parameters,
-        // we hide the first title for Visits Overview with Graph and Goal Overview
-        ...(isGraphEvolution && { showtitle: '0' }),
-      };
+
+      // we hide the first title for Visits Overview with Graph and Goal Overview
+      const firstWidget = isGraphEvolution
+        ? { ...widget, parameters: { ...widget.parameters, showtitle: '0' } }
+        : widget;
+
+      return [
+        firstWidget,
+        ...container.slice(1),
+      ];
     },
   },
 });

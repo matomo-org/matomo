@@ -11,6 +11,7 @@ import {
   computed,
 } from 'vue';
 import { Subcategory } from '../ReportingMenu/ReportingMenu.store';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 export interface WidgetData {
   uniqueId: string;
@@ -47,19 +48,32 @@ class WidgetsStore {
     this.fetchAvailableWidgets();
   }
 
-  private fetchAvailableWidgets() {
-    window.widgetsHelper.getAvailableWidgets((categorizedWidgets) => {
-      this.privateState.categorizedWidgets = categorizedWidgets;
+  private fetchAvailableWidgets(): Promise<typeof WidgetsStore['widgets']['value']> {
+    // if there's no idSite, don't make the request since it will just fail
+    if (!MatomoUrl.parsed.value.idSite) {
+      return Promise.resolve(this.widgets.value);
+    }
+
+    return new Promise((resolve, reject) => {
+      try {
+        window.widgetsHelper.getAvailableWidgets((categorizedWidgets) => {
+          this.privateState.categorizedWidgets = categorizedWidgets;
+          resolve(this.widgets.value);
+        });
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 
-  reloadAvailableWidgets() {
+  reloadAvailableWidgets(): Promise<typeof WidgetsStore['widgets']['value']> {
     if (typeof window.widgetsHelper === 'object' && window.widgetsHelper.availableWidgets) {
       // lets also update widgetslist so will be easier to update list of available widgets in
       // dashboard selector immediately
       delete window.widgetsHelper.availableWidgets;
-      this.fetchAvailableWidgets();
     }
+
+    return this.fetchAvailableWidgets();
   }
 }
 
