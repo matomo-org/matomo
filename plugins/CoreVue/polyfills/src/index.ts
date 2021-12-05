@@ -17,15 +17,6 @@ window.tslib = tslib;
 
 import './jqueryNativeEventTrigger';
 
-// modify Vue's escaping functionality to also escape angularjs {{ fields.
-// vue doesn't do this since it doesn't have this problem;
-const oldToDisplayString = window.Vue.toDisplayString;
-window.Vue.toDisplayString = function matomoToDisplayString(val: unknown): string {
-  let result = oldToDisplayString.call(this, val);
-  result = result.replace(/{{/g, '{&#8291;{');
-  return result;
-};
-
 function htmlDecode(value: string) {
   const textArea = document.createElement('textarea');
   textArea.innerHTML = value;
@@ -34,8 +25,17 @@ function htmlDecode(value: string) {
 
 const invisibleCharEncoded = htmlDecode('&#8291;');
 
+// modify Vue's escaping functionality to also escape angularjs {{ fields.
+// vue doesn't do this since it doesn't have this problem;
+const oldToDisplayString = window.Vue.toDisplayString;
+window.Vue.toDisplayString = function matomoToDisplayString(val: unknown): string {
+  let result = oldToDisplayString.call(this, val);
+  result = result.replace(/{{/g, `{${invisibleCharEncoded}{`);
+  return result;
+};
+
 window.vueSanitize = function vueSanitize(val: unknown): string {
   let result = DOMPurify.sanitize(val);
-  result = result.replace(/{{/g, `{${invisibleCharEncoded}{`);
+  result = result.replace(/{{/g, '{&#8291;{');
   return result;
 };
