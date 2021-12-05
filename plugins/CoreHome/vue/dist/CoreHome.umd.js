@@ -8391,18 +8391,23 @@ var Widgets_store_WidgetsStore = /*#__PURE__*/function () {
     Widgets_store_classCallCheck(this, WidgetsStore);
 
     Widgets_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      isFetchedFirstTime: false,
       categorizedWidgets: {}
     }));
 
     Widgets_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      if (!_this.privateState.isFetchedFirstTime) {
+        // initiating a side effect in a computed property seems wrong, but it needs to be
+        // executed after knowing a user's logged in and it will succeed.
+        _this.fetchAvailableWidgets();
+      }
+
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
 
     Widgets_store_defineProperty(this, "widgets", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.value.categorizedWidgets;
     }));
-
-    this.fetchAvailableWidgets();
   }
 
   Widgets_store_createClass(WidgetsStore, [{
@@ -8415,6 +8420,7 @@ var Widgets_store_WidgetsStore = /*#__PURE__*/function () {
         return Promise.resolve(this.widgets.value);
       }
 
+      this.privateState.isFetchedFirstTime = true;
       return new Promise(function (resolve, reject) {
         try {
           window.widgetsHelper.getAvailableWidgets(function (categorizedWidgets) {

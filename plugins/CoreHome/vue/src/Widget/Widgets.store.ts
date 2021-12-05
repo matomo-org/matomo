@@ -32,21 +32,27 @@ export interface ContainerWidgetData extends WidgetData {
 }
 
 interface WidgetsStoreState {
+  isFetchedFirstTime: boolean;
   categorizedWidgets: Record<string, WidgetData[]>;
 }
 
 class WidgetsStore {
   private privateState = reactive<WidgetsStoreState>({
+    isFetchedFirstTime: false,
     categorizedWidgets: {},
   });
 
-  private state = computed(() => readonly(this.privateState));
+  private state = computed(() => {
+    if (!this.privateState.isFetchedFirstTime) {
+      // initiating a side effect in a computed property seems wrong, but it needs to be
+      // executed after knowing a user's logged in and it will succeed.
+      this.fetchAvailableWidgets();
+    }
+
+    return readonly(this.privateState);
+  });
 
   readonly widgets = computed(() => this.state.value.categorizedWidgets);
-
-  constructor() {
-    this.fetchAvailableWidgets();
-  }
 
   private fetchAvailableWidgets(): Promise<typeof WidgetsStore['widgets']['value']> {
     // if there's no idSite, don't make the request since it will just fail
@@ -54,6 +60,7 @@ class WidgetsStore {
       return Promise.resolve(this.widgets.value);
     }
 
+    this.privateState.isFetchedFirstTime = true;
     return new Promise((resolve, reject) => {
       try {
         window.widgetsHelper.getAvailableWidgets((categorizedWidgets) => {
