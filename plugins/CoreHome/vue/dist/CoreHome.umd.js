@@ -9353,16 +9353,16 @@ WidgetByDimensionContainervue_type_script_lang_ts.render = WidgetByDimensionCont
   },
   directiveName: 'piwikWidgetByDimensionContainer'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=1dbfdc9e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=305f215e
 
-var Widgetvue_type_template_id_1dbfdc9e_hoisted_1 = ["id"];
-var Widgetvue_type_template_id_1dbfdc9e_hoisted_2 = {
+var Widgetvue_type_template_id_305f215e_hoisted_1 = ["id"];
+var Widgetvue_type_template_id_305f215e_hoisted_2 = {
   key: 1
 };
-var Widgetvue_type_template_id_1dbfdc9e_hoisted_3 = {
+var Widgetvue_type_template_id_305f215e_hoisted_3 = {
   key: 2
 };
-function Widgetvue_type_template_id_1dbfdc9e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Widgetvue_type_template_id_305f215e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_WidgetLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetLoader");
 
   var _component_WidgetContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetContainer");
@@ -9381,15 +9381,15 @@ function Widgetvue_type_template_id_1dbfdc9e_render(_ctx, _cache, $props, $setup
     key: 0,
     "widget-params": _ctx.actualWidget.parameters,
     "widget-name": _ctx.actualWidget.name
-  }, null, 8, ["widget-params", "widget-name"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout !== 'ByDimension' && !this.preventRecursion ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_1dbfdc9e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetContainer, {
-    container: _ctx.widget.widgets
-  }, null, 8, ["container"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout === 'ByDimension' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_1dbfdc9e_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetByDimensionContainer, {
-    widgets: _ctx.widget.widgets
-  }, null, 8, ["widgets"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, Widgetvue_type_template_id_1dbfdc9e_hoisted_1)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showWidget], [_directive_tooltips, {
+  }, null, 8, ["widget-params", "widget-name"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout !== 'ByDimension' && !this.preventRecursion ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_305f215e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetContainer, {
+    container: _ctx.actualWidget.widgets
+  }, null, 8, ["container"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout === 'ByDimension' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_305f215e_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetByDimensionContainer, {
+    widgets: _ctx.actualWidget.widgets
+  }, null, 8, ["widgets"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, Widgetvue_type_template_id_305f215e_hoisted_1)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showWidget], [_directive_tooltips, {
     content: _ctx.tooltipContent
   }]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=1dbfdc9e
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=305f215e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=script&lang=ts
 function Widgetvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -9409,7 +9409,7 @@ function Widgetvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key
 
 function findContainer(widgetsByCategory, containerId) {
   var widget;
-  Object.values(widgetsByCategory).some(function (widgets) {
+  Object.values(widgetsByCategory || {}).some(function (widgets) {
     widget = widgets.find(function (w) {
       return w && w.isContainer && w.parameters.containerId === containerId;
     });
@@ -9519,24 +9519,31 @@ function findContainer(widgetsByCategory, containerId) {
       }
 
       if (this.containerid) {
-        var containerWidget = findContainer(this.allWidgets.value, this.containerid);
+        var containerWidget = findContainer(this.allWidgets, this.containerid);
 
-        var _result = Widgetvue_type_script_lang_ts_objectSpread({}, containerWidget);
+        if (containerWidget) {
+          var _result = Widgetvue_type_script_lang_ts_objectSpread({}, containerWidget);
 
-        if (this.widgetized) {
-          _result.isFirstInPage = true;
-          _result.parameters.widget = '1';
-          _result.widgets = _result.widgets.map(function (w) {
-            return Widgetvue_type_script_lang_ts_objectSpread(Widgetvue_type_script_lang_ts_objectSpread({}, w), {}, {
-              parameters: Widgetvue_type_script_lang_ts_objectSpread(Widgetvue_type_script_lang_ts_objectSpread({}, w.parameters), {}, {
-                widget: '1',
-                containerId: _this2.containerid
-              })
+          if (this.widgetized) {
+            _result.isFirstInPage = true;
+            _result.parameters = Widgetvue_type_script_lang_ts_objectSpread(Widgetvue_type_script_lang_ts_objectSpread({}, _result.parameters), {}, {
+              widget: '1'
             });
-          });
-        }
 
-        return _result;
+            if (_result.widgets) {
+              _result.widgets = _result.widgets.map(function (w) {
+                return Widgetvue_type_script_lang_ts_objectSpread(Widgetvue_type_script_lang_ts_objectSpread({}, w), {}, {
+                  parameters: Widgetvue_type_script_lang_ts_objectSpread(Widgetvue_type_script_lang_ts_objectSpread({}, w.parameters), {}, {
+                    widget: '1',
+                    containerId: _this2.containerid
+                  })
+                });
+              });
+            }
+          }
+
+          return _result;
+        }
       }
 
       return null;
@@ -9549,7 +9556,7 @@ function findContainer(widgetsByCategory, containerId) {
 
 
 
-Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_1dbfdc9e_render
+Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_305f215e_render
 
 /* harmony default export */ var Widget_Widget = (Widgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Widget/Widget.adapter.ts
@@ -9571,7 +9578,7 @@ Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_1dbfdc9e_rende
       angularJsBind: '=?'
     },
     containerid: {
-      angularJsBind: '='
+      angularJsBind: '@'
     }
   },
   directiveName: 'piwikWidget'
