@@ -22,12 +22,21 @@ class DisablePluginArchive extends Fixture
 
     public function setUp(): void
     {
+      $this->setUpWebsitesAndGoals();
       $this->setUpConfig();
     }
 
     public function tearDown(): void
     {
         $this->removeConfig();
+    }
+
+
+    private function setUpWebsitesAndGoals()
+    {
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
     }
 
     private function setUpConfig()
