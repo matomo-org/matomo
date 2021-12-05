@@ -1056,6 +1056,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             elem = await page.$('#secondNavBar');
             await elem.hover();
 
+            await page.mouse.move(-10, -10);
+
             pageWrap = await page.$('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog');
             expect(await pageWrap.screenshot()).to.matchImage('segmented_visitorlog');
         });
