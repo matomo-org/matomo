@@ -2730,7 +2730,8 @@ function createAngularJsAdapter(options) {
       noScope = options.noScope,
       _options$restrict = options.restrict,
       restrict = _options$restrict === void 0 ? 'A' : _options$restrict,
-      priority = options.priority;
+      priority = options.priority,
+      replace = options.replace;
   var currentTranscludeCounter = transcludeCounter;
 
   if (transclude) {
@@ -2886,9 +2887,18 @@ function createAngularJsAdapter(options) {
 
             if (postCreate) {
               postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
+            } // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+
+
+            var ngRoot = ngElement;
+
+            if (replace) {
+              ngRoot = window.$(mountPoint);
+              ngElement.replaceWith(ngRoot.children());
             }
 
-            ngElement.on('$destroy', function () {
+            ngRoot.on('$destroy', function () {
               app.unmount();
             });
           }
