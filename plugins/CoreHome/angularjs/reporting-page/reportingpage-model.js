@@ -10,17 +10,12 @@
     reportingPageModelService.$inject = ['$filter', 'reportingPagesModel', 'reportMetadataModel'];
 
     function reportingPageModelService ($filter, reportingPagesModel, reportMetadataModel) {
-        var init = false;
-
         // those sites are going to be displayed
         var model = {
             fetchPage: fetchPage,
             resetPage: resetPage,
             widgets: [],
             page: null,
-            pageContentUrl: '',
-            evolutionReports: [],
-            sparklineReports: []
         };
 
         return model;
@@ -29,9 +24,6 @@
         {
             model.page = null;
             model.widgets = [];
-            model.pageContentUrl  = '';
-            model.evolutionReports = [];
-            model.sparklineReports = [];
         }
 
         function sortWidgets(widgets)
@@ -61,8 +53,6 @@
             }
 
             var widgets = [];
-            var evolutionReports = [];
-            var sparklineReports = [];
             var reportsToIgnore  = [];
 
             angular.forEach(page.widgets, function (widget) {
@@ -113,20 +103,9 @@
             }
 
             var copyWidgets    = angular.copy(groupedWidgets);
-            var copyEvolution  = angular.copy(evolutionReports);
-            var copySparklines = angular.copy(sparklineReports);
-
-            if (copyEvolution.length) {
-                copyEvolution = markWidgetsInFirstRowOfPage(copyEvolution);
-            } else if (copySparklines.length) {
-                copySparklines = markWidgetsInFirstRowOfPage(copySparklines);
-            } else {
-                copyWidgets = markWidgetsInFirstRowOfPage(copyWidgets);
-            }
+            copyWidgets = markWidgetsInFirstRowOfPage(copyWidgets);
 
             // angular.copy forces the page to re-render. Otherwise it won't reload some pages
-            model.evolutionReports = copyEvolution;
-            model.sparklineReports = copySparklines;
             model.widgets          = copyWidgets;
         }
 
