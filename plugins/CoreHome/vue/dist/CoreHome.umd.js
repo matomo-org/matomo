@@ -2056,20 +2056,33 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
         return src_MatomoUrl_MatomoUrl.parsed.value.popover;
       }, function () {
         return _this.onPopoverParamChanged();
-      }); // initial change
+      });
 
       if (src_MatomoUrl_MatomoUrl.parsed.value.popover) {
-        this.onPopoverParamChanged();
+        this.onPopoverParamChangedInitial();
       }
+    } // don't initiate the handler until the page had a chance to render,
+    // since some rowactions depend on what's been loaded.
+
+  }, {
+    key: "onPopoverParamChangedInitial",
+    value: function onPopoverParamChangedInitial() {
+      var _this2 = this;
+
+      PopoverHandler_$(function () {
+        setTimeout(function () {
+          _this2.openOrClose();
+        });
+      });
     }
   }, {
     key: "onPopoverParamChanged",
     value: function onPopoverParamChanged() {
-      var _this2 = this;
+      var _this3 = this;
 
       // make sure all popover handles were registered
       PopoverHandler_$(function () {
-        _this2.openOrClose();
+        _this3.openOrClose();
       });
     }
   }, {
