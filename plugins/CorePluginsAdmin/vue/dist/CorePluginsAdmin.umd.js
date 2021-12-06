@@ -3062,12 +3062,15 @@ SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_c302ef
     }
   },
   events: {
-    confirm: function confirm($event, vm, scope, element) {
+    confirm: function confirm($event, vm, scope, element, attrs, controller, $timeout) {
       element[0].click(); // this directive can be used on input's with ng-click specified
+
+      $timeout();
     }
   },
   replace: true,
-  directiveName: 'piwikSaveButton'
+  directiveName: 'piwikSaveButton',
+  $inject: ['$timeout']
 }));
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
 /*!
