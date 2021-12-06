@@ -2891,14 +2891,20 @@ function createAngularJsAdapter(options) {
             // handle it here.
 
 
-            var ngRoot = ngElement;
-
             if (replace) {
-              ngRoot = window.$(mountPoint);
-              ngElement.replaceWith(ngRoot.children());
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach(function (attr) {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+
+                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+              });
+              ngElement.replaceWith(window.$(mountPoint).children());
             }
 
-            ngRoot.on('$destroy', function () {
+            ngElement.on('$destroy', function () {
               app.unmount();
             });
           }

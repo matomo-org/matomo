@@ -13,7 +13,7 @@ export default {
       $(el).find('input[type=text]').keypress((e) => {
         const key = e.keyCode || e.which;
         if (key === 13) {
-          $(el).find('[piwik-save-button] input').triggerHandler('click');
+          $(el).find('.matomo-save-button input').triggerHandler('click');
         }
       });
     });

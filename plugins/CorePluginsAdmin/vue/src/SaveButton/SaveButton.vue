@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div style="display:inline-block;">
+  <div class="matomo-save-button" style="display:inline-block;">
     <input
       type="button"
       @click="onConfirm($event)"
