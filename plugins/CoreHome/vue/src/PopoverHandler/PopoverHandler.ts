@@ -18,10 +18,19 @@ class PopoverHandler {
   private setup() {
     watch(() => MatomoUrl.parsed.value.popover, () => this.onPopoverParamChanged());
 
-    // initial change
     if (MatomoUrl.parsed.value.popover) {
-      this.onPopoverParamChanged();
+      this.onPopoverParamChangedInitial();
     }
+  }
+
+  // don't initiate the handler until the page had a chance to render,
+  // since some rowactions depend on what's been loaded.
+  private onPopoverParamChangedInitial() {
+    $(() => {
+      setTimeout(() => {
+        this.openOrClose();
+      });
+    });
   }
 
   private onPopoverParamChanged() {
