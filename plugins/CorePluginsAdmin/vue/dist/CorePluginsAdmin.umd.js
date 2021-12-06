@@ -2981,18 +2981,19 @@ function piwikPluginFilter() {
 }
 piwikPluginFilter.$inject = [];
 angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=ceb720d6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
 
-var SaveButtonvue_type_template_id_ceb720d6_hoisted_1 = {
+var SaveButtonvue_type_template_id_c302ef68_hoisted_1 = {
+  class: "matomo-save-button",
   style: {
     "display": "inline-block"
   }
 };
-var SaveButtonvue_type_template_id_ceb720d6_hoisted_2 = ["disabled", "value"];
-function SaveButtonvue_type_template_id_ceb720d6_render(_ctx, _cache, $props, $setup, $data, $options) {
+var SaveButtonvue_type_template_id_c302ef68_hoisted_2 = ["disabled", "value"];
+function SaveButtonvue_type_template_id_c302ef68_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_ceb720d6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_c302ef68_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "button",
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.onConfirm($event);
@@ -3000,11 +3001,11 @@ function SaveButtonvue_type_template_id_ceb720d6_render(_ctx, _cache, $props, $s
     disabled: _ctx.saving || _ctx.disabled,
     class: "btn",
     value: _ctx.value ? _ctx.value : _ctx.translate('General_Save')
-  }, null, 8, SaveButtonvue_type_template_id_ceb720d6_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+  }, null, 8, SaveButtonvue_type_template_id_c302ef68_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.saving
   }, null, 8, ["loading"])]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=ceb720d6
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
 
@@ -3031,7 +3032,7 @@ function SaveButtonvue_type_template_id_ceb720d6_render(_ctx, _cache, $props, $s
 
 
 
-SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_ceb720d6_render
+SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_c302ef68_render
 
 /* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
@@ -3084,7 +3085,7 @@ var Form_window = window,
         var key = e.keyCode || e.which;
 
         if (key === 13) {
-          Form_$(el).find('[piwik-save-button] input').triggerHandler('click');
+          Form_$(el).find('.matomo-save-button input').triggerHandler('click');
         }
       });
     });

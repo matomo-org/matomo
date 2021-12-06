@@ -275,13 +275,20 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
             // specifying replace: true on the directive does nothing w/ vue inside, so
             // handle it here.
-            let ngRoot = ngElement;
             if (replace) {
-              ngRoot = window.$(mountPoint);
-              ngElement.replaceWith(ngRoot.children());
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach((attr) => {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+              });
+
+              ngElement.replaceWith(window.$(mountPoint).children());
             }
 
-            ngRoot.on('$destroy', () => {
+            ngElement.on('$destroy', () => {
               app.unmount();
             });
           },
