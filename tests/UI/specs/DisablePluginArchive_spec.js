@@ -22,6 +22,6 @@ describe("DisablePluginArchive", function () {
 
   it("should show plugin disable text", async function () {
      await page.goto(url);
-     expect(await page.screenshot({ fullPage: true })).to.matchImage('DisablePluginArchive');
+     expect(await page.screenshot({ fullPage: true })).to.matchImage('referrer_disabled');
   });
 });
