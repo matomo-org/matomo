@@ -52,9 +52,9 @@ then
             # change code for all versions of Matomo as well as selectively for individual Matomo versions.
             git checkout 4.x-dev ../../plugins/TestRunner/Commands/TestsRunUI.php
 
-            ./../../console tests:run-ui --assume-artifacts --persist-fixture-data --plugin=$PLUGIN_NAME --extra-options="$UITEST_EXTRA_OPTIONS --screenshot-repo=$TRAVIS_REPO_SLUG"
+            ./console tests:run-ui --assume-artifacts --persist-fixture-data --plugin=$PLUGIN_NAME --extra-options="$UITEST_EXTRA_OPTIONS --screenshot-repo=$TRAVIS_REPO_SLUG"
         else
-            ./../../console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="$UITEST_EXTRA_OPTIONS"
+            ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="$UITEST_EXTRA_OPTIONS"
         fi
     elif [ "$TEST_SUITE" = "AllTests" ]
     then
@@ -63,26 +63,26 @@ then
         if [ "$ALLTEST_EXTRA_OPTIONS" = "--run-first-half-only" ]
         then
             echo "Executing tests in test suite UnitTests"
-            ./phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite UnitTests --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
+            ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite UnitTests --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
             echo "Executing tests in test suite SystemTests for Plugins"
-            ./phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite SystemTestsPlugins --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
+            ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite SystemTestsPlugins --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
             echo "Executing tests in test suite SystemTests for Core"
-            ./phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite SystemTestsCore --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
+            ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite SystemTestsCore --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
         elif [ "$ALLTEST_EXTRA_OPTIONS" = "--run-second-half-only" ]
         then
             echo "Executing tests in test suite IntegrationTests"
-            ./phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
+            ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors $PHPUNIT_EXTRA_OPTIONS || exit_code=$?
         else
-            ./../../console tests:run --options="--colors" || exit_code=$?
+            ./console tests:run --options="--colors" || exit_code=$?
         fi
 
         exit $exit_code
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            ./phpunit/phpunit/phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover-$PLUGIN_NAME.xml $PHPUNIT_EXTRA_OPTIONS | tee phpunit.out
+            ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover-$PLUGIN_NAME.xml $PHPUNIT_EXTRA_OPTIONS | tee phpunit.out
         else
-            ./phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors $PHPUNIT_EXTRA_OPTIONS | tee phpunit.out
+            ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors $PHPUNIT_EXTRA_OPTIONS | tee phpunit.out
         fi
 
         exit_code="${PIPESTATUS[0]}"
@@ -98,10 +98,10 @@ else
     if [ "$COVERAGE" = "Unit" ]
     then
         echo "Executing tests in test suite UnitTests..."
-        ./phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml $PHPUNIT_EXTRA_OPTIONS || true
+        ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml $PHPUNIT_EXTRA_OPTIONS || true
     elif [ "$COVERAGE" = "Integration" ]
     then
         echo "Executing tests in test suite IntegrationTests..."
-        ./phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml $PHPUNIT_EXTRA_OPTIONS || true
+        ./vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml $PHPUNIT_EXTRA_OPTIONS || true
     fi;
 fi
