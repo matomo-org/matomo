@@ -20,51 +20,59 @@
       </div>
 
       <div>
-        <Field
-          :uicontrol="'checkbox'"
-          :name="'option_flat'"
-          :title="translate('CoreHome_FlattenReport')"
-          v-model="optionFlat"
-          v-show="hasSubtables"
-        >
-        </Field>
+        <div name="option_flat">
+          <Field
+            :uicontrol="'checkbox'"
+            :name="'option_flat'"
+            :title="translate('CoreHome_FlattenReport')"
+            v-model="optionFlat"
+            v-show="hasSubtables"
+          >
+          </Field>
+        </div>
       </div>
       <div>
-        <Field
-          :uicontrol="'checkbox'"
-          :name="'option_expanded'"
-          :title="translate('CoreHome_ExpandSubtables')"
-          v-model="optionExpanded"
-          v-show="hasSubtables && !optionFlat"
-        >
-        </Field>
+        <div name="option_expanded">
+          <Field
+            :uicontrol="'checkbox'"
+            :name="'option_expanded'"
+            :title="translate('CoreHome_ExpandSubtables')"
+            v-model="optionExpanded"
+            v-show="hasSubtables && !optionFlat"
+          >
+          </Field>
+        </div>
       </div>
       <div>
-        <Field
-          :uicontrol="'checkbox'"
-          :name="'option_format_metrics'"
-          :title="translate('CoreHome_FormatMetrics')"
-          v-model="optionFormatMetrics"
-        >
-        </Field>
+        <div name="option_format_metrics">
+          <Field
+            :uicontrol="'checkbox'"
+            :name="'option_format_metrics'"
+            :title="translate('CoreHome_FormatMetrics')"
+            v-model="optionFormatMetrics"
+          >
+          </Field>
+        </div>
       </div>
     </div>
 
     <div class="col l6">
       <div>
-        <Field
-          :uicontrol="'radio'"
-          :name="'filter_type'"
-          :title="translate('CoreHome_ReportType')"
-          v-model="reportType"
-          :full-width="true"
-          :options="availableReportTypes"
-        >
-        </Field>
+        <div name="filter_type">
+          <Field
+            :uicontrol="'radio'"
+            :name="'filter_type'"
+            :title="translate('CoreHome_ReportType')"
+            v-model="reportType"
+            :full-width="true"
+            :options="availableReportTypes"
+          >
+          </Field>
+        </div>
       </div>
 
       <div class="filter_limit">
-        <div v-show="!maxFilterLimit || maxFilterLimit <= 0">
+        <div v-show="!maxFilterLimit || maxFilterLimit <= 0" name="filter_limit_all">
           <Field
             :uicontrol="'radio'"
             :name="'filter_limit_all'"
@@ -77,7 +85,7 @@
           </Field>
         </div>
 
-        <div v-if="reportLimitAll === 'no' && maxFilterLimit <= 0">
+        <div v-if="reportLimitAll === 'no' && maxFilterLimit <= 0" name="filter_limit">
           <Field
             :uicontrol="'number'"
             name="filter_limit"
@@ -88,7 +96,7 @@
           </Field>
         </div>
 
-        <div v-if="reportLimitAll === 'no' && maxFilterLimit > 0">
+        <div v-if="reportLimitAll === 'no' && maxFilterLimit > 0" name="filter_limit">
           <Field
             :uicontrol="'number'"
             :name="'filter_limit'"
