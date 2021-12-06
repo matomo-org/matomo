@@ -18,6 +18,7 @@ interface AjaxOptions {
   headers?: Record<string, string>;
   format?: string;
   createErrorNotification?: boolean;
+  abortController?: AbortController;
 }
 
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
@@ -163,6 +164,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    */
   requestHandle: JQuery.jqXHR|null = null;
 
+  abortController: AbortController|null = null;
+
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   // helper method entry point
@@ -190,10 +193,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.useCallbackInCaseOfError();
     }
 
+    if (options.abortController) {
+      helper.abortController = options.abortController;
+    }
+
     return helper.send().then((data) => {
       // check for error if not using default notification behavior
       if (data.result === 'error') {
-        console.log('found error', data);
         throw new ApiResponseError(data.message);
       }
 
@@ -409,6 +415,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       // ignore
     }
 
+    if (this.abortController) {
+      this.abortController.signal.addEventListener('abort', () => this.requestHandle.abort());
+    }
+
     const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
       this.requestHandle!.then((...args) => {
         resolve(...args);
@@ -424,12 +434,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       });
     }) as AbortablePromise<T>;
-
-    result.abort = () => {
-      if (this.requestHandle) {
-        this.requestHandle.abort();
-      }
-    };
 
     return result;
   }
