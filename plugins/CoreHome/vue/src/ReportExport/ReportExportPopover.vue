@@ -5,10 +5,10 @@
 -->
 
 <template>
-  <div class="report-export-popover row">
+  <div class="report-export-popover row" id="reportExport">
 
     <div class="col l6">
-      <div>
+      <div name="format">
         <Field
           :uicontrol="'radio'"
           :name="'format'"
@@ -162,17 +162,45 @@ export default defineComponent({
     dataTable: Object,
     requestParams: [Object, String],
     apiMethod: String,
+    initialReportType: {
+      type: String,
+      default: 'default',
+    },
+    initialReportLimit: {
+      type: [String, Number],
+      default: 100,
+    },
+    initialReportLimitAll: {
+      type: String,
+      default: 'yes',
+    },
+    initialOptionFlat: {
+      type: Boolean,
+      default: false,
+    },
+    initialOptionExpanded: {
+      type: Boolean,
+      default: true,
+    },
+    initialOptionFormatMetrics: {
+      type: Boolean,
+      default: false,
+    },
+    initialReportFormat: {
+      type: String,
+      default: 'XML',
+    },
   },
   data() {
     return {
       showUrl: false,
-      reportFormat: 'XML',
-      optionFlat: false,
-      optionExpanded: false,
-      optionFormatMetrics: true,
-      reportType: 'default',
-      reportLimitAll: 'yes',
-      reportLimit: 100,
+      reportFormat: this.initialReportFormat,
+      optionFlat: this.initialOptionFlat,
+      optionExpanded: this.initialOptionExpanded,
+      optionFormatMetrics: this.initialOptionFormatMetrics,
+      reportType: this.initialReportType,
+      reportLimitAll: this.initialReportLimitAll,
+      reportLimit: this.initialReportLimit,
     };
   },
   watch: {

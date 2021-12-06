@@ -96,6 +96,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   noScope?: boolean,
   restrict?: string,
   priority?: number,
+  replace?: boolean,
 }): ng.IDirectiveFactory {
   const {
     component,
@@ -110,6 +111,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     noScope,
     restrict = 'A',
     priority,
+    replace,
   } = options;
 
   const currentTranscludeCounter = transcludeCounter;
@@ -269,6 +271,21 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
             if (postCreate) {
               postCreate(vm, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
+            }
+
+            // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+            if (replace) {
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach((attr) => {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+              });
+
+              ngElement.replaceWith(window.$(mountPoint).children());
             }
 
             ngElement.on('$destroy', () => {

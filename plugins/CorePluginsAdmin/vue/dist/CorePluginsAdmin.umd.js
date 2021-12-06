@@ -2877,127 +2877,6 @@ function piwikPluginUpload() {
 }
 piwikPluginUpload.$inject = [];
 angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=70a5ddaa
-
-var SaveButtonvue_type_template_id_70a5ddaa_hoisted_1 = {
-  style: {
-    "display": "inline-block"
-  }
-};
-var SaveButtonvue_type_template_id_70a5ddaa_hoisted_2 = ["disabled", "value"];
-function SaveButtonvue_type_template_id_70a5ddaa_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_70a5ddaa_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "button",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.onConfirm();
-    }),
-    disabled: _ctx.saving || _ctx.disabled,
-    class: "btn",
-    value: _ctx.value ? _ctx.value : _ctx.translate('General_Save')
-  }, null, 8, SaveButtonvue_type_template_id_70a5ddaa_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-    loading: _ctx.saving
-  }, null, 8, ["loading"])]);
-}
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=70a5ddaa
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var SaveButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    saving: Boolean,
-    value: String,
-    disabled: Boolean
-  },
-  components: {
-    ActivityIndicator: external_CoreHome_["ActivityIndicator"]
-  },
-  emits: ['confirm'],
-  methods: {
-    onConfirm: function onConfirm() {
-      this.$emit('confirm');
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue
-
-
-
-SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_70a5ddaa_render
-
-/* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SaveButton_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SaveButton,
-  scope: {
-    saving: {
-      angularJsBind: '=?'
-    },
-    value: {
-      angularJsBind: '@?'
-    },
-    disabled: {
-      angularJsBind: '=?'
-    },
-    onconfirm: {
-      angularJsBind: '&?',
-      vue: 'confirm'
-    }
-  },
-  directiveName: 'piwikSaveButton'
-}));
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-var Form_window = window,
-    Form_$ = Form_window.$;
-/* harmony default export */ var Form = ({
-  mounted: function mounted(el) {
-    setTimeout(function () {
-      Form_$(el).find('input[type=text]').keypress(function (e) {
-        var key = e.keyCode || e.which;
-
-        if (key === 13) {
-          Form_$(el).find('[piwik-save-button] input').triggerHandler('click');
-        }
-      });
-    });
-  }
-});
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikForm() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink(scope, element) {
-      Form.mounted(element[0]);
-    }
-  };
-}
-piwikForm.$inject = [];
-angular.module('piwikApp').directive('piwikForm', piwikForm);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3084,6 +2963,152 @@ function onClickOrigin(element, event) {
     });
   }
 });
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginFilter() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      PluginFilter.mounted(element[0]);
+    }
+  };
+}
+piwikPluginFilter.$inject = [];
+angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+var SaveButtonvue_type_template_id_c302ef68_hoisted_1 = {
+  class: "matomo-save-button",
+  style: {
+    "display": "inline-block"
+  }
+};
+var SaveButtonvue_type_template_id_c302ef68_hoisted_2 = ["disabled", "value"];
+function SaveButtonvue_type_template_id_c302ef68_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_c302ef68_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "button",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.onConfirm($event);
+    }),
+    disabled: _ctx.saving || _ctx.disabled,
+    class: "btn",
+    value: _ctx.value ? _ctx.value : _ctx.translate('General_Save')
+  }, null, 8, SaveButtonvue_type_template_id_c302ef68_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    loading: _ctx.saving
+  }, null, 8, ["loading"])]);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SaveButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    saving: Boolean,
+    value: String,
+    disabled: Boolean
+  },
+  components: {
+    ActivityIndicator: external_CoreHome_["ActivityIndicator"]
+  },
+  emits: ['confirm'],
+  methods: {
+    onConfirm: function onConfirm($event) {
+      this.$emit('confirm', $event);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue
+
+
+
+SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_c302ef68_render
+
+/* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var SaveButton_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: SaveButton,
+  scope: {
+    saving: {
+      angularJsBind: '=?'
+    },
+    value: {
+      angularJsBind: '@?'
+    },
+    disabled: {
+      angularJsBind: '=?'
+    },
+    onconfirm: {
+      angularJsBind: '&?',
+      vue: 'confirm'
+    }
+  },
+  events: {
+    confirm: function confirm($event, vm, scope, element) {
+      element[0].click(); // this directive can be used on input's with ng-click specified
+    }
+  },
+  replace: true,
+  directiveName: 'piwikSaveButton'
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var Form_window = window,
+    Form_$ = Form_window.$;
+/* harmony default export */ var Form = ({
+  mounted: function mounted(el) {
+    setTimeout(function () {
+      Form_$(el).find('input[type=text]').keypress(function (e) {
+        var key = e.keyCode || e.which;
+
+        if (key === 13) {
+          Form_$(el).find('.matomo-save-button input').triggerHandler('click');
+        }
+      });
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikForm() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      Form.mounted(element[0]);
+    }
+  };
+}
+piwikForm.$inject = [];
+angular.module('piwikApp').directive('piwikForm', piwikForm);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3091,6 +3116,7 @@ function onClickOrigin(element, event) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 
 
 

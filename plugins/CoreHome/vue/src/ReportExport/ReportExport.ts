@@ -43,12 +43,12 @@ export default {
         || dataTable.param.flat === '1';
 
       const props = {
-        reportType: 'default',
-        reportLimit: reportLimit > 0 ? reportLimit : 100,
-        reportLimitAll: reportLimit === -1 ? 'yes' : 'no',
-        optionFlat,
-        optionExpanded: true,
-        optionFormatMetrics: false,
+        initialReportType: 'default',
+        initialReportLimit: reportLimit > 0 ? reportLimit : 100,
+        initialReportLimitAll: reportLimit === -1 ? 'yes' : 'no',
+        initialOptionFlat: optionFlat,
+        initialOptionExpanded: true,
+        initialOptionFormatMetrics: false,
         hasSubtables: optionFlat || dataTable.numberOfSubtables > 0,
         availableReportFormats: {
           default: formats,
@@ -67,9 +67,7 @@ export default {
         },
         maxFilterLimit: binding.value.maxFilterLimit,
         dataTable,
-        reportTitle: binding.value.reportTitle,
         requestParams: binding.value.requestParams,
-        reportFormats: binding.value.reportFormats,
         apiMethod: binding.value.apiMethod,
       };
 
