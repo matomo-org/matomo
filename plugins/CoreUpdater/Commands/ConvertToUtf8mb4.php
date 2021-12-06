@@ -77,9 +77,10 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
         if ($yes) {
 
+            $config = Config::getInstance();
+
             if (!$keepTracking) {
                 $output->writeln("\n" . Piwik::translate('Disabling Matomo Tracking'));
-                $config                               = Config::getInstance();
                 $config->Tracker['record_statistics'] = '0';
                 $config->forceSave();
             }
@@ -94,7 +95,6 @@ class ConvertToUtf8mb4 extends ConsoleCommand
                 }
 
                 $output->writeln("\n" . 'Updating used database charset in config.ini.php.');
-                $config                      = Config::getInstance();
                 $config->database['charset'] = 'utf8mb4';
             } finally {
                 if (!$keepTracking) {
