@@ -51,9 +51,15 @@
                     }
 
                     $element.find('.confirm-password-modal').modal({ dismissible: false, onOpenEnd: function () {
-                        $('.modal.open #currentUserPassword').focus();
-                        $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
-                    }}).modal('open');
+                            $('.modal.open #currentUserPassword').focus();
+                            $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
+                            $('.pluginSettings input').prop("readonly",true);
+                            $('.confirm-password-modal input').prop("readonly",false);
+                        },
+                        onCloseStart: function () {
+                            $('.pluginSettings input').prop('readonly', false);
+                        },
+                    }).modal('open');
 
                     return;
                 } else {
