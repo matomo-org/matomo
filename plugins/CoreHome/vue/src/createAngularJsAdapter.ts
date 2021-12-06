@@ -96,6 +96,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   noScope?: boolean,
   restrict?: string,
   priority?: number,
+  replace?: boolean,
 }): ng.IDirectiveFactory {
   const {
     component,
@@ -110,6 +111,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     noScope,
     restrict = 'A',
     priority,
+    replace,
   } = options;
 
   const currentTranscludeCounter = transcludeCounter;
@@ -271,7 +273,15 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               postCreate(vm, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
             }
 
-            ngElement.on('$destroy', () => {
+            // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+            let ngRoot = ngElement;
+            if (replace) {
+              ngRoot = window.$(mountPoint);
+              ngElement.replaceWith(ngRoot.children());
+            }
+
+            ngRoot.on('$destroy', () => {
               app.unmount();
             });
           },

@@ -25,5 +25,11 @@ export default createAngularJsAdapter({
       vue: 'confirm',
     },
   },
+  events: {
+    confirm($event, vm, scope, element) {
+      element[0].click(); // this directive can be used on input's with ng-click specified
+    },
+  },
+  replace: true,
   directiveName: 'piwikSaveButton',
 });
