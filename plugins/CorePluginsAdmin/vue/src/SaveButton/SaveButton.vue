@@ -5,10 +5,10 @@
 -->
 
 <template>
-  <div style="display:inline-block;">
+  <div class="matomo-save-button" style="display:inline-block;">
     <input
       type="button"
-      @click="onConfirm()"
+      @click="onConfirm($event)"
       :disabled="saving || disabled"
       class="btn"
       :value="value ? value : translate('General_Save')"
@@ -34,8 +34,8 @@ export default defineComponent({
   },
   emits: ['confirm'],
   methods: {
-    onConfirm() {
-      this.$emit('confirm');
+    onConfirm($event) {
+      this.$emit('confirm', $event);
     },
   },
 });

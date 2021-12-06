@@ -206,16 +206,16 @@
         },
         {
             "name": "geoip2/geoip2",
-            "version": "v2.12.1",
+            "version": "v2.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/GeoIP2-php.git",
-                "reference": "d25660633755f3f064ca647cd916c5c65074e408"
+                "reference": "83adb44ac4b9553d36b579a14673ed124583082f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/d25660633755f3f064ca647cd916c5c65074e408",
-                "reference": "d25660633755f3f064ca647cd916c5c65074e408",
+                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/83adb44ac4b9553d36b579a14673ed124583082f",
+                "reference": "83adb44ac4b9553d36b579a14673ed124583082f",
                 "shasum": ""
             },
             "require": {
@@ -258,9 +258,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maxmind/GeoIP2-php/issues",
-                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.12.1"
+                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.12.2"
             },
-            "time": "2021-11-23T17:01:41+00:00"
+            "time": "2021-11-30T18:15:25+00:00"
         },
         {
             "name": "lox/xhprof",
@@ -2073,21 +2073,21 @@
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v3.0.11",
+            "version": "v3.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
-                "reference": "7022fa093ca142bbe9705504420d30073a5ddf13"
+                "reference": "6e06f3f764210956d9372c787d8ffff0b83706d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/7022fa093ca142bbe9705504420d30073a5ddf13",
-                "reference": "7022fa093ca142bbe9705504420d30073a5ddf13",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/6e06f3f764210956d9372c787d8ffff0b83706d5",
+                "reference": "6e06f3f764210956d9372c787d8ffff0b83706d5",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
-                "php": "^5.4|^7.0|^8.0"
+                "php": "^5.4|^7.0|8.0.*"
             },
             "require-dev": {
                 "codeception/codeception": "^4.1.22",
@@ -2138,9 +2138,9 @@
             ],
             "support": {
                 "issues": "https://github.com/szymach/c-pchart/issues",
-                "source": "https://github.com/szymach/c-pchart/tree/v3.0.11"
+                "source": "https://github.com/szymach/c-pchart/tree/v3.0.12"
             },
-            "time": "2021-11-25T18:56:18+00:00"
+            "time": "2021-12-01T18:49:19+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -3191,16 +3191,16 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "28af674ff175d0768a5a978e6de83f697d4a7f05"
+                "reference": "42c5ba5220e6904cbfe8b1a1bda7c0cfdc8c12f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/28af674ff175d0768a5a978e6de83f697d4a7f05",
-                "reference": "28af674ff175d0768a5a978e6de83f697d4a7f05",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/42c5ba5220e6904cbfe8b1a1bda7c0cfdc8c12f5",
+                "reference": "42c5ba5220e6904cbfe8b1a1bda7c0cfdc8c12f5",
                 "shasum": ""
             },
             "require": {
@@ -3239,7 +3239,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/2.0.4"
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/2.0.5"
             },
             "funding": [
                 {
@@ -3247,7 +3247,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-19T06:46:01+00:00"
+            "time": "2021-12-02T12:42:26+00:00"
         },
         {
             "name": "phpunit/php-text-template",
