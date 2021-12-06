@@ -10887,16 +10887,15 @@ function piwikReportExport($timeout) {
 }
 piwikReportExport.$inject = ['$timeout'];
 angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=f61400fc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=0baaf750
 
-var Sparklinevue_type_template_id_f61400fc_hoisted_1 = ["href"];
-function Sparklinevue_type_template_id_f61400fc_render(_ctx, _cache, $props, $setup, $data, $options) {
+var Sparklinevue_type_template_id_0baaf750_hoisted_1 = ["src"];
+function Sparklinevue_type_template_id_0baaf750_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
-    href: _ctx.sparklineUrl,
-    ref: "root"
-  }, null, 8, Sparklinevue_type_template_id_f61400fc_hoisted_1);
+    src: _ctx.sparklineUrl
+  }, null, 8, Sparklinevue_type_template_id_0baaf750_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=f61400fc
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=0baaf750
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 function Sparklinevue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -10913,8 +10912,16 @@ function Sparklinevue_type_script_lang_ts_defineProperty(obj, key, value) { if (
 
 /* harmony default export */ var Sparklinevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
-    seriesIndices: String,
-    params: String
+    seriesIndices: Array,
+    params: Object
+  },
+  data: function data() {
+    return {
+      isWidget: false
+    };
+  },
+  mounted: function mounted() {
+    this.isWidget = !!this.$el.closest('[widgetId]');
   },
   computed: {
     sparklineUrl: function sparklineUrl() {
@@ -10932,7 +10939,7 @@ function Sparklinevue_type_script_lang_ts_defineProperty(obj, key, value) { if (
       var defaultParams = {
         forceView: '1',
         viewDataTable: 'sparkline',
-        widget: this.$refs.root.closest('[widgetId]') ? '1' : '0',
+        widget: this.isWidget ? '1' : '0',
         showtitle: '1',
         colors: colors,
         random: Date.now(),
@@ -10973,7 +10980,7 @@ function Sparklinevue_type_script_lang_ts_defineProperty(obj, key, value) { if (
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_f61400fc_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_0baaf750_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.adapter.ts
