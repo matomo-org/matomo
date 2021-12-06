@@ -18,7 +18,7 @@ export default createAngularJsAdapter({
       angularJsBind: '=?',
     },
     containerid: {
-      angularJsBind: '=',
+      angularJsBind: '@',
     },
   },
   directiveName: 'piwikWidget',

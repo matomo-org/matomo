@@ -5,10 +5,10 @@
 -->
 
 <template>
-  <div class="report-export-popover row">
+  <div class="report-export-popover row" id="reportExport">
 
     <div class="col l6">
-      <div>
+      <div name="format">
         <Field
           :uicontrol="'radio'"
           :name="'format'"
@@ -20,51 +20,59 @@
       </div>
 
       <div>
-        <Field
-          :uicontrol="'checkbox'"
-          :name="'option_flat'"
-          :title="translate('CoreHome_FlattenReport')"
-          v-model="optionFlat"
-          v-show="hasSubtables"
-        >
-        </Field>
+        <div name="option_flat">
+          <Field
+            :uicontrol="'checkbox'"
+            :name="'option_flat'"
+            :title="translate('CoreHome_FlattenReport')"
+            v-model="optionFlat"
+            v-show="hasSubtables"
+          >
+          </Field>
+        </div>
       </div>
       <div>
-        <Field
-          :uicontrol="'checkbox'"
-          :name="'option_expanded'"
-          :title="translate('CoreHome_ExpandSubtables')"
-          v-model="optionExpanded"
-          v-show="hasSubtables && !optionFlat"
-        >
-        </Field>
+        <div name="option_expanded">
+          <Field
+            :uicontrol="'checkbox'"
+            :name="'option_expanded'"
+            :title="translate('CoreHome_ExpandSubtables')"
+            v-model="optionExpanded"
+            v-show="hasSubtables && !optionFlat"
+          >
+          </Field>
+        </div>
       </div>
       <div>
-        <Field
-          :uicontrol="'checkbox'"
-          :name="'option_format_metrics'"
-          :title="translate('CoreHome_FormatMetrics')"
-          v-model="optionFormatMetrics"
-        >
-        </Field>
+        <div name="option_format_metrics">
+          <Field
+            :uicontrol="'checkbox'"
+            :name="'option_format_metrics'"
+            :title="translate('CoreHome_FormatMetrics')"
+            v-model="optionFormatMetrics"
+          >
+          </Field>
+        </div>
       </div>
     </div>
 
     <div class="col l6">
       <div>
-        <Field
-          :uicontrol="'radio'"
-          :name="'filter_type'"
-          :title="translate('CoreHome_ReportType')"
-          v-model="reportType"
-          :full-width="true"
-          :options="availableReportTypes"
-        >
-        </Field>
+        <div name="filter_type">
+          <Field
+            :uicontrol="'radio'"
+            :name="'filter_type'"
+            :title="translate('CoreHome_ReportType')"
+            v-model="reportType"
+            :full-width="true"
+            :options="availableReportTypes"
+          >
+          </Field>
+        </div>
       </div>
 
       <div class="filter_limit">
-        <div v-show="!maxFilterLimit || maxFilterLimit <= 0">
+        <div v-show="!maxFilterLimit || maxFilterLimit <= 0" name="filter_limit_all">
           <Field
             :uicontrol="'radio'"
             :name="'filter_limit_all'"
@@ -77,7 +85,7 @@
           </Field>
         </div>
 
-        <div v-if="reportLimitAll === 'no' && maxFilterLimit <= 0">
+        <div v-if="reportLimitAll === 'no' && maxFilterLimit <= 0" name="filter_limit">
           <Field
             :uicontrol="'number'"
             name="filter_limit"
@@ -88,7 +96,7 @@
           </Field>
         </div>
 
-        <div v-if="reportLimitAll === 'no' && maxFilterLimit > 0">
+        <div v-if="reportLimitAll === 'no' && maxFilterLimit > 0" name="filter_limit">
           <Field
             :uicontrol="'number'"
             :name="'filter_limit'"
@@ -162,17 +170,45 @@ export default defineComponent({
     dataTable: Object,
     requestParams: [Object, String],
     apiMethod: String,
+    initialReportType: {
+      type: String,
+      default: 'default',
+    },
+    initialReportLimit: {
+      type: [String, Number],
+      default: 100,
+    },
+    initialReportLimitAll: {
+      type: String,
+      default: 'yes',
+    },
+    initialOptionFlat: {
+      type: Boolean,
+      default: false,
+    },
+    initialOptionExpanded: {
+      type: Boolean,
+      default: true,
+    },
+    initialOptionFormatMetrics: {
+      type: Boolean,
+      default: false,
+    },
+    initialReportFormat: {
+      type: String,
+      default: 'XML',
+    },
   },
   data() {
     return {
       showUrl: false,
-      reportFormat: 'XML',
-      optionFlat: false,
-      optionExpanded: false,
-      optionFormatMetrics: true,
-      reportType: 'default',
-      reportLimitAll: 'yes',
-      reportLimit: 100,
+      reportFormat: this.initialReportFormat,
+      optionFlat: this.initialOptionFlat,
+      optionExpanded: this.initialOptionExpanded,
+      optionFormatMetrics: this.initialOptionFormatMetrics,
+      reportType: this.initialReportType,
+      reportLimitAll: this.initialReportLimitAll,
+      reportLimit: this.initialReportLimit,
     };
   },
   watch: {

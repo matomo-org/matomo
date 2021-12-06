@@ -148,7 +148,7 @@ export default defineComponent({
     setTimeout(() => {
       if (!this.actualInlineHelp) {
         let helpNode = root.querySelector('.title .inlineHelp');
-        if (!helpNode && root.parentElement.nextElementSibling) {
+        if (!helpNode && root.parentElement?.nextElementSibling) {
           // hack for reports :(
           helpNode = (root.parentElement.nextElementSibling as HTMLElement)
             .querySelector('.reportDocumentation');

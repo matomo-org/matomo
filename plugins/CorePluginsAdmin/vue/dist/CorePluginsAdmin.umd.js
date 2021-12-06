@@ -2418,46 +2418,46 @@ function handleJsonValue(value, varType, uiControl) {
     // value, but only for 'site' uicontrols. this only happened for site selectors, no others.
 
 
-    if (scope.uicontrol === 'site') {
+    if (scope.uicontrol === 'site' && ngModel.$viewValue) {
       setTimeout(function () {
         ngModel.$setViewValue(Field_adapter_objectSpread({}, ngModel.$viewValue));
       });
     }
   }
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=94c2bf9c
-function PluginSettingsvue_type_template_id_94c2bf9c_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=23ba8252
+function PluginSettingsvue_type_template_id_23ba8252_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function PluginSettingsvue_type_template_id_94c2bf9c_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { PluginSettingsvue_type_template_id_94c2bf9c_ownKeys(Object(source), true).forEach(function (key) { PluginSettingsvue_type_template_id_94c2bf9c_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { PluginSettingsvue_type_template_id_94c2bf9c_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function PluginSettingsvue_type_template_id_23ba8252_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { PluginSettingsvue_type_template_id_23ba8252_ownKeys(Object(source), true).forEach(function (key) { PluginSettingsvue_type_template_id_23ba8252_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { PluginSettingsvue_type_template_id_23ba8252_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function PluginSettingsvue_type_template_id_94c2bf9c_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function PluginSettingsvue_type_template_id_23ba8252_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_1 = {
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_1 = {
   class: "pluginSettings",
   ref: "root"
 };
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_2 = ["id"];
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_3 = {
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_2 = ["id"];
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_3 = {
   class: "card-content"
 };
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_4 = ["id"];
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_5 = ["onClick", "disabled", "value"];
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_6 = {
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_4 = ["id"];
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_5 = ["onClick", "disabled", "value"];
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_6 = {
   class: "confirm-password-modal modal"
 };
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_7 = {
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_7 = {
   class: "modal-content"
 };
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_8 = {
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_8 = {
   class: "modal-footer"
 };
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_9 = ["disabled"];
-var PluginSettingsvue_type_template_id_94c2bf9c_hoisted_10 = {
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_9 = ["disabled"];
+var PluginSettingsvue_type_template_id_23ba8252_hoisted_10 = {
   href: "",
   class: "modal-action modal-close modal-no"
 };
-function PluginSettingsvue_type_template_id_94c2bf9c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PluginSettingsvue_type_template_id_23ba8252_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
   var _component_FormField = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FormField");
@@ -2466,15 +2466,15 @@ function PluginSettingsvue_type_template_id_94c2bf9c_render(_ctx, _cache, $props
 
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PluginSettingsvue_type_template_id_94c2bf9c_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.settingsPerPlugin, function (settings) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PluginSettingsvue_type_template_id_23ba8252_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.settingsPerPlugin, function (settings) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "card",
-      id: settings.pluginNamePluginSettings,
-      key: settings.pluginNamePluginSettings
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_94c2bf9c_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
+      id: "".concat(settings.pluginName, "PluginSettings"),
+      key: "".concat(settings.pluginName, "PluginSettings")
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_23ba8252_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
       class: "card-title",
       id: settings.pluginName
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(settings.title), 9, PluginSettingsvue_type_template_id_94c2bf9c_hoisted_4), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(settings.settings, function (setting) {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(settings.title), 9, PluginSettingsvue_type_template_id_23ba8252_hoisted_4), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(settings.settings, function (setting) {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
         key: "".concat(setting.pluginName, ".").concat(setting.name)
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_FormField, {
@@ -2482,7 +2482,7 @@ function PluginSettingsvue_type_template_id_94c2bf9c_render(_ctx, _cache, $props
         "onUpdate:modelValue": function onUpdateModelValue($event) {
           return _ctx.settingValues["".concat(settings.pluginName, ".").concat(setting.name)] = $event;
         },
-        "form-field": PluginSettingsvue_type_template_id_94c2bf9c_objectSpread(PluginSettingsvue_type_template_id_94c2bf9c_objectSpread({}, setting), {}, {
+        "form-field": PluginSettingsvue_type_template_id_23ba8252_objectSpread(PluginSettingsvue_type_template_id_23ba8252_objectSpread({}, setting), {}, {
           condition: _ctx.makeSettingConditionFunction(setting, settings.pluginName)
         })
       }, null, 8, ["modelValue", "onUpdate:modelValue", "form-field"])])]);
@@ -2494,10 +2494,10 @@ function PluginSettingsvue_type_template_id_94c2bf9c_render(_ctx, _cache, $props
       disabled: _ctx.isLoading,
       class: "pluginsSettingsSubmit btn",
       value: _ctx.translate('General_Save')
-    }, null, 8, PluginSettingsvue_type_template_id_94c2bf9c_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    }, null, 8, PluginSettingsvue_type_template_id_23ba8252_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
       loading: _ctx.isLoading || _ctx.isSaving[settings.pluginName]
-    }, null, 8, ["loading"])])], 8, PluginSettingsvue_type_template_id_94c2bf9c_hoisted_2);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_94c2bf9c_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_94c2bf9c_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, null, 8, ["loading"])])], 8, PluginSettingsvue_type_template_id_23ba8252_hoisted_2);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_23ba8252_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_23ba8252_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.passwordConfirmation,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return _ctx.passwordConfirmation = $event;
@@ -2507,16 +2507,18 @@ function PluginSettingsvue_type_template_id_94c2bf9c_render(_ctx, _cache, $props
     autocomplete: false,
     "full-width": true,
     title: _ctx.translate('UsersManager_YourCurrentPassword')
-  }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_94c2bf9c_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_23ba8252_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
     disabled: !_ctx.passwordConfirmation ? 'disabled' : undefined,
     onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.save(_this.settingsToSave);
+      $event.preventDefault();
+
+      _ctx.save(_this.settingsToSave);
     })
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 9, PluginSettingsvue_type_template_id_94c2bf9c_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", PluginSettingsvue_type_template_id_94c2bf9c_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])])], 512);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 9, PluginSettingsvue_type_template_id_23ba8252_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", PluginSettingsvue_type_template_id_23ba8252_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=94c2bf9c
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=23ba8252
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=script&lang=ts
 function PluginSettingsvue_type_script_lang_ts_slicedToArray(arr, i) { return PluginSettingsvue_type_script_lang_ts_arrayWithHoles(arr) || PluginSettingsvue_type_script_lang_ts_iterableToArrayLimit(arr, i) || PluginSettingsvue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || PluginSettingsvue_type_script_lang_ts_nonIterableRest(); }
@@ -2724,7 +2726,7 @@ var conditionScope;
 
 
 
-PluginSettingsvue_type_script_lang_ts.render = PluginSettingsvue_type_template_id_94c2bf9c_render
+PluginSettingsvue_type_script_lang_ts.render = PluginSettingsvue_type_template_id_23ba8252_render
 
 /* harmony default export */ var PluginSettings = (PluginSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.adapter.ts
@@ -2875,127 +2877,6 @@ function piwikPluginUpload() {
 }
 piwikPluginUpload.$inject = [];
 angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=70a5ddaa
-
-var SaveButtonvue_type_template_id_70a5ddaa_hoisted_1 = {
-  style: {
-    "display": "inline-block"
-  }
-};
-var SaveButtonvue_type_template_id_70a5ddaa_hoisted_2 = ["disabled", "value"];
-function SaveButtonvue_type_template_id_70a5ddaa_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_70a5ddaa_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "button",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.onConfirm();
-    }),
-    disabled: _ctx.saving || _ctx.disabled,
-    class: "btn",
-    value: _ctx.value ? _ctx.value : _ctx.translate('General_Save')
-  }, null, 8, SaveButtonvue_type_template_id_70a5ddaa_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-    loading: _ctx.saving
-  }, null, 8, ["loading"])]);
-}
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=70a5ddaa
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var SaveButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    saving: Boolean,
-    value: String,
-    disabled: Boolean
-  },
-  components: {
-    ActivityIndicator: external_CoreHome_["ActivityIndicator"]
-  },
-  emits: ['confirm'],
-  methods: {
-    onConfirm: function onConfirm() {
-      this.$emit('confirm');
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue
-
-
-
-SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_70a5ddaa_render
-
-/* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SaveButton_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SaveButton,
-  scope: {
-    saving: {
-      angularJsBind: '=?'
-    },
-    value: {
-      angularJsBind: '@?'
-    },
-    disabled: {
-      angularJsBind: '=?'
-    },
-    onconfirm: {
-      angularJsBind: '&?',
-      vue: 'confirm'
-    }
-  },
-  directiveName: 'piwikSaveButton'
-}));
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-var Form_window = window,
-    Form_$ = Form_window.$;
-/* harmony default export */ var Form = ({
-  mounted: function mounted(el) {
-    setTimeout(function () {
-      Form_$(el).find('input[type=text]').keypress(function (e) {
-        var key = e.keyCode || e.which;
-
-        if (key === 13) {
-          Form_$(el).find('[piwik-save-button] input').triggerHandler('click');
-        }
-      });
-    });
-  }
-});
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikForm() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink(scope, element) {
-      Form.mounted(element[0]);
-    }
-  };
-}
-piwikForm.$inject = [];
-angular.module('piwikApp').directive('piwikForm', piwikForm);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3082,6 +2963,155 @@ function onClickOrigin(element, event) {
     });
   }
 });
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginFilter() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      PluginFilter.mounted(element[0]);
+    }
+  };
+}
+piwikPluginFilter.$inject = [];
+angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+var SaveButtonvue_type_template_id_c302ef68_hoisted_1 = {
+  class: "matomo-save-button",
+  style: {
+    "display": "inline-block"
+  }
+};
+var SaveButtonvue_type_template_id_c302ef68_hoisted_2 = ["disabled", "value"];
+function SaveButtonvue_type_template_id_c302ef68_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_c302ef68_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "button",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.onConfirm($event);
+    }),
+    disabled: _ctx.saving || _ctx.disabled,
+    class: "btn",
+    value: _ctx.value ? _ctx.value : _ctx.translate('General_Save')
+  }, null, 8, SaveButtonvue_type_template_id_c302ef68_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    loading: _ctx.saving
+  }, null, 8, ["loading"])]);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SaveButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    saving: Boolean,
+    value: String,
+    disabled: Boolean
+  },
+  components: {
+    ActivityIndicator: external_CoreHome_["ActivityIndicator"]
+  },
+  emits: ['confirm'],
+  methods: {
+    onConfirm: function onConfirm($event) {
+      this.$emit('confirm', $event);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue
+
+
+
+SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_c302ef68_render
+
+/* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var SaveButton_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: SaveButton,
+  scope: {
+    saving: {
+      angularJsBind: '=?'
+    },
+    value: {
+      angularJsBind: '@?'
+    },
+    disabled: {
+      angularJsBind: '=?'
+    },
+    onconfirm: {
+      angularJsBind: '&?',
+      vue: 'confirm'
+    }
+  },
+  events: {
+    confirm: function confirm($event, vm, scope, element, attrs, controller, $timeout) {
+      element[0].click(); // this directive can be used on input's with ng-click specified
+
+      $timeout();
+    }
+  },
+  replace: true,
+  directiveName: 'piwikSaveButton',
+  $inject: ['$timeout']
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var Form_window = window,
+    Form_$ = Form_window.$;
+/* harmony default export */ var Form = ({
+  mounted: function mounted(el) {
+    setTimeout(function () {
+      Form_$(el).find('input[type=text]').keypress(function (e) {
+        var key = e.keyCode || e.which;
+
+        if (key === 13) {
+          Form_$(el).find('.matomo-save-button input').triggerHandler('click');
+        }
+      });
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikForm() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      Form.mounted(element[0]);
+    }
+  };
+}
+piwikForm.$inject = [];
+angular.module('piwikApp').directive('piwikForm', piwikForm);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3089,6 +3119,7 @@ function onClickOrigin(element, event) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 
 
 
