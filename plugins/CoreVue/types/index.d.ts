@@ -17,10 +17,6 @@ declare global {
     wrapper?: (evt: Event) => void;
   }
 
-  interface AbortablePromise<T = any> extends Promise<T> {
-    abort(): void;
-  }
-
   /**
    * global ajax queue
    *
