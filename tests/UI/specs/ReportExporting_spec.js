@@ -23,6 +23,7 @@ describe("ReportExporting", function () {
 
             await page.click('[name="format"] input[value="' + format + '"]');
             await page.click('[name="filter_limit_all"] input[value="no"]');
+            await page.click('input[name="option_format_metrics"]');
             await page.evaluate(function () {
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
@@ -48,6 +49,7 @@ describe("ReportExporting", function () {
 
             await page.click('[name="format"] input[value="'+format+'"]');
             await page.click('[name="filter_limit_all"] input[value="no"]');
+            await page.click('input[name="option_format_metrics"]');
             await page.evaluate(function(){
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
@@ -83,6 +85,7 @@ describe("ReportExporting", function () {
 
             await page.click('[name="format"] input[value="'+format+'"]');
             await page.click('[name="filter_limit_all"] input[value="no"]');
+            await page.click('input[name="option_format_metrics"]');
             await page.evaluate(function(){
                 $('[name=filter_limit] input').val(100).trigger('change');
             });
