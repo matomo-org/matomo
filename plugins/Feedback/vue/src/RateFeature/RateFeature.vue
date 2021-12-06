@@ -252,23 +252,23 @@ export default defineComponent({
         this.$refs.feedbackText.focus();
       }
     },
-    async sendFeedback() {
+    sendFeedback() {
       this.errorMessage = null;
-      const res = await AjaxHelper.fetch({
+      AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForFeature',
         featureName: this.title,
         like: this.like ? '1' : '0',
         choice: this.like ? this.likeReason : this.dislikeReason,
         message: this.feedbackMessage,
+      }).then((res) => {
+        if (res.value === 'success') {
+          $('.modal').modal('close');
+          this.ratingDone = true;
+          this.feedbackMessage = '';
+        } else {
+          this.errorMessage = res.value;
+        }
       });
-
-      if (res.value === 'success') {
-        $('.modal').modal('close');
-        this.ratingDone = true;
-        this.feedbackMessage = '';
-      } else {
-        this.errorMessage = res.value;
-      }
     },
   },
 });

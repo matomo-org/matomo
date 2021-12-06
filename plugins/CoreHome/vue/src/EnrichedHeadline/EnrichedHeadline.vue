@@ -68,23 +68,14 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  defineAsyncComponent,
-} from 'vue';
+import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
+import useExternalPluginComponent from '../useExternalPluginComponent';
 
 // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
 // CoreHome)
-// TODO: may need a generic solution at some point, but it's bad practice to have
-// cyclic dependencies like this. it worked before because it was individual files
-// dependening on each other, not whole plugins.
-const RateFeature = defineAsyncComponent(() => new Promise((resolve) => {
-  window.$(document).ready(() => {
-    resolve((window as any).Feedback.RateFeature); // eslint-disable-line
-  });
-}));
+const RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 
 /**
  * Usage:

@@ -45,7 +45,7 @@
                     }
 
                     var method = scope.apiMethod;
-                    var limit  = scope.reportLimitAll == 'yes' ? -1 : scope.reportLimit;
+                    var limit  = scope.reportLimitAll == 'yes' ? -1 : scope.limitContainer.reportLimit;
                     var type   = scope.reportType;
                     var params = scope.requestParams;
 
@@ -222,6 +222,9 @@
                         reportLimit = Math.min(reportLimit, scope.maxFilterLimit);
                     }
                     scope.reportLimit         = reportLimit > 0 ? reportLimit : 100;
+                    // ng-model seems to have trouble setting $parent.reportLimit, so this was changed
+                    // to use a property in a new object, limitContainer. it works. i'm not sure why.
+                    scope.limitContainer      = { reportLimit: reportLimit };
                     scope.reportLimitAll      = reportLimit == -1 ? 'yes' : 'no';
                     scope.optionFlat          = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === "1";
                     scope.optionExpanded      = true;
@@ -253,7 +256,7 @@
                     if (scope.maxFilterLimit > 0) {
                         scope.$watch('reportLimit', function (newVal, oldVal) {
                             if (parseInt(newVal, 10) > parseInt(scope.maxFilterLimit, 10)) {
-                                scope.reportLimit = oldVal;
+                                scope.limitContainer.reportLimit = oldVal;
                             }
                         }, true);
                     }

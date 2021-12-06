@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Kopier oversiktspanel til bruker",
         "CreateNewDashboard": "Ny oversikt",
         "Dashboard": "Oversikt",
+        "DashboardCategoryHelp": "Dette er en oversiktsside. Oversikten er en samling Matomo-miniprogrammer du kan legge til selv for å tilpasse bruken dine behov. Bland fritt for å få dataen %1$s*du*%2$s trenger.",
         "DashboardCopied": "Gjeldende oversikt ble kopiert til valgt bruker.",
         "DashboardEmptyNotification": "Din oversikt inneholder ikke noen widgeter. Start ved å legge til noen widgeter eller bare gjenopprett oversikten til å bruke standardwidgetene.",
         "DashboardName": "Navn på oversikt:",
