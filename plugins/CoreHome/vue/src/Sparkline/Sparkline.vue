@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <img :href="sparklineUrl" ref="root" />
+  <img :src="sparklineUrl" />
 </template>
 
 <script lang="ts">
@@ -18,8 +18,16 @@ import { format } from '../Periods';
 
 export default defineComponent({
   props: {
-    seriesIndices: String,
-    params: String,
+    seriesIndices: Array,
+    params: Object,
+  },
+  data() {
+    return {
+      isWidget: false,
+    };
+  },
+  mounted() {
+    this.isWidget = !!this.$el.closest('[widgetId]');
   },
   computed: {
     sparklineUrl() {
@@ -38,7 +46,7 @@ export default defineComponent({
       const defaultParams = {
         forceView: '1',
         viewDataTable: 'sparkline',
-        widget: this.$refs.root.closest('[widgetId]') ? '1' : '0',
+        widget: this.isWidget ? '1' : '0',
         showtitle: '1',
         colors,
         random: Date.now(),
