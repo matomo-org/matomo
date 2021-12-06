@@ -96,6 +96,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   noScope?: boolean,
   restrict?: string,
   priority?: number,
+  replace?: boolean,
 }): ng.IDirectiveFactory {
   const {
     component,
@@ -110,6 +111,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     noScope,
     restrict = 'A',
     priority,
+    replace,
   } = options;
 
   const currentTranscludeCounter = transcludeCounter;
@@ -143,7 +145,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngAttrs: ng.IAttributes,
             ngController: ng.IControllerService,
           ) {
-            const cloneElement = transclude
+            const transcludeClone = transclude
               ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`)
               : null;
 
@@ -264,11 +266,26 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
 
             if (transclude) {
-              $(vm.transcludeTarget).append(cloneElement);
+              $(vm.transcludeTarget).append(transcludeClone);
             }
 
             if (postCreate) {
               postCreate(vm, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
+            }
+
+            // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+            if (replace) {
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach((attr) => {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+              });
+
+              ngElement.replaceWith(window.$(mountPoint).children());
             }
 
             ngElement.on('$destroy', () => {
@@ -319,12 +336,16 @@ export function transformAngularJsIntAttr(v: string): number {
 }
 
 // utility function for service adapters
-export function clone<T>(o: T): T {
-  return JSON.parse(JSON.stringify(o)) as T;
+export function clone<T>(p: T): T {
+  if (typeof p === 'undefined') {
+    return p;
+  }
+
+  return JSON.parse(JSON.stringify(p)) as T;
 }
 
-export function cloneThenApply<T>(o: T): T {
-  const result = clone(o);
+export function cloneThenApply<T>(p: T): T {
+  const result = clone(p);
   Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
   return result;
 }

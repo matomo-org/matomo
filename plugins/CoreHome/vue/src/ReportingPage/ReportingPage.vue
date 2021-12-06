@@ -218,7 +218,7 @@ export default defineComponent({
       const parsedUrl = MatomoUrl.parsed.value;
 
       const { segment } = parsedUrl;
-      if (segment !== '') {
+      if (segment) {
         hideOnlyRawDataNoticifation();
         return;
       }

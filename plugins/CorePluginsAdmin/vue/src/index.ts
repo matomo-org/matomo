@@ -9,6 +9,7 @@ import './Field/Field.adapter';
 import './PluginSettings/PluginSettings.adapter';
 import './Plugins/PluginManagement.adapter';
 import './Plugins/PluginUpload.adapter';
+import './Plugins/PluginFilter.adapter';
 import './SaveButton/SaveButton.adapter';
 import './Form/Form.adapter';
 
