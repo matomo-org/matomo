@@ -2752,14 +2752,14 @@ var DropdownButton_window = window,
 
 function piwikDropdownButton() {
   return {
-    restrict: 'A',
+    restrict: 'C',
     link: function piwikDropdownButtonLink(scope, element) {
       DropdownButton.mounted(element[0]);
     }
   };
 }
 piwikDropdownButton.$inject = [];
-angular.module('piwikApp').directive('piwikDropdownButton', piwikDropdownButton);
+angular.module('piwikApp').directive('dropdownButton', piwikDropdownButton);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SelectOnFocus/SelectOnFocus.ts
 /*!
  * Matomo - free/libre analytics platform

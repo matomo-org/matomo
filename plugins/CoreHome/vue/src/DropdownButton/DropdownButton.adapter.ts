@@ -10,7 +10,7 @@ import DropdownButton from './DropdownButton';
 
 export default function piwikDropdownButton(): IDirective {
   return {
-    restrict: 'A',
+    restrict: 'C',
     link: function piwikDropdownButtonLink(scope: IScope, element: JQuery) {
       DropdownButton.mounted(element[0]);
     },
@@ -19,4 +19,4 @@ export default function piwikDropdownButton(): IDirective {
 
 piwikDropdownButton.$inject = [];
 
-angular.module('piwikApp').directive('piwikDropdownButton', piwikDropdownButton);
+angular.module('piwikApp').directive('dropdownButton', piwikDropdownButton);
