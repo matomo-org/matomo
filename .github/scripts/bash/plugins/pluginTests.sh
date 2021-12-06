@@ -1,28 +1,25 @@
+#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+SET='\033[0m'
 
 if [ -n "$TEST_SUITE" ]
 then
-    echo "Executing tests in test suite $TEST_SUITE..."
-
+    echo -e "${GREEN}Executing tests in test suite $TEST_SUITE...${SET}"
     if [ -n "$PLUGIN_NAME" ]
     then
-        echo "    [ plugin name = $PLUGIN_NAME ]"
+        echo -e "${GREEN}[ plugin name = $PLUGIN_NAME ]${SET}"
     fi
 
     if [ "$TEST_SUITE" = "AngularJSTests" ]
     then
-        ./../angularjs/scripts/travis.sh
+     echo -e "${GREEN}Running angularjs tests${SET}"
+     ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
+     echo -e "${GREEN}Running vue tests${SET}"
+     npm test
     elif [ "$TEST_SUITE" = "JavascriptTests" ]
     then
-        # HACK: this is a hack to get JS test jobs to run. On older versions the command for running JS tests wasn't
-        # available. So ensure we checkout the latest version of the command file to ensure it won't fail
-        git checkout 4.x-dev ../../plugins/TestRunner/Commands/TestsRunJS.php || true
-
-        if [ "$TRAVIS_SUDO" = "false" ]
-        then
-            ./../../console tests:run-js --matomo-url='http://localhost:3000'
-        else
-            ./../../console tests:run-js --matomo-url='http://localhost'
-        fi
+      ./console tests:run-js --matomo-url='http://localhost'
     elif [ "$TEST_SUITE" = "UITests" ]
     then
         echo ""
