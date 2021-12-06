@@ -12,6 +12,7 @@ import {
   ComponentPublicInstance,
 } from 'vue';
 import translate from './translate';
+import Matomo from './Matomo/Matomo';
 
 interface SingleScopeVarInfo<InjectTypes> {
   vue?: string;
@@ -141,7 +142,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             ngAttrs: ng.IAttributes,
             ngController: ng.IControllerService,
           ) {
-            const clone = transclude ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`) : null;
+            const transcludeClone = transclude
+              ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`)
+              : null;
 
             // build the root vue template
             let rootVueTemplate = '<root-component';
@@ -262,7 +265,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
 
             if (transclude) {
-              $(vm.transcludeTarget).append(clone);
+              $(vm.transcludeTarget).append(transcludeClone);
             }
 
             if (postCreate) {
@@ -314,4 +317,15 @@ export function transformAngularJsIntAttr(v: string): number {
   }
 
   return parseInt(v, 10);
+}
+
+// utility function for service adapters
+export function clone<T>(p: T): T {
+  return JSON.parse(JSON.stringify(p)) as T;
+}
+
+export function cloneThenApply<T>(p: T): T {
+  const result = clone(p);
+  Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
+  return result;
 }

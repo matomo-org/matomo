@@ -33,6 +33,8 @@ import './QuickAccess/QuickAccess.adapter';
 import './FieldArray/FieldArray.adapter';
 import './MultiPairField/MultiPairField.adapter';
 import './PeriodSelector/PeriodSelector.adapter';
+import './ReportingPages/ReportingPages.store.adapter';
+import './ReportMetadata/ReportMetadata.store.adapter';
 
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
@@ -70,3 +72,5 @@ export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
 export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';
+export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.store';
+export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
