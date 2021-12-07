@@ -31,7 +31,7 @@ class SyncScreenshots extends ConsoleCommand
      */
     private $logger;
 
-    const buildURL = "https://uitests.test";
+    const buildURL = "https://builds-artifacts.matomo.org";
 
     public function __construct()
     {
