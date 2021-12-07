@@ -398,21 +398,21 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "f7f0509f284bda14890909de53da9bb0f7494532"
+                "reference": "ebd8a07e4b69088c0e34f29ec72dc162c34c9264"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/f7f0509f284bda14890909de53da9bb0f7494532",
-                "reference": "f7f0509f284bda14890909de53da9bb0f7494532",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/ebd8a07e4b69088c0e34f29ec72dc162c34c9264",
+                "reference": "ebd8a07e4b69088c0e34f29ec72dc162c34c9264",
                 "shasum": ""
             },
             "require": {
                 "mustangostang/spyc": "*",
-                "php": ">=7.2"
+                "php": "^7.2|^8.0"
             },
             "replace": {
                 "piwik/device-detector": "self.version"
@@ -463,7 +463,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2021-11-12T08:08:31+00:00"
+            "time": "2021-12-07T11:40:16+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
