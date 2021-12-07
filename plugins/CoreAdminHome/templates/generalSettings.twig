@@ -10,8 +10,28 @@
     {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
 
+    <div class="card generalSettingsTOCCard">
+        <div id="generalSettingsTOC" class="card-action">
+            {{ 'General_GoTo2'|translate }}:
+            {% if isGeneralSettingsAdminEnabled %}
+            <a href="#/archivingSettings">{{ 'CoreAdminHome_ArchivingSettings'|translate  }}</a>
+                {% if not isMultiServerEnvironment %}
+                <a href="#/mailSettings">{{ 'CoreAdminHome_EmailServerSettings'|translate }}</a>
+                {% endif %}
+            {% endif %}
+            {% if customLogoEnabled %}
+            <a href="#/brandingSettings">{{ 'CoreAdminHome_BrandingSettings'|translate }}</a>
+            {% endif %}
+            {% if isDataPurgeSettingsEnabled %}
+            <a href="#/deleteDataSettings">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</a>
+            {% endif %}
+            {{ postEvent('Template.endGeneralSettingsPageTableOfContents') }}
+        </div>
+    </div>
+
 {% if isGeneralSettingsAdminEnabled %}
-    <div piwik-content-block content-title="{{ 'CoreAdminHome_ArchivingSettings'|translate|e('html_attr') }}">
+    <div piwik-content-block content-title="{{ 'CoreAdminHome_ArchivingSettings'|translate|e('html_attr') }}"
+         anchor="archivingSettings">
         <div ng-controller="ArchivingController as archivingSettings">
             <div class="form-group row">
                 <h3 class="col s12">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</h3>
@@ -81,7 +101,8 @@
     </div>
 
     {% if not isMultiServerEnvironment %}
-        <div piwik-content-block content-title="{{ 'CoreAdminHome_EmailServerSettings'|translate|e('html_attr') }}">
+        <div piwik-content-block content-title="{{ 'CoreAdminHome_EmailServerSettings'|translate|e('html_attr') }}"
+        anchor="mailSettings">
 
         <div piwik-form ng-controller="MailSmtpController as mailSettings">
             <div piwik-field uicontrol="checkbox" name="mailUseSmtp"
@@ -164,7 +185,8 @@
 {% endif %}
 
 {% if customLogoEnabled %}
-<div piwik-content-block content-title="{{ 'CoreAdminHome_BrandingSettings'|translate|e('html_attr') }}">
+<div piwik-content-block content-title="{{ 'CoreAdminHome_BrandingSettings'|translate|e('html_attr') }}"
+     anchor="brandingSettings">
 
     <div piwik-form ng-controller="BrandingController as brandingSettings">
 
@@ -242,7 +264,8 @@
 {% endif %}
 
 {% if isDataPurgeSettingsEnabled %}
-    <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
+    <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}"
+         anchor="deleteDataSettings">
         <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
         <p>
             <a href='{{ linkTo({'module':"PrivacyManager", 'action':"privacySettings"}) }}#deleteLogsAnchor'>
