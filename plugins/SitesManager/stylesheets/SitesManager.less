@@ -118,6 +118,23 @@ td.editable-site-field:hover {
 }
 
 .site-without-data {
+    .card-title:after {
+        content: " \e9a5"; // icon-rocket
+
+        /* use !important to prevent issues with browser extensions that change fonts */
+        font-family: 'matomo' !important;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
     h3 {
         font-weight: bold;
     }
