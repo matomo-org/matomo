@@ -175,6 +175,8 @@ __webpack_require__.d(__webpack_exports__, "QuickAccess", function() { return /*
 __webpack_require__.d(__webpack_exports__, "FieldArray", function() { return /* reexport */ FieldArray; });
 __webpack_require__.d(__webpack_exports__, "MultiPairField", function() { return /* reexport */ MultiPairField; });
 __webpack_require__.d(__webpack_exports__, "PeriodSelector", function() { return /* reexport */ PeriodSelector; });
+__webpack_require__.d(__webpack_exports__, "ReportingPagesStore", function() { return /* reexport */ ReportingPages_store; });
+__webpack_require__.d(__webpack_exports__, "ReportMetadataStore", function() { return /* reexport */ ReportMetadata_store; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -2514,6 +2516,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  */
 
 
+
 var transcludeCounter = 0;
 
 function toKebabCase(arg) {
@@ -2587,7 +2590,7 @@ function createAngularJsAdapter(options) {
       compile: function angularJsAdapterCompile() {
         return {
           post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs, ngController) {
-            var clone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null; // build the root vue template
+            var transcludeClone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null; // build the root vue template
 
             var rootVueTemplate = '<root-component';
             Object.entries(events).forEach(function (info) {
@@ -2701,7 +2704,7 @@ function createAngularJsAdapter(options) {
             });
 
             if (transclude) {
-              $(vm.transcludeTarget).append(clone);
+              $(vm.transcludeTarget).append(transcludeClone);
             }
 
             if (postCreate) {
@@ -2749,6 +2752,15 @@ function transformAngularJsIntAttr(v) {
   }
 
   return parseInt(v, 10);
+} // utility function for service adapters
+
+function clone(p) {
+  return JSON.parse(JSON.stringify(p));
+}
+function cloneThenApply(p) {
+  var result = clone(p);
+  Matomo_Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
+  return result;
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
 /*!
@@ -4127,7 +4139,7 @@ MenuDropdownvue_type_script_lang_ts.render = MenuDropdownvue_type_template_id_05
   directiveName: 'piwikMenudropdown',
   transclude: true,
   events: {
-    'after-select': function afterSelect($event, scope) {
+    'after-select': function afterSelect($event, vm, scope) {
       setTimeout(function () {
         scope.$apply();
       }, 0);
@@ -7194,6 +7206,225 @@ PeriodSelectorvue_type_script_lang_ts.render = PeriodSelectorvue_type_template_i
   },
   directiveName: 'piwikPeriodSelector'
 }));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPages/ReportingPages.store.ts
+function ReportingPages_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function ReportingPages_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function ReportingPages_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ReportingPages_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ReportingPages_store_defineProperties(Constructor, staticProps); return Constructor; }
+
+function ReportingPages_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+var ReportingPages_store_ReportingPagesStore = /*#__PURE__*/function () {
+  function ReportingPagesStore() {
+    var _this = this;
+
+    ReportingPages_store_classCallCheck(this, ReportingPagesStore);
+
+    ReportingPages_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      pages: []
+    }));
+
+    ReportingPages_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
+
+    ReportingPages_store_defineProperty(this, "fetchAllPagesPromise", void 0);
+
+    ReportingPages_store_defineProperty(this, "pages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.pages;
+    }));
+  }
+
+  ReportingPages_store_createClass(ReportingPagesStore, [{
+    key: "findPageInCategory",
+    value: function findPageInCategory(categoryId) {
+      // happens when user switches between sites, in this case check if the same category exists and
+      // if so, select first entry from that category
+      return this.pages.value.find(function (p) {
+        return p && p.category && p.category.id === categoryId && p.subcategory && p.subcategory.id;
+      });
+    }
+  }, {
+    key: "findPage",
+    value: function findPage(categoryId, subcategoryId) {
+      return this.pages.value.find(function (p) {
+        return p && p.category && p.subcategory && p.category.id === categoryId && "".concat(p.subcategory.id) === subcategoryId;
+      });
+    }
+  }, {
+    key: "reloadAllPages",
+    value: function reloadAllPages() {
+      var _this2 = this;
+
+      // use a setTimeout this method can happen when changing the page, and page changes
+      // will abort in progress AJAX requests, even this one if it is in progress.
+      return new Promise(function (resolve) {
+        return setTimeout(resolve);
+      }).then(function () {
+        _this2.fetchAllPagesPromise = null;
+        return _this2.getAllPages();
+      });
+    }
+  }, {
+    key: "getAllPages",
+    value: function getAllPages() {
+      var _this3 = this;
+
+      if (!this.fetchAllPagesPromise) {
+        this.fetchAllPagesPromise = AjaxHelper_AjaxHelper.fetch({
+          method: 'API.getReportPagesMetadata',
+          filter_limit: '-1'
+        }).then(function (response) {
+          _this3.privateState.pages = response;
+        });
+      }
+
+      return this.fetchAllPagesPromise.then(function () {
+        return _this3.pages.value;
+      });
+    }
+  }]);
+
+  return ReportingPagesStore;
+}();
+/* harmony default export */ var ReportingPages_store = (new ReportingPages_store_ReportingPagesStore());
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPages/ReportingPages.store.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+function reportingPagesModelAdapter() {
+  return {
+    get pages() {
+      return ReportingPages_store.pages.value;
+    },
+
+    findPageInCategory: function findPageInCategory() {
+      return clone(ReportingPages_store.findPageInCategory.apply(ReportingPages_store, arguments));
+    },
+    findPage: function findPage() {
+      return clone(ReportingPages_store.findPage.apply(ReportingPages_store, arguments));
+    },
+    reloadAllPages: function reloadAllPages() {
+      return ReportingPages_store.reloadAllPages().then(function (p) {
+        return cloneThenApply(p);
+      });
+    },
+    getAllPages: function getAllPages() {
+      return ReportingPages_store.getAllPages().then(function (p) {
+        return cloneThenApply(p);
+      });
+    }
+  };
+}
+
+angular.module('piwikApp.service').factory('reportingPagesModel', reportingPagesModelAdapter);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportMetadata/ReportMetadata.store.ts
+function ReportMetadata_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function ReportMetadata_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function ReportMetadata_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ReportMetadata_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ReportMetadata_store_defineProperties(Constructor, staticProps); return Constructor; }
+
+function ReportMetadata_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+
+var ReportMetadata_store_ReportMetadataStore = /*#__PURE__*/function () {
+  function ReportMetadataStore() {
+    var _this = this;
+
+    ReportMetadata_store_classCallCheck(this, ReportMetadataStore);
+
+    ReportMetadata_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      reports: []
+    }));
+
+    ReportMetadata_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
+
+    ReportMetadata_store_defineProperty(this, "reports", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.reports;
+    }));
+
+    ReportMetadata_store_defineProperty(this, "reportsPromise", void 0);
+  }
+
+  ReportMetadata_store_createClass(ReportMetadataStore, [{
+    key: "findReport",
+    value: // TODO: it used to return an empty array when nothing was found, will that be an issue?
+    function findReport(reportModule, reportAction) {
+      return this.reports.value.find(function (r) {
+        return r.module === reportModule && r.action === reportAction;
+      });
+    }
+  }, {
+    key: "fetchReportMetadata",
+    value: function fetchReportMetadata() {
+      var _this2 = this;
+
+      if (!this.reportsPromise) {
+        this.reportsPromise = AjaxHelper_AjaxHelper.fetch({
+          method: 'API.getReportMetadata',
+          filter_limit: '-1',
+          idSite: Matomo_Matomo.idSite || src_MatomoUrl_MatomoUrl.parsed.value.idSite
+        }).then(function (response) {
+          _this2.privateState.reports = response;
+          return response;
+        });
+      }
+
+      return this.reportsPromise.then(function () {
+        return _this2.reports.value;
+      });
+    }
+  }]);
+
+  return ReportMetadataStore;
+}();
+/* harmony default export */ var ReportMetadata_store = (new ReportMetadata_store_ReportMetadataStore());
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportMetadata/ReportMetadata.store.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+angular.module('piwikApp.service').factory('reportMetadataModel', function () {
+  return {
+    get reports() {
+      return ReportMetadata_store.reports.value;
+    },
+
+    findReport: ReportMetadata_store.findReport.bind(ReportMetadata_store),
+    fetchReportMetadata: function fetchReportMetadata() {
+      return ReportMetadata_store.fetchReportMetadata().then(function (m) {
+        return cloneThenApply(m);
+      });
+    }
+  };
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -7872,6 +8103,10 @@ NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_temp
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
 
 
 
