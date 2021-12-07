@@ -28,7 +28,7 @@ then
             #       older Matomo's will end up w/ a tests:run-ui command that doesn't support it.
             # a better fix would be to decouple the Matomo testing framework from Matomo in a way that allowed us to
             # change code for all versions of Matomo as well as selectively for individual Matomo versions.
-            git checkout 4.x-dev ../../plugins/TestRunner/Commands/TestsRunUI.php
+            # git checkout 4.x-dev ../../plugins/TestRunner/Commands/TestsRunUI.php
 
             ./console tests:run-ui --assume-artifacts --persist-fixture-data --plugin=$PLUGIN_NAME --extra-options="$UITEST_EXTRA_OPTIONS"
         else
