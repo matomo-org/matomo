@@ -31,6 +31,8 @@ class SyncScreenshots extends ConsoleCommand
      */
     private $logger;
 
+    const buildURL = "https://builds-artifacts.matomo.org";
+
     public function __construct()
     {
         $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
@@ -85,7 +87,7 @@ class SyncScreenshots extends ConsoleCommand
         if ($agent === 'github') {
             $repository = 'github/' . $repository;
         }
-        $url = sprintf('https://builds-artifacts.matomo.org/api/%s/%s', $repository, $buildNumber);
+        $url = sprintf(self::buildURL.'/api/%s/%s', $repository, $buildNumber);
 
         $this->logger->debug('Fetching {url}', array('url' => $url));
 
@@ -116,7 +118,7 @@ class SyncScreenshots extends ConsoleCommand
     private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword)
     {
         $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
-        $url = 'https://builds-artifacts.matomo.org' . $url;
+        $url = self::buildURL . $url;
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
 

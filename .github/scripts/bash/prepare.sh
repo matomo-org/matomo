@@ -3,6 +3,18 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 SET='\033[0m'
 
+# if is plugin test setup test to current pull request
+if [ "$PIWIK_TEST_TYPE" = "Plugin" ]
+then
+  echo -e "${GREEN}Move Folder to Matomo${SET}"
+  mkdir /home/runner/work/matomo
+  mv ./matomo /home/runner/work/matomo/
+  echo -e "${GREEN}Checkout Submodule To Pull Request${SET}"
+  cd /home/runner/work/matomo/plugins/${{ env.PLUGIN }}
+  git checkout $PIWIK_PLUGIN_HEAD
+  cd /home/runner/work/matomo/matomo
+fi
+
 # set up fonts
 if [ "$PIWIK_TEST_TARGET" = "UI" ]
 then
