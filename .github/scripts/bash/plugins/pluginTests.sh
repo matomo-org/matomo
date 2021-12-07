@@ -20,30 +20,8 @@ then
     elif [ "$TEST_SUITE" = "JavascriptTests" ]
     then
       ./console tests:run-js --matomo-url='http://localhost'
-    elif [ "$TEST_SUITE" = "UITests" ]
+    elif [ "$TEST_SUITE" = "UI" ]
     then
-        echo ""
-        echo "View UI failures (if any) here:"
-        echo ""
-        echo "https://builds-artifacts.matomo.org/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH/$TRAVIS_BUILD_NUMBER/"
-        echo ""
-        echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
-
-        echo ""
-        echo -n "./console tests:sync-ui-screenshots $TRAVIS_BUILD_NUMBER"
-        if [ -n "$PLUGIN_NAME" ]
-        then
-            echo -n " --repository=$TRAVIS_REPO_SLUG"
-
-            if [ "$PROTECTED_ARTIFACTS" = "1" ];
-            then
-                echo -n " --http-user=... --http-password=..."
-            fi
-        fi
-
-        echo ""
-        echo ""
-
         if [ -n "$PLUGIN_NAME" ]
         then
             # HACK: this is a hack to get UI test jobs to run. the --extra-options option was added for 2.15.1, but
@@ -52,7 +30,7 @@ then
             # change code for all versions of Matomo as well as selectively for individual Matomo versions.
             git checkout 4.x-dev ../../plugins/TestRunner/Commands/TestsRunUI.php
 
-            ./console tests:run-ui --assume-artifacts --persist-fixture-data --plugin=$PLUGIN_NAME --extra-options="$UITEST_EXTRA_OPTIONS --screenshot-repo=$TRAVIS_REPO_SLUG"
+            ./console tests:run-ui --assume-artifacts --persist-fixture-data --plugin=$PLUGIN_NAME --extra-options="$UITEST_EXTRA_OPTIONS"
         else
             ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="$UITEST_EXTRA_OPTIONS"
         fi
