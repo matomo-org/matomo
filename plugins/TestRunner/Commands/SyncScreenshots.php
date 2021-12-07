@@ -31,7 +31,7 @@ class SyncScreenshots extends ConsoleCommand
      */
     private $logger;
 
-    const buildURL = "https://builds-artifacts.matomo.org";
+    const buildURL = "https://uitests.test";
 
     public function __construct()
     {
@@ -75,7 +75,7 @@ class SyncScreenshots extends ConsoleCommand
         foreach ($screenshots as $name => $url) {
             if (preg_match('/' . $screenshotsRegex . '/', $name)) {
                 $this->logger->info('Downloading {name}', array('name' => $name));
-                $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword);
+                $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword, $agent);
             }
         }
 
@@ -115,10 +115,14 @@ class SyncScreenshots extends ConsoleCommand
         throw new \Exception("Failed downloading diffviewer from $url - Got HTTP status $httpStatus");
     }
 
-    private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword)
+    private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword, $agent)
     {
         $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
-        $url = self::buildURL . $url;
+        if ($agent === 'github') {
+            $url = self::buildURL . '/github' . $url;
+        } else {
+            $url = self::buildURL . $url;
+        }
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
 
