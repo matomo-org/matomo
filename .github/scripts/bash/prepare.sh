@@ -55,7 +55,7 @@ fi
 #update chrome drive
 if [ "$PIWIK_TEST_TARGET" == "UI" ];
 then
-  echo -e "${GREEN}update Chrome driver{SET}"
+  echo -e "${GREEN}update Chrome driver${SET}"
   sudo apt-get update
   sudo apt-get --only-upgrade install google-chrome-stable
   google-chrome --version
@@ -64,7 +64,7 @@ fi
 #setup php fpm and nginx
 if [ "$PIWIK_TEST_TARGET" = "Javascript" ];
 then
-  echo -e "${GREEN}Setup php -S{SET}"
+  echo -e "${GREEN}Setup php -S${SET}"
   sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
   tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
   tmux ls
