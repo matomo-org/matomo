@@ -1636,8 +1636,8 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       }
 
       var result = new Promise(function (resolve, reject) {
-        _this2.requestHandle.then(function () {
-          resolve.apply(void 0, arguments);
+        _this2.requestHandle.then(function (data) {
+          resolve(data); // ignoring textStatus/jqXHR
         }).fail(function (xhr) {
           if (xhr.statusText !== 'abort') {
             console.log("Warning: the ".concat($.param(_this2.getParams), " request failed!"));
