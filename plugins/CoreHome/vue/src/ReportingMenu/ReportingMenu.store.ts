@@ -188,7 +188,7 @@ export class ReportingMenuStore {
         return -1;
       }
 
-      if (rhs.order > lhs.order) {
+      if (lhs.order > rhs.order) {
         return 1;
       }
 
