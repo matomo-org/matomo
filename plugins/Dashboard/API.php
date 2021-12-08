@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Dashboard;
 
 use Piwik\API\Request;
 use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * This API is the <a href='http://matomo.org/docs/analytics-api/reference/' rel='noreferrer' target='_blank'>Dashboard API</a>: it gives information about dashboards.
@@ -36,15 +37,16 @@ class API extends \Piwik\Plugin\API
      *
      * @return array[]
      */
-    public function getDashboards($login = '', $returnDefaultIfEmpty = true)
+    public function getDashboards($login = '', $returnDefaultIfEmpty = true )
     {
         $login = $login ? $login : Piwik::getCurrentUserLogin();
+        $idSite = Common::getRequestVar('idSite');
 
         $dashboards = [];
 
         if (!Piwik::isUserIsAnonymous()) {
             Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
-            $dashboards = $this->getUserDashboards($login);
+            $dashboards = $this->getUserDashboards($login,$idSite);
         }
 
         if (empty($dashboards) && $returnDefaultIfEmpty) {
@@ -74,8 +76,9 @@ class API extends \Piwik\Plugin\API
         if ($addDefaultWidgets) {
             $layout = $this->dashboard->getDefaultLayout();
         }
+        $idSite = Common::getRequestVar('idSite');
 
-        return $this->model->createNewDashboardForUser($login, $dashboardName, $layout);
+        return $this->model->createNewDashboardForUser($login, $dashboardName, $layout,$idSite);
     }
 
     /**
