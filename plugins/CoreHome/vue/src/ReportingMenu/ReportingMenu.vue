@@ -41,7 +41,9 @@
             <MenuDropdown
               v-if="subcategory.isGroup"
               :show-search="true"
-              :menu-title="htmlEntities(activeSubsubcategoryName)"
+              :menu-title="htmlEntities(subcategory.id === activeSubcategory
+                ? activeSubsubcategoryName || subcategory.name
+                : subcategory.name)"
             >
               <a
                 class="item"
