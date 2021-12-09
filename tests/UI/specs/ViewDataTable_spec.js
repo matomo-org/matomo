@@ -184,8 +184,6 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.waitForFunction(function () {
             return $('.cellSubDataTable > .dataTable').length === 2;
         });
-        await page.waitForTimeout(500);
-
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_loaded');
     });

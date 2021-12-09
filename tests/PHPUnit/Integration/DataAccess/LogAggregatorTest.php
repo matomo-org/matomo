@@ -148,7 +148,7 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
-        if (SystemTestCase::isMysqli() || getenv('GITHUB')) {
+        if (SystemTestCase::isMysqli()) {
             // See https://github.com/matomo-org/matomo/issues/17871
             $this->markTestSkipped('Max execution query hint does not work for Mysqli.');
         }
@@ -176,7 +176,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 // ignore General error: 1193 Unknown system variable 'sql_require_primary_key'
                 try {
                     // on mariadb this might work
-                    $this->logAggregator->getDb()->exec('SET GLOBAL innodb_force_primary_key = '.($val?'on':'off'));
+                    $this->logAggregator->getDb()->exec('SET SESSION innodb_force_primary_key=' . $val);
                 } catch (\Exception $e) {
                     if ($this->logAggregator->getDb()->isErrNo($e, 1193)) {
                         // ignore General error: 1193 Unknown system variable 'sql_require_primary_key'

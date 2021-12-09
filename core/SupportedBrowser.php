@@ -38,7 +38,6 @@ class SupportedBrowser
 
     public static function checkIfBrowserSupported()
     {
-
         $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
         if ($userAgent === '') {
             return;
@@ -52,7 +51,7 @@ class SupportedBrowser
         $client = $deviceDetector->getClient();
 
         if (!empty($client) && $client['type'] === 'browser' && self::browserNotSupported($client['short_name'], (int)$client['version'])) {
-            self::throwException($client, $userAgent);
+            self::throwException($client);
         }
     }
 
@@ -61,7 +60,7 @@ class SupportedBrowser
         return array_key_exists($shortName, self::$notSupportedBrowsers) && $version > 0 && $version <= self::$notSupportedBrowsers[$shortName];
     }
 
-    private static function throwException($client, $userAgent)
+    private static function throwException($client)
     {
         $message  = "<p><b>" . Piwik::translate('General_ExceptionNotSupportedBrowserTitle') . "</b></p>";
         $message .= "<p>" . Piwik::translate('General_ExceptionNotSupportedBrowserText') . "</p>";
