@@ -51,6 +51,7 @@
         />
       </div>
     </span>
+    <div v-show="showReportGenerated" class="icon-clock report-generated"></div>
     <div
       class="inlineHelp"
       v-show="showInlineHelp"
@@ -145,6 +146,7 @@ export default defineComponent({
       showInlineHelp: false,
       actualFeatureName: this.featureName,
       actualInlineHelp: this.inlineHelp,
+      showReportGenerated: false,
     };
   },
   watch: {
@@ -194,6 +196,8 @@ export default defineComponent({
           show: false,
           hide: false,
         });
+
+        this.showReportGenerated = true;
       }
     });
   },
