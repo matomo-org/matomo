@@ -64,7 +64,7 @@ class RecommendedFunctionsCheck implements Diagnostic
     private function getHelpMessage($function)
     {
         $messages = array(
-            'shell_exec'     => 'Installation_SystemCheckFunctionHelp',
+            'shell_exec'     => 'Installation_SystemCheckShellExecHelp',
             'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
             'mail'           => 'Installation_SystemCheckMailHelp',
             'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
