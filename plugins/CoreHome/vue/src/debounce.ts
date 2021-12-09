@@ -1,5 +1,5 @@
 interface Callable {
-  (...args: unknown[]): void;
+  (...args: unknown[]): unknown;
 }
 
 const DEFAULT_DEBOUNCE_DELAY = 300;

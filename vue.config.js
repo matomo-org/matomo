@@ -71,7 +71,9 @@ module.exports = {
       }
 
       if (pluginExternals[request]) {
-        if (detectedDependentPlugins.indexOf(request) === -1) {
+        if (detectedDependentPlugins.indexOf(request) === -1
+          && request !== process.env.MATOMO_CURRENT_PLUGIN
+        ) {
           detectedDependentPlugins.push(request);
         }
         callback(null, pluginExternals[request]);

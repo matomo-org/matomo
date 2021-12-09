@@ -74,8 +74,10 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     {
         return array(
             'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery/dist/jquery.js',
             'node_modules/materialize-css/dist/js/materialize.min.js', // so jquery ui datepicker overrides materializecss
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
+            'node_modules/jquery-ui-dist/jquery-ui.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             "node_modules/jquery.browser/dist/jquery.browser.min.js",
             'node_modules/',
@@ -102,11 +104,15 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
         foreach ($plugins as $plugin) {
             $devUmd = "plugins/$plugin/vue/dist/$plugin.development.umd.js";
             $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
+            $umdSrcFolder = "plugins/$plugin/vue/src";
 
-            if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
-                $this->fileLocations[$plugin] = $devUmd;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
-                $this->fileLocations[$plugin] = $minifiedUmd;
+            // in case there are dist files but no src files, which can happen during development
+            if (is_dir($umdSrcFolder)) {
+                if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
+                    $this->fileLocations[$plugin] = $devUmd;
+                } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
+                    $this->fileLocations[$plugin] = $minifiedUmd;
+                }
             }
         }
     }

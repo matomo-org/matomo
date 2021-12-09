@@ -13,7 +13,7 @@
     <input
       v-if="name"
       type="hidden"
-      :value="selectedSite?.id"
+      :value="modelValue?.id"
       :name="name"
     />
     <a
@@ -32,11 +32,11 @@
       />
       <span>
         <span
-          v-text="selectedSite?.name || firstSiteName"
-          v-if="selectedSite?.name || !placeholder"
+          v-text="modelValue?.name || firstSiteName"
+          v-if="modelValue?.name || !placeholder"
         />
         <span
-          v-if="!selectedSite?.name && placeholder"
+          v-if="!modelValue?.name && placeholder"
           class="placeholder"
         >{{ placeholder }}</span>
       </span>
@@ -81,8 +81,8 @@
           <li
             @click="switchSite(site, $event)"
             v-show="!(!showSelectedSite && activeSiteId === site.idsite)"
-            v-for="site in sites"
-            :key="site.idsite"
+            v-for="(site, index) in sites"
+            :key="index"
           >
             <a
               @click="$event.preventDefault()"
@@ -140,7 +140,6 @@ interface SiteSelectorState {
   showSitesList: boolean;
   isLoading: boolean;
   sites: Site[];
-  selectedSite: SiteRef;
   autocompleteMinSites: null|number;
 }
 
@@ -148,9 +147,15 @@ export default defineComponent({
   props: {
     modelValue: {
       Object,
-      default: {
-        id: Matomo.idSite,
-        name: Matomo.helper.htmlDecode(Matomo.siteName),
+      default: (props) => {
+        if (props.modelValue) {
+          return props.modelValue;
+        }
+
+        return (Matomo.idSite ? {
+          id: Matomo.idSite,
+          name: Matomo.helper.htmlDecode(Matomo.siteName),
+        } : undefined);
       },
     },
     showSelectedSite: {
@@ -195,12 +200,6 @@ export default defineComponent({
     searchTerm() {
       this.onSearchTermChanged();
     },
-    modelValue: {
-      handler(newValue) {
-        this.selectedSite = { ...newValue };
-      },
-      deep: true,
-    },
   },
   data(): SiteSelectorState {
     return {
@@ -209,10 +208,6 @@ export default defineComponent({
       showSitesList: false,
       isLoading: false,
       sites: [],
-      selectedSite: {
-        id: Matomo.idSite,
-        name: Matomo.helper.htmlDecode(Matomo.siteName),
-      },
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
   },
@@ -220,9 +215,8 @@ export default defineComponent({
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.selectedSite || !this.selectedSite.id) && this.sites[0]) {
-        this.selectedSite = { id: this.sites[0].idsite, name: this.sites[0].name };
-        this.$emit('update:modelValue', { ...this.selectedSite });
+      if ((!this.modelValue || !this.modelValue.id) && !this.hasMultipleSites && this.sites[0]) {
+        this.$emit('update:modelValue', { id: this.sites[0].idsite, name: this.sites[0].name });
       }
     });
 
@@ -247,14 +241,15 @@ export default defineComponent({
     },
     selectorLinkTitle() {
       return this.hasMultipleSites
-        ? translate('CoreHome_ChangeCurrentWebsite', this.selectedSite?.name || this.firstSiteName)
+        ? translate('CoreHome_ChangeCurrentWebsite', this.modelValue?.name || this.firstSiteName)
         : '';
     },
     hasMultipleSites() {
       return SitesStore.initialSites.value && SitesStore.initialSites.value.length > 1;
     },
     firstSiteName() {
-      return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
+      const initialSites = SitesStore.initialSites.value;
+      return initialSites && initialSites.length > 0 ? initialSites[0].name : '';
     },
     urlAllSites() {
       const newQuery = MatomoUrl.stringify({
@@ -293,8 +288,7 @@ export default defineComponent({
         return;
       }
 
-      this.selectedSite = { id: site.idsite, name: site.name };
-      this.$emit('update:modelValue', { ...this.selectedSite });
+      this.$emit('update:modelValue', { id: site.idsite, name: site.name });
 
       if (!this.switchSiteOnSelect || this.activeSiteId === site.idsite) {
         return;

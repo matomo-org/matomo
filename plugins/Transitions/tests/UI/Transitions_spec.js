@@ -13,7 +13,6 @@ describe("Transitions", function () {
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
-
     async function selectValue(field, title)
     {
         await page.webpage.evaluate((field) => {
@@ -96,6 +95,4 @@ describe("Transitions", function () {
         testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'all');
         testEnvironment.save();
     });
-
-
 });

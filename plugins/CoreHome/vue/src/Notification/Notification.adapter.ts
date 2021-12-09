@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import createAngularJsAdapter from '../createAngularJsAdapter';
+import createAngularJsAdapter, { transformAngularJsBoolAttr } from '../createAngularJsAdapter';
 import Notification from './Notification.vue';
 
 export default createAngularJsAdapter({
@@ -25,7 +25,7 @@ export default createAngularJsAdapter({
     },
     noclear: {
       angularJsBind: '@?',
-      transform: (v) => !!v,
+      transform: transformAngularJsBoolAttr,
     },
     toastLength: {
       angularJsBind: '@?',
