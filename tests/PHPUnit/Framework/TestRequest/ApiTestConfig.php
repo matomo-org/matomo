@@ -46,7 +46,7 @@ class ApiTestConfig
      *
      * @var string
      */
-    public $date;
+    public $date = '';
 
     /**
      * One or more periods to test for. Multiple periods will result in multiple API calls and

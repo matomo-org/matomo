@@ -52,6 +52,7 @@
         "PageUrls": "URL de la page",
         "PageViewsByVisitor": "Nombre de fois où cette page a été vue par ce visiteur au cours de toutes ses visites",
         "PagesReportDocumentation": "Ce rapport contient des informations à propos des URLs qui ont été visitées. %s Le tableau est organisé hiérarchiquement, les URLs sont affichées en structure de dossier.",
+        "PagesSubcategoryHelp1": "Ce rapport contient des informations à propos des",
         "PagesSubcategoryHelp3": "Utilisez les icônes plus et moins sur la gauche pour naviguer.",
         "PluginDescription": "Rapports à propos des vues et titres de pages. Vous permet de suivre l'utilisation du moteur de recherche interne de votre site web. Trace automatiquement les clics sur des liens externes et téléchargements de fichiers.",
         "RevisitedPages": "Pages vues plus d'une fois",

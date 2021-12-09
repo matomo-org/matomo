@@ -63,7 +63,7 @@
 
             var $search = $location.search();
 
-            if ($search.segment !== '') {
+            if ($search.segment) {
                 hideOnlyRawDataNoticifation();
                 return;
             }

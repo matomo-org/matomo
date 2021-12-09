@@ -497,7 +497,7 @@ class API extends \Piwik\Plugin\API
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
                 'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
-                'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
+                'format_metrics' => !empty($compare) ? 0 : Common::getRequestVar('format_metrics', 'bc'),
             ), $default = []);
             Archiver::$ARCHIVE_DEPENDENT = true;
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',

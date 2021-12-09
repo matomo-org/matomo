@@ -383,7 +383,10 @@ class Archiver extends \Piwik\Plugin\Archiver
             }
 
             unset($row['label']);
-            $row['avg_price_viewed'] = round($row['avg_price_viewed'], GoalManager::REVENUE_PRECISION);
+
+            if (isset($row['avg_price_viewed'])) {
+                $row['avg_price_viewed'] = round($row['avg_price_viewed'], GoalManager::REVENUE_PRECISION);
+            }
 
             // add views to all types
             foreach ($array as $ecommerceType => $dataArray) {

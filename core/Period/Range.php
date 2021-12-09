@@ -498,6 +498,16 @@ class Range extends Period
         return array($strLastDate, $lastPeriod);
     }
 
+    /**
+     * Return the number of days contained in this range
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function getDayCount()
+    {
+         return (self::getNumDaysDifference($this->getDateStart(), $this->getDateEnd()) + 1);
+    }
 
     private static function getNumDaysDifference(Date $date1, Date $date2)
     {
