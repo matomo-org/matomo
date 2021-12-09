@@ -593,7 +593,7 @@
         }, 'get');
         ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(success);
-        ajaxRequest.send();
+        return ajaxRequest.send();
     }
 
     /**

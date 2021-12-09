@@ -34,6 +34,7 @@ function createDashboard() {
                     reportingMenuModel.reloadMenuItems(),
                   ]).then(function () {
                     $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
+                    $('#dashboardWidgetsArea').dashboard('rebuildMenu');
                   });
                 });
             }
