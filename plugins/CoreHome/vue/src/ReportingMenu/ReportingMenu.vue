@@ -34,21 +34,27 @@
         <ul role="menu">
           <li
             role="menuitem"
-            :class="{'active': subcategory.id === activeSubcategory}"
+            :class="{
+              'active': (subcategory.id === displayedSubcategory
+                || (subcategory.isGroup && activeSubsubcategory === displayedSubcategory)
+              ) && category.id === displayedCategory,
+            }"
             v-for="subcategory in category.subcategories"
             :key="subcategory.id"
           >
             <MenuDropdown
               v-if="subcategory.isGroup"
               :show-search="true"
-              :menu-title="htmlEntities(subcategory.id === activeSubcategory
-                ? activeSubsubcategoryName || subcategory.name
-                : subcategory.name)"
+              :menu-title="htmlEntities(subcategory.name)"
             >
               <a
                 class="item"
                 tabindex="5"
-                :class="{active: subcat.id === activeSubsubcategory}"
+                :class="{
+                  active: subcat.id === activeSubsubcategory
+                    && subcategory.id === displayedSubcategory
+                    && category.id === displayedCategory,
+                }"
                 :href="`#?${makeUrl(category, subcat)}`"
                 @click="loadSubcategory(category, subcat, $event)"
                 v-for="subcat in subcategory.subcategories"
@@ -174,12 +180,11 @@ export default defineComponent({
     activeSubsubcategory() {
       return ReportingMenuStoreInstance.activeSubsubcategory.value;
     },
-    activeSubsubcategoryName() {
-      const found = ReportingMenuStoreInstance.findSubcategory(
-        this.activeCategory,
-        this.activeSubsubcategory || this.activeSubcategory,
-      );
-      return found.subsubcategory?.name;
+    displayedCategory() {
+      return MatomoUrl.parsed.value.category;
+    },
+    displayedSubcategory() {
+      return MatomoUrl.parsed.value.subcategory;
     },
   },
   created() {
@@ -275,7 +280,9 @@ export default defineComponent({
       }
     },
     loadSubcategory(category: Category, subcategory: Subcategory, event: MouseEvent) {
-      if (event.shiftKey || event.ctrlKey || event.metaKey) {
+      if (event
+        && (event.shiftKey || event.ctrlKey || event.metaKey)
+      ) {
         return;
       }
 

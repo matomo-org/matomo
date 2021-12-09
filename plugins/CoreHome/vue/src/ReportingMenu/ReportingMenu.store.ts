@@ -64,7 +64,26 @@ export class ReportingMenuStore {
   readonly activeSubcategory = computed(() => this.state.value.activeSubcategoryId
     || MatomoUrl.parsed.value.subcategory);
 
-  readonly activeSubsubcategory = computed(() => this.state.value.activeSubsubcategoryId);
+  readonly activeSubsubcategory = computed(() => {
+    const manuallySetId = this.state.value.activeSubsubcategoryId;
+    if (manuallySetId) {
+      return manuallySetId;
+    }
+
+    // default to activeSubcategory if the activeSubcategory is part of a group
+    const foundCategory = this.findSubcategory(
+      this.activeCategory.value,
+      this.activeSubcategory.value,
+    );
+
+    if (foundCategory.subsubcategory
+      && foundCategory.subsubcategory.id === this.activeSubcategory.value
+    ) {
+      return foundCategory.subsubcategory.id;
+    }
+
+    return null;
+  });
 
   readonly menu = computed(() => this.buildMenuFromPages());
 
@@ -114,8 +133,8 @@ export class ReportingMenuStore {
   private buildMenuFromPages() {
     const menu = [];
 
-    const activeCategory = this.activeCategory.value;
-    const activeSubcategory = this.activeSubcategory.value;
+    const displayedCategory = MatomoUrl.parsed.value.category;
+    const displayedSubcategory = MatomoUrl.parsed.value.subcategory;
 
     const pages = ReportingPagesStoreInstance.pages.value;
 
@@ -123,7 +142,7 @@ export class ReportingMenuStore {
     pages.forEach((page) => {
       const category = { ...page.category } as Category;
       const categoryId = category.id;
-      const isCategoryActive = categoryId === activeCategory;
+      const isCategoryDisplayed = categoryId === displayedCategory;
 
       if (categoriesHandled[categoryId]) {
         return;
@@ -138,7 +157,8 @@ export class ReportingMenuStore {
       const pagesWithCategory = pages.filter((p) => p.category.id === categoryId);
       pagesWithCategory.forEach((p) => {
         const subcategory = { ...p.subcategory } as Subcategory;
-        const isSubcategoryActive = subcategory.id === activeSubcategory && isCategoryActive;
+        const isSubcategoryDisplayed = subcategory.id === displayedSubcategory
+          && isCategoryDisplayed;
 
         if (p.widgets && p.widgets[0] && isNumeric(p.subcategory.id)) {
           // we handle a goal or something like it
@@ -150,7 +170,7 @@ export class ReportingMenuStore {
             categoryGroups.order = 10;
           }
 
-          if (isSubcategoryActive) {
+          if (isSubcategoryDisplayed) {
             categoryGroups.name = subcategory.name;
           }
 
