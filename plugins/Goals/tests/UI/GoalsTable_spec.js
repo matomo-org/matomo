@@ -11,10 +11,6 @@ describe("GoalsTable", function () {
     const url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
               + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 
-    before(async function(){
-      await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
-    });
-
     it("should load when the goals icon is clicked", async function () {
         await page.goto(url);
         await page.click('.activateVisualizationSelection > span');

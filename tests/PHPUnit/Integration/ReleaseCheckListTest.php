@@ -40,7 +40,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         parent::setUp();
     }
-
+    
     public function test_TestCaseHasSetGroupsMethod()
     {
         // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
@@ -50,9 +50,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     public function test_woff2_fileIsUpToDate()
     {
-        if (getenv('GITHUB')) {
-            $this->markTestSkipped('this needs review');
-        }
         link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
         $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
         $log = shell_exec($command);
@@ -334,7 +331,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     public function test_phpFilesStartWithRightCharacter()
     {
-
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
         $tested = 0;

@@ -85,10 +85,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
-            await page.waitForTimeout(500); // wait for animation to end
-
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-             $('.dataTableScroller').css('overflow-x', 'scroll');
+              $('.dataTableScroller').css('overflow-x', 'scroll');
             });
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
@@ -242,7 +240,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
-             });
+            });
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_columns');
         });

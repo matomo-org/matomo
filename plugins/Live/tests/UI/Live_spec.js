@@ -117,7 +117,6 @@ describe("Live", function () {
 
     it('should show action tooltip', async function() {
         var action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
-        await page.waitForTimeout(100);
         await action.hover();
         await page.waitForSelector('.ui-tooltip');
 

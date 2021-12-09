@@ -22,7 +22,6 @@ main();
 async function main() {
     const browser = await puppeteer.launch({ args: ['--no-sandbox', '--ignore-certificate-errors'] });
     const webpage = await browser.newPage();
-    await webpage.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
     await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
 
     // required modules

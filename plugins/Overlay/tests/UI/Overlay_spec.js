@@ -58,7 +58,6 @@ describe("Overlay", function () {
 
             it("should load correctly" + descAppendix, async function () {
                 await page.goto(getUrl(useTokenAuth));
-                await page.waitForTimeout(500);
 
                 await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('loaded');
@@ -67,9 +66,8 @@ describe("Overlay", function () {
             it("should show clicks when hover over link in iframe" + descAppendix, async function () {
 
                 const frame = page.frames().find(f => f.name() === 'overlayIframe');
-                await page.waitForTimeout(250);
-
                 await (await frame.$('.btn.btn-large')).hover();
+                await page.waitForTimeout(250);
 
                 await frame.evaluate(function () {
                     $('div#PIS_StatusBar').each(function () {
@@ -84,7 +82,6 @@ describe("Overlay", function () {
 
             it("should show stats for new links when dropdown opened" + descAppendix, async function () {
                 await page.reload();
-                await page.waitForTimeout(500);
                 const frame = page.frames().find(f => f.name() === 'overlayIframe');
                 await (await frame.$('.dropdown-toggle')).click();
 

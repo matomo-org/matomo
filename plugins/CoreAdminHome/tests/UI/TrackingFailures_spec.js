@@ -13,10 +13,6 @@ describe("TrackingFailures", function () {
     var manageUrl = '?module=CoreAdminHome&action=trackingFailures&idSite=1&period=day&date=today';
     var widgetUrl = '?module=Widgetize&action=iframe&moduleToWidgetize=CoreAdminHome&actionToWidgetize=getTrackingFailures&idSite=1&period=day&date=today&widget=1';
 
-  before(async function(){
-    await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
-  });
-
     function generateTrackingFailures()
     {
         testEnvironment.generateTrackingFailures = 1;

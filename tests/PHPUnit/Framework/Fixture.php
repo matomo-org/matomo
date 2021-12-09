@@ -615,8 +615,6 @@ class Fixture extends \PHPUnit\Framework\Assert
             $piwikUrl .= $piwikUri;
         }
 
-        $piwikUrl = getenv('GITHUB') ? "http://localhost/" : $piwikUrl;
-
         return $piwikUrl;
     }
 
