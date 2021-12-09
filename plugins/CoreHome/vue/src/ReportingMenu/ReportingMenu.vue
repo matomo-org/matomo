@@ -41,7 +41,7 @@
             <MenuDropdown
               v-if="subcategory.isGroup"
               :show-search="true"
-              :menu-title="htmlEntities(subcategory.name)"
+              :menu-title="htmlEntities(activeSubsubcategoryName)"
             >
               <a
                 class="item"
@@ -171,6 +171,13 @@ export default defineComponent({
     },
     activeSubsubcategory() {
       return ReportingMenuStoreInstance.activeSubsubcategory.value;
+    },
+    activeSubsubcategoryName() {
+      const found = ReportingMenuStoreInstance.findSubcategory(
+        this.activeCategory,
+        this.activeSubsubcategory || this.activeSubcategory,
+      );
+      return found.subsubcategory?.name;
     },
   },
   created() {
