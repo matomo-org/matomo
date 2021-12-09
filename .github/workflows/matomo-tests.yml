@@ -1,0 +1,264 @@
+name: Matomo Tests
+
+on:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: write
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  PHP:
+    runs-on: ubuntu-20.04
+    services:
+      redis:
+        image: redis:5.0
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: piwik_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins0','IntegrationTestsPlugins1','IntegrationTestsPlugins2','IntegrationTestsPlugins3' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: false
+          submodules: recursive
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
+          ini-values: |
+            memory_limit = 256M,
+            max_execution_time=10000,
+            always_populate_raw_post_data=-1,
+            error_reporting=E_ALL,
+            log_errors=on, display_errors=on,
+            allow_url_fopen = on,
+            zend.exception_ignore_args = Off
+          tools: composer:v2
+          coverage: none
+
+      - name: prepare setup
+        shell: bash
+        run: ./.github/scripts/bash/prepare.sh
+        env:
+           PHP_VERSION: '8.0'
+           PIWIK_TEST_TARGET: 'PHP'
+
+      - name: Test runing
+        if: matrix.tests == 'UnitTests'
+        run: |
+          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
+
+      - name: Test runing
+        if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
+        run: |
+          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
+        env:
+          TRAVIS: true
+          GITHUB: true
+
+  Javascript:
+    runs-on: ubuntu-20.04
+    services:
+      redis:
+        image: redis:5.0
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: piwik_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [ 'JavascriptTests-js', 'AngularJSTests-js' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: false
+          submodules: recursive
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
+          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: prepare setup
+        shell: bash
+        run: ./.github/scripts/bash/prepare.sh
+        env:
+          PHP_VERSION: '8.0'
+          PIWIK_TEST_TARGET: 'Javascript'
+
+      - name: Javascript Tests
+        if: matrix.tests == 'JavascriptTests-js'
+        run: |
+          ./console tests:run-js --matomo-url='http://localhost'
+
+      - name: Running angularjs && vue tests
+        if: matrix.tests == 'AngularJSTests-js'
+        working-directory: ./tests/angularjs
+        run: |
+          npm install
+          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
+
+  UI:
+    runs-on: ubuntu-20.04
+
+    services:
+      redis:
+        image: redis:5.0
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: piwik_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [ 'UITests' ]
+        parts: [ 0,1,2,3,4,5,6,7 ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
+          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1,zend.exception_ignore_args = Off
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: prepare setup
+        shell: bash
+        run: ./.github/scripts/bash/prepare.sh
+        env:
+          PHP_VERSION: '7.2'
+          PIWIK_TEST_TARGET: 'UI'
+
+      - name: UI tests Group ${{ matrix.parts }}
+        env:
+          GITHUB: true
+        run: |
+           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=8 --test-group=${{ matrix.parts }}"
+
+      - name: failed UI details
+        if: failure()
+        shell: bash
+        run: |
+          ls -l /home/runner/work/matomo/matomo/tmp/templates_c
+          echo ""
+          echo "View UI failures here:"
+          echo ""
+          echo "::warning:: https://builds-artifacts.matomo.org/${{ github.repository }}/${{ github.event.pull_request.base.ref }}/${{ github.run_id }}/"
+          echo ""
+          echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
+          echo ""
+          echo "::warning:: ./console tests:sync-ui-screenshots ${{ github.job }}"
+          echo ""
+      - name: upload processed screenshots
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: ${{ github.run_id }}
+          path: |
+            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
+
+
+      - name: Download processed screenshots
+        uses: actions/download-artifact@v2
+        if: failure()
+        with:
+          name: ${{ github.run_id }}
+          path: |
+            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
+
+#      - name: upload processed screenshots
+#        if: failure()
+#        shell: bash
+#        env:
+#          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
+#        run: |
+#          url_base="https://builds-artifacts.matomo.org/build?auth_key=$ARTIFACTS_PASS&repo=${{ github.repository }}&build_id=${{ github.run_id }}&build_entity_id=${{ github.run_number }}&branch=${{ github.event.pull_request.base.ref }}"
+#          echo "::debug:: Uploading artifacts for UITests..."
+#          cd ./tests/UI
+#          tar -cvjSf processed-ui-screenshots.tar.bz2 processed-ui-screenshots
+#          curl -X POST --data-binary processed-ui-screenshots.tar.bz2 "$url_base&artifact_name=processed-screenshots"
+#          tar -cvjSf screenshot-diffs.tar.bz2 screenshot-diffs
+#          curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
+
+
+
+

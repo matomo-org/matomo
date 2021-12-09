@@ -1,6 +1,7 @@
 name: PHPCS check
 
-on: pull_request
+on:
+  pull_request:
 
 permissions:
   actions: read

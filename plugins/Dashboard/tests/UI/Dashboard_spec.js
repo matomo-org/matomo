@@ -232,6 +232,8 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+
         await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('reset');

@@ -50,6 +50,7 @@ class SyncScreenshots extends ConsoleCommand
         $this->setDescription('For Piwik core devs. Copies screenshots '
                             . 'from travis artifacts to the tests/UI/expected-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
+        $this->addOption('agent','a', InputOption::VALUE_OPTIONAL, 'Build agent using you want to choose','github');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
         $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
@@ -60,12 +61,13 @@ class SyncScreenshots extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $buildNumber = $input->getArgument('buildnumber');
+        $agent = $input->getOption('agent');
         $screenshotsRegex = $input->getArgument('screenshotsRegex');
         $repository = $input->getOption('repository');
         $httpUser = $input->getOption('http-user');
         $httpPassword = $input->getOption('http-password');
 
-        $screenshots = $this->getScreenshotList($repository, $buildNumber, $httpUser, $httpPassword);
+        $screenshots = $this->getScreenshotList($repository, $buildNumber, $httpUser, $httpPassword, $agent);
 
         $this->logger->notice('Downloading {number} screenshots', array('number' => count($screenshots)));
         foreach ($screenshots as $name => $url) {
@@ -78,8 +80,11 @@ class SyncScreenshots extends ConsoleCommand
         $this->displayGitInstructions($output, $repository);
     }
 
-    private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null)
+    private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null, $agent = null)
     {
+        if ($agent === 'github') {
+            $repository = 'github/' . $repository;
+        }
         $url = sprintf('https://builds-artifacts.matomo.org/api/%s/%s', $repository, $buildNumber);
 
         $this->logger->debug('Fetching {url}', array('url' => $url));
