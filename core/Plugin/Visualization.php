@@ -14,6 +14,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\API\Request as ApiRequest;
 use Piwik\API\ResponseBuilder;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -232,6 +233,7 @@ class Visualization extends ViewDataTable
             // if it's likely that the report data for this data table has been purged,
             // set whether we should display a message to that effect.
             $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
+            $view->showPluginArchiveDisabled = $this->hasReportSegmentDisabled();
             $view->deleteReportsOlderThan         = Option::get('delete_reports_older_than');
         }
 
@@ -598,6 +600,22 @@ class Visualization extends ViewDataTable
         }
 
         return PrivacyManager::hasReportBeenPurged($this->dataTable);
+    }
+
+    /**
+     * Return true if the config for the plug is disabled
+     * @return bool
+     */
+
+    private function hasReportSegmentDisabled()
+    {
+        $module = $this->requestConfig->getApiModuleToRequest();
+        $rawSegment = \Piwik\API\Request::getRawSegmentFromRequest();
+
+        if (!empty($rawSegment) && Rules::isSegmentPluginArchivingDisabled($module)) {
+            return true;
+        }
+        return false;
     }
 
     /**

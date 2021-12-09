@@ -423,7 +423,8 @@ export default defineComponent({
       const leftMenuItems: SubMenuItem[] = [];
 
       document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
-        let category = window.$(element).find('> .item').text().trim();
+        let category = window.$(element).find('> .item');
+        category = category[0] ? category[0].innerText.trim() : '';
 
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"

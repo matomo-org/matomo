@@ -1,9 +1,9 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Open in a new window",
-        "PluginDescription": "Display any Matomo report in your website or app with a simple Embed HTML tag.",
-        "ViewAccessRequired": "This user has at least some write access. Only tokens of users who have only view access can be used. See %1$s for more information.",
-        "TopLinkTooltip": "Export Matomo Reports as Widgets and embed the Dashboard in your app as an iframe.",
-        "TooHighAccessLevel": "This user has super user access. For embedding widgets super user token auths are not allowed. %1$sSee our faq for more information.%2$s"
+        "PluginDescription": "Display any Matomo report in your website or app with a simple \"embed\" HTML tag.",
+        "ViewAccessRequired": "This user has at least some write access. Only tokens of users who have only view access can be used. Check %1$s for more info.",
+        "TopLinkTooltip": "Export Matomo reports as widgets and embed the dashboard in your app as an iframe.",
+        "TooHighAccessLevel": "This user has super-user access. Embedding widgets with super-user token authentication is not allowed. %1$sCheck the FAQ for more info.%2$s"
     }
 }

@@ -39,7 +39,22 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     placeholder: {
       angularJsBind: '@',
     },
-    modelValue: {},
+    modelValue: {
+      default(scope, element, attrs) {
+        if (attrs.siteid && attrs.sitename) {
+          return { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
+        }
+
+        if (Matomo.idSite) {
+          return {
+            id: Matomo.idSite,
+            name: Matomo.helper.htmlDecode(Matomo.siteName),
+          };
+        }
+
+        return undefined;
+      },
+    },
   },
   $inject: ['$timeout'],
   directiveName: 'piwikSiteselector',
@@ -55,17 +70,10 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           element.attr('siteid', newValue.id);
           element.trigger('change', newValue);
 
-          if (ngModel
-            // the original site selector did not initiate an ngModel change when initializing its
-            // internal selectedSite state. mimicking that behavior here for BC.
-            && (scope.isNotFirstModelChange
-              || vm.modelValue)
-          ) {
+          if (ngModel) {
             ngModel.$setViewValue(newValue);
             ngModel.$render(); // not called automatically by the digest
           }
-
-          scope.isNotFirstModelChange = true;
         });
       }
     },
@@ -73,37 +81,32 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       setTimeout(() => scope.$apply());
     },
   },
-  postCreate(vm, scope, element, attrs, controller, $timeout: ITimeoutService) {
+  postCreate(vm, scope, element, attrs, controller) {
     const ngModel = controller as INgModelController;
 
     scope.$watch('value', (newVal) => {
-      if (newVal !== vm.modelValue) {
-        vm.modelValue = newVal;
-      }
+      nextTick(() => {
+        if (newVal !== vm.modelValue) {
+          vm.modelValue = newVal;
+        }
+      });
     });
 
     // setup ng-model mapping
     if (ngModel) {
-      if (vm.modelValue) {
-        ngModel.$setViewValue(vm.modelValue);
-      }
+      ngModel.$setViewValue(vm.modelValue);
 
       ngModel.$render = () => {
         nextTick(() => {
-          if (angular.isString(ngModel.$viewValue)) {
-            vm.modelValue = JSON.parse(ngModel.$viewValue);
-          } else {
-            vm.modelValue = ngModel.$viewValue;
-          }
+          nextTick(() => {
+            if (angular.isString(ngModel.$viewValue)) {
+              vm.modelValue = JSON.parse(ngModel.$viewValue);
+            } else {
+              vm.modelValue = ngModel.$viewValue;
+            }
+          });
         });
       };
     }
-
-    $timeout(() => {
-      if (attrs.siteid && attrs.sitename) {
-        vm.modelValue = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
-        ngModel.$setViewValue({ ...vm.modelValue });
-      }
-    });
   },
 });

@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Nettleserspråk",
         "LanguageCode": "Språkkode",
-        "PluginDescription": "Rapporterer språket som er brukt av dine besøkeres nettlesere."
+        "PluginDescription": "Rapporterer språket som er brukt av dine besøkeres nettlesere.",
+        "getLanguageCodeDocumentation": "Denne rapporten viser den eksakte lokaliteten besøkerens nettleser er innstilt på (f.eks «Tysk - Østerrike (de-at)»).",
+        "getLanguageDocumentation": "Denne rapporten viser hvilket språk besøkerens nettleser er innstilt på, (f.eks. «engelsk»)."
     }
 }
