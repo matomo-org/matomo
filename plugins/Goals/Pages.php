@@ -84,8 +84,6 @@ class Pages
         }
 
 
-
-
         $config = $this->factory->createContainerWidget('Goals');
         $config->setSubcategoryId($subcategory);
         $config->setName('Goals_ConversionsOverviewBy');
