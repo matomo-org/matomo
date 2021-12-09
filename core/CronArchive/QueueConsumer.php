@@ -201,9 +201,8 @@ class QueueConsumer
                 break;
             }
 
-            if (!$this->isSegmentAvaible($invalidatedArchive)) {
-                $this->logger->debug("Segment is not valid anymore.");
-                break;
+            if (!$this->isSegmentAvailable($invalidatedArchive)) {
+                continue;
             }
 
             $invalidationDesc = $this->getInvalidationDescription($invalidatedArchive);
@@ -561,12 +560,13 @@ class QueueConsumer
      * @param $invalidatedArchive
      * @return bool
      */
-    private function isSegmentAvaible($invalidatedArchive)
+    private function isSegmentAvailable($invalidatedArchive)
     {
         try {
             new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
            } catch (\Exception $e) {
-            $this->logger->debug("Segment is not valid anymore.");
+            $this->logger->debug(sprintf("Segment is not valid anymore. segment:%1, idsite:%2",
+              $invalidatedArchive['segment'], $invalidatedArchive['idsite']));
             return false;
         }
         return true;
