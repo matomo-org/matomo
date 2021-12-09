@@ -1116,7 +1116,8 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
   MatomoUrl_createClass(MatomoUrl, [{
     key: "updateHash",
     value: function updateHash(params) {
-      var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
+      var modifiedParams = this.getFinalHashParams(params);
+      var serializedParams = this.stringify(modifiedParams);
       var $location = Matomo_Matomo.helper.getAngularDependency('$location');
       $location.search(serializedParams);
     }
@@ -1125,7 +1126,8 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function updateUrl(params) {
       var hashParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
-      var serializedHashParams = typeof hashParams !== 'string' ? this.stringify(hashParams) : hashParams;
+      var modifiedHashParams = this.getFinalHashParams(hashParams);
+      var serializedHashParams = this.stringify(modifiedHashParams);
       var url = "?".concat(serializedParams);
 
       if (serializedHashParams.length) {
@@ -1133,6 +1135,16 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       }
 
       window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
+    }
+  }, {
+    key: "getFinalHashParams",
+    value: function getFinalHashParams(params) {
+      return _objectSpread({
+        // these params must always be present in the hash
+        period: this.parsed.value.period,
+        date: this.parsed.value.date,
+        segment: this.parsed.value.segment
+      }, typeof params !== 'string' ? params : MatomoUrl_broadcast.getValuesFromUrl("?".concat(params), true));
     } // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
 
   }, {
@@ -5266,10 +5278,10 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
           period: src_MatomoUrl_MatomoUrl.parsed.value.period
         }));
       } else {
-        src_MatomoUrl_MatomoUrl.updateUrl(SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.parsed.value), {}, {
+        src_MatomoUrl_MatomoUrl.updateUrl(SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
           segment: '',
           idSite: idSite
-        }));
+        }), src_MatomoUrl_MatomoUrl.hashParsed.value);
       }
     }
   }, {
