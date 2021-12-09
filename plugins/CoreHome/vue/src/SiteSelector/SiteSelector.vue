@@ -367,6 +367,8 @@ export default defineComponent({
         ...MatomoUrl.hashParsed.value,
         segment: '',
         idSite,
+        date: MatomoUrl.parsed.value.date,
+        period: MatomoUrl.parsed.value.period,
       });
 
       return `?${newQuery}#?${newHash}`;
