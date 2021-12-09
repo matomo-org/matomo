@@ -18,9 +18,15 @@ interface SubcategoryRef {
   name: string;
 }
 
+interface WidgetRef {
+  module: string;
+  action: string;
+}
+
 interface Page {
   category: CategoryRef;
   subcategory: SubcategoryRef;
+  widgets: WidgetRef;
 }
 
 interface ReportingPagesStoreState {
