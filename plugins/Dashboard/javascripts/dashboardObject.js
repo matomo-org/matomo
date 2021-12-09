@@ -204,8 +204,9 @@
             }, 'get');
             ajaxRequest.setCallback(
                 function () {
-                    methods.loadDashboard.apply(this, [1]);
-                    rebuildMenu();
+                    Promise.resolve(rebuildMenu()).then(function () {
+                      methods.loadDashboard.apply(this, [1]);
+                    });
                 }
             );
             ajaxRequest.withTokenInUrl();
@@ -535,10 +536,7 @@
 
         if (piwikHelper.isAngularRenderingThePage()) {
             // dashboard in reporting page (regular Piwik UI)
-            angular.element(document).injector().invoke(function (reportingMenuModel) {
-                reportingMenuModel.reloadMenuItems();
-            });
-            return;
+            return piwikHelper.getAngularDependency('reportingMenuModel').reloadMenuItems();
         }
 
         var _self = this;
