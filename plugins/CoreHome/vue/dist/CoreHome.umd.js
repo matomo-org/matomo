@@ -8058,33 +8058,25 @@ var ReportingPages_store_ReportingPagesStore = /*#__PURE__*/function () {
   }, {
     key: "reloadAllPages",
     value: function reloadAllPages() {
-      var _this2 = this;
-
-      // use a setTimeout this method can happen when changing the page, and page changes
-      // will abort in progress AJAX requests, even this one if it is in progress.
-      return new Promise(function (resolve) {
-        return setTimeout(resolve);
-      }).then(function () {
-        _this2.fetchAllPagesPromise = null;
-        return _this2.getAllPages();
-      });
+      this.fetchAllPagesPromise = null;
+      return this.getAllPages();
     }
   }, {
     key: "getAllPages",
     value: function getAllPages() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (!this.fetchAllPagesPromise) {
         this.fetchAllPagesPromise = AjaxHelper_AjaxHelper.fetch({
           method: 'API.getReportPagesMetadata',
           filter_limit: '-1'
         }).then(function (response) {
-          _this3.privateState.pages = response;
+          _this2.privateState.pages = response;
         });
       }
 
       return this.fetchAllPagesPromise.then(function () {
-        return _this3.pages.value;
+        return _this2.pages.value;
       });
     }
   }]);
