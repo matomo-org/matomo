@@ -616,7 +616,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 54;
+        $maximumTotalFilesizesExpectedInMb = 55;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 
@@ -1075,6 +1075,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 || strpos($file, 'node_modules/') !== false
                 || strpos($file, 'vendor/mayflower/mo4-coding-standard/') !== false
                 || strpos($file, 'vendor/symfony/polyfill-iconv/') !== false
+                || strpos($file, 'plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;
             }

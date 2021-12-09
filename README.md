@@ -6,7 +6,7 @@
 
 ## Code Status
 
-[![Build Status](https://travis-ci.com/matomo-org/matomo.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/matomo/branches)
+[![Build Status](https://travis-ci.com/matomo-org/matomo.svg?branch=4.x-dev)](https://app.travis-ci.com/matomo-org/matomo/branches)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/matomo-org/matomo.svg)](http://isitmaintained.com/project/matomo-org/matomo "Percentage of issues still open")
 
 ## Description
