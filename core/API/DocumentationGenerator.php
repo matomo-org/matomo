@@ -228,7 +228,6 @@ class DocumentationGenerator
             'idAlert'             => '1',
             'seconds'        => '3600',
 //            'segmentName'    => 'browserCode',
-            'filter_update_columns_when_show_all_goals' => '0',
         );
 
         foreach ($parametersToSet as $name => $value) {
