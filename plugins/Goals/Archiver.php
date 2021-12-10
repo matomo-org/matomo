@@ -536,8 +536,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregatePageGoalsDayReports()
     {
 
-        $maximumRowsInDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_events'];
-        $maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_events'];
+        $maximumRowsInDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
+        $maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
 
         // Generate page visits data tables and add goal conversions fields
         $this->aggregatePageConversions('idaction_url', self::PAGE_CONVERSIONS_URL_RECORD_NAME, Action::TYPE_PAGE_URL);
