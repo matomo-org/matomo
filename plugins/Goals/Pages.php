@@ -292,7 +292,7 @@ class Pages
 
             foreach ($reports as $report) {
 
-                if (isset($report['noMenu']) && $report['noMenu']) {
+                if ($report['name'] === Piwik::translate('Goals_EntryPagesTitles')) {
                     continue;
                 }
 

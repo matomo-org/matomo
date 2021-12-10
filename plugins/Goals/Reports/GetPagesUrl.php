@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\PageUrl;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\Goals\Visualizations\GoalsPages;
 
 class GetPagesUrl extends Base
 {
@@ -25,7 +26,7 @@ class GetPagesUrl extends Base
         $this->name = Piwik::translate('General_Pages');
         $this->documentation = Piwik::translate('Goals_PagesReportDocumentation');
         $this->dimension = new PageUrl();
-        $this->order = 5;
+        $this->order = 1;
         $this->orderGoal = 51;
         $this->hasGoalMetrics = true;
     }
@@ -65,6 +66,11 @@ class GetPagesUrl extends Base
             return $goal['name'] . ' - ' . $name;
         });
 
+    }
+
+    public function getDefaultTypeViewDataTable()
+    {
+        return GoalsPages::ID;
     }
 
 }

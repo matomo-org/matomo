@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Goals\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\PageTitle;
+use Piwik\Plugins\Goals\Visualizations\GoalsPages;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 class GetPagesTitles extends Base
@@ -26,7 +27,7 @@ class GetPagesTitles extends Base
         $this->documentation = Piwik::translate('Goals_PageTitlesReportDocumentation');
         $this->dimension = new PageTitle();
         $this->hasGoalMetrics = true;
-        $this->order = 5;
+        $this->order = 3;
         $this->orderGoal = 51;
     }
 
@@ -62,6 +63,11 @@ class GetPagesTitles extends Base
         $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) use ($name) {
             return $goal['name'] . ' - ' . $name;
         });
+    }
+
+    public function getDefaultTypeViewDataTable()
+    {
+        return GoalsPages::ID;
     }
 
 }

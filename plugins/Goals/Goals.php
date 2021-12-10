@@ -298,7 +298,7 @@ class Goals extends \Piwik\Plugin
         $reports = new ReportsProvider();
 
         foreach ($reports->getAllReports() as $report) {
-            if ($report->hasGoalMetrics() && $report->isEnabled() && $report->getCategoryId() != 'Pages') {
+            if ($report->hasGoalMetrics() && $report->isEnabled()) {
                 $reportsWithGoals[] = array(
                     'category' => $report->getCategoryId(),
                     'name'     => $report->getName(),
@@ -309,31 +309,6 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $reportsWithGoals[] = array('category' => 'Pages',
-            'name'     => Piwik::translate('General_Pages'),
-            'module'   => 'Goals',
-            'action'   => 'getPagesUrl',
-            'viewDataTable' => 'tableGoalsPages',
-        );
-        $reportsWithGoals[] = array('category' => 'Pages',
-            'name'     => Piwik::translate('Goals_EntryPages'),
-            'module'   => 'Goals',
-            'action'   => 'getPagesEntry',
-            'viewDataTable' => 'tableGoalsEntryPages',
-        );
-        $reportsWithGoals[] = array('category' => 'Pages',
-            'name'     => Piwik::translate('Goals_PageTitles'),
-            'module'   => 'Goals',
-            'action'   => 'getPagesTitles',
-            'viewDataTable' => 'tableGoalsPages',
-        );
-        $reportsWithGoals[] = array('category' => 'Pages',
-            'name'     => Piwik::translate('Goals_EntryPagesTitles'),
-            'module'   => 'Goals',
-            'action'   => 'getPagesEntryTitles',
-            'viewDataTable' => 'tableGoalsEntryPages',
-            'noMenu'   => true
-        );
         $reportsWithGoals[] = array('category' => 'General_Visit',
             'name'     => Piwik::translate('Goals_VisitsUntilConv'),
             'module'   => 'Goals',
@@ -413,5 +388,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_TimeInMinutes';
         $translationKeys[] = 'Goals_Pattern';
         $translationKeys[] = 'Goals_ClickToViewThisGoal';
+        $translationKeys[] = 'Goals_CategoryTextPages';
     }
 }

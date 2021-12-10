@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Goals\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\EntryPageUrl;
-use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\Goals\Visualizations\GoalsEntryPages;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
@@ -31,7 +31,7 @@ class GetPagesEntryTitles extends Base
         $this->dimension = new EntryPageUrl();
         $this->metrics = array( 'nb_conversions', 'nb_visits_converted', 'revenue', 'entry_nb_visits');
         $this->hasGoalMetrics = true;
-        $this->order = 5;
+        $this->order = 4;
         $this->orderGoal = 51;
     }
 
@@ -47,6 +47,7 @@ class GetPagesEntryTitles extends Base
         $view->requestConfig->filter_sort_column = 'entry_nb_visits';
         $view->requestConfig->filter_sort_order  = 'asc';
         $view->requestConfig->filter_limit       = 25;
+
 
         $view->config->addTranslations(array('label' => $this->dimension->getName(),
                                              'entry_nb_visits' => Piwik::translate('General_ColumnEntrances')));
@@ -68,6 +69,11 @@ class GetPagesEntryTitles extends Base
         $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) use ($name) {
             return $goal['name'] . ' - ' . $name;
         });
+    }
+
+    public function getDefaultTypeViewDataTable()
+    {
+        return GoalsEntryPages::ID;
     }
 
     public function getRelatedReports()
