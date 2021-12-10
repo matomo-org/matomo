@@ -398,21 +398,21 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "f7f0509f284bda14890909de53da9bb0f7494532"
+                "reference": "ebd8a07e4b69088c0e34f29ec72dc162c34c9264"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/f7f0509f284bda14890909de53da9bb0f7494532",
-                "reference": "f7f0509f284bda14890909de53da9bb0f7494532",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/ebd8a07e4b69088c0e34f29ec72dc162c34c9264",
+                "reference": "ebd8a07e4b69088c0e34f29ec72dc162c34c9264",
                 "shasum": ""
             },
             "require": {
                 "mustangostang/spyc": "*",
-                "php": ">=7.2"
+                "php": "^7.2|^8.0"
             },
             "replace": {
                 "piwik/device-detector": "self.version"
@@ -463,7 +463,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2021-11-12T08:08:31+00:00"
+            "time": "2021-12-07T11:40:16+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -2998,16 +2998,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.14.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e"
+                "reference": "bbcd7380b0ebf3961ee21409db7b38bc31d69a13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e",
-                "reference": "d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/bbcd7380b0ebf3961ee21409db7b38bc31d69a13",
+                "reference": "bbcd7380b0ebf3961ee21409db7b38bc31d69a13",
                 "shasum": ""
             },
             "require": {
@@ -3059,9 +3059,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
-                "source": "https://github.com/phpspec/prophecy/tree/1.14.0"
+                "source": "https://github.com/phpspec/prophecy/tree/v1.15.0"
             },
-            "time": "2021-09-10T09:02:12+00:00"
+            "time": "2021-12-08T12:19:24+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",

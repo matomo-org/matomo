@@ -28,8 +28,23 @@
         piwikApi.fetch({method: apiMethod}).then(function (settings) {
             self.isLoading = false;
             self.settingsPerPlugin = settings;
-
             window.anchorLinkFix.scrollToAnchorInUrl();
+
+            // Add plugin sections to page table of contents
+            for (var s in self.settingsPerPlugin) {
+                if (self.settingsPerPlugin[s].hasOwnProperty('pluginName')) {
+                    var pn = self.settingsPerPlugin[s]['pluginName'];
+                    if (pn === 'CoreAdminHome' && self.settingsPerPlugin[s].hasOwnProperty('settings')) {
+                        for (var i in self.settingsPerPlugin[s].settings) {
+                            if (self.settingsPerPlugin[s].settings[i].hasOwnProperty('introduction')) {
+                                $('#generalSettingsTOC').append('<a href="#/' + pn + 'PluginSettings">' + self.settingsPerPlugin[s].settings[i].introduction + '</a> ');
+                            }
+                        }
+                    } else {
+                        $('#generalSettingsTOC').append('<a href="#/' + pn + '">' + pn.replace(/([A-Z])/g, ' $1').trim() + '</a> ');
+                    }
+                }
+            }
         }, function () {
             self.isLoading = false;
         });

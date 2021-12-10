@@ -13,12 +13,14 @@ describe("SitesManager", function () {
 
     var url = "?module=SitesManager&action=index&idSite=1&period=day&date=yesterday&showaddsite=false";
 
-    async function assertScreenshotEquals(screenshotName, test)
+    async function assertScreenshotEquals(screenshotName, test, selectorToWaitFor = ".enrichedHeadline:contains(Manage Measurables)")
     {
         await test();
         await page.waitForNetworkIdle();
         const pageWrap = await page.$('#content');
-        await page.waitFor(() => !!$('.enrichedHeadline:contains("Manage Measurables")').length);
+        await page.waitForFunction((s) => {
+          return !!$(s).length;
+        }, {}, selectorToWaitFor);
         expect(await pageWrap.screenshot()).to.matchImage(screenshotName);
     }
 
@@ -86,7 +88,7 @@ describe("SitesManager", function () {
             await page.evaluate(function () {
                 $('.form-help:contains(UTC time is)').hide();
             });
-        });
+        }, "h2:contains(Global websites settings)");
     });
 
     it("should be able to open and edit a site directly based on url parameter", async function() {

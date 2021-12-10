@@ -134,6 +134,13 @@ declare global {
 
   let piwik: PiwikGlobal;
 
+  interface WidgetsHelper {
+    availableWidgets: unknown[];
+    getAvailableWidgets(): unknown[];
+  }
+
+  let widgetsHelper: WidgetsHelper;
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -143,6 +150,7 @@ declare global {
     hasBlockedContent: boolean;
     piwik_translations: {[key: string]: string};
     Materialize: M;
+    widgetsHelper: WidgetsHelper;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;

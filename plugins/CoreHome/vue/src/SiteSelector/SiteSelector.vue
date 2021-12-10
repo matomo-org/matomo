@@ -147,9 +147,15 @@ export default defineComponent({
   props: {
     modelValue: {
       Object,
-      default: {
-        id: Matomo.idSite,
-        name: Matomo.helper.htmlDecode(Matomo.siteName),
+      default: (props) => {
+        if (props.modelValue) {
+          return props.modelValue;
+        }
+
+        return (Matomo.idSite ? {
+          id: Matomo.idSite,
+          name: Matomo.helper.htmlDecode(Matomo.siteName),
+        } : undefined);
       },
     },
     showSelectedSite: {
@@ -202,10 +208,6 @@ export default defineComponent({
       showSitesList: false,
       isLoading: false,
       sites: [],
-      selectedSite: this.modelValue || {
-        id: Matomo.idSite,
-        name: Matomo.helper.htmlDecode(Matomo.siteName),
-      },
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
   },
@@ -213,7 +215,7 @@ export default defineComponent({
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.modelValue || !this.modelValue.id) && this.sites[0]) {
+      if ((!this.modelValue || !this.modelValue.id) && !this.hasMultipleSites && this.sites[0]) {
         this.$emit('update:modelValue', { id: this.sites[0].idsite, name: this.sites[0].name });
       }
     });
@@ -246,7 +248,8 @@ export default defineComponent({
       return SitesStore.initialSites.value && SitesStore.initialSites.value.length > 1;
     },
     firstSiteName() {
-      return this.sites && this.sites.length > 0 ? this.sites[0].name : '';
+      const initialSites = SitesStore.initialSites.value;
+      return initialSites && initialSites.length > 0 ? initialSites[0].name : '';
     },
     urlAllSites() {
       const newQuery = MatomoUrl.stringify({
