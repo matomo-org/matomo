@@ -37,10 +37,9 @@ class API extends \Piwik\Plugin\API
      *
      * @return array[]
      */
-    public function getDashboards($login = '', $returnDefaultIfEmpty = true )
+    public function getDashboards($login = '', $returnDefaultIfEmpty = true, $idSite = 0 )
     {
         $login = $login ? $login : Piwik::getCurrentUserLogin();
-        $idSite = Common::getRequestVar('idSite');
 
         $dashboards = [];
 
@@ -67,7 +66,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $addDefaultWidgets  whether to add the current default widget collection or not
      * @return int|string
      */
-    public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true)
+    public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true, $idSite = 0)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
@@ -76,7 +75,6 @@ class API extends \Piwik\Plugin\API
         if ($addDefaultWidgets) {
             $layout = $this->dashboard->getDefaultLayout();
         }
-        $idSite = Common::getRequestVar('idSite');
 
         return $this->model->createNewDashboardForUser($login, $dashboardName, $layout,$idSite);
     }
