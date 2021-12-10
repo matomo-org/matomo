@@ -304,7 +304,8 @@ class Goals extends \Piwik\Plugin
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
-                    'parameters' => $report->getParameters()
+                    'parameters' => $report->getParameters(),
+                    'viewDataTable' => $report->getDefaultTypeViewDataTable()
                 );
             }
         }

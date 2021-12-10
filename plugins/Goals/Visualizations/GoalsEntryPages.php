@@ -48,11 +48,12 @@ class GoalsEntryPages extends Goals
 
         if ('all' === $idGoals) {
             $idGoals = array_keys($allGoals);
+            $this->requestConfig->filter_sort_column = 'entry_nb_visits';
         } else {
             // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
             $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions';
-            $this->requestConfig->filter_sort_order  = 'desc';
         }
+        $this->requestConfig->filter_sort_order  = 'desc';
 
         $this->config->columns_to_display = array('label', 'entry_nb_visits');
 
