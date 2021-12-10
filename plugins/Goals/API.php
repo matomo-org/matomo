@@ -67,7 +67,7 @@ class API extends \Piwik\Plugin\API
     public function getGoal($idSite, $idGoal)
     {
         Piwik::checkUserHasViewAccess($idSite);
-
+        
         $goal = $this->getModel()->getActiveGoal($idSite, $idGoal);
 
         if (!empty($goal)) {
