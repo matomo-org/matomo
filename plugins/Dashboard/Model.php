@@ -136,7 +136,7 @@ class Model
                       iddashboard INT NOT NULL ,
                       name VARCHAR( 100 ) NULL DEFAULT NULL ,
                       layout TEXT NOT NULL,
-                      idsite bigint(20) NOT NULL ,
+                      idsite int(11) NOT NULL ,
                       PRIMARY KEY ( login , iddashboard )";
 
         DbHelper::createTable(self::$rawPrefix, $dashboard);
