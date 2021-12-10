@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -17,13 +16,10 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Translation\Translator;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  *
@@ -221,37 +217,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->documentation = $this->translator->translate($langString, '<br />');
 
         return $this->renderView($view);
-    }
-
-    public function getSparklines()
-    {
-        $module = "Goals";
-        $action = "getMetrics";
-        $content = "";
-
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
-
-        $apiProxy = Proxy::getInstance();
-        $queryString = $_SERVER['QUERY_STRING'];
-        if (!$apiProxy->isExistingApiAction($module, $action)) {
-            throw new \Exception("Invalid action name '$action' for '$module' plugin.");
-        }
-
-        $apiAction = $apiProxy->buildApiActionName($module, $action);
-        foreach ($goals as $goal) {
-            //load Visualisations Sparkline
-            $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
-            $view->requestConfig->request_parameters_to_modify['idGoal'] = $goal['idgoal'];
-            $view->requestConfig->request_parameters_to_modify['allow_multiple'] = (int)$goal['allow_multiple'];
-            $view->requestConfig->request_parameters_to_modify['only_summary'] = 1;
-            $view->config->show_title = true;
-            $_SERVER['QUERY_STRING'] .= $queryString . '&idGoal='. $goal['idgoal'];
-            $view->config->title = $goal['name'];
-            $content .= $view->render();
-        }
-
-        return $content;
     }
 
     private function getColumnTranslation($nameToLabel, $columnName, $idGoal)
