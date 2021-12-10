@@ -64,19 +64,15 @@ abstract class SystemTestCase extends TestCase
     private static $allowedCategoriesApiWise = array();
     private static $apisToFilterResponse = array(
         'API.getReportMetadata' => array(
-            'actionName' => 'API.getReportMetadata.end',
             'filterKey' => 'module'
         ),
         'API.getSegmentsMetadata' => array(
-            'actionName' => 'API.API.getSegmentsMetadata.end',
             'filterKey' => 'category'
         ),
         'API.getReportPagesMetadata' => array(
-            'actionName' => 'API.API.getReportPagesMetadata.end',
             'filterKey' => 'category'
         ),
         'API.getWidgetMetadata' => array(
-            'actionName' => 'API.API.getWidgetMetadata.end',
             'filterKey' => 'module'
         ),
     );
@@ -121,20 +117,6 @@ abstract class SystemTestCase extends TestCase
             $fixture->performSetUp();
         } catch (Exception $e) {
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-        }
-
-        foreach (self::$apisToFilterResponse as $api => $apiValue) {
-            Piwik::addAction($apiValue['actionName'], function (&$reports, $info) use ($api, $apiValue) {
-                $filterValues = array();
-                if ($apiValue['filterKey'] === 'module') {
-                    $filterValues = self::getAllowedModulesToFilterApiResponse($api);
-                } else if ($apiValue['filterKey'] === 'category') {
-                    $filterValues = self::getAllowedCategoriesToFilterApiResponse($api);
-                }
-                if ($filterValues) {
-                    self::filterReportsCallback($reports, $info, $api, $apiValue['filterKey'], $filterValues);
-                }
-            });
         }
     }
 
@@ -496,6 +478,22 @@ abstract class SystemTestCase extends TestCase
         $onlyCheckUnserialize = !empty($params['onlyCheckUnserialize']);
 
         $processedResponse = Response::loadFromApi($params, $requestUrl, $normailze = !$onlyCheckUnserialize);
+
+        $apiIdExploded = explode('_', str_replace('.xml', '', $apiId));
+        $api = $apiIdExploded[0];
+        if (!empty(self::$apisToFilterResponse[$api])) {
+            $filterValues = array();
+            if (self::$apisToFilterResponse[$api]['filterKey'] === 'module') {
+                $filterValues = self::getAllowedModulesToFilterApiResponse($api);
+            } else if (self::$apisToFilterResponse[$api]['filterKey'] === 'category') {
+                $filterValues = self::getAllowedCategoriesToFilterApiResponse($api);
+            }
+            if ($filterValues) {
+                $newResponse = $this->filterApiResponse($processedResponse->getResponseText(), self::$apisToFilterResponse[$api]['filterKey'], $filterValues);
+                $processedResponse->updateResponseText($newResponse);
+            }
+        }
+
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
         }
@@ -905,24 +903,41 @@ abstract class SystemTestCase extends TestCase
         return (self::$allowedCategoriesApiWise[$api] ?? NULL);
     }
 
-    private static function filterReportsCallback(&$reports, $info, $api, $filterKey, $filterValues)
+    private function filterApiResponse($xml, $filterKey, $filterValues)
     {
-        if (!empty($reports)) {
-            foreach ($reports as $key => $row) {
-                if (
-                    !isset($row[$filterKey]) ||
-                    (
-                        is_array($row[$filterKey]) &&
-                        isset($row[$filterKey]['name']) &&
-                        !in_array($row[$filterKey]['name'], $filterValues)
-                    ) ||
-                    !is_array($row[$filterKey]) && !in_array($row[$filterKey], $filterValues)
-                ) {
-                    unset($reports[$key]);
-                }
-            }
-            $reports = array_values($reports);
+        $dom = new \DOMDocument();
+        $dom->loadXML($xml);
+        $root = $dom->documentElement;
+        $nodesToDelete = array();
+        $rows = $root->getElementsByTagName('row');
+        if (empty($rows)) {
+            return $xml;
         }
+        foreach ($rows as $row) {
+            //filter only the root rows not the nested nodes with root
+            if ($row->parentNode->tagName != 'result') {
+                continue;
+            }
+            $val = $row->getElementsByTagName($filterKey);
+            $value = $val->length ? $val->item(0)->textContent : '';
+            $name = $value ? $val->item(0)->getElementsByTagName('name') : '';
+            if ($value && $name && $name->length) {
+                $value = $name->item(0)->textContent;
+            }
+            if (
+                empty($value) ||
+                !in_array($value, $filterValues)
+            ) {
+                $nodesToDelete[] = $row;
+            }
+
+        }
+
+        foreach ($nodesToDelete as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
+        return rtrim(str_replace(array('	'.PHP_EOL, '<?xml version="1.0" encoding="utf-8"?>'), array('', '<?xml version="1.0" encoding="utf-8" ?>'), $dom->saveXML()));
     }
 }
 

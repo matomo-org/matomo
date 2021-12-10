@@ -39,6 +39,11 @@ class Response
         return $this->processedResponseText;
     }
 
+    public function updateResponseText($responseText)
+    {
+        $this->processedResponseText = $responseText;
+    }
+
     public function save($path)
     {
         file_put_contents($path, $this->processedResponseText);
