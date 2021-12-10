@@ -123,8 +123,12 @@ class MatomoUrl {
   }
 
   stringify(search: QueryParameters): string {
+    const searchWithoutEmpty = Object.fromEntries(
+      Object.entries(search).filter(([, value]) => value !== '' && value !== null && value !== undefined),
+    );
+
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-    return $.param(search).replace(/%5B%5D/g, '[]')
+    return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]')
       // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
       // entries to show up in the browser history. this has a compounding effect w/ angular.js,
       // which when the back button is pressed to effectively abort the back navigation.
