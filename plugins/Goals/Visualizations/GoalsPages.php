@@ -53,7 +53,7 @@ class GoalsPages extends Goals
 
         $allGoals = $this->getGoals($idSite);
 
-        if ('all' == $idGoals) {
+        if ('all' === $idGoals) {
             $idGoals = array_keys($allGoals);
         } else {
             // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
