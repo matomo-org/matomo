@@ -1279,7 +1279,7 @@ function initPiwikService(piwik, $rootScope) {
     }
 
     Matomo_Matomo.postEventNoEmit.apply(Matomo_Matomo, [name].concat(args));
-    return this.$oldEmit.apply(this, [name].concat(args));
+    return this.$oldEmit.apply(this, [name].concat(args)); // eslint-disable-line
   };
 
   $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
