@@ -19,8 +19,6 @@ class GetPagesEntryTitles extends Base
 {
     protected $defaultSortColumn = '';
 
-    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'nb_conversion_entry_rate');
-
     protected function init()
     {
         parent::init();
@@ -47,7 +45,6 @@ class GetPagesEntryTitles extends Base
         $view->requestConfig->filter_sort_column = 'entry_nb_visits';
         $view->requestConfig->filter_sort_order  = 'asc';
         $view->requestConfig->filter_limit       = 25;
-
 
         $view->config->addTranslations(array('label' => $this->dimension->getName(),
                                              'entry_nb_visits' => Piwik::translate('General_ColumnEntrances')));

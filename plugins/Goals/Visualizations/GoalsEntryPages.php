@@ -69,8 +69,6 @@ class GoalsEntryPages extends Goals
                 $this->config->columns_to_display[] = sprintf($columnTemplate, $idGoal);
             }
         }
-
-        $this->config->columns_to_display[] = 'revenue_per_entry';
     }
 
 }

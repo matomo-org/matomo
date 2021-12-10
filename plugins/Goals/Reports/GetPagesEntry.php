@@ -19,12 +19,9 @@ class GetPagesEntry extends Base
 {
     protected $defaultSortColumn = '';
 
-    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'nb_conversion_entry_rate');
-
     protected function init()
     {
         parent::init();
-
         $this->categoryId = 'Pages';
         $this->parameters = null;
         $this->name = Piwik::translate('Goals_EntryPages');

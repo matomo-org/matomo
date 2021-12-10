@@ -2,8 +2,6 @@
 <result>
 	<row>
 		<label>Page A</label>
-		<idaction>1</idaction>
-		<entry_nb_uniq_visitors>3</entry_nb_uniq_visitors>
 		<entry_nb_visits>3</entry_nb_visits>
 		<goals>
 			<row idgoal='1'>
@@ -14,20 +12,5 @@
 				<revenue_per_entry>0</revenue_per_entry>
 			</row>
 		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>20</revenue>
-		<nb_visits>0</nb_visits>
-		<conversion_rate>0%</conversion_rate>
-		<nb_actions_per_visit>0</nb_actions_per_visit>
-		<avg_time_on_site>0</avg_time_on_site>
-		<bounce_rate>0%</bounce_rate>
-		<revenue_per_visit>10</revenue_per_visit>
-		<goal_1_conversion_rate>0%</goal_1_conversion_rate>
-		<goal_1_nb_conversions_float />
-		<goal_1_nb_conversions>2</goal_1_nb_conversions>
-		<goal_1_revenue_per_visit>10</goal_1_revenue_per_visit>
-		<goal_1_revenue_per_entry>6.67</goal_1_revenue_per_entry>
-		<goal_1_revenue>20</goal_1_revenue>
-		<goal_1_nb_conversion_entry_rate>66.7%</goal_1_nb_conversion_entry_rate>
 	</row>
 </result>

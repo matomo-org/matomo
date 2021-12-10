@@ -2,119 +2,39 @@
 <result>
 	<row>
 		<label>Page A</label>
-		<idaction>1</idaction>
 		<nb_hits>4</nb_hits>
-		<type>4</type>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>3</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
 				<revenue>10</revenue>
-				<nb_conv_pages_before>6</nb_conv_pages_before>
 				<nb_conversions_float>1</nb_conversions_float>
 				<nb_conversions_page_rate>100%</nb_conversions_page_rate>
-				<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
 			</row>
 		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>10</revenue>
-		<nb_visits>0</nb_visits>
-		<conversion_rate>0%</conversion_rate>
-		<nb_actions_per_visit>0</nb_actions_per_visit>
-		<avg_time_on_site>0</avg_time_on_site>
-		<bounce_rate>0%</bounce_rate>
-		<revenue_per_visit>3.33</revenue_per_visit>
-		<goal_1_conversion_rate>0%</goal_1_conversion_rate>
-		<goal_1_nb_conversions_float>1</goal_1_nb_conversions_float>
-		<goal_1_nb_conversions>3</goal_1_nb_conversions>
-		<goal_1_revenue_per_visit>3.33</goal_1_revenue_per_visit>
-		<goal_1_revenue_per_entry>3.33</goal_1_revenue_per_entry>
-		<goal_1_revenue>10</goal_1_revenue>
-		<goal_1_nb_conversion_entry_rate>0%</goal_1_nb_conversion_entry_rate>
-		<goal_1_nb_conversion_page_rate>100%</goal_1_nb_conversion_page_rate>
 	</row>
 	<row>
 		<label>Page C</label>
-		<idaction>5</idaction>
 		<nb_hits>2</nb_hits>
-		<type>4</type>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
 				<revenue>7.5</revenue>
-				<nb_conv_pages_before>6</nb_conv_pages_before>
 				<nb_conversions_float>0.75</nb_conversions_float>
 				<nb_conversions_page_rate>100%</nb_conversions_page_rate>
-				<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
 			</row>
 		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>7.5</revenue>
-		<nb_visits>0</nb_visits>
-		<conversion_rate>0%</conversion_rate>
-		<nb_actions_per_visit>0</nb_actions_per_visit>
-		<avg_time_on_site>0</avg_time_on_site>
-		<bounce_rate>0%</bounce_rate>
-		<revenue_per_visit>3.5</revenue_per_visit>
-		<goal_1_conversion_rate>0%</goal_1_conversion_rate>
-		<goal_1_nb_conversions_float>0.75</goal_1_nb_conversions_float>
-		<goal_1_nb_conversions>2</goal_1_nb_conversions>
-		<goal_1_revenue_per_visit>3.75</goal_1_revenue_per_visit>
-		<goal_1_revenue_per_entry>3.75</goal_1_revenue_per_entry>
-		<goal_1_revenue>7.5</goal_1_revenue>
-		<goal_1_nb_conversion_entry_rate>0%</goal_1_nb_conversion_entry_rate>
-		<goal_1_nb_conversion_page_rate>100%</goal_1_nb_conversion_page_rate>
 	</row>
 	<row>
 		<label>Page B</label>
-		<idaction>3</idaction>
 		<nb_hits>1</nb_hits>
-		<type>4</type>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>2.5</revenue>
-				<nb_conv_pages_before>4</nb_conv_pages_before>
 				<nb_conversions_float>0.25</nb_conversions_float>
 				<nb_conversions_page_rate>50%</nb_conversions_page_rate>
-				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
 			</row>
 		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>2.5</revenue>
-		<nb_visits>0</nb_visits>
-		<conversion_rate>0%</conversion_rate>
-		<nb_actions_per_visit>0</nb_actions_per_visit>
-		<avg_time_on_site>0</avg_time_on_site>
-		<bounce_rate>0%</bounce_rate>
-		<revenue_per_visit>2</revenue_per_visit>
-		<goal_1_conversion_rate>0%</goal_1_conversion_rate>
-		<goal_1_nb_conversions_float>0.25</goal_1_nb_conversions_float>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue_per_visit>2.5</goal_1_revenue_per_visit>
-		<goal_1_revenue_per_entry>2.5</goal_1_revenue_per_entry>
-		<goal_1_revenue>2.5</goal_1_revenue>
-		<goal_1_nb_conversion_entry_rate>0%</goal_1_nb_conversion_entry_rate>
-		<goal_1_nb_conversion_page_rate>50%</goal_1_nb_conversion_page_rate>
 	</row>
 	<row>
 		<label>Page D</label>
-		<idaction>11</idaction>
 		<nb_hits>1</nb_hits>
-		<type>4</type>
-		<conversion_rate>0%</conversion_rate>
-		<nb_actions_per_visit>0</nb_actions_per_visit>
-		<avg_time_on_site>0</avg_time_on_site>
-		<bounce_rate>0%</bounce_rate>
-		<revenue_per_visit>0</revenue_per_visit>
-		<goal_1_conversion_rate>0%</goal_1_conversion_rate>
-		<goal_1_nb_conversions_float />
-		<goal_1_nb_conversions>0</goal_1_nb_conversions>
-		<goal_1_revenue_per_visit>0</goal_1_revenue_per_visit>
-		<goal_1_revenue_per_entry>0</goal_1_revenue_per_entry>
-		<goal_1_revenue>0</goal_1_revenue>
-		<goal_1_nb_conversion_entry_rate>0%</goal_1_nb_conversion_entry_rate>
 	</row>
 </result>
