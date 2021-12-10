@@ -8,14 +8,7 @@
 
 namespace Piwik\Plugins\Goals\Visualizations;
 
-use Piwik\API\Request;
-use Piwik\Common;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Site;
-
-require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets shows goal columns for page entries
