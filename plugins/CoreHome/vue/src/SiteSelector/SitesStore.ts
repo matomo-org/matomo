@@ -57,7 +57,11 @@ class SitesStore {
         ...MatomoUrl.urlParsed.value,
         segment: '',
         idSite,
-      }, MatomoUrl.hashParsed.value);
+      }, {
+        ...MatomoUrl.hashParsed.value,
+        segment: '',
+        idSite,
+      });
     }
   }
 
