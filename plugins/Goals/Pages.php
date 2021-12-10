@@ -54,8 +54,19 @@ class Pages
         $config->setSubcategoryId($subcategory);
         $config->setName('');
         $config->setOrder(15);
+        $config->setAction('getMetrics');
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
+
+        // load sparkline
+        $config = $this->factory->createCustomWidget('getSparklines');
+        $config->setSubcategoryId($subcategory);
+        $config->setName('');
+        $config->setOrder(25);
+        $config->setIsNotWidgetizable();
+        $widgets[] = $config;
+
+        $container = $this->createWidgetizableWidgetContainer('GoalsOverview', $subcategory, $widgets);
 
         foreach ($goals as $goal) {
             $name = Common::sanitizeInputValue($goal['name']);
@@ -68,11 +79,10 @@ class Pages
             $config->setParameters(array('idGoal' => $goal['idgoal']));
             $config->setOrder(25);
             $config->setIsNotWidgetizable();
-            $config->addParameters(array('allow_multiple' => (int) $goal['allow_multiple'], 'only_summary' => '1'));
+            $config->addParameters(array('allow_multiple' => (int)$goal['allow_multiple'], 'only_summary' => '1'));
             $widgets[] = $config;
         }
 
-        $container = $this->createWidgetizableWidgetContainer('GoalsOverview', $subcategory, $widgets);
 
         $config = $this->factory->createContainerWidget('Goals');
         $config->setSubcategoryId($subcategory);
