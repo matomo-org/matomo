@@ -179,6 +179,7 @@ __webpack_require__.d(__webpack_exports__, "PeriodSelector", function() { return
 __webpack_require__.d(__webpack_exports__, "ReportingMenu", function() { return /* reexport */ ReportingMenu; });
 __webpack_require__.d(__webpack_exports__, "ReportingPagesStore", function() { return /* reexport */ ReportingPages_store; });
 __webpack_require__.d(__webpack_exports__, "ReportMetadataStore", function() { return /* reexport */ ReportMetadata_store; });
+__webpack_require__.d(__webpack_exports__, "WidgetLoader", function() { return /* reexport */ WidgetLoader; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -1289,9 +1290,8 @@ function initPiwikService(piwik, $rootScope) {
       args[_key - 1] = arguments[_key];
     }
 
-    Matomo_Matomo.postEvent.apply(Matomo_Matomo, [name].concat(args)); // can't always get the result. it's not really used in angularjs though, so it should be ok.
-
-    return null;
+    Matomo_Matomo.postEventNoEmit.apply(Matomo_Matomo, [name].concat(args));
+    return this.$oldEmit.apply(this, [name].concat(args)); // eslint-disable-line
   };
 
   $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
@@ -1302,7 +1302,7 @@ function initPiwikService(piwik, $rootScope) {
     }
 
     Matomo_Matomo.postEventNoEmit.apply(Matomo_Matomo, [name].concat(args));
-    return $rootScope.$oldBroadcast.apply($rootScope, [name].concat(args)); // eslint-disable-line
+    return this.$oldBroadcast.apply(this, [name].concat(args)); // eslint-disable-line
   };
 
   $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);
@@ -1424,6 +1424,8 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     AjaxHelper_defineProperty(this, "loadingElement", null);
 
     AjaxHelper_defineProperty(this, "errorElement", '#ajaxError');
+
+    AjaxHelper_defineProperty(this, "headers", void 0);
 
     AjaxHelper_defineProperty(this, "requestHandle", null);
 
@@ -1736,6 +1738,7 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         url: url,
         dataType: this.format || 'json',
         complete: this.completeCallback,
+        headers: this.headers ? this.headers : undefined,
         error: function errorCallback() {
           window.globalAjaxQueue.active -= 1;
 
@@ -1925,6 +1928,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      */
 
     /**
+     * Extra headers to add to the request.
+     */
+
+    /**
      * Handle for current request
      */
     // helper method entry point
@@ -1936,14 +1943,18 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.withTokenInUrl();
       }
 
-      helper.setFormat('json');
+      helper.setFormat(options.format || 'json');
       helper.addParams(AjaxHelper_objectSpread({
         module: 'API',
-        format: 'json'
+        format: options.format || 'json'
       }, params), 'get');
 
       if (options.postParams) {
         helper.addParams(options.postParams, 'post');
+      }
+
+      if (options.headers) {
+        helper.headers = options.headers;
       }
 
       return helper.send();
@@ -2968,9 +2979,9 @@ function cloneThenApply(p) {
   },
   noScope: true
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=4d7ed3a3
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=3d62da76
 
-var EnrichedHeadlinevue_type_template_id_4d7ed3a3_hoisted_1 = {
+var EnrichedHeadlinevue_type_template_id_3d62da76_hoisted_1 = {
   key: 0,
   class: "title",
   tabindex: "6"
@@ -3001,7 +3012,7 @@ var _hoisted_11 = {
 };
 var _hoisted_12 = ["innerHTML"];
 var _hoisted_13 = ["href"];
-function EnrichedHeadlinevue_type_template_id_4d7ed3a3_render(_ctx, _cache, $props, $setup, $data, $options) {
+function EnrichedHeadlinevue_type_template_id_3d62da76_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("RateFeature");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -3013,7 +3024,7 @@ function EnrichedHeadlinevue_type_template_id_4d7ed3a3_render(_ctx, _cache, $pro
       return _ctx.showIcons = false;
     }),
     ref: "root"
-  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_4d7ed3a3_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, [!_ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EnrichedHeadlinevue_type_template_id_3d62da76_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 1,
     class: "title",
     href: _ctx.editUrl,
@@ -3046,7 +3057,7 @@ function EnrichedHeadlinevue_type_template_id_4d7ed3a3_render(_ctx, _cache, $pro
     href: _ctx.helpUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_MoreDetails')), 9, _hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showInlineHelp]])], 544);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=4d7ed3a3
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=3d62da76
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/useExternalPluginComponent.ts
 /*!
@@ -3149,9 +3160,11 @@ var RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 
     setTimeout(function () {
       if (!_this.actualInlineHelp) {
+        var _root$parentElement;
+
         var helpNode = root.querySelector('.title .inlineHelp');
 
-        if (!helpNode && root.parentElement.nextElementSibling) {
+        if (!helpNode && (_root$parentElement = root.parentElement) !== null && _root$parentElement !== void 0 && _root$parentElement.nextElementSibling) {
           // hack for reports :(
           helpNode = root.parentElement.nextElementSibling.querySelector('.reportDocumentation');
         }
@@ -3193,7 +3206,7 @@ var RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 
 
 
-EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_4d7ed3a3_render
+EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_3d62da76_render
 
 /* harmony default export */ var EnrichedHeadline = (EnrichedHeadlinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.adapter.ts
@@ -5299,7 +5312,10 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
         src_MatomoUrl_MatomoUrl.updateUrl(SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
           segment: '',
           idSite: idSite
-        }), src_MatomoUrl_MatomoUrl.hashParsed.value);
+        }), SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.hashParsed.value), {}, {
+          segment: '',
+          idSite: idSite
+        }));
       }
     }
   }, {
@@ -8793,6 +8809,271 @@ angular.module('piwikApp.service').factory('reportMetadataModel', function () {
     }
   };
 });
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=584d5ff7
+
+var WidgetLoadervue_type_template_id_584d5ff7_hoisted_1 = {
+  key: 0
+};
+var WidgetLoadervue_type_template_id_584d5ff7_hoisted_2 = {
+  class: "notification system notification-error"
+};
+var WidgetLoadervue_type_template_id_584d5ff7_hoisted_3 = {
+  key: 0,
+  rel: "noreferrer noopener",
+  target: "_blank",
+  href: "https://matomo.org/faq/troubleshooting/faq_19489/"
+};
+var WidgetLoadervue_type_template_id_584d5ff7_hoisted_4 = {
+  class: "theWidgetContent",
+  ref: "widgetContent"
+};
+function WidgetLoadervue_type_template_id_584d5ff7_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    "loading-message": _ctx.loadingMessage,
+    loading: _ctx.loading
+  }, null, 8, ["loading-message", "loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.widgetName ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", WidgetLoadervue_type_template_id_584d5ff7_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.widgetName), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetLoadervue_type_template_id_584d5ff7_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ErrorRequest', '', '')) + " ", 1), _ctx.hasErrorFaqLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", WidgetLoadervue_type_template_id_584d5ff7_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ErrorRequestFaqLink')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loadingFailed]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetLoadervue_type_template_id_584d5ff7_hoisted_4, null, 512)]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=584d5ff7
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=script&lang=ts
+function WidgetLoadervue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function WidgetLoadervue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { WidgetLoadervue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { WidgetLoadervue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { WidgetLoadervue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function WidgetLoadervue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+/**
+ * Loads any custom widget or URL based on the given parameters.
+ *
+ * The currently active idSite, period, date and segment (if needed) is automatically
+ * appended to the parameters. If this widget is removed from the DOM and requests are in
+ * progress, these requests will be aborted. A loading message or an error message on failure
+ * is shown as well. It's kinda similar to ng-include but there it is not possible to
+ * listen to HTTP errors etc.
+ *
+ * Example:
+ * <WidgetLoader :widget-params="{module: '', action: '', ...}"/>
+ */
+
+/* harmony default export */ var WidgetLoadervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    widgetParams: Object,
+    widgetName: String
+  },
+  components: {
+    ActivityIndicator: ActivityIndicator
+  },
+  data: function data() {
+    return {
+      loading: false,
+      loadingFailed: '',
+      changeCounter: 0,
+      lastWidgetRequest: null,
+      currentScope: null
+    };
+  },
+  watch: {
+    widgetParams: function widgetParams(parameters) {
+      if (parameters) {
+        this.loadWidgetUrl(parameters, this.changeCounter += 1);
+      }
+    }
+  },
+  computed: {
+    loadingMessage: function loadingMessage() {
+      if (!this.widgetName) {
+        return translate('General_LoadingData');
+      }
+
+      return translate('General_LoadingPopover', this.widgetName);
+    },
+    hasErrorFaqLink: function hasErrorFaqLink() {
+      var isGeneralSettingsAdminEnabled = Matomo_Matomo.config.enable_general_settings_admin;
+      var isPluginsAdminEnabled = Matomo_Matomo.config.enable_plugins_admin;
+      return Matomo_Matomo.hasSuperUserAccess && (isGeneralSettingsAdminEnabled || isPluginsAdminEnabled);
+    }
+  },
+  unmounted: function unmounted() {
+    this.cleanupLastWidgetContent();
+  },
+  methods: {
+    abortHttpRequestIfNeeded: function abortHttpRequestIfNeeded() {
+      if (this.lastWidgetRequest) {
+        this.lastWidgetRequest.abort();
+        this.lastWidgetRequest = null;
+      }
+    },
+    cleanupLastWidgetContent: function cleanupLastWidgetContent() {
+      var widgetContent = this.$refs.widgetContent;
+
+      if (widgetContent) {
+        widgetContent.innerHTML = '';
+      }
+
+      if (this.currentScope) {
+        this.currentScope.$destroy();
+      }
+    },
+    getWidgetUrl: function getWidgetUrl(parameters) {
+      var urlParams = src_MatomoUrl_MatomoUrl.parsed.value;
+
+      var fullParameters = WidgetLoadervue_type_script_lang_ts_objectSpread({}, parameters);
+
+      var paramsToForward = Object.keys(WidgetLoadervue_type_script_lang_ts_objectSpread(WidgetLoadervue_type_script_lang_ts_objectSpread({}, src_MatomoUrl_MatomoUrl.hashParsed.value), {}, {
+        idSite: '',
+        period: '',
+        date: '',
+        segment: '',
+        widget: ''
+      }));
+      paramsToForward.forEach(function (key) {
+        if (key === 'category' || key === 'subcategory') {
+          return;
+        }
+
+        if (!(key in fullParameters)) {
+          fullParameters[key] = urlParams[key];
+        }
+      });
+
+      if (Comparisons_store_instance.isComparisonEnabled()) {
+        fullParameters = WidgetLoadervue_type_script_lang_ts_objectSpread(WidgetLoadervue_type_script_lang_ts_objectSpread({}, fullParameters), {}, {
+          comparePeriods: urlParams.comparePeriods,
+          compareDates: urlParams.compareDates,
+          compareSegments: urlParams.compareSegments
+        });
+      }
+
+      if (!fullParameters.showtitle) {
+        fullParameters.showtitle = '1';
+      }
+
+      if (Matomo_Matomo.shouldPropagateTokenAuth && urlParams.token_auth) {
+        if (!Matomo_Matomo.broadcast.isWidgetizeRequestWithoutSession()) {
+          fullParameters.force_api_session = '1';
+        }
+
+        fullParameters.token_auth = urlParams.token_auth;
+      }
+
+      fullParameters.random = Math.floor(Math.random() * 10000);
+      return fullParameters;
+    },
+    loadWidgetUrl: function loadWidgetUrl(parameters, thisChangeId) {
+      var _this = this;
+
+      this.loading = true;
+      this.abortHttpRequestIfNeeded();
+      this.cleanupLastWidgetContent();
+      this.lastWidgetRequest = AjaxHelper_AjaxHelper.fetch(this.getWidgetUrl(parameters), {
+        format: 'html',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      this.lastWidgetRequest.then(function (response) {
+        if (thisChangeId !== _this.changeCounter || !response || typeof response !== 'string') {
+          // another widget was requested meanwhile, ignore this response
+          return;
+        }
+
+        _this.lastWidgetRequest = null;
+        _this.loading = false;
+        _this.loadingFailed = false;
+        var widgetContent = _this.$refs.widgetContent;
+        window.$(widgetContent).html(response);
+        var contentElement = widgetContent.firstElementChild;
+
+        if (_this.widgetName) {
+          // we need to respect the widget title, which overwrites a possibly set report title
+          var $content = window.$(contentElement);
+          var $title = $content.find('> .card-content .card-title');
+
+          if (!$title.length) {
+            $title = $content.find('> h2');
+          }
+
+          if ($title.length) {
+            // required to use htmlEntities since it also escapes '{{' format items
+            $title.html(Matomo_Matomo.helper.htmlEntities(_this.widgetName));
+          }
+        }
+
+        var $rootScope = Matomo_Matomo.helper.getAngularDependency('$rootScope');
+        var scope = $rootScope.$new();
+        _this.currentScope = scope;
+        Matomo_Matomo.helper.compileAngularComponents(contentElement, {
+          scope: scope
+        });
+        Notifications_store.parseNotificationDivs();
+        setTimeout(function () {
+          Matomo_Matomo.postEvent('widget:loaded', {
+            parameters: parameters,
+            element: contentElement
+          });
+        });
+      }).catch(function (response) {
+        if (thisChangeId !== _this.changeCounter) {
+          // another widget was requested meanwhile, ignore this response
+          return;
+        }
+
+        _this.lastWidgetRequest = null;
+
+        _this.cleanupLastWidgetContent();
+
+        _this.loading = false;
+
+        if (response.xhrStatus === 'abort') {
+          return;
+        }
+
+        _this.loadingFailed = true;
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue
+
+
+
+WidgetLoadervue_type_script_lang_ts.render = WidgetLoadervue_type_template_id_584d5ff7_render
+
+/* harmony default export */ var WidgetLoader = (WidgetLoadervue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var WidgetLoader_adapter = (createAngularJsAdapter({
+  component: WidgetLoader,
+  scope: {
+    piwikWidgetLoader: {
+      vue: 'widgetParams',
+      angularJsBind: '='
+    },
+    widgetName: {
+      angularJsBind: '@'
+    }
+  },
+  directiveName: 'piwikWidgetLoader'
+}));
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -8922,6 +9203,8 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 
