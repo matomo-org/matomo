@@ -62,7 +62,8 @@ class MatomoUrl {
   }
 
   updateHash(params: QueryParameters|string) {
-    const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
+    const modifiedParams = this.getFinalHashParams(params);
+    const serializedParams = this.stringify(modifiedParams);
 
     const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
     $location.search(serializedParams);
@@ -70,7 +71,9 @@ class MatomoUrl {
 
   updateUrl(params: QueryParameters|string, hashParams: QueryParameters|string = {}) {
     const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
-    const serializedHashParams: string = typeof hashParams !== 'string' ? this.stringify(hashParams) : hashParams;
+
+    const modifiedHashParams = this.getFinalHashParams(hashParams);
+    const serializedHashParams: string = this.stringify(modifiedHashParams);
 
     let url = `?${serializedParams}`;
     if (serializedHashParams.length) {
@@ -78,6 +81,17 @@ class MatomoUrl {
     }
 
     window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
+  }
+
+  private getFinalHashParams(params: QueryParameters|string) {
+    return {
+      // these params must always be present in the hash
+      period: this.parsed.value.period,
+      date: this.parsed.value.date,
+      segment: this.parsed.value.segment,
+
+      ...(typeof params !== 'string' ? params : broadcast.getValuesFromUrl(`?${params}`, true)),
+    };
   }
 
   // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
