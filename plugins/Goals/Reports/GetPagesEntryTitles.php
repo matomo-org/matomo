@@ -15,22 +15,17 @@ use Piwik\Plugins\Goals\Visualizations\GoalsEntryPages;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-class GetPagesEntryTitles extends Base
+class GetPagesEntryTitles extends BasePages
 {
-    protected $defaultSortColumn = '';
 
     protected function init()
     {
         parent::init();
-        $this->categoryId = 'Pages';
-        $this->parameters = null;
         $this->name = Piwik::translate('Goals_EntryPagesTitles');
         $this->documentation = Piwik::translate('Goals_EntryPagesReportDocumentation');
         $this->dimension = new EntryPageUrl();
         $this->metrics = array( 'nb_conversions', 'nb_visits_converted', 'revenue', 'entry_nb_visits');
-        $this->hasGoalMetrics = true;
         $this->order = 4;
-        $this->orderGoal = 51;
     }
 
     public function configureView(ViewDataTable $view)
@@ -49,23 +44,6 @@ class GetPagesEntryTitles extends Base
         $view->config->addTranslations(array('label' => $this->dimension->getName(),
                                              'entry_nb_visits' => Piwik::translate('General_ColumnEntrances')));
 
-    }
-
-    public function configureReportMetadata(&$availableReports, $infos)
-    {
-        if (!$this->isEnabled()) {
-            return;
-        }
-
-        if (null !== $this->getIdSiteFromInfos($infos)) {
-            parent::configureReportMetadata($availableReports, $infos);
-        }
-
-        $name = $this->name;
-
-        $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) use ($name) {
-            return $goal['name'] . ' - ' . $name;
-        });
     }
 
     public function getDefaultTypeViewDataTable()

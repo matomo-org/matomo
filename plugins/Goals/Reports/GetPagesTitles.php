@@ -14,21 +14,16 @@ use Piwik\Plugins\Actions\Columns\PageTitle;
 use Piwik\Plugins\Goals\Visualizations\GoalsPages;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-class GetPagesTitles extends Base
+class GetPagesTitles extends BasePages
 {
-    protected $defaultSortColumn = '';
 
     protected function init()
     {
         parent::init();
-
-        $this->categoryId = 'Pages';
         $this->name = Piwik::translate('Goals_PageTitles');
         $this->documentation = Piwik::translate('Goals_PageTitlesReportDocumentation');
         $this->dimension = new PageTitle();
-        $this->hasGoalMetrics = true;
         $this->order = 3;
-        $this->orderGoal = 51;
     }
 
     public function configureView(ViewDataTable $view)
@@ -46,23 +41,6 @@ class GetPagesTitles extends Base
 
         $view->config->addTranslations(array('label' => $this->dimension->getName(),
                                              'nb_hits' => Piwik::translate('General_ColumnUniquePageviews')));
-    }
-
-    public function configureReportMetadata(&$availableReports, $infos)
-    {
-        if (!$this->isEnabled()) {
-            return;
-        }
-
-        if (null !== $this->getIdSiteFromInfos($infos)) {
-            parent::configureReportMetadata($availableReports, $infos);
-        }
-
-        $name = $this->name;
-
-        $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) use ($name) {
-            return $goal['name'] . ' - ' . $name;
-        });
     }
 
     public function getDefaultTypeViewDataTable()

@@ -14,23 +14,17 @@ use Piwik\Plugins\Actions\Columns\PageUrl;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Goals\Visualizations\GoalsPages;
 
-class GetPagesUrl extends Base
+class GetPagesUrl extends BasePages
 {
-    protected $defaultSortColumn = '';
 
     protected function init()
     {
         parent::init();
-
-        $this->categoryId = 'Pages';
         $this->name = Piwik::translate('General_Pages');
         $this->documentation = Piwik::translate('Goals_PagesReportDocumentation');
         $this->dimension = new PageUrl();
         $this->order = 1;
-        $this->orderGoal = 51;
-        $this->hasGoalMetrics = true;
     }
-
 
     public function configureView(ViewDataTable $view)
     {
@@ -47,25 +41,6 @@ class GetPagesUrl extends Base
 
         $view->config->addTranslations(array('label' => $this->dimension->getName(),
                                              'nb_hits' => Piwik::translate('General_ColumnUniquePageviews')));
-    }
-
-    public function configureReportMetadata(&$availableReports, $infos)
-    {
-
-        if (!$this->isEnabled()) {
-            return;
-        }
-
-        if (null !== $this->getIdSiteFromInfos($infos)) {
-            parent::configureReportMetadata($availableReports, $infos);
-        }
-
-        $name = $this->name;
-
-        $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) use ($name) {
-            return $goal['name'] . ' - ' . $name;
-        });
-
     }
 
     public function getDefaultTypeViewDataTable()
