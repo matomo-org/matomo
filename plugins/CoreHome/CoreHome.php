@@ -239,7 +239,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/widget-loader/widgetloader.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/widget-container/widgetcontainer.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/widget/widget.directive.js";

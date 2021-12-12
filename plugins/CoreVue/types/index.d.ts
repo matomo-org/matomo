@@ -6,7 +6,7 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularStatic } from 'angular';
+import {IAngularStatic, IScope} from 'angular';
 import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
@@ -66,6 +66,12 @@ declare global {
     onCloseEnd: () => void;
   }
 
+  interface CompileAngularComponentsOptions {
+    scope?: IScope;
+    forceNewScope?: boolean;
+    params?: Record<string, unknown>;
+  }
+
   interface PiwikHelperGlobal {
     escape(text: string): string;
     redirect(params: any);
@@ -76,6 +82,7 @@ declare global {
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
+    compileAngularComponents(selector: string, options?: CompileAngularComponentsOptions): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -120,6 +127,7 @@ declare global {
     maxDateMonth: number;
     maxDateDay: number;
     config: Record<string, string|number|string[]>;
+    hasSuperUserAccess: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
