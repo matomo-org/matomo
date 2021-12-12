@@ -321,6 +321,10 @@ export function transformAngularJsIntAttr(v: string): number {
 
 // utility function for service adapters
 export function clone<T>(p: T): T {
+  if (typeof p === 'undefined') {
+    return p;
+  }
+
   return JSON.parse(JSON.stringify(p)) as T;
 }
 

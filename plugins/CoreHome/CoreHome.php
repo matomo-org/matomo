@@ -220,7 +220,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/side-nav.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
@@ -240,7 +239,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/widget-loader/widgetloader.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/widget-container/widgetcontainer.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/widget/widget.directive.js";
@@ -253,9 +251,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu-model.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
@@ -464,5 +459,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
         $translationKeys[] = 'CoreHome_StartDate';
         $translationKeys[] = 'CoreHome_EndDate';
+        $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
     }
 }

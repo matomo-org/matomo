@@ -54,7 +54,11 @@ class SitesStore {
       });
     } else {
       MatomoUrl.updateUrl({
-        ...MatomoUrl.parsed.value,
+        ...MatomoUrl.urlParsed.value,
+        segment: '',
+        idSite,
+      }, {
+        ...MatomoUrl.hashParsed.value,
         segment: '',
         idSite,
       });

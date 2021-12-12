@@ -24,6 +24,8 @@
         "NumPageviews": "%s sayfa gösterimi",
         "OutgoingTraffic": "Giden trafik",
         "PageURLTransitions": "Sayfa adresi dönüşümleri",
+        "PeriodNotAllowed": "Zaman aralığına izin verilmiyor",
+        "PeriodNotAllowedDetails": "Bu özellik bu zaman aralığında kullanılamaz. Daha az gün olan bir aralık seçmeyi deneyin",
         "PluginDescription": "Bu rapor, işlem raporları bölümündeki yeni simgesi ile erişilebilen yeni geçiş raporunda her sayfa adresi için önceki ve sonraki işlemleri içerir.",
         "ShareOfAllPageviews": "Bu sayfa %1$s kez gösterilmiş (toplam sayfa gösterimi %2$s)",
         "ToFollowingPages": "İç sayfalara",

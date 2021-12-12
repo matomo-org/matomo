@@ -5,6 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
@@ -12,6 +13,8 @@ import Matomo from '../Matomo/Matomo';
 interface AjaxOptions {
   withTokenInUrl?: boolean;
   postParams?: QueryParameters;
+  headers?: Record<string, string>;
+  format?: string;
 }
 
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
@@ -146,6 +149,11 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   errorElement: HTMLElement|JQuery|JQLite|string = '#ajaxError';
 
   /**
+   * Extra headers to add to the request.
+   */
+  headers?: Record<string, string>;
+
+  /**
    * Handle for current request
    */
   requestHandle: JQuery.jqXHR|null = null;
@@ -158,10 +166,17 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
     }
-    helper.setFormat('json');
-    helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
+    helper.setFormat(options.format || 'json');
+    helper.addParams({
+      module: 'API',
+      format: options.format || 'json',
+      ...params,
+    }, 'get');
     if (options.postParams) {
       helper.addParams(options.postParams, 'post');
+    }
+    if (options.headers) {
+      helper.headers = options.headers;
     }
     return helper.send();
   }
@@ -358,12 +373,25 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     this.requestHandle = this.buildAjaxCall();
     window.globalAjaxQueue.push(this.requestHandle);
 
+    let $timeout: ITimeoutService|null = null;
+    try {
+      $timeout = Matomo.helper.getAngularDependency('$timeout');
+    } catch (e) {
+      // ignore
+    }
+
     const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
-      this.requestHandle!.then(resolve).fail((xhr: jqXHR) => {
+      this.requestHandle!.then((data: unknown) => {
+        resolve(data as T); // ignoring textStatus/jqXHR
+      }).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
 
           reject(xhr);
+        }
+      }).done(() => {
+        if ($timeout) {
+          $timeout(); // trigger digest
         }
       });
     }) as AbortablePromise<T>;
@@ -416,6 +444,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
+      headers: this.headers ? this.headers : undefined,
       error: function errorCallback(...args: any[]) { // eslint-disable-line
         window.globalAjaxQueue.active -= 1;
 

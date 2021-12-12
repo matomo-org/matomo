@@ -250,6 +250,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {
             await page.click('#secondNavBar ul li.active li.active a.item');
             await page.waitForNetworkIdle();
+            await page.waitFor('.piwik-graph');
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
