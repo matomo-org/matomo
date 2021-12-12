@@ -3,6 +3,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 SET='\033[0m'
 
+echo "::error title=View UI failures (if any) here"
 echo -e "${RED}View UI failures (if any) here:${SET}"
 echo ""
 echo -e "${GREEN}https://builds-artifacts.matomo.org/github/$GITHUB_REPO/$GITHUB_BRANCH/$GITHUB_RUN_ID/${SET}"
