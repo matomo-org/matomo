@@ -18,15 +18,14 @@ function initPiwikService(piwik: PiwikGlobal, $rootScope: IRootScopeService) {
   // overwrite $rootScope so all events also go through Matomo.postEvent(...) too.
   ($rootScope as any).$oldEmit = $rootScope.$emit; // eslint-disable-line
   $rootScope.$emit = function emitWrapper(name: string, ...args: any[]): IAngularEvent { // eslint-disable-line
-    Matomo.postEvent(name, ...args);
-    // can't always get the result. it's not really used in angularjs though, so it should be ok.
-    return null as unknown as IAngularEvent;
+    Matomo.postEventNoEmit(name, ...args);
+    return (this as any).$oldEmit(name, ...args); // eslint-disable-line
   };
 
   ($rootScope as any).$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
   $rootScope.$broadcast = function broadcastWrapper(name: string, ...args: any[]): IAngularEvent { // eslint-disable-line
     Matomo.postEventNoEmit(name, ...args);
-    return ($rootScope as any).$oldBroadcast(name, ...args); // eslint-disable-line
+    return (this as any).$oldBroadcast(name, ...args); // eslint-disable-line
   };
 
   $rootScope.$on('$locationChangeSuccess', piwik.updatePeriodParamsFromUrl);

@@ -64,7 +64,7 @@ class RecommendedFunctionsCheck implements Diagnostic
     private function getHelpMessage($function)
     {
         $messages = array(
-            'shell_exec'     => 'Installation_SystemCheckFunctionHelp',
+            'shell_exec'     => 'Installation_SystemCheckShellExecHelp',
             'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
             'mail'           => 'Installation_SystemCheckMailHelp',
             'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
@@ -72,6 +72,10 @@ class RecommendedFunctionsCheck implements Diagnostic
             'gzopen'         => 'Installation_SystemCheckZlibHelp',
         );
 
-        return $this->translator->translate($messages[$function]);
+        $translation_params = array(
+            'shell_exec'     => ["<a href='https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/' rel='noopener' target='_blank'>", "</a>"]
+        );
+
+        return $this->translator->translate($messages[$function], $translation_params[$function] ?? []);
     }
 }

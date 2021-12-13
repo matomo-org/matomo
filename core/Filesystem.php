@@ -294,8 +294,17 @@ class Filesystem
      */
     public static function directoryDiff($source, $target)
     {
-        $sourceFiles = self::globr($source, '*');
-        $targetFiles = self::globr($target, '*');
+        $flags = 0;
+        $pattern = '*';
+
+        if (defined('GLOB_BRACE')) {
+            // The GLOB_BRACE flag is not available on some non GNU systems, like Solaris or Alpine Linux.
+            $flags = GLOB_BRACE;
+            $pattern = '{,.}*[!.]*'; // matches all files and folders, including those starting with ".", but excludes "." and ".."
+        }
+
+        $sourceFiles = self::globr($source, $pattern, $flags);
+        $targetFiles = self::globr($target, $pattern, $flags);
 
         $sourceFiles = array_map(function ($file) use ($source) {
             return str_replace($source, '', $file);

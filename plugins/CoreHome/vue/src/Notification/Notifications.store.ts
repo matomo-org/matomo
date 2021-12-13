@@ -10,6 +10,7 @@ import {
   reactive,
   createVNode,
   createApp,
+  readonly,
 } from 'vue';
 import NotificationComponent from './Notification.vue';
 import translate from '../translate';
@@ -27,7 +28,7 @@ interface Notification {
    * Unique ID generated for the notification so it can be referenced specifically
    * to scroll to.
    */
-  notificationInstanceId: string;
+  notificationInstanceId?: string;
 
   /**
    * Determines which notification group a notification is meant to be displayed
@@ -53,8 +54,10 @@ interface Notification {
   /**
    * The type of the notification: Either 'toast' or 'transient'. 'persistent' is valid, but
    * has no effect if only specified client side.
+   *
+   * 'help' is only used by ReportingMenu.vue.
    */
-  type: 'toast'|'persistent'|'transient';
+  type: 'toast'|'persistent'|'transient'|'help';
 
   /**
    * If set, the close icon is not displayed.
@@ -85,6 +88,11 @@ interface Notification {
    * Where to place the notification. Required if showing a toast.
    */
   placeat?: string|HTMLElement|JQuery;
+
+  /**
+   * If true, the notification will be displayed before others currently displayed.
+   */
+  prepend?: boolean;
 }
 
 interface NotificationsData {
@@ -99,7 +107,7 @@ class NotificationsStore {
   private nextNotificationId = 0;
 
   get state(): DeepReadonly<NotificationsData> {
-    return this.privateState;
+    return readonly(this.privateState);
   }
 
   appendNotification(notification: Notification): void {
@@ -162,7 +170,7 @@ class NotificationsStore {
   show(notification: Notification): string {
     this.checkMessage(notification.message);
 
-    let addMethod = this.appendNotification;
+    let addMethod = notification.prepend ? this.prependNotification : this.appendNotification;
 
     let notificationPosition: typeof Notification['placeat'] = '#notificationContainer';
     if (notification.placeat) {

@@ -143,10 +143,10 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/WidgetByDimensionContainer/WidgetByDimensionContainer.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
@@ -197,8 +197,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/report-metadata-model.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/reporting-pages-model.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
@@ -222,7 +220,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/side-nav.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
@@ -242,11 +239,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/widget-loader/widgetloader.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/widget-container/widgetcontainer.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/widget/widget.directive.js";
-
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
@@ -255,14 +247,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu-model.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
 
         // TODO: [Vue] used by RollUpReporting, has to be kept for now.
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
@@ -467,5 +453,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PreviousYear';
         $translationKeys[] = 'CoreHome_ReportingCategoryHelpPrefix';
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
+        $translationKeys[] = 'CoreHome_StartDate';
+        $translationKeys[] = 'CoreHome_EndDate';
+        $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
     }
 }

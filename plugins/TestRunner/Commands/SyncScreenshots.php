@@ -50,8 +50,8 @@ class SyncScreenshots extends ConsoleCommand
         $this->setDescription('For Piwik core devs. Copies screenshots '
                             . 'from travis artifacts to the tests/UI/expected-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
-        $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
-            'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
+        $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+            'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', ['.*']);
         $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
         $this->addOption('http-user', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH username (for premium plugins where artifacts are protected)');
         $this->addOption('http-password', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH password (for premium plugins where artifacts are protected)');
@@ -69,9 +69,12 @@ class SyncScreenshots extends ConsoleCommand
 
         $this->logger->notice('Downloading {number} screenshots', array('number' => count($screenshots)));
         foreach ($screenshots as $name => $url) {
-            if (preg_match('/' . $screenshotsRegex . '/', $name)) {
-                $this->logger->info('Downloading {name}', array('name' => $name));
-                $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword);
+            foreach ($screenshotsRegex as $regex) {
+                if (preg_match('/' . $regex . '/', $name)) {
+                    $this->logger->info('Downloading {name}', array('name' => $name));
+                    $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword);
+                    break;
+                }
             }
         }
 
