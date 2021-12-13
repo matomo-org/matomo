@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore','IntegrationTestsPlugins0','IntegrationTestsPlugins1','IntegrationTestsPlugins2','IntegrationTestsPlugins3' ]
+        tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2','8.0' ]
     steps:
       - name: Checkout code

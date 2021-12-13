@@ -27,6 +27,12 @@ cd /home/runner/work/matomo/matomo/
 echo -e "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
 
+# test is php split integration XML
+if [ "$PIWIK_TEST_TARGET" = "php" ]
+then
+  php ./tests/PHPUnit/formatXML.php
+fi
+
 if [ "$PIWIK_TEST_TARGET" = "UI" ] || [ "$PIWIK_TEST_TARGET" = "Javascript" ];
 then
   echo -e "${GREEN}installing node/puppeteer${SET}"
@@ -49,7 +55,6 @@ then
   chmod a+rw ./tests/lib/geoip-files || true
   chmod a+rw ./plugins/*/tests/System/processed || true
   cp .github/artifacts/config.ini.github.php  config/config.ini.php
-  php ./tests/PHPUnit/formatXML.php
   ls ./tests/PHPUnit/
 fi
 
