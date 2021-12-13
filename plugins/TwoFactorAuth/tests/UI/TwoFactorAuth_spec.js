@@ -256,7 +256,7 @@ describe("TwoFactorAuth", function () {
 
     it('should force user to setup 2fa when not set up yet but enforced', async function () {
         requireTwoFa();
-        await loginUser('no2FA', false);
+        await loginUser('no2FA', false, true);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step1');
     });
 

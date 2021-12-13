@@ -13,6 +13,7 @@ import Matomo from '../Matomo/Matomo';
 interface Report {
   module: string;
   action: string;
+  documentation?: string;
 }
 
 interface ReportMetadataStoreState {
