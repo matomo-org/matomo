@@ -146,6 +146,7 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import ReportingMenuStoreInstance, { Category, Subcategory } from './ReportingMenu.store';
 import Matomo from '../Matomo/Matomo';
 import translate from '../translate';
+import WidgetsStoreInstance from '../Widget/Widgets.store';
 
 const REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
 
@@ -245,12 +246,7 @@ export default defineComponent({
         }
       });
 
-      if (typeof window.widgetsHelper === 'object' && window.widgetsHelper.availableWidgets) {
-        // lets also update widgetslist so will be easier to update list of available widgets in
-        // dashboard selector immediately
-        delete window.widgetsHelper.availableWidgets;
-        window.widgetsHelper.getAvailableWidgets();
-      }
+      WidgetsStoreInstance.reloadAvailableWidgets();
     });
   },
   methods: {

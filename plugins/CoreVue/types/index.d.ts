@@ -144,7 +144,7 @@ declare global {
 
   interface WidgetsHelper {
     availableWidgets: unknown[];
-    getAvailableWidgets(): unknown[];
+    getAvailableWidgets(callback?: (widgets: unknown[]) => unknown);
   }
 
   let widgetsHelper: WidgetsHelper;

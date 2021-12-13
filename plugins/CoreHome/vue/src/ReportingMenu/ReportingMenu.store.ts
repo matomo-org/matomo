@@ -10,7 +10,7 @@ import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store'
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
 
-interface Orderable {
+export interface Orderable {
   order: number;
 }
 
