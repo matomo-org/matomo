@@ -66,7 +66,7 @@ class Get extends Base
         if (empty($idSite)) {
             return;
         }
-        
+
         $goals   = $this->getGoals();
         $reports = Goals::getReportsWithGoalMetrics();
 
@@ -102,6 +102,7 @@ class Get extends Base
     public function configureView(ViewDataTable $view)
     {
         $idGoal = Common::getRequestVar('idGoal', 0, 'string');
+        $hideRevenue = Common::getRequestVar('hideRevenue',0, 'integer');
 
         $idSite = $this->getIdSite();
 
@@ -157,7 +158,7 @@ class Get extends Base
             if (empty($idGoal)) {
                 // goals overview sparklines below evolution graph
 
-                if ($isEcommerceEnabled) {
+                if ($isEcommerceEnabled && !$hideRevenue) {
                     // this would be ideally done in Ecommerce plugin but then it is hard to keep same order
                     $view->config->addSparklineMetric(array('revenue'), $order = 30);
                 }
@@ -167,7 +168,7 @@ class Get extends Base
                     // in Goals Overview we list an overview for each goal....
                     $view->config->addTranslation('conversion_rate', Piwik::translate('Goals_ConversionRate'));
 
-                } elseif ($isEcommerceEnabled) {
+                } elseif ($isEcommerceEnabled && !$hideRevenue) {
                     // in Goals detail page...
                     $view->config->addSparklineMetric(array('revenue'), $order = 30);
                 }
@@ -193,7 +194,7 @@ class Get extends Base
             } else {
                 $view->config->title = Piwik::translate('General_EvolutionOverPeriod');
             }
-            
+
             if (empty($view->config->columns_to_display)) {
                 $view->config->columns_to_display = array('nb_conversions');
             }
