@@ -123,7 +123,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.2
+          php-version: 8.0
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
           ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
           tools: composer:v2
@@ -138,7 +138,7 @@ jobs:
         shell: bash
         run: ./.github/scripts/bash/prepare.sh
         env:
-          PHP_VERSION: 7.2
+          PHP_VERSION: 8.0
           PIWIK_TEST_TARGET: 'Javascript'
 
       - name: Javascript Tests
