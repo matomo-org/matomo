@@ -277,7 +277,7 @@
         "Logout": "Abmelden",
         "MainMetrics": "Kernmetriken",
         "Matches": "Treffer",
-        "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$s Matomo%2$s, ehemals bekannt als Piwik, ist ein gemeinschaftliches Projekt der %7$s Matomo Team%8$s Mitglieder, sowie viele andere auf der Welt verteilte Unterstützer. <br/> Wenn Ihnen Matomo gefällt, können Sie helfen: Finden Sie heraus, %3$s wie Sie Matomo unterstützen können%4$s oder %5$s Spenden Sie jetzt%6$s und unterstützen Sie die nächste großartige Matomo-Version!",
+        "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, ehemals bekannt als Piwik, ist ein gemeinschaftliches Projekt der %7$sMatomo Team%8$s Mitglieder, sowie viele andere auf der Welt verteilte Unterstützer. <br> Wenn Ihnen Matomo gefällt, können Sie helfen: Finden Sie heraus, %3$s wie Sie Matomo%4$s unterstützen können oder %5$s Spenden Sie jetzt%6$s und unterstützen Sie die nächste großartige Matomo-Version!",
         "MaximumNumberOfPeriodsComparedIs": "Die maximale Anzahl von Zeiträumen, die gleichzeitig verglichen werden können ist %s.",
         "MaximumNumberOfSegmentsComparedIs": "Die maximale Anzahl von Segmenten, die gleichzeitig verglichen werden können ist %s.",
         "Measurable": "Messbares",

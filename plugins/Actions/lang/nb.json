@@ -2,7 +2,9 @@
     "Actions": {
         "ActionType": "Handlingstype",
         "AvgGenerationTimeTooltip": "Gjennomsnitt basert på %1$s treff %2$s mellom %3$s og %4$s",
+        "Behaviour": "Oppførsel",
         "ColumnActionURL": "Handlings-URL",
+        "ColumnClickedURL": "Klikket utgående lenke",
         "ColumnClicks": "Klikk",
         "ColumnClicksDocumentation": "Antall klikk på denne lenken.",
         "ColumnDownloadURL": "Nedlastings-URL",
