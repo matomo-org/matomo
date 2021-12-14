@@ -2,7 +2,7 @@
     "Events": {
         "AvgEventValue": "Durchschnittlicher Ereigniswert ist: %s",
         "AvgValue": "Durchschnittswert",
-        "AvgValueDocumentation": "Der Durchschnitt aller Werte für dieses Event",
+        "AvgValueDocumentation": "Der Durchschnitt aller Werte für dieses Ereigniss",
         "Category": "Kategorie",
         "Event": "Ereignis",
         "EventAction": "Ereignisaktion",
