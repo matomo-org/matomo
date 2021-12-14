@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Piwik\Access;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
@@ -299,52 +300,54 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Auto updater is disabled');
         }
 
-        $updater = new DbUpdater();
-        $componentsWithUpdateFile = $updater->getComponentUpdates();
-        if (empty($componentsWithUpdateFile)) {
-            throw new NoUpdatesFoundException("Everything is already up to date.");
-        }
+        return Access::doAsSuperUser(function() use ($doDryRun){
+            $updater = new DbUpdater();
+            $componentsWithUpdateFile = $updater->getComponentUpdates();
+            if (empty($componentsWithUpdateFile)) {
+                throw new NoUpdatesFoundException("Everything is already up to date.");
+            }
 
-        SettingsServer::setMaxExecutionTime(0);
+            SettingsServer::setMaxExecutionTime(0);
 
-        $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome';
-        $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done';
+            $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome';
+            $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done';
 
-        $viewWelcome = new View($welcomeTemplate);
-        $this->addCustomLogoInfo($viewWelcome);
-        $this->setBasicVariablesView($viewWelcome);
+            $viewWelcome = new View($welcomeTemplate);
+            $this->addCustomLogoInfo($viewWelcome);
+            $this->setBasicVariablesView($viewWelcome);
 
-        $viewDone = new View($doneTemplate);
-        $this->addCustomLogoInfo($viewDone);
-        $this->setBasicVariablesView($viewDone);
+            $viewDone = new View($doneTemplate);
+            $this->addCustomLogoInfo($viewDone);
+            $this->setBasicVariablesView($viewDone);
 
-        $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
+            $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
 
-        if (is_null($doDryRun)) {
-            $doDryRun = !$doExecuteUpdates;
-        }
+            if (is_null($doDryRun)) {
+                $doDryRun = !$doExecuteUpdates;
+            }
 
-        if ($doDryRun) {
-            $migrations = $updater->getSqlQueriesToExecute();
-            $queryCount = count($migrations);
+            if ($doDryRun) {
+                $migrations = $updater->getSqlQueriesToExecute();
+                $queryCount = count($migrations);
 
-            $migrations = $this->groupMigrations($migrations);
-            $viewWelcome->migrations = $migrations;
-            $viewWelcome->queryCount = $queryCount;
-            $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
-            $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
-            return $viewWelcome->render();
-        }
+                $migrations = $this->groupMigrations($migrations);
+                $viewWelcome->migrations = $migrations;
+                $viewWelcome->queryCount = $queryCount;
+                $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
+                $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
+                return $viewWelcome->render();
+            }
 
-        // Web
-        if ($doExecuteUpdates) {
-            $this->warningMessages = array();
-            $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
+            // Web
+            if ($doExecuteUpdates) {
+                $this->warningMessages = array();
+                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
 
-            $this->redirectToDashboardWhenNoError($updater);
+                $this->redirectToDashboardWhenNoError($updater);
 
-            return $viewDone->render();
-        }
+                return $viewDone->render();
+            }
+        });
 
         exit;
     }
