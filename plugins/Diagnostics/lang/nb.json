@@ -2,6 +2,7 @@
     "Diagnostics": {
         "ConfigFileTitle": "Konfigurasjonsfil",
         "HideUnchanged": "Hvis du kun vil se de endrede verdiene, kan du %1$sskjule alle uendrede verdier%2$s.",
+        "MysqlMaxPacketSize": "Maksimal pakkestørrelse",
         "Sections": "Seksjoner"
     }
 }

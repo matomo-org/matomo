@@ -1,9 +1,11 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "Kan ikke finne apache_get_modules-funksjonen. Antar at det ikke er en Apache webserver.",
+        "AutomaticSetup": "Sett opp geoposisjon automatisk ved bruk av en DB-IP-database",
+        "CannotFindGeoIPDatabaseInArchive": "Fant ingen gyldig DB-IP/GeoIP-database i TAR-arkivet %1$s.",
         "CannotListContent": "Kunne ikke vise innhold for %1$s: %2$s",
-        "DownloadingDb": "Laster ned %s",
         "DownloadNewDatabasesEvery": "Oppdater databasene hver",
+        "DownloadingDb": "Laster ned %s",
         "FoundApacheModules": "Matomo fant følgende Apache-moduler",
         "GeoIPDatabases": "GeoIP-databaser",
         "GeoIPNoServerVars": "Matomo kan ikke finne noen GeoIP %s variabler.",

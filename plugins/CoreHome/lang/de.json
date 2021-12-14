@@ -16,6 +16,7 @@
         "CloseWidgetDirections": "Sie können das Widget schließen, indem Sie auf das 'X' oben im Widget klicken.",
         "CssDidntLoad": "Ihr Browser war nicht in der Lage die Stylesheet-Definitionen der Seite zu laden.",
         "CustomLimit": "Eigenes Limit",
+        "DataForThisReportHasBeenDisabled": "Segmentierung ist für diesen Bericht momentan außer Betrieb. Bitte sehen Sie %1$sdieses FAQ%2$s ein für weitere Einzelheiten.",
         "DataForThisReportHasBeenPurged": "Die Daten für diesen Bericht sind älter als %s Monate und wurden gelöscht.",
         "DataTableCombineDimensions": "Dimensionen werden einzeln angezeigt %s Dimensionen zusammengefasst anzeigen",
         "DataTableExcludeAggregateRows": "Aggregierte Zeilen werden angezeigt %s Ausschließen",
