@@ -109,7 +109,9 @@ class VisitorDetails extends VisitorDetailsAbstract
             // 25.00 => 25
             foreach ($ecommerceDetail as $column => $value) {
                 if (strpos($column, 'revenue') !== false) {
-                    if ($value == round($value)) {
+                    if (!is_numeric($value)) {
+                        $ecommerceDetail[$column] = 0;
+                    } else if ($value == round($value)) {
                         $ecommerceDetail[$column] = round($value);
                     }
                 }

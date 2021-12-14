@@ -97,7 +97,6 @@
         "SystemCheckExtensions": "Outras extensões requeridas",
         "SystemCheckFileIntegrity": "Integridade dos arquivos",
         "SystemCheckFilterHelp": "Você precisa configurar e reconstruir o PHP com o suporte para \"filter\" habilitado (não use --disable-filter).",
-        "SystemCheckFunctionHelp": "Você precisa ativar esta função embutida.",
         "SystemCheckFunctions": "Funções requeridas",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (gráficos)",
         "SystemCheckGDHelp": "Os sparklines (gráficos pequenos) não irão funcionar.",

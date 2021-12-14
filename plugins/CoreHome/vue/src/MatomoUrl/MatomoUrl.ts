@@ -62,7 +62,8 @@ class MatomoUrl {
   }
 
   updateHash(params: QueryParameters|string) {
-    const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
+    const modifiedParams = this.getFinalHashParams(params);
+    const serializedParams = this.stringify(modifiedParams);
 
     const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
     $location.search(serializedParams);
@@ -70,7 +71,9 @@ class MatomoUrl {
 
   updateUrl(params: QueryParameters|string, hashParams: QueryParameters|string = {}) {
     const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
-    const serializedHashParams: string = typeof hashParams !== 'string' ? this.stringify(hashParams) : hashParams;
+
+    const modifiedHashParams = this.getFinalHashParams(hashParams);
+    const serializedHashParams: string = this.stringify(modifiedHashParams);
 
     let url = `?${serializedParams}`;
     if (serializedHashParams.length) {
@@ -78,6 +81,27 @@ class MatomoUrl {
     }
 
     window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
+  }
+
+  private getFinalHashParams(params: QueryParameters|string) {
+    return {
+      // these params must always be present in the hash
+      period: this.parsed.value.period,
+      date: this.parsed.value.date,
+      segment: this.parsed.value.segment,
+
+      ...(typeof params !== 'string' ? params : broadcast.getValuesFromUrl(`?${params}`, true)),
+    };
+  }
+
+  // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
+  updateLocation(params: QueryParameters|string) {
+    if (Matomo.helper.isAngularRenderingThePage()) {
+      this.updateHash(params);
+      return;
+    }
+
+    this.updateUrl(params);
   }
 
   getSearchParam(paramName: string): string {
@@ -99,8 +123,16 @@ class MatomoUrl {
   }
 
   stringify(search: QueryParameters): string {
+    const searchWithoutEmpty = Object.fromEntries(
+      Object.entries(search).filter(([, value]) => value !== '' && value !== null && value !== undefined),
+    );
+
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-    return $.param(search).replace(/%5B%5D/g, '[]');
+    return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]')
+      // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
+      // entries to show up in the browser history. this has a compounding effect w/ angular.js,
+      // which when the back button is pressed to effectively abort the back navigation.
+      .replace(/%2C/g, ',');
   }
 
   updatePeriodParamsFromUrl(): void {

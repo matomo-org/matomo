@@ -123,8 +123,20 @@ class FieldConfig
      * "formField.value" angular model. For an example see "plugins/CorePluginsAdmin/angularjs/form-field/field-text.html"
      *
      * @var string
+     * @deprecated set $customFieldComponent to ['plugin' => 'MyPlugin', 'component' => 'MyComponentAsItIsExported']
      */
     public $customUiControlTemplateFile = '';
+
+    /**
+     * Defines a custom Vue component to use for the internal field UI control. This should be an array with two
+     * keys:
+     *
+     * - plugin: the name of the plugin that the UI control exists in.
+     * - name: the name of the export for the component in the plugin's Vue UMD module.
+     *
+     * @var string[]
+     */
+    public $customFieldComponent;
 
     /**
      * Name-value mapping of HTML attributes that will be added HTML form control, eg,

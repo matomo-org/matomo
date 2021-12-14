@@ -1427,6 +1427,56 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
+    public function test_canSkipArchiveForSegment_returnTrueIfPluginIsDisabled()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $config = Config::getInstance();
+        $config->General['disable_archiving_segment_for_plugins'] = 'testPlugin';
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+          ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $params->setRequestedPlugin('testPlugin');
+        $params->setArchiveOnlyReport('myReport');
+        $loader = new Loader($params);
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function test_canSkipArchiveForSegment_returnTrueIfPluginIsDisabledBySiteId()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        Config::setSetting('General_1','disable_archiving_segment_for_plugins','testPlugin');
+        $date = '2010-04-23';
+        $definition = 'browserCode==ch';
+        $segment = new Segment($definition, [1]);
+        $doneFlag = Rules::getDoneStringFlagFor([1], $segment, 'day', null);
+
+        $this->insertInvalidations([
+          ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => $doneFlag, 'report' => 'myReport'],
+        ]);
+
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', $date), $segment);
+        $params->setRequestedPlugin('testPlugin');
+        $params->setArchiveOnlyReport('myReport');
+        $loader = new Loader($params);
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+
+        $params = new Parameters(new Site(2), Factory::build('day', $date), $segment);
+        $params->setRequestedPlugin('testPlugin');
+        $params->setArchiveOnlyReport('myReport');
+        $loader = new Loader($params);
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+
     public function test_forcePluginArchiving_createsPluginSpecificArchive()
     {
         $_GET['trigger'] = 'archivephp';

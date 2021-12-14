@@ -65,7 +65,7 @@ describe("Comparison", function () {
     });
 
     it('should not show comparisons for pages that do not support it', async () => {
-        await (await page.jQuery('li.menuTab:contains(Behaviour)')).click();
+        await (await page.jQuery('li.menuTab:contains(Behaviour) > a')).click();
         await page.waitForTimeout(100);
         await (await page.jQuery('a.item:contains(Transitions)')).click();
         await page.waitForNetworkIdle();
@@ -75,7 +75,7 @@ describe("Comparison", function () {
     });
 
     it('should show extra serieses when comparing in evolution graphs and sparklines', async () => {
-        await (await page.jQuery('li.menuTab:contains(Visitors)')).click();
+        await (await page.jQuery('li.menuTab:contains(Visitors) > a')).click();
         await page.waitForTimeout(100);
         await (await page.jQuery('li.menuTab:contains(Visitors) a.item:contains(Overview)')).click();
         await page.waitForNetworkIdle();

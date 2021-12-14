@@ -6,7 +6,7 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularStatic } from 'angular';
+import {IAngularStatic, IScope} from 'angular';
 import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
@@ -66,16 +66,23 @@ declare global {
     onCloseEnd: () => void;
   }
 
+  interface CompileAngularComponentsOptions {
+    scope?: IScope;
+    forceNewScope?: boolean;
+    params?: Record<string, unknown>;
+  }
+
   interface PiwikHelperGlobal {
     escape(text: string): string;
     redirect(params: any);
     htmlDecode(encoded: string): string;
-    modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks: ModalConfirmCallbacks, options: ModalConfirmOptions);
+    modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
+    compileAngularComponents(selector: string, options?: CompileAngularComponentsOptions): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -120,6 +127,7 @@ declare global {
     maxDateMonth: number;
     maxDateDay: number;
     config: Record<string, string|number|string[]>;
+    hasSuperUserAccess: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -134,6 +142,13 @@ declare global {
 
   let piwik: PiwikGlobal;
 
+  interface WidgetsHelper {
+    availableWidgets: unknown[];
+    getAvailableWidgets(callback?: (widgets: unknown[]) => unknown);
+  }
+
+  let widgetsHelper: WidgetsHelper;
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -142,6 +157,8 @@ declare global {
     broadcast: BroadcastGlobal;
     hasBlockedContent: boolean;
     piwik_translations: {[key: string]: string};
+    Materialize: M;
+    widgetsHelper: WidgetsHelper;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
