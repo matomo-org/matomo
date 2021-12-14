@@ -36,7 +36,8 @@ class Row extends \ArrayObject
      */
     private static $unsummableColumns = array(
         'label' => true,
-        'full_url' => true // column used w/ old Piwik versions,
+        'full_url' => true, // column used w/ old Piwik versions,
+        'ts_archived' => true // date column used in metadata for proportional tooltips
     );
 
     // @see sumRow - implementation detail
@@ -576,10 +577,6 @@ class Row extends \ArrayObject
                     $sumMetadata = $rowToSum->getMetadata($column);
 
                     if ($thisMetadata === false && $sumMetadata === false) {
-                        continue;
-                    }
-
-                    if ($column === 'ts_archived') {
                         continue;
                     }
 
