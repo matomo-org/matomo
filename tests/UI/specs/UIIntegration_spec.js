@@ -393,7 +393,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.click('.helpIcon');
             await page.waitForTimeout(100);
             await page.evaluate(function () {
-                $('.helpDate:visible').hide();
+                $('.helpDate:visible').html('Report generated xx hours xx min ago');
             });
             await page.mouse.move(-10, -10);
 
