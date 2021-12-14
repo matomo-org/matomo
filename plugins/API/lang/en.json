@@ -1,7 +1,7 @@
 {
     "API": {
         "ChangeTokenHint": "If you want to change this token, please go to your %1$spersonal settings page%2$s.",
-        "GenerateVisits": "If you don't have data for today, you can first generate some data using the %1$s plugin. You can turn on the %2$s plugin, then click the 'Visitor Generator' menu in the Matomo-admin area.",
+        "GenerateVisits": "If you don't have data for today, you can generate some using the %1$s plugin by going to 'Development → Visitor Generator' in the administration area of Matomo.",
         "KeepTokenSecret": "This token_auth is as secret as your login and password, %1$s do not share it%2$s!",
         "LoadedAPIs": "Loaded %s APIs",
         "MoreInformation": "More info about the Matomo APIs available in %1$sIntroduction to Matomo API%2$s and the %3$sMatomo API Reference%4$s.",
