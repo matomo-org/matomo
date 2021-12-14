@@ -1043,6 +1043,18 @@ Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
 
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts
+function MatomoUrl_slicedToArray(arr, i) { return MatomoUrl_arrayWithHoles(arr) || MatomoUrl_iterableToArrayLimit(arr, i) || MatomoUrl_unsupportedIterableToArray(arr, i) || MatomoUrl_nonIterableRest(); }
+
+function MatomoUrl_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function MatomoUrl_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return MatomoUrl_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return MatomoUrl_arrayLikeToArray(o, minLen); }
+
+function MatomoUrl_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function MatomoUrl_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function MatomoUrl_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { MatomoUrl_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1122,7 +1134,8 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
   MatomoUrl_createClass(MatomoUrl, [{
     key: "updateHash",
     value: function updateHash(params) {
-      var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
+      var modifiedParams = this.getFinalHashParams(params);
+      var serializedParams = this.stringify(modifiedParams);
       var $location = Matomo_Matomo.helper.getAngularDependency('$location');
       $location.search(serializedParams);
     }
@@ -1131,7 +1144,8 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function updateUrl(params) {
       var hashParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
-      var serializedHashParams = typeof hashParams !== 'string' ? this.stringify(hashParams) : hashParams;
+      var modifiedHashParams = this.getFinalHashParams(hashParams);
+      var serializedHashParams = this.stringify(modifiedHashParams);
       var url = "?".concat(serializedParams);
 
       if (serializedHashParams.length) {
@@ -1139,6 +1153,16 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       }
 
       window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
+    }
+  }, {
+    key: "getFinalHashParams",
+    value: function getFinalHashParams(params) {
+      return _objectSpread({
+        // these params must always be present in the hash
+        period: this.parsed.value.period,
+        date: this.parsed.value.date,
+        segment: this.parsed.value.segment
+      }, typeof params !== 'string' ? params : MatomoUrl_broadcast.getValuesFromUrl("?".concat(params), true));
     } // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
 
   }, {
@@ -1170,8 +1194,14 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
   }, {
     key: "stringify",
     value: function stringify(search) {
-      // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-      return $.param(search).replace(/%5B%5D/g, '[]') // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
+      var searchWithoutEmpty = Object.fromEntries(Object.entries(search).filter(function (_ref) {
+        var _ref2 = MatomoUrl_slicedToArray(_ref, 2),
+            value = _ref2[1];
+
+        return value !== '' && value !== null && value !== undefined;
+      })); // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
+
+      return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]') // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
       // entries to show up in the browser history. this has a compounding effect w/ angular.js,
       // which when the back button is pressed to effectively abort the back navigation.
       .replace(/%2C/g, ',');
@@ -1266,7 +1296,7 @@ function initPiwikService(piwik, $rootScope) {
     }
 
     Matomo_Matomo.postEventNoEmit.apply(Matomo_Matomo, [name].concat(args));
-    return this.$oldEmit.apply(this, [name].concat(args));
+    return this.$oldEmit.apply(this, [name].concat(args)); // eslint-disable-line
   };
 
   $rootScope.$oldBroadcast = $rootScope.$broadcast; // eslint-disable-line
@@ -5308,7 +5338,10 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
           period: src_MatomoUrl_MatomoUrl.parsed.value.period
         }));
       } else {
-        src_MatomoUrl_MatomoUrl.updateUrl(SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.parsed.value), {}, {
+        src_MatomoUrl_MatomoUrl.updateUrl(SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.urlParsed.value), {}, {
+          segment: '',
+          idSite: idSite
+        }), SitesStore_objectSpread(SitesStore_objectSpread({}, src_MatomoUrl_MatomoUrl.hashParsed.value), {}, {
           segment: '',
           idSite: idSite
         }));
@@ -5703,7 +5736,25 @@ SiteSelectorvue_type_script_lang_ts.render = SiteSelectorvue_type_template_id_3c
     placeholder: {
       angularJsBind: '@'
     },
-    modelValue: {}
+    modelValue: {
+      default: function _default(scope, element, attrs) {
+        if (attrs.siteid && attrs.sitename) {
+          return {
+            id: attrs.siteid,
+            name: Matomo_Matomo.helper.htmlDecode(attrs.sitename)
+          };
+        }
+
+        if (Matomo_Matomo.idSite) {
+          return {
+            id: Matomo_Matomo.idSite,
+            name: Matomo_Matomo.helper.htmlDecode(Matomo_Matomo.siteName)
+          };
+        }
+
+        return undefined;
+      }
+    }
   },
   $inject: ['$timeout'],
   directiveName: 'piwikSiteselector',
@@ -5731,9 +5782,11 @@ SiteSelectorvue_type_script_lang_ts.render = SiteSelectorvue_type_template_id_3c
   postCreate: function postCreate(vm, scope, element, attrs, controller) {
     var ngModel = controller;
     scope.$watch('value', function (newVal) {
-      if (newVal !== vm.modelValue) {
-        vm.modelValue = newVal;
-      }
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+        if (newVal !== vm.modelValue) {
+          vm.modelValue = newVal;
+        }
+      });
     });
 
     if (attrs.siteid && attrs.sitename) {
@@ -5754,11 +5807,13 @@ SiteSelectorvue_type_script_lang_ts.render = SiteSelectorvue_type_template_id_3c
 
       ngModel.$render = function () {
         Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-          if (angular.isString(ngModel.$viewValue)) {
-            vm.modelValue = JSON.parse(ngModel.$viewValue);
-          } else {
-            vm.modelValue = ngModel.$viewValue;
-          }
+          Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+            if (angular.isString(ngModel.$viewValue)) {
+              vm.modelValue = JSON.parse(ngModel.$viewValue);
+            } else {
+              vm.modelValue = ngModel.$viewValue;
+            }
+          });
         });
       };
     }
