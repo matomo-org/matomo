@@ -92,7 +92,7 @@
 
             if (hasOnlyOneSubtable) {
                 var hasOnlyOneRow = domElem.find('tbody tr.level0').length === 1;
-                
+
                 if (hasOnlyOneRow) {
                     var $labels = $subtables.find('.label');
                     if ($labels.length) {
