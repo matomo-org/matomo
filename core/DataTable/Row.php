@@ -579,6 +579,10 @@ class Row extends \ArrayObject
                         continue;
                     }
 
+                    if ($column === 'ts_archived') {
+                        continue;
+                    }
+
                     $aggregatedMetadata[$column] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata, $this, $rowToSum, $column);
                 }
             }
