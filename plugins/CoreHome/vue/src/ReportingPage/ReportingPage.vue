@@ -106,6 +106,7 @@ export default defineComponent({
         && JSON.stringify(newValue.compareDates) === JSON.stringify(oldValue.compareDates)
         && JSON.stringify(newValue.comparePeriods) === JSON.stringify(oldValue.comparePeriods)
         && JSON.stringify(newValue.compareSegments) === JSON.stringify(oldValue.compareSegments)
+        && JSON.stringify(newValue.columns || '') === JSON.stringify(oldValue.columns || '')
       ) {
         // this page is already loaded
         return;

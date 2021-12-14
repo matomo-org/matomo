@@ -290,8 +290,10 @@ export default defineComponent({
         this.helpShownCategory = null;
 
         // this menu item is already active, a location change success would not be triggered,
-        // instead trigger an event
-        Matomo.postEvent('loadPage', category.id, subcategory.id);
+        // instead trigger an event (after the URL changes)
+        setTimeout(() => {
+          Matomo.postEvent('loadPage', category.id, subcategory.id);
+        });
       }
     },
     makeUrl(category: Category, subcategory: Subcategory) {
