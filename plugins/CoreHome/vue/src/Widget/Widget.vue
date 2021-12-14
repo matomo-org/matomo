@@ -8,6 +8,7 @@
   <div
     v-if="actualWidget"
     v-show="showWidget"
+    class="matomoWidget"
     :class="{'isFirstWidgetInPage': actualWidget.isFirstInPage}"
     :id="actualWidget.uniqueId"
     v-tooltips="{ content: tooltipContent }"
