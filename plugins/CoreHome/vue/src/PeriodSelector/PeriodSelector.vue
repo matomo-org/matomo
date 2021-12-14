@@ -246,8 +246,8 @@ export default defineComponent({
     this.updateSelectedValuesFromHash();
     watch(() => MatomoUrl.parsed.value, this.updateSelectedValuesFromHash);
 
-    this.isComparing = ComparisonsStore.isComparing();
-    watch(() => ComparisonsStore.isComparing(), (newVal) => {
+    this.isComparing = ComparisonsStore.isComparingPeriods();
+    watch(() => ComparisonsStore.isComparingPeriods(), (newVal) => {
       this.isComparing = newVal;
     });
 
@@ -417,7 +417,6 @@ export default defineComponent({
       // get params without comparePeriods/compareSegments/compareDates
       const paramsWithoutCompare = { ...baseParams };
       delete paramsWithoutCompare.comparePeriods;
-      delete paramsWithoutCompare.compareSegments;
       delete paramsWithoutCompare.compareDates;
 
       MatomoUrl.updateLocation({
