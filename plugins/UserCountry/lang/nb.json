@@ -4,18 +4,21 @@
         "City": "By",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",
+        "Continents": "Kontinenter",
         "Country": "Land",
-        "country_a1": "Anonym Proxy",
-        "country_o1": "Annet land",
         "CurrentLocationIntro": "Ifølge denne leverandøren, er din nåværende posisjon",
         "DistinctCountries": "%s bestemte land",
         "FromDifferentCities": "forskjellige byer",
         "Geolocation": "Geoposisjonering",
         "Latitude": "Breddegrad",
+        "Latitudes": "Breddegrader",
         "Location": "Sted",
         "Longitude": "Lengdegrad",
+        "Longitudes": "Lengdegrader",
         "Region": "Region",
         "SubmenuLocations": "Lokasjoner",
-        "WidgetLocation": "Besøkendes lokasjon"
+        "WidgetLocation": "Besøkendes lokasjon",
+        "country_a1": "Anonym Proxy",
+        "country_o1": "Annet land"
     }
 }
