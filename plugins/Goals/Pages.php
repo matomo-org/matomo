@@ -64,7 +64,6 @@ class Pages
         $config->setSubcategoryId($subcategory);
         $config->setName('');
         $config->setOrder(25);
-        $config->setParameters(array('hideRevenue' => 1));
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 

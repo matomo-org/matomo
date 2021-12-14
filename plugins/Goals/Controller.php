@@ -240,14 +240,14 @@ class Controller extends \Piwik\Plugin\Controller
 
         $apiAction = $apiProxy->buildApiActionName($module, $action);
         foreach ($goals as $goal) {
-            $_SERVER['QUERY_STRING'] .= $queryString . '&idGoal='. $goal['idgoal'].'&hideRevenue=1';
+            $_SERVER['QUERY_STRING'] .= $queryString . '&idGoal='. $goal['idgoal'];
             //load Visualisations Sparkline
             $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
             $view->requestConfig->request_parameters_to_modify['idGoal'] = $goal['idgoal'];
             $view->requestConfig->request_parameters_to_modify['allow_multiple'] = (int)$goal['allow_multiple'];
             $view->requestConfig->request_parameters_to_modify['only_summary'] = 2;
             $view->config->show_title = true;
-            $view->config->title = $goal['name'];
+            $view->config->title = Piwik::translate('Goals_GoalX', $goal['name']);
             $content .= $view->render();
         }
 

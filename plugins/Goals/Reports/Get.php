@@ -102,7 +102,6 @@ class Get extends Base
     public function configureView(ViewDataTable $view)
     {
         $idGoal = Common::getRequestVar('idGoal', 0, 'string');
-        $hideRevenue = Common::getRequestVar('hideRevenue',0, 'integer');
 
         $idSite = $this->getIdSite();
 
@@ -158,7 +157,7 @@ class Get extends Base
             if (empty($idGoal)) {
                 // goals overview sparklines below evolution graph
 
-                if ($isEcommerceEnabled && !$hideRevenue) {
+                if ($isEcommerceEnabled) {
                     // this would be ideally done in Ecommerce plugin but then it is hard to keep same order
                     $view->config->addSparklineMetric(array('revenue'), $order = 30);
                 }
@@ -168,7 +167,7 @@ class Get extends Base
                     // in Goals Overview we list an overview for each goal....
                     $view->config->addTranslation('conversion_rate', Piwik::translate('Goals_ConversionRate'));
 
-                } elseif ($isEcommerceEnabled && !$hideRevenue) {
+                } elseif ($isEcommerceEnabled) {
                     // in Goals detail page...
                     $view->config->addSparklineMetric(array('revenue'), $order = 30);
                 }
