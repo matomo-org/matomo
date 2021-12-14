@@ -1029,6 +1029,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForSelector('.ui-dialog');
             await page.waitForNetworkIdle();
 
+            await page.mouse.move(-10, -10);
+
             // test succeeds if the element is present
             await page.waitForSelector('.ui-dialog > .ui-dialog-content > div.rowevolution');
         });
