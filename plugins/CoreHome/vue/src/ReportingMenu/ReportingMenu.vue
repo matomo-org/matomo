@@ -26,8 +26,7 @@
         >
           <span
             :class="`menu-icon ${category.icon ? category.icon : 'icon-arrow-right'}`"
-          />
-          {{ category.name }}
+          />{{ category.name }}
           <span class="hidden">
             {{ translate('CoreHome_Menu') }}
           </span>
