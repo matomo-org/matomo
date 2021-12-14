@@ -1,7 +1,7 @@
 {
     "Installation": {
         "CollaborativeProject": "Matomo is a collaborative project built with love.",
-        "ConfigurationHelp": "Correct your Matomo configuration file by either either removing config\/config.ini.php and resuming installation, or by correcting the settings for the database connection.",
+        "ConfigurationHelp": "Correct your Matomo configuration file by either removing config\/config.ini.php and resuming installation, or by correcting the settings for the database connection.",
         "ConfirmDeleteExistingTables": "Delete the %s tables from your database? WARNING: DATA FROM THESE TABLES CANNOT BE RECOVERED!",
         "Congratulations": "Congratulations",
         "CongratulationsHelp": "<p>Congratulations! Your Matomo installation is complete.<\/p><p>Ensure your tracking code is entered on your pages, and wait for your first visitors.<\/p>",
