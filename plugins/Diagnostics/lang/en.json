@@ -33,6 +33,6 @@
         "PHPFPMWarningApache": "PHP FPM will ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to exclude certain directories from being handled by PHP FPM by adding the line %1$s to the %2$s section in your apache virtual host config just above the %3$s line.",
         "PHPFPMWarningNginx": "PHP FPM will ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to exclude certain directories from being handled by PHP FPM. For more information please see the %1$s official nginx server configuration %2$s",
         "PHPFPMWarningGeneric": "PHP FPM may ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to exclude the /config directory from being handled by PHP FPM.",
-        "HtaccessWarningNginx": "To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to restrict accesss to certain directories. For more information please see the %1$s official nginx server configuration %2$s"
+        "HtaccessWarningNginx": "To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to restrict access to certain directories. For more information please see the %1$s official nginx server configuration %2$s"
     }
 }
