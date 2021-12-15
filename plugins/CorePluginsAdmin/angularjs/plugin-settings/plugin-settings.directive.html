@@ -12,7 +12,7 @@
                 <div piwik-form-field="setting" all-settings="settings.settings"></div>
             </div>
 
-            <input type="button" ng-click="pluginSettings.save(settings)"
+            <input type="button" ng-click="pluginSettings.showPasswordConfirmModal(settings)"
                    ng-disabled="pluginSettings.isLoading"
                    value="{{ 'General_Save'|translate }}"
                    class="pluginsSettingsSubmit btn"/>

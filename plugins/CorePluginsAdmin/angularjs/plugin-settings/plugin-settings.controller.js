@@ -49,37 +49,38 @@
             self.isLoading = false;
         });
 
-        this.save = function (settings) {
+        //show password confirm modal
+        this.showPasswordConfirmModal = function(settings) {
+            const vm = this;
+            this.settingsToSave = settings;
+            const passwordInput = `.modal.open #currentUserPassword`;
+            const pluginInput = `.pluginSettings input`;
+            $element.find('.confirm-password-modal').modal({
+                dismissible: false,
+                onOpenEnd: function () {
+                    $(passwordInput).prop('readonly', false);
+
+                    $(passwordInput).focus();
+                    $(passwordInput) .off('keypress').keypress(function (event) {
+
+                          var keycode = (event.keyCode ? event.keyCode : event.which);
+                          if (keycode == '13') {
+                              $element.find('.confirm-password-modal').modal('close');
+                              vm.save();
+                          }
+                      });
+                },
+                onCloseEnd: function () {
+                    vm.passwordConfirmation = '';
+                    $('.pluginSettings input').prop('readonly', false);
+                },
+            }).modal('open');
+        };
+        this.save = function () {
+            const settings = this.settingsToSave;
             var apiMethod = 'CorePluginsAdmin.setUserSettings';
             if ($scope.mode === 'admin') {
                 apiMethod = 'CorePluginsAdmin.setSystemSettings';
-
-                if (!this.passwordConfirmation) {
-                    this.settingsToSave = settings;
-
-                    function onEnter(event){
-                        var keycode = (event.keyCode ? event.keyCode : event.which);
-                        if (keycode == '13'){
-                            $element.find('.confirm-password-modal').modal('close');
-                            self.save();
-                        }
-                    }
-
-                    $element.find('.confirm-password-modal').modal({ dismissible: false, onOpenEnd: function () {
-                            $('.modal.open #currentUserPassword').focus();
-                            $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
-                            $('.pluginSettings input').prop("readonly",true);
-                            $('.confirm-password-modal input').prop("readonly",false);
-                        },
-                        onCloseStart: function () {
-                            $('.pluginSettings input').prop('readonly', false);
-                        },
-                    }).modal('open');
-
-                    return;
-                } else {
-                    settings = this.settingsToSave;
-                }
             }
 
             this.isSaving[settings.pluginName] = true;
