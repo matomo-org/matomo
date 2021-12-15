@@ -5829,6 +5829,33 @@ SiteSelectorvue_type_script_lang_ts.render = SiteSelectorvue_type_template_id_cc
     }
   }
 }));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SitesStore.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+function siteSelectorModelAdapter() {
+  return {
+    get initialSites() {
+      return SiteSelector_SitesStore.initialSites.value;
+    },
+
+    loadSite: SiteSelector_SitesStore.loadSite.bind(SiteSelector_SitesStore),
+    loadInitialSites: function loadInitialSites() {
+      return cloneThenApply(SiteSelector_SitesStore.loadInitialSites());
+    },
+    searchSite: function searchSite() {
+      return cloneThenApply(SiteSelector_SitesStore.searchSite.apply(SiteSelector_SitesStore, arguments));
+    }
+  };
+}
+
+angular.module('piwikApp.service').factory('siteSelectorModel', siteSelectorModelAdapter);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/QuickAccess/QuickAccess.vue?vue&type=template&id=08fc9316
 
 var QuickAccessvue_type_template_id_08fc9316_hoisted_1 = {
@@ -10305,6 +10332,7 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

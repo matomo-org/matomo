@@ -30,6 +30,7 @@ import './DatePicker/DatePicker.adapter';
 import './DateRangePicker/DateRangePicker.adapter';
 import './PeriodDatePicker/PeriodDatePicker.adapter';
 import './SiteSelector/SiteSelector.adapter';
+import './SiteSelector/SitesStore.adapter';
 import './QuickAccess/QuickAccess.adapter';
 import './FieldArray/FieldArray.adapter';
 import './MultiPairField/MultiPairField.adapter';

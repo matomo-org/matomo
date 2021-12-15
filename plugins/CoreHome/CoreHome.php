@@ -247,9 +247,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
-        // TODO: [Vue] used by RollUpReporting, has to be kept for now.
-        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
-
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
