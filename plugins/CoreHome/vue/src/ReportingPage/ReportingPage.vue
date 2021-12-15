@@ -76,8 +76,6 @@ function hideOnlyRawDataNoticifation() {
 }
 
 export default defineComponent({
-  props: {
-  },
   components: {
     ActivityIndicator,
     Widget,
