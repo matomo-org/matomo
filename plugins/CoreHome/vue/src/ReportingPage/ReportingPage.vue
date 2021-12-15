@@ -275,7 +275,7 @@ export default defineComponent({
           doNotFetchActions: 1,
         });
       }).then((lastVisits) => {
-        if (lastVisits.length === 0) {
+        if (!lastVisits || lastVisits.length === 0) {
           this.hasRawData = false;
           hideOnlyRawDataNoticifation();
           return;
