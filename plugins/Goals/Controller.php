@@ -248,7 +248,6 @@ class Controller extends \Piwik\Plugin\Controller
             //load Visualisations Sparkline
             $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
             $view->config->show_title = true;
-            $view->config->title = Piwik::translate('Goals_GoalX', $goal['name']);
             $content .= $view->render();
         }
 
