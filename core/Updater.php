@@ -233,37 +233,39 @@ class Updater
      */
     public function getSqlQueriesToExecute()
     {
-        $queries = array();
-        $classNames = array();
+        return Access::doAsSuperUser(function() {
+            $queries    = [];
+            $classNames = [];
 
-        foreach ($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) {
-            foreach ($componentUpdateInfo as $file => $fileVersion) {
-                require_once $file; // prefixed by PIWIK_INCLUDE_PATH
+            foreach ($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) {
+                foreach ($componentUpdateInfo as $file => $fileVersion) {
+                    require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
-                $className = $this->getUpdateClassName($componentName, $fileVersion);
-                if (!class_exists($className, false)) {
-                    // throwing an error here causes Matomo to show the safe mode instead of showing an exception fatal only
-                    // that makes it possible to deactivate / uninstall a broken plugin to recover Matomo directly
-                    throw new \Error("The class $className was not found in $file");
+                    $className = $this->getUpdateClassName($componentName, $fileVersion);
+                    if (!class_exists($className, false)) {
+                        // throwing an error here causes Matomo to show the safe mode instead of showing an exception fatal only
+                        // that makes it possible to deactivate / uninstall a broken plugin to recover Matomo directly
+                        throw new \Error("The class $className was not found in $file");
+                    }
+
+                    if (in_array($className, $classNames)) {
+                        continue; // prevent from getting updates from Piwik\Columns\Updater multiple times
+                    }
+
+                    $classNames[] = $className;
+
+                    /** @var Updates $update */
+                    $update                 = StaticContainer::getContainer()->make($className);
+                    $migrationsForComponent = $update->getMigrations($this);
+                    foreach ($migrationsForComponent as $index => $migration) {
+                        $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
+                        $queries[] = $migration;
+                    }
+                    $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func([$className, 'isMajorUpdate']);
                 }
-
-                if (in_array($className, $classNames)) {
-                    continue; // prevent from getting updates from Piwik\Columns\Updater multiple times
-                }
-
-                $classNames[] = $className;
-
-                /** @var Updates $update */
-                $update = StaticContainer::getContainer()->make($className);
-                $migrationsForComponent = $update->getMigrations($this);
-                foreach ($migrationsForComponent as $index => $migration) {
-                    $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
-                    $queries[] = $migration;
-                }
-                $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
             }
-        }
-        return $queries;
+            return $queries;
+        });
     }
 
     public function getUpdateClassName($componentName, $fileVersion)
@@ -477,40 +479,34 @@ class Updater
         }
 
         if (!empty($componentsWithUpdateFile)) {
-            $currentAccess      = Access::getInstance();
-            $hasSuperUserAccess = $currentAccess->hasSuperUserAccess();
 
-            if (!$hasSuperUserAccess) {
-                $currentAccess->setSuperUserAccess(true);
-            }
+            Access::doAsSuperUser(function() use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
 
-            $pluginManager = \Piwik\Plugin\Manager::getInstance();
+                $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
-            // if error in any core update, show message + help message + EXIT
-            // if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
-            // if warning in any core update or in any plugins update, show message + CONTINUE
-            // if no error or warning, success message + CONTINUE
-            foreach ($componentsWithUpdateFile as $name => $filenames) {
-                try {
-                    $warnings = array_merge($warnings, $this->update($name));
-                } catch (UpdaterErrorException $e) {
-                    $errors[] = $e->getMessage();
-                    if ($name == 'core') {
-                        $coreError = true;
-                        break;
-                    } elseif ($pluginManager->isPluginActivated($name) && $pluginManager->isPluginBundledWithCore($name)) {
-                        $coreError = true;
-                        break;
-                    } elseif ($pluginManager->isPluginActivated($name)) {
-                        $pluginManager->deactivatePlugin($name);
-                        $deactivatedPlugins[] = $name;
+                // if error in any core update, show message + help message + EXIT
+                // if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
+                // if warning in any core update or in any plugins update, show message + CONTINUE
+                // if no error or warning, success message + CONTINUE
+                foreach ($componentsWithUpdateFile as $name => $filenames) {
+                    try {
+                        $warnings = array_merge($warnings, $this->update($name));
+                    } catch (UpdaterErrorException $e) {
+                        $errors[] = $e->getMessage();
+                        if ($name == 'core') {
+                            $coreError = true;
+                            break;
+                        } elseif ($pluginManager->isPluginActivated($name) && $pluginManager->isPluginBundledWithCore($name)) {
+                            $coreError = true;
+                            break;
+                        } elseif ($pluginManager->isPluginActivated($name)) {
+                            $pluginManager->deactivatePlugin($name);
+                            $deactivatedPlugins[] = $name;
+                        }
                     }
                 }
-            }
 
-            if (!$hasSuperUserAccess) {
-                $currentAccess->setSuperUserAccess(false);
-            }
+            });
         }
 
         Filesystem::deleteAllCacheOnUpdate();

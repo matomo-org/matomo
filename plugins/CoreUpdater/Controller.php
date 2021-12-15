@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
-use Piwik\Access;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
@@ -25,7 +24,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVue\CoreVue;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -300,54 +298,53 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Auto updater is disabled');
         }
 
-        return Access::doAsSuperUser(function() use ($doDryRun){
-            $updater = new DbUpdater();
-            $componentsWithUpdateFile = $updater->getComponentUpdates();
-            if (empty($componentsWithUpdateFile)) {
-                throw new NoUpdatesFoundException("Everything is already up to date.");
-            }
+        $updater = new DbUpdater();
+        $componentsWithUpdateFile = $updater->getComponentUpdates();
 
-            SettingsServer::setMaxExecutionTime(0);
+        if (empty($componentsWithUpdateFile)) {
+            throw new NoUpdatesFoundException("Everything is already up to date.");
+        }
 
-            $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome';
-            $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done';
+        SettingsServer::setMaxExecutionTime(0);
 
-            $viewWelcome = new View($welcomeTemplate);
-            $this->addCustomLogoInfo($viewWelcome);
-            $this->setBasicVariablesView($viewWelcome);
+        $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome';
+        $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done';
 
-            $viewDone = new View($doneTemplate);
-            $this->addCustomLogoInfo($viewDone);
-            $this->setBasicVariablesView($viewDone);
+        $viewWelcome = new View($welcomeTemplate);
+        $this->addCustomLogoInfo($viewWelcome);
+        $this->setBasicVariablesView($viewWelcome);
 
-            $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
+        $viewDone = new View($doneTemplate);
+        $this->addCustomLogoInfo($viewDone);
+        $this->setBasicVariablesView($viewDone);
 
-            if (is_null($doDryRun)) {
-                $doDryRun = !$doExecuteUpdates;
-            }
+        $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
 
-            if ($doDryRun) {
-                $migrations = $updater->getSqlQueriesToExecute();
-                $queryCount = count($migrations);
+        if (is_null($doDryRun)) {
+            $doDryRun = !$doExecuteUpdates;
+        }
 
-                $migrations = $this->groupMigrations($migrations);
-                $viewWelcome->migrations = $migrations;
-                $viewWelcome->queryCount = $queryCount;
-                $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
-                $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
-                return $viewWelcome->render();
-            }
+        if ($doDryRun) {
+            $migrations = $updater->getSqlQueriesToExecute();
+            $queryCount = count($migrations);
 
-            // Web
-            if ($doExecuteUpdates) {
-                $this->warningMessages = array();
-                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
+            $migrations = $this->groupMigrations($migrations);
+            $viewWelcome->migrations = $migrations;
+            $viewWelcome->queryCount = $queryCount;
+            $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
+            $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
+            return $viewWelcome->render();
+        }
 
-                $this->redirectToDashboardWhenNoError($updater);
+        // Web
+        if ($doExecuteUpdates) {
+            $this->warningMessages = array();
+            $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
 
-                return $viewDone->render();
-            }
-        });
+            $this->redirectToDashboardWhenNoError($updater);
+
+            return $viewDone->render();
+        }
 
         exit;
     }
