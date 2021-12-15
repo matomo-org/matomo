@@ -1431,34 +1431,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleColumnHighlighting: function (domElem) {
-        var maxWidth = {};
+
         var currentNthChild = null;
         var self = this;
-
-        // give all values consistent width
-        $('td', domElem).each(function () {
-            var $this = $(this);
-            if ($this.hasClass('label')) {
-                return;
-            }
-
-            var table    = $this.closest('table');
-            var nthChild = $this.parent('tr').children().index($(this)) + 1;
-            var rows     = $('> tbody > tr', table);
-
-            if (!maxWidth[nthChild]) {
-                maxWidth[nthChild] = 0;
-                rows.find("td:nth-child(" + (nthChild) + ").column .value").add('> thead th:not(.label) .thDIV', table).each(function (index, element) {
-                    var width = $(element).width();
-                    if (width > maxWidth[nthChild]) {
-                        maxWidth[nthChild] = width;
-                    }
-                });
-                rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                    $(element).closest('td').css({width: maxWidth[nthChild]});
-                });
-            }
-        });
 
         // highlight all columns on hover
         $(domElem).on('mouseenter', 'td', function (e) {
@@ -1956,13 +1931,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     // ensure the tooltips of parent elements are hidden when the action tooltip is shown
                     // otherwise it can happen that tooltips for subtable rows are shown as well.
                     open: function() {
-                        var tooltip = $(this).parents('[piwik-widget]').tooltip('instance');
+                        var tooltip = $(this).parents('.matomo-widget').tooltip('instance');
                         if (tooltip) {
                             tooltip.disable();
                         }
                     },
                     close: function() {
-                        var tooltip = $(this).parents('[piwik-widget]').tooltip('instance');
+                        var tooltip = $(this).parents('.matomo-widget').tooltip('instance');
                         if (tooltip) {
                             tooltip.enable();
                         }

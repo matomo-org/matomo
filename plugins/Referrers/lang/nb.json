@@ -1,6 +1,7 @@
 {
     "Referrers": {
         "Acquisition": "Anskaffelse",
+        "CampaignContent": "Kampanjeinnhold",
         "Campaigns": "Kampanjer",
         "ColumnCampaign": "Kampanje",
         "ColumnSearchEngine": "Søkemotor",

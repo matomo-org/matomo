@@ -16,7 +16,7 @@ export function sortOrderables<T extends Orderable>(menu?: T[]): T[] {
       return -1;
     }
 
-    if (rhs.order > lhs.order) {
+    if (lhs.order > rhs.order) {
       return 1;
     }
 
