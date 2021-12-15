@@ -259,30 +259,30 @@ export default defineComponent({
         if (json.value > 0) {
           this.hasNoVisits = false;
           hideOnlyRawDataNoticifation();
-          return;
+          return undefined;
         }
 
         this.hasNoVisits = true;
 
         if (this.hasRawData) {
           showOnlyRawDataNotification();
-          return;
+          return undefined;
         }
 
-        AjaxHelper.fetch({
+        return AjaxHelper.fetch({
           method: 'Live.getLastVisitsDetails',
           filter_limit: 1,
           doNotFetchActions: 1,
-        }).then((lastVisits) => {
-          if (lastVisits.length === 0) {
-            this.hasRawData = false;
-            hideOnlyRawDataNoticifation();
-            return;
-          }
-
-          this.hasRawData = true;
-          showOnlyRawDataNotification();
         });
+      }).then((lastVisits) => {
+        if (lastVisits.length === 0) {
+          this.hasRawData = false;
+          hideOnlyRawDataNoticifation();
+          return;
+        }
+
+        this.hasRawData = true;
+        showOnlyRawDataNotification();
       });
     },
   },
