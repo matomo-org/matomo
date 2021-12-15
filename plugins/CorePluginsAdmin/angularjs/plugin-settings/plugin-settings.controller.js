@@ -51,14 +51,14 @@
 
         //show password confirm modal
         this.showPasswordConfirmModal = function(settings) {
-            const vm = this;
+            var vm = this;
             this.settingsToSave = settings;
-            const passwordInput = `.modal.open #currentUserPassword`;
-            const pluginInput = `.pluginSettings input`;
+            var passwordInput = `.modal.open #currentUserPassword`;
+            var pluginInput = `.pluginSettings input`;
             $element.find('.confirm-password-modal').modal({
                 dismissible: false,
                 onOpenEnd: function () {
-                    $(passwordInput).prop('readonly', false);
+                    $(pluginInput).prop('readonly', false);
 
                     $(passwordInput).focus();
                     $(passwordInput) .off('keypress').keypress(function (event) {
@@ -72,12 +72,12 @@
                 },
                 onCloseEnd: function () {
                     vm.passwordConfirmation = '';
-                    $('.pluginSettings input').prop('readonly', false);
+                    $(pluginInput).prop('readonly', false);
                 },
             }).modal('open');
         };
         this.save = function () {
-            const settings = this.settingsToSave;
+            var settings = this.settingsToSave;
             var apiMethod = 'CorePluginsAdmin.setUserSettings';
             if ($scope.mode === 'admin') {
                 apiMethod = 'CorePluginsAdmin.setSystemSettings';
