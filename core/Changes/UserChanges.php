@@ -52,7 +52,15 @@ class UserChanges
             $params = [];
         }
 
-        $res = $this->db->fetchRow($selectSql, $params);
+        try {
+            $res = $this->db->fetchRow($selectSql, $params);
+        } catch (\Exception $e) {
+            // Ignore table not found
+            if ($e->getCode() === 42) {
+                return self::NO_CHANGES_EXIST;
+            }
+            throw $e;
+        }
         $new = $res['n'];
         $all = $res['a'];
 

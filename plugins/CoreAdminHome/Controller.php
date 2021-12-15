@@ -326,7 +326,7 @@ class Controller extends ControllerAdmin
 
         $changes = $userChanges->getChanges();
 
-        return $this->renderTemplate('whatisnew', ['changes' => $changes]);
+        return $this->renderTemplate('whatIsNew', ['changes' => $changes]);
 
     }
 

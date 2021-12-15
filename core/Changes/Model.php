@@ -11,6 +11,7 @@ namespace Piwik\Changes;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
@@ -68,7 +69,16 @@ class Model
     public function removeChanges(string $pluginName)
     {
         $table = Common::prefixTable('changes');
-        $this->db->query("DELETE FROM " . $table . " WHERE plugin_name = ?", [$pluginName]);
+
+        try {
+            $this->db->query("DELETE FROM " . $table . " WHERE plugin_name = ?", [$pluginName]);
+        } catch (\Exception $e) {
+            // Ignore table not found
+            if ($e->getCode() === 42) {
+                return;
+            }
+            throw $e;
+        }
     }
 
     /**
@@ -79,11 +89,38 @@ class Model
      */
     public function addChange(string $pluginName, array $change)
     {
-        $table = Common::prefixTable('changes');
-        $insertSql = "INSERT IGNORE INTO " . $table . ' (created_time, plugin_name, version, title, description, link_name, link) 
-                      VALUES (NOW(), ?, ?, ?, ?, ?, ?)';
+        if(!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
+            StaticContainer::get('Psr\Log\LoggerInterface')->warning(
+                "Change item for plugin {plugin} missing version, title or description fields - ignored",
+                ['plugin' => $pluginName]);
+            return;
+        }
 
-        $this->db->query($insertSql, [$pluginName, $change['version'], $change['title'], $change['description'], $change['link_name'], $change['link']]);
+        $table = Common::prefixTable('changes');
+
+        $fields = ['plugin_name', 'version', 'title', 'description'];
+        $params = [$pluginName, $change['version'], $change['title'], $change['description']];
+
+        if (isset($change['link_name']) && isset($change['link'])) {
+            $fields[] = 'link_name';
+            $fields[] = 'link';
+            $params[] = $change['link_name'];
+            $params[] = $change['link'];
+        }
+
+        $insertSql = 'INSERT IGNORE INTO ' . $table . ' (created_time,'.implode(',', $fields).') 
+                      VALUES (NOW(),'.implode(',', array_fill(0, count($params), "?")).')';
+
+        try {
+            $this->db->query($insertSql, $params);
+        } catch (\Exception $e) {
+            // Ignore table not found
+            if ($e->getCode() === 42) {
+                return;
+            }
+            throw $e;
+        }
+
     }
 
     /**

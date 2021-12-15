@@ -55,8 +55,6 @@ class CreateChanges extends Fixture
              'version' => '4.5.0',
              'title' => 'New feature y added',
              'description' => 'Now you can do c with d like this',
-             'link_name' => 'For more information go here',
-             'link' => 'https://www.matomo.org',
             ],
             [
              'version' => '4.4.0',

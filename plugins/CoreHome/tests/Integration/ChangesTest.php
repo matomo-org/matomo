@@ -35,6 +35,16 @@ class ChangesTest extends IntegrationTestCase
         $this->assertEquals($json, json_encode($r, true));
     }
 
+    public function test_CoreHomeChanges_ShouldAllowChangeItemAddWithoutLink()
+    {
+        $json = '{"idchange":"2","plugin_name":"CoreHome","version":"4.5.0","title":"New feature y added","description":"Now you can do c with d like this","link_name":null,"link":null}';
+        $changesModel = new ChangesModel();
+        $changes = $changesModel->getChangeItems();
+        $r = $changes[1];
+        unset($r['created_time']);
+        $this->assertEquals($json, json_encode($r, true));
+    }
+
 }
 
 ChangesTest::$fixture = new CreateChanges();
