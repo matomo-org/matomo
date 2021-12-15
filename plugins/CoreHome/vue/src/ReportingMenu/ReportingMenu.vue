@@ -143,10 +143,12 @@ import MenuDropdown from '../MenuDropdown/MenuDropdown.vue';
 import SideNav from '../SideNav/SideNav';
 import { NotificationsStore } from '../Notification';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-import ReportingMenuStoreInstance, { Category, Subcategory } from './ReportingMenu.store';
+import ReportingMenuStoreInstance from './ReportingMenu.store';
 import Matomo from '../Matomo/Matomo';
 import translate from '../translate';
 import WidgetsStoreInstance from '../Widget/Widgets.store';
+import Category from './Category';
+import Subcategory from './Subcategory';
 
 const REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
 
@@ -288,8 +290,10 @@ export default defineComponent({
         this.helpShownCategory = null;
 
         // this menu item is already active, a location change success would not be triggered,
-        // instead trigger an event
-        Matomo.postEvent('loadPage', category.id, subcategory.id);
+        // instead trigger an event (after the URL changes)
+        setTimeout(() => {
+          Matomo.postEvent('loadPage', category.id, subcategory.id);
+        });
       }
     },
     makeUrl(category: Category, subcategory: Subcategory) {
