@@ -1856,15 +1856,15 @@ var CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
 FormFieldvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var FormField = (FormFieldvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=41f51ad7
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=c535b064
 
-var FieldAngularJsTemplatevue_type_template_id_41f51ad7_hoisted_1 = {
+var FieldAngularJsTemplatevue_type_template_id_c535b064_hoisted_1 = {
   ref: "root"
 };
-function FieldAngularJsTemplatevue_type_template_id_41f51ad7_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldAngularJsTemplatevue_type_template_id_41f51ad7_hoisted_1, null, 512);
+function FieldAngularJsTemplatevue_type_template_id_c535b064_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldAngularJsTemplatevue_type_template_id_c535b064_hoisted_1, null, 512);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=41f51ad7
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=c535b064
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=script&lang=ts
 function FieldAngularJsTemplatevue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -1902,16 +1902,18 @@ function clone(obj) {
       value: clone(props.modelValue)
     });
     scope.$watch('formField.value', function (newValue, oldValue) {
-      if (newValue !== oldValue && newValue !== props.modelValue) {
+      if (newValue !== oldValue && JSON.stringify(newValue) !== JSON.stringify(props.modelValue)) {
         context.emit('update:modelValue', clone(newValue));
       }
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return props.modelValue;
     }, function (newValue) {
-      $timeout(function () {
-        scope.formField.value = clone(newValue);
-      });
+      if (JSON.stringify(newValue) !== JSON.stringify(scope.formField.value)) {
+        $timeout(function () {
+          scope.formField.value = newValue;
+        });
+      }
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return props.formField;
@@ -1948,7 +1950,7 @@ function clone(obj) {
 
 
 
-FieldAngularJsTemplatevue_type_script_lang_ts.render = FieldAngularJsTemplatevue_type_template_id_41f51ad7_render
+FieldAngularJsTemplatevue_type_script_lang_ts.render = FieldAngularJsTemplatevue_type_template_id_c535b064_render
 
 /* harmony default export */ var FieldAngularJsTemplate = (FieldAngularJsTemplatevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/useExternalPluginComponent.ts
