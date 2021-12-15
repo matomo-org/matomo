@@ -10,7 +10,13 @@ import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 
+interface ReportRef {
+  module: string;
+  action: string;
+}
+
 interface Report {
+  relatedReports: ReportRef[];
   module: string;
   action: string;
   documentation?: string;

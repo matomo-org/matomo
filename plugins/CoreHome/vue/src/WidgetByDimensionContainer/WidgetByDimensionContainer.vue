@@ -40,26 +40,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
-import { Orderable } from '../ReportingMenu/ReportingMenu.store';
-import { WidgetData } from '../Widget/Widgets.store';
+import { Widget } from '../Widget/Widgets.store';
+import { sortOrderables } from '../Orderable';
 
 // TODO: is there a widget category ID or widget ID
-
-function sortOrderables<T extends Orderable>(orderables: T[]):T[] {
-  const sorted = [...orderables];
-  sorted.sort((lhs, rhs) => {
-    if (lhs.order < rhs.order) {
-      return -1;
-    }
-
-    if (lhs.order > rhs.order) {
-      return 1;
-    }
-
-    return 0;
-  });
-  return sorted;
-}
 
 export default defineComponent({
   props: {
@@ -77,7 +61,7 @@ export default defineComponent({
     [this.selectedWidget] = this.widgetsSorted;
   },
   computed: {
-    widgetsSorted(): WidgetData[] {
+    widgetsSorted(): Widget[] {
       return sortOrderables(this.widgets);
     },
     widgetsByCategory() {
@@ -93,12 +77,11 @@ export default defineComponent({
         byCategory[category].widgets.push(widget);
       });
 
-      const result = sortOrderables(Object.values(byCategory));
-      return result;
+      return sortOrderables(Object.values(byCategory));
     },
   },
   methods: {
-    selectWidget(widget: WidgetData) {
+    selectWidget(widget: Widget) {
       // we copy to force rerender if selecting same widget
       this.selectedWidget = { ...widget };
     },
