@@ -420,8 +420,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
-      this.requestHandle!.then((...args) => {
-        resolve(...args);
+      this.requestHandle!.then((data: unknown) => {
+        resolve(data as T); // ignoring textStatus/jqXHR
       }).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);

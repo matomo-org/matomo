@@ -239,7 +239,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
 
-
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
@@ -444,5 +443,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
         $translationKeys[] = 'CoreHome_StartDate';
         $translationKeys[] = 'CoreHome_EndDate';
+        $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
     }
 }

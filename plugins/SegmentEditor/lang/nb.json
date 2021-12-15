@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "AddANDorORCondition": "Legg til %s-vilkår",
         "AddNewSegment": "Legg til nytt segment",
         "AreYouSureDeleteSegment": "Er du sikker på at du vil slette dette segmentet?",
         "ChooseASegment": "Velg et segment",
