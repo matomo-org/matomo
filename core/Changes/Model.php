@@ -104,21 +104,21 @@ class Model
 
         $table = Common::prefixTable('changes');
 
-        $values = [
-            'created_time' => Date::now()->getDatetime(),
-            'plugin_name' => $pluginName,
-            'version' => $change['version'],
-            'title' => $change['title'],
-            'description' => $change['description']
-        ];
+        $fields = ['created_time', 'plugin_name', 'version', 'title', 'description'];
+        $params = [Date::now()->getDatetime(), $pluginName, $change['version'], $change['title'], $change['description']];
 
         if (isset($change['link_name']) && isset($change['link'])) {
-            $values['link_name'] = $change['link_name'];
-            $values['link'] = $change['link'];
+            $fields[] = 'link_name';
+            $fields[] = 'link';
+            $params[] = $change['link_name'];
+            $params[] = $change['link'];
         }
 
+        $insertSql = 'INSERT IGNORE INTO ' . $table . ' ('.implode(',', $fields).') 
+                      VALUES ('.Common::getSqlStringFieldsArray($params).')';
+
         try {
-            $this->db->insert($table, $values);
+            $this->db->query($insertSql, $params);
         } catch (\Exception $e) {
             if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 return;

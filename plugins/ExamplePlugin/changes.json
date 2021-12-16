@@ -2,7 +2,7 @@
   {
     "title":       "New feature x added",
     "description": "Now you can do a with b like this",
-    "linkName":    "For more information go here",
+    "link_name":   "For more information go here",
     "link":        "https://www.matomo.org",
     "version":     "4.0.2"
   },
