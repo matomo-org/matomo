@@ -65,6 +65,7 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_multipleConditions_differentConditions()
     {
+        //todo this is need to be fix skip for now
         if (getenv('PHP_VERSION') == '7.2') {
             $this->markTestSkipped('version number not exist');
         }
@@ -92,6 +93,7 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_detectsPHPVersion()
     {
+        //todo this is need to be fix skip for now
         if (getenv('PHP_VERSION') == '7.2') {
             $this->markTestSkipped('version number not exist');
         }
