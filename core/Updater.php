@@ -233,39 +233,39 @@ class Updater
      */
     public function getSqlQueriesToExecute()
     {
-        return Access::doAsSuperUser(function() {
-            $queries    = [];
-            $classNames = [];
+        $queries    = [];
+        $classNames = [];
 
-            foreach ($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) {
-                foreach ($componentUpdateInfo as $file => $fileVersion) {
-                    require_once $file; // prefixed by PIWIK_INCLUDE_PATH
+        foreach ($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) {
+            foreach ($componentUpdateInfo as $file => $fileVersion) {
+                require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
-                    $className = $this->getUpdateClassName($componentName, $fileVersion);
-                    if (!class_exists($className, false)) {
-                        // throwing an error here causes Matomo to show the safe mode instead of showing an exception fatal only
-                        // that makes it possible to deactivate / uninstall a broken plugin to recover Matomo directly
-                        throw new \Error("The class $className was not found in $file");
-                    }
-
-                    if (in_array($className, $classNames)) {
-                        continue; // prevent from getting updates from Piwik\Columns\Updater multiple times
-                    }
-
-                    $classNames[] = $className;
-
-                    /** @var Updates $update */
-                    $update                 = StaticContainer::getContainer()->make($className);
-                    $migrationsForComponent = $update->getMigrations($this);
-                    foreach ($migrationsForComponent as $index => $migration) {
-                        $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
-                        $queries[] = $migration;
-                    }
-                    $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func([$className, 'isMajorUpdate']);
+                $className = $this->getUpdateClassName($componentName, $fileVersion);
+                if (!class_exists($className, false)) {
+                    // throwing an error here causes Matomo to show the safe mode instead of showing an exception fatal only
+                    // that makes it possible to deactivate / uninstall a broken plugin to recover Matomo directly
+                    throw new \Error("The class $className was not found in $file");
                 }
+
+                if (in_array($className, $classNames)) {
+                    continue; // prevent from getting updates from Piwik\Columns\Updater multiple times
+                }
+
+                $classNames[] = $className;
+
+                $migrationsForComponent = Access::doAsSuperUser(function() use ($className) {
+                    /** @var Updates $update */
+                    $update = StaticContainer::getContainer()->make($className);
+                    return $update->getMigrations($this);
+                });
+                foreach ($migrationsForComponent as $index => $migration) {
+                    $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
+                    $queries[] = $migration;
+                }
+                $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func([$className, 'isMajorUpdate']);
             }
-            return $queries;
-        });
+        }
+        return $queries;
     }
 
     public function getUpdateClassName($componentName, $fileVersion)
