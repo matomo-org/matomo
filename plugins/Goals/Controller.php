@@ -233,7 +233,6 @@ class Controller extends \Piwik\Plugin\Controller
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
 
         $apiProxy = Proxy::getInstance();
-        $queryString = $_SERVER['QUERY_STRING'];
         if (!$apiProxy->isExistingApiAction($module, $action)) {
             throw new \Exception("Invalid action name '$action' for '$module' plugin.");
         }
