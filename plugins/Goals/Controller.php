@@ -225,26 +225,16 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getSparklines()
     {
-        $module = "Goals";
-        $action = "getMetrics";
         $content = "";
-
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], []);
 
-        $apiProxy = Proxy::getInstance();
-        if (!$apiProxy->isExistingApiAction($module, $action)) {
-            throw new \Exception("Invalid action name '$action' for '$module' plugin.");
-        }
-
-        $apiAction = $apiProxy->buildApiActionName($module, $action);
         foreach ($goals as $goal) {
-
             //this is used to hack query params
             $_GET['idGoal'] = $goal['idgoal'];
             $_GET['allow_multiple'] = (int)$goal['allow_multiple'];
             $_GET['only_summary'] = 1;
             //load Visualisations Sparkline
-            $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
+            $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
             $view->config->show_title = true;
             $content .= $view->render();
         }
