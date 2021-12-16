@@ -51,16 +51,18 @@ export default defineComponent({
 
     scope.$watch('formField.value', (newValue, oldValue) => {
       if (newValue !== oldValue
-        && newValue !== props.modelValue
+        && JSON.stringify(newValue) !== JSON.stringify(props.modelValue)
       ) {
         context.emit('update:modelValue', clone(newValue));
       }
     });
 
     watch(() => props.modelValue, (newValue) => {
-      $timeout(() => {
-        scope.formField.value = clone(newValue);
-      });
+      if (JSON.stringify(newValue) !== JSON.stringify(scope.formField.value)) {
+        $timeout(() => {
+          scope.formField.value = newValue;
+        });
+      }
     });
 
     watch(() => props.formField, (newValue) => {

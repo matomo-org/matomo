@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { ILocationService } from 'angular';
+import { ILocationService, ITimeoutService } from 'angular';
 import { computed, ref, readonly } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import { Periods, format } from '../Periods'; // important to load all periods here
@@ -67,6 +67,9 @@ class MatomoUrl {
 
     const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
     $location.search(serializedParams);
+
+    const $timeout: ITimeoutService = Matomo.helper.getAngularDependency('$timeout');
+    $timeout();
   }
 
   updateUrl(params: QueryParameters|string, hashParams: QueryParameters|string = {}) {

@@ -95,7 +95,6 @@
         "SystemCheckExtensions": "その他の必須エクステンション",
         "SystemCheckFileIntegrity": "ファイルの整合性",
         "SystemCheckFilterHelp": "「フィルター」サポートを有効にしてPHPを構成および再構築する必要があります（--disable-filterは使用しないでください）。",
-        "SystemCheckFunctionHelp": "このビルトイン関数を有効にする必要があります。",
         "SystemCheckFunctions": "必須関数",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "スパークライン（小さなグラフ）と画像グラフ（Matomo Mobileアプリと電子メールレポート）は機能しません。",

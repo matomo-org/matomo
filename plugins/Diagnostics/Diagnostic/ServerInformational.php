@@ -8,9 +8,10 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Translation\Translator;
+use Piwik\SettingsPiwik;
 
 /**
- * Informatation about the server.
+ * Information about the server.
  */
 class ServerInformational implements Diagnostic
 {
@@ -28,8 +29,26 @@ class ServerInformational implements Diagnostic
     {
         $results = [];
 
-        if ( ! empty( $_SERVER['SERVER_SOFTWARE'] ) ) {
-            $results[] = DiagnosticResult::informationalResult('Server Info', $_SERVER['SERVER_SOFTWARE']);
+        if (!empty($_SERVER['SERVER_SOFTWARE'])) {
+
+            $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
+
+            if (SettingsPiwik::isMatomoInstalled()) {
+                $rpd = new RequiredPrivateDirectories($this->translator);
+                $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+            }
+
+            if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false && $isGlobalConfigIniAccessible) {
+
+                $comment = $_SERVER['SERVER_SOFTWARE']."<br><br>";
+                $comment .= $this->translator->translate('Diagnostics_HtaccessWarningNginx', [
+                        '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);
+
+                $results[] = DiagnosticResult::singleResult('Server Info', DiagnosticResult::STATUS_WARNING, $comment);
+
+            } else {
+                $results[] = DiagnosticResult::informationalResult('Server Info', $_SERVER['SERVER_SOFTWARE']);
+            }
         }
 
         return $results;

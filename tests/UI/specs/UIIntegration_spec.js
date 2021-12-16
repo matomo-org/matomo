@@ -393,7 +393,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.click('.helpIcon');
             await page.waitForTimeout(100);
             await page.evaluate(function () {
-                $('.helpDate:visible').hide();
+                $('.helpDate:visible').html('Report generated xx hours xx min ago');
             });
             await page.mouse.move(-10, -10);
 
@@ -1029,6 +1029,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForSelector('.ui-dialog');
             await page.waitForNetworkIdle();
 
+            await page.mouse.move(-10, -10);
+
             // test succeeds if the element is present
             await page.waitForSelector('.ui-dialog > .ui-dialog-content > div.rowevolution');
         });
@@ -1055,6 +1057,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             elem = await page.$('#secondNavBar');
             await elem.hover();
+
+            await page.mouse.move(-10, -10);
 
             pageWrap = await page.$('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog');
             expect(await pageWrap.screenshot()).to.matchImage('segmented_visitorlog');

@@ -10,10 +10,10 @@ import {
   readonly,
   computed,
 } from 'vue';
-import { Subcategory } from '../ReportingMenu/ReportingMenu.store';
+import Subcategory from '../ReportingMenu/Subcategory';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
-export interface WidgetData {
+export interface WidgetLeaf {
   uniqueId: string;
   module: string;
   action: string;
@@ -24,16 +24,20 @@ export interface WidgetData {
   isReport?: boolean;
   middlewareParameters?: QueryParameters;
   documentation?: string;
+  layout?: string;
+  isWide?: boolean;
 }
 
-export interface ContainerWidgetData extends WidgetData {
+export interface ContainerWidget extends WidgetLeaf {
   isFirstInPage?: boolean;
-  widgets: WidgetData[];
+  widgets: (WidgetLeaf | ContainerWidget)[];
 }
+
+export type Widget = WidgetLeaf | ContainerWidget;
 
 interface WidgetsStoreState {
   isFetchedFirstTime: boolean;
-  categorizedWidgets: Record<string, WidgetData[]>;
+  categorizedWidgets: Record<string, Widget[]>;
 }
 
 class WidgetsStore {
