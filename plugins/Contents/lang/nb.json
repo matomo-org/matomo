@@ -2,9 +2,13 @@
     "Contents": {
         "ContentImpression": "Innholdsinntrykk",
         "ContentInteraction": "Innholdsinteraksjon",
+        "ContentInteractions": "Innholdsinteraksjoner",
         "ContentName": "Innholdsnavn",
+        "ContentNames": "Innholdsnavn",
         "ContentPiece": "Innholdsdel",
+        "ContentPieces": "Innholdsdeler",
         "ContentTarget": "Innholdsmål",
+        "ContentTargets": "Innholdsmål",
         "Contents": "Innhold",
         "Impressions": "Visninger",
         "ImpressionsMetricDocumentation": "Antall ganger en innholdsdel, som en banner eller annonse, ble vist på en side.",

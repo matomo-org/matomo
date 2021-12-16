@@ -6,6 +6,7 @@
         "Continent": "Kontinent",
         "Continents": "Kontinenter",
         "Country": "Land",
+        "CountryCode": "Landskode",
         "CurrentLocationIntro": "Ifølge denne leverandøren, er din nåværende posisjon",
         "DistinctCountries": "%s bestemte land",
         "FromDifferentCities": "forskjellige byer",
@@ -13,12 +14,16 @@
         "Latitude": "Breddegrad",
         "Latitudes": "Breddegrader",
         "Location": "Sted",
+        "LocationProvider": "Posisjonstilbyder",
         "Longitude": "Lengdegrad",
         "Longitudes": "Lengdegrader",
         "Region": "Region",
         "SubmenuLocations": "Lokasjoner",
+        "VisitLocation": "Besøkssted",
         "WidgetLocation": "Besøkendes lokasjon",
         "country_a1": "Anonym Proxy",
+        "country_a2": "Satellitt-tilbyder",
+        "country_cat": "Områder som snakker katalansk",
         "country_o1": "Annet land"
     }
 }
