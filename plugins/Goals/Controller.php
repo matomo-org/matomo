@@ -229,8 +229,7 @@ class Controller extends \Piwik\Plugin\Controller
         $action = "getMetrics";
         $content = "";
 
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], []);
 
         $apiProxy = Proxy::getInstance();
         if (!$apiProxy->isExistingApiAction($module, $action)) {
