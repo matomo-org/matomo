@@ -17,6 +17,8 @@
 				<pageId>9</pageId>
 				<pageLoadTime>4.11s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>4113</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Checkout/Purchasing...</title>
@@ -174,8 +176,8 @@
 				<pageId>2</pageId>
 				<pageLoadTime>2.45s</pageLoadTime>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>900</timeSpent>
+				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>2446</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view - should be registered as URL</title>
@@ -194,8 +196,6 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -213,8 +213,6 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
-				<timeSpent>72</timeSpent>
-				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -232,8 +230,6 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
-				<timeSpent>108</timeSpent>
-				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -251,8 +247,6 @@
 				
 				<pageId>6</pageId>
 				<bandwidth />
-				<timeSpent>72</timeSpent>
-				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -284,8 +278,6 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
-				<timeSpent>108</timeSpent>
-				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount />
@@ -307,6 +299,8 @@
 				<pageId>8</pageId>
 				<pageLoadTime>2.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>2059</pageLoadTimeMilliseconds>
 				<pageviewPosition>4</pageviewPosition>
 				<title>Looking at homepage after site search...</title>

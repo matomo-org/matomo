@@ -179,7 +179,7 @@ class Xml extends Renderer
             } else {
                 $xmlValue = self::formatValueXml($value);
 
-                if (strlen($xmlValue) != 0) {
+                if (strlen(strval($xmlValue)) !== 0) {
                     $result .= $prefixLines . $prefix . $xmlValue . $suffix . "\n";
                 } else {
                     $result .= $prefixLines . $emptyNode . "\n";

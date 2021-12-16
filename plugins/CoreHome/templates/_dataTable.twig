@@ -59,6 +59,8 @@
                 <div class="pk-emptyDataTable">
                 {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
                     {{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}
+                {% elseif showPluginArchiveDisabled is defined and showPluginArchiveDisabled%}
+                    {{ 'CoreHome_DataForThisReportHasBeenDisabled'|translate('<a target="_blank" href="'~'https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins' ~'">', '</a>')|raw }}
                 {% elseif properties.no_data_message %}
                     {{ properties.no_data_message|raw }}
                 {% else %}
@@ -73,7 +75,7 @@
                 {% include "@CoreHome/_dataTableFooter.twig" %}
             {% endif %}
 
-            {% include "@CoreHome/_dataTableJS.twig" %}
+            {% include "@CoreHome/_dataTableJS.twig" with { reportId: properties.report_id } %}
         {% endif %}
     </div>
 </div>

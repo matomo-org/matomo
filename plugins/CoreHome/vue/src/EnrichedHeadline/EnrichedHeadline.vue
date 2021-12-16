@@ -56,6 +56,8 @@
       v-show="showInlineHelp"
     >
       <div v-html="$sanitize(actualInlineHelp)"/>
+      <span class="helpDate"
+            v-html="reportGenerated"></span>
       <a
         v-if="helpUrl"
         rel="noreferrer noopener"
@@ -68,28 +70,14 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  defineAsyncComponent,
-} from 'vue';
+import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
+import useExternalPluginComponent from '../useExternalPluginComponent';
 
 // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
 // CoreHome)
-// TODO: may need a generic solution at some point, but it's bad practice to have
-// cyclic dependencies like this. it worked before because it was individual files
-// dependening on each other, not whole plugins.
-const RateFeature = defineAsyncComponent(() => new Promise((resolve) => {
-  window.$(document).ready(() => {
-    const { Feedback } = window as any; // eslint-disable-line
-    if (Feedback) {
-      resolve(Feedback.RateFeature);
-    } else { // feedback plugin not loaded
-      resolve(null);
-    }
-  });
-}));
+const RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 
 /**
  * Usage:
@@ -162,7 +150,7 @@ export default defineComponent({
     setTimeout(() => {
       if (!this.actualInlineHelp) {
         let helpNode = root.querySelector('.title .inlineHelp');
-        if (!helpNode && root.parentElement.nextElementSibling) {
+        if (!helpNode && root.parentElement?.nextElementSibling) {
           // hack for reports :(
           helpNode = (root.parentElement.nextElementSibling as HTMLElement)
             .querySelector('.reportDocumentation');

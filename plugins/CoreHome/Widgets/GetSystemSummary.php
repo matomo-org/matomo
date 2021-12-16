@@ -20,6 +20,7 @@ use Piwik\Widget\WidgetConfig;
 
 class GetSystemSummary extends Widget
 {
+    const TEST_MYSQL_VERSION = 'mysql-version-redacted';
     /**
      * @var StoredSegmentService
      */
@@ -108,6 +109,10 @@ class GetSystemSummary extends Widget
 
     private function getMySqlVersion()
     {
+        if (defined('PIWIK_TEST_MODE')) {
+            return self::TEST_MYSQL_VERSION;
+        }
+
         $db = Db::get();
         return $db->getServerVersion();
     }

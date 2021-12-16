@@ -22,31 +22,31 @@ export default createAngularJsAdapter<[IParseService]>({
     },
   },
   events: {
-    yes: ($event, scope, element, attrs) => {
+    yes: ($event, vm, scope, element, attrs) => {
       if (attrs.yes) {
         scope.$eval(attrs.yes);
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    no: ($event, scope, element, attrs) => {
+    no: ($event, vm, scope, element, attrs) => {
       if (attrs.no) {
         scope.$eval(attrs.no);
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    validation: ($event, scope, element, attrs) => {
+    validation: ($event, vm, scope, element, attrs) => {
       if (attrs.no) {
         scope.$eval(attrs.no);
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    close: ($event, scope, element, attrs) => {
+    close: ($event, vm, scope, element, attrs) => {
       if (attrs.close) {
         scope.$eval(attrs.close);
         setTimeout(() => { scope.$apply(); }, 0);
       }
     },
-    'update:modelValue': (newValue, scope, element, attrs, $parse: IParseService) => {
+    'update:modelValue': (newValue, vm, scope, element, attrs, controller, $parse: IParseService) => {
       setTimeout(() => {
         scope.$apply($parse(attrs.piwikDialog).assign(scope, newValue));
       }, 0);

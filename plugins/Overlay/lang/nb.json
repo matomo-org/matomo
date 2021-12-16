@@ -1,6 +1,7 @@
 {
     "Overlay": {
         "Clicks": "%s klikk",
+        "ClicksFromXLinks": "%1$s klikk fra én av %2$s lenker",
         "Domain": "Domene",
         "ErrorNotLoadingLink": "Klikk her for å få flere tips for feilsøking",
         "Link": "Lenke",

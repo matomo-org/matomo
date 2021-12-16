@@ -42,7 +42,7 @@ describe("Theme", function () {
     });
 
     after(function () {
-        
+
         clearAssets();
     });
 
@@ -60,6 +60,7 @@ describe("Theme", function () {
                 $(this).hide();
             });
         });
+        await page.waitForNetworkIdle();
         await page.waitForTimeout(500); // wait for angular finished rendering
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('demo');

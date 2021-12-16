@@ -14,6 +14,8 @@
  *
  * <div piwik-autocomplete-matched="searchTerm">{{ name }}</div>
  * <input type="text" ng-model="searchTerm">
+ *
+ * @deprecated
  */
 (function () {
     angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', piwikAutocompleteMatched);
