@@ -19,6 +19,7 @@ function initPiwikService(piwik: PiwikGlobal, $rootScope: IRootScopeService) {
   ($rootScope as any).$oldEmit = $rootScope.$emit; // eslint-disable-line
   $rootScope.$emit = function emitWrapper(name: string, ...args: any[]): IAngularEvent { // eslint-disable-line
     Matomo.postEventNoEmit(name, ...args);
+
     return (this as any).$oldEmit(name, ...args); // eslint-disable-line
   };
 
