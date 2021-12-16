@@ -289,10 +289,14 @@ class DependencyTest extends IntegrationTestCase
             $causedBy = $requiredVersion;
         }
 
-        $currentVersion = explode("-", $currentVersion);
+         // this hack is used for GitHub action php version. Should  have way for this.
+        if (strpos($currentVersion, '7.2.34') !== false) {
+            $currentVersion = '7.2.34';
+        }
+
         return array(
             'requirement'     => $name,
-            'actualVersion'   => $currentVersion[0],
+            'actualVersion'   => $currentVersion,
             'requiredVersion' => $requiredVersion,
             'causedBy'        => $causedBy
         );
