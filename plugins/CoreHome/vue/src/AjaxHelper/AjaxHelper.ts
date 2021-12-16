@@ -466,7 +466,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
             type = null;
           }
 
-          if (response.message) {
+          const isLoggedIn = !document.querySelector('#login_form');
+          if (response.message && isLoggedIn) {
             const UI = window['require']('piwik/UI'); // eslint-disable-line
             const notification = new UI.Notification();
             notification.show(response.message, {
