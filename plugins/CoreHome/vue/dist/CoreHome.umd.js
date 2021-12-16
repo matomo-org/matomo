@@ -3218,6 +3218,7 @@ var RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue
 
 
+
 EnrichedHeadlinevue_type_script_lang_ts.render = EnrichedHeadlinevue_type_template_id_04354f57_render
 
 /* harmony default export */ var EnrichedHeadline = (EnrichedHeadlinevue_type_script_lang_ts);
