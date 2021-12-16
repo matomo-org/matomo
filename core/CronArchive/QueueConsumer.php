@@ -201,6 +201,7 @@ class QueueConsumer
                 break;
             }
 
+            //check if isSegmentAvailable
             if (!$this->isSegmentAvailable($invalidatedArchive)) {
                 continue;
             }
