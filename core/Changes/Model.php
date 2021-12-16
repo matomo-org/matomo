@@ -11,6 +11,7 @@ namespace Piwik\Changes;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Updater\Migration;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -22,10 +23,23 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class Model
 {
+
+    const NO_CHANGES_EXIST = 0;
+    const CHANGES_EXIST = 1;
+    const NEW_CHANGES_EXIST = 2;
+
     private $pluginManager;
+
+    /**
+     * @var Db\AdapterInterface
+     */
     private $db;
 
-    public function __construct($db = null, ?PluginManager $pluginManager = null)
+    /**
+     * @param Db\AdapterInterface|null $db
+     * @param PluginManager|null $pluginManager
+     */
+    public function __construct(?Db\AdapterInterface $db = null, ?PluginManager $pluginManager = null)
     {
         $this->db = ($db ?? Db::get());
         $this->pluginManager = ($pluginManager ?? PluginManager::getInstance());
@@ -38,18 +52,11 @@ class Model
      *
      * @throws \Exception
      */
-    public function addChanges(string $pluginName)
+    public function addChanges(string $pluginName): void
     {
         if ($this->pluginManager->isValidPluginName($pluginName) && $this->pluginManager->isPluginInFilesystem($pluginName)) {
-            if ($this->pluginManager->isPluginLoaded($pluginName)) {
-                $plugin = $this->pluginManager->getLoadedPlugin($pluginName);
-                if (!empty($plugin)) {
-                    $plugin->reloadPluginInformation();
-                }
-            } else {
-                $plugin = $this->pluginManager->loadPlugin($pluginName);
-            }
 
+            $plugin = $this->pluginManager->loadPlugin($pluginName);
             if (!$plugin) {
                 return;
             }
@@ -66,15 +73,14 @@ class Model
      *
      * @param string $pluginName
      */
-    public function removeChanges(string $pluginName)
+    public function removeChanges(string $pluginName): void
     {
         $table = Common::prefixTable('changes');
 
         try {
             $this->db->query("DELETE FROM " . $table . " WHERE plugin_name = ?", [$pluginName]);
         } catch (\Exception $e) {
-            // Ignore table not found
-            if ($e->getCode() === 42) {
+            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 return;
             }
             throw $e;
@@ -87,7 +93,7 @@ class Model
      * @param string $pluginName
      * @param array  $change
      */
-    public function addChange(string $pluginName, array $change)
+    public function addChange(string $pluginName, array $change): void
     {
         if(!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
             StaticContainer::get('Psr\Log\LoggerInterface')->warning(
@@ -98,29 +104,68 @@ class Model
 
         $table = Common::prefixTable('changes');
 
-        $fields = ['plugin_name', 'version', 'title', 'description'];
-        $params = [$pluginName, $change['version'], $change['title'], $change['description']];
+        $values = [
+            'created_time' => Date::now()->getDatetime(),
+            'plugin_name' => $pluginName,
+            'version' => $change['version'],
+            'title' => $change['title'],
+            'description' => $change['description']
+        ];
 
         if (isset($change['link_name']) && isset($change['link'])) {
-            $fields[] = 'link_name';
-            $fields[] = 'link';
-            $params[] = $change['link_name'];
-            $params[] = $change['link'];
+            $values['link_name'] = $change['link_name'];
+            $values['link'] = $change['link'];
         }
 
-        $insertSql = 'INSERT IGNORE INTO ' . $table . ' (created_time,'.implode(',', $fields).') 
-                      VALUES (NOW(),'.implode(',', array_fill(0, count($params), "?")).')';
-
         try {
-            $this->db->query($insertSql, $params);
+            $this->db->insert($table, $values);
         } catch (\Exception $e) {
-            // Ignore table not found
-            if ($e->getCode() === 42) {
+            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 return;
             }
             throw $e;
         }
+    }
 
+    /**
+     * Check if any changes items exist
+     *
+     * @param int|null $newerThanId     Only check for changes newer than this sequential key
+     *
+     * @return int
+     */
+    public function doChangesExist(?int $newerThanId = null): int
+    {
+
+        if ($newerThanId !== null) {
+            $selectSql = "
+                SELECT COUNT(*) AS a,
+                  (SELECT COUNT(*) FROM " . Common::prefixTable('changes') . " WHERE idchange > ?) AS n
+                FROM ".Common::prefixTable('changes');
+            $params = [$newerThanId];
+        } else {
+            $selectSql = "SELECT COUNT(*) AS a, COUNT(*) AS n FROM ".Common::prefixTable('changes');
+            $params = [];
+        }
+
+        try {
+            $res = $this->db->fetchRow($selectSql, $params);
+        } catch (\Exception $e) {
+            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                return self::NO_CHANGES_EXIST;
+            }
+            throw $e;
+        }
+        $new = $res['n'];
+        $all = $res['a'];
+
+        if ($all == 0) {
+            return self::NO_CHANGES_EXIST;
+        } else if ($all > 0 && $new == 0) {
+            return self::CHANGES_EXIST;
+        } else {
+            return self::NEW_CHANGES_EXIST;
+        }
     }
 
     /**
@@ -128,7 +173,7 @@ class Model
      *
      * @return array
      */
-    public function getChangeItems()
+    public function getChangeItems(): array
     {
         $showAtLeast = 10; // Always show at least this number of changes
         $expireOlderThanDays = 90; // Don't show changes that were added to the table more than x days ago

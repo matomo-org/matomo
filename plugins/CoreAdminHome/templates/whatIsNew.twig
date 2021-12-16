@@ -13,7 +13,7 @@
                 {% if not change.link is empty %}
                 <p>
                     <br>
-                    <a href="{{ change.link }}" target="_blank">{{ change.link_name }}</a>
+                    <a href="{{ change.link|e('html_attr') }}" target="_blank" rel="noopener">{{ change.link_name }}</a>
                 </p>
                 {% endif %}
             </div>

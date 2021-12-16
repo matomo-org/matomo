@@ -316,18 +316,20 @@ class Controller extends ControllerAdmin
     /**
      * Show the what is new changes list
      */
-    public function whatIsNew() {
-
+    public function whatIsNew()
+    {
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();
 
         $model = new UsersModel();
-        $userChanges = new UserChanges($model->getUser(Piwik::getCurrentUserLogin()));
-
-        $changes = $userChanges->getChanges();
-
-        return $this->renderTemplate('whatIsNew', ['changes' => $changes]);
-
+        $user = $model->getUser(Piwik::getCurrentUserLogin());
+        if (is_array($user)) {
+            $userChanges = new UserChanges($user);
+            $changes = $userChanges->getChanges();
+            return $this->renderTemplate('whatIsNew', ['changes' => $changes]);
+        } else {
+            throw new \Exception('Unable to getUser() when attempting to show whatIsNew');
+        }
     }
 
 }

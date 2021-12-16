@@ -8,7 +8,6 @@
  */
 namespace Piwik\Changes;
 
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
@@ -18,14 +17,18 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
  */
 class UserChanges
 {
-    const NO_CHANGES_EXIST = 0;
-    const CHANGES_EXIST = 1;
-    const NEW_CHANGES_EXIST = 2;
 
+    /**
+     * @var Db\AdapterInterface
+     */
     private $db;
     private $user;
 
-    public function __construct(array $user, $db = null)
+    /**
+     * @param array $user
+     * @param Db\AdapterInterface|null $db
+     */
+    public function __construct(array $user, ?Db\AdapterInterface $db = null)
     {
         $this->db = ($db ?? Db::get());
         $this->user = $user;
@@ -34,43 +37,15 @@ class UserChanges
     /**
      * Return a value indicating if there are any changes available to show the user
      *
-     * @return int   Changes::NO_CHANGES_EXIST, Changes::CHANGES_EXIST or Changes::NEW_CHANGES_EXIST
+     * @return int   Changes\Model::NO_CHANGES_EXIST, Changes\Model::CHANGES_EXIST or Changes\Model::NEW_CHANGES_EXIST
      * @throws \Exception
      */
-    public function getNewChangesStatus()
+    public function getNewChangesStatus(): int
     {
         $idchangeLastViewed = (isset($this->user['idchange_last_viewed']) ? $this->user['idchange_last_viewed'] : null);
 
-        if ($idchangeLastViewed !== null) {
-            $selectSql = "
-                SELECT COUNT(*) AS a,
-                  (SELECT COUNT(*) FROM " . Common::prefixTable('changes') . " WHERE idchange > ?) AS n
-                FROM ".Common::prefixTable('changes');
-            $params = [$idchangeLastViewed];
-        } else {
-            $selectSql = "SELECT COUNT(*) AS a, COUNT(*) AS n FROM ".Common::prefixTable('changes');
-            $params = [];
-        }
-
-        try {
-            $res = $this->db->fetchRow($selectSql, $params);
-        } catch (\Exception $e) {
-            // Ignore table not found
-            if ($e->getCode() === 42) {
-                return self::NO_CHANGES_EXIST;
-            }
-            throw $e;
-        }
-        $new = $res['n'];
-        $all = $res['a'];
-
-        if ($all == 0) {
-            return self::NO_CHANGES_EXIST;
-        } else if ($all > 0 && $new == 0) {
-            return self::CHANGES_EXIST;
-        } else {
-            return self::NEW_CHANGES_EXIST;
-        }
+        $changesModel = new ChangesModel($this->db);
+        return $changesModel->doChangesExist($idchangeLastViewed);
     }
 
     /**
@@ -78,7 +53,7 @@ class UserChanges
      *
      * @return array
      */
-    public function getChanges()
+    public function getChanges(): array
     {
         $changesModel = new ChangesModel(Db::get());
         $changes = $changesModel->getChangeItems();
