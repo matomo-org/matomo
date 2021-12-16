@@ -13,6 +13,7 @@ use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Controller;
@@ -20,10 +21,12 @@ use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\UserUpdater;
+use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
+use Piwik\View;
 
 
 /**
@@ -1099,6 +1102,33 @@ class UsersManagerTest extends IntegrationTestCase
         $user = $this->api->getUser($user['login']);
 
         $this->assertEquals($user['status'], 'UsersManager_StatusPending');
+    }
+
+    public function testInviteUserEmail()
+    {
+        $view = new View('@CoreAdminHome/_userInviteEmail.twig');
+        $view->login = "test";
+        $view->emailAddress =  "test@test.com";;
+        $view->idSite = 1;
+        $view->siteName = 'test';
+        $view->token = "thisisatoken";
+
+        // content line for email body
+        $view->content =Piwik::translate('CoreAdminHome_UserInviteSubject',
+          ["<strong>test</strong>", "<strong>test</strong>"]);
+
+        //notes for email footer
+        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', ['test','test']);
+
+        $content = <<<END
+<p>General_HelloUser</p>
+<p>CoreAdminHome_UserInviteSubject</p>
+<a target="_blank" href="http://matomo.test/tests/PHPUnit/proxy/?module=UsersManager&action=activeInviteUser&login=test&token=thisisatoken"
+>CoreAdminHome_AcceptInvite</a>
+<p><b>Notes:</b>CoreAdminHome_UserInviteNotes</p>
+END;
+        $this->assertEquals($content, $view->render());
+
     }
 
     public function testActiveUser()
