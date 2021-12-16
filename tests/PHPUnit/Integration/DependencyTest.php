@@ -289,9 +289,10 @@ class DependencyTest extends IntegrationTestCase
             $causedBy = $requiredVersion;
         }
 
+        $currentVersion = explode("-", $currentVersion);
         return array(
             'requirement'     => $name,
-            'actualVersion'   => $currentVersion,
+            'actualVersion'   => $currentVersion[0],
             'requiredVersion' => $requiredVersion,
             'causedBy'        => $causedBy
         );
