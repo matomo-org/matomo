@@ -16,7 +16,6 @@
 
         this.isLoading = true;
         this.isSaving = {};
-        this.passwordConfirmation = '';
         this.settingsToSave = null;
 
         var apiMethod = 'CorePluginsAdmin.getUserSettings';
@@ -49,10 +48,17 @@
             self.isLoading = false;
         });
 
-        //show password confirm modal
-        this.showPasswordConfirmModal = function(settings) {
-            var vm = this;
+        this.saveSetting = function (settings) {
             this.settingsToSave = settings;
+            if ($scope.mode === 'admin') {
+                this.showPasswordConfirmModal();
+            } else {
+                this.save();
+            }
+        };
+        //show password confirm modal
+        this.showPasswordConfirmModal = function() {
+            var vm = this;
             var passwordInput = `.modal.open #currentUserPassword`;
             var pluginInput = `.pluginSettings input`;
             $element.find('.confirm-password-modal').modal({
@@ -71,7 +77,6 @@
                       });
                 },
                 onCloseEnd: function () {
-                    vm.passwordConfirmation = '';
                     $(pluginInput).prop('readonly', false);
                 },
             }).modal('open');
@@ -79,6 +84,7 @@
         this.save = function () {
             var settings = this.settingsToSave;
             var apiMethod = 'CorePluginsAdmin.setUserSettings';
+            var passwordConfirmation = $(".modal.open #currentUserPassword").val();
             if ($scope.mode === 'admin') {
                 apiMethod = 'CorePluginsAdmin.setSystemSettings';
             }
@@ -103,7 +109,7 @@
                 });
             });
 
-            piwikApi.post({method: apiMethod}, {settingValues: values, passwordConfirmation: this.passwordConfirmation}).then(function (success) {
+            piwikApi.post({method: apiMethod}, {settingValues: values, passwordConfirmation: passwordConfirmation}).then(function (success) {
                 self.isSaving[settings.pluginName] = false;
 
                 var UI = require('piwik/UI');
@@ -117,7 +123,6 @@
                 self.isSaving[settings.pluginName] = false;
             });
 
-            this.passwordConfirmation = '';
             this.settingsToSave = null;
         };
     }
