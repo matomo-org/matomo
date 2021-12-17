@@ -72,7 +72,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => __FILE__ . "(65): [message and stack trace] [Query: , CLI mode: 1]",
+            'message' => __FILE__ . "(63): [message and stack trace] [Query: , CLI mode: 1]",
             'context' => array(
                 'exception' => $exception,
             ),

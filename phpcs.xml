@@ -10,6 +10,7 @@
     <file>tests/PHPUnit</file>
 
     <exclude-pattern>tests/PHPUnit/proxy/*</exclude-pattern>
+    <exclude-pattern>tests/javascript/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/libs/*</exclude-pattern>
 
