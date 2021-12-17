@@ -26,6 +26,17 @@
     <!-- Forbid inline control structures -->
     <rule ref="Generic.ControlStructures.InlineControlStructure" />
 
+    <!-- Forbid unused use statements -->
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+            <property name="ignoredAnnotations" type="array">
+                <element value="@group"/>
+                <element value="@api"/>
+            </property>
+        </properties>
+    </rule>
+
     <!-- Forbid some functions that should not be used (directly) -->
     <rule ref="Generic.PHP.ForbiddenFunctions">
         <properties>
