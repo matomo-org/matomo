@@ -326,7 +326,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param $idaction
      * @param $actionType
-     * @param Logaggregator $logAggregator
+     * @param LogAggregator $logAggregator
      * @param $limitBeforeGrouping
      * @return DataTable
      */

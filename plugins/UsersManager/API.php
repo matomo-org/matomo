@@ -709,7 +709,7 @@ class API extends \Piwik\Plugin\API
      * @see isValidPasswordString()
      * @see isValidEmailString()
      *
-     * @exception in case of an invalid parameter
+     * @throws Exception in case of an invalid parameter
      */
     public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
     {
