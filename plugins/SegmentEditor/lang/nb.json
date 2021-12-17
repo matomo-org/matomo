@@ -1,12 +1,15 @@
 {
     "SegmentEditor": {
+        "AddANDorORCondition": "Legg til %s-vilkår",
         "AddNewSegment": "Legg til nytt segment",
         "AreYouSureDeleteSegment": "Er du sikker på at du vil slette dette segmentet?",
         "ChooseASegment": "Velg et segment",
+        "CustomSegment": "Egendefinert segment",
         "DefaultAllVisits": "Alle besøk",
         "OperatorAND": "OG",
         "OperatorOR": "ELLER",
         "PluginDescription": "Et segment er et sett med kriterier som brukes til å velge bare en del av hele settet med besøk. Ved å bruke segmenter kan du injisere vilkårlig kontekst tilbake i rapportene dine.",
+        "SaveAndApply": "Lagre og bruk",
         "SegmentDisplayedAllWebsites": "alle nettsteder",
         "SegmentDisplayedThisWebsiteOnly": "kun dette nettstedet",
         "SharedWithYou": "Delt med deg",

@@ -78,7 +78,6 @@
         "SystemCheckEvalHelp": "Необхідно для роботи HTML QuickForm та системи шаблонів Smarty.",
         "SystemCheckExtensions": "Інші необхідні розширення",
         "SystemCheckFileIntegrity": "Цілісність файлу",
-        "SystemCheckFunctionHelp": "Вам необхідно включити цю вбудовану функцію.",
         "SystemCheckFunctions": "Необхідні функції",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (графіка)",
         "SystemCheckGDHelp": "Міні-графіки не будуть відображатися.",

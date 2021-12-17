@@ -56,6 +56,8 @@
       v-show="showInlineHelp"
     >
       <div v-html="$sanitize(actualInlineHelp)"/>
+      <span class="helpDate"
+            v-html="reportGenerated"></span>
       <a
         v-if="helpUrl"
         rel="noreferrer noopener"
@@ -148,7 +150,7 @@ export default defineComponent({
     setTimeout(() => {
       if (!this.actualInlineHelp) {
         let helpNode = root.querySelector('.title .inlineHelp');
-        if (!helpNode && root.parentElement.nextElementSibling) {
+        if (!helpNode && root.parentElement?.nextElementSibling) {
           // hack for reports :(
           helpNode = (root.parentElement.nextElementSibling as HTMLElement)
             .querySelector('.reportDocumentation');

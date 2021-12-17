@@ -29,6 +29,10 @@
         "PrivateDirectoryIsAccessible": "We found that the above URLs are accessible via the browser, but they should NOT be. Allowing them to be accessed can pose a potential security risk since the contents can provide information about your server and potentially your users. Please restrict access to them.",
         "ConfigIniAccessible": "We also found that Matomo's config directory is publicly accessible. While attackers can't read the config now, if your webserver stops executing PHP files for some reason, your MySQL credentials and other information will be available to anyone. Please check your webserver config and deny access to this directory.",
         "AllPrivateDirectoriesAreInaccessible": "All private directories are inaccessible from the internet.",
-        "UrlsAccessibleViaBrowser": "We found that the above URLs are accessible via the browser, but we recommend they should not be. If possible, please restrict access to them."
+        "UrlsAccessibleViaBrowser": "We found that the above URLs are accessible via the browser, but we recommend they should not be. If possible, please restrict access to them.",
+        "PHPFPMWarningApache": "PHP FPM will ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to exclude certain directories from being handled by PHP FPM by adding the line %1$s to the %2$s section in your apache virtual host config just above the %3$s line.",
+        "PHPFPMWarningNginx": "PHP FPM will ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to exclude certain directories from being handled by PHP FPM. For more information please see the %1$s official nginx server configuration %2$s",
+        "PHPFPMWarningGeneric": "PHP FPM may ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to exclude the /config directory from being handled by PHP FPM.",
+        "HtaccessWarningNginx": "To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to restrict access to certain directories. For more information please see the %1$s official nginx server configuration %2$s"
     }
 }

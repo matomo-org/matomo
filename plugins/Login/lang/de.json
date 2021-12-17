@@ -1,6 +1,6 @@
 {
     "Login": {
-        "BruteForceLog": "Brute Force Log",
+        "BruteForceLog": "Brute-Force-Log",
         "ChangeYourPassword": "Ändern Sie ihr Passwort",
         "ConfirmPasswordReset": "Passwort zurücksetzen bestätigen",
         "ConfirmPasswordResetIntro": "Um zu bestätigen, dass wirklich Sie es sind, der das Passort ändern muss, bitte das neue Passwort noch einmal eingeben.",

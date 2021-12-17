@@ -32,12 +32,43 @@ class PhpInformational implements Diagnostic
         $results = [];
 
         if (defined('PHP_OS') && PHP_OS) {
-            $results[] = DiagnosticResult::informationalResult('PHP_OS',  PHP_OS);
+            $results[] = DiagnosticResult::informationalResult('PHP_OS', PHP_OS);
         }
         if (SettingsPiwik::isMatomoInstalled() && defined('PHP_BINARY') && PHP_BINARY) {
             $results[] = DiagnosticResult::informationalResult('PHP_BINARY', PHP_BINARY);
         }
-        $results[] = DiagnosticResult::informationalResult('PHP SAPI', php_sapi_name());
+
+        // Check for php fpm and warn about access rules
+
+        $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
+
+        if (SettingsPiwik::isMatomoInstalled()) {
+            $rpd = new RequiredPrivateDirectories($this->translator);
+            $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+        }
+
+        if (strpos(strtolower(php_sapi_name()), 'fpm-fcgi') !== false && $isGlobalConfigIniAccessible) {
+
+            $comment = php_sapi_name()."<br><br>";
+
+            if (!empty($_SERVER['SERVER_SOFTWARE'])) {
+                if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {
+                    $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningApache', [
+                        '<code>ProxyPass /config !</code>', '<code>mod_proxy_fcgi.c</code>', '<code>ProxyPassMatch</code>']);
+                } else if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false) {
+                    $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningNginx', [
+                        '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);
+                } else {
+                    $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningGeneric');
+                }
+            } else {
+                $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningGeneric');
+            }
+
+            $results[] = DiagnosticResult::singleResult('PHP SAPI', DiagnosticResult::STATUS_WARNING, $comment);
+        } else {
+            $results[] = DiagnosticResult::informationalResult('PHP SAPI', php_sapi_name());
+        }
 
         if (SettingsPiwik::isMatomoInstalled()) {
             $cliPhp = new CliPhp();
