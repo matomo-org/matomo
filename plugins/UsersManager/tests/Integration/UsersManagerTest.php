@@ -21,6 +21,7 @@ use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\UserUpdater;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -1119,11 +1120,11 @@ class UsersManagerTest extends IntegrationTestCase
 
         //notes for email footer
         $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', ['test','test']);
-
+        $host = SettingsPiwik::getPiwikUrl();
         $content = <<<END
 <p>General_HelloUser</p>
 <p>CoreAdminHome_UserInviteSubject</p>
-<a target="_blank" href="http://matomo.test/tests/PHPUnit/proxy/?module=UsersManager&action=activeInviteUser&login=test&token=thisisatoken"
+<a target="_blank" href="$host?module=UsersManager&action=activeInviteUser&login=test&token=thisisatoken"
 >CoreAdminHome_AcceptInvite</a>
 <p><b>Notes:</b>CoreAdminHome_UserInviteNotes</p>
 END;
