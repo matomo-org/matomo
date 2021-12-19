@@ -28,10 +28,10 @@ echo -e "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
 
 # test is php split integration XML
-if [ "$PIWIK_TEST_TARGET" = "php" ]
-then
-  php ./tests/PHPUnit/formatXML.php
-fi
+#if [ "$PIWIK_TEST_TARGET" = "php" ]
+#then
+#  php ./tests/PHPUnit/formatXML.php
+#fi
 
 if [ "$PIWIK_TEST_TARGET" = "UI" ] || [ "$PIWIK_TEST_TARGET" = "Javascript" ];
 then

@@ -18,10 +18,6 @@ class TravisEnvironmentTest extends IntegrationTestCase
 {
     public function testUsageOfCorrectMysqlAdapter()
     {
-        if (getenv('GITHUB')) {
-            $this->markTestSkipped("Github action does't need travis env test");
-        }
-
         $mysqlAdapter = getenv('MYSQL_ADAPTER');
 
         if (empty($mysqlAdapter)) {

@@ -176,8 +176,8 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UITests' ]
-        php: [ '8.0' ]
-        parts: [ 0,1,2,3,4,5,6,7 ]
+        php: [ '7.2' ]
+        parts: [ 0,1,2 ]
 
     steps:
       - name: Checkout code

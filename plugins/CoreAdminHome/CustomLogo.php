@@ -16,7 +16,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
-use function DI\get;
 
 class CustomLogo
 {
