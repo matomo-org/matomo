@@ -24,7 +24,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVue\CoreVue;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -301,6 +300,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $updater = new DbUpdater();
         $componentsWithUpdateFile = $updater->getComponentUpdates();
+
         if (empty($componentsWithUpdateFile)) {
             throw new NoUpdatesFoundException("Everything is already up to date.");
         }
