@@ -71,14 +71,4 @@ then
             exit 0
         fi
     fi
-else
-    if [ "$COVERAGE" = "Unit" ]
-    then
-        echo "Executing tests in test suite UnitTests..."
-        ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml $PHPUNIT_EXTRA_OPTIONS || true
-    elif [ "$COVERAGE" = "Integration" ]
-    then
-        echo "Executing tests in test suite IntegrationTests..."
-        ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml $PHPUNIT_EXTRA_OPTIONS || true
-    fi;
 fi
