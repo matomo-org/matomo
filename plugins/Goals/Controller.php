@@ -229,14 +229,18 @@ class Controller extends \Piwik\Plugin\Controller
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], []);
 
         foreach ($goals as $goal) {
-            //this is used to hack query params
-            $_GET['idGoal'] = $goal['idgoal'];
-            $_GET['allow_multiple'] = (int)$goal['allow_multiple'];
-            $_GET['only_summary'] = 1;
-            //load Visualisations Sparkline
-            $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
-            $view->config->show_title = true;
-            $content .= $view->render();
+            $params = [
+                'idGoal' => $goal['idgoal'],
+                'allow_multiple' => (int) $goal['allow_multiple'],
+                'only_summary' => 1,
+            ];
+
+            \Piwik\Context::executeWithQueryParameters($params, function() use (&$content) {
+                //load Visualisations Sparkline
+                $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
+                $view->config->show_title = true;
+                $content .= $view->render();
+            });
         }
 
         return $content;
