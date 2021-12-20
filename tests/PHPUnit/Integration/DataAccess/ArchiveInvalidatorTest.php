@@ -2463,6 +2463,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     private function getInvalidatedArchiveTableEntriesSummary()
     {
+        Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+
         $table = Common::prefixTable('archive_invalidations');
         return Db::fetchAll("SELECT idsite, period, name, report, GROUP_CONCAT(CONCAT(date1, ',', date2) SEPARATOR '|') as dates, COUNT(*) as count FROM $table GROUP BY idsite, period, name, report");
     }
