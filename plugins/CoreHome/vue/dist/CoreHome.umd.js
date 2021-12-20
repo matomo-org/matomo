@@ -3750,6 +3750,11 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
 
       var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
 
+      if (typeof matomoModule === 'undefined') {
+        this.privateState.comparisonsDisabledFor = [];
+        return;
+      }
+
       if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
         this.privateState.comparisonsDisabledFor = [];
         return;
