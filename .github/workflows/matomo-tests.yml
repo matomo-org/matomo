@@ -47,6 +47,7 @@ jobs:
       matrix:
         tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2','8.0' ]
+        mysql_adapter: ['PDO_MYSQL']
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -90,6 +91,7 @@ jobs:
           TRAVIS: true
           GITHUB: true
           PHP_VERSION: ${{ matrix.php }}
+          PDO_MYSQL: ${{ matrix.mysql_adapter }}
 
   Javascript:
     runs-on: ubuntu-20.04
