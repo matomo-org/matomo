@@ -63,7 +63,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $joinLogActionOnColumn = array('idaction_url');
 
-        $query = $this->getLogAggregator()->queryActionsByDimension([], '', $selects, false, null, $joinLogActionOnColumn,null,-1," HAVING page_load_total>0");
+        $query = $this->getLogAggregator()->queryActionsByDimension([], '', $selects, false, null,
+          $joinLogActionOnColumn, null, -1, " HAVING page_load_total>0");
 
         $result = $query->fetchAll();
 
