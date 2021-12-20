@@ -1,0 +1,72 @@
+.reportsByDimensionView {
+
+    float: left;
+    width: 100%;
+
+    .dimensionCategory {
+        color: @theme-color-text-contrast;
+    }
+
+    .reportContainer {
+        padding-left: 230px;
+        width: 100%;
+
+        .dimensionReport {
+            float: left;
+            min-width: 500px;
+            max-width: 100%;
+        }
+
+        table.dataTable tr td.label {
+            max-width: 380px;
+        }
+    }
+}
+
+.entityList {
+
+    ul {
+        li {
+            margin: 4px 0;
+            padding: 0 0 0 16px;
+            line-height: 22px;
+            border-left: 2px solid @theme-color-background-base;
+
+            :hover {
+                opacity: 0.8;
+            }
+            &:hover:not(.activeDimension) {
+                border-color: @theme-color-header-background;
+                border-left-width: 1px;
+                padding-left: 17px;
+            }
+
+            &.activeDimension {
+                border-color: @theme-color-header-background;
+
+                .dimension {
+                    font-weight: bold;
+                }
+            }
+
+            .dimension {
+                cursor: pointer;
+                border-bottom: 1px solid #d0d0d0;
+                color: @theme-color-text-contrast;
+                border: 0;
+            }
+        }
+
+        &.listCircle {
+            font-weight: normal;
+            list-style: none;
+            padding: 4px 0;
+            margin-top: 8px;
+        }
+        &.listCircle li a {
+            color: #000;
+        }
+
+    }
+
+}

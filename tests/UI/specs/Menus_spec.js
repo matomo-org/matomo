@@ -16,6 +16,7 @@ describe("Menus", function () {
     async function openMenuItem(page, menuItem) {
         const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):first');
         await element.click();
+        await page.waitForTimeout(250);
     }
 
     // main menu tests

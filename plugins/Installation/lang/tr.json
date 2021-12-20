@@ -97,7 +97,6 @@
         "SystemCheckExtensions": "Gerekli diğer eklentiler",
         "SystemCheckFileIntegrity": "Dosya bütünlüğü",
         "SystemCheckFilterHelp": "PHP yazılımını \"filter\" desteği ile yeniden yapılandırmalısınız (--disable-filter kullanmayın).",
-        "SystemCheckFunctionHelp": "Bu iç işlevi etkinleştirmelisiniz.",
         "SystemCheckFunctions": "Gerekli işlevler",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (grafikler)",
         "SystemCheckGDHelp": "Çizgi çizelgeler (küçük çizelgeler) ve görsel çizelgeleri (Matomo mobil uygulaması ve e-posta bildirimleri) çalışmaz.",

@@ -81,6 +81,8 @@ abstract class SystemTestCase extends TestCase
         ),
     );
 
+    private static $shouldFilterApiResponse = false;
+
     public function setGroups(array $groups): void
     {
         $pluginName = explode('\\', get_class($this));
@@ -131,7 +133,7 @@ abstract class SystemTestCase extends TestCase
                 } else if ($apiValue['filterKey'] === 'category') {
                     $filterValues = self::getAllowedCategoriesToFilterApiResponse($api);
                 }
-                if ($filterValues) {
+                if ($filterValues && self::$shouldFilterApiResponse) {
                     self::filterReportsCallback($reports, $info, $api, $apiValue['filterKey'], $filterValues);
                 }
             });
@@ -494,6 +496,10 @@ abstract class SystemTestCase extends TestCase
         unset($_GET['serialize']);
 
         $onlyCheckUnserialize = !empty($params['onlyCheckUnserialize']);
+
+        $apiIdExploded = explode('_', str_replace('.xml', '', $apiId));
+        $api = $apiIdExploded[0];
+        self::$shouldFilterApiResponse = !empty(self::$apisToFilterResponse[$api]);
 
         $processedResponse = Response::loadFromApi($params, $requestUrl, $normailze = !$onlyCheckUnserialize);
         if (empty($compareAgainst)) {

@@ -27,7 +27,7 @@ export default createAngularJsAdapter({
   directiveName: 'piwikMenudropdown',
   transclude: true,
   events: {
-    'after-select': ($event, scope) => {
+    'after-select': ($event, vm, scope) => {
       setTimeout(() => {
         scope.$apply();
       }, 0);
