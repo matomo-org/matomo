@@ -3748,9 +3748,11 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     value: function loadComparisonsDisabledFor() {
       var _this3 = this;
 
-      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
+      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module; // check if body id #installation exist
 
-      if (typeof matomoModule === 'undefined') {
+      var install = document.getElementById('installation');
+
+      if (install) {
         this.privateState.comparisonsDisabledFor = [];
         return;
       }
