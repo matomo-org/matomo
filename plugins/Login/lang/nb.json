@@ -2,6 +2,7 @@
     "Login": {
         "BruteForceLog": "Logg over brutale styrkeangrep",
         "ChangeYourPassword": "Endret ditt passord",
+        "ConfirmPasswordReset": "Bekreft tilbakestilling av passord",
         "ConfirmationLinkSent": "En bekreftelseslenke har blitt sendt til din innboks. Sjekk din e-post og besøk denne lenken for å autorisere din forespørsel om å endre passord.",
         "ContactAdmin": "Mulig grunn: Din vert kan ha skrudd av mail()-funksjonen.<br>Kontakt din Matomo-administrator",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruker med superbrukertilgang kan ikke autentiseres med «%s»-mekanismen.",
@@ -10,6 +11,7 @@
         "InvalidOrExpiredToken": "Autentiseringsnøkkelen er ugyldig eller har utløpt.",
         "InvalidUsernameEmail": "Feil brukernavn og/eller epost-adresse.",
         "LogIn": "Logg inn",
+        "LoginOrEmail": "Brukernavn eller e-postadresse",
         "LoginPasswordNotCorrect": "Feil kombinasjon av brukernavn og passord.",
         "LostYourPassword": "Glemt passord?",
         "MailTopicPasswordChange": "Bekreft passordendring",

@@ -11,6 +11,9 @@
         "EventCategory": "Hendelsekategori",
         "EventName": "Hendelsesnavn",
         "EventNames": "Hendelsesnavn",
+        "EventUrl": "Hendelsesnettadresse",
+        "EventUrls": "Hendelsesnettadresser",
+        "EventValue": "Hendelsesverdi",
         "EventValueTooltip": "Total hendelsesverdi er summen av alle %1$s hendelsesverdier %2$s mellom minimumsverdi %3$s og maksimumsverdi %4$s.",
         "Events": "Hendelser",
         "EventsWithValue": "Hendelser med en verdi",
@@ -23,6 +26,7 @@
         "TopEvents": "Topphendelser",
         "TotalEvents": "Totalt antall hendelser",
         "TotalEventsDocumentation": "Totalt antall hendelser",
+        "TotalValue": "Hendelsesverdi",
         "TotalValueDocumentation": "Summen av alle hendelsesverdier",
         "ViewEvents": "Vis hendelser"
     }

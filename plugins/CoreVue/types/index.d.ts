@@ -94,6 +94,7 @@ declare global {
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
+    buildReportingUrl(ajaxUrl: string): string;
   }
 
   let broadcast: BroadcastGlobal;
