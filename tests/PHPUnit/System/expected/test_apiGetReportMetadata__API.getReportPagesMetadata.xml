@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
 		<uniqueId>General_Actions.VisitorInterest_Engagement</uniqueId>
@@ -7,7 +7,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -113,13 +113,13 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Transitions_Transitions</id>
 			<name>Transitions</name>
 			<order>46</order>
-			<help>&lt;p&gt;Transitions gives you a report that shows the things your visitors did directly before and after viewing a certain page. This page will explain how to access, understand, and use the powerful Transitions report.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/transitions/" rel="noreferrer noopener" target="_blank"&gt;More Details&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Transitions gives you a report that shows the things your visitors did directly before and after viewing a certain page. This page will explain how to access, understand, and use the powerful Transitions report.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/transitions/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;More Details&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -143,7 +143,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>General_Downloads</id>
@@ -175,7 +175,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesEntry</id>
@@ -221,7 +221,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesExit</id>
@@ -267,7 +267,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>General_Outlinks</id>
@@ -299,7 +299,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPageTitles</id>
@@ -331,7 +331,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>General_Pages</id>
@@ -363,13 +363,13 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
 			<name>Site Search</name>
 			<order>25</order>
-			<help>&lt;p&gt;The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.&lt;/p&gt;&lt;p&gt;These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can&#x2019;t find easily, and more.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/site-search/" rel="noreferrer noopener" target="_blank"&gt;Learn more in the Site Search guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.&lt;/p&gt;&lt;p&gt;These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can’t find easily, and more.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Site Search guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -451,17 +451,17 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
 			<name>Events</name>
 			<order>40</order>
-			<help>&lt;p&gt;The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/event-tracking/" rel="noreferrer noopener" target="_blank"&gt;Learn more about event tracking here.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/event-tracking/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about event tracking here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
-				<name/>
+				<name />
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
 				<order>99</order>
@@ -481,14 +481,14 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
 							<name>Events</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Events</module>
 						<action>getCategory</action>
@@ -509,14 +509,14 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
 							<name>Events</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Events</module>
 						<action>getAction</action>
@@ -537,14 +537,14 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
 							<name>Events</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Events</module>
 						<action>getName</action>
@@ -570,17 +570,17 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Contents_Contents</id>
 			<name>Contents</name>
 			<order>45</order>
-			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/content-tracking/" rel="noreferrer noopener" target="_blank"&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/content-tracking/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
-				<name/>
+				<name />
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
 				<order>99</order>
@@ -600,14 +600,14 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Contents_Contents</id>
 							<name>Contents</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Contents</module>
 						<action>getContentNames</action>
@@ -627,14 +627,14 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Contents_Contents</id>
 							<name>Contents</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Contents</module>
 						<action>getContentPieces</action>
@@ -659,7 +659,7 @@
 			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>PagePerformance_Performance</id>
@@ -685,7 +685,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name/>
+				<name />
 				<module>PagePerformance</module>
 				<action>get</action>
 				<order>2</order>
@@ -743,7 +743,7 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Devices</id>
@@ -817,7 +817,7 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -933,7 +933,7 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -983,7 +983,7 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -1019,7 +1019,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name/>
+				<name />
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
 				<order>106</order>
@@ -1030,7 +1030,7 @@
 				</parameters>
 				<uniqueId>widgetContinent</uniqueId>
 				<isWide>0</isWide>
-				<layout/>
+				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
@@ -1039,14 +1039,14 @@
 							<id>General_Visitors</id>
 							<name>Visitors</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>UserCountry_SubmenuLocations</id>
 							<name>Locations</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
@@ -1061,19 +1061,19 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>General_Visitors</id>
 							<name>Visitors</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>UserCountry_SubmenuLocations</id>
 							<name>Locations</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getDistinctCountries</action>
@@ -1154,7 +1154,7 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>VisitTime_SubmenuTimes</id>
@@ -1214,7 +1214,7 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>UserCountryMap_RealTimeMap</id>
@@ -1244,7 +1244,7 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>General_RealTime</id>
@@ -1274,13 +1274,13 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>Live_VisitorLog</id>
 			<name>Visits Log</name>
 			<order>5</order>
-			<help>&lt;p&gt;The Visits Log shows you every visit your website receives in detail. You can see what actions each visitor has taken, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the Visits Log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/real-time/" target="_blank" rel="noreferrer noopener"&gt;Learn more in the Visits Log guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visits Log shows you every visit your website receives in detail. You can see what actions each visitor has taken, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the Visits Log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/real-time/&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more in the Visits Log guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1309,13 +1309,13 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>UserId_UserReportTitle</id>
 			<name>User IDs</name>
 			<order>40</order>
-			<help>&lt;p&gt;The User IDs report shows visits associated with all of your registered and logged in users. You can use this section to understand website usage by specific users and identify who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target="_blank" rel="noopener noreferrer" href="https://matomo.org/docs/user-id/"&gt;&lt;span class="icon-info"&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The User IDs report shows visits associated with all of your registered and logged in users. You can use this section to understand website usage by specific users and identify who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id/&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1341,13 +1341,13 @@
 			<name>Visitors</name>
 			<order>5</order>
 			<icon>icon-reporting-visitors</icon>
-			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 		</category>
 		<subcategory>
 			<id>CustomVariables_CustomVariables</id>
 			<name>Custom Variables</name>
 			<order>45</order>
-			<help>&lt;p&gt;This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/custom-variables/" rel="noreferrer noopener" target="_blank"&gt;Read more about this topic in the online guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Read more about this topic in the online guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1379,11 +1379,11 @@
 			<id>1</id>
 			<name>Dashboard</name>
 			<order>0</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
-				<name/>
+				<name />
 				<module>Dashboard</module>
 				<action>embeddedIndex</action>
 				<order>99</order>
@@ -1404,7 +1404,7 @@
 			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
@@ -1450,13 +1450,13 @@
 			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Referrers_URLCampaignBuilder</id>
 			<name>Campaign URL Builder</name>
 			<order>21</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -1480,7 +1480,7 @@
 			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Referrers_Campaigns</id>
@@ -1512,7 +1512,7 @@
 			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -1565,13 +1565,13 @@
 			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuSearchEngines</id>
 			<name>Search Engines &amp; Keywords</name>
 			<order>10</order>
-			<help>&lt;p&gt;This section helps you analyse your search engine optimisation and performance. You can analyse your most popular keywords with the combined keyword reports or see which keywords perform well on specific search engines for more targeted analysis and optimisation.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/matomo-cloud/" rel="noreferrer noopener" target="_blank"&gt;Matomo Cloud&lt;/a&gt; and &lt;a href="https://plugins.matomo.org/SearchEngineKeywordsPerformance" rel="noreferrer noopener" target="_blank"&gt;Search Engine Keywords Performance&lt;/a&gt; plugin users will receive the best results from this report.&lt;/p&gt;</help>
+			<help>&lt;p&gt;This section helps you analyse your search engine optimisation and performance. You can analyse your most popular keywords with the combined keyword reports or see which keywords perform well on specific search engines for more targeted analysis and optimisation.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/matomo-cloud/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Matomo Cloud&lt;/a&gt; and &lt;a href=&quot;https://plugins.matomo.org/SearchEngineKeywordsPerformance&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Search Engine Keywords Performance&lt;/a&gt; plugin users will receive the best results from this report.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1611,7 +1611,7 @@
 			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Referrers_Socials</id>
@@ -1643,7 +1643,7 @@
 			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuWebsitesOnly</id>
@@ -1675,13 +1675,13 @@
 			<name>Goals</name>
 			<order>25</order>
 			<icon>icon-reporting-goal</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>1</id>
 			<name>Goal 1 - Thank you</name>
 			<order>900</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -1696,23 +1696,23 @@
 				</parameters>
 				<uniqueId>widgetGoal_1</uniqueId>
 				<isWide>0</isWide>
-				<layout/>
+				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>1</id>
 							<name>1</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
@@ -1730,19 +1730,19 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>1</id>
 							<name>1</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
@@ -1766,14 +1766,14 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>1</id>
 							<name>1</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>goalConversionsOverview</action>
@@ -1821,14 +1821,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
@@ -1852,14 +1852,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
@@ -1883,14 +1883,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
@@ -1914,14 +1914,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
@@ -1945,14 +1945,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
@@ -1976,14 +1976,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
@@ -2007,14 +2007,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
@@ -2038,14 +2038,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
@@ -2069,14 +2069,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
@@ -2100,14 +2100,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
@@ -2131,14 +2131,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getReferrerType</action>
@@ -2162,14 +2162,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getKeywords</action>
@@ -2193,14 +2193,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getSearchEngines</action>
@@ -2224,14 +2224,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getWebsites</action>
@@ -2255,14 +2255,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
@@ -2286,14 +2286,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
@@ -2317,14 +2317,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
@@ -2353,13 +2353,13 @@
 			<name>Goals</name>
 			<order>25</order>
 			<icon>icon-reporting-goal</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>2</id>
 			<name>Goal 2 - Hello</name>
 			<order>901</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -2374,23 +2374,23 @@
 				</parameters>
 				<uniqueId>widgetGoal_2</uniqueId>
 				<isWide>0</isWide>
-				<layout/>
+				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>2</id>
 							<name>2</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
@@ -2408,19 +2408,19 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>2</id>
 							<name>2</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
@@ -2444,14 +2444,14 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>2</id>
 							<name>2</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>goalConversionsOverview</action>
@@ -2499,14 +2499,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
@@ -2530,14 +2530,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
@@ -2561,14 +2561,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
@@ -2592,14 +2592,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
@@ -2623,14 +2623,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
@@ -2654,14 +2654,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
@@ -2685,14 +2685,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
@@ -2716,14 +2716,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
@@ -2747,14 +2747,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
@@ -2778,14 +2778,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
@@ -2809,14 +2809,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getReferrerType</action>
@@ -2840,14 +2840,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getKeywords</action>
@@ -2871,14 +2871,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getSearchEngines</action>
@@ -2902,14 +2902,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getWebsites</action>
@@ -2933,14 +2933,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
@@ -2964,14 +2964,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
@@ -2995,14 +2995,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
@@ -3031,13 +3031,13 @@
 			<name>Goals</name>
 			<order>25</order>
 			<icon>icon-reporting-goal</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>3</id>
 			<name>triggered js</name>
 			<order>902</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -3052,23 +3052,23 @@
 				</parameters>
 				<uniqueId>widgetGoal_3</uniqueId>
 				<isWide>0</isWide>
-				<layout/>
+				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>3</id>
 							<name>3</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
@@ -3086,19 +3086,19 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>3</id>
 							<name>3</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
@@ -3122,14 +3122,14 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>3</id>
 							<name>3</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>goalConversionsOverview</action>
@@ -3177,14 +3177,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
@@ -3208,14 +3208,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
@@ -3239,14 +3239,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
@@ -3270,14 +3270,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
@@ -3301,14 +3301,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
@@ -3332,14 +3332,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
@@ -3363,14 +3363,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
@@ -3394,14 +3394,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
@@ -3425,14 +3425,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
@@ -3456,14 +3456,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
@@ -3487,14 +3487,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getReferrerType</action>
@@ -3518,14 +3518,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getKeywords</action>
@@ -3549,14 +3549,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getSearchEngines</action>
@@ -3580,14 +3580,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getWebsites</action>
@@ -3611,14 +3611,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
@@ -3642,14 +3642,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
@@ -3673,14 +3673,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
@@ -3709,13 +3709,13 @@
 			<name>Goals</name>
 			<order>25</order>
 			<icon>icon-reporting-goal</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
 			<name>Overview</name>
 			<order>2</order>
-			<help>&lt;p&gt;The Goals Overview reports on the performance of the goals defined for your website. You can access your goal&#x2019;s conversion percentages, amount of revenue generated and full reports for each.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Goals Overview reports on the performance of the goals defined for your website. You can access your goal’s conversion percentages, amount of revenue generated and full reports for each.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -3730,23 +3730,23 @@
 				</parameters>
 				<uniqueId>widgetGoalsOverview</uniqueId>
 				<isWide>0</isWide>
-				<layout/>
+				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
 							<name>Overview</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
@@ -3763,59 +3763,128 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
 							<name>Overview</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
-						<action>getMetrics</action>
+						<action>get</action>
 						<order>15</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
 							<module>Goals</module>
-							<action>getMetrics</action>
+							<action>get</action>
 						</parameters>
-						<uniqueId>widgetGoalsgetMetricsforceView1viewDataTablesparklines</uniqueId>
+						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklines</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name/>
+						<name>Goal Goal 1 - Thank you</name>
 						<category>
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
 							<name>Overview</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
-						<action>getSparklines</action>
+						<action>get</action>
 						<order>25</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>sparklines</viewDataTable>
 							<module>Goals</module>
-							<action>getSparklines</action>
+							<action>get</action>
+							<idGoal>1</idGoal>
+							<allow_multiple>1</allow_multiple>
+							<only_summary>1</only_summary>
 						</parameters>
-						<uniqueId>widgetGoalsgetSparklines</uniqueId>
+						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal1allow_multiple1only_summary1</uniqueId>
 						<isWide>0</isWide>
-						<viewDataTable/>
+						<viewDataTable>sparklines</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Goal Goal 2 - Hello</name>
+						<category>
+							<id>Goals_Goals</id>
+							<name>Goals</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>General_Overview</id>
+							<name>Overview</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Goals</module>
+						<action>get</action>
+						<order>25</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>sparklines</viewDataTable>
+							<module>Goals</module>
+							<action>get</action>
+							<idGoal>2</idGoal>
+							<allow_multiple>0</allow_multiple>
+							<only_summary>1</only_summary>
+						</parameters>
+						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal2allow_multiple0only_summary1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>sparklines</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Goal triggered js</name>
+						<category>
+							<id>Goals_Goals</id>
+							<name>Goals</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>General_Overview</id>
+							<name>Overview</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Goals</module>
+						<action>get</action>
+						<order>25</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>sparklines</viewDataTable>
+							<module>Goals</module>
+							<action>get</action>
+							<idGoal>3</idGoal>
+							<allow_multiple>0</allow_multiple>
+							<only_summary>1</only_summary>
+						</parameters>
+						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal3allow_multiple0only_summary1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
 				</widgets>
@@ -3845,14 +3914,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
@@ -3876,14 +3945,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
@@ -3907,14 +3976,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
@@ -3938,14 +4007,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
@@ -3969,14 +4038,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
@@ -4000,14 +4069,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
@@ -4031,14 +4100,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
@@ -4062,14 +4131,14 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
@@ -4093,14 +4162,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
@@ -4124,14 +4193,14 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
@@ -4155,14 +4224,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getReferrerType</action>
@@ -4186,14 +4255,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getKeywords</action>
@@ -4217,14 +4286,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getSearchEngines</action>
@@ -4248,14 +4317,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getWebsites</action>
@@ -4279,14 +4348,14 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
@@ -4310,14 +4379,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
@@ -4341,14 +4410,14 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
@@ -4377,13 +4446,13 @@
 			<name>Goals</name>
 			<order>25</order>
 			<icon>icon-reporting-goal</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Goals_ManageGoals</id>
 			<name>Manage Goals</name>
 			<order>9999</order>
-			<help>&lt;p&gt;This section allows you to create and edit Goals for specific actions which visitors take on your site, such as visiting a certain page or submitting a specific form. Goal reports vary but can help you track your website performance against business objectives such as lead generation, online sales and increased brand exposure.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank"&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;This section allows you to create and edit Goals for specific actions which visitors take on your site, such as visiting a certain page or submitting a specific form. Goal reports vary but can help you track your website performance against business objectives such as lead generation, online sales and increased brand exposure.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/tracking-goals-web-analytics/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -4407,7 +4476,7 @@
 			<name>Ecommerce</name>
 			<order>20</order>
 			<icon>icon-reporting-ecommerce</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Goals_EcommerceLog</id>
@@ -4437,13 +4506,13 @@
 			<name>Ecommerce</name>
 			<order>20</order>
 			<icon>icon-reporting-ecommerce</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
 			<name>Overview</name>
 			<order>2</order>
-			<help>&lt;p&gt;The Ecommerce Overview section is the best place to get a high-level view of your online store&#x2019;s performance. At a glance, you can see how many sales you&#x2019;re making, how much revenue you are generating, and your website&#x2019;s conversion rate.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Ecommerce Overview section is the best place to get a high-level view of your online store’s performance. At a glance, you can see how many sales you’re making, how much revenue you are generating, and your website’s conversion rate.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -4458,23 +4527,23 @@
 				</parameters>
 				<uniqueId>widgetEcommerceOverview</uniqueId>
 				<isWide>0</isWide>
-				<layout/>
+				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
 							<name>Overview</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
@@ -4492,19 +4561,19 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name/>
+						<name />
 						<category>
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
 							<name>Overview</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Ecommerce</module>
 						<action>getSparklines</action>
@@ -4527,14 +4596,14 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>ecommerceOrder</id>
 							<name>ecommerceOrder</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Ecommerce</module>
 						<action>getConversionsOverview</action>
@@ -4565,7 +4634,7 @@
 			<name>Ecommerce</name>
 			<order>20</order>
 			<icon>icon-reporting-ecommerce</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -4575,7 +4644,7 @@
 		</subcategory>
 		<widgets>
 			<row>
-				<name/>
+				<name />
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
 				<order>99</order>
@@ -4595,14 +4664,14 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
 							<name>Products</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getItemsName</action>
@@ -4622,14 +4691,14 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
 							<name>Products</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getItemsSku</action>
@@ -4649,14 +4718,14 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
 							<name>Products</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getItemsCategory</action>
@@ -4681,7 +4750,7 @@
 			<name>Ecommerce</name>
 			<order>20</order>
 			<icon>icon-reporting-ecommerce</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Ecommerce_Sales</id>
@@ -4691,7 +4760,7 @@
 		</subcategory>
 		<widgets>
 			<row>
-				<name/>
+				<name />
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
 				<order>5</order>
@@ -4712,14 +4781,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
@@ -4744,14 +4813,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
@@ -4776,14 +4845,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
@@ -4808,14 +4877,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
@@ -4840,14 +4909,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
@@ -4872,14 +4941,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
@@ -4904,14 +4973,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
@@ -4936,14 +5005,14 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
@@ -4968,14 +5037,14 @@
 							<id>Sales by User attribute</id>
 							<name>Sales by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User attribute</id>
 							<name>Sales by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
@@ -5000,14 +5069,14 @@
 							<id>Sales by User attribute</id>
 							<name>Sales by User attribute</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by User attribute</id>
 							<name>Sales by User attribute</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
@@ -5032,14 +5101,14 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getReferrerType</action>
@@ -5064,14 +5133,14 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getKeywords</action>
@@ -5096,14 +5165,14 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getSearchEngines</action>
@@ -5128,14 +5197,14 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getWebsites</action>
@@ -5160,14 +5229,14 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
@@ -5192,14 +5261,14 @@
 							<id>Sales engagement</id>
 							<name>Sales engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales engagement</id>
 							<name>Sales engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
@@ -5224,14 +5293,14 @@
 							<id>Sales engagement</id>
 							<name>Sales engagement</name>
 							<order>99</order>
-							<icon/>
-							<help/>
+							<icon />
+							<help />
 						</category>
 						<subcategory>
 							<id>Sales engagement</id>
 							<name>Sales engagement</name>
 							<order>99</order>
-							<help/>
+							<help />
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
@@ -5261,13 +5330,13 @@
 			<name>Marketplace</name>
 			<order>200</order>
 			<icon> icon-open-source</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Marketplace_Browse</id>
 			<name>Browse</name>
 			<order>5</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5292,13 +5361,13 @@
 			<name>Marketplace</name>
 			<order>200</order>
 			<icon> icon-open-source</icon>
-			<help/>
+			<help />
 		</category>
 		<subcategory>
 			<id>Marketplace_PaidPlugins</id>
 			<name>Premium Features</name>
 			<order>10</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5321,14 +5390,14 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
-			<icon/>
-			<help/>
+			<icon />
+			<help />
 		</category>
 		<subcategory>
 			<id>ExampleUI_GetTemperaturesDataTable</id>
 			<name>Data tables</name>
 			<order>99</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5353,14 +5422,14 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
-			<icon/>
-			<help/>
+			<icon />
+			<help />
 		</category>
 		<subcategory>
 			<id>Bar graph</id>
 			<name>Bar graph</name>
 			<order>99</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5387,14 +5456,14 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
-			<icon/>
-			<help/>
+			<icon />
+			<help />
 		</category>
 		<subcategory>
 			<id>Treemap</id>
 			<name>Treemap</name>
 			<order>99</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5421,14 +5490,14 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
-			<icon/>
-			<help/>
+			<icon />
+			<help />
 		</category>
 		<subcategory>
 			<id>Sparklines</id>
 			<name>Sparklines</name>
 			<order>99</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5455,14 +5524,14 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
-			<icon/>
-			<help/>
+			<icon />
+			<help />
 		</category>
 		<subcategory>
 			<id>Evolution Graph</id>
 			<name>Evolution Graph</name>
 			<order>99</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5493,14 +5562,14 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
-			<icon/>
-			<help/>
+			<icon />
+			<help />
 		</category>
 		<subcategory>
 			<id>Pie graph</id>
 			<name>Pie graph</name>
 			<order>99</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
@@ -5525,14 +5594,14 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
-			<icon/>
-			<help/>
+			<icon />
+			<help />
 		</category>
 		<subcategory>
 			<id>Tag clouds</id>
 			<name>Tag clouds</name>
 			<order>99</order>
-			<help/>
+			<help />
 		</subcategory>
 		<widgets>
 			<row>
