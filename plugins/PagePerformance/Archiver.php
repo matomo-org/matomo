@@ -59,11 +59,11 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         $selects[] = sprintf('SUM(%s) as page_load_total', implode(' + ', $totalColumns));
-        $selects[] = sprintf('(SUM(%s)/%s) as page_load_hits', implode(' + ', $hitsColumns), count($hitsColumns));
+        $selects[] = "count(idlink_va) as page_load_hits";
 
         $joinLogActionOnColumn = array('idaction_url');
 
-        $query = $this->getLogAggregator()->queryActionsByDimension([], '', $selects, false, null, $joinLogActionOnColumn);
+        $query = $this->getLogAggregator()->queryActionsByDimension([], '', $selects, false, null, $joinLogActionOnColumn,null,-1," HAVING page_load_total>0");
 
         $result = $query->fetchAll();
 
