@@ -49,14 +49,14 @@ class Archiver extends \Piwik\Plugin\Archiver
             new TimeDomCompletion(),
             new TimeOnLoad()
         ];
+
         foreach($performanceDimensions as $dimension) {
             $column = $dimension->getColumnName();
             $selects[] = "sum($table.$column) as {$column}_total";
             $selects[] = "sum(if($table.$column is null, 0, 1)) as {$column}_hits";
+            $totalColumns[] = "IFNULL($table.$column,0)";
             $hitsColumns[] = "if($table.$column is null, 0, 1)";
-            $totalColumns[] = sprintf("IFNULL(%s,0)", $table.$column);
         }
-
 
         $selects[] = sprintf('SUM(%s) as page_load_total', implode(' + ', $totalColumns));
         $selects[] = sprintf('(SUM(%s)/%s) as page_load_hits', implode(' + ', $hitsColumns), count($hitsColumns));
@@ -64,6 +64,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $joinLogActionOnColumn = array('idaction_url');
 
         $query = $this->getLogAggregator()->queryActionsByDimension([], '', $selects, false, null, $joinLogActionOnColumn);
+
         $result = $query->fetchAll();
 
         $this->sumAndInsertNumericRecord($result, self::PAGEPERFORMANCE_TOTAL_NETWORK_TIME, 'time_network_total');
