@@ -33,7 +33,7 @@
         </div>
         <input
           type="button"
-          @click="save(settings.pluginName)"
+          @click="saveSetting(settings.pluginName)"
           :disabled="isLoading"
           class="pluginsSettingsSubmit btn"
           :value="translate('General_Save')"
@@ -144,33 +144,37 @@ export default defineComponent({
     },
   },
   methods: {
+
+    saveSetting(requestedPlugin: string) {
+      if (this.mode === 'admin') {
+        this.showPasswordConfirmModal(requestedPlugin);
+      } else {
+        this.save(requestedPlugin);
+      }
+    },
+    showPasswordConfirmModal(requestedPlugin: string) {
+      this.settingsToSave = requestedPlugin;
+      const { root } = this.$refs;
+      const $root = $(root);
+      const onEnter = (event) => {
+        const keycode = event.keyCode ? event.keyCode : event.which;
+        if (keycode === '13') {
+          $root.find('.confirm-password-modal').modal('close');
+          this.save(requestedPlugin);
+        }
+      };
+
+      $root.find('.confirm-password-modal').modal({
+        dismissible: false,
+        onOpenEnd: () => {
+          const passwordField = '.modal.open #currentUserPassword';
+          $(passwordField).focus();
+          $(passwordField).off('keypress').keypress(onEnter);
+        },
+      }).modal('open');
+    },
     save(requestedPlugin: string) {
       const { saveApiMethod } = this;
-      const { root } = this.$refs;
-
-      const $root = $(root);
-
-      if (this.mode === 'admin' && !this.passwordConfirmation) {
-        this.settingsToSave = requestedPlugin;
-
-        const onEnter = (event) => {
-          const keycode = event.keyCode ? event.keyCode : event.which;
-          if (keycode === '13') {
-            $root.find('.confirm-password-modal').modal('close');
-            this.save(requestedPlugin);
-          }
-        };
-
-        $root.find('.confirm-password-modal').modal({
-          dismissible: false,
-          onOpenEnd: () => {
-            $('.modal.open #currentUserPassword').focus();
-            $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
-          },
-        }).modal('open');
-
-        return;
-      }
 
       this.isSaving[requestedPlugin] = true;
 
