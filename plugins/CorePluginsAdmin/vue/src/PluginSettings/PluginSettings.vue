@@ -21,15 +21,12 @@
           v-for="setting in settings.settings"
           :key="`${setting.pluginName}.${setting.name}`"
         >
-          <div>
-            <FormField
-              v-model="settingValues[`${settings.pluginName}.${setting.name}`]"
-              :form-field="{
-                ...setting,
-                condition: makeSettingConditionFunction(setting, settings.pluginName),
-              }"
-            />
-          </div>
+          <PluginSetting
+            v-model="settingValues[`${settings.pluginName}.${setting.name}`]"
+            :plugin-name="settings.pluginName"
+            :setting="setting"
+            :setting-values="settingValues"
+          />
         </div>
         <input
           type="button"
@@ -68,6 +65,7 @@
         <a
           href=""
           class="modal-action modal-close modal-no"
+          @click="$event.preventDefault()"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
@@ -76,34 +74,25 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IScope } from 'angular';
 import {
   ActivityIndicator,
   AjaxHelper,
   NotificationsStore,
   translate,
-  Matomo,
 } from 'CoreHome';
-import FormField from '../FormField/FormField.vue';
 import Field from '../Field/Field.vue';
+import PluginSetting from './PluginSetting.vue';
 
 const { $ } = window;
-
-interface Setting {
-  condition: string;
-}
-
-// TODO: have to use angularjs here until there's an expression evaluating alternative
-let conditionScope: IScope;
 
 export default defineComponent({
   props: {
     mode: String,
   },
   components: {
-    FormField,
     ActivityIndicator,
     Field,
+    PluginSetting,
   },
   data() {
     return {
@@ -127,6 +116,8 @@ export default defineComponent({
       });
 
       window.anchorLinkFix.scrollToAnchorInUrl();
+
+      this.addSectionsToTableOfContents();
     }).catch(() => {
       this.isLoading = false;
     });
@@ -144,7 +135,27 @@ export default defineComponent({
     },
   },
   methods: {
+    addSectionsToTableOfContents() {
+      const $toc = $('#generalSettingsTOC');
+      if (!$toc.length) {
+        return;
+      }
 
+      this.settingsPerPlugin.forEach((settingsForPlugin) => {
+        const { pluginName, settings } = settingsForPlugin;
+        if (!pluginName) {
+          return;
+        }
+
+        if (pluginName === 'CoreAdminHome' && settings) {
+          settings.filter((s) => s.introduction).forEach((s) => {
+            $toc.append(`<a href="#/${pluginName}PluginSettings">${s.introduction}</a> `);
+          });
+        } else {
+          $toc.append(`<a href="#/${pluginName}">${pluginName.replace(/([A-Z])/g, ' $1').trim()}</a> `);
+        }
+      });
+    },
     saveSetting(requestedPlugin: string) {
       if (this.mode === 'admin') {
         this.showPasswordConfirmModal(requestedPlugin);
@@ -199,38 +210,6 @@ export default defineComponent({
 
       this.passwordConfirmation = '';
       this.settingsToSave = null;
-    },
-    makeSettingConditionFunction(setting: Setting, pluginName: string) {
-      const { condition } = setting;
-      if (!condition) {
-        return undefined;
-      }
-
-      return () => {
-        if (!conditionScope) {
-          const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
-          conditionScope = $rootScope.$new(true);
-        }
-
-        // TODO: this is definitely not as performant. would probably need a separate component
-        // for a single plugin's settings so we can make this and other types of transforms
-        // computed properties.
-        const values = this.getConditionValuesForPlugin(pluginName);
-
-        return conditionScope.$eval(condition, values);
-      };
-    },
-    getConditionValuesForPlugin(requestedPlugin: string) {
-      const values = {};
-      Object.entries(this.settingValues).forEach(([key, value]) => {
-        const [pluginName, settingName] = key.split('.');
-        if (pluginName !== requestedPlugin) {
-          return;
-        }
-
-        values[settingName] = value;
-      });
-      return values;
     },
     getValuesForPlugin(requestedPlugin: string) {
       const values = {};
