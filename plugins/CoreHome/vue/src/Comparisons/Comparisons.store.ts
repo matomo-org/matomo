@@ -292,6 +292,11 @@ export default class ComparisonsStore {
 
   private loadComparisonsDisabledFor() {
     const matomoModule: string = MatomoUrl.parsed.value.module as string;
+
+    if (typeof matomoModule === 'undefined') {
+      this.privateState.comparisonsDisabledFor = [];
+      return;
+    }
     if (matomoModule === 'CoreUpdater'
       || matomoModule === 'Installation'
     ) {
