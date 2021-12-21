@@ -74,7 +74,7 @@
         "TheseCommandsWillBeExecuted": "Verranno eseguiti questi comandi di console:",
         "TheseSqlQueriesWillBeExecuted": "Verranno eseguite queste query SQL:",
         "TriggerDatabaseConversion": "Attiva la conversione in background del database",
-        "UnpackingTheUpdate": "Sto decomprimendo gli aggiornamenti",
+        "UnpackingTheUpdate": "Sto decomprimendo l'aggiornamento",
         "UpdateAutomatically": "Aggiorna automaticamente",
         "UpdateErrorTitle": "Errore nell'aggiornamento",
         "UpdateHasBeenCancelledExplanation": "L'aggiornamento \"in-un-click\" di Matomo è stato annullato. Se non riesci a sistemare il problema che ha causato il messaggio di errore indicato, è consigliabile aggiornare Matomo manualmente. %1$s Controlla la %2$sDocumentazione di aggiornamento%3$s per iniziare!",
