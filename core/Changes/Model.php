@@ -8,9 +8,12 @@
  */
 namespace Piwik\Changes;
 
+use Piwik\Exception\Exception;
+use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Tracker\Db\DbException;
 use Piwik\Updater\Migration;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
@@ -130,38 +133,26 @@ class Model
     /**
      * Check if any changes items exist
      *
-     * @param int|null $newerThanId     Only check for changes newer than this sequential key
+     * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
      *
      * @return int
      */
     public function doChangesExist(?int $newerThanId = null): int
     {
+        $changes = $this->getChangeItems();
 
-        if ($newerThanId !== null) {
-            $selectSql = "
-                SELECT COUNT(*) AS a,
-                  (SELECT COUNT(*) FROM " . Common::prefixTable('changes') . " WHERE idchange > ?) AS n
-                FROM ".Common::prefixTable('changes');
-            $params = [$newerThanId];
-        } else {
-            $selectSql = "SELECT COUNT(*) AS a, COUNT(*) AS n FROM ".Common::prefixTable('changes');
-            $params = [];
-        }
-
-        try {
-            $res = $this->db->fetchRow($selectSql, $params);
-        } catch (\Exception $e) {
-            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
-                return self::NO_CHANGES_EXIST;
+        $all = 0;
+        $new = 0;
+        foreach ($changes as $c) {
+            $all++;
+            if ($newerThanId !== null && isset($c['idchange']) && $c['idchange'] > $newerThanId) {
+                $new++;
             }
-            throw $e;
         }
-        $new = $res['n'];
-        $all = $res['a'];
 
-        if ($all == 0) {
+        if ($all === 0) {
             return self::NO_CHANGES_EXIST;
-        } else if ($all > 0 && $new == 0) {
+        } else if ($all > 0 && $new === 0) {
             return self::CHANGES_EXIST;
         } else {
             return self::NEW_CHANGES_EXIST;
@@ -169,9 +160,10 @@ class Model
     }
 
     /**
-     * Return an array of changes from the changes tables
+     * Return an array of change items from the changes table
      *
      * @return array
+     * @throws DbException
      */
     public function getChangeItems(): array
     {
@@ -180,7 +172,15 @@ class Model
 
         $table = Common::prefixTable('changes');
         $selectSql = "SELECT * FROM " . $table . " WHERE title IS NOT NULL ORDER BY idchange DESC";
-        $changes = $this->db->fetchAll($selectSql);
+
+        try {
+            $changes = $this->db->fetchAll($selectSql);
+        } catch (\Exception $e) {
+            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                return [];
+            }
+            throw $e;
+        }
 
         // Remove expired changes, only if there are at more than the minimum changes
         $cutOffDate = Date::now()->subDay($expireOlderThanDays);
@@ -189,6 +189,26 @@ class Model
                 unset($changes[$k]);
             }
         }
+
+        /**
+         * Event triggered before changes are displayed
+         *
+         * Can be used to filter out unwanted changes
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Changes.filterChanges', function ($changes) {
+         *         foreach ($changes as $k => $c) {
+         *             // Hide changes for the CoreHome plugin
+         *             if (isset($c['plugin_name']) && $c['plugin_name'] == 'CoreHome') {
+         *                  unset($changes[$k]);
+         *             }
+         *         }
+         *     });
+         *
+         * @param array &$changes
+         */
+        Piwik::postEvent('Changes.filterChanges', array(&$changes));
 
         return $changes;
     }
