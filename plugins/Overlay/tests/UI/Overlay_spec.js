@@ -37,7 +37,7 @@ describe("Overlay", function () {
     }
 
     before(async function () {
-        await testEnvironment.callApi("SitesManager.addSiteAliasUrls", {idSite: 3, urls: [config.piwikUrl, '127.0.0.1']});
+        await testEnvironment.callApi("SitesManager.addSiteAliasUrls", {idSite: 3, urls: [config.piwikUrl, 'localhost']});
     });
 
     after(async function () {
