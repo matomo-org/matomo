@@ -121,7 +121,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->aggregateEcommerceItems();
         }
 
-        if (self::$ARCHIVE_DEPENDENT && $this->hasAnyGoalOrEcommerce($this->getSiteId())) {
+        if (self::$ARCHIVE_DEPENDENT) {
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
         }
@@ -537,7 +537,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $columnsToRenameAfterAggregation = null,
                 $countRowsRecursive = array());
 
-        if (self::$ARCHIVE_DEPENDENT && $this->hasAnyGoalOrEcommerce($this->getSiteId())) {
+        if (self::$ARCHIVE_DEPENDENT) {
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
         }
