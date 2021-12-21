@@ -303,6 +303,10 @@ class Sparklines extends ViewDataTable
             return $columns;
         }
 
+        if (!is_array($columns)) {
+            $columns = [$columns];
+        }
+
         return array_diff($columns, ['nb_users', 'nb_uniq_visitors']);
     }
 }

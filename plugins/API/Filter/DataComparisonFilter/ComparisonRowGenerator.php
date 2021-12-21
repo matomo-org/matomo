@@ -125,7 +125,7 @@ class ComparisonRowGenerator
                     'totals' => $totals,
                 ]);
 
-                $allTotalsTables = $table->getMetadata('comparisonTotals');
+                $allTotalsTables = $table->getMetadata('comparisonTotals') ?: [];
                 $allTotalsTables[] = $comparisonTotalsEntry;
                 $table->setMetadata('comparisonTotals', $allTotalsTables);
             }
