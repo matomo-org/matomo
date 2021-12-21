@@ -5,6 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/* eslint-disable max-classes-per-file */
+
 import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
@@ -15,6 +17,8 @@ interface AjaxOptions {
   postParams?: QueryParameters;
   headers?: Record<string, string>;
   format?: string;
+  createErrorNotification?: boolean;
+  abortController?: AbortController;
 }
 
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
@@ -73,6 +77,8 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
     loadingError.show();
   }
 }
+
+class ApiResponseError extends Error {}
 
 /**
  * Global ajax helper to handle requests within Matomo
@@ -158,6 +164,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    */
   requestHandle: JQuery.jqXHR|null = null;
 
+  abortController: AbortController|null = null;
+
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   // helper method entry point
@@ -178,7 +186,34 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     if (options.headers) {
       helper.headers = options.headers;
     }
-    return helper.send();
+
+    if (typeof options.createErrorNotification !== 'undefined'
+      && !options.createErrorNotification
+    ) {
+      helper.useCallbackInCaseOfError();
+    }
+
+    if (options.abortController) {
+      helper.abortController = options.abortController;
+    }
+
+    return helper.send().then((data) => {
+      // check for error if not using default notification behavior
+      if (data.result === 'error') {
+        throw new ApiResponseError(data.message);
+      }
+
+      return data;
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static post<R = any>(
+    params: QueryParameters,
+    postParams: QueryParameters,
+    options: AjaxOptions = {},
+  ): Promise<R> {
+    return this.fetch<R>(params, { ...options, postParams });
   }
 
   constructor() {
@@ -380,6 +415,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       // ignore
     }
 
+    if (this.abortController) {
+      this.abortController.signal.addEventListener('abort', () => this.requestHandle.abort());
+    }
+
     const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
       this.requestHandle!.then((data: unknown) => {
         resolve(data as T); // ignoring textStatus/jqXHR
@@ -395,12 +434,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       });
     }) as AbortablePromise<T>;
-
-    result.abort = () => {
-      if (this.requestHandle) {
-        this.requestHandle.abort();
-      }
-    };
 
     return result;
   }
