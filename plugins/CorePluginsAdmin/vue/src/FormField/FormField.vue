@@ -215,15 +215,14 @@ export default defineComponent({
         && this.formField.uiControl !== 'radio';
     },
     showField() {
-      if (!this.formField.condition
-        || !this.allSettings
-        || !Object.values(this.allSettings).length
+      if (!this.formField
+        || !this.formField.condition
       ) {
         return true;
       }
 
       const values = {};
-      Object.values(this.allSettings as Record<string, Setting>).forEach((setting) => {
+      Object.values((this.allSettings || {}) as Record<string, Setting>).forEach((setting) => {
         if (setting.value === '0') {
           values[setting.name] = 0;
         } else {
