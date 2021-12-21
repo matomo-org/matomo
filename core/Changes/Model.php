@@ -185,6 +185,9 @@ class Model
         // Remove expired changes, only if there are at more than the minimum changes
         $cutOffDate = Date::now()->subDay($expireOlderThanDays);
         foreach ($changes as $k => $change) {
+            if (isset($change['idchange'])) {
+                $changes[$k]['idchange'] = (int)$change['idchange'];
+            }
             if (count($changes) > $showAtLeast && $change['created_time'] < $cutOffDate) {
                 unset($changes[$k]);
             }
