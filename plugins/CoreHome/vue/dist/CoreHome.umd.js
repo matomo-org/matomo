@@ -1714,7 +1714,9 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
       if (this.abortController) {
         this.abortController.signal.addEventListener('abort', function () {
-          return _this2.requestHandle.abort();
+          if (_this2.requestHandle) {
+            _this2.requestHandle.abort();
+          }
         });
       }
 
@@ -2760,13 +2762,15 @@ function createAngularJsAdapter(options) {
       noScope = options.noScope,
       _options$restrict = options.restrict,
       restrict = _options$restrict === void 0 ? 'A' : _options$restrict,
-      priority = options.priority;
+      priority = options.priority,
+      replace = options.replace;
   var currentTranscludeCounter = transcludeCounter;
 
   if (transclude) {
     transcludeCounter += 1;
   }
 
+  var vueToAngular = {};
   var angularJsScope = {};
   Object.entries(scope).forEach(function (_ref) {
     var _ref2 = createAngularJsAdapter_slicedToArray(_ref, 2),
@@ -2780,6 +2784,8 @@ function createAngularJsAdapter(options) {
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
+
+    vueToAngular[info.vue] = scopeVarName;
   });
 
   function angularJsAdapter() {
@@ -2806,11 +2812,10 @@ function createAngularJsAdapter(options) {
             });
             Object.entries(scope).forEach(function (_ref3) {
               var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
-                  key = _ref4[0],
                   info = _ref4[1];
 
-              if (info.angularJsBind === '&') {
-                var eventName = toKebabCase(key);
+              if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
+                var eventName = toKebabCase(info.vue);
 
                 if (!events[eventName]) {
                   // pass through scope & w/o a custom event handler
@@ -2865,7 +2870,7 @@ function createAngularJsAdapter(options) {
               },
               methods: {
                 onEventHandler: function onEventHandler(name, $event) {
-                  var scopePropertyName = toAngularJsCamelCase(name);
+                  var scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
 
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
@@ -2889,7 +2894,7 @@ function createAngularJsAdapter(options) {
                   scopeVarName = _ref8[0],
                   info = _ref8[1];
 
-              if (!info.angularJsBind || info.angularJsBind === '&') {
+              if (!info.angularJsBind || info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 return;
               }
 
@@ -2914,6 +2919,21 @@ function createAngularJsAdapter(options) {
 
             if (postCreate) {
               postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
+            } // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+
+
+            if (replace) {
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach(function (attr) {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+
+                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+              });
+              ngElement.replaceWith(window.$(mountPoint).children());
             }
 
             ngElement.on('$destroy', function () {

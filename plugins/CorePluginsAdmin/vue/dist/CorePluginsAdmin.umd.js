@@ -121,6 +121,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "FormField", function() { return /* reexport */ FormField; });
 __webpack_require__.d(__webpack_exports__, "Field", function() { return /* reexport */ Field; });
 __webpack_require__.d(__webpack_exports__, "PluginSettings", function() { return /* reexport */ PluginSettings; });
+__webpack_require__.d(__webpack_exports__, "PluginFilter", function() { return /* reexport */ PluginFilter; });
+__webpack_require__.d(__webpack_exports__, "PluginManagement", function() { return /* reexport */ PluginManagement; });
+__webpack_require__.d(__webpack_exports__, "PluginUpload", function() { return /* reexport */ PluginUpload; });
+__webpack_require__.d(__webpack_exports__, "SaveButton", function() { return /* reexport */ SaveButton; });
+__webpack_require__.d(__webpack_exports__, "Form", function() { return /* reexport */ Form; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -2839,6 +2844,371 @@ PluginSettingsvue_type_script_lang_ts.render = PluginSettingsvue_type_template_i
   },
   directiveName: 'piwikPluginSettings'
 }));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginManagement.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var PluginManagement_window = window,
+    PluginManagement_$ = PluginManagement_window.$;
+
+function onClickUninstall(binding, event) {
+  event.preventDefault();
+  var link = PluginManagement_$(event.target).attr('href');
+  var pluginName = PluginManagement_$(event.target).attr('data-plugin-name');
+
+  if (!link || !pluginName) {
+    return;
+  }
+
+  if (!binding.value.uninstallConfirmMessage) {
+    binding.value.uninstallConfirmMessage = PluginManagement_$('#uninstallPluginConfirm').text();
+  }
+
+  var messageToDisplay = binding.value.uninstallConfirmMessage.replace('%s', pluginName);
+  PluginManagement_$('#uninstallPluginConfirm').text(messageToDisplay);
+  external_CoreHome_["Matomo"].helper.modalConfirm('#confirmUninstallPlugin', {
+    yes: function yes() {
+      window.location = link;
+    }
+  });
+}
+
+function onDonateLinkClick(event) {
+  event.preventDefault();
+  var overlayId = PluginManagement_$(event.target).data('overlay-id');
+  external_CoreHome_["Matomo"].helper.modalConfirm("#".concat(overlayId), {});
+}
+
+/* harmony default export */ var PluginManagement = ({
+  mounted: function mounted(el, binding) {
+    setTimeout(function () {
+      binding.value.uninstallConfirmMessage = '';
+      PluginManagement_$(el).find('.uninstall').click(onClickUninstall.bind(null, binding));
+      PluginManagement_$(el).find('.plugin-donation-link').click(onDonateLinkClick);
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginManagement.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginManagement() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      var binding = {
+        instance: null,
+        value: {},
+        oldValue: null,
+        modifiers: {},
+        dir: {}
+      };
+      PluginManagement.mounted(element[0], binding);
+    }
+  };
+}
+piwikPluginManagement.$inject = [];
+angular.module('piwikApp').directive('piwikPluginManagement', piwikPluginManagement);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginUpload.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var PluginUpload_window = window,
+    PluginUpload_$ = PluginUpload_window.$;
+
+function onUploadPlugin(event) {
+  event.preventDefault();
+  external_CoreHome_["Matomo"].helper.modalConfirm('#installPluginByUpload', {});
+}
+
+function onSubmitPlugin(event) {
+  var $zipFile = PluginUpload_$('[name=pluginZip]');
+  var fileName = $zipFile.val();
+
+  if (!fileName || fileName.slice(-4) !== '.zip') {
+    event.preventDefault(); // eslint-disable-next-line no-alert
+
+    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_NoZipFileSelected'));
+  } else if ($zipFile.data('maxSize') > 0 && $zipFile[0].files[0].size > $zipFile.data('maxSize') * 1048576) {
+    event.preventDefault(); // eslint-disable-next-line no-alert
+
+    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_FileExceedsUploadLimit'));
+  }
+}
+
+/* harmony default export */ var PluginUpload = ({
+  mounted: function mounted() {
+    setTimeout(function () {
+      PluginUpload_$('.uploadPlugin').click(onUploadPlugin);
+      PluginUpload_$('#uploadPluginForm').submit(onSubmitPlugin);
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginUpload.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginUpload() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink() {
+      PluginUpload.mounted();
+    }
+  };
+}
+piwikPluginUpload.$inject = [];
+angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var PluginFilter_window = window,
+    PluginFilter_$ = PluginFilter_window.$;
+
+function getCurrentFilterOrigin(element) {
+  return element.find('.origin a.active').data('filter-origin');
+}
+
+function getCurrentFilterStatus(element) {
+  return element.find('.status a.active').data('filter-status');
+}
+
+function getMatchingNodes(filterOrigin, filterStatus) {
+  var query = '#plugins tr';
+
+  if (filterOrigin === 'all') {
+    query += '[data-filter-origin]';
+  } else {
+    query += "[data-filter-origin=".concat(filterOrigin, "]");
+  }
+
+  if (filterStatus === 'all') {
+    query += '[data-filter-status]';
+  } else {
+    query += "[data-filter-status=".concat(filterStatus, "]");
+  }
+
+  return PluginFilter_$(query);
+}
+
+function updateNumberOfMatchingPluginsInFilter(element, selectorFilterToUpdate, filterOrigin, filterStatus) {
+  var numMatchingNodes = getMatchingNodes(filterOrigin, filterStatus).length;
+  var updatedCounterText = " (".concat(numMatchingNodes, ")");
+  element.find("".concat(selectorFilterToUpdate, " .counter")).text(updatedCounterText);
+}
+
+function updateAllNumbersOfMatchingPluginsInFilter(element) {
+  var filterOrigin = getCurrentFilterOrigin(element);
+  var filterStatus = getCurrentFilterStatus(element);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="all"]', filterOrigin, 'all');
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="active"]', filterOrigin, 'active');
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="inactive"]', filterOrigin, 'inactive');
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="all"]', 'all', filterStatus);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="core"]', 'core', filterStatus);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="official"]', 'official', filterStatus);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="thirdparty"]', 'thirdparty', filterStatus);
+}
+
+function filterPlugins(element) {
+  var filterOrigin = getCurrentFilterOrigin(element);
+  var filterStatus = getCurrentFilterStatus(element);
+  var $nodesToEnable = getMatchingNodes(filterOrigin, filterStatus);
+  PluginFilter_$('#plugins tr[data-filter-origin][data-filter-status]').css('display', 'none');
+  $nodesToEnable.css('display', 'table-row');
+  updateAllNumbersOfMatchingPluginsInFilter(element);
+}
+
+function onClickStatus(element, event) {
+  event.preventDefault();
+  PluginFilter_$(event.target).siblings().removeClass('active');
+  PluginFilter_$(event.target).addClass('active');
+  filterPlugins(element);
+}
+
+function onClickOrigin(element, event) {
+  event.preventDefault();
+  PluginFilter_$(event.target).siblings().removeClass('active');
+  PluginFilter_$(event.target).addClass('active');
+  filterPlugins(element);
+}
+
+/* harmony default export */ var PluginFilter = ({
+  mounted: function mounted(el) {
+    setTimeout(function () {
+      updateAllNumbersOfMatchingPluginsInFilter(PluginFilter_$(el));
+      PluginFilter_$(el).find('.status').on('click', 'a', onClickStatus.bind(null, PluginFilter_$(el)));
+      PluginFilter_$(el).find('.origin').on('click', 'a', onClickOrigin.bind(null, PluginFilter_$(el)));
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginFilter() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      PluginFilter.mounted(element[0]);
+    }
+  };
+}
+piwikPluginFilter.$inject = [];
+angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+var SaveButtonvue_type_template_id_c302ef68_hoisted_1 = {
+  class: "matomo-save-button",
+  style: {
+    "display": "inline-block"
+  }
+};
+var SaveButtonvue_type_template_id_c302ef68_hoisted_2 = ["disabled", "value"];
+function SaveButtonvue_type_template_id_c302ef68_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_c302ef68_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "button",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.onConfirm($event);
+    }),
+    disabled: _ctx.saving || _ctx.disabled,
+    class: "btn",
+    value: _ctx.value ? _ctx.value : _ctx.translate('General_Save')
+  }, null, 8, SaveButtonvue_type_template_id_c302ef68_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    loading: _ctx.saving
+  }, null, 8, ["loading"])]);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SaveButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    saving: Boolean,
+    value: String,
+    disabled: Boolean
+  },
+  components: {
+    ActivityIndicator: external_CoreHome_["ActivityIndicator"]
+  },
+  emits: ['confirm'],
+  methods: {
+    onConfirm: function onConfirm($event) {
+      this.$emit('confirm', $event);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue
+
+
+
+SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_c302ef68_render
+
+/* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var SaveButton_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: SaveButton,
+  scope: {
+    saving: {
+      angularJsBind: '=?'
+    },
+    value: {
+      angularJsBind: '@?'
+    },
+    disabled: {
+      angularJsBind: '=?'
+    },
+    onconfirm: {
+      angularJsBind: '&?',
+      vue: 'confirm'
+    }
+  },
+  events: {
+    confirm: function confirm($event, vm, scope, element, attrs, controller, $timeout) {
+      element[0].click(); // this directive can be used on input's with ng-click specified
+
+      $timeout();
+    }
+  },
+  replace: true,
+  directiveName: 'piwikSaveButton',
+  $inject: ['$timeout']
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var Form_window = window,
+    Form_$ = Form_window.$;
+/* harmony default export */ var Form = ({
+  mounted: function mounted(el) {
+    setTimeout(function () {
+      Form_$(el).find('input[type=text]').keypress(function (e) {
+        var key = e.keyCode || e.which;
+
+        if (key === 13) {
+          Form_$(el).find('.matomo-save-button input').triggerHandler('click');
+        }
+      });
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikForm() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      Form.mounted(element[0]);
+    }
+  };
+}
+piwikForm.$inject = [];
+angular.module('piwikApp').directive('piwikForm', piwikForm);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2846,6 +3216,16 @@ PluginSettingsvue_type_script_lang_ts.render = PluginSettingsvue_type_template_i
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
+
+
+
+
+
+
+
+
+
 
 
 
