@@ -4,6 +4,8 @@
         "Exception_UnknownProvider": "Tilbydernavnet '%1$s' er ukjent. Prøv ett av følgende i stedet: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Du kan legge til flere telefonnummer ved å gå til",
         "MobileReport_MobileMessagingSettingsLink": "innstillingssiden for mobilmeldinger",
+        "MobileReport_NoPhoneNumbers": "Aktiver minst ett telefonnummer ved å besøke",
+        "MultiSites_Must_Be_Activated": "For å generere SMS-er av din nettsidestatistikk må du skru på MultiSites-programtillegget i Matomo.",
         "PhoneNumbers": "Telefonnumre",
         "SMS_Content_Too_Long": "[for lang]",
         "SettingsMenu": "Meldingstjenester",

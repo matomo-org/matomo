@@ -3,6 +3,8 @@
         "AddANDorORCondition": "Legg til %s-vilkår",
         "AddNewSegment": "Legg til nytt segment",
         "AreYouSureDeleteSegment": "Er du sikker på at du vil slette dette segmentet?",
+        "AutoArchivePreProcessed": "segmenterte rapporter forhåndsbehandles (raskere, krever cron)",
+        "AutoArchiveRealTime": "segmenterte rapporter behandles i sanntid",
         "ChooseASegment": "Velg et segment",
         "CustomSegment": "Egendefinert segment",
         "DefaultAllVisits": "Alle besøk",
