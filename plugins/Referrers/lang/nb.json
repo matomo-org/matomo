@@ -1,7 +1,9 @@
 {
     "Referrers": {
         "Acquisition": "Anskaffelse",
+        "AllReferrersReportDocumentation": "Denne rapporten viser alle dine henviser i én samlet rapport, der nettsider, søkenøkkelord og kampanjer brukt av dine besøkende til å finne nettsiden er listet opp.",
         "CampaignContent": "Kampanjeinnhold",
+        "CampaignContentHelp": "Dette parameteret brukes ofte når du tester flere reklamer og ønsker å inkludere navnet for hver av dem for å se hvilken av dem som mest effektivt genererte trafikk.",
         "CampaignGroup": "Kampanjegruppe",
         "CampaignId": "Kampanje-ID",
         "CampaignMedium": "Kampanjemedium",

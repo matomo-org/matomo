@@ -24,6 +24,8 @@
         "NumPageviews": "%s ページビュー",
         "OutgoingTraffic": "送信トラフィック",
         "PageURLTransitions": "ページURLのトランジション",
+        "PeriodNotAllowed": "期間は許可されていません",
+        "PeriodNotAllowedDetails": "この機能はこの期間は利用できません。日数の少ない期間を選択してみてください",
         "PluginDescription": "新しいアイコンを通して アクションレポートで利用可能な、新しい翻訳レポートのそれぞれのページ URL に対する遷移をレポートします。",
         "ShareOfAllPageviews": "このページは、%1$s ページビューでした ( 全ページビューの %2$s )",
         "ToFollowingPages": "内部ページへ",

@@ -17,6 +17,8 @@
         "RateFeatureDislikeAddMissingFeatures": "Legg til manglende funksjoner?",
         "RateFeatureDislikeFixBugs": "Fiksing av feil",
         "RateFeatureDislikeSpeedUp": "Bedret hastighet",
+        "RateFeatureLeaveMessageDislike": "Hvordan kan denne funksjonen bli bedre?",
+        "RateFeatureLeaveMessageDislikeNamedFeature": "Hvordan kan %1$s forbedres?",
         "RateFeatureOtherReason": "Annen grunn",
         "RateFeatureThankYouTitle": "Takk for at du rangerer «%s»!",
         "RateFeatureTitle": "Liker du funksjonen «%s»? Vennligst ranger den og legg igjen en kommentar",
