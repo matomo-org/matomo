@@ -30,7 +30,7 @@ export default defineComponent({
   props: {
     pluginName: String,
     setting: Object,
-    modelValue: Object,
+    modelValue: null,
     settingValues: Object,
   },
   components: {
