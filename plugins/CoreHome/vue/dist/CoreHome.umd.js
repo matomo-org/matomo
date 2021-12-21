@@ -1714,7 +1714,9 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
       if (this.abortController) {
         this.abortController.signal.addEventListener('abort', function () {
-          return _this2.requestHandle.abort();
+          if (_this2.requestHandle) {
+            _this2.requestHandle.abort();
+          }
         });
       }
 
