@@ -177,7 +177,23 @@ class LoaderTest extends IntegrationTestCase
             ],
             [
                 'idarchive' => '3',
+                'name' => 'done90a5a511e1974bca37613b6daec137ba.Goals',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '4',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '5',
+                'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
                 'value' => '1',
                 'date1' => '2020-01-20',
                 'date2' => '2020-01-20',
