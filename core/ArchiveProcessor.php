@@ -681,7 +681,7 @@ class ArchiveProcessor
         // thus these would result in different segment hashes and therefore the reports would either show 0 or archive the data twice
         $originSegmentString = $params->getSegment()->getOriginalString();
         $newSegment = Segment::combine($originSegmentString, SegmentExpression::AND_DELIMITER, $segment);
-        if ($originSegmentString && $newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
+        if (!empty($originSegmentString) && $newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
             return;
         }
 
