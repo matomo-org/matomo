@@ -21,6 +21,11 @@ interface AjaxOptions {
   abortController?: AbortController;
 }
 
+interface ErrorResponse {
+  result: string;
+  message: string;
+}
+
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
 
@@ -197,13 +202,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.abortController = options.abortController;
     }
 
-    return helper.send().then((data) => {
+    return helper.send().then((data: R | ErrorResponse) => {
       // check for error if not using default notification behavior
-      if (data.result === 'error') {
-        throw new ApiResponseError(data.message);
+      if ((data as ErrorResponse).result === 'error') {
+        throw new ApiResponseError((data as ErrorResponse).message);
       }
 
-      return data;
+      return data as R;
     });
   }
 
@@ -396,7 +401,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Send the request
    */
-  send(): AbortablePromise<T> {
+  send(): Promise<T | ErrorResponse> {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -416,12 +421,16 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     if (this.abortController) {
-      this.abortController.signal.addEventListener('abort', () => this.requestHandle.abort());
+      this.abortController.signal.addEventListener('abort', () => {
+        if (this.requestHandle) {
+          this.requestHandle.abort();
+        }
+      });
     }
 
-    const result: AbortablePromise<T> = new Promise<T>((resolve, reject) => {
-      this.requestHandle!.then((...args) => {
-        resolve(...args);
+    const result = new Promise<T | ErrorResponse>((resolve, reject) => {
+      this.requestHandle!.then((data: unknown) => {
+        resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
       }).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
@@ -433,7 +442,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           $timeout(); // trigger digest
         }
       });
-    }) as AbortablePromise<T>;
+    });
 
     return result;
   }

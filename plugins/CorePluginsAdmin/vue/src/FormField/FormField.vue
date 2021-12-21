@@ -6,7 +6,7 @@
 
 <template>
   <div
-    class="form-group row"
+    class="form-group row matomo-form-field"
     v-show="showField"
   >
     <h3

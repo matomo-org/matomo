@@ -141,14 +141,14 @@ class NotificationsStore {
   parseNotificationDivs(): void {
     const $notificationNodes = $('[data-role="notification"]');
 
-    const notificationsToShow = [];
+    const notificationsToShow: Notification[] = [];
     $notificationNodes.each((index, notificationNode) => {
       const $notificationNode = $(notificationNode);
       const attributes = $notificationNode.data();
       const message = $notificationNode.html();
 
       if (message) {
-        notificationsToShow.push({ ...attributes, message, animate: false });
+        notificationsToShow.push({ ...attributes, message, animate: false } as Notification);
       }
 
       $notificationNodes.remove();

@@ -201,7 +201,7 @@
 	</row>
 	<row>
 		<name>Main metrics (API)</name>
-		<documentation>This report gives you an overview over the most important metrics across all categories and plugins.</documentation>
+		<documentation>This report gives an overview of the most important metrics across all categories and plugins.</documentation>
 	</row>
 	<row>
 		<name>Operating System families (Visitors)</name>

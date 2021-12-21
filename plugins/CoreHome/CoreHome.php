@@ -238,7 +238,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
 
-
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
 
 
@@ -260,7 +259,6 @@ class CoreHome extends \Piwik\Plugin
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/form/form.directive.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js";
     }
@@ -442,5 +440,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
         $translationKeys[] = 'CoreHome_StartDate';
         $translationKeys[] = 'CoreHome_EndDate';
+        $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
     }
 }

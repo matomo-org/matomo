@@ -1,7 +1,12 @@
 {
     "VisitTime": {
+        "ColumnLocalHour": "Lokal time - time (besøkets begynnelse)",
+        "ColumnLocalMinute": "Lokal tid - minutt (besøkets start)",
         "ColumnLocalTime": "Lokaltid",
+        "ColumnServerHour": "Tjenertime - time",
         "ColumnServerTime": "Servertid",
+        "ColumnVisitEndServerDayOfWeek": "Tjenertid - ukedag (tidspunkt for siste handling)",
+        "ColumnVisitStartServerHour": "Tjenertid - time (starten av besøket)",
         "DayOfWeek": "Dag i uken",
         "LocalTime": "Besøk pr. lokaltid",
         "NHour": "%st",

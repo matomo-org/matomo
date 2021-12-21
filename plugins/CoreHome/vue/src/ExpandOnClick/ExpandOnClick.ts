@@ -94,7 +94,6 @@ export default {
       const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
       expander.addEventListener('click', binding.value.onExpand);
     });
-
     doc.addEventListener('keyup', binding.value.onEscapeHandler);
     doc.addEventListener('mousedown', binding.value.onMouseDown);
     doc.addEventListener('mouseup', binding.value.onClickOutsideElement);

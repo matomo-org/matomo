@@ -54,12 +54,8 @@ export class ReportingPagesStore {
   }
 
   reloadAllPages(): Promise<typeof ReportingPagesStore['pages']['value']> {
-    // use a setTimeout this method can happen when changing the page, and page changes
-    // will abort in progress AJAX requests, even this one if it is in progress.
-    return new Promise((resolve) => setTimeout(resolve)).then(() => {
-      this.fetchAllPagesPromise = null;
-      return this.getAllPages();
-    });
+    this.fetchAllPagesPromise = null;
+    return this.getAllPages();
   }
 
   getAllPages(): Promise<typeof ReportingPagesStore['pages']['value']> {
