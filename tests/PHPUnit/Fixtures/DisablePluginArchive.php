@@ -56,10 +56,6 @@ class DisablePluginArchive extends Fixture
         Cache::clearCacheGeneral();
         Cache::regenerateCacheWebsiteAttributes(array($idSite));
 
-        if ($this->useThirdPartyCookies) {
-            $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
-        }
-
         $t->disableCookieSupport();
 
         $t->setUrlReferrer('http://referrer.com/page.htm?param=valuewith some spaces');
@@ -71,9 +67,9 @@ class DisablePluginArchive extends Fixture
           'new name',
           $url = array('http://site.com'),
           $ecommerce = 0,
-          $siteSearch = $this->useSiteSearch ? 1 : 0,
-          $searchKeywordParameters = $this->useSiteSearch ? '' : null,
-          $searchCategoryParameters = $this->useSiteSearch ? 'notparam' : null,
+          $siteSearch = 0,
+          $searchKeywordParameters = null,
+          $searchCategoryParameters = null,
           $excludedIps = null,
           $parameterToExclude . ',anotherParameter',
           $timezone = null,
@@ -129,25 +125,11 @@ class DisablePluginArchive extends Fixture
 
         $t->setBrowserLanguage('fr');
 
-        if ($this->useSiteSearch) {
-            // Site Search request
-            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.42)->getDatetime());
-            $t->setUrl('http://example.org/index.htm?q=Banks Own The World');
-            $t->setPerformanceTimings(17, 236, 385, 1025, 199, 266);
-            self::checkResponse($t->doTrackPageView('Site Search request'));
-
-            // Final page view (after 27 min)
-            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.45)->getDatetime());
-            $t->setUrl('http://example.org/index.htm');
-            $t->setPerformanceTimings(42, 96, 200, 955, 566, 200);
-            self::checkResponse($t->doTrackPageView('Looking at homepage after site search...'));
-        } else {
-            // Final page view (after 27 min)
-            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.45)->getDatetime());
-            $t->setUrl('http://example.org/index.htm#ignoredFragment#');
-            $t->setPerformanceTimings(0, 222, 333, 1111, 666, 333);
-            self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
-        }
+        // Final page view (after 27 min)
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.45)->getDatetime());
+        $t->setUrl('http://example.org/index.htm#ignoredFragment#');
+        $t->setPerformanceTimings(0, 222, 333, 1111, 666, 333);
+        self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
 
         // -
         // End of first visit: 24min

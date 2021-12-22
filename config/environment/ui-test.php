@@ -50,7 +50,7 @@ return array(
             }
 
             // remove PIWIK_INCLUDE_PATH from result so tests don't change based on the machine used
-            $result = str_replace(realpath(PIWIK_INCLUDE_PATH), '', $result);
+            $result = str_replace(realpath(PIWIK_INCLUDE_PATH), '', $result ?? '');
         })),
 
         array('Controller.RssWidget.rssPiwik.end', DI\value(function (&$result, $parameters) {

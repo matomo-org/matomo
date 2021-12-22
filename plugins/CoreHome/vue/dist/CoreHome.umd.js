@@ -1318,17 +1318,39 @@ function initPiwikService(piwik, $rootScope) {
 initPiwikService.$inject = ['piwik', '$rootScope'];
 window.angular.module('piwikApp.service').run(initPiwikService);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function AjaxHelper_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function AjaxHelper_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { AjaxHelper_ownKeys(Object(source), true).forEach(function (key) { AjaxHelper_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { AjaxHelper_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function AjaxHelper_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function AjaxHelper_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function AjaxHelper_createClass(Constructor, protoProps, staticProps) { if (protoProps) AjaxHelper_defineProperties(Constructor.prototype, protoProps); if (staticProps) AjaxHelper_defineProperties(Constructor, staticProps); return Constructor; }
 
 function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function AjaxHelper_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 /*!
  * Matomo - free/libre analytics platform
@@ -1399,6 +1421,20 @@ function defaultErrorCallback(deferred, status) {
     loadingError.show();
   }
 }
+
+var ApiResponseError = /*#__PURE__*/function (_Error) {
+  _inherits(ApiResponseError, _Error);
+
+  var _super = _createSuper(ApiResponseError);
+
+  function ApiResponseError() {
+    AjaxHelper_classCallCheck(this, ApiResponseError);
+
+    return _super.apply(this, arguments);
+  }
+
+  return ApiResponseError;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
 /**
  * Global ajax helper to handle requests within Matomo
  */
@@ -1435,6 +1471,8 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     AjaxHelper_defineProperty(this, "headers", void 0);
 
     AjaxHelper_defineProperty(this, "requestHandle", null);
+
+    AjaxHelper_defineProperty(this, "abortController", null);
 
     AjaxHelper_defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
 
@@ -1674,6 +1712,14 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       } catch (e) {// ignore
       }
 
+      if (this.abortController) {
+        this.abortController.signal.addEventListener('abort', function () {
+          if (_this2.requestHandle) {
+            _this2.requestHandle.abort();
+          }
+        });
+      }
+
       var result = new Promise(function (resolve, reject) {
         _this2.requestHandle.then(function (data) {
           resolve(data); // ignoring textStatus/jqXHR
@@ -1688,13 +1734,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           }
         });
       });
-
-      result.abort = function () {
-        if (_this2.requestHandle) {
-          _this2.requestHandle.abort();
-        }
-      };
-
       return result;
     }
     /**
@@ -1966,7 +2005,31 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.headers = options.headers;
       }
 
-      return helper.send();
+      if (typeof options.createErrorNotification !== 'undefined' && !options.createErrorNotification) {
+        helper.useCallbackInCaseOfError();
+      }
+
+      if (options.abortController) {
+        helper.abortController = options.abortController;
+      }
+
+      return helper.send().then(function (data) {
+        // check for error if not using default notification behavior
+        if (data.result === 'error') {
+          throw new ApiResponseError(data.message);
+        }
+
+        return data;
+      });
+    } // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  }, {
+    key: "post",
+    value: function post(params, postParams) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.fetch(params, AjaxHelper_objectSpread(AjaxHelper_objectSpread({}, options), {}, {
+        postParams: postParams
+      }));
     }
   }]);
 
@@ -2650,7 +2713,7 @@ function createAngularJsAdapter_iterableToArrayLimit(arr, i) { var _i = arr == n
 
 function createAngularJsAdapter_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function createAngularJsAdapter_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { createAngularJsAdapter_typeof = function _typeof(obj) { return typeof obj; }; } else { createAngularJsAdapter_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return createAngularJsAdapter_typeof(obj); }
 
 /*!
  * Matomo - free/libre analytics platform
@@ -2676,7 +2739,7 @@ function toAngularJsCamelCase(arg) {
 }
 
 function removeAngularJsSpecificProperties(newValue) {
-  if (_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
+  if (createAngularJsAdapter_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
     return Object.fromEntries(Object.entries(newValue).filter(function (pair) {
       return !/^\$/.test(pair[0]);
     }));
@@ -2699,13 +2762,15 @@ function createAngularJsAdapter(options) {
       noScope = options.noScope,
       _options$restrict = options.restrict,
       restrict = _options$restrict === void 0 ? 'A' : _options$restrict,
-      priority = options.priority;
+      priority = options.priority,
+      replace = options.replace;
   var currentTranscludeCounter = transcludeCounter;
 
   if (transclude) {
     transcludeCounter += 1;
   }
 
+  var vueToAngular = {};
   var angularJsScope = {};
   Object.entries(scope).forEach(function (_ref) {
     var _ref2 = createAngularJsAdapter_slicedToArray(_ref, 2),
@@ -2719,6 +2784,8 @@ function createAngularJsAdapter(options) {
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
+
+    vueToAngular[info.vue] = scopeVarName;
   });
 
   function angularJsAdapter() {
@@ -2745,11 +2812,10 @@ function createAngularJsAdapter(options) {
             });
             Object.entries(scope).forEach(function (_ref3) {
               var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
-                  key = _ref4[0],
                   info = _ref4[1];
 
-              if (info.angularJsBind === '&') {
-                var eventName = toKebabCase(key);
+              if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
+                var eventName = toKebabCase(info.vue);
 
                 if (!events[eventName]) {
                   // pass through scope & w/o a custom event handler
@@ -2804,7 +2870,7 @@ function createAngularJsAdapter(options) {
               },
               methods: {
                 onEventHandler: function onEventHandler(name, $event) {
-                  var scopePropertyName = toAngularJsCamelCase(name);
+                  var scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
 
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
@@ -2828,7 +2894,7 @@ function createAngularJsAdapter(options) {
                   scopeVarName = _ref8[0],
                   info = _ref8[1];
 
-              if (!info.angularJsBind || info.angularJsBind === '&') {
+              if (!info.angularJsBind || info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 return;
               }
 
@@ -2853,6 +2919,21 @@ function createAngularJsAdapter(options) {
 
             if (postCreate) {
               postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
+            } // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+
+
+            if (replace) {
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach(function (attr) {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+
+                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+              });
+              ngElement.replaceWith(window.$(mountPoint).children());
             }
 
             ngElement.on('$destroy', function () {
@@ -5309,7 +5390,7 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
       isInitialized: false
     }));
 
-    SitesStore_defineProperty(this, "currentRequest", void 0);
+    SitesStore_defineProperty(this, "currentRequestAbort", void 0);
 
     SitesStore_defineProperty(this, "limitRequest", void 0);
 
@@ -5364,8 +5445,8 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
         return this.loadInitialSites();
       }
 
-      if (this.currentRequest) {
-        this.currentRequest.abort();
+      if (this.currentRequestAbort) {
+        this.currentRequestAbort.abort();
       }
 
       if (!this.limitRequest) {
@@ -5382,12 +5463,14 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
           methodToCall = 'SitesManager.getSitesWithAdminAccess';
         }
 
-        _this3.currentRequest = AjaxHelper_AjaxHelper.fetch({
+        _this3.currentRequestAbort = new AbortController();
+        return AjaxHelper_AjaxHelper.fetch({
           method: methodToCall,
           limit: limit,
           pattern: term
+        }, {
+          abortController: _this3.currentRequestAbort
         });
-        return _this3.currentRequest;
       }).then(function (response) {
         if (response) {
           return _this3.processWebsitesList(response);
@@ -5395,7 +5478,7 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
 
         return null;
       }).finally(function () {
-        _this3.currentRequest = null;
+        _this3.currentRequestAbort = null;
       });
     }
   }, {
@@ -8967,33 +9050,33 @@ angular.module('piwikApp.service').factory('reportMetadataModel', function () {
     }
   };
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=3ec23d3a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=48cda8d3
 
-var WidgetLoadervue_type_template_id_3ec23d3a_hoisted_1 = {
+var WidgetLoadervue_type_template_id_48cda8d3_hoisted_1 = {
   key: 0
 };
-var WidgetLoadervue_type_template_id_3ec23d3a_hoisted_2 = {
+var WidgetLoadervue_type_template_id_48cda8d3_hoisted_2 = {
   class: "notification system notification-error"
 };
-var WidgetLoadervue_type_template_id_3ec23d3a_hoisted_3 = {
+var WidgetLoadervue_type_template_id_48cda8d3_hoisted_3 = {
   key: 0,
   rel: "noreferrer noopener",
   target: "_blank",
   href: "https://matomo.org/faq/troubleshooting/faq_19489/"
 };
-var WidgetLoadervue_type_template_id_3ec23d3a_hoisted_4 = {
+var WidgetLoadervue_type_template_id_48cda8d3_hoisted_4 = {
   class: "theWidgetContent",
   ref: "widgetContent"
 };
-function WidgetLoadervue_type_template_id_3ec23d3a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function WidgetLoadervue_type_template_id_48cda8d3_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     "loading-message": _ctx.loadingMessage,
     loading: _ctx.loading
-  }, null, 8, ["loading-message", "loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.widgetName ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", WidgetLoadervue_type_template_id_3ec23d3a_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.widgetName), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetLoadervue_type_template_id_3ec23d3a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ErrorRequest', '', '')) + " ", 1), _ctx.hasErrorFaqLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", WidgetLoadervue_type_template_id_3ec23d3a_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ErrorRequestFaqLink')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loadingFailed]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetLoadervue_type_template_id_3ec23d3a_hoisted_4, null, 512)]);
+  }, null, 8, ["loading-message", "loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.widgetName ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", WidgetLoadervue_type_template_id_48cda8d3_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.widgetName), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetLoadervue_type_template_id_48cda8d3_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ErrorRequest', '', '')) + " ", 1), _ctx.hasErrorFaqLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", WidgetLoadervue_type_template_id_48cda8d3_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ErrorRequestFaqLink')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loadingFailed]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetLoadervue_type_template_id_48cda8d3_hoisted_4, null, 512)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=3ec23d3a
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=48cda8d3
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=script&lang=ts
 function WidgetLoadervue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -9036,7 +9119,6 @@ function WidgetLoadervue_type_script_lang_ts_defineProperty(obj, key, value) { i
       loading: false,
       loadingFailed: '',
       changeCounter: 0,
-      lastWidgetRequest: null,
       currentScope: null
     };
   },
@@ -9071,9 +9153,9 @@ function WidgetLoadervue_type_script_lang_ts_defineProperty(obj, key, value) { i
   },
   methods: {
     abortHttpRequestIfNeeded: function abortHttpRequestIfNeeded() {
-      if (this.lastWidgetRequest) {
-        this.lastWidgetRequest.abort();
-        this.lastWidgetRequest = null;
+      if (this.lastWidgetAbortController) {
+        this.lastWidgetAbortController.abort();
+        this.lastWidgetAbortController = null;
       }
     },
     cleanupLastWidgetContent: function cleanupLastWidgetContent() {
@@ -9138,19 +9220,20 @@ function WidgetLoadervue_type_script_lang_ts_defineProperty(obj, key, value) { i
       this.loading = true;
       this.abortHttpRequestIfNeeded();
       this.cleanupLastWidgetContent();
-      this.lastWidgetRequest = AjaxHelper_AjaxHelper.fetch(this.getWidgetUrl(parameters), {
+      this.lastWidgetAbortController = new AbortController();
+      AjaxHelper_AjaxHelper.fetch(this.getWidgetUrl(parameters), {
         format: 'html',
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
-        }
-      });
-      this.lastWidgetRequest.then(function (response) {
+        },
+        abortController: this.lastWidgetAbortController
+      }).then(function (response) {
         if (thisChangeId !== _this.changeCounter || !response || typeof response !== 'string') {
           // another widget was requested meanwhile, ignore this response
           return;
         }
 
-        _this.lastWidgetRequest = null;
+        _this.lastWidgetAbortController = null;
         _this.loading = false;
         _this.loadingFailed = false;
         var widgetContent = _this.$refs.widgetContent;
@@ -9190,7 +9273,7 @@ function WidgetLoadervue_type_script_lang_ts_defineProperty(obj, key, value) { i
           return;
         }
 
-        _this.lastWidgetRequest = null;
+        _this.lastWidgetAbortController = null;
 
         _this.cleanupLastWidgetContent();
 
@@ -9211,7 +9294,7 @@ function WidgetLoadervue_type_script_lang_ts_defineProperty(obj, key, value) { i
 
 
 
-WidgetLoadervue_type_script_lang_ts.render = WidgetLoadervue_type_template_id_3ec23d3a_render
+WidgetLoadervue_type_script_lang_ts.render = WidgetLoadervue_type_template_id_48cda8d3_render
 
 /* harmony default export */ var WidgetLoader = (WidgetLoadervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.adapter.ts
