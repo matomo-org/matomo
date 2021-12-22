@@ -227,7 +227,7 @@ Application.prototype.loadTestModules = function () {
         // if a test fails, print failure info and for non-comparison fails, save failure screenshot
         suite.afterEach(async function() {
             const test = this.currentTest;
-            const err = this.currentTest.err;
+            const err = this.currentTest && this.currentTest.err;
             if (!err) {
                 return;
             }

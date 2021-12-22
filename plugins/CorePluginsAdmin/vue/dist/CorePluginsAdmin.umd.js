@@ -120,6 +120,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "FormField", function() { return /* reexport */ FormField; });
 __webpack_require__.d(__webpack_exports__, "Field", function() { return /* reexport */ Field; });
+__webpack_require__.d(__webpack_exports__, "PluginSettings", function() { return /* reexport */ PluginSettings; });
+__webpack_require__.d(__webpack_exports__, "PluginFilter", function() { return /* reexport */ PluginFilter; });
+__webpack_require__.d(__webpack_exports__, "PluginManagement", function() { return /* reexport */ PluginManagement; });
+__webpack_require__.d(__webpack_exports__, "PluginUpload", function() { return /* reexport */ PluginUpload; });
+__webpack_require__.d(__webpack_exports__, "SaveButton", function() { return /* reexport */ SaveButton; });
+__webpack_require__.d(__webpack_exports__, "Form", function() { return /* reexport */ Form; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -143,7 +149,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=77ed4ac2
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=04fb4255
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -152,7 +158,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var _hoisted_1 = {
-  class: "form-group row"
+  class: "form-group row matomo-form-field"
 };
 var _hoisted_2 = {
   key: 0,
@@ -194,7 +200,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-description"
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.formField.description), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.formField.description]]), _ctx.formField.inlineHelp ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_4, null, 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Default')) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.defaultValuePrettyTruncated), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showDefaultValue]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showField]]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=77ed4ac2
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=04fb4255
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckbox.vue?vue&type=template&id=16b4705b
 
@@ -1746,12 +1752,12 @@ var CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
       return this.defaultValuePretty && this.formField.uiControl !== 'checkbox' && this.formField.uiControl !== 'radio';
     },
     showField: function showField() {
-      if (!this.formField.condition || !this.allSettings || !Object.values(this.allSettings).length) {
+      if (!this.formField || !this.formField.condition) {
         return true;
       }
 
       var values = {};
-      Object.values(this.allSettings).forEach(function (setting) {
+      Object.values(this.allSettings || {}).forEach(function (setting) {
         if (setting.value === '0') {
           values[setting.name] = 0;
         } else {
@@ -1855,15 +1861,15 @@ var CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
 FormFieldvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var FormField = (FormFieldvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=41f51ad7
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=c535b064
 
-var FieldAngularJsTemplatevue_type_template_id_41f51ad7_hoisted_1 = {
+var FieldAngularJsTemplatevue_type_template_id_c535b064_hoisted_1 = {
   ref: "root"
 };
-function FieldAngularJsTemplatevue_type_template_id_41f51ad7_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldAngularJsTemplatevue_type_template_id_41f51ad7_hoisted_1, null, 512);
+function FieldAngularJsTemplatevue_type_template_id_c535b064_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldAngularJsTemplatevue_type_template_id_c535b064_hoisted_1, null, 512);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=41f51ad7
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=c535b064
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=script&lang=ts
 function FieldAngularJsTemplatevue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -1901,16 +1907,18 @@ function clone(obj) {
       value: clone(props.modelValue)
     });
     scope.$watch('formField.value', function (newValue, oldValue) {
-      if (newValue !== oldValue && newValue !== props.modelValue) {
+      if (newValue !== oldValue && JSON.stringify(newValue) !== JSON.stringify(props.modelValue)) {
         context.emit('update:modelValue', clone(newValue));
       }
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return props.modelValue;
     }, function (newValue) {
-      $timeout(function () {
-        scope.formField.value = clone(newValue);
-      });
+      if (JSON.stringify(newValue) !== JSON.stringify(scope.formField.value)) {
+        $timeout(function () {
+          scope.formField.value = newValue;
+        });
+      }
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return props.formField;
@@ -1947,7 +1955,7 @@ function clone(obj) {
 
 
 
-FieldAngularJsTemplatevue_type_script_lang_ts.render = FieldAngularJsTemplatevue_type_template_id_41f51ad7_render
+FieldAngularJsTemplatevue_type_script_lang_ts.render = FieldAngularJsTemplatevue_type_template_id_c535b064_render
 
 /* harmony default export */ var FieldAngularJsTemplate = (FieldAngularJsTemplatevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/useExternalPluginComponent.ts
@@ -2419,6 +2427,788 @@ function handleJsonValue(value, varType, uiControl) {
     }
   }
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=3c695dde
+
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_1 = {
+  class: "pluginSettings",
+  ref: "root"
+};
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_2 = ["id"];
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_3 = {
+  class: "card-content"
+};
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_4 = ["id"];
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_5 = ["onClick", "disabled", "value"];
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_6 = {
+  class: "confirm-password-modal modal"
+};
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_7 = {
+  class: "modal-content"
+};
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_8 = {
+  class: "modal-footer"
+};
+var PluginSettingsvue_type_template_id_3c695dde_hoisted_9 = ["disabled"];
+function PluginSettingsvue_type_template_id_3c695dde_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
+  var _component_PluginSetting = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PluginSetting");
+
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PluginSettingsvue_type_template_id_3c695dde_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.settingsPerPlugin, function (settings) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      class: "card",
+      id: "".concat(settings.pluginName, "PluginSettings"),
+      key: "".concat(settings.pluginName, "PluginSettings")
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_3c695dde_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
+      class: "card-title",
+      id: settings.pluginName
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(settings.title), 9, PluginSettingsvue_type_template_id_3c695dde_hoisted_4), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(settings.settings, function (setting) {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+        key: "".concat(setting.pluginName, ".").concat(setting.name)
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PluginSetting, {
+        modelValue: _ctx.settingValues["".concat(settings.pluginName, ".").concat(setting.name)],
+        "onUpdate:modelValue": function onUpdateModelValue($event) {
+          return _ctx.settingValues["".concat(settings.pluginName, ".").concat(setting.name)] = $event;
+        },
+        "plugin-name": settings.pluginName,
+        setting: setting,
+        "setting-values": _ctx.settingValues
+      }, null, 8, ["modelValue", "onUpdate:modelValue", "plugin-name", "setting", "setting-values"])]);
+    }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "button",
+      onClick: function onClick($event) {
+        return _ctx.saveSetting(settings.pluginName);
+      },
+      disabled: _ctx.isLoading,
+      class: "pluginsSettingsSubmit btn",
+      value: _ctx.translate('General_Save')
+    }, null, 8, PluginSettingsvue_type_template_id_3c695dde_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+      loading: _ctx.isLoading || _ctx.isSaving[settings.pluginName]
+    }, null, 8, ["loading"])])], 8, PluginSettingsvue_type_template_id_3c695dde_hoisted_2);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_3c695dde_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_3c695dde_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    modelValue: _ctx.passwordConfirmation,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.passwordConfirmation = $event;
+    }),
+    uicontrol: 'password',
+    name: 'currentUserPassword',
+    autocomplete: false,
+    "full-width": true,
+    title: _ctx.translate('UsersManager_YourCurrentPassword')
+  }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_3c695dde_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close btn",
+    disabled: !_ctx.passwordConfirmation ? 'disabled' : undefined,
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      $event.preventDefault();
+
+      _ctx.save(_this.settingsToSave);
+    })
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 9, PluginSettingsvue_type_template_id_3c695dde_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close modal-no",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $event.preventDefault();
+    })
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])])], 512);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=3c695dde
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSetting.vue?vue&type=template&id=ebbcc5e8
+function PluginSettingvue_type_template_id_ebbcc5e8_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function PluginSettingvue_type_template_id_ebbcc5e8_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { PluginSettingvue_type_template_id_ebbcc5e8_ownKeys(Object(source), true).forEach(function (key) { PluginSettingvue_type_template_id_ebbcc5e8_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { PluginSettingvue_type_template_id_ebbcc5e8_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function PluginSettingvue_type_template_id_ebbcc5e8_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+function PluginSettingvue_type_template_id_ebbcc5e8_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_FormField = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FormField");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_FormField, {
+    "model-value": _ctx.modelValue,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.changeValue($event);
+    }),
+    "form-field": PluginSettingvue_type_template_id_ebbcc5e8_objectSpread(PluginSettingvue_type_template_id_ebbcc5e8_objectSpread({}, _ctx.setting), {}, {
+      condition: _ctx.conditionFunction
+    })
+  }, null, 8, ["model-value", "form-field"])]);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSetting.vue?vue&type=template&id=ebbcc5e8
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSetting.vue?vue&type=script&lang=ts
+function PluginSettingvue_type_script_lang_ts_slicedToArray(arr, i) { return PluginSettingvue_type_script_lang_ts_arrayWithHoles(arr) || PluginSettingvue_type_script_lang_ts_iterableToArrayLimit(arr, i) || PluginSettingvue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || PluginSettingvue_type_script_lang_ts_nonIterableRest(); }
+
+function PluginSettingvue_type_script_lang_ts_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function PluginSettingvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return PluginSettingvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return PluginSettingvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
+
+function PluginSettingvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function PluginSettingvue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function PluginSettingvue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+ // TODO: have to use angularjs here until there's an expression evaluating alternative
+
+var conditionScope;
+/* harmony default export */ var PluginSettingvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    pluginName: String,
+    setting: Object,
+    modelValue: null,
+    settingValues: Object
+  },
+  components: {
+    FormField: FormField
+  },
+  emits: ['update:modelValue'],
+  computed: {
+    conditionFunction: function conditionFunction() {
+      var _this = this;
+
+      var condition = this.setting.condition;
+
+      if (!condition) {
+        return undefined;
+      }
+
+      return function () {
+        if (!conditionScope) {
+          var $rootScope = external_CoreHome_["Matomo"].helper.getAngularDependency('$rootScope');
+          conditionScope = $rootScope.$new(true);
+        }
+
+        return conditionScope.$eval(condition, _this.conditionValues);
+      };
+    },
+    conditionValues: function conditionValues() {
+      var _this2 = this;
+
+      var values = {};
+      Object.entries(this.settingValues).forEach(function (_ref) {
+        var _ref2 = PluginSettingvue_type_script_lang_ts_slicedToArray(_ref, 2),
+            key = _ref2[0],
+            value = _ref2[1];
+
+        var _key$split = key.split('.'),
+            _key$split2 = PluginSettingvue_type_script_lang_ts_slicedToArray(_key$split, 2),
+            pluginName = _key$split2[0],
+            settingName = _key$split2[1];
+
+        if (pluginName !== _this2.pluginName) {
+          return;
+        }
+
+        values[settingName] = value;
+      });
+      return values;
+    }
+  },
+  methods: {
+    changeValue: function changeValue(newValue) {
+      this.$emit('update:modelValue', newValue);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSetting.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSetting.vue
+
+
+
+PluginSettingvue_type_script_lang_ts.render = PluginSettingvue_type_template_id_ebbcc5e8_render
+
+/* harmony default export */ var PluginSetting = (PluginSettingvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=script&lang=ts
+function PluginSettingsvue_type_script_lang_ts_slicedToArray(arr, i) { return PluginSettingsvue_type_script_lang_ts_arrayWithHoles(arr) || PluginSettingsvue_type_script_lang_ts_iterableToArrayLimit(arr, i) || PluginSettingsvue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || PluginSettingsvue_type_script_lang_ts_nonIterableRest(); }
+
+function PluginSettingsvue_type_script_lang_ts_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function PluginSettingsvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return PluginSettingsvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return PluginSettingsvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
+
+function PluginSettingsvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function PluginSettingsvue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function PluginSettingsvue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var _window = window,
+    $ = _window.$;
+/* harmony default export */ var PluginSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    mode: String
+  },
+  components: {
+    ActivityIndicator: external_CoreHome_["ActivityIndicator"],
+    Field: Field,
+    PluginSetting: PluginSetting
+  },
+  data: function data() {
+    return {
+      isLoading: true,
+      isSaving: {},
+      passwordConfirmation: '',
+      settingsToSave: null,
+      settingsPerPlugin: [],
+      settingValues: {}
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    external_CoreHome_["AjaxHelper"].fetch({
+      method: this.apiMethod
+    }).then(function (settingsPerPlugin) {
+      _this.isLoading = false;
+      _this.settingsPerPlugin = settingsPerPlugin;
+      settingsPerPlugin.forEach(function (settings) {
+        settings.settings.forEach(function (setting) {
+          _this.settingValues["".concat(settings.pluginName, ".").concat(setting.name)] = setting.value;
+        });
+      });
+      window.anchorLinkFix.scrollToAnchorInUrl();
+
+      _this.addSectionsToTableOfContents();
+    }).catch(function () {
+      _this.isLoading = false;
+    });
+  },
+  computed: {
+    apiMethod: function apiMethod() {
+      return this.mode === 'admin' ? 'CorePluginsAdmin.getSystemSettings' : 'CorePluginsAdmin.getUserSettings';
+    },
+    saveApiMethod: function saveApiMethod() {
+      return this.mode === 'admin' ? 'CorePluginsAdmin.setSystemSettings' : 'CorePluginsAdmin.setUserSettings';
+    }
+  },
+  methods: {
+    addSectionsToTableOfContents: function addSectionsToTableOfContents() {
+      var $toc = $('#generalSettingsTOC');
+
+      if (!$toc.length) {
+        return;
+      }
+
+      this.settingsPerPlugin.forEach(function (settingsForPlugin) {
+        var pluginName = settingsForPlugin.pluginName,
+            settings = settingsForPlugin.settings;
+
+        if (!pluginName) {
+          return;
+        }
+
+        if (pluginName === 'CoreAdminHome' && settings) {
+          settings.filter(function (s) {
+            return s.introduction;
+          }).forEach(function (s) {
+            $toc.append("<a href=\"#/".concat(pluginName, "PluginSettings\">").concat(s.introduction, "</a> "));
+          });
+        } else {
+          $toc.append("<a href=\"#/".concat(pluginName, "\">").concat(pluginName.replace(/([A-Z])/g, ' $1').trim(), "</a> "));
+        }
+      });
+    },
+    saveSetting: function saveSetting(requestedPlugin) {
+      if (this.mode === 'admin') {
+        this.showPasswordConfirmModal(requestedPlugin);
+      } else {
+        this.save(requestedPlugin);
+      }
+    },
+    showPasswordConfirmModal: function showPasswordConfirmModal(requestedPlugin) {
+      var _this2 = this;
+
+      this.settingsToSave = requestedPlugin;
+      var root = this.$refs.root;
+      var $root = $(root);
+
+      var onEnter = function onEnter(event) {
+        var keycode = event.keyCode ? event.keyCode : event.which;
+
+        if (keycode === '13') {
+          $root.find('.confirm-password-modal').modal('close');
+
+          _this2.save(requestedPlugin);
+        }
+      };
+
+      $root.find('.confirm-password-modal').modal({
+        dismissible: false,
+        onOpenEnd: function onOpenEnd() {
+          var passwordField = '.modal.open #currentUserPassword';
+          $(passwordField).focus();
+          $(passwordField).off('keypress').keypress(onEnter);
+        }
+      }).modal('open');
+    },
+    save: function save(requestedPlugin) {
+      var _this3 = this;
+
+      var saveApiMethod = this.saveApiMethod;
+      this.isSaving[requestedPlugin] = true;
+      var settingValuesPayload = this.getValuesForPlugin(requestedPlugin);
+      external_CoreHome_["AjaxHelper"].post({
+        method: saveApiMethod
+      }, {
+        settingValues: settingValuesPayload,
+        passwordConfirmation: this.passwordConfirmation
+      }).then(function () {
+        _this3.isSaving[requestedPlugin] = false;
+        external_CoreHome_["NotificationsStore"].show({
+          message: Object(external_CoreHome_["translate"])('CoreAdminHome_PluginSettingsSaveSuccess'),
+          id: 'generalSettings',
+          context: 'success',
+          type: 'transient'
+        });
+        external_CoreHome_["NotificationsStore"].scrollToNotification('generalSettings');
+      }).catch(function () {
+        _this3.isSaving[requestedPlugin] = false;
+      });
+      this.passwordConfirmation = '';
+      this.settingsToSave = null;
+    },
+    getValuesForPlugin: function getValuesForPlugin(requestedPlugin) {
+      var values = {};
+
+      if (!values[requestedPlugin]) {
+        values[requestedPlugin] = [];
+      }
+
+      Object.entries(this.settingValues).forEach(function (_ref) {
+        var _ref2 = PluginSettingsvue_type_script_lang_ts_slicedToArray(_ref, 2),
+            key = _ref2[0],
+            value = _ref2[1];
+
+        var _key$split = key.split('.'),
+            _key$split2 = PluginSettingsvue_type_script_lang_ts_slicedToArray(_key$split, 2),
+            pluginName = _key$split2[0],
+            settingName = _key$split2[1];
+
+        if (pluginName !== requestedPlugin) {
+          return;
+        }
+
+        var postValue = value;
+
+        if (postValue === false) {
+          postValue = '0';
+        } else if (postValue === true) {
+          postValue = '1';
+        }
+
+        values[pluginName].push({
+          name: settingName,
+          value: postValue
+        });
+      });
+      return values;
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue
+
+
+
+PluginSettingsvue_type_script_lang_ts.render = PluginSettingsvue_type_template_id_3c695dde_render
+
+/* harmony default export */ var PluginSettings = (PluginSettingsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var PluginSettings_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: PluginSettings,
+  scope: {
+    mode: {
+      angularJsBind: '@'
+    }
+  },
+  directiveName: 'piwikPluginSettings'
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginManagement.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var PluginManagement_window = window,
+    PluginManagement_$ = PluginManagement_window.$;
+
+function onClickUninstall(binding, event) {
+  event.preventDefault();
+  var link = PluginManagement_$(event.target).attr('href');
+  var pluginName = PluginManagement_$(event.target).attr('data-plugin-name');
+
+  if (!link || !pluginName) {
+    return;
+  }
+
+  if (!binding.value.uninstallConfirmMessage) {
+    binding.value.uninstallConfirmMessage = PluginManagement_$('#uninstallPluginConfirm').text();
+  }
+
+  var messageToDisplay = binding.value.uninstallConfirmMessage.replace('%s', pluginName);
+  PluginManagement_$('#uninstallPluginConfirm').text(messageToDisplay);
+  external_CoreHome_["Matomo"].helper.modalConfirm('#confirmUninstallPlugin', {
+    yes: function yes() {
+      window.location = link;
+    }
+  });
+}
+
+function onDonateLinkClick(event) {
+  event.preventDefault();
+  var overlayId = PluginManagement_$(event.target).data('overlay-id');
+  external_CoreHome_["Matomo"].helper.modalConfirm("#".concat(overlayId), {});
+}
+
+/* harmony default export */ var PluginManagement = ({
+  mounted: function mounted(el, binding) {
+    setTimeout(function () {
+      binding.value.uninstallConfirmMessage = '';
+      PluginManagement_$(el).find('.uninstall').click(onClickUninstall.bind(null, binding));
+      PluginManagement_$(el).find('.plugin-donation-link').click(onDonateLinkClick);
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginManagement.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginManagement() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      var binding = {
+        instance: null,
+        value: {},
+        oldValue: null,
+        modifiers: {},
+        dir: {}
+      };
+      PluginManagement.mounted(element[0], binding);
+    }
+  };
+}
+piwikPluginManagement.$inject = [];
+angular.module('piwikApp').directive('piwikPluginManagement', piwikPluginManagement);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginUpload.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var PluginUpload_window = window,
+    PluginUpload_$ = PluginUpload_window.$;
+
+function onUploadPlugin(event) {
+  event.preventDefault();
+  external_CoreHome_["Matomo"].helper.modalConfirm('#installPluginByUpload', {});
+}
+
+function onSubmitPlugin(event) {
+  var $zipFile = PluginUpload_$('[name=pluginZip]');
+  var fileName = $zipFile.val();
+
+  if (!fileName || fileName.slice(-4) !== '.zip') {
+    event.preventDefault(); // eslint-disable-next-line no-alert
+
+    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_NoZipFileSelected'));
+  } else if ($zipFile.data('maxSize') > 0 && $zipFile[0].files[0].size > $zipFile.data('maxSize') * 1048576) {
+    event.preventDefault(); // eslint-disable-next-line no-alert
+
+    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_FileExceedsUploadLimit'));
+  }
+}
+
+/* harmony default export */ var PluginUpload = ({
+  mounted: function mounted() {
+    setTimeout(function () {
+      PluginUpload_$('.uploadPlugin').click(onUploadPlugin);
+      PluginUpload_$('#uploadPluginForm').submit(onSubmitPlugin);
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginUpload.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginUpload() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink() {
+      PluginUpload.mounted();
+    }
+  };
+}
+piwikPluginUpload.$inject = [];
+angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var PluginFilter_window = window,
+    PluginFilter_$ = PluginFilter_window.$;
+
+function getCurrentFilterOrigin(element) {
+  return element.find('.origin a.active').data('filter-origin');
+}
+
+function getCurrentFilterStatus(element) {
+  return element.find('.status a.active').data('filter-status');
+}
+
+function getMatchingNodes(filterOrigin, filterStatus) {
+  var query = '#plugins tr';
+
+  if (filterOrigin === 'all') {
+    query += '[data-filter-origin]';
+  } else {
+    query += "[data-filter-origin=".concat(filterOrigin, "]");
+  }
+
+  if (filterStatus === 'all') {
+    query += '[data-filter-status]';
+  } else {
+    query += "[data-filter-status=".concat(filterStatus, "]");
+  }
+
+  return PluginFilter_$(query);
+}
+
+function updateNumberOfMatchingPluginsInFilter(element, selectorFilterToUpdate, filterOrigin, filterStatus) {
+  var numMatchingNodes = getMatchingNodes(filterOrigin, filterStatus).length;
+  var updatedCounterText = " (".concat(numMatchingNodes, ")");
+  element.find("".concat(selectorFilterToUpdate, " .counter")).text(updatedCounterText);
+}
+
+function updateAllNumbersOfMatchingPluginsInFilter(element) {
+  var filterOrigin = getCurrentFilterOrigin(element);
+  var filterStatus = getCurrentFilterStatus(element);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="all"]', filterOrigin, 'all');
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="active"]', filterOrigin, 'active');
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="inactive"]', filterOrigin, 'inactive');
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="all"]', 'all', filterStatus);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="core"]', 'core', filterStatus);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="official"]', 'official', filterStatus);
+  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="thirdparty"]', 'thirdparty', filterStatus);
+}
+
+function filterPlugins(element) {
+  var filterOrigin = getCurrentFilterOrigin(element);
+  var filterStatus = getCurrentFilterStatus(element);
+  var $nodesToEnable = getMatchingNodes(filterOrigin, filterStatus);
+  PluginFilter_$('#plugins tr[data-filter-origin][data-filter-status]').css('display', 'none');
+  $nodesToEnable.css('display', 'table-row');
+  updateAllNumbersOfMatchingPluginsInFilter(element);
+}
+
+function onClickStatus(element, event) {
+  event.preventDefault();
+  PluginFilter_$(event.target).siblings().removeClass('active');
+  PluginFilter_$(event.target).addClass('active');
+  filterPlugins(element);
+}
+
+function onClickOrigin(element, event) {
+  event.preventDefault();
+  PluginFilter_$(event.target).siblings().removeClass('active');
+  PluginFilter_$(event.target).addClass('active');
+  filterPlugins(element);
+}
+
+/* harmony default export */ var PluginFilter = ({
+  mounted: function mounted(el) {
+    setTimeout(function () {
+      updateAllNumbersOfMatchingPluginsInFilter(PluginFilter_$(el));
+      PluginFilter_$(el).find('.status').on('click', 'a', onClickStatus.bind(null, PluginFilter_$(el)));
+      PluginFilter_$(el).find('.origin').on('click', 'a', onClickOrigin.bind(null, PluginFilter_$(el)));
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikPluginFilter() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      PluginFilter.mounted(element[0]);
+    }
+  };
+}
+piwikPluginFilter.$inject = [];
+angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+var SaveButtonvue_type_template_id_c302ef68_hoisted_1 = {
+  class: "matomo-save-button",
+  style: {
+    "display": "inline-block"
+  }
+};
+var SaveButtonvue_type_template_id_c302ef68_hoisted_2 = ["disabled", "value"];
+function SaveButtonvue_type_template_id_c302ef68_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SaveButtonvue_type_template_id_c302ef68_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "button",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.onConfirm($event);
+    }),
+    disabled: _ctx.saving || _ctx.disabled,
+    class: "btn",
+    value: _ctx.value ? _ctx.value : _ctx.translate('General_Save')
+  }, null, 8, SaveButtonvue_type_template_id_c302ef68_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    loading: _ctx.saving
+  }, null, 8, ["loading"])]);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=c302ef68
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SaveButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    saving: Boolean,
+    value: String,
+    disabled: Boolean
+  },
+  components: {
+    ActivityIndicator: external_CoreHome_["ActivityIndicator"]
+  },
+  emits: ['confirm'],
+  methods: {
+    onConfirm: function onConfirm($event) {
+      this.$emit('confirm', $event);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue
+
+
+
+SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_c302ef68_render
+
+/* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var SaveButton_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: SaveButton,
+  scope: {
+    saving: {
+      angularJsBind: '=?'
+    },
+    value: {
+      angularJsBind: '@?'
+    },
+    disabled: {
+      angularJsBind: '=?'
+    },
+    onconfirm: {
+      angularJsBind: '&?',
+      vue: 'confirm'
+    }
+  },
+  events: {
+    confirm: function confirm($event, vm, scope, element, attrs, controller, $timeout) {
+      element[0].click(); // this directive can be used on input's with ng-click specified
+
+      $timeout();
+    }
+  },
+  replace: true,
+  directiveName: 'piwikSaveButton',
+  $inject: ['$timeout']
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var Form_window = window,
+    Form_$ = Form_window.$;
+/* harmony default export */ var Form = ({
+  mounted: function mounted(el) {
+    setTimeout(function () {
+      Form_$(el).find('input[type=text]').keypress(function (e) {
+        var key = e.keyCode || e.which;
+
+        if (key === 13) {
+          Form_$(el).find('.matomo-save-button input').triggerHandler('click');
+        }
+      });
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikForm() {
+  return {
+    restrict: 'A',
+    link: function expandOnClickLink(scope, element) {
+      Form.mounted(element[0]);
+    }
+  };
+}
+piwikForm.$inject = [];
+angular.module('piwikApp').directive('piwikForm', piwikForm);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2426,6 +3216,18 @@ function handleJsonValue(value, varType, uiControl) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

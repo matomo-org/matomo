@@ -48,7 +48,7 @@ class CorePluginsAdmin extends Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
-        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldExpandableSelect.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldMultituple.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldSelect.less";
