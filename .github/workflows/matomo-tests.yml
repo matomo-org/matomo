@@ -35,7 +35,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       mariadb:
-        image: mariadb:latest
+        image: mariadb:10.1
         ports:
           - 3306:3306
         env:
