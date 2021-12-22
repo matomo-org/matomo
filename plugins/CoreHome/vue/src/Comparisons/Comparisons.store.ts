@@ -294,7 +294,7 @@ export default class ComparisonsStore {
     const matomoModule: string = MatomoUrl.parsed.value.module as string;
 
     // check if body id #installation exist
-    const install = document.getElementById('installation');
+    const install = document.getElementById('body#installation');
     if (install) {
       this.privateState.comparisonsDisabledFor = [];
       return;
