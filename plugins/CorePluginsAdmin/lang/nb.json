@@ -5,6 +5,7 @@
         "Activated": "Aktivert",
         "Active": "Aktiv",
         "Activity": "Aktivitet",
+        "AlwaysActivatedPluginsList": "Følgende programtillegg er alltid påslått og kan ikke skrus av: %s",
         "AreThereAnyRisks": "Finnes det noen risiko?",
         "AuthorHomepage": "Forfatterens hjemmeside",
         "ChangeLookByManageThemes": "Du kan endre utseendet til Matomo ved å %1$sHåndtere temaer%2$s.",

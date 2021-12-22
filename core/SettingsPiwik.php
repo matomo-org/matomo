@@ -31,7 +31,7 @@ class SettingsPiwik
     {
         static $salt = null;
         if (is_null($salt)) {
-            $salt = @Config::getInstance()->General['salt'];
+            $salt = Config::getInstance()->General['salt'] ?? '';
         }
         return $salt;
     }
