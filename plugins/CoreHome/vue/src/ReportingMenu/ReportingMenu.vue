@@ -26,8 +26,7 @@
         >
           <span
             :class="`menu-icon ${category.icon ? category.icon : 'icon-arrow-right'}`"
-          />
-          {{ category.name }}
+          />{{ category.name }}
           <span class="hidden">
             {{ translate('CoreHome_Menu') }}
           </span>
@@ -35,7 +34,11 @@
         <ul role="menu">
           <li
             role="menuitem"
-            :class="{'active': subcategory.id === activeSubcategory}"
+            :class="{
+              'active': (subcategory.id === displayedSubcategory
+                || (subcategory.isGroup && activeSubsubcategory === displayedSubcategory)
+              ) && category.id === displayedCategory,
+            }"
             v-for="subcategory in category.subcategories"
             :key="subcategory.id"
           >
@@ -47,7 +50,11 @@
               <a
                 class="item"
                 tabindex="5"
-                :class="{active: subcat.id === activeSubsubcategory}"
+                :class="{
+                  active: subcat.id === activeSubsubcategory
+                    && subcategory.id === displayedSubcategory
+                    && category.id === displayedCategory,
+                }"
                 :href="`#?${makeUrl(category, subcat)}`"
                 @click="loadSubcategory(category, subcat, $event)"
                 v-for="subcat in subcategory.subcategories"
@@ -176,6 +183,12 @@ export default defineComponent({
     activeSubsubcategory() {
       return ReportingMenuStoreInstance.activeSubsubcategory.value;
     },
+    displayedCategory() {
+      return MatomoUrl.parsed.value.category;
+    },
+    displayedSubcategory() {
+      return MatomoUrl.parsed.value.subcategory;
+    },
   },
   created() {
     ReportingMenuStoreInstance.fetchMenuItems().then((menu) => {
@@ -265,7 +278,9 @@ export default defineComponent({
       }
     },
     loadSubcategory(category: Category, subcategory: Subcategory, event: MouseEvent) {
-      if (event.shiftKey || event.ctrlKey || event.metaKey) {
+      if (event
+        && (event.shiftKey || event.ctrlKey || event.metaKey)
+      ) {
         return;
       }
 
@@ -275,8 +290,10 @@ export default defineComponent({
         this.helpShownCategory = null;
 
         // this menu item is already active, a location change success would not be triggered,
-        // instead trigger an event
-        Matomo.postEvent('loadPage', category.id, subcategory.id);
+        // instead trigger an event (after the URL changes)
+        setTimeout(() => {
+          Matomo.postEvent('loadPage', category.id, subcategory.id);
+        });
       }
     },
     makeUrl(category: Category, subcategory: Subcategory) {

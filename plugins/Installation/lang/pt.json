@@ -97,7 +97,6 @@
         "SystemCheckExtensions": "Outras extensões necessárias",
         "SystemCheckFileIntegrity": "Integridade dos ficheiros",
         "SystemCheckFilterHelp": "Precisa de configurar e recompilar o PHP com o suporte para \"filter\" ativo (não utilizar --disable-filter).",
-        "SystemCheckFunctionHelp": "Precisa de ativar esta função incorporada.",
         "SystemCheckFunctions": "Funções necessárias",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (gráficos)",
         "SystemCheckGDHelp": "Os sparklines (gráficos pequenos) e gráficos de imagem (na aplicação móvel do Matomo e relatórios por e-mail) não irão funcionar.",

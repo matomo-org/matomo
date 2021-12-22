@@ -2,17 +2,17 @@
     "API": {
         "ChangeTokenHint": "このトークンを変更する場合は、%1$s個人設定%2$s ページに移動してください。",
         "EvolutionMetricName": "%s 推移",
-        "GenerateVisits": "今日のデータがない場合は、%1$s プラグインを使用して、はじめに若干のデータを生成することができます。 これを行うには、%2$s プラグインを有効にし、管理エリアで 'ビジタージェネレータ' メニューをクリックします。",
+        "GenerateVisits": "今日のデータがない場合は、Matomoの管理領域にある[開発]→[Visitor Generator]に移動して、%1$sプラグインを使用してデータを生成できます。",
         "Glossary": "用語集",
         "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%1$s絶対に共有しないでください%2$s！",
-        "LearnAboutCommonlyUsedTerms2": "Matomo Analytics を最大限に活用するためによく使われる用語について説明します。",
-        "LoadedAPIs": "%s API が正常に読み込まれました",
+        "LearnAboutCommonlyUsedTerms2": "Matomo分析を最大限に活用するために一般的に使用される用語について学びます。",
+        "LoadedAPIs": "%s APIがロードされました",
         "MainMetricsReportDocumentation": "このレポートは、すべてのカテゴリとプラグインにわたる最も重要なメトリックの概要を示します。",
-        "MoreInformation": "Matomo API の詳細については、%1$sMatomo API 入門%2$sと%3$s Matomo API リファレンス%4$sをご覧ください。",
-        "PluginDescription": "Matomo のすべてのデータは、シンプルな API を介して利用できます。 このプラグインは、xml、json、php、csv などで Web Analytics データを取得するために呼び出すことのできる Web サービスのエントリポイントです。",
+        "MoreInformation": "%1$sMatomoAPIの概要%2$sと%3$sMatomoAPIリファレンス%4$sで利用可能なMatomoAPIの詳細をご覧ください。",
+        "PluginDescription": "Matomoのすべてのデータは、シンプルなAPIを介して利用できます。 このプラグインはWebサービスのエントリポイントであり、XML、JSON、PHP、CSVなどのWeb分析データを取得するために呼び出すことができます。",
         "ReportingApiReference": "API リファレンスレポート",
-        "TopLinkTooltip": "jsopn、xml 等シンプルな API を介して、プログラムで Web Analytics データにアクセスできます。",
+        "TopLinkTooltip": "JSON、XMLなどのシンプルなAPIを介してプログラムでWebAnalyticsデータにアクセスします。",
         "UserAuthentication": "ユーザー認証",
-        "UsingTokenAuth": "%1$sスクリプト、crontabなどでデータを要求する場合。%2$s認証が必要なAPI呼び出しURLにURLパラメーター%3$sを追加する必要があります。"
+        "UsingTokenAuth": "スクリプトやcrontabなどでデータを%1$sリクエストする場合は、%2$sで、認証が必要なURLのAPI呼び出しに'%3$s'URLパラメータを追加する必要があります。"
     }
 }

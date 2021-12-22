@@ -2676,7 +2676,7 @@
 		<name>Main metrics</name>
 		<module>API</module>
 		<action>get</action>
-		<documentation>This report gives you an overview over the most important metrics across all categories and plugins.</documentation>
+		<documentation>This report gives an overview of the most important metrics across all categories and plugins.</documentation>
 		<metrics>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>

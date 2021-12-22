@@ -88,7 +88,7 @@
         "SystemCheckFileIntegrity": "File integrity",
         "SystemCheckFilterHelp": "You need to configure and rebuild PHP with \"filter\" support enabled (don't use --disable-filter).",
         "SystemCheckFunctions": "Required functions",
-        "SystemCheckFunctionHelp": "You need to enable this built-in function.",
+        "SystemCheckShellExecHelp": "We recommend you enable this PHP built-in function. %1$sRead this to learn more.%2$s",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "The sparklines (small graphs) and image graphs (in Matomo Mobile app and Email reports) will not work.",
         "SystemCheckGlobHelp": "This built-in function has been disabled on your host. Matomo will attempt to emulate this function but may encounter further security restrictions. Functionality may be impacted.",

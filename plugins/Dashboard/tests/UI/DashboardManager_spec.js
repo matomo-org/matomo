@@ -98,7 +98,7 @@ describe("DashboardManager", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });
-return;
+
     it("should remove dashboard when remove dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="removeDashboard"]');

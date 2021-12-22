@@ -53,7 +53,7 @@
         "PluginNotFound": "Plugin %1$s ist am Dateisystem nicht vorhanden.",
         "PluginNotFoundAlternative": "Wenn Sie dieses Plugin benutzt haben, versuchen Sie es erneut hochzuladen oder erneut aus dem Marketplace zu installieren. Falls nicht, klicken Sie auf deinstallieren um es aus der Liste zu entfernen.",
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
-        "PluginRequirement": "%1$s benötigt %2$s",
+        "PluginRequirement": "%1$s benötigt %2$s.",
         "PluginRequiresInternet": "Dieses Plugin benötigt eine funktionierende Internetverbindung. Bitte prüfen Sie Ihre Konfiguration auf `enable_internet_features` wenn Sie dieses Feature verwenden wollen.",
         "PluginsExtendPiwik": "Plugins erweitern die Funktionalität von Matomo.",
         "PluginsManagement": "Pluginverwaltung",
