@@ -57,7 +57,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $selects[] = "sum(if($table.$column is null, 0, 1)) as {$column}_hits";
             $totalColumns[] = "IFNULL($table.$column,0)";
             $hitsColumns[] = "if($table.$column is null, 0, 1)";
-            $allColumns[]  = $table.$column;
+            $allColumns[]  = "$table.$column";
         }
 
         $selects[] = sprintf('SUM(%s) as page_load_total', implode(' + ', $totalColumns));
