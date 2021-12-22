@@ -62,6 +62,24 @@
              introduction="{{ 'General_Website'|translate|e('html_attr') }}"
              value='{{ defaultSite|json_encode }}'>
         </div>
+        <div id="javascript-output-section">
+            <div class="valign-wrapper trackingHelpHeader matchWidth">
+                <div>
+                    <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+
+                    <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                </div>
+
+                <button class="btn" id="emailJsBtn" ng-click="jsTrackingCode.sendEmail()">
+                    {{ 'SitesManager_EmailInstructionsButton'|translate }}
+                </button>
+            </div>
+            <div id="javascript-text">
+                <pre piwik-select-on-focus class="codeblock"
+                     ng-bind="jsTrackingCode.trackingCode"> </pre>
+            </div>
+
+        </div>
 
         <div id="optional-js-tracking-options">
 
@@ -251,24 +269,7 @@
 
         </div>
 
-        <div id="javascript-output-section">
-            <div class="valign-wrapper trackingHelpHeader matchWidth">
-                <div>
-                    <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
 
-                    <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
-                </div>
-
-                <button class="btn" id="emailJsBtn" ng-click="jsTrackingCode.sendEmail()">
-                    {{ 'SitesManager_EmailInstructionsButton'|translate }}
-                </button>
-            </div>
-            <div id="javascript-text">
-                <pre piwik-select-on-focus class="codeblock"
-                     ng-bind="jsTrackingCode.trackingCode"> </pre>
-            </div>
-
-        </div>
     </div>
 </div>
 

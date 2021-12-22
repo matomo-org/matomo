@@ -147,10 +147,16 @@ export default defineComponent({
   props: {
     modelValue: {
       Object,
-      default: () => (Matomo.idSite ? {
-        id: Matomo.idSite,
-        name: Matomo.helper.htmlDecode(Matomo.siteName),
-      } : undefined),
+      default: (props) => {
+        if (props.modelValue) {
+          return props.modelValue;
+        }
+
+        return (Matomo.idSite ? {
+          id: Matomo.idSite,
+          name: Matomo.helper.htmlDecode(Matomo.siteName),
+        } : undefined);
+      },
     },
     showSelectedSite: {
       type: Boolean,
