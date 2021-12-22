@@ -201,7 +201,8 @@ class QueueConsumer
                 break;
             }
 
-            if (!Manager::getInstance()->isPluginActivated($invalidatedArchive['plugin'])) {
+            //check if isSegmentAvailable
+            if (!$this->isSegmentAvailable($invalidatedArchive) && !Manager::getInstance()->isPluginActivated($invalidatedArchive['plugin'])) {
                 continue;
             }
 
