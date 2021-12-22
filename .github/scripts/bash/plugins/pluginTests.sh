@@ -24,11 +24,6 @@ then
     then
         if [ -n "$PLUGIN_NAME" ]
         then
-            # HACK: this is a hack to get UI test jobs to run. the --extra-options option was added for 2.15.1, but
-            #       older Matomo's will end up w/ a tests:run-ui command that doesn't support it.
-            # a better fix would be to decouple the Matomo testing framework from Matomo in a way that allowed us to
-            # change code for all versions of Matomo as well as selectively for individual Matomo versions.
-            # git checkout 4.x-dev ../../plugins/TestRunner/Commands/TestsRunUI.php
             ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --plugin=$PLUGIN_NAME --extra-options="$UITEST_EXTRA_OPTIONS"
         else
             ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="$UITEST_EXTRA_OPTIONS"
