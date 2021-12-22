@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -16,10 +17,13 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Translation\Translator;
 use Piwik\View;
+use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  *
@@ -217,6 +221,29 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->documentation = $this->translator->translate($langString, '<br />');
 
         return $this->renderView($view);
+    }
+
+    public function getSparklines()
+    {
+        $content = "";
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], []);
+
+        foreach ($goals as $goal) {
+            $params = [
+                'idGoal' => $goal['idgoal'],
+                'allow_multiple' => (int) $goal['allow_multiple'],
+                'only_summary' => 1,
+            ];
+
+            \Piwik\Context::executeWithQueryParameters($params, function() use (&$content) {
+                //load Visualisations Sparkline
+                $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
+                $view->config->show_title = true;
+                $content .= $view->render();
+            });
+        }
+
+        return $content;
     }
 
     private function getColumnTranslation($nameToLabel, $columnName, $idGoal)
