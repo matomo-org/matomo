@@ -943,8 +943,7 @@ class LogAggregator
         $rankingQuery = null,
         $joinLogActionOnColumn = false,
         $secondaryOrderBy = null,
-        $timeLimitInMs = -1,
-        $addition = null
+        $timeLimitInMs = -1
     ) {
         $tableName = self::LOG_ACTIONS_TABLE;
         $availableMetrics = $this->getActionsMetricFields();
@@ -987,10 +986,6 @@ class LogAggregator
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
-
-        if ($addition) {
-            $query['sql'] = $query['sql'] . $addition;
-        }
 
         if ($rankingQuery) {
             $sumColumns = array_keys($availableMetrics);
