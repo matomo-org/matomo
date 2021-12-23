@@ -213,14 +213,19 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         return [
             ['my.host', 'my.host'],
             ['localhost', 'localhost'],
-            ['localhost:8088', 'localhost:8088'],
-            ['   my.domain', 'my.domain'],
-            ['my.domain    ', 'my.domain'],
+            ['localhost:8088', 'localhost:8088'], // valid hostname with port
+            ['192.168.1.21:8088', '192.168.1.21:8088'], // valid ip with port
+            ['192.A.1.21:8088', '192.A.1.21:8088'], // not a valid ip, but a valid hostname
+            ['[134::31]:8088', '[134::31]:8088'], // valid ipv6 notation with port
+            ['[134:AB::31]:8088', '[134:AB::31]:8088'],
+            ['134:RG::31', false], // invalid hostname, invalid ipv6
+            ['   my.domain', 'my.domain'], // spaces a trimmed
+            ['my.domain    ', 'my.domain'], // spaces a trimmed
             ['my.sub.e33e.sd223udomain', 'my.sub.e33e.sd223udomain'],
-            ['xn--mller-kva.de', 'xn--mller-kva.de'],
-            ['xn--maana-pta.com', 'xn--maana-pta.com'],
-            ['::1', '::1'],
-            ['12:23::1', '12:23::1'],
+            ['xn--mller-kva.de', 'xn--mller-kva.de'], // valid hostname
+            ['xn--maana-pta.com', 'xn--maana-pta.com'], // valid hostname
+            ['::1', '::1'], // ipv6
+            ['12:23::1', '12:23::1'], // ipv6
             ['my.domain; curl', false],
             ['example.org?query', false],
             ['example.org/test/path', false],

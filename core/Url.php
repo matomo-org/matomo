@@ -342,11 +342,21 @@ class Url
     protected static function filterValidHostName($host)
     {
         $host = trim($host);
+        $hostWithoutPort = preg_replace('/:[0-9]+$/', '', $host); // remove port number for validation
 
-        $hostToCheck = preg_replace('/[^:]:[0-9]+$/', '', $host); // remove port number for validation
-        $filtered    = filter_var($hostToCheck, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) ?: filter_var($hostToCheck, FILTER_VALIDATE_IP);
+        // check ipv6 bracket notation (eg `[3:5::1]`, `[::3]:80`)
+        $ipv6 = null;
+        if (preg_match('/^\[([0-9a-f:]+)\](:[0-9]+)?$/i', $host, $ipv6) &&
+            $ipv6[1] === filter_var($ipv6[1], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            return $host;
+        }
 
-        if ($filtered === $hostToCheck) {
+        $isValid = filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) === $host ||
+                filter_var($host, FILTER_VALIDATE_IP) === $host ||
+                filter_var($hostWithoutPort, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) === $hostWithoutPort ||
+                filter_var($hostWithoutPort, FILTER_VALIDATE_IP) === $hostWithoutPort;
+
+        if ($isValid) {
             return $host;
         }
 
