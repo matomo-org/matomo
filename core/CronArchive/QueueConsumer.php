@@ -202,6 +202,7 @@ class QueueConsumer
             }
 
             if (!$this->isSegmentAvailable($invalidatedArchive)) {
+                $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
             }
 
