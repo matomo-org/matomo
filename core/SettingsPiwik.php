@@ -481,6 +481,9 @@ class SettingsPiwik
 
         $instanceId = @Config::getInstance()->General['instance_id'];
         if (!empty($instanceId)) {
+            if (!preg_match('/^[0-9a-z._-]$/i', $instanceId)) {
+                throw new Exception(sprintf('The configured instance id "%s" is invalid. Please use only letters from a-z, numbers or any of this symbols "._-"', $instanceId));
+            }
             return $instanceId;
         }
 
