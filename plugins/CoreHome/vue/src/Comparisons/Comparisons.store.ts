@@ -68,7 +68,7 @@ export default class ComparisonsStore {
 
   readonly state = readonly(this.privateState); // for tests
 
-  private colors: { [key: string]: string } = {};
+  private colors?: { [key: string]: string };
 
   readonly segmentComparisons = computed(() => this.parseSegmentComparisons());
 
@@ -78,10 +78,6 @@ export default class ComparisonsStore {
 
   constructor() {
     this.loadComparisonsDisabledFor();
-
-    $(() => {
-      this.colors = this.getAllSeriesColors() as { [key: string]: string };
-    });
 
     watch(
       () => this.getComparisons(),
@@ -132,12 +128,14 @@ export default class ComparisonsStore {
       segmentComparison.index,
     ) % SERIES_COLOR_COUNT;
 
+    const colors = this.getColors();
+
     if (metricIndex === 0) {
-      return this.colors[`series${seriesIndex}`];
+      return colors[`series${seriesIndex}`];
     }
 
     const shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-    return this.colors[`series${seriesIndex}-shade${shadeIndex}`];
+    return colors[`series${seriesIndex}-shade${shadeIndex}`];
   }
 
   getSeriesColorName(seriesIndex: number, metricIndex: number): string {
@@ -172,6 +170,7 @@ export default class ComparisonsStore {
   }
 
   getAllComparisonSeries(): ComparisonSeriesInfo[] {
+    const colors = this.getColors();
     const seriesInfo: ComparisonSeriesInfo[] = [];
 
     let seriesIndex = 0;
@@ -180,7 +179,7 @@ export default class ComparisonsStore {
         seriesInfo.push({
           index: seriesIndex,
           params: { ...segmentComp.params, ...periodComp.params },
-          color: this.colors[`series${seriesIndex}`],
+          color: colors[`series${seriesIndex}`],
         });
         seriesIndex += 1;
       });
@@ -217,6 +216,13 @@ export default class ComparisonsStore {
     const newComparisons = this.segmentComparisons.value
       .concat([{ params, index: -1, title: '' } as SegmentComparison]);
     this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value);
+  }
+
+  private getColors() {
+    if (!this.colors) {
+      this.colors = this.getAllSeriesColors() as { [key: string]: string };
+    }
+    return this.colors;
   }
 
   private updateQueryParamsFromComparisons(
