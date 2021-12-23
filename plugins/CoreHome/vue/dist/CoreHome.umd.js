@@ -3606,7 +3606,7 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
 
     Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
 
-    Comparisons_store_defineProperty(this, "colors", {});
+    Comparisons_store_defineProperty(this, "colors", void 0);
 
     Comparisons_store_defineProperty(this, "segmentComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.parseSegmentComparisons();
@@ -3621,9 +3621,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     }));
 
     this.loadComparisonsDisabledFor();
-    $(function () {
-      _this.colors = _this.getAllSeriesColors();
-    });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return _this.getComparisons();
     }, function () {
@@ -3672,13 +3669,14 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     value: function getSeriesColor(segmentComparison, periodComparison) {
       var metricIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
       var seriesIndex = this.getComparisonSeriesIndex(periodComparison.index, segmentComparison.index) % SERIES_COLOR_COUNT;
+      var colors = this.getColors();
 
       if (metricIndex === 0) {
-        return this.colors["series".concat(seriesIndex)];
+        return colors["series".concat(seriesIndex)];
       }
 
       var shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-      return this.colors["series".concat(seriesIndex, "-shade").concat(shadeIndex)];
+      return colors["series".concat(seriesIndex, "-shade").concat(shadeIndex)];
     }
   }, {
     key: "getSeriesColorName",
@@ -3718,6 +3716,7 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     value: function getAllComparisonSeries() {
       var _this2 = this;
 
+      var colors = this.getColors();
       var seriesInfo = [];
       var seriesIndex = 0;
       this.getPeriodComparisons().forEach(function (periodComp) {
@@ -3725,7 +3724,7 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
           seriesInfo.push({
             index: seriesIndex,
             params: Comparisons_store_objectSpread(Comparisons_store_objectSpread({}, segmentComp.params), periodComp.params),
-            color: _this2.colors["series".concat(seriesIndex)]
+            color: colors["series".concat(seriesIndex)]
           });
           seriesIndex += 1;
         });
@@ -3763,6 +3762,15 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
         title: ''
       }]);
       this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value);
+    }
+  }, {
+    key: "getColors",
+    value: function getColors() {
+      if (!this.colors) {
+        this.colors = this.getAllSeriesColors();
+      }
+
+      return this.colors;
     }
   }, {
     key: "updateQueryParamsFromComparisons",
