@@ -66,7 +66,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   mounted() {
     // on submit call controller submit method
-    $(this.$refs.root).on('click', 'input[type=submit]', () => {
+    $(this.$refs.root as HTMLElement).on('click', 'input[type=submit]', () => {
       this.submitForm();
     });
   },

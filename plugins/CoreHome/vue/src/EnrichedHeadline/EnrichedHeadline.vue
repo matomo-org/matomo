@@ -74,10 +74,18 @@ import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import useExternalPluginComponent from '../useExternalPluginComponent';
+import {EnrichedHeadline} from "../index";
 
 // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
 // CoreHome)
 const RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
+
+interface EnrichedHeadlineData {
+  showIcons: boolean;
+  showInlineHelp: boolean;
+  actualFeatureName?: string | null;
+  actualInlineHelp?: string | null,
+}
 
 /**
  * Usage:
@@ -127,7 +135,7 @@ export default defineComponent({
   components: {
     RateFeature,
   },
-  data() {
+  data(): EnrichedHeadlineData {
     return {
       showIcons: false,
       showInlineHelp: false,
@@ -144,7 +152,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    const { root } = this.$refs;
+    const root = this.$refs.root as HTMLElement;
 
     // timeout used since angularjs does not fill out the transclude at this point
     setTimeout(() => {
@@ -160,22 +168,22 @@ export default defineComponent({
           // hackish solution to get binded html of p tag within the help node
           // at this point the ng-bind-html is not yet converted into html when report is not
           // initially loaded. Using $compile doesn't work. So get and set it manually
-          const helpDocs = helpNode.getAttribute('data-content').trim();
-          if (helpDocs.length) {
+          const helpDocs = helpNode.getAttribute('data-content')?.trim();
+          if (helpDocs && helpDocs.length) {
             this.actualInlineHelp = `<p>${helpDocs}</p>`;
-            setTimeout(() => helpNode.remove(), 0);
+            setTimeout(() => helpNode!.remove(), 0);
           }
         }
       }
 
       if (!this.actualFeatureName) {
-        this.actualFeatureName = root.querySelector('.title').textContent;
+        this.actualFeatureName = root.querySelector('.title')?.textContent;
       }
 
       if (this.reportGenerated
-        && Periods.parse(Matomo.period, Matomo.currentDateString).containsToday()
+        && Periods.parse(Matomo.period as string, Matomo.currentDateString as string).containsToday()
       ) {
-        window.$(root.querySelector('.report-generated')).tooltip({
+        window.$(root.querySelector('.report-generated')!).tooltip({
           track: true,
           content: this.reportGenerated,
           items: 'div',

@@ -90,9 +90,9 @@ export default {
     doc.addEventListener('scroll', binding.value.onScroll);
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<FocusAnywhereButHereArgs>): void {
-    doc.removeEventListener('keyup', binding.value.onEscapeHandler);
-    doc.removeEventListener('mousedown', binding.value.onMouseDown);
-    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
-    doc.removeEventListener('scroll', binding.value.onScroll);
+    doc.removeEventListener('keyup', binding.value.onEscapeHandler!);
+    doc.removeEventListener('mousedown', binding.value.onMouseDown!);
+    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement!);
+    doc.removeEventListener('scroll', binding.value.onScroll!);
   },
 };

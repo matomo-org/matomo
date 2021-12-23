@@ -5,58 +5,64 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   defineComponent,
   ref,
-  ComponentPublicInstance,
 } from 'vue';
 import Matomo from './Matomo/Matomo';
 import createVueApp from './createVueApp';
+import { IDirectiveFactory, IDirectivePrePost, Injectable } from 'angular';
 
-interface SingleScopeVarInfo<InjectTypes> {
+interface SingleScopeVarInfo<InjectTypes extends unknown[]> {
   vue?: string;
-  default?: any; // eslint-disable-line
+  default?: any;
   transform?: (
     v: unknown,
-    vm: ComponentPublicInstance,
-    scope: ng.IScope,
+    vm: any,
+    scope: any,
     element: ng.IAugmentedJQuery,
     attrs: ng.IAttributes,
-    otherController: ng.IControllerService,
-    ...injected: InjectTypes,
+    otherController?: ng.IController,
+    ...injected: InjectTypes
   ) => unknown;
   angularJsBind?: string;
 }
 
-type ScopeMapping<InjectTypes> = { [scopeVarName: string]: SingleScopeVarInfo<InjectTypes> };
+type ScopeMapping<InjectTypes extends unknown[]> = {
+  [scopeVarName: string]: SingleScopeVarInfo<InjectTypes>,
+};
 
-type AdapterFunction<InjectTypes, R = void> = (
-  scope: ng.IScope,
+type AdapterFunction<InjectTypes extends unknown[], R = void> = (
+  scope: any,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
-  ...injected: InjectTypes,
+  ...injected: InjectTypes
 ) => R;
 
-type EventAdapterFunction<InjectTypes, R = void> = (
-  $event: any, // eslint-disable-line
-  vm: ComponentPublicInstance,
-  scope: ng.IScope,
+type EventAdapterFunction<InjectTypes extends unknown[], R = void> = (
+  $event: any,
+  vm: any,
+  scope: any,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
-  otherController: ng.IControllerService,
-  ...injected: InjectTypes,
+  otherController?: ng.IController,
+  ...injected: InjectTypes
 ) => R;
 
-type PostCreateFunction<InjectTypes, R = void> = (
-  vm: ComponentPublicInstance,
-  scope: ng.IScope,
+type PostCreateFunction<InjectTypes extends unknown[], R = void> = (
+  vm: any,
+  scope: any,
   element: ng.IAugmentedJQuery,
   attrs: ng.IAttributes,
-  otherController: ng.IControllerService,
-  ...injected: InjectTypes,
+  otherController?: ng.IController,
+  ...injected: InjectTypes
 ) => R;
 
-type EventMapping<InjectTypes> = { [vueEventName: string]: EventAdapterFunction<InjectTypes> };
+type EventMapping<InjectTypes extends unknown[]> = {
+  [vueEventName: string]: EventAdapterFunction<InjectTypes>,
+};
 
 type ComponentType = ReturnType<typeof defineComponent>;
 
@@ -83,7 +89,7 @@ export function removeAngularJsSpecificProperties<T>(newValue: T): T {
   return newValue;
 }
 
-export default function createAngularJsAdapter<InjectTypes = []>(options: {
+export default function createAngularJsAdapter<InjectTypes extends unknown[] = []>(options: {
   component: ComponentType,
   require?: string,
   scope?: ScopeMapping<InjectTypes>,
@@ -97,7 +103,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   restrict?: string,
   priority?: number,
   replace?: boolean,
-}): ng.IDirectiveFactory {
+}): Injectable<ng.IDirectiveFactory> {
   const {
     component,
     require,
@@ -119,8 +125,8 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     transcludeCounter += 1;
   }
 
-  const vueToAngular = {};
-  const angularJsScope = {};
+  const vueToAngular: Record<string, string> = {};
+  const angularJsScope: Record<string, string> = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
     if (!info.vue) {
       info.vue = scopeVarName;
@@ -131,19 +137,19 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     vueToAngular[info.vue] = scopeVarName;
   });
 
-  function angularJsAdapter(...injectedServices: InjectTypes) {
+  function angularJsAdapter(...injectedServices: InjectTypes): ng.IDirective {
     const adapter: ng.IDirective = {
       restrict,
       require,
       priority,
       scope: noScope ? undefined : angularJsScope,
-      compile: function angularJsAdapterCompile() {
+      compile: function angularJsAdapterCompile(): IDirectivePrePost {
         return {
           post: function angularJsAdapterLink(
-            ngScope: ng.IScope,
+            ngScope: any,
             ngElement: ng.IAugmentedJQuery,
             ngAttrs: ng.IAttributes,
-            ngController: ng.IControllerService,
+            ngController?: ng.IController,
           ) {
             const transcludeClone = transclude
               ? ngElement.find(`[ng-transclude][counter=${currentTranscludeCounter}]`)
@@ -157,12 +163,12 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             });
             Object.entries(scope).forEach(([, info]) => {
               if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
-                const eventName = toKebabCase(info.vue);
+                const eventName = toKebabCase(info.vue!);
                 if (!events[eventName]) { // pass through scope & w/o a custom event handler
                   rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
                 }
               } else {
-                rootVueTemplate += ` :${toKebabCase(info.vue)}="${info.vue}"`;
+                rootVueTemplate += ` :${toKebabCase(info.vue!)}="${info.vue}"`;
               }
             });
             rootVueTemplate += '>';
@@ -175,7 +181,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             const app = createVueApp({
               template: rootVueTemplate,
               data() {
-                const initialData = {};
+                const initialData: Record<string, unknown> = {};
                 Object.entries(scope).forEach(([scopeVarName, info]) => {
                   let value = removeAngularJsSpecificProperties(ngScope[scopeVarName]);
                   if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
@@ -194,7 +200,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                       ...injectedServices,
                     );
                   }
-                  initialData[info.vue] = value;
+                  initialData[info.vue!] = value;
                 });
                 return initialData;
               },
@@ -209,7 +215,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                 return undefined;
               },
               methods: {
-                onEventHandler(name: string, $event: any) { // eslint-disable-line
+                onEventHandler(name: string, $event: any) {
                   const scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
@@ -235,7 +241,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             const mountPoint = mountPointFactory
               ? mountPointFactory(ngScope, ngElement, ngAttrs, ...injectedServices)
               : ngElement[0];
-            const vm = app.mount(mountPoint);
+            const vm: any = app.mount(mountPoint);
 
             // setup watches to bind between angularjs + vue
             Object.entries(scope).forEach(([scopeVarName, info]) => {
@@ -243,7 +249,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                 return;
               }
 
-              ngScope.$watch(scopeVarName, (newValue: any) => { // eslint-disable-line
+              ngScope.$watch(scopeVarName, (newValue: any) => {
                 let newValueFinal = removeAngularJsSpecificProperties(newValue);
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
                   newValueFinal = info.default instanceof Function
@@ -261,11 +267,11 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                     ...injectedServices,
                   );
                 }
-                vm[info.vue] = newValueFinal;
+                vm[info.vue!] = newValueFinal;
               });
             });
 
-            if (transclude) {
+            if (transclude && transcludeClone) {
               $(vm.transcludeTarget).append(transcludeClone);
             }
 
@@ -282,7 +288,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                 if (scope[attr.nodeName]) {
                   return;
                 }
-                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+                if (mountPoint.firstElementChild) {
+                  mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue!);
+                }
               });
 
               ngElement.replaceWith(window.$(mountPoint).children());
@@ -306,9 +314,12 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
   angularJsAdapter.$inject = $inject || [];
 
-  angular.module('piwikApp').directive(directiveName, angularJsAdapter);
+  window.angular.module('piwikApp').directive(
+    directiveName,
+    angularJsAdapter as unknown as Injectable<IDirectiveFactory>,
+  );
 
-  return angularJsAdapter;
+  return angularJsAdapter as unknown as Injectable<IDirectiveFactory>;
 }
 
 export function transformAngularJsBoolAttr(v: unknown): boolean|undefined {
@@ -320,10 +331,10 @@ export function transformAngularJsBoolAttr(v: unknown): boolean|undefined {
     return true;
   }
 
-  return !!v && v > 0 && v !== '0';
+  return !!v && v as number > 0 && v !== '0';
 }
 
-export function transformAngularJsIntAttr(v: string): number {
+export function transformAngularJsIntAttr(v: string): number|undefined|null {
   if (typeof v === 'undefined') {
     return undefined;
   }

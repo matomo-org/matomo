@@ -30,14 +30,17 @@ const Widget = useExternalPluginComponent('CoreHome', 'Widget');
 
 export default defineComponent({
   props: {
-    container: Array,
+    container: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     Widget,
   },
   computed: {
     actualContainer() {
-      const { container }: { container: WidgetData[] } = this;
+      const container = this.container as WidgetData[];
 
       if (!container?.[0]?.parameters) {
         return container;

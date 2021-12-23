@@ -152,6 +152,12 @@ import Subcategory from './Subcategory';
 
 const REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
 
+interface ReportingMenuState {
+  showSubcategoryHelpOnLoad: boolean | null;
+  initialLoad: boolean | null;
+  helpShownCategory: { category: Category, subcategory: Subcategory } | null;
+}
+
 export default defineComponent({
   components: {
     MenuDropdown,
@@ -160,7 +166,7 @@ export default defineComponent({
     SideNav,
   },
   props: {},
-  data() {
+  data(): ReportingMenuState {
     return {
       showSubcategoryHelpOnLoad: null,
       initialLoad: true,

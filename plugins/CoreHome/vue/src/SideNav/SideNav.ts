@@ -36,12 +36,12 @@ export default {
         const sideNavActivator = DirectiveUtilities.getRef(binding.value.activator, binding);
         if (sideNavActivator) {
           window.$(sideNavActivator).show();
-        }
 
-        const targetSelector = sideNavActivator.getAttribute('data-target');
-        window.$(`#${targetSelector}`).sidenav({
-          closeOnClick: true,
-        });
+          const targetSelector = sideNavActivator.getAttribute('data-target');
+          window.$(`#${targetSelector}`).sidenav({
+            closeOnClick: true,
+          });
+        }
       }
 
       if (el.classList.contains('collapsible')) {

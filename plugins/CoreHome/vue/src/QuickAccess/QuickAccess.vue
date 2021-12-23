@@ -122,10 +122,10 @@ interface QuickAccessState {
   searchIndex: number;
 
   menuIndexCounter: number;
-  readonly topMenuItems: SubMenuItem[];
-  readonly leftMenuItems: SubMenuItem[];
-  readonly segmentItems: SubMenuItem[];
-  readonly hasSegmentSelector: boolean;
+  topMenuItems: SubMenuItem[];
+  leftMenuItems: SubMenuItem[];
+  segmentItems: SubMenuItem[];
+  hasSegmentSelector: boolean;
 
   sites: Site[];
   isLoading: boolean;
@@ -405,10 +405,10 @@ export default defineComponent({
 
       const topMenuItems: SubMenuItem[] = [];
       document.querySelectorAll('nav .sidenav li > a').forEach((element) => {
-        let text = element.textContent.trim();
+        let text = element.textContent?.trim();
 
         if (!text) {
-          text = element.getAttribute('title').trim(); // possibly a icon, use title instead
+          text = element.getAttribute('title')?.trim(); // possibly a icon, use title instead
         }
 
         if (text) {
@@ -423,8 +423,8 @@ export default defineComponent({
       const leftMenuItems: SubMenuItem[] = [];
 
       document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
-        let category = window.$(element).find('> .item');
-        category = category[0] ? category[0].innerText.trim() : '';
+        const categoryElement = window.$(element).find('> .item');
+        let category = categoryElement?.[0].innerText.trim() || '';
 
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"
@@ -432,7 +432,7 @@ export default defineComponent({
         }
 
         window.$(element).find('li .item').each((i, subElement) => {
-          const text = subElement.textContent.trim();
+          const text = subElement.textContent?.trim();
           if (text) {
             leftMenuItems.push({ name: text, category, index: this.menuIndexCounter += 1 });
             subElement.setAttribute('quick_access', `${this.menuIndexCounter}`);
@@ -451,7 +451,7 @@ export default defineComponent({
 
       const segmentItems: SubMenuItem[] = [];
       document.querySelectorAll('.segmentList [data-idsegment]').forEach((element) => {
-        const text = element.querySelector('.segname').textContent.trim();
+        const text = element.querySelector('.segname')?.textContent.trim();
 
         if (text) {
           segmentItems.push({ name: text, category, index: this.menuIndexCounter += 1 });

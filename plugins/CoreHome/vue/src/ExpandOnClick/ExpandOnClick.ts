@@ -92,7 +92,9 @@ export default {
 
     setTimeout(() => {
       const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
-      expander.addEventListener('click', binding.value.onExpand);
+      if (expander) {
+        expander.addEventListener('click', binding.value.onExpand!);
+      }
     });
     doc.addEventListener('keyup', binding.value.onEscapeHandler);
     doc.addEventListener('mousedown', binding.value.onMouseDown);
@@ -101,10 +103,12 @@ export default {
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
     const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
-    expander.removeEventListener('click', binding.value.onExpand);
-    doc.removeEventListener('keyup', binding.value.onEscapeHandler);
-    doc.removeEventListener('mousedown', binding.value.onMouseDown);
-    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
-    doc.removeEventListener('scroll', binding.value.onScroll);
+    if (expander) {
+      expander.removeEventListener('click', binding.value.onExpand!);
+    }
+    doc.removeEventListener('keyup', binding.value.onEscapeHandler!);
+    doc.removeEventListener('mousedown', binding.value.onMouseDown!);
+    doc.removeEventListener('mouseup', binding.value.onClickOutsideElement!);
+    doc.removeEventListener('scroll', binding.value.onScroll!);
   },
 };

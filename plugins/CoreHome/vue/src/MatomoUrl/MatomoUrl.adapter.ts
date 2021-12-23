@@ -14,6 +14,4 @@ function piwikUrl() {
   return model;
 }
 
-piwikUrl.$inject = [];
-
-angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
+window.angular.module('piwikApp.service').service('piwikUrl', piwikUrl);

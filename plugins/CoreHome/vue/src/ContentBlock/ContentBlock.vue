@@ -62,7 +62,10 @@ export default defineComponent({
     },
   },
   mounted() {
-    const { root, content } = this.$refs;
+    const { root, content }: {
+      root: HTMLElement,
+      content: HTMLElement,
+    } = this.$refs;
 
     if (this.anchor) {
       const anchorElement = document.createElement('a');

@@ -6,12 +6,12 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import {IAngularStatic, IScope} from 'angular';
+import { IAngularStatic, IScope } from 'angular';
 import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
-  type ParameterValue = string | number | null | undefined | ParameterValue[];
-  type QueryParameters = {[name: string]: ParameterValue | QueryParameters};
+  type QueryParameterValue = string | number | null | undefined | QueryParameterValue[];
+  type QueryParameters = {[name: string]: QueryParameterValue | QueryParameters};
 
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
@@ -49,6 +49,7 @@ declare global {
 
   interface PiwikPopoverGlobal {
     isOpen();
+    close();
     setTitle(title: string): void;
     setContent(html: string|HTMLElement|JQuery|JQLite): void;
     showLoading(loadingName: string, popoverSubject: string, height: number, dialogClass: string): JQuery;
@@ -59,6 +60,7 @@ declare global {
   interface ModalConfirmCallbacks {
     yes: () => void;
     no: () => void;
+    validation: () => void;
   }
 
   interface ModalConfirmOptions {
@@ -75,10 +77,11 @@ declare global {
     escape(text: string): string;
     redirect(params: any);
     htmlDecode(encoded: string): string;
+    htmlEntities(value: string): string;
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
-    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
+    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string);
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: string, options?: CompileAngularComponentsOptions): void;
@@ -95,6 +98,7 @@ declare global {
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
     buildReportingUrl(ajaxUrl: string): string;
     isLoginPage(): boolean;
+    resetPopoverStack(): void;
 
     popoverHandlers: Record<string, (param: string) => void>;
   }
@@ -135,6 +139,7 @@ declare global {
     maxDateDay: number;
     config: Record<string, string|number|string[]>;
     hasSuperUserAccess: boolean;
+    language: string;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -172,6 +177,8 @@ declare global {
     Materialize: M;
     widgetsHelper: WidgetsHelper;
     anchorLinkFix: AnchorLinkFix;
+    $: JQueryStatic;
+    Piwik_Popover: PiwikPopoverGlobal;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
