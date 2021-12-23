@@ -331,8 +331,22 @@ class Url
         }
 
         if ($preferServerName && strlen($host = self::getHostFromServerNameVar())) {
-            return $host;
+            return self::filterValidHostName($host);
         } elseif (isset($_SERVER['HTTP_HOST']) && strlen($host = $_SERVER['HTTP_HOST'])) {
+            return self::filterValidHostName($host);
+        }
+
+        return false;
+    }
+
+    protected static function filterValidHostName($host)
+    {
+        $host = trim($host);
+
+        $hostToCheck = preg_replace('/[^:]:[0-9]+$/', '', $host); // remove port number for validation
+        $filtered    = filter_var($hostToCheck, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) ?: filter_var($hostToCheck, FILTER_VALIDATE_IP);
+
+        if ($filtered === $hostToCheck) {
             return $host;
         }
 

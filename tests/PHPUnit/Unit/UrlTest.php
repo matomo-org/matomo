@@ -198,6 +198,37 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getHostTestData
+     */
+    public function testGetHost($host, $expected)
+    {
+        $_SERVER['HTTP_HOST'] = $host;
+        $method = new \ReflectionMethod(Url::class, 'getHostFromServerVariable');
+        $method->setAccessible(true);
+        self::assertEquals($expected, $method->invoke(null));
+    }
+
+    public function getHostTestData()
+    {
+        return [
+            ['my.host', 'my.host'],
+            ['localhost', 'localhost'],
+            ['localhost:8088', 'localhost:8088'],
+            ['   my.domain', 'my.domain'],
+            ['my.domain    ', 'my.domain'],
+            ['my.sub.e33e.sd223udomain', 'my.sub.e33e.sd223udomain'],
+            ['xn--mller-kva.de', 'xn--mller-kva.de'],
+            ['xn--maana-pta.com', 'xn--maana-pta.com'],
+            ['::1', '::1'],
+            ['12:23::1', '12:23::1'],
+            ['my.domain; curl', false],
+            ['example.org?query', false],
+            ['example.org/test/path', false],
+            ['example.org"test.org', false],
+        ];
+    }
+
+    /**
      * @dataProvider getLocalUrls
      */
     public function testIsLocalUrl($httphost, $scripturi, $requesturi, $testurl, $result)
@@ -262,7 +293,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         );
 
         foreach ($tests as $test) {
-            list($expected, $uri, $pathInfo) = $test;
+            [$expected, $uri, $pathInfo] = $test;
 
             $_SERVER['REQUEST_URI'] = $uri;
             $_SERVER['PATH_INFO'] = $pathInfo;
