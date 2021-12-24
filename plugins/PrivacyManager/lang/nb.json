@@ -3,6 +3,7 @@
         "AnonymizeData": "Anonymiser data",
         "AnonymizeIp": "Anonymisering av IP",
         "AnonymizeIpDescription": "Velg «Ja» hvis du vil at Matomo ikke skal spore fullstendige IP-adresser.",
+        "AnonymizeIpExtendedHelp": "Når brukere besøker nettsiden din, bruker ikke Matomo hele IP-adressen (som f.eks %1$s) men istedenfor vil Matomo anonymisere dem først (til %2$s). Anonymisering av IP-adresser er ett av kravene for personvernslovgivning i f.eks. Tyskland.",
         "AnonymizeIpInlineHelp": "Anonymiser siste byte for IP-adresser for å overholde lokale lover og retningslinjer for personvern.",
         "AnonymizeIpMaskFully": "Masker hele IP-adressen",
         "AnonymizeIpMaskLengtDescription": "Velg hvor mange byte av besøkendes IP-er som skal maskeres.",
