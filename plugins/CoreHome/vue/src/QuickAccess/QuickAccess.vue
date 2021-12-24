@@ -376,7 +376,7 @@ export default defineComponent({
       SitesStore.loadSite(idSite);
     },
     selectMenuItem(index: number) {
-      const target: HTMLElement = document.querySelector(`[quick_access='${index}']`);
+      const target: HTMLElement|null = document.querySelector(`[quick_access='${index}']`);
       if (target) {
         this.deactivateSearch();
 
@@ -424,7 +424,7 @@ export default defineComponent({
 
       document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
         const categoryElement = window.$(element).find('> .item');
-        let category = categoryElement?.[0].innerText.trim() || '';
+        let category = categoryElement[0]?.innerText.trim() || '';
 
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"
@@ -451,7 +451,7 @@ export default defineComponent({
 
       const segmentItems: SubMenuItem[] = [];
       document.querySelectorAll('.segmentList [data-idsegment]').forEach((element) => {
-        const text = element.querySelector('.segname')?.textContent.trim();
+        const text = element.querySelector('.segname')?.textContent?.trim();
 
         if (text) {
           segmentItems.push({ name: text, category, index: this.menuIndexCounter += 1 });

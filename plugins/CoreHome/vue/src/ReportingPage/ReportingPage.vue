@@ -75,12 +75,20 @@ function hideOnlyRawDataNoticifation() {
   NotificationsStore.remove('onlyRawData');
 }
 
+interface ReportingPageState {
+  loading: boolean;
+  hasRawData: boolean;
+  hasNoVisits: boolean;
+  dateLastChecked: Date|null;
+  hasNoPage: boolean;
+}
+
 export default defineComponent({
   components: {
     ActivityIndicator,
     Widget,
   },
-  data() {
+  data(): ReportingPageState {
     return {
       loading: false,
       hasRawData: false,

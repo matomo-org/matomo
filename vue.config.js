@@ -102,7 +102,7 @@ module.exports = {
         options.compilerOptions = {
           declaration: true,
           noEmit: false,
-          outDir: 'lib'
+          outDir: 'lib',
         };
         return options;
       });

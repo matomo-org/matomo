@@ -64,7 +64,7 @@ export default defineComponent({
     this.checkEmptyModelValue(this.modelValue);
   },
   methods: {
-    checkEmptyModelValue(newValue) {
+    checkEmptyModelValue(newValue: unknown[]) {
       // make sure there is always an empty new value
       if (!newValue || !newValue.length || newValue.slice(-1)[0] !== '') {
         this.$emit('update:modelValue', [...(newValue || []), '']);
@@ -76,7 +76,7 @@ export default defineComponent({
 
       this.$emit('update:modelValue', newArrayValue);
     },
-    removeEntry(index) {
+    removeEntry(index: number) {
       if (index > -1) {
         const newValue = this.modelValue.filter((x, i) => i !== index);
         this.$emit('update:modelValue', newValue);

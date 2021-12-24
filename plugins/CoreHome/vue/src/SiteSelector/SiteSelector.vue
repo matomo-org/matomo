@@ -120,7 +120,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import AllSitesLink from './AllSitesLink.vue';
@@ -138,15 +138,16 @@ interface SiteRef {
 interface SiteSelectorState {
   searchTerm: string;
   showSitesList: boolean;
+  activeSiteId: string;
   isLoading: boolean;
-  sites: Site[];
+  sites: DeepReadonly<Site[]>;
   autocompleteMinSites: null|number;
 }
 
-export default defineComponent({
+const SiteSelector = defineComponent({
   props: {
     modelValue: {
-      Object,
+      type: Object,
       default: (props) => {
         if (props.modelValue) {
           return props.modelValue;
@@ -276,10 +277,10 @@ export default defineComponent({
       }
     },
     onAllSitesClick(event: MouseEvent) {
-      this.switchSite({ idsite: 'all', name: this.allSitesText }, event);
+      this.switchSite({ idsite: 'all', name: this.$props.allSitesText }, event);
       this.showSitesList = false;
     },
-    switchSite(site: SiteRef, event: KeyboardEvent|MouseEvent) {
+    switchSite(site: Site, event: KeyboardEvent|MouseEvent) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
       const controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
 
@@ -341,7 +342,7 @@ export default defineComponent({
         this.sites = sites || [];
       });
     },
-    searchSite(term: string) {
+    searchSite(this: typeof SiteSelector, term: string) {
       this.isLoading = true;
 
       SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then((sites) => {
@@ -373,4 +374,6 @@ export default defineComponent({
     },
   },
 });
+
+export default SiteSelector;
 </script>

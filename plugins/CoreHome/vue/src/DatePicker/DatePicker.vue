@@ -129,14 +129,14 @@ export default defineComponent({
     }
 
     function viewDateChanged(): boolean {
-      let date = props.viewDate;
-      if (!date) {
+      if (!props.viewDate) {
         return false;
       }
 
-      if (!(date instanceof Date)) {
+      let date = props.viewDate as Date;
+      if (!(props.viewDate instanceof Date)) {
         try {
-          date = parseDate(date);
+          date = parseDate(props.viewDate);
         } catch (e) {
           return false;
         }
@@ -178,8 +178,8 @@ export default defineComponent({
 
       // setting stepMonths will change the month in view back to the selected date. to avoid
       // we set the selected date to the month in view.
-      const currentMonth = $('.ui-datepicker-month', element).val();
-      const currentYear = $('.ui-datepicker-year', element).val();
+      const currentMonth = $('.ui-datepicker-month', element).val() as number;
+      const currentYear = $('.ui-datepicker-year', element).val() as number;
 
       element
         .datepicker('option', 'stepMonths', stepMonths)
@@ -192,11 +192,13 @@ export default defineComponent({
 
     function enableDisableMonthDropdown(): void {
       const element = $(root.value);
-
-      element.find('.ui-datepicker-month').attr('disabled', props.disableMonthDropdown);
+      const monthPicker = element.find('.ui-datepicker-month')[0];
+      if (monthPicker) {
+        monthPicker.disabled = props.disableMonthDropdown;
+      }
     }
 
-    function handleOtherMonthClick() {
+    function handleOtherMonthClick(this: HTMLElement) {
       if (!$(this).hasClass('ui-state-hover')) {
         return;
       }
@@ -229,26 +231,29 @@ export default defineComponent({
       let redraw = false;
 
       [
-        'selectedDateStart',
-        'selectedDateEnd',
-        'highlightedDateStart',
-        'highlightedDateEnd',
-      ].forEach((propName) => {
+        (x: typeof props): Date|undefined => x.selectedDateStart,
+        (x: typeof props): Date|undefined => x.selectedDateEnd,
+        (x: typeof props): Date|undefined => x.highlightedDateStart,
+        (x: typeof props): Date|undefined => x.highlightedDateEnd,
+      ].forEach((selector) => {
         if (redraw) {
           return;
         }
 
-        if (!newProps[propName] && oldProps[propName]) {
+        const newProp = selector(newProps);
+        const oldProp = selector(oldProps);
+
+        if (!newProp && oldProp) {
           redraw = true;
         }
 
-        if (newProps[propName] && !oldProps[propName]) {
+        if (newProp && !oldProp) {
           redraw = true;
         }
 
-        if (newProps[propName]
-          && oldProps[propName]
-          && newProps[propName].getTime() !== oldProps[propName].getTime()
+        if (newProp
+          && oldProp
+          && newProp.getTime() !== oldProp.getTime()
         ) {
           redraw = true;
         }
@@ -262,7 +267,7 @@ export default defineComponent({
         stepMonthsChanged();
       }
 
-      if (newProps.enableDisableMonthDropdown !== oldProps.enableDisableMonthDropdown) {
+      if (newProps.disableMonthDropdown !== oldProps.disableMonthDropdown) {
         enableDisableMonthDropdown();
       }
 
@@ -319,8 +324,7 @@ export default defineComponent({
         .on('mouseenter', 'thead', () => context.emit('cellHoverLeave'));
 
       // make sure whitespace is clickable when the period makes it appropriate
-      element.on('click', 'tbody td.ui-datepicker-other-month',
-        () => handleOtherMonthClick());
+      element.on('click', 'tbody td.ui-datepicker-other-month', handleOtherMonthClick);
 
       // NOTE: using a selector w/ .on() doesn't seem to work for some reason...
       element.on('click', (e) => {

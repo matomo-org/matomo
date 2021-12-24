@@ -203,6 +203,21 @@ function isValidDate(d) {
   return !Number.isNaN(d.getTime());
 }
 
+interface PeriodSelectorState {
+  comparePeriodDropdownOptions: typeof COMPARE_PERIOD_OPTIONS;
+  periodValue: string|null;
+  dateValue: Date|null;
+  selectedPeriod: string|null;
+  startRangeDate: Date|null;
+  endRangeDate: Date|null;
+  isRangeValid: boolean|null;
+  isLoadingNewPage: boolean;
+  isComparing: null|boolean;
+  comparePeriodType: string;
+  compareStartDate: string;
+  compareEndDate: string;
+}
+
 export default defineComponent({
   props: {
     periods: Array,
@@ -216,7 +231,7 @@ export default defineComponent({
   directives: {
     ExpandOnClick,
   },
-  data() {
+  data(): PeriodSelectorState {
     return {
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
       periodValue: null,
@@ -234,13 +249,13 @@ export default defineComponent({
   },
   mounted() {
     Matomo.on('hidePeriodSelector', () => {
-      window.$(this.$refs.root).hide();
+      window.$(this.$refs.root as HTMLElement).hide();
     });
 
     // some widgets might hide the period selector using the event above, so ensure it's
     // shown again when switching the page
     Matomo.on('piwikPageChange', () => {
-      window.$(this.$refs.root).show();
+      window.$(this.$refs.root as HTMLElement).show();
     });
 
     this.updateSelectedValuesFromHash();
@@ -370,7 +385,7 @@ export default defineComponent({
   },
   methods: {
     handleZIndexPositionRelativeCompareDropdownIssue() {
-      const $element = window.$(this.$refs.root);
+      const $element = window.$(this.$refs.root as HTMLElement);
       $element.on('focus', '#comparePeriodToDropdown .select-dropdown', () => {
         $element.addClass('compare-dropdown-open');
       }).on('blur', '#comparePeriodToDropdown .select-dropdown', () => {
@@ -504,7 +519,7 @@ export default defineComponent({
       return true;
     },
     closePeriodSelector() {
-      this.$refs.root.classList.remove('expanded');
+      (this.$refs.root as HTMLElement).classList.remove('expanded');
     },
     isCompareRangeValid() {
       try {

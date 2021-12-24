@@ -5,17 +5,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { computed, reactive, readonly } from 'vue';
+import {
+  computed,
+  DeepReadonly,
+  reactive,
+  readonly,
+} from 'vue';
 import ReportingPagesStoreInstance, { Page } from '../ReportingPages/ReportingPages.store';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import { sortOrderables } from '../Orderable';
-import { Widget } from '../Widget/Widgets.store';
+import { GroupedWidgets, Widget } from '../Widget/Widgets.store';
 
 interface ReportingMenuStoreState {
   page?: Page|null;
 }
 
-function shouldBeRenderedWithFullWidth(widget: Widget) {
+function shouldBeRenderedWithFullWidth(widget: DeepReadonly<Widget>) {
   // rather controller logic
   if ((widget.isContainer && widget.layout && widget.layout === 'ByDimension')
     || widget.viewDataTable === 'bydimension'
@@ -33,16 +38,17 @@ function shouldBeRenderedWithFullWidth(widget: Widget) {
       || widget.viewDataTable === 'graphEvolution');
 }
 
-function markWidgetsInFirstRowOfPage(widgets: Widget[]) {
+function markWidgetsInFirstRowOfPage(widgets: DeepReadonly<(Widget|GroupedWidgets)[]>) {
   if (widgets && widgets[0]) {
-    const newWidgets = [...widgets];
+    const newWidgets: DeepReadonly<Widget|GroupedWidgets>[] = [...widgets];
 
-    if (widgets[0].group) {
+    const groupedWidgets = widgets[0] as GroupedWidgets;
+    if (groupedWidgets.group) {
       newWidgets[0] = {
         ...newWidgets[0],
-        left: markWidgetsInFirstRowOfPage(widgets[0].left),
-        right: markWidgetsInFirstRowOfPage(widgets[0].right),
-      };
+        left: markWidgetsInFirstRowOfPage(readonly(groupedWidgets.left || [])),
+        right: markWidgetsInFirstRowOfPage(readonly(groupedWidgets.right || [])),
+      } as DeepReadonly<GroupedWidgets>;
     } else {
       newWidgets[0] = { ...newWidgets[0], isFirstInPage: true };
     }
@@ -68,13 +74,13 @@ export class ReportingPageStore {
       return [];
     }
 
-    let widgets = [];
-    const reportsToIgnore = {};
+    let widgets: DeepReadonly<Widget>[] = [];
+    const reportsToIgnore: Record<string, unknown> = {};
 
-    const isIgnoredReport = (widget: Widget) => widget.isReport
+    const isIgnoredReport = (widget: DeepReadonly<Widget>) => widget.isReport
       && reportsToIgnore[`${widget.module}.${widget.action}`];
 
-    const getRelatedReports = (widget) => {
+    const getRelatedReports = (widget: DeepReadonly<Widget>) => {
       if (!widget.isReport) {
         return [];
       }
@@ -106,7 +112,7 @@ export class ReportingPageStore {
       return markWidgetsInFirstRowOfPage(widgets);
     }
 
-    let groupedWidgets = [];
+    let groupedWidgets: DeepReadonly<(Widget|GroupedWidgets)>[] = [];
     for (let i = 0; i < widgets.length; i += 1) {
       const widget = widgets[i];
 
@@ -132,16 +138,15 @@ export class ReportingPageStore {
           }
         }
 
-        groupedWidgets.push({ group: true, left, right });
+        groupedWidgets.push({ group: true, left, right } as DeepReadonly<GroupedWidgets>);
       }
     }
 
-    groupedWidgets = markWidgetsInFirstRowOfPage(groupedWidgets);
-
-    return groupedWidgets;
+    const sortedWidgets = markWidgetsInFirstRowOfPage(groupedWidgets);
+    return sortedWidgets;
   });
 
-  fetchPage(category: string, subcategory: string): Promise<typeof ReportingPageStore['page']['value']> {
+  fetchPage(category: string, subcategory: string): Promise<ReportingPageStore['page']['value']> {
     this.resetPage();
 
     return Promise.all([

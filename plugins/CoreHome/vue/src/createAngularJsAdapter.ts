@@ -11,9 +11,9 @@ import {
   defineComponent,
   ref,
 } from 'vue';
+import { IDirectiveFactory, IDirectivePrePost, Injectable } from 'angular';
 import Matomo from './Matomo/Matomo';
 import createVueApp from './createVueApp';
-import { IDirectiveFactory, IDirectivePrePost, Injectable } from 'angular';
 
 interface SingleScopeVarInfo<InjectTypes extends unknown[]> {
   vue?: string;

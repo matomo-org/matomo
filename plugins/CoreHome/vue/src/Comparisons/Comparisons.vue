@@ -94,13 +94,17 @@ interface ProcessedReportResponse {
   reportData: ProcessedReportData;
 }
 
+interface ComparisonState {
+  comparisonTooltips: Record<string, Record<string, string>>|null;
+}
+
 export default defineComponent({
   props: {
   },
   directives: {
     Tooltips,
   },
-  data() {
+  data(): ComparisonState {
     return {
       comparisonTooltips: null,
     };
@@ -186,11 +190,11 @@ export default defineComponent({
       }).then((report) => {
         this.comparisonTooltips = {};
         periodComparisons.forEach((periodComp) => {
-          this.comparisonTooltips[periodComp.index] = {};
+          this.comparisonTooltips![periodComp.index] = {};
 
           segmentComparisons.forEach((segmentComp) => {
             const tooltip = this.generateComparisonTooltip(report, periodComp, segmentComp);
-            this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;
+            this.comparisonTooltips![periodComp.index][segmentComp.index] = tooltip;
           });
         });
       });

@@ -9,11 +9,13 @@ import {
   reactive,
   readonly,
   computed,
+  DeepReadonly,
 } from 'vue';
 import Subcategory from '../ReportingMenu/Subcategory';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import { Orderable } from "../Orderable";
 
-export interface WidgetLeaf {
+export interface Widget extends Orderable {
   uniqueId: string;
   module: string;
   action: string;
@@ -26,14 +28,15 @@ export interface WidgetLeaf {
   documentation?: string;
   layout?: string;
   isWide?: boolean;
-}
-
-export interface ContainerWidget extends WidgetLeaf {
   isFirstInPage?: boolean;
-  widgets: (WidgetLeaf | ContainerWidget)[];
+  widgets: Widget[];
 }
 
-export type Widget = WidgetLeaf | ContainerWidget;
+export interface GroupedWidgets {
+  group: boolean;
+  left?: (Widget | GroupedWidgets)[];
+  right?: (Widget | GroupedWidgets)[];
+}
 
 interface WidgetsStoreState {
   isFetchedFirstTime: boolean;
@@ -46,7 +49,7 @@ class WidgetsStore {
     categorizedWidgets: {},
   });
 
-  private state = computed(() => {
+  private state = computed((): DeepReadonly<WidgetsStoreState> => {
     if (!this.privateState.isFetchedFirstTime) {
       // initiating a side effect in a computed property seems wrong, but it needs to be
       // executed after knowing a user's logged in and it will succeed.
@@ -58,7 +61,7 @@ class WidgetsStore {
 
   readonly widgets = computed(() => this.state.value.categorizedWidgets);
 
-  private fetchAvailableWidgets(): Promise<typeof WidgetsStore['widgets']['value']> {
+  private fetchAvailableWidgets(): Promise<WidgetsStore['widgets']['value']> {
     // if there's no idSite, don't make the request since it will just fail
     if (!MatomoUrl.parsed.value.idSite) {
       return Promise.resolve(this.widgets.value);
@@ -77,7 +80,7 @@ class WidgetsStore {
     });
   }
 
-  reloadAvailableWidgets(): Promise<typeof WidgetsStore['widgets']['value']> {
+  reloadAvailableWidgets(): Promise<WidgetsStore['widgets']['value']> {
     if (typeof window.widgetsHelper === 'object' && window.widgetsHelper.availableWidgets) {
       // lets also update widgetslist so will be easier to update list of available widgets in
       // dashboard selector immediately

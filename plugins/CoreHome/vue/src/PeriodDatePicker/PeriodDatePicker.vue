@@ -40,9 +40,9 @@ export default defineComponent({
   },
   emits: ['select'],
   setup(props, context) {
-    const viewDate = ref(props.date);
-    const selectedDates = ref([null, null]);
-    const highlightedDates = ref([null, null]);
+    const viewDate = ref<string|Date|null>(props.date);
+    const selectedDates = ref<Date[]>([null, null]);
+    const highlightedDates = ref<Date[]>([null, null]);
 
     function getBoundedDateRange(date: string|Date) {
       const dates = Periods.get(props.period).parse(date).getDateRange();

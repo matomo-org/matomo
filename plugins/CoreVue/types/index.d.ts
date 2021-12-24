@@ -183,5 +183,6 @@ declare global {
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
     initTopControls(): void;
+    vueSanitize(content: string): string;
   }
 }
