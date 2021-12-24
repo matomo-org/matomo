@@ -195,7 +195,7 @@ const COMPARE_PERIOD_OPTIONS = [
 const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
 
-function isValidDate(d) {
+function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
   if (Object.prototype.toString.call(d) !== '[object Date]') {
     return false;
   }
@@ -208,8 +208,8 @@ interface PeriodSelectorState {
   periodValue: string|null;
   dateValue: Date|null;
   selectedPeriod: string|null;
-  startRangeDate: Date|null;
-  endRangeDate: Date|null;
+  startRangeDate: string|null;
+  endRangeDate: string|null;
   isRangeValid: boolean|null;
   isLoadingNewPage: boolean;
   isComparing: null|boolean;
@@ -288,7 +288,7 @@ export default defineComponent({
       }
 
       try {
-        return Periods.parse(this.periodValue, date).getPrettyString();
+        return Periods.parse(this.periodValue!, date).getPrettyString();
       } catch (e) {
         return translate('General_Error');
       }
@@ -297,7 +297,9 @@ export default defineComponent({
       return ComparisonsStore.isComparisonEnabled();
     },
     periodsFiltered() {
-      return (this.periods || []).filter((periodLabel) => Periods.isRecognizedPeriod(periodLabel));
+      return (this.periods as string[] || []).filter(
+        (periodLabel) => Periods.isRecognizedPeriod(periodLabel),
+      );
     },
     selectedComparisonParams() {
       if (!this.isComparing) {
@@ -313,7 +315,7 @@ export default defineComponent({
 
       if (this.comparePeriodType === 'previousPeriod') {
         return {
-          comparePeriods: [this.selectedPeriod],
+          comparePeriods: [this.selectedPeriod!],
           compareDates: [this.previousPeriodDateToSelectedPeriod],
         };
       }
@@ -323,7 +325,7 @@ export default defineComponent({
           ? `${this.startRangeDate},${this.endRangeDate}`
           : this.dateValue;
 
-        const currentDateRange = Periods.parse(this.selectedPeriod, dateStr).getDateRange();
+        const currentDateRange = Periods.parse(this.selectedPeriod!, dateStr).getDateRange();
         currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
         currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
 
@@ -345,8 +347,8 @@ export default defineComponent({
     },
     previousPeriodDateToSelectedPeriod() {
       if (this.selectedPeriod === 'range') {
-        const currentStartRange = parseDate(this.startRangeDate);
-        const currentEndRange = parseDate(this.endRangeDate);
+        const currentStartRange = parseDate(this.startRangeDate!);
+        const currentEndRange = parseDate(this.endRangeDate!);
         const newEndDate = Range.getLastNRange('day', 2, currentStartRange).startDate;
 
         const rangeSize = Math.floor((currentEndRange - currentStartRange) / 86400000);
@@ -405,7 +407,7 @@ export default defineComponent({
 
       this.setPiwikPeriodAndDate(this.period, this.dateValue);
     },
-    setPiwikPeriodAndDate(period: string, date: Date) {
+    setPiwikPeriodAndDate(period: string, date: Date|null) {
       this.periodValue = period;
       this.selectedPeriod = period;
       this.dateValue = date;
@@ -457,7 +459,8 @@ export default defineComponent({
       this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue);
     },
     updateSelectedValuesFromHash() {
-      const { date, period } = MatomoUrl.parsed.value;
+      const date = MatomoUrl.parsed.value.date as string;
+      const period = MatomoUrl.parsed.value.period as string;
 
       this.periodValue = period;
       this.selectedPeriod = period;

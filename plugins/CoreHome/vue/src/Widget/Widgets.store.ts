@@ -16,12 +16,12 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { Orderable } from "../Orderable";
 
 export interface Widget extends Orderable {
-  uniqueId: string;
-  module: string;
-  action: string;
-  viewDataTable: string;
-  parameters: Record<string, unknown>;
-  subcategory: Subcategory;
+  uniqueId?: string;
+  module?: string;
+  action?: string;
+  viewDataTable?: string;
+  parameters?: Record<string, unknown>;
+  subcategory?: Subcategory;
   isContainer?: boolean;
   isReport?: boolean;
   middlewareParameters?: QueryParameters;
@@ -29,7 +29,7 @@ export interface Widget extends Orderable {
   layout?: string;
   isWide?: boolean;
   isFirstInPage?: boolean;
-  widgets: Widget[];
+  widgets?: Widget[];
 }
 
 export interface GroupedWidgets {

@@ -95,7 +95,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {DeepReadonly, defineComponent} from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';
@@ -127,7 +127,7 @@ interface QuickAccessState {
   segmentItems: SubMenuItem[];
   hasSegmentSelector: boolean;
 
-  sites: Site[];
+  sites: DeepReadonly<Site[]>;
   isLoading: boolean;
 }
 
@@ -342,7 +342,7 @@ export default defineComponent({
         });
       }
 
-      const menuItemMatches = (i) => i.name.toLowerCase().indexOf(searchTerm) !== -1
+      const menuItemMatches = (i: SubMenuItem) => i.name.toLowerCase().indexOf(searchTerm) !== -1
         || i.category.toLowerCase().indexOf(searchTerm) !== -1;
 
       // get the menu items on first search since this component can be mounted

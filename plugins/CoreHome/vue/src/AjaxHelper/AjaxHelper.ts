@@ -11,6 +11,7 @@ import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
+import {DeepReadonly} from "vue";
 
 interface AjaxOptions {
   withTokenInUrl?: boolean;
@@ -174,7 +175,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   // helper method entry point
-  static fetch<R = any>(params: QueryParameters, options: AjaxOptions = {}): Promise<R> { // eslint-disable-line
+  static fetch<R = any>( // eslint-disable-line
+    params: DeepReadonly<QueryParameters>,
+    options: AjaxOptions = {},
+  ): Promise<R> {
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();

@@ -65,7 +65,7 @@ export default defineComponent({
     const root = this.$refs.root as HTMLElement;
     const content = this.$refs.content as HTMLElement;
 
-    if (this.anchor && root) {
+    if (this.anchor && root && root.parentElement) {
       const anchorElement = document.createElement('a');
       anchorElement.id = this.anchor;
       root.parentElement.prepend(anchorElement);

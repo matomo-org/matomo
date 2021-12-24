@@ -84,7 +84,7 @@ declare global {
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string);
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
-    compileAngularComponents(selector: string, options?: CompileAngularComponentsOptions): void;
+    compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;

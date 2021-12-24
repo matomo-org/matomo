@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { reactive, computed, readonly } from 'vue';
+import {reactive, computed, readonly, DeepReadonly} from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
@@ -38,11 +38,11 @@ export class ReportMetadataStore {
   private reportsPromise?: Promise<Report[]>;
 
   // TODO: it used to return an empty array when nothing was found, will that be an issue?
-  findReport(reportModule: string, reportAction: string): Report|null {
+  findReport(reportModule?: string, reportAction?: string): DeepReadonly<Report>|undefined {
     return this.reports.value.find((r) => r.module === reportModule && r.action === reportAction);
   }
 
-  fetchReportMetadata(): Promise<typeof ReportMetadataStore['reports']['value']> {
+  fetchReportMetadata(): Promise<ReportMetadataStore['reports']['value']> {
     if (!this.reportsPromise) {
       this.reportsPromise = AjaxHelper.fetch({
         method: 'API.getReportMetadata',

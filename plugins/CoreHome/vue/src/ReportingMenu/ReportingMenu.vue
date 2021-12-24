@@ -153,9 +153,9 @@ import Subcategory from './Subcategory';
 const REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
 
 interface ReportingMenuState {
-  showSubcategoryHelpOnLoad: boolean | null;
+  showSubcategoryHelpOnLoad: { category: Category, subcategory: Subcategory } | null;
   initialLoad: boolean | null;
-  helpShownCategory: { category: Category, subcategory: Subcategory } | null;
+  helpShownCategory: { category: string, subcategory: string } | null;
 }
 
 export default defineComponent({
@@ -209,7 +209,11 @@ export default defineComponent({
     });
 
     watch(() => MatomoUrl.parsed.value, (query) => {
-      const found = ReportingMenuStoreInstance.findSubcategory(query.category, query.subcategory);
+      const found = ReportingMenuStoreInstance.findSubcategory(
+        query.category as string,
+        query.subcategory as string,
+      );
+
       ReportingMenuStoreInstance.enterSubcategory(
         found.category,
         found.subcategory,
@@ -283,7 +287,7 @@ export default defineComponent({
         this.propagateUrlChange(category, subcategory);
       }
     },
-    loadSubcategory(category: Category, subcategory: Subcategory, event: MouseEvent) {
+    loadSubcategory(category: Category, subcategory: Subcategory, event?: MouseEvent) {
       if (event
         && (event.shiftKey || event.ctrlKey || event.metaKey)
       ) {

@@ -144,11 +144,11 @@ interface SiteSelectorState {
   autocompleteMinSites: null|number;
 }
 
-const SiteSelector = defineComponent({
+export default defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: (props) => {
+      default: (props: { modelValue?: SiteRef }): SiteRef|undefined => {
         if (props.modelValue) {
           return props.modelValue;
         }
@@ -205,12 +205,15 @@ const SiteSelector = defineComponent({
   data(): SiteSelectorState {
     return {
       searchTerm: '',
-      activeSiteId: Matomo.idSite,
+      activeSiteId: `${Matomo.idSite}`,
       showSitesList: false,
       isLoading: false,
       sites: [],
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
+  },
+  created() {
+    this.searchSite = debounce(this.searchSite);
   },
   mounted() {
     window.initTopControls();
@@ -222,7 +225,7 @@ const SiteSelector = defineComponent({
     });
 
     const shortcutTitle = translate('CoreHome_ShortcutWebsiteSelector');
-    Matomo.helper.registerShortcut('w', shortcutTitle, (event) => {
+    Matomo.helper.registerShortcut('w', shortcutTitle, (event: KeyboardEvent) => {
       if (event.altKey) {
         return;
       }
@@ -262,9 +265,6 @@ const SiteSelector = defineComponent({
       });
       return `?${newQuery}`;
     },
-  },
-  created() {
-    this.searchSite = debounce(this.searchSite.bind(this));
   },
   methods: {
     onSearchTermChanged() {
@@ -342,7 +342,7 @@ const SiteSelector = defineComponent({
         this.sites = sites || [];
       });
     },
-    searchSite(this: typeof SiteSelector, term: string) {
+    searchSite(term: string) {
       this.isLoading = true;
 
       SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then((sites) => {
@@ -374,6 +374,4 @@ const SiteSelector = defineComponent({
     },
   },
 });
-
-export default SiteSelector;
 </script>

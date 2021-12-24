@@ -42,8 +42,13 @@ import { defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import { Widget } from '../Widget/Widgets.store';
 import { sortOrderables } from '../Orderable';
+import {WidgetByDimensionContainer} from "../index";
 
 // TODO: is there a widget category ID or widget ID
+
+interface WidgetByDimensionContainerState {
+  selectedWidget: Widget|null;
+}
 
 export default defineComponent({
   props: {
@@ -52,7 +57,7 @@ export default defineComponent({
   components: {
     WidgetLoader,
   },
-  data() {
+  data(): WidgetByDimensionContainerState {
     return {
       selectedWidget: null,
     };
@@ -62,19 +67,19 @@ export default defineComponent({
   },
   computed: {
     widgetsSorted(): Widget[] {
-      return sortOrderables(this.widgets);
+      return sortOrderables(this.widgets as Widget[]);
     },
     widgetsByCategory() {
-      const byCategory = {};
+      const byCategory: Record<string, Widget> = {};
 
       this.widgetsSorted.forEach((widget) => {
-        const category = widget.subcategory.name;
+        const category = widget.subcategory?.name;
 
         if (!byCategory[category]) {
           byCategory[category] = { name: category, order: widget.order, widgets: [] };
         }
 
-        byCategory[category].widgets.push(widget);
+        byCategory[category].widgets!.push(widget);
       });
 
       return sortOrderables(Object.values(byCategory));

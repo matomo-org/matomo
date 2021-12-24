@@ -47,7 +47,7 @@ export default defineComponent({
       }
 
       const [widget] = container;
-      const isWidgetized = widget.parameters.widget === '1' || widget.parameters.widget === 1;
+      const isWidgetized = widget.parameters?.widget === '1' || widget.parameters?.widget === 1;
 
       const isGraphEvolution = isWidgetized && widget.viewDataTable === 'graphEvolution';
 

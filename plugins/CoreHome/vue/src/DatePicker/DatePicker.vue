@@ -15,7 +15,6 @@ import {
   watch,
   onMounted,
 } from 'vue';
-import JQuery = JQuery;
 import Matomo from '../Matomo/Matomo';
 import { parseDate } from '../Periods';
 
@@ -36,7 +35,7 @@ export default defineComponent({
   },
   emits: ['cellHover', 'cellHoverLeave', 'dateSelect'],
   setup(props, context) {
-    const root = ref<HTMLElement>(null);
+    const root = ref<HTMLElement|null>(null);
 
     function setDateCellColor($dateCell: JQuery, dateValue: Date): void {
       const $dateCellLink = $dateCell.children('a');
@@ -75,7 +74,7 @@ export default defineComponent({
       return new Date(year, month, day);
     }
 
-    function getOtherMonthDate($dateCell, month, year) {
+    function getOtherMonthDate($dateCell: JQuery, month: number, year: number) {
       let date;
 
       const $row = $dateCell.parent();
@@ -99,17 +98,17 @@ export default defineComponent({
     }
 
     function getMonthYearDisplayed(): number[] {
-      const element = $(root.value);
+      const element = $(root.value!) as JQuery;
 
       const $firstCellWithMonth = element.find('td[data-month]');
-      const month = parseInt($firstCellWithMonth.attr('data-month'), 10);
-      const year = parseInt($firstCellWithMonth.attr('data-year'), 10);
+      const month = parseInt($firstCellWithMonth.attr('data-month')!, 10);
+      const year = parseInt($firstCellWithMonth.attr('data-year')!, 10);
 
       return [month, year];
     }
 
     function setDatePickerCellColors() {
-      const element = $(root.value);
+      const element = $(root.value!);
 
       const $calendarTable = element.find('.ui-datepicker-calendar');
 
@@ -133,16 +132,18 @@ export default defineComponent({
         return false;
       }
 
-      let date = props.viewDate as Date;
-      if (!(props.viewDate instanceof Date)) {
+      let date: Date;
+      if (typeof props.viewDate === 'string') {
         try {
           date = parseDate(props.viewDate);
         } catch (e) {
           return false;
         }
+      } else {
+        date = props.viewDate as Date;
       }
 
-      const element = $(root.value);
+      const element = $(root.value!);
 
       // only change the datepicker date if the date is outside of the current month/year.
       // this avoids a re-render in other cases.
@@ -158,7 +159,7 @@ export default defineComponent({
     // remove the ui-state-active class & click handlers for every cell. we bypass
     // the datepicker's date selection logic for smoother browser rendering.
     function onJqueryUiRenderedPicker(): void {
-      const element = $(root.value);
+      const element = $(root.value!);
 
       element.find('td[data-event]').off('click');
       element.find('.ui-state-active').removeClass('ui-state-active');
@@ -169,7 +170,7 @@ export default defineComponent({
     }
 
     function stepMonthsChanged(): boolean {
-      const element = $(root.value);
+      const element = $(root.value!);
 
       const stepMonths = props.stepMonths || DEFAULT_STEP_MONTHS;
       if (element.datepicker('option', 'stepMonths') === stepMonths) {
@@ -191,8 +192,8 @@ export default defineComponent({
     }
 
     function enableDisableMonthDropdown(): void {
-      const element = $(root.value);
-      const monthPicker = element.find('.ui-datepicker-month')[0];
+      const element = $(root.value!);
+      const monthPicker = element.find('.ui-datepicker-month')[0] as HTMLInputElement;
       if (monthPicker) {
         monthPicker.disabled = props.disableMonthDropdown;
       }
@@ -278,7 +279,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      const element = $(root.value);
+      const element = $(root.value!);
 
       const customOptions = props.options || {};
       const datePickerOptions = {
@@ -344,8 +345,8 @@ export default defineComponent({
       // with onJqueryUiRenderedPicker(), overrides the date picker's click behavior.
       element.on('click', 'td[data-month]', (event) => {
         const $cell = $(event.target).closest('td') as JQuery;
-        const month = parseInt($cell.attr('data-month'), 10);
-        const year = parseInt($cell.attr('data-year'), 10);
+        const month = parseInt($cell.attr('data-month')!, 10);
+        const year = parseInt($cell.attr('data-year')!, 10);
         const day = parseInt($cell.children('a,span').text(), 10);
         context.emit('dateSelect', { date: new Date(year, month, day) });
       });
