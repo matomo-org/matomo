@@ -77,7 +77,7 @@ export default defineComponent({
     };
   },
   watch: {
-    widgetParams(parameters: Record<string, unknown>) {
+    widgetParams(parameters: QueryParameters) {
       if (parameters) {
         this.loadWidgetUrl(parameters, this.changeCounter += 1);
       }
@@ -102,7 +102,7 @@ export default defineComponent({
   },
   mounted() {
     if (this.widgetParams) {
-      this.loadWidgetUrl(this.widgetParams, this.changeCounter += 1);
+      this.loadWidgetUrl(this.widgetParams as QueryParameters, this.changeCounter += 1);
     }
   },
   unmounted() {
@@ -124,7 +124,7 @@ export default defineComponent({
         this.currentScope.$destroy();
       }
     },
-    getWidgetUrl(parameters?: Record<string, unknown>): QueryParameters {
+    getWidgetUrl(parameters?: QueryParameters): QueryParameters {
       const urlParams = MatomoUrl.parsed.value;
 
       let fullParameters: QueryParameters = { ...(parameters || {}) };
@@ -174,7 +174,7 @@ export default defineComponent({
 
       return fullParameters;
     },
-    loadWidgetUrl(parameters: Record<string, unknown>, thisChangeId: number) {
+    loadWidgetUrl(parameters: QueryParameters, thisChangeId: number) {
       this.loading = true;
 
       this.abortHttpRequestIfNeeded();

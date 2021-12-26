@@ -6,8 +6,11 @@
  */
 
 import { DirectiveBinding, ref } from 'vue';
+import {IDirective, IDirectiveLinkFn, IParseService} from 'angular';
 import createVueApp from '../createVueApp';
 import AjaxForm from './AjaxForm.vue';
+
+const { $ } = window;
 
 /**
  * AngularJS directive that manages an AJAX form.
@@ -57,7 +60,7 @@ import AjaxForm from './AjaxForm.vue';
  * @deprecated
  */
 
-function piwikAjaxForm($parse) {
+function piwikAjaxForm($parse: IParseService): IDirective {
   return {
     restrict: 'A',
     scope: {
@@ -69,10 +72,11 @@ function piwikAjaxForm($parse) {
     },
     require: '?ngModel',
     transclude: true,
-    compile: function piwikAjaxFormCompile(compileElement, compileAttrs) {
+    compile: function piwikAjaxFormCompile(compileElement, compileAttrs): IDirectiveLinkFn {
       compileAttrs.noErrorNotification = !!compileAttrs.noErrorNotification;
 
-      return function piwikAjaxFormLink(scope, element, attrs, ngModel, transclude) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return function piwikAjaxFormLink(scope: any, element, attrs, ngModel, transclude) {
         if (!scope.submitApiMethod) {
           throw new Error('submitApiMethod is required');
         }
@@ -140,8 +144,7 @@ function piwikAjaxForm($parse) {
         });
 
         function setFormValueFromInput(inputElement: HTMLElement, skipScopeApply?: boolean) {
-          const $ = angular.element;
-          const name = $(inputElement).attr('name');
+          const name = $(inputElement).attr('name')!;
           let val;
 
           if ($(inputElement).attr('type') === 'checkbox') {
@@ -167,9 +170,10 @@ function piwikAjaxForm($parse) {
         }
 
         // make sure child elements can access this directive's scope
-        transclude(scope, (clone, transcludeScope) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        transclude!(scope, (clone, transcludeScope: any) => {
           if (!transcludeScope.useCustomDataBinding) {
-            const $inputs = clone.find('input,select').not('[type=submit]');
+            const $inputs = clone!.find('input,select').not('[type=submit]');
 
             // initialize form data to input values (include <select>s
             $inputs.each(function inputEach() {
@@ -177,7 +181,8 @@ function piwikAjaxForm($parse) {
             });
           }
 
-          $(vm.transcludeTarget).append(clone);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          $((vm as any).transcludeTarget as HTMLElement).append(clone!);
         });
       };
     },
@@ -186,4 +191,4 @@ function piwikAjaxForm($parse) {
 
 piwikAjaxForm.$inject = ['$parse'];
 
-angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
+window.angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);

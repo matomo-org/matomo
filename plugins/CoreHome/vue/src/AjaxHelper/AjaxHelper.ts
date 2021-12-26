@@ -176,7 +176,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   // helper method entry point
   static fetch<R = any>( // eslint-disable-line
-    params: DeepReadonly<QueryParameters>,
+    params: QueryParameters,
     options: AjaxOptions = {},
   ): Promise<R> {
     const helper = new AjaxHelper<R>();

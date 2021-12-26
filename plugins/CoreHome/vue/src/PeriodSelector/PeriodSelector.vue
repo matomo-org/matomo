@@ -205,9 +205,9 @@ function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-expl
 
 interface PeriodSelectorState {
   comparePeriodDropdownOptions: typeof COMPARE_PERIOD_OPTIONS;
-  periodValue: string|null;
+  periodValue: string;
   dateValue: Date|null;
-  selectedPeriod: string|null;
+  selectedPeriod: string;
   startRangeDate: string|null;
   endRangeDate: string|null;
   isRangeValid: boolean|null;
@@ -232,11 +232,12 @@ export default defineComponent({
     ExpandOnClick,
   },
   data(): PeriodSelectorState {
+    const selectedPeriod = MatomoUrl.parsed.value.period as string;
     return {
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
-      periodValue: null,
+      periodValue: selectedPeriod,
       dateValue: null,
-      selectedPeriod: null,
+      selectedPeriod: selectedPeriod,
       startRangeDate: null,
       endRangeDate: null,
       isRangeValid: null,
@@ -315,7 +316,7 @@ export default defineComponent({
 
       if (this.comparePeriodType === 'previousPeriod') {
         return {
-          comparePeriods: [this.selectedPeriod!],
+          comparePeriods: [this.selectedPeriod],
           compareDates: [this.previousPeriodDateToSelectedPeriod],
         };
       }
@@ -323,9 +324,9 @@ export default defineComponent({
       if (this.comparePeriodType === 'previousYear') {
         const dateStr = this.selectedPeriod === 'range'
           ? `${this.startRangeDate},${this.endRangeDate}`
-          : this.dateValue;
+          : format(this.dateValue!);
 
-        const currentDateRange = Periods.parse(this.selectedPeriod!, dateStr).getDateRange();
+        const currentDateRange = Periods.parse(this.selectedPeriod as string, dateStr).getDateRange();
         currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
         currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
 
@@ -351,19 +352,21 @@ export default defineComponent({
         const currentEndRange = parseDate(this.endRangeDate!);
         const newEndDate = Range.getLastNRange('day', 2, currentStartRange).startDate;
 
-        const rangeSize = Math.floor((currentEndRange - currentStartRange) / 86400000);
+        const rangeSize = Math.floor(
+          (currentEndRange.valueOf() - currentStartRange.valueOf()) / 86400000,
+        );
         const newRange = Range.getLastNRange('day', 1 + rangeSize, newEndDate);
 
         return `${format(newRange.startDate)},${format(newRange.endDate)}`;
       }
 
-      const newStartDate = Range.getLastNRange(this.selectedPeriod, 2, this.dateValue).startDate;
+      const newStartDate = Range.getLastNRange(this.selectedPeriod, 2, this.dateValue!).startDate;
       return format(newStartDate);
     },
     selectedDateString() {
       if (this.selectedPeriod === 'range') {
-        const dateFrom = this.startRangeDate;
-        const dateTo = this.endRangeDate;
+        const dateFrom = this.startRangeDate!;
+        const dateTo = this.endRangeDate!;
         const oDateFrom = parseDate(dateFrom);
         const oDateTo = parseDate(dateTo);
 
@@ -382,7 +385,7 @@ export default defineComponent({
         return `${dateFrom},${dateTo}`;
       }
 
-      return format(this.dateValue);
+      return format(this.dateValue!);
     },
   },
   methods: {
@@ -394,20 +397,20 @@ export default defineComponent({
         $element.removeClass('compare-dropdown-open');
       });
     },
-    changeViewedPeriod() {
+    changeViewedPeriod(period: string) {
       // only change period if it's different from what's being shown currently
-      if (this.period === this.periodValue) {
+      if (period === this.periodValue) {
         return;
       }
 
       // can't just change to a range period, w/o setting two new dates
-      if (this.period === 'range') {
+      if (period === 'range') {
         return;
       }
 
-      this.setPiwikPeriodAndDate(this.period, this.dateValue);
+      this.setPiwikPeriodAndDate(period, this.dateValue!);
     },
-    setPiwikPeriodAndDate(period: string, date: Date|null) {
+    setPiwikPeriodAndDate(period: string, date: Date) {
       this.periodValue = period;
       this.selectedPeriod = period;
       this.dateValue = date;
@@ -456,7 +459,7 @@ export default defineComponent({
         return;
       }
 
-      this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue);
+      this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue!);
     },
     updateSelectedValuesFromHash() {
       const date = MatomoUrl.parsed.value.date as string;
@@ -495,7 +498,7 @@ export default defineComponent({
     getPeriodDisplayText(periodLabel: string) {
       return Periods.get(periodLabel).getDisplayText();
     },
-    onRangeChange(start: Date, end: Date) {
+    onRangeChange(start: string, end: string) {
       if (!start || !end) {
         this.isRangeValid = false;
         return;

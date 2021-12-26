@@ -52,15 +52,16 @@ declare global {
     close();
     setTitle(title: string): void;
     setContent(html: string|HTMLElement|JQuery|JQLite): void;
-    showLoading(loadingName: string, popoverSubject: string, height: number, dialogClass: string): JQuery;
+    showLoading(loadingName: string, popoverSubject?: string, height?: number, dialogClass?: string): JQuery;
+    onClose(fn: () => void);
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;
 
   interface ModalConfirmCallbacks {
-    yes: () => void;
-    no: () => void;
-    validation: () => void;
+    yes?: () => void;
+    no?: () => void;
+    validation?: () => void;
   }
 
   interface ModalConfirmOptions {
@@ -156,8 +157,8 @@ declare global {
   let piwik: PiwikGlobal;
 
   interface WidgetsHelper {
-    availableWidgets: unknown[];
-    getAvailableWidgets(callback?: (widgets: unknown[]) => unknown);
+    availableWidgets?: unknown[];
+    getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
   }
 
   let widgetsHelper: WidgetsHelper;

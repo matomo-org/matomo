@@ -11,9 +11,9 @@ import {
   computed,
   DeepReadonly,
 } from 'vue';
-import Subcategory from '../ReportingMenu/Subcategory';
+import { Subcategory } from '../ReportingMenu/Subcategory';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-import { Orderable } from "../Orderable";
+import { Orderable } from '../Orderable';
 
 export interface Widget extends Orderable {
   uniqueId?: string;
@@ -24,23 +24,36 @@ export interface Widget extends Orderable {
   subcategory?: Subcategory;
   isContainer?: boolean;
   isReport?: boolean;
-  middlewareParameters?: QueryParameters;
+  middlewareParameters?: Record<string, unknown>;
   documentation?: string;
   layout?: string;
   isWide?: boolean;
   isFirstInPage?: boolean;
+}
+
+// get around DeepReadonly<> not being able to handle recursive types by moving the
+// recursive properties to subtypes that are only referenced when needed
+export interface WidgetContainer extends Widget {
   widgets?: Widget[];
 }
 
 export interface GroupedWidgets {
   group: boolean;
-  left?: (Widget | GroupedWidgets)[];
-  right?: (Widget | GroupedWidgets)[];
+  left?: Widget[];
+  right?: Widget[];
 }
 
 interface WidgetsStoreState {
   isFetchedFirstTime: boolean;
   categorizedWidgets: Record<string, Widget[]>;
+}
+
+export function getWidgetChildren(widget: Widget): Widget[] {
+  const container = widget as WidgetContainer;
+  if (container.widgets) {
+    return container.widgets;
+  }
+  return [];
 }
 
 class WidgetsStore {
@@ -70,8 +83,9 @@ class WidgetsStore {
     this.privateState.isFetchedFirstTime = true;
     return new Promise((resolve, reject) => {
       try {
-        window.widgetsHelper.getAvailableWidgets((categorizedWidgets) => {
-          this.privateState.categorizedWidgets = categorizedWidgets;
+        window.widgetsHelper.getAvailableWidgets((widgets: Record<string, unknown[]>) => {
+          const casted = widgets as unknown as Record<string, Widget[]>;
+          this.privateState.categorizedWidgets = casted;
           resolve(this.widgets.value);
         });
       } catch (e) {

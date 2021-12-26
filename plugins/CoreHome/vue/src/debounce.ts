@@ -1,13 +1,16 @@
-interface Callable {
-  (...args: unknown[]): void;
+interface Callable<This> {
+  (this: This, ...args: unknown[]): void;
 }
 
 const DEFAULT_DEBOUNCE_DELAY = 300;
 
-export default function debounce<F extends Callable>(fn: F, delayInMs = DEFAULT_DEBOUNCE_DELAY): F {
+export default function debounce<This, Args extends unknown[]>(
+  fn: (this: This, ...args: Args) => void,
+  delayInMs = DEFAULT_DEBOUNCE_DELAY,
+): (this: This, ...args: Args) => void {
   let timeout: ReturnType<typeof setTimeout>;
 
-  return function wrapper(...args: Parameters<F>): void {
+  return function wrapper(this: This, ...args: Args): void {
     if (timeout) {
       clearTimeout(timeout);
     }

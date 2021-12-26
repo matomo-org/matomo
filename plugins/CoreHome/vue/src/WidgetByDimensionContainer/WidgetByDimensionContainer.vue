@@ -42,12 +42,17 @@ import { defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import { Widget } from '../Widget/Widgets.store';
 import { sortOrderables } from '../Orderable';
-import {WidgetByDimensionContainer} from "../index";
 
 // TODO: is there a widget category ID or widget ID
 
 interface WidgetByDimensionContainerState {
   selectedWidget: Widget|null;
+}
+
+interface WidgetCategory {
+  name: string;
+  order: number;
+  widgets: Widget[];
 }
 
 export default defineComponent({
@@ -70,10 +75,13 @@ export default defineComponent({
       return sortOrderables(this.widgets as Widget[]);
     },
     widgetsByCategory() {
-      const byCategory: Record<string, Widget> = {};
+      const byCategory: Record<string, WidgetCategory> = {};
 
       this.widgetsSorted.forEach((widget) => {
         const category = widget.subcategory?.name;
+        if (!category) {
+          return;
+        }
 
         if (!byCategory[category]) {
           byCategory[category] = { name: category, order: widget.order, widgets: [] };

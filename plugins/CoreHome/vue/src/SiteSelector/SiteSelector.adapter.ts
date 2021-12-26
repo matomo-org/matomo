@@ -5,7 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import {IAttributes, INgModelController, IScope, ITimeoutService} from 'angular';
+import {
+  IAttributes,
+  INgModelController,
+  IScope,
+  ITimeoutService,
+} from 'angular';
 import { nextTick } from 'vue';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import SiteSelector from './SiteSelector.vue';

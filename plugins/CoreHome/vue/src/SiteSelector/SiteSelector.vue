@@ -141,7 +141,7 @@ interface SiteSelectorState {
   activeSiteId: string;
   isLoading: boolean;
   sites: DeepReadonly<Site[]>;
-  autocompleteMinSites: null|number;
+  autocompleteMinSites: number;
 }
 
 export default defineComponent({
@@ -234,8 +234,12 @@ export default defineComponent({
       } else {
         event.returnValue = false; // IE
       }
-      this.$refs.selectorLink.click();
-      this.$refs.selectorLink.focus();
+
+      const selectorLink = this.$refs.selectorLink as HTMLElement;
+      if (selectorLink) {
+        selectorLink.click();
+        selectorLink.focus();
+      }
     });
   },
   computed: {

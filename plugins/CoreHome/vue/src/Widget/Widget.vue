@@ -35,11 +35,15 @@
 </template>
 
 <script lang="ts">
-import {DeepReadonly, defineComponent} from 'vue';
+import { DeepReadonly, defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import WidgetContainer from '../WidgetContainer/WidgetContainer.vue';
 import WidgetByDimensionContainer from '../WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
-import WidgetsStoreInstance, { Widget as WidgetData } from './Widgets.store';
+import WidgetsStoreInstance, {
+  getWidgetChildren,
+  Widget as WidgetData,
+  WidgetContainer as WidgetDataContainer,
+} from './Widgets.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import Tooltips from '../Tooltips/Tooltips';
@@ -122,7 +126,8 @@ export default defineComponent({
     const { actualWidget } = this;
 
     if (actualWidget && actualWidget.middlewareParameters) {
-      AjaxHelper.fetch(actualWidget.middlewareParameters).then((response) => {
+      const params = actualWidget.middlewareParameters as unknown as QueryParameters;
+      AjaxHelper.fetch(params).then((response) => {
         this.showWidget = !!response;
       });
     } else {
@@ -157,13 +162,15 @@ export default defineComponent({
           if (this.widgetized) {
             result.isFirstInPage = true;
             result.parameters = { ...result.parameters, widget: '1' };
-            if (result.widgets) {
-              result.widgets = result.widgets.map((w) => ({
+
+            const widgets = getWidgetChildren(result);
+            if (widgets) {
+              (result as WidgetDataContainer).widgets = widgets.map((w) => ({
                 ...w,
                 parameters: {
                   ...w.parameters,
                   widget: '1',
-                  containerId: this.containerid,
+                  containerId: this.containerid!,
                 },
               }));
             }

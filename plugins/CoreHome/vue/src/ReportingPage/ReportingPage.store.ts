@@ -14,13 +14,18 @@ import {
 import ReportingPagesStoreInstance, { Page } from '../ReportingPages/ReportingPages.store';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import { sortOrderables } from '../Orderable';
-import { GroupedWidgets, Widget } from '../Widget/Widgets.store';
+import {
+  getWidgetChildren,
+  GroupedWidgets,
+  Widget,
+  WidgetContainer,
+} from '../Widget/Widgets.store';
 
 interface ReportingMenuStoreState {
-  page?: Page|null;
+  page?: DeepReadonly<Page>;
 }
 
-function shouldBeRenderedWithFullWidth(widget: DeepReadonly<Widget>) {
+function shouldBeRenderedWithFullWidth(widget: Widget) {
   // rather controller logic
   if ((widget.isContainer && widget.layout && widget.layout === 'ByDimension')
     || widget.viewDataTable === 'bydimension'
@@ -38,17 +43,17 @@ function shouldBeRenderedWithFullWidth(widget: DeepReadonly<Widget>) {
       || widget.viewDataTable === 'graphEvolution');
 }
 
-function markWidgetsInFirstRowOfPage(widgets: DeepReadonly<(Widget|GroupedWidgets)[]>) {
+function markWidgetsInFirstRowOfPage(widgets: (Widget|GroupedWidgets)[]) {
   if (widgets && widgets[0]) {
-    const newWidgets: DeepReadonly<Widget|GroupedWidgets>[] = [...widgets];
+    const newWidgets: (Widget|GroupedWidgets)[] = [...widgets];
 
     const groupedWidgets = widgets[0] as GroupedWidgets;
     if (groupedWidgets.group) {
       newWidgets[0] = {
         ...newWidgets[0],
-        left: markWidgetsInFirstRowOfPage(readonly(groupedWidgets.left || [])),
-        right: markWidgetsInFirstRowOfPage(readonly(groupedWidgets.right || [])),
-      } as DeepReadonly<GroupedWidgets>;
+        left: markWidgetsInFirstRowOfPage(groupedWidgets.left || []),
+        right: markWidgetsInFirstRowOfPage(groupedWidgets.right || []),
+      } as GroupedWidgets;
     } else {
       newWidgets[0] = { ...newWidgets[0], isFirstInPage: true };
     }
@@ -60,9 +65,7 @@ function markWidgetsInFirstRowOfPage(widgets: DeepReadonly<(Widget|GroupedWidget
 }
 
 export class ReportingPageStore {
-  private privateState = reactive<ReportingMenuStoreState>({
-    page: null,
-  });
+  private privateState = reactive<ReportingMenuStoreState>({});
 
   private state = computed(() => readonly(this.privateState));
 
@@ -74,13 +77,13 @@ export class ReportingPageStore {
       return [];
     }
 
-    let widgets: DeepReadonly<Widget>[] = [];
+    let widgets: Widget[] = [];
     const reportsToIgnore: Record<string, unknown> = {};
 
-    const isIgnoredReport = (widget: DeepReadonly<Widget>) => widget.isReport
+    const isIgnoredReport = (widget: Widget) => widget.isReport
       && reportsToIgnore[`${widget.module}.${widget.action}`];
 
-    const getRelatedReports = (widget: DeepReadonly<Widget>) => {
+    const getRelatedReports = (widget: Widget) => {
       if (!widget.isReport) {
         return [];
       }
@@ -112,7 +115,7 @@ export class ReportingPageStore {
       return markWidgetsInFirstRowOfPage(widgets);
     }
 
-    let groupedWidgets: DeepReadonly<(Widget|GroupedWidgets)>[] = [];
+    let groupedWidgets: (Widget|GroupedWidgets)[] = [];
     for (let i = 0; i < widgets.length; i += 1) {
       const widget = widgets[i];
 
@@ -121,8 +124,8 @@ export class ReportingPageStore {
       ) {
         groupedWidgets.push({
           ...widget,
-          widgets: sortOrderables(widget.widgets),
-        });
+          widgets: sortOrderables(getWidgetChildren(widget)),
+        } as WidgetContainer);
       } else {
         let counter = 0;
         const left = [widget];
@@ -138,7 +141,7 @@ export class ReportingPageStore {
           }
         }
 
-        groupedWidgets.push({ group: true, left, right } as DeepReadonly<GroupedWidgets>);
+        groupedWidgets.push({ group: true, left, right } as GroupedWidgets);
       }
     }
 
@@ -159,7 +162,7 @@ export class ReportingPageStore {
   }
 
   resetPage(): void {
-    this.privateState.page = null;
+    this.privateState.page = undefined;
   }
 }
 

@@ -38,6 +38,8 @@ export default {
           window.$(sideNavActivator).show();
 
           const targetSelector = sideNavActivator.getAttribute('data-target');
+
+          // @ts-ignore
           window.$(`#${targetSelector}`).sidenav({
             closeOnClick: true,
           });
