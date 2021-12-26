@@ -11,7 +11,6 @@ import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
-import {DeepReadonly} from "vue";
 
 interface AjaxOptions {
   withTokenInUrl?: boolean;

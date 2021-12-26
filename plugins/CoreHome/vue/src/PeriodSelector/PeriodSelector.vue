@@ -237,7 +237,7 @@ export default defineComponent({
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
       periodValue: selectedPeriod,
       dateValue: null,
-      selectedPeriod: selectedPeriod,
+      selectedPeriod,
       startRangeDate: null,
       endRangeDate: null,
       isRangeValid: null,
@@ -326,7 +326,10 @@ export default defineComponent({
           ? `${this.startRangeDate},${this.endRangeDate}`
           : format(this.dateValue!);
 
-        const currentDateRange = Periods.parse(this.selectedPeriod as string, dateStr).getDateRange();
+        const currentDateRange = Periods.parse(
+          this.selectedPeriod as string,
+          dateStr,
+        ).getDateRange();
         currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
         currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
 

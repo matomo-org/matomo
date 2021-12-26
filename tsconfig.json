@@ -14,7 +14,8 @@
     "baseUrl": ".",
     "typeRoots": [
       "./node_modules/@types",
-      "./plugins/CoreVue/types/index.d.ts"
+      "./plugins/CoreVue/types/index.d.ts",
+      "./@types"
     ],
     "types": [
       "webpack-env",

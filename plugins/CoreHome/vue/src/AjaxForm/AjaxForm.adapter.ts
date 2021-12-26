@@ -6,7 +6,7 @@
  */
 
 import { DirectiveBinding, ref } from 'vue';
-import {IDirective, IDirectiveLinkFn, IParseService} from 'angular';
+import { IDirective, IDirectiveLinkFn, IParseService } from 'angular';
 import createVueApp from '../createVueApp';
 import AjaxForm from './AjaxForm.vue';
 

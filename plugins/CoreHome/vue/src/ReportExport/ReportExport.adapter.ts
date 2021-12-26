@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { IDirective, IScope, ITimeoutService } from 'angular';
+import { IDirective, ITimeoutService } from 'angular';
 import ReportExport from './ReportExport';
 
 export default function piwikReportExport($timeout: ITimeoutService): IDirective {

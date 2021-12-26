@@ -74,7 +74,6 @@ import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import useExternalPluginComponent from '../useExternalPluginComponent';
-import {EnrichedHeadline} from "../index";
 
 // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
 // CoreHome)
@@ -180,8 +179,13 @@ export default defineComponent({
         this.actualFeatureName = root.querySelector('.title')?.textContent;
       }
 
+      const currentPeriod = Periods.parse(
+        Matomo.period as string,
+        Matomo.currentDateString as string,
+      );
+
       if (this.reportGenerated
-        && Periods.parse(Matomo.period as string, Matomo.currentDateString as string).containsToday()
+        && currentPeriod.containsToday()
       ) {
         window.$(root.querySelector('.report-generated')!).tooltip({
           track: true,

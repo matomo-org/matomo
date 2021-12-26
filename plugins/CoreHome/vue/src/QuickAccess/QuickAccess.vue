@@ -96,7 +96,7 @@
 </template>
 
 <script lang="ts">
-import {DeepReadonly, defineComponent} from 'vue';
+import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';

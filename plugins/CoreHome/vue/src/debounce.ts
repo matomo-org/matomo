@@ -1,7 +1,3 @@
-interface Callable<This> {
-  (this: This, ...args: unknown[]): void;
-}
-
 const DEFAULT_DEBOUNCE_DELAY = 300;
 
 export default function debounce<This, Args extends unknown[]>(

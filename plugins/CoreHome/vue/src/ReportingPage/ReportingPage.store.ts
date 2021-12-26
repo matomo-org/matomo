@@ -115,7 +115,7 @@ export class ReportingPageStore {
       return markWidgetsInFirstRowOfPage(widgets);
     }
 
-    let groupedWidgets: (Widget|GroupedWidgets)[] = [];
+    const groupedWidgets: (Widget|GroupedWidgets)[] = [];
     for (let i = 0; i < widgets.length; i += 1) {
       const widget = widgets[i];
 

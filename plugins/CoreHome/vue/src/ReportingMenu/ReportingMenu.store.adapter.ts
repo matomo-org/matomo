@@ -8,7 +8,7 @@
 import ReportingMenuStoreInstance from './ReportingMenu.store';
 import { cloneThenApply } from '../createAngularJsAdapter';
 import { CategoryContainer } from './Category';
-import { SubcategoryContainer } from "./Subcategory";
+import { SubcategoryContainer } from './Subcategory';
 
 // removed boolean active property from objects in vue so we can keep the store immutable, but,
 // angularjs version should still have them

@@ -5,7 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import {reactive, computed, readonly, DeepReadonly} from 'vue';
+import {
+  reactive,
+  computed,
+  readonly,
+  DeepReadonly,
+} from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
