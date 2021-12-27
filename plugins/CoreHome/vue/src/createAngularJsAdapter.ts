@@ -6,13 +6,12 @@
  */
 
 import {
-  createApp,
   defineComponent,
   ref,
   ComponentPublicInstance,
 } from 'vue';
-import translate from './translate';
 import Matomo from './Matomo/Matomo';
+import createVueApp from './createVueApp';
 
 interface SingleScopeVarInfo<InjectTypes> {
   vue?: string;
@@ -120,8 +119,8 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     transcludeCounter += 1;
   }
 
-  const vueToAngular = {};
-  const angularJsScope = {};
+  const vueToAngular: Record<string, string> = {};
+  const angularJsScope: Record<string, string> = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
     if (!info.vue) {
       info.vue = scopeVarName;
@@ -173,7 +172,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             rootVueTemplate += '</root-component>';
 
             // build the vue app
-            const app = createApp({
+            const app = createVueApp({
               template: rootVueTemplate,
               data() {
                 const initialData = {};
@@ -230,8 +229,6 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                 },
               },
             });
-            app.config.globalProperties.$sanitize = window.vueSanitize;
-            app.config.globalProperties.translate = translate;
             app.component('root-component', component);
 
             // mount the app
