@@ -80,10 +80,31 @@ import {
   NotificationsStore,
   translate,
 } from 'CoreHome';
+import KeyPressEvent = JQuery.KeyPressEvent;
 import Field from '../Field/Field.vue';
 import PluginSetting from './PluginSetting.vue';
 
 const { $ } = window;
+
+interface Setting {
+  name: string;
+  value: unknown;
+  introduction?: string;
+}
+
+interface SettingsForSinglePlugin {
+  pluginName: string;
+  settings: Setting[];
+}
+
+interface PluginSettingsState {
+  isLoading: boolean;
+  isSaving: Record<string, boolean>;
+  passwordConfirmation: string;
+  settingsToSave: null|string; // name of plugin whose settings to save
+  settingsPerPlugin: SettingsForSinglePlugin[];
+  settingValues: Record<string, unknown>;
+}
 
 export default defineComponent({
   props: {
@@ -94,7 +115,7 @@ export default defineComponent({
     Field,
     PluginSetting,
   },
-  data() {
+  data(): PluginSettingsState {
     return {
       isLoading: true,
       isSaving: {},
@@ -105,7 +126,9 @@ export default defineComponent({
     };
   },
   created() {
-    AjaxHelper.fetch({ method: this.apiMethod }).then((settingsPerPlugin) => {
+    AjaxHelper.fetch({
+      method: this.apiMethod,
+    }).then((settingsPerPlugin: SettingsForSinglePlugin[]) => {
       this.isLoading = false;
       this.settingsPerPlugin = settingsPerPlugin;
 
@@ -141,7 +164,8 @@ export default defineComponent({
         return;
       }
 
-      this.settingsPerPlugin.forEach((settingsForPlugin) => {
+      const settingsPerPlugin = this.settingsPerPlugin as SettingsForSinglePlugin[];
+      settingsPerPlugin.forEach((settingsForPlugin) => {
         const { pluginName, settings } = settingsForPlugin;
         if (!pluginName) {
           return;
@@ -165,11 +189,11 @@ export default defineComponent({
     },
     showPasswordConfirmModal(requestedPlugin: string) {
       this.settingsToSave = requestedPlugin;
-      const { root } = this.$refs;
+      const root = this.$refs.root as HTMLElement;
       const $root = $(root);
-      const onEnter = (event) => {
+      const onEnter = (event: KeyPressEvent) => {
         const keycode = event.keyCode ? event.keyCode : event.which;
-        if (keycode === '13') {
+        if (keycode === 13) {
           $root.find('.confirm-password-modal').modal('close');
           this.save(requestedPlugin);
         }
@@ -212,7 +236,7 @@ export default defineComponent({
       this.settingsToSave = null;
     },
     getValuesForPlugin(requestedPlugin: string) {
-      const values = {};
+      const values: Record<string, Setting[]> = {};
       if (!values[requestedPlugin]) {
         values[requestedPlugin] = [];
       }

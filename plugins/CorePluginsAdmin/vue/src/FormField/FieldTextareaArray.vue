@@ -51,7 +51,7 @@ export default defineComponent({
     this.onKeydown = debounce(this.onKeydown.bind(this), 50);
   },
   methods: {
-    onKeydown(event) {
+    onKeydown(event: KeyboardEvent) {
       const value = (event.target as HTMLTextAreaElement).value.split(SEPARATOR);
       this.$emit('update:modelValue', value);
     },

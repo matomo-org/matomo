@@ -62,14 +62,14 @@ import { defineComponent } from 'vue';
 
 interface OptionGroup {
   group?: string;
-  key: string;
+  key: string|number;
   value: unknown;
 }
 
 function initMaterialSelect(
-  select: HTMLSelectElement,
-  modelValue: unknown[],
-  placeholder: string,
+  select: HTMLSelectElement|undefined|null,
+  modelValue: unknown|unknown[],
+  placeholder: string|undefined,
   uiControlOptions = {},
   multiple: boolean,
 ) {
@@ -82,8 +82,8 @@ function initMaterialSelect(
   // reset selected since materialize removes them
   Array.from(select.options).forEach((opt) => {
     if (multiple) {
-      opt.selected = modelValue
-        && modelValue.indexOf(opt.value.replace(/^string:/, '')) !== -1;
+      opt.selected = !!modelValue
+        && (modelValue as unknown[]).indexOf(opt.value.replace(/^string:/, '')) !== -1;
     } else {
       opt.selected = `string:${modelValue}` === opt.value;
     }
@@ -98,14 +98,16 @@ function initMaterialSelect(
   }
 }
 
-function hasGroupedValues(availableValues) {
+function hasGroupedValues(availableValues: unknown) {
   if (Array.isArray(availableValues)
     || !(typeof availableValues === 'object')
   ) {
     return false;
   }
 
-  return Object.values(availableValues).some((v) => typeof v === 'object');
+  return Object.values(availableValues as Record<string, unknown>).some(
+    (v) => typeof v === 'object',
+  );
 }
 
 function hasOption(flatValues: OptionGroup[], key: string) {
@@ -113,9 +115,9 @@ function hasOption(flatValues: OptionGroup[], key: string) {
 }
 
 export function getAvailableOptions(
-  givenAvailableValues?: Record<string, unknown>|null,
+  givenAvailableValues: Record<string, unknown>|null,
   type: string,
-  uiControlAttributes: Record<string, unknown>,
+  uiControlAttributes?: Record<string, unknown>,
 ): OptionGroup[] {
   if (!givenAvailableValues) {
     return [];
@@ -129,15 +131,15 @@ export function getAvailableOptions(
     hasGroups = false;
   }
 
-  const flatValues = [];
+  const flatValues: OptionGroup[] = [];
   Object.entries(availableValues).forEach(([group, values]) => {
     Object.entries(values).forEach(([valueObjKey, value]) => {
-      if (typeof value === 'object' && typeof value.key !== 'undefined') {
-        flatValues.push(value);
+      if (value && typeof value === 'object' && typeof (value as OptionGroup).key !== 'undefined') {
+        flatValues.push(value as OptionGroup);
         return;
       }
 
-      let key: number = valueObjKey as number;
+      let key: number|string = valueObjKey;
       if (type === 'integer' && typeof valueObjKey === 'string') {
         key = parseInt(valueObjKey, 10);
       }
@@ -147,7 +149,7 @@ export function getAvailableOptions(
   });
 
   // for selects w/ a placeholder, add an option to unset the select
-  if (uiControlAttributes.placeholder
+  if (uiControlAttributes?.placeholder
     && !hasOption(flatValues, '')
   ) {
     return [{ key: '', value: '' }, ...flatValues];
@@ -156,9 +158,9 @@ export function getAvailableOptions(
   return flatValues;
 }
 
-function handleOldAngularJsValues(value: unknown) {
+function handleOldAngularJsValues<T>(value: T): T {
   if (typeof value === 'string') {
-    return value.replace(/^string:/, '');
+    return value.replace(/^string:/, '') as unknown as T;
   }
   return value;
 }
@@ -176,36 +178,39 @@ export default defineComponent({
   inheritAttrs: false,
   emits: ['update:modelValue'],
   computed: {
-    options() {
+    options(): OptionGroup[]|undefined {
       // if modelValue is empty, but there is no empty value allowed in availableOptions,
       // add one temporarily until something is set
-      if (this.availableOptions
-        && !hasOption(this.availableOptions, '')
+      const availableOptions = this.availableOptions as OptionGroup[]|undefined;
+      if (availableOptions
+        && !hasOption(availableOptions, '')
         && (typeof this.modelValue === 'undefined'
           || this.modelValue === null
           || this.modelValue === '')
       ) {
         return [
           { key: '', value: this.modelValue, group: this.hasGroups ? '' : undefined },
-          ...this.availableOptions,
+          ...availableOptions,
         ];
       }
-      return this.availableOptions;
+      return availableOptions;
     },
     hasGroups() {
-      const { availableOptions } = this;
+      const availableOptions = this.availableOptions as OptionGroup[]|undefined;
       return availableOptions && availableOptions[0] && typeof availableOptions[0].group !== 'undefined';
     },
     groupedOptions() {
-      if (!this.hasGroups) {
+      const { options } = this;
+
+      if (!this.hasGroups || !options) {
         return null;
       }
 
-      const { options } = this;
-      const groups = {};
-      options.forEach((entry) => {
-        groups[entry.group] = groups[entry.group] || [];
-        groups[entry.group].push(entry);
+      const groups: Record<string, OptionGroup[]> = {};
+      (options as OptionGroup[]).forEach((entry) => {
+        const group = entry.group!;
+        groups[group] = groups[group] || [];
+        groups[group].push(entry);
       });
 
       const result = Object.entries(groups);
@@ -230,7 +235,7 @@ export default defineComponent({
       let newValue: string|number|(string|number)[];
       if (this.multiple) {
         newValue = Array.from(element.options).filter((e) => e.selected).map((e) => e.value);
-        newValue = newValue.map(handleOldAngularJsValues);
+        newValue = newValue.map((x) => handleOldAngularJsValues(x));
       } else {
         newValue = element.value;
         newValue = handleOldAngularJsValues(newValue);
@@ -240,26 +245,26 @@ export default defineComponent({
     },
   },
   watch: {
-    modelValue(newVal) {
-      window.$(this.$refs.select).val(newVal);
+    modelValue(newVal: string|number|string[]) {
+      window.$(this.$refs.select as HTMLSelectElement).val(newVal);
       setTimeout(() => {
         initMaterialSelect(
-          this.$refs.select,
+          this.$refs.select as HTMLSelectElement,
           newVal,
-          this.uiControlAttributes.placeholder,
+          this.uiControlAttributes?.placeholder,
           this.uiControlOptions,
           this.multiple,
         );
       });
     },
     'uiControlAttributes.disabled': {
-      handler(newVal, oldVal) {
+      handler(newVal?: boolean, oldVal?: boolean) {
         setTimeout(() => {
           if (newVal !== oldVal) {
             initMaterialSelect(
-              this.$refs.select,
+              this.$refs.select as HTMLSelectElement,
               this.modelValue,
-              this.uiControlAttributes.placeholder,
+              this.uiControlAttributes?.placeholder,
               this.uiControlOptions,
               this.multiple,
             );
@@ -267,13 +272,13 @@ export default defineComponent({
         });
       },
     },
-    availableOptions(newVal, oldVal) {
+    availableOptions(newVal?: OptionGroup[], oldVal?: OptionGroup[]) {
       if (newVal !== oldVal) {
         setTimeout(() => {
           initMaterialSelect(
-            this.$refs.select,
+            this.$refs.select as HTMLSelectElement,
             this.modelValue,
-            this.uiControlAttributes.placeholder,
+            this.uiControlAttributes?.placeholder,
             this.uiControlOptions,
             this.multiple,
           );
@@ -284,9 +289,9 @@ export default defineComponent({
   mounted() {
     setTimeout(() => {
       initMaterialSelect(
-        this.$refs.select,
+        this.$refs.select as HTMLSelectElement,
         this.modelValue,
-        this.uiControlAttributes.placeholder,
+        this.uiControlAttributes?.placeholder,
         this.uiControlOptions,
         this.multiple,
       );

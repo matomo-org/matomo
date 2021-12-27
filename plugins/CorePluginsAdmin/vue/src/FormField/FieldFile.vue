@@ -33,11 +33,11 @@ export default defineComponent({
   inheritAttrs: false,
   emits: ['update:modelValue'],
   setup(props) {
-    const fileInput = ref<HTMLInputElement>(null);
+    const fileInput = ref<HTMLInputElement|null>(null);
 
     watch(() => props.modelValue, (v) => {
       if (v === '') {
-        const fileInputElement = fileInput.value;
+        const fileInputElement = fileInput.value!;
         fileInputElement.value = '';
       }
     });
@@ -48,7 +48,12 @@ export default defineComponent({
   },
   methods: {
     onChange(event: Event) {
-      const file = (event.target as HTMLInputElement).files.item(0);
+      const { files } = event.target as HTMLInputElement;
+      if (!files) {
+        return;
+      }
+
+      const file = files.item(0);
       this.$emit('update:modelValue', file);
     },
   },

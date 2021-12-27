@@ -334,7 +334,7 @@ export function transformAngularJsBoolAttr(v: unknown): boolean|undefined {
   return !!v && v as number > 0 && v !== '0';
 }
 
-export function transformAngularJsIntAttr(v: string): number|undefined|null {
+export function transformAngularJsIntAttr(v: unknown): number|undefined|null {
   if (typeof v === 'undefined') {
     return undefined;
   }
@@ -343,7 +343,7 @@ export function transformAngularJsIntAttr(v: string): number|undefined|null {
     return null;
   }
 
-  return parseInt(v, 10);
+  return parseInt(v as string, 10);
 }
 
 // utility function for service adapters

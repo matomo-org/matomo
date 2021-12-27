@@ -141,6 +141,7 @@ declare global {
     config: Record<string, string|number|string[]>;
     hasSuperUserAccess: boolean;
     language: string;
+    cacheBuster: string;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;

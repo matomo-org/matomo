@@ -130,7 +130,7 @@ import translate from '../translate';
 import SitesStore, { Site } from './SitesStore';
 import debounce from '../debounce';
 
-interface SiteRef {
+export interface SiteRef {
   id: string|number;
   name: string;
 }

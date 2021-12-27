@@ -14,8 +14,7 @@
     "baseUrl": ".",
     "typeRoots": [
       "./node_modules/@types",
-      "./plugins/CoreVue/types/index.d.ts",
-      "./@types"
+      "./plugins/CoreVue/types/index.d.ts"
     ],
     "types": [
       "webpack-env",
@@ -26,9 +25,7 @@
       "mousetrap"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "*": ["@types/*", "*"]
     },
     "lib": [
       "esnext",
