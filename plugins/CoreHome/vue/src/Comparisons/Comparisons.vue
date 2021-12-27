@@ -94,13 +94,17 @@ interface ProcessedReportResponse {
   reportData: ProcessedReportData;
 }
 
+interface ComparisonState {
+  comparisonTooltips: Record<string, Record<string, string>>|null;
+}
+
 export default defineComponent({
   props: {
   },
   directives: {
     Tooltips,
   },
-  data() {
+  data(): ComparisonState {
     return {
       comparisonTooltips: null,
     };
@@ -113,8 +117,11 @@ export default defineComponent({
     const periodComparisons = computed(() => ComparisonsStoreInstance.getPeriodComparisons());
     const getSeriesColor = ComparisonsStoreInstance.getSeriesColor.bind(ComparisonsStoreInstance);
 
-    function transformTooltipContent() {
+    function transformTooltipContent(this: HTMLElement) {
       const title = window.$(this).attr('title');
+      if (!title) {
+        return title;
+      }
       return window.vueSanitize(title.replace(/\n/g, '<br />'));
     }
 
@@ -132,7 +139,7 @@ export default defineComponent({
     },
     removeSegmentComparison(index: number) {
       // otherwise the tooltip will be stuck on the screen
-      window.$(this.$refs.root).tooltip('destroy');
+      window.$(this.$refs.root as HTMLElement).tooltip('destroy');
       ComparisonsStoreInstance.removeSegmentComparison(index);
     },
     getComparisonPeriodType(comparison: AnyComparison) {
@@ -186,11 +193,11 @@ export default defineComponent({
       }).then((report) => {
         this.comparisonTooltips = {};
         periodComparisons.forEach((periodComp) => {
-          this.comparisonTooltips[periodComp.index] = {};
+          this.comparisonTooltips![periodComp.index] = {};
 
           segmentComparisons.forEach((segmentComp) => {
             const tooltip = this.generateComparisonTooltip(report, periodComp, segmentComp);
-            this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;
+            this.comparisonTooltips![periodComp.index][segmentComp.index] = tooltip;
           });
         });
       });

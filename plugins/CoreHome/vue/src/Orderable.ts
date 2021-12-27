@@ -9,7 +9,7 @@ export interface Orderable {
   order: number;
 }
 
-export function sortOrderables<T extends Orderable>(menu?: T[]): T[] {
+export function sortOrderables<T extends Orderable>(menu?: ReadonlyArray<T>): T[] {
   const result = [...(menu || [])];
   result.sort((lhs, rhs) => {
     if (lhs.order < rhs.order) {

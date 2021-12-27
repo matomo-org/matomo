@@ -20,4 +20,4 @@ function reportingPageModelAdapter() {
   };
 }
 
-angular.module('piwikApp.service').factory('reportingPageModel', reportingPageModelAdapter);
+window.angular.module('piwikApp.service').factory('reportingPageModel', reportingPageModelAdapter);

@@ -85,5 +85,28 @@ module.exports = {
 
     // disable asset size warnings
     config.performance.hints(false);
+
+    // override config so we can generate type definitions for plugin libraries
+    // see https://github.com/vuejs/vue-cli/issues/6543
+    if (process.env.NODE_ENV !== 'development') {
+      config.module
+        .rule('ts')
+        .uses
+        .delete('thread-loader');
+
+      config.module
+        .rule('ts')
+        .use('ts-loader')
+        .tap((options) => {
+          options.transpileOnly = false;
+          options.happyPackMode = false;
+          options.compilerOptions = {
+            declaration: true,
+            noEmit: false,
+            outDir: `@types/${process.env.MATOMO_CURRENT_PLUGIN}`,
+          };
+          return options;
+        });
+    }
   },
 };

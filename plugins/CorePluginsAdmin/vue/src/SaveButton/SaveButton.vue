@@ -34,8 +34,8 @@ export default defineComponent({
   },
   emits: ['confirm'],
   methods: {
-    onConfirm($event) {
-      this.$emit('confirm', $event);
+    onConfirm(event: MouseEvent) {
+      this.$emit('confirm', event);
     },
   },
 });

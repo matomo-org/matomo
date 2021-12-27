@@ -5,6 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import ClickEvent = JQuery.ClickEvent;
+
 const { $ } = window;
 
 function getCurrentFilterOrigin(element: JQuery) {
@@ -15,7 +17,7 @@ function getCurrentFilterStatus(element: JQuery) {
   return element.find('.status a.active').data('filter-status');
 }
 
-function getMatchingNodes(filterOrigin, filterStatus) {
+function getMatchingNodes(filterOrigin: string, filterStatus: string): JQuery {
   let query = '#plugins tr';
 
   if (filterOrigin === 'all') {
@@ -35,9 +37,9 @@ function getMatchingNodes(filterOrigin, filterStatus) {
 
 function updateNumberOfMatchingPluginsInFilter(
   element: JQuery,
-  selectorFilterToUpdate,
-  filterOrigin,
-  filterStatus,
+  selectorFilterToUpdate: string,
+  filterOrigin: string,
+  filterStatus: string,
 ) {
   const numMatchingNodes = getMatchingNodes(filterOrigin, filterStatus).length;
   const updatedCounterText = ` (${numMatchingNodes})`;
@@ -49,14 +51,49 @@ function updateAllNumbersOfMatchingPluginsInFilter(element: JQuery) {
   const filterOrigin = getCurrentFilterOrigin(element);
   const filterStatus = getCurrentFilterStatus(element);
 
-  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="all"]', filterOrigin, 'all');
-  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="active"]', filterOrigin, 'active');
-  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-status="inactive"]', filterOrigin, 'inactive');
+  updateNumberOfMatchingPluginsInFilter(
+    element,
+    '[data-filter-status="all"]',
+    filterOrigin,
+    'all',
+  );
+  updateNumberOfMatchingPluginsInFilter(
+    element,
+    '[data-filter-status="active"]',
+    filterOrigin,
+    'active',
+  );
+  updateNumberOfMatchingPluginsInFilter(
+    element,
+    '[data-filter-status="inactive"]',
+    filterOrigin,
+    'inactive',
+  );
 
-  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="all"]', 'all', filterStatus);
-  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="core"]', 'core', filterStatus);
-  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="official"]', 'official', filterStatus);
-  updateNumberOfMatchingPluginsInFilter(element, '[data-filter-origin="thirdparty"]', 'thirdparty', filterStatus);
+  updateNumberOfMatchingPluginsInFilter(
+    element,
+    '[data-filter-origin="all"]',
+    'all',
+    filterStatus,
+  );
+  updateNumberOfMatchingPluginsInFilter(
+    element,
+    '[data-filter-origin="core"]',
+    'core',
+    filterStatus,
+  );
+  updateNumberOfMatchingPluginsInFilter(
+    element,
+    '[data-filter-origin="official"]',
+    'official',
+    filterStatus,
+  );
+  updateNumberOfMatchingPluginsInFilter(
+    element,
+    '[data-filter-origin="thirdparty"]',
+    'thirdparty',
+    filterStatus,
+  );
 }
 
 function filterPlugins(element: JQuery) {
@@ -71,20 +108,20 @@ function filterPlugins(element: JQuery) {
   updateAllNumbersOfMatchingPluginsInFilter(element);
 }
 
-function onClickStatus(element: JQuery, event) {
+function onClickStatus(element: JQuery, event: ClickEvent) {
   event.preventDefault();
 
-  $(event.target).siblings().removeClass('active');
-  $(event.target).addClass('active');
+  $(event.target as HTMLElement).siblings().removeClass('active');
+  $(event.target as HTMLElement).addClass('active');
 
   filterPlugins(element);
 }
 
-function onClickOrigin(element: JQuery, event) {
+function onClickOrigin(element: JQuery, event: ClickEvent) {
   event.preventDefault();
 
-  $(event.target).siblings().removeClass('active');
-  $(event.target).addClass('active');
+  $(event.target as HTMLElement).siblings().removeClass('active');
+  $(event.target as HTMLElement).addClass('active');
 
   filterPlugins(element);
 }

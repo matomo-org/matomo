@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { IRootScopeService } from 'angular';
+import { IRootScopeService, IScope } from 'angular';
 import { defineComponent } from 'vue';
 import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
 import translate from '../translate';
@@ -38,6 +38,14 @@ import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { NotificationsStore } from '../Notification';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import ComparisonsStoreInstance from '../Comparisons/Comparisons.store.instance';
+
+interface WidgetLoaderState {
+  loading: boolean;
+  loadingFailed: boolean;
+  changeCounter: number;
+  currentScope: null|IScope;
+  lastWidgetAbortController: null|AbortController;
+}
 
 /**
  * Loads any custom widget or URL based on the given parameters.
@@ -59,16 +67,17 @@ export default defineComponent({
   components: {
     ActivityIndicator,
   },
-  data() {
+  data(): WidgetLoaderState {
     return {
       loading: false,
-      loadingFailed: '',
+      loadingFailed: false,
       changeCounter: 0,
       currentScope: null,
+      lastWidgetAbortController: null,
     };
   },
   watch: {
-    widgetParams(parameters: Record<string, unknown>) {
+    widgetParams(parameters: QueryParameters) {
       if (parameters) {
         this.loadWidgetUrl(parameters, this.changeCounter += 1);
       }
@@ -93,7 +102,7 @@ export default defineComponent({
   },
   mounted() {
     if (this.widgetParams) {
-      this.loadWidgetUrl(this.widgetParams, this.changeCounter += 1);
+      this.loadWidgetUrl(this.widgetParams as QueryParameters, this.changeCounter += 1);
     }
   },
   unmounted() {
@@ -107,7 +116,7 @@ export default defineComponent({
       }
     },
     cleanupLastWidgetContent() {
-      const { widgetContent } = this.$refs;
+      const widgetContent = this.$refs.widgetContent as HTMLElement;
       if (widgetContent) {
         widgetContent.innerHTML = '';
       }
@@ -115,10 +124,10 @@ export default defineComponent({
         this.currentScope.$destroy();
       }
     },
-    getWidgetUrl(parameters?: Record<string, unknown>): Record<string, unknown> {
+    getWidgetUrl(parameters?: QueryParameters): QueryParameters {
       const urlParams = MatomoUrl.parsed.value;
 
-      let fullParameters: Record<string, unknown> = { ...(parameters || {}) };
+      let fullParameters: QueryParameters = { ...(parameters || {}) };
 
       const paramsToForward = Object.keys({
         ...MatomoUrl.hashParsed.value,
@@ -165,7 +174,7 @@ export default defineComponent({
 
       return fullParameters;
     },
-    loadWidgetUrl(parameters: Record<string, unknown>, thisChangeId: number) {
+    loadWidgetUrl(parameters: QueryParameters, thisChangeId: number) {
       this.loading = true;
 
       this.abortHttpRequestIfNeeded();
@@ -189,7 +198,7 @@ export default defineComponent({
         this.loading = false;
         this.loadingFailed = false;
 
-        const { widgetContent }: { widgetContent: HTMLElement } = this.$refs;
+        const widgetContent = this.$refs.widgetContent as HTMLElement;
         window.$(widgetContent).html(response);
         const $content = window.$(widgetContent).children();
 

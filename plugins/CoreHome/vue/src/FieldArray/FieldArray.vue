@@ -64,20 +64,20 @@ export default defineComponent({
     this.checkEmptyModelValue(this.modelValue);
   },
   methods: {
-    checkEmptyModelValue(newValue) {
+    checkEmptyModelValue(newValue?: unknown[]) {
       // make sure there is always an empty new value
       if (!newValue || !newValue.length || newValue.slice(-1)[0] !== '') {
         this.$emit('update:modelValue', [...(newValue || []), '']);
       }
     },
     onEntryChange(newValue: unknown, index: number) {
-      const newArrayValue = [...this.modelValue];
+      const newArrayValue = [...(this.modelValue || [])];
       newArrayValue[index] = newValue;
 
       this.$emit('update:modelValue', newArrayValue);
     },
-    removeEntry(index) {
-      if (index > -1) {
+    removeEntry(index: number) {
+      if (index > -1 && this.modelValue) {
         const newValue = this.modelValue.filter((x, i) => i !== index);
         this.$emit('update:modelValue', newValue);
       }

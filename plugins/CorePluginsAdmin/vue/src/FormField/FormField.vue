@@ -71,6 +71,7 @@ import {
   onMounted,
   ref,
   watch,
+  Component,
 } from 'vue';
 import FieldCheckbox from './FieldCheckbox.vue';
 import FieldCheckboxArray from './FieldCheckboxArray.vue';
@@ -95,7 +96,7 @@ import { processCheckboxAndRadioAvailableValues } from './utilities';
 
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
-const CONTROL_TO_COMPONENT_MAP = {
+const CONTROL_TO_COMPONENT_MAP: Record<string, string> = {
   checkbox: 'FieldCheckbox',
   'expandable-select': 'FieldExpandableSelect',
   'field-array': 'FieldFieldArray',
@@ -111,7 +112,13 @@ const CONTROL_TO_COMPONENT_MAP = {
   textarea: 'FieldTextarea',
 };
 
-const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
+type ProcessAvailableOptionsFn = (
+  availableValues: Record<string, unknown>|null,
+  type: string,
+  uiControlAttributes?: Record<string, unknown>,
+) => unknown[];
+
+const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR: Record<string, ProcessAvailableOptionsFn> = {
   FieldSelect: getSelectAvailableOptions,
   FieldCheckboxArray: processCheckboxAndRadioAvailableValues,
   FieldRadio: processCheckboxAndRadioAvailableValues,
@@ -121,6 +128,20 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
 interface Setting {
   name: string;
   value: unknown;
+}
+
+interface FormField {
+  availableValues: Record<string, unknown>;
+  type: string;
+  uiControlAttributes?: Record<string, unknown>;
+  defaultValue: unknown;
+  uiControl: string;
+  component: Component;
+}
+
+interface OptionLike {
+  key?: string|number;
+  value?: unknown;
 }
 
 export default defineComponent({
@@ -151,19 +172,23 @@ export default defineComponent({
     FieldTextareaArray,
   },
   setup(props) {
-    const inlineHelpNode = ref(null);
+    const inlineHelpNode = ref<HTMLElement|null>(null);
 
-    const setInlineHelp = (newVal) => {
-      let toAppend: HTMLElement|string;
+    const setInlineHelp = (newVal: string|HTMLElement|JQuery) => {
+      let toAppend: HTMLElement|JQuery|string;
 
-      if (!newVal) {
+      if (!newVal || !inlineHelpNode.value) {
         return;
       }
 
-      if (typeof newVal === 'string' && newVal && newVal.indexOf('#') === 0) {
-        toAppend = window.$(newVal);
+      if (typeof newVal === 'string') {
+        if (newVal.indexOf('#') === 0) {
+          toAppend = window.$(newVal);
+        } else {
+          toAppend = window.vueSanitize(newVal);
+        }
       } else {
-        toAppend = window.vueSanitize(newVal);
+        toAppend = newVal;
       }
 
       window.$(inlineHelpNode.value).html('').append(toAppend);
@@ -180,12 +205,14 @@ export default defineComponent({
     };
   },
   computed: {
-    childComponent() {
-      if (this.formField.component) {
-        return this.formField.component;
+    childComponent(): string|Component {
+      const formField = this.formField as FormField;
+
+      if (formField.component) {
+        return formField.component;
       }
 
-      const { uiControl } = this.formField;
+      const { uiControl } = formField;
 
       let control = CONTROL_TO_COMPONENT_MAP[uiControl];
       if (TEXT_CONTROLS.indexOf(uiControl) !== -1) {
@@ -221,7 +248,7 @@ export default defineComponent({
         return true;
       }
 
-      const values = {};
+      const values: Record<string, unknown> = {};
       Object.values((this.allSettings || {}) as Record<string, Setting>).forEach((setting) => {
         if (setting.value === '0') {
           values[setting.name] = 0;
@@ -233,7 +260,7 @@ export default defineComponent({
       return this.formField.condition(values);
     },
     processedModelValue() {
-      const field = this.formField;
+      const field = this.formField as FormField;
 
       // convert boolean values since angular 1.6 uses strict equals when determining if a model
       // value matches the ng-value of an input.
@@ -252,15 +279,20 @@ export default defineComponent({
 
       return this.modelValue;
     },
-    defaultValue() {
-      let { defaultValue } = this.formField;
+    defaultValue(): string {
+      const { defaultValue } = this.formField as FormField;
       if (Array.isArray(defaultValue)) {
-        defaultValue = defaultValue.join(',');
+        return (defaultValue as unknown[]).join(',');
       }
-      return defaultValue;
+      return defaultValue as string;
     },
     availableOptions() {
-      const { childComponent, formField } = this;
+      const { childComponent } = this;
+      if (typeof childComponent !== 'string') {
+        return null;
+      }
+
+      const formField = this.formField as FormField;
 
       if (!formField.availableValues
         || !CONTROL_TO_AVAILABLE_OPTION_PROCESSOR[childComponent]
@@ -275,7 +307,8 @@ export default defineComponent({
       );
     },
     defaultValuePretty() {
-      let { defaultValue } = this.formField;
+      const formField = this.formField as FormField;
+      let { defaultValue } = formField;
       const { availableOptions } = this;
 
       if (typeof defaultValue === 'string' && defaultValue) {
@@ -297,18 +330,20 @@ export default defineComponent({
           return '';
         }
 
-        return defaultValue ? defaultValue.toString() : '';
+        return defaultValue ? `${defaultValue}` : '';
       }
 
-      const prettyValues = [];
+      const prettyValues: unknown[] = [];
 
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue];
       }
 
       (availableOptions || []).forEach((value) => {
-        if (defaultValue.indexOf(value.key) !== -1 && typeof value.value !== 'undefined') {
-          prettyValues.push(value.value);
+        if (typeof (value as OptionLike).value !== 'undefined'
+          && (defaultValue as unknown[]).indexOf((value as OptionLike).key) !== -1
+        ) {
+          prettyValues.push((value as OptionLike).value);
         }
       });
 
