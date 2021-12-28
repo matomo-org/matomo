@@ -1,0 +1,28 @@
+<div piwik-content-intro>
+    <h2>{{ 'CoreAdminHome_WhatIsNewTitle'|translate|e('html_attr') }}</h2>
+</div>
+<div class="whatisnew">
+
+    {% for change in changes %}
+
+        <div class="card">
+            <div class="card-content">
+                <span style="float: left; font-size:32px; color:#3450A3; margin-right:10px" class="icon-new_releases"></span>
+                {% if change.plugin_name == "CoreHome" %}
+                    <h2 class="card-title">{{ change.title }}</h2>
+                {% else %}
+                    <h2 class="card-title">{{ change.plugin_name }} - {{ change.title }}</h2>
+                {% endif %}
+                {{ change.description | raw }}
+                {% if not change.link is empty and not change.link_name is empty %}
+                <p>
+                    <br>
+                    <a class="change-link" href="{{ change.link|e('html_attr') }}" target="_blank" rel="noopener">{{ change.link_name }}</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+    {% endfor %}
+
+</div>

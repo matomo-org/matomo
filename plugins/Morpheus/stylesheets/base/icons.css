@@ -394,3 +394,9 @@
 .icon-heart:before{
   content: "\e9da";
 }
+.icon-notifications_on:before {
+  content: "\e903";
+}
+.icon-new_releases:before {
+  content: "\e902";
+}
