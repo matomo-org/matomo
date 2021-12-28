@@ -1,6 +1,7 @@
 {
     "Live": {
         "AveragePageGenerationTime": "Hver side tok i gjennomsnitt %1$s å laste for denne brukeren.",
+        "CalculatedOverNPageViews": "Beregnet ved bruk av besøkets siste %1$s sidevisninger.",
         "ClickToViewAllActions": "Klikk for å vise alle handlinger i denne gruppen i detalj",
         "ClickToViewMoreAboutVisit": "Klikk for å se mer informasjon om dette besøket",
         "ConvertedNGoals": "Konverterte %s mål",

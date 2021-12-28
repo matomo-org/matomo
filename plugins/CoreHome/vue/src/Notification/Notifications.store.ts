@@ -9,12 +9,11 @@ import {
   DeepReadonly,
   reactive,
   createVNode,
-  createApp,
   readonly,
 } from 'vue';
 import NotificationComponent from './Notification.vue';
-import translate from '../translate';
 import Matomo from '../Matomo/Matomo';
+import createVueApp from '../createVueApp';
 
 interface Notification {
   /**
@@ -142,14 +141,14 @@ class NotificationsStore {
   parseNotificationDivs(): void {
     const $notificationNodes = $('[data-role="notification"]');
 
-    const notificationsToShow = [];
+    const notificationsToShow: Notification[] = [];
     $notificationNodes.each((index, notificationNode) => {
       const $notificationNode = $(notificationNode);
       const attributes = $notificationNode.data();
       const message = $notificationNode.html();
 
       if (message) {
-        notificationsToShow.push({ ...attributes, message, animate: false });
+        notificationsToShow.push({ ...attributes, message, animate: false } as Notification);
       }
 
       $notificationNodes.remove();
@@ -236,7 +235,7 @@ class NotificationsStore {
     toastElement.style.zIndex = '1000';
     document.body.appendChild(toastElement);
 
-    const app = createApp({
+    const app = createVueApp({
       render: () => createVNode(NotificationComponent, {
         ...notification,
         notificationId: notification.id,
@@ -246,8 +245,6 @@ class NotificationsStore {
         },
       }),
     });
-    app.config.globalProperties.$sanitize = window.vueSanitize;
-    app.config.globalProperties.translate = translate;
     app.mount(toastElement);
   }
 
@@ -264,12 +261,10 @@ class NotificationsStore {
     // to be dynamically initialized.
     const NotificationGroup = (window as any).CoreHome.NotificationGroup; // eslint-disable-line
 
-    const app = createApp({
+    const app = createVueApp({
       template: '<NotificationGroup :group="group"></NotificationGroup>',
       data: () => ({ group }),
     });
-    app.config.globalProperties.$sanitize = window.vueSanitize;
-    app.config.globalProperties.translate = translate;
     app.component('NotificationGroup', NotificationGroup);
     app.mount($container[0]);
   }

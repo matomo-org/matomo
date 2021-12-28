@@ -17,10 +17,6 @@ declare global {
     wrapper?: (evt: Event) => void;
   }
 
-  interface AbortablePromise<T = any> extends Promise<T> {
-    abort(): void;
-  }
-
   /**
    * global ajax queue
    *
@@ -53,6 +49,9 @@ declare global {
 
   interface PiwikPopoverGlobal {
     isOpen();
+    setTitle(title: string): void;
+    setContent(html: string|HTMLElement|JQuery|JQLite): void;
+    showLoading(loadingName: string, popoverSubject: string, height: number, dialogClass: string): JQuery;
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;
@@ -150,6 +149,10 @@ declare global {
 
   let widgetsHelper: WidgetsHelper;
 
+  interface AnchorLinkFix {
+    scrollToAnchorInUrl(): void;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -160,6 +163,7 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
+    anchorLinkFix: AnchorLinkFix;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
