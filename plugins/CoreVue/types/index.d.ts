@@ -188,3 +188,10 @@ declare global {
     vueSanitize(content: string): string;
   }
 }
+
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    translate: (translationStringId: string, ...values: string[]|string[][]) => string;
+    $sanitize: Window['vueSanitize'];
+  }
+}

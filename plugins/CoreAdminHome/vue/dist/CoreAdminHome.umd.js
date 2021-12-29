@@ -126,6 +126,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "ArchivingSettings", function() { return /* reexport */ ArchivingSettings; });
+__webpack_require__.d(__webpack_exports__, "BrandingSettings", function() { return /* reexport */ BrandingSettings; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -377,6 +378,383 @@ ArchivingSettingsvue_type_script_lang_ts.render = render
   },
   directiveName: 'matomoArchivingSettings'
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=6ef72dd6
+
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_1 = {
+  id: "logoSettings"
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_2 = {
+  id: "logoUploadForm",
+  ref: "logoUploadForm",
+  method: "post",
+  enctype: "multipart/form-data",
+  action: "index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo"
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_3 = {
+  key: 0
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_4 = ["value"];
+
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  type: "hidden",
+  name: "force_api_session",
+  value: "1"
+}, null, -1);
+
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_6 = {
+  key: 0
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_7 = {
+  key: 0,
+  class: "alert alert-warning uploaderror"
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_8 = {
+  class: "row"
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_9 = {
+  class: "col s12"
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_10 = ["src"];
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_11 = {
+  class: "row"
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_12 = {
+  class: "col s12"
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_13 = ["src"];
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_14 = {
+  key: 1
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_15 = ["innerHTML"];
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_16 = {
+  key: 1
+};
+var BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_17 = {
+  class: "alert alert-warning"
+};
+function BrandingSettingsvue_type_template_id_6ef72dd6_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('CoreAdminHome_BrandingSettings'),
+    anchor: "brandingSettings"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_CustomLogoHelpText')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        name: "useCustomLogo",
+        uicontrol: "checkbox",
+        "model-value": _ctx.enabled,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.onUseCustomLogoChange($event);
+        }),
+        title: _ctx.translate('CoreAdminHome_UseCustomLogo'),
+        "inline-help": _ctx.help
+      }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_2, [_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "hidden",
+        name: "token_auth",
+        value: _ctx.tokenAuth
+      }, null, 8, BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_4), BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_5, _ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
+        name: "fade-out"
+      }, {
+        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+          return [_ctx.showUploadError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_LogoUploadFailed')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+        }),
+        _: 1
+      }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "file",
+        name: "customLogo",
+        "model-value": _ctx.customLogo,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          return _ctx.onCustomLogoChange($event);
+        }),
+        title: _ctx.translate('CoreAdminHome_LogoUpload'),
+        "inline-help": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '110')
+      }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+        src: _ctx.pathUserLogoWithBuster,
+        id: "currentLogo",
+        style: {
+          "max-height": "150px"
+        },
+        ref: "currentLogo"
+      }, null, 8, BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_10)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "file",
+        name: "customFavicon",
+        "model-value": _ctx.customFavicon,
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return _ctx.onFaviconChange($event);
+        }),
+        title: _ctx.translate('CoreAdminHome_FaviconUpload'),
+        "inline-help": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '16')
+      }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+        src: _ctx.pathUserFaviconWithBuster,
+        id: "currentFavicon",
+        width: "16",
+        height: "16",
+        ref: "currentFavicon"
+      }, null, 8, BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_13)])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+        class: "alert alert-warning",
+        innerHTML: _ctx.logosNotWriteableWarning
+      }, null, 8, BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_15)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_6ef72dd6_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_FileUploadDisabled', "file_uploads=1")), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+        onConfirm: _cache[3] || (_cache[3] = function ($event) {
+          return _ctx.save();
+        }),
+        saving: _ctx.isLoading
+      }, null, 8, ["saving"])], 512), [[_directive_form]])];
+    }),
+    _: 1
+  }, 8, ["content-title"]);
+}
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=6ef72dd6
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts
+
+
+
+var _window = window,
+    $ = _window.$;
+/* harmony default export */ var BrandingSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    fileUploadEnabled: {
+      type: Boolean,
+      required: true
+    },
+    logosWriteable: {
+      type: Boolean,
+      required: true
+    },
+    useCustomLogo: {
+      type: Boolean,
+      required: true
+    },
+    pathUserLogoDirectory: {
+      type: String,
+      required: true
+    },
+    pathUserLogo: {
+      type: String,
+      required: true
+    },
+    pathUserLogoSmall: {
+      type: String,
+      required: true
+    },
+    pathUserLogoSvg: {
+      type: String,
+      required: true
+    },
+    hasUserLogo: {
+      type: Boolean,
+      required: true
+    },
+    pathUserFavicon: {
+      type: String,
+      required: true
+    },
+    hasUserFavicon: {
+      type: Boolean,
+      required: true
+    },
+    isPluginsAdminEnabled: {
+      type: Boolean,
+      required: true
+    }
+  },
+  components: {
+    Field: external_CorePluginsAdmin_["Field"],
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    SaveButton: external_CorePluginsAdmin_["SaveButton"]
+  },
+  directives: {
+    Form: external_CorePluginsAdmin_["Form"]
+  },
+  data: function data() {
+    return {
+      isLoading: false,
+      enabled: this.useCustomLogo,
+      customLogo: '',
+      customFavicon: '',
+      showUploadError: false,
+      currentLogoSrcExists: false,
+      currentFaviconSrcExists: false
+    };
+  },
+  computed: {
+    tokenAuth: function tokenAuth() {
+      return external_CoreHome_["Matomo"].token_auth;
+    },
+    logosNotWriteableWarning: function logosNotWriteableWarning() {
+      return Object(external_CoreHome_["translate"])('CoreAdminHome_LogoNotWriteableInstruction', "<code>".concat(this.pathUserLogoDirectory, "</code><br/>"), "".concat(this.pathUserLogo, ", ").concat(this.pathUserLogoSmall, ", ").concat(this.pathUserLogoSvg));
+    },
+    help: function help() {
+      if (!this.isPluginsAdminEnabled) {
+        return undefined;
+      }
+
+      var giveUsFeedbackText = Object(external_CoreHome_["translate"])('General_GiveUsYourFeedback');
+      var linkStart = '<a href="?module=CorePluginsAdmin&action=plugins" ' + 'rel="noreferrer noopener" target="_blank">';
+      return Object(external_CoreHome_["translate"])('CoreAdminHome_CustomLogoFeedbackInfo', giveUsFeedbackText, linkStart, '</a>');
+    },
+    pathUserLogoWithBuster: function pathUserLogoWithBuster() {
+      var currentLogo = this.$refs.currentLogo;
+
+      if (this.currentLogoSrcExists && currentLogo && this.pathUserLogo) {
+        return "".concat(this.pathUserLogo, "?").concat(new Date().getTime());
+      }
+
+      return '';
+    },
+    pathUserFaviconWithBuster: function pathUserFaviconWithBuster() {
+      var currentFavicon = this.$refs.currentFavicon;
+
+      if (this.currentFaviconSrcExists && currentFavicon && this.pathUserFavicon) {
+        return "".concat(this.pathUserFavicon, "?").concat(new Date().getTime());
+      }
+
+      return '';
+    }
+  },
+  methods: {
+    onUseCustomLogoChange: function onUseCustomLogoChange(newValue) {
+      this.enabled = newValue;
+    },
+    onCustomLogoChange: function onCustomLogoChange(newValue) {
+      this.customLogo = newValue;
+      this.updateLogo();
+    },
+    onFaviconChange: function onFaviconChange(newValue) {
+      this.customFavicon = newValue;
+      this.updateLogo();
+    },
+    save: function save() {
+      var _this = this;
+
+      this.isLoading = true;
+      external_CoreHome_["AjaxHelper"].post({
+        module: 'API',
+        method: 'CoreAdminHome.setBrandingSettings'
+      }, {
+        useCustomLogo: this.enabled ? '1' : '0'
+      }).then(function () {
+        external_CoreHome_["NotificationsStore"].show({
+          message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
+          type: 'transient',
+          id: 'generalSettings',
+          context: 'success'
+        });
+        external_CoreHome_["NotificationsStore"].scrollToNotification('generalSettings');
+      }).finally(function () {
+        _this.isLoading = false;
+      });
+    },
+    updateLogo: function updateLogo() {
+      var _this2 = this;
+
+      var isSubmittingLogo = !!this.customLogo;
+      var isSubmittingFavicon = !!this.customFavicon;
+
+      if (!isSubmittingLogo && !isSubmittingFavicon) {
+        return;
+      }
+
+      this.showUploadError = false;
+      var frameName = "upload".concat(new Date().getTime());
+      var uploadFrame = $("<iframe name=\"".concat(frameName, "\" />"));
+      uploadFrame.css('display', 'none');
+      uploadFrame.on('load', function () {
+        setTimeout(function () {
+          var frameContent = $(uploadFrame.contents()).find('body').html().trim();
+
+          if (frameContent === '0') {
+            _this2.showUploadError = true;
+          } else {
+            // Upload succeed, so we update the images availability
+            // according to what have been uploaded
+            if (isSubmittingLogo) {
+              _this2.currentLogoSrcExists = true;
+            }
+
+            if (isSubmittingFavicon) {
+              _this2.currentFaviconSrcExists = true;
+            }
+          }
+
+          if (frameContent === '1' || frameContent === '0') {
+            uploadFrame.remove();
+          }
+        }, 1000);
+      });
+      $('body:first').append(uploadFrame);
+      var submittingForm = $(this.$refs.logoUploadForm);
+      submittingForm.attr('target', frameName);
+      submittingForm.submit();
+      this.customLogo = '';
+      this.customFavicon = '';
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue
+
+
+
+BrandingSettingsvue_type_script_lang_ts.render = BrandingSettingsvue_type_template_id_6ef72dd6_render
+
+/* harmony default export */ var BrandingSettings = (BrandingSettingsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var BrandingSettings_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: BrandingSettings,
+  scope: {
+    fileUploadEnabled: {
+      angularJsBind: '<'
+    },
+    logosWriteable: {
+      angularJsBind: '<'
+    },
+    useCustomLogo: {
+      angularJsBind: '<'
+    },
+    pathUserLogoDirectory: {
+      angularJsBind: '<'
+    },
+    pathUserLogo: {
+      angularJsBind: '<'
+    },
+    pathUserLogoSmall: {
+      angularJsBind: '<'
+    },
+    pathUserLogoSvg: {
+      angularJsBind: '<'
+    },
+    hasUserLogo: {
+      angularJsBind: '<'
+    },
+    pathUserFavicon: {
+      angularJsBind: '<'
+    },
+    hasUserFavicon: {
+      angularJsBind: '<'
+    },
+    isPluginAdminEnabled: {
+      angularJsBind: '<'
+    }
+  },
+  directiveName: 'matomoBrandingSettings'
+}));
 // CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -384,6 +762,8 @@ ArchivingSettingsvue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
+
 
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js

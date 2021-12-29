@@ -6,5 +6,7 @@
 */
 
 import './ArchivingSettings/ArchivingSettings.adapter';
+import './BrandingSettings/BrandingSettings.adapter';
 
 export { default as ArchivingSettings } from './ArchivingSettings/ArchivingSettings.vue';
+export { default as BrandingSettings } from './BrandingSettings/BrandingSettings.vue';

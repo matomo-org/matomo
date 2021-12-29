@@ -7,7 +7,7 @@
 
 export default function translate(
   translationStringId: string,
-  ...values: string[]|string[][]
+  ...values: (string|string[])[]
 ): string {
   let pkArgs = values as string[];
   // handle variadic args AND single array of values (to match _pk_translate signature)
