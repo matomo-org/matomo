@@ -45,7 +45,7 @@
             matomo-smtp-settings
             mail="{{ mail|json_encode|e('html_attr') }}"
             mail-types="{{ mailTypes|json_encode|e('html_attr') }}"
-            mail-encryptions="{{ mailEncryptions|json_encode|e('html_attr') }}"
+            mail-encryptions="{{ mailEncryptions|json_encode }}"
         ></div>
     {% endif %}
 {% endif %}
