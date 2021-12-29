@@ -1,8 +1,10 @@
 {
     "MultiSites": {
         "Evolution": "Utvikling",
+        "EvolutionComparisonIncomplete": "Valgt tidsperiode er %1$s fullført.",
         "LoadingWebsites": "Laster nettsteder",
         "PluginDescription": "Se og sammenligne alle dine nettsteder og programmer i denne nyttige «Alle nettsteder»-oversikten.",
+        "SingleWebsitesDashboardDocumentation": "Rapporten gir den en info-oversikt for en gitt nettside, og inneholder den mest generelle statistikken om dine besøkende.",
         "TopLinkTooltip": "Sammenligne web-statistikk for alle dine nettsteder."
     }
 }

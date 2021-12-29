@@ -54,6 +54,7 @@ class Mysql implements SchemaInterface
                           ts_password_modified TIMESTAMP NULL,
                           invite_status varchar(40) DEFAULT NULL,
                           invited_at timestamp NULL DEFAULT NULL,
+                          idchange_last_viewed TIMESTAMP NULL,
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
@@ -360,6 +361,19 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY (`key`)
                                   ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
+            'changes'             => "CREATE TABLE `{$prefixTables}changes` (
+                                      `idchange` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `created_time` DATETIME NOT NULL,
+                                      `plugin_name` VARCHAR(255) NOT NULL,
+                                      `version` VARCHAR(20) NOT NULL, 
+                                      `title` VARCHAR(255) NOT NULL,                                      
+                                      `description` TEXT NULL,
+                                      `link_name` VARCHAR(255) NULL,
+                                      `link` VARCHAR(255) NULL,       
+                                      PRIMARY KEY(`idchange`),
+                                      UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`)                            
+                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+            ",
         );
 
         return $tables;
@@ -577,7 +591,7 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`, `invite_status`, `invited_at`)
-                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now', null, null );");
+                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now', null, null, null );");
 
         $model = new Model();
         $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);
