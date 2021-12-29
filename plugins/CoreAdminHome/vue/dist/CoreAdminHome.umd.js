@@ -129,6 +129,7 @@ __webpack_require__.d(__webpack_exports__, "ArchivingSettings", function() { ret
 __webpack_require__.d(__webpack_exports__, "BrandingSettings", function() { return /* reexport */ BrandingSettings; });
 __webpack_require__.d(__webpack_exports__, "SmtpSettings", function() { return /* reexport */ SmtpSettings; });
 __webpack_require__.d(__webpack_exports__, "JsTrackingCodeGenerator", function() { return /* reexport */ JsTrackingCodeGenerator; });
+__webpack_require__.d(__webpack_exports__, "ImageTrackingCodeGenerator", function() { return /* reexport */ ImageTrackingCodeGenerator; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -1698,6 +1699,330 @@ JsTrackingCodeGeneratorvue_type_script_lang_ts.render = JsTrackingCodeGeneratorv
   },
   directiveName: 'matomoJsTrackingCodeGenerator'
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=212c6cac
+
+
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  name: "image-tracking-link"
+}, null, -1);
+
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_2 = {
+  id: "image-tracking-code-options"
+};
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_3 = ["innerHTML"];
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_4 = ["innerHTML"];
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_5 = {
+  id: "image-tracking-goal-sub"
+};
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_6 = {
+  class: "row"
+};
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_7 = {
+  class: "col s12 m6"
+};
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_8 = {
+  class: "col s12 m6"
+};
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_9 = {
+  id: "image-link-output-section"
+};
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_10 = {
+  id: "image-tracking-text"
+};
+var ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_11 = ["textContent"];
+function ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('CoreAdminHome_ImageTracking'),
+    anchor: "imageTracking"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.imageTrackingIntro
+      }, null, 8, ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.imageTrackingIntro3
+      }, null, 8, ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "site",
+        name: "image-tracker-website",
+        modelValue: _ctx.site,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.site = $event;
+        }),
+        introduction: _ctx.translate('General_Website')
+      }, null, 8, ["modelValue", "introduction"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "text",
+        name: "image-tracker-action-name",
+        "model-value": _ctx.pageName,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          _ctx.pageName = $event;
+
+          _ctx.updateTrackingCode();
+        }),
+        disabled: _ctx.isLoading,
+        introduction: _ctx.translate('General_Options'),
+        title: _ctx.translate('Actions_ColumnPageName')
+      }, null, 8, ["model-value", "disabled", "introduction", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "checkbox",
+        name: "image-tracking-goal-check",
+        "model-value": _ctx.trackGoal,
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          _ctx.trackGoal = $event;
+
+          _ctx.updateTrackingCode();
+        }),
+        disabled: _ctx.isLoading,
+        title: _ctx.translate('CoreAdminHome_TrackAGoal')
+      }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "select",
+        name: "image-tracker-goal",
+        options: _ctx.siteGoals,
+        disabled: _ctx.isLoading,
+        "model-value": _ctx.trackIdGoal,
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+          _ctx.trackIdGoal = $event;
+
+          _ctx.updateTrackingCode();
+        })
+      }, null, 8, ["options", "disabled", "model-value"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "text",
+        name: "image-revenue",
+        "model-value": _ctx.revenue,
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          _ctx.revenue = $event;
+
+          _ctx.updateTrackingCode();
+        }),
+        disabled: _ctx.isLoading,
+        "full-width": true,
+        title: "".concat(_ctx.translate('CoreAdminHome_WithOptionalRevenue'), " ").concat(_ctx.currentSiteCurrency)
+      }, null, 8, ["model-value", "disabled", "title"])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.trackGoal]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_ImageTrackingLink')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", {
+        textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.trackingCode),
+        ref: "trackingCode"
+      }, null, 8, ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_hoisted_11), [[_directive_select_on_focus]])])])])];
+    }),
+    _: 1
+  }, 8, ["content-title"]);
+}
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=212c6cac
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+var currencySymbols = null;
+var ImageTrackingCodeGeneratorvue_type_script_lang_ts_window = window,
+    ImageTrackingCodeGeneratorvue_type_script_lang_ts_$ = ImageTrackingCodeGeneratorvue_type_script_lang_ts_window.$;
+var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikHost = window.location.host;
+var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+/* harmony default export */ var ImageTrackingCodeGeneratorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    defaultSite: {
+      type: Object,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    Field: external_CorePluginsAdmin_["Field"]
+  },
+  directives: {
+    SelectOnFocus: external_CoreHome_["SelectOnFocus"]
+  },
+  data: function data() {
+    return {
+      isLoading: false,
+      site: this.defaultSite,
+      pageName: '',
+      trackGoal: false,
+      trackIdGoal: null,
+      revenue: '',
+      trackingCode: '',
+      sites: {},
+      goals: {},
+      trackingCodeAbortController: null
+    };
+  },
+  created: function created() {
+    if (this.site && this.site.id) {
+      this.onSiteChanged(this.site);
+    }
+  },
+  watch: {
+    site: function site(newValue) {
+      this.onSiteChanged(newValue);
+    }
+  },
+  methods: {
+    onSiteChanged: function onSiteChanged(newValue) {
+      var _this = this;
+
+      var currencyPromise;
+
+      if (currencySymbols) {
+        currencyPromise = Promise.resolve(currencySymbols);
+      } else {
+        this.isLoading = true;
+        currencyPromise = external_CoreHome_["AjaxHelper"].fetch({
+          method: 'SitesManager.getCurrencySymbols',
+          filter_limit: '-1'
+        });
+      }
+
+      var sitePromise;
+
+      if (this.sites[newValue.id]) {
+        sitePromise = Promise.resolve(this.sites[newValue.id]);
+      } else {
+        this.isLoading = true;
+        sitePromise = external_CoreHome_["AjaxHelper"].fetch({
+          module: 'API',
+          method: 'SitesManager.getSiteFromId',
+          idSite: newValue.id
+        });
+      }
+
+      var goalPromise;
+
+      if (this.goals[newValue.id]) {
+        goalPromise = Promise.resolve(this.goals[newValue.id]);
+      } else {
+        this.isLoading = true;
+        goalPromise = external_CoreHome_["AjaxHelper"].fetch({
+          module: 'API',
+          method: 'Goals.getGoals',
+          filter_limit: '-1',
+          idSite: newValue.id
+        });
+      }
+
+      return Promise.all([currencyPromise, sitePromise, goalPromise]).then(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 3),
+            currencyResponse = _ref2[0],
+            site = _ref2[1],
+            goalsResponse = _ref2[2];
+
+        _this.isLoading = false;
+        currencySymbols = currencyResponse;
+        _this.sites[newValue.id] = site;
+        _this.goals[newValue.id] = goalsResponse;
+
+        _this.updateTrackingCode();
+      });
+    },
+    updateTrackingCode: function updateTrackingCode() {
+      var _this2 = this;
+
+      // get data used to generate the link
+      var postParams = {
+        piwikUrl: "".concat(ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikHost).concat(ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath),
+        actionName: this.pageName,
+        forceMatomoEndpoint: 1
+      };
+
+      if (this.trackGoal && this.trackIdGoal) {
+        postParams.idGoal = this.trackIdGoal;
+        postParams.revenue = this.revenue;
+      }
+
+      if (this.trackingCodeAbortController) {
+        this.trackingCodeAbortController.abort();
+        this.trackingCodeAbortController = null;
+      }
+
+      this.trackingCodeAbortController = new AbortController();
+      return external_CoreHome_["AjaxHelper"].post({
+        module: 'API',
+        format: 'json',
+        method: 'SitesManager.getImageTrackingCode',
+        idSite: this.site.id
+      }, postParams, {
+        abortController: this.trackingCodeAbortController
+      }).then(function (response) {
+        _this2.trackingCodeAbortController = null;
+        _this2.trackingCode = response.value;
+        var jsCodeTextarea = ImageTrackingCodeGeneratorvue_type_script_lang_ts_$(_this2.$refs.trackingCode);
+
+        if (jsCodeTextarea) {
+          jsCodeTextarea.effect('highlight', {}, 1500);
+        }
+      });
+    }
+  },
+  computed: {
+    currentSiteCurrency: function currentSiteCurrency() {
+      if (!currencySymbols) {
+        return '';
+      }
+
+      return currencySymbols[(this.sites[this.site.id].currency || '').toUpperCase()];
+    },
+    siteGoals: function siteGoals() {
+      var goalsResponse = this.goals[this.site.id];
+      return [{
+        key: '',
+        value: Object(external_CoreHome_["translate"])('UserCountryMap_None')
+      }].concat((goalsResponse || []).map(function (g) {
+        return {
+          key: "".concat(g.idgoal),
+          value: g.name
+        };
+      }));
+    },
+    imageTrackingIntro: function imageTrackingIntro() {
+      var first = Object(external_CoreHome_["translate"])('CoreAdminHome_ImageTrackingIntro1');
+      var second = Object(external_CoreHome_["translate"])('CoreAdminHome_ImageTrackingIntro2', '<code>&lt;noscript&gt;&lt;/noscript&gt;</code>');
+      return "".concat(first, " ").concat(second);
+    },
+    imageTrackingIntro3: function imageTrackingIntro3() {
+      var link = 'https://matomo.org/docs/tracking-api/reference/';
+      return Object(external_CoreHome_["translate"])('CoreAdminHome_ImageTrackingIntro3', "<a href=\"".concat(link, "\" rel=\"noreferrer noopener\" target=\"_blank\">"), '</a>');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue
+
+
+
+ImageTrackingCodeGeneratorvue_type_script_lang_ts.render = ImageTrackingCodeGeneratorvue_type_template_id_212c6cac_render
+
+/* harmony default export */ var ImageTrackingCodeGenerator = (ImageTrackingCodeGeneratorvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var ImageTrackingCodeGenerator_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: ImageTrackingCodeGenerator,
+  scope: {
+    defaultSite: {
+      angularJsBind: '<'
+    }
+  },
+  directiveName: 'matomoImageTrackingCodeGenerator'
+}));
 // CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1705,6 +2030,8 @@ JsTrackingCodeGeneratorvue_type_script_lang_ts.render = JsTrackingCodeGeneratorv
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
+
 
 
 

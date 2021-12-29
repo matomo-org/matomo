@@ -139,7 +139,7 @@ __webpack_require__.d(__webpack_exports__, "removeAngularJsSpecificProperties", 
 __webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
-__webpack_require__.d(__webpack_exports__, "alertAdapter", function() { return /* reexport */ Alert_adapter; });
+__webpack_require__.d(__webpack_exports__, "Alert", function() { return /* reexport */ Alert; });
 __webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
 __webpack_require__.d(__webpack_exports__, "setCookie", function() { return /* reexport */ setCookie; });
 __webpack_require__.d(__webpack_exports__, "getCookie", function() { return /* reexport */ getCookie; });
@@ -176,6 +176,7 @@ __webpack_require__.d(__webpack_exports__, "PeriodDatePicker", function() { retu
 __webpack_require__.d(__webpack_exports__, "Notification", function() { return /* reexport */ Notification; });
 __webpack_require__.d(__webpack_exports__, "NotificationGroup", function() { return /* reexport */ Notification_NotificationGroup; });
 __webpack_require__.d(__webpack_exports__, "NotificationsStore", function() { return /* reexport */ Notifications_store; });
+__webpack_require__.d(__webpack_exports__, "SitesStore", function() { return /* reexport */ SiteSelector_SitesStore; });
 __webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return /* reexport */ SiteSelector; });
 __webpack_require__.d(__webpack_exports__, "SiteRef", function() { return /* reexport */ /* Cannot get final name for export "SiteRef" in "./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue" (known exports: default, known reexports: ) */ undefined; });
 __webpack_require__.d(__webpack_exports__, "QuickAccess", function() { return /* reexport */ QuickAccess; });
@@ -2165,6 +2166,364 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var src_PopoverHandler_PopoverHandler = (new PopoverHandler_PopoverHandler());
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
+function Alertvue_type_template_id_c3863ae2_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert", Alertvue_type_template_id_c3863ae2_defineProperty({}, "alert-".concat(_ctx.severity), true)])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var Alertvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    severity: {
+      type: String,
+      required: true
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue
+
+
+
+Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
+
+/* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createVueApp.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function createVueApp() {
+  var app = external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"].apply(void 0, arguments);
+  app.config.globalProperties.$sanitize = window.vueSanitize;
+  app.config.globalProperties.translate = translate;
+  return app;
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
+function createAngularJsAdapter_slicedToArray(arr, i) { return createAngularJsAdapter_arrayWithHoles(arr) || createAngularJsAdapter_iterableToArrayLimit(arr, i) || createAngularJsAdapter_unsupportedIterableToArray(arr, i) || createAngularJsAdapter_nonIterableRest(); }
+
+function createAngularJsAdapter_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function createAngularJsAdapter_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return createAngularJsAdapter_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return createAngularJsAdapter_arrayLikeToArray(o, minLen); }
+
+function createAngularJsAdapter_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function createAngularJsAdapter_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function createAngularJsAdapter_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function createAngularJsAdapter_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { createAngularJsAdapter_typeof = function _typeof(obj) { return typeof obj; }; } else { createAngularJsAdapter_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return createAngularJsAdapter_typeof(obj); }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
+
+var transcludeCounter = 0;
+
+function toKebabCase(arg) {
+  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/[A-Z]/g, function (s) {
+    return "-".concat(s.toLowerCase());
+  });
+}
+
+function toAngularJsCamelCase(arg) {
+  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/-([a-z])/g, function (s, p) {
+    return p.toUpperCase();
+  });
+}
+
+function removeAngularJsSpecificProperties(newValue) {
+  if (createAngularJsAdapter_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
+    return Object.fromEntries(Object.entries(newValue).filter(function (pair) {
+      return !/^\$/.test(pair[0]);
+    }));
+  }
+
+  return newValue;
+}
+function createAngularJsAdapter(options) {
+  var component = options.component,
+      require = options.require,
+      _options$scope = options.scope,
+      scope = _options$scope === void 0 ? {} : _options$scope,
+      _options$events = options.events,
+      events = _options$events === void 0 ? {} : _options$events,
+      $inject = options.$inject,
+      directiveName = options.directiveName,
+      transclude = options.transclude,
+      mountPointFactory = options.mountPointFactory,
+      postCreate = options.postCreate,
+      noScope = options.noScope,
+      _options$restrict = options.restrict,
+      restrict = _options$restrict === void 0 ? 'A' : _options$restrict,
+      priority = options.priority,
+      replace = options.replace;
+  var currentTranscludeCounter = transcludeCounter;
+
+  if (transclude) {
+    transcludeCounter += 1;
+  }
+
+  var vueToAngular = {};
+  var angularJsScope = {};
+  Object.entries(scope).forEach(function (_ref) {
+    var _ref2 = createAngularJsAdapter_slicedToArray(_ref, 2),
+        scopeVarName = _ref2[0],
+        info = _ref2[1];
+
+    if (!info.vue) {
+      info.vue = scopeVarName;
+    }
+
+    if (info.angularJsBind) {
+      angularJsScope[scopeVarName] = info.angularJsBind;
+    }
+
+    vueToAngular[info.vue] = scopeVarName;
+  });
+
+  function angularJsAdapter() {
+    for (var _len = arguments.length, injectedServices = new Array(_len), _key = 0; _key < _len; _key++) {
+      injectedServices[_key] = arguments[_key];
+    }
+
+    var adapter = {
+      restrict: restrict,
+      require: require,
+      priority: priority,
+      scope: noScope ? undefined : angularJsScope,
+      compile: function angularJsAdapterCompile() {
+        return {
+          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs, ngController) {
+            var transcludeClone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null; // build the root vue template
+
+            var rootVueTemplate = '<root-component';
+            Object.entries(events).forEach(function (info) {
+              var _info = createAngularJsAdapter_slicedToArray(info, 1),
+                  eventName = _info[0];
+
+              rootVueTemplate += " @".concat(toKebabCase(eventName), "=\"onEventHandler('").concat(eventName, "', $event)\"");
+            });
+            Object.entries(scope).forEach(function (_ref3) {
+              var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
+                  info = _ref4[1];
+
+              if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
+                var eventName = toKebabCase(info.vue);
+
+                if (!events[eventName]) {
+                  // pass through scope & w/o a custom event handler
+                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
+                }
+              } else {
+                rootVueTemplate += " :".concat(toKebabCase(info.vue), "=\"").concat(info.vue, "\"");
+              }
+            });
+            rootVueTemplate += '>';
+
+            if (transclude) {
+              rootVueTemplate += '<div ref="transcludeTarget"/>';
+            }
+
+            rootVueTemplate += '</root-component>'; // build the vue app
+
+            var app = createVueApp({
+              template: rootVueTemplate,
+              data: function data() {
+                var _this = this;
+
+                var initialData = {};
+                Object.entries(scope).forEach(function (_ref5) {
+                  var _ref6 = createAngularJsAdapter_slicedToArray(_ref5, 2),
+                      scopeVarName = _ref6[0],
+                      info = _ref6[1];
+
+                  var value = removeAngularJsSpecificProperties(ngScope[scopeVarName]);
+
+                  if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
+                    value = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
+                  }
+
+                  if (info.transform) {
+                    value = info.transform.apply(info, [value, _this, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
+                  }
+
+                  initialData[info.vue] = value;
+                });
+                return initialData;
+              },
+              setup: function setup() {
+                if (transclude) {
+                  var transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+                  return {
+                    transcludeTarget: transcludeTarget
+                  };
+                }
+
+                return undefined;
+              },
+              methods: {
+                onEventHandler: function onEventHandler(name, $event) {
+                  var scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
+
+                  if (ngScope[scopePropertyName]) {
+                    ngScope[scopePropertyName]($event);
+                  }
+
+                  if (events[name]) {
+                    events[name].apply(events, [$event, this, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
+                  }
+                }
+              }
+            });
+            app.component('root-component', component); // mount the app
+
+            var mountPoint = mountPointFactory ? mountPointFactory.apply(void 0, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : ngElement[0];
+            var vm = app.mount(mountPoint); // setup watches to bind between angularjs + vue
+
+            Object.entries(scope).forEach(function (_ref7) {
+              var _ref8 = createAngularJsAdapter_slicedToArray(_ref7, 2),
+                  scopeVarName = _ref8[0],
+                  info = _ref8[1];
+
+              if (!info.angularJsBind || info.angularJsBind === '&' || info.angularJsBind === '&?') {
+                return;
+              }
+
+              ngScope.$watch(scopeVarName, function (newValue) {
+                var newValueFinal = removeAngularJsSpecificProperties(newValue);
+
+                if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
+                  newValueFinal = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
+                }
+
+                if (info.transform) {
+                  newValueFinal = info.transform.apply(info, [newValueFinal, vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
+                }
+
+                vm[info.vue] = newValueFinal;
+              });
+            });
+
+            if (transclude && transcludeClone) {
+              $(vm.transcludeTarget).append(transcludeClone);
+            }
+
+            if (postCreate) {
+              postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
+            } // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+
+
+            if (replace) {
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach(function (attr) {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+
+                if (mountPoint.firstElementChild) {
+                  mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+                }
+              });
+              ngElement.replaceWith(window.$(mountPoint).children());
+            }
+
+            ngElement.on('$destroy', function () {
+              app.unmount();
+            });
+          }
+        };
+      }
+    };
+
+    if (transclude) {
+      adapter.transclude = true;
+      adapter.template = "<div ng-transclude counter=\"".concat(currentTranscludeCounter, "\"/>");
+    }
+
+    return adapter;
+  }
+
+  angularJsAdapter.$inject = $inject || [];
+  window.angular.module('piwikApp').directive(directiveName, angularJsAdapter);
+  return angularJsAdapter;
+}
+function transformAngularJsBoolAttr(v) {
+  if (typeof v === 'undefined') {
+    return undefined;
+  }
+
+  if (v === 'true') {
+    return true;
+  }
+
+  return !!v && v > 0 && v !== '0';
+}
+function transformAngularJsIntAttr(v) {
+  if (typeof v === 'undefined') {
+    return undefined;
+  }
+
+  if (v === null) {
+    return null;
+  }
+
+  return parseInt(v, 10);
+} // utility function for service adapters
+
+function clone(p) {
+  if (typeof p === 'undefined') {
+    return p;
+  }
+
+  return JSON.parse(JSON.stringify(p));
+}
+function cloneThenApply(p) {
+  var result = clone(p);
+  Matomo_Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
+  return result;
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var Alert_adapter = (createAngularJsAdapter({
+  component: Alert,
+  scope: {
+    severity: {
+      vue: 'severity',
+      angularJsBind: '@piwikAlert'
+    }
+  },
+  directiveName: 'piwikAlert',
+  transclude: true
+}));
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3049,314 +3408,6 @@ function MatomoDialogvue_type_template_id_00aba563_render(_ctx, _cache, $props, 
 MatomoDialogvue_type_script_lang_ts.render = MatomoDialogvue_type_template_id_00aba563_render
 
 /* harmony default export */ var MatomoDialog = (MatomoDialogvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createVueApp.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function createVueApp() {
-  var app = external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"].apply(void 0, arguments);
-  app.config.globalProperties.$sanitize = window.vueSanitize;
-  app.config.globalProperties.translate = translate;
-  return app;
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
-function createAngularJsAdapter_slicedToArray(arr, i) { return createAngularJsAdapter_arrayWithHoles(arr) || createAngularJsAdapter_iterableToArrayLimit(arr, i) || createAngularJsAdapter_unsupportedIterableToArray(arr, i) || createAngularJsAdapter_nonIterableRest(); }
-
-function createAngularJsAdapter_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function createAngularJsAdapter_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return createAngularJsAdapter_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return createAngularJsAdapter_arrayLikeToArray(o, minLen); }
-
-function createAngularJsAdapter_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function createAngularJsAdapter_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function createAngularJsAdapter_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function createAngularJsAdapter_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { createAngularJsAdapter_typeof = function _typeof(obj) { return typeof obj; }; } else { createAngularJsAdapter_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return createAngularJsAdapter_typeof(obj); }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-
-
-var transcludeCounter = 0;
-
-function toKebabCase(arg) {
-  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/[A-Z]/g, function (s) {
-    return "-".concat(s.toLowerCase());
-  });
-}
-
-function toAngularJsCamelCase(arg) {
-  return arg.substring(0, 1).toLowerCase() + arg.substring(1).replace(/-([a-z])/g, function (s, p) {
-    return p.toUpperCase();
-  });
-}
-
-function removeAngularJsSpecificProperties(newValue) {
-  if (createAngularJsAdapter_typeof(newValue) === 'object' && newValue !== null && Object.getPrototypeOf(newValue) === Object.prototype) {
-    return Object.fromEntries(Object.entries(newValue).filter(function (pair) {
-      return !/^\$/.test(pair[0]);
-    }));
-  }
-
-  return newValue;
-}
-function createAngularJsAdapter(options) {
-  var component = options.component,
-      require = options.require,
-      _options$scope = options.scope,
-      scope = _options$scope === void 0 ? {} : _options$scope,
-      _options$events = options.events,
-      events = _options$events === void 0 ? {} : _options$events,
-      $inject = options.$inject,
-      directiveName = options.directiveName,
-      transclude = options.transclude,
-      mountPointFactory = options.mountPointFactory,
-      postCreate = options.postCreate,
-      noScope = options.noScope,
-      _options$restrict = options.restrict,
-      restrict = _options$restrict === void 0 ? 'A' : _options$restrict,
-      priority = options.priority,
-      replace = options.replace;
-  var currentTranscludeCounter = transcludeCounter;
-
-  if (transclude) {
-    transcludeCounter += 1;
-  }
-
-  var vueToAngular = {};
-  var angularJsScope = {};
-  Object.entries(scope).forEach(function (_ref) {
-    var _ref2 = createAngularJsAdapter_slicedToArray(_ref, 2),
-        scopeVarName = _ref2[0],
-        info = _ref2[1];
-
-    if (!info.vue) {
-      info.vue = scopeVarName;
-    }
-
-    if (info.angularJsBind) {
-      angularJsScope[scopeVarName] = info.angularJsBind;
-    }
-
-    vueToAngular[info.vue] = scopeVarName;
-  });
-
-  function angularJsAdapter() {
-    for (var _len = arguments.length, injectedServices = new Array(_len), _key = 0; _key < _len; _key++) {
-      injectedServices[_key] = arguments[_key];
-    }
-
-    var adapter = {
-      restrict: restrict,
-      require: require,
-      priority: priority,
-      scope: noScope ? undefined : angularJsScope,
-      compile: function angularJsAdapterCompile() {
-        return {
-          post: function angularJsAdapterLink(ngScope, ngElement, ngAttrs, ngController) {
-            var transcludeClone = transclude ? ngElement.find("[ng-transclude][counter=".concat(currentTranscludeCounter, "]")) : null; // build the root vue template
-
-            var rootVueTemplate = '<root-component';
-            Object.entries(events).forEach(function (info) {
-              var _info = createAngularJsAdapter_slicedToArray(info, 1),
-                  eventName = _info[0];
-
-              rootVueTemplate += " @".concat(toKebabCase(eventName), "=\"onEventHandler('").concat(eventName, "', $event)\"");
-            });
-            Object.entries(scope).forEach(function (_ref3) {
-              var _ref4 = createAngularJsAdapter_slicedToArray(_ref3, 2),
-                  info = _ref4[1];
-
-              if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
-                var eventName = toKebabCase(info.vue);
-
-                if (!events[eventName]) {
-                  // pass through scope & w/o a custom event handler
-                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
-                }
-              } else {
-                rootVueTemplate += " :".concat(toKebabCase(info.vue), "=\"").concat(info.vue, "\"");
-              }
-            });
-            rootVueTemplate += '>';
-
-            if (transclude) {
-              rootVueTemplate += '<div ref="transcludeTarget"/>';
-            }
-
-            rootVueTemplate += '</root-component>'; // build the vue app
-
-            var app = createVueApp({
-              template: rootVueTemplate,
-              data: function data() {
-                var _this = this;
-
-                var initialData = {};
-                Object.entries(scope).forEach(function (_ref5) {
-                  var _ref6 = createAngularJsAdapter_slicedToArray(_ref5, 2),
-                      scopeVarName = _ref6[0],
-                      info = _ref6[1];
-
-                  var value = removeAngularJsSpecificProperties(ngScope[scopeVarName]);
-
-                  if (typeof value === 'undefined' && typeof info.default !== 'undefined') {
-                    value = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
-                  }
-
-                  if (info.transform) {
-                    value = info.transform.apply(info, [value, _this, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
-                  }
-
-                  initialData[info.vue] = value;
-                });
-                return initialData;
-              },
-              setup: function setup() {
-                if (transclude) {
-                  var transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-                  return {
-                    transcludeTarget: transcludeTarget
-                  };
-                }
-
-                return undefined;
-              },
-              methods: {
-                onEventHandler: function onEventHandler(name, $event) {
-                  var scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
-
-                  if (ngScope[scopePropertyName]) {
-                    ngScope[scopePropertyName]($event);
-                  }
-
-                  if (events[name]) {
-                    events[name].apply(events, [$event, this, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
-                  }
-                }
-              }
-            });
-            app.component('root-component', component); // mount the app
-
-            var mountPoint = mountPointFactory ? mountPointFactory.apply(void 0, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : ngElement[0];
-            var vm = app.mount(mountPoint); // setup watches to bind between angularjs + vue
-
-            Object.entries(scope).forEach(function (_ref7) {
-              var _ref8 = createAngularJsAdapter_slicedToArray(_ref7, 2),
-                  scopeVarName = _ref8[0],
-                  info = _ref8[1];
-
-              if (!info.angularJsBind || info.angularJsBind === '&' || info.angularJsBind === '&?') {
-                return;
-              }
-
-              ngScope.$watch(scopeVarName, function (newValue) {
-                var newValueFinal = removeAngularJsSpecificProperties(newValue);
-
-                if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
-                  newValueFinal = info.default instanceof Function ? info.default.apply(info, [ngScope, ngElement, ngAttrs].concat(injectedServices)) : info.default;
-                }
-
-                if (info.transform) {
-                  newValueFinal = info.transform.apply(info, [newValueFinal, vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
-                }
-
-                vm[info.vue] = newValueFinal;
-              });
-            });
-
-            if (transclude && transcludeClone) {
-              $(vm.transcludeTarget).append(transcludeClone);
-            }
-
-            if (postCreate) {
-              postCreate.apply(void 0, [vm, ngScope, ngElement, ngAttrs, ngController].concat(injectedServices));
-            } // specifying replace: true on the directive does nothing w/ vue inside, so
-            // handle it here.
-
-
-            if (replace) {
-              // transfer attributes from angularjs element that are not in scope to
-              // mount point element
-              Array.from(ngElement[0].attributes).forEach(function (attr) {
-                if (scope[attr.nodeName]) {
-                  return;
-                }
-
-                if (mountPoint.firstElementChild) {
-                  mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
-                }
-              });
-              ngElement.replaceWith(window.$(mountPoint).children());
-            }
-
-            ngElement.on('$destroy', function () {
-              app.unmount();
-            });
-          }
-        };
-      }
-    };
-
-    if (transclude) {
-      adapter.transclude = true;
-      adapter.template = "<div ng-transclude counter=\"".concat(currentTranscludeCounter, "\"/>");
-    }
-
-    return adapter;
-  }
-
-  angularJsAdapter.$inject = $inject || [];
-  window.angular.module('piwikApp').directive(directiveName, angularJsAdapter);
-  return angularJsAdapter;
-}
-function transformAngularJsBoolAttr(v) {
-  if (typeof v === 'undefined') {
-    return undefined;
-  }
-
-  if (v === 'true') {
-    return true;
-  }
-
-  return !!v && v > 0 && v !== '0';
-}
-function transformAngularJsIntAttr(v) {
-  if (typeof v === 'undefined') {
-    return undefined;
-  }
-
-  if (v === null) {
-    return null;
-  }
-
-  return parseInt(v, 10);
-} // utility function for service adapters
-
-function clone(p) {
-  if (typeof p === 'undefined') {
-    return p;
-  }
-
-  return JSON.parse(JSON.stringify(p));
-}
-function cloneThenApply(p) {
-  var result = clone(p);
-  Matomo_Matomo.helper.getAngularDependency('$rootScope').$applyAsync();
-  return result;
-}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoDialog/MatomoDialog.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -11958,56 +12009,6 @@ window.angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
   $inject: [],
   directiveName: 'piwikActivityIndicator'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-function Alertvue_type_template_id_c3863ae2_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert", Alertvue_type_template_id_c3863ae2_defineProperty({}, "alert-".concat(_ctx.severity), true)])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2);
-}
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var Alertvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    severity: {
-      type: String,
-      required: true
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.vue
-
-
-
-Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
-
-/* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Alert/Alert.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Alert_adapter = (createAngularJsAdapter({
-  component: Alert,
-  scope: {
-    severity: {
-      vue: 'severity',
-      angularJsBind: '@piwikAlert'
-    }
-  },
-  directiveName: 'piwikAlert',
-  transclude: true
-}));
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
 /*
  * General utils for managing cookies in Typescript.
@@ -12059,6 +12060,8 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 

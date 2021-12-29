@@ -37,82 +37,10 @@
     server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode|e('html_attr') }}"
 ></div>
 
-<div piwik-content-block content-title="{{ 'CoreAdminHome_ImageTracking'|translate|e('html_attr') }}"
-     anchor="imageTracking">
-    <a name="image-tracking-link"></a>
-
-    <div id="image-tracking-code-options" ng-controller="ImageTrackingCodeController as imageTrackingCode">
-
-        <p>
-            {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<code>&lt;noscript&gt;&lt;/noscript&gt;</code>")|raw }}
-        </p>
-        <p>
-            {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="https://matomo.org/docs/tracking-api/reference/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}
-        </p>
-
-        {# website #}
-        <div piwik-field uicontrol="site" name="image-tracker-website"
-             ng-model="imageTrackingCode.site"
-             ng-change="imageTrackingCode.changeSite(true)"
-             introduction="{{ 'General_Website'|translate|e('html_attr') }}"
-             value='{{ defaultSite|json_encode }}'>
-        </div>
-
-        {# action_name #}
-        <div piwik-field uicontrol="text" name="image-tracker-action-name"
-             ng-model="imageTrackingCode.pageName"
-             ng-change="imageTrackingCode.updateTrackingCode()"
-             data-disabled="imageTrackingCode.isLoading"
-             introduction="{{ 'General_Options'|translate|e('html_attr') }}"
-             data-title="{{ 'Actions_ColumnPageName'|translate|e('html_attr') }}"
-             value="">
-        </div>
-
-        {# goal #}
-        <div piwik-field uicontrol="checkbox" name="image-tracking-goal-check"
-             ng-model="imageTrackingCode.trackGoal"
-             ng-change="imageTrackingCode.updateTrackingCode()"
-             data-disabled="imageTrackingCode.isLoading"
-             data-title="{{ 'CoreAdminHome_TrackAGoal'|translate|e('html_attr') }}"
-             value="">
-        </div>
-
-        <div ng-show="imageTrackingCode.trackGoal"
-             id="image-tracking-goal-sub">
-            <div class="row">
-                <div class="col s12 m6">
-                    <div piwik-field uicontrol="select" name="image-tracker-goal"
-                         options="imageTrackingCode.allGoals"
-                         data-disabled="imageTrackingCode.isLoading"
-                         ng-model="imageTrackingCode.trackIdGoal"
-                         full-width="true"
-                         ng-change="imageTrackingCode.updateTrackingCode()"
-                         value="">
-                    </div>
-                </div>
-                <div class="col s12 m6">
-                    <div piwik-field uicontrol="text" name="image-revenue"
-                         ng-model="imageTrackingCode.revenue"
-                         ng-change="imageTrackingCode.updateTrackingCode()"
-                         data-disabled="imageTrackingCode.isLoading"
-                         full-width="true"
-                         data-title="{{ 'CoreAdminHome_WithOptionalRevenue'|translate|e('html_attr') }} <span class='site-currency'></span>"
-                         value="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="image-link-output-section">
-            <h3>{{ 'CoreAdminHome_ImageTrackingLink'|translate }}</h3>
-
-            <div id="image-tracking-text">
-                <pre piwik-select-on-focus
-                          ng-bind="imageTrackingCode.trackingCode"> </pre>
-            </div>
-        </div>
-    </div>
-</div>
+<div
+    matomo-image-tracking-code-generator
+    default-site="{{ defaultSite|json_encode|e('html_attr') }}"
+/>
 
 <div piwik-content-block content-title="{{ 'CoreAdminHome_ImportingServerLogs'|translate|e('html_attr') }}"
      anchor="importServerLogs">

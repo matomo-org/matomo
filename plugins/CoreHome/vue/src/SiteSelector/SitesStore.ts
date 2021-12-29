@@ -18,6 +18,7 @@ export interface Site {
   idsite: string;
   name: string;
   group?: string;
+  currency?: string;
 }
 
 interface SitesStoreState {
