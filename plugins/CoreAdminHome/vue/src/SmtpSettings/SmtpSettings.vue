@@ -51,7 +51,7 @@
           v-model="mailUsername"
           :title="translate('General_SmtpUsername')"
           :inline-help="translate('General_OnlyEnterIfRequired')"
-          autocomplete="off"
+          :autocomplete="false"
         />
 
         <Field
@@ -62,7 +62,7 @@
           @click="!passwordChanged && $event.target.select();"
           :title="translate('General_SmtpPassword')"
           :inline-help="passwordHelp"
-          autocomplete="off"
+          :autocomplete="false"
         />
 
         <Field
@@ -71,7 +71,7 @@
           v-model="mailFromAddress"
           :title="translate('General_SmtpFromAddress')"
           :inline-help="translate('General_SmtpFromEmailHelp', mailHost)"
-          autocomplete="off"
+          :autocomplete="false"
         />
 
         <Field
@@ -80,7 +80,7 @@
           v-model="mailFromName"
           :title="translate('General_SmtpFromName')"
           :inline-help="translate('General_NameShownInTheSenderColumn')"
-          autocomplete="off"
+          :autocomplete="false"
         />
 
         <Field
