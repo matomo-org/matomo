@@ -18,6 +18,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Changes\UserChanges;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -30,6 +31,7 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\Widget\WidgetsList;
 use Piwik\SettingsPiwik;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class Controller extends ControllerAdmin
 {
@@ -309,6 +311,25 @@ class Controller extends ControllerAdmin
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
         $view->mail = $mail;
+    }
+
+    /**
+     * Show the what is new changes list
+     */
+    public function whatIsNew()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserIsNotAnonymous();
+
+        $model = new UsersModel();
+        $user = $model->getUser(Piwik::getCurrentUserLogin());
+        if (is_array($user)) {
+            $userChanges = new UserChanges($user);
+            $changes = $userChanges->getChanges();
+            return $this->renderTemplate('whatIsNew', ['changes' => $changes]);
+        } else {
+            throw new \Exception('Unable to getUser() when attempting to show whatIsNew');
+        }
     }
 
 }

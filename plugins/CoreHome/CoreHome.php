@@ -142,7 +142,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportingPage/ReportingPage.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/ReportExport/ReportExport.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/WidgetByDimensionContainer/WidgetByDimensionContainer.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.less";
@@ -219,7 +219,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
@@ -241,7 +240,6 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
 
 
 
