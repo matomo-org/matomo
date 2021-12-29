@@ -127,6 +127,8 @@ interface BrandingSettingsState {
   showUploadError: boolean;
   currentLogoSrcExists: boolean;
   currentFaviconSrcExists: boolean;
+  currentLogoCacheBuster: number;
+  currentFaviconCacheBuster: number;
 }
 
 export default defineComponent({
