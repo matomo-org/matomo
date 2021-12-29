@@ -53,15 +53,11 @@ export default defineComponent({
   },
   computed: {
     filePath() {
-      if (!this.modelValue) {
-        return undefined;
-      }
-
       if (this.modelValue instanceof File) {
         return (this.$refs.fileInput as HTMLInputElement).value;
       }
 
-      return this.modelValue;
+      return undefined;
     },
   },
 });

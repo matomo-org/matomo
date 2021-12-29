@@ -41,7 +41,7 @@ export default createAngularJsAdapter({
     hasUserFavicon: {
       angularJsBind: '<',
     },
-    isPluginAdminEnabled: {
+    isPluginsAdminEnabled: {
       angularJsBind: '<',
     },
   },

@@ -188,11 +188,13 @@ export default defineComponent({
     return {
       isLoading: false,
       enabled: this.useCustomLogo,
-      customLogo: '',
-      customFavicon: '',
+      customLogo: this.pathUserLogo,
+      customFavicon: this.pathUserFavicon,
       showUploadError: false,
-      currentLogoSrcExists: false,
-      currentFaviconSrcExists: false,
+      currentLogoSrcExists: this.hasUserLogo,
+      currentFaviconSrcExists: this.hasUserFavicon,
+      currentLogoCacheBuster: (new Date()).getTime(),
+      currentFaviconCacheBuster: (new Date()).getTime(),
     };
   },
   computed: {
@@ -222,19 +224,15 @@ export default defineComponent({
       );
     },
     pathUserLogoWithBuster() {
-      const currentLogo = this.$refs.currentLogo as HTMLImageElement;
-
-      if (this.currentLogoSrcExists && currentLogo && this.pathUserLogo) {
-        return `${this.pathUserLogo}?${(new Date()).getTime()}`;
+      if (this.currentLogoSrcExists && this.pathUserLogo) {
+        return `${this.pathUserLogo}?${this.currentLogoCacheBuster}`;
       }
 
       return '';
     },
     pathUserFaviconWithBuster() {
-      const currentFavicon = this.$refs.currentFavicon as HTMLImageElement;
-
-      if (this.currentFaviconSrcExists && currentFavicon && this.pathUserFavicon) {
-        return `${this.pathUserFavicon}?${(new Date()).getTime()}`;
+      if (this.currentFaviconSrcExists && this.pathUserFavicon) {
+        return `${this.pathUserFavicon}?${this.currentFaviconCacheBuster}`;
       }
 
       return '';
@@ -259,13 +257,13 @@ export default defineComponent({
         { module: 'API', method: 'CoreAdminHome.setBrandingSettings' },
         { useCustomLogo: this.enabled ? '1' : '0' },
       ).then(() => {
-        NotificationsStore.show({
+        const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           type: 'transient',
           id: 'generalSettings',
           context: 'success',
         });
-        NotificationsStore.scrollToNotification('generalSettings');
+        NotificationsStore.scrollToNotification(notificationInstanceId);
       }).finally(() => {
         this.isLoading = false;
       });
@@ -285,7 +283,7 @@ export default defineComponent({
       uploadFrame.css('display', 'none');
       uploadFrame.on('load', () => {
         setTimeout(() => {
-          const frameContent = $(uploadFrame.contents()).find('body').html().trim();
+          const frameContent = ($(uploadFrame.contents()).find('body').html() || '').trim();
 
           if (frameContent === '0') {
             this.showUploadError = true;
@@ -294,9 +292,11 @@ export default defineComponent({
             // according to what have been uploaded
             if (isSubmittingLogo) {
               this.currentLogoSrcExists = true;
+              this.currentLogoCacheBuster = (new Date()).getTime(); // force re-fetch
             }
             if (isSubmittingFavicon) {
               this.currentFaviconSrcExists = true;
+              this.currentFaviconCacheBuster = (new Date()).getTime(); // force re-fetch
             }
           }
 
