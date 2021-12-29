@@ -155,7 +155,9 @@ class Mysql implements SchemaInterface
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` DOUBLE NOT NULL,
                               `deleted` tinyint(4) NOT NULL default '0',
-                              `event_value_as_revenue` tinyint(4) NOT NULL default '0',
+                              `event_value_as_revenue` tinyint(4) NOT NULL default '0', 
+                              `ts_created` TIMESTAMP NULL,
+                              `ts_last_edit` TIMESTAMP NUll,
                                 PRIMARY KEY  (`idsite`,`idgoal`)
                               ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",

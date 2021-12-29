@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 
 class Model
@@ -41,6 +42,7 @@ class Model
 
         $goal['idgoal'] = $goalId;
         $goal['idsite'] = $idSite;
+        $goal['ts_created'] = Date::now()->getDatetime();
 
         $db->insert($this->table, $goal);
 
@@ -51,6 +53,7 @@ class Model
     {
         $idSite = (int) $idSite;
         $idGoal = (int) $idGoal;
+        $goal['ts_last_edit'] = Date::now()->getDatetime();
 
         $db = $this->getDb();
         $db->update($this->table, $goal, "idsite = '$idSite' AND idgoal = '$idGoal'");
