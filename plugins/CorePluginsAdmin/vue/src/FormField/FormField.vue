@@ -118,6 +118,11 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
   FieldExpandableSelect: getExpandableSelectAvailableOptions,
 };
 
+interface Setting {
+  name: string;
+  value: unknown;
+}
+
 export default defineComponent({
   props: {
     modelValue: null,
@@ -125,6 +130,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    allSettings: [Object, Array],
   },
   emits: ['update:modelValue'],
   components: {
@@ -215,7 +221,16 @@ export default defineComponent({
         return true;
       }
 
-      return this.formField.condition();
+      const values = {};
+      Object.values((this.allSettings || {}) as Record<string, Setting>).forEach((setting) => {
+        if (setting.value === '0') {
+          values[setting.name] = 0;
+        } else {
+          values[setting.name] = setting.value;
+        }
+      });
+
+      return this.formField.condition(values);
     },
     processedModelValue() {
       const field = this.formField;

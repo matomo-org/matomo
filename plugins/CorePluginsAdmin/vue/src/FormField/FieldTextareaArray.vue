@@ -60,9 +60,7 @@ export default defineComponent({
     modelValue(newVal, oldVal) {
       if (newVal !== oldVal) {
         setTimeout(() => {
-          if (this.$refs.textarea) {
-            window.Materialize.textareaAutoResize(this.$refs.textarea);
-          }
+          window.Materialize.textareaAutoResize(this.$refs.textarea);
           window.Materialize.updateTextFields();
         });
       }
@@ -70,9 +68,7 @@ export default defineComponent({
   },
   mounted() {
     setTimeout(() => {
-      if (this.$refs.textarea) {
-        window.Materialize.textareaAutoResize(this.$refs.textarea);
-      }
+      window.Materialize.textareaAutoResize(this.$refs.textarea);
       window.Materialize.updateTextFields();
     });
   },
