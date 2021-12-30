@@ -90,7 +90,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             $getExtendedInfo = true
         );
 
-        $this->assertEquals(getenv("GITHUB") ? 200 : 206, $result['status']);
+        $this->assertEquals(getenv("GITHUB") ? 206 : 200, $result['status']);
         $this->assertTrue(isset($result['headers']['Content-Range']));
         $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
         $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript')));
