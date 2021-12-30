@@ -8,6 +8,9 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\Common;
+use Piwik\SettingsPiwik;
+
 /**
  * Checks whether certain directories in Matomo that should be private are accessible through the internet.
  */
@@ -36,4 +39,14 @@ class RequiredPrivateDirectories extends AbstractPrivateDirectories
         $atLeastOneIsAccessible = parent::computeAccessiblePaths($result, $baseUrl, $testUrls);
         return $this->configIniAccessible || $atLeastOneIsAccessible;
     }
+
+    public function isGlobalConfigIniAccessible()
+    {
+        $baseUrl = SettingsPiwik::getPiwikUrl();
+        if (!Common::stringEndsWith($baseUrl, '/')) {
+            $baseUrl .= '/';
+        }
+        return $this->isAccessible(new DiagnosticResult(''), $baseUrl . 'config/global.ini.php', ';', 'trusted_hosts[]');
+    }
+
 }

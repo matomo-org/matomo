@@ -39,7 +39,22 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     placeholder: {
       angularJsBind: '@',
     },
-    modelValue: {},
+    modelValue: {
+      default(scope, element, attrs) {
+        if (attrs.siteid && attrs.sitename) {
+          return { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
+        }
+
+        if (Matomo.idSite) {
+          return {
+            id: Matomo.idSite,
+            name: Matomo.helper.htmlDecode(Matomo.siteName),
+          };
+        }
+
+        return undefined;
+      },
+    },
   },
   $inject: ['$timeout'],
   directiveName: 'piwikSiteselector',
@@ -70,9 +85,11 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     const ngModel = controller as INgModelController;
 
     scope.$watch('value', (newVal) => {
-      if (newVal !== vm.modelValue) {
-        vm.modelValue = newVal;
-      }
+      nextTick(() => {
+        if (newVal !== vm.modelValue) {
+          vm.modelValue = newVal;
+        }
+      });
     });
 
     if (attrs.siteid && attrs.sitename) {
@@ -90,11 +107,13 @@ export default createAngularJsAdapter<[ITimeoutService]>({
 
       ngModel.$render = () => {
         nextTick(() => {
-          if (angular.isString(ngModel.$viewValue)) {
-            vm.modelValue = JSON.parse(ngModel.$viewValue);
-          } else {
-            vm.modelValue = ngModel.$viewValue;
-          }
+          nextTick(() => {
+            if (angular.isString(ngModel.$viewValue)) {
+              vm.modelValue = JSON.parse(ngModel.$viewValue);
+            } else {
+              vm.modelValue = ngModel.$viewValue;
+            }
+          });
         });
       };
     }

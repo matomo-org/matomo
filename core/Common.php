@@ -577,6 +577,38 @@ class Common
         return $value;
     }
 
+    /**
+     * Replaces lbrace with an encoded entity to prevent angular from parsing the content
+     *
+     * @deprecated Will be removed, once the vue js migration is done
+     *
+     * @param $string
+     * @return array|string|string[]|null
+     */
+    public static function fixLbrace($string)
+    {
+        $chars = array('{', '&#x7B;', '&#123;', '&lcub;', '&lbrace;', '&#x0007B;');
+
+        static $search;
+        static $replace;
+
+        if (!isset($search)) {
+            $search = array_map(function ($val) { return $val . $val; }, $chars);
+        }
+        if (!isset($replace)) {
+            $replace = array_map(function ($val) { return $val . '&#8291;' . $val; }, $chars);
+        }
+
+        $replacedString = is_null($string) ? $string : str_replace($search, $replace, $string);
+
+        // try to replace characters until there are no changes
+        if ($string !== $replacedString) {
+            return self::fixLbrace($replacedString);
+        }
+
+        return $string;
+    }
+
     /*
      * Generating unique strings
      */

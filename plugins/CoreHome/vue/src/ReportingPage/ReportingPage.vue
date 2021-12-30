@@ -76,8 +76,6 @@ function hideOnlyRawDataNoticifation() {
 }
 
 export default defineComponent({
-  props: {
-  },
   components: {
     ActivityIndicator,
     Widget,
@@ -106,6 +104,7 @@ export default defineComponent({
         && JSON.stringify(newValue.compareDates) === JSON.stringify(oldValue.compareDates)
         && JSON.stringify(newValue.comparePeriods) === JSON.stringify(oldValue.comparePeriods)
         && JSON.stringify(newValue.compareSegments) === JSON.stringify(oldValue.compareSegments)
+        && JSON.stringify(newValue.columns || '') === JSON.stringify(oldValue.columns || '')
       ) {
         // this page is already loaded
         return;
@@ -260,30 +259,30 @@ export default defineComponent({
         if (json.value > 0) {
           this.hasNoVisits = false;
           hideOnlyRawDataNoticifation();
-          return;
+          return undefined;
         }
 
         this.hasNoVisits = true;
 
         if (this.hasRawData) {
           showOnlyRawDataNotification();
-          return;
+          return undefined;
         }
 
-        AjaxHelper.fetch({
+        return AjaxHelper.fetch({
           method: 'Live.getLastVisitsDetails',
           filter_limit: 1,
           doNotFetchActions: 1,
-        }).then((lastVisits) => {
-          if (lastVisits.length === 0) {
-            this.hasRawData = false;
-            hideOnlyRawDataNoticifation();
-            return;
-          }
-
-          this.hasRawData = true;
-          showOnlyRawDataNotification();
         });
+      }).then((lastVisits) => {
+        if (!lastVisits || lastVisits.length === 0) {
+          this.hasRawData = false;
+          hideOnlyRawDataNoticifation();
+          return;
+        }
+
+        this.hasRawData = true;
+        showOnlyRawDataNotification();
       });
     },
   },

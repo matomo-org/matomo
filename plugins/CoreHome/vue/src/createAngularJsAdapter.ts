@@ -119,8 +119,8 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     transcludeCounter += 1;
   }
 
-  const vueToAngular = {};
-  const angularJsScope = {};
+  const vueToAngular: Record<string, string> = {};
+  const angularJsScope: Record<string, string> = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
     if (!info.vue) {
       info.vue = scopeVarName;
