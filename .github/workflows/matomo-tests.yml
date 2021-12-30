@@ -91,7 +91,7 @@ jobs:
           TRAVIS: true
           GITHUB: true
           PHP_VERSION: ${{ matrix.php }}
-          PDO_MYSQL: ${{ matrix.mysql_adapter }}
+          MYSQL_ADAPTER: ${{ matrix.mysql_adapter }}
 
   Javascript:
     runs-on: ubuntu-20.04
