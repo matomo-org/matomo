@@ -60,7 +60,7 @@
           </button>
         </div>
         <div id="javascript-text">
-          <pre v-select-on-focus="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"></pre>
+          <pre v-select-on-focus="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
         </div>
       </div>
 
