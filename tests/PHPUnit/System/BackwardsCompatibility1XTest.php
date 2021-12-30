@@ -168,6 +168,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'DevicesDetection.getBrowserEngines',
             'DevicesDetection.getBrowsers',
             'Goals.get',
+            'Goals.getGoals',
 
             // Following #9345
             'Actions.getPageUrls',

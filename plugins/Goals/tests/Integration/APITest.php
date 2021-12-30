@@ -246,6 +246,7 @@ class APITest extends IntegrationTestCase
         $idGoal = $this->createAnyGoal();
         $this->assertSame(1, $idGoal);
         $goal = $this->api->getGoal($this->idSite, $idGoal);
+        unset($goal['ts_created'], $goal['ts_last_edit']);
         $this->assertEquals(array(
             'idsite' => '1',
             'idgoal' => '1',
@@ -259,8 +260,6 @@ class APITest extends IntegrationTestCase
             'revenue' => '0',
             'deleted' => '0',
             'event_value_as_revenue' => '0',
-            'ts_created'   => null,
-            'ts_last_edit' => null
         ), $goal);
     }
 
@@ -292,13 +291,12 @@ class APITest extends IntegrationTestCase
             'revenue' => $revenue,
             'deleted' => 0,
             'event_value_as_revenue' => $eventAsRevenue,
-            'ts_created'   => null,
-            'ts_last_edit' => null
         ));
 
         $goals = $this->getGoals();
+
         foreach ($goals as $key => $goal) {
-            $goals[$key]['ts_created'] = null;
+            unset($goals[$key]['ts_created'], $goals[$key]['ts_last_edit']);
         }
 
         $this->assertEquals($expected, $goals);
