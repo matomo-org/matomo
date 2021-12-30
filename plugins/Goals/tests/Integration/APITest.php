@@ -259,6 +259,8 @@ class APITest extends IntegrationTestCase
             'revenue' => '0',
             'deleted' => '0',
             'event_value_as_revenue' => '0',
+            'ts_created'   => null,
+            'ts_last_edit' => null
         ), $goal);
     }
 
@@ -290,9 +292,14 @@ class APITest extends IntegrationTestCase
             'revenue' => $revenue,
             'deleted' => 0,
             'event_value_as_revenue' => $eventAsRevenue,
+            'ts_created'   => null,
+            'ts_last_edit' => null
         ));
 
         $goals = $this->getGoals();
+        foreach ($goals as $key => $goal) {
+            $goals[$key]['ts_created'] = null;
+        }
 
         $this->assertEquals($expected, $goals);
     }

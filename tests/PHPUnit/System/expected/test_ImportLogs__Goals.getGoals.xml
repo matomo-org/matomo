@@ -13,5 +13,7 @@
 		<revenue>5</revenue>
 		<deleted>0</deleted>
 		<event_value_as_revenue>0</event_value_as_revenue>
+		<ts_created>today-date-removed-in-tests</ts_created>
+		<ts_last_edit/>
 	</row>
 </result>
