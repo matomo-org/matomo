@@ -20,6 +20,7 @@ import './FocusAnywhereButHere/FocusAnywhereButHere.adapter';
 import './FocusIf/FocusIf.adapter';
 import './ExpandOnClick/ExpandOnClick.adapter';
 import './ExpandOnHover/ExpandOnHover.adapter';
+import './SelectOnFocus/SelectOnFocus.adapter';
 import './SideNav/SideNav.adapter';
 import './MatomoDialog/MatomoDialog.adapter';
 import './EnrichedHeadline/EnrichedHeadline.adapter';
@@ -44,7 +45,9 @@ import './WidgetContainer/WidgetContainer.adapter';
 import './WidgetByDimensionContainer/WidgetByDimensionContainer.adapter';
 import './Widget/Widget.adapter';
 import './ReportingPage/ReportingPage.adapter';
+import './ReportExport/ReportExport.adapter';
 
+export { default as createVueApp } from './createVueApp';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export {
@@ -68,6 +71,7 @@ export { default as FocusIf } from './FocusIf/FocusIf';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
+export { default as SelectOnFocus } from './SelectOnFocus/SelectOnFocus';
 export { default as SideNav } from './SideNav/SideNav';
 export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
 export { default as ContentBlock } from './ContentBlock/ContentBlock.vue';
@@ -91,3 +95,4 @@ export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vu
 export { default as WidgetByDimensionContainer } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
 export { default as Widget } from './Widget/Widget.vue';
 export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
+export { default as ReportExport } from './ReportExport/ReportExport';
