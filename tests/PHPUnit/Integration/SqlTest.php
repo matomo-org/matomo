@@ -36,17 +36,14 @@ class SqlTest extends IntegrationTestCase
 
     public function testOptimize()
     {
-//        if(getenv('GITHUB'))
-//        {
-//            $this->markTestSkipped('Mariadb does\'t work for some reason');
-//        }
         // make sure optimizing myisam tables works
         $this->assertTrue(Db::optimizeTables(array('table1', 'table2')) !== false);
 
         // make sure optimizing both myisam & innodb results in optimizations
         $this->assertTrue(Db::optimizeTables(array('table1', 'table2', 'table3', 'table4')) !== false);
 
+        var_dump(Db::fetchOne("SELECT VERSION()"));
         // make sure innodb tables are skipped
-        $this->assertTrue(Db::optimizeTables(array('table3', 'table4')) !== false);
+        $this->assertTrue(Db::optimizeTables(array('table3', 'table4')) === false);
     }
 }
