@@ -60,7 +60,7 @@
           </button>
         </div>
         <div id="javascript-text">
-          <pre v-select-on-focus class="codeblock" v-text="trackingCode" ref="trackingCode"></pre>
+          <pre v-select-on-focus="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"></pre>
         </div>
       </div>
 
@@ -130,10 +130,10 @@
     <p>
       <a href="javascript:;"
          v-show="!showAdvanced"
-         @click="showAdvanced = true">{{ translate('General_Show') }}</a>
+         @click.prevent="showAdvanced = true">{{ translate('General_Show') }}</a>
       <a href="javascript:;"
          v-show="showAdvanced"
-         @click="showAdvanced = false">{{ translate('General_Hide') }}</a>
+         @click.prevent="showAdvanced = false">{{ translate('General_Hide') }}</a>
     </p>
 
     <div id="javascript-advanced-options" v-show="showAdvanced">
@@ -158,7 +158,7 @@
             {{ translate('General_Value') }}
           </div>
         </div>
-        <div class="row" ng-repeat="(customVar, index) in customVars">
+        <div class="row" v-for="(customVar, index) in customVars" :key="index">
           <div class="col s12 m6 l3">
             <input type="text" class="custom-variable-name"
                    @keydown="onCustomVarNameKeydown($event, index)"

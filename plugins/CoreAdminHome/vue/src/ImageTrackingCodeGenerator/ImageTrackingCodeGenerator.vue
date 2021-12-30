@@ -76,7 +76,7 @@
         <h3>{{ translate('CoreAdminHome_ImageTrackingLink') }}</h3>
 
         <div id="image-tracking-text">
-          <pre v-select-on-focus v-text="trackingCode" ref="trackingCode"></pre>
+          <pre v-select-on-focus="{}" v-text="trackingCode" ref="trackingCode"></pre>
         </div>
       </div>
     </div>
@@ -269,7 +269,7 @@ export default defineComponent({
       return [
         { key: '', value: translate('UserCountryMap_None') },
       ].concat(
-        (goalsResponse || []).map((g) => ({ key: `${g.idgoal}`, value: g.name })),
+        Object.values(goalsResponse || []).map((g) => ({ key: `${g.idgoal}`, value: g.name })),
       );
     },
     imageTrackingIntro() {
