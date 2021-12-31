@@ -73,7 +73,7 @@ class DependencyTest extends IntegrationTestCase
             $this->missingPiwik('>1.0,<2.0', '<2.0')
         ));
 
-        $this->assertMissingDependency(array('php' => '!=' . PHP_VERSION, 'piwik' => '<>' . Version::VERSION), array(
+        $this->assertMissingDependency(array('php' => '!=' . $this->formatPhpVersion(), 'piwik' => '<>' . Version::VERSION), array(
             $this->missingPhp('!=' . $this->formatPhpVersion()),
             $this->missingPiwik('<>' . Version::VERSION . ',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '<>' . Version::VERSION)
         ));
