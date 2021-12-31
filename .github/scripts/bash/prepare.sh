@@ -1,3 +1,4 @@
+
 #!/bin/bash
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -5,22 +6,22 @@ SET='\033[0m'
 
 
 # set up fonts
-if [ "$PIWIK_TEST_TARGET" = "UI" ]
-then
-  echo -e "${GREEN}Setup fonts${SET}"
-  git clone --recursive https://github.com/google/woff2.git ../travis_woff2
-  cd ../travis_woff2
-  make clean all
-  mkdir $HOME/.fonts
-  cp /home/runner/work/matomo/matomo/.github/artifacts/fonts/* $HOME/.fonts
-  fc-cache -f -v
-  ls $HOME/.fonts
-  sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
-  sudo sed -i -E 's/name="width" value="[^"]+"/name="width" value="64KP"/g' /etc/ImageMagick-6/policy.xml
-  sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
-  sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
-  sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
-fi
+#if [ "$PIWIK_TEST_TARGET" = "UI" ]
+#then
+#  echo -e "${GREEN}Setup fonts${SET}"
+#  git clone --recursive https://github.com/google/woff2.git ../travis_woff2
+#  cd ../travis_woff2
+#  make clean all
+#  mkdir $HOME/.fonts
+#  cp /home/runner/work/matomo/matomo/.github/artifacts/fonts/* $HOME/.fonts
+#  fc-cache -f -v
+#  ls $HOME/.fonts
+#  sudo sed -i -E 's/name="memory" value="[^"]+"/name="memory" value="2GiB"/g' /etc/ImageMagick-6/policy.xml
+#  sudo sed -i -E 's/name="width" value="[^"]+"/name="width" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+#  sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
+#  sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
+#  sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
+#fi
 
 # composer install
 cd /home/runner/work/matomo/matomo/
@@ -41,19 +42,10 @@ then
   npm install
   cd /home/runner/work/matomo/matomo/
 
-  mkdir -p ./tmp/assets
-  mkdir -p ./tmp/cache
-  mkdir -p ./tmp/cache/tracker
-  mkdir -p ./tmp/latest
-  mkdir -p ./tmp/logs
-  mkdir -p ./tmp/sessions
-  mkdir -p ./tmp/templates_c
-  mkdir -p ./tmp/templates_c/d2
-  mkdir -p ./tmp/tcpdf
-  mkdir -p ./tmp/climulti
-  mkdir -p /tmp
   chmod a+rw ./tests/lib/geoip-files || true
   chmod a+rw ./plugins/*/tests/System/processed || true
+  chmod a+rw ./plugins/*/tests/Integration/processed || true
+  mkdir -p ./tests/UI/processed-ui-screenshots
   cp .github/artifacts/config.ini.github.php  config/config.ini.php
   ls ./tests/PHPUnit/
 fi
@@ -115,15 +107,6 @@ if [ "$PIWIK_TEST_TARGET" = "Javascript" ];
 then
 echo -e "${GREEN}remove port 3000${SET}"
 sed -i 's/3000/\//g' ./config/config.ini.php
-fi
-
-if [ "$PIWIK_TEST_TARGET" = "UI" ];
-then
-  echo -e "${GREEN}setup screenshot folder${SET}"
-  mkdir -p ./tests/UI/processed-ui-screenshots
-  chmod a+rw ./tests/lib/geoip-files || true
-  chmod a+rw ./plugins/*/tests/System/processed || true
-  chmod a+rw ./plugins/*/tests/Integration/processed || true
 fi
 
 echo -e "${GREEN}set tmp and screenshot folder permission${SET}"

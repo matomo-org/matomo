@@ -39,7 +39,7 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_DATABASE: piwik_tests
+          MYSQL_DATABASE: matomo_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         options: --tmpfs /var/lib/mysql:rw
     strategy:
@@ -106,7 +106,7 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_DATABASE: piwik_tests
+          MYSQL_DATABASE: matomo_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 
@@ -170,7 +170,7 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_DATABASE: piwik_tests
+          MYSQL_DATABASE: matomo_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 

@@ -6,7 +6,7 @@
 host = 127.0.0.1
 username = root
 password =
-dbname = piwik_tests
+dbname = matomo_tests
 adapter = PDO\MYSQL
 ; no table prefix for tests on travis
 tables_prefix =
@@ -19,7 +19,7 @@ request_uri = "/"
 host = 127.0.0.1
 username = root
 password =
-dbname = piwik_tests
+dbname = matomo_tests
 adapter = PDO\MYSQL
 ; no table prefix for tests on travis
 tables_prefix =

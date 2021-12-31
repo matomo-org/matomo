@@ -109,8 +109,8 @@ class CommonTest extends TestCase
             ),
             // sanitize a SQL query
             array(
-                "SELECT piwik FROM piwik_tests where test= 'super\"value' AND cool=toto #comment here",
-                "SELECT piwik FROM piwik_tests where test= &#039;super&quot;value&#039; AND cool=toto #comment here"
+                "SELECT piwik FROM matomo_tests where test= 'super\"value' AND cool=toto #comment here",
+                "SELECT piwik FROM matomo_tests where test= &#039;super&quot;value&#039; AND cool=toto #comment here"
             ),
             // sanitize php variables
             array(true, true),
