@@ -11241,13 +11241,13 @@ function piwikContentTable() {
 }
 piwikContentTable.$inject = [];
 angular.module('piwikApp').directive('piwikContentTable', piwikContentTable);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=template&id=68ea0dbe
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=template&id=5df20019
 
-var AjaxFormvue_type_template_id_68ea0dbe_hoisted_1 = {
+var AjaxFormvue_type_template_id_5df20019_hoisted_1 = {
   ref: "root"
 };
-function AjaxFormvue_type_template_id_68ea0dbe_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AjaxFormvue_type_template_id_68ea0dbe_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default", {
+function AjaxFormvue_type_template_id_5df20019_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AjaxFormvue_type_template_id_5df20019_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default", {
     formData: _ctx.formData,
     submitApiMethod: _ctx.submitApiMethod,
     sendJsonPayload: _ctx.sendJsonPayload,
@@ -11259,7 +11259,7 @@ function AjaxFormvue_type_template_id_68ea0dbe_render(_ctx, _cache, $props, $set
     errorPostResponse: _ctx.errorPostResponse
   })], 512);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=template&id=68ea0dbe
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=template&id=5df20019
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=script&lang=ts
 
@@ -11336,13 +11336,13 @@ var AjaxFormvue_type_script_lang_ts_window = window,
         _this2.successfulPostResponse = response;
 
         if (!_this2.noSuccessNotification) {
-          Notifications_store.show({
+          var notificationInstanceId = Notifications_store.show({
             message: translate('General_YourChangesHaveBeenSaved'),
             context: 'success',
             type: 'toast',
             id: 'ajaxHelper'
           });
-          Notifications_store.scrollToNotification('ajaxHelper');
+          Notifications_store.scrollToNotification(notificationInstanceId);
         }
       }).catch(function (error) {
         _this2.errorPostResponse = error.message;
@@ -11358,7 +11358,7 @@ var AjaxFormvue_type_script_lang_ts_window = window,
 
 
 
-AjaxFormvue_type_script_lang_ts.render = AjaxFormvue_type_template_id_68ea0dbe_render
+AjaxFormvue_type_script_lang_ts.render = AjaxFormvue_type_template_id_5df20019_render
 
 /* harmony default export */ var AjaxForm = (AjaxFormvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.adapter.ts
@@ -11443,8 +11443,7 @@ function piwikAjaxForm($parse) {
         scope.ajaxForm.sendJsonPayload = scope.sendJsonPayload;
         scope.ajaxForm.noErrorNotification = scope.noErrorNotification;
         scope.ajaxForm.noSuccessNotification = scope.noSuccessNotification;
-        scope.ajaxForm.data = {};
-        scope.ajaxForm.formData = scope.ajaxForm.data; // if a model is supplied, initiate form data w/ model value
+        scope.ajaxForm.data = {}; // if a model is supplied, initiate form data w/ model value
 
         if (ngModel) {
           // probably redundant, but I cannot find another way to get the ng model value here
@@ -11457,7 +11456,7 @@ function piwikAjaxForm($parse) {
             scope.ajaxForm.submitForm = binding.value.submitForm;
           }
         };
-        var rootTemplate = "\n        <AjaxForm\n          :form-data=\"formData\"\n          :submit-api-method=\"submitApiMethod\"\n          :send-json-payload=\"sendJsonPayload\"\n          :no-error-notification=\"noErrorNotification\"\n          :no-success-notification=\"noSuccessNotification\"\n        >\n          <template v-slot:default=\"ajaxFormVue\">\n            <div\n              ref=\"transcludeTarget\"\n              v-special-bind-directive=\"{ submitForm: ajaxFormVue.submitForm }\"\n            />\n          </template>\n        </AjaxForm>";
+        var rootTemplate = "\n        <AjaxForm\n          :form-data=\"data\"\n          :submit-api-method=\"submitApiMethod\"\n          :send-json-payload=\"sendJsonPayload\"\n          :no-error-notification=\"noErrorNotification\"\n          :no-success-notification=\"noSuccessNotification\"\n        >\n          <template v-slot:default=\"ajaxFormVue\">\n            <div\n              ref=\"transcludeTarget\"\n              v-special-bind-directive=\"{ submitForm: ajaxFormVue.submitForm }\"\n            />\n          </template>\n        </AjaxForm>";
         var app = createVueApp({
           template: rootTemplate,
           data: function data() {
