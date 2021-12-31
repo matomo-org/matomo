@@ -89,10 +89,11 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_detectsPHPVersion()
     {
+        preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
         $this->assertMissingDependency(array('php' => '>=2.1'), array());
-        $this->assertMissingDependency(array('php' => '>=' . PHP_VERSION), array());
-        $this->assertMissingDependency(array('php' => '>' . PHP_VERSION), array(
-            $this->missingPhp('>' . PHP_VERSION)
+        $this->assertMissingDependency(array('php' => '>=' .  $phpversion[0]), array());
+        $this->assertMissingDependency(array('php' => '>' .  $phpversion[0]), array(
+            $this->missingPhp('>' . $phpversion[0])
         ));
         $this->assertMissingDependency(array('php' => '>=9.2'), array(
             $this->missingPhp('>=9.2')
@@ -280,7 +281,9 @@ class DependencyTest extends IntegrationTestCase
 
     private function missingPhp($requiredVersion, $causedBy = null)
     {
-        return $this->buildMissingDependecy('php', PHP_VERSION, $requiredVersion, $causedBy);
+        //"7.2.34-28+ubuntu20.04.1+deb.sury.org+1"
+        preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
+        return $this->buildMissingDependecy('php', $phpversion[0], $requiredVersion, $causedBy);
     }
 
     private function buildMissingDependecy($name, $currentVersion, $requiredVersion, $causedBy = null)
