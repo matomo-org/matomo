@@ -78,13 +78,7 @@ jobs:
           PHP_VERSION: ${{ matrix.php }}
           PIWIK_TEST_TARGET: 'PHP'
 
-      - name: Test runing
-        if: matrix.tests == 'UnitTests'
-        run: |
-          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite UnitTests
-
-      - name: Test runing
-        if: startsWith(matrix.tests,'SystemTests') || startsWith(matrix.tests,'IntegrationTests')
+      - name: Test running
         run: |
           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
         env:
