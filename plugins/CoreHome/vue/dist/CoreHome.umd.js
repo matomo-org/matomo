@@ -192,6 +192,7 @@ __webpack_require__.d(__webpack_exports__, "Sparkline", function() { return /* r
 __webpack_require__.d(__webpack_exports__, "Progressbar", function() { return /* reexport */ Progressbar; });
 __webpack_require__.d(__webpack_exports__, "ContentIntro", function() { return /* reexport */ ContentIntro; });
 __webpack_require__.d(__webpack_exports__, "ContentTable", function() { return /* reexport */ ContentTable; });
+__webpack_require__.d(__webpack_exports__, "AjaxForm", function() { return /* reexport */ AjaxForm; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -11240,6 +11241,287 @@ function piwikContentTable() {
 }
 piwikContentTable.$inject = [];
 angular.module('piwikApp').directive('piwikContentTable', piwikContentTable);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=template&id=5df20019
+
+var AjaxFormvue_type_template_id_5df20019_hoisted_1 = {
+  ref: "root"
+};
+function AjaxFormvue_type_template_id_5df20019_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AjaxFormvue_type_template_id_5df20019_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default", {
+    formData: _ctx.formData,
+    submitApiMethod: _ctx.submitApiMethod,
+    sendJsonPayload: _ctx.sendJsonPayload,
+    noErrorNotification: _ctx.noErrorNotification,
+    noSuccessNotification: _ctx.noSuccessNotification,
+    submitForm: _ctx.submitForm,
+    isSubmitting: _ctx.isSubmitting,
+    successfulPostResponse: _ctx.successfulPostResponse,
+    errorPostResponse: _ctx.errorPostResponse
+  })], 512);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=template&id=5df20019
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/@vue/cli-plugin-typescript/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-3!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=script&lang=ts
+
+
+
+
+var AjaxFormvue_type_script_lang_ts_window = window,
+    AjaxFormvue_type_script_lang_ts_$ = AjaxFormvue_type_script_lang_ts_window.$;
+/**
+ * Example usage:
+ *
+ * <AjaxForm :form-data="myData" ...>
+ *   <template v-slot:default="ajaxForm">
+ *     <Field v-model="myData.something" .../>
+ *     <SaveButton @confirm="ajaxForm.submitForm()" :saving="ajaxForm.isSubmitting"/>
+ *   </template>
+ * </AjaxForm>
+ *
+ * Data does not flow upwards in any way. :form-data is used for submitForm(), and the
+ * containing component binds to properties of the object in controls to fill the object.
+ */
+
+/* harmony default export */ var AjaxFormvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    formData: {
+      type: Object,
+      required: true
+    },
+    submitApiMethod: {
+      type: String,
+      required: true
+    },
+    sendJsonPayload: Boolean,
+    noErrorNotification: Boolean,
+    noSuccessNotification: Boolean
+  },
+  data: function data() {
+    return {
+      isSubmitting: false,
+      successfulPostResponse: null,
+      errorPostResponse: null
+    };
+  },
+  emits: ['update:modelValue'],
+  mounted: function mounted() {
+    var _this = this;
+
+    // on submit call controller submit method
+    AjaxFormvue_type_script_lang_ts_$(this.$refs.root).on('click', 'input[type=submit]', function () {
+      _this.submitForm();
+    });
+  },
+  methods: {
+    submitForm: function submitForm() {
+      var _this2 = this;
+
+      this.successfulPostResponse = null;
+      this.errorPostResponse = null;
+      var postParams = this.formData;
+
+      if (this.sendJsonPayload) {
+        postParams = {
+          data: JSON.stringify(this.formData)
+        };
+      }
+
+      this.isSubmitting = true;
+      AjaxHelper_AjaxHelper.post({
+        module: 'API',
+        method: this.submitApiMethod
+      }, postParams, {
+        createErrorNotification: !this.noErrorNotification
+      }).then(function (response) {
+        _this2.successfulPostResponse = response;
+
+        if (!_this2.noSuccessNotification) {
+          var notificationInstanceId = Notifications_store.show({
+            message: translate('General_YourChangesHaveBeenSaved'),
+            context: 'success',
+            type: 'toast',
+            id: 'ajaxHelper'
+          });
+          Notifications_store.scrollToNotification(notificationInstanceId);
+        }
+      }).catch(function (error) {
+        _this2.errorPostResponse = error.message;
+      }).finally(function () {
+        _this2.isSubmitting = false;
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue
+
+
+
+AjaxFormvue_type_script_lang_ts.render = AjaxFormvue_type_template_id_5df20019_render
+
+/* harmony default export */ var AjaxForm = (AjaxFormvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+/**
+ * AngularJS directive that manages an AJAX form.
+ *
+ * This directive will detect inputs & selects defined within an element and when a
+ * submit button is clicked, will post data from the inputs & selects to a Piwik API method.
+ *
+ * When the POST request is finished the result will, by default, be displayed as a
+ * notification.
+ *
+ * This directive accepts the following attributes:
+ *
+ * - **submit-api-method**: **required** The Piwik API method that handles the POST request.
+ * - **send-json-payload**: Whether to send the data as a form encoded URL or to send it as JSON.
+ *                          If sending as JSON, the payload will still be a form encoded value,
+ *                          but will contain a JSON object like `{data: {...form data...}}`.
+ *
+ *                          This is for forms with lots of fields where having the same number
+ *                          of parameters in an API method would not be desired.
+ * - **no-error-notification**: If true, does not display an error notification if the AJAX post
+ *                              fails.
+ * - **no-success-notification**: If true, does not display an error notification if the AJAX
+ *                                results in success.
+ *
+ * **Custom Success/Error Handling**
+ *
+ * On success/failure, the response will be stored in controller scope. Child elements of a
+ * piwik-ajax-form element can access this data, and thus, can customize what happens when
+ * a form submit succeeds/fails.
+ *
+ * See the ajax-form.controller.js file for more info.
+ *
+ * Usage:
+ *
+ *     <div piwik-ajax-form
+ *          submit-api-method="'MyPlugin.myFormSaveMethod'"
+ *          send-json-payload="true"
+ *          ng-model="myFormData">
+ *
+ *          <h2>My Form</h2>
+ *          <input name="myOption" value="myDefaultValue" type="text" />
+ *          <input name="myOtherOption" type="checkbox" checked="checked" />
+ *          <input type="submit" value="Submit" ng-disabled="ajaxForm.isSubmitting" />
+ *
+ *          <div piwik-notification context='error' ng-show="errorPostResponse">ERROR!</div>
+ *     </div>
+ * @deprecated
+ */
+
+function piwikAjaxForm($parse) {
+  return {
+    restrict: 'A',
+    scope: {
+      submitApiMethod: '=',
+      sendJsonPayload: '=',
+      noErrorNotification: '=',
+      noSuccessNotification: '=',
+      useCustomDataBinding: '='
+    },
+    require: '?ngModel',
+    transclude: true,
+    compile: function piwikAjaxFormCompile(compileElement, compileAttrs) {
+      compileAttrs.noErrorNotification = !!compileAttrs.noErrorNotification;
+      return function piwikAjaxFormLink(scope, element, attrs, ngModel, transclude) {
+        if (!scope.submitApiMethod) {
+          throw new Error('submitApiMethod is required');
+        }
+
+        scope.ajaxForm = {};
+        scope.ajaxForm.submitApiMethod = scope.submitApiMethod;
+        scope.ajaxForm.sendJsonPayload = scope.sendJsonPayload;
+        scope.ajaxForm.noErrorNotification = scope.noErrorNotification;
+        scope.ajaxForm.noSuccessNotification = scope.noSuccessNotification;
+        scope.ajaxForm.data = {}; // if a model is supplied, initiate form data w/ model value
+
+        if (ngModel) {
+          // probably redundant, but I cannot find another way to get the ng model value here
+          var ngModelGetter = $parse(attrs.ngModel);
+          scope.ajaxForm.data = ngModelGetter(scope.$parent);
+        }
+
+        var specialBindDirective = {
+          mounted: function mounted(el, binding) {
+            scope.ajaxForm.submitForm = binding.value.submitForm;
+          }
+        };
+        var rootTemplate = "\n        <AjaxForm\n          :form-data=\"data\"\n          :submit-api-method=\"submitApiMethod\"\n          :send-json-payload=\"sendJsonPayload\"\n          :no-error-notification=\"noErrorNotification\"\n          :no-success-notification=\"noSuccessNotification\"\n        >\n          <template v-slot:default=\"ajaxFormVue\">\n            <div\n              ref=\"transcludeTarget\"\n              v-special-bind-directive=\"{ submitForm: ajaxFormVue.submitForm }\"\n            />\n          </template>\n        </AjaxForm>";
+        var app = createVueApp({
+          template: rootTemplate,
+          data: function data() {
+            return scope.ajaxForm;
+          },
+          setup: function setup() {
+            var transcludeTarget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+            return {
+              transcludeTarget: transcludeTarget
+            };
+          }
+        });
+        app.component('AjaxForm', AjaxForm);
+        app.directive('SpecialBindDirective', specialBindDirective);
+        var vm = app.mount(element[0]);
+        element.on('$destroy', function () {
+          app.unmount();
+        });
+
+        function setFormValueFromInput(inputElement, skipScopeApply) {
+          var $ = angular.element;
+          var name = $(inputElement).attr('name');
+          var val;
+
+          if ($(inputElement).attr('type') === 'checkbox') {
+            val = $(inputElement).is(':checked');
+          } else {
+            val = $(inputElement).val();
+          }
+
+          scope.ajaxForm.data[name] = val;
+
+          if (!skipScopeApply) {
+            setTimeout(function () {
+              scope.$apply();
+            }, 0);
+          }
+        } // on change of any input, change appropriate value in model, but only if requested
+
+
+        if (!scope.useCustomDataBinding) {
+          element.on('change', 'input,select', function (event) {
+            setFormValueFromInput(event.target);
+          });
+        } // make sure child elements can access this directive's scope
+
+
+        transclude(scope, function (clone, transcludeScope) {
+          if (!transcludeScope.useCustomDataBinding) {
+            var $inputs = clone.find('input,select').not('[type=submit]'); // initialize form data to input values (include <select>s
+
+            $inputs.each(function inputEach() {
+              setFormValueFromInput(this, true);
+            });
+          }
+
+          $(vm.transcludeTarget).append(clone);
+        });
+      };
+    }
+  };
+}
+
+piwikAjaxForm.$inject = ['$parse'];
+angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -11369,6 +11651,8 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 

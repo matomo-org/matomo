@@ -50,6 +50,7 @@ import './Sparkline/Sparkline.adapter';
 import './Progressbar/Progressbar.adapter';
 import './ContentIntro/ContentIntro.adapter';
 import './ContentTable/ContentTable.adapter';
+import './AjaxForm/AjaxForm.adapter';
 
 export { default as createVueApp } from './createVueApp';
 export { default as DirectiveUtilities } from './directiveUtilities';
@@ -104,3 +105,4 @@ export { default as Sparkline } from './Sparkline/Sparkline.vue';
 export { default as Progressbar } from './Progressbar/Progressbar.vue';
 export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';
+export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';
