@@ -30,6 +30,25 @@ function transformVueComponentRef(value?: Record<string, string>) {
   return useExternalPluginComponent(plugin, name);
 }
 
+interface Setting {
+  name: string;
+  value: unknown;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function conditionFn(scope: any, condition: string) {
+  const values: Record<string, unknown> = {};
+  Object.values((scope.allSettings || {}) as Record<string, Setting>).forEach((setting) => {
+    if (setting.value === '0') {
+      values[setting.name] = 0;
+    } else {
+      values[setting.name] = setting.value;
+    }
+  });
+
+  return scope.$eval(condition, values);
+}
+
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: FormField,
   scope: {
@@ -65,7 +84,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
         return {
           ...value,
           condition: value.condition
-            ? (values: unknown[]) => scope.$eval(value.condition as string, values)
+            ? conditionFn.bind(null, scope, value.condition as string)
             : value.condition,
           disabled: transformAngularJsBoolAttr(value.disabled),
           autocomplete: transformAngularJsBoolAttr(value.autocomplete),
@@ -106,5 +125,16 @@ export default createAngularJsAdapter<[ITimeoutService]>({
         vm.modelValue = newVal;
       }
     });
+
+    // deep watch for all settings, on change trigger change in formfield property
+    // so condition is re-applied
+    scope.$watch('allSettings', () => {
+      vm.formField = {
+        ...vm.formField,
+        condition: scope.piwikFormField.condition
+          ? conditionFn.bind(null, scope, scope.piwikFormField.condition as string)
+          : scope.piwikFormField.condition,
+      };
+    }, true);
   },
 });
