@@ -74,7 +74,7 @@ class DependencyTest extends IntegrationTestCase
         ));
 
         $this->assertMissingDependency(array('php' => '!=' . PHP_VERSION, 'piwik' => '<>' . Version::VERSION), array(
-            $this->missingPhp('!=' . PHP_VERSION),
+            $this->missingPhp('!=' . $this->formatPhpVersion()),
             $this->missingPiwik('<>' . Version::VERSION . ',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '<>' . Version::VERSION)
         ));
     }
@@ -89,11 +89,10 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_detectsPHPVersion()
     {
-        preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
         $this->assertMissingDependency(array('php' => '>=2.1'), array());
         $this->assertMissingDependency(array('php' => '>=' .  $phpversion[0]), array());
         $this->assertMissingDependency(array('php' => '>' .  $phpversion[0]), array(
-            $this->missingPhp('>' . $phpversion[0])
+            $this->missingPhp('>' . $this->formatPhpVersion())
         ));
         $this->assertMissingDependency(array('php' => '>=9.2'), array(
             $this->missingPhp('>=9.2')
@@ -282,8 +281,7 @@ class DependencyTest extends IntegrationTestCase
     private function missingPhp($requiredVersion, $causedBy = null)
     {
         //"7.2.34-28+ubuntu20.04.1+deb.sury.org+1"
-        preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
-        return $this->buildMissingDependecy('php', $phpversion[0], $requiredVersion, $causedBy);
+        return $this->buildMissingDependecy('php', $this->formatPhpVersion(), $requiredVersion, $causedBy);
     }
 
     private function buildMissingDependecy($name, $currentVersion, $requiredVersion, $causedBy = null)
@@ -298,6 +296,12 @@ class DependencyTest extends IntegrationTestCase
             'requiredVersion' => $requiredVersion,
             'causedBy'        => $causedBy
         );
+    }
+
+    private function formatPhpVersion()
+    {
+        preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
+        return $phpversion[0];
     }
 
     private function assertMissingDependency($requires, $expectedMissing)

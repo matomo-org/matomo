@@ -6,12 +6,9 @@ SET='\033[0m'
 
 
 # set up fonts
-#if [ "$PIWIK_TEST_TARGET" = "UI" ]
-#then
-#  echo -e "${GREEN}Setup fonts${SET}"
-#  git clone --recursive https://github.com/google/woff2.git ../travis_woff2
-#  cd ../travis_woff2
-#  make clean all
+if [ "$PIWIK_TEST_TARGET" = "UI" ]
+then
+  echo -e "${GREEN}Setup fonts${SET}"
   mkdir $HOME/.fonts
   cp /home/runner/work/matomo/matomo/.github/artifacts/fonts/* $HOME/.fonts
   fc-cache -f -v
@@ -21,7 +18,7 @@ SET='\033[0m'
   sudo sed -i -E 's/name="height" value="[^"]+"/name="height" value="64KP"/g' /etc/ImageMagick-6/policy.xml
   sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
   sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
-#fi
+fi
 
 # composer install
 cd /home/runner/work/matomo/matomo/
