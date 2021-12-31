@@ -103,6 +103,10 @@ declare global {
     getColors(namespace: string, names: string[], asArray?: boolean): string[]|{[name: string]: string};
   }
 
+  interface SparklineColors extends Record<string, string> {
+    lineColor: string[];
+  }
+
   interface PiwikGlobal {
     timezoneOffset: number;
     addCustomPeriod: (name: string, periodClass: any) => void;
@@ -133,6 +137,7 @@ declare global {
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(): {[key: string]: any};
+    getSparklineColors(): SparklineColors;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
