@@ -89,10 +89,11 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_detectsPHPVersion()
     {
+        $phpVersion =  $this->formatPhpVersion();
         $this->assertMissingDependency(array('php' => '>=2.1'), array());
-        $this->assertMissingDependency(array('php' => '>=' .  $phpversion[0]), array());
-        $this->assertMissingDependency(array('php' => '>' .  $phpversion[0]), array(
-            $this->missingPhp('>' . $this->formatPhpVersion())
+        $this->assertMissingDependency(array('php' => '>=' .  $phpVersion), array());
+        $this->assertMissingDependency(array('php' => '>' .  $phpVersion), array(
+            $this->missingPhp('>' . $phpVersion)
         ));
         $this->assertMissingDependency(array('php' => '>=9.2'), array(
             $this->missingPhp('>=9.2')
