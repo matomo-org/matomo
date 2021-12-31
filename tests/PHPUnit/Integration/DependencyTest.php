@@ -47,10 +47,6 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_multipleConditions()
     {
-        //todo this is need to be fix skip for now
-        if (getenv('PHP_VERSION') == '7.2') {
-            $this->markTestSkipped('version number not exist');
-        }
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '<2.0'), array(
             $this->missingPhp('<5.2'),
             $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0')
@@ -69,10 +65,6 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_multipleConditions_differentConditions()
     {
-        //todo this is need to be fix skip for now
-        if (getenv('PHP_VERSION') == '7.2') {
-            $this->markTestSkipped('version number not exist');
-        }
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>2.0,<9.0.0'), array(
             $this->missingPhp('<5.2')
         ));
@@ -89,10 +81,6 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingVersion_AND_Condition()
     {
-        //todo this is need to be fix skip for now
-        if (getenv('PHP_VERSION') == '7.2') {
-            $this->markTestSkipped('version number not exist');
-        }
         $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '>=3.0.0-b1,<4.0.0-b1'), array(
             $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0'),
             $this->missingPiwik('>=3.0.0-b1,<4.0.0-b1', '<4.0.0-b1')
@@ -101,10 +89,6 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingDependencies_detectsPHPVersion()
     {
-        //todo this is need to be fix skip for now
-        if (getenv('PHP_VERSION') == '7.2') {
-            $this->markTestSkipped('version number not exist');
-        }
         $this->assertMissingDependency(array('php' => '>=2.1'), array());
         $this->assertMissingDependency(array('php' => '>=' . PHP_VERSION), array());
         $this->assertMissingDependency(array('php' => '>' . PHP_VERSION), array(
@@ -296,7 +280,8 @@ class DependencyTest extends IntegrationTestCase
 
     private function missingPhp($requiredVersion, $causedBy = null)
     {
-        preg_match("#^\d+(\.\d+)*#", "7.2.34-28+ubuntu20.04.1+deb.sury.org+1", $phpversion);
+        //this hack was used for this php version"7.2.34-28+ubuntu20.04.1+deb.sury.org+1"
+        preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
         return $this->buildMissingDependecy('php', $phpversion[0], $requiredVersion, $causedBy);
     }
 
