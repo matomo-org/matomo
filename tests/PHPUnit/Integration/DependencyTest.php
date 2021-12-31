@@ -280,9 +280,7 @@ class DependencyTest extends IntegrationTestCase
 
     private function missingPhp($requiredVersion, $causedBy = null)
     {
-        //this hack was used for this php version"7.2.34-28+ubuntu20.04.1+deb.sury.org+1"
-        preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
-        return $this->buildMissingDependecy('php', $phpversion[0], $requiredVersion, $causedBy);
+        return $this->buildMissingDependecy('php', PHP_VERSION, $requiredVersion, $causedBy);
     }
 
     private function buildMissingDependecy($name, $currentVersion, $requiredVersion, $causedBy = null)

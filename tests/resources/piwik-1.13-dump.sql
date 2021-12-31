@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.32, for debian-linux-gnu (i686)
 --
--- Host: localhost    Database: matomo_tests
+-- Host: localhost    Database: piwik_tests
 -- ------------------------------------------------------
 -- Server version	5.5.32-0ubuntu0.12.04.1
 
@@ -16,7 +16,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `matomo_tests`
+-- Current Database: `piwik_tests`
 --
 
 --
