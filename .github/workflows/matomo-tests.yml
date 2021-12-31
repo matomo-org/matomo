@@ -96,11 +96,6 @@ jobs:
   Javascript:
     runs-on: ubuntu-20.04
     services:
-      redis:
-        image: redis:5.0
-        ports:
-          - 6379:6379
-        options: --entrypoint redis-server
       mariadb:
         image: mariadb:latest
         ports:
@@ -135,7 +130,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '16'
 
       - name: prepare setup
         shell: bash
@@ -200,7 +195,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '16'
 
       - name: prepare setup
         shell: bash
