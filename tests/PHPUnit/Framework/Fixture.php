@@ -615,6 +615,9 @@ class Fixture extends \PHPUnit\Framework\Assert
             $piwikUrl .= $piwikUri;
         }
 
+        // this hack is used because github action using ip address not the localhost.
+        $piwikUrl = getenv('GITHUB') ? "http://localhost/" : $piwikUrl;
+
         return $piwikUrl;
     }
 
