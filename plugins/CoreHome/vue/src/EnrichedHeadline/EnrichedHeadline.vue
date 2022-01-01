@@ -179,21 +179,23 @@ export default defineComponent({
         this.actualFeatureName = root.querySelector('.title')?.textContent;
       }
 
-      const currentPeriod = Periods.parse(
-        Matomo.period as string,
-        Matomo.currentDateString as string,
-      );
+      if (Matomo.period && Matomo.currentDateString) {
+        const currentPeriod = Periods.parse(
+          Matomo.period as string,
+          Matomo.currentDateString as string,
+        );
 
-      if (this.reportGenerated
-        && currentPeriod.containsToday()
-      ) {
-        window.$(root.querySelector('.report-generated')!).tooltip({
-          track: true,
-          content: this.reportGenerated,
-          items: 'div',
-          show: false,
-          hide: false,
-        });
+        if (this.reportGenerated
+          && currentPeriod.containsToday()
+        ) {
+          window.$(root.querySelector('.report-generated')!).tooltip({
+            track: true,
+            content: this.reportGenerated,
+            items: 'div',
+            show: false,
+            hide: false,
+          });
+        }
       }
     });
   },

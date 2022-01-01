@@ -88,7 +88,6 @@ function piwikAjaxForm($parse: IParseService): IDirective {
         scope.ajaxForm.noSuccessNotification = scope.noSuccessNotification;
 
         scope.ajaxForm.data = {};
-        scope.ajaxForm.formData = scope.ajaxForm.data;
 
         // if a model is supplied, initiate form data w/ model value
         if (ngModel) {
@@ -109,7 +108,7 @@ function piwikAjaxForm($parse: IParseService): IDirective {
 
         const rootTemplate = `
         <AjaxForm
-          :form-data="formData"
+          :form-data="data"
           :submit-api-method="submitApiMethod"
           :send-json-payload="sendJsonPayload"
           :no-error-notification="noErrorNotification"
@@ -165,7 +164,7 @@ function piwikAjaxForm($parse: IParseService): IDirective {
         // on change of any input, change appropriate value in model, but only if requested
         if (!scope.useCustomDataBinding) {
           element.on('change', 'input,select', (event) => {
-            setFormValueFromInput(event.target);
+            setFormValueFromInput(event.target as HTMLElement);
           });
         }
 
