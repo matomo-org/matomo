@@ -2054,6 +2054,112 @@ function ajaxQueue() {
 }
 
 angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PopoverHandler/PopoverHandler.ts
+function PopoverHandler_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function PopoverHandler_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function PopoverHandler_createClass(Constructor, protoProps, staticProps) { if (protoProps) PopoverHandler_defineProperties(Constructor.prototype, protoProps); if (staticProps) PopoverHandler_defineProperties(Constructor, staticProps); return Constructor; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+var PopoverHandler_window = window,
+    PopoverHandler_$ = PopoverHandler_window.$;
+
+var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
+  function PopoverHandler() {
+    PopoverHandler_classCallCheck(this, PopoverHandler);
+
+    this.setup();
+  }
+
+  PopoverHandler_createClass(PopoverHandler, [{
+    key: "setup",
+    value: function setup() {
+      var _this = this;
+
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+        return src_MatomoUrl_MatomoUrl.parsed.value.popover;
+      }, function () {
+        return _this.onPopoverParamChanged();
+      });
+
+      if (src_MatomoUrl_MatomoUrl.parsed.value.popover) {
+        this.onPopoverParamChangedInitial();
+      }
+    } // don't initiate the handler until the page had a chance to render,
+    // since some rowactions depend on what's been loaded.
+
+  }, {
+    key: "onPopoverParamChangedInitial",
+    value: function onPopoverParamChangedInitial() {
+      var _this2 = this;
+
+      PopoverHandler_$(function () {
+        setTimeout(function () {
+          _this2.openOrClose();
+        });
+      });
+    }
+  }, {
+    key: "onPopoverParamChanged",
+    value: function onPopoverParamChanged() {
+      var _this3 = this;
+
+      // make sure all popover handles were registered
+      PopoverHandler_$(function () {
+        _this3.openOrClose();
+      });
+    }
+  }, {
+    key: "openOrClose",
+    value: function openOrClose() {
+      this.close(); // should be rather done by routing
+
+      var popoverParam = src_MatomoUrl_MatomoUrl.parsed.value.popover;
+
+      if (popoverParam) {
+        this.open(popoverParam);
+      } else {
+        // the URL should only be set to an empty popover if there are no popovers in the stack.
+        // to avoid avoid any strange inconsistent states, we reset the popover stack here.
+        window.broadcast.resetPopoverStack();
+      }
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      window.Piwik_Popover.close();
+    }
+  }, {
+    key: "open",
+    value: function open(thePopoverParam) {
+      // in case the $ was encoded (e.g. when using copy&paste on urls in some browsers)
+      var popoverParam = decodeURIComponent(thePopoverParam); // revert special encoding from broadcast.propagateNewPopoverParameter()
+
+      popoverParam = popoverParam.replace(/\$/g, '%');
+      popoverParam = decodeURIComponent(popoverParam);
+      var popoverParamParts = popoverParam.split(':');
+      var handlerName = popoverParamParts[0];
+      popoverParamParts.shift();
+      var param = popoverParamParts.join(':');
+
+      if (typeof window.broadcast.popoverHandlers[handlerName] !== 'undefined' && !window.broadcast.isLoginPage()) {
+        window.broadcast.popoverHandlers[handlerName](param);
+      }
+    }
+  }]);
+
+  return PopoverHandler;
+}();
+
+/* harmony default export */ var src_PopoverHandler_PopoverHandler = (new PopoverHandler_PopoverHandler());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -11651,6 +11757,7 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

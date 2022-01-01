@@ -15,6 +15,7 @@ import './Periods/Year';
 import './Periods/Range';
 import './Periods/Periods.adapter';
 import './AjaxHelper/AjaxHelper.adapter';
+import './PopoverHandler/PopoverHandler';
 import './DropdownMenu/DropdownMenu.adapter';
 import './FocusAnywhereButHere/FocusAnywhereButHere.adapter';
 import './FocusIf/FocusIf.adapter';
