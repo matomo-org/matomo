@@ -161,6 +161,8 @@ __webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* ree
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 __webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
 __webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
+__webpack_require__.d(__webpack_exports__, "ShowSensitiveData", function() { return /* reexport */ ShowSensitiveData; });
+__webpack_require__.d(__webpack_exports__, "DropdownButton", function() { return /* reexport */ DropdownButton; });
 __webpack_require__.d(__webpack_exports__, "SelectOnFocus", function() { return /* reexport */ SelectOnFocus; });
 __webpack_require__.d(__webpack_exports__, "SideNav", function() { return /* reexport */ SideNav; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
@@ -2655,6 +2657,141 @@ function piwikExpandOnHover() {
 
 piwikExpandOnHover.$inject = [];
 angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowSensitiveData/ShowSensitiveData.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var ShowSensitiveData_window = window,
+    ShowSensitiveData_$ = ShowSensitiveData_window.$;
+/**
+ * Handles visibility of sensitive data. By default data will be shown replaced with stars (*)
+ * On click on the element the full data will be shown
+ *
+ * Configuration attributes:
+ * data-show-characters          number of characters to show in clear text (defaults to 6)
+ * data-click-element-selector   selector for element that will show the full data on click
+ *                               (defaults to element)
+ *
+ * Example:
+ * <div v-show-sensitive-date="some text"></div>
+ */
+
+/* harmony default export */ var ShowSensitiveData = ({
+  mounted: function mounted(el, binding) {
+    var element = ShowSensitiveData_$(el);
+    var sensitiveData = binding.value.sensitiveData;
+    var showCharacters = binding.value.showCharacters || 6;
+    var clickElement = binding.value.clickElementSelector || element;
+    var protectedData = '';
+
+    if (showCharacters > 0) {
+      protectedData += sensitiveData.substr(0, showCharacters);
+    }
+
+    protectedData += sensitiveData.substr(showCharacters).replace(/./g, '*');
+    element.html(protectedData);
+
+    function onClickHandler() {
+      element.html(sensitiveData);
+      ShowSensitiveData_$(clickElement).css({
+        cursor: ''
+      });
+      ShowSensitiveData_$(clickElement).tooltip('destroy');
+    }
+
+    ShowSensitiveData_$(clickElement).tooltip({
+      content: translate('CoreHome_ClickToSeeFullInformation'),
+      items: '*',
+      track: true
+    });
+    ShowSensitiveData_$(clickElement).one('click', onClickHandler);
+    ShowSensitiveData_$(clickElement).css({
+      cursor: 'pointer'
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowSensitiveData/ShowSensitiveData.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikShowSensitiveData() {
+  return {
+    restrict: 'A',
+    link: function piwikShowSensitiveDataLink(scope, element, attr) {
+      var binding = {
+        instance: null,
+        value: {
+          sensitiveData: attr.piwikShowSensitiveData || (attr.text ? attr.text() : ''),
+          showCharacters: attr.showCharacters ? parseInt(attr.showCharacters, 10) : undefined,
+          clickElementSelector: attr.clickElementSelector
+        },
+        oldValue: null,
+        modifiers: {},
+        dir: {}
+      };
+      ShowSensitiveData.mounted(element[0], binding);
+    }
+  };
+}
+piwikShowSensitiveData.$inject = [];
+angular.module('piwikApp').directive('piwikShowSensitiveData', piwikShowSensitiveData);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownButton/DropdownButton.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var DropdownButton_window = window,
+    DropdownButton_$ = DropdownButton_window.$;
+/* harmony default export */ var DropdownButton = ({
+  mounted: function mounted(el) {
+    var element = DropdownButton_$(el); // BC for materializecss 0.97 => 1.0
+
+    if (!element.attr('data-target') && element.attr('data-activates')) {
+      element.attr('data-target', element.attr('data-activates'));
+    }
+
+    var target = element.attr('data-target');
+
+    if (target && DropdownButton_$("#".concat(target)).length) {
+      DropdownButton_$(element).dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrainWidth: false,
+        //  hover: true, // Activate on hover
+        belowOrigin: true // Displays dropdown below the button
+
+      });
+    }
+  }
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownButton/DropdownButton.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function piwikDropdownButton() {
+  return {
+    restrict: 'C',
+    link: function piwikDropdownButtonLink(scope, element) {
+      DropdownButton.mounted(element[0]);
+    }
+  };
+}
+piwikDropdownButton.$inject = [];
+angular.module('piwikApp').directive('dropdownButton', piwikDropdownButton);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SelectOnFocus/SelectOnFocus.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2669,7 +2806,7 @@ function onFocusHandler(binding, event) {
   }
 }
 
-function onClickHandler(event) {
+function SelectOnFocus_onClickHandler(event) {
   // .select() + focus and blur seems to not work on pre elements
   var range = document.createRange();
   range.selectNode(event.target);
@@ -2699,7 +2836,7 @@ function onBlurHandler(binding) {
       el.addEventListener('focus', binding.value.onFocusHandler);
       el.addEventListener('blur', binding.value.onBlurHandler);
     } else {
-      binding.value.onClickHandler = onClickHandler;
+      binding.value.onClickHandler = SelectOnFocus_onClickHandler;
       el.addEventListener('click', binding.value.onClickHandler);
     }
   },
@@ -11757,6 +11894,10 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
 
 
 

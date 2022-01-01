@@ -218,7 +218,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
