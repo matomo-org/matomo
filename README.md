@@ -60,6 +60,8 @@ If you do not have a server or don't want to host yourself you can use our Matom
 
 Check out the online demo for Matomo at [demo.matomo.cloud](https://demo.matomo.cloud/).
 
+Or Run with another tool [![TeamCode try-it-now](https://static01.teamcode.com/badge/teamcode-badge-run-in-cloud-en.svg)](https://www.teamcode.com/tin/clone?applicationId=275272742582263808)
+
 ## Changelog
 
 For the list of all tickets closed in the current and past releases, see [matomo.org/changelog/](https://matomo.org/changelog/). For the list of technical changes in the Matomo platform, see [developer.matomo.org/changelog](https://developer.matomo.org/changelog).
