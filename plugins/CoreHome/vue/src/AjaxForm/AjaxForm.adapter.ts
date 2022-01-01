@@ -84,7 +84,6 @@ function piwikAjaxForm($parse) {
         scope.ajaxForm.noSuccessNotification = scope.noSuccessNotification;
 
         scope.ajaxForm.data = {};
-        scope.ajaxForm.formData = scope.ajaxForm.data;
 
         // if a model is supplied, initiate form data w/ model value
         if (ngModel) {
@@ -105,7 +104,7 @@ function piwikAjaxForm($parse) {
 
         const rootTemplate = `
         <AjaxForm
-          :form-data="formData"
+          :form-data="data"
           :submit-api-method="submitApiMethod"
           :send-json-payload="sendJsonPayload"
           :no-error-notification="noErrorNotification"
