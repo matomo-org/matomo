@@ -60,6 +60,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
         $stylesheets[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.less";
+        $stylesheets[] = "plugins/CoreAdminHome/stylesheets/whatIsNew.less";
     }
 
     public function getJsFiles(&$jsFiles)

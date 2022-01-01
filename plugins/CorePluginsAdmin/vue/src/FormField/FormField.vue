@@ -125,11 +125,6 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR: Record<string, ProcessAvailableOpti
   FieldExpandableSelect: getExpandableSelectAvailableOptions,
 };
 
-interface Setting {
-  name: string;
-  value: unknown;
-}
-
 interface FormField {
   availableValues: Record<string, unknown>;
   type: string;
@@ -137,6 +132,7 @@ interface FormField {
   defaultValue: unknown;
   uiControl: string;
   component: Component;
+  inlineHelp?: string;
 }
 
 interface OptionLike {
@@ -151,7 +147,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    allSettings: [Object, Array],
   },
   emits: ['update:modelValue'],
   components: {
@@ -174,7 +169,7 @@ export default defineComponent({
   setup(props) {
     const inlineHelpNode = ref<HTMLElement|null>(null);
 
-    const setInlineHelp = (newVal: string|HTMLElement|JQuery) => {
+    const setInlineHelp = (newVal?: string|HTMLElement|JQuery) => {
       let toAppend: HTMLElement|JQuery|string;
 
       if (!newVal || !inlineHelpNode.value) {
@@ -194,10 +189,10 @@ export default defineComponent({
       window.$(inlineHelpNode.value).html('').append(toAppend);
     };
 
-    watch(() => props.formField.inlineHelp, setInlineHelp);
+    watch(() => (props.formField as FormField).inlineHelp, setInlineHelp);
 
     onMounted(() => {
-      setInlineHelp(props.formField.inlineHelp);
+      setInlineHelp((props.formField as FormField).inlineHelp);
     });
 
     return {
@@ -248,16 +243,7 @@ export default defineComponent({
         return true;
       }
 
-      const values: Record<string, unknown> = {};
-      Object.values((this.allSettings || {}) as Record<string, Setting>).forEach((setting) => {
-        if (setting.value === '0') {
-          values[setting.name] = 0;
-        } else {
-          values[setting.name] = setting.value;
-        }
-      });
-
-      return this.formField.condition(values);
+      return this.formField.condition();
     },
     processedModelValue() {
       const field = this.formField as FormField;

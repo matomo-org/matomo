@@ -163,9 +163,9 @@ export default defineComponent({
       });
 
       if (keyItem) {
-        return `${keyItem.value}`;
+        return keyItem.value ? `${keyItem.value}` : '';
       }
-      return `${key}`;
+      return key ? `${key}` : '';
     },
   },
   methods: {

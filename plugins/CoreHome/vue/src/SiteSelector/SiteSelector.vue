@@ -129,11 +129,7 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
 import SitesStore, { Site } from './SitesStore';
 import debounce from '../debounce';
-
-export interface SiteRef {
-  id: string|number;
-  name: string;
-}
+import SiteRef from './SiteRef';
 
 interface SiteSelectorState {
   searchTerm: string;

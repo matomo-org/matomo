@@ -13,6 +13,8 @@
             {{ menu._html|raw }}
         {% else %}
             <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
+               {% if menu._attribute is defined %}{{ menu._attribute }}{% endif %}
+               {% if menu._onclick is defined %}onClick="{{ menu._onclick }}"{% endif %}
                {% if menu._url.module is defined %}
                   id="topmenu-{{ menu._url.module|lower }}"
                   href="index.php{{ menu._url|urlRewriteWithParameters }}"

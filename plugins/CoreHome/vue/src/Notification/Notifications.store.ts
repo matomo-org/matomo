@@ -101,7 +101,7 @@ interface NotificationsData {
 const { $ } = window;
 
 class NotificationsStore {
-  private privateState: NotificationsData = reactive<NotificationsData>({
+  private privateState = reactive<NotificationsData>({
     notifications: [],
   });
 

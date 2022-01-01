@@ -381,7 +381,9 @@ export default defineComponent({
         exportUrlParams.expanded = 1;
       }
 
-      exportUrlParams.format_metrics = this.optionFormatMetrics ? 1 : 0;
+      if (this.optionFormatMetrics) {
+        exportUrlParams.format_metrics = 1;
+      }
 
       if (dataTable.param.pivotBy) {
         exportUrlParams.pivotBy = dataTable.param.pivotBy;

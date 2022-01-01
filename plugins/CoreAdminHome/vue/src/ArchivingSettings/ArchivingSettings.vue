@@ -168,13 +168,13 @@ export default defineComponent({
       }).then(() => {
         this.isLoading = false;
 
-        NotificationsStore.show({
+        const notificationId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           type: 'transient',
           id: 'generalSettings',
           context: 'success',
         });
-        NotificationsStore.scrollToNotification('generalSettings');
+        NotificationsStore.scrollToNotification(notificationId);
       }).finally(() => {
         this.isLoading = false;
       });
