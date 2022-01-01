@@ -94,13 +94,13 @@ export default defineComponent({
         this.successfulPostResponse = response;
 
         if (!this.noSuccessNotification) {
-          NotificationsStore.show({
+          const notificationInstanceId = NotificationsStore.show({
             message: translate('General_YourChangesHaveBeenSaved'),
             context: 'success',
             type: 'toast',
             id: 'ajaxHelper',
           });
-          NotificationsStore.scrollToNotification('ajaxHelper');
+          NotificationsStore.scrollToNotification(notificationInstanceId);
         }
       }).catch((error) => {
         this.errorPostResponse = error.message;
