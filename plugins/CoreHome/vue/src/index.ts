@@ -94,7 +94,8 @@ export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vu
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
 export * from './Notification';
 export { default as SitesStore, Site } from './SiteSelector/SitesStore';
-export { default as SiteSelector, SiteRef } from './SiteSelector/SiteSelector.vue';
+export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
+export { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
