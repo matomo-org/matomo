@@ -19,7 +19,7 @@
         >{{ settings.title }}</h2>
         <div
           v-for="setting in settings.settings"
-          :key="`${setting.pluginName}.${setting.name}`"
+          :key="`${settings.pluginName}.${setting.name}`"
         >
           <PluginSetting
             v-model="settingValues[`${settings.pluginName}.${setting.name}`]"

@@ -229,7 +229,6 @@
         };
 
         var cancelEditSite = function (site) {
-            site.editMode = false;
 
             var idSite = site.idsite;
             if (idSite) {
@@ -239,7 +238,6 @@
                     siteElement[0].scrollIntoView();
                 }
             }
-            sitesManagerTypeModel.removeEditSiteIdParameterFromHash();
         };
 
         var lookupCurrentEditSite = function () {

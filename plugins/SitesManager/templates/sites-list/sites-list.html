@@ -6,8 +6,6 @@
         {{ 'SitesManager_NotFound'|translate }} <strong>{{ adminSites.searchTerm }}</strong>
     </p>
 
-    <div ng-controller="SitesManagerSiteController" ng-repeat="site in adminSites.sites"
-         ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html?cb=' + cacheBuster">
-    </div>
+    <div matomo-site-fields ng-repeat="site in adminSites.sites" site="site"></div>
 
 </div>

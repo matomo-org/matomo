@@ -13,7 +13,7 @@
 
         var translate = $filter('translate');
 
-        var updateView = function () {
+        var updateView = function () { // ignoring forn ow
             $timeout(function () {
                 $('.editingSite').find('select').material_select();
                 Materialize.updateTextFields();
@@ -54,7 +54,6 @@
             $scope.editSite = editSite;
             $scope.saveSite = saveSite;
             $scope.openDeleteDialog = openDeleteDialog;
-            $scope.site['delete'] = deleteSite;
         };
 
         var initModel = function() {
@@ -75,18 +74,6 @@
         };
 
         var editSite = function () {
-            $scope.site.editMode = true;
-
-            $scope.measurableSettings = [];
-            $scope.site.isLoading = true;
-            piwikApi.fetch({method: 'SitesManager.getSiteSettings', idSite: $scope.site.idsite}).then(function (settings) {
-                $scope.measurableSettings = settings;
-                $scope.site.isLoading = false;
-            }, function () {
-                $scope.site.isLoading = false;
-            });
-
-            updateView();
         };
 
         var saveSite = function() {
@@ -182,12 +169,6 @@
                 // we do not want to manipulate initial type settings
                 $scope.measurableSettings = angular.copy($scope.typeSettings);
             }
-        };
-
-        var openDeleteDialog = function() {
-
-            $scope.site.removeDialog.title = translate('SitesManager_DeleteConfirm', '"' + $scope.site.name + '" (idSite = ' + $scope.site.idsite + ')');
-            $scope.site.removeDialog.show = true;
         };
 
         var deleteSite = function() {

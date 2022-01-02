@@ -10,7 +10,7 @@ import {
   readonly,
   computed,
 } from 'vue';
-import { AjaxHelper, MatomoUrl } from 'CoreHome';
+import { AjaxHelper, MatomoUrl, lazyInitSingleton } from 'CoreHome';
 import SiteType from './SiteType';
 
 interface SiteTypesStoreState {
@@ -68,4 +68,4 @@ class SiteTypesStore {
   }
 }
 
-export default new SiteTypesStore();
+export default lazyInitSingleton<SiteTypesStore>();
