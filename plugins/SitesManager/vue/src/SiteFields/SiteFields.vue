@@ -458,8 +458,15 @@ export default defineComponent({
       return `${this.howToSetupUrl}${suffix}`;
     },
     utcTimeIs() {
-      // TODO: check the time works properly
-      const date = format(this.utcTime, 'yy-mm-dd hh:mm:ss');
+      const utcTime = this.utcTime as Date;
+
+      const formatTimePart = (n: number) => n.toString().padStart(2, '0');
+
+      const hours = formatTimePart(utcTime.getHours());
+      const minutes = formatTimePart(utcTime.getMinutes());
+      const seconds = formatTimePart(utcTime.getSeconds());
+
+      const date = `${format(this.utcTime)} ${hours}:${minutes}:${seconds}`;
       return translate('SitesManager_UTCTimeIs', date);
     },
     timezones() {
