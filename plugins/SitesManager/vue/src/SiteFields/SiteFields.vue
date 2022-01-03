@@ -10,6 +10,7 @@
     :idsite="theSite.idsite"
     :type="theSite.type"
     :class="{ 'editingSite': !!editMode }"
+    ref="root"
   >
     <div class="card-content">
       <div class="row" v-if="!editMode">
@@ -426,7 +427,7 @@ export default defineComponent({
       // TODO: double check if needed to keep this method in the store
       SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-      this.$emit('cancelEditSite', site);
+      this.$emit('cancelEditSite', { site, element: this.$refs.root as HTMLElement });
     },
     deleteSite() {
       AjaxHelper.fetch({

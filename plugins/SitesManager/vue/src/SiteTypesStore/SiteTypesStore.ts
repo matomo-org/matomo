@@ -55,7 +55,7 @@ class SiteTypesStore {
 
   public getEditSiteIdParameter(): string|undefined {
     const editsiteid = MatomoUrl.hashParsed.value.editsiteid as string;
-    if (editsiteid && $.isNumeric(editsiteid)) {
+    if (editsiteid && $.isNumeric(editsiteid) && !MatomoUrl.hashParsed.value.showaddsite) {
       return editsiteid;
     }
     return undefined;
