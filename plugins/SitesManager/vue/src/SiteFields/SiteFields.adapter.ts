@@ -63,7 +63,13 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       controller,
       $timeout,
     ) {
-      const texttareaArrayParams = ['excluded_ips', 'excluded_parameters', 'excluded_user_agents'];
+      const texttareaArrayParams = [
+        'excluded_ips',
+        'excluded_parameters',
+        'excluded_user_agents',
+        'sitesearch_keyword_parameters',
+        'sitesearch_category_parameters',
+      ];
 
       const newSite: Site = { ...site };
       Object.values(settingValues).forEach((settings) => {
