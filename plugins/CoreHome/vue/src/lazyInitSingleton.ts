@@ -23,6 +23,12 @@ class LazySingletonHandler<T extends object, C extends { new(): T }> implements 
   }
 }
 
-export default function lazyInitSingleton<T extends object, C extends { new(): T }>(type: C): T {
-  return new Proxy<T>({} as unknown as T, new LazySingletonHandler(type));
+export default function lazyInitSingleton<
+  T extends object,
+  C extends { new(): T },
+>(type: C): InstanceType<C> {
+  return new Proxy<InstanceType<C>>(
+    {} as unknown as InstanceType<C>,
+    new LazySingletonHandler<T, C>(type),
+  );
 }

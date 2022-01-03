@@ -32,4 +32,7 @@ function sitesManagerTypeModelAdapter() {
   };
 }
 
-window.angular.module('piwikApp.service').factory('sitesManagerTypeModel', sitesManagerTypeModelAdapter);
+window.angular.module('piwikApp.service').factory(
+  'sitesManagerTypeModel',
+  sitesManagerTypeModelAdapter,
+);
