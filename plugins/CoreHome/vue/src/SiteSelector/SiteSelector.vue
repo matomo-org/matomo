@@ -127,8 +127,9 @@ import AllSitesLink from './AllSitesLink.vue';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
-import SitesStore, { Site } from './SitesStore';
+import SitesStore from './SitesStore';
 import debounce from '../debounce';
+import Site from './Site';
 import SiteRef from './SiteRef';
 
 interface SiteSelectorState {

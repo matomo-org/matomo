@@ -9,9 +9,11 @@ import {
   SettingsForSinglePlugin,
 } from 'CorePluginsAdmin';
 
-export default interface SiteType {
+interface SiteType {
   id: string;
   name: string;
   howToSetupUrl?: string;
   settings?: SettingsForSinglePlugin[];
 }
+
+export default SiteType;

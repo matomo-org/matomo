@@ -6,7 +6,7 @@
  */
 
 import { reactive, readonly, computed } from 'vue';
-import { AjaxHelper, lazySingleton } from 'CoreHome';
+import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
 
 interface CurrencyStoreState {
   currencies: Record<string, string>;
@@ -32,4 +32,4 @@ class CurrencyStore {
   }
 }
 
-export default lazySingleton(CurrencyStore);
+export default lazyInitSingleton(CurrencyStore);

@@ -7,7 +7,9 @@
 
 import Setting from './Setting';
 
-export default interface SettingsForSinglePlugin {
+interface SettingsForSinglePlugin {
   pluginName: string;
   settings: Setting[];
 }
+
+export default SettingsForSinglePlugin;

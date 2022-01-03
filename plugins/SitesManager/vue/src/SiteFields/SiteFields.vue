@@ -62,17 +62,17 @@
                   </a>
               </span>
             </li>
-            <li v-show="theSite.excluded_ips.length">
+            <li v-if="theSite.excluded_ips.length">
               <span class="title">{{ translate('SitesManager_ExcludedIps') }}:</span>
-              {{ theSite.excluded_ips.join(', ') }}
+              {{ theSite.excluded_ips }}
             </li>
-            <li v-show="theSite.excluded_parameters.length">
+            <li v-if="theSite.excluded_parameters.length">
               <span class="title">{{ translate('SitesManager_ExcludedParameters') }}:</span>
-              {{ theSite.excluded_parameters.join(', ') }}
+              {{ theSite.excluded_parameters }}
             </li>
             <li v-if="theSite.excluded_user_agents.length">
               <span class="title">{{ translate('SitesManager_ExcludedUserAgents') }}:</span>
-              {{ theSite.excluded_user_agents.join(', ') }}
+              {{ theSite.excluded_user_agents }}
             </li>
           </ul>
         </div>
@@ -121,10 +121,10 @@
         <div v-for="settingsPerPlugin in measurableSettings" :key="settingsPerPlugin.plugin">
           <div
             v-for="setting in settingsPerPlugin.settings"
-            :key="`${settings.pluginName}.${setting.name}`"
+            :key="`${settingsPerPlugin.pluginName}.${setting.name}`"
           >
             <PluginSetting
-              v-model="settingValues[`${settings.pluginName}.${setting.name}`]"
+              v-model="settingValues[`${settingsPerPlugin.pluginName}.${setting.name}`]"
               :plugin-name="settingsPerPlugin.pluginName"
               :setting="setting"
               :setting-values="settingValues"
@@ -144,7 +144,7 @@
         <Field
           uicontrol="select"
           name="timezone"
-          v-model="site.timezone"
+          v-model="theSite.timezone"
           :title="translate('SitesManager_Timezone')"
           :inline-help="'#timezoneHelpText'"
           :options="timezones"
@@ -198,8 +198,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-// TODO: rename format to formatDate
+import { computed, DeepReadonly, defineComponent } from 'vue';
 import {
   Site,
   MatomoUrl,
@@ -219,35 +218,31 @@ import {
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import CurrencyStore from '../CurrencyStore/CurrencyStore';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
-import SiteType from "../SiteTypesStore/SiteType";
+import SiteType from '../SiteTypesStore/SiteType';
+
+// TODO: rename format to formatDate
 
 interface SiteFieldsState {
   isLoading: boolean;
   editMode: boolean;
   theSite: Site;
-  measurableSettings: SettingsForSinglePlugin[];
+  measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
 }
 
-interface Option {
-  group: string;
-  key: string;
+interface CreateEditSiteResponse {
   value: string;
 }
 
-interface CreateEditSiteResponse {
-  value: string|number;
-}
-
 // TODO: double check this is done lazily.
-let timezoneOptions = computed(() => {
-  return TimezoneStore.timezones.value.map(({ group, label, code }) => ({
+const timezoneOptions = computed(() => (
+  TimezoneStore.timezones.value.map(({ group, label, code }) => ({
     group,
     key: label,
     value: code,
-  }));
-});
+  }))
+));
 
 function isSiteNew(site: Site) {
   return typeof site.idsite === 'undefined';
@@ -261,7 +256,6 @@ export default defineComponent({
     },
     timezoneSupportEnabled: {
       type: Boolean,
-      required: true,
     },
     utcTime: {
       type: Date,
@@ -288,7 +282,7 @@ export default defineComponent({
     PluginSetting,
     ActivityIndicator,
   },
-  emits: ['delete', 'cancelEditSite'],
+  emits: ['delete', 'cancelEditSite', 'save'],
   created() {
     this.onSiteChanged();
   },
@@ -301,7 +295,7 @@ export default defineComponent({
         return;
       }
 
-      const settingValues = {};
+      const settingValues: Record<string, unknown> = {};
       settings.forEach((settingsForPlugin) => {
         settingsForPlugin.settings.forEach((setting) => {
           settingValues[`${settingsForPlugin.pluginName}.${setting.name}`] = setting.value;
@@ -313,16 +307,19 @@ export default defineComponent({
   methods: {
     onSiteChanged() {
       const site = this.site as Site;
-      const isSiteNew = isSiteNew(site);
 
-      if (isSiteNew) {
+      this.theSite = { ...this.site };
+
+      const isNew = isSiteNew(site);
+
+      if (isNew) {
         const globalSettings = this.globalSettings as Record<string, string>;
         this.theSite.timezone = globalSettings.defaultTimezone;
         this.theSite.currency = globalSettings.defaultCurrency;
       }
 
       const forcedEditSiteId = SiteTypesStore.getEditSiteIdParameter();
-      if (isSiteNew
+      if (isNew
         || (forcedEditSiteId && `${site.idsite}` === forcedEditSiteId)
       ) {
         // make sure type info is available before entering edit mode
@@ -356,7 +353,7 @@ export default defineComponent({
       });
     },
     saveSite() {
-      const values: QueryParameters = {
+      const values: Record<string, unknown> = {
         siteName: this.theSite.name,
         timezone: this.theSite.timezone,
         currency: this.theSite.currency,
@@ -364,10 +361,10 @@ export default defineComponent({
         settingValues: {} as Record<string, Setting[]>,
       };
 
-      const isSiteNew = isSiteNew(this.theSite);
+      const isNew = isSiteNew(this.theSite);
 
       let apiMethod = 'SitesManager.addSite';
-      if (!isSiteNew) {
+      if (!isNew) {
         apiMethod = 'SitesManager.updateSite';
         values.idSite = this.theSite.idsite;
       }
@@ -376,8 +373,9 @@ export default defineComponent({
       Object.entries(this.settingValues).forEach(([fullName, fieldValue]) => {
         const [pluginName, name] = fullName.split('.');
 
-        if (!values.settingValues[pluginName]) {
-          values.settingValues[pluginName] = [];
+        const settingValues = values.settingValues as Record<string, Setting[]>;
+        if (!settingValues[pluginName]) {
+          settingValues[pluginName] = [];
         }
 
         let value = fieldValue;
@@ -389,7 +387,7 @@ export default defineComponent({
           value = fieldValue.filter((x) => !!x);
         }
 
-        values.settingValues[pluginName].push({
+        settingValues[pluginName].push({
           name,
           value,
         });
@@ -408,7 +406,7 @@ export default defineComponent({
         }
 
         const notificationId = NotificationsStore.show({
-          message: isSiteNew
+          message: isNew
             ? translate('SitesManager_WebsiteCreated')
             : translate('SitesManager_WebsiteUpdated'),
           context: 'success',
@@ -419,22 +417,8 @@ export default defineComponent({
 
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-        this.$emit('save', this.theSite);
+        this.$emit('save', { site: this.theSite, settingValues: values.settingValues });
       });
-      /*
-      TODO: not sure if this code is needed.
-            piwikApi.post({method: apiMethod}, values).then(function (response) {
-                angular.forEach(values.settingValues, function (settings, pluginName) {
-                    angular.forEach(settings, function (setting) {
-                        if (setting.name === 'urls') {
-                            $scope.site.alias_urls = setting.value;
-                        } else {
-                            $scope.site[setting.name] = setting.value;
-                        }
-                    });
-                });
-            });
-       */
     },
     cancelEditSite(site: Site) {
       this.editMode = false;
@@ -484,10 +468,11 @@ export default defineComponent({
     currencies() {
       return CurrencyStore.currencies.value;
     },
-    currentType(): SiteType {
-      const type = SiteTypesStore.typesById[this.site.type];
+    currentType(): DeepReadonly<SiteType> {
+      const site = this.site as Site;
+      const type = SiteTypesStore.typesById.value[site.type];
       if (!type) {
-        return { name: this.site.type } as SiteType;
+        return { name: site.type } as SiteType;
       }
       return type;
     },
@@ -505,14 +490,14 @@ export default defineComponent({
         return false;
       }
 
-      return '?' === (`${howToSetupUrl}`).substring(0, 1);
+      return (`${howToSetupUrl}`).substring(0, 1) === '?';
     },
     removeDialogTitle() {
       return translate(
         'SitesManager_DeleteConfirm',
         `"${this.theSite.name}" (idSite = ${this.theSite.idsite})`,
       );
-    }
+    },
   },
 });
 </script>
