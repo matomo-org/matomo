@@ -5,18 +5,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-class LazySingletonHandler<T> implements ProxyHandler<T> {
+/* eslint-disable @typescript-eslint/ban-types */
+
+class LazySingletonHandler<T extends object, C extends { new(): T }> implements ProxyHandler<T> {
   private instance?: T;
 
-  get(target: T, key, recv): ReturnType<ProxyHandler<T>['get']> {
+  constructor(private type: C) {}
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get(target: T, key: string | symbol, recv: any): any {
     if (!this.instance) {
-      this.instance = new T();
+      const Type = this.type;
+      this.instance = new Type();
     }
 
-    return Reflect.get(this.instance, key, recv);
+    return Reflect.get(this.instance!, key, recv);
   }
 }
 
-export default function lazyInitSingleton<T>(): T {
-  return new Proxy<T>(null, new LazySingletonHandler<T>());
+export default function lazyInitSingleton<T extends object, C extends { new(): T }>(type: C): T {
+  return new Proxy<T>({} as unknown as T, new LazySingletonHandler(type));
 }

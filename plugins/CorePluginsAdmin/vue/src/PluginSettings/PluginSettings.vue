@@ -83,19 +83,10 @@ import {
 import KeyPressEvent = JQuery.KeyPressEvent;
 import Field from '../Field/Field.vue';
 import PluginSetting from './PluginSetting.vue';
+import Setting from './Setting';
+import SettingsForSinglePlugin from './SettingsForSinglePlugin';
 
 const { $ } = window;
-
-interface Setting {
-  name: string;
-  value: unknown;
-  introduction?: string;
-}
-
-interface SettingsForSinglePlugin {
-  pluginName: string;
-  settings: Setting[];
-}
 
 interface PluginSettingsState {
   isLoading: boolean;

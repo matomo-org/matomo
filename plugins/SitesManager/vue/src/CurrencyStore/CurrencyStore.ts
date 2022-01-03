@@ -32,4 +32,4 @@ class CurrencyStore {
   }
 }
 
-export default lazySingleton<CurrencyStore>();
+export default lazySingleton(CurrencyStore);

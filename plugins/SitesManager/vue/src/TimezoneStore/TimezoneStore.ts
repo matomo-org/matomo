@@ -50,4 +50,4 @@ class TimezoneStore {
   }
 }
 
-export default lazyInitSingleton<TimezoneStore>();
+export default lazyInitSingleton(TimezoneStore);

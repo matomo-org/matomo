@@ -200,24 +200,26 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 // TODO: rename format to formatDate
-import { Site, MatomoUrl, ActivityIndicator, format, translate, MatomoDialog } from 'CoreHome';
-import { Field, PluginSetting } from 'CorePluginsAdmin';
+import {
+  Site,
+  MatomoUrl,
+  ActivityIndicator,
+  format,
+  translate,
+  MatomoDialog,
+  AjaxHelper,
+  NotificationsStore,
+} from 'CoreHome';
+import {
+  Field,
+  PluginSetting,
+  SettingsForSinglePlugin,
+  Setting,
+} from 'CorePluginsAdmin';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import CurrencyStore from '../CurrencyStore/CurrencyStore';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
-import {AjaxHelper} from '../../../../CoreHome/vue/src';
-import MatomoDialog from '../../../../CoreHome/vue/src/MatomoDialog/MatomoDialog.vue';
-
-interface Setting {
-  name: string;
-  value: unknown;
-  introduction?: string;
-}
-
-interface SettingsForSinglePlugin {
-  pluginName: string;
-  settings: Setting[];
-}
+import SiteType from "../SiteTypesStore/SiteType";
 
 interface SiteFieldsState {
   isLoading: boolean;
@@ -234,6 +236,10 @@ interface Option {
   value: string;
 }
 
+interface CreateEditSiteResponse {
+  value: string|number;
+}
+
 // TODO: double check this is done lazily.
 let timezoneOptions = computed(() => {
   return TimezoneStore.timezones.value.map(({ group, label, code }) => ({
@@ -241,7 +247,11 @@ let timezoneOptions = computed(() => {
     key: label,
     value: code,
   }));
-})
+});
+
+function isSiteNew(site: Site) {
+  return typeof site.idsite === 'undefined';
+}
 
 export default defineComponent({
   props: {
@@ -249,23 +259,16 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    // TODO: pass in angularjs
-    currentType: {
-      type: Object,
-      required: true,
-    },
-    howToSetupUrl: {
-      type: String,
-    },
-    isInternalSetupUrl: {
-      type: Boolean,
-    },
     timezoneSupportEnabled: {
       type: Boolean,
       required: true,
     },
     utcTime: {
       type: Date,
+      required: true,
+    },
+    globalSettings: {
+      type: Object,
       required: true,
     },
   },
@@ -286,11 +289,62 @@ export default defineComponent({
     ActivityIndicator,
   },
   emits: ['delete', 'cancelEditSite'],
+  created() {
+    this.onSiteChanged();
+  },
+  watch: {
+    site() {
+      this.onSiteChanged();
+    },
+    measurableSettings(settings: SettingsForSinglePlugin[]) {
+      if (!settings.length) {
+        return;
+      }
+
+      const settingValues = {};
+      settings.forEach((settingsForPlugin) => {
+        settingsForPlugin.settings.forEach((setting) => {
+          settingValues[`${settingsForPlugin.pluginName}.${setting.name}`] = setting.value;
+        });
+      });
+      this.settingValues = settingValues;
+    },
+  },
   methods: {
+    onSiteChanged() {
+      const site = this.site as Site;
+      const isSiteNew = isSiteNew(site);
+
+      if (isSiteNew) {
+        const globalSettings = this.globalSettings as Record<string, string>;
+        this.theSite.timezone = globalSettings.defaultTimezone;
+        this.theSite.currency = globalSettings.defaultCurrency;
+      }
+
+      const forcedEditSiteId = SiteTypesStore.getEditSiteIdParameter();
+      if (isSiteNew
+        || (forcedEditSiteId && `${site.idsite}` === forcedEditSiteId)
+      ) {
+        // make sure type info is available before entering edit mode
+        SiteTypesStore.fetchAvailableTypes().then(() => {
+          this.editSite();
+        });
+      }
+    },
     editSite() {
       this.editMode = true;
 
       this.measurableSettings = [];
+
+      if (isSiteNew(this.theSite)) {
+        if (!this.currentType) {
+          return;
+        }
+
+        this.measurableSettings = this.currentType.settings || [];
+        return;
+      }
+
       this.isLoading = true;
       AjaxHelper.fetch<SettingsForSinglePlugin[]>({
         method: 'SitesManager.getSiteSettings',
@@ -302,7 +356,85 @@ export default defineComponent({
       });
     },
     saveSite() {
-      // TODO
+      const values: QueryParameters = {
+        siteName: this.theSite.name,
+        timezone: this.theSite.timezone,
+        currency: this.theSite.currency,
+        type: this.theSite.type,
+        settingValues: {} as Record<string, Setting[]>,
+      };
+
+      const isSiteNew = isSiteNew(this.theSite);
+
+      let apiMethod = 'SitesManager.addSite';
+      if (!isSiteNew) {
+        apiMethod = 'SitesManager.updateSite';
+        values.idSite = this.theSite.idsite;
+      }
+
+      // process measurable settings
+      Object.entries(this.settingValues).forEach(([fullName, fieldValue]) => {
+        const [pluginName, name] = fullName.split('.');
+
+        if (!values.settingValues[pluginName]) {
+          values.settingValues[pluginName] = [];
+        }
+
+        let value = fieldValue;
+        if (fieldValue === false) {
+          value = '0';
+        } else if (fieldValue === true) {
+          value = '1';
+        } else if (Array.isArray(fieldValue)) {
+          value = fieldValue.filter((x) => !!x);
+        }
+
+        values.settingValues[pluginName].push({
+          name,
+          value,
+        });
+      });
+
+      AjaxHelper.post<CreateEditSiteResponse>(
+        {
+          method: apiMethod,
+        },
+        values,
+      ).then((response) => {
+        this.editMode = false;
+
+        if (!this.theSite.idsite && response && response.value) {
+          this.theSite.idsite = response.value;
+        }
+
+        const notificationId = NotificationsStore.show({
+          message: isSiteNew
+            ? translate('SitesManager_WebsiteCreated')
+            : translate('SitesManager_WebsiteUpdated'),
+          context: 'success',
+          id: 'websitecreated',
+          type: 'transient',
+        });
+        NotificationsStore.scrollToNotification(notificationId);
+
+        SiteTypesStore.removeEditSiteIdParameterFromHash();
+
+        this.$emit('save', this.theSite);
+      });
+      /*
+      TODO: not sure if this code is needed.
+            piwikApi.post({method: apiMethod}, values).then(function (response) {
+                angular.forEach(values.settingValues, function (settings, pluginName) {
+                    angular.forEach(settings, function (setting) {
+                        if (setting.name === 'urls') {
+                            $scope.site.alias_urls = setting.value;
+                        } else {
+                            $scope.site[setting.name] = setting.value;
+                        }
+                    });
+                });
+            });
+       */
     },
     cancelEditSite(site: Site) {
       this.editMode = false;
@@ -313,7 +445,14 @@ export default defineComponent({
       this.$emit('cancelEditSite', site);
     },
     deleteSite() {
-      this.$emit('delete', this.theSite);
+      AjaxHelper.fetch({
+        idSite: this.theSite.idsite,
+        module: 'API',
+        format: 'json',
+        method: 'SitesManager.deleteSite',
+      }).then(() => {
+        this.$emit('delete', this.theSite);
+      });
     },
   },
   computed: {
@@ -344,6 +483,29 @@ export default defineComponent({
     },
     currencies() {
       return CurrencyStore.currencies.value;
+    },
+    currentType(): SiteType {
+      const type = SiteTypesStore.typesById[this.site.type];
+      if (!type) {
+        return { name: this.site.type } as SiteType;
+      }
+      return type;
+    },
+    howToSetupUrl() {
+      const type = this.currentType;
+      if (!type) {
+        return undefined;
+      }
+
+      return type.howToSetupUrl;
+    },
+    isInternalSetupUrl() {
+      const { howToSetupUrl } = this;
+      if (!howToSetupUrl) {
+        return false;
+      }
+
+      return '?' === (`${howToSetupUrl}`).substring(0, 1);
     },
     removeDialogTitle() {
       return translate(

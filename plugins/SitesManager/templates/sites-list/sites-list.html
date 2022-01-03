@@ -1,11 +1,15 @@
 <div class="sitesManagerList">
 
-    <div ng-repeat="site in adminSites.sites" ng-include="'plugins/SitesManager/templates/dialogs/dialogs.html?cb=' + cacheBuster"></div>
-
     <p ng-if="adminSites.searchTerm && 0 === adminSites.sites.length && !adminSites.isLoading">
         {{ 'SitesManager_NotFound'|translate }} <strong>{{ adminSites.searchTerm }}</strong>
     </p>
 
-    <div matomo-site-fields ng-repeat="site in adminSites.sites" site="site"></div>
-
+    <div
+        ng-repeat="site in adminSites.sites"
+        matomo-site-fields
+        site="site"
+        timezone-support-enabled="adminSites.timezoneSupportEnabled"
+        utc-time="adminSites.utcTime"
+        global-settings="adminSites.globalSettings"
+    ></div>
 </div>

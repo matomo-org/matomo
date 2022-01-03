@@ -68,4 +68,4 @@ class SiteTypesStore {
   }
 }
 
-export default lazyInitSingleton<SiteTypesStore>();
+export default lazyInitSingleton(SiteTypesStore);
