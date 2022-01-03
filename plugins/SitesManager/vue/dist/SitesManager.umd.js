@@ -1033,7 +1033,7 @@ function SiteFields_adapter_defineProperty(obj, key, value) { if (key in obj) { 
     scope, element, attrs, controller, $timeout) {
       var site = _ref.site,
           settingValues = _ref.settingValues;
-      var texttareaArrayParams = ['excluded_ips', 'excluded_parameters', 'excluded_user_agents'];
+      var texttareaArrayParams = ['excluded_ips', 'excluded_parameters', 'excluded_user_agents', 'sitesearch_keyword_parameters', 'sitesearch_category_parameters'];
 
       var newSite = SiteFields_adapter_objectSpread({}, site);
 
