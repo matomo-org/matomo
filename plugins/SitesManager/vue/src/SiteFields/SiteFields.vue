@@ -308,7 +308,7 @@ export default defineComponent({
     onSiteChanged() {
       const site = this.site as Site;
 
-      this.theSite = { ...this.site };
+      this.theSite = { ...site };
 
       const isNew = isSiteNew(site);
 

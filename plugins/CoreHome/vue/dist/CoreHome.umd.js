@@ -442,8 +442,7 @@ function translate(translationStringId) {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 function format(date) {
-  var strFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yy-mm-dd';
-  return $.datepicker.formatDate(strFormat, date);
+  return $.datepicker.formatDate('yy-mm-dd', date);
 }
 function getToday() {
   var date = new Date(Date.now()); // undo browser timezone

@@ -56,6 +56,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     save(
       { site, settingValues }: { site: Site, settingValues: Record<string, Setting[]> },
       vm,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       scope: any,
       element,
       attrs,
@@ -68,11 +69,13 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       Object.values(settingValues).forEach((settings) => {
         settings.forEach((setting) => {
           if (setting.name === 'urls') {
-            newSite.alias_urls = setting.value;
+            newSite.alias_urls = setting.value as string[];
           } else if (texttareaArrayParams.indexOf(setting.name) !== -1) {
-            newSite[setting.name] = setting.value.join(', ');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (newSite as any)[setting.name] = (setting.value as string[]).join(', ');
           } else {
-            newSite[setting.name] = setting.value;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (newSite as any)[setting.name] = setting.value;
           }
         });
       });

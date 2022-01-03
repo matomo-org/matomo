@@ -7,7 +7,7 @@
 
 interface Setting {
   name: string;
-  value: unknown;
+  value: any; // eslint-disable-line
   introduction?: string;
 }
 
