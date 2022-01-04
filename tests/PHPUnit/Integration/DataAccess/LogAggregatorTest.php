@@ -148,7 +148,8 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
-        if (SystemTestCase::isMysqli()) {
+        // it seems doesn't work for MariaDb
+        if (SystemTestCase::isMysqli() || getenv('GITHUB')) {
             // See https://github.com/matomo-org/matomo/issues/17871
             $this->markTestSkipped('Max execution query hint does not work for Mysqli.');
         }
