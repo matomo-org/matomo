@@ -404,10 +404,13 @@ export default defineComponent({
         }
 
         const timezoneInfo = TimezoneStore.timezones.value.find(
-          (t) => t.code === this.theSite.code,
+          (t) => t.code === this.theSite.timezone,
         );
         this.theSite.timezone_name = timezoneInfo?.label || this.theSite.timezone;
-        this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
+
+        if (this.theSite.currency) {
+          this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
+        }
 
         const notificationId = NotificationsStore.show({
           message: isNew
