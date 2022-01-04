@@ -51,6 +51,8 @@
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
+        :is-searching="!!searchTerm"
+        :is-loading="isLoading"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -59,24 +61,25 @@
     </div>
 
     <MatomoDialog v-model="showAddSiteDialog" class="ui-confirm">
+      <div>
+        <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
 
-      <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
-
-      <div class="center">
-        <p>
-          <button
-            type="button"
-            v-for="type in availableTypes"
-            :key="type.id"
-            :title="type.description"
-            class="modal-close btn"
-            style="margin-left: 20px;"
-            @click="addSite(type.id);"
-            aria-disabled="false"
-          >
-            <span class="ui-button-text">{{ type.name }}</span>
-          </button>
-        </p>
+        <div class="center">
+          <p>
+            <button
+              type="button"
+              v-for="type in availableTypes"
+              :key="type.id"
+              :title="type.description"
+              class="modal-close btn"
+              style="margin-left: 20px;"
+              @click="addSite(type.id);"
+              aria-disabled="false"
+            >
+              <span class="ui-button-text">{{ type.name }}</span>
+            </button>
+          </p>
+        </div>
       </div>
     </MatomoDialog>
 
@@ -109,6 +112,8 @@
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
+        :is-searching="!!searchTerm"
+        :is-loading="isLoading"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -301,6 +306,7 @@ export default defineComponent({
     },
     afterCancelEdit({ site, element }: { site: Site, element: HTMLElement }) {
       if (!site.idsite) {
+        this.sites = this.sites.filter((s) => !!s.idsite);
         return;
       }
 
@@ -327,7 +333,7 @@ export default defineComponent({
       };
 
       if (this.searchTerm) {
-        params.searchTerm = this.searchTerm;
+        params.pattern = this.searchTerm;
       }
 
       return AjaxHelper.fetch<Site[]>(params).then((sites) => {

@@ -16,7 +16,7 @@
         : translate('SitesManager_AddSite') }}
     </a>
 
-    <div class="search" v-show="hasPrev || hasNext || searchTerm">
+    <div class="search" v-show="hasPrev || hasNext || isSearching">
       <input
         v-model="searchTerm"
         @keydown="searchSiteOnEnter($event)"
@@ -32,14 +32,18 @@
     </div>
 
     <div class="paging" v-show="hasPrev || hasNext">
-      <a class="btn prev" :disabled="!hasPrev" @click="previousPage()">
+      <a
+        class="btn prev"
+        :disabled="hasPrev && !isLoading ? undefined : true"
+        @click="previousPage()"
+      >
         <span style="cursor:pointer;">&#171; {{ translate('General_Previous') }}</span>
       </a>
       <span class="counter" ng-show="adminSites.hasPrev || adminSites.hasNext">
-            <span v-if="searchTerm">
+            <span v-if="isSearching">
                 {{ translate('General_PaginationWithoutTotal', offsetStart, offsetEnd) }}
             </span>
-            <span v-if="!searchTerm">
+            <span v-if="!isSearching">
               {{ translate(
                 'General_Pagination',
                 offsetStart,
@@ -47,7 +51,7 @@
                 totalNumberOfSites === null ? '?' : totalNumberOfSites) }}
             </span>
         </span>
-      <a class="btn next" :disabled="!hasNext" @click="nextPage()">
+      <a class="btn next" :disabled="hasNext && !isLoading ? undefined : true" @click="nextPage()">
         <span style="cursor:pointer;" class="pointer">{{ translate('General_Next') }} &#187;</span>
       </a>
     </div>
@@ -56,7 +60,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo, debounce } from 'CoreHome';
+import { Matomo } from 'CoreHome';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 
 interface AddSiteLinkState {
@@ -88,6 +92,14 @@ export default defineComponent({
     totalNumberOfSites: {
       type: Number,
     },
+    isSearching: {
+      type: Boolean,
+      required: true,
+    },
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
   },
   data(): AddSiteLinkState {
     return {
@@ -95,9 +107,6 @@ export default defineComponent({
     };
   },
   emits: ['add', 'search', 'prev', 'next'],
-  created() {
-    this.searchSite = debounce(this.searchSite);
-  },
   computed: {
     hasSuperUserAccess() {
       return Matomo.hasSuperUserAccess;

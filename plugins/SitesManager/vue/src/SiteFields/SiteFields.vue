@@ -63,15 +63,15 @@
                   </a>
               </span>
             </li>
-            <li v-if="theSite.excluded_ips.length">
+            <li v-if="theSite.excluded_ips?.length">
               <span class="title">{{ translate('SitesManager_ExcludedIps') }}:</span>
               {{ theSite.excluded_ips }}
             </li>
-            <li v-if="theSite.excluded_parameters.length">
+            <li v-if="theSite.excluded_parameters?.length">
               <span class="title">{{ translate('SitesManager_ExcludedParameters') }}:</span>
               {{ theSite.excluded_parameters }}
             </li>
-            <li v-if="theSite.excluded_user_agents.length">
+            <li v-if="theSite.excluded_user_agents?.length">
               <span class="title">{{ translate('SitesManager_ExcludedUserAgents') }}:</span>
               {{ theSite.excluded_user_agents }}
             </li>
@@ -403,6 +403,12 @@ export default defineComponent({
           this.theSite.idsite = response.value;
         }
 
+        const timezoneInfo = TimezoneStore.timezones.value.find(
+          (t) => t.code === this.theSite.code,
+        );
+        this.theSite.timezone_name = timezoneInfo?.label || this.theSite.timezone;
+        this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
+
         const notificationId = NotificationsStore.show({
           message: isNew
             ? translate('SitesManager_WebsiteCreated')
@@ -438,7 +444,7 @@ export default defineComponent({
   },
   computed: {
     availableTypes() {
-      return SiteTypesStore.typesById.value;
+      return Object.values(SiteTypesStore.typesById.value);
     },
     setupUrl() {
       const site = this.theSite as Site;
