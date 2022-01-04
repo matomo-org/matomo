@@ -220,8 +220,6 @@ import CurrencyStore from '../CurrencyStore/CurrencyStore';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import SiteType from '../SiteTypesStore/SiteType';
 
-// TODO: rename format to formatDate
-
 interface SiteFieldsState {
   isLoading: boolean;
   editMode: boolean;
@@ -235,14 +233,13 @@ interface CreateEditSiteResponse {
   value: string;
 }
 
-// TODO: double check this is done lazily.
-const timezoneOptions = computed(() => (
-  TimezoneStore.timezones.value.map(({ group, label, code }) => ({
+const timezoneOptions = computed(() => {
+  return TimezoneStore.timezones.value.map(({group, label, code}) => ({
     group,
     key: label,
     value: code,
   }))
-));
+});
 
 function isSiteNew(site: Site) {
   return typeof site.idsite === 'undefined';
@@ -423,7 +420,6 @@ export default defineComponent({
     cancelEditSite(site: Site) {
       this.editMode = false;
 
-      // TODO: double check if needed to keep this method in the store
       SiteTypesStore.removeEditSiteIdParameterFromHash();
 
       this.$emit('cancelEditSite', site);
