@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
 
-  PHP:
+  PHP72:
     runs-on: ubuntu-20.04
     services:
       redis:
@@ -48,6 +48,70 @@ jobs:
         tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2','8.0' ]
         mysql_adapter: ['PDO_MYSQL']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: false
+          submodules: recursive
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
+          ini-values: |
+            memory_limit = 256M,
+            max_execution_time=10000,
+            always_populate_raw_post_data=-1,
+            error_reporting=E_ALL,
+            log_errors=on, display_errors=on,
+            allow_url_fopen = on,
+            zend.exception_ignore_args = Off
+          tools: composer:v2
+          coverage: none
+
+      - name: prepare setup
+        shell: bash
+        run: ./.github/scripts/bash/prepare.sh
+        env:
+          PHP_VERSION: ${{ matrix.php }}
+          PIWIK_TEST_TARGET: 'PHP'
+
+      - name: Test running
+        run: |
+          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
+        env:
+          TRAVIS: true
+          GITHUB: true
+          PHP_VERSION: ${{ matrix.php }}
+          MYSQL_ADAPTER: ${{ matrix.mysql_adapter }}
+  PHP80:
+    runs-on: ubuntu-20.04
+    services:
+      redis:
+        image: redis:5.0
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: matomo_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [ 'UnitTests' ,'SystemTestsPlugins' ,'SystemTestsCore' ,'IntegrationTests' ]
+        php: [ '8.0' ]
+        mysql_adapter: [ 'MYSQLI' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
