@@ -209,19 +209,10 @@ export default defineComponent({
 
     // TODO: test
     // if hash is #globalSettings, redirect to globalSettings action
-    watch(() => MatomoUrl.hashQuery.value, (newHash) => {
-      if (Matomo.hasSuperUserAccess
-        && (
-          newHash === '#globalSettings'
-          || newHash === '#/globalSettings'
-        )
-      ) {
-        MatomoUrl.updateLocation({
-          ...MatomoUrl.urlParsed.value,
-          action: 'globalSettings',
-        });
-      }
+    watch(() => MatomoUrl.hashQuery.value, () => {
+      this.checkGlobalSettingsHash();
     });
+    this.checkGlobalSettingsHash();
   },
   computed: {
     isLoading() {
@@ -275,6 +266,20 @@ export default defineComponent({
     },
   },
   methods: {
+    checkGlobalSettingsHash() {
+      const newHash = MatomoUrl.hashQuery.value;
+      if (Matomo.hasSuperUserAccess
+        && (
+          newHash === 'globalSettings'
+          || newHash === '/globalSettings'
+        )
+      ) {
+        MatomoUrl.updateLocation({
+          ...MatomoUrl.urlParsed.value,
+          action: 'globalSettings',
+        });
+      }
+    },
     addNewEntity() {
       if (this.availableTypes.length > 1) {
         this.showAddSiteDialog = true;

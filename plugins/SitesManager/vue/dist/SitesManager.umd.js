@@ -284,7 +284,7 @@ function sitesManagerTypeModelAdapter() {
 }
 
 window.angular.module('piwikApp.service').factory('sitesManagerTypeModel', sitesManagerTypeModelAdapter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=5425ef06
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=f98f35b2
 
 var _hoisted_1 = {
   class: "SitesManager",
@@ -435,7 +435,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 8, ["site-is-being-edited", "has-prev", "hasNext", "offset-start", "offset-end", "total-number-of-sites", "is-searching", "is-loading"])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=5425ef06
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=f98f35b2
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SitesManagement/AddSiteLink.vue?vue&type=template&id=03057d7d
 
@@ -1502,13 +1502,10 @@ function SitesManagementvue_type_script_lang_ts_defineProperty(obj, key, value) 
 
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return external_CoreHome_["MatomoUrl"].hashQuery.value;
-    }, function (newHash) {
-      if (external_CoreHome_["Matomo"].hasSuperUserAccess && (newHash === '#globalSettings' || newHash === '#/globalSettings')) {
-        external_CoreHome_["MatomoUrl"].updateLocation(SitesManagementvue_type_script_lang_ts_objectSpread(SitesManagementvue_type_script_lang_ts_objectSpread({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
-          action: 'globalSettings'
-        }));
-      }
+    }, function () {
+      _this.checkGlobalSettingsHash();
     });
+    this.checkGlobalSettingsHash();
   },
   computed: {
     isLoading: function isLoading() {
@@ -1549,6 +1546,15 @@ function SitesManagementvue_type_script_lang_ts_defineProperty(obj, key, value) 
     }
   },
   methods: {
+    checkGlobalSettingsHash: function checkGlobalSettingsHash() {
+      var newHash = external_CoreHome_["MatomoUrl"].hashQuery.value;
+
+      if (external_CoreHome_["Matomo"].hasSuperUserAccess && (newHash === 'globalSettings' || newHash === '/globalSettings')) {
+        external_CoreHome_["MatomoUrl"].updateLocation(SitesManagementvue_type_script_lang_ts_objectSpread(SitesManagementvue_type_script_lang_ts_objectSpread({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+          action: 'globalSettings'
+        }));
+      }
+    },
     addNewEntity: function addNewEntity() {
       if (this.availableTypes.length > 1) {
         this.showAddSiteDialog = true;
