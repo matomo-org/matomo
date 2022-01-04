@@ -49,8 +49,9 @@ jobs:
         php: [ '7.2' ]
         adapter: ['PDO_MYSQL']
         include:
-            - php: '8.0'
-              adapter: 'MYSQLI'
+          - tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
+            php: '8.0'
+            adapter: 'MYSQLI'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
