@@ -46,7 +46,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.2','8.0' ]
+        php: [ '7.2' ]
         mysql_adapter: ['PDO_MYSQL']
     steps:
       - name: Checkout code
