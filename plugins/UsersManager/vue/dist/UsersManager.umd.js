@@ -149,14 +149,16 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=5f343efb
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=1950a571
 
 var _hoisted_1 = {
-  key: 0
+  key: 0,
+  class: "chip"
 };
 var _hoisted_2 = ["title"];
 var _hoisted_3 = ["onClick"];
 var _hoisted_4 = {
+  key: 0,
   class: "addCapability"
 };
 var _hoisted_5 = {
@@ -178,37 +180,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["capabilitiesEdit", {
       busy: _ctx.isBusy
     }])
-  }, [_ctx.capabilitiesSet.capability.id ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.availableCapabilities, function (capability) {
+  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.availableCapabilities, function (capability) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      class: "chip",
       key: capability.id
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    }, [_ctx.capabilitiesSet[capability.id] ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       class: "capability-name",
       title: "".concat(capability.description, " ").concat(_ctx.isIncludedInRole(capability) ? "<br/><br/>".concat(_ctx.translate('UsersManager_IncludedInUsersRole')) : '')
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(capability.category) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(capability.name), 9, _hoisted_2), !_ctx.isIncludedInRole(capability) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
       key: 0,
       class: "icon-close",
       onClick: function onClick($event) {
-        _ctx.capabilityToAddOrRemoveId = capability.id;
+        _ctx.capabilityToRemoveId = capability.id;
 
         _ctx.onToggleCapability(false);
       }
-    }, null, 8, _hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [_ctx.availableCapabilitiesGrouped.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
-    key: 0,
-    onChange: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.onToggleCapability(true);
-    }),
-    modelValue: _ctx.capabilityToAddOrRemoveId,
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.capabilityToAddOrRemoveId = $event;
+    }, null, 8, _hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }), 128)), _ctx.availableCapabilitiesGrouped.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    "model-value": _ctx.capabilityToAddId,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      _ctx.capabilityToAddId = $event;
+
+      _ctx.onToggleCapability(true);
     }),
     disabled: _ctx.isBusy,
     uicontrol: "expandable-select",
     name: "add_capability",
     "full-width": true,
     options: _ctx.availableCapabilitiesGrouped
-  }, null, 8, ["modelValue", "disabled", "options"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [_ctx.isAddingCapability ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", {
+  }, null, 8, ["model-value", "disabled", "options"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [_ctx.isAddingCapability ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", {
     key: 0,
     innerHTML: _ctx.confirmAddCapabilityToggleContent
   }, null, 8, _hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isAddingCapability ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", {
@@ -217,19 +216,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8, _hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
+    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
       return _ctx.toggleCapability();
-    })
+    }, ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
-    onClick: _cache[3] || (_cache[3] = function ($event) {
+    onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
       _ctx.capabilityToAddOrRemove = null;
-      _ctx.capabilityToAddOrRemoveId = null;
-    })
+      _ctx.capabilityToAddId = null;
+      _ctx.capabilityToRemoveId = null;
+    }, ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])], 512)], 2);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=5f343efb
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=1950a571
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -337,15 +337,23 @@ var _window = window,
       theCapabilities: this.capabilities || [],
       isBusy: false,
       isAddingCapability: false,
-      capabilityToAddOrRemoveId: null,
+      capabilityToAddId: null,
+      capabilityToRemoveId: null,
       capabilityToAddOrRemove: null
     };
   },
   emits: ['change'],
+  watch: {
+    capabilities: function capabilities(newValue) {
+      if (newValue) {
+        this.theCapabilities = newValue;
+      }
+    }
+  },
   created: function created() {
     var _this = this;
 
-    if (!Array.isArray(this.capabilities)) {
+    if (!this.capabilities) {
       this.isBusy = true;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'UsersManager.getUsersPlusRole',
@@ -362,6 +370,8 @@ var _window = window,
       }).finally(function () {
         _this.isBusy = false;
       });
+    } else {
+      this.theCapabilities = this.capabilities;
     }
   },
   methods: {
@@ -369,9 +379,10 @@ var _window = window,
       var _this2 = this;
 
       this.isAddingCapability = isAdd;
+      var capabilityToAddOrRemoveId = isAdd ? this.capabilityToAddId : this.capabilityToRemoveId;
       this.capabilityToAddOrRemove = null;
       this.availableCapabilities.forEach(function (capability) {
-        if (capability.id === _this2.capabilityToAddOrRemoveId) {
+        if (capability.id === capabilityToAddOrRemoveId) {
           _this2.capabilityToAddOrRemove = capability;
         }
       });
@@ -425,7 +436,8 @@ var _window = window,
       }).finally(function () {
         _this4.isBusy = false;
         _this4.capabilityToAddOrRemove = null;
-        _this4.capabilityToAddOrRemoveId = null;
+        _this4.capabilityToAddId = null;
+        _this4.capabilityToRemoveId = null;
       });
     },
     removeCapability: function removeCapability(capability) {
@@ -443,7 +455,8 @@ var _window = window,
       }).finally(function () {
         _this5.isBusy = false;
         _this5.capabilityToAddOrRemove = null;
-        _this5.capabilityToAddOrRemoveId = null;
+        _this5.capabilityToAddId = null;
+        _this5.capabilityToRemoveId = null;
       });
     }
   },
@@ -461,7 +474,7 @@ var _window = window,
       var _this6 = this;
 
       var availableCapabilitiesGrouped = this.availableCapabilities.filter(function (c) {
-        return _this6.capabilitiesSet[c.id];
+        return !_this6.capabilitiesSet[c.id];
       }).map(function (c) {
         return {
           group: c.category,
