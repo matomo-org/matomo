@@ -5,9 +5,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import {reactive, readonly, computed, DeepReadonly} from 'vue';
+import {
+  reactive,
+  readonly,
+  computed,
+  DeepReadonly,
+} from 'vue';
 import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
-import Capability from "./Capability";
+import Capability from './Capability';
 
 interface CapabilitiesStoreState {
   isLoading: boolean;

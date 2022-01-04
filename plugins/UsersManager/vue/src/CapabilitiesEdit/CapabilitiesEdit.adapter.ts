@@ -30,13 +30,14 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
     onCapabilitiesChange: {
       angularJsBind: '&',
+      vue: 'change',
     },
   },
   directiveName: 'piwikCapabilitiesEdit',
   restrict: 'E',
   $inject: ['$timeout'],
   events: {
-    onCapabilitiesChange(caps: Capability[], vm, scope, element, attrs, controller, $timeout) {
+    change(caps: Capability[], vm, scope, element, attrs, controller, $timeout) {
       $timeout(() => {
         if (scope.onCapabilitiesChange) {
           scope.onCapabilitiesChange.call({

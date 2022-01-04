@@ -10,32 +10,36 @@
     :class="{busy: isBusy}"
   >
     <div
-      class="chip"
-      v-if="capabilitiesSet.capability.id"
-      v-for="capability in availableCapabilities"
+      v-if="capabilitiesSet.capability?.id"
     >
-      <span
-        class="capability-name"
-        :title="`${capability.description} ${
-          isIncludedInRole(capability)
-            ? `<br/><br/>${translate('UsersManager_IncludedInUsersRole')}`
-            : ''
-        }`"
+      <div
+        class="chip"
+        v-for="capability in availableCapabilities"
+        :key="capability.id"
       >
-        {{ capability.category }}: {{ capability.name }}
-      </span>
-      <span
-        class="icon-close"
-        v-if="!isIncludedInRole(capability)"
-        @click="capabilityToAddOrRemoveId = capability.id; onToggleCapability(false)"
-      />
+        <span
+          class="capability-name"
+          :title="`${capability.description} ${
+            isIncludedInRole(capability)
+              ? `<br/><br/>${translate('UsersManager_IncludedInUsersRole')}`
+              : ''
+          }`"
+        >
+          {{ capability.category }}: {{ capability.name }}
+        </span>
+        <span
+          class="icon-close"
+          v-if="!isIncludedInRole(capability)"
+          @click="capabilityToAddOrRemoveId = capability.id; onToggleCapability(false)"
+        />
+      </div>
     </div>
     <div
       class="addCapability"
     >
       <Field
-        @change="onToggleCapability(true)"
-        v-model="capabilityToAddOrRemoveId"
+        :model-value="capabilityToAddOrRemoveId"
+        @update:model-value="capabilityToAddOrRemoveId = $event; onToggleCapability(true)"
         :disabled="isBusy"
         v-if="availableCapabilitiesGrouped.length"
         uicontrol="expandable-select"
@@ -60,12 +64,12 @@
         <a
           href=""
           class="modal-action modal-close btn"
-          @click="toggleCapability()"
+          @click.prevent="toggleCapability()"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
           class="modal-action modal-close modal-no"
-          @click="capabilityToAddOrRemove = null;capabilityToAddOrRemoveId = null"
+          @click.prevent="capabilityToAddOrRemove = null;capabilityToAddOrRemoveId = null"
         >
           {{ translate('General_No') }}
         </a>
@@ -75,18 +79,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, DeepReadonly } from 'vue';
 import { translate, AjaxHelper } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CapabilitiesStore from '../CapabilitiesStore/CapabilitiesStore';
 import Capability from '../CapabilitiesStore/Capability';
+import ModalOptions = M.ModalOptions;
 
 interface CapabilitiesEditState {
   isBusy: boolean;
-  theCapabilities: Capability[];
+  theCapabilities: string[];
   isAddingCapability: boolean;
   capabilityToAddOrRemoveId: string|null;
-  capabilityToAddOrRemove: Capability|null;
+  capabilityToAddOrRemove: DeepReadonly<Capability>|null;
 }
 
 const { $ } = window;
@@ -94,9 +99,18 @@ const { $ } = window;
 export default defineComponent({
   props: {
     idsite: [String, Number],
-    siteName: String,
-    userLogin: String,
-    userRole: String,
+    siteName: {
+      type: String,
+      required: true,
+    },
+    userLogin: {
+      type: String,
+      required: true,
+    },
+    userRole: {
+      type: String,
+      required: true,
+    },
     capabilities: Array,
   },
   components: {
@@ -104,19 +118,26 @@ export default defineComponent({
   },
   data(): CapabilitiesEditState {
     return {
-      theCapabilities: this.capabilities || [],
+      theCapabilities: (this.capabilities as string[]) || [],
       isBusy: false,
       isAddingCapability: false,
       capabilityToAddOrRemoveId: null,
       capabilityToAddOrRemove: null,
     };
   },
-  emits: ['onCapabilitiesChange'],
+  emits: ['change'],
+  watch: {
+    capabilities(newValue) {
+      if (newValue) {
+        this.theCapabilities = newValue as string[];
+      }
+    },
+  },
   created() {
     if (!Array.isArray(this.capabilities)) {
       this.isBusy = true;
 
-      AjaxHelper.fetch<{ capabilities: Capability[] }>({
+      AjaxHelper.fetch<{ capabilities: string[] }>({
         method: 'UsersManager.getUsersPlusRole',
         limit: '1',
         filter_search: this.userLogin,
@@ -128,7 +149,7 @@ export default defineComponent({
         return user.capabilities;
       }).then((capabilities) => {
         this.theCapabilities = capabilities;
-      }).finally(function () {
+      }).finally(() => {
         this.isBusy = false;
       });
     }
@@ -147,23 +168,22 @@ export default defineComponent({
       if (this.$refs.confirmCapabilityToggleModal) {
         $(this.$refs.confirmCapabilityToggleModal as HTMLElement).modal({
           dismissible: false,
-          yes: function () {
-          },
-        }).modal('open');
+          yes: () => null,
+        } as unknown as ModalOptions).modal('open');
       }
     },
     toggleCapability() {
       if (this.isAddingCapability) {
-        this.addCapability(this.capabilityToAddOrRemove);
+        this.addCapability(this.capabilityToAddOrRemove!);
       } else {
-        this.removeCapability(this.capabilityToAddOrRemove);
+        this.removeCapability(this.capabilityToAddOrRemove!);
       }
     },
-    isIncludedInRole(capability: Capability) {
+    isIncludedInRole(capability: DeepReadonly<Capability>) {
       return (capability.includedInRoles || []).indexOf(this.userRole) !== -1;
     },
     getCapabilitiesList() {
-      const result = [];
+      const result: string[] = [];
       this.availableCapabilities.forEach((capability) => {
         if (this.isIncludedInRole(capability)) {
           return;
@@ -175,31 +195,26 @@ export default defineComponent({
       });
       return result;
     },
-    addCapability(capability: Capability) {
+    addCapability(capability: DeepReadonly<Capability>) {
       this.isBusy = true;
       AjaxHelper.post(
         {
           method: 'UsersManager.addCapabilities',
-        }, {
+        },
+        {
           userLogin: this.userLogin,
           capabilities: capability.id,
           idSites: this.idsite,
         },
       ).then(() => {
-        // TODO: adapter
-        this.$emit('capabilitiesChange', this.getCapabilitiesList());
-        /*
-        vm.onCapabilitiesChange.call({
-          capabilities: getCapabilitiesList(),
-        });
-         */
+        this.$emit('change', this.getCapabilitiesList());
       }).finally(() => {
         this.isBusy = false;
         this.capabilityToAddOrRemove = null;
         this.capabilityToAddOrRemoveId = null;
       });
     },
-    removeCapability(capability: Capability) {
+    removeCapability(capability: DeepReadonly<Capability>) {
       this.isBusy = true;
       AjaxHelper.post(
         {
@@ -208,10 +223,10 @@ export default defineComponent({
         {
           userLogin: this.userLogin,
           capabilities: capability.id,
-          idSites: this.idsite
+          idSites: this.idsite,
         },
       ).then(() => {
-        this.$emit('capabilitiesChange', this.getCapabilitiesList());
+        this.$emit('change', this.getCapabilitiesList());
       }).finally(() => {
         this.isBusy = false;
         this.capabilityToAddOrRemove = null;
@@ -227,16 +242,16 @@ export default defineComponent({
       return translate(
         'UsersManager_AreYouSureAddCapability',
         `<strong>${this.userLogin}</strong>`,
-        `<strong>${this.capabilityToAddOrRemove.name}</strong>`,
-        `<strong>${this.siteName}</strong>`
+        `<strong>${this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : ''}</strong>`,
+        `<strong>${this.siteName}</strong>`,
       );
     },
     confirmCapabilityToggleContent() {
       return translate(
         'UsersManager_AreYouSureRemoveCapability',
-        `<strong>${this.capabilityToAddOrRemove.name}</strong>`,
+        `<strong>${this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : ''}</strong>`,
         `<strong>${this.userLogin}</strong>`,
-        `<strong>${this.siteName}</strong>`
+        `<strong>${this.siteName}</strong>`,
       );
     },
     availableCapabilitiesGrouped() {
@@ -262,7 +277,7 @@ export default defineComponent({
       return availableCapabilitiesGrouped;
     },
     capabilitiesSet() {
-      const capabilitiesSet = {};
+      const capabilitiesSet: Record<string, boolean> = {};
       const capabilities = this.theCapabilities as string[];
 
       (capabilities || []).forEach((capability) => {
@@ -271,7 +286,7 @@ export default defineComponent({
 
       (this.availableCapabilities || []).forEach((capability) => {
         if (this.isIncludedInRole(capability)) {
-          this.capabilitiesSet[capability.id] = true;
+          capabilitiesSet[capability.id] = true;
         }
       });
 
