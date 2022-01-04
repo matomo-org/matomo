@@ -22,6 +22,9 @@
 
     piwikAutocompleteMatched.$inject = ['piwik', '$sanitize'];
 
+    /**
+     * @deprecated
+     */
     function piwikAutocompleteMatched(piwik, $sanitize) {
 
         return {

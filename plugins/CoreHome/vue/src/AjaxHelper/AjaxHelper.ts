@@ -579,7 +579,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @param   params   parameter object
    */
-  private mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
+  public mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
     const segment = MatomoUrl.getSearchParam('segment');
 
     const defaultParams: Record<string, string> = {
