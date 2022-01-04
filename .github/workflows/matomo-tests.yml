@@ -46,7 +46,11 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.2','8.0' ]
+        php: [ '7.2' ]
+        adapter: ['PDO_MYSQL']
+        include:
+            - php: '8.0'
+              adapter: 'MYSQLI'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -84,7 +88,7 @@ jobs:
           TRAVIS: true
           GITHUB: true
           PHP_VERSION: ${{ matrix.php }}
-          MYSQL_ADAPTER: ${{ matrix.php }} == '8.0'? 'MYSQLI':'PDO_MYSQL'
+          MYSQL_ADAPTER: ${{ matrix.adapter }}
 
   Javascript:
     runs-on: ubuntu-20.04
