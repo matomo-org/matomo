@@ -122,7 +122,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertEquals('', $result['data']);
-        $this->assertEquals(getenv("GITHUB") ? 206 : 200, $result['status']);
+        $this->assertEquals( 200, $result['status']);
 
         $this->assertTrue(isset($result['headers']['Content-Length']), "Content-Length header not set!");
         $this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
