@@ -178,10 +178,10 @@ export default defineComponent({
       showAddSiteDialog: false,
       searchTerm: '',
       sites: [],
-      isLoadingInitialEntities: false, // TODO: use
+      isLoadingInitialEntities: false,
       utcTime,
       totalNumberOfSites: null,
-      isSiteBeingEdited: false, // TODO: handle
+      isSiteBeingEdited: false,
       fetchLimitedSitesAbortController: null,
     };
   },
@@ -215,7 +215,7 @@ export default defineComponent({
     });
   },
   computed: {
-    isLoading() { // TODO: same logic for SiteFields
+    isLoading() {
       return !!this.fetchLimitedSitesAbortController
         || this.isLoadingInitialEntities
         || this.totalNumberOfSites === null
