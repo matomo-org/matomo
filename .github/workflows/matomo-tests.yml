@@ -205,46 +205,46 @@ jobs:
           ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=8 --test-group=${{ matrix.parts }}"
 
 
-      - name: upload processed screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: ${{ github.run_id }}
-          path: |
-            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
-            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
-            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
-
-
-      - name: Download processed screenshots
-        uses: actions/download-artifact@v2
-        if: failure()
-        with:
-          name: ${{ github.run_id }}
-          path: |
-            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
-            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
-            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
-
 #      - name: upload processed screenshots
+#        uses: actions/upload-artifact@v2
 #        if: failure()
-#        shell: bash
-#        run: ./.github/scripts/bash/upload_artifacts.sh
-#        env:
-#          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
-#          GITHUB_REPO: ${{ github.repository }}
-#          GITHUB_BRANCH: ${{ github.event.pull_request.base.ref }}
-#          GITHUB_RUN_ID: ${{ github.run_id }}
-#          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+#        with:
+#          name: ${{ github.run_id }}
+#          path: |
+#            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+#            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+#            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
 #
-#      - name: View UI failures
+#
+#      - name: Download processed screenshots
+#        uses: actions/download-artifact@v2
 #        if: failure()
-#        shell: bash
-#        run: ./.github/scripts/bash/view_ui_failed.sh
-#        env:
-#          GITHUB_REPO: ${{ github.repository }}
-#          GITHUB_BRANCH: ${{ github.event.pull_request.base.ref }}
-#          GITHUB_RUN_ID: ${{ github.run_id }}
+#        with:
+#          name: ${{ github.run_id }}
+#          path: |
+#            /home/runner/work/matomo/matomo/tests/UI/screenshot-diffs
+#            /home/runner/work/matomo/matomo/tests/UI/processed-ui-screenshots
+#            /home/runner/work/matomo/matomo/tests/UI/expected-screenshots
+
+      - name: upload processed screenshots
+        if: failure()
+        shell: bash
+        run: ./.github/scripts/bash/upload_artifacts.sh
+        env:
+          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: ${{ github.event.pull_request.base.ref }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+
+      - name: View UI failures
+        if: failure()
+        shell: bash
+        run: ./.github/scripts/bash/view_ui_failed.sh
+        env:
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: ${{ github.event.pull_request.base.ref }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
 
 
 

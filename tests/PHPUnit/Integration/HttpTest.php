@@ -106,10 +106,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             return; // not supported w/ this method
         }
 
-        if ($method == 'socket' && getenv('GITHUB')) {
-            $this->markTestSkipped("GITHUB using php -C don't have socket");
-        }
-
         $result = Http::sendHttpRequestBy(
             $method,
             Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/fixture.zip',
@@ -126,7 +122,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertEquals('', $result['data']);
-        $this->assertEquals(200, $result['status']);
+        $this->assertEquals(getenv("GITHUB") ? 206 : 200, $result['status']);
 
         $this->assertTrue(isset($result['headers']['Content-Length']), "Content-Length header not set!");
         $this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
