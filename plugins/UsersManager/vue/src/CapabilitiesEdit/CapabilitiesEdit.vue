@@ -10,12 +10,12 @@
     :class="{busy: isBusy}"
   >
     <div
-      v-if="capabilitiesSet.capability?.id"
+      v-for="capability in availableCapabilities"
+      :key="capability.id"
     >
       <div
         class="chip"
-        v-for="capability in availableCapabilities"
-        :key="capability.id"
+        v-if="capabilitiesSet[capability.id]"
       >
         <span
           class="capability-name"
@@ -30,18 +30,18 @@
         <span
           class="icon-close"
           v-if="!isIncludedInRole(capability)"
-          @click="capabilityToAddOrRemoveId = capability.id; onToggleCapability(false)"
+          @click="capabilityToRemoveId = capability.id; onToggleCapability(false)"
         />
       </div>
     </div>
     <div
       class="addCapability"
+      v-if="availableCapabilitiesGrouped.length"
     >
       <Field
-        :model-value="capabilityToAddOrRemoveId"
-        @update:model-value="capabilityToAddOrRemoveId = $event; onToggleCapability(true)"
+        :model-value="capabilityToAddId"
+        @update:model-value="capabilityToAddId = $event; onToggleCapability(true)"
         :disabled="isBusy"
-        v-if="availableCapabilitiesGrouped.length"
         uicontrol="expandable-select"
         name="add_capability"
         :full-width="true"
@@ -69,7 +69,10 @@
         <a
           href=""
           class="modal-action modal-close modal-no"
-          @click.prevent="capabilityToAddOrRemove = null;capabilityToAddOrRemoveId = null"
+          @click.prevent="
+            capabilityToAddOrRemove = null;
+            capabilityToAddId = null;
+            capabilityToRemoveId = null;"
         >
           {{ translate('General_No') }}
         </a>
@@ -90,7 +93,8 @@ interface CapabilitiesEditState {
   isBusy: boolean;
   theCapabilities: string[];
   isAddingCapability: boolean;
-  capabilityToAddOrRemoveId: string|null;
+  capabilityToAddId: string|null;
+  capabilityToRemoveId: string|null;
   capabilityToAddOrRemove: DeepReadonly<Capability>|null;
 }
 
@@ -121,7 +125,8 @@ export default defineComponent({
       theCapabilities: (this.capabilities as string[]) || [],
       isBusy: false,
       isAddingCapability: false,
-      capabilityToAddOrRemoveId: null,
+      capabilityToAddId: null,
+      capabilityToRemoveId: null,
       capabilityToAddOrRemove: null,
     };
   },
@@ -134,7 +139,7 @@ export default defineComponent({
     },
   },
   created() {
-    if (!Array.isArray(this.capabilities)) {
+    if (!this.capabilities) {
       this.isBusy = true;
 
       AjaxHelper.fetch<{ capabilities: string[] }>({
@@ -152,15 +157,19 @@ export default defineComponent({
       }).finally(() => {
         this.isBusy = false;
       });
+    } else {
+      this.theCapabilities = this.capabilities as string[];
     }
   },
   methods: {
     onToggleCapability(isAdd: boolean) {
       this.isAddingCapability = isAdd;
 
+      const capabilityToAddOrRemoveId = isAdd ? this.capabilityToAddId : this.capabilityToRemoveId;
+
       this.capabilityToAddOrRemove = null;
       this.availableCapabilities.forEach((capability) => {
-        if (capability.id === this.capabilityToAddOrRemoveId) {
+        if (capability.id === capabilityToAddOrRemoveId) {
           this.capabilityToAddOrRemove = capability;
         }
       });
@@ -211,7 +220,8 @@ export default defineComponent({
       }).finally(() => {
         this.isBusy = false;
         this.capabilityToAddOrRemove = null;
-        this.capabilityToAddOrRemoveId = null;
+        this.capabilityToAddId = null;
+        this.capabilityToRemoveId = null;
       });
     },
     removeCapability(capability: DeepReadonly<Capability>) {
@@ -230,7 +240,8 @@ export default defineComponent({
       }).finally(() => {
         this.isBusy = false;
         this.capabilityToAddOrRemove = null;
-        this.capabilityToAddOrRemoveId = null;
+        this.capabilityToAddId = null;
+        this.capabilityToRemoveId = null;
       });
     },
   },
@@ -256,7 +267,7 @@ export default defineComponent({
     },
     availableCapabilitiesGrouped() {
       const availableCapabilitiesGrouped = this.availableCapabilities.filter(
-        (c) => this.capabilitiesSet[c.id],
+        (c) => !this.capabilitiesSet[c.id],
       ).map((c) => ({
         group: c.category,
         key: c.id,
