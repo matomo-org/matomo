@@ -44,8 +44,7 @@
                 'General_Pagination',
                 offsetStart,
                 offsetEnd,
-                totalNumberOfSites === null ? '?' : totalNumberOfSites),
-              }}
+                totalNumberOfSites === null ? '?' : totalNumberOfSites) }}
             </span>
         </span>
       <a class="btn next" :disabled="!hasNext" @click="nextPage()">

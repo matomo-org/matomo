@@ -48,7 +48,10 @@
 
           {{ translate('SitesManager_GlobalListExcludedUserAgents_Desc') }}
           {{ translate('SitesManager_GlobalExcludedUserAgentHelp2') }}
-          {{ translate('SitesManager_GlobalExcludedUserAgentHelp3', '/bot|spider|crawl|scanner/i') }}
+          {{ translate(
+            'SitesManager_GlobalExcludedUserAgentHelp3',
+            '/bot|spider|crawl|scanner/i',
+            ) }}
         </div>
       </div>
 
@@ -77,7 +80,7 @@
           var-type="array"
           v-model="excludedIpsGlobal"
           :title="translate('SitesManager_ListOfIpsToBeExcludedOnAllWebsites')"
-          :introduction=translate('SitesManager_GlobalListExcludedIps')
+          :introduction="translate('SitesManager_GlobalListExcludedIps')"
           :inline-help="'#excludedIpsGlobalHelp'"
           :disabled="isLoading"
         />
@@ -215,6 +218,11 @@ interface IpFromHeaderResponse {
 }
 
 export default defineComponent({
+  props: {
+    // TypeScript can't add state types if there are no properties (probably a bug in Vue)
+    // so we add one dummy property to get the compile to work
+    dummy: String,
+  },
   components: {
     ContentBlock,
     Field,
@@ -262,6 +270,20 @@ export default defineComponent({
       this.currentIpAddress = response.value;
     });
   },
+  methods: {
+    saveGlobalSettings() {
+      GlobalSettingsStore.saveGlobalSettings({
+        keepURLFragmentsGlobal: this.keepURLFragmentsGlobal,
+        defaultCurrency: this.defaultCurrency,
+        defaultTimezone: this.defaultCurrency,
+        excludedIpsGlobal: this.excludedIpsGlobal.join(','),
+        excludedQueryParametersGlobal: this.excludedQueryParametersGlobal.join(','),
+        excludedUserAgentsGlobal: this.excludedUserAgentsGlobal.join(','),
+        searchKeywordParametersGlobal: this.searchKeywordParametersGlobal.join(','),
+        searchCategoryParametersGlobal: this.searchCategoryParametersGlobal.join(','),
+      });
+    },
+  },
   computed: {
     isLoading() {
       return GlobalSettingsStore.isLoading.value
@@ -287,7 +309,7 @@ export default defineComponent({
       return TimezoneStore.timezoneSupportEnabled.value;
     },
     utcTimeDate() {
-      const utcTime = this.utcTime;
+      const { utcTime } = this;
 
       const formatTimePart = (n: number) => n.toString().padStart(2, '0');
 
@@ -313,18 +335,6 @@ export default defineComponent({
       ];
       return parts.join(' ');
     },
-    saveGlobalSettings() {
-      GlobalSettingsStore.saveGlobalSettings({
-        keepURLFragmentsGlobal: this.keepURLFragmentsGlobal,
-        defaultCurrency: this.defaultCurrency,
-        defaultTimezone: this.defaultCurrency,
-        excludedIpsGlobal: this.excludedIpsGlobal.join(','),
-        excludedQueryParametersGlobal: this.excludedQueryParametersGlobal.join(','),
-        excludedUserAgentsGlobal: this.excludedUserAgentsGlobal.join(','),
-        searchKeywordParametersGlobal: this.searchKeywordParametersGlobal.join(','),
-        searchCategoryParametersGlobal: this.searchCategoryParametersGlobal.join(','),
-      });
-    }
   },
 });
 </script>

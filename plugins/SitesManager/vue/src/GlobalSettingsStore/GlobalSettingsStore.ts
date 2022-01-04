@@ -15,13 +15,22 @@ import GlobalSettings from './GlobalSettings';
 
 interface GlobalSettingsStoreState {
   isLoading: boolean;
-  globalSettings: GlobalSettings|null;
+  globalSettings: GlobalSettings;
 }
 
 class GlobalSettingsStore {
   private privateState = reactive<GlobalSettingsStoreState>({
     isLoading: false,
-    globalSettings: null,
+    globalSettings: {
+      keepURLFragmentsGlobal: false,
+      defaultCurrency: '',
+      defaultTimezone: '',
+      excludedIpsGlobal: '',
+      excludedQueryParametersGlobal: '',
+      excludedUserAgentsGlobal: '',
+      searchKeywordParametersGlobal: '',
+      searchCategoryParametersGlobal: '',
+    },
   });
 
   readonly isLoading = computed(() => readonly(this.privateState).isLoading);
@@ -61,11 +70,11 @@ class GlobalSettingsStore {
         ...response,
 
         // the API can return false for these
-        excludedIpsGlobal: response.excludedIpsGlobal || '';
-        excludedQueryParametersGlobal: response.excludedQueryParametersGlobal || '';
-        excludedUserAgentsGlobal: response.excludedUserAgentsGlobal || '';
-        searchKeywordParametersGlobal: response.searchKeywordParametersGlobal || '';
-        searchCategoryParametersGlobal: response.searchCategoryParametersGlobal || '';
+        excludedIpsGlobal: response.excludedIpsGlobal || '',
+        excludedQueryParametersGlobal: response.excludedQueryParametersGlobal || '',
+        excludedUserAgentsGlobal: response.excludedUserAgentsGlobal || '',
+        searchKeywordParametersGlobal: response.searchKeywordParametersGlobal || '',
+        searchCategoryParametersGlobal: response.searchCategoryParametersGlobal || '',
       };
     }).finally(() => {
       this.privateState.isLoading = false;

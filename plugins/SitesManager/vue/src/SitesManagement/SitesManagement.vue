@@ -132,8 +132,8 @@ import {
   translate,
 } from 'CoreHome';
 import { Setting } from 'CorePluginsAdmin';
-import AddSiteLink from './AddSiteLink';
-import SiteFields from '../SiteFields/SiteFields';
+import AddSiteLink from './AddSiteLink.vue';
+import SiteFields from '../SiteFields/SiteFields.vue';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import GlobalSettingsStore from '../GlobalSettingsStore/GlobalSettingsStore';
@@ -152,6 +152,11 @@ interface SitesManagementState {
 }
 
 export default defineComponent({
+  props: {
+    // TypeScript can't add state types if there are no properties (probably a bug in Vue)
+    // so we add one dummy property to get the compile to work
+    dummy: String,
+  },
   components: {
     MatomoDialog,
     AddSiteLink,
@@ -187,7 +192,6 @@ export default defineComponent({
   },
   created() {
     this.isLoadingInitialEntities = true;
-
     Promise.all([
       SiteTypesStore.fetchAvailableTypes(),
       this.fetchLimitedSitesWithAdminAccess(),
@@ -208,7 +212,7 @@ export default defineComponent({
         )
       ) {
         MatomoUrl.updateLocation({
-          ...MatomoUrl.urlParsed,
+          ...MatomoUrl.urlParsed.value,
           action: 'globalSettings',
         });
       }
@@ -243,7 +247,7 @@ export default defineComponent({
     mainDescription() {
       return translate(
         'SitesManager_YouCurrentlyHaveAccessToNWebsites',
-        `<strong>${this.totalNumberOfSites}</strong>`
+        `<strong>${this.totalNumberOfSites}</strong>`,
       );
     },
     hasSuperUserAccess() {
@@ -293,7 +297,7 @@ export default defineComponent({
 
       this.sites.unshift({
         type,
-      });
+      } as unknown as Site);
     },
     afterCancelEdit({ site, element }: { site: Site, element: HTMLElement }) {
       if (!site.idsite) {
@@ -311,12 +315,12 @@ export default defineComponent({
 
       this.fetchLimitedSitesAbortController = new AbortController();
 
-      const limit  = this.pageSize;
+      const limit = this.pageSize;
       const offset = this.currentPage * this.pageSize;
 
       const params: QueryParameters = {
         method: 'SitesManager.getSitesWithAdminAccess',
-        fetchAliasUrls: true,
+        fetchAliasUrls: 1,
         limit: limit + offset, // this is applied in SitesManager.getSitesWithAdminAccess API
         filter_offset: offset, // filter_offset and filter_limit is applied in response builder
         filter_limit: limit,
@@ -326,7 +330,7 @@ export default defineComponent({
         params.searchTerm = this.searchTerm;
       }
 
-      return AjaxHelper<Site[]>.fetch(params).then((sites) => {
+      return AjaxHelper.fetch<Site[]>(params).then((sites) => {
         this.sites = sites || [];
       }).finally(() => {
         this.fetchLimitedSitesAbortController = null;

@@ -234,13 +234,13 @@ interface CreateEditSiteResponse {
   value: string;
 }
 
-const timezoneOptions = computed(() => {
-  return TimezoneStore.timezones.value.map(({group, label, code}) => ({
+const timezoneOptions = computed(() => (
+  TimezoneStore.timezones.value.map(({ group, label, code }) => ({
     group,
     key: label,
     value: code,
   }))
-});
+));
 
 function isSiteNew(site: Site) {
   return typeof site.idsite === 'undefined';

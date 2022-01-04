@@ -6,10 +6,10 @@
  */
 
 import { createAngularJsAdapter } from 'CoreHome';
-import SitesManagement from './SitesManagement.vue';
+import ManageGlobalSettings from './ManageGlobalSettings.vue';
 
 export default createAngularJsAdapter({
-  component: SitesManagement,
+  component: ManageGlobalSettings,
   scope: {},
   directiveName: 'matomoGlobalSettings',
 });

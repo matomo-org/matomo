@@ -48,7 +48,7 @@ class TimezoneStore {
       this.fetchTimezones(),
     ]).finally(() => {
       this.privateState.isLoading = false;
-    })
+    });
   }
 
   private fetchTimezones() {
