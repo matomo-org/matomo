@@ -11,5 +11,5 @@ import SitesManagement from './SitesManagement.vue';
 export default createAngularJsAdapter({
   component: SitesManagement,
   scope: {},
-  directiveName: 'matomoSitesManagement',
+  directiveName: 'matomoGlobalSettings',
 });

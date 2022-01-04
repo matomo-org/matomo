@@ -224,7 +224,7 @@ export default defineComponent({
         || GlobalSettingsStore.isLoading.value;
     },
     availableTypes() {
-      return Object.values(SiteTypesStore.typesById);
+      return Object.values(SiteTypesStore.typesById.value);
     },
     timezoneSupportEnabled() {
       return TimezoneStore.timezoneSupportEnabled.value;

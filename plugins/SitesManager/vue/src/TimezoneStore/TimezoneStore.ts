@@ -15,6 +15,7 @@ interface Timezone {
 }
 
 interface TimezoneStoreState {
+  isLoading: boolean;
   timezones: Timezone[];
   timezoneSupportEnabled: boolean;
 }
@@ -27,6 +28,7 @@ interface IsTimezoneSupportedResponse {
 
 class TimezoneStore {
   private privateState = reactive<TimezoneStoreState>({
+    isLoading: false,
     timezones: [],
     timezoneSupportEnabled: false,
   });
@@ -37,13 +39,20 @@ class TimezoneStore {
 
   readonly timezoneSupportEnabled = computed(() => this.state.value.timezoneSupportEnabled);
 
+  readonly isLoading = computed(() => this.state.value.isLoading);
+
   constructor() {
-    this.checkTimezoneSupportEnabled();
-    this.fetchTimezones();
+    this.privateState.isLoading = true;
+    Promise.all([
+      this.checkTimezoneSupportEnabled(),
+      this.fetchTimezones(),
+    ]).finally(() => {
+      this.privateState.isLoading = false;
+    })
   }
 
   private fetchTimezones() {
-    AjaxHelper.fetch<GetTimezoneListResponse>({
+    return AjaxHelper.fetch<GetTimezoneListResponse>({
       method: 'SitesManager.getTimezonesList',
     }).then((grouped) => {
       const flattened: Timezone[] = [];
@@ -61,7 +70,7 @@ class TimezoneStore {
   }
 
   private checkTimezoneSupportEnabled() {
-    AjaxHelper.fetch<IsTimezoneSupportedResponse>({
+    return AjaxHelper.fetch<IsTimezoneSupportedResponse>({
       method: 'SitesManager.isTimezoneSupportEnabled',
     }).then((response) => {
       this.privateState.timezoneSupportEnabled = response.value;
@@ -69,4 +78,4 @@ class TimezoneStore {
   }
 }
 
-export default lazyInitSingleton(TimezoneStore);
+export default lazyInitSingleton(TimezoneStore) as TimezoneStore;

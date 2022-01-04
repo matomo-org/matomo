@@ -11,26 +11,20 @@ import {
   computed,
 } from 'vue';
 import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
+import GlobalSettings from './GlobalSettings';
 
-interface GlobalSettings {
-  keepURLFragmentsGlobal: boolean;
-  defaultCurrency: string;
-  defaultTimezone: string;
-  excludedIpsGlobal: string;
-  excludedQueryParametersGlobal: string;
-  excludedUserAgentsGlobal: string;
-  searchKeywordParametersGlobal: string;
-  searchCategoryParametersGlobal: string;
-}
-
-interface GlobalSettingsStoreStae {
+interface GlobalSettingsStoreState {
+  isLoading: boolean;
   globalSettings: GlobalSettings|null;
 }
 
 class GlobalSettingsStore {
-  private privateState = reactive<GlobalSettingsStoreStae>({
+  private privateState = reactive<GlobalSettingsStoreState>({
+    isLoading: false,
     globalSettings: null,
   });
+
+  readonly isLoading = computed(() => readonly(this.privateState).isLoading);
 
   readonly globalSettings = computed(() => readonly(this.privateState).globalSettings);
 
@@ -38,7 +32,27 @@ class GlobalSettingsStore {
     this.fetchGlobalSettings();
   }
 
+  public saveGlobalSettings(settings: GlobalSettings) {
+    this.privateState.isLoading = true;
+    return AjaxHelper.post(
+      {
+        module: 'SitesManager',
+        format: 'json',
+        action: 'setGlobalSettings',
+      },
+      settings,
+      {
+        withTokenInUrl: true,
+      },
+    ).then(() => {
+      this.privateState.globalSettings = { ...settings };
+    }).finally(() => {
+      this.privateState.isLoading = false;
+    });
+  }
+
   private fetchGlobalSettings() {
+    this.privateState.isLoading = true;
     AjaxHelper.fetch<GlobalSettings>({
       module: 'SitesManager',
       action: 'getGlobalSettings',
@@ -53,8 +67,10 @@ class GlobalSettingsStore {
         searchKeywordParametersGlobal: response.searchKeywordParametersGlobal || '';
         searchCategoryParametersGlobal: response.searchCategoryParametersGlobal || '';
       };
+    }).finally(() => {
+      this.privateState.isLoading = false;
     });
   }
 }
 
-export default lazyInitSingleton(GlobalSettingsStore);
+export default lazyInitSingleton(GlobalSettingsStore) as GlobalSettingsStore;

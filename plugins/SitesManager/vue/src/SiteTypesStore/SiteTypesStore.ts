@@ -14,6 +14,7 @@ import { AjaxHelper, MatomoUrl, lazyInitSingleton } from 'CoreHome';
 import SiteType from './SiteType';
 
 interface SiteTypesStoreState {
+  isLoading: boolean;
   typesById: Record<string, SiteType>;
 }
 
@@ -23,10 +24,13 @@ const { $ } = window;
 
 class SiteTypesStore {
   private state = reactive<SiteTypesStoreState>({
+    isLoading: false,
     typesById: {},
   });
 
   public readonly typesById = computed(() => readonly(this.state).typesById);
+
+  public readonly isLoading = computed(() => readonly(this.state).isLoading);
 
   private response?: Promise<SiteTypesStore['typesById']['value']>;
 
@@ -34,11 +38,13 @@ class SiteTypesStore {
     this.fetchAvailableTypes();
   }
 
+  // TODO: what happens when API method errors?
   public fetchAvailableTypes(): Promise<SiteTypesStore['typesById']['value']> {
     if (this.response) {
       return Promise.resolve(this.response);
     }
 
+    this.state.isLoading = true;
     this.response = AjaxHelper.fetch<AvailableTypesResponse>({
       method: 'API.getAvailableMeasurableTypes',
       filter_limit: '-1',
@@ -48,6 +54,8 @@ class SiteTypesStore {
       });
 
       return this.typesById.value;
+    }).finally(() => {
+      this.state.isLoading = false;
     });
 
     return this.response;
@@ -68,4 +76,4 @@ class SiteTypesStore {
   }
 }
 
-export default lazyInitSingleton(SiteTypesStore);
+export default lazyInitSingleton(SiteTypesStore) as SiteTypesStore;
