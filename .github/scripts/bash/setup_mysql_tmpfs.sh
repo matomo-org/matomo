@@ -6,12 +6,11 @@ if [ "$MATOMO_TEST_TARGET" == "AngularJSTests" ] || [ "$MATOMO_TEST_TARGET" == "
     echo "Skipping mysql setup."
     exit 0;
 fi
-
+sudo /etc/init.d/mysql start
 sudo mkdir /mnt/ramdisk
 sudo mount -t tmpfs -o size=1024m tmpfs /mnt/ramdisk
 sudo mv /var/lib/mysql /mnt/ramdisk
 sudo ln -s /mnt/ramdisk/mysql /var/lib/mysql
-sudo /etc/init.d/mysql start
 
 # print out mysql information
 mysql --version
