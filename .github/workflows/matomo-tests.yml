@@ -21,7 +21,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   PHP:
     runs-on: ubuntu-20.04
     services:
@@ -53,6 +52,11 @@ jobs:
             adapter: 'PDO_MYSQL'
           - php: '7.2'
             adapter: 'MYSQLI'
+    env:
+      DB_DATABASE: matomo_tests
+      DB_USER: root
+      DB_PASSWORD: root
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -63,11 +67,6 @@ jobs:
       - name: Setup Mysql
         shell: bash
         run: ./.github/scripts/bash/setup_mysql_tmpfs.sh
-        env:
-          MATOMO_TEST_TARGET: ${{ matrix.tests }}
-          DB_DATABASE: matomo_tests
-          DB_USERNAME: root
-          DB_PASSWORD: root
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -159,14 +158,6 @@ jobs:
         ports:
           - 6379:6379
         options: --entrypoint redis-server
-#      mariadb:
-#        image: mariadb:latest
-#        ports:
-#          - 3306:3306
-#        env:
-#          MYSQL_DATABASE: matomo_tests
-#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-#        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 
     strategy:
       fail-fast: false
@@ -174,6 +165,10 @@ jobs:
         tests: [ 'UITests' ]
         php: [ '7.2' ]
         parts: [ 0,1,2 ]
+    env:
+      DB_DATABASE: matomo_tests
+      DB_USER: root
+      DB_PASSWORD: root
 
     steps:
       - name: Checkout code
@@ -185,12 +180,7 @@ jobs:
       - name: Setup Mysql
         shell: bash
         run: ./.github/scripts/bash/setup_mysql_tmpfs.sh
-        env:
-          MATOMO_TEST_TARGET: ${{ matrix.tests }}
-          DB_DATABASE: matomo_tests
-          DB_USERNAME: root
-          DB_PASSWORD: root
-          
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
