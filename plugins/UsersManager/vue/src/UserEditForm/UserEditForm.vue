@@ -25,7 +25,7 @@
           >
             <a
               href=""
-              @click="activeTab = 'basic'"
+              @click.prevent="activeTab = 'basic'"
             >{{ translate('UsersManager_BasicInformation') }}</a>
           </li>
           <li
@@ -34,7 +34,7 @@
           >
             <a
               href=""
-              @click="activeTab = 'permissions'"
+              @click.prevent="activeTab = 'permissions'"
             >
               {{ translate('UsersManager_Permissions') }}
             </a>
@@ -50,7 +50,7 @@
           >
             <a
               href=""
-              @click="activeTab = 'superuser'"
+              @click.prevent="activeTab = 'superuser'"
             >{{ translate('UsersManager_SuperUserAccess') }}</a>
           </li>
           <li
@@ -60,7 +60,7 @@
           >
             <a
               href=""
-              @click="activeTab = '2fa'"
+              @click.prevent="activeTab = '2fa'"
             >{{ translate('UsersManager_TwoFactorAuthentication') }}</a>
           </li>
         </ul>
@@ -68,7 +68,7 @@
         </div>
         <div
           class="entityCancel"
-          @click="onDoneEditing()"
+          @click.prevent="onDoneEditing()"
         >
           <a
             href=""
