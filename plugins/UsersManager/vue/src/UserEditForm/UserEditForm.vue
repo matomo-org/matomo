@@ -274,7 +274,7 @@
             v-model="passwordConfirmation"
             uicontrol="password"
             name="currentUserPassword"
-            autocomplete="false"
+            :autocomplete="false"
             :full-width="true"
             :title="translate('UsersManager_YourCurrentPassword')"
           />
@@ -297,7 +297,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, readonly } from 'vue';
 import {
   ContentBlock,
   SiteRef,
@@ -327,7 +327,7 @@ interface UserEditFormState {
   isUserModified: boolean;
   passwordConfirmation: string;
   isPasswordModified: boolean;
-  superUserAccessChecked: boolean;
+  superUserAccessChecked: boolean|null;
   passwordConfirmationForSuperUser: string;
   isResetting2FA: boolean;
 }
@@ -369,14 +369,14 @@ export default defineComponent({
   },
   data(): UserEditFormState {
     return {
-      theUser: this.user || { ...DEFAULT_USER },
+      theUser: (this.user as User) || { ...DEFAULT_USER },
       activeTab: 'basic',
       permissionsForIdSite: 1,
       isSavingUserInfo: false,
       userHasAccess: true,
       firstSiteAccess: {
         id: this.initialSiteId,
-        name: this.initialSiteName
+        name: this.initialSiteName,
       },
       isUserModified: false,
       passwordConfirmation: '',
@@ -386,7 +386,7 @@ export default defineComponent({
       isResetting2FA: false,
     };
   },
-  emits: ['done'],
+  emits: ['done', 'updated'],
   watch: {
     user(newVal) {
       this.theUser = newVal || { ...DEFAULT_USER };
@@ -401,10 +401,12 @@ export default defineComponent({
   },
   methods: {
     confirmSuperUserChange() {
-      $(this.refs.superUserConfirmModal as HTMLElement).modal({ dismissible: false }).modal('open');
+      $(this.$refs.superUserConfirmModal as HTMLElement).modal({
+        dismissible: false,
+      }).modal('open');
     },
     confirmReset2FA() {
-      $(this.refs.twofaConfirmModal as HTMLElement).modal({ dismissible: false }).modal('open');
+      $(this.$refs.twofaConfirmModal as HTMLElement).modal({ dismissible: false }).modal('open');
     },
     toggleSuperuserAccess() {
       this.isSavingUserInfo = true;
@@ -413,12 +415,12 @@ export default defineComponent({
           method: 'UsersManager.setSuperUserAccess',
         },
         {
-          userLogin: this.user.login,
-          hasSuperUserAccess: this.user.superuser_access ? '0' : '1',
+          userLogin: this.theUser.login,
+          hasSuperUserAccess: this.theUser.superuser_access ? '0' : '1',
           passwordConfirmation: this.passwordConfirmationForSuperUser,
         },
       ).then(() => {
-        this.user.superuser_access = !this.user.superuser_access;
+        this.theUser.superuser_access = !this.theUser.superuser_access;
       }).catch(() => {
         // ignore error (still displayed to user)
       }).then(() => { // eslint-disable-line
@@ -429,17 +431,21 @@ export default defineComponent({
       });
     },
     saveUserInfo() {
-      if (this.isAdd) {
-        this.createUser();
-      } else {
-        this.confirmUserChange();
-      }
+      return Promise.resolve().then(() => {
+        if (this.isAdd) {
+          return this.createUser();
+        }
+
+        return this.confirmUserChange();
+      }).then(() => {
+        this.$emit('updated', { user: readonly(this.theUser) });
+      });
     },
     createUser() {
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
-          method: 'UsersManager.addUser'
+          method: 'UsersManager.addUser',
         },
         {
           userLogin: this.theUser.login,
@@ -472,7 +478,8 @@ export default defineComponent({
         dismissible: false,
         onOpenEnd: () => {
           $('.modal.open #currentUserPassword').focus().off('keypress').keypress(onEnter);
-        }}).modal('open');
+        },
+      }).modal('open');
     },
     showUserSavedNotification() {
       NotificationsStore.show({
@@ -504,7 +511,7 @@ export default defineComponent({
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
-          method: 'UsersManager.updateUser'
+          method: 'UsersManager.updateUser',
         },
         {
           userLogin: this.theUser.login,
@@ -531,7 +538,7 @@ export default defineComponent({
       this.superUserAccessChecked = !!this.theUser.superuser_access;
     },
     onDoneEditing() {
-      this.$emit({ isUserModified: this.isUserModified });
+      this.$emit('done', { isUserModified: this.isUserModified });
     },
   },
   computed: {

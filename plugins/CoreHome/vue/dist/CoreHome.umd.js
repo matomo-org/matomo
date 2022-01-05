@@ -2058,8 +2058,8 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
   }, {
     key: "post",
-    value: function post(params, // eslint-disable-next-line
-    postParams) {
+    value: function post(params) {
+      var postParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       return this.fetch(params, AjaxHelper_objectSpread(AjaxHelper_objectSpread({}, options), {}, {
         postParams: postParams

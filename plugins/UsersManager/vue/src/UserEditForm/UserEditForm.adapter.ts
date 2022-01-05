@@ -33,6 +33,10 @@ export default createAngularJsAdapter({
     initialSiteName: {
       angularJsBind: '<',
     },
+    onUpdated: {
+      angularJsBind: '&',
+      vue: 'updated',
+    },
   },
   directiveName: 'piwikUserEditForm',
   restrict: 'E',
