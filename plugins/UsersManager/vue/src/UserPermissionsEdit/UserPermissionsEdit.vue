@@ -346,7 +346,7 @@
         >{{ translate('General_No') }}</a>
       </div>
     </div>
-    <div class="confirm-give-access-all-sites modal" ref="confirmGiveAccessAllSites">
+    <div class="confirm-give-access-all-sites modal" ref="confirmGiveAccessAllSitesModal">
       <div class="modal-content">
         <h3 v-html="$sanitize(changePermToAllSitesConfirmText)"></h3>
         <p>{{ translate('UsersManager_ChangePermToAllSitesConfirm2') }}</p>
