@@ -43,7 +43,7 @@ then
   chmod a+rw ./plugins/*/tests/System/processed || true
   chmod a+rw ./plugins/*/tests/Integration/processed || true
   mkdir -p ./tests/UI/processed-ui-screenshots
-  cp .github/artifacts/config.ini.github.php  config/config.ini.php
+  sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php > config/config.ini.php
   ls ./tests/PHPUnit/
 fi
 
