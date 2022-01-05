@@ -216,8 +216,6 @@ CREATE TABLE `goal` (
   `revenue` float NOT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   `event_value_as_revenue` tinyint(4) NOT NULL DEFAULT '0',
-  `ts_created` TIMESTAMP NULL,
-  `ts_last_edit` TIMESTAMP NULL,
   PRIMARY KEY (`idsite`,`idgoal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -228,7 +226,7 @@ CREATE TABLE `goal` (
 
 LOCK TABLES `goal` WRITE;
 /*!40000 ALTER TABLE `goal` DISABLE KEYS */;
-INSERT INTO `goal` VALUES (1,1,'<script>_x(1)</script>','<script>_x(2)</script>','url','http','contains',0,1,5,0,0,null,null),(1,2,'{{constructor.constructor(\"_x(4)\")()}}','{{constructor.constructor(\"_x(5)\")()}}','url','http','contains',0,0,5,0,0,null,null),(1,3,'click event','','event_action','click','contains',0,0,0,0,0,null,null),(1,4,'category event','categorydesc','event_category','The_Category','exact',1,0,0,0,0,null,null),(1,5,'name event','eventdesc','event_name','<the_\'\"name>','exact',0,0,0,0,0);
+INSERT INTO `goal` VALUES (1,1,'<script>_x(1)</script>','<script>_x(2)</script>','url','http','contains',0,1,5,0,0),(1,2,'{{constructor.constructor(\"_x(4)\")()}}','{{constructor.constructor(\"_x(5)\")()}}','url','http','contains',0,0,5,0,0),(1,3,'click event','','event_action','click','contains',0,0,0,0,0),(1,4,'category event','categorydesc','event_category','The_Category','exact',1,0,0,0,0),(1,5,'name event','eventdesc','event_name','<the_\'\"name>','exact',0,0,0,0,0);
 /*!40000 ALTER TABLE `goal` ENABLE KEYS */;
 UNLOCK TABLES;
 
