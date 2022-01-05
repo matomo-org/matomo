@@ -6,24 +6,20 @@
  */
 
 import { createAngularJsAdapter } from 'CoreHome';
-import UserPermissionsEdit from './UserPermissionsEdit.vue';
+import UserEditForm from './UserEditForm.vue';
 
 export default createAngularJsAdapter({
-  component: UserPermissionsEdit,
+  component: UserEditForm,
   scope: {
-    userLogin: {
+    user: {
       angularJsBind: '<',
     },
-    limit: {
+    onDoneEditing: {
+      angularJsBind: '&',
+      vue: 'done',
+    },
+    currentUserRole: {
       angularJsBind: '<',
-    },
-    onUserHasAccessDetected: {
-      angularJsBind: '&',
-      vue: 'accessChanged',
-    },
-    onAccessChange: {
-      angularJsBind: '&',
-      vue: 'userHasAccessDetected',
     },
     accessLevels: {
       angularJsBind: '<',
@@ -31,7 +27,13 @@ export default createAngularJsAdapter({
     filterAccessLevels: {
       angularJsBind: '<',
     },
+    initialSiteId: {
+      angularJsBind: '<',
+    },
+    initialSiteName: {
+      angularJsBind: '<',
+    },
   },
-  directiveName: 'piwikUserPermissionsEdit',
+  directiveName: 'piwikUserEditForm',
   restrict: 'E',
 });

@@ -467,7 +467,7 @@ export default defineComponent({
       siteAccessToChange: null,
     };
   },
-  emits: ['fetched', 'accessChanged'],
+  emits: ['userHasAccessDetected', 'accessChanged'],
   created() {
     this.onChangeSiteFilter = debounce(this.onChangeSiteFilter, 300);
 
@@ -534,7 +534,7 @@ export default defineComponent({
         this.totalEntries = parseInt(result.getResponseHeader('x-matomo-total-results')!, 10) || 0;
         this.hasAccessToAtLeastOneSite = !!result.getResponseHeader('x-matomo-has-some');
 
-        this.$emit('fetched', { hasAccess: this.hasAccessToAtLeastOneSite });
+        this.$emit('userHasAccessDetected', { hasAccess: this.hasAccessToAtLeastOneSite });
 
         this.clearSelection();
       }).catch(() => {

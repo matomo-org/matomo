@@ -1,0 +1,551 @@
+<!--
+  Matomo - free/libre analytics platform
+  @link https://matomo.org
+  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <ContentBlock
+    class="userEditForm"
+    :class="{ loading: isSavingUserInfo }"
+    :content-title="`${formTitle} ${!isAdd ? `'${theUser.login}'` : ''}`"
+  >
+    <div
+      class="row"
+      v-form=""
+    >
+      <div
+        class="col m2 entityList"
+        v-if="!isAdd"
+      >
+        <ul class="listCircle">
+          <li
+            :class="{active: activeTab === 'basic'}"
+            class="menuBasicInfo"
+          >
+            <a
+              href=""
+              @click="activeTab = 'basic'"
+            >{{ translate('UsersManager_BasicInformation') }}</a>
+          </li>
+          <li
+            :class="{active: activeTab === 'permissions'}"
+            class="menuPermissions"
+          >
+            <a
+              href=""
+              @click="activeTab = 'permissions'"
+            >
+              {{ translate('UsersManager_Permissions') }}
+            </a>
+            <span
+              class="icon-warning"
+              v-if="!userHasAccess && !theUser.superuser_access"
+            />
+          </li>
+          <li
+            :class="{active: activeTab === 'superuser'}"
+            class="menuSuperuser"
+            v-if="currentUserRole === 'superuser'"
+          >
+            <a
+              href=""
+              @click="activeTab = 'superuser'"
+            >{{ translate('UsersManager_SuperUserAccess') }}</a>
+          </li>
+          <li
+            :class="{active: activeTab === '2fa'}"
+            class="menuUserTwoFa"
+            v-if="currentUserRole === 'superuser' && theUser.uses_2fa && !isAdd"
+          >
+            <a
+              href=""
+              @click="activeTab = '2fa'"
+            >{{ translate('UsersManager_TwoFactorAuthentication') }}</a>
+          </li>
+        </ul>
+        <div class="save-button-spacer hide-on-small-only">
+        </div>
+        <div
+          class="entityCancel"
+          @click="onDoneEditing()"
+        >
+          <a
+            href=""
+            class="entityCancelLink"
+          >{{ translate('Mobile_NavigationBack') }}</a>
+        </div>
+      </div>
+      <div class="visibleTab col m10">
+        <div
+          v-if="activeTab === 'basic'"
+          class="basic-info-tab"
+        >
+          <div>
+            <Field
+              v-model="theUser.login"
+              :disabled="isSavingUserInfo || !isAdd"
+              uicontrol="text"
+              name="user_login"
+              :maxlength="100"
+              :title="translate('General_Username')"
+            />
+          </div>
+          <div>
+            <Field
+              :model-value="theUser.password"
+              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)"
+              @update:model-value="theUser.password = $event; isPasswordModified = true"
+              uicontrol="password"
+              name="user_password"
+              :title="translate('General_Password')"
+            />
+          </div>
+          <div>
+            <Field
+              v-model="theUser.email"
+              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)"
+              v-if="currentUserRole === 'superuser' || isAdd"
+              uicontrol="text"
+              name="user_email"
+              :maxlength="100"
+              :title="translate('UsersManager_Email')"
+            />
+          </div>
+          <div>
+            <Field
+              v-model="firstSiteAccess"
+              :disabled="isSavingUserInfo"
+              v-if="isAdd"
+              uicontrol="site"
+              name="user_site"
+              :ui-control-attributes="{ onlySitesWithAdminAccess: true }"
+              :title="translate('UsersManager_FirstWebsitePermission')"
+              :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
+            />
+          </div>
+          <div>
+            <SaveButton
+              v-if="currentUserRole === 'superuser' || isAdd"
+              :value="saveButtonLabel"
+              :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
+              :saving="isSavingUserInfo"
+              @confirm="saveUserInfo()"
+            />
+          </div>
+          <div
+            class="entityCancel"
+            v-if="isAdd"
+          >
+            <a
+              href=""
+              class="entityCancelLink"
+              @click.prevent="onDoneEditing()"
+            >{{ translate('General_Cancel') }}</a>
+          </div>
+        </div>
+        <div
+          v-if="!isAdd"
+          v-show="activeTab === 'permissions'"
+          class="user-permissions"
+        >
+          <div
+            v-if="!theUser.superuser_access"
+          >
+            <UserPermissionsEdit
+              :user-login="theUser.login"
+              @user-has-access-detected="userHasAccess = $event.hasAccess"
+              @access-changed="isUserModified = true"
+              :access-levels="accessLevels"
+              :filter-access-levels="filterAccessLevels"
+            />
+          </div>
+          <div
+            v-if="theUser.superuser_access"
+            class="alert alert-info"
+          >
+            {{ translate('UsersManager_SuperUsersPermissionsNotice') }}
+          </div>
+        </div>
+        <div
+          v-if="activeTab === 'superuser' && currentUserRole === 'superuser' && !isAdd"
+          class="superuser-access"
+        >
+          <p>{{ translate('UsersManager_SuperUserIntro1') }}</p>
+          <p><strong>{{ translate('UsersManager_SuperUserIntro2') }}</strong></p>
+          <div>
+            <Field
+              v-model="superUserAccessChecked"
+              @click="confirmSuperUserChange()"
+              :disabled="isSavingUserInfo"
+              uicontrol="checkbox"
+              name="superuser_access"
+              :title="translate('UsersManager_HasSuperUserAccess')"
+            />
+          </div>
+          <div class="superuser-confirm-modal modal" ref="superUserConfirmModal">
+            <div class="modal-content">
+              <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
+              <p v-if="theUser.superuser_access">
+                {{ translate('UsersManager_RemoveSuperuserAccessConfirm') }}
+              </p>
+              <p v-if="!theUser.superuser_access">
+                {{ translate('UsersManager_AddSuperuserAccessConfirm') }}
+              </p>
+              <div>
+                <Field
+                  v-model="passwordConfirmationForSuperUser"
+                  uicontrol="password"
+                  name="currentUserPasswordForSuperUser"
+                  :autocomplete="false"
+                  :full-width="true"
+                  :title="translate('UsersManager_YourCurrentPassword')"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a
+                href=""
+                class="modal-action modal-close btn"
+                @click.prevent="toggleSuperuserAccess()"
+              >{{ translate('General_Yes') }}</a>
+              <a
+                href=""
+                class="modal-action modal-close modal-no"
+                @click.prevent="setSuperUserAccessChecked()"
+              >{{ translate('General_No') }}</a>
+            </div>
+          </div>
+        </div>
+        <div
+          v-show="activeTab === '2fa'"
+          v-if="currentUserRole === 'superuser' && !isAdd"
+          class="twofa-reset"
+        >
+          <p>{{ translate('UsersManager_ResetTwoFactorAuthenticationInfo') }}</p>
+          <div
+            class="resetTwoFa"
+          >
+            <SaveButton
+              :saving="isResetting2FA"
+              @confirm="confirmReset2FA()"
+              :value="translate('UsersManager_ResetTwoFactorAuthentication')"
+            />
+          </div>
+          <div class="twofa-confirm-modal modal" ref="twofaConfirmModal">
+            <div class="modal-content">
+              <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
+              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+              <div>
+                <Field
+                  v-model="passwordConfirmation"
+                  uicontrol="password"
+                  name="currentUserPassword"
+                  :autocomplete="false"
+                  :full-width="true"
+                  :title="translate('UsersManager_YourCurrentPassword')"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a
+                href=""
+                class="modal-action modal-close btn"
+                @click.prevent="reset2FA()"
+              >{{ translate('General_Yes') }}</a>
+              <a
+                href=""
+                class="modal-action modal-close modal-no"
+                @click="$event.preventDefault()"
+              >{{ translate('General_No') }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="change-password-modal modal" ref="changePasswordModal">
+      <div class="modal-content">
+        <h2 piwik-translate="UsersManager_AreYouSureChangeDetails">
+          <strong>{{ theUser.login }}</strong>
+        </h2>
+        <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+        <div>
+          <Field
+            v-model="passwordConfirmation"
+            uicontrol="password"
+            name="currentUserPassword"
+            autocomplete="false"
+            :full-width="true"
+            :title="translate('UsersManager_YourCurrentPassword')"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a
+          href=""
+          class="modal-action modal-close btn"
+          @click.prevent="updateUser()"
+        >{{ translate('General_Yes') }}</a>
+        <a
+          href=""
+          class="modal-action modal-close modal-no"
+          @click="$event.preventDefault()"
+        >{{ translate('General_No') }}</a>
+      </div>
+    </div>
+  </ContentBlock>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import {
+  ContentBlock,
+  SiteRef,
+  translate,
+  AjaxHelper,
+  NotificationsStore,
+} from 'CoreHome';
+import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import UserPermissionsEdit from '../UserPermissionsEdit/UserPermissionsEdit.vue';
+import User from '../User';
+
+const DEFAULT_USER: User = {
+  login: '',
+  superuser_access: false,
+  uses_2fa: false,
+  password: '',
+  email: '',
+};
+
+interface UserEditFormState {
+  theUser: User;
+  activeTab: string;
+  permissionsForIdSite: string|number;
+  isSavingUserInfo: boolean;
+  userHasAccess: boolean;
+  firstSiteAccess: SiteRef|null;
+  isUserModified: boolean;
+  passwordConfirmation: string;
+  isPasswordModified: boolean;
+  superUserAccessChecked: boolean;
+  passwordConfirmationForSuperUser: string;
+  isResetting2FA: boolean;
+}
+
+const { $ } = window;
+
+export default defineComponent({
+  props: {
+    user: Object,
+    currentUserRole: {
+      type: String,
+      required: true,
+    },
+    accessLevels: {
+      type: Array,
+      required: true,
+    },
+    filterAccessLevels: {
+      type: Array,
+      required: true,
+    },
+    initialSiteId: {
+      type: [String, Number],
+      required: true,
+    },
+    initialSiteName: {
+      type: String,
+      required: true,
+    },
+  },
+  components: {
+    ContentBlock,
+    Field,
+    SaveButton,
+    UserPermissionsEdit,
+  },
+  directives: {
+    Form,
+  },
+  data(): UserEditFormState {
+    return {
+      theUser: this.user || { ...DEFAULT_USER },
+      activeTab: 'basic',
+      permissionsForIdSite: 1,
+      isSavingUserInfo: false,
+      userHasAccess: true,
+      firstSiteAccess: {
+        id: this.initialSiteId,
+        name: this.initialSiteName
+      },
+      isUserModified: false,
+      passwordConfirmation: '',
+      isPasswordModified: false,
+      superUserAccessChecked: null,
+      passwordConfirmationForSuperUser: '',
+      isResetting2FA: false,
+    };
+  },
+  emits: ['done'],
+  watch: {
+    user(newVal) {
+      this.theUser = newVal || { ...DEFAULT_USER };
+
+      if (!this.isAdd) {
+        // make sure password is not stored in the client after update/save
+        this.theUser.password = 'XXXXXXXX';
+      }
+
+      this.setSuperUserAccessChecked();
+    },
+  },
+  methods: {
+    confirmSuperUserChange() {
+      $(this.refs.superUserConfirmModal as HTMLElement).modal({ dismissible: false }).modal('open');
+    },
+    confirmReset2FA() {
+      $(this.refs.twofaConfirmModal as HTMLElement).modal({ dismissible: false }).modal('open');
+    },
+    toggleSuperuserAccess() {
+      this.isSavingUserInfo = true;
+      AjaxHelper.post(
+        {
+          method: 'UsersManager.setSuperUserAccess',
+        },
+        {
+          userLogin: this.user.login,
+          hasSuperUserAccess: this.user.superuser_access ? '0' : '1',
+          passwordConfirmation: this.passwordConfirmationForSuperUser,
+        },
+      ).then(() => {
+        this.user.superuser_access = !this.user.superuser_access;
+      }).catch(() => {
+        // ignore error (still displayed to user)
+      }).then(() => { // eslint-disable-line
+        this.isSavingUserInfo = false;
+        this.isUserModified = true;
+        this.passwordConfirmationForSuperUser = null;
+        this.setSuperUserAccessChecked();
+      });
+    },
+    saveUserInfo() {
+      if (this.isAdd) {
+        this.createUser();
+      } else {
+        this.confirmUserChange();
+      }
+    },
+    createUser() {
+      this.isSavingUserInfo = true;
+      return AjaxHelper.post(
+        {
+          method: 'UsersManager.addUser'
+        },
+        {
+          userLogin: this.theUser.login,
+          password: this.theUser.password,
+          email: this.theUser.email,
+          initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
+        },
+      ).catch((e) => {
+        this.isSavingUserInfo = false;
+        throw e;
+      }).then(() => {
+        this.firstSiteAccess = null;
+        this.isSavingUserInfo = false;
+        this.isUserModified = true;
+
+        this.showUserSavedNotification();
+      });
+    },
+    confirmUserChange() {
+      this.passwordConfirmation = '';
+      function onEnter(event: KeyboardEvent) {
+        const keycode = event.keyCode ? event.keyCode : event.which;
+        if (keycode === 13) {
+          $(this.$refs.changePasswordModal as HTMLElement).modal('close');
+          this.updateUser();
+        }
+      }
+
+      $(this.$refs.changePasswordModal as HTMLElement).modal({
+        dismissible: false,
+        onOpenEnd: () => {
+          $('.modal.open #currentUserPassword').focus().off('keypress').keypress(onEnter);
+        }}).modal('open');
+    },
+    showUserSavedNotification() {
+      NotificationsStore.show({
+        message: translate('General_YourChangesHaveBeenSaved'),
+        context: 'success',
+        type: 'toast',
+      });
+    },
+    reset2FA() {
+      this.isResetting2FA = true;
+      return AjaxHelper.post({
+        method: 'TwoFactorAuth.resetTwoFactorAuth',
+        userLogin: this.theUser.login,
+        passwordConfirmation: this.passwordConfirmation,
+      }).catch((e) => {
+        this.isResetting2FA = false;
+        throw e;
+      }).then(() => {
+        this.isResetting2FA = false;
+        this.theUser.uses_2fa = false;
+        this.activeTab = 'basic';
+
+        this.showUserSavedNotification();
+      }).finally(() => {
+        this.passwordConfirmation = '';
+      });
+    },
+    updateUser() {
+      this.isSavingUserInfo = true;
+      return AjaxHelper.post(
+        {
+          method: 'UsersManager.updateUser'
+        },
+        {
+          userLogin: this.theUser.login,
+          password: (this.isPasswordModified && this.theUser.password)
+            ? this.theUser.password
+            : undefined,
+          passwordConfirmation: this.passwordConfirmation ? this.passwordConfirmation : undefined,
+          email: this.theUser.email,
+        },
+      ).catch((e) => {
+        this.isSavingUserInfo = false;
+        this.passwordConfirmation = false;
+        throw e;
+      }).then(() => {
+        this.isSavingUserInfo = false;
+        this.passwordConfirmation = false;
+        this.isUserModified = true;
+        this.isPasswordModified = false;
+
+        this.showUserSavedNotification();
+      });
+    },
+    setSuperUserAccessChecked() {
+      this.superUserAccessChecked = !!this.theUser.superuser_access;
+    },
+    onDoneEditing() {
+      this.$emit({ isUserModified: this.isUserModified });
+    },
+  },
+  computed: {
+    formTitle() {
+      return this.isAdd ? translate('UsersManager_AddNewUser') : translate('UsersManager_EditUser');
+    },
+    saveButtonLabel() {
+      return this.isAdd
+        ? translate('UsersManager_CreateUser')
+        : translate('UsersManager_SaveBasicInfo');
+    },
+    isAdd() {
+      return !this.user; // purposefully checking input property not theUser state
+    },
+  },
+});
+</script>
