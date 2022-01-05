@@ -53,6 +53,11 @@ jobs:
             adapter: 'PDO_MYSQL'
           - php: '7.2'
             adapter: 'MYSQLI'
+    env:
+      DB_DATABASE: matomo_tests
+      DB_USER: root
+      DB_PASSWORD: root
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -61,10 +66,9 @@ jobs:
           submodules: recursive
 
       - name: Setup Mysql
-        shell: bash
-        run: ./.github/scripts/bash/setup_mysql_tmpfs.sh
-        env:
-          MATOMO_TEST_TARGET: ${{ matrix.tests }}
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
