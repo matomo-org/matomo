@@ -5,7 +5,7 @@
 [database]
 host = 127.0.0.1
 username = root
-password =
+password = root
 dbname = matomo_tests
 adapter = PDO\MYSQL
 ; no table prefix for tests on travis
