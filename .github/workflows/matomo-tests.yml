@@ -82,6 +82,7 @@ jobs:
         env:
           PHP_VERSION: ${{ matrix.php }}
           PIWIK_TEST_TARGET: 'PHP'
+          MYSQL_ADAPTER: ${{ matrix.adapter }}
 
       - name: Test running
         run: |

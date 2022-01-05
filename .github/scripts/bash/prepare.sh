@@ -5,6 +5,11 @@ GREEN='\033[0;32m'
 SET='\033[0m'
 
 
+# copy config
+sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php > config/config.ini.php
+cp .github/artifacts/config.dist.js ./tests/UI/config.js
+cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
+
 # set up fonts
 if [ "$PIWIK_TEST_TARGET" = "UI" ]
 then
@@ -43,7 +48,7 @@ then
   chmod a+rw ./plugins/*/tests/System/processed || true
   chmod a+rw ./plugins/*/tests/Integration/processed || true
   mkdir -p ./tests/UI/processed-ui-screenshots
-  sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php > config/config.ini.php
+  cp .github/artifacts/config.ini.github.ui.php config/config.ini.php
   ls ./tests/PHPUnit/
 fi
 
@@ -63,6 +68,8 @@ then
   sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
   tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
   tmux ls
+  echo -e "${GREEN}remove port 3000${SET}"
+  sed -i 's/3000/\//g' ./config/config.ini.php
 else
   echo -e "${GREEN}setup php-fpm${SET}"
   sudo systemctl enable php$PHP_VERSION-fpm.service
@@ -80,10 +87,7 @@ else
   sudo systemctl restart nginx
 fi
 
-echo -e "${GREEN}set folder Permission${SET}"
-cp .github/artifacts/config.ini.github.ui.php config/config.ini.php
-cp .github/artifacts/config.dist.js ./tests/UI/config.js
-cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
+echo -e "${GREEN}set up Folder${SET}"
 mkdir -p ./tmp/assets
 mkdir -p ./tmp/cache
 mkdir -p ./tmp/cache/tracker
@@ -97,14 +101,6 @@ mkdir -p ./tmp/nonexistant
 mkdir -p ./tmp/tcpdf
 mkdir -p ./tmp/climulti
 mkdir -p /tmp
-
-
-# remove 3000 for javascript tests
-if [ "$PIWIK_TEST_TARGET" = "Javascript" ];
-then
-echo -e "${GREEN}remove port 3000${SET}"
-sed -i 's/3000/\//g' ./config/config.ini.php
-fi
 
 echo -e "${GREEN}set tmp and screenshot folder permission${SET}"
 sudo gpasswd -a "$USER" www-data
