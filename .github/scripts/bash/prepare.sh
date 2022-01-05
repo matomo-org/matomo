@@ -66,6 +66,8 @@ then
   sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
   tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
   tmux ls
+  echo -e "${GREEN}remove port 3000${SET}"
+  sed -i 's/3000/\//g' ./config/config.ini.php
 else
   echo -e "${GREEN}setup php-fpm${SET}"
   sudo systemctl enable php$PHP_VERSION-fpm.service
@@ -83,7 +85,7 @@ else
   sudo systemctl restart nginx
 fi
 
-echo -e "${GREEN}set folder Permission${SET}"
+echo -e "${GREEN}set up Folder${SET}"
 mkdir -p ./tmp/assets
 mkdir -p ./tmp/cache
 mkdir -p ./tmp/cache/tracker

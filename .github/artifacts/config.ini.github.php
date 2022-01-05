@@ -5,7 +5,7 @@
 [database]
 host = 127.0.0.1
 username = root
-password = root
+password =
 dbname = matomo_tests
 adapter = PDO\MYSQL
 ; no table prefix for tests on travis
@@ -15,11 +15,10 @@ tables_prefix =
 [tests]
 request_uri = "/"
 
-
 [database_tests]
 host = 127.0.0.1
 username = root
-password = root
+password =
 dbname = matomo_tests
 adapter = PDO\MYSQL
 ; no table prefix for tests on travis
