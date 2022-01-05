@@ -1,5 +1,6 @@
 {
     "CustomJsTracker": {
-        "DiagnosticPiwikJsWritable": "Pelacak JavaScript yang Dapat Ditulis (%s)"
+        "DiagnosticPiwikJsWritable": "Pelacak JavaScript yang Dapat Ditulis (%s)",
+        "PluginDescription": "Mengizinkan plugin apa pun untuk memperluas file Pelacakan JavaScript Matomo (matomo.js) dan menambahkan fungsionalitas baru dan kemampuan pengukuran situs web."
     }
 }
