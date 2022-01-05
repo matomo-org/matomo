@@ -20,6 +20,9 @@
 
     piwikAttributes.$inject = ['$sanitize'];
 
+    /**
+     * @deprecated
+     */
     function piwikAttributes(piwik, $sanitize) {
 
         return {

@@ -1,6 +1,6 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Pridať anotáciu pre %s…",
+        "AddAnnotationsFor": "Pridať anotáciu k %s…",
         "AnnotationOnDate": "Anotácia na %1$s: %2$s",
         "Annotations": "Anotácie",
         "ClickToDelete": "Kliknutím odstránite túto anotáciu.",
@@ -15,6 +15,7 @@
         "InlineQuickHelp": "Môžete vytvoriť anotácie na onačenie špeciálnych udalostí (ako nový príspevok na blogu, alebo redizajn webovej stránky), na uloženie Vašich dátových analýz alebo na uloženie čohokoľvek ďalšieho čo si myslíte, že je dôležité.",
         "LoginToAnnotate": "Prihláste sa pre vytvorenie anotácie.",
         "NoAnnotations": "Pre tento časový rozsah nie sú anotácie.",
+        "PluginDescription": "Dovoľuje vám pridať poznámky k jednotlivým dňom na označenie zmien na stránke, zaznamenanie analýz vašich dát a zdieľanie myšlienok s kolegami. Anotovaním vašich dát zaistíte, že v budúcnosti budete vedieť, prečo vaše dáta vyzerajú tak, ako vyzerajú.",
         "ViewAndAddAnnotations": "Zobraziť a pridať anotácie pre %s…",
         "YouCannotModifyThisNote": "Nemôžete upraviť túto anotáciu, pretože ste ju nevytvorili, ani nemáte administrátorský prístup pre túto stránku."
     }
