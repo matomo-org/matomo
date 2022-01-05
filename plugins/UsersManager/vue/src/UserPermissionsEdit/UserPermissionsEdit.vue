@@ -164,7 +164,7 @@
         type="persistent"
         :noclear="true"
       >
-        <span v-html="rolesHelpText"></span>
+        <span v-html="$sanitize(rolesHelpText)"></span>
       </Notification>
     </div>
     <div
@@ -232,19 +232,19 @@
         >
           <td colspan="4">
             <div v-if="!areAllResultsSelected">
-              <span v-html="theDisplayedWebsitesAreSelectedText"></span>
+              <span v-html="$sanitize(theDisplayedWebsitesAreSelectedText)"></span>
               <a
                 href="#"
                 @click.prevent="areAllResultsSelected = !areAllResultsSelected"
-                v-html="clickToSelectAllText"
+                v-html="$sanitize(clickToSelectAllText)"
               ></a>
             </div>
             <div v-if="areAllResultsSelected">
-              <span v-html="allWebsitesAreSelectedText"></span>
+              <span v-html="$sanitize(allWebsitesAreSelectedText)"></span>
               <a
                 href="#"
                 @click.prevent="areAllResultsSelected = !areAllResultsSelected"
-                v-html="clickToSelectDisplayedWebsitesText"
+                v-html="$sanitize(clickToSelectDisplayedWebsitesText)"
               ></a>
             </div>
           </td>
@@ -299,11 +299,11 @@
       <div class="modal-content">
         <h3
           v-if="siteAccessToChange"
-          v-html="deletePermConfirmSingleText"
+          v-html="$sanitize(deletePermConfirmSingleText)"
         ></h3>
         <p
           v-if="!siteAccessToChange"
-          v-html="deletePermConfirmMultipleText"
+          v-html="$sanitize(deletePermConfirmMultipleText)"
         ></p>
       </div>
       <div class="modal-footer">
@@ -323,11 +323,11 @@
       <div class="modal-content">
         <h3
           v-if="siteAccessToChange"
-          v-html="changePermToSiteConfirmSingleText"
+          v-html="$sanitize(changePermToSiteConfirmSingleText)"
         ></h3>
         <p
           v-if="!siteAccessToChange"
-          v-html="changePermToSiteConfirmMultipleText"
+          v-html="$sanitize(changePermToSiteConfirmMultipleText)"
         ></p>
       </div>
       <div class="modal-footer">
@@ -348,7 +348,7 @@
     </div>
     <div class="confirm-give-access-all-sites modal" ref="confirmGiveAccessAllSites">
       <div class="modal-content">
-        <h3 v-html="changePermToAllSitesConfirmText"></h3>
+        <h3 v-html="$sanitize(changePermToAllSitesConfirmText)"></h3>
         <p>{{ translate('UsersManager_ChangePermToAllSitesConfirm2') }}</p>
       </div>
       <div class="modal-footer">
@@ -377,6 +377,7 @@ import {
   translate,
   AjaxHelper,
   Site,
+  Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CapabilitiesEdit from '../CapabilitiesEdit/CapabilitiesEdit.vue';
@@ -702,7 +703,7 @@ export default defineComponent({
       return translate(
         'UsersManager_DeletePermConfirmSingle',
         `<strong>${this.userLogin}</strong>`,
-        `<strong>${this.siteAccessToChange ? this.siteAccessToChange.site_name : ''}</strong>`,
+        `<strong>${this.siteAccessToChangeName}</strong>`,
       );
     },
     deletePermConfirmMultipleText() {
@@ -716,7 +717,7 @@ export default defineComponent({
       return translate(
         'UsersManager_ChangePermToSiteConfirmSingle',
         `<strong>${this.userLogin}</strong>`,
-        `<strong>${this.siteAccessToChange ? this.siteAccessToChange.site_name : ''}</strong>`,
+        `<strong>${this.siteAccessToChangeName}</strong>`,
         `<strong>${this.getRoleDisplay(this.roleToChangeTo)}</strong>`,
       );
     },
@@ -772,6 +773,9 @@ export default defineComponent({
       // see https://github.com/vuejs/vue/issues/844#issuecomment-390500758
       // eslint-disable-next-line no-sequences
       return (this.userLogin, this.limit, this.accessLevels, this.filterAccessLevels, Date.now());
+    },
+    siteAccessToChangeName() {
+      return this.siteAccessToChange ? Matomo.helper.escape(this.siteAccessToChange.site_name) : '';
     },
   },
 });

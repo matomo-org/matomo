@@ -308,6 +308,7 @@ import {
 import { Form, Field, SaveButton } from 'CorePluginsAdmin';
 import UserPermissionsEdit from '../UserPermissionsEdit/UserPermissionsEdit.vue';
 import User from '../User';
+import KeyPressEvent = JQuery.KeyPressEvent;
 
 const DEFAULT_USER: User = {
   login: '',
@@ -417,7 +418,7 @@ export default defineComponent({
         {
           userLogin: this.theUser.login,
           hasSuperUserAccess: this.theUser.superuser_access ? '0' : '1',
-          passwordConfirmation: this.passwordConfirmationForSuperUser,
+          passwordConfirmation: this.passwordConfirmationForSuperUser!,
         },
       ).then(() => {
         this.theUser.superuser_access = !this.theUser.superuser_access;
@@ -426,7 +427,7 @@ export default defineComponent({
       }).then(() => { // eslint-disable-line
         this.isSavingUserInfo = false;
         this.isUserModified = true;
-        this.passwordConfirmationForSuperUser = null;
+        this.passwordConfirmationForSuperUser = '';
         this.setSuperUserAccessChecked();
       });
     },
@@ -466,13 +467,14 @@ export default defineComponent({
     },
     confirmUserChange() {
       this.passwordConfirmation = '';
-      function onEnter(event: KeyboardEvent) {
+
+      const onEnter = (event: KeyPressEvent) => {
         const keycode = event.keyCode ? event.keyCode : event.which;
         if (keycode === 13) {
           $(this.$refs.changePasswordModal as HTMLElement).modal('close');
           this.updateUser();
         }
-      }
+      };
 
       $(this.$refs.changePasswordModal as HTMLElement).modal({
         dismissible: false,
@@ -523,11 +525,11 @@ export default defineComponent({
         },
       ).catch((e) => {
         this.isSavingUserInfo = false;
-        this.passwordConfirmation = false;
+        this.passwordConfirmation = '';
         throw e;
       }).then(() => {
         this.isSavingUserInfo = false;
-        this.passwordConfirmation = false;
+        this.passwordConfirmation = '';
         this.isUserModified = true;
         this.isPasswordModified = false;
 
