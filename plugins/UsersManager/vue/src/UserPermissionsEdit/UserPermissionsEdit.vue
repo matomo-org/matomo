@@ -775,7 +775,9 @@ export default defineComponent({
       return (this.userLogin, this.limit, this.accessLevels, this.filterAccessLevels, Date.now());
     },
     siteAccessToChangeName() {
-      return this.siteAccessToChange ? Matomo.helper.escape(this.siteAccessToChange.site_name) : '';
+      return this.siteAccessToChange
+        ? Matomo.helper.htmlEntities(this.siteAccessToChange.site_name)
+        : '';
     },
   },
 });
