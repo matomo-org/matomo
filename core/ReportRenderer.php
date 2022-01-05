@@ -21,7 +21,7 @@ use Piwik\Plugins\ImageGraph\API;
  */
 abstract class ReportRenderer extends BaseFactory
 {
-    const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
+    const DEFAULT_REPORT_FONT_FAMILY = 'kozminproregular';
     const REPORT_TEXT_COLOR = "13,13,13";
     const REPORT_TITLE_TEXT_COLOR = "13,13,13";
     const TABLE_HEADER_BG_COLOR = "255,255,255";
