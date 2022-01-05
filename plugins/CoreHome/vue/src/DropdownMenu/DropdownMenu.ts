@@ -8,7 +8,7 @@
 import { DirectiveBinding } from 'vue';
 
 interface DropdownArgs {
-  activates: HTMLElement,
+  activates: HTMLElement|string,
 }
 
 /**
