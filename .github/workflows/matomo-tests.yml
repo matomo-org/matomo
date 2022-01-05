@@ -34,14 +34,14 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw
+#      mariadb:
+#        image: mariadb:latest
+#        ports:
+#          - 3306:3306
+#        env:
+#          MYSQL_DATABASE: matomo_tests
+#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+#        options: --tmpfs /var/lib/mysql:rw
     strategy:
       fail-fast: false
       matrix:
@@ -59,6 +59,12 @@ jobs:
         with:
           lfs: false
           submodules: recursive
+
+      - name: Setup Mysql
+        shell: bash
+        run: ./.github/scripts/bash/setup_mysql_tmpfs.sh
+        env:
+          MATOMO_TEST_TARGET: ${{ matrix.tests }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -81,7 +87,7 @@ jobs:
         run: ./.github/scripts/bash/prepare.sh
         env:
           PHP_VERSION: ${{ matrix.php }}
-          PIWIK_TEST_TARGET: 'PHP'
+          MATOMO_TEST_TARGET: 'PHP'
           MYSQL_ADAPTER: ${{ matrix.adapter }}
 
       - name: Test running
@@ -96,14 +102,14 @@ jobs:
   Javascript:
     runs-on: ubuntu-20.04
     services:
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+#      mariadb:
+#        image: mariadb:latest
+#        ports:
+#          - 3306:3306
+#        env:
+#          MYSQL_DATABASE: matomo_tests
+#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+#        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 
     strategy:
       fail-fast: false
@@ -137,7 +143,7 @@ jobs:
         run: ./.github/scripts/bash/prepare.sh
         env:
           PHP_VERSION: ${{ matrix.php }}
-          PIWIK_TEST_TARGET: 'Javascript'
+          MATOMO_TEST_TARGET: 'Javascript'
 
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests-js'
@@ -160,14 +166,14 @@ jobs:
         ports:
           - 6379:6379
         options: --entrypoint redis-server
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+#      mariadb:
+#        image: mariadb:latest
+#        ports:
+#          - 3306:3306
+#        env:
+#          MYSQL_DATABASE: matomo_tests
+#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+#        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 
     strategy:
       fail-fast: false
@@ -182,6 +188,12 @@ jobs:
         with:
           lfs: true
           submodules: recursive
+
+      - name: Setup Mysql
+        shell: bash
+        run: ./.github/scripts/bash/setup_mysql_tmpfs.sh
+        env:
+          MATOMO_TEST_TARGET: ${{ matrix.tests }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -202,7 +214,7 @@ jobs:
         run: ./.github/scripts/bash/prepare.sh
         env:
           PHP_VERSION: ${{ matrix.php }}
-          PIWIK_TEST_TARGET: 'UI'
+          MATOMO_TEST_TARGET: 'UI'
 
       - name: UI tests Group ${{ matrix.parts }}
         env:

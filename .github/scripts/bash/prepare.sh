@@ -6,7 +6,7 @@ SET='\033[0m'
 
 
 # set up fonts
-if [ "$PIWIK_TEST_TARGET" = "UI" ]
+if [ "$MATOMO_TEST_TARGET" = "UI" ]
 then
   echo -e "${GREEN}Setup fonts${SET}"
   mkdir $HOME/.fonts
@@ -26,12 +26,12 @@ echo -e "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
 
 # test is php split integration XML
-#if [ "$PIWIK_TEST_TARGET" = "php" ]
+#if [ "$MATOMO_TEST_TARGET" = "php" ]
 #then
 #  php ./tests/PHPUnit/formatXML.php
 #fi
 
-if [ "$PIWIK_TEST_TARGET" = "UI" ] || [ "$PIWIK_TEST_TARGET" = "Javascript" ];
+if [ "$MATOMO_TEST_TARGET" = "UI" ] || [ "$MATOMO_TEST_TARGET" = "Javascript" ];
 then
   echo -e "${GREEN}installing node/puppeteer${SET}"
   cd ./tests/lib/screenshot-testing
@@ -51,7 +51,7 @@ else
 fi
 
 #update chrome drive
-if [ "$PIWIK_TEST_TARGET" == "UI" ];
+if [ "$MATOMO_TEST_TARGET" == "UI" ];
 then
   echo -e "${GREEN}update Chrome driver${SET}"
   sudo apt-get update
@@ -60,7 +60,7 @@ then
 fi
 
 #setup php fpm and nginx
-if [ "$PIWIK_TEST_TARGET" = "Javascript" ];
+if [ "$MATOMO_TEST_TARGET" = "Javascript" ];
 then
   echo -e "${GREEN}Setup php -S${SET}"
   sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
@@ -100,7 +100,7 @@ mkdir -p /tmp
 
 
 # remove 3000 for javascript tests
-if [ "$PIWIK_TEST_TARGET" = "Javascript" ];
+if [ "$MATOMO_TEST_TARGET" = "Javascript" ];
 then
 echo -e "${GREEN}remove port 3000${SET}"
 sed -i 's/3000/\//g' ./config/config.ini.php
