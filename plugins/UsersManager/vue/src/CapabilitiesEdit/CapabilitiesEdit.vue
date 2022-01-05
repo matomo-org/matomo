@@ -53,11 +53,11 @@
       <div class="modal-content">
         <h2
           v-if="isAddingCapability"
-          v-html="confirmAddCapabilityToggleContent"
+          v-html="$sanitize(confirmAddCapabilityToggleContent)"
         ></h2>
         <h2
           v-if="!isAddingCapability"
-          v-html="confirmCapabilityToggleContent"
+          v-html="$sanitize(confirmCapabilityToggleContent)"
         ></h2>
       </div>
       <div class="modal-footer">
@@ -83,7 +83,7 @@
 
 <script lang="ts">
 import { defineComponent, DeepReadonly } from 'vue';
-import { translate, AjaxHelper } from 'CoreHome';
+import { translate, AjaxHelper, Matomo } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CapabilitiesStore from '../CapabilitiesStore/CapabilitiesStore';
 import Capability from '../CapabilitiesStore/Capability';
@@ -254,7 +254,7 @@ export default defineComponent({
         'UsersManager_AreYouSureAddCapability',
         `<strong>${this.userLogin}</strong>`,
         `<strong>${this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : ''}</strong>`,
-        `<strong>${this.siteName}</strong>`,
+        `<strong>${this.siteNameText}</strong>`,
       );
     },
     confirmCapabilityToggleContent() {
@@ -262,8 +262,11 @@ export default defineComponent({
         'UsersManager_AreYouSureRemoveCapability',
         `<strong>${this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : ''}</strong>`,
         `<strong>${this.userLogin}</strong>`,
-        `<strong>${this.siteName}</strong>`,
+        `<strong>${this.siteNameText}</strong>`,
       );
+    },
+    siteNameText() {
+      return Matomo.helper.htmlEntities(this.siteName);
     },
     availableCapabilitiesGrouped() {
       const availableCapabilitiesGrouped = this.availableCapabilities.filter(
