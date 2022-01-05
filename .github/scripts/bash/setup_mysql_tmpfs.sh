@@ -14,16 +14,16 @@ sudo ln -s /mnt/ramdisk/mysql /var/lib/mysql
 
 # print out mysql information
 mysql --version
-sudo mysql -e 'CREATE DATABASE matomo_tests;' -u root
+sudo mysql -e 'CREATE DATABASE matomo_tests;' -u root password 'root'
 
 # configure mysql
-mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" -u root   # Travis default
+mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" -u root password 'root'  # Travis default
 # try to avoid 'mysql has gone away' errors
 mysql -e "SET GLOBAL wait_timeout = 36000;" -u root
-mysql -e "SET GLOBAL max_allowed_packet = 134209536;" -u root
-mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';" -u root
-mysql -e "SHOW VARIABLES LIKE 'wait_timeout';" -u root
+mysql -e "SET GLOBAL max_allowed_packet = 134209536;" -u root password 'root'
+mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';" -u root password 'root'
+mysql -e "SHOW VARIABLES LIKE 'wait_timeout';" -u root password 'root'
 
-mysql -e "SELECT @@sql_mode;" -u root
+mysql -e "SELECT @@sql_mode;" -u root password 'root'
 # - mysql -e "SHOW GLOBAL VARIABLES;"
 
