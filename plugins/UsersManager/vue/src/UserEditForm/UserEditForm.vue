@@ -212,7 +212,7 @@
               <a
                 href=""
                 class="modal-action modal-close modal-no"
-                @click.prevent="setSuperUserAccessChecked()"
+                @click.prevent="setSuperUserAccessChecked(); passwordConfirmationForSuperUser = ''"
               >{{ translate('General_No') }}</a>
             </div>
           </div>
@@ -256,7 +256,7 @@
               <a
                 href=""
                 class="modal-action modal-close modal-no"
-                @click="$event.preventDefault()"
+                @click="$event.preventDefault(); passwordConfirmation = ''"
               >{{ translate('General_No') }}</a>
             </div>
           </div>
@@ -289,7 +289,7 @@
         <a
           href=""
           class="modal-action modal-close modal-no"
-          @click="$event.preventDefault()"
+          @click="$event.preventDefault(); passwordConfirmation = ''"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
