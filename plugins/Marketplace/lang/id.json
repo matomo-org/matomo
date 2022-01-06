@@ -1,9 +1,9 @@
 {
     "Marketplace": {
-        "ActivateLicenseKey": "Diaktifkan",
         "ActionActivatePlugin": "Aktivasi plugin",
         "ActionActivateTheme": "Aktivasi tema",
         "ActionInstall": "Instal",
+        "ActivateLicenseKey": "Diaktifkan",
         "AddToCart": "Tambah ke keranjang",
         "BackToMarketplace": "Kembali ke pasar",
         "BrowseMarketplace": "Ramban Pasar",
@@ -13,15 +13,18 @@
         "ClickToCompletePurchase": "Klik untuk menyelesaikan pembelian.",
         "CurrentNumPiwikUsers": "Matomo Anda saat ini memiliki %1$s pengguna terdaftar.",
         "Developer": "Pengembang",
-        "Marketplace": "Pasar",
         "InstallingPlugin": "Menginstal %s",
         "LastUpdated": "Terakhir diperbarui",
         "License": "Lisensi",
+        "LicenseExpired": "Lisensi telah kadaluwarsa",
         "LicenseKey": "Kunci Lisensi",
         "LicenseKeyDeletedSuccess": "Kunci lisensi berhasil dihapus.",
-        "LicenseExpired": "Lisensi telah kadaluwarsa",
+        "Marketplace": "Pasar",
         "PluginKeywords": "Kata Kunci",
         "PluginVersionInfo": "%1$s dari %2$s",
+        "StepThemeSuccessfullyInstalled": "Anda telah berhasil menginstal tema %1$s %2$s.",
+        "StepUnzippingPlugin": "Membuka plugin",
+        "StepUnzippingTheme": "Membuka tema",
         "SubscriptionType": "Jenis"
     }
 }

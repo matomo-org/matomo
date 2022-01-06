@@ -2,7 +2,9 @@
     "VisitFrequency": {
         "ColumnActionsByNewVisits": "Handlinger etter Nye besøk",
         "ColumnActionsByReturningVisits": "Handlinger av tilbakevendende besøk",
+        "ColumnAverageVisitDurationForNewVisitors": "Gjennomsnittlig antall sekunder besøkstid for nye besøkende",
         "ColumnAverageVisitDurationForReturningVisitors": "Gj.snitt. besøksvarighet for tilbakevendende besøk (i sekunder)",
+        "ColumnAvgActionsPerNewVisit": "Gjennomsnittlige antall handlinger per nye besøk",
         "ColumnAvgActionsPerReturningVisit": "Gj.snitt. handlinger per tilbakevendende besøk",
         "ColumnBounceCountForReturningVisits": "Sprettmengde for tilbakevendende besøk",
         "ColumnBounceRateForReturningVisits": "Sprettfrekvens for tilbakevendende besøk",
@@ -15,6 +17,8 @@
         "ColumnSumVisitLengthReturning": "Total tid brukt av tilbakevendende besøkere (i sekunder)",
         "ColumnUniqueNewVisitors": "Unike nye besøkende",
         "ColumnUniqueReturningVisitors": "Unike tilbakevendende besøkere",
+        "NewAverageVisitDuration": "gjennomsnittlig besøksvarighet for nye besøkende",
+        "NewAvgActions": "handlinger per nye besøk",
         "NewVisits": "nye besøk",
         "PluginDescription": "Rapporterer tall om dine nye og tilbakevendende besøkere.",
         "ReturnVisits": "tilbakevendende besøk",

@@ -25,9 +25,9 @@ class SitesStore {
     isInitialized: false,
   });
 
-  private currentRequest: AbortablePromise;
+  private currentRequestAbort: AbortController;
 
-  private limitRequest: AbortablePromise;
+  private limitRequest: Promise<{ value: number|string }>;
 
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
@@ -70,8 +70,8 @@ class SitesStore {
       return this.loadInitialSites();
     }
 
-    if (this.currentRequest) {
-      this.currentRequest.abort();
+    if (this.currentRequestAbort) {
+      this.currentRequestAbort.abort();
     }
 
     if (!this.limitRequest) {
@@ -86,13 +86,14 @@ class SitesStore {
         methodToCall = 'SitesManager.getSitesWithAdminAccess';
       }
 
-      this.currentRequest = AjaxHelper.fetch({
+      this.currentRequestAbort = new AbortController();
+      return AjaxHelper.fetch({
         method: methodToCall,
         limit,
         pattern: term,
+      }, {
+        abortController: this.currentRequestAbort,
       });
-
-      return this.currentRequest;
     }).then((response) => {
       if (response) {
         return this.processWebsitesList(response);
@@ -100,7 +101,7 @@ class SitesStore {
 
       return null;
     }).finally(() => {
-      this.currentRequest = null;
+      this.currentRequestAbort = null;
     });
   }
 

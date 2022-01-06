@@ -2,6 +2,7 @@
     "Ecommerce": {
         "EcommerceOverviewSubcategoryHelp1": "Netthandelsoversiktensdelen er den beste plassen å få et overblikk over ytelsen til nettbutikken din. Du kan se hvor mange salg du har, hvor mye omsetning du generer, og konverteringsraten for nettsiden din.",
         "LifeTimeValueDescription": "Total netthandelsomsetning tilknyttet denne kunden for alle besøk: Summen av omsetning for alle netthandelsbestillinger for besøks-ID %s.",
+        "NumberOfItems": "Antall artikler i handlekurv",
         "Order": "Bestilling",
         "OrderId": "Ordre-ID",
         "OrderValue": "Bestillingsverdi",
@@ -14,6 +15,7 @@
         "ViewedProductCategory": "Vist produktkategori",
         "ViewedProductName": "Besøkt produktnavn",
         "ViewedProductPrice": "Vist produktpris",
+        "VisitorProfileItemsAndOrders": "Kjøpte %1$s artikler i totalt %2$s netthandler.",
         "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s."
     }
 }

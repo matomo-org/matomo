@@ -17,10 +17,6 @@ declare global {
     wrapper?: (evt: Event) => void;
   }
 
-  interface AbortablePromise<T = any> extends Promise<T> {
-    abort(): void;
-  }
-
   /**
    * global ajax queue
    *
@@ -53,6 +49,9 @@ declare global {
 
   interface PiwikPopoverGlobal {
     isOpen();
+    setTitle(title: string): void;
+    setContent(html: string|HTMLElement|JQuery|JQLite): void;
+    showLoading(loadingName: string, popoverSubject: string, height: number, dialogClass: string): JQuery;
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;
@@ -95,6 +94,9 @@ declare global {
     updateParamValue(newParamValue: string, urlStr: string): string;
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
     buildReportingUrl(ajaxUrl: string): string;
+    isLoginPage(): boolean;
+
+    popoverHandlers: Record<string, (param: string) => void>;
   }
 
   let broadcast: BroadcastGlobal;
@@ -102,6 +104,10 @@ declare global {
   interface ColorManagerService {
     getColor(namespace: string, name: string): string;
     getColors(namespace: string, names: string[], asArray?: boolean): string[]|{[name: string]: string};
+  }
+
+  interface SparklineColors extends Record<string, string> {
+    lineColor: string[];
   }
 
   interface PiwikGlobal {
@@ -134,6 +140,7 @@ declare global {
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(): {[key: string]: any};
+    getSparklineColors(): SparklineColors;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
@@ -150,6 +157,10 @@ declare global {
 
   let widgetsHelper: WidgetsHelper;
 
+  interface AnchorLinkFix {
+    scrollToAnchorInUrl(): void;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -160,6 +171,7 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
+    anchorLinkFix: AnchorLinkFix;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
