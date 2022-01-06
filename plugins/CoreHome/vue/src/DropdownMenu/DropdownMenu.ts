@@ -42,8 +42,7 @@ export default {
     if (isSubmenu) {
       options = { hover: true };
       $(element).addClass('submenu');
-      $(binding.value.activates || $(element)
-        .data('target'))
+      $(binding.value?.activates || $(element).data('target'))
         .addClass('submenu-dropdown-content');
 
       // if a submenu is used, the dropdown will never scroll
