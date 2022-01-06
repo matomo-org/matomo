@@ -26,6 +26,7 @@
           :selected="multiple
             ? modelValue && modelValue.indexOf(option.key) !== -1
             : modelValue === option.key"
+          :disabled="option.disabled"
         >
           {{ option.value }}
         </option>
@@ -49,6 +50,7 @@
         :selected="multiple
             ? modelValue && modelValue.indexOf(option.key) !== -1
             : modelValue === option.key"
+        :disabled="option.disabled"
       >
         {{ option.value }}
       </option>
@@ -58,12 +60,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {defineComponent, nextTick} from 'vue';
 
 interface OptionGroup {
   group?: string;
   key: string|number;
   value: unknown;
+  disabled?: boolean;
 }
 
 function initMaterialSelect(
@@ -242,10 +245,16 @@ export default defineComponent({
       }
 
       this.$emit('update:modelValue', newValue);
+
+      // if modelValue does not change, select will still have the changed value, but we
+      // want it to have the value determined by modelValue. so we force an update.
+      nextTick(() => {
+        if (this.modelValue !== newValue) {
+          this.onModelValueChange(this.modelValue);
+        }
+      });
     },
-  },
-  watch: {
-    modelValue(newVal: string|number|string[]) {
+    onModelValueChange(newVal: string|number|string[]) {
       window.$(this.$refs.select as HTMLSelectElement).val(newVal);
       setTimeout(() => {
         initMaterialSelect(
@@ -256,6 +265,11 @@ export default defineComponent({
           this.multiple,
         );
       });
+    },
+  },
+  watch: {
+    modelValue(newVal: string|number|string[]) {
+      this.onModelValueChange(newVal);
     },
     'uiControlAttributes.disabled': {
       handler(newVal?: boolean, oldVal?: boolean) {

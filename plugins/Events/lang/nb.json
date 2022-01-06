@@ -7,6 +7,7 @@
         "Event": "Hendelse",
         "EventAction": "Hendelseshandling",
         "EventActions": "Hendelseshandlinger",
+        "EventActionsReportDocumentation": "Denne rapporten viser antallet ganger hver handling skjedde for hver hendelse. Du kan vise hendelseskategoriene og navn som ble sporet, sammen med hver hendelse i radens undertabell. Du kan endre hvilken av dem som vises ved å endre den sekundære dimensjonen med lenken på bunnen av rapporten.",
         "EventCategories": "Hendelseskategorier",
         "EventCategory": "Hendelsekategori",
         "EventName": "Hendelsesnavn",
