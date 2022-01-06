@@ -422,7 +422,7 @@
         "SeeTheOfficialDocumentationForMoreInformation": "Vedi la %1$sdocumentazione ufficiale%2$s per ulteriori informazioni.",
         "SeeThisFaq": "Vedi %1$squesta faq%2$s.",
         "Segment": "Segmento",
-        "SelectYesIfYouWantToSendEmailsViaServer": "Seleziona \"Si\" se vuoi mandare le email attraverso un altro server, diverso dalla funzione email locale",
+        "SelectYesIfYouWantToSendEmailsViaServer": "Seleziona «Sì» se vuoi mandare le e-mail attraverso un altro server, diverso dalla funzione e-mail locale",
         "Settings": "Impostazioni",
         "Shipping": "Spedizione",
         "Show": "mostra",
@@ -615,7 +615,7 @@
     },
     "RowEvolution": {
         "AvailableMetrics": "Metriche disponibili",
-        "CompareDocumentation": "Clicca sul link qui sotto e apri questo popup per un'altra riga della stessa tabella per confrontare più records. <br /> Usa shift-click per contrassegnare la riga per un confronto senza aprire il popup.",
+        "CompareDocumentation": "Clicca sul link qui sotto e apri questo popup per un'altra riga della stessa tabella per confrontare più records.Usa shift-click per contrassegnare la riga per un confronto senza aprire il popup.",
         "CompareRows": "Confronta record",
         "ComparingRecords": "Comparazione di %s righe",
         "Documentation": "Clicca sulle metriche per visualizzarle in un grafico evoluzione di grandi dimensioni. Usa Shift-click per visualizzare più parametri contemporaneamente.",

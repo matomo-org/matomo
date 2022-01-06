@@ -225,30 +225,22 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getSparklines()
     {
-        $module = "Goals";
-        $action = "getMetrics";
         $content = "";
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], []);
 
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
-
-        $apiProxy = Proxy::getInstance();
-        $queryString = $_SERVER['QUERY_STRING'];
-        if (!$apiProxy->isExistingApiAction($module, $action)) {
-            throw new \Exception("Invalid action name '$action' for '$module' plugin.");
-        }
-
-        $apiAction = $apiProxy->buildApiActionName($module, $action);
         foreach ($goals as $goal) {
-            //load Visualisations Sparkline
-            $view = ViewDataTableFactory::build(Sparklines::ID, $apiAction, 'Goals.' . __METHOD__, true);
-            $view->requestConfig->request_parameters_to_modify['idGoal'] = $goal['idgoal'];
-            $view->requestConfig->request_parameters_to_modify['allow_multiple'] = (int)$goal['allow_multiple'];
-            $view->requestConfig->request_parameters_to_modify['only_summary'] = 1;
-            $view->config->show_title = true;
-            $_SERVER['QUERY_STRING'] .= $queryString . '&idGoal='. $goal['idgoal'];
-            $view->config->title = $goal['name'];
-            $content .= $view->render();
+            $params = [
+                'idGoal' => $goal['idgoal'],
+                'allow_multiple' => (int) $goal['allow_multiple'],
+                'only_summary' => 1,
+            ];
+
+            \Piwik\Context::executeWithQueryParameters($params, function() use (&$content) {
+                //load Visualisations Sparkline
+                $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
+                $view->config->show_title = true;
+                $content .= $view->render();
+            });
         }
 
         return $content;

@@ -54,6 +54,7 @@ class Pages
         $config->setSubcategoryId($subcategory);
         $config->setName('');
         $config->setOrder(15);
+        $config->setModule('Goals');
         $config->setAction('getMetrics');
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
@@ -67,22 +68,6 @@ class Pages
         $widgets[] = $config;
 
         $container = $this->createWidgetizableWidgetContainer('GoalsOverview', $subcategory, $widgets);
-
-        foreach ($goals as $goal) {
-            $name = Common::sanitizeInputValue($goal['name']);
-            $goalTranslated = Piwik::translate('Goals_GoalX', array($name));
-
-            $config = $this->factory->createWidget();
-            $config->setName($goalTranslated);
-            $config->setSubcategoryId($subcategory);
-            $config->forceViewDataTable(Sparklines::ID);
-            $config->setParameters(array('idGoal' => $goal['idgoal']));
-            $config->setOrder(25);
-            $config->setIsNotWidgetizable();
-            $config->addParameters(array('allow_multiple' => (int)$goal['allow_multiple'], 'only_summary' => '1'));
-            $widgets[] = $config;
-        }
-
 
         $config = $this->factory->createContainerWidget('Goals');
         $config->setSubcategoryId($subcategory);

@@ -6,7 +6,7 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularStatic } from 'angular';
+import {IAngularStatic, IScope} from 'angular';
 import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
@@ -15,10 +15,6 @@ declare global {
 
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
-  }
-
-  interface AbortablePromise<T = any> extends Promise<T> {
-    abort(): void;
   }
 
   /**
@@ -53,6 +49,9 @@ declare global {
 
   interface PiwikPopoverGlobal {
     isOpen();
+    setTitle(title: string): void;
+    setContent(html: string|HTMLElement|JQuery|JQLite): void;
+    showLoading(loadingName: string, popoverSubject: string, height: number, dialogClass: string): JQuery;
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;
@@ -66,6 +65,12 @@ declare global {
     onCloseEnd: () => void;
   }
 
+  interface CompileAngularComponentsOptions {
+    scope?: IScope;
+    forceNewScope?: boolean;
+    params?: Record<string, unknown>;
+  }
+
   interface PiwikHelperGlobal {
     escape(text: string): string;
     redirect(params: any);
@@ -76,6 +81,7 @@ declare global {
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|HTMLElement|string);
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
+    compileAngularComponents(selector: string, options?: CompileAngularComponentsOptions): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -87,6 +93,10 @@ declare global {
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
+    buildReportingUrl(ajaxUrl: string): string;
+    isLoginPage(): boolean;
+
+    popoverHandlers: Record<string, (param: string) => void>;
   }
 
   let broadcast: BroadcastGlobal;
@@ -94,6 +104,10 @@ declare global {
   interface ColorManagerService {
     getColor(namespace: string, name: string): string;
     getColors(namespace: string, names: string[], asArray?: boolean): string[]|{[name: string]: string};
+  }
+
+  interface SparklineColors extends Record<string, string> {
+    lineColor: string[];
   }
 
   interface PiwikGlobal {
@@ -120,11 +134,13 @@ declare global {
     maxDateMonth: number;
     maxDateDay: number;
     config: Record<string, string|number|string[]>;
+    hasSuperUserAccess: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(): {[key: string]: any};
+    getSparklineColors(): SparklineColors;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
@@ -136,10 +152,14 @@ declare global {
 
   interface WidgetsHelper {
     availableWidgets: unknown[];
-    getAvailableWidgets(): unknown[];
+    getAvailableWidgets(callback?: (widgets: unknown[]) => unknown);
   }
 
   let widgetsHelper: WidgetsHelper;
+
+  interface AnchorLinkFix {
+    scrollToAnchorInUrl(): void;
+  }
 
   interface Window {
     angular: IAngularStatic;
@@ -151,6 +171,7 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
+    anchorLinkFix: AnchorLinkFix;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;

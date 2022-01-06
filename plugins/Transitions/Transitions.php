@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Transitions;
 
 use Piwik\Common;
-use Piwik\Plugins\Transitions\API;
 use Piwik\Config;
 
 /**
