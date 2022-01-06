@@ -17,6 +17,8 @@
         "ColumnSumVisitLengthReturning": "Total tid brukt av tilbakevendende besøkere (i sekunder)",
         "ColumnUniqueNewVisitors": "Unike nye besøkende",
         "ColumnUniqueReturningVisitors": "Unike tilbakevendende besøkere",
+        "NewAverageVisitDuration": "gjennomsnittlig besøksvarighet for nye besøkende",
+        "NewAvgActions": "handlinger per nye besøk",
         "NewVisits": "nye besøk",
         "PluginDescription": "Rapporterer tall om dine nye og tilbakevendende besøkere.",
         "ReturnVisits": "tilbakevendende besøk",
