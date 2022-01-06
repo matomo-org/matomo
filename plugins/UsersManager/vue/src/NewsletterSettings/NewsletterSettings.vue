@@ -84,7 +84,7 @@ export default defineComponent({
           module: 'API',
           method: 'UsersManager.newsletterSignup',
         },
-        { withTokenInUrl: true},
+        { withTokenInUrl: true },
       ).then(() => {
         this.isProcessingNewsletterSignup = false;
         this.showNewsletterSignup = false;

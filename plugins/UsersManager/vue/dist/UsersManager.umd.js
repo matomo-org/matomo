@@ -130,6 +130,9 @@ __webpack_require__.d(__webpack_exports__, "UserPermissionsEdit", function() { r
 __webpack_require__.d(__webpack_exports__, "UserEditForm", function() { return /* reexport */ UserEditForm; });
 __webpack_require__.d(__webpack_exports__, "PagedUsersList", function() { return /* reexport */ PagedUsersList; });
 __webpack_require__.d(__webpack_exports__, "UsersManager", function() { return /* reexport */ UsersManager; });
+__webpack_require__.d(__webpack_exports__, "NewsletterSettings", function() { return /* reexport */ AnonymousSettings; });
+__webpack_require__.d(__webpack_exports__, "AnonymousSettings", function() { return /* reexport */ NewsletterSettings; });
+__webpack_require__.d(__webpack_exports__, "PersonalSettings", function() { return /* reexport */ PersonalSettings; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -3168,6 +3171,676 @@ UsersManagervue_type_script_lang_ts.render = UsersManagervue_type_template_id_6e
   directiveName: 'piwikUsersManager',
   restrict: 'E'
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=template&id=4d3a406b
+
+var AnonymousSettingsvue_type_template_id_4d3a406b_hoisted_1 = {
+  key: 0,
+  class: "alert alert-info"
+};
+var AnonymousSettingsvue_type_template_id_4d3a406b_hoisted_2 = {
+  key: 1
+};
+function AnonymousSettingsvue_type_template_id_4d3a406b_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    "content-title": _ctx.title
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [_ctx.anonymousSites.length === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AnonymousSettingsvue_type_template_id_4d3a406b_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.anonymousSites.length > 0 ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AnonymousSettingsvue_type_template_id_4d3a406b_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "radio",
+        name: "anonymousDefaultReport",
+        modelValue: _ctx.defaultReport,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.defaultReport = $event;
+        }),
+        introduction: _ctx.translate('UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'),
+        options: _ctx.defaultReportOptions
+      }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "select",
+        name: "anonymousDefaultReportWebsite",
+        modelValue: _ctx.defaultReportWebsite,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          return _ctx.defaultReportWebsite = $event;
+        }),
+        options: _ctx.anonymousSites
+      }, null, 8, ["modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "radio",
+        name: "anonymousDefaultDate",
+        modelValue: _ctx.defaultDate,
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return _ctx.defaultDate = $event;
+        }),
+        introduction: _ctx.translate('UsersManager_ForAnonymousUsersReportDateToLoadByDefault'),
+        options: _ctx.availableDefaultDates
+      }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+        saving: _ctx.loading,
+        onConfirm: _cache[3] || (_cache[3] = function ($event) {
+          return _ctx.save();
+        })
+      }, null, 8, ["saving"])], 512)), [[_directive_form]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+    }),
+    _: 1
+  }, 8, ["content-title"]);
+}
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=template&id=4d3a406b
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var AnonymousSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    anonymousSites: {
+      type: Array,
+      required: true
+    },
+    anonymousDefaultReport: {
+      type: [String, Number],
+      required: true
+    },
+    anonymousDefaultSite: {
+      type: String,
+      required: true
+    },
+    anonymousDefaultDate: {
+      type: String,
+      required: true
+    },
+    availableDefaultDates: {
+      type: Array,
+      required: true
+    },
+    defaultReportOptions: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"]
+  },
+  directives: {
+    Form: external_CorePluginsAdmin_["Form"],
+    SaveButton: external_CorePluginsAdmin_["SaveButton"]
+  },
+  data: function data() {
+    return {
+      loading: false,
+      defaultReport: "".concat(this.anonymousDefaultReport),
+      defaultReportWebsite: this.anonymousDefaultSite,
+      defaultDate: this.anonymousDefaultDate
+    };
+  },
+  methods: {
+    save: function save() {
+      var _this = this;
+
+      var postParams = {
+        anonymousDefaultReport: this.defaultReport === '1' ? this.defaultReportWebsite : this.defaultReport,
+        anonymousDefaultDate: this.defaultDate
+      };
+      this.loading = true;
+      external_CoreHome_["AjaxHelper"].post({
+        module: 'UsersManager',
+        action: 'recordAnonymousUserSettings',
+        format: 'json'
+      }, postParams, {
+        withTokenInUrl: true
+      }).then(function () {
+        external_CoreHome_["NotificationsStore"].show({
+          message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
+          id: 'anonymousUserSettings',
+          context: 'success',
+          type: 'transient'
+        });
+      }).finally(function () {
+        _this.loading = false;
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue
+
+
+
+AnonymousSettingsvue_type_script_lang_ts.render = AnonymousSettingsvue_type_template_id_4d3a406b_render
+
+/* harmony default export */ var AnonymousSettings = (AnonymousSettingsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var AnonymousSettings_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: AnonymousSettings,
+  scope: {
+    title: {
+      angularJsBind: '<'
+    },
+    anonymousSites: {
+      angularJsBind: '<'
+    },
+    anonymousDefaultReport: {
+      angularJsBind: '<'
+    },
+    anonymousDefaultSite: {
+      angularJsBind: '<'
+    },
+    anonymousDefaultDate: {
+      angularJsBind: '<'
+    },
+    availableDefaultDates: {
+      angularJsBind: '<'
+    },
+    defaultReportOptions: {
+      angularJsBind: '<'
+    }
+  },
+  directiveName: 'matomoAnonymousSettings'
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=46595a34
+
+var NewsletterSettingsvue_type_template_id_46595a34_hoisted_1 = {
+  id: "newsletterSignup"
+};
+function NewsletterSettingsvue_type_template_id_46595a34_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NewsletterSettingsvue_type_template_id_46595a34_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('UsersManager_NewsletterSignupTitle')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "checkbox",
+        name: "newsletterSignupCheckbox",
+        id: "newsletterSignupCheckbox",
+        modelValue: _ctx.newsletterSignupCheckbox,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.newsletterSignupCheckbox = $event;
+        }),
+        "full-width": true,
+        title: _ctx.signupTitleText
+      }, null, 8, ["modelValue", "title"])])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showNewsletterSignup]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+    id: "newsletterSignupBtn",
+    onConfirm: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.signupForNewsletter();
+    }),
+    disabled: !_ctx.newsletterSignupCheckbox,
+    value: _ctx.newsletterSignupButtonTitle,
+    saving: _ctx.isProcessingNewsletterSignup
+  }, null, 8, ["disabled", "value", "saving"])]);
+}
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=46595a34
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var NewsletterSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  data: function data() {
+    return {
+      showNewsletterSignup: true,
+      newsletterSignupCheckbox: true,
+      isProcessingNewsletterSignup: false,
+      newsletterSignupButtonTitle: Object(external_CoreHome_["translate"])('General_Save')
+    };
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    SaveButton: external_CorePluginsAdmin_["SaveButton"],
+    Field: external_CorePluginsAdmin_["Field"]
+  },
+  computed: {
+    signupTitleText: function signupTitleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_NewsletterSignupMessage', '<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>');
+    }
+  },
+  methods: {
+    signupForNewsletter: function signupForNewsletter() {
+      var _this = this;
+
+      this.newsletterSignupButtonTitle = Object(external_CoreHome_["translate"])('General_Loading');
+      this.isProcessingNewsletterSignup = true;
+      external_CoreHome_["AjaxHelper"].fetch({
+        module: 'API',
+        method: 'UsersManager.newsletterSignup'
+      }, {
+        withTokenInUrl: true
+      }).then(function () {
+        _this.isProcessingNewsletterSignup = false;
+        _this.showNewsletterSignup = false;
+        var id = external_CoreHome_["NotificationsStore"].show({
+          message: Object(external_CoreHome_["translate"])('UsersManager_NewsletterSignupSuccessMessage'),
+          id: 'newslettersignup',
+          context: 'success',
+          type: 'transient'
+        });
+        external_CoreHome_["NotificationsStore"].scrollToNotification(id);
+      }).catch(function () {
+        _this.isProcessingNewsletterSignup = false;
+        var id = external_CoreHome_["NotificationsStore"].show({
+          message: Object(external_CoreHome_["translate"])('UsersManager_NewsletterSignupFailureMessage'),
+          id: 'newslettersignup',
+          context: 'error',
+          type: 'transient'
+        });
+        external_CoreHome_["NotificationsStore"].scrollToNotification(id);
+        _this.newsletterSignupButtonTitle = Object(external_CoreHome_["translate"])('General_PleaseTryAgain');
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue
+
+
+
+NewsletterSettingsvue_type_script_lang_ts.render = NewsletterSettingsvue_type_template_id_46595a34_render
+
+/* harmony default export */ var NewsletterSettings = (NewsletterSettingsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var NewsletterSettings_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: NewsletterSettings,
+  scope: {},
+  directiveName: 'matomoNewsletterSettings'
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=3bd56591
+
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_1 = {
+  id: "userSettingsTable"
+};
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_2 = {
+  key: 0
+};
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_3 = {
+  id: "languageHelp",
+  class: "inline-help-node"
+};
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_4 = {
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "https://matomo.org/translations/"
+};
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_5 = {
+  class: "sites_autocomplete"
+};
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_6 = {
+  class: "modal",
+  id: "confirmChangesWithPassword",
+  ref: "confirmChangesWithPasswordModal"
+};
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_7 = {
+  class: "modal-content"
+};
+var PersonalSettingsvue_type_template_id_3bd56591_hoisted_8 = {
+  class: "modal-footer"
+};
+function PersonalSettingsvue_type_template_id_3bd56591_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_SiteSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteSelector");
+
+  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    "content-title": _ctx.title,
+    feature: true
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", PersonalSettingsvue_type_template_id_3bd56591_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "text",
+        name: "username",
+        title: _ctx.translate('General_Username'),
+        disabled: true,
+        modelValue: _ctx.username,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.username = $event;
+        }),
+        "inline-help": _ctx.translate('UsersManager_YourUsernameCannotBeChanged')
+      }, null, 8, ["title", "modelValue", "inline-help"])]), _ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PersonalSettingsvue_type_template_id_3bd56591_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "text",
+        name: "email",
+        "model-value": _ctx.email,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          _ctx.email = $event;
+          _ctx.doesRequirePasswordConfirmation = true;
+        }),
+        maxlength: "100",
+        title: _ctx.translate('UsersManager_Email')
+      }, null, 8, ["model-value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_3bd56591_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", PersonalSettingsvue_type_template_id_3bd56591_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "select",
+        name: "language",
+        modelValue: _ctx.language,
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return _ctx.language = $event;
+        }),
+        title: _ctx.translate('General_Language'),
+        options: _ctx.languageOptions,
+        "inline-help": "#languageHelp"
+      }, null, 8, ["modelValue", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "select",
+        name: "timeformat",
+        modelValue: _ctx.timeformat,
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+          return _ctx.timeformat = $event;
+        }),
+        title: _ctx.translate('General_TimeFormat'),
+        options: _ctx.timeFormats
+      }, null, 8, ["modelValue", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "radio",
+        name: "defaultReport",
+        modelValue: _ctx.theDefaultReport,
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return _ctx.theDefaultReport = $event;
+        }),
+        introduction: _ctx.translate('UsersManager_ReportToLoadByDefault'),
+        title: _ctx.translate('General_AllWebsitesDashboard'),
+        options: _ctx.defaultReportOptions
+      }, null, 8, ["modelValue", "introduction", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_3bd56591_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
+        modelValue: _ctx.site,
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+          return _ctx.site = $event;
+        }),
+        "show-selected-site": true,
+        "switch-site-on-select": false,
+        "show-all-sites-item": false,
+        showselectedsite: true,
+        id: "defaultReportSiteSelector"
+      }, null, 8, ["modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "radio",
+        name: "defaultDate",
+        modelValue: _ctx.theDefaultDate,
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+          return _ctx.theDefaultDate = $event;
+        }),
+        introduction: _ctx.translate('UsersManager_ReportDateToLoadByDefault'),
+        options: _ctx.availableDefaultDates
+      }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+        onConfirm: _cache[7] || (_cache[7] = function ($event) {
+          return _ctx.save();
+        }),
+        saving: _ctx.loading
+      }, null, 8, ["saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_3bd56591_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_3bd56591_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "password",
+        name: "currentPassword",
+        autocomplete: "off",
+        modelValue: _ctx.passwordCurrent,
+        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+          return _ctx.passwordCurrent = $event;
+        }),
+        "full-width": true,
+        title: _ctx.translate('UsersManager_YourCurrentPassword')
+      }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_3bd56591_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+        href: "",
+        class: "modal-action btn",
+        onClick: _cache[9] || (_cache[9] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+          return _ctx.save();
+        }, ["prevent"]))
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Ok')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+        href: "",
+        class: "modal-action modal-close modal-no",
+        onClick: _cache[10] || (_cache[10] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+          return _ctx.passwordCurrent = '';
+        }, ["prevent"]))
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Cancel')), 1)])], 512)], 512), [[_directive_form]])];
+    }),
+    _: 1
+  }, 8, ["content-title"]);
+}
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=3bd56591
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=script&lang=ts
+
+
+
+var PersonalSettingsvue_type_script_lang_ts_window = window,
+    PersonalSettingsvue_type_script_lang_ts_$ = PersonalSettingsvue_type_script_lang_ts_window.$;
+/* harmony default export */ var PersonalSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    isUsersAdminEnabled: {
+      type: Boolean,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    userLogin: {
+      type: String,
+      required: true
+    },
+    userEmail: {
+      type: String,
+      required: true
+    },
+    currentLanguageCode: {
+      type: String,
+      required: true
+    },
+    languageOptions: {
+      type: Array,
+      required: true
+    },
+    currentTimeformat: {
+      type: String,
+      required: true
+    },
+    timeFormats: {
+      type: Array,
+      required: true
+    },
+    defaultReport: {
+      type: String,
+      required: true
+    },
+    defaultReportOptions: {
+      type: Array,
+      required: true
+    },
+    defaultReportIdSite: {
+      type: [String, Number],
+      required: true
+    },
+    defaultReportSiteName: {
+      type: String,
+      required: true
+    },
+    defaultDate: {
+      type: String,
+      required: true
+    },
+    availableDefaultDates: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    SaveButton: external_CorePluginsAdmin_["SaveButton"],
+    Field: external_CorePluginsAdmin_["Field"],
+    SiteSelector: external_CoreHome_["SiteSelector"]
+  },
+  directives: {
+    Form: external_CorePluginsAdmin_["Form"]
+  },
+  data: function data() {
+    return {
+      doesRequirePasswordConfirmation: false,
+      username: this.userLogin,
+      email: this.userEmail,
+      language: this.currentLanguageCode,
+      timeformat: this.currentTimeformat,
+      theDefaultReport: this.defaultReport,
+      site: {
+        id: this.defaultReportIdSite,
+        name: this.defaultReportSiteName
+      },
+      theDefaultDate: this.defaultDate,
+      loading: false,
+      passwordCurrent: ''
+    };
+  },
+  methods: {
+    save: function save() {
+      var _this = this;
+
+      if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        PersonalSettingsvue_type_script_lang_ts_$(this.$refs.confirmChangesWithPasswordModal).modal({
+          dismissible: false,
+          ready: function ready() {
+            PersonalSettingsvue_type_script_lang_ts_$('.modal.open #currentPassword').focus();
+          }
+        }).modal('open');
+        return;
+      }
+
+      var modal = M.Modal.getInstance(this.$refs.confirmChangesWithPasswordModal);
+
+      if (modal) {
+        modal.close();
+      }
+
+      var postParams = {
+        email: this.email,
+        defaultReport: this.theDefaultReport === 'MultiSites' ? this.theDefaultReport : this.site.id,
+        defaultDate: this.theDefaultDate,
+        language: this.language,
+        timeformat: this.timeformat
+      };
+
+      if (this.passwordCurrent) {
+        postParams.passwordConfirmation = this.passwordCurrent;
+      }
+
+      this.loading = true;
+      external_CoreHome_["AjaxHelper"].post({
+        module: 'UsersManager',
+        action: 'recordUserSettings',
+        format: 'json'
+      }, {
+        withTokenInUrl: true
+      }).then(function () {
+        var id = external_CoreHome_["NotificationsStore"].show({
+          message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
+          id: 'PersonalSettingsSuccess',
+          context: 'success',
+          type: 'transient'
+        });
+        external_CoreHome_["NotificationsStore"].scrollToNotification(id);
+        _this.doesRequirePasswordConfirmation = false;
+        _this.passwordCurrent = '';
+        _this.loading = false;
+      }).catch(function () {
+        _this.loading = false;
+        _this.passwordCurrent = '';
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue
+
+
+
+PersonalSettingsvue_type_script_lang_ts.render = PersonalSettingsvue_type_template_id_3bd56591_render
+
+/* harmony default export */ var PersonalSettings = (PersonalSettingsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var PersonalSettings_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: PersonalSettings,
+  scope: {
+    isUsersAdminEnabled: {
+      angularJsBind: '<'
+    },
+    title: {
+      angularJsBind: '<'
+    },
+    userLogin: {
+      angularJsBind: '<'
+    },
+    userEmail: {
+      angularJsBind: '<'
+    },
+    currentLanguageCode: {
+      angularJsBind: '<'
+    },
+    languageOptions: {
+      angularJsBind: '<'
+    },
+    currentTimeformat: {
+      angularJsBind: '<'
+    },
+    timeFormats: {
+      angularJsBind: '<'
+    },
+    defaultReport: {
+      angularJsBind: '<'
+    },
+    defaultReportOptions: {
+      angularJsBind: '<'
+    },
+    defaultReportIdSite: {
+      angularJsBind: '<'
+    },
+    defaultReportSiteName: {
+      angularJsBind: '<'
+    },
+    defaultDate: {
+      angularJsBind: '<'
+    },
+    availableDefaultDates: {
+      angularJsBind: '<'
+    }
+  },
+  directiveName: 'matomoPersonalSettings'
+}));
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3175,6 +3848,12 @@ UsersManagervue_type_script_lang_ts.render = UsersManagervue_type_template_id_6e
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
+
+
 
 
 

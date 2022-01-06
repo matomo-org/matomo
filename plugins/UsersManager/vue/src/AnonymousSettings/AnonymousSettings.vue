@@ -109,7 +109,7 @@ export default defineComponent({
   data(): AnonymousSettingsState {
     return {
       loading: false,
-      defaultReport: this.anonymousDefaultReport,
+      defaultReport: `${this.anonymousDefaultReport}`,
       defaultReportWebsite: this.anonymousDefaultSite,
       defaultDate: this.anonymousDefaultDate,
     };
@@ -117,7 +117,7 @@ export default defineComponent({
   methods: {
     save() {
       const postParams = {
-        anonymousDefaultReport: this.defaultReport == '1'
+        anonymousDefaultReport: this.defaultReport === '1'
           ? this.defaultReportWebsite
           : this.defaultReport,
         anonymousDefaultDate: this.defaultDate,

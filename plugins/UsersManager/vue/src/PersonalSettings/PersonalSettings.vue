@@ -243,7 +243,9 @@ export default defineComponent({
   methods: {
     save() {
       if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
-        $(this.$refs.confirmChangesWithPasswordModal as HTMLElement).modal({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        $(this.$refs.confirmChangesWithPasswordModal! as HTMLElement).modal({
           dismissible: false,
           ready: () => {
             $('.modal.open #currentPassword').focus();
@@ -252,14 +254,16 @@ export default defineComponent({
         return;
       }
 
-      const modal = M.Modal.getInstance(this.$refs.confirmChangesWithPasswordModal as HTMLElement);
+      const modal = M.Modal.getInstance(this.$refs.confirmChangesWithPasswordModal! as HTMLElement);
       if (modal) {
         modal.close();
       }
 
       const postParams: QueryParameters = {
         email: this.email,
-        defaultReport: this.theDefaultReport == 'MultiSites' ? this.theDefaultReport : this.site.id,
+        defaultReport: this.theDefaultReport === 'MultiSites'
+          ? this.theDefaultReport
+          : this.site.id,
         defaultDate: this.theDefaultDate,
         language: this.language,
         timeformat: this.timeformat,
