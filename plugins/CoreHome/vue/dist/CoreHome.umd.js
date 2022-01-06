@@ -2198,11 +2198,13 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
     var isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
 
     if (isSubmenu) {
+      var _binding$value;
+
       options = {
         hover: true
       };
       $(element).addClass('submenu');
-      $(binding.value.activates).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
+      $(((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.activates) || $(element).data('target')).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
 
       $(element).parents('.dropdown-content').addClass('submenu-container');
     }
