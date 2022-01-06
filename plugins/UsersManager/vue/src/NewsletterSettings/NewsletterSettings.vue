@@ -5,9 +5,10 @@
 -->
 
 <template>
-  <div id="newsletterSignup">
+  <div id="newsletterSignup"
+    v-show="showNewsletterSignup"
+  >
     <ContentBlock
-       v-show="showNewsletterSignup"
        :content-title="translate('UsersManager_NewsletterSignupTitle')"
     >
       <div>

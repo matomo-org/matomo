@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <ContentBlock :content-title="title" :feature="true">
+  <ContentBlock :content-title="title" :feature="'true'">
     <form id="userSettingsTable" v-form>
 
       <div>
@@ -25,7 +25,7 @@
           name="email"
           :model-value="email"
           @update:model-value="email = $event; doesRequirePasswordConfirmation = true"
-          maxlength="100"
+          :maxlength="100"
           :title="translate('UsersManager_Email')"
         />
       </div>
@@ -100,7 +100,7 @@
             <Field
               uicontrol="password"
               name="currentPassword"
-              autocomplete="off"
+              :autocomplete="false"
               v-model="passwordCurrent"
               :full-width="true"
               :title="translate('UsersManager_YourCurrentPassword')"
@@ -145,7 +145,7 @@ interface PersonalSettingsState {
   username: string;
   email: string;
   language: string;
-  timeformat: string;
+  timeformat: number;
   theDefaultReport: string;
   site: SiteRef;
   theDefaultDate: string;
@@ -178,15 +178,15 @@ export default defineComponent({
       required: true,
     },
     languageOptions: {
-      type: Array,
+      type: Object,
       required: true,
     },
     currentTimeformat: {
-      type: String,
+      type: Number,
       required: true,
     },
     timeFormats: {
-      type: Array,
+      type: Object,
       required: true,
     },
     defaultReport: {
@@ -194,7 +194,7 @@ export default defineComponent({
       required: true,
     },
     defaultReportOptions: {
-      type: Array,
+      type: Object,
       required: true,
     },
     defaultReportIdSite: {
@@ -210,7 +210,7 @@ export default defineComponent({
       required: true,
     },
     availableDefaultDates: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
@@ -281,6 +281,7 @@ export default defineComponent({
           action: 'recordUserSettings',
           format: 'json',
         },
+        postParams,
         {
           withTokenInUrl: true,
         },

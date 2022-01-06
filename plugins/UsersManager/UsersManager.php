@@ -319,5 +319,15 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
         $translationKeys[] = 'UsersManager_FirstWebsitePermission';
+        $translationKeys[] = 'UsersManager_YourUsernameCannotBeChanged';
+        $translationKeys[] = 'General_Language';
+        $translationKeys[] = 'LanguagesManager_AboutPiwikTranslations';
+        $translationKeys[] = 'General_TimeFormat';
+        $translationKeys[] = 'UsersManager_ReportToLoadByDefault';
+        $translationKeys[] = 'UsersManager_ReportDateToLoadByDefault';
+        $translationKeys[] = 'UsersManager_NewsletterSignupTitle';
+        $translationKeys[] = 'UsersManager_NewsletterSignupMessage';
+        $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
+        $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
     }
 }

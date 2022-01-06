@@ -59,7 +59,7 @@ import {
   NotificationsStore,
   translate,
 } from 'CoreHome';
-import { Form, SaveButton } from 'CorePluginsAdmin';
+import { Form, SaveButton, Field } from 'CorePluginsAdmin';
 
 interface AnonymousSettingsState {
   defaultReport: string;
@@ -91,20 +91,21 @@ export default defineComponent({
       required: true,
     },
     availableDefaultDates: {
-      type: Array,
+      type: Object,
       required: true,
     },
     defaultReportOptions: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
   components: {
     ContentBlock,
+    SaveButton,
+    Field,
   },
   directives: {
     Form,
-    SaveButton,
   },
   data(): AnonymousSettingsState {
     return {
@@ -134,12 +135,13 @@ export default defineComponent({
         postParams,
         { withTokenInUrl: true },
       ).then(() => {
-        NotificationsStore.show({
+        const id = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           id: 'anonymousUserSettings',
           context: 'success',
           type: 'transient',
         });
+        NotificationsStore.scrollToNotification(id);
       }).finally(() => {
         this.loading = false;
       });
