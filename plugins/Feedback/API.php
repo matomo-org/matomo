@@ -35,7 +35,7 @@ class API extends \Piwik\Plugin\API
      * @param string|null $choice       Multiple choice option chosen
      * @param string|null $message      A message containing the actual feedback
      */
-    public function sendFeedbackForFeature($featureName, $like = false, $choice = null, $message = null)
+    public function sendFeedbackForFeature($featureName, $like = null, $choice = null, $message = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
