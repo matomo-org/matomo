@@ -4180,9 +4180,7 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
 
       var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module; // check if body id #installation exist
 
-      var install = document.querySelector('body#installation');
-
-      if (install) {
+      if (window.piwik.installation) {
         this.privateState.comparisonsDisabledFor = [];
         return;
       }
