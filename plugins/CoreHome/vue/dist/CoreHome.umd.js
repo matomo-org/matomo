@@ -4178,7 +4178,12 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     value: function loadComparisonsDisabledFor() {
       var _this3 = this;
 
-      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
+      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module; // check if body id #installation exist
+
+      if (window.piwik.installation) {
+        this.privateState.comparisonsDisabledFor = [];
+        return;
+      }
 
       if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
         this.privateState.comparisonsDisabledFor = [];
