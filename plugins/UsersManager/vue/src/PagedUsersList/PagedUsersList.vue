@@ -568,7 +568,7 @@ export default defineComponent({
     },
     gotoNextPage() {
       const newOffset = this.searchParams.offset + this.searchParams.limit;
-      if (newOffset >= this.totalEntries) {
+      if (newOffset >= this.totalEntries!) {
         return;
       }
 
@@ -586,7 +586,13 @@ export default defineComponent({
       return this.searchParams.offset + 1;
     },
     paginationUpperBound() {
-      return Math.min(this.searchParams.offset + this.searchParams.limit, this.totalEntries);
+      if (this.totalEntries === null) {
+        return '?';
+      }
+
+      const searchParams = this.searchParams as SearchParams;
+
+      return Math.min(searchParams.offset + searchParams.limit, this.totalEntries!);
     },
     userOperationSubject() {
       if (this.userToChange) {
@@ -626,7 +632,7 @@ export default defineComponent({
     },
     affectedUsersCount() {
       if (this.areAllResultsSelected) {
-        return this.totalEntries;
+        return this.totalEntries || 0;
       }
 
       return this.selectedCount;

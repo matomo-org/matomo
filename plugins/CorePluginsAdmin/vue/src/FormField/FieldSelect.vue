@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, nextTick} from 'vue';
+import { defineComponent, nextTick } from 'vue';
 
 interface OptionGroup {
   group?: string;

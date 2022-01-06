@@ -2350,9 +2350,9 @@ function createAngularJsAdapter(options) {
               if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 var eventName = toKebabCase(info.vue);
 
-                if (!events[eventName]) {
+                if (!events[info.vue]) {
                   // pass through scope & w/o a custom event handler
-                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
+                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(info.vue, "', $event)\"");
                 }
               } else {
                 rootVueTemplate += " :".concat(toKebabCase(info.vue), "=\"").concat(info.vue, "\"");
@@ -2580,11 +2580,13 @@ function cloneThenApply(p) {
     var isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
 
     if (isSubmenu) {
+      var _binding$value;
+
       options = {
         hover: true
       };
       $(element).addClass('submenu');
-      $(binding.value.activates).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
+      $(((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.activates) || $(element).data('target')).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
 
       $(element).parents('.dropdown-content').addClass('submenu-container');
     }
@@ -11676,9 +11678,18 @@ Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_086b
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 /* harmony default export */ var ContentIntro = ({
   mounted: function mounted(el) {
     el.classList.add('piwik-content-intro');
+  },
+  updated: function updated(el) {
+    // classes can be overwritten when elements bind to :class, nextTick + using
+    // updated avoids this problem (and doing in both mounted and updated avoids a temporary
+    // state where the classes aren't added)
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+      el.classList.add('piwik-content-intro');
+    });
   }
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentIntro/ContentIntro.adapter.ts
@@ -11705,9 +11716,18 @@ window.angular.module('piwikApp').directive('piwikContentIntro', piwikContentInt
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 /* harmony default export */ var ContentTable = ({
   mounted: function mounted(el) {
     el.classList.add('card', 'card-table', 'entityTable');
+  },
+  updated: function updated(el) {
+    // classes can be overwritten when elements bind to :class, nextTick + using
+    // updated avoids this problem (and doing in both mounted and updated avoids a temporary
+    // state where the classes aren't added)
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+      el.classList.add('card', 'card-table', 'entityTable');
+    });
   }
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentTable/ContentTable.adapter.ts
