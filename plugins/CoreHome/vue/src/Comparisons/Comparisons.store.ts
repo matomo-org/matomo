@@ -294,8 +294,7 @@ export default class ComparisonsStore {
     const matomoModule: string = MatomoUrl.parsed.value.module as string;
 
     // check if body id #installation exist
-    const install = document.querySelector('body#installation');
-    if (install) {
+    if (window.piwik.installation) {
       this.privateState.comparisonsDisabledFor = [];
       return;
     }
