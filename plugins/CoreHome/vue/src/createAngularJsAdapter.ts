@@ -164,8 +164,8 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
             Object.entries(scope).forEach(([, info]) => {
               if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 const eventName = toKebabCase(info.vue!);
-                if (!events[eventName]) { // pass through scope & w/o a custom event handler
-                  rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
+                if (!events[info.vue!]) { // pass through scope & w/o a custom event handler
+                  rootVueTemplate += ` @${eventName}="onEventHandler('${info.vue!}', $event)"`;
                 }
               } else {
                 rootVueTemplate += ` :${toKebabCase(info.vue!)}="${info.vue}"`;

@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <ContentBlock
+  <div
     class="pagedUsersList"
     :class="{loading: isLoadingUsers}"
   >
@@ -183,8 +183,7 @@
                 <Field
                   class="permissions-for-selector"
                   :model-value="permissionsForSite"
-                  @update:model-value="permissionsForSite = $event;
-                    changeSearch({ idSite: permissionsForSite.id })"
+                  @update:model-value="onPermissionsForUpdate($event);"
                   uicontrol="site"
                   :ui-control-attributes="{
                     onlySitesWithAdminAccess: currentUserRole !== 'superuser',
@@ -254,7 +253,6 @@
                   <input
                     type="checkbox"
                     :id="`paged_users_select_row${index}`"
-                    checked="checked"
                     v-model="selectedRows[index]"
                     @click="onRowSelected()"
                   />
@@ -266,10 +264,10 @@
             <td class="access-cell">
               <div>
                 <Field
-                  v-model="user.role"
-                  @change="userToChange = user;
-                    roleToChangeTo = user.role;
-                    previousRole = user.role;
+                  :model-value="user.role"
+                  @update:model-value="
+                    userToChange = user;
+                    roleToChangeTo = $event;
                     showAccessChangeConfirm();"
                   :disabled="user.role === 'superuser'"
                   uicontrol="select"
@@ -382,13 +380,13 @@
         <a
           href=""
           class="modal-action modal-close modal-no"
-          @click.prevent="userToChange.role = previousRole;
+          @click.prevent="
             userToChange = null;
             roleToChangeTo = null;"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
-  </ContentBlock>
+  </div>
 </template>
 
 <script lang="ts">
@@ -412,6 +410,7 @@ interface AccessLevel {
 }
 
 interface SearchParams {
+  idSite: number|string;
   limit: number;
   offset: number;
   filter_search?: string;
@@ -424,7 +423,6 @@ interface PagedUsersListState {
   isBulkActionsDisabled: boolean;
   userToChange: User|null;
   roleToChangeTo: string|null;
-  previousRole: string|null;
   accessLevelFilter: string|null;
   isRoleHelpToggled: boolean;
   userTextFilter: string;
@@ -453,10 +451,7 @@ export default defineComponent({
       type: Array,
       required: true,
     },
-    totalEntries: {
-      type: Number,
-      required: true,
-    },
+    totalEntries: Number,
     users: {
       type: Array,
       required: true,
@@ -484,7 +479,6 @@ export default defineComponent({
       isBulkActionsDisabled: true,
       userToChange: null,
       roleToChangeTo: null,
-      previousRole: null,
       accessLevelFilter: null,
       isRoleHelpToggled: false,
       userTextFilter: '',
@@ -504,6 +498,10 @@ export default defineComponent({
     },
   },
   methods: {
+    onPermissionsForUpdate(site: SiteRef) {
+      this.permissionsForSite = site;
+      this.changeSearch({ idSite: this.permissionsForSite.id });
+    },
     clearSelection() {
       this.selectedRows = {};
       this.areAllResultsSelected = false;
@@ -560,7 +558,7 @@ export default defineComponent({
       return result;
     },
     changeSearch(changes: Partial<SearchParams>) {
-      const params = { ...this.searchParams, changes };
+      const params = { ...this.searchParams, ...changes };
       this.$emit('searchChange', { params });
     },
     gotoPreviousPage() {
