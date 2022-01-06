@@ -31,7 +31,7 @@ class API extends \Piwik\Plugin\API
      * config: "feedback_email_address".
      *
      * @param string|null $featureName  The name of a feature you want to give feedback to.
-     * @param bool $like         Whether you like the feature or not
+     * @param string|null $like         Whether you like the feature or not
      * @param string|null $choice       Multiple choice option chosen
      * @param string|null $message      A message containing the actual feedback
      */
