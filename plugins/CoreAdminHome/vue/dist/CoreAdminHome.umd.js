@@ -374,6 +374,9 @@ ArchivingSettingsvue_type_script_lang_ts.render = render
     },
     todayArchiveTimeToLive: {
       angularJsBind: '<'
+    },
+    todayArchiveTimeToLiveDefault: {
+      angularJsBind: '<'
     }
   },
   directiveName: 'matomoArchivingSettings'
