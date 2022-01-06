@@ -122,17 +122,6 @@ class UsersManager extends \Piwik\Plugin
     }
 
     /**
-     * Return list of plug-in specific JavaScript files to be imported by the asset manager
-     *
-     * @see \Piwik\AssetManager
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
-    }
-
-    /**
      * Get CSS files
      */
     public function getStylesheetFiles(&$stylesheets)

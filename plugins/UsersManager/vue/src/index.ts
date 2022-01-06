@@ -9,6 +9,9 @@ import './UserPermissionsEdit/UserPermissionsEdit.adapter';
 import './UserEditForm/UserEditForm.adapter';
 import './PagedUsersList/PagedUsersList.adapter';
 import './UsersManager/UsersManager.adapter';
+import './AnonymousSettings/AnonymousSettings.adapter';
+import './NewsletterSettings/NewsletterSettings.adapter';
+import './PersonalSettings/PersonalSettings.adapter';
 
 export { default as CapabilitiesEdit } from './CapabilitiesEdit/CapabilitiesEdit.vue';
 export { default as Capability } from './CapabilitiesStore/Capability';
@@ -16,3 +19,6 @@ export { default as UserPermissionsEdit } from './UserPermissionsEdit/UserPermis
 export { default as UserEditForm } from './UserEditForm/UserEditForm.vue';
 export { default as PagedUsersList } from './PagedUsersList/PagedUsersList.vue';
 export { default as UsersManager } from './UsersManager/UsersManager.vue';
+export { default as NewsletterSettings } from './AnonymousSettings/AnonymousSettings.vue';
+export { default as AnonymousSettings } from './AnonymousSettings/NewsletterSettings.vue';
+export { default as PersonalSettings } from './AnonymousSettings/PersonalSettings.vue';
