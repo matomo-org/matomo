@@ -16,6 +16,7 @@ use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
 use Piwik\TCPDF;
+use TCPDF_FONTS;
 
 /**
  * @see libs/tcpdf
@@ -136,6 +137,11 @@ class Pdf extends ReportRenderer
         }
         // WARNING: Did you read the warning above?
 
+        // if customer fonts import use import font
+        $fontPath = "plugins/ImageGraph/fonts/unifont.ttf";
+        if (file_exists($fontPath)) {
+            $reportFont = TCPDF_FONTS::addTTFfont($fontPath, 'TrueTypeUnicode');
+        }
         $this->reportFont = $reportFont;
     }
 
