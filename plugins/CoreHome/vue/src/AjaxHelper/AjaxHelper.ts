@@ -178,7 +178,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   // helper method entry point
   static fetch<R = any>( // eslint-disable-line
-    params: QueryParameters,
+    params: QueryParameters|QueryParameters[],
     options: AjaxOptions = {},
   ): Promise<R> {
     const helper = new AjaxHelper<R>();
@@ -186,11 +186,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.withTokenInUrl();
     }
     helper.setFormat(options.format || 'json');
-    helper.addParams({
-      module: 'API',
-      format: options.format || 'json',
-      ...params,
-    }, 'get');
+    if (Array.isArray(params)) {
+      helper.setBulkRequests(...(params as QueryParameters[]));
+    } else {
+      helper.addParams({
+        module: 'API',
+        format: options.format || 'json',
+        ...params,
+      }, 'get');
+    }
     if (options.postParams) {
       helper.addParams(options.postParams, 'post');
     }

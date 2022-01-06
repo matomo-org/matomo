@@ -128,7 +128,6 @@ class UsersManager extends \Piwik\Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/UsersManager/angularjs/users-manager/users-manager.component.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
     }
@@ -140,7 +139,7 @@ class UsersManager extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/UsersManager/stylesheets/usersManager.less";
 
-        $stylesheets[] = "plugins/UsersManager/angularjs/users-manager/users-manager.component.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UsersManager/UsersManager.less";
         $stylesheets[] = "plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.less";
         $stylesheets[] = "plugins/UsersManager/vue/src/UserEditForm/UserEditForm.less";
         $stylesheets[] = "plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.less";

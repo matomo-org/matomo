@@ -81,6 +81,7 @@ export * from './Periods';
 export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
 export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAnywhereButHere';
 export { default as FocusIf } from './FocusIf/FocusIf';
+export { default as Tooltips } from './Tooltips/Tooltips';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';

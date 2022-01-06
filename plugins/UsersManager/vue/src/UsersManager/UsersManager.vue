@@ -45,8 +45,8 @@
         </div>
         <PagedUsersList
           @edit-user="onEditUser($event.user)"
-          @change-user-role="onChangeUserRole(users, $event.role)"
-          @delete-user="onDeleteUser(users)"
+          @change-user-role="onChangeUserRole($event.users, $event.role)"
+          @delete-user="onDeleteUser($event.users)"
           @search-change="searchParams = $event.params; fetchUsers()"
           :initial-site-id="initialSiteId"
           :initial-site-name="initialSiteName"
@@ -209,6 +209,7 @@ export default defineComponent({
       $(this.$refs.addExistingUserModal as HTMLElement).modal({ dismissible: false }).modal('open');
     },
     onChangeUserRole(users: User[]|string, role: string) {
+      console.log(users);
       this.isLoadingUsers = true;
 
       Promise.resolve().then(() => {
