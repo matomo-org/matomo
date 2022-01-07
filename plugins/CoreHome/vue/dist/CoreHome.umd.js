@@ -1156,7 +1156,7 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function updateUrl(params) {
       var hashParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
-      var modifiedHashParams = this.getFinalHashParams(hashParams);
+      var modifiedHashParams = Object.keys(hashParams).length ? this.getFinalHashParams(hashParams) : {};
       var serializedHashParams = this.stringify(modifiedHashParams);
       var url = "?".concat(serializedParams);
 

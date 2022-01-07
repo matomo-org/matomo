@@ -75,7 +75,10 @@ class MatomoUrl {
   updateUrl(params: QueryParameters|string, hashParams: QueryParameters|string = {}) {
     const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
 
-    const modifiedHashParams = this.getFinalHashParams(hashParams);
+    const modifiedHashParams = Object.keys(hashParams).length
+      ? this.getFinalHashParams(hashParams)
+      : {};
+
     const serializedHashParams: string = this.stringify(modifiedHashParams);
 
     let url = `?${serializedParams}`;
@@ -87,10 +90,6 @@ class MatomoUrl {
   }
 
   private getFinalHashParams(params: QueryParameters|string) {
-    if (!Object.keys(params).length) {
-      return {};
-    }
-
     return {
       // these params must always be present in the hash
       period: this.parsed.value.period,
