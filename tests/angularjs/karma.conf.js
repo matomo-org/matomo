@@ -27,7 +27,6 @@ module.exports = function(config) {
         "plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js",
         "plugins/CoreHome/javascripts/require.js",
         "plugins/Morpheus/javascripts/piwikHelper.js",
-        "plugins/Morpheus/javascripts/ajaxHelper.js",
         "plugins/CoreHome/javascripts/broadcast.js",
         'plugins/CoreHome/angularjs/common/services/service.module.js',
         'plugins/CoreHome/angularjs/common/filters/filter.module.js',
