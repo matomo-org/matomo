@@ -228,7 +228,7 @@ class BatchInsert
         if ((function_exists('mysqli_get_client_stats') || empty($openBaseDir)) && empty($safeMode)) {
             // php 5.x - LOAD DATA LOCAL INFILE only used if open_basedir is not set (or we're using a non-buggy version of mysqlnd)
             //           and if safe mode is not enabled
-//            $keywords[] = 'LOCAL ';
+            $keywords[] = 'LOCAL ';
         }
 
         $exceptions = array();
