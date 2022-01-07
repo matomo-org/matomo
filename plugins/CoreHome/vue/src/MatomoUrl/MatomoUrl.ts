@@ -76,7 +76,7 @@ class MatomoUrl {
     const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
 
     const modifiedHashParams = Object.keys(hashParams).length
-      ? this.getFinalHashParams(hashParams)
+      ? this.getFinalHashParams(hashParams, params)
       : {};
 
     const serializedHashParams: string = this.stringify(modifiedHashParams);
@@ -89,14 +89,25 @@ class MatomoUrl {
     window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
   }
 
-  private getFinalHashParams(params: QueryParameters|string) {
+  private getFinalHashParams(
+    params: QueryParameters|string,
+    urlParams: QueryParameters|string = {},
+  ) {
+    const paramsObj = typeof params !== 'string'
+      ? params
+      : broadcast.getValuesFromUrl(`?${params}`, true);
+
+    const urlParamsObj = typeof params !== 'string'
+      ? urlParams
+      : broadcast.getValuesFromUrl(`?${urlParams}`, true);
+
     return {
       // these params must always be present in the hash
-      period: this.parsed.value.period,
-      date: this.parsed.value.date,
-      segment: this.parsed.value.segment,
+      period: paramsObj.period || urlParamsObj.period || this.parsed.value.period,
+      date: paramsObj.date || urlParamsObj.date || this.parsed.value.date,
+      segment: paramsObj.segment || urlParamsObj.segment || this.parsed.value.segment,
 
-      ...(typeof params !== 'string' ? params : broadcast.getValuesFromUrl(`?${params}`, true)),
+      ...paramsObj,
     };
   }
 

@@ -1156,7 +1156,7 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function updateUrl(params) {
       var hashParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
-      var modifiedHashParams = Object.keys(hashParams).length ? this.getFinalHashParams(hashParams) : {};
+      var modifiedHashParams = Object.keys(hashParams).length ? this.getFinalHashParams(hashParams, params) : {};
       var serializedHashParams = this.stringify(modifiedHashParams);
       var url = "?".concat(serializedParams);
 
@@ -1169,12 +1169,15 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
   }, {
     key: "getFinalHashParams",
     value: function getFinalHashParams(params) {
+      var urlParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var paramsObj = typeof params !== 'string' ? params : MatomoUrl_broadcast.getValuesFromUrl("?".concat(params), true);
+      var urlParamsObj = typeof params !== 'string' ? urlParams : MatomoUrl_broadcast.getValuesFromUrl("?".concat(urlParams), true);
       return _objectSpread({
         // these params must always be present in the hash
-        period: this.parsed.value.period,
-        date: this.parsed.value.date,
-        segment: this.parsed.value.segment
-      }, typeof params !== 'string' ? params : MatomoUrl_broadcast.getValuesFromUrl("?".concat(params), true));
+        period: paramsObj.period || urlParamsObj.period || this.parsed.value.period,
+        date: paramsObj.date || urlParamsObj.date || this.parsed.value.date,
+        segment: paramsObj.segment || urlParamsObj.segment || this.parsed.value.segment
+      }, paramsObj);
     } // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
 
   }, {
