@@ -87,6 +87,10 @@ class MatomoUrl {
   }
 
   private getFinalHashParams(params: QueryParameters|string) {
+    if (!Object.keys(params).length) {
+      return {};
+    }
+
     return {
       // these params must always be present in the hash
       period: this.parsed.value.period,
