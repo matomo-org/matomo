@@ -373,7 +373,7 @@ class SitesManager extends \Piwik\Plugin
             self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
         ];
 
-        return $map[$siteType] ? $map[$siteType] : false;
+        return $map[$siteType] ?? false;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

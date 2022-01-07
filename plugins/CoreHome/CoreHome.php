@@ -142,14 +142,14 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportingPage/ReportingPage.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/ReportExport/ReportExport.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/WidgetByDimensionContainer/WidgetByDimensionContainer.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/Progressbar/Progressbar.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/Sparkline/Sparkline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
@@ -218,8 +218,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
@@ -227,25 +225,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
-
-
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
-
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
-
-
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
@@ -261,13 +240,6 @@ class CoreHome extends \Piwik\Plugin
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.controller.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/form/form.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/save-button/save-button.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-filter.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-upload.directive.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js";
     }

@@ -64,7 +64,6 @@ export default defineComponent({
       loading: false,
       loadingFailed: '',
       changeCounter: 0,
-      lastWidgetRequest: null,
       currentScope: null,
     };
   },
@@ -102,9 +101,9 @@ export default defineComponent({
   },
   methods: {
     abortHttpRequestIfNeeded() {
-      if (this.lastWidgetRequest) {
-        this.lastWidgetRequest.abort();
-        this.lastWidgetRequest = null;
+      if (this.lastWidgetAbortController) {
+        this.lastWidgetAbortController.abort();
+        this.lastWidgetAbortController = null;
       }
     },
     cleanupLastWidgetContent() {
@@ -172,20 +171,21 @@ export default defineComponent({
       this.abortHttpRequestIfNeeded();
       this.cleanupLastWidgetContent();
 
-      this.lastWidgetRequest = AjaxHelper.fetch(this.getWidgetUrl(parameters), {
+      this.lastWidgetAbortController = new AbortController();
+
+      AjaxHelper.fetch(this.getWidgetUrl(parameters), {
         format: 'html',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
         },
-      });
-
-      this.lastWidgetRequest.then((response) => {
+        abortController: this.lastWidgetAbortController,
+      }).then((response) => {
         if (thisChangeId !== this.changeCounter || !response || typeof response !== 'string') {
           // another widget was requested meanwhile, ignore this response
           return;
         }
 
-        this.lastWidgetRequest = null;
+        this.lastWidgetAbortController = null;
         this.loading = false;
         this.loadingFailed = false;
 
@@ -226,7 +226,7 @@ export default defineComponent({
           return;
         }
 
-        this.lastWidgetRequest = null;
+        this.lastWidgetAbortController = null;
         this.cleanupLastWidgetContent();
 
         this.loading = false;

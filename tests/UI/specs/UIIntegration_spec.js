@@ -1026,6 +1026,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
             await icon.click();
 
+            await page.mouse.move(-10, -10);
+
             await page.waitForSelector('.ui-dialog');
             await page.waitForNetworkIdle();
 

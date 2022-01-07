@@ -14,6 +14,10 @@
 
     piwikFieldCondition.$inject = ['piwik', '$timeout'];
 
+    /**
+     * Unused.
+     * @deprecated
+     */
     function piwikFieldCondition(piwik, $timeout){
 
         function evaluate(scope, condition, element)
