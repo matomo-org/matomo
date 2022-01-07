@@ -4179,6 +4179,8 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       var _this3 = this;
 
       var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module; // check if body id #installation exist
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
 
       if (window.piwik.installation) {
         this.privateState.comparisonsDisabledFor = [];
