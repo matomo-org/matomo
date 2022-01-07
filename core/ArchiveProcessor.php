@@ -679,8 +679,9 @@ class ArchiveProcessor
         // vs here we would use
         // userId!@%40matomo.org;userId!=hello%40matomo.org;visitorType==new
         // thus these would result in different segment hashes and therefore the reports would either show 0 or archive the data twice
-        $newSegment = Segment::combine($params->getSegment()->getOriginalString(), SegmentExpression::AND_DELIMITER, $segment);
-        if ($newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
+        $originSegmentString = $params->getSegment()->getOriginalString();
+        $newSegment = Segment::combine($originSegmentString, SegmentExpression::AND_DELIMITER, $segment);
+        if (!empty($originSegmentString) && $newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
             return;
         }
 

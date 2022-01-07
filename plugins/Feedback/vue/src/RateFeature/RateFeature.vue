@@ -257,7 +257,7 @@ export default defineComponent({
       AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForFeature',
         featureName: this.title,
-        like: this.like ? '1' : '0',
+        like: this.like ? 1 : 0,
         choice: this.like ? this.likeReason : this.dislikeReason,
         message: this.feedbackMessage,
       }).then((res) => {
