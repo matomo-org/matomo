@@ -294,6 +294,7 @@ export default class ComparisonsStore {
     const matomoModule: string = MatomoUrl.parsed.value.module as string;
 
     // check if body id #installation exist
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (window.piwik.installation) {
       this.privateState.comparisonsDisabledFor = [];
