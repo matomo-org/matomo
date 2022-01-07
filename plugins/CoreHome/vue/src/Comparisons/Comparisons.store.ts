@@ -292,6 +292,13 @@ export default class ComparisonsStore {
 
   private loadComparisonsDisabledFor() {
     const matomoModule: string = MatomoUrl.parsed.value.module as string;
+
+    // check if body id #installation exist
+    if (window.piwik.installation) {
+      this.privateState.comparisonsDisabledFor = [];
+      return;
+    }
+
     if (matomoModule === 'CoreUpdater'
       || matomoModule === 'Installation'
     ) {

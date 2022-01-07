@@ -21,6 +21,9 @@
         "PasswordRepeat": "Passord (gjenta)",
         "PasswordsDoNotMatch": "Passordene stemmer ikke overens.",
         "PluginDescription": "Gir autentisering med brukernavn og passord i tillegg til funksjonalitet for å gjenopprette passord. Autentiseringsmetoden kan endres ved å bruke en annen innloggingsutvidelse som LoginLdap, som er tilgjengelig via Markedsplassen.",
-        "RememberMe": "Husk meg"
+        "RememberMe": "Husk meg",
+        "SettingBruteForceBlacklistIp": "Alltid blokker disse IP-ene fra innlogging",
+        "SettingBruteForceMaxFailedLogins": "Antall tillatte nye innloggingsforsøk innenfor tidsperioden",
+        "SettingBruteForceWhitelistIp": "Aldri blokker disse IP-ene fra innlogging"
     }
 }

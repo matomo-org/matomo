@@ -9,6 +9,8 @@
         "Location": "Sted",
         "NoData": "Det finnes ingen data for denne siden i valgt periode.",
         "OneClick": "1 klikk",
-        "OpenFullScreen": "Gå til fullskjermsvisning (uten sidefelt)"
+        "OpenFullScreen": "Gå til fullskjermsvisning (uten sidefelt)",
+        "RedirectUrlErrorAdmin": "Du kan legge til domenet som en ytterligere nettadresse %1$si innstillingene%2$s.",
+        "RedirectUrlErrorUser": "Spør administratoren din om å legge til domenet som en ekstra nettadresse."
     }
 }

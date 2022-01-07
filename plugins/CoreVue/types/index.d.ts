@@ -94,6 +94,9 @@ declare global {
     updateParamValue(newParamValue: string, urlStr: string): string;
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
     buildReportingUrl(ajaxUrl: string): string;
+    isLoginPage(): boolean;
+
+    popoverHandlers: Record<string, (param: string) => void>;
   }
 
   let broadcast: BroadcastGlobal;
@@ -103,7 +106,12 @@ declare global {
     getColors(namespace: string, names: string[], asArray?: boolean): string[]|{[name: string]: string};
   }
 
+  interface SparklineColors extends Record<string, string> {
+    lineColor: string[];
+  }
+
   interface PiwikGlobal {
+    installation: boolean; // only set while Matomo is installing
     timezoneOffset: number;
     addCustomPeriod: (name: string, periodClass: any) => void;
     shouldPropagateTokenAuth: boolean;
@@ -133,6 +141,7 @@ declare global {
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(): {[key: string]: any};
+    getSparklineColors(): SparklineColors;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
