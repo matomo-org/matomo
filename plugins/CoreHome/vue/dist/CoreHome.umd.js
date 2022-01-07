@@ -1174,9 +1174,9 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       var urlParamsObj = typeof params !== 'string' ? urlParams : MatomoUrl_broadcast.getValuesFromUrl("?".concat(urlParams), true);
       return _objectSpread({
         // these params must always be present in the hash
-        period: paramsObj.period || urlParamsObj.period || this.parsed.value.period,
-        date: paramsObj.date || urlParamsObj.date || this.parsed.value.date,
-        segment: paramsObj.segment || urlParamsObj.segment || this.parsed.value.segment
+        period: urlParamsObj.period || this.parsed.value.period,
+        date: urlParamsObj.date || this.parsed.value.date,
+        segment: urlParamsObj.segment || this.parsed.value.segment
       }, paramsObj);
     } // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
 

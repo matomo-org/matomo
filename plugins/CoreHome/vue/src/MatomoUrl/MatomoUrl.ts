@@ -103,9 +103,9 @@ class MatomoUrl {
 
     return {
       // these params must always be present in the hash
-      period: paramsObj.period || urlParamsObj.period || this.parsed.value.period,
-      date: paramsObj.date || urlParamsObj.date || this.parsed.value.date,
-      segment: paramsObj.segment || urlParamsObj.segment || this.parsed.value.segment,
+      period: urlParamsObj.period || this.parsed.value.period,
+      date: urlParamsObj.date || this.parsed.value.date,
+      segment: urlParamsObj.segment || this.parsed.value.segment,
 
       ...paramsObj,
     };
