@@ -236,9 +236,7 @@ class BatchInsert
             $queryStart = 'LOAD DATA ' . $keyword . 'INFILE ';
             $sql = $queryStart . $query;
             try {
-                var_dump($sql);
                 $result = @Db::exec($sql);
-                var_dump($result);
                 if (empty($result) || $result < 0) {
                     continue;
                 }
