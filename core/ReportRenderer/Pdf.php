@@ -41,6 +41,8 @@ class Pdf extends ReportRenderer
     const MAX_GRAPH_REPORTS = 3;
     const MAX_2COL_TABLE_REPORTS = 2;
 
+    const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
+
     const PDF_CONTENT_TYPE = 'pdf';
 
     private $reportFontStyle = '';
@@ -137,10 +139,9 @@ class Pdf extends ReportRenderer
         }
         // WARNING: Did you read the warning above?
 
-        // if customer fonts import use import font
-        $fontPath = "plugins/ImageGraph/fonts/unifont.ttf";
-        if (file_exists($fontPath)) {
-            $reportFont = TCPDF_FONTS::addTTFfont($fontPath, 'TrueTypeUnicode');
+        // When user follow the FAQ https://matomo.org/faq/how-to-install/faq_142/, imported unifont font, it will apply across the entire report
+        if (is_file(self::IMPORT_FONT_PATH)) {
+            $reportFont = TCPDF_FONTS::addTTFfont(self::IMPORT_FONT_PATH, 'TrueTypeUnicode');
         }
         $this->reportFont = $reportFont;
     }
