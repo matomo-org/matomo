@@ -42,8 +42,8 @@ class Updates_4_7_0_b3 extends PiwikUpdates
         $migrations = [];
 
         // add column create date
-        $migrations[] = $this->migration->db->changeColumnType('goal', 'ts_created', 'TIMESTAMP NULL');
-        $migrations[] = $this->migration->db->changeColumnType('goal', 'ts_last_edit', 'TIMESTAMP NULL');
+        $migrations[] = $this->migration->db->addColumn('goal', 'ts_created', 'TIMESTAMP NULL');
+        $migrations[] = $this->migration->db->addColumn('goal', 'ts_last_edit', 'TIMESTAMP NULL');
 
 
         return $migrations;
