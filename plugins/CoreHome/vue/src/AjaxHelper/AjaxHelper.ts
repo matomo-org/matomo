@@ -174,7 +174,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   // helper method entry point
-  static fetch<R = any>(params: QueryParameters, options: AjaxOptions = {}): Promise<R> { // eslint-disable-line
+  static fetch<R = any>( // eslint-disable-line
+    params: QueryParameters,
+    options: AjaxOptions = {},
+  ): Promise<R> {
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
@@ -215,7 +218,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static post<R = any>(
     params: QueryParameters,
-    postParams: QueryParameters,
+    // eslint-disable-next-line
+    postParams: any,
     options: AjaxOptions = {},
   ): Promise<R> {
     return this.fetch<R>(params, { ...options, postParams });
@@ -579,7 +583,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @param   params   parameter object
    */
-  private mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
+  public mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
     const segment = MatomoUrl.getSearchParam('segment');
 
     const defaultParams: Record<string, string> = {

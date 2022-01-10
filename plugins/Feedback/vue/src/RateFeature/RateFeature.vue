@@ -199,6 +199,17 @@ import ReviewLinks from '../ReviewLinks/ReviewLinks.vue';
 
 const { $ } = window;
 
+interface RateFeatureState {
+  like: boolean;
+  likeReason: null|string;
+  dislikeReason: null|string;
+  ratingDone: boolean;
+  expanded: boolean;
+  showFeedbackForm: boolean;
+  feedbackMessage: string;
+  errorMessage: string|null;
+}
+
 export default defineComponent({
   props: {
     title: String,
@@ -207,7 +218,7 @@ export default defineComponent({
     MatomoDialog,
     ReviewLinks,
   },
-  data() {
+  data(): RateFeatureState {
     return {
       like: false,
       likeReason: null,
@@ -249,7 +260,7 @@ export default defineComponent({
     },
     focusInput() {
       if (this.$refs.feedbackText != null) {
-        this.$refs.feedbackText.focus();
+        (this.$refs.feedbackText as HTMLElement).focus();
       }
     },
     sendFeedback() {
@@ -257,7 +268,7 @@ export default defineComponent({
       AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForFeature',
         featureName: this.title,
-        like: this.like ? '1' : '0',
+        like: this.like ? 1 : 0,
         choice: this.like ? this.likeReason : this.dislikeReason,
         message: this.feedbackMessage,
       }).then((res) => {

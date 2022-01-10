@@ -36,8 +36,8 @@ export default defineComponent({
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {
-      if (this.modelValue !== event.target.checked) {
-        this.$emit('update:modelValue', event.target.checked);
+      if (this.modelValue !== (event.target as HTMLInputElement).checked) {
+        this.$emit('update:modelValue', (event.target as HTMLInputElement).checked);
       }
     },
   },

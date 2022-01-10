@@ -30,21 +30,24 @@ const Widget = useExternalPluginComponent('CoreHome', 'Widget');
 
 export default defineComponent({
   props: {
-    container: Array,
+    container: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     Widget,
   },
   computed: {
     actualContainer() {
-      const { container }: { container: WidgetData[] } = this;
+      const container = this.container as WidgetData[];
 
       if (!container?.[0]?.parameters) {
         return container;
       }
 
       const [widget] = container;
-      const isWidgetized = widget.parameters.widget === '1' || widget.parameters.widget === 1;
+      const isWidgetized = widget.parameters?.widget === '1' || widget.parameters?.widget === 1;
 
       const isGraphEvolution = isWidgetized && widget.viewDataTable === 'graphEvolution';
 

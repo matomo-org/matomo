@@ -7,6 +7,8 @@
 
 import ReportingMenuStoreInstance from './ReportingMenu.store';
 import { cloneThenApply } from '../createAngularJsAdapter';
+import { CategoryContainer } from './Category';
+import { SubcategoryContainer } from './Subcategory';
 
 // removed boolean active property from objects in vue so we can keep the store immutable, but,
 // angularjs version should still have them
@@ -15,11 +17,11 @@ function addActiveMenuItems(menu: typeof ReportingMenuStoreInstance.menu.value) 
     if (category.id === ReportingMenuStoreInstance.activeCategory.value) {
       category.active = true;
 
-      (category.subcategories || []).forEach((subcat) => {
+      ((category as CategoryContainer).subcategories || []).forEach((subcat) => {
         if (subcat.id === ReportingMenuStoreInstance.activeSubcategory.value) {
           subcat.active = true;
 
-          (subcat.subcategories || []).forEach((subsubcat) => {
+          ((subcat as SubcategoryContainer).subcategories || []).forEach((subsubcat) => {
             if (subsubcat.id === ReportingMenuStoreInstance.activeSubsubcategory.value) {
               subsubcat.active = true;
             }
@@ -45,4 +47,4 @@ function reportingMenuModelAdapter() {
   };
 }
 
-angular.module('piwikApp.service').factory('reportingMenuModel', reportingMenuModelAdapter);
+window.angular.module('piwikApp.service').factory('reportingMenuModel', reportingMenuModelAdapter);

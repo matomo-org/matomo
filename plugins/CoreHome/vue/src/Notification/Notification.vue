@@ -108,7 +108,7 @@ export default defineComponent({
     }
 
     if (this.style) {
-      $(this.$refs.root).css(this.style);
+      $(this.$refs.root as HTMLElement).css(this.style as JQLiteCssProperties);
     }
   },
   methods: {

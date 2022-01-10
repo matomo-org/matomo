@@ -919,10 +919,10 @@ $(document).ready(function() {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
 
             if (piwikHelper.isAngularRenderingThePage()) {
-                return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods']);
+                return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods', 'compareDates']);
             } else {
                 // eg in case of exported dashboard
-                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods']);
+                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods', 'compareDates']);
             }
         };
 

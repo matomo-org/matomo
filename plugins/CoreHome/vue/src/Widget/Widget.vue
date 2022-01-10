@@ -35,12 +35,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import JQuery = JQuery;
+import { DeepReadonly, defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import WidgetContainer from '../WidgetContainer/WidgetContainer.vue';
 import WidgetByDimensionContainer from '../WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
-import WidgetsStoreInstance, { Widget as WidgetData, ContainerWidget } from './Widgets.store';
+import WidgetsStoreInstance, {
+  getWidgetChildren,
+  Widget as WidgetData,
+  WidgetContainer as WidgetDataContainer,
+} from './Widgets.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import Tooltips from '../Tooltips/Tooltips';
@@ -48,10 +51,10 @@ import Tooltips from '../Tooltips/Tooltips';
 function findContainer(
   widgetsByCategory: typeof WidgetsStoreInstance.widgets.value,
   containerId: string,
-): ContainerWidget|undefined {
-  let widget: ContainerWidget;
-  Object.values(widgetsByCategory || {}).some((widgets) => {
-    widget = widgets.find((w) => w && w.isContainer && w.parameters.containerId === containerId);
+): DeepReadonly<WidgetData>|undefined {
+  let widget: DeepReadonly<WidgetData>|undefined = undefined;
+  Object.values(widgetsByCategory || {}).some((widgets: DeepReadonly<WidgetData[]>) => {
+    widget = widgets.find((w) => w && w.isContainer && w.parameters?.containerId === containerId);
     return widget;
   });
   return widget;
@@ -104,14 +107,14 @@ export default defineComponent({
     };
   },
   setup() {
-    function tooltipContent() {
+    function tooltipContent(this: HTMLElement) {
       const $this = window.$(this) as JQuery;
       if ($this.attr('piwik-field') === '' || $this.hasClass('matomo-form-field')) {
         // do not show it for form fields
         return '';
       }
 
-      const title = window.$(this).attr('title');
+      const title = window.$(this).attr('title') || '';
       return window.vueSanitize(title.replace(/\n/g, '<br />'));
     }
 
@@ -122,12 +125,13 @@ export default defineComponent({
   created() {
     const { actualWidget } = this;
 
-    if (!actualWidget || !actualWidget.middlewareParameters) {
-      this.showWidget = true;
-    } else {
-      AjaxHelper.fetch(actualWidget.middlewareParameters).then((response) => {
+    if (actualWidget && actualWidget.middlewareParameters) {
+      const params = actualWidget.middlewareParameters as unknown as QueryParameters;
+      AjaxHelper.fetch(params).then((response) => {
         this.showWidget = !!response;
       });
+    } else {
+      this.showWidget = true;
     }
   },
   computed: {
@@ -135,7 +139,7 @@ export default defineComponent({
       return WidgetsStoreInstance.widgets.value;
     },
     actualWidget() {
-      const { widget }: { widget: WidgetData } = this;
+      const widget = this.widget as WidgetData;
 
       if (widget) {
         const result = { ...widget };
@@ -158,13 +162,15 @@ export default defineComponent({
           if (this.widgetized) {
             result.isFirstInPage = true;
             result.parameters = { ...result.parameters, widget: '1' };
-            if (result.widgets) {
-              result.widgets = result.widgets.map((w) => ({
+
+            const widgets = getWidgetChildren(result);
+            if (widgets) {
+              (result as WidgetDataContainer).widgets = widgets.map((w) => ({
                 ...w,
                 parameters: {
                   ...w.parameters,
                   widget: '1',
-                  containerId: this.containerid,
+                  containerId: this.containerid!,
                 },
               }));
             }

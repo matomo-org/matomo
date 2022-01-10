@@ -41,19 +41,19 @@
 </details>
 </textarea>
 
-<table class="entityTable system-check" id="systemCheckRequired" piwik-content-table>
+<table class="entityTable system-check" id="systemCheckRequired" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
     {{ local.diagnosticTable(diagnosticReport.getMandatoryDiagnosticResults()) }}
 </table>
 
 <h3>{{ 'Installation_Optional'|translate }}</h3>
 
-<table class="entityTable system-check" id="systemCheckOptional" piwik-content-table>
+<table class="entityTable system-check" id="systemCheckOptional" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
     {{ local.diagnosticTable(diagnosticReport.getOptionalDiagnosticResults()) }}
 </table>
 
 <h3>{{ 'Installation_InformationalResults'|translate }}</h3>
 
-<table class="entityTable system-check" id="systemCheckInformational" piwik-content-table>
+<table class="entityTable system-check" id="systemCheckInformational" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
     {{ local.diagnosticTable(diagnosticReport.getInformationalResults()) }}
 </table>
 

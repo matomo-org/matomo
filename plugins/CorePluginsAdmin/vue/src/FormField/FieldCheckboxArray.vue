@@ -35,13 +35,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-function getCheckboxStates(availableOptions, modelValue) {
+interface Option {
+  key: unknown;
+}
+
+function getCheckboxStates(availableOptions?: Option[], modelValue?: unknown[]) {
   return (availableOptions || []).map((o) => modelValue && modelValue.indexOf(o.key) !== -1);
 }
 
 export default defineComponent({
   props: {
-    modelValue: Object,
+    modelValue: Array,
     name: String,
     title: String,
     availableOptions: Array,
@@ -52,7 +56,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   computed: {
     checkboxStates() {
-      return getCheckboxStates(this.availableOptions, this.modelValue);
+      return getCheckboxStates(this.availableOptions as Option[], this.modelValue);
     },
   },
   mounted() {
@@ -63,8 +67,10 @@ export default defineComponent({
       const checkboxStates = [...this.checkboxStates];
       checkboxStates[changedIndex] = !checkboxStates[changedIndex];
 
-      const newValue = [];
-      Object.values(this.availableOptions).forEach((option, index) => {
+      const availableOptions = (this.availableOptions || {}) as Record<string, Option>;
+
+      const newValue: unknown[] = [];
+      Object.values(availableOptions).forEach((option: Option, index: number) => {
         if (checkboxStates[index]) {
           newValue.push(option.key);
         }
