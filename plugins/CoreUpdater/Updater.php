@@ -323,7 +323,7 @@ class Updater
         $model = new Model();
 
        //check if the target file directory is writeable
-        $this->checkFolderPermissions($extractedArchiveDirectory,PIWIK_INCLUDE_PATH);
+        $this->checkFolderPermissions($extractedArchiveDirectory, PIWIK_INCLUDE_PATH);
 
         /*
          * Copy all files to PIWIK_INCLUDE_PATH.
