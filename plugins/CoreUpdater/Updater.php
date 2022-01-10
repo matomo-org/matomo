@@ -186,7 +186,7 @@ class Updater
         if (!isset($newVersion)) {
             $newVersion = Version::VERSION;
         }
-        
+
         // we also need to make sure to create a new instance here as otherwise we would change the "global"
         // environment, but we only want to change piwik version temporarily for this task here
         $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
@@ -300,7 +300,7 @@ class Updater
         foreach ($plugins as $plugin) {
             $plugin->reloadPluginInformation();
         }
-        
+
         $incompatiblePlugins = $this->getIncompatiblePlugins($version);
         $disabledPluginNames = array();
 
@@ -321,6 +321,9 @@ class Updater
         }
 
         $model = new Model();
+
+       //check if the target file directory is writeable
+        $this->checkFolderPermissions($extractedArchiveDirectory,PIWIK_INCLUDE_PATH);
 
         /*
          * Copy all files to PIWIK_INCLUDE_PATH.
@@ -377,5 +380,35 @@ class Updater
     private function getIncompatiblePlugins($piwikVersion)
     {
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
+    }
+
+
+    /**
+     * check if the target file directory is writeable
+     * @param string $source
+     * @param string $target
+     * @throws Exception
+     */
+    private function checkFolderPermissions($source, $target)
+    {
+        $wrongPermissionDir = [];
+        if (is_dir($source)) {
+            $d = dir($source);
+            while (false !== ($entry = $d->read())) {
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
+                $sourcePath = $source . '/' . $entry;
+                if (is_dir($sourcePath) && !is_writable($target . '/' . $entry)) {
+                    //add the wrong permission to the array
+                    $wrongPermissionDir[] = $target . '/' . $entry;
+                }
+            }
+        }
+
+        if (!empty($wrongPermissionDir)) {
+            throw new Exception($this->translator->translate('CoreUpdater_ExceptionDirWrongPermission',
+              implode(',', $wrongPermissionDir)));
+        }
     }
 }

@@ -20,6 +20,7 @@
         "ExceptionArchiveEmpty": "Empty archive.",
         "ExceptionArchiveIncompatible": "Incompatible archive: %s",
         "ExceptionArchiveIncomplete": "Archive is incomplete: some files are missing (eg. %s).",
+        "ExceptionDirWrongPermission": "The directory %s is not writeable, please granted the permission for the directory. Then try again.",
         "FeedbackRequest": "Feel free to share your ideas and suggestions with the Matomo Team here:",
         "HelpMessageContent": "Check the %1$s Matomo FAQ %2$s which explains most common errors during update. %3$s Ask your system administrator - they may be able to help you with the error which is most likely related to your server or MySQL setup.",
         "HelpMessageIntroductionWhenError": "The above is the core error message. It should help explain the cause, but if you require further help please:",
