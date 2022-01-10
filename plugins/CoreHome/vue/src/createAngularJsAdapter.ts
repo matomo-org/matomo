@@ -6,13 +6,12 @@
  */
 
 import {
-  createApp,
   defineComponent,
   ref,
   ComponentPublicInstance,
 } from 'vue';
-import translate from './translate';
 import Matomo from './Matomo/Matomo';
+import createVueApp from './createVueApp';
 
 interface SingleScopeVarInfo<InjectTypes> {
   vue?: string;
@@ -97,6 +96,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
   noScope?: boolean,
   restrict?: string,
   priority?: number,
+  replace?: boolean,
 }): ng.IDirectiveFactory {
   const {
     component,
@@ -111,6 +111,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     noScope,
     restrict = 'A',
     priority,
+    replace,
   } = options;
 
   const currentTranscludeCounter = transcludeCounter;
@@ -118,7 +119,8 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     transcludeCounter += 1;
   }
 
-  const angularJsScope = {};
+  const vueToAngular: Record<string, string> = {};
+  const angularJsScope: Record<string, string> = {};
   Object.entries(scope).forEach(([scopeVarName, info]) => {
     if (!info.vue) {
       info.vue = scopeVarName;
@@ -126,6 +128,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
     if (info.angularJsBind) {
       angularJsScope[scopeVarName] = info.angularJsBind;
     }
+    vueToAngular[info.vue] = scopeVarName;
   });
 
   function angularJsAdapter(...injectedServices: InjectTypes) {
@@ -152,9 +155,9 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               const [eventName] = info;
               rootVueTemplate += ` @${toKebabCase(eventName)}="onEventHandler('${eventName}', $event)"`;
             });
-            Object.entries(scope).forEach(([key, info]) => {
-              if (info.angularJsBind === '&') {
-                const eventName = toKebabCase(key);
+            Object.entries(scope).forEach(([, info]) => {
+              if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
+                const eventName = toKebabCase(info.vue);
                 if (!events[eventName]) { // pass through scope & w/o a custom event handler
                   rootVueTemplate += ` @${eventName}="onEventHandler('${eventName}', $event)"`;
                 }
@@ -169,7 +172,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
             rootVueTemplate += '</root-component>';
 
             // build the vue app
-            const app = createApp({
+            const app = createVueApp({
               template: rootVueTemplate,
               data() {
                 const initialData = {};
@@ -207,7 +210,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
               },
               methods: {
                 onEventHandler(name: string, $event: any) { // eslint-disable-line
-                  const scopePropertyName = toAngularJsCamelCase(name);
+                  const scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
                   }
@@ -226,8 +229,6 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
                 },
               },
             });
-            app.config.globalProperties.$sanitize = window.vueSanitize;
-            app.config.globalProperties.translate = translate;
             app.component('root-component', component);
 
             // mount the app
@@ -238,7 +239,7 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
             // setup watches to bind between angularjs + vue
             Object.entries(scope).forEach(([scopeVarName, info]) => {
-              if (!info.angularJsBind || info.angularJsBind === '&') {
+              if (!info.angularJsBind || info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 return;
               }
 
@@ -270,6 +271,21 @@ export default function createAngularJsAdapter<InjectTypes = []>(options: {
 
             if (postCreate) {
               postCreate(vm, ngScope, ngElement, ngAttrs, ngController, ...injectedServices);
+            }
+
+            // specifying replace: true on the directive does nothing w/ vue inside, so
+            // handle it here.
+            if (replace) {
+              // transfer attributes from angularjs element that are not in scope to
+              // mount point element
+              Array.from(ngElement[0].attributes).forEach((attr) => {
+                if (scope[attr.nodeName]) {
+                  return;
+                }
+                mountPoint.firstElementChild.setAttribute(attr.nodeName, attr.nodeValue);
+              });
+
+              ngElement.replaceWith(window.$(mountPoint).children());
             }
 
             ngElement.on('$destroy', () => {
