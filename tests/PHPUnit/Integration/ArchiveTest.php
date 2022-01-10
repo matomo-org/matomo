@@ -237,7 +237,7 @@ class ArchiveTest extends IntegrationTestCase
         $expected = [
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
             ['idarchive' => '13', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '1'],
-            ['idarchive' => '16', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
+            ['idarchive' => '18', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
         ];
         $this->assertEquals($expected, $archives);
     }

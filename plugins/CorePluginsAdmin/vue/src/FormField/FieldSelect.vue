@@ -26,6 +26,7 @@
           :selected="multiple
             ? modelValue && modelValue.indexOf(option.key) !== -1
             : modelValue === option.key"
+          :disabled="option.disabled"
         >
           {{ option.value }}
         </option>
@@ -49,6 +50,7 @@
         :selected="multiple
             ? modelValue && modelValue.indexOf(option.key) !== -1
             : modelValue === option.key"
+        :disabled="option.disabled"
       >
         {{ option.value }}
       </option>
@@ -58,17 +60,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 
 interface OptionGroup {
   group?: string;
   key: string;
   value: unknown;
+  disabled?: boolean;
 }
 
 function initMaterialSelect(
   select: HTMLSelectElement,
-  modelValue: unknown[],
+  modelValue: string|number|string[],
   placeholder: string,
   uiControlOptions = {},
   multiple: boolean,
@@ -83,7 +86,9 @@ function initMaterialSelect(
   Array.from(select.options).forEach((opt) => {
     if (multiple) {
       opt.selected = modelValue
-        && modelValue.indexOf(opt.value.replace(/^string:/, '')) !== -1;
+        && (modelValue as string[]).indexOf(
+          opt.value.replace(/^string:/, ''),
+        ) !== -1;
     } else {
       opt.selected = `string:${modelValue}` === opt.value;
     }
@@ -237,11 +242,17 @@ export default defineComponent({
       }
 
       this.$emit('update:modelValue', newValue);
+
+      // if modelValue does not change, select will still have the changed value, but we
+      // want it to have the value determined by modelValue. so we force an update.
+      nextTick(() => {
+        if (this.modelValue !== newValue) {
+          this.onModelValueChange(this.modelValue);
+        }
+      });
     },
-  },
-  watch: {
-    modelValue(newVal) {
-      window.$(this.$refs.select).val(newVal);
+    onModelValueChange(newVal: string|number|string[]) {
+      window.$(this.$refs.select as HTMLSelectElement).val(newVal);
       setTimeout(() => {
         initMaterialSelect(
           this.$refs.select,
@@ -251,6 +262,11 @@ export default defineComponent({
           this.multiple,
         );
       });
+    },
+  },
+  watch: {
+    modelValue(newVal: string|number|string[]) {
+      this.onModelValueChange(newVal);
     },
     'uiControlAttributes.disabled': {
       handler(newVal, oldVal) {
