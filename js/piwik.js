@@ -112,7 +112,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, disableFingerPrint
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, disableBrowserFeatureDetection
  */
 /*global _paq:true */
 /*members push */
@@ -2441,7 +2441,7 @@ if (typeof window.Matomo !== 'object') {
                 // whether a tracking request has been sent yet during this page view
                 hasSentTrackingRequestYet = false,
 
-                fingerPrintEnable = true;
+                browserFeatureDetectionEnable = true;
 
             // Document title
             try {
@@ -3752,7 +3752,7 @@ if (typeof window.Matomo !== 'object') {
                     '&send_image=0';
 
                 //Browser FingerPrint
-                if(fingerPrintEnable) {
+                if(browserFeatureDetectionEnable) {
                     var browserFeatures = detectBrowserFeatures();
                     // browser features
                     for (i in browserFeatures) {
@@ -4965,9 +4965,9 @@ if (typeof window.Matomo !== 'object') {
                 linkTrackingInstalled = false;
                 linkTrackingEnabled   = false;
             };
-            this.disableFingerPrint = function ()
+            this.disableBrowserFeatureDetection = function ()
             {
-                fingerPrintEnable = false;
+                browserFeatureDetectionEnable = false;
             };
             this.getConfigVisitorCookieTimeout = function () {
                 return configVisitorCookieTimeout;
