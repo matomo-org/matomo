@@ -7,7 +7,7 @@ host = 127.0.0.1
 username = root
 password =
 dbname = matomo_tests
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 ; no table prefix for tests on travis
 tables_prefix =
 ;charset = utf8

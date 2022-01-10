@@ -128,6 +128,7 @@ jobs:
         env:
           PHP_VERSION: ${{ matrix.php }}
           MATOMO_TEST_TARGET: 'Javascript'
+          MYSQL_ADAPTER: 'PDO_MYSQL'
 
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests-js'
@@ -193,6 +194,7 @@ jobs:
         env:
           PHP_VERSION: ${{ matrix.php }}
           MATOMO_TEST_TARGET: 'UI'
+          MYSQL_ADAPTER: 'PDO_MYSQL'
 
       - name: UI tests Group ${{ matrix.parts }}
         env:

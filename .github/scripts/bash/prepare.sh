@@ -25,12 +25,11 @@ cd /home/runner/work/matomo/matomo/
 echo -e "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
 
-# test is php split integration XML
-#if [ "$MATOMO_TEST_TARGET" = "php" ]
-#then
-#  php ./tests/PHPUnit/formatXML.php
-#fi
+# setup config
+sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php > config/config.ini.php
 
+
+# setup js and xml
 if [ "$MATOMO_TEST_TARGET" = "UI" ] || [ "$MATOMO_TEST_TARGET" = "Javascript" ];
 then
   echo -e "${GREEN}installing node/puppeteer${SET}"
@@ -38,7 +37,6 @@ then
   git lfs pull --exclude=
   npm install
   cd /home/runner/work/matomo/matomo/
-  cp .github/artifacts/config.ini.github.ui.php  config/config.ini.php
   ls ./tests/PHPUnit/
   cp .github/artifacts/config.dist.js ./tests/UI/config.js
   chmod a+rw ./tests/lib/geoip-files || true
@@ -46,7 +44,6 @@ then
   chmod a+rw ./plugins/*/tests/Integration/processed || true
   mkdir -p ./tests/UI/processed-ui-screenshots
 else
-  sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php > config/config.ini.php
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 fi
 
@@ -59,31 +56,20 @@ then
   google-chrome --version
 fi
 
-#setup php fpm and nginx
-if [ "$MATOMO_TEST_TARGET" = "Javascript" ];
-then
-  echo -e "${GREEN}Setup php -S${SET}"
-  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
-  tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
-  tmux ls
-  echo -e "${GREEN}remove port 3000${SET}"
-  sed -i 's/3000/\//g' ./config/config.ini.php
-else
-  echo -e "${GREEN}setup php-fpm${SET}"
-  sudo systemctl enable php$PHP_VERSION-fpm.service
-  sudo systemctl start php$PHP_VERSION-fpm.service
-  sudo cp -rf  ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
-  sudo systemctl reload php$PHP_VERSION-fpm.service
-  sudo systemctl restart php$PHP_VERSION-fpm.service
-  sudo systemctl status php$PHP_VERSION-fpm.service
-  sudo systemctl enable nginx
-  sudo systemctl start nginx
-  sudo cp ./.github/artifacts/ui_nginx.conf /etc/nginx/conf.d/
-  sudo unlink /etc/nginx/sites-enabled/default
-  sudo nginx -t
-  sudo systemctl reload nginx
-  sudo systemctl restart nginx
-fi
+
+echo -e "${GREEN}setup php-fpm${SET}"
+sudo systemctl enable php$PHP_VERSION-fpm.service
+sudo systemctl start php$PHP_VERSION-fpm.service
+sudo cp -rf  ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
+sudo systemctl reload php$PHP_VERSION-fpm.service
+sudo systemctl restart php$PHP_VERSION-fpm.service
+sudo systemctl status php$PHP_VERSION-fpm.service
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo cp ./.github/artifacts/ui_nginx.conf /etc/nginx/conf.d/
+sudo unlink /etc/nginx/sites-enabled/default
+sudo systemctl reload nginx
+sudo systemctl restart nginx
 
 echo -e "${GREEN}set up Folder${SET}"
 mkdir -p ./tmp/assets
@@ -99,14 +85,6 @@ mkdir -p ./tmp/nonexistant
 mkdir -p ./tmp/tcpdf
 mkdir -p ./tmp/climulti
 mkdir -p /tmp
-
-
-# remove 3000 for javascript tests
-if [ "$MATOMO_TEST_TARGET" = "Javascript" ];
-then
-echo -e "${GREEN}remove port 3000${SET}"
-sed -i 's/3000/\//g' ./config/config.ini.php
-fi
 
 echo -e "${GREEN}set tmp and screenshot folder permission${SET}"
 sudo gpasswd -a "$USER" www-data
