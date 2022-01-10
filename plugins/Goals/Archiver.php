@@ -496,7 +496,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         $goalIdsToSum = GoalManager::getGoalIds($this->getProcessor()->getParams()->getSite()->getId());
 
         //Ecommerce
-        $goalIdsToSum = array_merge($goalIdsToSum, $this->getEcommerceIdGoals());
+        if (Manager::getInstance()->isPluginActivated('Ecommerce')) {
+            $goalIdsToSum = array_merge($goalIdsToSum, $this->getEcommerceIdGoals());
+        }
 
         // Overall goal metrics
         $goalIdsToSum[] = false;
