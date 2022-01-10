@@ -4968,7 +4968,7 @@ if (typeof window.Matomo !== 'object') {
             this.disableFingerPrint = function ()
             {
                 fingerPrintEnable = false;
-            }
+            };
             this.getConfigVisitorCookieTimeout = function () {
                 return configVisitorCookieTimeout;
             };
