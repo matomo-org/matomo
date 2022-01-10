@@ -2441,7 +2441,7 @@ if (typeof window.Matomo !== 'object') {
                 // whether a tracking request has been sent yet during this page view
                 hasSentTrackingRequestYet = false,
 
-                browserFeatureDetectionEnable = true;
+                configBrowserFeatureDetectionEnable = true;
 
             // Document title
             try {
@@ -3130,6 +3130,11 @@ if (typeof window.Matomo !== 'object') {
              * Browser features (plugins, resolution, cookies)
              */
             function detectBrowserFeatures() {
+
+                // Browser Feature is disabled return empty object
+                if (!configBrowserFeatureDetectionEnable) {
+                    return {};
+                }
                 if (isDefined(browserFeatures.res)) {
                     return browserFeatures;
                 }
@@ -3751,8 +3756,6 @@ if (typeof window.Matomo !== 'object') {
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
-                //Browser FingerPrint
-                if(browserFeatureDetectionEnable) {
                     var browserFeatures = detectBrowserFeatures();
                     // browser features
                     for (i in browserFeatures) {
@@ -3760,7 +3763,6 @@ if (typeof window.Matomo !== 'object') {
                             request += '&' + i + '=' + browserFeatures[i];
                         }
                     }
-                }
 
                 var customDimensionIdsAlreadyHandled = [];
                 if (customData) {
@@ -4967,7 +4969,7 @@ if (typeof window.Matomo !== 'object') {
             };
             this.disableBrowserFeatureDetection = function ()
             {
-                browserFeatureDetectionEnable = false;
+                configBrowserFeatureDetectionEnable = false;
             };
             this.getConfigVisitorCookieTimeout = function () {
                 return configVisitorCookieTimeout;
@@ -6027,6 +6029,7 @@ if (typeof window.Matomo !== 'object') {
             this.setCookieConsentGiven = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
+                    configBrowserFeatureDetectionEnable = true;
                     if (configTrackerSiteId && hasSentTrackingRequestYet) {
                         setVisitorIdCookie();
 
@@ -6956,7 +6959,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
-
+                configBrowserFeatureDetectionEnable = true;
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
                 var i, requestType;
