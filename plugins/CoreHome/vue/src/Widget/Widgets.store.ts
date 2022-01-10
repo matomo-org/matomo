@@ -9,35 +9,51 @@ import {
   reactive,
   readonly,
   computed,
+  DeepReadonly,
 } from 'vue';
-import Subcategory from '../ReportingMenu/Subcategory';
+import { Subcategory } from '../ReportingMenu/Subcategory';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import { Orderable } from '../Orderable';
 
-export interface WidgetLeaf {
-  uniqueId: string;
-  module: string;
-  action: string;
-  viewDataTable: string;
-  parameters: Record<string, unknown>;
-  subcategory: Subcategory;
+export interface Widget extends Orderable {
+  uniqueId?: string;
+  module?: string;
+  action?: string;
+  viewDataTable?: string;
+  parameters?: Record<string, unknown>;
+  subcategory?: Subcategory;
   isContainer?: boolean;
   isReport?: boolean;
-  middlewareParameters?: QueryParameters;
+  middlewareParameters?: Record<string, unknown>;
   documentation?: string;
   layout?: string;
   isWide?: boolean;
-}
-
-export interface ContainerWidget extends WidgetLeaf {
   isFirstInPage?: boolean;
-  widgets: (WidgetLeaf | ContainerWidget)[];
 }
 
-export type Widget = WidgetLeaf | ContainerWidget;
+// get around DeepReadonly<> not being able to handle recursive types by moving the
+// recursive properties to subtypes that are only referenced when needed
+export interface WidgetContainer extends Widget {
+  widgets?: Widget[];
+}
+
+export interface GroupedWidgets {
+  group: boolean;
+  left?: Widget[];
+  right?: Widget[];
+}
 
 interface WidgetsStoreState {
   isFetchedFirstTime: boolean;
   categorizedWidgets: Record<string, Widget[]>;
+}
+
+export function getWidgetChildren(widget: Widget): Widget[] {
+  const container = widget as WidgetContainer;
+  if (container.widgets) {
+    return container.widgets;
+  }
+  return [];
 }
 
 class WidgetsStore {
@@ -46,7 +62,7 @@ class WidgetsStore {
     categorizedWidgets: {},
   });
 
-  private state = computed(() => {
+  private state = computed((): DeepReadonly<WidgetsStoreState> => {
     if (!this.privateState.isFetchedFirstTime) {
       // initiating a side effect in a computed property seems wrong, but it needs to be
       // executed after knowing a user's logged in and it will succeed.
@@ -58,7 +74,7 @@ class WidgetsStore {
 
   readonly widgets = computed(() => this.state.value.categorizedWidgets);
 
-  private fetchAvailableWidgets(): Promise<typeof WidgetsStore['widgets']['value']> {
+  private fetchAvailableWidgets(): Promise<WidgetsStore['widgets']['value']> {
     // if there's no idSite, don't make the request since it will just fail
     if (!MatomoUrl.parsed.value.idSite) {
       return Promise.resolve(this.widgets.value);
@@ -67,8 +83,9 @@ class WidgetsStore {
     this.privateState.isFetchedFirstTime = true;
     return new Promise((resolve, reject) => {
       try {
-        window.widgetsHelper.getAvailableWidgets((categorizedWidgets) => {
-          this.privateState.categorizedWidgets = categorizedWidgets;
+        window.widgetsHelper.getAvailableWidgets((widgets: Record<string, unknown[]>) => {
+          const casted = widgets as unknown as Record<string, Widget[]>;
+          this.privateState.categorizedWidgets = casted;
           resolve(this.widgets.value);
         });
       } catch (e) {
@@ -77,7 +94,7 @@ class WidgetsStore {
     });
   }
 
-  reloadAvailableWidgets(): Promise<typeof WidgetsStore['widgets']['value']> {
+  reloadAvailableWidgets(): Promise<WidgetsStore['widgets']['value']> {
     if (typeof window.widgetsHelper === 'object' && window.widgetsHelper.availableWidgets) {
       // lets also update widgetslist so will be easier to update list of available widgets in
       // dashboard selector immediately

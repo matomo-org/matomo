@@ -26,4 +26,4 @@ function reportingPagesModelAdapter() {
   };
 }
 
-angular.module('piwikApp.service').factory('reportingPagesModel', reportingPagesModelAdapter);
+window.angular.module('piwikApp.service').factory('reportingPagesModel', reportingPagesModelAdapter);

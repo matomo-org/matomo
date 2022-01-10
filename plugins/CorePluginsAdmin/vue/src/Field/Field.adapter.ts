@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { INgModelController, ITimeoutService } from 'angular';
+import { INgModelController, IScope, ITimeoutService } from 'angular';
 import { nextTick, shallowRef } from 'vue';
 import {
   createAngularJsAdapter,
@@ -18,7 +18,7 @@ import {
 import Field from './Field.vue';
 import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
 
-function handleJsonValue(value: unknown, varType: string, uiControl: string) {
+function handleJsonValue(value: unknown, varType: string, uiControl: string): unknown {
   if (typeof value === 'string'
     && value
     && (varType === 'array'
@@ -46,6 +46,11 @@ function handleJsonValue(value: unknown, varType: string, uiControl: string) {
   return value;
 }
 
+interface ExternalComponentRef {
+  plugin: string;
+  name: string;
+}
+
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: Field,
   require: '?ngModel',
@@ -59,7 +64,8 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     value: {
       vue: 'modelValue',
       angularJsBind: '@',
-      transform(value, vm, scope) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transform(value: unknown, vm: unknown, scope: any): unknown {
         // vue components expect object data as input, so we parse JSON data
         // for angularjs directives that use JSON.
         return handleJsonValue(value, scope.varType, scope.uicontrol);
@@ -100,12 +106,16 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
     condition: {
       angularJsBind: '@',
-      transform(value, vm, scope) {
-        let transformed = value;
-        if (value) {
-          transformed = (values: unknown[]) => scope.$eval(value, values);
+      transform(
+        value: unknown,
+        vm: unknown,
+        scope: IScope,
+      ): ((values: unknown[]) => boolean)|undefined {
+        if (!value) {
+          return undefined;
         }
-        return transformed;
+
+        return (values: unknown[]) => (scope.$eval(value as string, values) as boolean);
       },
     },
     varType: {
@@ -148,18 +158,20 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
     component: {
       angularJsBind: '<',
-      transform(value, vm, scope) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transform(value: unknown, vm: unknown, scope: any) {
         if (!value) {
-          return value;
+          return undefined;
         }
 
         if (scope.templateFile) {
           return shallowRef(FieldAngularJsTemplate);
         }
 
-        const { plugin, name } = value;
+        const { plugin, name } = value as ExternalComponentRef;
         if (!plugin || !name) {
-          throw new Error("Invalid component property given to piwik-field directive, must be {plugin: '...',name: '...'}");
+          throw new Error('Invalid component property given to piwik-field directive, must '
+            + 'be {plugin: \'...\',name: \'...\'}');
         }
 
         return shallowRef(useExternalPluginComponent(plugin, name));
@@ -189,7 +201,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     const ngModel = controller as INgModelController;
 
     if (!ngModel) {
-      scope.$watch('value', (newVal) => {
+      scope.$watch('value', (newVal: unknown) => {
         if (newVal !== vm.modelValue) {
           const transformed = handleJsonValue(newVal, scope.varType, scope.uicontrol);
 

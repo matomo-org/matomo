@@ -5,12 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { IScope } from 'angular';
 import ExpandOnHover from './ExpandOnHover';
 
 function piwikExpandOnHover() {
   return {
     restrict: 'A',
-    link: function expandOnHoverLink(scope, element) {
+    link: function expandOnHoverLink(scope: IScope, element: JQLite) {
       const binding = {
         instance: null,
         value: {
@@ -27,6 +28,4 @@ function piwikExpandOnHover() {
   };
 }
 
-piwikExpandOnHover.$inject = [];
-
-angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);
+window.angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);

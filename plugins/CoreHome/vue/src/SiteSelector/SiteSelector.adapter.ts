@@ -5,7 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { INgModelController, ITimeoutService } from 'angular';
+import {
+  IAttributes,
+  INgModelController,
+  IScope,
+  ITimeoutService,
+} from 'angular';
 import { nextTick } from 'vue';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import SiteSelector from './SiteSelector.vue';
@@ -40,7 +45,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       angularJsBind: '@',
     },
     modelValue: {
-      default(scope, element, attrs) {
+      default(scope: IScope, element: JQLite, attrs: IAttributes) {
         if (attrs.siteid && attrs.sitename) {
           return { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
         }
@@ -84,7 +89,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   postCreate(vm, scope, element, attrs, controller) {
     const ngModel = controller as INgModelController;
 
-    scope.$watch('value', (newVal) => {
+    scope.$watch('value', (newVal: unknown) => {
       nextTick(() => {
         if (newVal !== vm.modelValue) {
           vm.modelValue = newVal;
@@ -108,7 +113,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       ngModel.$render = () => {
         nextTick(() => {
           nextTick(() => {
-            if (angular.isString(ngModel.$viewValue)) {
+            if (window.angular.isString(ngModel.$viewValue)) {
               vm.modelValue = JSON.parse(ngModel.$viewValue);
             } else {
               vm.modelValue = ngModel.$viewValue;
