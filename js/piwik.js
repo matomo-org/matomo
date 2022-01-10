@@ -112,7 +112,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, disableFingerPrint
  */
 /*global _paq:true */
 /*members push */
@@ -2439,7 +2439,9 @@ if (typeof window.Matomo !== 'object') {
                 uniqueTrackerId = trackerIdCounter++,
 
                 // whether a tracking request has been sent yet during this page view
-                hasSentTrackingRequestYet = false;
+                hasSentTrackingRequestYet = false,
+
+                fingerPrintEnable = true;
 
             // Document title
             try {
@@ -3749,11 +3751,14 @@ if (typeof window.Matomo !== 'object') {
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
-                var browserFeatures = detectBrowserFeatures();
-                // browser features
-                for (i in browserFeatures) {
-                    if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
-                        request += '&' + i + '=' + browserFeatures[i];
+                //Browser FingerPrint
+                if(fingerPrintEnable) {
+                    var browserFeatures = detectBrowserFeatures();
+                    // browser features
+                    for (i in browserFeatures) {
+                        if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
+                            request += '&' + i + '=' + browserFeatures[i];
+                        }
                     }
                 }
 
@@ -4960,6 +4965,10 @@ if (typeof window.Matomo !== 'object') {
                 linkTrackingInstalled = false;
                 linkTrackingEnabled   = false;
             };
+            this.disableFingerPrint = function ()
+            {
+                fingerPrintEnable = false;
+            }
             this.getConfigVisitorCookieTimeout = function () {
                 return configVisitorCookieTimeout;
             };
