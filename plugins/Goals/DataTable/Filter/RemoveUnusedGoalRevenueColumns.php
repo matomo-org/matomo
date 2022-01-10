@@ -25,8 +25,10 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
 
         $columnNames = [
                 'revenue',
+                'revenue_entry',
                 'revenue_per_entry',
                 'revenue_per_visit',
+                'revenue_attrib',
             ];
 
         // Build array of columns to check

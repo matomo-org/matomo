@@ -1,40 +1,202 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>example.org/page_A</label>
+		<label>/page_A</label>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
+		<sum_time_spent>1440</sum_time_spent>
+		<sum_time_generation>0</sum_time_generation>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
+		<sum_time_network>0.0000</sum_time_network>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<sum_time_server>0.0000</sum_time_server>
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<sum_time_transfer>0.0000</sum_time_transfer>
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<sum_time_dom_processing>0.0000</sum_time_dom_processing>
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<sum_time_dom_completion>0.0000</sum_time_dom_completion>
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<sum_time_on_load>0.0000</sum_time_on_load>
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>3</entry_nb_uniq_visitors>
+		<entry_nb_visits>3</entry_nb_visits>
+		<entry_nb_actions>10</entry_nb_actions>
+		<entry_sum_visit_length>2525</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<goal_1_nb_conversions>3</goal_1_nb_conversions>
+		<goal_1_revenue>30</goal_1_revenue>
+		<goal_1_nb_conv_pages_before>6</goal_1_nb_conv_pages_before>
+		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
+		<goal_1_nb_conversions_page_rate>1</goal_1_nb_conversions_page_rate>
+		<goal_1_nb_conversions_page_uniq>2</goal_1_nb_conversions_page_uniq>
+		<goal_1_revenue_attrib>10</goal_1_revenue_attrib>
+		<goal_1_revenue_entry>20.00</goal_1_revenue_entry>
+		<goal_1_nb_conversions_entry_rate>0.667</goal_1_nb_conversions_entry_rate>
+		<goal_1_revenue_per_entry>6.67</goal_1_revenue_per_entry>
+		<goal_1_nb_conversions_entry>2</goal_1_nb_conversions_entry>
+		<url>http://example.org/page_A</url>
 		<goals>
-			<row idgoal='1'>
-				<revenue>10</revenue>
-				<nb_conversions_float>1</nb_conversions_float>
-				<nb_conversions_page_rate>100%</nb_conversions_page_rate>
-			</row>
+		<row>1</row>
 		</goals>
 	</row>
 	<row>
-		<label>example.org/page_C</label>
+		<label>/page_C</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0</sum_time_generation>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
+		<sum_time_network>0.0000</sum_time_network>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<sum_time_server>0.0000</sum_time_server>
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<sum_time_transfer>0.0000</sum_time_transfer>
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<sum_time_dom_processing>0.0000</sum_time_dom_processing>
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<sum_time_dom_completion>0.0000</sum_time_dom_completion>
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<sum_time_on_load>0.0000</sum_time_on_load>
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
+		<exit_nb_visits>2</exit_nb_visits>
+		<goal_1_nb_conversions>2</goal_1_nb_conversions>
+		<goal_1_revenue>20</goal_1_revenue>
+		<goal_1_nb_conv_pages_before>6</goal_1_nb_conv_pages_before>
+		<goal_1_nb_conversions_attrib>0.75</goal_1_nb_conversions_attrib>
+		<goal_1_nb_conversions_page_rate>1</goal_1_nb_conversions_page_rate>
+		<goal_1_nb_conversions_page_uniq>2</goal_1_nb_conversions_page_uniq>
+		<goal_1_revenue_attrib>7.5</goal_1_revenue_attrib>
+		<url>http://example.org/page_C</url>
 		<goals>
-			<row idgoal='1'>
-				<revenue>7.5</revenue>
-				<nb_conversions_float>0.75</nb_conversions_float>
-				<nb_conversions_page_rate>100%</nb_conversions_page_rate>
-			</row>
+		<row>1</row>
 		</goals>
 	</row>
 	<row>
-		<label>example.org/page_B</label>
+		<label>/page_B</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
+		<sum_time_spent>360</sum_time_spent>
+		<sum_time_generation>0</sum_time_generation>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
+		<sum_time_network>0.0000</sum_time_network>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<sum_time_server>0.0000</sum_time_server>
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<sum_time_transfer>0.0000</sum_time_transfer>
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<sum_time_dom_processing>0.0000</sum_time_dom_processing>
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<sum_time_dom_completion>0.0000</sum_time_dom_completion>
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<sum_time_on_load>0.0000</sum_time_on_load>
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<goal_1_nb_conversions>1</goal_1_nb_conversions>
+		<goal_1_revenue>10.00</goal_1_revenue>
+		<goal_1_nb_conv_pages_before>4</goal_1_nb_conv_pages_before>
+		<goal_1_nb_conversions_attrib>0.25</goal_1_nb_conversions_attrib>
+		<goal_1_nb_conversions_page_rate>0.5</goal_1_nb_conversions_page_rate>
+		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
+		<goal_1_revenue_attrib>2.5</goal_1_revenue_attrib>
+		<url>http://example.org/page_B</url>
 		<goals>
-			<row idgoal='1'>
-				<revenue>2.5</revenue>
-				<nb_conversions_float>0.25</nb_conversions_float>
-				<nb_conversions_page_rate>50%</nb_conversions_page_rate>
-			</row>
+		<row>1</row>
 		</goals>
 	</row>
 	<row>
-		<label>example.org/page_D</label>
+		<label>/page_D</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0</sum_time_generation>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
+		<sum_time_network>0.0000</sum_time_network>
+		<nb_hits_with_time_network>0</nb_hits_with_time_network>
+		<min_time_network />
+		<max_time_network />
+		<sum_time_server>0.0000</sum_time_server>
+		<nb_hits_with_time_server>0</nb_hits_with_time_server>
+		<min_time_server />
+		<max_time_server />
+		<sum_time_transfer>0.0000</sum_time_transfer>
+		<nb_hits_with_time_transfer>0</nb_hits_with_time_transfer>
+		<min_time_transfer />
+		<max_time_transfer />
+		<sum_time_dom_processing>0.0000</sum_time_dom_processing>
+		<nb_hits_with_time_dom_processing>0</nb_hits_with_time_dom_processing>
+		<min_time_dom_processing />
+		<max_time_dom_processing />
+		<sum_time_dom_completion>0.0000</sum_time_dom_completion>
+		<nb_hits_with_time_dom_completion>0</nb_hits_with_time_dom_completion>
+		<min_time_dom_completion />
+		<max_time_dom_completion />
+		<sum_time_on_load>0.0000</sum_time_on_load>
+		<nb_hits_with_time_on_load>0</nb_hits_with_time_on_load>
+		<min_time_on_load />
+		<max_time_on_load />
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<url>http://example.org/page_D</url>
 	</row>
 </result>

@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
+use Piwik\Tracker\GoalManager;
 use Zend_Db_Statement;
 
 /**
@@ -184,6 +185,142 @@ class ArchivingHelper
 
         // just to make sure php copies the last $actionRow in the $parentTable array
         $actionRow =& $actionsTablesByType;
+        return $rowsProcessed;
+    }
+
+    /**
+     * Update the existing action datatable with goal columns
+     *
+     * @param Zend_Db_Statement|PDOStatement $resultSet Result set from the goals data query
+     * @param bool                           $isPages   True if page view goals metrics should be used, else entry goal metrics
+     *
+     * @return int  Number of rows processed
+     * @throws \Exception
+     */
+    public static function updateActionsTableWithGoals($resultSet, bool $isPages): int
+    {
+        $rowsProcessed = 0;
+        while ($row = $resultSet->fetch()) {
+
+            if (!isset($row['idaction']) || !isset($row['type'])) {
+                continue;
+            }
+
+            // Match the existing action row in the datatable
+            $actionRow = self::getCachedActionRow($row['idaction'], $row['type']);
+            if ($actionRow === false || is_null($actionRow)) {
+                continue;
+            }
+
+            // Define the possible goal metrics available in the goals data resultset
+            if ($isPages) {
+
+                // Page view metrics
+                $possibleMetrics = [
+                    PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',           // 1
+                    PiwikMetrics::INDEX_GOAL_REVENUE                    => 'revenue',                  // 2
+                    PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE       => 'nb_conv_pages_before',     // 9
+                    PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB      => 'nb_conversions_attrib',    // 10
+                    PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE   => 'nb_conversions_page_rate', // 11
+                    PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ   => 'nb_conversions_page_uniq', // 12
+                    PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB             => 'revenue_attrib',           // 15
+                ];
+
+            } else {
+
+                // Entry page metrics
+                $possibleMetrics = [
+                    PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY              => 'revenue_entry',             // 17
+                    PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE  => 'nb_conversions_entry_rate', // 12
+                    PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY          => 'revenue_per_entry',         // 13
+                    PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY       => 'nb_conversions_entry',      // 16
+                ];
+
+            }
+
+            // Find metric columns in the goal query row and add them to the actions data table row
+            foreach ($possibleMetrics as $metricKey => $columnName) {
+
+                if (isset($row['idgoal']) && isset($row[$metricKey])) {
+
+                    // Calculate adjusted revenue and conversions for page view goals
+                    if ($isPages &&
+                        isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]) &&
+                        isset($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE]))
+                    {
+
+                        if ($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] > 0) {
+
+                            $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB] = Piwik::getQuotientSafe(
+                                $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS],
+                                $row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE],
+                                GoalManager::REVENUE_PRECISION + 2);
+
+                            if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE])) {
+                                $row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB] = Piwik::getQuotientSafe(
+                                    $row[PiwikMetrics::INDEX_GOAL_REVENUE],
+                                    $row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE],
+                                    GoalManager::REVENUE_PRECISION + 2);
+                            }
+                        }
+
+                        $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = 0;
+
+                    }
+
+                    if (!$isPages) {
+
+                        $nbEntrances = $actionRow->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS);
+                        $conversions = $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY];
+                        if ($nbEntrances !== false && is_numeric($nbEntrances) && $nbEntrances > 0) {
+
+                            // Calculate conversion entry rate
+                            if (isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY])) {
+
+                                $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE] = Piwik::getQuotientSafe(
+                                     $conversions,
+                                     $nbEntrances,
+                                     GoalManager::REVENUE_PRECISION + 1);
+
+                            }
+
+                            // Calculate revenue per entry
+                            if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
+
+                                $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = Piwik::getQuotientSafe(
+                                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
+                                    $nbEntrances,
+                                    GoalManager::REVENUE_PRECISION);
+
+                            }
+                        }
+
+                    }
+
+                    $fullColumnName = 'goal_'.$row['idgoal'].'_'.$columnName;
+                    $existingColumnValue = $actionRow->getColumn($fullColumnName);
+                    if ($existingColumnValue === false) {
+                        $actionRow->addColumn($fullColumnName, $row[$metricKey]);
+                    } else {
+                        $existingColumnValue += $row[$metricKey];
+                        $actionRow->setColumn($fullColumnName, $existingColumnValue);
+                    }
+                    $metaGoals = $actionRow->getMetadata('goals');
+                    if (!$metaGoals) {
+                        $actionRow->setMetadata('goals', [$row['idgoal']]);
+                    } else {
+                        if (!in_array($row['idgoal'], $metaGoals)) {
+                            $metaGoals[] = $row['idgoal'];
+                            $actionRow->setMetadata('goals', $metaGoals);
+                        }
+                    }
+
+                }
+            }
+
+            $rowsProcessed++;
+
+        }
         return $rowsProcessed;
     }
 

@@ -18,11 +18,11 @@ use Piwik\Plugins\Goals\Goals;
  * is then treated as a new column. Float version to allow partial attribution of
  * conversions to pages.
  */
-class ConversionsFloat extends GoalSpecificProcessedMetric
+class ConversionsAttrib extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return Goals::makeGoalColumn($this->idGoal, 'nb_conversions_float', false);
+        return Goals::makeGoalColumn($this->idGoal, 'nb_conversions_attrib', false);
     }
 
     public function getTranslatedName()
@@ -40,6 +40,6 @@ class ConversionsFloat extends GoalSpecificProcessedMetric
         $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
 
         $goalMetrics = $this->getGoalMetrics($row);
-        return $this->getMetric($goalMetrics, 'nb_conversions_float', $mappingFromNameToIdGoal);
+        return $this->getMetric($goalMetrics, 'nb_conversions_attrib', $mappingFromNameToIdGoal);
     }
 }

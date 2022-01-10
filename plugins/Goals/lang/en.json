@@ -139,6 +139,14 @@
         "GoalsOverviewSubcategoryHelp1": "The Goals Overview reports on the performance of the goals defined for your website. You can access your goal’s conversion percentages, amount of revenue generated and full reports for each.",
         "GoalsOverviewSubcategoryHelp2": "Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.",
         "ManageGoalsSubcategoryHelp1": "This section allows you to create and edit Goals for specific actions which visitors take on your site, such as visiting a certain page or submitting a specific form. Goal reports vary but can help you track your website performance against business objectives such as lead generation, online sales and increased brand exposure.",
-        "ManageGoalsSubcategoryHelp2": "Learn more in our Goals guide here."
+        "ManageGoalsSubcategoryHelp2": "Learn more in our Goals guide here.",
+        "ColumnRevenueAttributed": "Revenue",
+        "ColumnRevenueAttributedDocumentation": "The share of all revenue for %s where this page was viewed before conversion.",
+        "ColumnConversionsEntry": "Conversions",
+        "ColumnConversionsEntryDocumentation": "The total number of goal conversions where this page was the entry page.",
+        "ColumnConversionEntryRate": "%s Conversion Rate ",
+        "ColumnConversionEntryRateDocumentation": "The percent of entrances that were converted for %s.",
+        "ColumnRevenueEntry": "Revenue",
+        "ColumnRevenueEntryDocumentation": "The share of all revenue for %s where this page was the entry pag.e"
     }
 }

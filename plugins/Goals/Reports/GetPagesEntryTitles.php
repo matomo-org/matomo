@@ -24,7 +24,7 @@ class GetPagesEntryTitles extends BasePages
         $this->name = Piwik::translate('Goals_EntryPagesTitles');
         $this->documentation = Piwik::translate('Goals_EntryPagesReportDocumentation');
         $this->dimension = new EntryPageUrl();
-        $this->metrics = array( 'nb_conversions', 'nb_visits_converted', 'revenue', 'entry_nb_visits');
+        $this->metrics = array( 'nb_conversions_entry', 'nb_visits_converted', 'revenue_entry', 'entry_nb_visits');
         $this->order = 4;
     }
 

@@ -19,11 +19,8 @@ class GoalsEntryPages extends Goals
 
     public function beforeRender()
     {
-
         $this->removeExcludedColumns();
-
         $this->config->metrics_documentation['entry_nb_visits'] = Piwik::translate('General_ColumnEntrancesDocumentation');
-
         parent::beforeRender();
     }
 
@@ -35,7 +32,7 @@ class GoalsEntryPages extends Goals
         $this->config->columns_to_display = array('label', 'entry_nb_visits');
 
         foreach ($allGoals as $goal) {
-            $column        = "goal_{$goal['idgoal']}_nb_conversion_entry_rate";
+            $column        = "goal_{$goal['idgoal']}_nb_conversions_entry_rate";
             $this->config->columns_to_display[]  = $column;
         }
 
@@ -51,16 +48,16 @@ class GoalsEntryPages extends Goals
             $this->requestConfig->filter_sort_column = 'entry_nb_visits';
         } else {
             // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-            $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions';
+            $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_entry';
         }
         $this->requestConfig->filter_sort_order  = 'desc';
 
         $this->config->columns_to_display = array('label', 'entry_nb_visits');
 
         $goalColumnTemplates = array(
-            'goal_%s_nb_conversions',
-            'goal_%s_nb_conversion_entry_rate',
-            'goal_%s_revenue',
+            'goal_%s_nb_conversions_entry',
+            'goal_%s_nb_conversions_entry_rate',
+            'goal_%s_revenue_entry',
             'goal_%s_revenue_per_entry',
         );
 

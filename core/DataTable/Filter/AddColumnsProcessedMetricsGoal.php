@@ -14,14 +14,17 @@ use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\AverageOrderRevenue;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate;
-use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionEntryRate;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionPageRate;
-use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionsFloat;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionEntryRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionsAttrib;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionsEntry;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Conversions;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ItemsCount;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Revenue;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit as GoalSpecificRevenuePerVisit;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerEntry as GoalSpecificRevenuePerEntry;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenueAttrib;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenueEntry;
 use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
 
 /**
@@ -136,11 +139,14 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                     continue;
                 }
 
-                $extraProcessedMetrics[] = new ConversionsFloat($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
                 $extraProcessedMetrics[] = new Conversions($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
+                $extraProcessedMetrics[] = new ConversionsAttrib($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
+                $extraProcessedMetrics[] = new ConversionsEntry($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
                 $extraProcessedMetrics[] = new GoalSpecificRevenuePerVisit($idSite, $idGoal); // PerGoal\Revenue
-                $extraProcessedMetrics[] = new GoalSpecificRevenuePerEntry($idSite, $idGoal); // PerGoal\Revenue
+                $extraProcessedMetrics[] = new GoalSpecificRevenuePerEntry($idSite, $idGoal); // PerGoal\Revenue entries
                 $extraProcessedMetrics[] = new Revenue($idSite, $idGoal); // PerGoal\Revenue
+                $extraProcessedMetrics[] = new RevenueAttrib($idSite, $idGoal); // PerGoal\Revenue attrib
+                $extraProcessedMetrics[] = new RevenueEntry($idSite, $idGoal); // PerGoal\Revenue entrances
                 $extraProcessedMetrics[] = new ConversionEntryRate($idSite, $idGoal); // PerGoal\ConversionRate for entrances
                 $extraProcessedMetrics[] = new ConversionPageRate($idSite, $idGoal); // PerGoal\ConversionRate for page uniq views
 

@@ -24,7 +24,6 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
-use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionEntryRate;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -805,8 +804,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getPagesUrl($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        $dataTable = $this->getPageGoalDataTable(
-            Archiver::PAGE_CONVERSIONS_URL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+        Piwik::checkUserHasViewAccess($idSite);
+        $dataTable = Archive::createDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment);
         $this->applyPagesFilters($dataTable, $idGoal);
 
         return $dataTable;
@@ -827,9 +826,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getPagesTitles($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        $dataTable = $this->getPageGoalDataTable(
-            Archiver::PAGE_CONVERSIONS_TITLES_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
-        return $this->applyPagesFilters($dataTable, $idGoal);
+        Piwik::checkUserHasViewAccess($idSite);
+        $dataTable = Archive::createDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment);
+        $this->applyPagesFilters($dataTable, $idGoal);
+
+        return $dataTable;
     }
 
     /**
@@ -847,9 +848,6 @@ class API extends \Piwik\Plugin\API
             $dataTable->queueFilter('ReplaceColumnNames');
             $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns');
             $colsToRemove = ['idaction', 'type', 'nb_conversions', 'revenue', 'nb_visits'];
-            if ($idGoal) {
-                $colsToRemove[] = 'goal_'.$idGoal.'_nb_conversion_page_rate';
-            }
             $dataTable->queueFilter('ColumnDelete', array($colsToRemove));
             $nestedColsToRemove = ['nb_conversions', 'nb_visits_converted', 'nb_conv_pages_before', 'nb_conversions_page_uniq'];
             $dataTable->queueFilter('ColumnDelete', array($nestedColsToRemove, [], false, true));
@@ -873,9 +871,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getPagesEntry($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        $dataTable = $this->getPageGoalDataTable(
-            Archiver::PAGE_CONVERSIONS_ENTRY_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
-        return $this->applyPagesEntryFilters($dataTable);
+        Piwik::checkUserHasViewAccess($idSite);
+        $dataTable = Archive::createDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment);
+        $this->applyPagesEntryFilters($dataTable);
+
+        return $dataTable;
     }
 
     /**
@@ -893,9 +893,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getPagesEntryTitles($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        $dataTable = $this->getPageGoalDataTable(
-            Archiver::PAGE_CONVERSIONS_ENTRY_TITLES_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
-        return $this->applyPagesEntryFilters($dataTable);
+        Piwik::checkUserHasViewAccess($idSite);
+        $dataTable = Archive::createDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment);
+        $this->applyPagesEntryFilters($dataTable);
+
+        return $dataTable;
     }
 
     /**

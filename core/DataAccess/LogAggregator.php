@@ -1101,15 +1101,15 @@ class LogAggregator
     }
 
     /**
-     * Similar to queryConversionsByDimension and will return data in the same
-     * format, but takes into account pageviews leading up to a conversion, not
-     * just the final page that triggered the conversion
+     * Similar to queryConversionsByDimension and will return data in the same format, but takes into account pageviews
+     * leading up to a conversion, not just the final page that triggered the conversion
      *
      * @param string $linkField
+     * @param int $rankingQueryLimit
      *
      * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByPageView(string $linkField)
+    public function queryConversionsByPageView(string $linkField, $rankingQueryLimit = 0)
     {
         $dbSettings = new \Piwik\Db\Settings();
         $tablePrefix = $dbSettings->getTablePrefix();
@@ -1132,6 +1132,7 @@ class LogAggregator
                 array(
                     "log_conversion.idgoal AS idgoal",
                     "log_link_visit_action.".$linkField." AS idaction",
+                    "log_action.type",
                     "count(*) AS `10`",
                     "count(distinct log_conversion.idvisit) AS `3`",
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), 2),
@@ -1141,7 +1142,8 @@ class LogAggregator
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), 7),
                     "SUM(log_conversion.items) AS `8`",
                     $subQuery,
-                    "1 AS `12`"
+                    "1 AS `12`",
+                    "count(*) AS `1`",
                 )
             ),
             // FROM...
@@ -1182,11 +1184,12 @@ class LogAggregator
     /**
      * Query conversions by entry page
      *
-     * @param string $matchField
+     * @param string $linkField
+     * @param int $rankingQueryLimit
      *
      * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByEntryPageView(string $matchField)
+    public function queryConversionsByEntryPageView(string $linkField, int $rankingQueryLimit = 0)
     {
         $tableName  = self::LOG_CONVERSION_TABLE;
 
@@ -1194,15 +1197,17 @@ class LogAggregator
                 ', ',
                 array(
                     "log_conversion.idgoal AS idgoal",
-                    "log_visit.".$matchField." AS idaction",
+                    "log_visit.".$linkField." AS idaction",
+                    "log_action.type",
                     "count(*) AS `1`",
                     "count(distinct log_conversion.idvisit) AS `3`",
-                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), 2),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), 17),
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'), 4),
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_tax)'), 5),
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), 6),
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), 7),
                     "SUM(log_conversion.items) AS `8`",
+                    "count(*) AS `16`",
                 )
             );
 
@@ -1211,12 +1216,16 @@ class LogAggregator
                 array(
                     "table"  => "log_visit",
                     "joinOn" => "log_visit.idvisit = log_conversion.idvisit"
+                ),
+                array(
+                    "table" => "log_action",
+                    "joinOn" => "log_action.idaction = log_visit.".$linkField
                 )
         );
 
-        $where   = $matchField.' IS NOT NULL AND log_conversion.idgoal > 0';
+        $where   = $linkField.' IS NOT NULL AND log_conversion.idgoal > 0';
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
-        $groupBy = 'log_visit.'.$matchField;
+        $groupBy = 'log_visit.'.$linkField;
         $orderBy = false;
 
         $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);

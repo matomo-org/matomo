@@ -8,12 +8,10 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Plugins\Goals\Goals;
-use Piwik\Tracker\GoalManager;
 
 /**
  * The conversion rate for a specific goal. Calculated as:
@@ -27,17 +25,17 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return Goals::makeGoalColumn($this->idGoal, 'nb_conversion_entry_rate', false);
+        return Goals::makeGoalColumn($this->idGoal, 'nb_conversions_entry_rate', false);
     }
 
     public function getTranslatedName()
     {
-        return Piwik::translate('Goals_ConversionRate', $this->getGoalName());
+        return Piwik::translate('Goals_ColumnConversionEntryRate', $this->getGoalName());
     }
 
     public function getDocumentation()
     {
-        return Piwik::translate('Goals_ColumnConversionRateDocumentation', $this->getGoalNameForDocs());
+        return Piwik::translate('Goals_ColumnConversionEntryRateDocumentation', $this->getGoalNameForDocs());
     }
 
     public function getDependentMetrics()
@@ -52,13 +50,6 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
-
-        $goalMetrics = $this->getGoalMetrics($row);
-
-        $nbVisits = $this->getMetric($row, 'entry_nb_visits');
-        $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
-
-        return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 1);
+        $this->getMetric($row, 'nb_conversions_entry_rate');
     }
 }
