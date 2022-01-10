@@ -76,7 +76,7 @@ class CustomDimensions extends Plugin
     public function registerEvents()
     {
         if (!$this->isInstalled()) {
-            return null;
+            return array();
         }
 
         return array(
