@@ -94,11 +94,11 @@ class MatomoUrl {
     urlParams: QueryParameters|string = {},
   ) {
     const paramsObj = typeof params !== 'string'
-      ? params
+      ? params as QueryParameters
       : broadcast.getValuesFromUrl(`?${params}`, true);
 
     const urlParamsObj = typeof params !== 'string'
-      ? urlParams
+      ? urlParams as QueryParameters
       : broadcast.getValuesFromUrl(`?${urlParams}`, true);
 
     return {
