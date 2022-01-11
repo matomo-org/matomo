@@ -152,11 +152,4 @@ class Subcategory
     {
         return null;
     }
-    public function getHelpWithTracking()
-    {
-        $helpText =  $this->getHelp();
-        preg_match('/"https:\/\/matomo.org(.*?)"/',$helpText,$matches);
-
-        return $matches[0];
-    }
 }

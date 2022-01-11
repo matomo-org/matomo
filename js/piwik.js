@@ -7122,7 +7122,7 @@ if (typeof window.Matomo !== 'object') {
                 }
             }
 
-            // replace initialization array with proxy object
+            // replace initcore/Category/Subcategory.phpialization array with proxy object
             _paq = new TrackerProxy();
 
             Matomo.trigger('TrackerAdded', [tracker]);

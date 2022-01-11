@@ -899,7 +899,7 @@ class Piwik
         preg_match('/"https:\/\/matomo.org(.*?)"/', $helpText, $matches);
         if (!empty($matches)) {
             $replace = substr_replace($matches[0], "",
-                -1) . 'mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_medium=cpc"';
+                -1) . '?mtm_campaign=App_Help&mtm_source=Matomo_App"';
             return preg_replace('/"https:\/\/matomo.org(.*?)"/', $replace, $helpText);
         } else {
             return $helpText;
