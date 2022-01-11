@@ -147,10 +147,16 @@ import ReportingMenuStoreInstance from './ReportingMenu.store';
 import Matomo from '../Matomo/Matomo';
 import translate from '../translate';
 import WidgetsStoreInstance from '../Widget/Widgets.store';
-import Category from './Category';
-import Subcategory from './Subcategory';
+import { Category, CategoryContainer } from './Category';
+import { Subcategory, SubcategoryContainer } from './Subcategory';
 
 const REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
+
+interface ReportingMenuState {
+  showSubcategoryHelpOnLoad: { category: Category, subcategory: Subcategory } | null;
+  initialLoad: boolean | null;
+  helpShownCategory: { category: string, subcategory: string } | null;
+}
 
 export default defineComponent({
   components: {
@@ -160,7 +166,7 @@ export default defineComponent({
     SideNav,
   },
   props: {},
-  data() {
+  data(): ReportingMenuState {
     return {
       showSubcategoryHelpOnLoad: null,
       initialLoad: true,
@@ -194,7 +200,7 @@ export default defineComponent({
     ReportingMenuStoreInstance.fetchMenuItems().then((menu) => {
       if (!MatomoUrl.parsed.value.subcategory) {
         const categoryToLoad = menu[0];
-        const subcategoryToLoad = categoryToLoad.subcategories[0];
+        const subcategoryToLoad = (categoryToLoad as CategoryContainer).subcategories[0];
 
         // load first, initial page if no subcategory is present
         ReportingMenuStoreInstance.enterSubcategory(categoryToLoad, subcategoryToLoad);
@@ -203,7 +209,11 @@ export default defineComponent({
     });
 
     watch(() => MatomoUrl.parsed.value, (query) => {
-      const found = ReportingMenuStoreInstance.findSubcategory(query.category, query.subcategory);
+      const found = ReportingMenuStoreInstance.findSubcategory(
+        query.category as string,
+        query.subcategory as string,
+      );
+
       ReportingMenuStoreInstance.enterSubcategory(
         found.category,
         found.subcategory,
@@ -233,12 +243,13 @@ export default defineComponent({
 
     Matomo.on('updateReportingMenu', () => {
       ReportingMenuStoreInstance.reloadMenuItems().then(() => {
-        const { category, subcategory } = MatomoUrl.parsed.value;
+        const category = MatomoUrl.parsed.value.category as string;
+        const subcategory = MatomoUrl.parsed.value.subcategory as string;
 
         // we need to make sure to select same categories again
         if (category && subcategory) {
           const found = ReportingMenuStoreInstance.findSubcategory(category, subcategory);
-          if (found) {
+          if (found.category) {
             ReportingMenuStoreInstance.enterSubcategory(
               found.category,
               found.subcategory,
@@ -270,14 +281,17 @@ export default defineComponent({
       NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
 
       const isActive = ReportingMenuStoreInstance.toggleCategory(category);
-      if (isActive && category.subcategories && category.subcategories.length === 1) {
+      if (isActive
+        && (category as SubcategoryContainer).subcategories
+        && (category as SubcategoryContainer).subcategories.length === 1
+      ) {
         this.helpShownCategory = null;
 
-        const subcategory = category.subcategories[0];
+        const subcategory = (category as SubcategoryContainer).subcategories[0];
         this.propagateUrlChange(category, subcategory);
       }
     },
-    loadSubcategory(category: Category, subcategory: Subcategory, event: MouseEvent) {
+    loadSubcategory(category: Category, subcategory: Subcategory, event?: MouseEvent) {
       if (event
         && (event.shiftKey || event.ctrlKey || event.metaKey)
       ) {

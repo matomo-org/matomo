@@ -21,4 +21,4 @@ function siteSelectorModelAdapter() {
   };
 }
 
-angular.module('piwikApp.service').factory('siteSelectorModel', siteSelectorModelAdapter);
+window.angular.module('piwikApp.service').factory('siteSelectorModel', siteSelectorModelAdapter);

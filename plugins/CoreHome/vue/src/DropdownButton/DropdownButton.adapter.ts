@@ -17,6 +17,4 @@ export default function piwikDropdownButton(): IDirective {
   };
 }
 
-piwikDropdownButton.$inject = [];
-
-angular.module('piwikApp').directive('dropdownButton', piwikDropdownButton);
+window.angular.module('piwikApp').directive('dropdownButton', piwikDropdownButton);

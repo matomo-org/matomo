@@ -127,27 +127,30 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   watch: {
-    modelValue(newValue) {
+    modelValue(newValue?: Record<string, unknown>[]) {
       this.checkEmptyModelValue(newValue);
     },
   },
   mounted() {
-    this.checkEmptyModelValue(this.modelValue);
+    this.checkEmptyModelValue(this.modelValue as Record<string, unknown>[]);
   },
   methods: {
-    checkEmptyModelValue(newValue) {
+    checkEmptyModelValue(newValue?: Record<string, unknown>[]) {
       // make sure there is always an empty new value
-      if (!newValue || !newValue.length || this.isEmptyValue(newValue.slice(-1)[0])) {
+      if (!newValue
+        || !newValue.length
+        || this.isEmptyValue(newValue.slice(-1)[0])
+      ) {
         this.$emit('update:modelValue', [...(newValue || []), this.makeEmptyValue()]);
       }
     },
-    onEntryChange(index: number, key: string, newValue: unknown) {
-      const newWholeValue = [...this.modelValue];
+    onEntryChange(index: number, key: string, newValue: Record<string, unknown>) {
+      const newWholeValue = [...(this.modelValue as Record<string, unknown>[])];
       newWholeValue[index] = { ...newWholeValue[index], [key]: newValue };
       this.$emit('update:modelValue', newWholeValue);
     },
     removeEntry(index: number) {
-      if (index > -1) {
+      if (index > -1 && this.modelValue) {
         const newValue = this.modelValue.filter((x, i) => i !== index);
         this.$emit('update:modelValue', newValue);
       }
@@ -156,23 +159,23 @@ export default defineComponent({
       const { fieldCount } = this;
 
       if (fieldCount === 4) {
-        if (!value[this.field1.key]
-          && !value[this.field2.key]
-          && !value[this.field3.key]
-          && !value[this.field4.key]
+        if (!value[this.field1!.key]
+          && !value[this.field2!.key]
+          && !value[this.field3!.key]
+          && !value[this.field4!.key]
         ) {
           return false;
         }
       } else if (fieldCount === 3) {
-        if (!value[this.field1.key] && !value[this.field2.key] && !value[this.field3.key]) {
+        if (!value[this.field1!.key] && !value[this.field2!.key] && !value[this.field3!.key]) {
           return false;
         }
       } else if (fieldCount === 2) {
-        if (!value[this.field1.key] && !value[this.field2.key]) {
+        if (!value[this.field1!.key] && !value[this.field2!.key]) {
           return false;
         }
       } else if (fieldCount === 1) {
-        if (!value[this.field1.key]) {
+        if (!value[this.field1!.key]) {
           return false;
         }
       }

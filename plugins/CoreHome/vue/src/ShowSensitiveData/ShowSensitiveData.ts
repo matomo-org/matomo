@@ -10,7 +10,7 @@ import translate from '../translate';
 
 interface ShowSensitiveDataArgs {
   sensitiveData: string;
-  showCharacters: number;
+  showCharacters?: number;
   clickElementSelector: string|HTMLElement|JQuery;
 }
 

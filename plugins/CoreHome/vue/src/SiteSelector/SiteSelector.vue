@@ -120,7 +120,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import AllSitesLink from './AllSitesLink.vue';
@@ -129,25 +129,22 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
 import SitesStore, { Site } from './SitesStore';
 import debounce from '../debounce';
-
-interface SiteRef {
-  id: string|number;
-  name: string;
-}
+import SiteRef from './SiteRef';
 
 interface SiteSelectorState {
   searchTerm: string;
   showSitesList: boolean;
+  activeSiteId: string;
   isLoading: boolean;
-  sites: Site[];
-  autocompleteMinSites: null|number;
+  sites: DeepReadonly<Site[]>;
+  autocompleteMinSites: number;
 }
 
 export default defineComponent({
   props: {
     modelValue: {
-      Object,
-      default: (props) => {
+      type: Object,
+      default: (props: { modelValue?: SiteRef }): SiteRef|undefined => {
         if (props.modelValue) {
           return props.modelValue;
         }
@@ -204,12 +201,15 @@ export default defineComponent({
   data(): SiteSelectorState {
     return {
       searchTerm: '',
-      activeSiteId: Matomo.idSite,
+      activeSiteId: `${Matomo.idSite}`,
       showSitesList: false,
       isLoading: false,
       sites: [],
       autocompleteMinSites: parseInt(Matomo.config.autocomplete_min_sites as string, 10),
     };
+  },
+  created() {
+    this.searchSite = debounce(this.searchSite);
   },
   mounted() {
     window.initTopControls();
@@ -221,7 +221,7 @@ export default defineComponent({
     });
 
     const shortcutTitle = translate('CoreHome_ShortcutWebsiteSelector');
-    Matomo.helper.registerShortcut('w', shortcutTitle, (event) => {
+    Matomo.helper.registerShortcut('w', shortcutTitle, (event: KeyboardEvent) => {
       if (event.altKey) {
         return;
       }
@@ -230,8 +230,12 @@ export default defineComponent({
       } else {
         event.returnValue = false; // IE
       }
-      this.$refs.selectorLink.click();
-      this.$refs.selectorLink.focus();
+
+      const selectorLink = this.$refs.selectorLink as HTMLElement;
+      if (selectorLink) {
+        selectorLink.click();
+        selectorLink.focus();
+      }
     });
   },
   computed: {
@@ -262,9 +266,6 @@ export default defineComponent({
       return `?${newQuery}`;
     },
   },
-  created() {
-    this.searchSite = debounce(this.searchSite.bind(this));
-  },
   methods: {
     onSearchTermChanged() {
       if (!this.searchTerm) {
@@ -276,10 +277,10 @@ export default defineComponent({
       }
     },
     onAllSitesClick(event: MouseEvent) {
-      this.switchSite({ idsite: 'all', name: this.allSitesText }, event);
+      this.switchSite({ idsite: 'all', name: this.$props.allSitesText }, event);
       this.showSitesList = false;
     },
-    switchSite(site: SiteRef, event: KeyboardEvent|MouseEvent) {
+    switchSite(site: Site, event: KeyboardEvent|MouseEvent) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
       const controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
 
