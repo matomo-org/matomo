@@ -30,7 +30,7 @@ class CalculateConversionPageRate extends BaseFilter
      */
     public function filter($table)
     {
-        $formatter = new Formatter();
+
         $goalTotals = [];
 
         // Get all goal ids for the table

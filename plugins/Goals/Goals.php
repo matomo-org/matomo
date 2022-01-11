@@ -254,8 +254,7 @@ class Goals extends \Piwik\Plugin
         $goalMetrics = array(
             'nb_conversions'  => Piwik::translate('Goals_ColumnConversions'),
             'conversion_rate' => Piwik::translate('General_ColumnConversionRate'),
-            'revenue'         => Piwik::translate('General_ColumnRevenue'),
-            'revenue_attrib'  => Piwik::translate('General_ColumnRevenue')
+            'revenue'         => Piwik::translate('General_ColumnRevenue')
         );
 
         // Entry type goals, not per visit

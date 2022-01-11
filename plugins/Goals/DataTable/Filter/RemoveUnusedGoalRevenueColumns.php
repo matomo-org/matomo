@@ -20,8 +20,11 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
      */
     public function filter($table)
     {
-
         $goals = $this->getGoalsInTable($table);
+
+        if (count($goals) === 0) {
+            return;
+        }
 
         $columnNames = [
                 'revenue',
@@ -82,13 +85,12 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
     {
         $result = array();
         foreach ($table->getRows() as $row) {
-            $goals = Metric::getMetric($row, 'goals');
+            $goals = $row->getMetadata('goals');
             if (!$goals) {
                 continue;
             }
 
-            foreach ($goals as $goalId => $goalMetrics) {
-                $goalId = str_replace("idgoal=", "", $goalId);
+            foreach ($goals as $goalId) {
                 $result[] = $goalId;
             }
         }

@@ -117,6 +117,7 @@ class Actions extends BaseFilter
 
                 $row->deleteMetadata('folder_url_start');
                 $row->deleteMetadata('page_title_path');
+                $row->deleteMetadata('goals');
             }
         });
 
