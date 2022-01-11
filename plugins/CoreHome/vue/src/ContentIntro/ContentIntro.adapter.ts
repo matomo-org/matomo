@@ -17,6 +17,4 @@ export default function piwikContentIntro(): IDirective {
   };
 }
 
-piwikContentIntro.$inject = [];
-
-angular.module('piwikApp').directive('piwikContentIntro', piwikContentIntro);
+window.angular.module('piwikApp').directive('piwikContentIntro', piwikContentIntro);

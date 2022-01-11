@@ -73,9 +73,23 @@ import {
 
 const { $ } = window;
 
+interface FeedbackQuestionState {
+  questionText: string;
+  question: number;
+  hide: null|boolean;
+  feedbackDone: boolean;
+  expanded: boolean;
+  showFeedbackForm: boolean;
+  feedbackMessage: string|null;
+  errorMessage: string|null;
+}
+
+interface SendFeedbackForSurveyResponse {
+  value: string;
+}
+
 const cookieName = 'feedback-question';
 export default defineComponent({
-
   props: {
     showQuestionBanner: String,
   },
@@ -90,7 +104,7 @@ export default defineComponent({
       return !!this.hide;
     },
   },
-  data() {
+  data(): FeedbackQuestionState {
     return {
       questionText: '',
       question: 0,
@@ -124,14 +138,14 @@ export default defineComponent({
         this.question = this.getRandomIntBetween(0, 4);
       } else {
         // eslint-disable-next-line radix
-        this.question = parseInt(getCookie(cookieName));
+        this.question = parseInt(getCookie(cookieName)!);
       }
 
       const nextQuestion = (this.question + 1) % 4;
       const sevenDays = 7 * 60 * 60 * 24 * 1000;
-      setCookie(cookieName, nextQuestion, sevenDays);
+      setCookie(cookieName, `${nextQuestion}`, sevenDays);
     },
-    getRandomIntBetween(min, max) {
+    getRandomIntBetween(min: number, max: number) {
       // eslint-disable-next-line no-param-reassign
       min = Math.ceil(min);
       // eslint-disable-next-line no-param-reassign
@@ -154,7 +168,7 @@ export default defineComponent({
         method: 'Feedback.sendFeedbackForSurvey',
         question: this.questionText,
         message: this.feedbackMessage,
-      }).then((res) => {
+      }).then((res: SendFeedbackForSurveyResponse) => {
         if (res.value === 'success') {
           $('.modal').modal('close');
           this.feedbackDone = true;

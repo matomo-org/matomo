@@ -56,6 +56,7 @@ import './ContentTable/ContentTable.adapter';
 import './AjaxForm/AjaxForm.adapter';
 
 export { default as createVueApp } from './createVueApp';
+export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export {
@@ -92,6 +93,7 @@ export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vu
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
 export * from './Notification';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
+export { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';

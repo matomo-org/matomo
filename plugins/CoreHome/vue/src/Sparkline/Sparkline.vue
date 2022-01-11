@@ -57,7 +57,7 @@ export default defineComponent({
       const urlParams = helper.mixinDefaultGetParams({ ...defaultParams, ...params });
 
       // Append the token_auth to the URL if it was set (eg. embed dashboard)
-      const { token_auth } = MatomoUrl.parsed.value;
+      const token_auth = MatomoUrl.parsed.value.token_auth as string;
       if (token_auth && token_auth.length && Matomo.shouldPropagateTokenAuth) {
         urlParams.token_auth = token_auth;
       }
@@ -70,9 +70,9 @@ export default defineComponent({
       }
 
       const dateRange = RangePeriod.getLastNRange(
-        Matomo.period,
+        Matomo.period!,
         30,
-        Matomo.currentDateString,
+        Matomo.currentDateString!,
       ).getDateRange();
 
       const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);

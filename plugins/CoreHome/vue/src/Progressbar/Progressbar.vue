@@ -25,7 +25,10 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    progress: Number,
+    progress: {
+      type: Number,
+      required: true,
+    },
     label: String,
   },
   computed: {

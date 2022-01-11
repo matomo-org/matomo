@@ -28,8 +28,14 @@ let conditionScope: IScope;
 
 export default defineComponent({
   props: {
-    pluginName: String,
-    setting: Object,
+    pluginName: {
+      type: String,
+      required: true,
+    },
+    setting: {
+      type: Object,
+      required: true,
+    },
     modelValue: null,
     settingValues: Object,
   },
@@ -39,7 +45,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   computed: {
     conditionFunction() {
-      const { condition } = this.setting;
+      const condition = this.setting.condition as string;
       if (!condition) {
         return undefined;
       }
@@ -54,8 +60,8 @@ export default defineComponent({
       };
     },
     conditionValues() {
-      const values = {};
-      Object.entries(this.settingValues).forEach(([key, value]) => {
+      const values: Record<string, unknown> = {};
+      Object.entries(this.settingValues as Record<string, unknown>).forEach(([key, value]) => {
         const [pluginName, settingName] = key.split('.');
         if (pluginName !== this.pluginName) {
           return;
