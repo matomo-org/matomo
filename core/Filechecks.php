@@ -107,9 +107,13 @@ class Filechecks
     {
         $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
         $message = '';
-        $message .= "<br /><code>" . self::getCommandToChangeOwnerOfPiwikFiles() . "</code><br />";
+        if (!SettingsServer::isWindows()) {
+            $message .= "<br /><code>" . self::getCommandToChangeOwnerOfPiwikFiles() . "</code><br />";
+        }
         $message .= self::getMakeWritableCommand($realpath);
-        $message .= '<code>chmod 755 '.$realpath.'/console</code><br />';
+        if (!SettingsServer::isWindows()) {
+            $message .= '<code>chmod 755 ' . $realpath . '/console</code><br />';
+        }
         $message .= 'After you execute these commands (or change permissions via your FTP software), refresh the page and you should be able to use the "Automatic Update" feature.';
         return $message;
     }
