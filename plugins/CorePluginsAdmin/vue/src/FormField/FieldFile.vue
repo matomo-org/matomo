@@ -18,11 +18,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  watch,
-  ref,
-} from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {

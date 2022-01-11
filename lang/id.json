@@ -169,6 +169,7 @@
         "EncryptedSmtpTransport": "Masukkan penyandian lapisan transpor yang dibutuhkan peladen SMTP.",
         "Error": "Galat",
         "ErrorRequest": "Ups.. terdapat kesalahan selama melakukan permintaan. Mungkin peladen mendapat masalah sementara, atau mungkin Anda melakukan permintaan dengan data yang terlalu besar. Silakan coba kembali. Bila galat ini terjadi berulang, silakan %1$shubungi pengelola Matomo Anda%2$s untuk bantuan.",
+        "ErrorRequestFaqLink": "Lihat cara untuk menyelesaikan masalah ini di FAQ.",
         "Errors": "Kesalahan",
         "EvolutionOverPeriod": "Perkembangan selama periode",
         "EvolutionSummaryGeneric": "%1$s di %2$s dibandingkan dengan %3$s di %4$s. Perubahan: %5$s",

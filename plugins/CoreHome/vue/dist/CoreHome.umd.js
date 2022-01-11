@@ -1157,7 +1157,7 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function updateUrl(params) {
       var hashParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
-      var modifiedHashParams = this.getFinalHashParams(hashParams);
+      var modifiedHashParams = Object.keys(hashParams).length ? this.getFinalHashParams(hashParams, params) : {};
       var serializedHashParams = this.stringify(modifiedHashParams);
       var url = "?".concat(serializedParams);
 
@@ -1170,12 +1170,15 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
   }, {
     key: "getFinalHashParams",
     value: function getFinalHashParams(params) {
+      var urlParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var paramsObj = typeof params !== 'string' ? params : MatomoUrl_broadcast.getValuesFromUrl("?".concat(params), true);
+      var urlParamsObj = typeof params !== 'string' ? urlParams : MatomoUrl_broadcast.getValuesFromUrl("?".concat(urlParams), true);
       return _objectSpread({
         // these params must always be present in the hash
-        period: this.parsed.value.period,
-        date: this.parsed.value.date,
-        segment: this.parsed.value.segment
-      }, typeof params !== 'string' ? params : MatomoUrl_broadcast.getValuesFromUrl("?".concat(params), true));
+        period: urlParamsObj.period || this.parsed.value.period,
+        date: urlParamsObj.date || this.parsed.value.date,
+        segment: urlParamsObj.segment || this.parsed.value.segment
+      }, paramsObj);
     } // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
 
   }, {
@@ -2200,11 +2203,13 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
     var isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
 
     if (isSubmenu) {
+      var _binding$value;
+
       options = {
         hover: true
       };
       $(element).addClass('submenu');
-      $(binding.value.activates).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
+      $(((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.activates) || $(element).data('target')).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
 
       $(element).parents('.dropdown-content').addClass('submenu-container');
     }
@@ -4206,7 +4211,12 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     value: function loadComparisonsDisabledFor() {
       var _this3 = this;
 
-      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
+      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module; // check if body id #installation exist
+
+      if (window.piwik.installation) {
+        this.privateState.comparisonsDisabledFor = [];
+        return;
+      }
 
       if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
         this.privateState.comparisonsDisabledFor = [];
@@ -11596,9 +11606,18 @@ Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_086b
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 /* harmony default export */ var ContentIntro = ({
   mounted: function mounted(el) {
     el.classList.add('piwik-content-intro');
+  },
+  updated: function updated(el) {
+    // classes can be overwritten when elements bind to :class, nextTick + using
+    // updated avoids this problem (and doing in both mounted and updated avoids a temporary
+    // state where the classes aren't added)
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+      el.classList.add('piwik-content-intro');
+    });
   }
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentIntro/ContentIntro.adapter.ts
@@ -11625,9 +11644,18 @@ window.angular.module('piwikApp').directive('piwikContentIntro', piwikContentInt
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 /* harmony default export */ var ContentTable = ({
   mounted: function mounted(el) {
     el.classList.add('card', 'card-table', 'entityTable');
+  },
+  updated: function updated(el) {
+    // classes can be overwritten when elements bind to :class, nextTick + using
+    // updated avoids this problem (and doing in both mounted and updated avoids a temporary
+    // state where the classes aren't added)
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+      el.classList.add('card', 'card-table', 'entityTable');
+    });
   }
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentTable/ContentTable.adapter.ts

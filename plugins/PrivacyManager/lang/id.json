@@ -1,19 +1,20 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpInlineHelp": "Anonimasi bita terakhir dari alamat IP pengunjung sesuai dengan peraturan privasi\/panduan setempat Anda.",
+        "AnonymizeData": "Anonimkan data",
+        "AnonymizeIpInlineHelp": "Anonimasi bita terakhir dari alamat IP pengunjung sesuai dengan peraturan privasi/panduan setempat Anda.",
         "AnonymizeIpMaskLengtDescription": "Pilih berapa banyak bita dari IP pengunjung harus ditutupi.",
         "AnonymizeIpMaskLength": "%1$s bita - misalnya %2$s",
         "ClickHereSettings": "Klik di sini untuk mengakses pengaturan %s.",
         "CurrentDBSize": "Ukuran basisdata saat ini",
         "DBPurged": "BD terbersihkan.",
         "DeleteDataInterval": "Hapus data lama setiap",
+        "DeleteDataSettings": "Hapus laporan dan catatan kunjungan lama",
         "DeleteLogDescription2": "Ketika Anda mengaktifkan catatan penghapusan otomatis, Anda harus memastikan bahwa semua laporan harian sebelumnya telah diproses, sehingga tidak ada data yang hilang.",
         "DeleteLogsOlderThan": "Hapus catatan yang lebih lama dari",
         "DeleteMaxRows": "Jumlah maksimum baris yang dihapus dalam sekali tindakan:",
         "DeleteMaxRowsNoLimit": "tak terbatas",
         "DeleteReportsConfirm": "Anda berkeinginan mengaktifkan penghapusan data laporan. Bila laporan lama dihapus, Anda harus memroses ulang laporan tersebut sebelum dapat ditampilkan. Apakah Anda yakin melakukan ini?",
         "DeleteReportsOlderThan": "Hapus laporan yang berumur lebih dari",
-        "DeleteDataSettings": "Hapus laporan dan catatan kunjungan lama",
         "DoNotTrack_Description": "Jangan-Lacak adalah teknologi dan usulan kebijakan yang memungkinkan pengguna untuk memilih tidak dilacak oleh situs yang tidak dikunjungi, termasuk situs layanan analisis, jaringan iklan, dan platform sosial.",
         "DoNotTrack_Disable": "Matikan dukungan Jangan-Lacak",
         "DoNotTrack_Enable": "Aktifkan dukungan Jangan-Lacak",
@@ -21,8 +22,11 @@
         "DoNotTrack_SupportDNTPreference": "Dukungan pengaturan Jangan-Lacak",
         "EstimatedDBSizeAfterPurge": "Perkiraan ukuran database setelah pembersihan",
         "EstimatedSpaceSaved": "Perkiraan penghematan kapasitas",
+        "GDPR": "GDPR",
+        "GdprManager": "Manajer GDPR",
         "GeolocationAnonymizeIpNote": "Catatan: Lokasi-geo akan memperkirakan hasil sama dengan 1 bita anonimasi. Dengan 2 bita atau lebih, Lokasi-geo akan tidak teliti.",
         "GetPurgeEstimate": "Dapatkan perkiraan perbersihan",
+        "ImprintUrl": "URL Cetak",
         "KeepBasicMetrics": "Biarkan metrik dasar (kunjungan, tampilan halaman, tinkat pentalan, konversi tujuan, konversi niaga-e, dll.)",
         "KeepReportSegments": "Untuk membiarkan data di atas, juga biarkan laporan terpecah",
         "LastDelete": "Penghapusan terakhir di",
@@ -37,6 +41,9 @@
         "SaveSettingsBeforePurge": "Anda melakukan perubahan pengaturan penghapusan. Harap menyimpan perubahan tersebut sebelum melakukan pembersihan.",
         "TeaserHeadline": "Pengaturan Privasi",
         "UseAnonymizeIp": "Anonimasi alamat IP Pengunjung",
-        "UseDeleteReports": "Hapus laporan lama dari basisdata"
+        "UseAnonymizeOrderId": "Anonimkan ID Pesanan",
+        "UseDeleteLog": "Secara teratur menghapus data mentah lama dari database",
+        "UseDeleteReports": "Hapus laporan lama dari basisdata",
+        "UsersOptOut": "Pengguna memilih keluar"
     }
 }

@@ -168,15 +168,17 @@ class Sparkline implements ViewInterface
     private function setSparklineColors($sparkline, $seriesIndex) {
         $colors = Common::getRequestVar('colors', false, 'json');
 
+        $defaultColors = array(
+            'backgroundColor' => '#ffffff',
+            'lineColor' => '#162C4A',
+            'minPointColor' => '#ff7f7f',
+            'maxPointColor' => '#75BF7C',
+            'lastPointColor' => '#55AAFF',
+            'fillColor' => '#ffffff'
+        );
+
         if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
-            $colors = array(
-                'backgroundColor' => '#ffffff',
-                'lineColor' => '#162C4A',
-                'minPointColor' => '#ff7f7f',
-                'maxPointColor' => '#75BF7C',
-                'lastPointColor' => '#55AAFF',
-                'fillColor' => '#ffffff'
-            );
+            $colors = $defaultColors;
         }
 
         if (strtolower($colors['backgroundColor']) !== '#ffffff') {
@@ -186,10 +188,10 @@ class Sparkline implements ViewInterface
         }
 
         if (is_array($colors['lineColor'])) {
-            $sparkline->setLineColorHex($colors['lineColor'][$seriesIndex], $seriesIndex);
+            $sparkline->setLineColorHex($colors['lineColor'][$seriesIndex] ?? $defaultColors['lineColor'], $seriesIndex);
 
             // set point colors to same as line colors so they can be better differentiated
-            $colors['minPointColor'] = $colors['maxPointColor'] = $colors['lastPointColor'] = $colors['lineColor'][$seriesIndex];
+            $colors['minPointColor'] = $colors['maxPointColor'] = $colors['lastPointColor'] = $colors['lineColor'][$seriesIndex] ?? $defaultColors['lineColor'];
         } else {
             $sparkline->setLineColorHex($colors['lineColor']);
         }
