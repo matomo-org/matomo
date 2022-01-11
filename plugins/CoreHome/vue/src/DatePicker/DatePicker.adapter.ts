@@ -9,7 +9,7 @@ import { ITimeoutService } from 'angular';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import DatePicker from './DatePicker.vue';
 
-export default createAngularJsAdapter({
+export default createAngularJsAdapter<[ITimeoutService]>({
   component: DatePicker,
   scope: {
     selectedDateStart: {
@@ -48,13 +48,13 @@ export default createAngularJsAdapter({
   },
   directiveName: 'piwikDatePicker',
   events: {
-    'cell-hover': (event, scope, element, attrs, $timeout: ITimeoutService) => {
+    'cell-hover': (event, vm, scope, element, attrs, controller, $timeout) => {
       $timeout(); // trigger new digest
     },
-    'cell-hover-leave': (event, scope, element, attrs, $timeout: ITimeoutService) => {
+    'cell-hover-leave': (event, vm, scope, element, attrs, controller, $timeout) => {
       $timeout(); // trigger new digest
     },
-    'date-select': (event, scope, element, attrs, $timeout: ITimeoutService) => {
+    'date-select': (event, vm, scope, element, attrs, controller, $timeout) => {
       $timeout(); // trigger new digest
     },
   },

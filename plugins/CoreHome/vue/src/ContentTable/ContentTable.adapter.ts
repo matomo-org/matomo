@@ -17,6 +17,4 @@ export default function piwikContentTable(): IDirective {
   };
 }
 
-piwikContentTable.$inject = [];
-
-angular.module('piwikApp').directive('piwikContentTable', piwikContentTable);
+window.angular.module('piwikApp').directive('piwikContentTable', piwikContentTable);

@@ -5,8 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { IParseService } from 'angular';
-import { ComponentPublicInstance } from 'vue';
+import { IParseService, IScope } from 'angular';
 import MatomoDialog from './MatomoDialog.vue';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 
@@ -18,7 +17,7 @@ export default createAngularJsAdapter<[IParseService]>({
       default: false,
     },
     element: {
-      default: (scope, element) => element[0],
+      default: (scope: IScope, element: JQLite) => element[0],
     },
   },
   events: {
@@ -60,7 +59,7 @@ export default createAngularJsAdapter<[IParseService]>({
     vueRootPlaceholder.appendTo(element);
     return vueRootPlaceholder[0];
   },
-  postCreate: (vm: ComponentPublicInstance, scope, element, attrs) => {
+  postCreate: (vm, scope, element, attrs) => {
     scope.$watch(attrs.piwikDialog, (newValue: boolean, oldValue: boolean) => {
       if (oldValue !== newValue) {
         vm.modelValue = newValue || false;

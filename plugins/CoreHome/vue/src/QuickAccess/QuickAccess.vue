@@ -24,6 +24,7 @@
       tabindex="2"
       v-focus-if:[searchActive]="{}"
       :title="quickAccessTitle"
+      ref="input"
     />
     <div
       class="dropdown"
@@ -95,7 +96,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';
@@ -107,6 +108,7 @@ interface SubMenuItem {
   name: string;
   index: number;
   category: string;
+  menuIndex?: number;
 }
 
 interface MenuItem {
@@ -122,22 +124,23 @@ interface QuickAccessState {
   searchIndex: number;
 
   menuIndexCounter: number;
-  readonly topMenuItems: SubMenuItem[];
-  readonly leftMenuItems: SubMenuItem[];
-  readonly segmentItems: SubMenuItem[];
-  readonly hasSegmentSelector: boolean;
+  topMenuItems: SubMenuItem[]|null;
+  leftMenuItems: SubMenuItem[]|null;
+  segmentItems: SubMenuItem[]|null;
+  hasSegmentSelector: boolean;
 
-  sites: Site[];
+  sites: DeepReadonly<Site[]>;
   isLoading: boolean;
 }
 
 function isElementInViewport(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
+  const $window = window.$(window);
 
   return rect.top >= 0
     && rect.left >= 0
-    && rect.bottom <= window.$(window).height()
-    && rect.right <= window.$(window).width();
+    && rect.bottom <= $window.height()!
+    && rect.right <= $window.width()!;
 }
 
 function scrollFirstElementIntoView(element: HTMLElement) {
@@ -148,26 +151,33 @@ function scrollFirstElementIntoView(element: HTMLElement) {
 }
 
 export default defineComponent({
-  props: {
-  },
   directives: {
     FocusAnywhereButHere,
     FocusIf,
   },
   watch: {
-    searchActive(newValue) {
-      const classes = this.$refs.root.parentElement.classList;
+    searchActive(newValue: boolean) {
+      const root = this.$refs.root as HTMLElement;
+      if (!root || !root.parentElement) {
+        return;
+      }
+
+      const classes = root.parentElement.classList;
       classes.toggle('active', newValue);
       classes.toggle('expanded', newValue);
     },
   },
   mounted() {
+    const root = this.$refs.root as HTMLElement;
+
     // TODO: temporary, remove after angularjs is removed.
     // this is currently needed since angularjs will render a div, then vue will render a div
     // within it, but the top controls and CSS expect to have certain CSS classes in the root
     // element.
     // same applies to above watch for searchActive()
-    this.$refs.root.parentElement.classList.add('quick-access', 'piwikSelector');
+    if (root && root.parentElement) {
+      root.parentElement.classList.add('quick-access', 'piwikSelector');
+    }
 
     if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
       window.initTopControls();
@@ -180,7 +190,7 @@ export default defineComponent({
 
       event.preventDefault();
 
-      scrollFirstElementIntoView(this.$refs.root);
+      scrollFirstElementIntoView(this.$refs.root as HTMLElement);
 
       this.activateSearch();
     });
@@ -236,7 +246,7 @@ export default defineComponent({
   },
   emits: ['itemSelected', 'blur'],
   methods: {
-    onKeypress(event) {
+    onKeypress(event: KeyboardEvent) {
       const areSearchResultsDisplayed = this.searchTerm && this.searchActive;
       const isTabKey = event.which === 9;
       const isEscKey = event.which === 27;
@@ -291,7 +301,9 @@ export default defineComponent({
     deactivateSearch() {
       this.searchTerm = '';
       this.searchActive = false;
-      (this.$refs.root).querySelector('input').blur();
+      if (this.$refs.input) {
+        (this.$refs.input as HTMLElement).blur();
+      }
     },
     makeSureSelectedItemIsInViewport() {
       const element = this.getCurrentlySelectedElement();
@@ -300,12 +312,12 @@ export default defineComponent({
         scrollFirstElementIntoView(element);
       }
     },
-    getCurrentlySelectedElement() {
+    getCurrentlySelectedElement(): HTMLElement|undefined {
       const results = (this.$refs.root as HTMLElement).querySelectorAll('li.result');
       if (results && results.length && results.item(this.searchIndex)) {
-        return results.item(this.searchIndex);
+        return results.item(this.searchIndex) as HTMLElement;
       }
-      return null;
+      return undefined;
     },
     searchMenu(unprocessedSearchTerm: string) {
       const searchTerm = unprocessedSearchTerm.toLowerCase();
@@ -314,7 +326,7 @@ export default defineComponent({
       const menuItemsIndex: Record<string, number> = {};
       const menuItems: MenuItem[] = [];
 
-      const moveToCategory = (theSubmenuItem) => {
+      const moveToCategory = (theSubmenuItem: SubMenuItem) => {
         // force rerender of element to prevent weird side effects
         const submenuItem = { ...theSubmenuItem };
         // needed for proper highlighting with arrow keys
@@ -336,13 +348,15 @@ export default defineComponent({
       if (this.hasSitesSelector) {
         this.isLoading = true;
         SitesStore.searchSite(searchTerm).then((sites) => {
-          this.sites = sites;
+          if (sites) {
+            this.sites = sites;
+          }
         }).finally(() => {
           this.isLoading = false;
         });
       }
 
-      const menuItemMatches = (i) => i.name.toLowerCase().indexOf(searchTerm) !== -1
+      const menuItemMatches = (i: SubMenuItem) => i.name.toLowerCase().indexOf(searchTerm) !== -1
         || i.category.toLowerCase().indexOf(searchTerm) !== -1;
 
       // get the menu items on first search since this component can be mounted
@@ -376,7 +390,7 @@ export default defineComponent({
       SitesStore.loadSite(idSite);
     },
     selectMenuItem(index: number) {
-      const target: HTMLElement = document.querySelector(`[quick_access='${index}']`);
+      const target: HTMLElement|null = document.querySelector(`[quick_access='${index}']`);
       if (target) {
         this.deactivateSearch();
 
@@ -405,10 +419,10 @@ export default defineComponent({
 
       const topMenuItems: SubMenuItem[] = [];
       document.querySelectorAll('nav .sidenav li > a').forEach((element) => {
-        let text = element.textContent.trim();
+        let text = element.textContent?.trim();
 
         if (!text) {
-          text = element.getAttribute('title').trim(); // possibly a icon, use title instead
+          text = element.getAttribute('title')?.trim(); // possibly a icon, use title instead
         }
 
         if (text) {
@@ -423,8 +437,8 @@ export default defineComponent({
       const leftMenuItems: SubMenuItem[] = [];
 
       document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
-        let category = window.$(element).find('> .item');
-        category = category[0] ? category[0].innerText.trim() : '';
+        const categoryElement = window.$(element).find('> .item');
+        let category = categoryElement[0]?.innerText.trim() || '';
 
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"
@@ -432,7 +446,7 @@ export default defineComponent({
         }
 
         window.$(element).find('li .item').each((i, subElement) => {
-          const text = subElement.textContent.trim();
+          const text = subElement.textContent?.trim();
           if (text) {
             leftMenuItems.push({ name: text, category, index: this.menuIndexCounter += 1 });
             subElement.setAttribute('quick_access', `${this.menuIndexCounter}`);
@@ -451,7 +465,7 @@ export default defineComponent({
 
       const segmentItems: SubMenuItem[] = [];
       document.querySelectorAll('.segmentList [data-idsegment]').forEach((element) => {
-        const text = element.querySelector('.segname').textContent.trim();
+        const text = element.querySelector('.segname')?.textContent?.trim();
 
         if (text) {
           segmentItems.push({ name: text, category, index: this.menuIndexCounter += 1 });

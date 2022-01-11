@@ -10,22 +10,22 @@ import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store'
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
 import { sortOrderables } from '../Orderable';
-import Category from './Category';
-import Subcategory from './Subcategory';
+import { Category, CategoryContainer, getCategoryChildren } from './Category';
+import { getSubcategoryChildren, Subcategory, SubcategoryContainer } from './Subcategory';
 
 interface ReportingMenuStoreState {
-  activeCategoryId: string;
-  activeSubcategoryId: string;
-  activeSubsubcategoryId: string;
+  activeCategoryId: string|null;
+  activeSubcategoryId: string|null;
+  activeSubsubcategoryId: string|null;
 }
 
 interface SubcategoryFindResult {
-  category: Category;
-  subcategory: Subcategory;
-  subsubcategory: Subcategory;
+  category?: Category;
+  subcategory?: Subcategory;
+  subsubcategory?: Subcategory;
 }
 
-function isNumeric(text) {
+function isNumeric(text: string) {
   const n = parseFloat(text);
   return !Number.isNaN(n) && Number.isFinite(n);
 }
@@ -40,10 +40,10 @@ export class ReportingMenuStore {
   private state = computed(() => readonly(this.privateState));
 
   readonly activeCategory = computed(() => this.state.value.activeCategoryId
-    || MatomoUrl.parsed.value.category);
+    || MatomoUrl.parsed.value.category as string);
 
   readonly activeSubcategory = computed(() => this.state.value.activeSubcategoryId
-    || MatomoUrl.parsed.value.subcategory);
+    || MatomoUrl.parsed.value.subcategory as string);
 
   readonly activeSubsubcategory = computed(() => {
     const manuallySetId = this.state.value.activeSubsubcategoryId;
@@ -68,32 +68,32 @@ export class ReportingMenuStore {
 
   readonly menu = computed(() => this.buildMenuFromPages());
 
-  fetchMenuItems(): Promise<typeof ReportingPagesStoreInstance['menu']['value']> {
+  fetchMenuItems(): Promise<ReportingMenuStore['menu']['value']> {
     return ReportingPagesStoreInstance.getAllPages().then(() => this.menu.value);
   }
 
-  reloadMenuItems(): Promise<typeof ReportingMenuStore['menu']['value']> {
+  reloadMenuItems(): Promise<ReportingMenuStore['menu']['value']> {
     return ReportingPagesStoreInstance.reloadAllPages().then(() => this.menu.value);
   }
 
   findSubcategory(categoryId: string, subcategoryId: string): SubcategoryFindResult {
-    let foundCategory = null;
-    let foundSubcategory = null;
-    let foundSubSubcategory = null;
+    let foundCategory: Category|undefined = undefined;
+    let foundSubcategory: Subcategory|undefined = undefined;
+    let foundSubSubcategory: Subcategory|undefined = undefined;
 
     this.menu.value.forEach((category) => {
       if (category.id !== categoryId) {
         return;
       }
 
-      (category.subcategories || []).forEach((subcategory) => {
+      (getCategoryChildren(category) || []).forEach((subcategory) => {
         if (subcategory.id === subcategoryId) {
           foundCategory = category;
           foundSubcategory = subcategory;
         }
 
         if (subcategory.isGroup) {
-          (subcategory.subcategories || []).forEach((subcat) => {
+          (getSubcategoryChildren(subcategory) || []).forEach((subcat) => {
             if (subcat.id === subcategoryId) {
               foundCategory = category;
               foundSubcategory = subcategory;
@@ -112,14 +112,14 @@ export class ReportingMenuStore {
   }
 
   private buildMenuFromPages() {
-    const menu = [];
+    const menu: Category[] = [];
 
-    const displayedCategory = MatomoUrl.parsed.value.category;
-    const displayedSubcategory = MatomoUrl.parsed.value.subcategory;
+    const displayedCategory = MatomoUrl.parsed.value.category as string;
+    const displayedSubcategory = MatomoUrl.parsed.value.subcategory as string;
 
     const pages = ReportingPagesStoreInstance.pages.value;
 
-    const categoriesHandled = {};
+    const categoriesHandled: Record<string, boolean> = {};
     pages.forEach((page) => {
       const category = { ...page.category } as Category;
       const categoryId = category.id;
@@ -131,9 +131,9 @@ export class ReportingMenuStore {
 
       categoriesHandled[categoryId] = true;
 
-      category.subcategories = [];
+      (category as CategoryContainer).subcategories = [];
 
-      let categoryGroups: Subcategory;
+      let categoryGroups: Subcategory|null = null;
 
       const pagesWithCategory = pages.filter((p) => p.category.id === categoryId);
       pagesWithCategory.forEach((p) => {
@@ -147,7 +147,7 @@ export class ReportingMenuStore {
             categoryGroups = { ...subcategory } as Subcategory;
             categoryGroups.name = translate('CoreHome_ChooseX', [category.name]);
             categoryGroups.isGroup = true;
-            categoryGroups.subcategories = [];
+            (categoryGroups as SubcategoryContainer).subcategories = [];
             categoryGroups.order = 10;
           }
 
@@ -158,23 +158,25 @@ export class ReportingMenuStore {
           const entityId = page.subcategory.id;
           subcategory.tooltip = `${subcategory.name} (id = ${entityId})`;
 
-          categoryGroups.subcategories.push(subcategory);
+          (categoryGroups as SubcategoryContainer).subcategories.push(subcategory);
           return;
         }
 
-        category.subcategories.push(subcategory);
+        (category as CategoryContainer).subcategories.push(subcategory);
       });
 
       if (categoryGroups
-        && categoryGroups.subcategories
-        && categoryGroups.subcategories.length <= 5
+        && (categoryGroups as SubcategoryContainer).subcategories
+        && (categoryGroups as SubcategoryContainer).subcategories.length <= 5
       ) {
-        categoryGroups.subcategories.forEach((sub) => category.subcategories.push(sub));
+        (categoryGroups as SubcategoryContainer).subcategories.forEach(
+          (sub) => (category as CategoryContainer).subcategories.push(sub),
+        );
       } else if (categoryGroups) {
-        category.subcategories.push(categoryGroups);
+        (category as CategoryContainer).subcategories.push(categoryGroups);
       }
 
-      category.subcategories = sortOrderables(category.subcategories);
+      (category as CategoryContainer).subcategories = sortOrderables(getCategoryChildren(category));
 
       menu.push(category);
     });

@@ -42,7 +42,8 @@ export default defineComponent({
   watch: {
     modelValue(newValue, oldValue) {
       if (newValue) {
-        const slotElement = this.element || this.$refs.root.firstElementChild;
+        const slotElement = this.element
+          || (this.$refs.root as HTMLElement).firstElementChild as HTMLElement;
         Matomo.helper.modalConfirm(slotElement, {
           yes: () => { this.$emit('yes'); },
           no: () => { this.$emit('no'); },
@@ -51,7 +52,7 @@ export default defineComponent({
           onCloseEnd: () => {
             // materialize removes the child element, so we move it back to the slot
             if (!this.element) {
-              this.$refs.root.appendChild(slotElement);
+              (this.$refs.root as HTMLElement).appendChild(slotElement);
             }
             this.$emit('update:modelValue', false);
             this.$emit('closeEnd');
