@@ -8,6 +8,7 @@
         "ChooseASegment": "Velg et segment",
         "CustomSegment": "Egendefinert segment",
         "DefaultAllVisits": "Alle besøk",
+        "DragDropCondition": "Dra og slipp-betingelse",
         "OperatorAND": "OG",
         "OperatorOR": "ELLER",
         "PluginDescription": "Et segment er et sett med kriterier som brukes til å velge bare en del av hele settet med besøk. Ved å bruke segmenter kan du injisere vilkårlig kontekst tilbake i rapportene dine.",

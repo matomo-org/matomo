@@ -118,6 +118,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
+        $view->isInstallation = true;
 
         $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
