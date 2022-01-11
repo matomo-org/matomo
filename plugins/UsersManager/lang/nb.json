@@ -62,6 +62,7 @@
         "MenuUsers": "Brukere",
         "NewsletterSignupSuccessMessage": "Topp, du har registrert deg. Du vil bli kontaktet snart.",
         "NewsletterSignupTitle": "Nyhetsbrevsregistrering",
+        "NoTokenCreatedYetCreateNow": "Symbol har ikke blitt opprettet enda. %1$sOpprett et nytt nå%2$s.",
         "NoUsersExist": "Det er ingen brukere ennå.",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Merk: Du kan ikke endre innstillingene i denne seksjonen fordi du ikke har noen nettsteder som kan nås av en anonym bruker.",
         "Permissions": "Tilganger",

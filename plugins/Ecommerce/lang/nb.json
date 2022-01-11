@@ -15,6 +15,7 @@
         "ViewedProductCategory": "Vist produktkategori",
         "ViewedProductName": "Besøkt produktnavn",
         "ViewedProductPrice": "Vist produktpris",
+        "VisitorProfileItemsAndOrders": "Kjøpte %1$s artikler i totalt %2$s netthandler.",
         "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s."
     }
 }
