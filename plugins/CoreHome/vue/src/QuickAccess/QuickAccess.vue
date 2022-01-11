@@ -83,12 +83,9 @@
           class="quick-access-help"
           @mouseenter="searchIndex = 'help'"
         >
-          <a
-            :href="searchCampaign"
-            target="_blank"
-          >
+          <HelpLink :keyword="encodeURIComponent(this.searchTerm)">
             {{ translate('CoreHome_SearchOnMatomo', searchTerm) }}
-          </a>
+          </HelpLink>
         </li>
       </ul>
     </div>
@@ -100,10 +97,10 @@ import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';
-import { keywordSearch } from '../helpLink';
 import SitesStore, { Site } from '../SiteSelector/SitesStore';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
+import HelpLink from '../HelpLink/HelpLink.vue';
 
 interface SubMenuItem {
   name: string;
@@ -152,6 +149,7 @@ function scrollFirstElementIntoView(element: HTMLElement) {
 }
 
 export default defineComponent({
+  components: { HelpLink },
   directives: {
     FocusAnywhereButHere,
     FocusIf,
@@ -218,9 +216,6 @@ export default defineComponent({
     this.searchMenu = debounce(this.searchMenu.bind(this));
   },
   computed: {
-    searchCampaign() {
-      return keywordSearch(encodeURIComponent(this.searchTerm));
-    },
     hasSitesSelector() {
       return !!document.querySelector('.top_controls [piwik-siteselector]');
     },

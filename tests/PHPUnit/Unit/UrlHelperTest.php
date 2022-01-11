@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Piwik;
 use Piwik\UrlHelper;
 
 class UrlHelperTest extends \PHPUnit\Framework\TestCase
@@ -276,8 +277,8 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('add=foo', UrlHelper::getQueryFromUrl('/', array('add' => 'foo')));
         $this->assertEquals('add[]=foo&add[]=test', UrlHelper::getQueryFromUrl('/', array('add' => array('foo', 'test'))));
     }
-    
-    
+
+
     /**
      * Dataprovider for testGetQueryStringWithExcludedParameters
      */
@@ -290,43 +291,43 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
                 array()                             //parametersToExclude
             ),
             array(
-                'p2=v2', 
+                'p2=v2',
                 array('p1'=>'v1', 'p2'=>'v2'),
                 array('p1')
             ),
             array(
-                'p1=v1&p2=v2', 
+                'p1=v1&p2=v2',
                 array('p1'=>'v1', 'p2'=>'v2', 'sessionId'=>'HHSJHERTG'),
                 array('sessionId')
             ),
             array(
-                'p1=v1&p2=v2', 
+                'p1=v1&p2=v2',
                 array('p1'=>'v1', 'p2'=>'v2', 'sessionId'=>'HHSJHERTG'),
                 array('/session/')
             ),
             array(
-                'p1=v1&p2=v2', 
+                'p1=v1&p2=v2',
                 array('p1'=>'v1', 'sessionId'=>'HHSJHERTG', 'p2'=>'v2', 'token'=>'RYUN36HSAO'),
                 array('/[session|token]/')
             ),
             array(
-                '', 
+                '',
                 array('p1'=>'v1', 'p2'=>'v2', 'sessionId'=>'HHSJHERTG', 'token'=>'RYUN36HSAO'),
                 array('/.*/')
             ),
             array(
-                'p2=v2&p4=v4', 
+                'p2=v2&p4=v4',
                 array('p1'=>'v1', 'p2'=>'v2', 'p3'=>'v3', 'p4'=>'v4'),
                 array('/p[1|3]/')
             ),
             array(
-                'p2=v2&p4=v4', 
+                'p2=v2&p4=v4',
                 array('p1'=>'v1', 'p2'=>'v2', 'p3'=>'v3', 'p4'=>'v4', 'utm_source'=>'gekko', 'utm_medium'=>'email', 'utm_campaign'=>'daily'),
                 array('/p[1|3]/', '/utm_/')
             )
         );
     }
-    
+
     /**
      * @dataProvider getQueryParameters
      * @group Core
@@ -335,5 +336,26 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals($expected, UrlHelper::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude));
     }
-    
+
+
+    public function testHelpLinkFormat()
+    {
+        //test prefix url
+        $content = '<a href="https://matomo.org/docs/site-search/" rel="noreferrer noopener" target="_blank">test</a>';
+        $content = Piwik::helpLinkFormat($content);
+        $this->assertEquals('<a href="https://matomo.org/docs/site-search/?mtm_campaign=App_Help&mtm_source=Matomo_App" rel="noreferrer noopener" target="_blank">test</a>',
+          $content);
+
+        //test params
+        $content = '<a href="https://matomo.org?s=test" rel="noreferrer noopener" target="_blank">test</a>';
+        $content = Piwik::helpLinkFormat($content);
+        $this->assertEquals('<a href="https://matomo.org?s=test&mtm_campaign=App_Help&mtm_source=Matomo_App" rel="noreferrer noopener" target="_blank">test</a>', $content);
+
+        //test single quote
+        $content = "<a href='https://matomo.org?s=test' rel='noreferrer noopener' target='_blank'>test</a>";
+        $content = Piwik::helpLinkFormat($content);
+        $this->assertEquals("<a href='https://matomo.org?s=test&mtm_campaign=App_Help&mtm_source=Matomo_App' rel='noreferrer noopener' target='_blank'>test</a>", $content);
+
+    }
+
 }
