@@ -34,6 +34,12 @@ class ProcessDependentArchiveTest extends SystemTestCase
         parent::tearDown();
     }
 
+   public function test_numArchivesCreated_day()
+    {
+        API::getInstance()->getMetrics(self::$fixture->idSite, 'day', '2009-01-04');
+        $this->assertNumRangeArchives(5, 1); // days;
+    }
+
     public function test_numArchivesCreated()
     {
         API::getInstance()->get(self::$fixture->idSite, 'range', $this->requestRange);
@@ -46,9 +52,9 @@ class ProcessDependentArchiveTest extends SystemTestCase
         $this->assertNumRangeArchives(6);
     }
 
-    private function assertNumRangeArchives($expectedArchives)
+    private function assertNumRangeArchives($expectedArchives,$period = 5)
     {
-        $archives = Db::fetchAll('SELECT `name` from ' . Common::prefixTable($this->archiveTable) . ' WHERE period = 5 and `name` like "done%"');
+        $archives = Db::fetchAll('SELECT `name` from ' . Common::prefixTable($this->archiveTable) . ' WHERE period = '.$period.' and `name` like "done%"');
         $numArchives = count($archives);
         $message = sprintf('Expected archives: %s, got: %s. These were the archives %s', $expectedArchives, $numArchives, json_encode($archives));
         $this->assertEquals($expectedArchives, $numArchives, $message);
