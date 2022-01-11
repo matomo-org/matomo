@@ -7,4 +7,4 @@
 
 import NotificationsStore from './Notifications.store';
 
-angular.module('piwikApp').factory('notifications', () => NotificationsStore);
+window.angular.module('piwikApp').factory('notifications', () => NotificationsStore);

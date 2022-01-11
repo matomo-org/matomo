@@ -75,12 +75,20 @@ function hideOnlyRawDataNoticifation() {
   NotificationsStore.remove('onlyRawData');
 }
 
+interface ReportingPageState {
+  loading: boolean;
+  hasRawData: boolean;
+  hasNoVisits: boolean;
+  dateLastChecked: Date|null;
+  hasNoPage: boolean;
+}
+
 export default defineComponent({
   components: {
     ActivityIndicator,
     Widget,
   },
-  data() {
+  data(): ReportingPageState {
     return {
       loading: false,
       hasRawData: false,
@@ -117,10 +125,10 @@ export default defineComponent({
         this.hasNoVisits = false;
       }
 
-      this.renderPage(newValue.category, newValue.subcategory);
+      this.renderPage(newValue.category as string, newValue.subcategory as string);
     });
 
-    Matomo.on('loadPage', (category, subcategory) => {
+    Matomo.on('loadPage', (category: string, subcategory: string) => {
       this.renderPage(category, subcategory);
     });
   },
@@ -138,8 +146,8 @@ export default defineComponent({
       }
 
       const parsedUrl = MatomoUrl.parsed.value;
-      const currentPeriod = parsedUrl.period;
-      const currentDate = parsedUrl.date;
+      const currentPeriod = parsedUrl.period as string;
+      const currentDate = parsedUrl.date as string;
 
       try {
         Periods.parse(currentPeriod, currentDate);
@@ -178,7 +186,7 @@ export default defineComponent({
         // something to let other components render a specific page.
         this.loading = true;
         const element = $('[piwik-dashboard]');
-        const scope = angular.element(element).scope() as any; // eslint-disable-line
+        const scope = window.angular.element(element).scope() as any; // eslint-disable-line
         scope.fetchDashboard(parseInt(subcategory, 10)).then(() => {
           this.loading = false;
         }, () => {
@@ -207,7 +215,7 @@ export default defineComponent({
     },
     renderInitialPage() {
       const parsed = MatomoUrl.parsed.value;
-      this.renderPage(parsed.category, parsed.subcategory);
+      this.renderPage(parsed.category as string, parsed.subcategory as string);
     },
     showOnlyRawDataMessageIfRequired() {
       if (this.hasRawData && this.hasNoVisits) {
@@ -238,9 +246,11 @@ export default defineComponent({
         'Marketplace_Marketplace',
       ];
 
-      if (subcategoryExceptions.indexOf(parsedUrl.subcategory) !== -1
-        || categoryExceptions.indexOf(parsedUrl.category) !== -1
-        || parsedUrl.subcategory.toLowerCase().indexOf('manage') !== -1
+      const subcategory = parsedUrl.subcategory as string;
+      const category = parsedUrl.category as string;
+      if (subcategoryExceptions.indexOf(subcategory) !== -1
+        || categoryExceptions.indexOf(category) !== -1
+        || subcategory.toLowerCase().indexOf('manage') !== -1
       ) {
         hideOnlyRawDataNoticifation();
         return;
@@ -248,13 +258,13 @@ export default defineComponent({
 
       const minuteInMilliseconds = 60000;
       if (this.dateLastChecked
-        && (new Date().getTime() - this.dateLastChecked) < minuteInMilliseconds
+        && ((new Date()).valueOf() - this.dateLastChecked.valueOf()) < minuteInMilliseconds
       ) {
         return;
       }
 
       AjaxHelper.fetch({ method: 'VisitsSummary.getVisits' }).then((json) => {
-        this.dateLastChecked = new Date().getTime();
+        this.dateLastChecked = new Date();
 
         if (json.value > 0) {
           this.hasNoVisits = false;

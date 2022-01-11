@@ -5,18 +5,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+interface Option {
+  key: string|number;
+  value: unknown;
+}
+
 export function processCheckboxAndRadioAvailableValues(
-  availableValues: Record<string, unknown>,
+  availableValues: Record<string, unknown>|null,
   type: string,
-): { key: string, value: unknown }[] {
+): Option[] {
   if (!availableValues) {
     return [];
   }
 
-  const flatValues = [];
+  const flatValues: Option[] = [];
   Object.entries(availableValues).forEach(([valueObjKey, value]) => {
-    if (typeof value === 'object' && typeof value.key !== 'undefined') {
-      flatValues.push(value);
+    if (value && typeof value === 'object' && typeof (value as Option).key !== 'undefined') {
+      flatValues.push(value as Option);
       return;
     }
 

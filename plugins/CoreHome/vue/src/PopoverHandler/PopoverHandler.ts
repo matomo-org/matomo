@@ -44,7 +44,7 @@ class PopoverHandler {
     this.close();
 
     // should be rather done by routing
-    const popoverParam = MatomoUrl.parsed.value.popover;
+    const popoverParam = MatomoUrl.parsed.value.popover as string;
     if (popoverParam) {
       this.open(popoverParam);
     } else {
@@ -58,7 +58,7 @@ class PopoverHandler {
     window.Piwik_Popover.close();
   }
 
-  private open(thePopoverParam) {
+  private open(thePopoverParam: string) {
     // in case the $ was encoded (e.g. when using copy&paste on urls in some browsers)
     let popoverParam = decodeURIComponent(thePopoverParam);
 

@@ -28,6 +28,4 @@ export default function piwikExpandOnClick(): IDirective {
   };
 }
 
-piwikExpandOnClick.$inject = [];
-
-angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
+window.angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);

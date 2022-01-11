@@ -30,75 +30,15 @@
     </div>
 
 {% if isGeneralSettingsAdminEnabled %}
-    <div piwik-content-block content-title="{{ 'CoreAdminHome_ArchivingSettings'|translate|e('html_attr') }}"
-         anchor="archivingSettings">
-        <div ng-controller="ArchivingController as archivingSettings">
-            <div class="form-group row">
-                <h3 class="col s12">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</h3>
-                <div class="col s12 m6">
-                    <p>
-                        <label>
-                            <input type="radio" value="1" id="enableBrowserTriggerArchiving1"
-                                   name="enableBrowserTriggerArchiving" {% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %}
-                            />
-                            <span>{{ 'General_Yes'|translate }}</span>
-                            <span class="form-description">{{ 'General_Default'|translate }}</span>
-                        </label>
-                    </p>
-
-                    <p>
-                    <label for="enableBrowserTriggerArchiving2">
-                        <input type="radio" value="0"
-                               id="enableBrowserTriggerArchiving2"
-                               name="enableBrowserTriggerArchiving"
-                                {% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
-                        <span>{{ 'General_No'|translate }}</span>
-                        <span class="form-description">
-                            {{ 'General_ArchivingTriggerDescription'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/setup-auto-archiving/'>","</a>")|raw }}
-                            {% if showSegmentArchiveTriggerInfo %}{{ 'General_ArchivingTriggerSegment'|translate }}{% endif %}
-                        </span>
-                    </label>
-                    </p>
-                </div><div class="col s12 m6">
-                    <div class="form-help">
-                        {{ 'General_ArchivingInlineHelp'|translate }}
-                        <br/>
-                        {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/setup-auto-archiving/'>","</a>")|raw }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <h3 class="col s12">
-                    {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
-                </h3>
-                <div class="input-field col s12 m6">
-                    <input  type="text" value='{{ todayArchiveTimeToLive|e('html_attr') }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
-                    <span class="form-description">
-                        {{ 'General_RearchiveTimeIntervalOnlyForTodayReports'|translate }}
-                    </span>
-                </div>
-                <div class="col s12 m6">
-                    {% if isGeneralSettingsAdminEnabled %}
-                        <div class="form-help">
-                            {% if showWarningCron %}
-                                <strong>
-                                    {{ 'General_NewReportsWillBeProcessedByCron'|translate }}<br/>
-                                    {{ 'General_ReportsWillBeProcessedAtMostEveryHour'|translate }}
-                                    {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
-                                </strong>
-                            {% endif %}
-                            {{ 'General_SmallTrafficYouCanLeaveDefault'|translate( todayArchiveTimeToLiveDefault ) }}
-                            <br/>
-                            {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div onconfirm="archivingSettings.save()" saving="archivingSettings.isLoading" piwik-save-button></div>
-        </div>
-    </div>
+    <div
+        matomo-archiving-settings
+        enable-browser-trigger-archiving="{{ (enableBrowserTriggerArchiving==1)|json_encode|e('html_attr') }}"
+        show-segment-archive-trigger-info="{{ (not not showSegmentArchiveTriggerInfo)|json_encode|e('html_attr') }}"
+        is-general-settings-admin-enabled="{{ (not not isGeneralSettingsAdminEnabled)|json_encode|e('html_attr') }}"
+        show-warning-cron="{{ (not not showWarningCron)|json_encode|e('html_attr') }}"
+        today-archive-time-to-live="{{ todayArchiveTimeToLive|e('html_attr') }}"
+        today-archive-time-to-live-default="{{ todayArchiveTimeToLiveDefault|e('html_attr') }}"
+    ></div>
 
     {% if not isMultiServerEnvironment %}
         <div piwik-content-block content-title="{{ 'CoreAdminHome_EmailServerSettings'|translate|e('html_attr') }}"
@@ -185,82 +125,20 @@
 {% endif %}
 
 {% if customLogoEnabled %}
-<div piwik-content-block content-title="{{ 'CoreAdminHome_BrandingSettings'|translate|e('html_attr') }}"
-     anchor="brandingSettings">
-
-    <div piwik-form ng-controller="BrandingController as brandingSettings">
-
-        <p>{{ 'CoreAdminHome_CustomLogoHelpText'|translate }}</p>
-
-        {% set help -%}
-            {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
-            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' rel='noreferrer noopener' target='_blank'>","</a>")|raw }}
-        {%- endset %}
-
-        <div piwik-field uicontrol="checkbox" name="useCustomLogo"
-             ng-model="brandingSettings.enabled"
-             ng-change="brandingSettings.toggleCustomLogo()"
-             data-title="{{ 'CoreAdminHome_UseCustomLogo'|translate|e('html_attr') }}"
-             value="{% if branding.use_custom_logo == 1 %}1{% endif %}"
-             {% if isPluginsAdminEnabled %}inline-help="{{ help|e('html_attr') }}"{% endif %}>
-        </div>
-
-        <div id="logoSettings" ng-show="brandingSettings.enabled">
-            <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
-                {% if fileUploadEnabled %}
-                    <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
-                    <input type="hidden" name="force_api_session" value="1"/>
-
-                    {% if logosWriteable %}
-                        <div class="alert alert-warning uploaderror" style="display:none;">
-                            {{ 'CoreAdminHome_LogoUploadFailed'|translate }}
-                        </div>
-
-                        <div piwik-field uicontrol="file" name="customLogo"
-                             ng-change="brandingSettings.updateLogo()"
-                             ng-model="brandingSettings.customLogo"
-                             data-title="{{ 'CoreAdminHome_LogoUpload'|translate|e('html_attr') }}"
-                             inline-help="{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110)|e('html_attr') }}">
-                        </div>
-
-                        <div class="row">
-                            <div class="col s12">
-                                <img data-src="{{ pathUserLogo }}" data-src-exists="{{ hasUserLogo ? '1':'0' }}"
-                                     id="currentLogo" style="max-height: 150px"/>
-                            </div>
-                        </div>
-
-                        <div piwik-field uicontrol="file" name="customFavicon"
-                             ng-change="brandingSettings.updateLogo()"
-                             ng-model="brandingSettings.customFavicon"
-                             data-title="{{ 'CoreAdminHome_FaviconUpload'|translate|e('html_attr') }}"
-                             inline-help="{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 16)|e('html_attr') }}">
-                        </div>
-
-                        <div class="row">
-                            <div class="col s12">
-                                <img data-src="{{ pathUserFavicon }}" data-src-exists="{{ hasUserFavicon ? '1':'0' }}"
-                                     id="currentFavicon" width="16" height="16"/>
-                            </div>
-                        </div>
-
-                    {% else %}
-                        <div class="alert alert-warning">
-                            {{ 'CoreAdminHome_LogoNotWriteableInstruction'
-                                |translate("<code>"~pathUserLogoDirectory~"</code><br/>", pathUserLogo ~", "~ pathUserLogoSmall ~", "~ pathUserLogoSVG ~"")|raw }}
-                        </div>
-                    {% endif %}
-                {% else %}
-                    <div class="alert alert-warning">
-                        {{ 'CoreAdminHome_FileUploadDisabled'|translate("file_uploads=1") }}
-                    </div>
-                {% endif %}
-            </form>
-        </div>
-
-        <div onconfirm="brandingSettings.save()" saving="brandingSettings.isLoading" piwik-save-button></div>
-    </div>
-</div>
+<div
+    matomo-branding-settings
+    file-upload-enabled="{{ fileUploadEnabled|json_encode|e('html_attr') }}"
+    logos-writeable="{{ logosWriteable|json_encode|e('html_attr') }}"
+    use-custom-logo="{{ branding.use_custom_logo|json_encode|e('html_attr') }}"
+    path-user-logo-directory="{{ pathUserLogoDirectory|json_encode|e('html_attr') }}"
+    path-user-logo="{{ pathUserLogo|json_encode|e('html_attr') }}"
+    path-user-logo-small="{{ pathUserLogoSmall|json_encode|e('html_attr') }}"
+    path-user-logo-svg="{{ pathUserLogoSVG|json_encode|e('html_attr') }}"
+    has-user-logo="{{ hasUserLogo|json_encode|e('html_attr') }}"
+    path-user-favicon="{{ pathUserFavicon|json_encode|e('html_attr') }}"
+    has-user-favicon="{{ hasUserFavicon|json_encode|e('html_attr') }}"
+    is-plugins-admin-enabled="{{ isPluginsAdminEnabled|json_encode|e('html_attr') }}"
+></div>
 {% endif %}
 
 {% if isDataPurgeSettingsEnabled %}

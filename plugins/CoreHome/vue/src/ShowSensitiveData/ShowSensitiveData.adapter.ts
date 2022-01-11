@@ -17,7 +17,7 @@ export default function piwikShowSensitiveData(): IDirective {
         value: {
           sensitiveData: attr.piwikShowSensitiveData || (attr.text ? attr.text() : ''),
           showCharacters: attr.showCharacters ? parseInt(attr.showCharacters, 10) : undefined,
-          clickElementSelector: attr.clickElementSelector,
+          clickElementSelector: attr.clickElementSelector as string,
         },
         oldValue: null,
         modifiers: {},
@@ -29,6 +29,4 @@ export default function piwikShowSensitiveData(): IDirective {
   };
 }
 
-piwikShowSensitiveData.$inject = [];
-
-angular.module('piwikApp').directive('piwikShowSensitiveData', piwikShowSensitiveData);
+window.angular.module('piwikApp').directive('piwikShowSensitiveData', piwikShowSensitiveData);

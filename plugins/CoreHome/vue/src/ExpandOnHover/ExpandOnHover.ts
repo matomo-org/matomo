@@ -62,7 +62,9 @@ export default {
 
     setTimeout(() => {
       const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
-      expander.addEventListener('mouseenter', binding.value.onMouseEnter);
+      if (expander) {
+        expander.addEventListener('mouseenter', binding.value.onMouseEnter!);
+      }
     });
 
     el.addEventListener('mouseleave', binding.value.onMouseLeave);
@@ -71,9 +73,11 @@ export default {
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnHoverArgs>): void {
     const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
-    expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
-    el.removeEventListener('mouseleave', binding.value.onMouseLeave);
-    document.removeEventListener('keyup', binding.value.onEscapeHandler);
-    document.removeEventListener('mouseup', binding.value.onClickOutsideElement);
+    if (expander) {
+      expander.removeEventListener('mouseenter', binding.value.onMouseEnter!);
+    }
+    el.removeEventListener('mouseleave', binding.value.onMouseLeave!);
+    document.removeEventListener('keyup', binding.value.onEscapeHandler!);
+    document.removeEventListener('mouseup', binding.value.onClickOutsideElement!);
   },
 };

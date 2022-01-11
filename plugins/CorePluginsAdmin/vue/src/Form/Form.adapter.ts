@@ -17,6 +17,4 @@ export default function piwikForm(): IDirective {
   };
 }
 
-piwikForm.$inject = [];
-
-angular.module('piwikApp').directive('piwikForm', piwikForm);
+window.angular.module('piwikApp').directive('piwikForm', piwikForm);

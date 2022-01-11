@@ -17,6 +17,4 @@ export default function piwikPluginFilter(): IDirective {
   };
 }
 
-piwikPluginFilter.$inject = [];
-
-angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
+window.angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);

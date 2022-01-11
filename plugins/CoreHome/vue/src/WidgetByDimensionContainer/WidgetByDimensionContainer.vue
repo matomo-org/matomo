@@ -45,6 +45,16 @@ import { sortOrderables } from '../Orderable';
 
 // TODO: is there a widget category ID or widget ID
 
+interface WidgetByDimensionContainerState {
+  selectedWidget: Widget|null;
+}
+
+interface WidgetCategory {
+  name: string;
+  order: number;
+  widgets: Widget[];
+}
+
 export default defineComponent({
   props: {
     widgets: Array,
@@ -52,7 +62,7 @@ export default defineComponent({
   components: {
     WidgetLoader,
   },
-  data() {
+  data(): WidgetByDimensionContainerState {
     return {
       selectedWidget: null,
     };
@@ -62,19 +72,22 @@ export default defineComponent({
   },
   computed: {
     widgetsSorted(): Widget[] {
-      return sortOrderables(this.widgets);
+      return sortOrderables(this.widgets as Widget[]);
     },
     widgetsByCategory() {
-      const byCategory = {};
+      const byCategory: Record<string, WidgetCategory> = {};
 
       this.widgetsSorted.forEach((widget) => {
-        const category = widget.subcategory.name;
+        const category = widget.subcategory?.name;
+        if (!category) {
+          return;
+        }
 
         if (!byCategory[category]) {
           byCategory[category] = { name: category, order: widget.order, widgets: [] };
         }
 
-        byCategory[category].widgets.push(widget);
+        byCategory[category].widgets!.push(widget);
       });
 
       return sortOrderables(Object.values(byCategory));

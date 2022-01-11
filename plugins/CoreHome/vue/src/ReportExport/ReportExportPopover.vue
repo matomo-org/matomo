@@ -152,6 +152,11 @@ import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import translate from '../translate';
 
+interface DataTable {
+  param: Record<string, string|string[]>;
+  props: Record<string, string|string[]>;
+}
+
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
 export default defineComponent({
@@ -164,12 +169,21 @@ export default defineComponent({
   props: {
     hasSubtables: Boolean,
     availableReportTypes: Object,
-    availableReportFormats: Object,
+    availableReportFormats: {
+      type: Object,
+      required: true,
+    },
     maxFilterLimit: Number,
     limitAllOptions: Object,
-    dataTable: Object,
+    dataTable: {
+      type: Object,
+      required: true,
+    },
     requestParams: [Object, String],
-    apiMethod: String,
+    apiMethod: {
+      type: String,
+      required: true,
+    },
     initialReportType: {
       type: String,
       default: 'default',
@@ -208,7 +222,9 @@ export default defineComponent({
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
       reportLimitAll: this.initialReportLimitAll,
-      reportLimit: this.initialReportLimit,
+      reportLimit: typeof this.initialReportLimit === 'string'
+        ? parseInt(this.initialReportLimit, 10)
+        : this.initialReportLimit,
     };
   },
   watch: {
@@ -218,17 +234,20 @@ export default defineComponent({
       }
     },
     reportLimit(newVal, oldVal) {
-      if (this.maxFilterLimit > 0) {
-        if (parseInt(newVal, 10) > parseInt(this.maxFilterLimit, 10)) {
-          this.reportLimit = oldVal;
-        }
+      if (this.maxFilterLimit && this.maxFilterLimit > 0 && newVal > this.maxFilterLimit) {
+        this.reportLimit = oldVal;
       }
     },
   },
   computed: {
     filterLimitTooltip() {
       const rowLimit = translate('CoreHome_RowLimit');
-      const computedMetricMax = translate('General_ComputedMetricMax', this.maxFilterLimit);
+      const computedMetricMax = this.maxFilterLimit
+        ? translate(
+          'General_ComputedMetricMax',
+          this.maxFilterLimit.toString(),
+        )
+        : '';
       return `${rowLimit} (${computedMetricMax})`;
     },
     exportLink() {
@@ -241,26 +260,23 @@ export default defineComponent({
   methods: {
     getExportLink(withToken = true) {
       const {
-        dataTable,
         reportFormat,
         apiMethod,
         reportType,
       } = this;
 
+      const dataTable: DataTable = this.dataTable as DataTable;
+
       if (!reportFormat) {
         return undefined;
       }
 
-      let {
-        requestParams,
-      } = this;
+      let requestParams: Record<string, unknown> = {};
 
       const limit = this.reportLimitAll === 'yes' ? -1 : this.reportLimit;
 
-      if (requestParams && typeof requestParams === 'string') {
-        requestParams = JSON.parse(requestParams);
-      } else {
-        requestParams = {};
+      if (this.requestParams && typeof this.requestParams === 'string') {
+        requestParams = JSON.parse(this.requestParams);
       }
 
       const {
@@ -280,7 +296,8 @@ export default defineComponent({
         date = dataTable.param.dateUsedInGraph;
       }
 
-      const formatsUseDayNotRange = Matomo.config.datatable_export_range_as_day.toLowerCase();
+      const formatsUseDayNotRange = (Matomo.config.datatable_export_range_as_day as string)
+        .toLowerCase();
 
       if (formatsUseDayNotRange.indexOf(reportFormat.toLowerCase()) !== -1
         && dataTable.param.period === 'range'
@@ -295,7 +312,7 @@ export default defineComponent({
         period = 'day';
       }
 
-      const exportUrlParams: Record<string, unknown> = {
+      const exportUrlParams: QueryParameters = {
         module: 'API',
         format: reportFormat,
         idSite,
@@ -347,7 +364,7 @@ export default defineComponent({
           } else if (value === false) {
             value = 0;
           }
-          exportUrlParams[index] = value;
+          exportUrlParams[index] = value as QueryParameterValue;
         });
       }
 
@@ -383,7 +400,7 @@ export default defineComponent({
       }
 
       if (typeof segment !== 'undefined') {
-        exportUrlParams.segment = decodeURIComponent(segment);
+        exportUrlParams.segment = decodeURIComponent(segment as string);
       }
 
       // Export Goals specific reports
@@ -401,7 +418,7 @@ export default defineComponent({
       }
 
       if (label) {
-        const labelParts = label.split(',');
+        const labelParts = (label as string).split(',');
 
         if (labelParts.length > 1) {
           exportUrlParams.label = labelParts;

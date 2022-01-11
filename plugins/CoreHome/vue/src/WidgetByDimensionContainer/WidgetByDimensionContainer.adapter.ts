@@ -7,6 +7,7 @@
 
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import WidgetByDimensionContainer from './WidgetByDimensionContainer.vue';
+import { Widget } from '../Widget/Widgets.store';
 
 export default createAngularJsAdapter({
   component: WidgetByDimensionContainer,
@@ -14,7 +15,7 @@ export default createAngularJsAdapter({
     widgets: {
       angularJsBind: '=piwikWidgetByDimensionContainer',
       transform(v) {
-        return v.widgets;
+        return (v as { widgets: Widget[] }).widgets;
       },
     },
   },

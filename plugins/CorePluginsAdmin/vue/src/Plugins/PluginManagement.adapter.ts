@@ -25,6 +25,4 @@ export default function piwikPluginManagement(): IDirective {
   };
 }
 
-piwikPluginManagement.$inject = [];
-
-angular.module('piwikApp').directive('piwikPluginManagement', piwikPluginManagement);
+window.angular.module('piwikApp').directive('piwikPluginManagement', piwikPluginManagement);
