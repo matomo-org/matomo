@@ -172,6 +172,7 @@ class Twig
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
+        $this->addFunction_HelpLink();
         $this->addFunction_sparkline();
         $this->addFunction_postEvent();
         $this->addFunction_isPluginLoaded();
@@ -290,6 +291,14 @@ class Twig
     {
         $urlFunction = new TwigFunction('linkTo', function ($params) {
             return 'index.php' . Url::getCurrentQueryStringWithParametersModified($params);
+        });
+        $this->twig->addFunction($urlFunction);
+    }
+
+    protected function addFunction_HelpLink()
+    {
+        $urlFunction = new TwigFunction('helpLink', function ($params) {
+            return $params . "?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_medium=cpc";
         });
         $this->twig->addFunction($urlFunction);
     }

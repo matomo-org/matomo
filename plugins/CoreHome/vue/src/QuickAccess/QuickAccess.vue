@@ -84,7 +84,7 @@
           @mouseenter="searchIndex = 'help'"
         >
           <a
-            :href="`https://matomo.org?s=${encodeURIComponent(searchTerm)}`"
+            :href="searchCampaign"
             target="_blank"
           >
             {{ translate('CoreHome_SearchOnMatomo', searchTerm) }}
@@ -100,6 +100,7 @@ import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import translate from '../translate';
+import { keywordSearch } from '../helpLink';
 import SitesStore, { Site } from '../SiteSelector/SitesStore';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
@@ -217,6 +218,9 @@ export default defineComponent({
     this.searchMenu = debounce(this.searchMenu.bind(this));
   },
   computed: {
+    searchCampaign() {
+      return keywordSearch(encodeURIComponent(this.searchTerm));
+    },
     hasSitesSelector() {
       return !!document.querySelector('.top_controls [piwik-siteselector]');
     },

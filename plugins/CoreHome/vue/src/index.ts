@@ -68,6 +68,7 @@ export {
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as translate } from './translate';
+export { keywordSearch } from './helpLink';
 export { default as alertAdapter } from './Alert/Alert.adapter';
 export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';

@@ -185,7 +185,7 @@ class Piwik
         $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
         return $user['date_registered'] ?? '';
     }
-    
+
     /**
      * Returns the current user's Last Seen.
      *
@@ -888,5 +888,21 @@ class Piwik
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         return $translator->translate($translationId, $args, $language);
+    }
+
+    /**
+     * @param $helpText
+     * @return string
+     */
+    public static function helpLinkFormat($helpText)
+    {
+        preg_match('/"https:\/\/matomo.org(.*?)"/', $helpText, $matches);
+        if (!empty($matches)) {
+            $replace = substr_replace($matches[0], "",
+                -1) . 'mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_medium=cpc"';
+            return preg_replace('/"https:\/\/matomo.org(.*?)"/', $replace, $helpText);
+        } else {
+            return $helpText;
+        }
     }
 }
