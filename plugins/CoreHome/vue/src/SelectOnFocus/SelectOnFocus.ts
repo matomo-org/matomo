@@ -19,7 +19,7 @@ interface SelectOnFocusArgs {
 function onFocusHandler(binding: DirectiveBinding<SelectOnFocusArgs>, event: Event) {
   if (binding.value.focusedElement !== event.target) {
     binding.value.focusedElement = event.target as HTMLElement;
-    angular.element(event.target).select();
+    window.angular.element(event.target!).select();
   }
 }
 
@@ -37,7 +37,7 @@ function onClickHandler(event: Event) {
 }
 
 function onBlurHandler(binding: DirectiveBinding<SelectOnFocusArgs>) {
-  binding.value.focusedElement = null;
+  delete binding.value.focusedElement;
 }
 
 export default {
@@ -59,10 +59,10 @@ export default {
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<SelectOnFocusArgs>): void {
     if (binding.value.elementSupportsSelect) {
-      el.removeEventListener('focus', binding.value.onFocusHandler);
-      el.removeEventListener('blur', binding.value.onBlurHandler);
+      el.removeEventListener('focus', binding.value.onFocusHandler!);
+      el.removeEventListener('blur', binding.value.onBlurHandler!);
     } else {
-      el.removeEventListener('click', binding.value.onClickHandler);
+      el.removeEventListener('click', binding.value.onClickHandler!);
     }
   },
 };

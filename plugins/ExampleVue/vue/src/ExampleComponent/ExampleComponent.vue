@@ -42,27 +42,30 @@
 import { defineComponent } from 'vue';
 import { MatomoDialog } from 'CoreHome';
 
+interface ExampleComponentState {
+  count: number;
+  showDialog: boolean;
+}
+
 export default defineComponent({
   components: {
     MatomoDialog,
   },
-  data() {
+  data(): ExampleComponentState {
     return {
       count: 12,
       showDialog: false,
     };
   },
-  setup() {
-    return {
-      increment() {
-        this.count += 1;
-        this.showDialog = this.count > 15;
-      },
-      decrement() {
-        this.count -= 1;
-        this.showDialog = this.count > 15;
-      },
-    };
+  methods: {
+    increment() {
+      this.count += 1;
+      this.showDialog = this.count > 15;
+    },
+    decrement() {
+      this.count -= 1;
+      this.showDialog = this.count > 15;
+    },
   },
 });
 </script>

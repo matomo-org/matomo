@@ -17,7 +17,7 @@
 import { defineComponent } from 'vue';
 import FormField from '../FormField/FormField.vue';
 
-const UI_CONTROLS_TO_TYPE = {
+const UI_CONTROLS_TO_TYPE: Record<string, string> = {
   multiselect: 'array',
   checkbox: 'boolean',
   site: 'object',
@@ -68,8 +68,9 @@ export default defineComponent({
         return this.varType;
       }
 
-      if (UI_CONTROLS_TO_TYPE[this.uicontrol]) {
-        return UI_CONTROLS_TO_TYPE[this.uicontrol];
+      const uicontrol = this.uicontrol as string;
+      if (uicontrol && UI_CONTROLS_TO_TYPE[uicontrol]) {
+        return UI_CONTROLS_TO_TYPE[uicontrol];
       }
 
       return 'string';
@@ -104,7 +105,7 @@ export default defineComponent({
     },
   },
   methods: {
-    onChange(newValue) {
+    onChange(newValue: unknown) {
       this.$emit('update:modelValue', newValue);
     },
   },

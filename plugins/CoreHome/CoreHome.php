@@ -213,7 +213,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/attributes.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/field-condition.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/show-sensitive-data.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
@@ -230,10 +229,8 @@ class CoreHome extends \Piwik\Plugin
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/smtp/mail-smtp.controller.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/branding/branding.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.js";
 

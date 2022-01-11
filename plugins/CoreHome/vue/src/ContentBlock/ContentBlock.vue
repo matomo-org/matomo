@@ -62,9 +62,10 @@ export default defineComponent({
     },
   },
   mounted() {
-    const { root, content } = this.$refs;
+    const root = this.$refs.root as HTMLElement;
+    const content = this.$refs.content as HTMLElement;
 
-    if (this.anchor) {
+    if (this.anchor && root && root.parentElement) {
       const anchorElement = document.createElement('a');
       anchorElement.id = this.anchor;
       root.parentElement.prepend(anchorElement);
@@ -78,7 +79,7 @@ export default defineComponent({
       }
     }, 0);
 
-    if (this.actualFeature && (this.actualFeature === true || this.actualFeature === 'true')) {
+    if (this.actualFeature && this.actualFeature === 'true') {
       this.actualFeature = this.contentTitle;
     }
 
@@ -87,13 +88,13 @@ export default defineComponent({
       adminContent = document.querySelector('#content.admin');
     }
 
-    let contentTopPosition: number;
+    let contentTopPosition: number|null = null;
     if (adminContent) {
       contentTopPosition = adminContent.offsetTop;
     }
 
     if (contentTopPosition || contentTopPosition === 0) {
-      const parents = root.closest('[piwik-widget-loader]');
+      const parents = root.closest('[piwik-widget-loader]') as HTMLElement;
 
       // when shown within the widget loader, we need to get the offset of that element
       // as the widget loader might be still shown. Would otherwise not position correctly
@@ -103,7 +104,7 @@ export default defineComponent({
       if (topThis - contentTopPosition < 17) {
         // we make sure to display the first card with no margin-top to have it on same as line as
         // navigation
-        root.style.marginTop = 0;
+        root.style.marginTop = '0';
       }
     }
   },

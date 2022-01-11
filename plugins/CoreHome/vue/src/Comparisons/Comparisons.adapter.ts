@@ -13,9 +13,7 @@ function ComparisonFactory() {
   return ComparisonsStoreInstance;
 }
 
-ComparisonFactory.$inject = [];
-
-angular.module('piwikApp.service').factory('piwikComparisonsService', ComparisonFactory);
+window.angular.module('piwikApp.service').factory('piwikComparisonsService', ComparisonFactory);
 
 export default createAngularJsAdapter({
   component: Comparisons,

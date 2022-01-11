@@ -117,5 +117,30 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead';
         $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail';
         $translationKeys[] = 'SitesManager_InstallationGuides';
+        $translationKeys[] = 'CoreAdminHome_ArchivingSettings';
+        $translationKeys[] = 'General_AllowPiwikArchivingToTriggerBrowser';
+        $translationKeys[] = 'General_ReportsContainingTodayWillBeProcessedAtMostEvery';
+        $translationKeys[] = 'General_SmallTrafficYouCanLeaveDefault';
+        $translationKeys[] = 'General_ArchivingTriggerDescription';
+        $translationKeys[] = 'General_ArchivingTriggerSegment';
+        $translationKeys[] = 'General_SeeTheOfficialDocumentationForMoreInformation';
+        $translationKeys[] = 'General_SmallTrafficYouCanLeaveDefault';
+        $translationKeys[] = 'General_MediumToHighTrafficItIsRecommendedTo';
+        $translationKeys[] = 'General_RearchiveTimeIntervalOnlyForTodayReports';
+        $translationKeys[] = 'General_ArchivingInlineHelp';
+        $translationKeys[] = 'General_NewReportsWillBeProcessedByCron';
+        $translationKeys[] = 'General_ReportsWillBeProcessedAtMostEveryHour';
+        $translationKeys[] = 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften';
+        $translationKeys[] = 'CoreAdminHome_BrandingSettings';
+        $translationKeys[] = 'CoreAdminHome_CustomLogoHelpText';
+        $translationKeys[] = 'CoreAdminHome_UseCustomLogo';
+        $translationKeys[] = 'CoreAdminHome_LogoUpload';
+        $translationKeys[] = 'CoreAdminHome_FaviconUpload';
+        $translationKeys[] = 'CoreAdminHome_LogoUploadHelp';
+        $translationKeys[] = 'CoreAdminHome_LogoUploadFailed';
+        $translationKeys[] = 'CoreAdminHome_FileUploadDisabled';
+        $translationKeys[] = 'CoreAdminHome_LogoNotWriteableInstruction';
+        $translationKeys[] = 'General_GiveUsYourFeedback';
+        $translationKeys[] = 'CoreAdminHome_CustomLogoFeedbackInfo';
     }
 }

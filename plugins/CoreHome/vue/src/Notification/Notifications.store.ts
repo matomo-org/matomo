@@ -98,8 +98,10 @@ interface NotificationsData {
   notifications: Notification[];
 }
 
+const { $ } = window;
+
 class NotificationsStore {
-  private privateState: NotificationsData = reactive<NotificationsData>({
+  private privateState = reactive<NotificationsData>({
     notifications: [],
   });
 
@@ -142,7 +144,7 @@ class NotificationsStore {
     const $notificationNodes = $('[data-role="notification"]');
 
     const notificationsToShow: Notification[] = [];
-    $notificationNodes.each((index, notificationNode) => {
+    $notificationNodes.each((index: number, notificationNode: HTMLElement) => {
       const $notificationNode = $(notificationNode);
       const attributes = $notificationNode.data();
       const message = $notificationNode.html();
@@ -171,7 +173,7 @@ class NotificationsStore {
 
     let addMethod = notification.prepend ? this.prependNotification : this.appendNotification;
 
-    let notificationPosition: typeof Notification['placeat'] = '#notificationContainer';
+    let notificationPosition: Notification['placeat'] = '#notificationContainer';
     if (notification.placeat) {
       notificationPosition = notification.placeat;
     } else {
@@ -181,7 +183,7 @@ class NotificationsStore {
       const modal = document.querySelector(modalSelector);
       if (modal) {
         if (!modal.querySelector('#modalNotificationContainer')) {
-          window.$(modal).prepend('<div id="modalNotificationContainer"/>');
+          $(modal).prepend('<div id="modalNotificationContainer"/>');
         }
 
         notificationPosition = `${modalSelector} #modalNotificationContainer`;
@@ -210,7 +212,9 @@ class NotificationsStore {
 
   scrollToNotification(notificationInstanceId: string) {
     setTimeout(() => {
-      const element = document.querySelector(`[data-notification-instance-id='${notificationInstanceId}']`);
+      const element = document.querySelector(
+        `[data-notification-instance-id='${notificationInstanceId}']`,
+      ) as HTMLElement;
       if (element) {
         Matomo.helper.lazyScrollTo(element, 250);
       }
@@ -223,15 +227,15 @@ class NotificationsStore {
   toast(notification: Notification): void {
     this.checkMessage(notification.message);
 
-    const $placeat = $(notification.placeat);
-    if (!$placeat.length) {
+    const $placeat = notification.placeat ? $(notification.placeat) : undefined;
+    if (!$placeat || !$placeat.length) {
       throw new Error('A valid selector is required for the placeat option when using Notification.toast().');
     }
 
     const toastElement = document.createElement('div');
     toastElement.style.position = 'absolute';
-    toastElement.style.top = `${$placeat.offset().top}px`;
-    toastElement.style.left = `${$placeat.offset().left}px`;
+    toastElement.style.top = `${$placeat.offset()!.top}px`;
+    toastElement.style.left = `${$placeat.offset()!.left}px`;
     toastElement.style.zIndex = '1000';
     document.body.appendChild(toastElement);
 
@@ -249,10 +253,14 @@ class NotificationsStore {
   }
 
   private initializeNotificationContainer(
-    notificationPosition: typeof Notification['placeat'],
+    notificationPosition: Notification['placeat'],
     group: string,
   ) {
-    const $container = window.$(notificationPosition);
+    if (!notificationPosition) {
+      return;
+    }
+
+    const $container = $(notificationPosition);
     if ($container.children('.notification-group').length) {
       return;
     }

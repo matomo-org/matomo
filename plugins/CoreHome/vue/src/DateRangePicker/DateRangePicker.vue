@@ -63,12 +63,22 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import JQuery = JQuery;
 import DatePicker from '../DatePicker/DatePicker.vue';
 import { parseDate, format } from '../Periods/utilities';
 import ChangeEvent = JQuery.ChangeEvent;
 
 const DATE_FORMAT = 'YYYY-MM-DD';
+
+interface DateRangePickerState {
+  fromPickerSelectedDates: (Date|null)[];
+  toPickerSelectedDates: (Date|null)[];
+  fromPickerHighlightedDates: (Date|null)[];
+  toPickerHighlightedDates: (Date|null)[];
+  startDateText?: string;
+  endDateText?: string;
+  startDateInvalid: boolean;
+  endDateInvalid: boolean;
+}
 
 export default defineComponent({
   props: {
@@ -78,17 +88,21 @@ export default defineComponent({
   components: {
     DatePicker,
   },
-  data() {
+  data(): DateRangePickerState {
     let startDate = null;
     try {
-      startDate = parseDate(this.startDate);
+      if (this.startDate) {
+        startDate = parseDate(this.startDate);
+      }
     } catch (e) {
       // ignore
     }
 
     let endDate = null;
     try {
-      endDate = parseDate(this.endDate);
+      if (this.endDate) {
+        endDate = parseDate(this.endDate);
+      }
     } catch (e) {
       // ignore
     }
@@ -155,12 +169,12 @@ export default defineComponent({
         end: this.endDate,
       });
     },
-    setStartRangeDateFromStr(dateStr: string) {
+    setStartRangeDateFromStr(dateStr?: string) {
       this.startDateInvalid = true;
 
-      let startDateParsed: Date;
+      let startDateParsed: Date|null = null;
       try {
-        if (dateStr.length === DATE_FORMAT.length) {
+        if (dateStr && dateStr.length === DATE_FORMAT.length) {
           startDateParsed = parseDate(dateStr);
         }
       } catch (e) {
@@ -174,12 +188,12 @@ export default defineComponent({
         this.rangeChanged();
       }
     },
-    setEndRangeDateFromStr(dateStr: string) {
+    setEndRangeDateFromStr(dateStr?: string) {
       this.endDateInvalid = true;
 
-      let endDateParsed: Date;
+      let endDateParsed: Date|null = null;
       try {
-        if (dateStr.length === DATE_FORMAT.length) {
+        if (dateStr && dateStr.length === DATE_FORMAT.length) {
           endDateParsed = parseDate(dateStr);
         }
       } catch (e) {
@@ -195,8 +209,8 @@ export default defineComponent({
     },
     rangeChanged() {
       this.$emit('rangeChange', {
-        start: format(this.fromPickerSelectedDates[0]),
-        end: format(this.toPickerSelectedDates[0]),
+        start: this.fromPickerSelectedDates[0] ? format(this.fromPickerSelectedDates[0]) : null,
+        end: this.toPickerSelectedDates[0] ? format(this.toPickerSelectedDates[0]) : null,
       });
     },
   },

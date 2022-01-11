@@ -39,6 +39,7 @@ function piwikFocusAnywhereButHere(): IDirective {
   };
 }
 
-piwikFocusAnywhereButHere.$inject = [];
-
-angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', piwikFocusAnywhereButHere);
+window.angular.module('piwikApp.directive').directive(
+  'piwikFocusAnywhereButHere',
+  piwikFocusAnywhereButHere,
+);
