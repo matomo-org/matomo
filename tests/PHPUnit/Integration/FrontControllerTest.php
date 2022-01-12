@@ -55,7 +55,11 @@ FORMAT;
 test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('...', '...', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(845): Piwik\EventDispatcher-&gt;postEvent('...', Array, false, Array) #3 {includePath}/core/FrontController.php(602): Piwik\Piwik::postEvent('...', Array) #4 {includePath}/core/FrontController.php(168): Piwik\FrontController-&gt;doDispatch('...', '...', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('...', '...') #6 {main}
 FORMAT;
         }
-        $this->assertStringMatchesFormat($expectedFormat, $response['message']);
+        //remove all the numbers
+        $expectedFormat = preg_replace('/[0-9]+/', 'x', $expectedFormat);
+        $actualFormat = preg_replace('/[0-9]+/', 'x', $response['message']);
+
+        $this->assertStringMatchesFormat($expectedFormat, $actualFormat);
     }
 
     /**
