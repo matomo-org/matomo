@@ -24,7 +24,7 @@
         <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/"
            target="_blank" rel="noopener">WordPress</a> |
         <a href="https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/"
-           taret="_blank" rel="noopener">Squarespace</a> |
+           target="_blank" rel="noopener">Squarespace</a> |
         <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/"
            target="_blank" rel="noopener">Wix</a> |
         <a href="https://matomo.org/faq/how-to-install/faq_19424/"
@@ -315,6 +315,7 @@ interface JsTrackingCodeGeneratorState {
   customCampaignName: string;
   customCampaignKeyword: string;
   trackingCodeAbortController: AbortController|null;
+  isHighlighting: boolean;
 }
 
 interface GetJavascriptTagResponse {
@@ -366,6 +367,7 @@ export default defineComponent({
       customCampaignName: '',
       customCampaignKeyword: '',
       trackingCodeAbortController: null,
+      isHighlighting: false,
     };
   },
   components: {
@@ -489,7 +491,7 @@ export default defineComponent({
 
       this.trackingCodeAbortController = new AbortController();
 
-      return AjaxHelper.post<GetJavascriptTagResponse>(
+      AjaxHelper.post<GetJavascriptTagResponse>(
         {
           module: 'API',
           format: 'json',
@@ -506,8 +508,13 @@ export default defineComponent({
         this.trackingCode = response.value;
 
         const jsCodeTextarea = $(this.$refs.trackingCode as HTMLElement);
-        if (jsCodeTextarea) {
-          jsCodeTextarea.effect('highlight', {}, 1500);
+        if (jsCodeTextarea && !this.isHighlighting) {
+          this.isHighlighting = true;
+          jsCodeTextarea.effect('highlight', {
+            complete: () => {
+              this.isHighlighting = false;
+            },
+          }, 1500);
         }
       });
     },
