@@ -30,7 +30,7 @@ sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php >
 
 
 # setup js and xml
-if [ "$MATOMO_TEST_TARGET" = "UI" ] || [ "$MATOMO_TEST_TARGET" = "Javascript" ];
+if [ "$MATOMO_TEST_TARGET" = "UI" ] || [ "$MATOMO_TEST_TARGET" = "JS" ];
 then
   echo -e "${GREEN}installing node/puppeteer${SET}"
   cd ./tests/lib/screenshot-testing
@@ -47,7 +47,7 @@ else
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 fi
 
-if [ "$MATOMO_TEST_TARGET" = "Javascript" ];
+if [ "$MATOMO_TEST_TARGET" = "JS" ];
 then
   echo -e "${GREEN}Angular Package${SET}"
   cd ./tests/angularjs
