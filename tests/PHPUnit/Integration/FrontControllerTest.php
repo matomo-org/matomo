@@ -52,7 +52,7 @@ test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0
 FORMAT;
         if (getenv('GITHUB') && getenv('PHP_VERSION') != '7.2') {
         $expectedFormat = <<<FORMAT
-test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('...', '...', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(845): Piwik\EventDispatcher-&gt;postEvent('...', Array, false, Array) #3 {includePath}/core/FrontController.php(599): Piwik\Piwik::postEvent('...', Array) #4 {includePath}/core/FrontController.php(168): Piwik\FrontController-&gt;doDispatch('...', '...', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('...', '...') #6 {main}
+test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('...', '...', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(845): Piwik\EventDispatcher-&gt;postEvent('...', Array, false, Array) #3 {includePath}/core/FrontController.php(602): Piwik\Piwik::postEvent('...', Array) #4 {includePath}/core/FrontController.php(168): Piwik\FrontController-&gt;doDispatch('...', '...', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('...', '...') #6 {main}
 FORMAT;
         }
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);

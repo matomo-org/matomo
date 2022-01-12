@@ -47,6 +47,13 @@ else
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 fi
 
+if [ "$MATOMO_TEST_TARGET" = "Javascript" ];
+then
+  echo -e "${GREEN}Angular Package${SET}"
+  cd ./tests/angularjs
+  npm install
+fi
+
 #update chrome drive
 if [ "$MATOMO_TEST_TARGET" == "UI" ];
 then

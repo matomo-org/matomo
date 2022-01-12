@@ -98,7 +98,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'JavascriptTests-js', 'AngularJSTests-js' ]
+        tests: [ 'JavascriptTests', 'AngularTests' ]
         php: [ '7.2' ]
 
     steps:
@@ -131,15 +131,14 @@ jobs:
           MYSQL_ADAPTER: 'PDO_MYSQL'
 
       - name: Javascript Tests
-        if: matrix.tests == 'JavascriptTests-js'
+        if: matrix.tests == 'JavascriptTests'
         run: |
           ./console tests:run-js --matomo-url='http://localhost'
 
       - name: Running angularjs && vue tests
-        if: matrix.tests == 'AngularJSTests-js'
+        if: matrix.tests == 'AngularTests'
         working-directory: ./tests/angularjs
         run: |
-          npm install
           ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
 
   UI:
