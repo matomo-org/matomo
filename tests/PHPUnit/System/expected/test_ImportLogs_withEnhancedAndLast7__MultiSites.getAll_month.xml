@@ -8,6 +8,8 @@
 			<nb_pageviews>45</nb_pageviews>
 			<revenue>195</revenue>
 			<nb_conversions>39</nb_conversions>
+			<orders>0</orders>
+			<ecommerce_revenue>0</ecommerce_revenue>
 			<visits_evolution>100%</visits_evolution>
 			<visits_evolution_trend>1</visits_evolution_trend>
 			<actions_evolution>100%</actions_evolution>
@@ -18,6 +20,10 @@
 			<revenue_evolution_trend>1</revenue_evolution_trend>
 			<nb_conversions_evolution>100%</nb_conversions_evolution>
 			<nb_conversions_evolution_trend>1</nb_conversions_evolution_trend>
+			<orders_evolution>0%</orders_evolution>
+			<orders_evolution_trend>0</orders_evolution_trend>
+			<ecommerce_revenue_evolution>0%</ecommerce_revenue_evolution>
+			<ecommerce_revenue_evolution_trend>0</ecommerce_revenue_evolution_trend>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -28,6 +34,8 @@
 			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
 			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<previous_Goal_nb_conversions>0</previous_Goal_nb_conversions>
+			<previous_Goal_0_nb_conversions>0</previous_Goal_0_nb_conversions>
+			<previous_Goal_0_revenue>0</previous_Goal_0_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -100,6 +108,8 @@
 			<nb_pageviews>10</nb_pageviews>
 			<revenue>5</revenue>
 			<nb_conversions>1</nb_conversions>
+			<orders>0</orders>
+			<ecommerce_revenue>0</ecommerce_revenue>
 			<visits_evolution>-97.7%</visits_evolution>
 			<visits_evolution_trend>-1</visits_evolution_trend>
 			<actions_evolution>-80.4%</actions_evolution>
@@ -110,6 +120,10 @@
 			<revenue_evolution_trend>-1</revenue_evolution_trend>
 			<nb_conversions_evolution>-97.4%</nb_conversions_evolution>
 			<nb_conversions_evolution_trend>-1</nb_conversions_evolution_trend>
+			<orders_evolution>0%</orders_evolution>
+			<orders_evolution_trend>0</orders_evolution_trend>
+			<ecommerce_revenue_evolution>0%</ecommerce_revenue_evolution>
+			<ecommerce_revenue_evolution_trend>0</ecommerce_revenue_evolution_trend>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -120,6 +134,8 @@
 			<previous_Actions_nb_pageviews>45</previous_Actions_nb_pageviews>
 			<previous_Goal_revenue>195</previous_Goal_revenue>
 			<previous_Goal_nb_conversions>39</previous_Goal_nb_conversions>
+			<previous_Goal_0_nb_conversions>0</previous_Goal_0_nb_conversions>
+			<previous_Goal_0_revenue>0</previous_Goal_0_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -192,6 +208,8 @@
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
+			<orders>0</orders>
+			<ecommerce_revenue>0</ecommerce_revenue>
 			<visits_evolution>-100%</visits_evolution>
 			<visits_evolution_trend>-1</visits_evolution_trend>
 			<actions_evolution>-100%</actions_evolution>
@@ -202,6 +220,10 @@
 			<revenue_evolution_trend>-1</revenue_evolution_trend>
 			<nb_conversions_evolution>-100%</nb_conversions_evolution>
 			<nb_conversions_evolution_trend>-1</nb_conversions_evolution_trend>
+			<orders_evolution>0%</orders_evolution>
+			<orders_evolution_trend>0</orders_evolution_trend>
+			<ecommerce_revenue_evolution>0%</ecommerce_revenue_evolution>
+			<ecommerce_revenue_evolution_trend>0</ecommerce_revenue_evolution_trend>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -212,6 +234,8 @@
 			<previous_Actions_nb_pageviews>10</previous_Actions_nb_pageviews>
 			<previous_Goal_revenue>5</previous_Goal_revenue>
 			<previous_Goal_nb_conversions>1</previous_Goal_nb_conversions>
+			<previous_Goal_0_nb_conversions>0</previous_Goal_0_nb_conversions>
+			<previous_Goal_0_revenue>0</previous_Goal_0_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -284,6 +308,8 @@
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
+			<orders>0</orders>
+			<ecommerce_revenue>0</ecommerce_revenue>
 			<visits_evolution>0%</visits_evolution>
 			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
@@ -294,6 +320,10 @@
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
 			<nb_conversions_evolution_trend>0</nb_conversions_evolution_trend>
+			<orders_evolution>0%</orders_evolution>
+			<orders_evolution_trend>0</orders_evolution_trend>
+			<ecommerce_revenue_evolution>0%</ecommerce_revenue_evolution>
+			<ecommerce_revenue_evolution_trend>0</ecommerce_revenue_evolution_trend>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -304,6 +334,8 @@
 			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
 			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<previous_Goal_nb_conversions>0</previous_Goal_nb_conversions>
+			<previous_Goal_0_nb_conversions>0</previous_Goal_0_nb_conversions>
+			<previous_Goal_0_revenue>0</previous_Goal_0_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -376,6 +408,8 @@
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
+			<orders>0</orders>
+			<ecommerce_revenue>0</ecommerce_revenue>
 			<visits_evolution>0%</visits_evolution>
 			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
@@ -386,6 +420,10 @@
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
 			<nb_conversions_evolution_trend>0</nb_conversions_evolution_trend>
+			<orders_evolution>0%</orders_evolution>
+			<orders_evolution_trend>0</orders_evolution_trend>
+			<ecommerce_revenue_evolution>0%</ecommerce_revenue_evolution>
+			<ecommerce_revenue_evolution_trend>0</ecommerce_revenue_evolution_trend>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -396,6 +434,8 @@
 			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
 			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<previous_Goal_nb_conversions>0</previous_Goal_nb_conversions>
+			<previous_Goal_0_nb_conversions>0</previous_Goal_0_nb_conversions>
+			<previous_Goal_0_revenue>0</previous_Goal_0_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -468,6 +508,8 @@
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
+			<orders>0</orders>
+			<ecommerce_revenue>0</ecommerce_revenue>
 			<visits_evolution>0%</visits_evolution>
 			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
@@ -478,6 +520,10 @@
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
 			<nb_conversions_evolution_trend>0</nb_conversions_evolution_trend>
+			<orders_evolution>0%</orders_evolution>
+			<orders_evolution_trend>0</orders_evolution_trend>
+			<ecommerce_revenue_evolution>0%</ecommerce_revenue_evolution>
+			<ecommerce_revenue_evolution_trend>0</ecommerce_revenue_evolution_trend>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -488,6 +534,8 @@
 			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
 			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<previous_Goal_nb_conversions>0</previous_Goal_nb_conversions>
+			<previous_Goal_0_nb_conversions>0</previous_Goal_0_nb_conversions>
+			<previous_Goal_0_revenue>0</previous_Goal_0_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -560,6 +608,8 @@
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
+			<orders>0</orders>
+			<ecommerce_revenue>0</ecommerce_revenue>
 			<visits_evolution>0%</visits_evolution>
 			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
@@ -570,6 +620,10 @@
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
 			<nb_conversions_evolution_trend>0</nb_conversions_evolution_trend>
+			<orders_evolution>0%</orders_evolution>
+			<orders_evolution_trend>0</orders_evolution_trend>
+			<ecommerce_revenue_evolution>0%</ecommerce_revenue_evolution>
+			<ecommerce_revenue_evolution_trend>0</ecommerce_revenue_evolution_trend>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -580,6 +634,8 @@
 			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
 			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<previous_Goal_nb_conversions>0</previous_Goal_nb_conversions>
+			<previous_Goal_0_nb_conversions>0</previous_Goal_0_nb_conversions>
+			<previous_Goal_0_revenue>0</previous_Goal_0_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>

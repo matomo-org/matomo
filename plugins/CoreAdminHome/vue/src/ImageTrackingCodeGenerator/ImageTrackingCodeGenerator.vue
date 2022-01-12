@@ -92,6 +92,7 @@ import {
   SiteRef,
   Site,
   SelectOnFocus,
+  debounce,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -111,6 +112,7 @@ interface ImageTrackingCodeGeneratorState {
   sites: Record<string, Site>;
   goals: Record<string, Goal[]>;
   trackingCodeAbortController: AbortController|null;
+  isHighlighting: boolean;
 }
 
 interface GetImageTrackingResponse {
@@ -152,9 +154,12 @@ export default defineComponent({
       sites: {},
       goals: {},
       trackingCodeAbortController: null,
+      isHighlighting: false,
     };
   },
   created() {
+    this.updateTrackingCode = debounce(this.updateTrackingCode);
+
     if (this.site && this.site.id) {
       this.onSiteChanged(this.site);
     }
@@ -235,7 +240,7 @@ export default defineComponent({
       }
 
       this.trackingCodeAbortController = new AbortController();
-      return AjaxHelper.post<GetImageTrackingResponse>(
+      AjaxHelper.post<GetImageTrackingResponse>(
         {
           module: 'API',
           format: 'json',
@@ -249,9 +254,14 @@ export default defineComponent({
 
         this.trackingCode = response.value;
 
-        const jsCodeTextarea = $(this.$refs.trackingCode as HTMLElement);
-        if (jsCodeTextarea) {
-          jsCodeTextarea.effect('highlight', {}, 1500);
+        const imageCodeTextarea = $(this.$refs.trackingCode as HTMLElement);
+        if (imageCodeTextarea && !this.isHighlighting) {
+          this.isHighlighting = true;
+          imageCodeTextarea.effect('highlight', {
+            complete: () => {
+              this.isHighlighting = false;
+            },
+          }, 1500);
         }
       });
     },

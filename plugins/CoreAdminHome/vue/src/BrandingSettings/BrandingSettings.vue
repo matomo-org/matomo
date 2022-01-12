@@ -215,7 +215,7 @@ export default defineComponent({
         return undefined;
       }
 
-      const giveUsFeedbackText = translate('General_GiveUsYourFeedback');
+      const giveUsFeedbackText = `"${translate('General_GiveUsYourFeedback')}"`;
       const linkStart = '<a href="?module=CorePluginsAdmin&action=plugins" '
         + 'rel="noreferrer noopener" target="_blank">';
       return translate(
