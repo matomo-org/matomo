@@ -52,6 +52,10 @@ then
   echo -e "${GREEN}Angular Package${SET}"
   cd ./tests/angularjs
   npm install
+  echo -e "${GREEN}Setup php -S${SET}"
+  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
+  tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
+  tmux ls
 fi
 
 #update chrome drive
@@ -63,20 +67,22 @@ then
   google-chrome --version
 fi
 
-
-echo -e "${GREEN}setup php-fpm${SET}"
-sudo systemctl enable php$PHP_VERSION-fpm.service
-sudo systemctl start php$PHP_VERSION-fpm.service
-sudo cp -rf  ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
-sudo systemctl reload php$PHP_VERSION-fpm.service
-sudo systemctl restart php$PHP_VERSION-fpm.service
-sudo systemctl status php$PHP_VERSION-fpm.service
-sudo systemctl enable nginx
-sudo systemctl start nginx
-sudo cp ./.github/artifacts/ui_nginx.conf /etc/nginx/conf.d/
-sudo unlink /etc/nginx/sites-enabled/default
-sudo systemctl reload nginx
-sudo systemctl restart nginx
+if [ "$MATOMO_TEST_TARGET" != "JS" ];
+then
+  echo -e "${GREEN}setup php-fpm${SET}"
+  sudo systemctl enable php$PHP_VERSION-fpm.service
+  sudo systemctl start php$PHP_VERSION-fpm.service
+  sudo cp -rf  ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
+  sudo systemctl reload php$PHP_VERSION-fpm.service
+  sudo systemctl restart php$PHP_VERSION-fpm.service
+  sudo systemctl status php$PHP_VERSION-fpm.service
+  sudo systemctl enable nginx
+  sudo systemctl start nginx
+  sudo cp ./.github/artifacts/ui_nginx.conf /etc/nginx/conf.d/
+  sudo unlink /etc/nginx/sites-enabled/default
+  sudo systemctl reload nginx
+  sudo systemctl restart nginx
+fi
 
 echo -e "${GREEN}set up Folder${SET}"
 mkdir -p ./tmp/assets
