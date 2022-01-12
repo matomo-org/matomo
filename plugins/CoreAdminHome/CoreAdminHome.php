@@ -142,5 +142,24 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_LogoNotWriteableInstruction';
         $translationKeys[] = 'General_GiveUsYourFeedback';
         $translationKeys[] = 'CoreAdminHome_CustomLogoFeedbackInfo';
+        $translationKeys[] = 'CoreAdminHome_EmailServerSettings';
+        $translationKeys[] = 'General_UseSMTPServerForEmail';
+        $translationKeys[] = 'General_SelectYesIfYouWantToSendEmailsViaServer';
+        $translationKeys[] = 'General_SmtpServerAddress';
+        $translationKeys[] = 'General_SmtpPort';
+        $translationKeys[] = 'General_OptionalSmtpPort';
+        $translationKeys[] = 'General_AuthenticationMethodSmtp';
+        $translationKeys[] = 'General_OnlyUsedIfUserPwdIsSet';
+        $translationKeys[] = 'General_SmtpUsername';
+        $translationKeys[] = 'General_OnlyEnterIfRequired';
+        $translationKeys[] = 'General_SmtpPassword';
+        $translationKeys[] = 'General_SmtpFromAddress';
+        $translationKeys[] = 'General_SmtpFromEmailHelp';
+        $translationKeys[] = 'General_SmtpFromName';
+        $translationKeys[] = 'General_NameShownInTheSenderColumn';
+        $translationKeys[] = 'General_SmtpEncryption';
+        $translationKeys[] = 'General_EncryptedSmtpTransport';
+        $translationKeys[] = 'General_OnlyEnterIfRequiredPassword';
+        $translationKeys[] = 'General_WarningPasswordStored';
     }
 }
