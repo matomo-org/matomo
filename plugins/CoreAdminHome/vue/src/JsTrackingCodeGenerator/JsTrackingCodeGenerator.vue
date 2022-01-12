@@ -14,7 +14,8 @@
         {{ translate('CoreAdminHome_JSTrackingIntro1') }}
         <br/><br/>
         {{ translate('CoreAdminHome_JSTrackingIntro2') }}
-        <span v-html="jsTrackingIntro3a"></span> {{ translate('CoreAdminHome_JSTrackingIntro3b') }}
+        <span v-html="jsTrackingIntro3a"></span>
+        <span v-html="jsTrackingIntro3b"></span>
         <br/><br/>
         <span v-html="jsTrackingIntro4a"></span>
         <br/><br/>
@@ -569,6 +570,9 @@ export default defineComponent({
         '<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">',
         '</a>',
       );
+    },
+    jsTrackingIntro3b() {
+      return translate('CoreAdminHome_JSTrackingIntro3b');
     },
     jsTrackingIntro4a() {
       return translate(

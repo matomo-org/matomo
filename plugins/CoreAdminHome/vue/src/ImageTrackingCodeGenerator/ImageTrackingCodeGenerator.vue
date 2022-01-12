@@ -171,6 +171,8 @@ export default defineComponent({
   },
   methods: {
     onSiteChanged(newValue: SiteRef) {
+      this.trackIdGoal = null;
+
       let currencyPromise: Promise<CurrencyApiResponse>;
       if (currencySymbols) {
         currencyPromise = Promise.resolve(currencySymbols!);
