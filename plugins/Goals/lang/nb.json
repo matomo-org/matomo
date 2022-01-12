@@ -17,6 +17,7 @@
         "CategoryTextReferrers_Referrers": "Henvisere",
         "CategoryTextVisitsSummary_VisitsSummary": "Brukerattributt",
         "ClickOutlink": "Klikk på en lenke til et eksternt nettsted",
+        "ClickToViewThisGoal": "Klikk for å vise dette målet.",
         "ColumnAverageOrderRevenueDocumentation": "Gjennomsnittlig bestillingsverdi (AOV) er den totale omsetningen fra alle Ecommerce-bestillinger delt på antallet bestillinger.",
         "ColumnAveragePriceDocumentation": "Gjennomsnittlig omsetning for denne %s.",
         "ColumnAverageQuantityDocumentation": "Gjennomsnittlig volum for denne %s solgt i Ecommerce-bestillinger.",
@@ -98,6 +99,7 @@
         "UseEventValueAsRevenue": "Bruk hendelsesverdien (hvis den finnes) for å se målsatt konverteringsomsetning.",
         "ViewAndEditGoals": "Vis og rediger mål",
         "VisitDuration": "besøksvarigheten er",
+        "VisitsUntilConv": "Besøk per konvertering",
         "WhenVisitors": "når besøkende",
         "WhereThe": "hvor"
     }
