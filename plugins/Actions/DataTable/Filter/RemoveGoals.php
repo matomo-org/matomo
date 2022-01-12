@@ -8,14 +8,9 @@
  */
 namespace Piwik\Plugins\Actions\DataTable\Filter;
 
-use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataTable\BaseFilter;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
-use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\PageUrl;
+use Piwik\API\Request;
 
 class RemoveGoals extends BaseFilter
 {
@@ -34,25 +29,37 @@ class RemoveGoals extends BaseFilter
      */
     public function filter($table)
     {
-        $table->filter(function (DataTable $dataTable) {
-
-            foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
-
-                $goals = $row->getMetadata('goals');
-                if ($goals) {
-
-                    $goalCols = ['nb_conversions', 'revenue', 'nb_conv_pages_before', 'nb_conversions_attrib',
-                        'nb_conversions_page_rate', 'nb_conversions_page_uniq', 'revenue_attrib', 'revenue_entry',
-                        'nb_conversions_entry_rate', 'revenue_per_entry', 'nb_conversions_entry'];
-                    foreach ($goals as $goalId) {
-                        foreach ($goalCols as $columnName) {
-                            $row->deleteColumn('goal_'.$goalId.'_'.$columnName);
-                        }
-                    }
-                    $row->deleteMetadata('goals');
-                }
-
+        $site = $table->getMetadata('site');
+        if ($site) {
+            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $site->getId(), 'filter_limit' => '-1'], $default = []);
+            if ($goals) {
+                $this->removeGoalsColumns($table, $goals);
             }
-        });
+        }
     }
+
+    private function removeGoalsColumns(DataTable $datatable, array $goals)
+    {
+        $goalCols = ['nb_conversions', 'revenue', 'nb_conv_pages_before', 'nb_conversions_attrib',
+                         'nb_conversions_page_rate', 'nb_conversions_page_uniq', 'revenue_attrib', 'revenue_entry',
+                         'nb_conversions_entry_rate', 'revenue_per_entry', 'nb_conversions_entry'];
+
+        foreach ($datatable->getRowsWithoutSummaryRow() as $row) {
+
+            foreach ($goals as $goalId => $goal) {
+                foreach ($goalCols as $columnName) {
+                    $row->deleteColumn('goal_'.$goalId.'_'.$columnName);
+                }
+            }
+            $row->deleteMetadata('goals');
+
+            $st = $row->getSubtable();
+            if ($st) {
+                $this->removeGoalsColumns($st, $goals);
+            }
+
+        }
+    }
+
+
 }
