@@ -3,9 +3,7 @@ name: Matomo Tests
 on:
   workflow_run:
     workflows: ["Build Vue files"]
-    branches: [4.x-dev]
-    types:
-      - completed
+    types: [completed]
   schedule:
     - cron: '0 0 * * *'
 
