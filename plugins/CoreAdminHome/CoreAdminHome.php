@@ -131,5 +131,35 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'General_NewReportsWillBeProcessedByCron';
         $translationKeys[] = 'General_ReportsWillBeProcessedAtMostEveryHour';
         $translationKeys[] = 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften';
+        $translationKeys[] = 'CoreAdminHome_BrandingSettings';
+        $translationKeys[] = 'CoreAdminHome_CustomLogoHelpText';
+        $translationKeys[] = 'CoreAdminHome_UseCustomLogo';
+        $translationKeys[] = 'CoreAdminHome_LogoUpload';
+        $translationKeys[] = 'CoreAdminHome_FaviconUpload';
+        $translationKeys[] = 'CoreAdminHome_LogoUploadHelp';
+        $translationKeys[] = 'CoreAdminHome_LogoUploadFailed';
+        $translationKeys[] = 'CoreAdminHome_FileUploadDisabled';
+        $translationKeys[] = 'CoreAdminHome_LogoNotWriteableInstruction';
+        $translationKeys[] = 'General_GiveUsYourFeedback';
+        $translationKeys[] = 'CoreAdminHome_CustomLogoFeedbackInfo';
+        $translationKeys[] = 'CoreAdminHome_EmailServerSettings';
+        $translationKeys[] = 'General_UseSMTPServerForEmail';
+        $translationKeys[] = 'General_SelectYesIfYouWantToSendEmailsViaServer';
+        $translationKeys[] = 'General_SmtpServerAddress';
+        $translationKeys[] = 'General_SmtpPort';
+        $translationKeys[] = 'General_OptionalSmtpPort';
+        $translationKeys[] = 'General_AuthenticationMethodSmtp';
+        $translationKeys[] = 'General_OnlyUsedIfUserPwdIsSet';
+        $translationKeys[] = 'General_SmtpUsername';
+        $translationKeys[] = 'General_OnlyEnterIfRequired';
+        $translationKeys[] = 'General_SmtpPassword';
+        $translationKeys[] = 'General_SmtpFromAddress';
+        $translationKeys[] = 'General_SmtpFromEmailHelp';
+        $translationKeys[] = 'General_SmtpFromName';
+        $translationKeys[] = 'General_NameShownInTheSenderColumn';
+        $translationKeys[] = 'General_SmtpEncryption';
+        $translationKeys[] = 'General_EncryptedSmtpTransport';
+        $translationKeys[] = 'General_OnlyEnterIfRequiredPassword';
+        $translationKeys[] = 'General_WarningPasswordStored';
     }
 }

@@ -12,39 +12,29 @@
     </div>
 
     <div class="file-path-wrapper">
-      <input class="file-path validate" :value="modelValue" type="text"/>
+      <input class="file-path validate" :value="filePath" type="text"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  watch,
-  ref,
-} from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
     name: String,
     title: String,
-    modelValue: String,
+    modelValue: [String, File],
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
-  setup(props) {
-    const fileInput = ref<HTMLInputElement|null>(null);
-
-    watch(() => props.modelValue, (v) => {
-      if (v === '') {
-        const fileInputElement = fileInput.value!;
-        fileInputElement.value = '';
+  watch: {
+    modelValue(v: string|File) {
+      if (!v || v === '') {
+        const fileInputElement = this.$refs.fileInput as HTMLInputElement;
+        fileInputElement!.value = '';
       }
-    });
-
-    return {
-      fileInput,
-    };
+    },
   },
   methods: {
     onChange(event: Event) {
@@ -55,6 +45,15 @@ export default defineComponent({
 
       const file = files.item(0);
       this.$emit('update:modelValue', file);
+    },
+  },
+  computed: {
+    filePath() {
+      if (this.modelValue instanceof File) {
+        return (this.$refs.fileInput as HTMLInputElement).value;
+      }
+
+      return undefined;
     },
   },
 });
