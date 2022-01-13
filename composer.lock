@@ -151,16 +151,16 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "dbdab86358f633a7338d5a0874b49863eadff750"
+                "reference": "dc73091cdda1d4218a99794e91a3232917620ed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/dbdab86358f633a7338d5a0874b49863eadff750",
-                "reference": "dbdab86358f633a7338d5a0874b49863eadff750",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/dc73091cdda1d4218a99794e91a3232917620ed5",
+                "reference": "dc73091cdda1d4218a99794e91a3232917620ed5",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
                 "issues": "https://github.com/davaxi/Sparkline/issues",
                 "source": "https://github.com/davaxi/Sparkline/releases"
             },
-            "time": "2021-09-30T19:16:11+00:00"
+            "time": "2022-01-13T14:03:40+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -398,16 +398,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "5.0.2",
+            "version": "5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "15cc0ac69bced9d273f85dd7debf9d6aaea72517"
+                "reference": "42c06b9031048b90f7bc6c9d530dbe135bc3e381"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/15cc0ac69bced9d273f85dd7debf9d6aaea72517",
-                "reference": "15cc0ac69bced9d273f85dd7debf9d6aaea72517",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/42c06b9031048b90f7bc6c9d530dbe135bc3e381",
+                "reference": "42c06b9031048b90f7bc6c9d530dbe135bc3e381",
                 "shasum": ""
             },
             "require": {
@@ -463,7 +463,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2022-01-11T14:01:02+00:00"
+            "time": "2022-01-13T19:22:57+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -2694,9 +2694,6 @@
             "require": {
                 "php": "^7.1 || ^8.0"
             },
-            "replace": {
-                "myclabs/deep-copy": "self.version"
-            },
             "require-dev": {
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.6",
@@ -4601,5 +4598,5 @@
     "platform-overrides": {
         "php": "7.2.9"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
