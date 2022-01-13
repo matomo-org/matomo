@@ -1,4 +1,4 @@
-name: Build Vue files
+name: Vue
 
 on:
   pull_request:
