@@ -3,7 +3,7 @@ name: Matomo Tests
 on:
   workflow_run:
     workflows:
-      - Vue
+      - buildvue
     types:
       - completed
 
