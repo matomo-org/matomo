@@ -7,12 +7,28 @@
 
 import { Orderable } from '../Orderable';
 
-export default  interface Subcategory extends Orderable {
+export interface Subcategory extends Orderable {
   id: string;
   name: string;
   isGroup: boolean;
   icon?: string;
   tooltip?: string;
   help?: string;
+
+  /**
+   * @deprecated exists for BC, should be removed in Matomo 5
+   */
+  active?: boolean;
+}
+
+export interface SubcategoryContainer extends Subcategory {
   subcategories: Subcategory[];
+}
+
+export function getSubcategoryChildren(subcategory: Subcategory): Subcategory[] {
+  const container = subcategory as SubcategoryContainer;
+  if (container.subcategories) {
+    return container.subcategories;
+  }
+  return [];
 }

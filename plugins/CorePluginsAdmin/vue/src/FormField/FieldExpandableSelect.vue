@@ -76,17 +76,32 @@ interface SelectValueInfo {
 
 interface AvailableOptions {
   group: string;
-  key: unknown;
+  key: string|number;
   value: unknown;
   tooltip?: string;
 }
 
-export function getAvailableOptions(
-  availableValues: Record<string, unknown>,
-): { key: string, value: unknown }[] {
-  const flatValues = [];
+interface Option {
+  key: string|number;
+  value: unknown;
+  tooltip?: string;
+}
 
-  const groups = {};
+interface OptionGroup {
+  group: string;
+  values: Option[];
+}
+
+export function getAvailableOptions(
+  availableValues: Record<string, unknown>|null,
+): OptionGroup[] {
+  const flatValues: OptionGroup[] = [];
+
+  if (!availableValues) {
+    return flatValues;
+  }
+
+  const groups: Record<string, OptionGroup> = {};
   Object.values(availableValues).forEach((uncastedValue) => {
     const value = uncastedValue as AvailableOptions;
     const group = value.group || '';
@@ -95,7 +110,7 @@ export function getAvailableOptions(
       groups[group] = { values: [], group };
     }
 
-    const formatted: Record<string, unknown> = { key: value.key, value: value.value };
+    const formatted: Option = { key: value.key, value: value.value };
 
     if ('tooltip' in value && value.tooltip) {
       formatted.tooltip = value.tooltip;
@@ -139,17 +154,18 @@ export default defineComponent({
       }
 
       const key = this.modelValue;
+      const availableOptions = (this.availableOptions || []) as OptionGroup[];
 
-      let keyItem: { key: string|number, value: unknown };
-      (this.availableOptions || []).some((option) => {
+      let keyItem!: { key: string|number, value: unknown }|undefined;
+      availableOptions.some((option) => {
         keyItem = option.values.find((item) => item.key === key);
         return keyItem; // stop iterating if found
       });
 
       if (keyItem) {
-        return keyItem.value.toString();
+        return keyItem.value ? `${keyItem.value}` : '';
       }
-      return key;
+      return key ? `${key}` : '';
     },
   },
   methods: {

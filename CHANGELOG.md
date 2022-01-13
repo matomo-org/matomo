@@ -12,6 +12,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   the `component` property should be used to add a new form field, it should be an object with two properties that reference a Vue component, `plugin` and `name`, where `plugin`
   is the plugin the Vue component is located in and `name` is the Vue name of the component's export. 
 
+### New Change Notifications
+
+* Plugins can now provide a list of changes which will be displayed as part of the "What's New?" menu notification. Learn more about how this works in the [developer guide.](https://developer.matomo.org/guides/providing-updates) 
+
+
 ## Matomo 4.6.0
 
 ### New Framework
