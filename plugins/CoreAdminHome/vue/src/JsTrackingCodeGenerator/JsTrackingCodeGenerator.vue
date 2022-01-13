@@ -14,7 +14,7 @@
         {{ translate('CoreAdminHome_JSTrackingIntro1') }}
         <br/><br/>
         {{ translate('CoreAdminHome_JSTrackingIntro2') }}
-        <span v-html="jsTrackingIntro3a"></span>
+        <span v-html="jsTrackingIntro3a"></span>&nbsp;
         <span v-html="jsTrackingIntro3b"></span>
         <br/><br/>
         <span v-html="jsTrackingIntro4a"></span>
