@@ -10,7 +10,7 @@
                 <h3 class="pluginName" piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ plugin.displayName }}</h3>
                 {% if plugin.specialOffer !='' %}
                 <span class="pluginSubtitle">
-                    <span class="red-text">{{ 'Marketplace_SpecialOffer'|translate }}:</span> {{ plugin.specialOffer }}
+                    <span>{{ 'Marketplace_SpecialOffer'|translate }}:</span> {{ plugin.specialOffer }}
                 </span>
                 {% endif %}
                 <span class="pluginBody">
