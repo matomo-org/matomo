@@ -774,7 +774,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('admin_manage_websites');
         });
 
-        it('should load the Manage > Tracking Code admin page correctly', async function () {
+        it.only('should load the Manage > Tracking Code admin page correctly', async function () {
             await page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
 
             // replace container id in tagmanager code, as it changes when updating omnifixture
