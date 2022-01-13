@@ -2100,7 +2100,7 @@ function conditionFn(scope, condition) {
           rows: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.rows),
           min: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.min),
           max: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.max),
-          component: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(value.templateFile ? FieldAngularJsTemplate : transformVueComponentRef(value.component))
+          component: value.templateFile ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(FieldAngularJsTemplate) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(transformVueComponentRef(value.component))
         });
       }
     },
