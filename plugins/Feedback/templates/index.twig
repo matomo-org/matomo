@@ -23,12 +23,12 @@
 
             <h4>{{'Feedback_PopularHelpTopics'|translate}}</h4>
             {% for helpTopic in popularHelpTopics %}
-                <p> &bull; <span matomo-help-link base="{{ helpTopic.url|e('html_attr') }}" text="{{helpTopic.title|translate}}"></span></p>
+                <p> &bull;  <a rel="noreferrer noopener" target="_blank" href="{{helpTopic.url|e('html_attr')}}?mtm_campaign=App_Help&mtm_source=Matomo_App">{{helpTopic.title|translate}}</a></p>
             {% endfor %}
 
             <h4>{{ 'Feedback_CommunityHelp'|translate }}</h4>
-            <p> &bull; <span matomo-help-link base="https://matomo.org/docs/" text="{{ 'Feedback_UserGuides'|translate }}"></span> - {{ 'Feedback_ViewUserGuides'|translate("","") }}.</p>
-            <p> &bull; <span matomo-help-link base="https://matomo.org/faq/" text="{{ 'Feedback_FAQs'|translate }}"></span> - {{ 'Feedback_ViewAnswersToFAQ'|translate("","") }}.</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs?mtm_campaign=App_Help&mtm_source=Matomo_App">{{ 'Feedback_UserGuides'|translate }}</a> - {{ 'Feedback_ViewUserGuides'|translate("","") }}.</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq?mtm_campaign=App_Help&mtm_source=Matomo_App">{{ 'Feedback_FAQs'|translate }}</a> - {{ 'Feedback_ViewAnswersToFAQ'|translate("","") }}.</p>
             <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://forum.matomo.org/">{{ 'Feedback_Forums'|translate }}</a> - {{ 'Feedback_VisitTheForums'|translate("","") }}.</p>
             <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({'module':"API",'action':"glossary"}) }}">{{ 'API_Glossary'|translate }}</a> - {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }}</p>
 

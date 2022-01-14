@@ -6,86 +6,89 @@
 
 <template>
   <div
-      ref="root"
-      class="quickAccessInside"
-      v-focus-anywhere-but-here="{ blur: onBlur }"
+    ref="root"
+    class="quickAccessInside"
+    v-focus-anywhere-but-here="{ blur: onBlur }"
   >
     <span
-        class="icon-search"
-        @mouseenter="searchActive = true"
-        v-show="!(searchTerm || searchActive)"
+      class="icon-search"
+      @mouseenter="searchActive = true"
+      v-show="!(searchTerm || searchActive)"
     />
     <input
-        class="s"
-        @keydown="onKeypress($event)"
-        @focus="searchActive = true"
-        v-model="searchTerm"
-        type="text"
-        tabindex="2"
-        v-focus-if:[searchActive]="{}"
-        :title="quickAccessTitle"
-        ref="input"
+      class="s"
+      @keydown="onKeypress($event)"
+      @focus="searchActive = true"
+      v-model="searchTerm"
+      type="text"
+      tabindex="2"
+      v-focus-if:[searchActive]="{}"
+      :title="quickAccessTitle"
+      ref="input"
     />
     <div
-        class="dropdown"
-        v-show="searchTerm && searchActive"
+      class="dropdown"
+      v-show="searchTerm && searchActive"
     >
       <ul v-show="!(numMenuItems > 0 || sites.length)">
         <li class="no-result">{{ translate('General_SearchNoResults') }}</li>
       </ul>
       <ul v-for="subcategory in menuItems" :key="subcategory.title">
         <li
-            class="quick-access-category"
-            @click="searchTerm = subcategory.title;searchMenu(searchTerm)"
+          class="quick-access-category"
+          @click="searchTerm = subcategory.title;searchMenu(searchTerm)"
         >
           {{ subcategory.title }}
         </li>
         <li
-            class="result"
-            :class="{ selected: submenuEntry.menuIndex === searchIndex }"
-            @mouseenter="searchIndex = submenuEntry.menuIndex"
-            @click="selectMenuItem(submenuEntry.index)"
-            v-for="submenuEntry in subcategory.items"
-            :key="submenuEntry.index"
+          class="result"
+          :class="{ selected: submenuEntry.menuIndex === searchIndex }"
+          @mouseenter="searchIndex = submenuEntry.menuIndex"
+          @click="selectMenuItem(submenuEntry.index)"
+          v-for="submenuEntry in subcategory.items"
+          :key="submenuEntry.index"
         >
           <a>{{ submenuEntry.name.trim() }}</a>
         </li>
       </ul>
       <ul class="quickAccessMatomoSearch">
         <li
-            class="quick-access-category websiteCategory"
-            v-show="hasSitesSelector && sites.length || isLoading"
+          class="quick-access-category websiteCategory"
+          v-show="hasSitesSelector && sites.length || isLoading"
         >
           {{ translate('SitesManager_Sites') }}
         </li>
         <li
-            class="no-result"
-            v-show="hasSitesSelector && isLoading"
+          class="no-result"
+          v-show="hasSitesSelector && isLoading"
         >
           {{ translate('MultiSites_LoadingWebsites') }}
         </li>
         <li
-            class="result"
-            v-for="(site, index) in sites"
-            v-show="hasSitesSelector && !isLoading"
-            @mouseenter="searchIndex = numMenuItems + index"
-            :class="{ selected: numMenuItems + index === searchIndex }"
-            @click="selectSite(site.idsite)"
-            :key="site.idsite"
+          class="result"
+          v-for="(site, index) in sites"
+          v-show="hasSitesSelector && !isLoading"
+          @mouseenter="searchIndex = numMenuItems + index"
+          :class="{ selected: numMenuItems + index === searchIndex }"
+          @click="selectSite(site.idsite)"
+          :key="site.idsite"
         >
-          <a v-text="site.name"/>
+          <a v-text="site.name" />
         </li>
       </ul>
       <ul>
         <li class="quick-access-category helpCategory">{{ translate('General_HelpResources') }}</li>
         <li
-            :class="{ selected: searchIndex === 'help' }"
-            class="quick-access-help"
-            @mouseenter="searchIndex = 'help'"
+          :class="{ selected: searchIndex === 'help' }"
+          class="quick-access-help"
+          @mouseenter="searchIndex = 'help'"
         >
-          <HelpLink :keyword="encodeURIComponent(this.searchTerm)"
-                    :text="translate('CoreHome_SearchOnMatomo', searchTerm)">
-          </HelpLink>
+          <a
+            :href="`https://matomo.org?mtm_campaign=App_Help&mtm_source=Matomo_App&s=${encodeURIComponent(searchTerm)}`"
+            target="_blank"
+          >
+            {{ translate('CoreHome_SearchOnMatomo', searchTerm) }}
+          </a>
         </li>
       </ul>
     </div>
@@ -101,7 +104,6 @@ import SitesStore from '../SiteSelector/SitesStore';
 import Site from '../SiteSelector/Site';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
-import HelpLink from '../HelpLink/HelpLink.vue';
 
 interface SubMenuItem {
   name: string;
@@ -123,9 +125,9 @@ interface QuickAccessState {
   searchIndex: number;
 
   menuIndexCounter: number;
-  topMenuItems: SubMenuItem[] | null;
-  leftMenuItems: SubMenuItem[] | null;
-  segmentItems: SubMenuItem[] | null;
+  topMenuItems: SubMenuItem[]|null;
+  leftMenuItems: SubMenuItem[]|null;
+  segmentItems: SubMenuItem[]|null;
   hasSegmentSelector: boolean;
 
   sites: DeepReadonly<Site[]>;
@@ -137,9 +139,9 @@ function isElementInViewport(element: HTMLElement) {
   const $window = window.$(window);
 
   return rect.top >= 0
-      && rect.left >= 0
-      && rect.bottom <= $window.height()!
-      && rect.right <= $window.width()!;
+    && rect.left >= 0
+    && rect.bottom <= $window.height()!
+    && rect.right <= $window.width()!;
 }
 
 function scrollFirstElementIntoView(element: HTMLElement) {
@@ -150,7 +152,6 @@ function scrollFirstElementIntoView(element: HTMLElement) {
 }
 
 export default defineComponent({
-  components: { HelpLink },
   directives: {
     FocusAnywhereButHere,
     FocusIf,
@@ -312,7 +313,7 @@ export default defineComponent({
         scrollFirstElementIntoView(element);
       }
     },
-    getCurrentlySelectedElement(): HTMLElement | undefined {
+    getCurrentlySelectedElement(): HTMLElement|undefined {
       const results = (this.$refs.root as HTMLElement).querySelectorAll('li.result');
       if (results && results.length && results.item(this.searchIndex)) {
         return results.item(this.searchIndex) as HTMLElement;
@@ -335,10 +336,7 @@ export default defineComponent({
 
         const { category } = submenuItem;
         if (!(category in menuItemsIndex)) {
-          menuItems.push({
-            title: category,
-            items: [],
-          });
+          menuItems.push({ title: category, items: [] });
           menuItemsIndex[category] = menuItems.length - 1;
         }
 
@@ -350,21 +348,17 @@ export default defineComponent({
 
       if (this.hasSitesSelector) {
         this.isLoading = true;
-        SitesStore.searchSite(searchTerm)
-          .then((sites) => {
-            if (sites) {
-              this.sites = sites;
-            }
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
+        SitesStore.searchSite(searchTerm).then((sites) => {
+          if (sites) {
+            this.sites = sites;
+          }
+        }).finally(() => {
+          this.isLoading = false;
+        });
       }
 
-      const menuItemMatches = (i: SubMenuItem) => i.name.toLowerCase()
-        .indexOf(searchTerm) !== -1
-          || i.category.toLowerCase()
-            .indexOf(searchTerm) !== -1;
+      const menuItemMatches = (i: SubMenuItem) => i.name.toLowerCase().indexOf(searchTerm) !== -1
+        || i.category.toLowerCase().indexOf(searchTerm) !== -1;
 
       // get the menu items on first search since this component can be mounted
       // before the menus are
@@ -393,11 +387,11 @@ export default defineComponent({
       this.searchIndex = 0;
       this.makeSureSelectedItemIsInViewport();
     },
-    selectSite(idSite: string | number) {
+    selectSite(idSite: string|number) {
       SitesStore.loadSite(idSite);
     },
     selectMenuItem(index: number) {
-      const target: HTMLElement | null = document.querySelector(`[quick_access='${index}']`);
+      const target: HTMLElement|null = document.querySelector(`[quick_access='${index}']`);
       if (target) {
         this.deactivateSearch();
 
@@ -406,13 +400,11 @@ export default defineComponent({
           try {
             target.click();
           } catch (e) {
-            window.$(target)
-              .click();
+            window.$(target).click();
           }
         } else {
           // not sure why jquery is used here and above, but only sometimes. keeping for BC.
-          window.$(target)
-            .click();
+          window.$(target).click();
         }
       }
     },
@@ -427,56 +419,41 @@ export default defineComponent({
       const category = translate('CoreHome_Menu');
 
       const topMenuItems: SubMenuItem[] = [];
-      document.querySelectorAll('nav .sidenav li > a')
-        .forEach((element) => {
-          let text = element.textContent?.trim();
+      document.querySelectorAll('nav .sidenav li > a').forEach((element) => {
+        let text = element.textContent?.trim();
 
-          if (!text) {
-            text = element.getAttribute('title')
-              ?.trim(); // possibly a icon, use title instead
-          }
+        if (!text) {
+          text = element.getAttribute('title')?.trim(); // possibly a icon, use title instead
+        }
 
-          if (text) {
-            topMenuItems.push({
-              name: text,
-              index: this.menuIndexCounter += 1,
-              category,
-            });
-            element.setAttribute('quick_access', `${this.menuIndexCounter}`);
-          }
-        });
+        if (text) {
+          topMenuItems.push({ name: text, index: this.menuIndexCounter += 1, category });
+          element.setAttribute('quick_access', `${this.menuIndexCounter}`);
+        }
+      });
 
       return topMenuItems;
     },
     getLeftMenuItems() {
       const leftMenuItems: SubMenuItem[] = [];
 
-      document.querySelectorAll('#secondNavBar .menuTab')
-        .forEach((element) => {
-          const categoryElement = window.$(element)
-            .find('> .item');
-          let category = categoryElement[0]?.innerText.trim() || '';
+      document.querySelectorAll('#secondNavBar .menuTab').forEach((element) => {
+        const categoryElement = window.$(element).find('> .item');
+        let category = categoryElement[0]?.innerText.trim() || '';
 
-          if (category && category.lastIndexOf('\n') !== -1) {
-            // remove "\n\nMenu"
-            category = category.substr(0, category.lastIndexOf('\n'))
-              .trim();
+        if (category && category.lastIndexOf('\n') !== -1) {
+          // remove "\n\nMenu"
+          category = category.substr(0, category.lastIndexOf('\n')).trim();
+        }
+
+        window.$(element).find('li .item').each((i, subElement) => {
+          const text = subElement.textContent?.trim();
+          if (text) {
+            leftMenuItems.push({ name: text, category, index: this.menuIndexCounter += 1 });
+            subElement.setAttribute('quick_access', `${this.menuIndexCounter}`);
           }
-
-          window.$(element)
-            .find('li .item')
-            .each((i, subElement) => {
-              const text = subElement.textContent?.trim();
-              if (text) {
-                leftMenuItems.push({
-                  name: text,
-                  category,
-                  index: this.menuIndexCounter += 1,
-                });
-                subElement.setAttribute('quick_access', `${this.menuIndexCounter}`);
-              }
-            });
         });
+      });
 
       return leftMenuItems;
     },
@@ -488,21 +465,14 @@ export default defineComponent({
       const category = translate('CoreHome_Segments');
 
       const segmentItems: SubMenuItem[] = [];
-      document.querySelectorAll('.segmentList [data-idsegment]')
-        .forEach((element) => {
-          const text = element.querySelector('.segname')
-            ?.textContent
-            ?.trim();
+      document.querySelectorAll('.segmentList [data-idsegment]').forEach((element) => {
+        const text = element.querySelector('.segname')?.textContent?.trim();
 
-          if (text) {
-            segmentItems.push({
-              name: text,
-              category,
-              index: this.menuIndexCounter += 1,
-            });
-            element.setAttribute('quick_access', `${this.menuIndexCounter}`);
-          }
-        });
+        if (text) {
+          segmentItems.push({ name: text, category, index: this.menuIndexCounter += 1 });
+          element.setAttribute('quick_access', `${this.menuIndexCounter}`);
+        }
+      });
 
       return segmentItems;
     },

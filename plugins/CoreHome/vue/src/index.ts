@@ -55,7 +55,6 @@ import './Progressbar/Progressbar.adapter';
 import './ContentIntro/ContentIntro.adapter';
 import './ContentTable/ContentTable.adapter';
 import './AjaxForm/AjaxForm.adapter';
-import './HelpLink/HelpLink.adapter';
 
 export { default as createVueApp } from './createVueApp';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';
@@ -117,4 +116,3 @@ export { default as Progressbar } from './Progressbar/Progressbar.vue';
 export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';
 export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';
-export { default as HelpLink } from './HelpLink/HelpLink.vue';

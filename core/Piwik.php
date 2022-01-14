@@ -32,11 +32,11 @@ class Piwik
      * @var array
      */
     public static $idPeriods = array(
-      'day'   => Day::PERIOD_ID,
-      'week'  => Week::PERIOD_ID,
-      'month' => Month::PERIOD_ID,
-      'year'  => Year::PERIOD_ID,
-      'range' => Range::PERIOD_ID,
+        'day'   => Day::PERIOD_ID,
+        'week'  => Week::PERIOD_ID,
+        'month' => Month::PERIOD_ID,
+        'year'  => Year::PERIOD_ID,
+        'range' => Range::PERIOD_ID,
     );
 
     /**
@@ -75,16 +75,16 @@ class Piwik
 
         $message = str_replace("\n", "<br/>", $message);
 
-        $output = "<html><body>" .
-          "<style>a{color:red;}</style>\n" .
-          "<div style='color:red;font-size:120%; width:100%;margin: 30px;'>" .
-          " <div style='width: 50px; float: left;'><img src='plugins/Morpheus/images/error_medium.png' /></div>" .
-          "  <div style='margin-left: 70px; min-width: 950px;'>" .
-          $message .
-          "  </div>" .
-          " </div>" .
-          "</div>" .
-          "</body></html>";
+        $output = "<html><body>".
+            "<style>a{color:red;}</style>\n" .
+            "<div style='color:red;font-size:120%; width:100%;margin: 30px;'>" .
+            " <div style='width: 50px; float: left;'><img src='plugins/Morpheus/images/error_medium.png' /></div>" .
+            "  <div style='margin-left: 70px; min-width: 950px;'>" .
+            $message .
+            "  </div>" .
+            " </div>" .
+            "</div>".
+            "</body></html>";
         print($output);
         exit;
     }
@@ -136,7 +136,7 @@ class Piwik
         }
         if (!is_numeric($dividend) || !is_numeric($divisor)) {
             throw new \Exception(sprintf('Trying to round unsupported operands for dividend %s (%s) and divisor %s (%s)',
-              $dividend, gettype($dividend), $divisor, gettype($divisor)));
+                $dividend, gettype($dividend), $divisor, gettype($divisor)));
         }
         return round($dividend / $divisor, $precision);
     }
@@ -149,14 +149,14 @@ class Piwik
     public static function getRandomTitle()
     {
         static $titles = array(
-          'Web analytics',
-          'Open analytics platform',
-          'Real Time Web Analytics',
-          'Analytics',
-          'Real Time Analytics',
-          'Analytics in Real time',
-          'Analytics Platform',
-          'Data Platform',
+            'Web analytics',
+            'Open analytics platform',
+            'Real Time Web Analytics',
+            'Analytics',
+            'Real Time Analytics',
+            'Analytics in Real time',
+            'Analytics Platform',
+            'Data Platform',
         );
         $id = abs(intval(md5(Url::getCurrentHost())));
         $title = $titles[$id % count($titles)];
@@ -185,7 +185,7 @@ class Piwik
         $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
         return $user['date_registered'] ?? '';
     }
-
+    
     /**
      * Returns the current user's Last Seen.
      *
@@ -297,8 +297,7 @@ class Piwik
                 Piwik::checkUserHasSuperUserAccess();
             }
         } catch (NoAccessException $e) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser',
-              array($theUser)));
+            throw new NoAccessException(Piwik::translate('General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser', array($theUser)));
         }
     }
 
@@ -335,12 +334,12 @@ class Piwik
             $token[$reason] = $model->generateRandomTokenAuth();
 
             $model->addTokenAuth(
-              $user['login'],
-              $token[$reason],
-              'System generated ' . $reason,
-              Date::now()->getDatetime(),
-              $expireDate,
-              true);
+                $user['login'],
+                $token[$reason],
+                'System generated ' . $reason,
+                Date::now()->getDatetime(),
+                $expireDate,
+            true);
 
             return $token[$reason];
         }
@@ -698,9 +697,9 @@ class Piwik
     public static function redirectToModule($newModule, $newAction = '', $parameters = array())
     {
         $newUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified(
-            array('module' => $newModule, 'action' => $newAction)
-            + $parameters
-          );
+                array('module' => $newModule, 'action' => $newAction)
+                + $parameters
+            );
         Url::redirectToUrl($newUrl);
     }
 
@@ -726,13 +725,13 @@ class Piwik
      * _Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well._
      *
      * @param string $userLogin
-     * @return bool
      * @throws Exception
+     * @return bool
      */
     public static function checkValidLoginString($userLogin)
     {
         if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
-          && !empty($userLogin)
+            && !empty($userLogin)
         ) {
             return;
         }
@@ -740,11 +739,10 @@ class Piwik
         $loginMaximumLength = 100;
         $l = strlen($userLogin);
         if (!($l >= $loginMinimumLength
-          && $l <= $loginMaximumLength
-          && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $userLogin) > 0))
+            && $l <= $loginMaximumLength
+            && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $userLogin) > 0))
         ) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidLoginFormat',
-              array($loginMinimumLength, $loginMaximumLength)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
         }
     }
 
@@ -781,7 +779,7 @@ class Piwik
     {
         reset($array);
         if (!is_numeric(key($array))
-          || key($array) != 0
+            || key($array) != 0
         ) {
             // first key must be 0
 
@@ -890,23 +888,5 @@ class Piwik
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         return $translator->translate($translationId, $args, $language);
-    }
-
-    /**
-     * @param $helpText
-     * @return string
-     */
-    public static function helpLinkFormat($helpText)
-    {
-        $regex = '/([\"]|[\'])https:\/\/matomo.org(.*?)([\"]|[\'])/';
-        preg_match($regex, $helpText, $matches);
-        if (!empty($matches)) {
-            $quote = substr($matches[0], -1);
-            $replace = substr($matches[0], 1, -1) . (strpos($matches[0],
-                '?') !== false ? '&' : '?') . "mtm_campaign=App_Help&mtm_source=Matomo_App";
-            return preg_replace($regex, $quote . $replace . $quote, $helpText);
-        } else {
-            return $helpText;
-        }
     }
 }
