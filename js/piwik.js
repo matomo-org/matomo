@@ -5114,7 +5114,6 @@ if (typeof window.Matomo !== 'object') {
                 asyncTrackers.push(tracker);
 
                 Matomo.trigger('TrackerAdded', [this]);
-                setVisitorIdCookie();
 
                 return tracker;
             };
@@ -7054,6 +7053,9 @@ if (typeof window.Matomo !== 'object') {
             });
 
             Matomo.trigger('TrackerSetup', [this]);
+
+            Matomo.addPlugin('TrackerCookieAdd', { unload: setVisitorIdCookie });
+
         }
 
         function TrackerProxy() {
