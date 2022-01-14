@@ -44,6 +44,7 @@
         "PluginActivated": "Programtillegg påslått",
         "PluginHomepage": "Hjemmeside for utvidelse",
         "PluginNotCompatibleWith": "%1$s utvidelse ikke kompatibel med %2$s.",
+        "PluginNotDownloadable": "Dette programtillegget kan ikke lastes ned.",
         "PluginNotWorkingAlternative": "Hvis du bruker denne utvidelsen, kanskje du kan finne en nyere versjon i markedsplassen. Hvis ikke, vil du kanskje avinstallere den.",
         "PluginRequirement": "%1$s krever %2$s.",
         "PluginsExtendPiwik": "Utvidelser kan utvide eller begrense funksjonaliteten i Matomo.",
