@@ -136,6 +136,8 @@ __webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() 
 __webpack_require__.d(__webpack_exports__, "transformAngularJsBoolAttr", function() { return /* reexport */ transformAngularJsBoolAttr; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsIntAttr", function() { return /* reexport */ transformAngularJsIntAttr; });
 __webpack_require__.d(__webpack_exports__, "removeAngularJsSpecificProperties", function() { return /* reexport */ removeAngularJsSpecificProperties; });
+__webpack_require__.d(__webpack_exports__, "clone", function() { return /* reexport */ clone; });
+__webpack_require__.d(__webpack_exports__, "cloneThenApply", function() { return /* reexport */ cloneThenApply; });
 __webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
