@@ -12,7 +12,7 @@ import {
   transformAngularJsIntAttr,
   useExternalPluginComponent,
 } from 'CoreHome';
-import { shallowRef, markRaw } from 'vue';
+import { markRaw } from 'vue';
 import FormField from './FormField.vue';
 import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
 
