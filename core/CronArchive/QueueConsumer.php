@@ -201,11 +201,6 @@ class QueueConsumer
                 break;
             }
 
-            if (!$this->isSegmentAvailable($invalidatedArchive)) {
-                $this->model->deleteInvalidations([$invalidatedArchive]);
-                continue;
-            }
-
             $invalidationDesc = $this->getInvalidationDescription($invalidatedArchive);
 
             if ($invalidatedArchive['periodObj']->getDateEnd()->isEarlier($siteCreationTime)) {
@@ -555,24 +550,6 @@ class QueueConsumer
         return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
     }
 
-
-    /**
-     * check if segments that contain dimensions that don't exist anymore
-     * @param $invalidatedArchive
-     * @return bool
-     */
-    private function isSegmentAvailable($invalidatedArchive)
-    {
-        try {
-            new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
-           } catch (\Exception $e) {
-            $this->logger->debug(sprintf("Segment is not valid anymore. segment:%1, idsite:%2",
-              $invalidatedArchive['segment'], $invalidatedArchive['idsite']));
-            return false;
-        }
-        return true;
-    }
-
     private function getPluginNameForArchiveIfAny($archive)
     {
         $name = $archive['name'];
@@ -673,5 +650,4 @@ class QueueConsumer
         }
         return $this->maxSitesToProcess;
     }
-
 }
