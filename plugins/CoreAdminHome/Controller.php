@@ -232,6 +232,10 @@ class Controller extends ControllerAdmin
         }
 
         $view->defaultSite = array('id' => $view->idSite, 'name' => $view->defaultReportSiteName);
+        $view->defaultSiteDecoded = [
+            'id' => $view->idSite,
+            'name' => Common::unsanitizeInputValue($view->defaultReportSiteName),
+        ];
 
         $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {

@@ -32,15 +32,15 @@
 
 <div
     matomo-js-tracking-code-generator
-    default-site="{{ defaultSite|json_encode|e('html_attr') }}"
+    default-site="{{ defaultSiteDecoded|json_encode|e('html_attr') }}"
     max-custom-variables="{{ maxCustomVariables|json_encode|e('html_attr') }}"
     server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode|e('html_attr') }}"
 ></div>
 
 <div
     matomo-image-tracking-code-generator
-    default-site="{{ defaultSite|json_encode|e('html_attr') }}"
-/>
+    default-site="{{ defaultSiteDecoded|json_encode|e('html_attr') }}"
+></div>
 
 <div piwik-content-block content-title="{{ 'CoreAdminHome_ImportingServerLogs'|translate|e('html_attr') }}"
      anchor="importServerLogs">
