@@ -270,6 +270,14 @@ window.piwikHelper = {
 
         $('[role]', domElem).each(function(){
             var $button = $(this);
+
+            // skip this button if it's part of another modal, the current modal can launch
+            // (which is true if there are more than one parent elements w/ css class ui-confirm)
+            const uiConfirm = $button.parents('.ui-confirm');
+            if (uiConfirm.length > 1) {
+              return;
+            }
+
             var role  = $button.attr('role');
             var title = $button.attr('title');
             var text  = $button.val();
