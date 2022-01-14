@@ -2088,6 +2088,21 @@ function conditionFn(scope, condition) {
       angularJsBind: '=',
       transform: function transform(v, vm, scope) {
         var value = v;
+
+        function getComponent() {
+          if (value.templateFile) {
+            return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(FieldAngularJsTemplate);
+          }
+
+          var comp = transformVueComponentRef(value.component);
+
+          if (!comp) {
+            return undefined;
+          }
+
+          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(comp);
+        }
+
         return FormField_adapter_objectSpread(FormField_adapter_objectSpread({}, value), {}, {
           condition: value.condition ? conditionFn.bind(null, scope, value.condition) : value.condition,
           disabled: Object(external_CoreHome_["transformAngularJsBoolAttr"])(value.disabled),
@@ -2100,7 +2115,7 @@ function conditionFn(scope, condition) {
           rows: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.rows),
           min: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.min),
           max: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.max),
-          component: value.templateFile ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(FieldAngularJsTemplate) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(transformVueComponentRef(value.component))
+          component: getComponent()
         });
       }
     },

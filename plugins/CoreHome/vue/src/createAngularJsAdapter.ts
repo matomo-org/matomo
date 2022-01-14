@@ -216,7 +216,8 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
               },
               methods: {
                 onEventHandler(name: string, $event: any) {
-                  const scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
+                  let scopePropertyName = toAngularJsCamelCase(name);
+                  scopePropertyName = vueToAngular[scopePropertyName] || scopePropertyName;
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
                   }

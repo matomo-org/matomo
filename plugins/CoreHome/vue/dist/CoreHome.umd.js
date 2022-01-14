@@ -2387,7 +2387,8 @@ function createAngularJsAdapter(options) {
               },
               methods: {
                 onEventHandler: function onEventHandler(name, $event) {
-                  var scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
+                  var scopePropertyName = toAngularJsCamelCase(name);
+                  scopePropertyName = vueToAngular[scopePropertyName] || scopePropertyName;
 
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);

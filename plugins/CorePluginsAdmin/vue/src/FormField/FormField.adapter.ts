@@ -12,7 +12,7 @@ import {
   transformAngularJsIntAttr,
   useExternalPluginComponent,
 } from 'CoreHome';
-import { shallowRef, markRaw } from 'vue';
+import { markRaw } from 'vue';
 import FormField from './FormField.vue';
 import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
 
@@ -81,6 +81,20 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       angularJsBind: '=',
       transform(v: unknown, vm: unknown, scope: IScope) {
         const value = v as Record<string, unknown>;
+
+        function getComponent() {
+          if (value.templateFile) {
+            return markRaw(FieldAngularJsTemplate);
+          }
+
+          const comp = transformVueComponentRef(value.component as Record<string, string>);
+          if (!comp) {
+            return undefined;
+          }
+
+          return markRaw(comp);
+        }
+
         return {
           ...value,
           condition: value.condition
@@ -96,9 +110,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           rows: transformAngularJsIntAttr(value.rows),
           min: transformAngularJsIntAttr(value.min),
           max: transformAngularJsIntAttr(value.max),
-          component: value.templateFile
-            ? markRaw(FieldAngularJsTemplate)
-            : shallowRef(transformVueComponentRef(value.component as Record<string, string>)),
+          component: getComponent(),
         };
       },
     },
