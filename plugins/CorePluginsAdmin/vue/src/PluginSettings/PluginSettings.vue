@@ -21,9 +21,9 @@
           v-for="setting in settings.settings"
           :key="`${setting.pluginName}.${setting.name}`"
         >
-          <PluginSetting
+          <GroupedSetting
             v-model="settingValues[`${settings.pluginName}.${setting.name}`]"
-            :plugin-name="settings.pluginName"
+            :group-name="settings.pluginName"
             :setting="setting"
             :setting-values="settingValues"
           />
@@ -82,7 +82,7 @@ import {
 } from 'CoreHome';
 import KeyPressEvent = JQuery.KeyPressEvent;
 import Field from '../Field/Field.vue';
-import PluginSetting from './PluginSetting.vue';
+import GroupedSetting from '../GroupedSetting/GroupedSetting.vue';
 
 const { $ } = window;
 
@@ -113,7 +113,7 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Field,
-    PluginSetting,
+    GroupedSetting,
   },
   data(): PluginSettingsState {
     return {

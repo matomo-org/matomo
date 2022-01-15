@@ -236,6 +236,10 @@ export default defineComponent({
         && this.formField.uiControl !== 'checkbox'
         && this.formField.uiControl !== 'radio';
     },
+    /**
+     * @deprecated here for angularjs BC support. shouldn't be used directly, instead use
+     *             GroupedSetting.vue.
+     */
     showField() {
       if (!this.formField
         || !this.formField.condition
