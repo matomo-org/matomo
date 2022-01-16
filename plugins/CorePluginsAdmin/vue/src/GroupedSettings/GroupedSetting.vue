@@ -25,13 +25,15 @@ let conditionScope: IScope;
 
 export default defineComponent({
   props: {
-    groupName: String,
     setting: {
       type: Object,
       required: true,
     },
     modelValue: null,
-    settingValues: Object,
+    conditionValues: {
+      type: Object,
+      required: true,
+    },
   },
   components: {
     FormField,
@@ -50,23 +52,6 @@ export default defineComponent({
       }
 
       return conditionScope.$eval(condition, this.conditionValues);
-    },
-    conditionValues() {
-      const values: Record<string, unknown> = {};
-      Object.entries(this.settingValues as Record<string, unknown>).forEach(([key, value]) => {
-        let settingName = key;
-        let groupName = '';
-
-        if (this.groupName) {
-          [groupName, settingName] = key.split('.');
-          if (groupName !== this.groupName) {
-            return;
-          }
-        }
-
-        values[settingName] = value;
-      });
-      return values;
     },
   },
   methods: {

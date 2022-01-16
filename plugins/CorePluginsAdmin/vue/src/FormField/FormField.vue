@@ -243,6 +243,7 @@ export default defineComponent({
     showField() {
       if (!this.formField
         || !this.formField.condition
+        || !(this.formField.condition instanceof Function)
       ) {
         return true;
       }

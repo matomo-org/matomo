@@ -17,17 +17,12 @@
           class="card-title"
           :id="settings.pluginName"
         >{{ settings.title }}</h2>
-        <div
-          v-for="setting in settings.settings"
-          :key="`${setting.pluginName}.${setting.name}`"
-        >
-          <GroupedSetting
-            v-model="settingValues[`${settings.pluginName}.${setting.name}`]"
-            :group-name="settings.pluginName"
-            :setting="setting"
-            :setting-values="settingValues"
-          />
-        </div>
+        <GroupedSettings
+          :group-name="settings.pluginName"
+          :settings="settings.settings"
+          :all-setting-values="settingValues"
+          @change="settingValues[`${settings.pluginName}.${$event.name}`] = $event.value"
+        />
         <input
           type="button"
           @click="saveSetting(settings.pluginName)"
@@ -82,7 +77,7 @@ import {
 } from 'CoreHome';
 import KeyPressEvent = JQuery.KeyPressEvent;
 import Field from '../Field/Field.vue';
-import GroupedSetting from '../GroupedSetting/GroupedSetting.vue';
+import GroupedSettings from '../GroupedSettings/GroupedSettings.vue';
 
 const { $ } = window;
 
@@ -113,7 +108,7 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Field,
-    GroupedSetting,
+    GroupedSettings,
   },
   data(): PluginSettingsState {
     return {
