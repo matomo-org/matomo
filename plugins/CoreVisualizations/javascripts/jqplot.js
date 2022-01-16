@@ -386,11 +386,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
                 var period = this.param.period;
                 // If date is actually a range then adjust the period type for the containsToday check
-                if (period === 'day' && this.param.date.indexOf(',') !== false) {
+                if (period === 'day' && this.param.date.indexOf(',') !== -1) {
                     period = 'range'
                 }
                 if (piwikPeriods.parse(period, this.param.date).containsToday()) {
-                  this.jqplotParams['incompleteDataPoints'] = 1;
+                    this.jqplotParams['incompleteDataPoints'] = 1;
                 }
 
                 var plot = self._plot = $.jqplot(targetDivId, this.data, this.jqplotParams);
