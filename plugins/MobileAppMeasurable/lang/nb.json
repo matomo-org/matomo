@@ -1,7 +1,7 @@
 {
     "MobileAppMeasurable": {
         "MobileApp": "Mobil-app",
-        "MobileApps": "Mobil-apper",
-        "MobileAppDescription": "En spesialbygget mobil-app for iOS, Android eller hvilken som helst annen mobil plattform."
+        "MobileAppDescription": "Et spesialbygget mobil-program for Android, iOS eller hvilken som helst annen mobil-plattform.",
+        "MobileApps": "Mobil-apper"
     }
 }

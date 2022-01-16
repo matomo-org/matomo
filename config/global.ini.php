@@ -385,6 +385,11 @@ archiving_custom_ranges[] =
 ; This feature will not work with the MYSQLI extension.
 archiving_query_max_execution_time = 7200
 
+
+; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
+; Here you can specify the comma separated list eg: "plugin1,plugin2"
+disable_archiving_segment_for_plugins = ""
+
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
@@ -676,7 +681,8 @@ proxy_ip_read_last_in_list = 0
 enable_trusted_host_check = 1
 
 ; List of trusted hosts (eg domain or subdomain names) when generating absolute URLs.
-;
+; This only needs to be set for any hostnames that the Matomo UI will be accessed from. It is not necessary to set this
+; for other additional hostnames (For example tracking, API, etc.)
 ; Examples:
 ;trusted_hosts[] = example.com
 ;trusted_hosts[] = stats.example.com

@@ -248,6 +248,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {
             await page.click('#secondNavBar ul li.active li.active a.item');
             await page.waitForNetworkIdle();
+            await page.waitFor('.piwik-graph');
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
@@ -392,7 +393,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.click('.helpIcon');
             await page.waitForTimeout(100);
             await page.evaluate(function () {
-                $('.helpDate:visible').hide();
+                $('.helpDate:visible').html('Report generated xx hours xx min ago');
             });
             await page.mouse.move(-10, -10);
 
@@ -815,7 +816,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should switch the SMS provider correctly', async function () {
             await page.evaluate(function () {
-                $('[name=smsProviders] ul li:nth-child(3)').click();
+                $('[name=smsProviders] ul li:nth-child(2)').click();
             });
 
             pageWrap = await page.$('.pageWrap');
@@ -1025,8 +1026,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
             await icon.click();
 
+            await page.mouse.move(-10, -10);
+
             await page.waitForSelector('.ui-dialog');
             await page.waitForNetworkIdle();
+
+            await page.mouse.move(-10, -10);
 
             // test succeeds if the element is present
             await page.waitForSelector('.ui-dialog > .ui-dialog-content > div.rowevolution');
@@ -1054,6 +1059,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             elem = await page.$('#secondNavBar');
             await elem.hover();
+
+            await page.mouse.move(-10, -10);
 
             pageWrap = await page.$('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog');
             expect(await pageWrap.screenshot()).to.matchImage('segmented_visitorlog');

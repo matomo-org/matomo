@@ -105,3 +105,5 @@ docker-compose.yml
 /plugins/*/vue/dist/*.common.js
 /plugins/*/vue/dist/*.map
 /plugins/*/vue/dist/*.development.*
+/plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js.map
+/@types

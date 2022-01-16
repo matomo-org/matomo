@@ -75,6 +75,7 @@ describe("UserSettings", function () {
         await page.evaluate(function () {
             $('#userSettingsTable input#email').val('testlogin123@example.com').change();
         });
+        await page.waitForTimeout(100);
         await page.click('#userSettingsTable [piwik-save-button] .btn');
         await page.waitForTimeout(500); // wait for animation
 

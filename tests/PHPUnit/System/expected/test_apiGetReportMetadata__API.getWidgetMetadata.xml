@@ -2891,21 +2891,21 @@
 					<help />
 				</subcategory>
 				<module>Goals</module>
-				<action>get</action>
+				<action>getMetrics</action>
 				<order>15</order>
 				<parameters>
 					<forceView>1</forceView>
 					<viewDataTable>sparklines</viewDataTable>
 					<module>Goals</module>
-					<action>get</action>
+					<action>getMetrics</action>
 				</parameters>
-				<uniqueId>widgetGoalsgetforceView1viewDataTablesparklines</uniqueId>
+				<uniqueId>widgetGoalsgetMetricsforceView1viewDataTablesparklines</uniqueId>
 				<isWide>0</isWide>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Goal Goal 1 - Thank you</name>
+				<name />
 				<category>
 					<id>Goals_Goals</id>
 					<name>Goals</name>
@@ -2920,84 +2920,15 @@
 					<help />
 				</subcategory>
 				<module>Goals</module>
-				<action>get</action>
+				<action>getSparklines</action>
 				<order>25</order>
 				<parameters>
-					<forceView>1</forceView>
-					<viewDataTable>sparklines</viewDataTable>
 					<module>Goals</module>
-					<action>get</action>
-					<idGoal>1</idGoal>
-					<allow_multiple>1</allow_multiple>
-					<only_summary>1</only_summary>
+					<action>getSparklines</action>
 				</parameters>
-				<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal1allow_multiple1only_summary1</uniqueId>
+				<uniqueId>widgetGoalsgetSparklines</uniqueId>
 				<isWide>0</isWide>
-				<viewDataTable>sparklines</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-			<row>
-				<name>Goal Goal 2 - Hello</name>
-				<category>
-					<id>Goals_Goals</id>
-					<name>Goals</name>
-					<order>99</order>
-					<icon />
-					<help />
-				</category>
-				<subcategory>
-					<id>General_Overview</id>
-					<name>Overview</name>
-					<order>99</order>
-					<help />
-				</subcategory>
-				<module>Goals</module>
-				<action>get</action>
-				<order>25</order>
-				<parameters>
-					<forceView>1</forceView>
-					<viewDataTable>sparklines</viewDataTable>
-					<module>Goals</module>
-					<action>get</action>
-					<idGoal>2</idGoal>
-					<allow_multiple>0</allow_multiple>
-					<only_summary>1</only_summary>
-				</parameters>
-				<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal2allow_multiple0only_summary1</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>sparklines</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-			<row>
-				<name>Goal triggered js</name>
-				<category>
-					<id>Goals_Goals</id>
-					<name>Goals</name>
-					<order>99</order>
-					<icon />
-					<help />
-				</category>
-				<subcategory>
-					<id>General_Overview</id>
-					<name>Overview</name>
-					<order>99</order>
-					<help />
-				</subcategory>
-				<module>Goals</module>
-				<action>get</action>
-				<order>25</order>
-				<parameters>
-					<forceView>1</forceView>
-					<viewDataTable>sparklines</viewDataTable>
-					<module>Goals</module>
-					<action>get</action>
-					<idGoal>3</idGoal>
-					<allow_multiple>0</allow_multiple>
-					<only_summary>1</only_summary>
-				</parameters>
-				<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal3allow_multiple0only_summary1</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>sparklines</viewDataTable>
+				<viewDataTable />
 				<isReport>1</isReport>
 			</row>
 		</widgets>

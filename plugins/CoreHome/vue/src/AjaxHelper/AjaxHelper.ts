@@ -5,6 +5,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/* eslint-disable max-classes-per-file */
+
+import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
@@ -12,6 +15,15 @@ import Matomo from '../Matomo/Matomo';
 interface AjaxOptions {
   withTokenInUrl?: boolean;
   postParams?: QueryParameters;
+  headers?: Record<string, string>;
+  format?: string;
+  createErrorNotification?: boolean;
+  abortController?: AbortController;
+}
+
+interface ErrorResponse {
+  result: string;
+  message: string;
 }
 
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
@@ -70,6 +82,8 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
     loadingError.show();
   }
 }
+
+class ApiResponseError extends Error {}
 
 /**
  * Global ajax helper to handle requests within Matomo
@@ -146,24 +160,69 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   errorElement: HTMLElement|JQuery|JQLite|string = '#ajaxError';
 
   /**
+   * Extra headers to add to the request.
+   */
+  headers?: Record<string, string>;
+
+  /**
    * Handle for current request
    */
   requestHandle: JQuery.jqXHR|null = null;
 
+  abortController: AbortController|null = null;
+
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   // helper method entry point
-  static fetch<R = any>(params: QueryParameters, options: AjaxOptions = {}): Promise<R> { // eslint-disable-line
+  static fetch<R = any>( // eslint-disable-line
+    params: QueryParameters,
+    options: AjaxOptions = {},
+  ): Promise<R> {
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
     }
-    helper.setFormat('json');
-    helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
+    helper.setFormat(options.format || 'json');
+    helper.addParams({
+      module: 'API',
+      format: options.format || 'json',
+      ...params,
+    }, 'get');
     if (options.postParams) {
       helper.addParams(options.postParams, 'post');
     }
-    return helper.send();
+    if (options.headers) {
+      helper.headers = options.headers;
+    }
+
+    if (typeof options.createErrorNotification !== 'undefined'
+      && !options.createErrorNotification
+    ) {
+      helper.useCallbackInCaseOfError();
+    }
+
+    if (options.abortController) {
+      helper.abortController = options.abortController;
+    }
+
+    return helper.send().then((data: R | ErrorResponse) => {
+      // check for error if not using default notification behavior
+      if ((data as ErrorResponse).result === 'error') {
+        throw new ApiResponseError((data as ErrorResponse).message);
+      }
+
+      return data as R;
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static post<R = any>(
+    params: QueryParameters,
+    // eslint-disable-next-line
+    postParams: any,
+    options: AjaxOptions = {},
+  ): Promise<R> {
+    return this.fetch<R>(params, { ...options, postParams });
   }
 
   constructor() {
@@ -346,7 +405,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Send the request
    */
-  send(): Promise<T> {
+  send(): Promise<T | ErrorResponse> {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -358,15 +417,38 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     this.requestHandle = this.buildAjaxCall();
     window.globalAjaxQueue.push(this.requestHandle);
 
-    return new Promise<T>((resolve, reject) => {
-      this.requestHandle!.then(resolve).fail((xhr: jqXHR) => {
+    let $timeout: ITimeoutService|null = null;
+    try {
+      $timeout = Matomo.helper.getAngularDependency('$timeout');
+    } catch (e) {
+      // ignore
+    }
+
+    if (this.abortController) {
+      this.abortController.signal.addEventListener('abort', () => {
+        if (this.requestHandle) {
+          this.requestHandle.abort();
+        }
+      });
+    }
+
+    const result = new Promise<T | ErrorResponse>((resolve, reject) => {
+      this.requestHandle!.then((data: unknown) => {
+        resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
+      }).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
 
           reject(xhr);
         }
+      }).done(() => {
+        if ($timeout) {
+          $timeout(); // trigger digest
+        }
       });
     });
+
+    return result;
   }
 
   /**
@@ -408,6 +490,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
+      headers: this.headers ? this.headers : undefined,
       error: function errorCallback(...args: any[]) { // eslint-disable-line
         window.globalAjaxQueue.active -= 1;
 
@@ -429,7 +512,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
             type = null;
           }
 
-          if (response.message) {
+          const isLoggedIn = !document.querySelector('#login_form');
+          if (response.message && isLoggedIn) {
             const UI = window['require']('piwik/UI'); // eslint-disable-line
             const notification = new UI.Notification();
             notification.show(response.message, {
@@ -499,7 +583,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @param   params   parameter object
    */
-  private mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
+  public mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
     const segment = MatomoUrl.getSearchParam('segment');
 
     const defaultParams: Record<string, string> = {

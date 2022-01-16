@@ -2,14 +2,14 @@ import AjaxHelper from './AjaxHelper';
 
 declare global {
   interface Window {
-    ajaxHelper: AjaxHelper;
+    ajaxHelper: typeof AjaxHelper;
   }
 }
 
 window.ajaxHelper = AjaxHelper;
 
 function ajaxQueue() {
-  return globalAjaxQueue;
+  return window.globalAjaxQueue;
 }
 
-angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);
+window.angular.module('piwikApp.service').service('globalAjaxQueue', ajaxQueue);

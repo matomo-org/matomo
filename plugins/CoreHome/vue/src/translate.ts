@@ -7,11 +7,11 @@
 
 export default function translate(
   translationStringId: string,
-  ...values: string[]|string[][]
+  ...values: (string|string[])[]
 ): string {
   let pkArgs = values as string[];
   // handle variadic args AND single array of values (to match _pk_translate signature)
-  if (values.length === 1 && values[0] && values[0] instanceof Array) {
+  if (values.length === 1 && values[0] && Array.isArray(values[0])) {
     [pkArgs] = values as string[][];
   }
   return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line

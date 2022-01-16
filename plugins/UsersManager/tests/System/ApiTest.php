@@ -61,7 +61,7 @@ class ApiTest extends SystemTestCase
         // login1 = super user, login2 = some admin access, login4 = only view access
         foreach ($logins as $login => $appendix) {
             $params['token_auth'] = self::$fixture->users[$login]['token'];
-            $xmlFieldsToRemove    = array('date_registered','last_seen', 'password', 'token_auth', 'ts_password_modified');
+            $xmlFieldsToRemove    = array('date_registered', 'last_seen', 'password', 'token_auth', 'ts_password_modified', 'idchange_last_viewed');
 
             $this->runAnyApiTest($api, $apiId . '_' . $appendix, $params, array('xmlFieldsToRemove' => $xmlFieldsToRemove));
         }
@@ -112,6 +112,20 @@ class ApiTest extends SystemTestCase
         );
 
         return $apiToTest;
+    }
+
+    public function test_createAppSpecificTokenAuthWithCrypticPassword()
+    {
+        $password = 'p§$%"@&<~#\'\\/+ >*^!°p';
+        API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = false;
+        $this->api->updateUser('login6', $password);
+        API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+        $this->model->deleteAllTokensForUser('login6');
+        $token = $this->api->createAppSpecificTokenAuth('login6', $password, 'test');
+        $this->assertMd5($token);
+
+        $user = $this->model->getUserByTokenAuth($token);
+        $this->assertSame('login6', $user['login']);
     }
 
     public function test_createAppSpecificTokenAuth()

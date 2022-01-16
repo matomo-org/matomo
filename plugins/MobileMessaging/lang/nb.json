@@ -1,14 +1,24 @@
 {
     "MobileMessaging": {
+        "Available_Credits": "Tilgjengelig kreditt: %1$s",
         "Exception_UnknownProvider": "Tilbydernavnet '%1$s' er ukjent. Prøv ett av følgende i stedet: %2$s.",
+        "MobileReport_AdditionalPhoneNumbers": "Du kan legge til flere telefonnummer ved å gå til",
+        "MobileReport_MobileMessagingSettingsLink": "innstillingssiden for mobilmeldinger",
+        "MobileReport_NoPhoneNumbers": "Aktiver minst ett telefonnummer ved å besøke",
+        "MultiSites_Must_Be_Activated": "For å generere SMS-er av din nettsidestatistikk må du skru på MultiSites-programtillegget i Matomo.",
         "PhoneNumbers": "Telefonnumre",
         "SMS_Content_Too_Long": "[for lang]",
         "SettingsMenu": "Meldingstjenester",
         "Settings_APIKey": "API-nøkkel",
         "Settings_CountryCode": "Landskode",
+        "Settings_CredentialNotProvidedByAdmin": "Før du kan opprette og håndtere telefonnummer må du spørre din administrator om å koble Matomo til en SMS-konto.",
+        "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "De oppsatte telefonnumrene vises kun for deg, og kan ikke brukes av andre brukere.",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Oppsatt SMS-tilbyder vil kun anvendes av deg og ikke av andre brukere.",
         "Settings_DeleteAccountConfirm": "Er du sikker på at du vil slette denne SMS-kontoen?",
         "Settings_EnterActivationCode": "Skriv aktiveringskode",
         "Settings_InvalidActivationCode": "Koden du har angitt var ikke gyldig, vennligst prøv igjen.",
+        "Settings_LetUsersManageAPICredential": "Tillat brukere å håndtere sin egen SMS-tilbyder",
+        "Settings_LetUsersManageAPICredential_No_Help": "Alle brukere vil kunne motta SMS-rapporter og bruke saldoen på kontoen din.",
         "Settings_ManagePhoneNumbers": "Administrer telefonnummer",
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
         "Settings_PhoneNumber": "Telefonnummer",
@@ -19,6 +29,7 @@
         "Settings_SuperAdmin": "Superbruker-instillinger",
         "Settings_UpdateOrDeleteAccount": "Du kan også %1$soppdatere%2$s eller %3$sslette%4$s denne kontoen.",
         "Settings_ValidatePhoneNumber": "Valider",
-        "TopMenu": "E-post- og SMS-rapporter"
+        "TopMenu": "E-post- og SMS-rapporter",
+        "UserKey": "Brukernøkkel"
     }
 }

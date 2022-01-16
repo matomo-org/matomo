@@ -16,6 +16,8 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>העלא וועלט</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -154,6 +156,8 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>halló heimur</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -273,6 +277,8 @@
 				
 				<pageId>11</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>привет мир</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -392,6 +398,8 @@
 				
 				<pageId>10</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Dia duit ar domhan</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -530,6 +538,8 @@
 				
 				<pageId>9</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>¡hola mundo</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -649,6 +659,8 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Bonjour le monde</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -768,6 +780,8 @@
 				
 				<pageId>6</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello world</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -887,6 +901,8 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -1006,6 +1022,8 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>
@@ -1125,6 +1143,8 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.html</subtitle>

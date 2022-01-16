@@ -21,12 +21,11 @@
       "angular",
       "jquery",
       "jqueryui",
-      "materialize-css"
+      "materialize-css",
+      "mousetrap"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "*": ["@types/*", "*"]
     },
     "lib": [
       "esnext",

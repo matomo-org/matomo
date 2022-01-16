@@ -2,13 +2,19 @@
     "Login": {
         "BruteForceLog": "Logg over brutale styrkeangrep",
         "ChangeYourPassword": "Endret ditt passord",
+        "ConfirmPasswordReset": "Bekreft tilbakestilling av passord",
+        "ConfirmPasswordToContinue": "Bekreft passordet ditt for å fortsette.",
         "ConfirmationLinkSent": "En bekreftelseslenke har blitt sendt til din innboks. Sjekk din e-post og besøk denne lenken for å autorisere din forespørsel om å endre passord.",
+        "ContactAdmin": "Mulig grunn: Din vert kan ha skrudd av mail()-funksjonen.<br>Kontakt din Matomo-administrator",
+        "CurrentlyBlockedIPs": "IP-er som blokkeres",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruker med superbrukertilgang kan ikke autentiseres med «%s»-mekanismen.",
         "ExceptionPasswordMD5HashExpected": "Passordparameteret er forventet å være en MD5-hash av passordet.",
+        "IPsAlwaysBlocked": "Disse IP-ene blokkeres alltid",
         "InvalidNonceSSLMisconfigured": "I tillegg kan du %1$s tvinge Matomo til å bruke en sikker tilkobling%2$s: i din config-fil %3$s sett %4$s under seksjonen %5$s",
         "InvalidOrExpiredToken": "Autentiseringsnøkkelen er ugyldig eller har utløpt.",
         "InvalidUsernameEmail": "Feil brukernavn og/eller epost-adresse.",
         "LogIn": "Logg inn",
+        "LoginOrEmail": "Brukernavn eller e-postadresse",
         "LoginPasswordNotCorrect": "Feil kombinasjon av brukernavn og passord.",
         "LostYourPassword": "Glemt passord?",
         "MailTopicPasswordChange": "Bekreft passordendring",
@@ -18,6 +24,11 @@
         "PasswordRepeat": "Passord (gjenta)",
         "PasswordsDoNotMatch": "Passordene stemmer ikke overens.",
         "PluginDescription": "Gir autentisering med brukernavn og passord i tillegg til funksjonalitet for å gjenopprette passord. Autentiseringsmetoden kan endres ved å bruke en annen innloggingsutvidelse som LoginLdap, som er tilgjengelig via Markedsplassen.",
-        "RememberMe": "Husk meg"
+        "RememberMe": "Husk meg",
+        "SettingBruteForceBlacklistIp": "Alltid blokker disse IP-ene fra innlogging",
+        "SettingBruteForceMaxFailedLogins": "Antall tillatte nye innloggingsforsøk innenfor tidsperioden",
+        "SettingBruteForceTimeRangeHelp": "Skriv inn antall minutter.",
+        "SettingBruteForceWhitelistIp": "Aldri blokker disse IP-ene fra innlogging",
+        "WrongPasswordEntered": "Skriv inn ditt riktige passord."
     }
 }
