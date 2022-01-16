@@ -99,7 +99,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
 
     private function addUmdFilesIfDetected($plugins)
     {
-        $plugins = $this->orderPluginsByPluginDependencies($plugins);
+        $plugins = self::orderPluginsByPluginDependencies($plugins);
 
         foreach ($plugins as $plugin) {
             $devUmd = "plugins/$plugin/vue/dist/$plugin.development.umd.js";
@@ -117,18 +117,18 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
         }
     }
 
-    private function orderPluginsByPluginDependencies($plugins)
+    public static function orderPluginsByPluginDependencies($plugins)
     {
         $result = [];
 
         while (!empty($plugins)) {
-            $this->visitPlugin(reset($plugins), $plugins, $result);
+            self::visitPlugin(reset($plugins), $plugins, $result);
         }
 
         return $result;
     }
 
-    private function visitPlugin($plugin, &$plugins, &$result)
+    private static function visitPlugin($plugin, &$plugins, &$result)
     {
         // remove the plugin from the array of plugins to visit
         $index = array_search($plugin, $plugins);
@@ -149,7 +149,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
         if (!empty($pluginDependencies['dependsOn'])) {
             // visit each plugin this one depends on first, so it is loaded first
             foreach ($pluginDependencies['dependsOn'] as $pluginDependency) {
-                $this->visitPlugin($pluginDependency, $plugins, $result);
+                self::visitPlugin($pluginDependency, $plugins, $result);
             }
         }
 

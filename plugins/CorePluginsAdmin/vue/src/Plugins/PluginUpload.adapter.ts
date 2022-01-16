@@ -17,6 +17,4 @@ export default function piwikPluginUpload(): IDirective {
   };
 }
 
-piwikPluginUpload.$inject = [];
-
-angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);
+window.angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);

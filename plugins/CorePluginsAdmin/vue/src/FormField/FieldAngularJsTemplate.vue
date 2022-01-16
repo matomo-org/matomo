@@ -17,7 +17,7 @@ import {
 } from 'vue';
 import { Matomo } from 'CoreHome';
 
-function clone(obj) {
+function clone<T>(obj?: T): T|undefined {
   if (typeof obj === 'undefined') {
     return undefined;
   }
@@ -28,8 +28,14 @@ function clone(obj) {
 export default defineComponent({
   props: {
     modelValue: null,
-    formField: null,
-    templateFile: String,
+    formField: {
+      type: null,
+      required: true,
+    },
+    templateFile: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['update:modelValue'],
   inheritAttrs: false,
@@ -49,7 +55,7 @@ export default defineComponent({
       value: clone(props.modelValue),
     };
 
-    scope.$watch('formField.value', (newValue, oldValue) => {
+    scope.$watch('formField.value', (newValue: unknown, oldValue: unknown) => {
       if (newValue !== oldValue
         && JSON.stringify(newValue) !== JSON.stringify(props.modelValue)
       ) {
@@ -77,7 +83,7 @@ export default defineComponent({
 
     // append on mount
     onMounted(() => {
-      window.$(root.value).append($element);
+      window.$(root.value! as HTMLElement).append($element);
 
       Matomo.helper.compileAngularComponents($element, {
         scope,

@@ -14,92 +14,16 @@ import {
 import NotificationComponent from './Notification.vue';
 import Matomo from '../Matomo/Matomo';
 import createVueApp from '../createVueApp';
-
-interface Notification {
-  /**
-   * Only needed for persistent notifications. The id will be sent to the
-   * frontend once the user closes the notifications. The notification has to
-   * be registered/notified under this name.
-   */
-  id?: string;
-
-  /**
-   * Unique ID generated for the notification so it can be referenced specifically
-   * to scroll to.
-   */
-  notificationInstanceId?: string;
-
-  /**
-   * Determines which notification group a notification is meant to be displayed
-   * in.
-   */
-  group?: string;
-
-  /**
-   * The title of the notification. For instance the plugin name.
-   */
-  title?: string;
-
-  /**
-   * The actual message that will be displayed. Must be set.
-   */
-  message: string;
-
-  /**
-   * Context of the notification: 'info', 'warning', 'success' or 'error'
-   */
-  context: 'success'|'error'|'info'|'warning';
-
-  /**
-   * The type of the notification: Either 'toast' or 'transient'. 'persistent' is valid, but
-   * has no effect if only specified client side.
-   *
-   * 'help' is only used by ReportingMenu.vue.
-   */
-  type: 'toast'|'persistent'|'transient'|'help';
-
-  /**
-   * If set, the close icon is not displayed.
-   */
-  noclear?: boolean;
-
-  /**
-   * The number of milliseconds before a toast animation disappears.
-   */
-  toastLength?: number;
-
-  /**
-   * Optional style/css dictionary. For instance {'display': 'inline-block'}
-   */
-  style?: string|Record<string, unknown>;
-
-  /**
-   * Optional CSS class to add.
-   */
-  class?: string;
-
-  /**
-   * If true, fades the animation in.
-   */
-  animate?: boolean;
-
-  /**
-   * Where to place the notification. Required if showing a toast.
-   */
-  placeat?: string|HTMLElement|JQuery;
-
-  /**
-   * If true, the notification will be displayed before others currently displayed.
-   */
-  prepend?: boolean;
-}
+import Notification from './Notification';
 
 interface NotificationsData {
   notifications: Notification[];
 }
 
+const { $ } = window;
+
 class NotificationsStore {
-  private privateState: NotificationsData = reactive<NotificationsData>({
+  private privateState = reactive<NotificationsData>({
     notifications: [],
   });
 
@@ -142,7 +66,7 @@ class NotificationsStore {
     const $notificationNodes = $('[data-role="notification"]');
 
     const notificationsToShow: Notification[] = [];
-    $notificationNodes.each((index, notificationNode) => {
+    $notificationNodes.each((index: number, notificationNode: HTMLElement) => {
       const $notificationNode = $(notificationNode);
       const attributes = $notificationNode.data();
       const message = $notificationNode.html();
@@ -171,7 +95,7 @@ class NotificationsStore {
 
     let addMethod = notification.prepend ? this.prependNotification : this.appendNotification;
 
-    let notificationPosition: typeof Notification['placeat'] = '#notificationContainer';
+    let notificationPosition: Notification['placeat'] = '#notificationContainer';
     if (notification.placeat) {
       notificationPosition = notification.placeat;
     } else {
@@ -181,7 +105,7 @@ class NotificationsStore {
       const modal = document.querySelector(modalSelector);
       if (modal) {
         if (!modal.querySelector('#modalNotificationContainer')) {
-          window.$(modal).prepend('<div id="modalNotificationContainer"/>');
+          $(modal).prepend('<div id="modalNotificationContainer"/>');
         }
 
         notificationPosition = `${modalSelector} #modalNotificationContainer`;
@@ -210,7 +134,9 @@ class NotificationsStore {
 
   scrollToNotification(notificationInstanceId: string) {
     setTimeout(() => {
-      const element = document.querySelector(`[data-notification-instance-id='${notificationInstanceId}']`);
+      const element = document.querySelector(
+        `[data-notification-instance-id='${notificationInstanceId}']`,
+      ) as HTMLElement;
       if (element) {
         Matomo.helper.lazyScrollTo(element, 250);
       }
@@ -223,15 +149,15 @@ class NotificationsStore {
   toast(notification: Notification): void {
     this.checkMessage(notification.message);
 
-    const $placeat = $(notification.placeat);
-    if (!$placeat.length) {
+    const $placeat = notification.placeat ? $(notification.placeat) : undefined;
+    if (!$placeat || !$placeat.length) {
       throw new Error('A valid selector is required for the placeat option when using Notification.toast().');
     }
 
     const toastElement = document.createElement('div');
     toastElement.style.position = 'absolute';
-    toastElement.style.top = `${$placeat.offset().top}px`;
-    toastElement.style.left = `${$placeat.offset().left}px`;
+    toastElement.style.top = `${$placeat.offset()!.top}px`;
+    toastElement.style.left = `${$placeat.offset()!.left}px`;
     toastElement.style.zIndex = '1000';
     document.body.appendChild(toastElement);
 
@@ -249,10 +175,14 @@ class NotificationsStore {
   }
 
   private initializeNotificationContainer(
-    notificationPosition: typeof Notification['placeat'],
+    notificationPosition: Notification['placeat'],
     group: string,
   ) {
-    const $container = window.$(notificationPosition);
+    if (!notificationPosition) {
+      return;
+    }
+
+    const $container = $(notificationPosition);
     if ($container.children('.notification-group').length) {
       return;
     }

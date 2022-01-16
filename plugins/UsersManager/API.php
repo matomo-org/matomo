@@ -28,10 +28,12 @@ use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\View;
 use Piwik\Plugins\CoreAdminHome\Emails\UserInviteEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -146,10 +148,10 @@ class API extends \Piwik\Plugin\API
 
         foreach ($this->roleProvider->getAllRoles() as $role) {
             $response[] = array(
-              'id' => $role->getId(),
-              'name' => $role->getName(),
-              'description' => $role->getDescription(),
-              'helpUrl' => $role->getHelpUrl(),
+                'id' => $role->getId(),
+                'name' => $role->getName(),
+                'description' => $role->getDescription(),
+                'helpUrl' => $role->getHelpUrl(),
             );
         }
 
@@ -168,12 +170,12 @@ class API extends \Piwik\Plugin\API
 
         foreach ($this->capabilityProvider->getAllCapabilities() as $capability) {
             $response[] = array(
-              'id' => $capability->getId(),
-              'name' => $capability->getName(),
-              'description' => $capability->getDescription(),
-              'helpUrl' => $capability->getHelpUrl(),
-              'includedInRoles' => $capability->getIncludedInRoles(),
-              'category' => $capability->getCategory(),
+                'id' => $capability->getId(),
+                'name' => $capability->getName(),
+                'description' => $capability->getDescription(),
+                'helpUrl' => $capability->getHelpUrl(),
+                'includedInRoles' => $capability->getIncludedInRoles(),
+                'category' => $capability->getCategory(),
             );
         }
 
@@ -286,15 +288,15 @@ class API extends \Piwik\Plugin\API
             throw new Exception("Preference name cannot contain underscores.");
         }
         $names = array(
-          self::PREFERENCE_DEFAULT_REPORT,
-          self::PREFERENCE_DEFAULT_REPORT_DATE,
-          'isLDAPUser', // used in loginldap
-          'hideSegmentDefinitionChangeMessage',// used in JS
+            self::PREFERENCE_DEFAULT_REPORT,
+            self::PREFERENCE_DEFAULT_REPORT_DATE,
+            'isLDAPUser', // used in loginldap
+            'hideSegmentDefinitionChangeMessage',// used in JS
         );
         $customPreferences = StaticContainer::get('usersmanager.user_preference_names');
 
         if (!in_array($preference, $names, true)
-          && !in_array($preference, $customPreferences, true)) {
+            && !in_array($preference, $customPreferences, true)) {
             throw new Exception('Not supported preference name: ' . $preference);
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
@@ -332,7 +334,7 @@ class API extends \Piwik\Plugin\API
      *                                   Filtering by 'superuser' is only allowed for other superusers.
      * @return array
      */
-    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null, $filter_status = null)
+    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
     {
         if (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
@@ -368,8 +370,7 @@ class API extends \Piwik\Plugin\API
             } else {
                 [$users, $totalResults] = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access, $loginsToLimit);
 
-                foreach ($users as $key=> &$user) {
-
+                foreach ($users as &$user) {
                     $user['superuser_access'] = $user['superuser_access'] == 1;
                     if ($user['superuser_access']) {
                         $user['role'] = 'superuser';
@@ -378,13 +379,12 @@ class API extends \Piwik\Plugin\API
                         [$user['role'], $user['capabilities']] = $this->getRoleAndCapabilitiesFromAccess($user['access']);
                         $user['role'] = empty($user['role']) ? 'noaccess' : reset($user['role']);
                     }
+
                     unset($user['access']);
                 }
-
             }
         }
 
-        //todo it seems likes here for loop user lots of times. I can see 4 times here.
         $users = $this->enrichUsers($users);
         $users = $this->enrichUsersWithLastSeen($users);
 
@@ -568,8 +568,8 @@ class API extends \Piwik\Plugin\API
             $sites = $siteManagerModel->getAllSites();
             foreach ($sites as $site) {
                 $return[] = array(
-                  'site' => $site['idsite'],
-                  'access' => 'admin'
+                    'site' => $site['idsite'],
+                    'access' => 'admin'
                 );
             }
             return $return;
@@ -748,9 +748,9 @@ class API extends \Piwik\Plugin\API
 
         $container = StaticContainer::getContainer();
         $mail = $container->make(UserCreatedEmail::class, array(
-          'login' => Piwik::getCurrentUserLogin(),
-          'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin' => $userLogin
+            'login' => Piwik::getCurrentUserLogin(),
+            'emailAddress' => Piwik::getCurrentUserEmail(),
+            'userLogin' => $userLogin
         ));
         $mail->safeSend();
 
@@ -850,7 +850,7 @@ class API extends \Piwik\Plugin\API
 
         $isCliMode = Common::isPhpCliMode() && !(defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
         if (!$isCliMode
-          && $requirePasswordConfirmation
+            && $requirePasswordConfirmation
         ) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
@@ -858,8 +858,8 @@ class API extends \Piwik\Plugin\API
 
         if (!$hasSuperUserAccess && $this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
             $message = Piwik::translate("UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser", $userLogin)
-              . " "
-              . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
+                        . " "
+                        . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
             throw new Exception($message);
         }
 
@@ -990,7 +990,7 @@ class API extends \Piwik\Plugin\API
      * @see addUser() for all the parameters
      */
     public function updateUser($userLogin, $password = false, $email = false,
-      $_isPasswordHashed = false, $passwordConfirmation = false)
+                               $_isPasswordHashed = false, $passwordConfirmation = false)
     {
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
         self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
@@ -1084,8 +1084,8 @@ class API extends \Piwik\Plugin\API
 
         if ($this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
             $message = Piwik::translate("UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess", $userLogin)
-              . " "
-              . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
+                        . " "
+                        . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
             throw new Exception($message);
         }
 
@@ -1095,9 +1095,9 @@ class API extends \Piwik\Plugin\API
 
         $container = StaticContainer::getContainer();
         $email = $container->make(UserDeletedEmail::class, array(
-          'login' => Piwik::getCurrentUserLogin(),
-          'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin' => $userLogin
+            'login' => Piwik::getCurrentUserLogin(),
+            'emailAddress' => Piwik::getCurrentUserEmail(),
+            'userLogin' => $userLogin
         ));
         $email->safeSend();
 
@@ -1187,7 +1187,7 @@ class API extends \Piwik\Plugin\API
         $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 
         if ($userLogin === 'anonymous' &&
-          (is_array($access) || !in_array($access, array('view', 'noaccess'), true))
+            (is_array($access) || !in_array($access, array('view', 'noaccess'), true))
         ) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionAnonymousAccessNotPossible", array('noaccess', 'view')));
         }
@@ -1630,23 +1630,10 @@ class API extends \Piwik\Plugin\API
     {
         $deviceDescription = $this->getDeviceDescription();
 
-        $view = new View('@UsersManager/_userInfoChangedEmail.twig');
-        $view->type = $type;
-        $view->accountName = Common::sanitizeInputValue($user['login']);
-        $view->newEmail = Common::sanitizeInputValue($newValue);
-        $view->ipAddress = IP::getIpFromHeader();
-        $view->deviceDescription = $deviceDescription;
-
-        $mail = new Mail();
+        $mail = new UserInfoChangedEmail($type, $newValue, $deviceDescription, $user['login']);
 
         $mail->addTo($emailTo, $user['login']);
         $mail->setSubject(Piwik::translate($subject));
-        $mail->setDefaultFromPiwik();
-        $mail->setWrappedHtmlBody($view);
-
-        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
-        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         $mail->send();
     }
@@ -1673,7 +1660,7 @@ class API extends \Piwik\Plugin\API
         $deviceBrand = $uaParser->getBrandName();
         $deviceModel = $uaParser->getModel();
         if (!empty($deviceBrand)
-          || !empty($deviceModel)
+            || !empty($deviceModel)
         ) {
             $parts = array_filter([$deviceBrand, $deviceModel]);
             $description .= ' (' . implode(' ', $parts) . ')';

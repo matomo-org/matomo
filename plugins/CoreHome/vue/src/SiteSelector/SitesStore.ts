@@ -5,17 +5,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { reactive, computed, readonly } from 'vue';
+import {
+  reactive,
+  computed,
+  readonly,
+  DeepReadonly,
+} from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-
-export interface Site {
-  idsite: string;
-  name: string;
-}
+import Site from './Site';
 
 interface SitesStoreState {
-  initialSites: Site[]|null;
+  initialSites: DeepReadonly<Site[]>;
   isInitialized: boolean;
 }
 
@@ -25,21 +26,23 @@ class SitesStore {
     isInitialized: false,
   });
 
-  private currentRequestAbort: AbortController;
+  private currentRequestAbort: AbortController | null = null;
 
-  private limitRequest: Promise<{ value: number|string }>;
+  private limitRequest?: Promise<{ value: number|string }>;
 
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
-  loadInitialSites(): Promise<Site[]> {
+  loadInitialSites(): Promise<DeepReadonly<Site[]>|null> {
     if (this.state.isInitialized) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
     return this.searchSite('%').then((sites) => {
       this.state.isInitialized = true;
-      this.state.initialSites = sites;
-      return readonly(sites);
+      if (sites !== null) {
+        this.state.initialSites = sites;
+      }
+      return sites;
     });
   }
 
@@ -65,7 +68,7 @@ class SitesStore {
     }
   }
 
-  searchSite(term, onlySitesWithAdminAccess = false): Promise<Site[]> {
+  searchSite(term?: string, onlySitesWithAdminAccess = false): Promise<DeepReadonly<Site[]>|null> {
     if (!term) {
       return this.loadInitialSites();
     }
@@ -96,7 +99,7 @@ class SitesStore {
       });
     }).then((response) => {
       if (response) {
-        return this.processWebsitesList(response);
+        return this.processWebsitesList(response as Site[]);
       }
 
       return null;
@@ -105,7 +108,7 @@ class SitesStore {
     });
   }
 
-  private processWebsitesList(response) {
+  private processWebsitesList(response: Site[]): Site[] {
     let sites = response;
 
     if (!sites || !sites.length) {
@@ -117,7 +120,7 @@ class SitesStore {
       name: s.group ? `[${s.group}] ${s.name}` : s.name,
     }));
 
-    sites.sort((lhs, rhs) => {
+    sites.sort((lhs: Site, rhs: Site) => {
       if (lhs.name.toLowerCase() < rhs.name.toLowerCase()) {
         return -1;
       }

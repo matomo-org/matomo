@@ -47,11 +47,11 @@ class API extends \Piwik\Plugin\API
      * @param bool|false $segment
      * @param bool|false $expanded
      * @param bool|false $flat
-     * @param int|null   $idSubtable
+     * @param int|false $idSubtable
      * @return DataTable|DataTable\Map
      * @throws \Exception
      */
-    public function getCustomDimension($idDimension, $idSite, $period, $date, $segment = false, $expanded = false, $flat = false, $idSubtable = null)
+    public function getCustomDimension($idDimension, $idSite, $period, $date, $segment = false, $expanded = false, $flat = false, $idSubtable = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -62,7 +62,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = Archive::createDataTableFromArchive($record, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
 
-        if (isset($idSubtable) && $dataTable->getRowsCount()) {
+        if (!empty($idSubtable) && $dataTable->getRowsCount()) {
             $parentTable = Archive::createDataTableFromArchive($record, $idSite, $period, $date, $segment);
             foreach ($parentTable->getRows() as $row) {
                 if ($row->getIdSubDataTable() == $idSubtable) {

@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { IDirective, IScope, ITimeoutService } from 'angular';
+import { IDirective, ITimeoutService } from 'angular';
 import ReportExport from './ReportExport';
 
 export default function piwikReportExport($timeout: ITimeoutService): IDirective {
@@ -18,7 +18,8 @@ export default function piwikReportExport($timeout: ITimeoutService): IDirective
       apiMethod: '@',
       maxFilterLimit: '@',
     },
-    link: function piwikReportExportLink(scope: IScope, element: JQuery) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    link: function piwikReportExportLink(scope: any, element: JQuery) {
       const binding = {
         instance: null,
         value: {
@@ -31,7 +32,7 @@ export default function piwikReportExport($timeout: ITimeoutService): IDirective
           maxFilterLimit: parseInt(scope.maxFilterLimit, 10),
           onClose: () => {
             $timeout(() => {
-              angular.element(document).injector().get('$rootScope').$apply();
+              window.angular.element(document).injector().get('$rootScope').$apply();
             }, 10);
           },
         },
@@ -47,4 +48,4 @@ export default function piwikReportExport($timeout: ITimeoutService): IDirective
 
 piwikReportExport.$inject = ['$timeout'];
 
-angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);
+window.angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);

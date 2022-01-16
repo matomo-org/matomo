@@ -15,11 +15,15 @@ import './Periods/Year';
 import './Periods/Range';
 import './Periods/Periods.adapter';
 import './AjaxHelper/AjaxHelper.adapter';
+import './PopoverHandler/PopoverHandler';
+import './Alert/Alert.adapter';
 import './DropdownMenu/DropdownMenu.adapter';
 import './FocusAnywhereButHere/FocusAnywhereButHere.adapter';
 import './FocusIf/FocusIf.adapter';
 import './ExpandOnClick/ExpandOnClick.adapter';
 import './ExpandOnHover/ExpandOnHover.adapter';
+import './ShowSensitiveData/ShowSensitiveData.adapter';
+import './DropdownButton/DropdownButton.adapter';
 import './SelectOnFocus/SelectOnFocus.adapter';
 import './SideNav/SideNav.adapter';
 import './MatomoDialog/MatomoDialog.adapter';
@@ -46,8 +50,14 @@ import './WidgetByDimensionContainer/WidgetByDimensionContainer.adapter';
 import './Widget/Widget.adapter';
 import './ReportingPage/ReportingPage.adapter';
 import './ReportExport/ReportExport.adapter';
+import './Sparkline/Sparkline.adapter';
+import './Progressbar/Progressbar.adapter';
+import './ContentIntro/ContentIntro.adapter';
+import './ContentTable/ContentTable.adapter';
+import './AjaxForm/AjaxForm.adapter';
 
 export { default as createVueApp } from './createVueApp';
+export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export {
@@ -55,11 +65,13 @@ export {
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   removeAngularJsSpecificProperties,
+  clone,
+  cloneThenApply,
 } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as translate } from './translate';
-export { default as alertAdapter } from './Alert/Alert.adapter';
+export { default as Alert } from './Alert/Alert.vue';
 export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
@@ -71,6 +83,8 @@ export { default as FocusIf } from './FocusIf/FocusIf';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
+export { default as ShowSensitiveData } from './ShowSensitiveData/ShowSensitiveData';
+export { default as DropdownButton } from './DropdownButton/DropdownButton';
 export { default as SelectOnFocus } from './SelectOnFocus/SelectOnFocus';
 export { default as SideNav } from './SideNav/SideNav';
 export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
@@ -81,7 +95,10 @@ export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
 export * from './Notification';
+export { default as SitesStore } from './SiteSelector/SitesStore';
+export { default as Site } from './SiteSelector/Site';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
+export { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
@@ -96,3 +113,8 @@ export { default as WidgetByDimensionContainer } from './WidgetByDimensionContai
 export { default as Widget } from './Widget/Widget.vue';
 export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
 export { default as ReportExport } from './ReportExport/ReportExport';
+export { default as Sparkline } from './Sparkline/Sparkline.vue';
+export { default as Progressbar } from './Progressbar/Progressbar.vue';
+export { default as ContentIntro } from './ContentIntro/ContentIntro';
+export { default as ContentTable } from './ContentTable/ContentTable';
+export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';

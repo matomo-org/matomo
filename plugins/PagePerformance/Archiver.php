@@ -38,8 +38,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        $selects = $totalColumns = $hitsColumns = [];
+        $selects = $totalColumns = $hitsColumns = $allColumns = [];
         $table  = 'log_link_visit_action';
+
 
         $performanceDimensions = [
             new TimeNetwork(),
@@ -54,16 +55,19 @@ class Archiver extends \Piwik\Plugin\Archiver
             $column = $dimension->getColumnName();
             $selects[] = "sum($table.$column) as {$column}_total";
             $selects[] = "sum(if($table.$column is null, 0, 1)) as {$column}_hits";
-            $totalColumns[] = "$table.$column";
+            $totalColumns[] = "IFNULL($table.$column,0)";
             $hitsColumns[] = "if($table.$column is null, 0, 1)";
+            $allColumns[]  = "$table.$column";
         }
 
         $selects[] = sprintf('SUM(%s) as page_load_total', implode(' + ', $totalColumns));
-        $selects[] = sprintf('(SUM(%s)/%s) as page_load_hits', implode(' + ', $hitsColumns), count($hitsColumns));
+        $selects[] = "count(idlink_va) as page_load_hits";
 
         $joinLogActionOnColumn = array('idaction_url');
+        $where = sprintf("COALESCE(%s) IS NOT NULL", implode(',', $allColumns));
 
-        $query = $this->getLogAggregator()->queryActionsByDimension([], '', $selects, false, null, $joinLogActionOnColumn);
+        $query = $this->getLogAggregator()->queryActionsByDimension([], $where, $selects, false, null,
+          $joinLogActionOnColumn, null, -1);
 
         $result = $query->fetchAll();
 

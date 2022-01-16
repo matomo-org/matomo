@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { SiteSelector, SiteReference } from 'CoreHome';
+import { SiteSelector, SiteRef } from 'CoreHome';
 
 export default defineComponent({
   props: {
@@ -39,7 +39,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    onChange(newValue: SiteReference) {
+    onChange(newValue: SiteRef) {
       this.$emit('update:modelValue', newValue);
     },
   },

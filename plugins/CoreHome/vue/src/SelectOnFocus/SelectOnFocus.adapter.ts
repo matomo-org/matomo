@@ -26,6 +26,4 @@ export default function piwikSelectOnFocus(): IDirective {
   };
 }
 
-piwikSelectOnFocus.$inject = [];
-
-angular.module('piwikApp').directive('piwikSelectOnFocus', piwikSelectOnFocus);
+window.angular.module('piwikApp').directive('piwikSelectOnFocus', piwikSelectOnFocus);
