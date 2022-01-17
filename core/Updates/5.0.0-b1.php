@@ -16,12 +16,12 @@ use Piwik\Updater;
 use Piwik\Updater\Migration\Db as DbAlias;
 use Piwik\Updater\Migration\Db\DropIndex;
 use Piwik\Updater\Migration\Db\Sql;
-use Piwik\Updates;
+use Piwik\Updates as PiwikUpdates;
 
 /**
  * Update for version 5.0.0-b1
  */
-class Updates_5_0_0_b1 extends Updates
+class Updates_5_0_0_b1 extends PiwikUpdates
 {
     private $tableName;
     private $indexName;
@@ -58,10 +58,24 @@ class Updates_5_0_0_b1 extends Updates
 
     private function requiresUpdatedLogVisitTableIndex()
     {
-        $sql = "SHOW INDEX FROM {$this->tableName} WHERE Key_name = '{$this->indexName}'";
+        $sql = "SHOW INDEX FROM `{$this->tableName}` WHERE Key_name = '{$this->indexName}'";
 
         $result = Db::fetchAll($sql);
 
-        return empty($result);
+        if (empty($result)) {
+            // No index present - should be added
+            return true;
+        }
+
+        // Check that the $result contains all the required column names. This is required as there was a previous index
+        // with the same name that only consisted of two columns. We want to check this index is built with all three.
+        // $diff will be empty if all three columns are found, meaning that the index already exists.
+        $diff = array_diff(['idsite', 'idvisitor', 'visit_last_action_time'], array_column($result, 'Column_name'));
+
+        if (!$diff) {
+            return false;
+        }
+
+        return true;
     }
 }
