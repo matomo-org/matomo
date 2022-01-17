@@ -1,19 +1,21 @@
-name: buildVue
+name: build Vue
 
 on:
-  - pull_request
+  push:
+    paths:
+      - 'plugins/**/vue/src/**'
 
-#permissions:
-#  actions: read
-#  checks: none
-#  contents: write
-#  deployments: none
-#  issues: read
-#  packages: none
-#  pull-requests: write
-#  repository-projects: none
-#  security-events: none
-#  statuses: none
+permissions:
+  actions: read
+  checks: none
+  contents: write
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
 
 concurrency:
   group: ${{ github.head_ref }}
