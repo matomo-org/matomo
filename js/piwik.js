@@ -75,7 +75,7 @@
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
-    addListener, enableLinkTracking, disableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
+    addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, getJavascriptErrors, unsetPageIsUnloading,
@@ -5219,6 +5219,15 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Get Browser Feature Detection
+             *
+             * @return boolean
+             */
+            this.getBrowserFeatureDetection = function () {
+                return configBrowserFeatureDetection;
+            };
+
+            /**
              * Configure function with custom request content processing logic.
              * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
              *
@@ -6403,6 +6412,10 @@ if (typeof window.Matomo !== 'object') {
 
             this.disableBrowserFeatureDetection = function () {
                 configBrowserFeatureDetection = false;
+            };
+
+            this.enableBrowserFeatureDetection = function () {
+                configBrowserFeatureDetection = true;
             };
 
             /**
