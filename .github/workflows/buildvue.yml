@@ -1,8 +1,9 @@
 name: Build Vue files
 
 on:
-  pull_request:
-    types: [synchronize, opened]
+  push:
+    paths:
+      - 'plugins/**/vue/src/**'
 
 permissions:
   actions: read
