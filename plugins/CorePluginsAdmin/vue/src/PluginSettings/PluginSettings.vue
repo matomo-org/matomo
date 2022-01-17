@@ -227,7 +227,7 @@ export default defineComponent({
           context: 'success',
           type: 'transient',
         });
-        NotificationsStore.scrollToNotification('#notificationContainer');
+        NotificationsStore.scrollToNotification('#generalSettings');
       }).catch(() => {
         this.isSaving[requestedPlugin] = false;
       });

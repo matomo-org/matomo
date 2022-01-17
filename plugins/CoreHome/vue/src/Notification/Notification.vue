@@ -9,7 +9,7 @@
     :name="type === 'toast' ? 'slow-fade-out' : undefined"
     @after-leave="toastClosed()"
   >
-    <div v-if="!deleted">
+    <div v-if="!deleted" :id="notificationId">
       <transition :name="type === 'toast' ? 'toast-slide-up' : undefined" appear>
         <div>
           <transition :name="animate ? 'fade-in' : undefined" appear>
