@@ -53,6 +53,7 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         $tracker->setUrl('http://someurl.com/4');
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg4'));
 
+        Manager::getInstance()->deactivatePlugin('UserLanguage');
         $logger = new FakeLogger();
 
         $archiver = new CronArchive($logger);
