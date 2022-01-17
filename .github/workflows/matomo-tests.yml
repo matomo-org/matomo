@@ -5,6 +5,7 @@ on:
     workflows: [build Vue]
     types:
       - completed
+  pull_request:
 
 permissions:
   actions: read
