@@ -15,6 +15,10 @@ on:
 #  security-events: none
 #  statuses: none
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
