@@ -1,20 +1,20 @@
-name: buildvue
+name: buildVue
 
 on:
-  pull_request:
-    types: [synchronize, opened]
+  - pull_request
+  - push
 
-permissions:
-  actions: read
-  checks: none
-  contents: write
-  deployments: none
-  issues: read
-  packages: none
-  pull-requests: write
-  repository-projects: none
-  security-events: none
-  statuses: none
+#permissions:
+#  actions: read
+#  checks: none
+#  contents: write
+#  deployments: none
+#  issues: read
+#  packages: none
+#  pull-requests: write
+#  repository-projects: none
+#  security-events: none
+#  statuses: none
 
 jobs:
   build:
