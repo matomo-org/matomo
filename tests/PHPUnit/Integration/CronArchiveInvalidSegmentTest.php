@@ -62,6 +62,7 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         $archiver->run();
 
         $this->assertStringNotContainsStringIgnoringCase('Got invalid response from API request', $logger->output);
+        $this->assertStringContainsString('Skip Invalid segment:languageCode==fr , skipping invalidation', $logger->output);
         $this->assertStringContainsString('no error', $logger->output);
     }
 
