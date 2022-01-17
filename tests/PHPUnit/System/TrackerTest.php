@@ -45,6 +45,7 @@ class TrackerTest extends IntegrationTestCase
         Option::delete(self::TASKS_STARTED_OPTION_NAME);
         Option::delete(self::TASKS_FINISHED_OPTION_NAME);
         Option::delete(Timetable::TIMETABLE_OPTION_STRING);
+        Option::delete(Timetable::RETRY_OPTION_STRING);
 
         SettingsPiwik::overwritePiwikUrl(self::$fixture->getRootUrl() . "tests/PHPUnit/proxy");
     }

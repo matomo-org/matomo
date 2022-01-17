@@ -152,7 +152,7 @@ class Scheduler
                     $readFromOption = true;
                     $message = $this->executeTask($task);
 
-                    // Tasks has thrown an exception and should be scheduled for a retry
+                    // Task has thrown an exception and should be scheduled for a retry
                     if ($this->scheduleRetry) {
 
                         if($this->timetable->getRetryCount($task->getName()) == 3) {
@@ -174,7 +174,9 @@ class Scheduler
                         }
                         $this->scheduleRetry = false;
                     } else {
-                        $this->timetable->clearRetryCount($task->getName());
+                        if ($this->timetable->getRetryCount($task->getName()) > 0) {
+                            $this->timetable->clearRetryCount($task->getName());
+                        }
                     }
 
                     $executionResults[] = array('task' => $taskName, 'output' => $message);
