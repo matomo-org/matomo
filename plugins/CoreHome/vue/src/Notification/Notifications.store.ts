@@ -134,9 +134,13 @@ class NotificationsStore {
 
   scrollToNotification(notificationInstanceId: string) {
     setTimeout(() => {
-      const element = document.querySelector(
+      let element = document.querySelector(
         `[data-notification-instance-id='${notificationInstanceId}']`,
       ) as HTMLElement;
+
+      if (!element) {
+        element = document.querySelector(`${notificationInstanceId}`) as HTMLElement;
+      }
       if (element) {
         Matomo.helper.lazyScrollTo(element, 250);
       }
