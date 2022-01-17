@@ -33,7 +33,6 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\View;
 use Piwik\Plugins\CoreAdminHome\Emails\UserInviteEmail;
-use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
