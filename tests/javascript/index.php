@@ -5220,6 +5220,18 @@ if ($mysql) {
         ok( diffTime >= 2000, 'setLinkTrackingTimer(): ' + diffTime);
     });
 
+    test("Disable and enable Browser detector", function() {
+      var tracker = Piwik.getTracker();
+      tracker.disableBrowserFeatureDetection();
+      var request = tracker.getRequest('hello=world');
+      ok( !request.test(/res/g),'no Browser fingerprint set');
+
+      tracker.enableBrowserFeatureDetection();
+      var request = tracker.getRequest('hello=world');
+      ok(!request.test(/res/g),'Browser fingerprint set');
+
+    });
+
 <?php
 }
 ?>
