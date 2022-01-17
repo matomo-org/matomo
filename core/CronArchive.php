@@ -919,6 +919,11 @@ class CronArchive
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
+
+               // check if the segment is available
+                if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
+                    continue;
+                }
                 $params = new Parameters(new Site($idSite), $periodObj, new Segment($segmentDefinition, [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
                 if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
@@ -945,6 +950,24 @@ class CronArchive
                 }
             }
         }
+    }
+
+
+    /**
+     * check if segments that contain dimensions that don't exist anymore
+     * @param $segmentDefinition
+     * @param $idSites
+     * @return bool
+     */
+    protected function isSegmentAvailable($segmentDefinition, $idSites)
+    {
+        try {
+            new Segment($segmentDefinition, $idSites);
+        } catch (\Exception $e) {
+            $this->logger->info('Skip Invalid segment:'.$segmentDefinition.' , skipping invalidation.');
+            return false;
+        }
+        return true;
     }
 
     /**

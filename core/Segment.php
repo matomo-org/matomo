@@ -225,9 +225,7 @@ class Segment
             }
         }
 
-        if (!Common::isPhpCliMode()) {
-            throw new Exception("Segment '$name' is not a supported segment.");
-        }
+        throw new Exception("Segment '$name' is not a supported segment.");
     }
 
     /**
