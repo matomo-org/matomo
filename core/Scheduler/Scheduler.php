@@ -8,7 +8,6 @@
 
 namespace Piwik\Scheduler;
 
-use Exception;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Psr\Log\LoggerInterface;
@@ -312,7 +311,7 @@ class Scheduler
             $message = 'ERROR: ' . $e->getMessage();
 
             // If the task has indicated that retrying on exception is safe then flag for rescheduling
-            if ($e->getCode() == 1) {
+            if ($e instanceof RetryableException) {
                 $this->scheduleRetry = true;
             }
         }
