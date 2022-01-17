@@ -454,7 +454,7 @@ class Archive implements ArchiveQuery
         }
 
         $archive = Archive::build($idSite, $period, $date, $segment, $_restrictSitesToLogin = false);
-        if ($idSubtable === false) {
+        if ($idSubtable === false || $idSubtable === '') {
             $idSubtable = null;
         }
 
