@@ -8464,6 +8464,10 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
       setTimeout(function () {
         var element = document.querySelector("[data-notification-instance-id='".concat(notificationInstanceId, "']"));
 
+        if (!element) {
+          element = document.querySelector("".concat(notificationInstanceId));
+        }
+
         if (element) {
           Matomo_Matomo.helper.lazyScrollTo(element, 250);
         }
