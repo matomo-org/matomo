@@ -2441,7 +2441,7 @@ if (typeof window.Matomo !== 'object') {
                 // whether a tracking request has been sent yet during this page view
                 hasSentTrackingRequestYet = false,
 
-                configBrowserFeatureDetectionEnable = true;
+                configBrowserFeatureDetection = true;
 
             // Document title
             try {
@@ -3132,7 +3132,7 @@ if (typeof window.Matomo !== 'object') {
             function detectBrowserFeatures() {
 
                 // Browser Feature is disabled return empty object
-                if (!configBrowserFeatureDetectionEnable) {
+                if (!configBrowserFeatureDetection) {
                     return {};
                 }
                 if (isDefined(browserFeatures.res)) {
@@ -6026,7 +6026,7 @@ if (typeof window.Matomo !== 'object') {
             this.setCookieConsentGiven = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
-                    configBrowserFeatureDetectionEnable = true;
+                    configBrowserFeatureDetection = true;
                     if (configTrackerSiteId && hasSentTrackingRequestYet) {
                         setVisitorIdCookie();
 
@@ -6402,7 +6402,7 @@ if (typeof window.Matomo !== 'object') {
             };
 
             this.disableBrowserFeatureDetection = function () {
-                configBrowserFeatureDetectionEnable = false;
+                configBrowserFeatureDetection = false;
             };
 
             /**
@@ -6960,7 +6960,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
-                configBrowserFeatureDetectionEnable = true;
+                configBrowserFeatureDetection = true;
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
                 var i, requestType;
