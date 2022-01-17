@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UserCountry;
 use Matomo\Cache\Cache;
 use Matomo\Cache\Transient;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Matomo\Network\IPUtils;
@@ -118,7 +119,7 @@ class VisitorGeolocator
             $providerId = $this->provider->getId();
             Common::printDebug("GEO: couldn't find a location with Geo Module '$providerId'");
 
-            if ($providerId != $this->backupProvider->getId()) {
+            if ($providerId != $this->backupProvider->getId() && GeneralConfig::getConfigValue('enable_geolocation_fallback')) {
                 Common::printDebug("Using default provider as fallback...");
 
                 $location = $this->getLocationObject($this->backupProvider, $userInfo);

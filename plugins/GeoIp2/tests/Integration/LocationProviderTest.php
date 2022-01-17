@@ -8,7 +8,11 @@
  */
 namespace Piwik\Plugins\GeoIp2\tests\Integration;
 
+use Piwik\Config;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
+use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\Plugins\UserCountry\VisitorGeolocator;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group GeoIp2
@@ -107,6 +111,37 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
             'region_name' => 'Bourgogne-Franche-Comte',
             'isp' => 'Matomo Internet',
             'org' => 'Innocraft'
+        ], $result);
+    }
+
+    public function testGeoIP2NoResultFallback()
+    {
+        Fixture::loadAllTranslations();
+        $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-City.mmdb'], 'isp' => []]);
+        $geolocator = new VisitorGeolocator($locationProvider, new DefaultProvider());
+
+        $result = $geolocator->getLocation(['ip' => '221.0.0.9', 'lang' => 'de-ch'], false);
+
+        $this->assertEquals([
+            'country_code' => 'ch',
+            'country_name' => 'Switzerland',
+            'continent_code' => 'eur',
+            'continent_name' => 'Europe',
+        ], $result);
+    }
+
+    public function testGeoIP2NoResultFallbackDisabled()
+    {
+        Fixture::loadAllTranslations();
+        Config::getInstance()->General['enable_geolocation_fallback'] = 0;
+
+        $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-City.mmdb'], 'isp' => []]);
+        $geolocator = new VisitorGeolocator($locationProvider, new DefaultProvider());
+
+        $result = $geolocator->getLocation(['ip' => '221.0.0.9', 'lang' => 'de-ch'], false);
+
+        $this->assertEquals([
+            'country_code' => 'xx',
         ], $result);
     }
 }
