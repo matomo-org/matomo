@@ -5,6 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { DirectiveBinding } from 'vue';
 import DirectiveUtilities from '../directiveUtilities';
 
@@ -36,12 +38,14 @@ export default {
         const sideNavActivator = DirectiveUtilities.getRef(binding.value.activator, binding);
         if (sideNavActivator) {
           window.$(sideNavActivator).show();
-        }
 
-        const targetSelector = sideNavActivator.getAttribute('data-target');
-        window.$(`#${targetSelector}`).sidenav({
-          closeOnClick: true,
-        });
+          const targetSelector = sideNavActivator.getAttribute('data-target');
+
+          // @ts-ignore
+          window.$(`#${targetSelector}`).sidenav({
+            closeOnClick: true,
+          });
+        }
       }
 
       if (el.classList.contains('collapsible')) {

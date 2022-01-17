@@ -16,6 +16,7 @@ import './Periods/Range';
 import './Periods/Periods.adapter';
 import './AjaxHelper/AjaxHelper.adapter';
 import './PopoverHandler/PopoverHandler';
+import './Alert/Alert.adapter';
 import './DropdownMenu/DropdownMenu.adapter';
 import './FocusAnywhereButHere/FocusAnywhereButHere.adapter';
 import './FocusIf/FocusIf.adapter';
@@ -56,6 +57,7 @@ import './ContentTable/ContentTable.adapter';
 import './AjaxForm/AjaxForm.adapter';
 
 export { default as createVueApp } from './createVueApp';
+export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export {
@@ -63,11 +65,13 @@ export {
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   removeAngularJsSpecificProperties,
+  clone,
+  cloneThenApply,
 } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as translate } from './translate';
-export { default as alertAdapter } from './Alert/Alert.adapter';
+export { default as Alert } from './Alert/Alert.vue';
 export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
@@ -91,7 +95,10 @@ export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
 export * from './Notification';
+export { default as SitesStore } from './SiteSelector/SitesStore';
+export { default as Site } from './SiteSelector/Site';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
+export { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';

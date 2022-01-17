@@ -25,9 +25,7 @@
       "mousetrap"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "*": ["@types/*", "*"]
     },
     "lib": [
       "esnext",

@@ -5,16 +5,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { ITimeoutService } from 'angular';
+import { IScope, ITimeoutService } from 'angular';
 import {
   createAngularJsAdapter,
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
+  useExternalPluginComponent,
 } from 'CoreHome';
-import { shallowRef } from 'vue';
+import { markRaw } from 'vue';
 import FormField from './FormField.vue';
 import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
-import useExternalPluginComponent from '../../../../CoreHome/vue/src/useExternalPluginComponent';
 
 function transformVueComponentRef(value?: Record<string, string>) {
   if (!value) {
@@ -35,7 +35,8 @@ interface Setting {
   value: unknown;
 }
 
-function conditionFn(scope, condition) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function conditionFn(scope: any, condition: string) {
   const values: Record<string, unknown> = {};
   Object.values((scope.allSettings || {}) as Record<string, Setting>).forEach((setting) => {
     if (setting.value === '0') {
@@ -52,7 +53,8 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   component: FormField,
   scope: {
     modelValue: {
-      default(scope) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      default(scope: any) {
         const field = scope.piwikFormField;
 
         // vue components expect object data as input, so we parse JSON data
@@ -77,11 +79,26 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     piwikFormField: {
       vue: 'formField',
       angularJsBind: '=',
-      transform(value, vm, scope) {
+      transform(v: unknown, vm: unknown, scope: IScope) {
+        const value = v as Record<string, unknown>;
+
+        function getComponent() {
+          if (value.templateFile) {
+            return markRaw(FieldAngularJsTemplate);
+          }
+
+          const comp = transformVueComponentRef(value.component as Record<string, string>);
+          if (!comp) {
+            return undefined;
+          }
+
+          return markRaw(comp);
+        }
+
         return {
           ...value,
           condition: value.condition
-            ? conditionFn.bind(null, scope, value.condition)
+            ? conditionFn.bind(null, scope, value.condition as string)
             : value.condition,
           disabled: transformAngularJsBoolAttr(value.disabled),
           autocomplete: transformAngularJsBoolAttr(value.autocomplete),
@@ -93,9 +110,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           rows: transformAngularJsIntAttr(value.rows),
           min: transformAngularJsIntAttr(value.min),
           max: transformAngularJsIntAttr(value.max),
-          component: shallowRef(
-            value.templateFile ? FieldAngularJsTemplate : transformVueComponentRef(value.component),
-          ),
+          component: getComponent(),
         };
       },
     },
@@ -115,7 +130,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   },
   $inject: ['$timeout'],
   postCreate(vm, scope) {
-    scope.$watch('piwikFormField.value', (newVal, oldVal) => {
+    scope.$watch('piwikFormField.value', (newVal: unknown, oldVal: unknown) => {
       if (newVal !== oldVal) {
         vm.modelValue = newVal;
       }
@@ -127,7 +142,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
       vm.formField = {
         ...vm.formField,
         condition: scope.piwikFormField.condition
-          ? conditionFn.bind(null, scope, scope.piwikFormField.condition)
+          ? conditionFn.bind(null, scope, scope.piwikFormField.condition as string)
           : scope.piwikFormField.condition,
       };
     }, true);

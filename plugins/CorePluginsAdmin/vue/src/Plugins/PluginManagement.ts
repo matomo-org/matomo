@@ -7,6 +7,7 @@
 
 import { DirectiveBinding } from 'vue';
 import { Matomo } from 'CoreHome';
+import ClickEvent = JQuery.ClickEvent;
 
 const { $ } = window;
 
@@ -14,11 +15,11 @@ interface PluginManagementState {
   uninstallConfirmMessage?: string;
 }
 
-function onClickUninstall(binding: DirectiveBinding<PluginManagementState>, event: MouseEvent) {
+function onClickUninstall(binding: DirectiveBinding<PluginManagementState>, event: ClickEvent) {
   event.preventDefault();
 
-  const link = $(event.target).attr('href');
-  const pluginName = $(event.target).attr('data-plugin-name');
+  const link = $(event.target as HTMLElement).attr('href');
+  const pluginName = $(event.target as HTMLElement).attr('data-plugin-name');
 
   if (!link || !pluginName) {
     return;
@@ -28,21 +29,21 @@ function onClickUninstall(binding: DirectiveBinding<PluginManagementState>, even
     binding.value.uninstallConfirmMessage = $('#uninstallPluginConfirm').text();
   }
 
-  const messageToDisplay = binding.value.uninstallConfirmMessage.replace('%s', pluginName);
+  const messageToDisplay = (binding.value.uninstallConfirmMessage || '').replace('%s', pluginName);
 
   $('#uninstallPluginConfirm').text(messageToDisplay);
 
   Matomo.helper.modalConfirm('#confirmUninstallPlugin', {
     yes: () => {
-      window.location = link;
+      window.location.href = link;
     },
   });
 }
 
-function onDonateLinkClick(event: MouseEvent) {
+function onDonateLinkClick(event: ClickEvent) {
   event.preventDefault();
 
-  const overlayId = $(event.target).data('overlay-id');
+  const overlayId = $(event.target as HTMLElement).data('overlay-id') as string;
   Matomo.helper.modalConfirm(`#${overlayId}`, {});
 }
 

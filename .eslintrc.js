@@ -28,5 +28,11 @@ module.exports = {
     'no-param-reassign': ["error", { "props": false }],
     'camelcase': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+
+    // typescript will provide similar error messages, potentially conflicting ones, for
+    // the following rules, so we disable them
+    'no-undef': 'off',
+    'no-undef-init': 'off',
+    'import/extensions': 'off',
   },
 };

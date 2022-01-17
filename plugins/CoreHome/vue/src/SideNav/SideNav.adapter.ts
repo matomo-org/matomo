@@ -32,4 +32,4 @@ export default function piwikSideNav($timeout: ITimeoutService): IDirective {
 
 piwikSideNav.$inject = ['$timeout'];
 
-angular.module('piwikApp.directive').directive('piwikSideNav', piwikSideNav);
+window.angular.module('piwikApp.directive').directive('piwikSideNav', piwikSideNav);

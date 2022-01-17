@@ -322,7 +322,7 @@ class Updater
 
         $model = new Model();
 
-       //check if the target file directory is writeable
+        // Check if the target directories are writable
         $this->checkFolderPermissions($extractedArchiveDirectory, PIWIK_INCLUDE_PATH);
 
         /*

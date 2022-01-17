@@ -36,4 +36,4 @@ function piwikFocusIf(): IDirective {
   };
 }
 
-angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);
+window.angular.module('piwikApp.directive').directive('piwikFocusIf', piwikFocusIf);

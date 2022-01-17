@@ -66,7 +66,7 @@ export default defineComponent({
     menuTitle: String,
     tooltip: String,
     showSearch: Boolean,
-    menuTitleChangeOnClick: String,
+    menuTitleChangeOnClick: Boolean,
   },
   directives: {
     FocusAnywhereButHere,
@@ -98,14 +98,14 @@ export default defineComponent({
         return;
       }
 
-      if (this.menuTitleChangeOnClick !== false) {
-        this.actualMenuTitle = (event.target as HTMLElement).textContent
+      if (this.menuTitleChangeOnClick) {
+        this.actualMenuTitle = ((event.target as HTMLElement).textContent || '')
           .replace(/[\u0000-\u2666]/g, (c) => `&#${c.charCodeAt(0)};`); // eslint-disable-line
       }
 
       this.showItems = false;
 
-      $(this.$slots.default()).find('.item').removeClass('active');
+      $(this.$slots.default!()[0]!.el as HTMLElement).find('.item').removeClass('active');
       targetClasses.add('active');
 
       this.$emit('afterSelect');
@@ -118,7 +118,7 @@ export default defineComponent({
     searchItems(unprocessedSearchTerm: string) {
       const searchTerm = unprocessedSearchTerm.toLowerCase();
 
-      $(this.$refs.root).find('.item').each((index: number, node: HTMLElement) => {
+      $(this.$refs.root as HTMLElement).find('.item').each((index: number, node: HTMLElement) => {
         const $node = $(node);
 
         if ($node.text().toLowerCase().indexOf(searchTerm) === -1) {
