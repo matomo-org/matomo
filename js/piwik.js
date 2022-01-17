@@ -75,7 +75,7 @@
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
-    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
+    addListener, enableLinkTracking, disableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, getJavascriptErrors, unsetPageIsUnloading,
@@ -112,7 +112,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, disableBrowserFeatureDetection
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState,
  */
 /*global _paq:true */
 /*members push */
