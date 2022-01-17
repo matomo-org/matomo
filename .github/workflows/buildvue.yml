@@ -2,7 +2,6 @@ name: buildVue
 
 on:
   - pull_request
-  - push
 
 #permissions:
 #  actions: read
