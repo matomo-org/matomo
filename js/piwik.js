@@ -6401,8 +6401,7 @@ if (typeof window.Matomo !== 'object') {
                 }
             };
 
-            this.disableBrowserFeatureDetection = function ()
-            {
+            this.disableBrowserFeatureDetection = function () {
                 configBrowserFeatureDetectionEnable = false;
             };
 
