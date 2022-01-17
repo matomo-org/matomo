@@ -5220,16 +5220,16 @@ if ($mysql) {
         ok( diffTime >= 2000, 'setLinkTrackingTimer(): ' + diffTime);
     });
 
-    test("Disable and enable Browser detector", function() {
+    test("Browser detector feature Disable and enable", function() {
       var pattern = /res/;
       var tracker = Piwik.getTracker();
       tracker.disableBrowserFeatureDetection();
       var request = tracker.getRequest('hello=world');
-      ok( !pattern.test(request), 'Disable browser fingerprint');
+      equal(pattern.test(request), false, 'Disable browser fingerprint');
 
       tracker.enableBrowserFeatureDetection();
       var request = tracker.getRequest('hello=world');
-      ok( pattern.test(request), 'Enable browser fingerprint set');
+      equal(pattern.test(request), true, 'Enable browser fingerprint set');
 
     });
 
