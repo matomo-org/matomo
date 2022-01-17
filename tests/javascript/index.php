@@ -5221,14 +5221,15 @@ if ($mysql) {
     });
 
     test("Disable and enable Browser detector", function() {
+      var pattern = /res/;
       var tracker = Piwik.getTracker();
       tracker.disableBrowserFeatureDetection();
       var request = tracker.getRequest('hello=world');
-      ok( !request.test(/res/g),'Disable browser fingerprint');
+      ok( !pattern.test(request), 'Disable browser fingerprint');
 
       tracker.enableBrowserFeatureDetection();
       var request = tracker.getRequest('hello=world');
-      ok( request.test(/res/g),'Enable browser fingerprint set');
+      ok( pattern.test(request), 'Enable browser fingerprint set');
 
     });
 
