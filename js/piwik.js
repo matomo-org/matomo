@@ -4967,10 +4967,7 @@ if (typeof window.Matomo !== 'object') {
                 linkTrackingInstalled = false;
                 linkTrackingEnabled   = false;
             };
-            this.disableBrowserFeatureDetection = function ()
-            {
-                configBrowserFeatureDetectionEnable = false;
-            };
+
             this.getConfigVisitorCookieTimeout = function () {
                 return configVisitorCookieTimeout;
             };
@@ -6402,6 +6399,11 @@ if (typeof window.Matomo !== 'object') {
                         logPageView(customTitle, customData, callback);
                     });
                 }
+            };
+
+            this.disableBrowserFeatureDetection = function ()
+            {
+                configBrowserFeatureDetectionEnable = false;
             };
 
             /**
