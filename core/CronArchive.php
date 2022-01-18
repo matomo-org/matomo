@@ -964,7 +964,7 @@ class CronArchive
         try {
             new Segment($segmentDefinition, $idSites);
         } catch (\Exception $e) {
-            $this->logger->info('Skip Invalid segment:'.$segmentDefinition.' , skipping invalidation.');
+            $this->logger->info('Skip Invalid segment:'.$segmentDefinition);
             return false;
         }
         return true;
