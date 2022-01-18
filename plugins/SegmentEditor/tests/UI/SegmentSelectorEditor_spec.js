@@ -202,19 +202,19 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.expandableSelector');
         await page.type('input.expandableSelector', 'event');
         await page.waitForSelector('.expandableList');
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
+        expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with upper case', async function() {
         await page.type('input.expandableSelector', 'EVENT');
         await page.waitForSelector('.expandableList');
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
+        expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with capital case', async function() {
         await page.type('input.expandableSelector', 'Event');
         await page.waitForSelector('.expandableList');
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
+        expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
     });
 
 
