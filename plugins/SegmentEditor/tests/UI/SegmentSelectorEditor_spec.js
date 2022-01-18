@@ -198,12 +198,25 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
     });
 
-    it('should display autocomplete dropdown options correctly', async function() {
+    it('should display autocomplete dropdown options correctly with lower case', async function() {
         await page.click('.expandableSelector');
         await page.type('input.expandableSelector', 'event');
         await page.waitForSelector('.expandableList');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
     });
+
+    it('should display autocomplete dropdown options correctly with upper case', async function() {
+        await page.type('input.expandableSelector', 'EVENT');
+        await page.waitForSelector('.expandableList');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
+    });
+
+    it('should display autocomplete dropdown options correctly with capital case', async function() {
+        await page.type('input.expandableSelector', 'Event');
+        await page.waitForSelector('.expandableList');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
+    });
+
 
     it("should correctly show delete dialog when the delete link is clicked", async function() {
         await page.click('.segmentEditorPanel a.delete');
