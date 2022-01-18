@@ -28,7 +28,8 @@
         <li
           v-for="(options, index) in availableOptions"
           class="collection-item"
-          v-show="options.values.filter(x => searchRegExp.test(x.value)).length"
+          v-show="options.values.filter(x =>
+           x.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1).length"
           :key="index"
         >
           <h4
@@ -48,7 +49,8 @@
           <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
             <li
               class="expandableListItem collection-item valign-wrapper"
-              v-for="children in options.values.filter(x => searchRegExp.test(x.value))"
+              v-for="children in options.values.filter(x =>
+              x.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)"
               :key="children.key"
               @click="onValueClicked(children)"
             >
@@ -148,9 +150,6 @@ export default defineComponent({
     };
   },
   computed: {
-    searchRegExp() {
-      return new RegExp(this.searchTerm, 'i');
-    },
     modelValueText() {
       if (this.title) {
         return this.title;
