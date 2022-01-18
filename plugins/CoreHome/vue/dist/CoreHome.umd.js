@@ -4269,7 +4269,7 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
         return;
       }
 
-      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
+      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation' || matomoModule === 'Overlay') {
         this.privateState.comparisonsDisabledFor = [];
         return;
       }
