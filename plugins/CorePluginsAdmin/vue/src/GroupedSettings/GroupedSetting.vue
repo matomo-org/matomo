@@ -5,14 +5,11 @@
 -->
 
 <template>
-  <div>
+  <div v-show="showField">
     <FormField
       :model-value="modelValue"
       @update:model-value="changeValue($event)"
-      :form-field="{
-        ...setting,
-        condition: conditionFunction,
-      }"
+      :form-field="setting"
     />
   </div>
 </template>
@@ -28,48 +25,33 @@ let conditionScope: IScope;
 
 export default defineComponent({
   props: {
-    pluginName: {
-      type: String,
-      required: true,
-    },
     setting: {
       type: Object,
       required: true,
     },
     modelValue: null,
-    settingValues: Object,
+    conditionValues: {
+      type: Object,
+      required: true,
+    },
   },
   components: {
     FormField,
   },
   emits: ['update:modelValue'],
   computed: {
-    conditionFunction() {
+    showField() {
       const condition = this.setting.condition as string;
       if (!condition) {
-        return undefined;
+        return true;
       }
 
-      return () => {
-        if (!conditionScope) {
-          const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
-          conditionScope = $rootScope.$new(true);
-        }
+      if (!conditionScope) {
+        const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
+        conditionScope = $rootScope.$new(true);
+      }
 
-        return conditionScope.$eval(condition, this.conditionValues);
-      };
-    },
-    conditionValues() {
-      const values: Record<string, unknown> = {};
-      Object.entries(this.settingValues as Record<string, unknown>).forEach(([key, value]) => {
-        const [pluginName, settingName] = key.split('.');
-        if (pluginName !== this.pluginName) {
-          return;
-        }
-
-        values[settingName] = value;
-      });
-      return values;
+      return conditionScope.$eval(condition, this.conditionValues);
     },
   },
   methods: {
