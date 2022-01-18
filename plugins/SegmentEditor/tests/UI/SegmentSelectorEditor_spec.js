@@ -198,6 +198,15 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
     });
 
+    it('should display autocomplete dropdown options correctly', async function() {
+        await page.click('.expandableSelector');
+        await page.evaluate(function () {
+            $('.expandableSelector').val('event').change();
+        });
+        await page.waitForSelector('.expandableList');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
+    });
+
     it("should correctly show delete dialog when the delete link is clicked", async function() {
         await page.click('.segmentEditorPanel a.delete');
         await page.waitForTimeout(500); // animation
