@@ -199,20 +199,21 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it('should display autocomplete dropdown options correctly with lower case', async function() {
-        await page.click('.select-dropdown');
-        await page.type('input.expandableSelector', 'event');
+        await page.click('.select-wrapper');
+        await page.waitForTimeout(250);
+        await page.type('.expandableSelector', 'event');
         await page.waitForSelector('.expandableList');
         expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with upper case', async function() {
-        await page.type('input.expandableSelector', 'EVENT');
+        await page.type('.expandableSelector', 'EVENT');
         await page.waitForSelector('.expandableList');
         expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with capital case', async function() {
-        await page.type('input.expandableSelector', 'Event');
+        await page.type('.expandableSelector', 'Event');
         await page.waitForSelector('.expandableList');
         expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
     });
