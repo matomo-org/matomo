@@ -160,7 +160,7 @@ class Scheduler
                             // Task has already been retried three times, give up
                             $this->timetable->clearRetryCount($task->getName());
 
-                            $this->logger->info("Scheduler: '{task}' has already been retried three times, giving up",
+                            $this->logger->warning("Scheduler: '{task}' has already been retried three times, giving up",
                                 ['task' => $task->getName()]);
 
                         } else {
