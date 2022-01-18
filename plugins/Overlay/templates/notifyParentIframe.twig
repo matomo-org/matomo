@@ -9,10 +9,7 @@
     var piwikWindow = window.parent.parent;
     // notify piwik of location change
     // the location has been passed as the hash part of the url from the overlay session
-
-    setTimeout(function() {
-        piwikWindow.Piwik_Overlay.setCurrentUrl(window.location.hash.substring(1));
-    }, 500);
+    piwikWindow.Piwik_Overlay.setCurrentUrl(window.location.hash.substring(1));
 
 </script>
 </body>

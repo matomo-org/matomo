@@ -18,7 +18,8 @@ class Overlay extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Platform.initialized'                   => 'handleIframeMissingCookie'
         );
     }
 
@@ -36,5 +37,18 @@ class Overlay extends \Piwik\Plugin
     {
         $translationKeys[] = 'General_OverlayRowActionTooltipTitle';
         $translationKeys[] = 'General_OverlayRowActionTooltip';
+    }
+
+    /**
+     * The Overlay.notifyParentIframe call is sometimes made without a session cookie due to an iframe related race
+     * condition, this results in a new session being created which logs the current user out.
+     * As a hacky workaround we detect this condition here and remove the set cookie header from the response to
+     * protect the session
+     */
+    public function handleIframeMissingCookie()
+    {
+        if ($_GET['action'] == 'notifyParentIframe' && count($_COOKIE) == 0) {
+            header_remove('Set-Cookie');
+        }
     }
 }
