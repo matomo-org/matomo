@@ -216,13 +216,13 @@ export default defineComponent({
       ).then(() => {
         this.isSaving[requestedPlugin] = false;
 
-        NotificationsStore.show({
+        const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_PluginSettingsSaveSuccess'),
           id: 'generalSettings',
           context: 'success',
           type: 'transient',
         });
-        NotificationsStore.scrollToNotification('generalSettings');
+        NotificationsStore.scrollToNotification(notificationInstanceId);
       }).catch(() => {
         this.isSaving[requestedPlugin] = false;
       });
