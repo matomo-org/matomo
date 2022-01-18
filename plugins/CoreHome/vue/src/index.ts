@@ -65,6 +65,8 @@ export {
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   removeAngularJsSpecificProperties,
+  clone,
+  cloneThenApply,
 } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
