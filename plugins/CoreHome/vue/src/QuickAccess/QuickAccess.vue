@@ -84,7 +84,7 @@
           @mouseenter="searchIndex = 'help'"
         >
           <a
-            :href="`https://matomo.org?mtm_campaign=App_Help&mtm_source=Matomo_App&s=${encodeURIComponent(searchTerm)}`"
+            :href="`https://matomo.org?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=QuickSearch&s=${encodeURIComponent(searchTerm)}`"
             target="_blank"
           >
             {{ translate('CoreHome_SearchOnMatomo', searchTerm) }}
