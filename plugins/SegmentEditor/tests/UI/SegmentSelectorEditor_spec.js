@@ -200,9 +200,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it('should display autocomplete dropdown options correctly', async function() {
         await page.click('.expandableSelector');
-        await page.evaluate(function () {
-            $('.expandableSelector').val('event').change();
-        });
+        await page.type('input.expandableSelector', 'event');
         await page.waitForSelector('.expandableList');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
     });
