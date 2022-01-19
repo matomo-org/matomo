@@ -199,7 +199,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it('should display autocomplete dropdown options correctly with lower case', async function() {
-        await page.click('.select-wrapper');
+        await page.click('.expandableSelector .select-wrapper');
         await page.waitForSelector('.expandableList');
         await page.type('.expandableSelector', 'event');
         await page.waitForTimeout(100);
