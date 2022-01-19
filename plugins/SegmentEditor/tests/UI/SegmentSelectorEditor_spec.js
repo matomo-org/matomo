@@ -200,22 +200,24 @@ describe("SegmentSelectorEditorTest", function () {
 
     it('should display autocomplete dropdown options correctly with lower case', async function() {
         await page.click('.select-wrapper');
-        await page.waitForTimeout(250);
-        await page.type('.expandableSelector', 'event');
         await page.waitForSelector('.expandableList');
-        expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
+        await page.type('.expandableSelector', 'event');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector('.firstLevel')).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with upper case', async function() {
+        await page.type('.expandableSelector', '');
         await page.type('.expandableSelector', 'EVENT');
-        await page.waitForSelector('.expandableList');
-        expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector('.firstLevel')).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with capital case', async function() {
+        await page.type('.expandableSelector', '');
         await page.type('.expandableSelector', 'Event');
-        await page.waitForSelector('.expandableList');
-        expect(await page.screenshotSelector('.collection .firstLevel')).to.matchImage('autocomplete');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector('.firstLevel')).to.matchImage('autocomplete');
     });
 
 
