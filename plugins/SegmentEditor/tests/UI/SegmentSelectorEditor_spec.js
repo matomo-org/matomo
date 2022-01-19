@@ -201,23 +201,26 @@ describe("SegmentSelectorEditorTest", function () {
     it('should display autocomplete dropdown options correctly with lower case', async function() {
         await page.click('.expandableSelector .select-wrapper');
         await page.waitForSelector('.expandableList');
-        await page.type('.expandableSelector', 'event');
+        await page.click('input.expandableSelector');
+        await page.type('input.expandableSelector', 'event');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_lowercase');
+        expect(await page.screenshotSelector(".firstLevel")).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with upper case', async function() {
-        await page.type('.expandableSelector', '');
-        await page.type('.expandableSelector', 'EVENT');
+        await page.click('input.expandableSelector');
+        await page.type('input.expandableSelector', '');
+        await page.type('input.expandableSelector', 'EVENT');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_uppercase');
+        expect(await page.screenshotSelector(".firstLevel")).to.matchImage('autocomplete');
     });
 
     it('should display autocomplete dropdown options correctly with capitalized', async function() {
-        await page.type('.expandableSelector', '');
-        await page.type('.expandableSelector', 'Event');
+        await page.click('input.expandableSelector');
+        await page.type('input.expandableSelector', '');
+        await page.type('input.expandableSelector', 'Event');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_capitalized');
+        expect(await page.screenshotSelector(".firstLevel")).to.matchImage('autocomplete');
     });
 
 
