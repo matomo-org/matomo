@@ -575,7 +575,7 @@ class Common
             settype($value, $varType);
         }
 
-        if (is_array($requestArrayToUse[$varName])) {
+        if (is_array($requestArrayToUse[$varName]) && in_array($varName, ['period', 'date'])) {
             $value = implode(",", $value);
         }
 
