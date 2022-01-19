@@ -5221,15 +5221,23 @@ if ($mysql) {
     });
 
     test("Browser detector feature Disable and enable", function() {
-      var pattern = /res/;
-      var tracker = Piwik.getTracker();
-      tracker.disableBrowserFeatureDetection();
-      var request = tracker.getRequest('hello=world');
-      equal(pattern.test(request), false, 'Disable browser fingerprint');
+        var pattern = /(res=)|(cookie=)/;
+        var tracker = Piwik.getTracker();
+        var siteIdPattern = /idsite/;
 
-      tracker.enableBrowserFeatureDetection();
-      var request = tracker.getRequest('hello=world');
-      equal(pattern.test(request), true, 'Enable browser fingerprint set');
+        tracker.enableBrowserFeatureDetection();
+        var requestWithFingerprint = tracker.getRequest('hello=world');
+
+        equal(siteIdPattern.test(requestWithFingerprint), true);
+        equal(pattern.test(requestWithFingerprint), true, 'When browser fingerprint is enabled the request should include browser resolution and cookie');
+
+        tracker.disableBrowserFeatureDetection();
+        var requestWithoutFingerprint = tracker.getRequest('hello=world');
+
+        equal(siteIdPattern.test(requestWithoutFingerprint), true);
+        equal(pattern.test(requestWithoutFingerprint), false, 'When browser fingerprint is disabled the request should not include browser resolution or cookie');
+
+
 
     });
 
