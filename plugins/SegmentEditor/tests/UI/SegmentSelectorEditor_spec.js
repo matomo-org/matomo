@@ -220,7 +220,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.type('.expandableSelector', '');
         await page.type('.expandableSelector', 'Event');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture).to.matchImage('autocomplete');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete');
     });
 
 
