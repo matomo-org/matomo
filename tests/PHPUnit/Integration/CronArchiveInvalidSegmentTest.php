@@ -24,10 +24,13 @@ use Piwik\Version;
  */
 class CronArchiveInvalidSegmentTest extends IntegrationTestCase
 {
-    public function test_output_invalidSegment()
+    /** @var FakeLogger  */
+    private $logger;
+
+    public function setUp(): void
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
+          '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -53,17 +56,34 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         $tracker->setUrl('http://someurl.com/4');
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg4'));
 
-        Manager::getInstance()->deactivatePlugin('UserLanguage');
-        $logger = new FakeLogger();
+        $this->logger = new FakeLogger();
 
-        $archiver = new CronArchive($logger);
+
+    }
+
+    public function test_output_invalidSegment()
+    {
+        $archiver = new CronArchive($this->logger);
 
         $archiver->init();
         $archiver->run();
 
-        $this->assertStringNotContainsStringIgnoringCase('Got invalid response from API request', $logger->output);
-        $this->assertStringContainsString('Skip Invalid segment:languageCode==fr', $logger->output);
-        $this->assertStringContainsString('no error', $logger->output);
+        $this->assertStringNotContainsStringIgnoringCase('Got invalid response from API request', $this->logger->output);
+        $this->assertStringContainsString('no error', $this->logger->output);
+    }
+
+    public function test_output_invalidSegment_whenPluginIsNotActive()
+    {
+        Manager::getInstance()->deactivatePlugin('UserLanguage');
+
+        $archiver = new CronArchive($this->logger);
+
+        $archiver->init();
+        $archiver->run();
+
+        $this->assertStringNotContainsStringIgnoringCase('Got invalid response from API request', $this->logger->output);
+        $this->assertStringContainsString("Segment 'languageCode==fr' is not a supported segment", $this->logger->output);
+        $this->assertStringContainsString('no error', $this->logger->output);
     }
 
     public function provideContainerConfig()

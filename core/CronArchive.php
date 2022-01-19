@@ -715,6 +715,12 @@ class CronArchive
 
     private function logNetworkError($url, $response)
     {
+
+        if (preg_match("/Segment (.*?) is not a supported segment/i", $response, $match)) {
+            $this->logger->info($match[0]);
+            return false;
+        }
+
         $message = "Got invalid response from API request: $url. ";
         if (empty($response)) {
             $message .= "The response was empty. This usually means a server error. A solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. ";
@@ -964,7 +970,7 @@ class CronArchive
         try {
             new Segment($segmentDefinition, $idSites);
         } catch (\Exception $e) {
-            $this->logger->info('Skip Invalid segment:'.$segmentDefinition);
+            $this->logger->info("Segment '".$segmentDefinition."' is not a supported segment");
             return false;
         }
         return true;
