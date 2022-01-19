@@ -773,8 +773,8 @@ enable_installer = 1
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
-; By setting this option to 0, you can prevent the geolocator to fall back to the default provider, if the configured provider doesn't provide any results.
-enable_geolocation_fallback = 1
+; By setting this option to 0, you can prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
+enabled_geolocation_guess_country_fallback = 1
 
 ; By setting this option to 0, the old raw data and old report data purging features will be hidden from the UI
 ; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.

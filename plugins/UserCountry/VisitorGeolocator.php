@@ -119,7 +119,7 @@ class VisitorGeolocator
             $providerId = $this->provider->getId();
             Common::printDebug("GEO: couldn't find a location with Geo Module '$providerId'");
 
-            if ($providerId != $this->backupProvider->getId() && GeneralConfig::getConfigValue('enable_geolocation_fallback')) {
+            if ($providerId != $this->backupProvider->getId() && GeneralConfig::getConfigValue('enabled_geolocation_guess_country_fallback')) {
                 Common::printDebug("Using default provider as fallback...");
 
                 $location = $this->getLocationObject($this->backupProvider, $userInfo);
