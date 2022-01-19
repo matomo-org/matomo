@@ -27,7 +27,7 @@
         "CopySystemCheck": "Copy system check",
         "DownloadSystemCheck": "Download system check",
         "InstallationStatus": "Installation status",
-        "InsufficientPrivilegesHelp": "These privileges can be added by phpMyAdmin, or by executing the right SQL queries. If you don't know how, please ask your sysadmin to do so.",
+        "InsufficientPrivilegesHelp": "These privileges can be added in phpMyAdmin, or by executing the right SQL queries. If you don't know how, please ask your sysadmin to do so.",
         "InsufficientPrivilegesMain": "Either the database does not exist (and could not be created), or the specified user has insufficient privileges. The database user must have the following privileges: %s",
         "InvalidStateError": "Error: Matomo is already installed. %1$s Go back %2$s to Matomo%3$s.",
         "JsTagArchivingHelp1": "For medium and high-traffic websites, certain optimizations help Matomo run faster (such as %1$ssetting up auto-archiving%2$s).",
