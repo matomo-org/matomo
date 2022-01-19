@@ -47,7 +47,7 @@
         "Password": "Password",
         "PasswordDoNotMatch": "mismatching passwords",
         "PasswordRepeat": "Password (repeat)",
-        "PercentDone": "%s %% Done",
+        "PercentDone": "%s %% done",
         "ProfessionalServicesAdTitle": "Advanced Analytics and Services",
         "ProfessionalServicesfessionalServicesAdText": "Our network of experts can help your organization use Matomo analytics to its full potential.",
         "ProfessionalServicesfessionalDiscoverHow": "Learn about %1$sadditional products and services%2$s for Matomo and how to increase your conversions and revenue.",
