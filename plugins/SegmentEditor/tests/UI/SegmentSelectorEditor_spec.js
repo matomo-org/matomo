@@ -201,21 +201,24 @@ describe("SegmentSelectorEditorTest", function () {
     it('should display autocomplete dropdown options correctly with lower case', async function() {
         await page.click('.expandableSelector .select-wrapper');
         await page.waitForSelector('.expandableList');
-        await page.type('.expandableSelector', 'event');
+        await page.click('.expandableSelector');
+        await page.type('input.expandableSelector', 'event');
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_lowercase');
     });
 
     it('should display autocomplete dropdown options correctly with upper case', async function() {
+        await page.click('.expandableSelector');
         await page.type('.expandableSelector', '');
-        await page.type('.expandableSelector', 'EVENT');
+        await page.type('input.expandableSelector', 'EVENT');
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_uppercase');
     });
 
     it('should display autocomplete dropdown options correctly with capitalized', async function() {
+        await page.click('.expandableSelector');
         await page.type('.expandableSelector', '');
-        await page.type('.expandableSelector', 'Event');
+        await page.type('input.expandableSelector', 'Event');
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_capitalized');
     });
