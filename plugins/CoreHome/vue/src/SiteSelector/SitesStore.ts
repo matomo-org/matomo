@@ -13,12 +13,7 @@ import {
 } from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-
-export interface Site {
-  idsite: string;
-  name: string;
-  group?: string;
-}
+import Site from './Site';
 
 interface SitesStoreState {
   initialSites: DeepReadonly<Site[]>;

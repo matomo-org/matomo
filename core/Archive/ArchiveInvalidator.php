@@ -457,7 +457,7 @@ class ArchiveInvalidator
      */
     public function reArchiveReport($idSites, string $plugin = null, string $report = null, Date $startDate = null, Segment $segment = null)
     {
-        $date2 = Date::yesterday();
+        $date2 = Date::today();
 
         $earliestDateToRearchive = $this->getEarliestDateToRearchive();
         if (empty($startDate)) {
