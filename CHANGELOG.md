@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.8.0
+
+### New config.ini.php settings
+
+* The config setting `enabled_geolocation_guess_country_fallback` in `General` has been added. By setting this option to 0, you can prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
+
 ## Matomo 4.7.0
 
 ### Deprecated APIs
