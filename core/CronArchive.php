@@ -497,7 +497,7 @@ class CronArchive
 
         foreach ($urls as $index => $url) {
             $content = array_key_exists($index, $responses) ? $responses[$index] : null;
-            $this->checkResponse($content, $url);
+            $checkInvalid = $this->checkResponse($content, $url);
 
             $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
@@ -514,7 +514,10 @@ class CronArchive
 
             $visitsForPeriod = $this->getVisitsFromApiResponse($stats);
 
-            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod, $archivesBeingQueried[$index]['plugin'], $archivesBeingQueried[$index]['report']);
+
+            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod,
+              $archivesBeingQueried[$index]['plugin'], $archivesBeingQueried[$index]['report'], !$checkInvalid);
+
 
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
 
@@ -572,12 +575,14 @@ class CronArchive
         return [$url, $segment, $plugin];
     }
 
-    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null)
+    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null, $shouldSkip = null)
     {
         $params = UrlHelper::getArrayFromQueryString($url);
         $visits = (int) $visits;
 
-        $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
+        $message = $shouldSkip ? "Skip Archiving website" : "Archived website";
+
+        $this->logger->info($message." id {$params['idSite']}, period = {$params['period']}, date = "
             . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode(urldecode($params['segment'])) : '') . "', "
             . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }
