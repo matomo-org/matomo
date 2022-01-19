@@ -132,6 +132,7 @@ __webpack_require__.d(__webpack_exports__, "createVueApp", function() { return /
 __webpack_require__.d(__webpack_exports__, "useExternalPluginComponent", function() { return /* reexport */ useExternalPluginComponent; });
 __webpack_require__.d(__webpack_exports__, "DirectiveUtilities", function() { return /* reexport */ directiveUtilities; });
 __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
+__webpack_require__.d(__webpack_exports__, "lazyInitSingleton", function() { return /* reexport */ lazyInitSingleton; });
 __webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsBoolAttr", function() { return /* reexport */ transformAngularJsBoolAttr; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsIntAttr", function() { return /* reexport */ transformAngularJsIntAttr; });
@@ -11895,6 +11896,53 @@ function piwikAjaxForm($parse) {
 
 piwikAjaxForm.$inject = ['$parse'];
 window.angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/lazyInitSingleton.ts
+function lazyInitSingleton_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function lazyInitSingleton_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function lazyInitSingleton_createClass(Constructor, protoProps, staticProps) { if (protoProps) lazyInitSingleton_defineProperties(Constructor.prototype, protoProps); if (staticProps) lazyInitSingleton_defineProperties(Constructor, staticProps); return Constructor; }
+
+function lazyInitSingleton_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/* eslint-disable @typescript-eslint/ban-types */
+var LazySingletonHandler = /*#__PURE__*/function () {
+  function LazySingletonHandler(type) {
+    lazyInitSingleton_classCallCheck(this, LazySingletonHandler);
+
+    lazyInitSingleton_defineProperty(this, "type", void 0);
+
+    lazyInitSingleton_defineProperty(this, "instance", void 0);
+
+    this.type = type;
+  } // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+
+  lazyInitSingleton_createClass(LazySingletonHandler, [{
+    key: "get",
+    value: function get(target, key, recv) {
+      if (!this.instance) {
+        var Type = this.type;
+        this.instance = new Type();
+      }
+
+      return Reflect.get(this.instance, key, recv);
+    }
+  }]);
+
+  return LazySingletonHandler;
+}();
+
+function lazyInitSingleton(type) {
+  return new Proxy({}, new LazySingletonHandler(type));
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -11974,6 +12022,7 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
