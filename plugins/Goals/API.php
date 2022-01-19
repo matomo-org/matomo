@@ -777,18 +777,6 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    protected function getPageGoalDataTable($recordName, $idSite, $period, $date, $segment)
-    {
-        Piwik::checkUserHasViewAccess($idSite);
-
-        $archive = Archive::build($idSite, $period, $date, $segment);
-
-        // get the data table
-        $dataTable = $archive->getDataTable($recordName, $idSubtable = null);
-
-        return $dataTable;
-    }
-
     /**
      * Gets a DataTable that maps pages to the count of conversions that occurred on visits
      * where the page was viewed before conversion for the specified site, date range, segment and goal.

@@ -290,29 +290,38 @@ class ArchivingHelper
                                 $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = Piwik::getQuotientSafe(
                                     $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
                                     $nbEntrances,
-                                    GoalManager::REVENUE_PRECISION);
+                                    GoalManager::REVENUE_PRECISION + 1);
 
                             }
                         }
 
                     }
 
-                    $fullColumnName = 'goal_'.$row['idgoal'].'_'.$columnName;
-                    $existingColumnValue = $actionRow->getColumn($fullColumnName);
-                    if ($existingColumnValue === false) {
-                        $actionRow->addColumn($fullColumnName, $row[$metricKey]);
-                    } else {
-                        $existingColumnValue += $row[$metricKey];
-                        $actionRow->setColumn($fullColumnName, $existingColumnValue);
+                    // Get goals column
+                    $goalColumnExists = true;
+                    $goalsColumn = $actionRow->getColumn(PiwikMetrics::INDEX_GOALS);
+                    if ($goalsColumn === false) {
+                        $goalColumnExists = false;
+                        $goalsColumn = [];
                     }
-                    $metaGoals = $actionRow->getMetadata('goals');
-                    if (!$metaGoals) {
-                        $actionRow->setMetadata('goals', [$row['idgoal']]);
+
+                    // Create goal subarray if not exists
+                    if (!isset($goalsColumn[$row['idgoal']])) {
+                        $goalsColumn[$row['idgoal']] = [];
+                    }
+
+                    // Add metric
+                    if (!isset($goalsColumn[$row['idgoal']][$metricKey])) {
+                        $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
                     } else {
-                        if (!in_array($row['idgoal'], $metaGoals)) {
-                            $metaGoals[] = $row['idgoal'];
-                            $actionRow->setMetadata('goals', $metaGoals);
-                        }
+                        $goalsColumn[$row['idgoal']][$metricKey] += $row[$metricKey];
+                    }
+
+                    // Write goals column back to datatable
+                    if ($goalColumnExists) {
+                        $actionRow->setColumn(PiwikMetrics::INDEX_GOALS, $goalsColumn);
+                    } else {
+                        $actionRow->addColumn(PiwikMetrics::INDEX_GOALS, $goalsColumn);
                     }
 
                 }

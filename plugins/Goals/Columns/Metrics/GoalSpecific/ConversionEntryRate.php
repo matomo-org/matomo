@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Metrics;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Plugins\Goals\Goals;
 
@@ -40,7 +41,23 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('goals');
+        return array('goals', 'entry_nb_visits');
+    }
+
+    public function compute(Row $row)
+    {
+        $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
+
+        $goalMetrics = $this->getGoalMetrics($row);
+
+        $nbEntrances = $this->getMetric($row, 'entry_nb_visits');
+        $conversions = $this->getMetric($goalMetrics, 'nb_conversions_entry', $mappingFromNameToIdGoal);
+
+        if ($nbEntrances !== false && is_numeric($nbEntrances) && $nbEntrances > 0) {
+            return Piwik::getQuotientSafe($conversions, $nbEntrances, 3);
+        }
+
+        return 0;
     }
 
     public function format($value, Formatter $formatter)
@@ -48,8 +65,4 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
         return $formatter->getPrettyPercentFromQuotient($value);
     }
 
-    public function compute(Row $row)
-    {
-        $this->getMetric($row, 'nb_conversions_entry_rate');
-    }
 }

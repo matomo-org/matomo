@@ -41,21 +41,22 @@
 		<entry_nb_actions>10</entry_nb_actions>
 		<entry_sum_visit_length>2525</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
-		<goal_1_nb_conversions>3</goal_1_nb_conversions>
-		<goal_1_revenue>30</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>6</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>2</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>10</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>20.00</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>0.667</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>6.67</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>2</goal_1_nb_conversions_entry>
-		<url>http://example.org/page_A</url>
 		<goals>
-		<row>1</row>
+			<row idgoal='1'>
+				<nb_conversions>3</nb_conversions>
+				<revenue>30</revenue>
+				<nb_conv_pages_before>6</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
+				<revenue_attrib>10</revenue_attrib>
+				<revenue_entry>20.00</revenue_entry>
+				<nb_conversions_entry_rate>0.667</nb_conversions_entry_rate>
+				<revenue_per_entry>6.667</revenue_per_entry>
+				<nb_conversions_entry>2</nb_conversions_entry>
+			</row>
 		</goals>
+		<url>http://example.org/page_A</url>
 	</row>
 	<row>
 		<label>/page_C</label>
@@ -96,17 +97,18 @@
 		<max_bandwidth />
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
-		<goal_1_nb_conversions>2</goal_1_nb_conversions>
-		<goal_1_revenue>20</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>6</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>0.75</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>2</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>7.5</goal_1_revenue_attrib>
-		<url>http://example.org/page_C</url>
 		<goals>
-		<row>1</row>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<revenue>20</revenue>
+				<nb_conv_pages_before>6</nb_conv_pages_before>
+				<nb_conversions_attrib>0.75</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
+				<revenue_attrib>7.5</revenue_attrib>
+			</row>
 		</goals>
+		<url>http://example.org/page_C</url>
 	</row>
 	<row>
 		<label>/page_B</label>
@@ -145,17 +147,18 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>10.00</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>4</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>0.25</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>2.5</goal_1_revenue_attrib>
-		<url>http://example.org/page_B</url>
 		<goals>
-		<row>1</row>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>10</revenue>
+				<nb_conv_pages_before>4</nb_conv_pages_before>
+				<nb_conversions_attrib>0.25</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>2.5</revenue_attrib>
+			</row>
 		</goals>
+		<url>http://example.org/page_B</url>
 	</row>
 	<row>
 		<label>/page_D</label>
