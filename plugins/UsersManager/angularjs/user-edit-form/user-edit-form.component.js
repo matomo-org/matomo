@@ -158,7 +158,9 @@
         function showUserSavedNotification() {
             var UI = require('piwik/UI');
             var notification = new UI.Notification();
-            notification.show(_pk_translate('General_YourChangesHaveBeenSaved'), { context: 'success', type: 'toast' });
+            var msg = `${_pk_translate('General_YourChangesHaveBeenSaved')}<br/>${_pk_translate(
+              'UsersManager_InviteSuccessNotification')}`;
+            notification.show(msg, { context: 'success', type: 'toast' });
         }
 
         function createUser() {

@@ -342,5 +342,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_StatusActive';
         $translationKeys[] = 'UsersManager_StatusPending';
         $translationKeys[] = 'UsersManager_ResendUserConfirmSingle';
+        $translationKeys[] = 'UsersManager_InviteSuccessNotification';
     }
 }
