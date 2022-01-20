@@ -230,6 +230,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // did not exist before Matomo 4
             'PagePerformance.get',
+            'Goals.getPagesUrl',
+            'Goals.getPagesTitles',
+            'Goals.getPagesEntry',
+            'Goals.getPagesEntryTitles',
         );
 
         if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {

@@ -41,17 +41,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>11</entry_bounce_count>
 		<exit_nb_visits>11</exit_nb_visits>
-		<goal_1_nb_conversions>11</goal_1_nb_conversions>
-		<goal_1_revenue>55</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>11</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>11</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>11</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>55</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>55</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>5.999</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>30.01</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>11</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>11</nb_conversions>
+				<revenue>55</revenue>
+				<nb_conv_pages_before>11</nb_conv_pages_before>
+				<nb_conversions_attrib>11</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>11</nb_conversions_page_uniq>
+				<revenue_attrib>55</revenue_attrib>
+				<revenue_entry>55</revenue_entry>
+				<nb_conversions_entry_rate>5.999</nb_conversions_entry_rate>
+				<revenue_per_entry>30.001</revenue_per_entry>
+				<nb_conversions_entry>11</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/blog</folder_url_start>
 	</row>
 	<row>
@@ -95,24 +99,25 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>3</entry_bounce_count>
 		<exit_nb_visits>3</exit_nb_visits>
-		<goal_1_nb_conversions>3</goal_1_nb_conversions>
-		<goal_1_revenue>15</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>3</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>3</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>3</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>15</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>15</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>3</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>15</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>3</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>3</nb_conversions>
+				<revenue>15</revenue>
+				<nb_conv_pages_before>3</nb_conv_pages_before>
+				<nb_conversions_attrib>3</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
+				<revenue_attrib>15</revenue_attrib>
+				<revenue_entry>15</revenue_entry>
+				<nb_conversions_entry_rate>3</nb_conversions_entry_rate>
+				<revenue_per_entry>15</revenue_per_entry>
+				<nb_conversions_entry>3</nb_conversions_entry>
+			</row>
+		</goals>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>3</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>3</sum_daily_exit_nb_uniq_visitors>
 		<url>http://piwik.net/</url>
-		<goals>
-		<row>1</row>
-		</goals>
 	</row>
 	<row>
 		<label>docs</label>
@@ -155,17 +160,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
-		<goal_1_nb_conversions>4</goal_1_nb_conversions>
-		<goal_1_revenue>20</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>4</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>4</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>4</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>20</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>20</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>4</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>20</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>4</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>4</nb_conversions>
+				<revenue>20</revenue>
+				<nb_conv_pages_before>4</nb_conv_pages_before>
+				<nb_conversions_attrib>4</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>4</nb_conversions_page_uniq>
+				<revenue_attrib>20</revenue_attrib>
+				<revenue_entry>20</revenue_entry>
+				<nb_conversions_entry_rate>4</nb_conversions_entry_rate>
+				<revenue_per_entry>20</revenue_per_entry>
+				<nb_conversions_entry>4</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/docs</folder_url_start>
 	</row>
 	<row>
@@ -209,17 +218,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/download</folder_url_start>
 	</row>
 	<row>
@@ -263,17 +276,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
-		<goal_1_nb_conversions>4</goal_1_nb_conversions>
-		<goal_1_revenue>20</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>4</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>4</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>4</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>20</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>20</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>4</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>20</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>4</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>4</nb_conversions>
+				<revenue>20</revenue>
+				<nb_conv_pages_before>4</nb_conv_pages_before>
+				<nb_conversions_attrib>4</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>4</nb_conversions_page_uniq>
+				<revenue_attrib>20</revenue_attrib>
+				<revenue_entry>20</revenue_entry>
+				<nb_conversions_entry_rate>4</nb_conversions_entry_rate>
+				<revenue_per_entry>20</revenue_per_entry>
+				<nb_conversions_entry>4</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/faq</folder_url_start>
 	</row>
 	<row>
@@ -317,17 +334,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/translations</folder_url_start>
 	</row>
 	<row>
@@ -371,17 +392,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/intranet-analytics</folder_url_start>
 	</row>
 	<row>
@@ -425,17 +450,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/newsletter</folder_url_start>
 	</row>
 	<row>
@@ -479,17 +508,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/hosting</folder_url_start>
 	</row>
 	<row>
@@ -532,23 +565,24 @@
 		<entry_nb_actions>2</entry_nb_actions>
 		<entry_sum_visit_length>182</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<url>http://piwik.net/moved-permanently</url>
-		<goals>
-		<row>1</row>
-		</goals>
 	</row>
 	<row>
 		<label>/temp-redirect</label>
@@ -632,17 +666,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/this</folder_url_start>
 	</row>
 	<row>
@@ -686,24 +724,25 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<url>http://piwik.net/to-an-error</url>
-		<goals>
-		<row>1</row>
-		</goals>
 	</row>
 	<row>
 		<label>api</label>
@@ -746,17 +785,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/api</folder_url_start>
 	</row>
 	<row>
@@ -800,17 +843,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>2</goal_1_nb_conversions>
-		<goal_1_revenue>10</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>4</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1.3333</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>2</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>6.6667</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<nb_conv_pages_before>4</nb_conv_pages_before>
+				<nb_conversions_attrib>1.3333</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
+				<revenue_attrib>6.6667</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/Topic</folder_url_start>
 	</row>
 	<row>
@@ -854,17 +901,21 @@
 		<entry_sum_visit_length>2</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
-		<goal_1_nb_conversions>4</goal_1_nb_conversions>
-		<goal_1_revenue>20</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>7</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>2</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>3</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>10</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>10</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>2</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>10</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>2</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>4</nb_conversions>
+				<revenue>20</revenue>
+				<nb_conv_pages_before>7</nb_conv_pages_before>
+				<nb_conversions_attrib>2</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
+				<revenue_attrib>10</revenue_attrib>
+				<revenue_entry>10</revenue_entry>
+				<nb_conversions_entry_rate>2</nb_conversions_entry_rate>
+				<revenue_per_entry>10</revenue_per_entry>
+				<nb_conversions_entry>2</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/hello</folder_url_start>
 	</row>
 	<row>
@@ -908,17 +959,21 @@
 		<entry_sum_visit_length>2</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>2</goal_1_nb_conversions>
-		<goal_1_revenue>10</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>3</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>0.6667</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>3.3333</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<nb_conv_pages_before>3</nb_conv_pages_before>
+				<nb_conversions_attrib>0.6667</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>3.3333</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/Products</folder_url_start>
 	</row>
 	<row>
@@ -962,24 +1017,25 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<url>http://example.org/index.htm</url>
-		<goals>
-		<row>1</row>
-		</goals>
 	</row>
 	<row>
 		<label>/register.php?0,approve=9a94a02145599</label>
@@ -1022,24 +1078,25 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
-		<goals>
-		<row>1</row>
-		</goals>
 	</row>
 	<row>
 		<label>Citrix</label>
@@ -1081,17 +1138,21 @@
 		<entry_nb_actions>2</entry_nb_actions>
 		<entry_sum_visit_length>242</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<exit_nb_visits>1</exit_nb_visits>
 		<folder_url_start>http://piwik.net/Citrix</folder_url_start>
 	</row>
@@ -1136,17 +1197,21 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<goal_1_nb_conversions>1</goal_1_nb_conversions>
-		<goal_1_revenue>5</goal_1_revenue>
-		<goal_1_nb_conv_pages_before>1</goal_1_nb_conv_pages_before>
-		<goal_1_nb_conversions_attrib>1</goal_1_nb_conversions_attrib>
-		<goal_1_nb_conversions_page_rate>0</goal_1_nb_conversions_page_rate>
-		<goal_1_nb_conversions_page_uniq>1</goal_1_nb_conversions_page_uniq>
-		<goal_1_revenue_attrib>5</goal_1_revenue_attrib>
-		<goal_1_revenue_entry>5</goal_1_revenue_entry>
-		<goal_1_nb_conversions_entry_rate>1</goal_1_nb_conversions_entry_rate>
-		<goal_1_revenue_per_entry>5</goal_1_revenue_per_entry>
-		<goal_1_nb_conversions_entry>1</goal_1_nb_conversions_entry>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5.00</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<folder_url_start>http://piwik.net/view</folder_url_start>
 	</row>
 </result>
