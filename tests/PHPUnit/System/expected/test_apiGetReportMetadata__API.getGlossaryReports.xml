@@ -102,6 +102,16 @@
 		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.</documentation>
 	</row>
 	<row>
+		<name>Entry Pages (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Entry Pages Titles (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
 		<name>Entry page titles (Actions)</name>
 		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
@@ -138,6 +148,26 @@
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>
+		<name>Goal 1 - Thank you - Entry Pages (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 1 - Thank you - Entry Pages Titles (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 1 - Thank you - Page Titles (Pages)</name>
+		<documentation>Goals_PageTitlesReportDocumentation</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 1 - Thank you - Pages (Pages)</name>
+		<documentation>This report shows how each page URL contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
 		<name>Goal 1 - Thank you - Visits to Conversion (Goals)</name>
 		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
@@ -145,6 +175,26 @@
 	<row>
 		<name>Goal 2 - Hello - Days to Conversion (Goals)</name>
 		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 2 - Hello - Entry Pages (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 2 - Hello - Entry Pages Titles (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 2 - Hello - Page Titles (Pages)</name>
+		<documentation>Goals_PageTitlesReportDocumentation</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goal 2 - Hello - Pages (Pages)</name>
+		<documentation>This report shows how each page URL contributed to goal conversions.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>
@@ -183,6 +233,26 @@
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>
+		<name>Goals Overview - Entry Pages (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goals Overview - Entry Pages Titles (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goals Overview - Page Titles (Pages)</name>
+		<documentation>Goals_PageTitlesReportDocumentation</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Goals Overview - Pages (Pages)</name>
+		<documentation>This report shows how each page URL contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
 		<name>Goals Overview - Visits to Conversion (Goals)</name>
 		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
@@ -216,6 +286,11 @@
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
+		<name>Page Titles (Pages)</name>
+		<documentation>Goals_PageTitlesReportDocumentation</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
 		<name>Page Titles Following a Site Search (Actions)</name>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
@@ -227,6 +302,11 @@
 	<row>
 		<name>Page titles (Actions)</name>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
+	</row>
+	<row>
+		<name>Pages (Pages)</name>
+		<documentation>This report shows how each page URL contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>
 		<name>Pages Following a Site Search (Actions)</name>
@@ -334,6 +414,26 @@
 	<row>
 		<name>triggered js - Days to Conversion (Goals)</name>
 		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>triggered js - Entry Pages (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>triggered js - Entry Pages Titles (Pages)</name>
+		<documentation>This report shows how each entry page contributed to goal conversions.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>triggered js - Page Titles (Pages)</name>
+		<documentation>Goals_PageTitlesReportDocumentation</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>triggered js - Pages (Pages)</name>
+		<documentation>This report shows how each page URL contributed to goal conversions.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>

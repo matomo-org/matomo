@@ -18,6 +18,7 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Goals\Reports\BasePages;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
 
@@ -299,14 +300,19 @@ class Goals extends \Piwik\Plugin
 
         foreach ($reports->getAllReports() as $report) {
             if ($report->hasGoalMetrics() && $report->isEnabled()) {
-                $reportsWithGoals[] = array(
+                $r = array(
                     'category' => $report->getCategoryId(),
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
-                    'parameters' => $report->getParameters(),
-                    'viewDataTable' => $report->getDefaultTypeViewDataTable()
+                    'parameters' => $report->getParameters()
                 );
+
+                if ($report instanceof BasePages) {
+                    $r['viewDataTable'] = $report->getDefaultTypeViewDataTable();
+                }
+
+                $reportsWithGoals[] = $r;
             }
         }
 
