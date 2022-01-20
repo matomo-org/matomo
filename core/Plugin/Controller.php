@@ -477,7 +477,7 @@ abstract class Controller
     protected function getGraphParamsModified($paramsToSet = array())
     {
         if (!isset($paramsToSet['period'])) {
-            $period = Common::getRequestVar('period');
+            $period = Piwik::getPeriod();
         } else {
             $period = $paramsToSet['period'];
         }
@@ -640,10 +640,10 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate = Common::getRequestVar('date');
+        $rawDate = Piwik::getDate();
         Period::checkDateFormat($rawDate);
 
-        $periodStr = Common::getRequestVar('period');
+        $periodStr = Piwik::getPeriod();
 
         if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
@@ -923,7 +923,7 @@ abstract class Controller
 
         $periodValidator = new PeriodValidator();
 
-        $currentPeriod = Common::getRequestVar('period');
+        $currentPeriod = Piwik::getPeriod();
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {

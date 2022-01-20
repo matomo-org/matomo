@@ -503,7 +503,6 @@ class Common
             $varType = 'integer';
         }
 
-
         // there is no value $varName in the REQUEST so we try to use the default value
         if (empty($varName)
             || !isset($requestArrayToUse[$varName])
@@ -574,11 +573,6 @@ class Common
             }
             settype($value, $varType);
         }
-
-        if (is_array($requestArrayToUse[$varName]) && in_array($varName, ['period', 'date'])) {
-            $value = implode(",", $value);
-        }
-
 
         return $value;
     }
