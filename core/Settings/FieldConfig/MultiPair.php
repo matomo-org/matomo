@@ -44,8 +44,17 @@ class MultiPair
      * "formField.value" angular model. For an example see "plugins/CorePluginsAdmin/angularjs/form-field/field-text.html"
      *
      * @var string
+     * @deprecated use customFieldComponent instead
      */
     public $customUiControlTemplateFile = '';
+
+    /**
+     * Array like ['plugin' => 'MyPlugin', 'component' => 'MyExportedCustomFieldComponent']. For an example see
+     * "plugins/CorePluginsAdmin/vue/src/FormField/FieldText.vue"
+     *
+     * @var string[]
+     */
+    public $customFieldComponent = null;
 
     /**
      * This setting's display name, for example, `'Refresh Interval'`.
@@ -82,6 +91,7 @@ class MultiPair
             'title' => $this->title,
             'uiControl' => $this->uiControl,
             'templateFile' => $this->customUiControlTemplateFile,
+            'component' => $this->customFieldComponent,
             'availableValues' => $this->availableValues,
         );
     }
