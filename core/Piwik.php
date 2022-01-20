@@ -892,7 +892,7 @@ class Piwik
 
     public static function getPeriod($default = null)
     {
-        $period = Common::getRequestVar($paramName, $default);
+        $period = Common::getRequestVar('period', $default, 'string');
         if (is_array($period)) {
             $period = implode(',', $period);
         }
