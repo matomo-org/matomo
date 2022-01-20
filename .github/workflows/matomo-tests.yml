@@ -1,10 +1,7 @@
 name: Matomo Tests
 
 on:
-  workflow_run:
-    workflows: [build Vue, Build Tracker JS files]
-    types: [completed]
-    branches: [github-action]
+  pull_request:
 
 permissions:
   actions: read
