@@ -39,9 +39,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
 
     public function doUpdate(Updater $updater)
     {
-        if ($this->requiresUpdatedLogVisitTableIndex()) {
-            $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
-        }
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 
     public function getMigrations(Updater $updater)
