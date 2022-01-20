@@ -49,7 +49,7 @@ class Get extends \Piwik\Plugin\Report
             'max_actions'
         );
 
-        $period = Piwik::getPeriod('period','day');
+        $period = Piwik::getPeriod('day');
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $this->metrics = array_merge(['nb_uniq_visitors'], $this->metrics);
         }

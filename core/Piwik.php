@@ -892,19 +892,11 @@ class Piwik
 
     public static function getPeriod($default = null)
     {
-        $period = Common::getRequestVar('period', $default, 'string');
-        if (is_array($period)) {
-            $period = implode(',', $period);
-        }
-        return $period;
+        return Common::getRequestVar('period', $default, 'string');
     }
 
-    public static function getDate($paramName = 'date', $default = false)
+    public static function getDate( $default = false)
     {
-        $date  = Common::getRequestVar($paramName, $default);
-        if (is_array($date)) {
-            $date = implode(',', $date);
-        }
-        return $date;
+        return Common::getRequestVar('date', $default, 'string');
     }
 }
