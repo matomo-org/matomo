@@ -131,7 +131,7 @@ jobs:
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests'
         run: |
-          ./console tests:run-js --matomo-url='http://localhost'
+          ./console tests:run-js --matomo-url='http://localhost:3000'
 
       - name: Running angularjs && vue tests
         if: matrix.tests == 'AngularTests'
