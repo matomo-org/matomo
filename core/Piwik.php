@@ -890,7 +890,7 @@ class Piwik
         return $translator->translate($translationId, $args, $language);
     }
 
-    public static function getPeriod($paramName = 'period', $default = false)
+    public static function getPeriod($default = null)
     {
         $period = Common::getRequestVar($paramName, $default);
         if (is_array($period)) {
