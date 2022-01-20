@@ -297,6 +297,10 @@ class ArchivingHelper
 
                     }
 
+                    if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
+                        $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
+                    }
+
                     // Get goals column
                     $goalColumnExists = true;
                     $goalsColumn = $actionRow->getColumn(PiwikMetrics::INDEX_GOALS);
