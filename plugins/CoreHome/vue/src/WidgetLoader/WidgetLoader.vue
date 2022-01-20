@@ -77,8 +77,8 @@ export default defineComponent({
     };
   },
   watch: {
-    widgetParams(parameters: QueryParameters) {
-      if (parameters) {
+    widgetParams(parameters: QueryParameters, oldParameters: QueryParameters) {
+      if (parameters && JSON.stringify(parameters) !== JSON.stringify(oldParameters)) {
         this.loadWidgetUrl(parameters, this.changeCounter += 1);
       }
     },
