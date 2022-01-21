@@ -42,11 +42,11 @@
               <span class="title">{{ translate('SitesManager_Currency') }}:</span>
               {{ theSite.currency_name }}
             </li>
-            <li v-show="theSite.ecommerce === 1">
+            <li v-show="!!theSite.ecommerce">
               <span class="title">{{ translate('Goals_Ecommerce') }}:</span>
               {{ translate('General_Yes') }}
             </li>
-            <li v-show="theSite.sitesearch == 1">
+            <li v-show="!!theSite.sitesearch">
               <span class="title">{{ translate('Actions_SubmenuSitesearch') }}:</span>
               {{ translate('General_Yes') }}
             </li>
@@ -118,9 +118,9 @@
 
         <ActivityIndicator :loading="isLoading"/>
 
-        <div v-for="settingsPerPlugin in measurableSettings" :key="settingsPerPlugin.plugin">
+        <div v-for="settingsPerPlugin in measurableSettings" :key="settingsPerPlugin.pluginName">
           <GroupedSettings
-            :group-name="settingsPerPlugin.plugin"
+            :group-name="settingsPerPlugin.pluginName"
             :settings="settingsPerPlugin.settings"
             :all-setting-values="settingValues"
             @change="settingValues[`${settingsPerPlugin.pluginName}.${$event.name}`] = $event.value"
