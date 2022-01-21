@@ -160,11 +160,12 @@
         <Field
           uicontrol="select"
           name="defaultTimezone"
-          :options="timezones"
+          :options="timezoneOptions"
           :title="translate('SitesManager_SelectDefaultTimezone')"
           :introduction="translate('SitesManager_DefaultTimezoneForNewWebsites')"
           :inline-help="'#timezoneHelp'"
           :disabled="isLoading"
+          v-model="defaultTimezone"
         />
       </div>
 
@@ -275,7 +276,7 @@ export default defineComponent({
       GlobalSettingsStore.saveGlobalSettings({
         keepURLFragmentsGlobal: this.keepURLFragmentsGlobal,
         defaultCurrency: this.defaultCurrency,
-        defaultTimezone: this.defaultCurrency,
+        defaultTimezone: this.defaultTimezone,
         excludedIpsGlobal: this.excludedIpsGlobal.join(','),
         excludedQueryParametersGlobal: this.excludedQueryParametersGlobal.join(','),
         excludedUserAgentsGlobal: this.excludedUserAgentsGlobal.join(','),
@@ -295,6 +296,9 @@ export default defineComponent({
     },
     timezones() {
       return TimezoneStore.timezones.value;
+    },
+    timezoneOptions() {
+      return this.timezones.map(({ group, label, code }) => ({ group, key: label, value: code }));
     },
     currencies() {
       return CurrencyStore.currencies.value;

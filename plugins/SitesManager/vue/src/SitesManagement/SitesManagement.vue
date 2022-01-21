@@ -44,15 +44,17 @@
     </div>
 
     <div>
-      <AddSiteLink
+      <ButtonBar
         :site-is-being-edited="isSiteBeingEdited"
         :has-prev="hasPrev"
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
-        :is-searching="!!searchTerm"
         :is-loading="isLoading"
+        :search-term="searchTerm"
+        :is-searching="!!activeSearchTerm"
+        @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -86,8 +88,8 @@
     </MatomoDialog>
 
     <div class="sitesManagerList">
-      <p v-if="searchTerm && 0 === sites.length && !isLoading">
-        {{ translate('SitesManager_NotFound') }} <strong>{{ searchTerm }}</strong>
+      <p v-if="activeSearchTerm && 0 === sites.length && !isLoading">
+        {{ translate('SitesManager_NotFound') }} <strong>{{ activeSearchTerm }}</strong>
       </p>
 
       <div
@@ -107,15 +109,17 @@
     </div>
 
     <div class="bottomButtonBar">
-      <AddSiteLink
+      <ButtonBar
         :site-is-being-edited="isSiteBeingEdited"
         :has-prev="hasPrev"
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
-        :is-searching="!!searchTerm"
         :is-loading="isLoading"
+        :search-term="searchTerm"
+        :is-searching="!!activeSearchTerm"
+        @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -139,7 +143,7 @@ import {
   translate,
 } from 'CoreHome';
 import { Setting } from 'CorePluginsAdmin';
-import AddSiteLink from './AddSiteLink.vue';
+import ButtonBar from './ButtonBar.vue';
 import SiteFields from '../SiteFields/SiteFields.vue';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
@@ -150,6 +154,7 @@ interface SitesManagementState {
   currentPage: number;
   showAddSiteDialog: boolean;
   searchTerm: string;
+  activeSearchTerm: string;
   sites: Site[];
   utcTime: Date;
   totalNumberOfSites: number|null;
@@ -166,7 +171,7 @@ export default defineComponent({
   },
   components: {
     MatomoDialog,
-    AddSiteLink,
+    ButtonBar,
     SiteFields,
     EnrichedHeadline,
   },
@@ -189,6 +194,7 @@ export default defineComponent({
       currentPage: 0,
       showAddSiteDialog: false,
       searchTerm: '',
+      activeSearchTerm: '',
       sites: [],
       isLoadingInitialEntities: false,
       utcTime,
@@ -209,7 +215,6 @@ export default defineComponent({
       this.isLoadingInitialEntities = false;
     });
 
-    // TODO: test
     // if hash is #globalSettings, redirect to globalSettings action
     watch(() => MatomoUrl.hashQuery.value, () => {
       this.checkGlobalSettingsHash();
@@ -226,7 +231,7 @@ export default defineComponent({
         || GlobalSettingsStore.isLoading.value;
     },
     availableTypes() {
-      return Object.values(SiteTypesStore.typesById.value);
+      return SiteTypesStore.types.value;
     },
     timezoneSupportEnabled() {
       return TimezoneStore.timezoneSupportEnabled.value;
@@ -371,8 +376,8 @@ export default defineComponent({
       this.currentPage = Math.max(0, this.currentPage + 1);
       this.fetchLimitedSitesWithAdminAccess();
     },
-    searchSites(searchTerm: string) {
-      this.searchTerm = searchTerm;
+    searchSites() {
+      this.activeSearchTerm = this.searchTerm;
       this.currentPage = 0;
       this.fetchLimitedSitesWithAdminAccess();
     },

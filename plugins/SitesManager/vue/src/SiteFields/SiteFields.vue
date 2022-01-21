@@ -43,11 +43,11 @@
               <span class="title">{{ translate('SitesManager_Currency') }}:</span>
               {{ theSite.currency_name }}
             </li>
-            <li v-show="!!theSite.ecommerce">
+            <li v-show="theSite.ecommerce === 1 || theSite.ecommerce === '1'">
               <span class="title">{{ translate('Goals_Ecommerce') }}:</span>
               {{ translate('General_Yes') }}
             </li>
-            <li v-show="!!theSite.sitesearch">
+            <li v-show="theSite.sitesearch === 1 || theSite.sitesearch === '1'">
               <span class="title">{{ translate('Actions_SubmenuSitesearch') }}:</span>
               {{ translate('General_Yes') }}
             </li>
