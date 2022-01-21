@@ -57,8 +57,9 @@ class Overlay extends \Piwik\Plugin
 
         $isOverlay = $module == 'Overlay';
         $referrerUrlQuery = parse_url(Url::getReferrer() ?? '', PHP_URL_QUERY);
+        parse_str($referrerUrlQuery, $referrerUrlQueryParams);
         $referrerUrlHost = parse_url(Url::getReferrer() ?? '', PHP_URL_HOST);
-        $comingFromOverlay = Url::isValidHost($referrerUrlHost) && $referrerUrlQuery && strpos($referrerUrlQuery, 'module=Overlay') !== false;
+        $comingFromOverlay = Url::isValidHost($referrerUrlHost) && !empty($referrerUrlQueryParams['module']) && $referrerUrlQueryParams['module'] === 'Overlay';
         $isPossibleOverlayRequest = (
             $module === 'Proxy' // JS & CSS requests
             || ($module === 'API' && 0 === strpos($method, 'Overlay.')) // Overlay API data
