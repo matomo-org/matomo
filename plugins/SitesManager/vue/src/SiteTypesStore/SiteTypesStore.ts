@@ -28,13 +28,15 @@ class SiteTypesStore {
 
   public readonly typesById = computed(() => readonly(this.state).typesById);
 
-  private response?: Promise<SiteTypesStore['typesById']['value']>;
+  public readonly types = computed(() => Object.values(this.typesById.value));
+
+  private response?: Promise<SiteTypesStore['types']['value']>;
 
   constructor() {
     this.fetchAvailableTypes();
   }
 
-  public fetchAvailableTypes(): Promise<SiteTypesStore['typesById']['value']> {
+  public fetchAvailableTypes(): Promise<SiteTypesStore['types']['value']> {
     if (this.response) {
       return Promise.resolve(this.response);
     }
@@ -47,7 +49,7 @@ class SiteTypesStore {
         this.state.typesById[type.id] = type;
       });
 
-      return this.typesById.value;
+      return this.types.value;
     });
 
     return this.response;

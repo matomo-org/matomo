@@ -186,6 +186,10 @@ var SiteTypesStore_SiteTypesStore = /*#__PURE__*/function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.state).typesById;
     }));
 
+    _defineProperty(this, "types", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object.values(_this.typesById.value);
+    }));
+
     _defineProperty(this, "response", void 0);
 
     this.fetchAvailableTypes();
@@ -207,7 +211,7 @@ var SiteTypesStore_SiteTypesStore = /*#__PURE__*/function () {
         types.forEach(function (type) {
           _this2.state.typesById[type.id] = type;
         });
-        return _this2.typesById.value;
+        return _this2.types.value;
       });
       return this.response;
     }
@@ -251,8 +255,10 @@ function sitesManagerTypeModelAdapter() {
     },
 
     fetchTypeById: function fetchTypeById(typeId) {
-      return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function (types) {
-        return types[typeId];
+      var _this = this;
+
+      return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function () {
+        return _this.typesById[typeId];
       });
     },
     fetchAvailableTypes: function fetchAvailableTypes() {
@@ -269,7 +275,7 @@ function sitesManagerTypeModelAdapter() {
 }
 
 window.angular.module('piwikApp.service').factory('sitesManagerTypeModel', sitesManagerTypeModelAdapter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=16972643
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=38c9a191
 
 var _hoisted_1 = ["idsite", "type"];
 var _hoisted_2 = {
@@ -499,7 +505,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue"])], 10, _hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=16972643
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=38c9a191
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -869,7 +875,7 @@ function isSiteNew(site) {
   },
   computed: {
     availableTypes: function availableTypes() {
-      return Object.values(src_SiteTypesStore_SiteTypesStore.typesById.value);
+      return src_SiteTypesStore_SiteTypesStore.types.value;
     },
     setupUrl: function setupUrl() {
       var site = this.theSite;

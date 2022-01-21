@@ -15,7 +15,7 @@ function sitesManagerTypeModelAdapter() {
       return SiteTypesStore.typesById.value;
     },
     fetchTypeById(typeId: string): Promise<DeepReadonly<SiteType>> {
-      return SiteTypesStore.fetchAvailableTypes().then((types) => types[typeId]);
+      return SiteTypesStore.fetchAvailableTypes().then(() => this.typesById[typeId]);
     },
     fetchAvailableTypes(): ReturnType<typeof SiteTypesStore['fetchAvailableTypes']> {
       return SiteTypesStore.fetchAvailableTypes();

@@ -429,7 +429,7 @@ export default defineComponent({
   },
   computed: {
     availableTypes() {
-      return Object.values(SiteTypesStore.typesById.value);
+      return SiteTypesStore.types.value;
     },
     setupUrl() {
       const site = this.theSite as Site;
