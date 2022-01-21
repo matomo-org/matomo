@@ -227,7 +227,7 @@ interface SiteFieldsState {
 }
 
 interface CreateEditSiteResponse {
-  value: string;
+  value: string|number;
 }
 
 const timezoneOptions = computed(
@@ -393,7 +393,7 @@ export default defineComponent({
         this.editMode = false;
 
         if (!this.theSite.idsite && response && response.value) {
-          this.theSite.idsite = response.value;
+          this.theSite.idsite = `${response.value}`;
         }
 
         const timezoneInfo = TimezoneStore.timezones.value.find(

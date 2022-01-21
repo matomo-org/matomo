@@ -215,11 +215,11 @@ export default defineComponent({
       this.isLoadingInitialEntities = false;
     });
 
-    // if hash is #globalSettings, redirect to globalSettings action
+    // if hash is #globalSettings, redirect to globalSettings action (we don't do it on
+    // page load so the back button still works)
     watch(() => MatomoUrl.hashQuery.value, () => {
       this.checkGlobalSettingsHash();
     });
-    this.checkGlobalSettingsHash();
   },
   computed: {
     isLoading() {
@@ -383,15 +383,13 @@ export default defineComponent({
     },
     afterDelete(site: Site) {
       let redirectParams: QueryParameters = {
-        ...MatomoUrl.urlParsed.value,
+        showaddsite: false,
       };
-
-      delete redirectParams.showaddsite;
 
       // if the current idSite in the URL is the site we're deleting, then we have to make to
       // change it. otherwise, if a user goes to another page, the invalid idSite may cause
       // a fatal error.
-      if (MatomoUrl.urlParsed.value.idSite === site.idsite) {
+      if (MatomoUrl.urlParsed.value.idSite === `${site.idsite}`) {
         const otherSite = this.sites.find((s) => s.idsite !== site.idsite);
 
         if (otherSite) {
@@ -399,7 +397,7 @@ export default defineComponent({
         }
       }
 
-      MatomoUrl.updateUrl(redirectParams, MatomoUrl.hashParsed.value);
+      Matomo.helper.redirect(redirectParams);
     },
     afterSave(site: Site, settingValues: Record<string, Setting[]>, index: number) {
       const texttareaArrayParams = [
