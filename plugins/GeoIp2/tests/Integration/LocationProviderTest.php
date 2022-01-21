@@ -133,10 +133,10 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
     public function testGeoIP2NoResultFallbackDisabled()
     {
         Fixture::loadAllTranslations();
-        Config::getInstance()->General['enabled_geolocation_guess_country_fallback'] = 0;
+        Config::getInstance()->Tracker['enable_default_location_provider'] = 0;
 
         $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-City.mmdb'], 'isp' => []]);
-        $geolocator = new VisitorGeolocator($locationProvider, new DefaultProvider());
+        $geolocator = new VisitorGeolocator($locationProvider);
 
         $result = $geolocator->getLocation(['ip' => '221.0.0.9', 'lang' => 'de-ch'], false);
 
