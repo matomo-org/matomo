@@ -18,8 +18,8 @@
 
     <div class="search" v-show="hasPrev || hasNext || isSearching">
       <input
-        v-model="searchTerm"
-        @keydown="searchSiteOnEnter($event)"
+        :value="searchTerm"
+        @keydown="onKeydown($event)"
         :placeholder="translate('Actions_SubmenuSitesearch')"
         type="text"
       />
@@ -39,16 +39,9 @@
       >
         <span style="cursor:pointer;">&#171; {{ translate('General_Previous') }}</span>
       </a>
-      <span class="counter" ng-show="adminSites.hasPrev || adminSites.hasNext">
-            <span v-if="isSearching">
-                {{ translate('General_PaginationWithoutTotal', offsetStart, offsetEnd) }}
-            </span>
-            <span v-if="!isSearching">
-              {{ translate(
-                'General_Pagination',
-                offsetStart,
-                offsetEnd,
-                totalNumberOfSites === null ? '?' : totalNumberOfSites) }}
+      <span class="counter" v-show="hasPrev || hasNext">
+            <span>
+              {{ paginationText }}
             </span>
         </span>
       <a class="btn next" :disabled="hasNext && !isLoading ? undefined : true" @click="nextPage()">
@@ -60,13 +53,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo } from 'CoreHome';
+import { Matomo, translate, debounce } from 'CoreHome';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 
-interface AddSiteLinkState {
-  searchTerm: string;
-}
-// TODO: rename ButtonBar
 export default defineComponent({
   props: {
     siteIsBeingEdited: {
@@ -92,27 +81,47 @@ export default defineComponent({
     totalNumberOfSites: {
       type: Number,
     },
-    isSearching: {
-      type: Boolean,
-      required: true,
-    },
     isLoading: {
       type: Boolean,
       required: true,
     },
+    searchTerm: {
+      type: String,
+      required: true,
+    },
+    isSearching: {
+      type: Boolean,
+      required: true,
+    },
   },
-  data(): AddSiteLinkState {
-    return {
-      searchTerm: '',
-    };
+  emits: ['add', 'search', 'prev', 'next', 'update:searchTerm'],
+  created() {
+    this.onKeydown = debounce(this.onKeydown, 50);
   },
-  emits: ['add', 'search', 'prev', 'next'],
   computed: {
     hasSuperUserAccess() {
       return Matomo.hasSuperUserAccess;
     },
     availableTypes() {
-      return SiteTypesStore.typesById.value;
+      return SiteTypesStore.types.value;
+    },
+    paginationText() {
+      let text: string;
+      if (this.isSearching) {
+        text = translate(
+          'General_PaginationWithoutTotal',
+          `${this.offsetStart}`,
+          `${this.offsetEnd}`,
+        );
+      } else {
+        text = translate(
+          'General_Pagination',
+          `${this.offsetStart}`,
+          `${this.offsetEnd}`,
+          this.totalNumberOfSites === null ? '?' : `${this.totalNumberOfSites}`,
+        );
+      }
+      return ` ${text} `;
     },
   },
   methods: {
@@ -120,7 +129,7 @@ export default defineComponent({
       this.$emit('add');
     },
     searchSite() {
-      this.$emit('search', this.searchTerm);
+      this.$emit('search');
     },
     previousPage() {
       this.$emit('prev');
@@ -128,13 +137,18 @@ export default defineComponent({
     nextPage() {
       this.$emit('next');
     },
+    onKeydown(event: KeyboardEvent) {
+      setTimeout(() => {
+        if (event.key === 'Enter') {
+          this.searchSiteOnEnter(event);
+          return;
+        }
+
+        this.$emit('update:searchTerm', (event.target as HTMLInputElement).value);
+      });
+    },
     searchSiteOnEnter(event: KeyboardEvent) {
-      if (event.key !== 'Enter') {
-        return;
-      }
-
       event.preventDefault();
-
       this.searchSite();
     },
   },

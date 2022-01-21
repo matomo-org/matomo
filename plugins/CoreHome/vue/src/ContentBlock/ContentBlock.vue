@@ -36,6 +36,8 @@ import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 
 let adminContent: HTMLElement|null = null;
 
+const { $ } = window;
+
 export default defineComponent({
   props: {
     contentTitle: String,
@@ -68,7 +70,7 @@ export default defineComponent({
     if (this.anchor && root && root.parentElement) {
       const anchorElement = document.createElement('a');
       anchorElement.id = this.anchor;
-      root.parentElement.prepend(anchorElement);
+      $(root.parentElement).prepend(anchorElement);
     }
 
     setTimeout(() => {

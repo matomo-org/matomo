@@ -44,15 +44,17 @@
     </div>
 
     <div>
-      <AddSiteLink
+      <ButtonBar
         :site-is-being-edited="isSiteBeingEdited"
         :has-prev="hasPrev"
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
-        :is-searching="!!searchTerm"
         :is-loading="isLoading"
+        :search-term="searchTerm"
+        :is-searching="!!activeSearchTerm"
+        @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -60,32 +62,34 @@
       />
     </div>
 
-    <MatomoDialog v-model="showAddSiteDialog" class="ui-confirm">
-      <div>
-        <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
+    <MatomoDialog v-model="showAddSiteDialog">
+      <div class="ui-confirm">
+        <div>
+          <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
 
-        <div class="center">
-          <p>
-            <button
-              type="button"
-              v-for="type in availableTypes"
-              :key="type.id"
-              :title="type.description"
-              class="modal-close btn"
-              style="margin-left: 20px;"
-              @click="addSite(type.id);"
-              aria-disabled="false"
-            >
-              <span class="ui-button-text">{{ type.name }}</span>
-            </button>
-          </p>
+          <div class="center">
+            <p>
+              <button
+                type="button"
+                v-for="type in availableTypes"
+                :key="type.id"
+                :title="type.description"
+                class="modal-close btn"
+                style="margin-left: 20px;"
+                @click="addSite(type.id);"
+                aria-disabled="false"
+              >
+                <span class="ui-button-text">{{ type.name }}</span>
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </MatomoDialog>
 
     <div class="sitesManagerList">
-      <p v-if="searchTerm && 0 === sites.length && !isLoading">
-        {{ translate('SitesManager_NotFound') }} <strong>{{ searchTerm }}</strong>
+      <p v-if="activeSearchTerm && 0 === sites.length && !isLoading">
+        {{ translate('SitesManager_NotFound') }} <strong>{{ activeSearchTerm }}</strong>
       </p>
 
       <div
@@ -105,15 +109,17 @@
     </div>
 
     <div class="bottomButtonBar">
-      <AddSiteLink
+      <ButtonBar
         :site-is-being-edited="isSiteBeingEdited"
         :has-prev="hasPrev"
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
-        :is-searching="!!searchTerm"
         :is-loading="isLoading"
+        :search-term="searchTerm"
+        :is-searching="!!activeSearchTerm"
+        @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -137,7 +143,7 @@ import {
   translate,
 } from 'CoreHome';
 import { Setting } from 'CorePluginsAdmin';
-import AddSiteLink from './AddSiteLink.vue';
+import ButtonBar from './ButtonBar.vue';
 import SiteFields from '../SiteFields/SiteFields.vue';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
@@ -148,6 +154,7 @@ interface SitesManagementState {
   currentPage: number;
   showAddSiteDialog: boolean;
   searchTerm: string;
+  activeSearchTerm: string;
   sites: Site[];
   utcTime: Date;
   totalNumberOfSites: number|null;
@@ -164,7 +171,7 @@ export default defineComponent({
   },
   components: {
     MatomoDialog,
-    AddSiteLink,
+    ButtonBar,
     SiteFields,
     EnrichedHeadline,
   },
@@ -187,6 +194,7 @@ export default defineComponent({
       currentPage: 0,
       showAddSiteDialog: false,
       searchTerm: '',
+      activeSearchTerm: '',
       sites: [],
       isLoadingInitialEntities: false,
       utcTime,
@@ -207,12 +215,11 @@ export default defineComponent({
       this.isLoadingInitialEntities = false;
     });
 
-    // TODO: test
-    // if hash is #globalSettings, redirect to globalSettings action
+    // if hash is #globalSettings, redirect to globalSettings action (we don't do it on
+    // page load so the back button still works)
     watch(() => MatomoUrl.hashQuery.value, () => {
       this.checkGlobalSettingsHash();
     });
-    this.checkGlobalSettingsHash();
   },
   computed: {
     isLoading() {
@@ -224,7 +231,7 @@ export default defineComponent({
         || GlobalSettingsStore.isLoading.value;
     },
     availableTypes() {
-      return Object.values(SiteTypesStore.typesById.value);
+      return SiteTypesStore.types.value;
     },
     timezoneSupportEnabled() {
       return TimezoneStore.timezoneSupportEnabled.value;
@@ -369,22 +376,20 @@ export default defineComponent({
       this.currentPage = Math.max(0, this.currentPage + 1);
       this.fetchLimitedSitesWithAdminAccess();
     },
-    searchSites(searchTerm: string) {
-      this.searchTerm = searchTerm;
+    searchSites() {
+      this.activeSearchTerm = this.searchTerm;
       this.currentPage = 0;
       this.fetchLimitedSitesWithAdminAccess();
     },
     afterDelete(site: Site) {
       let redirectParams: QueryParameters = {
-        ...MatomoUrl.urlParsed.value,
+        showaddsite: false,
       };
-
-      delete redirectParams.showaddsite;
 
       // if the current idSite in the URL is the site we're deleting, then we have to make to
       // change it. otherwise, if a user goes to another page, the invalid idSite may cause
       // a fatal error.
-      if (MatomoUrl.urlParsed.value.idSite === site.idsite) {
+      if (MatomoUrl.urlParsed.value.idSite === `${site.idsite}`) {
         const otherSite = this.sites.find((s) => s.idsite !== site.idsite);
 
         if (otherSite) {
@@ -392,7 +397,7 @@ export default defineComponent({
         }
       }
 
-      MatomoUrl.updateUrl(redirectParams, MatomoUrl.hashParsed.value);
+      Matomo.helper.redirect(redirectParams);
     },
     afterSave(site: Site, settingValues: Record<string, Setting[]>, index: number) {
       const texttareaArrayParams = [

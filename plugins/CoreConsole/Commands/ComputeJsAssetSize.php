@@ -31,6 +31,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $this->setDescription('Generates production assets and computes the size of the resulting code.');
         $this->addOption('exclude-angular', null, InputOption::VALUE_NONE);
         $this->addOption('no-delete', null, InputOption::VALUE_NONE, 'Do not delete files after creating them.');
+        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'For submodule plugins and 3rd party plugins.');
     }
 
     public function isEnabled()
@@ -42,9 +43,11 @@ class ComputeJsAssetSize extends ConsoleCommand
     {
         $excludeAngular = $input->getOption('exclude-angular');
         $noDelete = $input->getOption('no-delete');
+        $plugin = $input->getOption('plugin');
 
         $this->checkDevelopmentModeDisabled();
-        $this->ensureThirdPartyPluginsActivated();
+
+        $this->ensureThirdPartyPluginsActivated($plugin);
 
         $output->writeln("Building and printing sizes of built JS assets...");
 
@@ -56,7 +59,8 @@ class ComputeJsAssetSize extends ConsoleCommand
         $this->buildAssets();
 
         $output->writeln("");
-        $this->printCurrentGitHashAndBranch($output, $excludeAngular);
+
+        $this->printCurrentGitHashAndBranch($output, $excludeAngular, $plugin);
 
         $output->writeln("");
         $this->printFilesizes($output);
@@ -66,7 +70,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         }
     }
 
-    private function ensureThirdPartyPluginsActivated()
+    private function ensureThirdPartyPluginsActivated($plugin = null)
     {
         $expectedPluginsLoadedAndActivated = [
             "CorePluginsAdmin",
@@ -156,9 +160,15 @@ class ComputeJsAssetSize extends ConsoleCommand
             "AdvertisingConversionExport",
         ];
 
+        if ($plugin) {
+            $expectedPluginsLoadedAndActivated[] = $plugin;
+        }
+
         if (is_file(PIWIK_INCLUDE_PATH . '/plugins/CoreVue/plugin.json')) {
             $expectedPluginsLoadedAndActivated[] = "CoreVue";
         }
+
+        $expectedPluginsLoadedAndActivated = array_unique($expectedPluginsLoadedAndActivated);
 
         $pluginsLoadedAndActivated = Manager::getInstance()->getPluginsLoadedAndActivated();
         $pluginsLoadedAndActivated = array_map(function (Plugin $p) { return $p->getPluginName(); }, $pluginsLoadedAndActivated);
@@ -243,11 +253,22 @@ class ComputeJsAssetSize extends ConsoleCommand
         return $this->getFileSize($compressedPath);
     }
 
-    private function printCurrentGitHashAndBranch(OutputInterface $output, $excludeAngular)
+    private function printCurrentGitHashAndBranch(OutputInterface $output, $excludeAngular, $plugin = null)
     {
         $branchName = trim(`git rev-parse --abbrev-ref HEAD`);
         $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
 
-        $output->writeln("<info>$branchName ($lastCommit)</info> <comment>" . ($excludeAngular ? '(without angularjs)' : '') . "</comment>");
+        $pluginSuffix = '';
+        if ($plugin) {
+            $prefix = 'cd "' . addslashes(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin) . '"; ';
+
+            $pluginBranchName = trim(`$prefix git rev-parse --abbrev-ref HEAD`);
+            $pluginLastCommit = trim(`$prefix git log --pretty=format:'%h' -n 1`);
+
+            $pluginSuffix = " [$plugin: $pluginBranchName ($pluginLastCommit)]";
+        }
+
+        $output->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info> <comment>"
+            . ($excludeAngular ? '(without angularjs)' : '') . "</comment>");
     }
 }

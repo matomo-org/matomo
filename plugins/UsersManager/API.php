@@ -18,8 +18,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\IP;
-use Piwik\Mail;
 use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
@@ -27,9 +25,9 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\View;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 
 /**
@@ -1511,23 +1509,10 @@ class API extends \Piwik\Plugin\API
     {
         $deviceDescription = $this->getDeviceDescription();
 
-        $view = new View('@UsersManager/_userInfoChangedEmail.twig');
-        $view->type = $type;
-        $view->accountName = Common::sanitizeInputValue($user['login']);
-        $view->newEmail = Common::sanitizeInputValue($newValue);
-        $view->ipAddress = IP::getIpFromHeader();
-        $view->deviceDescription = $deviceDescription;
-
-        $mail = new Mail();
+        $mail = new UserInfoChangedEmail($type, $newValue, $deviceDescription, $user['login']);
 
         $mail->addTo($emailTo, $user['login']);
         $mail->setSubject(Piwik::translate($subject));
-        $mail->setDefaultFromPiwik();
-        $mail->setWrappedHtmlBody($view);
-
-        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
-        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         $mail->send();
     }

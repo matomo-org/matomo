@@ -75,7 +75,7 @@
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
-    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
+    addListener, enableLinkTracking, disableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, getJavascriptErrors, unsetPageIsUnloading,
@@ -2439,7 +2439,9 @@ if (typeof window.Matomo !== 'object') {
                 uniqueTrackerId = trackerIdCounter++,
 
                 // whether a tracking request has been sent yet during this page view
-                hasSentTrackingRequestYet = false;
+                hasSentTrackingRequestYet = false,
+
+                configBrowserFeatureDetection = true;
 
             // Document title
             try {
@@ -3128,6 +3130,11 @@ if (typeof window.Matomo !== 'object') {
              * Browser features (plugins, resolution, cookies)
              */
             function detectBrowserFeatures() {
+
+                // Browser Feature is disabled return empty object
+                if (!configBrowserFeatureDetection) {
+                    return {};
+                }
                 if (isDefined(browserFeatures.res)) {
                     return browserFeatures;
                 }
@@ -3749,13 +3756,13 @@ if (typeof window.Matomo !== 'object') {
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
-                var browserFeatures = detectBrowserFeatures();
-                // browser features
-                for (i in browserFeatures) {
-                    if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
-                        request += '&' + i + '=' + browserFeatures[i];
+                    var browserFeatures = detectBrowserFeatures();
+                    // browser features
+                    for (i in browserFeatures) {
+                        if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
+                            request += '&' + i + '=' + browserFeatures[i];
+                        }
                     }
-                }
 
                 var customDimensionIdsAlreadyHandled = [];
                 if (customData) {
@@ -4960,6 +4967,7 @@ if (typeof window.Matomo !== 'object') {
                 linkTrackingInstalled = false;
                 linkTrackingEnabled   = false;
             };
+
             this.getConfigVisitorCookieTimeout = function () {
                 return configVisitorCookieTimeout;
             };
@@ -6018,6 +6026,7 @@ if (typeof window.Matomo !== 'object') {
             this.setCookieConsentGiven = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
+                    configBrowserFeatureDetection = true;
                     if (configTrackerSiteId && hasSentTrackingRequestYet) {
                         setVisitorIdCookie();
 
@@ -6390,6 +6399,10 @@ if (typeof window.Matomo !== 'object') {
                         logPageView(customTitle, customData, callback);
                     });
                 }
+            };
+
+            this.disableBrowserFeatureDetection = function () {
+                configBrowserFeatureDetection = false;
             };
 
             /**
@@ -6947,7 +6960,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
-
+                configBrowserFeatureDetection = true;
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
                 var i, requestType;
@@ -7106,7 +7119,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

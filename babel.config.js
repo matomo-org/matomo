@@ -1,4 +1,7 @@
 module.exports = {
+  assumptions: {
+    setSpreadProperties: true,
+  },
   presets: [
     ['@vue/cli-plugin-babel/preset', {
       useBuiltIns: false,
@@ -15,5 +18,8 @@ module.exports = {
         'proposal-async-generator-functions',
       ]
     }],
+  ],
+  plugins: [
+    ['@babel/plugin-proposal-object-rest-spread', { useBuiltIns: true }],
   ],
 };
