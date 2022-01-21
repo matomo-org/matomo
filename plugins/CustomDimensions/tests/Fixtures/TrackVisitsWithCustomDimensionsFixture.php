@@ -7,13 +7,16 @@
  */
 namespace Piwik\Plugins\CustomDimensions\tests\Fixtures;
 
+use Piwik\Context;
 use Piwik\Date;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dimension\Extraction;
 use Piwik\Plugins\Goals;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
+use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Plugin;
 use Piwik\Tracker\Cache;
 
 /**
@@ -32,6 +35,7 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $this->setUpWebsites();
         $this->addGoals();
         $this->configureSomeDimensions();
+        $this->configureScheduledReport();
         $this->trackFirstVisit();
         $this->trackSecondVisit();
         $this->trackThirdVisit();
@@ -75,6 +79,23 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         Cache::deleteCacheWebsiteAttributes(1);
         Cache::deleteCacheWebsiteAttributes(2);
         Cache::clearCacheGeneral();
+    }
+
+    protected function configureScheduledReport()
+    {
+        // Context change is needed, as adding the custom dimensions reports looks for the idSite in the request params
+        Context::changeIdSite(1, function() {
+            APIScheduledReports::getInstance()->addReport(
+                $idSite = 1,
+                'ScheduledReport',
+                'month',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::PDF_FORMAT,
+                ['VisitsSummary_get', 'CustomDimensions_getCustomDimension_idDimension--1', 'CustomDimensions_getCustomDimension_idDimension--2'],
+                [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS]
+            );
+        });
     }
 
     protected function trackFirstVisit()

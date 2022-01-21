@@ -26,6 +26,9 @@ export default createAngularJsAdapter({
     todayArchiveTimeToLive: {
       angularJsBind: '<',
     },
+    todayArchiveTimeToLiveDefault: {
+      angularJsBind: '<',
+    },
   },
   directiveName: 'matomoArchivingSettings',
 });
