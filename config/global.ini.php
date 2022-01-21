@@ -773,9 +773,6 @@ enable_installer = 1
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
-; By setting this option to 0, you can prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
-enabled_geolocation_guess_country_fallback = 1
-
 ; By setting this option to 0, the old raw data and old report data purging features will be hidden from the UI
 ; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.
 enable_delete_old_data_settings_admin = 1
@@ -930,6 +927,11 @@ default_time_one_page_visit = 0
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
 url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+
+; If set to 1, Matomo will use the default provider if no other provider is configured.
+; In addition the default provider will be used as a fallback when the configure provider does not return any results.
+; If set to 0, the default provider will be unavailable. Instead the "disabled" provider will be used as default and fallback instead.
+enable_default_location_provider = 1
 
 ; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.

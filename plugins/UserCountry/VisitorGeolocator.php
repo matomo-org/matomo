@@ -16,6 +16,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Matomo\Network\IPUtils;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\DisabledProvider;
+use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit;
 use Psr\Log\LoggerInterface;
 
@@ -91,7 +93,7 @@ class VisitorGeolocator
             $provider = LocationProvider::getProviderById(Common::getCurrentLocationProviderId());
 
             if (empty($provider)) {
-                Common::printDebug("GEO: no current location provider sent, falling back to default '" . DefaultProvider::ID . "' one.");
+                Common::printDebug("GEO: no current location provider sent, falling back to '" . LocationProvider::getDefaultProviderId() . "' one.");
 
                 $provider = $this->getDefaultProvider();
             }
@@ -119,7 +121,8 @@ class VisitorGeolocator
             $providerId = $this->provider->getId();
             Common::printDebug("GEO: couldn't find a location with Geo Module '$providerId'");
 
-            if ($providerId != $this->backupProvider->getId() && GeneralConfig::getConfigValue('enabled_geolocation_guess_country_fallback')) {
+            // Only use the default provider as fallback if the configured one isn't "disabled"
+            if ($providerId != DisabledProvider::ID && $providerId != $this->backupProvider->getId()) {
                 Common::printDebug("Using default provider as fallback...");
 
                 $location = $this->getLocationObject($this->backupProvider, $userInfo);
@@ -300,7 +303,7 @@ class VisitorGeolocator
 
     private function getDefaultProvider()
     {
-        return LocationProvider::getProviderById(DefaultProvider::ID);
+        return LocationProvider::getProviderById(LocationProvider::getDefaultProviderId());
     }
 
     public static function getDefaultLocationCache()
