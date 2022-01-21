@@ -146,11 +146,11 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
+
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteTypesStore/SiteTypesStore.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -248,21 +248,24 @@ var SiteTypesStore_SiteTypesStore = /*#__PURE__*/function () {
  */
 
 
+
 function sitesManagerTypeModelAdapter() {
   return {
     get typesById() {
-      return src_SiteTypesStore_SiteTypesStore.typesById.value;
+      return Object(external_CoreHome_["clone"])(src_SiteTypesStore_SiteTypesStore.typesById.value);
     },
 
     fetchTypeById: function fetchTypeById(typeId) {
       var _this = this;
 
       return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function () {
-        return _this.typesById[typeId];
+        return Object(external_CoreHome_["cloneThenApply"])(_this.typesById[typeId]);
       });
     },
     fetchAvailableTypes: function fetchAvailableTypes() {
-      return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes();
+      return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function (types) {
+        return Object(external_CoreHome_["cloneThenApply"])(types);
+      });
     },
     hasMultipleTypes: function hasMultipleTypes() {
       return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function (types) {

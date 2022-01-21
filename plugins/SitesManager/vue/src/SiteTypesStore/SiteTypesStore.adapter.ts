@@ -6,19 +6,22 @@
  */
 
 import { DeepReadonly } from 'vue';
+import { cloneThenApply, clone } from 'CoreHome';
 import SiteTypesStore from './SiteTypesStore';
 import SiteType from './SiteType';
 
 function sitesManagerTypeModelAdapter() {
   return {
     get typesById() {
-      return SiteTypesStore.typesById.value;
+      return clone(SiteTypesStore.typesById.value);
     },
     fetchTypeById(typeId: string): Promise<DeepReadonly<SiteType>> {
-      return SiteTypesStore.fetchAvailableTypes().then(() => this.typesById[typeId]);
+      return SiteTypesStore.fetchAvailableTypes().then(
+        () => cloneThenApply(this.typesById[typeId]),
+      );
     },
     fetchAvailableTypes(): ReturnType<typeof SiteTypesStore['fetchAvailableTypes']> {
-      return SiteTypesStore.fetchAvailableTypes();
+      return SiteTypesStore.fetchAvailableTypes().then((types) => cloneThenApply(types));
     },
     hasMultipleTypes(): Promise<boolean> {
       return SiteTypesStore.fetchAvailableTypes().then(
