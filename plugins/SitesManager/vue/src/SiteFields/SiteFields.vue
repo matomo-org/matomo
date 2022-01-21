@@ -315,10 +315,7 @@ export default defineComponent({
       if (isNew
         || (forcedEditSiteId && `${site.idsite}` === forcedEditSiteId)
       ) {
-        // make sure type info is available before entering edit mode
-        SiteTypesStore.fetchAvailableTypes().then(() => {
-          this.editSite();
-        });
+        this.editSite();
       }
     },
     editSite() {
@@ -442,7 +439,7 @@ export default defineComponent({
   },
   computed: {
     availableTypes() {
-      return Object.values(SiteTypesStore.typesById.value);
+      return SiteTypesStore.types.value;
     },
     setupUrl() {
       const site = this.theSite as Site;

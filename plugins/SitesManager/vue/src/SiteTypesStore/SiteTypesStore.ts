@@ -32,14 +32,15 @@ class SiteTypesStore {
 
   public readonly isLoading = computed(() => readonly(this.state).isLoading);
 
-  private response?: Promise<SiteTypesStore['typesById']['value']>;
+  public readonly types = computed(() => Object.values(this.typesById.value));
+
+  private response?: Promise<SiteTypesStore['types']['value']>;
 
   constructor() {
     this.fetchAvailableTypes();
   }
 
-  // TODO: what happens when API method errors?
-  public fetchAvailableTypes(): Promise<SiteTypesStore['typesById']['value']> {
+  public fetchAvailableTypes(): Promise<SiteTypesStore['types']['value']> {
     if (this.response) {
       return Promise.resolve(this.response);
     }
@@ -53,7 +54,7 @@ class SiteTypesStore {
         this.state.typesById[type.id] = type;
       });
 
-      return this.typesById.value;
+      return this.types.value;
     }).finally(() => {
       this.state.isLoading = false;
     });
