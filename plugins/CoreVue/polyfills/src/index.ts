@@ -12,7 +12,7 @@
 
 import DOMPurify from 'dompurify';
 import * as tslib from 'tslib';
-import 'yet-another-abortcontroller-polyfill';
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
 window.tslib = tslib;
 
