@@ -120,17 +120,12 @@
         <ActivityIndicator :loading="isLoading"/>
 
         <div v-for="settingsPerPlugin in measurableSettings" :key="settingsPerPlugin.plugin">
-          <div
-            v-for="setting in settingsPerPlugin.settings"
-            :key="`${settingsPerPlugin.pluginName}.${setting.name}`"
-          >
-            <PluginSetting
-              v-model="settingValues[`${settingsPerPlugin.pluginName}.${setting.name}`]"
-              :plugin-name="settingsPerPlugin.pluginName"
-              :setting="setting"
-              :setting-values="settingValues"
-            />
-          </div>
+          <GroupedSettings
+            :group-name="settingsPerPlugin.plugin"
+            :settings="settingsPerPlugin.settings"
+            :all-setting-values="settingValues"
+            @change="settingValues[`${settingsPerPlugin.pluginName}.${$event.name}`] = $event.value"
+          />
         </div>
 
         <Field
@@ -212,7 +207,7 @@ import {
 } from 'CoreHome';
 import {
   Field,
-  PluginSetting,
+  GroupedSettings,
   SettingsForSinglePlugin,
   Setting,
 } from 'CorePluginsAdmin';
@@ -234,13 +229,13 @@ interface CreateEditSiteResponse {
   value: string;
 }
 
-const timezoneOptions = computed(() => (
-  TimezoneStore.timezones.value.map(({ group, label, code }) => ({
+const timezoneOptions = computed(
+  () => TimezoneStore.timezones.value.map(({ group, label, code }) => ({
     group,
     key: label,
     value: code,
-  }))
-));
+  })),
+);
 
 function isSiteNew(site: Site) {
   return typeof site.idsite === 'undefined';
@@ -277,7 +272,7 @@ export default defineComponent({
   components: {
     MatomoDialog,
     Field,
-    PluginSetting,
+    GroupedSettings,
     ActivityIndicator,
   },
   emits: ['delete', 'cancelEditSite', 'save'],

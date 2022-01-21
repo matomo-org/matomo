@@ -29,8 +29,6 @@ class CustomDimensions extends Plugin
      */
     private $configuration;
 
-    private $isInstalled;
-
     /**
      * Constructor.
      */
@@ -75,10 +73,6 @@ class CustomDimensions extends Plugin
      */
     public function registerEvents()
     {
-        if (!$this->isInstalled()) {
-            return null;
-        }
-
         return array(
             'Tracker.Cache.getSiteAttributes'  => 'addCustomDimensionsAttributes',
             'SitesManager.deleteSite.end'      => 'deleteCustomDimensionDefinitionsForSite',
@@ -224,7 +218,6 @@ class CustomDimensions extends Plugin
         }
 
         Cache::clearCacheGeneral();
-        $this->isInstalled = true;
     }
 
     public function uninstall()
@@ -237,7 +230,6 @@ class CustomDimensions extends Plugin
         }
 
         Cache::clearCacheGeneral();
-        $this->isInstalled = false;
     }
 
     public function isTrackerPlugin()
@@ -355,28 +347,8 @@ class CustomDimensions extends Plugin
         }
     }
 
-    private function isInstalled()
-    {
-        if (!isset($this->isInstalled)) {
-            $names = Plugin\Manager::getInstance()->getInstalledPluginsName();
-            // installed plugins are not yet loaded properly
-
-            if (empty($names)) {
-                return false;
-            }
-
-            $this->isInstalled = Plugin\Manager::getInstance()->isPluginInstalled($this->pluginName);
-        }
-
-        return $this->isInstalled;
-    }
-
     public function addVisitFieldsToPersist(&$fields)
     {
-        if (!$this->isInstalled()) {
-            return;
-        }
-
         $indexes = $this->getCachedInstalledIndexesForScope(self::SCOPE_VISIT);
 
         $fields[] = 'last_idlink_va';

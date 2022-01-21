@@ -9,11 +9,9 @@
 
 namespace Piwik\Tests\Integration\ArchiveProcessor;
 
-
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Loader;
-use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -30,9 +28,7 @@ use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentApi;
-use Piwik\Option;
 use Piwik\ArchiveProcessor\Rules;
-use ReflectionClass;
 
 class LoaderTest extends IntegrationTestCase
 {
@@ -316,7 +312,7 @@ class LoaderTest extends IntegrationTestCase
 
         Date::$now = strtotime('2018-03-04 05:00:00');
 
-        list($idSite, $period, $date, $segment, $plugin, $report) = $params;
+        [$idSite, $period, $date, $segment, $plugin, $report] = $params;
 
         $t = Fixture::getTracker($idSite, $date);
         $t->setUrl('http://slkdfj.com');
@@ -335,7 +331,7 @@ class LoaderTest extends IntegrationTestCase
 
         if ($archiveTwice) {
             if (is_array($archiveTwice)) {
-                list($idSite2, $period2, $date2, $segment2, $plugin2, $report2) = $archiveTwice;
+                [$idSite2, $period2, $date2, $segment2, $plugin2, $report2] = $archiveTwice;
 
                 $params2 = new Parameters(new Site($idSite2), Factory::build($period2, $date2), new Segment($segment2, [$idSite2]));
                 $params2->setRequestedPlugin($plugin2);

@@ -18,6 +18,7 @@
         "AnonymizeSites": "Anonymiser data for denne/disse siden(e)",
         "AnonymizeUserId": "Erstatt bruker-ID med et pseudonym",
         "AskingForConsent": "Forespørsel om samtykke",
+        "AwarenessDocumentation": "Oppmerksomhet og dokumentasjon",
         "BackgroundColor": "Bakgrunnsfarge",
         "ClickHereSettings": "Klikk her for å få tilgang til %s-innstillingene.",
         "ConsentExplanation": "Samtykke betyr at brukere har valget og kontrollerer hvordan deres persondetaljer behandles.",
@@ -46,6 +47,9 @@
         "GdprTools": "GDPR-verktøy",
         "GeolocationAnonymizeIpNote": "Merk: Geoposisjonering vil ha omtrent de samme resultatene med en byte anonymisert. Med to byte eller mer, vil geoposisjonering være unøyaktig.",
         "HowDoIAskForConsent": "Hvordan spør jeg brukere om samtykke?",
+        "Imprint": "Impressum",
+        "ImprintUrl": "Impressum-nettadresse",
+        "ImprintUrlDescription": "En lenke til din impressums-side",
         "IndividualsRights": "Personrettigheter",
         "KeepDataFor": "Behold all data for",
         "LastDelete": "Siste sletting var på",
@@ -70,10 +74,14 @@
         "TermsAndConditionUrl": "Nettadresse for vilkår og betingelser",
         "TermsAndConditionUrlDescription": "En lenke til din side for vilkår og betingelser.",
         "TermsAndConditions": "Vilkår og betingelser",
+        "UnsetActionColumns": "Fjern innstilling for handlingskolonner",
+        "UnsetVisitColumns": "Fjern innstilling av besøkskolonner",
         "UseAnonymizeOrderId": "Anonymiser ordre-ID",
         "UseAnonymizeTrackingData": "Anonymiser sporingsdata",
         "UseAnonymizeUserId": "Anonymiser bruker-ID",
         "UseDeleteLog": "Slett gammel rådata fra databasen regelmessig",
+        "UseDeleteReports": "Slett gamle rapporter fra databasen regelmessig",
+        "VisitsMatchedCriteria": "Disse besøkene samsvarer med valgte kriterium",
         "WhenDoINeedConsent": "Når må jeg pørre om brukersamtykke?"
     }
 }
