@@ -1225,7 +1225,7 @@ class LogAggregator
 
         $where   = $linkField.' IS NOT NULL AND log_conversion.idgoal > 0';
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
-        $groupBy = 'log_visit.'.$linkField;
+        $groupBy = 'log_visit.'.$linkField.', log_conversion.idgoal';
         $orderBy = false;
 
         $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);

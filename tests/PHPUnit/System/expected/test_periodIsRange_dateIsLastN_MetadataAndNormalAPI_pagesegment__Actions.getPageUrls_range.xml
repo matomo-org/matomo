@@ -23,10 +23,10 @@
 				<nb_conversions_page_rate>0</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
 				<revenue_attrib>0</revenue_attrib>
-				<revenue_entry>1000.00</revenue_entry>
-				<nb_conversions_entry_rate>1.5</nb_conversions_entry_rate>
+				<revenue_entry>1000</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
 				<revenue_per_entry>500</revenue_per_entry>
-				<nb_conversions_entry>3</nb_conversions_entry>
+				<nb_conversions_entry>2</nb_conversions_entry>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>1</nb_conversions>
@@ -36,6 +36,10 @@
 				<nb_conversions_page_rate>0</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
 				<revenue_attrib>0</revenue_attrib>
+				<revenue_entry>0</revenue_entry>
+				<nb_conversions_entry_rate>0.5</nb_conversions_entry_rate>
+				<revenue_per_entry>0</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
 			</row>
 		</goals>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
