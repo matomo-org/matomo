@@ -69,7 +69,7 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         $archiver->run();
 
         $this->assertStringNotContainsStringIgnoringCase('Got invalid response from API request', $this->logger->output);
-        $this->assertStringContainsString("Skip Archiving website id 1", $this->logger->output);
+        $this->assertStringContainsString("Skipped Archiving website id 1", $this->logger->output);
         $this->assertStringContainsString('no error', $this->logger->output);
     }
 

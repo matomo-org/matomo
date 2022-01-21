@@ -575,12 +575,12 @@ class CronArchive
         return [$url, $segment, $plugin];
     }
 
-    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null, $shouldSkip = null)
+    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null, $wasSkipped = null)
     {
         $params = UrlHelper::getArrayFromQueryString($url);
         $visits = (int) $visits;
 
-        $message = $shouldSkip ? "Skip Archiving website" : "Archived website";
+        $message = $wasSkipped ? "Skipped Archiving website" : "Archived website";
 
         $this->logger->info($message." id {$params['idSite']}, period = {$params['period']}, date = "
             . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode(urldecode($params['segment'])) : '') . "', "
