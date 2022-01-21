@@ -178,16 +178,17 @@
     </div>
 
     <MatomoDialog
-      class="ui-confirm"
       v-model="showRemoveDialog"
       @yes="deleteSite()"
     >
-      <h2>{{ removeDialogTitle }}</h2>
+      <div class="ui-confirm">
+        <h2>{{ removeDialogTitle }}</h2>
 
-      <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
+        <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
 
-      <input type="button" :value="translate('General_Yes')" role="yes"/>
-      <input type="button" :value="translate('General_No')" role="no" />
+        <input type="button" :value="translate('General_Yes')" role="yes"/>
+        <input type="button" :value="translate('General_No')" role="no" />
+      </div>
     </MatomoDialog>
   </div>
 </template>
