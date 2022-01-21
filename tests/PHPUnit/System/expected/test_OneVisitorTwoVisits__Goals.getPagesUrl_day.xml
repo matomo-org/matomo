@@ -125,7 +125,7 @@
 				<nb_conversions_attrib>0.5</nb_conversions_attrib>
 				<nb_conversions_page_rate>1</nb_conversions_page_rate>
 				<revenue_attrib>21</revenue_attrib>
-				<revenue_entry>42.00</revenue_entry>
+				<revenue_entry>42</revenue_entry>
 				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
 				<revenue_per_entry>42</revenue_per_entry>
 				<nb_conversions_entry>1</nb_conversions_entry>
@@ -177,7 +177,7 @@
 				<nb_conversions_attrib>1</nb_conversions_attrib>
 				<nb_conversions_page_rate>1</nb_conversions_page_rate>
 				<revenue_attrib>1</revenue_attrib>
-				<revenue_entry>1.00</revenue_entry>
+				<revenue_entry>1</revenue_entry>
 				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
 				<revenue_per_entry>1</revenue_per_entry>
 				<nb_conversions_entry>1</nb_conversions_entry>
