@@ -18,6 +18,17 @@ interface GlobalSettingsStoreState {
   globalSettings: GlobalSettings;
 }
 
+interface SaveGlobalSettingsParams {
+  keepURLFragments: boolean;
+  currency: string;
+  timezone: string;
+  excludedIps: string;
+  excludedQueryParameters: string;
+  excludedUserAgents: string;
+  searchKeywordParameters: string;
+  searchCategoryParameters: string;
+}
+
 class GlobalSettingsStore {
   private privateState = reactive<GlobalSettingsStoreState>({
     isLoading: false,
@@ -41,7 +52,7 @@ class GlobalSettingsStore {
     this.fetchGlobalSettings();
   }
 
-  public saveGlobalSettings(settings: GlobalSettings) {
+  public saveGlobalSettings(settings: SaveGlobalSettingsParams) {
     this.privateState.isLoading = true;
     return AjaxHelper.post(
       {
@@ -53,9 +64,7 @@ class GlobalSettingsStore {
       {
         withTokenInUrl: true,
       },
-    ).then(() => {
-      this.privateState.globalSettings = { ...settings };
-    }).finally(() => {
+    ).finally(() => {
       this.privateState.isLoading = false;
     });
   }

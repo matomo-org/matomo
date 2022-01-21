@@ -108,12 +108,16 @@ export default defineComponent({
     paginationText() {
       let text: string;
       if (this.isSearching) {
-        text = translate('General_PaginationWithoutTotal', this.offsetStart, this.offsetEnd);
+        text = translate(
+          'General_PaginationWithoutTotal',
+          `${this.offsetStart}`,
+          `${this.offsetEnd}`,
+        );
       } else {
         text = translate(
           'General_Pagination',
-          this.offsetStart,
-          this.offsetEnd,
+          `${this.offsetStart}`,
+          `${this.offsetEnd}`,
           this.totalNumberOfSites === null ? '?' : `${this.totalNumberOfSites}`,
         );
       }

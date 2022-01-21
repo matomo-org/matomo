@@ -212,6 +212,7 @@ interface GlobalSettingsState {
   excludedUserAgentsGlobal: string[];
   searchKeywordParametersGlobal: string[];
   searchCategoryParametersGlobal: string[];
+  isSaving: boolean;
 }
 
 interface IpFromHeaderResponse {
@@ -248,11 +249,15 @@ export default defineComponent({
       keepURLFragmentsGlobal: settings.keepURLFragmentsGlobal,
       defaultTimezone: settings.defaultTimezone,
       defaultCurrency: settings.defaultCurrency,
-      excludedIpsGlobal: settings.excludedIpsGlobal.split(','),
-      excludedQueryParametersGlobal: settings.excludedQueryParametersGlobal.split(','),
-      excludedUserAgentsGlobal: settings.excludedUserAgentsGlobal.split(','),
-      searchKeywordParametersGlobal: settings.searchKeywordParametersGlobal.split(','),
-      searchCategoryParametersGlobal: settings.searchCategoryParametersGlobal.split(','),
+      excludedIpsGlobal: (settings.excludedIpsGlobal || '').split(','),
+      excludedQueryParametersGlobal:
+        (settings.excludedQueryParametersGlobal || '').split(','),
+      excludedUserAgentsGlobal: (settings.excludedUserAgentsGlobal || '').split(','),
+      searchKeywordParametersGlobal:
+        (settings.searchKeywordParametersGlobal || '').split(','),
+      searchCategoryParametersGlobal:
+        (settings.searchCategoryParametersGlobal || '').split(','),
+      isSaving: false,
     };
   },
   created() {
@@ -260,11 +265,14 @@ export default defineComponent({
       this.keepURLFragmentsGlobal = settings.keepURLFragmentsGlobal;
       this.defaultTimezone = settings.defaultTimezone;
       this.defaultCurrency = settings.defaultCurrency;
-      this.excludedIpsGlobal = settings.excludedIpsGlobal.split(',');
-      this.excludedQueryParametersGlobal = settings.excludedQueryParametersGlobal.split(',');
-      this.excludedUserAgentsGlobal = settings.excludedUserAgentsGlobal.split(',');
-      this.searchKeywordParametersGlobal = settings.searchKeywordParametersGlobal.split(',');
-      this.searchCategoryParametersGlobal = settings.searchCategoryParametersGlobal.split(',');
+      this.excludedIpsGlobal = (settings.excludedIpsGlobal || '').split(',');
+      this.excludedQueryParametersGlobal = (settings.excludedQueryParametersGlobal || '')
+        .split(',');
+      this.excludedUserAgentsGlobal = (settings.excludedUserAgentsGlobal || '').split(',');
+      this.searchKeywordParametersGlobal = (settings.searchKeywordParametersGlobal || '')
+        .split(',');
+      this.searchCategoryParametersGlobal = (settings.searchCategoryParametersGlobal || '')
+        .split(',');
     });
 
     AjaxHelper.fetch<IpFromHeaderResponse>({ method: 'API.getIpFromHeader' }).then((response) => {
@@ -273,15 +281,18 @@ export default defineComponent({
   },
   methods: {
     saveGlobalSettings() {
+      this.isSaving = true;
       GlobalSettingsStore.saveGlobalSettings({
-        keepURLFragmentsGlobal: this.keepURLFragmentsGlobal,
-        defaultCurrency: this.defaultCurrency,
-        defaultTimezone: this.defaultTimezone,
-        excludedIpsGlobal: this.excludedIpsGlobal.join(','),
-        excludedQueryParametersGlobal: this.excludedQueryParametersGlobal.join(','),
-        excludedUserAgentsGlobal: this.excludedUserAgentsGlobal.join(','),
-        searchKeywordParametersGlobal: this.searchKeywordParametersGlobal.join(','),
-        searchCategoryParametersGlobal: this.searchCategoryParametersGlobal.join(','),
+        keepURLFragments: this.keepURLFragmentsGlobal,
+        currency: this.defaultCurrency,
+        timezone: this.defaultTimezone,
+        excludedIps: this.excludedIpsGlobal.join(','),
+        excludedQueryParameters: this.excludedQueryParametersGlobal.join(','),
+        excludedUserAgents: this.excludedUserAgentsGlobal.join(','),
+        searchKeywordParameters: this.searchKeywordParametersGlobal.join(','),
+        searchCategoryParameters: this.searchCategoryParametersGlobal.join(','),
+      }).then(() => {
+        Matomo.helper.redirect({ showaddsite: false });
       });
     },
   },
@@ -290,9 +301,6 @@ export default defineComponent({
       return GlobalSettingsStore.isLoading.value
         || TimezoneStore.isLoading.value
         || CurrencyStore.isLoading.value;
-    },
-    isSaving() {
-      return GlobalSettingsStore.isLoading.value;
     },
     timezones() {
       return TimezoneStore.timezones.value;
