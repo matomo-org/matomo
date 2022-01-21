@@ -153,10 +153,6 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteTypesStore/SiteTypesStore.ts
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -229,8 +225,7 @@ var SiteTypesStore_SiteTypesStore = /*#__PURE__*/function () {
   }, {
     key: "removeEditSiteIdParameterFromHash",
     value: function removeEditSiteIdParameterFromHash() {
-      var params = _objectSpread({}, external_CoreHome_["MatomoUrl"].hashParsed.value);
-
+      var params = Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value);
       delete params.editsiteid;
       external_CoreHome_["MatomoUrl"].updateHash(params);
     }
@@ -274,7 +269,7 @@ function sitesManagerTypeModelAdapter() {
 }
 
 window.angular.module('piwikApp.service').factory('sitesManagerTypeModel', sitesManagerTypeModelAdapter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=1ff718b7
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=16972643
 
 var _hoisted_1 = ["idsite", "type"];
 var _hoisted_2 = {
@@ -392,7 +387,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
 
-  var _component_PluginSetting = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PluginSetting");
+  var _component_GroupedSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("GroupedSettings");
 
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
@@ -440,19 +435,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8, ["loading"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.measurableSettings, function (settingsPerPlugin) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: settingsPerPlugin.plugin
-    }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(settingsPerPlugin.settings, function (setting) {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-        key: "".concat(settingsPerPlugin.pluginName, ".").concat(setting.name)
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PluginSetting, {
-        modelValue: _ctx.settingValues["".concat(settingsPerPlugin.pluginName, ".").concat(setting.name)],
-        "onUpdate:modelValue": function onUpdateModelValue($event) {
-          return _ctx.settingValues["".concat(settingsPerPlugin.pluginName, ".").concat(setting.name)] = $event;
-        },
-        "plugin-name": settingsPerPlugin.pluginName,
-        setting: setting,
-        "setting-values": _ctx.settingValues
-      }, null, 8, ["modelValue", "onUpdate:modelValue", "plugin-name", "setting", "setting-values"])]);
-    }), 128))]);
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_GroupedSettings, {
+      "group-name": settingsPerPlugin.plugin,
+      settings: settingsPerPlugin.settings,
+      "all-setting-values": _ctx.settingValues,
+      onChange: function onChange($event) {
+        return _ctx.settingValues["".concat(settingsPerPlugin.pluginName, ".").concat($event.name)] = $event.value;
+      }
+    }, null, 8, ["group-name", "settings", "all-setting-values", "onChange"])]);
   }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "select",
     name: "currency",
@@ -509,7 +499,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue"])], 10, _hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=1ff718b7
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=16972643
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -661,12 +651,6 @@ function SiteFieldsvue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i
 
 function SiteFieldsvue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function SiteFieldsvue_type_script_lang_ts_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function SiteFieldsvue_type_script_lang_ts_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { SiteFieldsvue_type_script_lang_ts_ownKeys(Object(source), true).forEach(function (key) { SiteFieldsvue_type_script_lang_ts_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { SiteFieldsvue_type_script_lang_ts_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function SiteFieldsvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -712,7 +696,7 @@ function isSiteNew(site) {
     return {
       isLoading: false,
       editMode: false,
-      theSite: SiteFieldsvue_type_script_lang_ts_objectSpread({}, this.site),
+      theSite: Object.assign({}, this.site),
       measurableSettings: [],
       settingValues: {},
       showRemoveDialog: false
@@ -721,7 +705,7 @@ function isSiteNew(site) {
   components: {
     MatomoDialog: external_CoreHome_["MatomoDialog"],
     Field: external_CorePluginsAdmin_["Field"],
-    PluginSetting: external_CorePluginsAdmin_["PluginSetting"],
+    GroupedSettings: external_CorePluginsAdmin_["GroupedSettings"],
     ActivityIndicator: external_CoreHome_["ActivityIndicator"]
   },
   emits: ['delete', 'cancelEditSite', 'save'],
@@ -748,10 +732,8 @@ function isSiteNew(site) {
   },
   methods: {
     onSiteChanged: function onSiteChanged() {
-      var _this = this;
-
       var site = this.site;
-      this.theSite = SiteFieldsvue_type_script_lang_ts_objectSpread({}, site);
+      this.theSite = Object.assign({}, site);
       var isNew = isSiteNew(site);
 
       if (isNew) {
@@ -763,14 +745,11 @@ function isSiteNew(site) {
       var forcedEditSiteId = src_SiteTypesStore_SiteTypesStore.getEditSiteIdParameter();
 
       if (isNew || forcedEditSiteId && "".concat(site.idsite) === forcedEditSiteId) {
-        // make sure type info is available before entering edit mode
-        src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function () {
-          _this.editSite();
-        });
+        this.editSite();
       }
     },
     editSite: function editSite() {
-      var _this2 = this;
+      var _this = this;
 
       this.editMode = true;
       this.measurableSettings = [];
@@ -789,13 +768,13 @@ function isSiteNew(site) {
         method: 'SitesManager.getSiteSettings',
         idSite: this.theSite.idsite
       }).then(function (settings) {
-        _this2.measurableSettings = settings;
+        _this.measurableSettings = settings;
       }).finally(function () {
-        _this2.isLoading = false;
+        _this.isLoading = false;
       });
     },
     saveSite: function saveSite() {
-      var _this3 = this;
+      var _this2 = this;
 
       var values = {
         siteName: this.theSite.name,
@@ -849,10 +828,10 @@ function isSiteNew(site) {
       external_CoreHome_["AjaxHelper"].post({
         method: apiMethod
       }, values).then(function (response) {
-        _this3.editMode = false;
+        _this2.editMode = false;
 
-        if (!_this3.theSite.idsite && response && response.value) {
-          _this3.theSite.idsite = response.value;
+        if (!_this2.theSite.idsite && response && response.value) {
+          _this2.theSite.idsite = response.value;
         }
 
         var notificationId = external_CoreHome_["NotificationsStore"].show({
@@ -864,8 +843,8 @@ function isSiteNew(site) {
         external_CoreHome_["NotificationsStore"].scrollToNotification(notificationId);
         src_SiteTypesStore_SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-        _this3.$emit('save', {
-          site: _this3.theSite,
+        _this2.$emit('save', {
+          site: _this2.theSite,
           settingValues: values.settingValues
         });
       });
@@ -876,7 +855,7 @@ function isSiteNew(site) {
       this.$emit('cancelEditSite', site);
     },
     deleteSite: function deleteSite() {
-      var _this4 = this;
+      var _this3 = this;
 
       external_CoreHome_["AjaxHelper"].fetch({
         idSite: this.theSite.idsite,
@@ -884,13 +863,13 @@ function isSiteNew(site) {
         format: 'json',
         method: 'SitesManager.deleteSite'
       }).then(function () {
-        _this4.$emit('delete', _this4.theSite);
+        _this3.$emit('delete', _this3.theSite);
       });
     }
   },
   computed: {
     availableTypes: function availableTypes() {
-      return src_SiteTypesStore_SiteTypesStore.typesById.value;
+      return Object.values(src_SiteTypesStore_SiteTypesStore.typesById.value);
     },
     setupUrl: function setupUrl() {
       var site = this.theSite;
@@ -971,12 +950,6 @@ SiteFieldsvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var SiteFields = (SiteFieldsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.adapter.ts
-function SiteFields_adapter_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function SiteFields_adapter_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { SiteFields_adapter_ownKeys(Object(source), true).forEach(function (key) { SiteFields_adapter_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { SiteFields_adapter_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function SiteFields_adapter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -1017,13 +990,13 @@ function SiteFields_adapter_defineProperty(obj, key, value) { if (key in obj) { 
         });
 
         if (otherSite) {
-          redirectParams = SiteFields_adapter_objectSpread(SiteFields_adapter_objectSpread({}, redirectParams), {}, {
+          redirectParams = Object.assign(Object.assign({}, redirectParams), {}, {
             idSite: otherSite.idsite
           });
         }
       }
 
-      external_CoreHome_["MatomoUrl"].updateUrl(SiteFields_adapter_objectSpread(SiteFields_adapter_objectSpread({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+      external_CoreHome_["MatomoUrl"].updateUrl(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         redirectParams: redirectParams
       }), external_CoreHome_["MatomoUrl"].hashParsed.value);
     },
@@ -1032,9 +1005,7 @@ function SiteFields_adapter_defineProperty(obj, key, value) { if (key in obj) { 
       var site = _ref.site,
           settingValues = _ref.settingValues;
       var texttareaArrayParams = ['excluded_ips', 'excluded_parameters', 'excluded_user_agents', 'sitesearch_keyword_parameters', 'sitesearch_category_parameters'];
-
-      var newSite = SiteFields_adapter_objectSpread({}, site);
-
+      var newSite = Object.assign({}, site);
       Object.values(settingValues).forEach(function (settings) {
         settings.forEach(function (setting) {
           if (setting.name === 'urls') {

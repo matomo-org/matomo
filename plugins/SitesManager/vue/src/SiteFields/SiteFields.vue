@@ -119,17 +119,12 @@
         <ActivityIndicator :loading="isLoading"/>
 
         <div v-for="settingsPerPlugin in measurableSettings" :key="settingsPerPlugin.plugin">
-          <div
-            v-for="setting in settingsPerPlugin.settings"
-            :key="`${settingsPerPlugin.pluginName}.${setting.name}`"
-          >
-            <PluginSetting
-              v-model="settingValues[`${settingsPerPlugin.pluginName}.${setting.name}`]"
-              :plugin-name="settingsPerPlugin.pluginName"
-              :setting="setting"
-              :setting-values="settingValues"
-            />
-          </div>
+          <GroupedSettings
+            :group-name="settingsPerPlugin.plugin"
+            :settings="settingsPerPlugin.settings"
+            :all-setting-values="settingValues"
+            @change="settingValues[`${settingsPerPlugin.pluginName}.${$event.name}`] = $event.value"
+          />
         </div>
 
         <Field
@@ -211,7 +206,7 @@ import {
 } from 'CoreHome';
 import {
   Field,
-  PluginSetting,
+  GroupedSettings,
   SettingsForSinglePlugin,
   Setting,
 } from 'CorePluginsAdmin';
@@ -276,7 +271,7 @@ export default defineComponent({
   components: {
     MatomoDialog,
     Field,
-    PluginSetting,
+    GroupedSettings,
     ActivityIndicator,
   },
   emits: ['delete', 'cancelEditSite', 'save'],
@@ -319,10 +314,7 @@ export default defineComponent({
       if (isNew
         || (forcedEditSiteId && `${site.idsite}` === forcedEditSiteId)
       ) {
-        // make sure type info is available before entering edit mode
-        SiteTypesStore.fetchAvailableTypes().then(() => {
-          this.editSite();
-        });
+        this.editSite();
       }
     },
     editSite() {
@@ -437,7 +429,7 @@ export default defineComponent({
   },
   computed: {
     availableTypes() {
-      return SiteTypesStore.typesById.value;
+      return Object.values(SiteTypesStore.typesById.value);
     },
     setupUrl() {
       const site = this.theSite as Site;
