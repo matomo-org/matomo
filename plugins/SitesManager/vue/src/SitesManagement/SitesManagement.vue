@@ -60,25 +60,27 @@
       />
     </div>
 
-    <MatomoDialog v-model="showAddSiteDialog" class="ui-confirm">
-      <div>
-        <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
+    <MatomoDialog v-model="showAddSiteDialog">
+      <div class="ui-confirm">
+        <div>
+          <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
 
-        <div class="center">
-          <p>
-            <button
-              type="button"
-              v-for="type in availableTypes"
-              :key="type.id"
-              :title="type.description"
-              class="modal-close btn"
-              style="margin-left: 20px;"
-              @click="addSite(type.id);"
-              aria-disabled="false"
-            >
-              <span class="ui-button-text">{{ type.name }}</span>
-            </button>
-          </p>
+          <div class="center">
+            <p>
+              <button
+                type="button"
+                v-for="type in availableTypes"
+                :key="type.id"
+                :title="type.description"
+                class="modal-close btn"
+                style="margin-left: 20px;"
+                @click="addSite(type.id);"
+                aria-disabled="false"
+              >
+                <span class="ui-button-text">{{ type.name }}</span>
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </MatomoDialog>
