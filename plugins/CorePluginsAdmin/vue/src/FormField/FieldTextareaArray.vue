@@ -53,7 +53,9 @@ export default defineComponent({
   methods: {
     onKeydown(event: KeyboardEvent) {
       const value = (event.target as HTMLTextAreaElement).value.split(SEPARATOR);
-      this.$emit('update:modelValue', value);
+      if (value.join(SEPARATOR) !== this.concattedValue) {
+        this.$emit('update:modelValue', value);
+      }
     },
   },
   watch: {
