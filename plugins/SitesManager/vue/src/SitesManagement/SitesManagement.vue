@@ -223,7 +223,8 @@ export default defineComponent({
   },
   computed: {
     sites() {
-      return this.fetchedSites.slice(0, this.pageSize);
+      const emptyIdSiteRows = this.fetchedSites.filter((s) => !s.idsite).length;
+      return this.fetchedSites.slice(0, this.pageSize + emptyIdSiteRows);
     },
     isLoading() {
       return !!this.fetchLimitedSitesAbortController
@@ -272,7 +273,7 @@ export default defineComponent({
       return this.currentPage * this.pageSize + 1;
     },
     offsetEnd() {
-      return this.offsetStart + this.sites.length - 1;
+      return this.offsetStart + this.sites.filter((s) => !!s.idsite).length - 1;
     },
   },
   methods: {
