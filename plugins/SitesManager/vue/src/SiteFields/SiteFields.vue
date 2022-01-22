@@ -65,15 +65,15 @@
             </li>
             <li v-if="theSite.excluded_ips?.length">
               <span class="title">{{ translate('SitesManager_ExcludedIps') }}:</span>
-              {{ theSite.excluded_ips }}
+              {{ theSite.excluded_ips.split(/\s*,\s*/g).join(', ') }}
             </li>
             <li v-if="theSite.excluded_parameters?.length">
               <span class="title">{{ translate('SitesManager_ExcludedParameters') }}:</span>
-              {{ theSite.excluded_parameters }}
+              {{ theSite.excluded_parameters.split(/\s*,\s*/g).join(', ') }}
             </li>
             <li v-if="theSite.excluded_user_agents?.length">
               <span class="title">{{ translate('SitesManager_ExcludedUserAgents') }}:</span>
-              {{ theSite.excluded_user_agents }}
+              {{ theSite.excluded_user_agents.split(/\s*,\s*/g).join(', ') }}
             </li>
           </ul>
         </div>
@@ -417,7 +417,7 @@ export default defineComponent({
 
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-        this.$emit('save', { site: this.theSite, settingValues: values.settingValues });
+        this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
       });
     },
     cancelEditSite(site: Site) {
