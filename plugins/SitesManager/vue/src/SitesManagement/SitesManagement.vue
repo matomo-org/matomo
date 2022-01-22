@@ -330,7 +330,7 @@ export default defineComponent({
 
       element.scrollIntoView();
     },
-    fetchLimitedSitesWithAdminAccess(searchTerm?: string) {
+    fetchLimitedSitesWithAdminAccess(searchTerm = '') {
       if (this.fetchLimitedSitesAbortController) {
         this.fetchLimitedSitesAbortController.abort();
       }
@@ -354,6 +354,9 @@ export default defineComponent({
 
       return AjaxHelper.fetch<Site[]>(params).then((sites) => {
         this.fetchedSites = sites || [];
+      }).then((sites) => {
+        this.activeSearchTerm = searchTerm;
+        return sites;
       }).finally(() => {
         this.fetchLimitedSitesAbortController = null;
       });
@@ -387,9 +390,7 @@ export default defineComponent({
     },
     searchSites() {
       this.currentPage = 0;
-      this.fetchLimitedSitesWithAdminAccess(this.searchTerm).then(() => {
-        this.activeSearchTerm = this.searchTerm;
-      });
+      this.fetchLimitedSitesWithAdminAccess(this.searchTerm);
     },
     afterDelete(site: Site) {
       let redirectParams: QueryParameters = {
