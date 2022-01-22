@@ -29,6 +29,9 @@ export default createAngularJsAdapter<[ITimeoutService]>({
   directiveName: 'matomoSiteFields',
   $inject: ['$timeout'],
   events: {
+    cancelEditSite(site: Site, vm, scope: any) {
+      scope.$parent.cancelEditSite(site);
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete(site: Site, vm, scope: any) {
       let { redirectParams } = scope;

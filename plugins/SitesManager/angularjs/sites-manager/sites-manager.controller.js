@@ -238,6 +238,8 @@
                     siteElement[0].scrollIntoView();
                 }
             }
+
+            $scope.adminSites.sites = $scope.adminSites.sites.filter(function (s) { return !!s.idsite; });
         };
 
         var lookupCurrentEditSite = function () {

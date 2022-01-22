@@ -62,15 +62,15 @@
                   </a>
               </span>
             </li>
-            <li v-if="theSite.excluded_ips.length">
+            <li v-if="theSite.excluded_ips?.length">
               <span class="title">{{ translate('SitesManager_ExcludedIps') }}:</span>
               {{ theSite.excluded_ips }}
             </li>
-            <li v-if="theSite.excluded_parameters.length">
+            <li v-if="theSite.excluded_parameters?.length">
               <span class="title">{{ translate('SitesManager_ExcludedParameters') }}:</span>
               {{ theSite.excluded_parameters }}
             </li>
-            <li v-if="theSite.excluded_user_agents.length">
+            <li v-if="theSite.excluded_user_agents?.length">
               <span class="title">{{ translate('SitesManager_ExcludedUserAgents') }}:</span>
               {{ theSite.excluded_user_agents }}
             </li>
