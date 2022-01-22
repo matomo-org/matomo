@@ -27,9 +27,10 @@
     <div class="row to-all-websites">
       <div class="col s12">
         <div>
-          <span>{{ translate('UsersManager_GiveAccessToAll') }}:</span>
+          <span style="margin-right:3.5px">{{ translate('UsersManager_GiveAccessToAll') }}:</span>
           <div
             id="all-sites-access-select"
+            style="margin-right:3.5px"
           >
             <Field
               v-model="allWebsitesAccssLevelSet"
@@ -53,7 +54,7 @@
     </div>
     <div class="filters row">
       <div class="col s12 m12 l8">
-        <div class="input-field bulk-actions">
+        <div class="input-field bulk-actions" style="margin-right:3.5px">
           <a
             class="dropdown-trigger btn"
             href=""
@@ -99,7 +100,7 @@
             </li>
           </ul>
         </div>
-        <div class="input-field site-filter">
+        <div class="input-field site-filter" style="margin-right:3.5px">
           <input
             type="text"
             :value="siteNameFilter"
@@ -107,7 +108,7 @@
             :placeholder="translate('UsersManager_FilterByWebsite')"
           />
         </div>
-        <div class="input-field access-filter">
+        <div class="input-field access-filter" style="margin-right:3.5px">
           <div>
             <Field
               v-model="accessLevelFilter"
@@ -134,14 +135,7 @@
             >&#xAB; {{ translate('General_Previous') }}</span>
           </a>
           <span class="counter">
-            <span>
-              {{ translate(
-                  'General_Pagination',
-                  paginationLowerBound,
-                  paginationUpperBound,
-                  totalEntries,
-                ) }}
-            </span>
+            <span v-text="paginationText"></span>
           </span>
           <a
             class="next"
@@ -202,7 +196,7 @@
           </th>
           <th>{{ translate('General_Name') }}</th>
           <th class="role_header">
-            <span>{{ translate('UsersManager_Role') }}</span>
+            <span v-html="`${translate('UsersManager_Role')} `"></span>
             <a
               href=""
               class="helpIcon"
@@ -213,7 +207,7 @@
             </a>
           </th>
           <th class="capabilities_header">
-            <span>{{ translate('UsersManager_Capabilities') }}</span>
+            <span v-html="`${translate('UsersManager_Capabilities')} `"></span>
             <a
               href=""
               class="helpIcon"
@@ -778,6 +772,15 @@ export default defineComponent({
       return this.siteAccessToChange
         ? Matomo.helper.htmlEntities(this.siteAccessToChange.site_name)
         : '';
+    },
+    paginationText() {
+      const text = translate(
+        'General_Pagination',
+        this.paginationLowerBound,
+        this.paginationUpperBound,
+        this.totalEntries,
+      );
+      return ` ${text} `;
     },
   },
 });
