@@ -367,9 +367,14 @@ export default defineComponent({
       });
     },
     triggerAddSiteIfRequested() {
+      const forcedEditSiteId = SiteTypesStore.getEditSiteIdParameter();
       const showaddsite = MatomoUrl.urlParsed.value.showaddsite as string;
+
       if (showaddsite === '1') {
         this.addNewEntity();
+      } else if (forcedEditSiteId) {
+        this.searchTerm = forcedEditSiteId;
+        this.fetchLimitedSitesWithAdminAccess(this.searchTerm);
       }
     },
     previousPage() {
