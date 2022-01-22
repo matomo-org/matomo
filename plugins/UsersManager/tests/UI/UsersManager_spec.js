@@ -215,7 +215,7 @@ describe("UsersManager", function () {
             comparisonThreshold: 0.0005,
         });
     });
-return;
+
     it('should select all sites in search when in table link is clicked', async function () {
         // remove filters
         await page.evaluate(function () {

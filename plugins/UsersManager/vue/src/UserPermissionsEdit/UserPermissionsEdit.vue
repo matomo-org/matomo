@@ -673,10 +673,11 @@ export default defineComponent({
       );
     },
     theDisplayedWebsitesAreSelectedText() {
-      return translate(
+      const text = translate(
         'UsersManager_TheDisplayedWebsitesAreSelected',
         `<strong>${this.siteAccess.length}</strong>`,
       );
+      return `${text} `;
     },
     clickToSelectAllText() {
       return translate('UsersManager_ClickToSelectAll', `<strong>${this.totalEntries}</strong>`);
@@ -776,9 +777,9 @@ export default defineComponent({
     paginationText() {
       const text = translate(
         'General_Pagination',
-        this.paginationLowerBound,
-        this.paginationUpperBound,
-        this.totalEntries,
+        `${this.paginationLowerBound}`,
+        `${this.paginationUpperBound}`,
+        `${this.totalEntries}`,
       );
       return ` ${text} `;
     },
