@@ -295,7 +295,7 @@ function sitesManagerTypeModelAdapter() {
 }
 
 window.angular.module('piwikApp.service').factory('sitesManagerTypeModel', sitesManagerTypeModelAdapter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=7a52b134
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=519034b4
 
 var _hoisted_1 = {
   class: "SitesManager",
@@ -456,7 +456,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 8, ["site-is-being-edited", "has-prev", "hasNext", "offset-start", "offset-end", "total-number-of-sites", "is-loading", "search-term", "is-searching"])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=7a52b134
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=519034b4
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SitesManagement/ButtonBar.vue?vue&type=template&id=04f7a6ba
 
@@ -1614,8 +1614,10 @@ var GlobalSettingsStore_GlobalSettingsStore = /*#__PURE__*/function () {
       this.isSiteBeingEdited = false;
       element.scrollIntoView();
     },
-    fetchLimitedSitesWithAdminAccess: function fetchLimitedSitesWithAdminAccess(searchTerm) {
+    fetchLimitedSitesWithAdminAccess: function fetchLimitedSitesWithAdminAccess() {
       var _this2 = this;
+
+      var searchTerm = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
       if (this.fetchLimitedSitesAbortController) {
         this.fetchLimitedSitesAbortController.abort();
@@ -1638,6 +1640,9 @@ var GlobalSettingsStore_GlobalSettingsStore = /*#__PURE__*/function () {
 
       return external_CoreHome_["AjaxHelper"].fetch(params).then(function (sites) {
         _this2.fetchedSites = sites || [];
+      }).then(function (sites) {
+        _this2.activeSearchTerm = searchTerm;
+        return sites;
       }).finally(function () {
         _this2.fetchLimitedSitesAbortController = null;
       });
@@ -1672,12 +1677,8 @@ var GlobalSettingsStore_GlobalSettingsStore = /*#__PURE__*/function () {
       this.fetchLimitedSitesWithAdminAccess(this.activeSearchTerm);
     },
     searchSites: function searchSites() {
-      var _this4 = this;
-
       this.currentPage = 0;
-      this.fetchLimitedSitesWithAdminAccess(this.searchTerm).then(function () {
-        _this4.activeSearchTerm = _this4.searchTerm;
-      });
+      this.fetchLimitedSitesWithAdminAccess(this.searchTerm);
     },
     afterDelete: function afterDelete(site) {
       var redirectParams = {
