@@ -63,10 +63,20 @@ class SiteTypesStore {
   }
 
   public getEditSiteIdParameter(): string|undefined {
-    const editsiteid = MatomoUrl.hashParsed.value.editsiteid as string;
-    if (editsiteid && $.isNumeric(editsiteid) && !MatomoUrl.hashParsed.value.showaddsite) {
+    // parse query directly because #/editsiteid=N was supported alongside #/?editsiteid=N
+    const m = MatomoUrl.hashQuery.value.match(/editsiteid=([0-9]+)/);
+    if (!m) {
+      return undefined;
+    }
+
+    const isShowAddSite = MatomoUrl.urlParsed.value.showaddsite === '1'
+      || MatomoUrl.urlParsed.value.showaddsite === 'true';
+
+    const editsiteid = m[1];
+    if (editsiteid && $.isNumeric(editsiteid) && !isShowAddSite) {
       return editsiteid;
     }
+
     return undefined;
   }
 
