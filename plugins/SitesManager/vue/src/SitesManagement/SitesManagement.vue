@@ -103,7 +103,7 @@
           :global-settings="globalSettings"
           @cancel-edit-site="afterCancelEdit($event)"
           @delete="afterDelete($event)"
-          @save="afterSave($event.site, $event.settingValues, index)"
+          @save="afterSave($event.site, $event.settingValues, index, $event.isNew)"
         />
       </div>
     </div>
@@ -155,7 +155,7 @@ interface SitesManagementState {
   showAddSiteDialog: boolean;
   searchTerm: string;
   activeSearchTerm: string;
-  sites: Site[];
+  fetchedSites: Site[];
   utcTime: Date;
   totalNumberOfSites: number|null;
   isLoadingInitialEntities: boolean;
@@ -195,7 +195,7 @@ export default defineComponent({
       showAddSiteDialog: false,
       searchTerm: '',
       activeSearchTerm: '',
-      sites: [],
+      fetchedSites: [],
       isLoadingInitialEntities: false,
       utcTime,
       totalNumberOfSites: null,
@@ -222,6 +222,9 @@ export default defineComponent({
     });
   },
   computed: {
+    sites() {
+      return this.fetchedSites.slice(0, this.pageSize);
+    },
     isLoading() {
       return !!this.fetchLimitedSitesAbortController
         || this.isLoadingInitialEntities
@@ -263,7 +266,7 @@ export default defineComponent({
       return this.currentPage >= 1;
     },
     hasNext() {
-      return this.sites.length === this.pageSize;
+      return this.fetchedSites.filter((s) => !!s.idsite).length >= this.pageSize + 1;
     },
     offsetStart() {
       return this.currentPage * this.pageSize + 1;
@@ -312,13 +315,13 @@ export default defineComponent({
         type = 'website'; // todo shall we really hard code this or trigger an exception or so?
       }
 
-      this.sites.unshift({
+      this.fetchedSites.unshift({
         type,
       } as unknown as Site);
     },
     afterCancelEdit({ site, element }: { site: Site, element: HTMLElement }) {
       if (!site.idsite) {
-        this.sites = this.sites.filter((s) => !!s.idsite);
+        this.fetchedSites = this.sites.filter((s) => !!s.idsite);
         return;
       }
 
@@ -326,14 +329,14 @@ export default defineComponent({
 
       element.scrollIntoView();
     },
-    fetchLimitedSitesWithAdminAccess() {
+    fetchLimitedSitesWithAdminAccess(searchTerm?: string) {
       if (this.fetchLimitedSitesAbortController) {
         this.fetchLimitedSitesAbortController.abort();
       }
 
       this.fetchLimitedSitesAbortController = new AbortController();
 
-      const limit = this.pageSize;
+      const limit = this.pageSize + 1;
       const offset = this.currentPage * this.pageSize;
 
       const params: QueryParameters = {
@@ -344,12 +347,12 @@ export default defineComponent({
         filter_limit: limit,
       };
 
-      if (this.searchTerm) {
-        params.pattern = this.searchTerm;
+      if (searchTerm) {
+        params.pattern = searchTerm;
       }
 
       return AjaxHelper.fetch<Site[]>(params).then((sites) => {
-        this.sites = sites || [];
+        this.fetchedSites = sites || [];
       }).finally(() => {
         this.fetchLimitedSitesAbortController = null;
       });
@@ -370,20 +373,21 @@ export default defineComponent({
     },
     previousPage() {
       this.currentPage = Math.max(0, this.currentPage - 1);
-      this.fetchLimitedSitesWithAdminAccess();
+      this.fetchLimitedSitesWithAdminAccess(this.activeSearchTerm);
     },
     nextPage() {
       this.currentPage = Math.max(0, this.currentPage + 1);
-      this.fetchLimitedSitesWithAdminAccess();
+      this.fetchLimitedSitesWithAdminAccess(this.activeSearchTerm);
     },
     searchSites() {
-      this.activeSearchTerm = this.searchTerm;
       this.currentPage = 0;
-      this.fetchLimitedSitesWithAdminAccess();
+      this.fetchLimitedSitesWithAdminAccess(this.searchTerm).then(() => {
+        this.activeSearchTerm = this.searchTerm;
+      });
     },
     afterDelete(site: Site) {
       let redirectParams: QueryParameters = {
-        showaddsite: false,
+        showaddsite: 0,
       };
 
       // if the current idSite in the URL is the site we're deleting, then we have to make to
@@ -399,7 +403,7 @@ export default defineComponent({
 
       Matomo.helper.redirect(redirectParams);
     },
-    afterSave(site: Site, settingValues: Record<string, Setting[]>, index: number) {
+    afterSave(site: Site, settingValues: Record<string, Setting[]>, index: number, isNew: boolean) {
       const texttareaArrayParams = [
         'excluded_ips',
         'excluded_parameters',
@@ -424,7 +428,11 @@ export default defineComponent({
         });
       });
 
-      this.sites[index] = newSite;
+      this.fetchedSites[index] = newSite;
+
+      if (isNew && this.totalNumberOfSites !== null) {
+        this.totalNumberOfSites += 1;
+      }
     },
   },
 });

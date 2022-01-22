@@ -417,7 +417,7 @@ export default defineComponent({
 
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-        this.$emit('save', { site: this.theSite, settingValues: values.settingValues });
+        this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
       });
     },
     cancelEditSite(site: Site) {

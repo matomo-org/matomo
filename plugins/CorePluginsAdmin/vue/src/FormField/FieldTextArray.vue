@@ -53,7 +53,9 @@ export default defineComponent({
   methods: {
     onKeydown(event: Event) {
       const values = (event.target as HTMLInputElement).value.split(',').map((v) => v.trim());
-      this.$emit('update:modelValue', values);
+      if (values.join(', ') !== this.concattedValues) {
+        this.$emit('update:modelValue', values);
+      }
     },
   },
 });
