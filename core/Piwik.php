@@ -895,7 +895,7 @@ class Piwik
         return Common::getRequestVar('period', $default, 'string');
     }
 
-    public static function getDate( $default = false)
+    public static function getDate($default = null)
     {
         return Common::getRequestVar('date', $default, 'string');
     }
