@@ -118,7 +118,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '12'
 
       - name: prepare setup
         shell: bash
@@ -131,7 +131,7 @@ jobs:
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests'
         run: |
-          ./console tests:run-js --matomo-url='http://localhost:3000'
+          ./console tests:run-js --matomo-url='http://localhost'
 
       - name: Running angularjs && vue tests
         if: matrix.tests == 'AngularTests'
