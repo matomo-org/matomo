@@ -101,11 +101,11 @@
 				<nb_conversions_attrib>8</nb_conversions_attrib>
 				<nb_conversions_page_uniq>8</nb_conversions_page_uniq>
 				<revenue_attrib>40</revenue_attrib>
-				<revenue_entry>60</revenue_entry>
-				<revenue_per_entry>15</revenue_per_entry>
-				<nb_conversions_entry>12</nb_conversions_entry>
+				<revenue_entry>40</revenue_entry>
+				<revenue_per_entry>10</revenue_per_entry>
+				<nb_conversions_entry>8</nb_conversions_entry>
 				<nb_conversions_page_rate>0</nb_conversions_page_rate>
-				<nb_conversions_entry_rate>3</nb_conversions_entry_rate>
+				<nb_conversions_entry_rate>2</nb_conversions_entry_rate>
 			</row>
 			<row idgoal="2">
 				<nb_conversions>4</nb_conversions>
@@ -114,7 +114,11 @@
 				<nb_conversions_attrib>4</nb_conversions_attrib>
 				<nb_conversions_page_uniq>4</nb_conversions_page_uniq>
 				<revenue_attrib>20</revenue_attrib>
+				<revenue_entry>20</revenue_entry>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>4</nb_conversions_entry>
 				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
 			</row>
 		</goals>
 	</reportTotal>

@@ -165,11 +165,12 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique entry page URL, for
      * the specified site, period & segment.
      */
-    public function getEntryPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
+    public function getEntryPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
+                                     $flat = false, $includeGoals = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable, false, $flat);
+        $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable, false, $flat, $includeGoals);
         $this->filterNonEntryActions($dataTable);
         return $dataTable;
     }
@@ -178,11 +179,12 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique exit page URL, for
      * the specified site, period & segment.
      */
-    public function getExitPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
+    public function getExitPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
+                                    $flat = false, $includeGoals = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable, false, $flat);
+        $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable, false, $flat, $includeGoals);
         $this->filterNonExitActions($dataTable);
         return $dataTable;
     }
