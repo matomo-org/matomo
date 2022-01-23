@@ -1,0 +1,115 @@
+name: Matomo Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - '**.x-dev'
+      - 'next_release'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: none
+concurrency:
+  group: php-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  PHP:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        command: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
+        type: [ 'PHP' ]
+        php: [ '7.2', '8.1' ]
+        adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
+        exclude:
+          - php: '8.1'
+            adapter: 'MYSQLI'
+          - php: '7.2'
+            adapter: 'MYSQLI'
+    steps:
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
+        with:
+          test-type: ${{ matrix.type }}
+          mysql-driver: ${{ matrix.adapter }}
+          php-version: ${{ matrix.php }}
+          test-command: ${{ matrix.command }}
+          redis-service: true
+          git-ref: ${{ github.ref }}
+          run-id: ${{ github.run_id }}
+
+  Javascript:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.2' ]
+        tests: [ 'JS' ]
+        node: [ '12' ]
+    steps:
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
+        with:
+          test-type: ${{ matrix.tests }}
+          php-version: ${{ matrix.php }}
+          node-version: ${{ matrix.node }}
+          git-ref: ${{ github.ref }}
+
+  Angular:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [ 'Angular' ]
+        node: [ '16' ]
+    steps:
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
+        with:
+          test-type: ${{ matrix.type }}
+          php-version: ${{ matrix.php }}
+          test-command: ${{ matrix.tests }}
+          mysql-service: false
+          git-ref: ${{ github.ref }}
+
+#  disable UI
+#  UI:
+#    runs-on: ubuntu-20.04
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        tests: [ 'UI' ]
+#        php: [ '7.2' ]
+#        parts: [ 0,1,2 ]
+#        node: [ '16' ]
+#    steps:
+#      - name: running tests
+#        uses: matomo-org/github-action-tests@v1
+#        with:
+#          test-type: ${{ matrix.tests }}
+#          php-version: ${{ matrix.php }}
+#          test-command: ${{ matrix.parts }}
+#          run-number: ${{ github.run_number }}
+#          node-version: ${{ matrix.node }}
+#          repository: ${{ github.repository }}
+#          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
+#          run-id: ${{ github.run_id }}
+#          php-memory: "-1"
+#          redis-service: true
+#          git-head: ${{ github.head_ref }}
+#          merge-target: '4.x-dev'
+
+

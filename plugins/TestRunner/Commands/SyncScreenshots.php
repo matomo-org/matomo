@@ -31,6 +31,8 @@ class SyncScreenshots extends ConsoleCommand
      */
     private $logger;
 
+    const buildURL = "https://builds-artifacts.matomo.org";
+
     public function __construct()
     {
         $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
@@ -48,42 +50,56 @@ class SyncScreenshots extends ConsoleCommand
         $this->setName('tests:sync-ui-screenshots');
         $this->setAliases(array('development:sync-ui-test-screenshots'));
         $this->setDescription('For Piwik core devs. Copies screenshots '
-                            . 'from travis artifacts to the tests/UI/expected-screenshots/ folder');
+            .'from travis artifacts to the tests/UI/expected-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
+        $this->addOption('agent', 'a', InputOption::VALUE_OPTIONAL, 'Build agent using you want to choose');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', ['.*']);
-        $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
-        $this->addOption('http-user', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH username (for premium plugins where artifacts are protected)');
-        $this->addOption('http-password', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH password (for premium plugins where artifacts are protected)');
+        $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL,
+            'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
+        $this->addOption('http-user', '', InputOption::VALUE_OPTIONAL,
+            'the HTTP AUTH username (for premium plugins where artifacts are protected)');
+        $this->addOption('http-password', '', InputOption::VALUE_OPTIONAL,
+            'the HTTP AUTH password (for premium plugins where artifacts are protected)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $buildNumber = $input->getArgument('buildnumber');
+        $agent = $input->getOption('agent');
         $screenshotsRegex = $input->getArgument('screenshotsRegex');
         $repository = $input->getOption('repository');
         $httpUser = $input->getOption('http-user');
         $httpPassword = $input->getOption('http-password');
 
-        $screenshots = $this->getScreenshotList($repository, $buildNumber, $httpUser, $httpPassword);
+        $screenshots = $this->getScreenshotList($repository, $buildNumber, $httpUser, $httpPassword, $agent);
 
         $this->logger->notice('Downloading {number} screenshots', array('number' => count($screenshots)));
         foreach ($screenshots as $name => $url) {
-            foreach ($screenshotsRegex as $regex) {
-                if (preg_match('/' . $regex . '/', $name)) {
-                    $this->logger->info('Downloading {name}', array('name' => $name));
-                    $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword);
-                    break;
+            if (is_array($screenshotsRegex)) {
+                foreach ($screenshotsRegex as $regex) {
+                    if (preg_match('/'.$regex.'/', $name)) {
+                        $this->logger->info('Downloading {name}', array('name' => $name));
+                        $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword);
+                        break;
+                    }
                 }
+            }
+            if (preg_match('/' . $screenshotsRegex . '/', $name)) {
+                $this->logger->info('Downloading {name}', array('name' => $name));
+                $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword, $agent);
             }
         }
 
         $this->displayGitInstructions($output, $repository);
     }
 
-    private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null)
+    private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null, $agent = null)
     {
-        $url = sprintf('https://builds-artifacts.matomo.org/api/%s/%s', $repository, $buildNumber);
+        if ($agent === 'github') {
+            $repository = 'github/'.$repository;
+        }
+        $url = sprintf(self::buildURL.'/api/%s/%s', $repository, $buildNumber);
 
         $this->logger->debug('Fetching {url}', array('url' => $url));
 
@@ -111,10 +127,14 @@ class SyncScreenshots extends ConsoleCommand
         throw new \Exception("Failed downloading diffviewer from $url - Got HTTP status $httpStatus");
     }
 
-    private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword)
+    private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword, $agent)
     {
-        $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
-        $url = 'https://builds-artifacts.matomo.org' . $url;
+        $downloadTo = $this->getDownloadToPath($repository, $screenshot).$screenshot;
+        if ($agent === 'github') {
+            $url = self::buildURL.'/github'.$url;
+        } else {
+            $url = self::buildURL.$url;
+        }
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
 
@@ -160,21 +180,21 @@ cd ../../../../../";
         $output->writeln($commands);
     }
 
-    private function getDownloadToPath($repository, $fileName=false)
+    private function getDownloadToPath($repository, $fileName = false)
     {
         $plugin = $this->getPluginName($repository, $fileName);
 
         if (empty($plugin)) {
-            return PIWIK_DOCUMENT_ROOT . "/tests/UI/expected-screenshots/";
+            return PIWIK_DOCUMENT_ROOT."/tests/UI/expected-screenshots/";
         }
 
         $possibleSubDirs = array(
             'expected-screenshots',
-            'expected-ui-screenshots'
+            'expected-ui-screenshots',
         );
 
         foreach ($possibleSubDirs as $subDir) {
-            $downloadTo = PIWIK_DOCUMENT_ROOT . "/plugins/$plugin/tests/UI/$subDir/";
+            $downloadTo = PIWIK_DOCUMENT_ROOT."/plugins/$plugin/tests/UI/$subDir/";
             if (is_dir($downloadTo)) {
                 return $downloadTo;
             }
