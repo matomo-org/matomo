@@ -90,20 +90,20 @@ jobs:
           GITHUB: true
           PHP_VERSION: ${{ matrix.php }}
           MYSQL_ADAPTER: ${{ matrix.adapter }}
-
-      - name: upload processed screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: ${{ github.run_id }}
-          path: /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
-
-      - name: download processed screenshots
-        uses: actions/download-artifact@v2
-        if: failure()
-        with:
-          name: ${{ github.run_id }}
-          path: /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
+#
+#      - name: upload processed screenshots
+#        uses: actions/upload-artifact@v2
+#        if: failure() && matrix.tests == 'SystemTestsPlugins'
+#        with:
+#          name: ${{ github.run_id }}
+#          path: /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
+#
+#      - name: download processed screenshots
+#        uses: actions/download-artifact@v2
+#        if: failure() && matrix.tests == 'SystemTestsPlugins'
+#        with:
+#          name: ${{ github.run_id }}
+#          path: /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
 
   Javascript:
     runs-on: ubuntu-20.04
@@ -132,7 +132,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '16'
 
       - name: prepare setup
         shell: bash
