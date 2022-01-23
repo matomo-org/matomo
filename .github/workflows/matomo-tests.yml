@@ -95,18 +95,15 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-         name: ${{ github.run_id }}
-         path: |
-            /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
-
-
-       - name: Download processed screenshots
-         uses: actions/download-artifact@v2
-         if: failure()
-         with:
           name: ${{ github.run_id }}
-          path: |
-            /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
+          path: /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
+
+      - name: download processed screenshots
+        uses: actions/download-artifact@v2
+        if: failure()
+        with:
+          name: ${{ github.run_id }}
+          path: /home/runner/work/matomo/matomo/plugins/CustomDimensions/tests/System/processed/test___ScheduledReports.generateReport_year.original.pdf
 
   Javascript:
     runs-on: ubuntu-20.04
