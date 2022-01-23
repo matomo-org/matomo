@@ -28,7 +28,6 @@ composer install --ignore-platform-reqs
 # setup config
 sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php > config/config.ini.php
 
-
 # setup js and xml
 if [ "$MATOMO_TEST_TARGET" = "UI" ] || [ "$MATOMO_TEST_TARGET" = "JS" ];
 then
@@ -49,6 +48,8 @@ fi
 
 if [ "$MATOMO_TEST_TARGET" = "JS" ];
 then
+  echo -e "${GREEN}NPM installing${SET}"
+  npm install
   echo -e "${GREEN}Angular Package${SET}"
   cd ./tests/angularjs
   npm install
