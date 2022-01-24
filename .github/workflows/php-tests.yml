@@ -1,4 +1,4 @@
-name: General Tests
+name: PHP Tests
 
 on:
   pull_request:
