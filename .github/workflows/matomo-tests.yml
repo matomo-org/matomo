@@ -93,11 +93,6 @@ jobs:
   Javascript:
     runs-on: ubuntu-20.04
     services:
-      redis:
-        image: redis:5.0
-        ports:
-          - 6379:6379
-        options: --entrypoint redis-server
       mariadb:
         image: mariadb:latest
         ports:
@@ -105,12 +100,18 @@ jobs:
         env:
           MYSQL_DATABASE: piwik_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        options: --tmpfs /var/lib/mysql:rw
 
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'JavascriptTests-js', 'AngularJSTests-js' ]
+        tests: [ 'JavascriptTests', 'AngularJSTests' ]
+        node: [ '12','16' ]
+        exclude:
+          - tests: 'JavascriptTests'
+            node: '16'
+          - tests: 'AngularJSTests'
+            node: '12'
 
     steps:
       - name: Checkout code
@@ -132,7 +133,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: ${{ matrix.node }}
 
       - name: installing node/puppeteer
         working-directory: ./tests/lib/screenshot-testing
@@ -156,11 +157,6 @@ jobs:
           chmod a+rw ./plugins/*/tests/System/processed || true
           chmod a+rw ./plugins/*/tests/Integration/processed || true
           sudo chmod -R 755 ./tmp
-      #
-      #      - name: Setup Nginx
-      #        run: |
-      #          docker run --name nginxapp -v /home/runner/work/matomo/matomo:/var/www/ -v /home/runner/work/matomo/matomo/.github/scripts/piwiki_nginx.config:/etc/nginx/conf -p 80:80 -d nginx
-      #          docker ps
 
       - name: Install dependencies
         run: |
@@ -172,68 +168,15 @@ jobs:
           tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
           tmux ls
       - name: Javascript Tests
-        if: matrix.tests == 'JavascriptTests-js'
+        if: matrix.tests == 'JavascriptTests'
         run: |
           ./console tests:run-js --matomo-url='http://localhost'
       - name: Running angularjs && vue tests
-        if: matrix.tests == 'AngularJSTests-js'
+        if: matrix.tests == 'AngularJSTests'
         working-directory: ./tests/angularjs
         run: |
           npm install
           ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
-#  Javascript:
-#    runs-on: ubuntu-20.04
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        tests: [ 'JavascriptTests', 'AngularTests' ]
-#        php: [ '7.2' ]
-#        node: [ '12', '16' ]
-#        exclude:
-#          - tests: 'AngularTests'
-#            node: '12'
-#          - tests: 'JavascriptTests'
-#            node: '16'
-#
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#        with:
-#          lfs: false
-#          submodules: recursive
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.php }}
-#          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
-#          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
-#          tools: composer:v2
-#          coverage: none
-#
-#      - name: Setup Node
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: ${{ matrix.php }}
-#
-#      - name: prepare setup
-#        shell: bash
-#        run: ./.github/scripts/bash/prepare.sh
-#        env:
-#          PHP_VERSION: ${{ matrix.php }}
-#          MATOMO_TEST_TARGET:  ${{ matrix.tests }}
-#          MYSQL_ADAPTER: 'PDO_MYSQL'
-#
-#      - name: Javascript Tests
-#        if: matrix.tests == 'JavascriptTests'
-#        run: |
-#          ./console tests:run-js --matomo-url='http://localhost'
-#
-#      - name: Running angularjs && vue tests
-#        if: matrix.tests == 'AngularTests'
-#        working-directory: ./tests/angularjs
-#        run: |
-#          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
 
   UI:
     runs-on: ubuntu-20.04
