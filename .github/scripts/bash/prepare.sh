@@ -36,7 +36,7 @@ then
   git lfs pull --exclude=
   npm install
   cd /home/runner/work/matomo/matomo/
-  cp .github/artifacts/config.dist.js ./tests/UI/config.js
+  cp ./tests/UI/config.dist.js ./tests/UI/config.js
   chmod a+rw ./tests/lib/geoip-files || true
   chmod a+rw ./plugins/*/tests/System/processed || true
   chmod a+rw ./plugins/*/tests/Integration/processed || true
