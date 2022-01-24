@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import {DirectiveBinding, nextTick} from 'vue';
+import { DirectiveBinding, nextTick } from 'vue';
 
 interface DropdownArgs {
   activates: HTMLElement|string,
