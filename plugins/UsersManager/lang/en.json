@@ -194,7 +194,7 @@
         "StatusActive": "Active",
         "StatusPending": "Pending",
         "ResendUserConfirmSingle": "Are you sure you want to resend invitation to %1$s?",
-        "InviteSuccessNotification": "The invited User will receive an email to accept the invite, the invite valid for 7 days, you can also resend and delete the invite in the user management page."
-
+        "InviteSuccessNotification": "The invited User will receive an email to accept the invite, the invite valid for 7 days, you can also resend and delete the invite in the user management page.",
+        "InviteSuccessResend": "Your invitation has been successful resend to %1$s"
     }
 }

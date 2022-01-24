@@ -70,6 +70,7 @@
         vm.gotoPreviousPage = gotoPreviousPage;
         vm.gotoNextPage = gotoNextPage;
         vm.resendInvite = resendInvite;
+        vm.isInviteConfirmed = isInviteConfirmed;
 
         function changeSearch(changes) {
             var newParams = $.extend({}, vm.searchParams, changes);
@@ -93,6 +94,12 @@
                     vm.anonymousAccessLevels.push(entry);
                 }
             });
+        }
+
+        function isInviteConfirmed(user)
+        {
+            return user.status === _pk_translate('UsersManager_StatusPending') && !(user.login ===
+              `anonymous`);
         }
 
         function $onChanges(changes) {
@@ -138,7 +145,13 @@
           piwikApi.post({ module: 'API', method: 'UsersManager.resendInvite' }, {
             userLogin: vm.userToChange.login,
           }).then((r) => {
-            console.log(r);
+              var UI = require('piwik/UI');
+              var notification = new UI.Notification();
+              var msg = `${_pk_translate('UsersManager_InviteSuccessResend',[`'${vm.userToChange.login}'`])}<br/>${_pk_translate(
+                'UsersManager_InviteSuccessNotification')}`;
+              notification.show(msg, { context: 'success', type: 'toast' });
+          }).catch((e)=>{
+              notification.show('Ops, Something Wrong.', { context: 'error', type: 'toast' });
           });
 
         }

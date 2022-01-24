@@ -48,6 +48,8 @@
         vm.reset2FA = reset2FA;
         vm.updateUser = updateUser;
         vm.setSuperUserAccessChecked = setSuperUserAccessChecked;
+        vm.isInviteConfirmed = isInviteConfirmed;
+
 
         function $onInit() {
             vm.firstSiteAccess = {
@@ -73,6 +75,11 @@
 
         function getFormTitle() {
             return vm.isAdd ? _pk_translate('UsersManager_AddNewUser') : _pk_translate('UsersManager_EditUser');
+        }
+        function isInviteConfirmed()
+        {
+            return !$ctrl.isAdd || $ctrl.user.status !==
+              _pk_translate('UsersManager_StatusPending');
         }
 
         function getSaveButtonLabel() {

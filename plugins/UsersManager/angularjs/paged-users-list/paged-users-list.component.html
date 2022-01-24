@@ -178,7 +178,7 @@
                         {{ user.status }}
                     </td>
                     <td class="end actions-cell">
-                        <button ng-if="user.login != 'anonymous' && user.status === _pk_translate('UsersManager_StatusPending')" class="resenduser table-action"
+                        <button ng-if="$ctrl.isInviteConfirmed(user)" class="resenduser table-action"
                                 title="Resend" ng-click="$ctrl.userToChange = user; $ctrl.showResendConfirm()" >
                             <span class="icon-email"></span>
                         </button>
