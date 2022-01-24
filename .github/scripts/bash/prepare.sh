@@ -32,6 +32,7 @@ sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php >
 if [ "$MATOMO_TEST_TARGET" = "UI" ] || [ "$MATOMO_TEST_TARGET" = "JavascriptTests" ] || [ "$MATOMO_TEST_TARGET" == "AngularTests" ];
 then
   echo -e "${GREEN}installing node/puppeteer${SET}"
+  cd /home/runner/work/matomo/matomo/
   cd ./tests/lib/screenshot-testing
   git lfs pull --exclude=
   npm install
@@ -56,7 +57,7 @@ then
   npm install
 fi
 
-if [ "$MATOMO_TEST_TARGET" != "AngularTests" ]
+if [ "$MATOMO_TEST_TARGET" != "AngularTests" ] || [ "$MATOMO_TEST_TARGET" != "JavascriptTests" ]
 then
   echo -e "${GREEN}setup php-fpm${SET}"
   cd /home/runner/work/matomo/matomo/
@@ -74,6 +75,14 @@ then
   sudo systemctl restart nginx
 fi
 
+if  [ "$MATOMO_TEST_TARGET" == "JavascriptTests" ]
+then
+  echo -e "${GREEN}Setup php -S${SET}"
+  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
+  tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
+  tmux ls
+fi
+
 #update chrome drive
 if [ "$MATOMO_TEST_TARGET" == "UI" ];
 then
@@ -84,6 +93,7 @@ then
 fi
 
 echo -e "${GREEN}set up Folder${SET}"
+cd /home/runner/work/matomo/matomo/
 mkdir -p ./tmp/assets
 mkdir -p ./tmp/cache
 mkdir -p ./tmp/cache/tracker
@@ -99,6 +109,7 @@ mkdir -p ./tmp/climulti
 mkdir -p /tmp
 
 echo -e "${GREEN}set tmp and screenshot folder permission${SET}"
+cd /home/runner/work/matomo/matomo/
 sudo gpasswd -a "$USER" www-data
 sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
 sudo chmod o+w /home/runner/work/matomo/matomo/
