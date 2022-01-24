@@ -476,25 +476,18 @@ abstract class Controller
      */
     protected function getGraphParamsModified($paramsToSet = array())
     {
-        if (!isset($paramsToSet['period'])) {
-            $period = Piwik::getPeriod();
-        } else {
-            $period = $paramsToSet['period'];
+        try {
+            $period = isset($paramsToSet['period']) ?? Piwik::getPeriod();
+        } catch (\Exception $e) {
+            $period = null;
         }
+
         if ($period === 'range') {
             return $paramsToSet;
         }
-        if (!isset($paramsToSet['range'])) {
-            $range = 'last30';
-        } else {
-            $range = $paramsToSet['range'];
-        }
 
-        if (!isset($paramsToSet['date'])) {
-            $endDate = $this->strDate;
-        } else {
-            $endDate = $paramsToSet['date'];
-        }
+        $range = isset($paramsToSet['range']) ?? 'last30';
+        $endDate = isset($paramsToSet['date']) ?? $this->strDate;
 
         if (is_null($this->site)) {
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
