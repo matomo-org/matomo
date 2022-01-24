@@ -2404,7 +2404,11 @@ function createAngularJsAdapter(options) {
                 return;
               }
 
-              ngScope.$watch(scopeVarName, function (newValue) {
+              ngScope.$watch(scopeVarName, function (newValue, oldValue) {
+                if (newValue === oldValue && JSON.stringify(vm[info.vue]) === JSON.stringify(newValue)) {
+                  return; // initial
+                }
+
                 var newValueFinal = removeAngularJsSpecificProperties(newValue);
 
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
