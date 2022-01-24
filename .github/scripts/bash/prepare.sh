@@ -32,12 +32,10 @@ sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php >
 if [ "$MATOMO_TEST_TARGET" = "UI" ] || [ "$MATOMO_TEST_TARGET" = "JavascriptTests" ] || [ "$MATOMO_TEST_TARGET" == "AngularTests" ];
 then
   echo -e "${GREEN}installing node/puppeteer${SET}"
-  cd /home/runner/work/matomo/matomo/
-  cd ./tests/lib/screenshot-testing
+  cd /home/runner/work/matomo/matomo/tests/lib/screenshot-testing
   git lfs pull --exclude=
   npm install
   cd /home/runner/work/matomo/matomo/
-  ls ./tests/PHPUnit/
   cp .github/artifacts/config.dist.js ./tests/UI/config.js
   chmod a+rw ./tests/lib/geoip-files || true
   chmod a+rw ./plugins/*/tests/System/processed || true
@@ -47,11 +45,8 @@ else
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 fi
 
-if [ "$MATOMO_TEST_TARGET" == "JavascriptTests" ] || [ "$MATOMO_TEST_TARGET" == "AngularTests" ];
+if [ "$MATOMO_TEST_TARGET" == "AngularTests" ];
 then
-  cd /home/runner/work/matomo/matomo/
-  echo -e "${GREEN}NPM installing${SET}"
-  npm install
   echo -e "${GREEN}Angular Package${SET}"
   cd ./tests/angularjs
   npm install
