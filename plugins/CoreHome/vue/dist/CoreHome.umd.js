@@ -1285,7 +1285,11 @@ function piwikUrl() {
   return model;
 }
 
-window.angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
+window.angular.module('piwikApp.service').service('piwikUrl', piwikUrl); // make sure $location is initialized early
+
+window.angular.module('piwikApp.service').run(['$location', function () {
+  return null;
+}]);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
