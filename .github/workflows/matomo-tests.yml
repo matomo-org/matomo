@@ -139,7 +139,7 @@ jobs:
         run: ./.github/scripts/bash/prepare.sh
         env:
           PHP_VERSION: ${{ matrix.php }}
-          MATOMO_TEST_TARGET: 'JS'
+          MATOMO_TEST_TARGET:  ${{ matrix.tests }}
           MYSQL_ADAPTER: 'PDO_MYSQL'
 
       - name: Javascript Tests

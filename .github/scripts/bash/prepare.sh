@@ -46,18 +46,17 @@ else
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 fi
 
-if [ "$MATOMO_TEST_TARGET" = "JS" ];
+if [ "$MATOMO_TEST_TARGET" == "JavascriptTests" || "$MATOMO_TEST_TARGET" == "AngularTests" ];
 then
   echo -e "${GREEN}NPM installing${SET}"
   npm install
   echo -e "${GREEN}Angular Package${SET}"
   cd ./tests/angularjs
   npm install
-  echo -e "${GREEN}Setup php -S${SET}"
-  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
-  tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
-  tmux ls
-else
+fi
+
+if [ "$MATOMO_TEST_TARGET" != "AngularTests" ]
+then
   echo -e "${GREEN}setup php-fpm${SET}"
   sudo systemctl enable php$PHP_VERSION-fpm.service
   sudo systemctl start php$PHP_VERSION-fpm.service
