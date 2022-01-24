@@ -48,6 +48,7 @@ fi
 
 if [ "$MATOMO_TEST_TARGET" == "JavascriptTests" ] || [ "$MATOMO_TEST_TARGET" == "AngularTests" ];
 then
+  cd /home/runner/work/matomo/matomo/
   echo -e "${GREEN}NPM installing${SET}"
   npm install
   echo -e "${GREEN}Angular Package${SET}"
@@ -58,9 +59,10 @@ fi
 if [ "$MATOMO_TEST_TARGET" != "AngularTests" ]
 then
   echo -e "${GREEN}setup php-fpm${SET}"
+  cd /home/runner/work/matomo/matomo/
   sudo systemctl enable php$PHP_VERSION-fpm.service
   sudo systemctl start php$PHP_VERSION-fpm.service
-  sudo cp -rf  ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
+  sudo cp ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
   sudo systemctl reload php$PHP_VERSION-fpm.service
   sudo systemctl restart php$PHP_VERSION-fpm.service
   sudo systemctl status php$PHP_VERSION-fpm.service
