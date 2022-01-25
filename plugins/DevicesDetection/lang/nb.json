@@ -52,6 +52,7 @@
         "Wearable": "Ikledbar",
         "WidgetBrowserVersionsDocumentation": "Denne rapporten inneholder informasjon om hva slags nettleser som dine besøkere bruker. Alle nettleserversjoner er opplistet separat.",
         "WidgetBrowsers": "Besøkendes nettlesere",
+        "XVisitsFromDevices": "%1$s besøk fra %2$s enheter",
         "dataTableLabelBrands": "Merke",
         "dataTableLabelModels": "Modell",
         "dataTableLabelSystemVersion": "Operativsystem-versjon",

@@ -216,7 +216,8 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
               },
               methods: {
                 onEventHandler(name: string, $event: any) {
-                  const scopePropertyName = toAngularJsCamelCase(vueToAngular[name] || name);
+                  let scopePropertyName = toAngularJsCamelCase(name);
+                  scopePropertyName = vueToAngular[scopePropertyName] || scopePropertyName;
                   if (ngScope[scopePropertyName]) {
                     ngScope[scopePropertyName]($event);
                   }
@@ -249,7 +250,13 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
                 return;
               }
 
-              ngScope.$watch(scopeVarName, (newValue: any) => {
+              ngScope.$watch(scopeVarName, (newValue: any, oldValue: any) => {
+                if (newValue === oldValue
+                  && JSON.stringify(vm[info.vue!]) === JSON.stringify(newValue)
+                ) {
+                  return; // initial
+                }
+
                 let newValueFinal = removeAngularJsSpecificProperties(newValue);
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
                   newValueFinal = info.default instanceof Function
@@ -267,6 +274,7 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
                     ...injectedServices,
                   );
                 }
+
                 vm[info.vue!] = newValueFinal;
               });
             });
