@@ -150,6 +150,7 @@ class Scheduler
 
                 if ($shouldExecuteTask) {
                     $readFromOption = true;
+                    $this->scheduleRetry = false;
                     $message = $this->executeTask($task);
 
                     // Task has thrown an exception and should be scheduled for a retry

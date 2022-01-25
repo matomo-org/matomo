@@ -27,7 +27,6 @@ class Timetable
     public function __construct()
     {
         $this->readFromOption();
-        $this->readRetryList();
     }
 
     public function getTimetable()
@@ -38,6 +37,11 @@ class Timetable
     public function setTimetable($timetable)
     {
         $this->timetable = $timetable;
+    }
+
+    public function setRetryList($retryList)
+    {
+        $this->retryList = $retryList;
     }
 
     /**
@@ -206,6 +210,7 @@ class Timetable
      */
     public function incrementRetryCount(string $taskName)
     {
+        $this->readRetryList();
         if (!isset($this->retryList[$taskName])) {
             $this->retryList[$taskName] = 0;
         }
@@ -222,6 +227,8 @@ class Timetable
      */
     public function getRetryCount(string $taskName) : int
     {
+        $this->readRetryList();
+
         // Ignore excessive retry counts, workaround for SchedulerTest mock
         if (!isset($this->retryList[$taskName]) || $this->retryList[$taskName] > 10000) {
             return 0;
