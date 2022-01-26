@@ -227,7 +227,7 @@ class Response
     private function randomNumberFields($input, $randomNumberFields = false)
     {
         if ($randomNumberFields === false) {
-            $fieldsToRemove = @$this->params['randomNumberFields'];
+            $randomNumberFields = @$this->params['randomNumberFields'];
         }
 
         if (!is_array($randomNumberFields)) {
@@ -246,8 +246,8 @@ class Response
         $testNotSmallAfter = strlen($input > 100) && $testNotSmallAfter;
 
         $oldInput = $input;
-        $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/', 'x', $input);
-        $input = str_replace('<' . $xmlElement . ' />', 'x', $input);
+        $search = "/(?<=".$xmlElement.">)(.*)(?=<\/".$xmlElement.")/";
+        $input = preg_replace($search, 'x', $input);
 
         // check we didn't delete the whole string
         if ($testNotSmallAfter && $input != $oldInput) {
