@@ -400,7 +400,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertCustomTasksWereStarted();
 
         Option::clearCachedOption(self::TASKS_FINISHED_OPTION_NAME);
-        $this->assertEmpty(Option::get(self::TASKS_FINISHED_OPTION_NAME));
+        $this->assertFalse(Option::get(self::TASKS_FINISHED_OPTION_NAME));
     }
 
     private function assertCustomTasksWereStarted()
