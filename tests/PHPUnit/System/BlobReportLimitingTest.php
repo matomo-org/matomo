@@ -85,6 +85,7 @@ class BlobReportLimitingTest extends SystemTestCase
                     // in this test, we only care to check that the result is being limited/aggregated correctly, so we can remove these
                     // when comparing.
                     'xmlFieldsToRemove' => ['label', 'segment', 'url', 'exit_nb_visits', 'exit_rate', 'bounce_count', 'bounce_rate'],
+                    'randomNumberFields' => ['nb_visits', 'nb_uniq_visitors', 'nb_hits']
                 ),
             ),
 

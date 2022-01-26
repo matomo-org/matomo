@@ -118,6 +118,7 @@ class Response
 
         $apiResponse = $this->normalizePdfContent($apiResponse);
         $apiResponse = $this->removeXmlFields($apiResponse);
+        $apiResponse = $this->randomNumberFields($apiResponse);
         $apiResponse = $this->removeTodaysDate($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
@@ -216,9 +217,41 @@ class Response
         if (!is_array($fieldsToRemove)) {
             $fieldsToRemove = array();
         }
-        
+
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
+        }
+        return $input;
+    }
+
+    private function randomNumberFields($input, $randomNumberFields = false)
+    {
+        if ($randomNumberFields === false) {
+            $fieldsToRemove = @$this->params['randomNumberFields'];
+        }
+
+        if (!is_array($randomNumberFields)) {
+            $randomNumberFields = array();
+        }
+
+        foreach ($randomNumberFields as $xml) {
+            $input = $this->randomXmlElement($input, $xml);
+        }
+        return $input;
+    }
+
+    private function randomXmlElement($input, $xmlElement, $testNotSmallAfter = true)
+    {
+        // Only raise error if there was some data before
+        $testNotSmallAfter = strlen($input > 100) && $testNotSmallAfter;
+
+        $oldInput = $input;
+        $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/', 'x', $input);
+        $input = str_replace('<' . $xmlElement . ' />', 'x', $input);
+
+        // check we didn't delete the whole string
+        if ($testNotSmallAfter && $input != $oldInput) {
+            Asserts::assertTrue(strlen($input) > 100, "Replace element $xmlElement from request " . http_build_query($this->requestUrl) . " resulted in a too small value:\n$input");
         }
         return $input;
     }

@@ -120,7 +120,7 @@ class ApiTestConfig
      * returns the super table of the API method being tested. If set, TestRequest\Collection will look for the
      * first valid idSubtable value to use in the test request. Since these values are assigned dynamically,
      * there's no other way to set idSubtable.
-     * 
+     *
      * @var string|bool eg, `"Referrers.getWebsites"`
      */
     public $supertableApi = false;
@@ -175,6 +175,15 @@ class ApiTestConfig
      * @param string[]|false
      */
     public $xmlFieldsToRemove = false;
+
+    /**
+     * An array of number fields that generate differently depend on the request.
+     * These fields should be fields that change on every test execution and have
+     * to be replaced by x to pass the tests.
+     *
+     * @param string[]|false
+     */
+    public $randomNumberFields = false;
 
     /**
      * If true, Date times XML fields that change on each request for Live API methods are retained.
