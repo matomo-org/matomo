@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Overlay;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Url;
+use Piwik\UrlHelper;
 
 class Overlay extends \Piwik\Plugin
 {
@@ -57,7 +58,7 @@ class Overlay extends \Piwik\Plugin
 
         $isOverlay = $module == 'Overlay';
         $referrerUrlQuery = parse_url(Url::getReferrer() ?? '', PHP_URL_QUERY);
-        parse_str($referrerUrlQuery, $referrerUrlQueryParams);
+        $referrerUrlQueryParams = UrlHelper::getArrayFromQueryString($referrerUrlQuery);
         $referrerUrlHost = parse_url(Url::getReferrer() ?? '', PHP_URL_HOST);
         $comingFromOverlay = Url::isValidHost($referrerUrlHost) && !empty($referrerUrlQueryParams['module']) && $referrerUrlQueryParams['module'] === 'Overlay';
         $isPossibleOverlayRequest = (
