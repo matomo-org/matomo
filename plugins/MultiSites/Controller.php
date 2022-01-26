@@ -74,8 +74,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $date = Piwik::getDate('today');
-        $period = Piwik::getPeriod('day');
+        $date   = Common::getRequestVar('date', 'today');
+        $period = Common::getRequestVar('period', 'day');
 
         $view = new View("@MultiSites/getSitesInfo");
 

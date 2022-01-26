@@ -476,18 +476,25 @@ abstract class Controller
      */
     protected function getGraphParamsModified($paramsToSet = array())
     {
-        try {
-            $period = isset($paramsToSet['period']) ?? Piwik::getPeriod();
-        } catch (\Exception $e) {
-            $period = null;
+        if (!isset($paramsToSet['period'])) {
+            $period = Common::getRequestVar('period');
+        } else {
+            $period = $paramsToSet['period'];
         }
-
         if ($period === 'range') {
             return $paramsToSet;
         }
+        if (!isset($paramsToSet['range'])) {
+            $range = 'last30';
+        } else {
+            $range = $paramsToSet['range'];
+        }
 
-        $range = isset($paramsToSet['range']) ?? 'last30';
-        $endDate = isset($paramsToSet['date']) ?? $this->strDate;
+        if (!isset($paramsToSet['date'])) {
+            $endDate = $this->strDate;
+        } else {
+            $endDate = $paramsToSet['date'];
+        }
 
         if (is_null($this->site)) {
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
@@ -633,10 +640,10 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate = Piwik::getDate();
+        $rawDate = Common::getRequestVar('date');
         Period::checkDateFormat($rawDate);
 
-        $periodStr = Piwik::getPeriod();
+        $periodStr = Common::getRequestVar('period');
 
         if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
@@ -916,7 +923,7 @@ abstract class Controller
 
         $periodValidator = new PeriodValidator();
 
-        $currentPeriod = Piwik::getPeriod();
+        $currentPeriod = Common::getRequestVar('period');
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
