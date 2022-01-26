@@ -8,7 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New config.ini.php settings
 
-* The config setting `enabled_geolocation_guess_country_fallback` in `General` has been added. By setting this option to 0, you can prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
+* The config setting `enable_default_location_provider` in `Tracker` has been added. By setting this option to 0, you can disable the default location provider. This can be used to prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
 
 ## Matomo 4.7.0
 
