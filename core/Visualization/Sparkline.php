@@ -177,8 +177,10 @@ class Sparkline implements ViewInterface
             'fillColor' => '#ffffff'
         );
 
-        if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
-            $colors = $defaultColors;
+        if (empty($colors)) {
+            $colors = $defaultColors; //set default color, if no color passed
+        } else {
+            $colors = array_merge($defaultColors, $colors); //set default color key, if no key set.
         }
 
         if (strtolower($colors['backgroundColor']) !== '#ffffff') {
