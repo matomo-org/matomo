@@ -99,7 +99,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase
                                       'testSuffix'   => '_NotLastNPeriods')
         );
 
-        return array_merge($result, self::getApiForTestingScheduledReports($dateTime, 'month'));
+        return array_merge($result, (version_compare(PHP_VERSION, '8.0.0') >= 0 ? [] : self::getApiForTestingScheduledReports($dateTime, 'month')));
     }
 
     public static function getOutputPrefix()
