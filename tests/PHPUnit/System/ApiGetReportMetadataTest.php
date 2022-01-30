@@ -32,6 +32,11 @@ class ApiGetReportMetadataTest extends SystemTestCase
         // ensure that they still work. This hack allows the API proxy to let us generate example
         // URLs for the ignored functions
         Proxy::getInstance()->setHideIgnoredFunctions(false);
+
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $this->markTestSkipped('Skipping for PHP8');
+        }
+
     }
 
     public function tearDown(): void
