@@ -16,6 +16,7 @@
         "DefaultLocationProviderDesc1": "The default location provider guesses a visitor's country based on the language they use.",
         "DefaultLocationProviderDesc2": "This is not very accurate, so %1$swe recommend installing and using %2$sa geolocation database%3$s.%4$s",
         "DefaultLocationProviderExplanation": "You are using the default location provider, which means Matomo will guess the visitor's location based on the language they use. %1$sRead this%2$s to learn how to setup more accurate geolocation.",
+        "DisabledLocationProvider": "Disables the geolocation.",
         "DistinctCountries": "%s distinct countries",
         "FromDifferentCities": "different cities",
         "GeoIPDocumentationSuffix": "In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial %1$sMaxmind%2$s GeoIP databases are more accurate than the free ones. To see how accurate they are, click %3$shere%4$s.",

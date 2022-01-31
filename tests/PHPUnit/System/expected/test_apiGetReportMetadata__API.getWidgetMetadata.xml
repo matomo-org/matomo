@@ -3576,7 +3576,7 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Welcome!</name>
+		<name>Welcome</name>
 		<category>
 			<id>About Matomo</id>
 			<name>About Matomo</name>
