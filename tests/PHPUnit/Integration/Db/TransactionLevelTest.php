@@ -44,12 +44,9 @@ class TransactionLevelTest extends IntegrationTestCase
 
 	public function test_setUncommitted_restorePreviousStatus()
 	{
-        $version = $this->db->fetchOne('SELECT VERSION()');
-        if (preg_match("/8[.].*/", $version)) {
-            $isolation = "@@transaction_isolation";
-        } else {
-            $isolation = "@@TX_ISOLATION";
-        }
+        // mysql 8.0 using transaction_isolation
+        $isolation = $this->db->fetchOne("SHOW GLOBAL VARIABLES LIKE 't%_isolation'");
+        $isolation = "@@".$isolation;
 
         $value = $this->db->fetchOne('SELECT '.$isolation);
 		$this->assertSame('REPEATABLE-READ', $value);
