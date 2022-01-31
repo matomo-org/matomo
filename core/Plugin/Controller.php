@@ -477,7 +477,7 @@ abstract class Controller
     protected function getGraphParamsModified($paramsToSet = array())
     {
         try {
-            $period = isset($paramsToSet['period']) ?? Piwik::getPeriod();
+            $period = $paramsToSet['period'] ?? Piwik::getPeriod();
         } catch (\Exception $e) {
             $period = null;
         }
