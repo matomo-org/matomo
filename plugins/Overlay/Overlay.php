@@ -50,16 +50,12 @@ class Overlay extends \Piwik\Plugin
      * Otherwise it can happen, that the session cookie is sent with samesite=lax, which might break the session in Overlay
      * See https://github.com/matomo-org/matomo/pull/18648
      */
-    public static function isOverlayRequest()
+    public static function isOverlayRequest($module, $action, $method, $referer)
     {
-        $module = Piwik::getModule();
-        $action = Piwik::getAction();
-        $method = Common::getRequestVar('method', '', 'string');
-
         $isOverlay = $module == 'Overlay';
-        $referrerUrlQuery = parse_url(Url::getReferrer() ?? '', PHP_URL_QUERY);
+        $referrerUrlQuery = parse_url($referer ?? '', PHP_URL_QUERY);
         $referrerUrlQueryParams = UrlHelper::getArrayFromQueryString($referrerUrlQuery);
-        $referrerUrlHost = parse_url(Url::getReferrer() ?? '', PHP_URL_HOST);
+        $referrerUrlHost = parse_url($referer ?? '', PHP_URL_HOST);
         $comingFromOverlay = Url::isValidHost($referrerUrlHost) && !empty($referrerUrlQueryParams['module']) && $referrerUrlQueryParams['module'] === 'Overlay';
         $isPossibleOverlayRequest = (
             $module === 'Proxy' // JS & CSS requests

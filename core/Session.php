@@ -171,9 +171,11 @@ class Session extends Zend_Session
 
         $module = Piwik::getModule();
         $action = Piwik::getAction();
+        $method = Common::getRequestVar('method', '', 'string');
+        $referer = Url::getReferrer();
 
         $isOptOutRequest = $module == 'CoreAdminHome' && $action == 'optOut';
-        $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || Overlay::isOverlayRequest();
+        $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || Overlay::isOverlayRequest($module, $action, $method, $referer);
 
         if ($shouldUseNone && ProxyHttp::isHttps()) {
             return 'None';
