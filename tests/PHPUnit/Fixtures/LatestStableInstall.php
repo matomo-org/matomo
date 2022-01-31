@@ -87,8 +87,8 @@ class LatestStableInstall extends Fixture
          *
          * @todo remove this after Matomo 4.8 has been released
          */
-        shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/updatetest/plugins/CoreUpdater/Updater.php > ' . $installSubdirectory . '/plugins/CoreUpdater/Updater.php');
-        shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/updatetest/plugins/CoreUpdater/lang/en.json > ' . $installSubdirectory . '/plugins/CoreUpdater/lang/en.json');
+        shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/4.x-dev/plugins/CoreUpdater/Updater.php > ' . $installSubdirectory . '/plugins/CoreUpdater/Updater.php');
+        shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/4.x-dev/plugins/CoreUpdater/lang/en.json > ' . $installSubdirectory . '/plugins/CoreUpdater/lang/en.json');
     }
 
     private function installSubdirectoryInstall()
