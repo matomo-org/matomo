@@ -893,7 +893,7 @@ class Piwik
     /**
      * Returns the period provided in the current request.
      * If no $default is provided, this method will throw an Exception if `period` can't be found in the request
-     * 
+     *
      * @param string|null $default  default value to use
      * @throws Exception
      * @return string
@@ -904,6 +904,15 @@ class Piwik
         return Common::getRequestVar('period', $default, 'string');
     }
 
+    /**
+     * Returns the date provided in the current request.
+     * If no $default is provided, this method will throw an Exception if `date` can't be found in the request
+     *
+     * @param string|null $default  default value to use
+     * @throws Exception
+     * @return string
+     * @api
+     */
     public static function getDate($default = null)
     {
         return Common::getRequestVar('date', $default, 'string');
