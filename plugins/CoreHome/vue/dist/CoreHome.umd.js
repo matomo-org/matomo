@@ -1285,7 +1285,11 @@ function piwikUrl() {
   return model;
 }
 
-window.angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
+window.angular.module('piwikApp.service').service('piwikUrl', piwikUrl); // make sure $location is initialized early
+
+window.angular.module('piwikApp.service').run(['$location', function () {
+  return null;
+}]);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2405,7 +2409,11 @@ function createAngularJsAdapter(options) {
                 return;
               }
 
-              ngScope.$watch(scopeVarName, function (newValue) {
+              ngScope.$watch(scopeVarName, function (newValue, oldValue) {
+                if (newValue === oldValue && JSON.stringify(vm[info.vue]) === JSON.stringify(newValue)) {
+                  return; // initial
+                }
+
                 var newValueFinal = removeAngularJsSpecificProperties(newValue);
 
                 if (typeof info.default !== 'undefined' && typeof newValue === 'undefined') {
