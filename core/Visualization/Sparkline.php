@@ -181,8 +181,7 @@ class Sparkline implements ViewInterface
             $colors = $defaultColors;
         }
 
-        if (strtolower($colors['bcore/Plugin/Controller.php
-ackgroundColor']) !== '#ffffff') {
+        if (strtolower($colors['backgroundColor']) !== '#ffffff') {
             $sparkline->setBackgroundColorHex($colors['backgroundColor']);
         } else {
             $sparkline->deactivateBackgroundColor();
