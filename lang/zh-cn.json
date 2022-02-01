@@ -553,7 +553,7 @@
         "EmailUs": "给我们发电子邮件",
         "EnableGraphsLabel": "显示图表",
         "EnterAuthCode": "输入二次登录认证验证码",
-        "EnterAuthCodeExplanation": "您似乎开启了二次登录认证，请输入6位验证码以登陆您的账户。",
+        "EnterAuthCodeExplanation": "您似乎开启了二次登录认证，请输入6位验证码以登录您的账户。",
         "EnterCorrectAuthCode": "输入正确的二次登录认证验证码",
         "EvolutionGraph": "历史图表",
         "ExceptionNoViewAccess": "请检查您的用户名和密码，并确保您对至少一个网站有%s访问权限。",
