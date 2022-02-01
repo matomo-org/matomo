@@ -7,8 +7,14 @@
  */
 
 namespace Piwik\Tests\Integration;
+use Piwik\Scheduler\RetryableException;
 use Piwik\Scheduler\Timetable;
+use Piwik\Scheduler\Scheduler;
+use Piwik\Scheduler\Task;
+use Piwik\Tests\Framework\Mock\PiwikOption;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Psr\Log\NullLogger;
+use ReflectionProperty;
 
 /**
  * @group Scheduler
@@ -46,6 +52,92 @@ class RetryScheduledTaskTest extends IntegrationTestCase
         $timetable->clearRetryCount($task2);
         $this->assertEquals(0, $timetable->getRetryCount($task1));
 
+    }
+
+    public function testTaskIsRetriedIfRetryableExcetionIsThrown()
+    {
+
+        // Mock timetable
+        $now = time() - 60;
+        $taskName = 'Piwik\Tests\Integration\RetryScheduledTaskTest.exceptionalTask';
+        $timetableData = serialize([$taskName => $now]);
+        self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetableData));
+
+        // Create task
+        $dailySchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
+        $dailySchedule->expects($this->any())
+            ->method('getTime')
+            ->will($this->returnValue($now));
+
+        // Setup scheduler
+        $tasks = [new Task($this, 'exceptionalTask', null, $dailySchedule)];
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader->expects($this->atLeastOnce())
+            ->method('loadTasks')
+            ->willReturn($tasks);
+
+        $scheduler = new Scheduler($taskLoader, new NullLogger());
+
+        // First run
+        $scheduler->run();
+        $nextRun = $scheduler->getScheduledTimeForMethod('Piwik\Tests\Integration\RetryScheduledTaskTest', 'exceptionalTask', null);
+
+        // Should be rescheduled one hour from now
+        $this->assertEquals($now+3660, $nextRun);
+
+        self::getReflectedPiwikOptionInstance()->setValue(null);
+
+    }
+
+    public function testTaskIsNotRetriedIfNormalExcetionIsThrown()
+    {
+        // Mock timetable
+        $now = time() - 60;
+        $taskName = 'Piwik\Tests\Integration\RetryScheduledTaskTest.normalExceptionTask';
+        $timetableData = serialize([$taskName => $now]);
+        self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetableData));
+
+        // Create task
+        $specificSchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\SpecificTime', array('getTime'));
+        $specificSchedule->setScheduledTime($now+50000);
+        $specificSchedule->expects($this->any())
+            ->method('getTime')
+            ->will($this->returnValue($now));
+
+        // Setup scheduler
+        $tasks = [new Task($this, 'normalExceptionTask', null, $specificSchedule)];
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader->expects($this->atLeastOnce())
+            ->method('loadTasks')
+            ->willReturn($tasks);
+
+        $scheduler = new Scheduler($taskLoader, new NullLogger());
+
+        // First run
+        $scheduler->run();
+        $nextRun = $scheduler->getScheduledTimeForMethod('Piwik\Tests\Integration\RetryScheduledTaskTest', 'normalExceptionTask', null);
+
+        // Should not have scheduled for retry
+        $this->assertEquals($now+50000, $nextRun);
+
+        self::getReflectedPiwikOptionInstance()->setValue(null);
+    }
+
+    private static function getReflectedPiwikOptionInstance()
+    {
+        $piwikOptionInstance = new ReflectionProperty('Piwik\Option', 'instance');
+        $piwikOptionInstance->setAccessible(true);
+        return $piwikOptionInstance;
+    }
+
+    public function exceptionalTask()
+    {
+        throw new RetryableException('This task fails and should be retried');
+    }
+
+    public function normalExceptionTask()
+    {
+        throw new \Exception('This task fails and should not be retried');
     }
 
 }
