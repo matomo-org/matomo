@@ -460,6 +460,10 @@ class FrontController extends Singleton
 
         if (is_null($action)) {
             $action = Common::getRequestVar('action', false);
+            if ($action !== false) {
+                // If a value was provided, check it has the correct type.
+                $action = Common::getRequestVar('action', null, 'string');
+            }
         }
 
         if (Session::isSessionStarted()) {
