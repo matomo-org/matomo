@@ -278,7 +278,7 @@ function sitesManagerTypeModelAdapter() {
 }
 
 window.angular.module('piwikApp.service').factory('sitesManagerTypeModel', sitesManagerTypeModelAdapter);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=95ad0e78
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=0cf86fbc
 
 var _hoisted_1 = ["idsite", "type"];
 var _hoisted_2 = {
@@ -513,7 +513,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue"])], 10, _hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=95ad0e78
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=template&id=0cf86fbc
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -888,6 +888,7 @@ function isSiteNew(site) {
     setupUrl: function setupUrl() {
       var site = this.theSite;
       var suffix = '';
+      var connector = '';
 
       if (this.isInternalSetupUrl) {
         suffix = external_CoreHome_["MatomoUrl"].stringify({
@@ -896,9 +897,10 @@ function isSiteNew(site) {
           date: external_CoreHome_["MatomoUrl"].parsed.value.date,
           updated: 'false'
         });
+        connector = this.howToSetupUrl.indexOf('?') === -1 ? '?' : '&';
       }
 
-      return "".concat(this.howToSetupUrl).concat(suffix);
+      return "".concat(this.howToSetupUrl).concat(connector).concat(suffix);
     },
     utcTimeIs: function utcTimeIs() {
       var utcTime = this.utcTime;
