@@ -446,6 +446,7 @@ export default defineComponent({
       const site = this.theSite as Site;
 
       let suffix = '';
+      let connector = '';
       if (this.isInternalSetupUrl) {
         suffix = MatomoUrl.stringify({
           idSite: site.idsite,
@@ -453,8 +454,10 @@ export default defineComponent({
           date: MatomoUrl.parsed.value.date,
           updated: 'false',
         });
+
+        connector = this.howToSetupUrl!.indexOf('?') === -1 ? '?' : '&';
       }
-      return `${this.howToSetupUrl}${suffix}`;
+      return `${this.howToSetupUrl}${connector}${suffix}`;
     },
     utcTimeIs() {
       const utcTime = this.utcTime as Date;
