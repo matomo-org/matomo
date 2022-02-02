@@ -10,6 +10,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The config setting `enable_default_location_provider` in `Tracker` has been added. By setting this option to 0, you can disable the default location provider. This can be used to prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
 
+#### New PHP events
+
+* Added new event `Segment.filterSegments`. Plugins can use this to filter segment definitions.
+
 ## Matomo 4.7.0
 
 ### Deprecated APIs
