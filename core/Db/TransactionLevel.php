@@ -18,8 +18,6 @@ class TransactionLevel
 
     private $statusBackup;
 
-    private $supportsUncommitted;
-
     /**
      * @var \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db $db
      */
@@ -42,7 +40,7 @@ class TransactionLevel
 
     public function setUncommitted()
     {
-        if ($this->supportsUncommitted === false) {
+        if ($this->db->supportsUncommitted === false) {
             return false;
         }
 
@@ -60,12 +58,10 @@ class TransactionLevel
             $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
             $this->statusBackup = $backup;
 
-            if (!isset($this->supportsUncommitted)) {
-                Option::set(self::TEST_OPTION_NAME, '1');   // try setting something w/ the new transaction isolation level
-                $this->supportsUncommitted = true;
-            }
+            Option::set(self::TEST_OPTION_NAME, '1');   // try setting something w/ the new transaction isolation level
+            $this->db->supportsUncommitted = true;
         } catch (\Exception $e) {
-            $this->supportsUncommitted = false;
+            $this->db->supportsUncommitted = false;
             // catch eg 1665 Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED
             $this->restorePreviousStatus();
             return false;
