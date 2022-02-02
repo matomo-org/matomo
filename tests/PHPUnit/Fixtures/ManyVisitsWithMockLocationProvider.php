@@ -53,7 +53,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     private function setUpWebsitesAndGoals()
     {
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime);
+            self::createWebsite($this->dateTime, 1);
         }
     }
 

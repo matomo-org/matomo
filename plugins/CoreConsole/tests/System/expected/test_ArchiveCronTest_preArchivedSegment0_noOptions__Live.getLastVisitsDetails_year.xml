@@ -332,6 +332,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -459,6 +465,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -590,6 +602,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -721,6 +739,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -848,6 +872,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -975,6 +1005,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -1102,6 +1138,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>

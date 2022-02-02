@@ -12,9 +12,17 @@
 
 import DOMPurify from 'dompurify';
 import * as tslib from 'tslib';
-import 'yet-another-abortcontroller-polyfill';
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
 window.tslib = tslib;
+
+// fromEntries does not have a polyfill in @vue/cli-plugin-babel/preset
+Object.fromEntries = function fromEntries(it) {
+  return [...it].reduce((result, [key, value]) => {
+    result[key] = value;
+    return result;
+  }, {});
+};
 
 import './jqueryNativeEventTrigger';
 

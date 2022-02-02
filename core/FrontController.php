@@ -396,6 +396,11 @@ class FrontController extends Singleton
 
         $loggedIn = false;
 
+        //move this up unsupported Browser do not create session
+        if ($this->isSupportedBrowserCheckNeeded()) {
+            SupportedBrowser::checkIfBrowserSupported();
+        }
+
         // don't use sessionauth in cli mode
         // try authenticating w/ session first...
         $sessionAuth = $this->makeSessionAuthenticator();
@@ -423,9 +428,7 @@ class FrontController extends Singleton
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
-        if ($this->isSupportedBrowserCheckNeeded()) {
-            SupportedBrowser::checkIfBrowserSupported();
-        }
+
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
@@ -457,6 +460,10 @@ class FrontController extends Singleton
 
         if (is_null($action)) {
             $action = Common::getRequestVar('action', false);
+            if ($action !== false) {
+                // If a value was provided, check it has the correct type.
+                $action = Common::getRequestVar('action', null, 'string');
+            }
         }
 
         if (Session::isSessionStarted()) {

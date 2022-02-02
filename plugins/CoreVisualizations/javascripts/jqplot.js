@@ -383,7 +383,13 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 this.jqplotParams['incompleteDataPoints'] = 0;
 
                 var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
-                if (piwikPeriods.parse(this.param.period, this.param.date).containsToday()) {
+
+                var period = this.param.period;
+                // If date is actually a range then adjust the period type for the containsToday check
+                if (period === 'day' && this.param.date.indexOf(',') !== -1) {
+                    period = 'range';
+                }
+                if (piwikPeriods.parse(period, this.param.date).containsToday()) {
                     this.jqplotParams['incompleteDataPoints'] = 1;
                 }
 

@@ -678,6 +678,9 @@ class Row extends \ArrayObject
         if (is_array($columnToSumValue)) {
             $newValue = $thisColumnValue;
             foreach ($columnToSumValue as $arrayIndex => $arrayValue) {
+                if (!is_numeric($arrayIndex) && !$this->isSummableColumn($arrayIndex)) {
+                    continue;
+                }
                 if (!isset($newValue[$arrayIndex])) {
                     $newValue[$arrayIndex] = false;
                 }

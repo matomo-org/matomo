@@ -32,14 +32,15 @@ class SiteTypesStore {
 
   public readonly isLoading = computed(() => readonly(this.state).isLoading);
 
-  private response?: Promise<SiteTypesStore['typesById']['value']>;
+  public readonly types = computed(() => Object.values(this.typesById.value));
+
+  private response?: Promise<SiteTypesStore['types']['value']>;
 
   constructor() {
     this.fetchAvailableTypes();
   }
 
-  // TODO: what happens when API method errors?
-  public fetchAvailableTypes(): Promise<SiteTypesStore['typesById']['value']> {
+  public fetchAvailableTypes(): Promise<SiteTypesStore['types']['value']> {
     if (this.response) {
       return Promise.resolve(this.response);
     }
@@ -53,7 +54,7 @@ class SiteTypesStore {
         this.state.typesById[type.id] = type;
       });
 
-      return this.typesById.value;
+      return this.types.value;
     }).finally(() => {
       this.state.isLoading = false;
     });
@@ -62,10 +63,20 @@ class SiteTypesStore {
   }
 
   public getEditSiteIdParameter(): string|undefined {
-    const editsiteid = MatomoUrl.hashParsed.value.editsiteid as string;
-    if (editsiteid && $.isNumeric(editsiteid) && !MatomoUrl.hashParsed.value.showaddsite) {
+    // parse query directly because #/editsiteid=N was supported alongside #/?editsiteid=N
+    const m = MatomoUrl.hashQuery.value.match(/editsiteid=([0-9]+)/);
+    if (!m) {
+      return undefined;
+    }
+
+    const isShowAddSite = MatomoUrl.urlParsed.value.showaddsite === '1'
+      || MatomoUrl.urlParsed.value.showaddsite === 'true';
+
+    const editsiteid = m[1];
+    if (editsiteid && $.isNumeric(editsiteid) && !isShowAddSite) {
       return editsiteid;
     }
+
     return undefined;
   }
 
