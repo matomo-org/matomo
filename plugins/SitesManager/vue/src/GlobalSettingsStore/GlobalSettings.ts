@@ -9,11 +9,11 @@ interface GlobalSettings {
   keepURLFragmentsGlobal: boolean;
   defaultCurrency: string;
   defaultTimezone: string;
-  excludedIpsGlobal: string;
-  excludedQueryParametersGlobal: string;
-  excludedUserAgentsGlobal: string;
-  searchKeywordParametersGlobal: string;
-  searchCategoryParametersGlobal: string;
+  excludedIpsGlobal?: string;
+  excludedQueryParametersGlobal?: string;
+  excludedUserAgentsGlobal?: string;
+  searchKeywordParametersGlobal?: string;
+  searchCategoryParametersGlobal?: string;
 }
 
 export default GlobalSettings;

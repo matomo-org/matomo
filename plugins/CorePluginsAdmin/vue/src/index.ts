@@ -15,7 +15,6 @@ import './Form/Form.adapter';
 
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
-export { default as PluginSetting } from './PluginSettings/PluginSetting.vue';
 export { default as Setting } from './PluginSettings/Setting';
 export { default as SettingsForSinglePlugin } from './PluginSettings/SettingsForSinglePlugin';
 export { default as PluginSettings } from './PluginSettings/PluginSettings.vue';
@@ -24,3 +23,4 @@ export { default as PluginManagement } from './Plugins/PluginManagement';
 export { default as PluginUpload } from './Plugins/PluginUpload';
 export { default as SaveButton } from './SaveButton/SaveButton.vue';
 export { default as Form } from './Form/Form';
+export { default as GroupedSettings } from './GroupedSettings/GroupedSettings';

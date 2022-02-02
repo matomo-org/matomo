@@ -198,6 +198,32 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
     });
 
+    it('should display autocomplete dropdown options correctly with lower case', async function() {
+        await page.click('.expandableSelector .select-wrapper');
+        await page.waitForSelector('.expandableList');
+        await page.click('.expandableSelector');
+        await page.type('.expandableSelector', 'event');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_lowercase');
+    });
+
+    it('should display autocomplete dropdown options correctly with upper case', async function() {
+        const input = await page.$('.expandableSelector');
+        await input.click({ clickCount: 3 })
+        await page.type('.expandableSelector', 'EVENT');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_uppercase');
+    });
+
+    it('should display autocomplete dropdown options correctly with capitalized', async function() {
+        const input = await page.$('.expandableSelector');
+        await input.click({ clickCount: 3 })
+        await page.type('.expandableSelector', 'Event');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_capitalized');
+    });
+
+
     it("should correctly show delete dialog when the delete link is clicked", async function() {
         await page.click('.segmentEditorPanel a.delete');
         await page.waitForTimeout(500); // animation

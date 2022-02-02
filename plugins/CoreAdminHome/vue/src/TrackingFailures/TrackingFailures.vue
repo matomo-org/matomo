@@ -187,7 +187,7 @@ export default defineComponent({
 
       const sorted: TrackingFailure[] = [...this.failures];
 
-      if (!this.sortReverse) {
+      if (this.sortReverse) {
         sorted.sort((lhs: TrackingFailure, rhs: TrackingFailure) => {
           if (lhs[sortColumn]! > rhs[sortColumn]!) {
             return -1;

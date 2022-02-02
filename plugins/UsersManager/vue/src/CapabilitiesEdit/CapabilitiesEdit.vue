@@ -10,29 +10,25 @@
     :class="{busy: isBusy}"
   >
     <div
-      v-for="capability in availableCapabilities"
+      v-for="capability in actualCapabilities"
       :key="capability.id"
+      class="chip"
     >
-      <div
-        class="chip"
-        v-if="capabilitiesSet[capability.id]"
+      <span
+        class="capability-name"
+        :title="`${capability.description} ${
+          isIncludedInRole(capability)
+            ? `<br/><br/>${translate('UsersManager_IncludedInUsersRole')}`
+            : ''
+        }`"
       >
-        <span
-          class="capability-name"
-          :title="`${capability.description} ${
-            isIncludedInRole(capability)
-              ? `<br/><br/>${translate('UsersManager_IncludedInUsersRole')}`
-              : ''
-          }`"
-        >
-          {{ capability.category }}: {{ capability.name }}
-        </span>
-        <span
-          class="icon-close"
-          v-if="!isIncludedInRole(capability)"
-          @click="capabilityToRemoveId = capability.id; onToggleCapability(false)"
-        />
-      </div>
+        {{ capability.category }}: {{ capability.name }}
+      </span>
+      <span
+        class="icon-close"
+        v-if="!isIncludedInRole(capability)"
+        @click="capabilityToRemoveId = capability.id; onToggleCapability(false)"
+      />
     </div>
     <div
       class="addCapability"
@@ -305,6 +301,10 @@ export default defineComponent({
       });
 
       return capabilitiesSet;
+    },
+    actualCapabilities() {
+      const { capabilitiesSet } = this;
+      return this.availableCapabilities.filter((c) => !!capabilitiesSet[c.id]);
     },
   },
 });

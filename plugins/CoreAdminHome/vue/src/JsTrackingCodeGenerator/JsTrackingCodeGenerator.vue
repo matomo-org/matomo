@@ -14,7 +14,8 @@
         {{ translate('CoreAdminHome_JSTrackingIntro1') }}
         <br/><br/>
         {{ translate('CoreAdminHome_JSTrackingIntro2') }}
-        <span v-html="jsTrackingIntro3a"></span> {{ translate('CoreAdminHome_JSTrackingIntro3b') }}
+        <span v-html="jsTrackingIntro3a"></span>
+        <span v-html="' ' + jsTrackingIntro3b"></span>
         <br/><br/>
         <span v-html="jsTrackingIntro4a"></span>
         <br/><br/>
@@ -24,7 +25,7 @@
         <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/"
            target="_blank" rel="noopener">WordPress</a> |
         <a href="https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/"
-           taret="_blank" rel="noopener">Squarespace</a> |
+           target="_blank" rel="noopener">Squarespace</a> |
         <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/"
            target="_blank" rel="noopener">Wix</a> |
         <a href="https://matomo.org/faq/how-to-install/faq_19424/"
@@ -80,7 +81,7 @@
           :introduction="translate('General_Options')"
           :title="`${translate(
             'CoreAdminHome_JSTracking_MergeSubdomains',
-          )} ${site.name}`"
+          )} ${currentSiteName}`"
           inline-help="#jsTrackAllSubdomainsInlineHelp"
         />
       </div>
@@ -111,7 +112,7 @@
         :model-value="trackAllAliases"
         @update:model-value="trackAllAliases = $event; updateTrackingCode()"
         :disabled="isLoading"
-        :title="`${translate('CoreAdminHome_JSTracking_MergeAliases')} ${site.name}`"
+        :title="`${translate('CoreAdminHome_JSTracking_MergeAliases')} ${currentSiteName}`"
         inline-help="#jsTrackAllAliasesInlineHelp"
       />
     </div>
@@ -286,6 +287,7 @@ import {
   SiteRef,
   SelectOnFocus,
   debounce,
+  Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -315,6 +317,7 @@ interface JsTrackingCodeGeneratorState {
   customCampaignName: string;
   customCampaignKeyword: string;
   trackingCodeAbortController: AbortController|null;
+  isHighlighting: boolean;
 }
 
 interface GetJavascriptTagResponse {
@@ -366,6 +369,7 @@ export default defineComponent({
       customCampaignName: '',
       customCampaignKeyword: '',
       trackingCodeAbortController: null,
+      isHighlighting: false,
     };
   },
   components: {
@@ -489,7 +493,7 @@ export default defineComponent({
 
       this.trackingCodeAbortController = new AbortController();
 
-      return AjaxHelper.post<GetJavascriptTagResponse>(
+      AjaxHelper.post<GetJavascriptTagResponse>(
         {
           module: 'API',
           format: 'json',
@@ -506,8 +510,13 @@ export default defineComponent({
         this.trackingCode = response.value;
 
         const jsCodeTextarea = $(this.$refs.trackingCode as HTMLElement);
-        if (jsCodeTextarea) {
-          jsCodeTextarea.effect('highlight', {}, 1500);
+        if (jsCodeTextarea && !this.isHighlighting) {
+          this.isHighlighting = true;
+          jsCodeTextarea.effect('highlight', {
+            complete: () => {
+              this.isHighlighting = false;
+            },
+          }, 1500);
         }
       });
     },
@@ -556,12 +565,18 @@ export default defineComponent({
       const alias = this.siteUrls[this.site.id]?.[1];
       return alias || defaultAliasUrl;
     },
+    currentSiteName() {
+      return Matomo.helper.htmlEntities(this.site.name);
+    },
     jsTrackingIntro3a() {
       return translate(
         'CoreAdminHome_JSTrackingIntro3a',
         '<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">',
         '</a>',
       );
+    },
+    jsTrackingIntro3b() {
+      return translate('CoreAdminHome_JSTrackingIntro3b');
     },
     jsTrackingIntro4a() {
       return translate(
@@ -581,8 +596,8 @@ export default defineComponent({
     mergeSubdomainsDesc() {
       return translate(
         'CoreAdminHome_JSTracking_MergeSubdomainsDesc',
-        'x.<span class=\'current-site-host\'></span>',
-        'y.<span class=\'current-site-host\'></span>',
+        `x.${this.currentSiteHost}`,
+        `y.${this.currentSiteHost}`,
       );
     },
     learnMoreText() {
@@ -591,7 +606,7 @@ export default defineComponent({
       return translate(
         'General_LearnMore',
         ` (<a href="${subdomainsLink}" rel="noreferrer noopener" target="_blank">`,
-        '</a>',
+        '</a>)',
       );
     },
     jsTrackCampaignParamsInlineHelp() {

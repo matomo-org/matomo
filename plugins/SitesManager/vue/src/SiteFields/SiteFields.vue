@@ -43,11 +43,11 @@
               <span class="title">{{ translate('SitesManager_Currency') }}:</span>
               {{ theSite.currency_name }}
             </li>
-            <li v-show="theSite.ecommerce === 1">
+            <li v-show="theSite.ecommerce === 1 || theSite.ecommerce === '1'">
               <span class="title">{{ translate('Goals_Ecommerce') }}:</span>
               {{ translate('General_Yes') }}
             </li>
-            <li v-show="theSite.sitesearch == 1">
+            <li v-show="theSite.sitesearch === 1 || theSite.sitesearch === '1'">
               <span class="title">{{ translate('Actions_SubmenuSitesearch') }}:</span>
               {{ translate('General_Yes') }}
             </li>
@@ -65,15 +65,15 @@
             </li>
             <li v-if="theSite.excluded_ips?.length">
               <span class="title">{{ translate('SitesManager_ExcludedIps') }}:</span>
-              {{ theSite.excluded_ips }}
+              {{ theSite.excluded_ips.split(/\s*,\s*/g).join(', ') }}
             </li>
             <li v-if="theSite.excluded_parameters?.length">
               <span class="title">{{ translate('SitesManager_ExcludedParameters') }}:</span>
-              {{ theSite.excluded_parameters }}
+              {{ theSite.excluded_parameters.split(/\s*,\s*/g).join(', ') }}
             </li>
             <li v-if="theSite.excluded_user_agents?.length">
               <span class="title">{{ translate('SitesManager_ExcludedUserAgents') }}:</span>
-              {{ theSite.excluded_user_agents }}
+              {{ theSite.excluded_user_agents.split(/\s*,\s*/g).join(', ') }}
             </li>
           </ul>
         </div>
@@ -119,18 +119,13 @@
 
         <ActivityIndicator :loading="isLoading"/>
 
-        <div v-for="settingsPerPlugin in measurableSettings" :key="settingsPerPlugin.plugin">
-          <div
-            v-for="setting in settingsPerPlugin.settings"
-            :key="`${settingsPerPlugin.pluginName}.${setting.name}`"
-          >
-            <PluginSetting
-              v-model="settingValues[`${settingsPerPlugin.pluginName}.${setting.name}`]"
-              :plugin-name="settingsPerPlugin.pluginName"
-              :setting="setting"
-              :setting-values="settingValues"
-            />
-          </div>
+        <div v-for="settingsPerPlugin in measurableSettings" :key="settingsPerPlugin.pluginName">
+          <GroupedSettings
+            :group-name="settingsPerPlugin.pluginName"
+            :settings="settingsPerPlugin.settings"
+            :all-setting-values="settingValues"
+            @change="settingValues[`${settingsPerPlugin.pluginName}.${$event.name}`] = $event.value"
+          />
         </div>
 
         <Field
@@ -184,16 +179,17 @@
     </div>
 
     <MatomoDialog
-      class="ui-confirm"
       v-model="showRemoveDialog"
       @yes="deleteSite()"
     >
-      <h2>{{ removeDialogTitle }}</h2>
+      <div class="ui-confirm">
+        <h2>{{ removeDialogTitle }}</h2>
 
-      <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
+        <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
 
-      <input type="button" :value="translate('General_Yes')" role="yes"/>
-      <input type="button" :value="translate('General_No')" role="no" />
+        <input type="button" :value="translate('General_Yes')" role="yes"/>
+        <input type="button" :value="translate('General_No')" role="no" />
+      </div>
     </MatomoDialog>
   </div>
 </template>
@@ -212,7 +208,7 @@ import {
 } from 'CoreHome';
 import {
   Field,
-  PluginSetting,
+  GroupedSettings,
   SettingsForSinglePlugin,
   Setting,
 } from 'CorePluginsAdmin';
@@ -231,16 +227,16 @@ interface SiteFieldsState {
 }
 
 interface CreateEditSiteResponse {
-  value: string;
+  value: string|number;
 }
 
-const timezoneOptions = computed(() => (
-  TimezoneStore.timezones.value.map(({ group, label, code }) => ({
+const timezoneOptions = computed(
+  () => TimezoneStore.timezones.value.map(({ group, label, code }) => ({
     group,
     key: label,
     value: code,
-  }))
-));
+  })),
+);
 
 function isSiteNew(site: Site) {
   return typeof site.idsite === 'undefined';
@@ -277,7 +273,7 @@ export default defineComponent({
   components: {
     MatomoDialog,
     Field,
-    PluginSetting,
+    GroupedSettings,
     ActivityIndicator,
   },
   emits: ['delete', 'cancelEditSite', 'save'],
@@ -320,10 +316,7 @@ export default defineComponent({
       if (isNew
         || (forcedEditSiteId && `${site.idsite}` === forcedEditSiteId)
       ) {
-        // make sure type info is available before entering edit mode
-        SiteTypesStore.fetchAvailableTypes().then(() => {
-          this.editSite();
-        });
+        this.editSite();
       }
     },
     editSite() {
@@ -400,7 +393,7 @@ export default defineComponent({
         this.editMode = false;
 
         if (!this.theSite.idsite && response && response.value) {
-          this.theSite.idsite = response.value;
+          this.theSite.idsite = `${response.value}`;
         }
 
         const timezoneInfo = TimezoneStore.timezones.value.find(
@@ -424,7 +417,7 @@ export default defineComponent({
 
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-        this.$emit('save', { site: this.theSite, settingValues: values.settingValues });
+        this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
       });
     },
     cancelEditSite(site: Site) {
@@ -447,12 +440,13 @@ export default defineComponent({
   },
   computed: {
     availableTypes() {
-      return Object.values(SiteTypesStore.typesById.value);
+      return SiteTypesStore.types.value;
     },
     setupUrl() {
       const site = this.theSite as Site;
 
       let suffix = '';
+      let connector = '';
       if (this.isInternalSetupUrl) {
         suffix = MatomoUrl.stringify({
           idSite: site.idsite,
@@ -460,8 +454,10 @@ export default defineComponent({
           date: MatomoUrl.parsed.value.date,
           updated: 'false',
         });
+
+        connector = this.howToSetupUrl!.indexOf('?') === -1 ? '?' : '&';
       }
-      return `${this.howToSetupUrl}${suffix}`;
+      return `${this.howToSetupUrl}${connector}${suffix}`;
     },
     utcTimeIs() {
       const utcTime = this.utcTime as Date;

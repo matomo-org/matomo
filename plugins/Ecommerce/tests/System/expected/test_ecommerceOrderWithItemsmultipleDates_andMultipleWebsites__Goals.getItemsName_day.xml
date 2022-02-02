@@ -88,17 +88,7 @@
 	</result>
 	<result idSite="2">
 		<result date="2011-04-05" />
-		<result date="2011-04-06">
-			<row>
-				<label>TRIPOD - bought day after</label>
-				<revenue>200</revenue>
-				<quantity>2</quantity>
-				<orders>1</orders>
-				<avg_price>100</avg_price>
-				<avg_quantity>2</avg_quantity>
-				<conversion_rate>0%</conversion_rate>
-			</row>
-		</result>
+		<result date="2011-04-06" />
 		<result date="2011-04-07" />
 		<result date="2011-04-08" />
 		<result date="2011-04-09" />

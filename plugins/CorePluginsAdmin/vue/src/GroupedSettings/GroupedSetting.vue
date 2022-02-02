@@ -5,14 +5,11 @@
 -->
 
 <template>
-  <div>
+  <div v-show="showField">
     <FormField
       :model-value="modelValue"
       @update:model-value="changeValue($event)"
-      :form-field="{
-        ...setting,
-        condition: conditionFunction,
-      }"
+      :form-field="settingWithComponent"
     />
   </div>
 </template>
@@ -22,54 +19,51 @@ import { defineComponent } from 'vue';
 import { IScope } from 'angular';
 import { Matomo } from 'CoreHome';
 import FormField from '../FormField/FormField.vue';
+import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
 
 // TODO: have to use angularjs here until there's an expression evaluating alternative
 let conditionScope: IScope;
 
 export default defineComponent({
   props: {
-    pluginName: {
-      type: String,
-      required: true,
-    },
     setting: {
       type: Object,
       required: true,
     },
     modelValue: null,
-    settingValues: Object,
+    conditionValues: {
+      type: Object,
+      required: true,
+    },
   },
   components: {
     FormField,
   },
   emits: ['update:modelValue'],
   computed: {
-    conditionFunction() {
-      const condition = this.setting.condition as string;
-      if (!condition) {
-        return undefined;
+    // bc for angularjs field that uses templateFile
+    settingWithComponent() {
+      if (this.setting.templateFile) {
+        return {
+          ...this.setting,
+          component: FieldAngularJsTemplate,
+        };
       }
 
-      return () => {
-        if (!conditionScope) {
-          const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
-          conditionScope = $rootScope.$new(true);
-        }
-
-        return conditionScope.$eval(condition, this.conditionValues);
-      };
+      return this.setting;
     },
-    conditionValues() {
-      const values: Record<string, unknown> = {};
-      Object.entries(this.settingValues as Record<string, unknown>).forEach(([key, value]) => {
-        const [pluginName, settingName] = key.split('.');
-        if (pluginName !== this.pluginName) {
-          return;
-        }
+    showField() {
+      const condition = this.setting.condition as string;
+      if (!condition) {
+        return true;
+      }
 
-        values[settingName] = value;
-      });
-      return values;
+      if (!conditionScope) {
+        const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
+        conditionScope = $rootScope.$new(true);
+      }
+
+      return conditionScope.$eval(condition, this.conditionValues);
     },
   },
   methods: {

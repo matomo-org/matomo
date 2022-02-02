@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Rat. waktu muat halaman",
         "ColumnTimeServer": "Waktu Peladen"
     }
 }

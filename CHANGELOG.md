@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.8.0
+
+### New config.ini.php settings
+
+* The config setting `enable_default_location_provider` in `Tracker` has been added. By setting this option to 0, you can disable the default location provider. This can be used to prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
+
 ## Matomo 4.7.0
 
 ### Deprecated APIs
@@ -11,6 +17,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `piwik-field` and related directives have been converted to Vue and the `template-file` attribute is now considered deprecated and will be removed in Matomo 5. Instead,
   the `component` property should be used to add a new form field, it should be an object with two properties that reference a Vue component, `plugin` and `name`, where `plugin`
   is the plugin the Vue component is located in and `name` is the Vue name of the component's export. 
+
+### New Change Notifications
+
+* Plugins can now provide a list of changes which will be displayed as part of the "What's New?" menu notification. Learn more about how this works in the [developer guide.](https://developer.matomo.org/guides/providing-updates) 
+
 
 ## Matomo 4.6.0
 

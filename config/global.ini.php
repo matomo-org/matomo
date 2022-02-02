@@ -928,6 +928,11 @@ default_time_one_page_visit = 0
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
 url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
 
+; If set to 1, Matomo will use the default provider if no other provider is configured.
+; In addition the default provider will be used as a fallback when the configure provider does not return any results.
+; If set to 0, the default provider will be unavailable. Instead the "disabled" provider will be used as default and fallback instead.
+enable_default_location_provider = 1
+
 ; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
