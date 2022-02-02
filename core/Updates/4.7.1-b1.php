@@ -41,10 +41,10 @@ class Updates_4_7_1_b1 extends PiwikUpdates
     {
         $migrations = [];
 
-        $migrations[] = $this->migration->db->changeColumn('changes', 'plugin_name', 'plugin_name', 'VARCHAR(40) NOT NULL');
+        $migrations[] = $this->migration->db->changeColumn('changes', 'plugin_name', 'plugin_name', 'VARCHAR(60) NOT NULL');
 
         $migrations[] = $this->migration->db->dropIndex('changes', 'unique_plugin_version_title');
-        $migrations[] = $this->migration->db->addUniqueKey('changes', ['plugin_name', 'version', 'title(131)'], 'unique_plugin_version_title');
+        $migrations[] = $this->migration->db->addUniqueKey('changes', ['plugin_name', 'version', 'title(100)'], 'unique_plugin_version_title');
 
         return $migrations;
     }
