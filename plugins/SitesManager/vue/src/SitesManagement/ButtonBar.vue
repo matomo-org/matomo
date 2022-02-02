@@ -5,12 +5,14 @@
 -->
 
 <template>
-  <div v-show="!siteIsBeingEdited" class="sitesButtonBar clearfix">
+  <div class="sitesButtonBar clearfix">
 
     <a v-show="hasSuperUserAccess && availableTypes"
        class="btn addSite"
+       :class="{ disabled: siteIsBeingEdited }"
        @click="addNewEntity()"
-       tabindex="1">
+       tabindex="1"
+    >
       {{ availableTypes.length > 1
         ? translate('SitesManager_AddMeasurable')
         : translate('SitesManager_AddSite') }}
@@ -22,6 +24,7 @@
         @keydown="onKeydown($event)"
         :placeholder="translate('Actions_SubmenuSitesearch')"
         type="text"
+        :disabled="siteIsBeingEdited"
       />
       <img
         @click="searchSite()"
@@ -34,7 +37,7 @@
     <div class="paging" v-show="hasPrev || hasNext">
       <a
         class="btn prev"
-        :disabled="hasPrev && !isLoading ? undefined : true"
+        :disabled="(hasPrev && !isLoading) && !siteIsBeingEdited ? undefined : true"
         @click="previousPage()"
       >
         <span style="cursor:pointer;">&#171; {{ translate('General_Previous') }}</span>
@@ -44,7 +47,11 @@
               {{ paginationText }}
             </span>
         </span>
-      <a class="btn next" :disabled="hasNext && !isLoading ? undefined : true" @click="nextPage()">
+      <a
+        class="btn next"
+        :disabled="(hasNext && !isLoading) && !siteIsBeingEdited ? undefined : true"
+        @click="nextPage()"
+      >
         <span style="cursor:pointer;" class="pointer">{{ translate('General_Next') }} &#187;</span>
       </a>
     </div>
@@ -129,6 +136,10 @@ export default defineComponent({
       this.$emit('add');
     },
     searchSite() {
+      if (this.siteIsBeingEdited) {
+        return;
+      }
+
       this.$emit('search');
     },
     previousPage() {
