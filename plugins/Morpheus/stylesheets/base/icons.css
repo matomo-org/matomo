@@ -127,6 +127,9 @@
 .icon-fullscreen:before {
   content: "\e61c";
 }
+.icon-github:before {
+  content: "\eab0";
+}
 .icon-goal:before {
   content: "\e61d";
 }
