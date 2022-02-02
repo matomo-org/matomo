@@ -44,15 +44,17 @@
     </div>
 
     <div>
-      <AddSiteLink
+      <ButtonBar
         :site-is-being-edited="isSiteBeingEdited"
         :has-prev="hasPrev"
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
-        :is-searching="!!searchTerm"
         :is-loading="isLoading"
+        :search-term="searchTerm"
+        :is-searching="!!activeSearchTerm"
+        @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -60,32 +62,34 @@
       />
     </div>
 
-    <MatomoDialog v-model="showAddSiteDialog" class="ui-confirm">
-      <div>
-        <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
+    <MatomoDialog v-model="showAddSiteDialog">
+      <div class="ui-confirm">
+        <div>
+          <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
 
-        <div class="center">
-          <p>
-            <button
-              type="button"
-              v-for="type in availableTypes"
-              :key="type.id"
-              :title="type.description"
-              class="modal-close btn"
-              style="margin-left: 20px;"
-              @click="addSite(type.id);"
-              aria-disabled="false"
-            >
-              <span class="ui-button-text">{{ type.name }}</span>
-            </button>
-          </p>
+          <div class="center">
+            <p>
+              <button
+                type="button"
+                v-for="type in availableTypes"
+                :key="type.id"
+                :title="type.description"
+                class="modal-close btn"
+                style="margin-left: 20px;"
+                @click="addSite(type.id);"
+                aria-disabled="false"
+              >
+                <span class="ui-button-text">{{ type.name }}</span>
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </MatomoDialog>
 
     <div class="sitesManagerList">
-      <p v-if="searchTerm && 0 === sites.length && !isLoading">
-        {{ translate('SitesManager_NotFound') }} <strong>{{ searchTerm }}</strong>
+      <p v-if="activeSearchTerm && 0 === sites.length && !isLoading">
+        {{ translate('SitesManager_NotFound') }} <strong>{{ activeSearchTerm }}</strong>
       </p>
 
       <div
@@ -99,21 +103,23 @@
           :global-settings="globalSettings"
           @cancel-edit-site="afterCancelEdit($event)"
           @delete="afterDelete($event)"
-          @save="afterSave($event.site, $event.settingValues, index)"
+          @save="afterSave($event.site, $event.settingValues, index, $event.isNew)"
         />
       </div>
     </div>
 
     <div class="bottomButtonBar">
-      <AddSiteLink
+      <ButtonBar
         :site-is-being-edited="isSiteBeingEdited"
         :has-prev="hasPrev"
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
         :total-number-of-sites="totalNumberOfSites"
-        :is-searching="!!searchTerm"
         :is-loading="isLoading"
+        :search-term="searchTerm"
+        :is-searching="!!activeSearchTerm"
+        @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
         @search="searchSites($event)"
         @prev="previousPage()"
@@ -137,7 +143,7 @@ import {
   translate,
 } from 'CoreHome';
 import { Setting } from 'CorePluginsAdmin';
-import AddSiteLink from './AddSiteLink.vue';
+import ButtonBar from './ButtonBar.vue';
 import SiteFields from '../SiteFields/SiteFields.vue';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
@@ -148,7 +154,8 @@ interface SitesManagementState {
   currentPage: number;
   showAddSiteDialog: boolean;
   searchTerm: string;
-  sites: Site[];
+  activeSearchTerm: string;
+  fetchedSites: Site[];
   utcTime: Date;
   totalNumberOfSites: number|null;
   isLoadingInitialEntities: boolean;
@@ -164,7 +171,7 @@ export default defineComponent({
   },
   components: {
     MatomoDialog,
-    AddSiteLink,
+    ButtonBar,
     SiteFields,
     EnrichedHeadline,
   },
@@ -187,7 +194,8 @@ export default defineComponent({
       currentPage: 0,
       showAddSiteDialog: false,
       searchTerm: '',
-      sites: [],
+      activeSearchTerm: '',
+      fetchedSites: [],
       isLoadingInitialEntities: false,
       utcTime,
       totalNumberOfSites: null,
@@ -207,14 +215,17 @@ export default defineComponent({
       this.isLoadingInitialEntities = false;
     });
 
-    // TODO: test
-    // if hash is #globalSettings, redirect to globalSettings action
+    // if hash is #globalSettings, redirect to globalSettings action (we don't do it on
+    // page load so the back button still works)
     watch(() => MatomoUrl.hashQuery.value, () => {
       this.checkGlobalSettingsHash();
     });
-    this.checkGlobalSettingsHash();
   },
   computed: {
+    sites() {
+      const emptyIdSiteRows = this.fetchedSites.filter((s) => !s.idsite).length;
+      return this.fetchedSites.slice(0, this.pageSize + emptyIdSiteRows);
+    },
     isLoading() {
       return !!this.fetchLimitedSitesAbortController
         || this.isLoadingInitialEntities
@@ -224,7 +235,7 @@ export default defineComponent({
         || GlobalSettingsStore.isLoading.value;
     },
     availableTypes() {
-      return Object.values(SiteTypesStore.typesById.value);
+      return SiteTypesStore.types.value;
     },
     timezoneSupportEnabled() {
       return TimezoneStore.timezoneSupportEnabled.value;
@@ -256,13 +267,13 @@ export default defineComponent({
       return this.currentPage >= 1;
     },
     hasNext() {
-      return this.sites.length === this.pageSize;
+      return this.fetchedSites.filter((s) => !!s.idsite).length >= this.pageSize + 1;
     },
     offsetStart() {
       return this.currentPage * this.pageSize + 1;
     },
     offsetEnd() {
-      return this.offsetStart + this.sites.length - 1;
+      return this.offsetStart + this.sites.filter((s) => !!s.idsite).length - 1;
     },
   },
   methods: {
@@ -305,13 +316,13 @@ export default defineComponent({
         type = 'website'; // todo shall we really hard code this or trigger an exception or so?
       }
 
-      this.sites.unshift({
+      this.fetchedSites.unshift({
         type,
       } as unknown as Site);
     },
     afterCancelEdit({ site, element }: { site: Site, element: HTMLElement }) {
       if (!site.idsite) {
-        this.sites = this.sites.filter((s) => !!s.idsite);
+        this.fetchedSites = this.sites.filter((s) => !!s.idsite);
         return;
       }
 
@@ -319,14 +330,14 @@ export default defineComponent({
 
       element.scrollIntoView();
     },
-    fetchLimitedSitesWithAdminAccess() {
+    fetchLimitedSitesWithAdminAccess(searchTerm = '') {
       if (this.fetchLimitedSitesAbortController) {
         this.fetchLimitedSitesAbortController.abort();
       }
 
       this.fetchLimitedSitesAbortController = new AbortController();
 
-      const limit = this.pageSize;
+      const limit = this.pageSize + 1;
       const offset = this.currentPage * this.pageSize;
 
       const params: QueryParameters = {
@@ -337,12 +348,15 @@ export default defineComponent({
         filter_limit: limit,
       };
 
-      if (this.searchTerm) {
-        params.pattern = this.searchTerm;
+      if (searchTerm) {
+        params.pattern = searchTerm;
       }
 
       return AjaxHelper.fetch<Site[]>(params).then((sites) => {
-        this.sites = sites || [];
+        this.fetchedSites = sites || [];
+      }).then((sites) => {
+        this.activeSearchTerm = searchTerm;
+        return sites;
       }).finally(() => {
         this.fetchLimitedSitesAbortController = null;
       });
@@ -356,35 +370,37 @@ export default defineComponent({
       });
     },
     triggerAddSiteIfRequested() {
+      const forcedEditSiteId = SiteTypesStore.getEditSiteIdParameter();
       const showaddsite = MatomoUrl.urlParsed.value.showaddsite as string;
+
       if (showaddsite === '1') {
         this.addNewEntity();
+      } else if (forcedEditSiteId) {
+        this.searchTerm = forcedEditSiteId;
+        this.fetchLimitedSitesWithAdminAccess(this.searchTerm);
       }
     },
     previousPage() {
       this.currentPage = Math.max(0, this.currentPage - 1);
-      this.fetchLimitedSitesWithAdminAccess();
+      this.fetchLimitedSitesWithAdminAccess(this.activeSearchTerm);
     },
     nextPage() {
       this.currentPage = Math.max(0, this.currentPage + 1);
-      this.fetchLimitedSitesWithAdminAccess();
+      this.fetchLimitedSitesWithAdminAccess(this.activeSearchTerm);
     },
-    searchSites(searchTerm: string) {
-      this.searchTerm = searchTerm;
+    searchSites() {
       this.currentPage = 0;
-      this.fetchLimitedSitesWithAdminAccess();
+      this.fetchLimitedSitesWithAdminAccess(this.searchTerm);
     },
     afterDelete(site: Site) {
       let redirectParams: QueryParameters = {
-        ...MatomoUrl.urlParsed.value,
+        showaddsite: 0,
       };
-
-      delete redirectParams.showaddsite;
 
       // if the current idSite in the URL is the site we're deleting, then we have to make to
       // change it. otherwise, if a user goes to another page, the invalid idSite may cause
       // a fatal error.
-      if (MatomoUrl.urlParsed.value.idSite === site.idsite) {
+      if (MatomoUrl.urlParsed.value.idSite === `${site.idsite}`) {
         const otherSite = this.sites.find((s) => s.idsite !== site.idsite);
 
         if (otherSite) {
@@ -392,9 +408,9 @@ export default defineComponent({
         }
       }
 
-      MatomoUrl.updateUrl(redirectParams, MatomoUrl.hashParsed.value);
+      Matomo.helper.redirect(redirectParams);
     },
-    afterSave(site: Site, settingValues: Record<string, Setting[]>, index: number) {
+    afterSave(site: Site, settingValues: Record<string, Setting[]>, index: number, isNew: boolean) {
       const texttareaArrayParams = [
         'excluded_ips',
         'excluded_parameters',
@@ -419,7 +435,11 @@ export default defineComponent({
         });
       });
 
-      this.sites[index] = newSite;
+      this.fetchedSites[index] = newSite;
+
+      if (isNew && this.totalNumberOfSites !== null) {
+        this.totalNumberOfSites += 1;
+      }
     },
   },
 });

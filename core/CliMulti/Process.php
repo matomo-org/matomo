@@ -215,6 +215,7 @@ class Process
 
         if (SettingsServer::isWindows()) {
             $reasons[] = 'not supported on windows';
+            return $reasons;
         }
 
         if (self::isMethodDisabled('shell_exec')) {

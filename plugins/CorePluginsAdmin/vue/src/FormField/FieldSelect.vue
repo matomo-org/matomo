@@ -71,7 +71,7 @@ interface OptionGroup {
 
 function initMaterialSelect(
   select: HTMLSelectElement|undefined|null,
-  modelValue: unknown|unknown[],
+  modelValue: string|number|string[],
   placeholder: string|undefined,
   uiControlOptions = {},
   multiple: boolean,

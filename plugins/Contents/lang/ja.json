@@ -1,20 +1,24 @@
 {
     "Contents": {
-        "PluginDescription": "コンテンツとバナートラッキングでは、ページ上のコンテンツ ( バナー広告、画像、アイテム ) のパフォーマンス ( 表示、クリック、クリック率 ) を測定できます。",
-        "Impressions": "インプレッション",
         "ContentImpression": "コンテンツインプレッション",
         "ContentInteraction": "コンテンツインタラクション",
         "ContentInteractions": "コンテンツインタラクション",
-        "InteractionRate": "インタラクション率",
         "ContentName": "コンテンツ名",
+        "ContentNameReportDocumentation": "このレポートでは、来客が閲覧し、相互作用したコンテンツの名前が表示されます。",
         "ContentNames": "コンテンツ名",
         "ContentPiece": "コンテンツ要素",
+        "ContentPieceReportDocumentation": "このレポートでは、来客が閲覧し、相互作用したコンテンツの断片が表示されます。",
         "ContentPieces": "コンテンツ要素",
         "ContentTarget": "コンテンツターゲット",
         "ContentTargets": "コンテンツターゲット",
         "Contents": "コンテンツ",
-        "InteractionsMetricDocumentation": "コンテンツブロックが操作された回数（バナーや広告の ' クリック ' など）。",
+        "ContentsSubcategoryHelp1": "コンテンツトラッキングは、ウェブサイトとアプリのあらゆるページで、特定の断片の人気を判断するのに役立ちます。このセクションでは、サイト上のさまざまなコンテンツが受け取ったインプレッション数とインタラクション数を報告します。",
+        "ContentsSubcategoryHelp2": "詳しくは、内容のトラッキングガイドをご覧ください。",
+        "Impressions": "インプレッション",
         "ImpressionsMetricDocumentation": "広告やバナーなどのコンテンツブロックがページに表示された回数。",
-        "InteractionRateMetricDocumentation": "インタラクションに対するコンテンツインプレッションの比率。"
+        "InteractionRate": "インタラクション率",
+        "InteractionRateMetricDocumentation": "インタラクションに対するコンテンツインプレッションの比率。",
+        "InteractionsMetricDocumentation": "コンテンツブロックが操作された回数（バナーや広告の ' クリック ' など）。",
+        "PluginDescription": "コンテンツとバナートラッキングでは、ページ上のコンテンツ ( バナー広告、画像、アイテム ) のパフォーマンス ( 表示、クリック、クリック率 ) を測定できます。"
     }
 }

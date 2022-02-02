@@ -117,6 +117,7 @@ declare global {
   }
 
   interface PiwikGlobal {
+    installation: boolean; // only set while Matomo is installing
     timezoneOffset: number;
     addCustomPeriod: (name: string, periodClass: any) => void;
     shouldPropagateTokenAuth: boolean;
