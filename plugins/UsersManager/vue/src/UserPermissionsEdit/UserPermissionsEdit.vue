@@ -105,6 +105,7 @@
             type="text"
             :value="siteNameFilter"
             @keydown="onChangeSiteFilter($event);"
+            @change="onChangeSiteFilter($event);"
             :placeholder="translate('UsersManager_FilterByWebsite')"
           />
         </div>
@@ -234,7 +235,10 @@
               ></a>
             </div>
             <div v-if="areAllResultsSelected">
-              <span v-html="$sanitize(allWebsitesAreSelectedText)"></span>
+              <span
+                v-html="$sanitize(allWebsitesAreSelectedText)"
+                style="margin-right:3.5px"
+              ></span>
               <a
                 href="#"
                 @click.prevent="areAllResultsSelected = !areAllResultsSelected"
@@ -462,7 +466,7 @@ export default defineComponent({
       siteAccessToChange: null,
     };
   },
-  emits: ['fetched', 'accessChanged'],
+  emits: ['userHasAccessDetected', 'accessChanged'],
   created() {
     this.onChangeSiteFilter = debounce(this.onChangeSiteFilter, 300);
 
@@ -529,7 +533,7 @@ export default defineComponent({
         this.totalEntries = parseInt(result.getResponseHeader('x-matomo-total-results')!, 10) || 0;
         this.hasAccessToAtLeastOneSite = !!result.getResponseHeader('x-matomo-has-some');
 
-        this.$emit('fetched', { hasAccess: this.hasAccessToAtLeastOneSite });
+        this.$emit('userHasAccessDetected', { hasAccess: this.hasAccessToAtLeastOneSite });
 
         this.clearSelection();
       }).catch(() => {
@@ -650,9 +654,12 @@ export default defineComponent({
     },
     onChangeSiteFilter(event: KeyboardEvent) {
       setTimeout(() => {
-        this.siteNameFilter = (event.target as HTMLInputElement).value;
-        this.offset = 0;
-        this.fetchAccess();
+        const inputValue = (event.target as HTMLInputElement).value;
+        if (this.siteNameFilter !== inputValue) {
+          this.siteNameFilter = inputValue;
+          this.offset = 0;
+          this.fetchAccess();
+        }
       });
     },
     onRoleChange(entry: SiteAccess, newRole: string) {
