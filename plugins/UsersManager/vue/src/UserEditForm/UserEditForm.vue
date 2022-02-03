@@ -393,9 +393,8 @@ export default defineComponent({
     user(newVal) {
       this.theUser = newVal || { ...DEFAULT_USER };
 
-      if (!this.isAdd) {
-        // make sure password is not stored in the client after update/save
-        this.theUser.password = 'XXXXXXXX';
+      if (!this.theUser.password) {
+        this.resetPasswordVar();
       }
 
       this.setSuperUserAccessChecked();
@@ -463,8 +462,15 @@ export default defineComponent({
         this.isSavingUserInfo = false;
         this.isUserModified = true;
 
+        this.resetPasswordVar();
         this.showUserSavedNotification();
       });
+    },
+    resetPasswordVar() {
+      if (!this.isAdd) {
+        // make sure password is not stored in the client after update/save
+        this.theUser.password = 'XXXXXXXX';
+      }
     },
     confirmUserChange() {
       this.passwordConfirmation = '';
@@ -534,6 +540,7 @@ export default defineComponent({
         this.isUserModified = true;
         this.isPasswordModified = false;
 
+        this.resetPasswordVar();
         this.showUserSavedNotification();
       });
     },
