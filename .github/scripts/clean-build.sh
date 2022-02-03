@@ -43,7 +43,11 @@ rm -rf vendor/davaxi/sparkline/composer-8.json
 rm -rf vendor/davaxi/sparkline/docker-compose.yml
 rm -rf vendor/davaxi/sparkline/Dockerfile
 rm -rf vendor/geoip2/geoip2/examples/
-rm -rf vendor/lox/xhprof/examples/
+rm -rf vendor/lox/xhprof/bin
+rm -rf vendor/lox/xhprof/examples
+rm -rf vendor/lox/xhprof/scripts
+rm -rf vendor/lox/xhprof/extension
+rm -rf vendor/lox/xhprof/xhprof_html
 rm -rf vendor/maxmind-db/reader/ext/
 rm -rf vendor/maxmind-db/reader/autoload.php
 rm -rf vendor/maxmind-db/reader/CHANGELOG.md
@@ -180,6 +184,18 @@ rm -rf node_modules/visibilityjs/component.json
 rm -rf node_modules/visibilityjs/index.d.ts
 rm -rf node_modules/visibilityjs/index.js
 rm -rf node_modules/visibilityjs/README.md
+
+rm -rf node_modules/vue/dist/vue.cjs.js
+rm -rf node_modules/vue/dist/vue.cjs.prod.js
+rm -rf node_modules/vue/dist/vue.d.ts
+rm -rf node_modules/vue/dist/vue.esm-browser.js
+rm -rf node_modules/vue/dist/vue.esm-browser.prod.js
+rm -rf node_modules/vue/dist/vue.esm-bundler.js
+rm -rf node_modules/vue/dist/vue.runtime.esm-browser.js
+rm -rf node_modules/vue/dist/vue.runtime.esm-browser.prod.js
+rm -rf node_modules/vue/dist/vue.runtime.esm-bundler.js
+rm -rf node_modules/vue/dist/vue.runtime.global.js
+rm -rf node_modules/vue/dist/vue.runtime.global.prod.js
 
 rm -f libs/jqplot/jqplot.core.js
 rm -f libs/jqplot/jqplot.lineRenderer.js

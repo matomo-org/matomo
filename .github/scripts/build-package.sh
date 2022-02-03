@@ -135,7 +135,15 @@ function organizePackage() {
 
     cp tests/README.md ../
 
-    $CURRENT_DIR/.github/scripts/clean-build.sh
+    $CURRENT_DIR/.github/scripts/clean_build.sh
+
+    SYMLINKS=(`find ./ -type l`)
+    if [ ${#SYMLINKS[@]} -gt 0 ]
+    then
+      echo 'Symlinks detected. Please check if following links should be removed:'
+      echo ${SYMLINKS[*]}
+      exit 1
+    fi
 
     mkdir tests
     mv ../README.md tests/
