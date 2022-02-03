@@ -6,7 +6,7 @@
  */
 
 interface Site {
-  idsite: string;
+  idsite: string|number;
   name: string;
   type: string;
   group?: string;

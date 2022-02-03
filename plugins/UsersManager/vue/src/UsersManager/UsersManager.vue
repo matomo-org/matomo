@@ -12,7 +12,9 @@
           <EnrichedHeadline
             help-url="https://matomo.org/docs/manage-users/"
             feature-name="Users Management"
-          />
+          >
+            {{ translate('UsersManager_ManageUsers') }}
+          </EnrichedHeadline>
         </h2>
         <p v-if="currentUserRole === 'superuser'">
           {{ translate('UsersManager_ManageUsersDesc') }}
@@ -22,7 +24,7 @@
         </p>
         <div class="row add-user-container">
           <div class="col s12">
-            <div class="input-field">
+            <div class="input-field" style="margin-right:3.5px">
               <a
                 class="btn add-new-user"
                 @click="isEditing = true; userBeingEdited = null"
@@ -90,6 +92,7 @@
           href
           class="modal-action modal-close btn"
           @click.prevent="addExistingUser()"
+          style="margin-right:3.5px"
         >{{ translate('General_Add') }}</a>
         <a
           href
@@ -209,7 +212,6 @@ export default defineComponent({
       $(this.$refs.addExistingUserModal as HTMLElement).modal({ dismissible: false }).modal('open');
     },
     onChangeUserRole(users: User[]|string, role: string) {
-      console.log(users);
       this.isLoadingUsers = true;
 
       Promise.resolve().then(() => {
@@ -307,10 +309,11 @@ export default defineComponent({
             idSites: this.searchParams.idSite,
           },
         )
-      )).catch((error) => {
+      )).then(
+        () => this.fetchUsers(),
+      ).catch(() => {
         this.isLoadingUsers = false;
-        throw error;
-      }).then(() => this.fetchUsers());
+      });
     },
   },
   computed: {

@@ -11,6 +11,7 @@
         "SettingsMenu": "Meldingstjenester",
         "Settings_APIKey": "API-nøkkel",
         "Settings_CountryCode": "Landskode",
+        "Settings_CredentialNotProvidedByAdmin": "Før du kan opprette og håndtere telefonnummer må du spørre din administrator om å koble Matomo til en SMS-konto.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "De oppsatte telefonnumrene vises kun for deg, og kan ikke brukes av andre brukere.",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Oppsatt SMS-tilbyder vil kun anvendes av deg og ikke av andre brukere.",
         "Settings_DeleteAccountConfirm": "Er du sikker på at du vil slette denne SMS-kontoen?",

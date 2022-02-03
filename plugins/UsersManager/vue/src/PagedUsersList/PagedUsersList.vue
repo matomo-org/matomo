@@ -111,7 +111,9 @@
             <span class="pointer">&#xAB; {{ translate('General_Previous') }}</span>
           </a>
           <div class="counter">
-            <span>
+            <span
+              :class="{ visibility: isLoadingUsers ? 'hidden' : 'visible' }"
+            >
               {{ translate(
                   'General_Pagination',
                   paginationLowerBound,
@@ -120,7 +122,6 @@
                 ) }}
             </span>
             <ActivityIndicator
-              v-if="isLoadingUsers"
               :loading="isLoadingUsers"
             />
           </div>
@@ -170,7 +171,7 @@
             </th>
             <th class="first">{{ translate('UsersManager_Username') }}</th>
             <th class="role_header">
-              <span>{{ translate('UsersManager_RoleFor') }}</span>
+              <span style="margin-right: 3.5px">{{ translate('UsersManager_RoleFor') }}</span>
               <a
                 href=""
                 class="helpIcon"
@@ -209,10 +210,12 @@
           >
             <td colspan="8">
               <div v-if="!areAllResultsSelected">
-                <span v-html="translate(
+                <span
+                  v-html="translate(
                     'UsersManager_TheDisplayedUsersAreSelected',
                     `<strong>${users.length}</strong>`,
                   )"
+                  style="margin-right:3.5px"
                 ></span>
                 <a
                   class="toggle-select-all-in-search"
@@ -229,6 +232,7 @@
                     'UsersManager_AllUsersAreSelected',
                     `<strong>${totalEntries}</strong>`,
                   )"
+                  style="margin-right:3.5px"
                 ></span>
                 <a
                   class="toggle-select-all-in-search"
@@ -342,6 +346,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="deleteRequestedUsers()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -376,6 +381,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="changeUserRole()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""

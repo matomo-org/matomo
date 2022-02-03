@@ -37,7 +37,7 @@ module.exports = function(config) {
         'piwik.js',
         'plugins/AnonymousPiwikUsageMeasurement/javascripts/url.js',
         'plugins/AnonymousPiwikUsageMeasurement/javascripts/tracking.js',
-        'plugins/*/vue/dist/*.umd.js',
+        'plugins/CoreHome/vue/dist/CoreHome.umd.js',
         'plugins/*/**/*.spec.js'
     ],
 

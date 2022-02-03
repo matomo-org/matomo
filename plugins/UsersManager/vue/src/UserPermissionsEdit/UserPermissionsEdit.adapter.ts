@@ -19,11 +19,11 @@ export default createAngularJsAdapter({
     },
     onUserHasAccessDetected: {
       angularJsBind: '&',
-      vue: 'accessChanged',
+      vue: 'userHasAccessDetected',
     },
     onAccessChange: {
       angularJsBind: '&',
-      vue: 'userHasAccessDetected',
+      vue: 'accessChanged',
     },
     accessLevels: {
       angularJsBind: '<',

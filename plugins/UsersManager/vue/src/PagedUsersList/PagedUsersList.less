@@ -165,7 +165,7 @@
   }
 
 
-  .pagedUsersList.loading {
+  &.loading {
     table {
       opacity: 0.5;
     }
@@ -181,7 +181,7 @@
       }
     }
 
-    div[piwik-activity-indicator] {
+    .loadingPiwik {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -198,11 +198,11 @@
   }
 }
 
-#root piwik-paged-users-list .siteSelector.borderedControl {
+#root .pagedUsersList .siteSelector.borderedControl {
   background-color: white;
   width: 150px;
 }
 
-#content piwik-paged-users-list .sites_autocomplete > .siteSelector {
+#content .pagedUsersList .sites_autocomplete > .siteSelector {
   position: static;
 }
