@@ -101,6 +101,7 @@
           :timezone-support-enabled="timezoneSupportEnabled"
           :utc-time="utcTime"
           :global-settings="globalSettings"
+          @edit-site="this.isSiteBeingEdited = true"
           @cancel-edit-site="afterCancelEdit($event)"
           @delete="afterDelete($event)"
           @save="afterSave($event.site, $event.settingValues, index, $event.isNew)"
@@ -319,14 +320,16 @@ export default defineComponent({
       this.fetchedSites.unshift({
         type,
       } as unknown as Site);
+
+      this.isSiteBeingEdited = true;
     },
     afterCancelEdit({ site, element }: { site: Site, element: HTMLElement }) {
+      this.isSiteBeingEdited = false;
+
       if (!site.idsite) {
-        this.fetchedSites = this.sites.filter((s) => !!s.idsite);
+        this.fetchedSites = this.fetchedSites.filter((s) => !!s.idsite);
         return;
       }
-
-      this.isSiteBeingEdited = false;
 
       element.scrollIntoView();
     },
@@ -440,6 +443,10 @@ export default defineComponent({
       if (isNew && this.totalNumberOfSites !== null) {
         this.totalNumberOfSites += 1;
       }
+
+      console.log('here?');
+
+      this.isSiteBeingEdited = false;
     },
   },
 });

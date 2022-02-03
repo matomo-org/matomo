@@ -161,7 +161,6 @@ class SitesManager extends \Piwik\Plugin
         $stylesheets[] = "plugins/SitesManager/stylesheets/SitesManager.less";
     }
 
-
     /**
      * Hooks when a website tracker cache is flushed (website updated, cache deleted, or empty cache)
      * Will record in the tracker config file all data needed for this website in Tracker.

@@ -105,6 +105,7 @@
             type="text"
             :value="siteNameFilter"
             @keydown="onChangeSiteFilter($event);"
+            @change="onChangeSiteFilter($event);"
             :placeholder="translate('UsersManager_FilterByWebsite')"
           />
         </div>
@@ -234,7 +235,10 @@
               ></a>
             </div>
             <div v-if="areAllResultsSelected">
-              <span v-html="$sanitize(allWebsitesAreSelectedText)"></span>
+              <span
+                v-html="$sanitize(allWebsitesAreSelectedText)"
+                style="margin-right:3.5px"
+              ></span>
               <a
                 href="#"
                 @click.prevent="areAllResultsSelected = !areAllResultsSelected"
@@ -305,6 +309,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="changeUserRole()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -329,6 +334,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="changeUserRole()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -350,6 +356,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="giveAccessToAllSites()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -650,9 +657,12 @@ export default defineComponent({
     },
     onChangeSiteFilter(event: KeyboardEvent) {
       setTimeout(() => {
-        this.siteNameFilter = (event.target as HTMLInputElement).value;
-        this.offset = 0;
-        this.fetchAccess();
+        const inputValue = (event.target as HTMLInputElement).value;
+        if (this.siteNameFilter !== inputValue) {
+          this.siteNameFilter = inputValue;
+          this.offset = 0;
+          this.fetchAccess();
+        }
       });
     },
     onRoleChange(entry: SiteAccess, newRole: string) {

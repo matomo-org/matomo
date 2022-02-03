@@ -276,7 +276,7 @@ export default defineComponent({
     GroupedSettings,
     ActivityIndicator,
   },
-  emits: ['delete', 'cancelEditSite', 'save'],
+  emits: ['delete', 'editSite', 'cancelEditSite', 'save'],
   created() {
     this.onSiteChanged();
   },
@@ -321,6 +321,8 @@ export default defineComponent({
     },
     editSite() {
       this.editMode = true;
+
+      this.$emit('editSite', { idSite: this.theSite.idsite });
 
       this.measurableSettings = [];
 

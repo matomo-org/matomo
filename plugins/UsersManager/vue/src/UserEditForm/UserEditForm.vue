@@ -35,6 +35,7 @@
             <a
               href=""
               @click.prevent="activeTab = 'permissions'"
+              style="margin-right:3.5px"
             >
               {{ translate('UsersManager_Permissions') }}
             </a>
@@ -208,6 +209,7 @@
                 href=""
                 class="modal-action modal-close btn"
                 @click.prevent="toggleSuperuserAccess()"
+                style="margin-right:3.5px"
               >{{ translate('General_Yes') }}</a>
               <a
                 href=""
@@ -252,6 +254,7 @@
                 href=""
                 class="modal-action modal-close btn"
                 @click.prevent="reset2FA()"
+                style="margin-right:3.5px"
               >{{ translate('General_Yes') }}</a>
               <a
                 href=""
@@ -265,9 +268,7 @@
     </div>
     <div class="change-password-modal modal" ref="changePasswordModal">
       <div class="modal-content">
-        <h2 piwik-translate="UsersManager_AreYouSureChangeDetails">
-          <strong>{{ theUser.login }}</strong>
-        </h2>
+        <h2 v-html="changePasswordTitle"></h2>
         <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
         <div>
           <Field
@@ -390,17 +391,22 @@ export default defineComponent({
   emits: ['done', 'updated'],
   watch: {
     user(newVal) {
+      this.onUserChange(newVal);
+    },
+  },
+  created() {
+    this.onUserChange(this.user as User);
+  },
+  methods: {
+    onUserChange(newVal: User) {
       this.theUser = newVal || { ...DEFAULT_USER };
 
-      if (!this.isAdd) {
-        // make sure password is not stored in the client after update/save
-        this.theUser.password = 'XXXXXXXX';
+      if (!this.theUser.password) {
+        this.resetPasswordVar();
       }
 
       this.setSuperUserAccessChecked();
     },
-  },
-  methods: {
     confirmSuperUserChange() {
       $(this.$refs.superUserConfirmModal as HTMLElement).modal({
         dismissible: false,
@@ -462,8 +468,15 @@ export default defineComponent({
         this.isSavingUserInfo = false;
         this.isUserModified = true;
 
+        this.resetPasswordVar();
         this.showUserSavedNotification();
       });
+    },
+    resetPasswordVar() {
+      if (!this.isAdd) {
+        // make sure password is not stored in the client after update/save
+        this.theUser.password = 'XXXXXXXX';
+      }
     },
     confirmUserChange() {
       this.passwordConfirmation = '';
@@ -533,6 +546,7 @@ export default defineComponent({
         this.isUserModified = true;
         this.isPasswordModified = false;
 
+        this.resetPasswordVar();
         this.showUserSavedNotification();
       });
     },
@@ -554,6 +568,12 @@ export default defineComponent({
     },
     isAdd() {
       return !this.user; // purposefully checking input property not theUser state
+    },
+    changePasswordTitle() {
+      return translate(
+        'UsersManager_AreYouSureChangeDetails',
+        `<strong>${this.theUser.login}</strong>`,
+      );
     },
   },
 });
