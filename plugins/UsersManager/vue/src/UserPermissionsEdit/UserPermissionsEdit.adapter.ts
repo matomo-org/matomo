@@ -19,7 +19,7 @@ export default createAngularJsAdapter({
     },
     onUserHasAccessDetected: {
       angularJsBind: '&',
-      vue: 'fetched',
+      vue: 'userHasAccessDetected',
     },
     onAccessChange: {
       angularJsBind: '&',
