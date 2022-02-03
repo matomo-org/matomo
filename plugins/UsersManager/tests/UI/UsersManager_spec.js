@@ -546,9 +546,7 @@ describe("UsersManager", function () {
         });
 
         it('should not allow editing basic info for admin users', async function () {
-            await page.evaluate(function () {
-                $('.userEditForm .entityCancelLink').click();
-            });
+            await page.click('.userEditForm .entityCancelLink');
             await (await page.jQuery('button.edituser:eq(0)')).click();
             await page.waitForNetworkIdle();
 
@@ -563,9 +561,7 @@ describe("UsersManager", function () {
         });
 
         it('should show the add existing user modal', async function () {
-            await page.evaluate(function () {
-                $('.userEditForm .entityCancelLink').click();
-            });
+            await page.click('.userEditForm .entityCancelLink');
 
             await page.click('.add-existing-user');
             await page.waitForTimeout(500); // wait for animation
