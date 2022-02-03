@@ -197,10 +197,10 @@ describe("UsersManager", function () {
         await page.type('#user_password', 'thepassword');
         await page.type('#user_email', 'theuser@email.com');
 
-        await page.click('piwik-user-edit-form .siteSelector a.title');
-        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
+        await page.click('.userEditForm .siteSelector a.title');
+        await (await page.jQuery('.userEditForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
 
-        await page.evaluate(() => $('piwik-user-edit-form [piwik-save-button] input').click());
+        await page.evaluate(() => $('.userEditForm .matomo-save-button input').click());
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
@@ -486,7 +486,7 @@ describe("UsersManager", function () {
             $('.userEditForm #user_email').val('testlogin3@example.com').change();
         });
 
-        var btnSave = await page.jQuery('.userEditForm .basic-info-tab [piwik-save-button] .btn', { waitFor: true });
+        var btnSave = await page.jQuery('.userEditForm .basic-info-tab .matomo-save-button .btn', { waitFor: true });
         await btnSave.click();
 
         await page.waitForTimeout(500); // animation
