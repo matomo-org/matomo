@@ -35,6 +35,7 @@
             <a
               href=""
               @click.prevent="activeTab = 'permissions'"
+              style="margin-right:3.5px"
             >
               {{ translate('UsersManager_Permissions') }}
             </a>
