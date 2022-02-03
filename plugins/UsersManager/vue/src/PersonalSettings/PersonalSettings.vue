@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <a href="" class="modal-action btn" @click.prevent="save()">
+          <a href="" class="modal-action btn" @click.prevent="save()" style="margin-right:3.5px">
             {{ translate('General_Ok') }}
           </a>
           <a

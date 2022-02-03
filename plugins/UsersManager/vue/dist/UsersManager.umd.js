@@ -3445,19 +3445,19 @@ AnonymousSettingsvue_type_script_lang_ts.render = AnonymousSettingsvue_type_temp
   },
   directiveName: 'matomoAnonymousSettings'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=a9266e20
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=2cb03bb3
 
-var NewsletterSettingsvue_type_template_id_a9266e20_hoisted_1 = {
+var NewsletterSettingsvue_type_template_id_2cb03bb3_hoisted_1 = {
   id: "newsletterSignup"
 };
-function NewsletterSettingsvue_type_template_id_a9266e20_render(_ctx, _cache, $props, $setup, $data, $options) {
+function NewsletterSettingsvue_type_template_id_2cb03bb3_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NewsletterSettingsvue_type_template_id_a9266e20_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NewsletterSettingsvue_type_template_id_2cb03bb3_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UsersManager_NewsletterSignupTitle')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
@@ -3471,20 +3471,20 @@ function NewsletterSettingsvue_type_template_id_a9266e20_render(_ctx, _cache, $p
         }),
         "full-width": true,
         title: _ctx.signupTitleText
-      }, null, 8, ["modelValue", "title"])])];
+      }, null, 8, ["modelValue", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+        id: "newsletterSignupBtn",
+        onConfirm: _cache[1] || (_cache[1] = function ($event) {
+          return _ctx.signupForNewsletter();
+        }),
+        disabled: !_ctx.newsletterSignupCheckbox,
+        value: _ctx.newsletterSignupButtonTitle,
+        saving: _ctx.isProcessingNewsletterSignup
+      }, null, 8, ["disabled", "value", "saving"])];
     }),
     _: 1
-  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-    id: "newsletterSignupBtn",
-    onConfirm: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.signupForNewsletter();
-    }),
-    disabled: !_ctx.newsletterSignupCheckbox,
-    value: _ctx.newsletterSignupButtonTitle,
-    saving: _ctx.isProcessingNewsletterSignup
-  }, null, 8, ["disabled", "value", "saving"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showNewsletterSignup]]);
+  }, 8, ["content-title"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showNewsletterSignup]]);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=a9266e20
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=2cb03bb3
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=script&lang=ts
 
@@ -3494,7 +3494,7 @@ function NewsletterSettingsvue_type_template_id_a9266e20_render(_ctx, _cache, $p
   data: function data() {
     return {
       showNewsletterSignup: true,
-      newsletterSignupCheckbox: true,
+      newsletterSignupCheckbox: false,
       isProcessingNewsletterSignup: false,
       newsletterSignupButtonTitle: Object(external_CoreHome_["translate"])('General_Save')
     };
@@ -3550,7 +3550,7 @@ function NewsletterSettingsvue_type_template_id_a9266e20_render(_ctx, _cache, $p
 
 
 
-NewsletterSettingsvue_type_script_lang_ts.render = NewsletterSettingsvue_type_template_id_a9266e20_render
+NewsletterSettingsvue_type_script_lang_ts.render = NewsletterSettingsvue_type_template_id_2cb03bb3_render
 
 /* harmony default export */ var NewsletterSettings = (NewsletterSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.adapter.ts
@@ -3567,38 +3567,38 @@ NewsletterSettingsvue_type_script_lang_ts.render = NewsletterSettingsvue_type_te
   scope: {},
   directiveName: 'matomoNewsletterSettings'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=ed0b809a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=76ab5918
 
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_1 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_1 = {
   id: "userSettingsTable"
 };
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_2 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_2 = {
   key: 0
 };
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_3 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_3 = {
   id: "languageHelp",
   class: "inline-help-node"
 };
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_4 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_4 = {
   target: "_blank",
   rel: "noreferrer noopener",
   href: "https://matomo.org/translations/"
 };
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_5 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_5 = {
   class: "sites_autocomplete"
 };
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_6 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_6 = {
   class: "modal",
   id: "confirmChangesWithPassword",
   ref: "confirmChangesWithPasswordModal"
 };
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_7 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_7 = {
   class: "modal-content"
 };
-var PersonalSettingsvue_type_template_id_ed0b809a_hoisted_8 = {
+var PersonalSettingsvue_type_template_id_76ab5918_hoisted_8 = {
   class: "modal-footer"
 };
-function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PersonalSettingsvue_type_template_id_76ab5918_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_SiteSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteSelector");
@@ -3614,7 +3614,7 @@ function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $pro
     feature: 'true'
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", PersonalSettingsvue_type_template_id_76ab5918_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "text",
         name: "username",
         title: _ctx.translate('General_Username'),
@@ -3624,7 +3624,7 @@ function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $pro
           return _ctx.username = $event;
         }),
         "inline-help": _ctx.translate('UsersManager_YourUsernameCannotBeChanged')
-      }, null, 8, ["title", "modelValue", "inline-help"])]), _ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      }, null, 8, ["title", "modelValue", "inline-help"])]), _ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PersonalSettingsvue_type_template_id_76ab5918_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "text",
         name: "email",
         "model-value": _ctx.email,
@@ -3634,7 +3634,7 @@ function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $pro
         }),
         maxlength: 100,
         title: _ctx.translate('UsersManager_Email')
-      }, null, 8, ["model-value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      }, null, 8, ["model-value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_76ab5918_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", PersonalSettingsvue_type_template_id_76ab5918_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "select",
         name: "language",
         modelValue: _ctx.language,
@@ -3663,7 +3663,7 @@ function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $pro
         introduction: _ctx.translate('UsersManager_ReportToLoadByDefault'),
         title: _ctx.translate('General_AllWebsitesDashboard'),
         options: _ctx.defaultReportOptions
-      }, null, 8, ["modelValue", "introduction", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
+      }, null, 8, ["modelValue", "introduction", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_76ab5918_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
         modelValue: _ctx.site,
         "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return _ctx.site = $event;
@@ -3687,7 +3687,7 @@ function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $pro
           return _ctx.save();
         }),
         saving: _ctx.loading
-      }, null, 8, ["saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      }, null, 8, ["saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_76ab5918_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_76ab5918_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "password",
         name: "currentPassword",
         autocomplete: false,
@@ -3697,12 +3697,15 @@ function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $pro
         }),
         "full-width": true,
         title: _ctx.translate('UsersManager_YourCurrentPassword')
-      }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_ed0b809a_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_76ab5918_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         href: "",
         class: "modal-action btn",
         onClick: _cache[9] || (_cache[9] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
           return _ctx.save();
-        }, ["prevent"]))
+        }, ["prevent"])),
+        style: {
+          "margin-right": "3.5px"
+        }
       }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Ok')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         href: "",
         class: "modal-action modal-close modal-no",
@@ -3714,7 +3717,7 @@ function PersonalSettingsvue_type_template_id_ed0b809a_render(_ctx, _cache, $pro
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=ed0b809a
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=76ab5918
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=script&lang=ts
 
@@ -3872,7 +3875,7 @@ var PersonalSettingsvue_type_script_lang_ts_window = window,
 
 
 
-PersonalSettingsvue_type_script_lang_ts.render = PersonalSettingsvue_type_template_id_ed0b809a_render
+PersonalSettingsvue_type_script_lang_ts.render = PersonalSettingsvue_type_template_id_76ab5918_render
 
 /* harmony default export */ var PersonalSettings = (PersonalSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.adapter.ts

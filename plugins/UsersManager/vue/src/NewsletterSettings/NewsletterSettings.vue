@@ -21,15 +21,15 @@
           :title="signupTitleText"
         />
       </div>
-    </ContentBlock>
 
-    <SaveButton
-      id="newsletterSignupBtn"
-      @confirm="signupForNewsletter()"
-      :disabled="!newsletterSignupCheckbox"
-      :value="newsletterSignupButtonTitle"
-      :saving="isProcessingNewsletterSignup"
-    />
+      <SaveButton
+        id="newsletterSignupBtn"
+        @confirm="signupForNewsletter()"
+        :disabled="!newsletterSignupCheckbox"
+        :value="newsletterSignupButtonTitle"
+        :saving="isProcessingNewsletterSignup"
+      />
+    </ContentBlock>
   </div>
 
 </template>
@@ -55,7 +55,7 @@ export default defineComponent({
   data(): NewsletterSettingsState {
     return {
       showNewsletterSignup: true,
-      newsletterSignupCheckbox: true,
+      newsletterSignupCheckbox: false,
       isProcessingNewsletterSignup: false,
       newsletterSignupButtonTitle: translate('General_Save'),
     };
