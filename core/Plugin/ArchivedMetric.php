@@ -147,7 +147,7 @@ class ArchivedMetric extends Metric
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
             case Dimension::TYPE_DURATION_MS:
-                $val = number_format($value / 1000, 2);
+                $val = number_format($value / 1000, 2, '.', '');
                 if ($val > 60) {
                     $val = round($val);
                 }

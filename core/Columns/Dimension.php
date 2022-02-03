@@ -456,7 +456,7 @@ abstract class Dimension
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
             case Dimension::TYPE_DURATION_MS:
-                $val = number_format($value / 1000, 2);
+                $val = number_format($value / 1000, 2, '.', '');
                 if ($val > 60) {
                     $val = round($val);
                 }
