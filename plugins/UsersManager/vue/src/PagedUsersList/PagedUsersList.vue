@@ -345,6 +345,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="deleteRequestedUsers()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -379,6 +380,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="changeUserRole()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
