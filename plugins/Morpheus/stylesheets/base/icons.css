@@ -382,7 +382,9 @@
 .icon-funnel:before {
   content: "\ea5b";
 }
-
+.icon-rocket:before {
+  content: "\e9a5";
+}
 .icon-embed:before {
   content: "\ea80";
 }
