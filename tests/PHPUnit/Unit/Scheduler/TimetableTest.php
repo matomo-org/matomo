@@ -81,6 +81,21 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Date::factory('tomorrow')->getTimeStamp(), $timetable->getTimetable()[$task->getName()]);
     }
 
+    public function testRescheduleTaskAndRunInOneHour()
+    {
+        self::stubPiwikOption(serialize([]));
+
+        $timetable = new Timetable();
+        $task = $this->getMockBuilder(Task::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $task->method('getName')->willReturn('taskName');
+
+        $timetable->rescheduleTaskAndRunInOneHour($task);
+
+        $this->assertEquals(Date::factory('now')->addHour(1)->getTimeStamp(), $timetable->getTimetable()[$task->getName()]);
+    }
+
     /**
      * Dataprovider for testTaskHasBeenScheduledOnce
      */

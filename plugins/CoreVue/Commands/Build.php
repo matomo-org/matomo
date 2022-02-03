@@ -115,6 +115,8 @@ class Build extends ConsoleCommand
             return 0;
         }
 
+        $this->clearPluginTypes($plugin);
+
         $output->writeln("<comment>Building $plugin...</comment>");
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
             passthru($command, $returnCode);
@@ -193,6 +195,12 @@ class Build extends ConsoleCommand
     private function clearWebpackCache()
     {
         $path = PIWIK_INCLUDE_PATH . '/node_modules/.cache';
+        Filesystem::unlinkRecursive($path, true);
+    }
+
+    private function clearPluginTypes($plugin)
+    {
+        $path = PIWIK_INCLUDE_PATH . '/@types/' . $plugin;
         Filesystem::unlinkRecursive($path, true);
     }
 

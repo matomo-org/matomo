@@ -7,6 +7,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+var fs = require('fs'),
+  path = require('../../lib/screenshot-testing/support/path');
+
 const request = require('request-promise');
 const exec = require('child_process').exec;
 
@@ -49,7 +52,19 @@ describe("OneClickUpdate", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail');
     });
 
+    it('should fail when a directory is not writable', async function () {
+        fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
+        await page.waitForTimeout(100);
+        await page.click('#updateUsingHttp');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail_permission');
+    });
+
     it('should update successfully and show the finished update screen', async function () {
+        fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
+        await page.waitForTimeout(100);
+        var url = await page.getWholeCurrentUrl();
+        await page.goBack();
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');

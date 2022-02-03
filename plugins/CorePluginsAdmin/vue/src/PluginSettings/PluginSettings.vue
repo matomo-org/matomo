@@ -17,17 +17,12 @@
           class="card-title"
           :id="settings.pluginName"
         >{{ settings.title }}</h2>
-        <div
-          v-for="setting in settings.settings"
-          :key="`${setting.pluginName}.${setting.name}`"
-        >
-          <PluginSetting
-            v-model="settingValues[`${settings.pluginName}.${setting.name}`]"
-            :plugin-name="settings.pluginName"
-            :setting="setting"
-            :setting-values="settingValues"
-          />
-        </div>
+        <GroupedSettings
+          :group-name="settings.pluginName"
+          :settings="settings.settings"
+          :all-setting-values="settingValues"
+          @change="settingValues[`${settings.pluginName}.${$event.name}`] = $event.value"
+        />
         <input
           type="button"
           @click="saveSetting(settings.pluginName)"
@@ -82,20 +77,11 @@ import {
 } from 'CoreHome';
 import KeyPressEvent = JQuery.KeyPressEvent;
 import Field from '../Field/Field.vue';
-import PluginSetting from './PluginSetting.vue';
+import Setting from './Setting';
+import SettingsForSinglePlugin from './SettingsForSinglePlugin';
+import GroupedSettings from '../GroupedSettings/GroupedSettings.vue';
 
 const { $ } = window;
-
-interface Setting {
-  name: string;
-  value: unknown;
-  introduction?: string;
-}
-
-interface SettingsForSinglePlugin {
-  pluginName: string;
-  settings: Setting[];
-}
 
 interface PluginSettingsState {
   isLoading: boolean;
@@ -113,7 +99,7 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Field,
-    PluginSetting,
+    GroupedSettings,
   },
   data(): PluginSettingsState {
     return {
@@ -221,13 +207,13 @@ export default defineComponent({
       ).then(() => {
         this.isSaving[requestedPlugin] = false;
 
-        NotificationsStore.show({
+        const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_PluginSettingsSaveSuccess'),
           id: 'generalSettings',
           context: 'success',
           type: 'transient',
         });
-        NotificationsStore.scrollToNotification('generalSettings');
+        NotificationsStore.scrollToNotification(notificationInstanceId);
       }).catch(() => {
         this.isSaving[requestedPlugin] = false;
       });

@@ -1171,7 +1171,7 @@ class Common
     {
         $cache = TrackerCache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
-            ? DefaultProvider::ID
+            ? Plugins\UserCountry\LocationProvider::getDefaultProviderId()
             : $cache['currentLocationProviderId'];
     }
 
