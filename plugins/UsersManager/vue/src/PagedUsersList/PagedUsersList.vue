@@ -112,7 +112,7 @@
           </a>
           <div class="counter">
             <span
-              v-if="!isLoadingUsers"
+              :class="{ visibility: isLoadingUsers ? 'hidden' : 'visible' }"
             >
               {{ translate(
                   'General_Pagination',
@@ -122,7 +122,6 @@
                 ) }}
             </span>
             <ActivityIndicator
-              v-if="isLoadingUsers"
               :loading="isLoadingUsers"
             />
           </div>
