@@ -391,6 +391,14 @@ export default defineComponent({
   emits: ['done', 'updated'],
   watch: {
     user(newVal) {
+      this.onUserChange(newVal);
+    },
+  },
+  created() {
+    this.onUserChange(this.user as User);
+  },
+  methods: {
+    onUserChange(newVal: User) {
       this.theUser = newVal || { ...DEFAULT_USER };
 
       if (!this.theUser.password) {
@@ -399,8 +407,6 @@ export default defineComponent({
 
       this.setSuperUserAccessChecked();
     },
-  },
-  methods: {
     confirmSuperUserChange() {
       $(this.$refs.superUserConfirmModal as HTMLElement).modal({
         dismissible: false,

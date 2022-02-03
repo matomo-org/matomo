@@ -111,7 +111,9 @@
             <span class="pointer">&#xAB; {{ translate('General_Previous') }}</span>
           </a>
           <div class="counter">
-            <span>
+            <span
+              v-if="!isLoadingUsers"
+            >
               {{ translate(
                   'General_Pagination',
                   paginationLowerBound,
