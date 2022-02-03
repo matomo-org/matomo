@@ -5219,15 +5219,6 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Get Browser Feature Detection
-             *
-             * @return boolean
-             */
-            this.getBrowserFeatureDetection = function () {
-                return configBrowserFeatureDetection;
-            };
-
-            /**
              * Configure function with custom request content processing logic.
              * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
              *
