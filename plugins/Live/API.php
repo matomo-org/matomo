@@ -204,7 +204,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         Live::checkIsVisitorProfileEnabled($idSite);
 
-        if ($limitVisits <= 0) {
+        if (!is_numeric($limitVisits) || $limitVisits <= 0) {
             $limitVisits = VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW;
         } else {
             $limitVisits = (int) $limitVisits;
