@@ -40,7 +40,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         parent::setUp();
     }
-    
+
     public function test_TestCaseHasSetGroupsMethod()
     {
         // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
@@ -616,7 +616,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 55;
+        $maximumTotalFilesizesExpectedInMb = 57;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 
