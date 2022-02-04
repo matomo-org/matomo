@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\UserId\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Plugins\UserId\API;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -16,7 +15,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class TrackFewVisitsAndCreateUsers extends Fixture
 {
-    public $dateTime = '2012-01-01 11:22:33';
+    public $dateTime = '2010-03-01 11:22:33';
     public $idSite = 1;
 
     public function setUp(): void
