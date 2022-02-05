@@ -2569,16 +2569,16 @@ function PluginSettingsvue_type_template_id_a4ce6500_render(_ctx, _cache, $props
 }
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=a4ce6500
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=template&id=063fbf22
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=template&id=566a93cc
 
-function GroupedSettingsvue_type_template_id_063fbf22_render(_ctx, _cache, $props, $setup, $data, $options) {
+function GroupedSettingsvue_type_template_id_566a93cc_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_GroupedSetting = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("GroupedSetting");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.settings, function (setting) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      key: "".concat(_ctx.groupName, ".").concat(setting.name)
+      key: "".concat(_ctx.groupPrefix).concat(setting.name)
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_GroupedSetting, {
-      "model-value": _ctx.allSettingValues["".concat(_ctx.groupName, ".").concat(setting.name)],
+      "model-value": _ctx.allSettingValues["".concat(_ctx.groupPrefix).concat(setting.name)],
       "onUpdate:modelValue": function onUpdateModelValue($event) {
         return _ctx.$emit('change', {
           name: setting.name,
@@ -2590,7 +2590,7 @@ function GroupedSettingsvue_type_template_id_063fbf22_render(_ctx, _cache, $prop
     }, null, 8, ["model-value", "onUpdate:modelValue", "setting", "condition-values"])]);
   }), 128);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=template&id=063fbf22
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=template&id=566a93cc
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=17c12cc8
 
@@ -2729,6 +2729,13 @@ function GroupedSettingsvue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.
         return _this.groupName ? [key.split('.')[1], value] : [key, value];
       });
       return Object.fromEntries(entries);
+    },
+    groupPrefix: function groupPrefix() {
+      if (!this.groupName) {
+        return '';
+      }
+
+      return "".concat(this.groupName, ".");
     }
   }
 }));
@@ -2738,7 +2745,7 @@ function GroupedSettingsvue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.
 
 
 
-GroupedSettingsvue_type_script_lang_ts.render = GroupedSettingsvue_type_template_id_063fbf22_render
+GroupedSettingsvue_type_script_lang_ts.render = GroupedSettingsvue_type_template_id_566a93cc_render
 
 /* harmony default export */ var GroupedSettings = (GroupedSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=script&lang=ts
