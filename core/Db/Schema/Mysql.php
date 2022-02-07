@@ -191,7 +191,7 @@ class Mysql implements SchemaInterface
                                 PRIMARY KEY(idvisit),
                                 INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
                                 INDEX index_idsite_datetime (idsite, visit_last_action_time),
-                                INDEX index_idsite_idvisitor (idsite, idvisitor)
+                                INDEX index_idsite_idvisitor (idsite, idvisitor, visit_last_action_time DESC)
                               ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
 
