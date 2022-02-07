@@ -332,6 +332,7 @@ describe("UsersManager", function () {
     it('should select all displayed rows when the select all checkbox is clicked', async function () {
         await page.click('.userPermissionsEdit th.select-cell input + span');
         await page.waitForTimeout(250); // for checkbox animations
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_select_all',

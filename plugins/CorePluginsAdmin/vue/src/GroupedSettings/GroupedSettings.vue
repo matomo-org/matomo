@@ -1,10 +1,10 @@
 <template>
   <div
     v-for="setting in settings"
-    :key="`${groupName}.${setting.name}`"
+    :key="`${groupPrefix}${setting.name}`"
   >
     <GroupedSetting
-      :model-value="allSettingValues[`${groupName}.${setting.name}`]"
+      :model-value="allSettingValues[`${groupPrefix}${setting.name}`]"
       @update:model-value="$emit('change', { name: setting.name, value: $event })"
       :setting="setting"
       :condition-values="settingValues"
@@ -47,6 +47,12 @@ export default defineComponent({
         })
         .map(([key, value]) => (this.groupName ? [key.split('.')[1], value] : [key, value]));
       return Object.fromEntries(entries);
+    },
+    groupPrefix() {
+      if (!this.groupName) {
+        return '';
+      }
+      return `${this.groupName}.`;
     },
   },
 });
