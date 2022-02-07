@@ -785,8 +785,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function getComposerRequireDevPackages()
     {
-        $composerJson = $this->getComposerJsonAsArray();
-        $composerDependencyDevOnly = array_keys($composerJson["require-dev"]);
+        $composerJson = $this->getComposerLockAsArray();
+        $composerDependencyDevOnly = array_keys($composerJson["packages-dev"]);
         return $composerDependencyDevOnly;
     }
 
@@ -1112,6 +1112,16 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function getComposerJsonAsArray()
     {
         $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.json');
+        $composerJson = json_decode($composer, $assoc = true);
+        return $composerJson;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getComposerLockAsArray()
+    {
+        $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.lock');
         $composerJson = json_decode($composer, $assoc = true);
         return $composerJson;
     }
