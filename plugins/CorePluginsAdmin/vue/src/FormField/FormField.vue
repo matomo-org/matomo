@@ -72,7 +72,9 @@ import {
   ref,
   watch,
   Component,
+  markRaw,
 } from 'vue';
+import { useExternalPluginComponent } from 'CoreHome';
 import FieldCheckbox from './FieldCheckbox.vue';
 import FieldCheckboxArray from './FieldCheckboxArray.vue';
 import FieldExpandableSelect, {
@@ -125,13 +127,18 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR: Record<string, ProcessAvailableOpti
   FieldExpandableSelect: getExpandableSelectAvailableOptions,
 };
 
+interface ComponentReference {
+  plugin: string;
+  name: string;
+}
+
 interface FormField {
   availableValues: Record<string, unknown>;
   type: string;
   uiControlAttributes?: Record<string, unknown>;
   defaultValue: unknown;
   uiControl: string;
-  component: Component;
+  component: Component | ComponentReference;
   inlineHelp?: string;
 }
 
@@ -204,7 +211,19 @@ export default defineComponent({
       const formField = this.formField as FormField;
 
       if (formField.component) {
-        return formField.component;
+        let component = formField.component as Component;
+
+        if ((formField.component as ComponentReference).plugin) {
+          const { plugin, name } = formField.component as ComponentReference;
+          if (!plugin || !name) {
+            throw new Error('Invalid component property given to piwik-field directive, must be '
+              + '{plugin: \'...\',name: \'...\'}');
+          }
+
+          component = useExternalPluginComponent(plugin, name);
+        }
+
+        return markRaw(component);
       }
 
       const { uiControl } = formField;
