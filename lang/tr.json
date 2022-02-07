@@ -149,6 +149,7 @@
         "Description": "Açıklama",
         "Desktop": "Masaüstü",
         "Details": "Ayrıntılar",
+        "Disabled": "Devre dışı",
         "Discount": "İndirim",
         "DisplaySimpleTable": "Basit tablo görüntülensin",
         "DisplayTableWithGoalMetrics": "Hedef ölçümlerin olduğu bir tablo görüntüler",
