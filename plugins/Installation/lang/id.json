@@ -1,6 +1,6 @@
 {
     "Installation": {
-        "CollaborativeProject": "Matomo merupakan proyek kolaborasi yang dibangun dengan cinta oleh orang-orang di seluruh dunia.",
+        "CollaborativeProject": "Matomo adalah proyek kolaborasi yang dibangun dengan cinta.",
         "ConfirmDeleteExistingTables": "Apakan Anda yakin menghapus tabel: %s dari basisdata Anda? PERINGATAN: DATA DALAM TABEL TERSEBUT TAK DAPAT DIKEMBALIKAN!",
         "Congratulations": "Selesai",
         "DatabaseAbilities": "Kemampuan Basisdata",

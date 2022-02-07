@@ -227,7 +227,10 @@
         >
           <td colspan="4">
             <div v-if="!areAllResultsSelected">
-              <span v-html="$sanitize(theDisplayedWebsitesAreSelectedText)"></span>
+              <span
+                v-html="$sanitize(theDisplayedWebsitesAreSelectedText)"
+                style="margin-right:3.5px"
+              ></span>
               <a
                 href="#"
                 @click.prevent="areAllResultsSelected = !areAllResultsSelected"
