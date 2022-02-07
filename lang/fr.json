@@ -149,6 +149,7 @@
         "Description": "Description",
         "Desktop": "Bureau",
         "Details": "Détails",
+        "Disabled": "Désactivé",
         "Discount": "Réduction",
         "DisplaySimpleTable": "Afficher un tableau simple",
         "DisplayTableWithGoalMetrics": "Afficher un tableau avec les métriques 'Objectifs'",

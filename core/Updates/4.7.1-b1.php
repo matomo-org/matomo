@@ -16,9 +16,9 @@ use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
- * Update for version 4.7.0-b2
+ * Update for version 4.7.1-b1
  */
-class Updates_4_7_0_b2 extends PiwikUpdates
+class Updates_4_7_1_b1 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
@@ -41,20 +41,10 @@ class Updates_4_7_0_b2 extends PiwikUpdates
     {
         $migrations = [];
 
-        // add column to track the last change a user viewed the changes list
-        $migrations[] = $this->migration->db->addColumn('user', 'idchange_last_viewed',
-            'INTEGER UNSIGNED NULL');
+        $migrations[] = $this->migration->db->changeColumn('changes', 'plugin_name', 'plugin_name', 'VARCHAR(60) NOT NULL');
 
-        $migrations[] = $this->migration->db->createTable('changes', array(
-                'idchange' => 'INT(11) NOT NULL AUTO_INCREMENT',
-                'created_time' => 'DATETIME NOT NULL',
-                'plugin_name' => 'VARCHAR(255) NOT NULL',
-                'version' => 'VARCHAR(20) NOT NULL',
-                'title' => 'VARCHAR(255) NOT NULL',
-                'description' => 'TEXT NOT NULL',
-                'link_name' => 'VARCHAR(255) NULL',
-                'link' => 'VARCHAR(255) NULL',
-            ), $primaryKey = 'idchange');
+        $migrations[] = $this->migration->db->dropIndex('changes', 'unique_plugin_version_title');
+        $migrations[] = $this->migration->db->addUniqueKey('changes', ['plugin_name', 'version', 'title(100)'], 'unique_plugin_version_title');
 
         return $migrations;
     }

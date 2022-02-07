@@ -11,6 +11,7 @@
         "DefaultLocationProviderDesc1": "Varsayılan konum hizmeti sağlayıcısı bir ziyaretçinin ülkesini kullandığı dile göre belirler.",
         "DefaultLocationProviderDesc2": "Bu yöntem çok güvenilir değildir. %1$sBu nedenle %2$scoğrafi konum veritabanı%3$s özelliğini kurup kullanmanız önerilir.%4$s",
         "DefaultLocationProviderExplanation": "Varsayılan konum hizmeti sağlayıcısını kullanıyorsunuz. Bu yöntemde bir ziyaretçinin ülkesi kullandığı dile göre belirlenir. Daha doğru coğrafi konumlama kurulumunun nasıl yapılacağı hakkında ayrıntılı bilgi almak için %1$sbu bölümü okuyun%2$s.",
+        "DisabledLocationProvider": "Coğrafi konumu devre dışı bırakır.",
         "DistinctCountries": "%s ayrı ülke",
         "FromDifferentCities": "ayrı iller",
         "GeoIPDocumentationSuffix": "Bu raporun verilerini görüntülemek için Coğrafi konum yönetici sekmesinden GeoIP kurulumunu yapmalısınız. Ticari %1$sMaxmind%2$s GeoIP veritabanları ücretsiz olanlardan daha doğrudur. Doğruluğu görmek için %3$sburaya tıklayın%4$s.",

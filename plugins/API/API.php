@@ -456,7 +456,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getBulkRequest($urls)
     {
-        if (empty($urls)) {
+        if (empty($urls) || !is_array($urls)) {
             return array();
         }
 
