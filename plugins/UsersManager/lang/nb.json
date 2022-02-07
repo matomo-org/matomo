@@ -80,6 +80,7 @@
         "ReportDateToLoadByDefault": "Rapportdato som skal lastes som standard",
         "ReportToLoadByDefault": "Rapport som skal lastes som standard",
         "ResetTwoFactorAuthentication": "Tilbakestill to-faktoridentitetsbekreftelse",
+        "ResetTwoFactorAuthenticationInfo": "Hvis brukeren ikke lenger kan logge inn etter å ha mistet gjenopprettingskoder eller identitetbekreftelsesenheten, kan du tilbakestille to-faktoridentitetsbekreftelse for brukeren slik at vedkommende kan logge inn igjen.",
         "Role": "Rolle",
         "RoleFor": "Rolle for",
         "SaveBasicInfo": "Lagre grunnleggende info",

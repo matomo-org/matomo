@@ -27,6 +27,7 @@
         "RateFeatureLeaveMessageDislikeExtra": "La det komme oss til kjenne, slik at Matomo kan forbedres.",
         "RateFeatureLeaveMessageDislikeExtraEasier": "Var det en spesiell del av denne funksjonen som var vanskelig å bruke?",
         "RateFeatureLeaveMessageDislikeExtraMissing": "Hvilke funksjoner mangler du?",
+        "RateFeatureLeaveMessageDislikeExtraSpeed": "Kan du indikere hvor treg denne funksjonen er for deg? Kan du dele hvor mange besøk per måned du vanligvis ville registrert?",
         "RateFeatureLeaveMessageDislikeNamedFeature": "Hvordan kan %1$s forbedres?",
         "RateFeatureLeaveMessageLike": "Hva liker du mest med denne funksjonen?",
         "RateFeatureLeaveMessageLikeExtra": "La de komme oss til kjenne hvordan du bruker denne funksjonen, slik at Matomo kan forbedres.",
