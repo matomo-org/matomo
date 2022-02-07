@@ -14,6 +14,7 @@ import { AjaxHelper, MatomoUrl, lazyInitSingleton } from 'CoreHome';
 import SiteType from './SiteType';
 
 interface SiteTypesStoreState {
+  isLoading: boolean;
   typesById: Record<string, SiteType>;
 }
 
@@ -23,10 +24,13 @@ const { $ } = window;
 
 class SiteTypesStore {
   private state = reactive<SiteTypesStoreState>({
+    isLoading: false,
     typesById: {},
   });
 
   public readonly typesById = computed(() => readonly(this.state).typesById);
+
+  public readonly isLoading = computed(() => readonly(this.state).isLoading);
 
   public readonly types = computed(() => Object.values(this.typesById.value));
 
@@ -41,6 +45,7 @@ class SiteTypesStore {
       return Promise.resolve(this.response);
     }
 
+    this.state.isLoading = true;
     this.response = AjaxHelper.fetch<AvailableTypesResponse>({
       method: 'API.getAvailableMeasurableTypes',
       filter_limit: '-1',
@@ -50,16 +55,28 @@ class SiteTypesStore {
       });
 
       return this.types.value;
+    }).finally(() => {
+      this.state.isLoading = false;
     });
 
     return this.response;
   }
 
   public getEditSiteIdParameter(): string|undefined {
-    const editsiteid = MatomoUrl.hashParsed.value.editsiteid as string;
-    if (editsiteid && $.isNumeric(editsiteid)) {
+    // parse query directly because #/editsiteid=N was supported alongside #/?editsiteid=N
+    const m = MatomoUrl.hashQuery.value.match(/editsiteid=([0-9]+)/);
+    if (!m) {
+      return undefined;
+    }
+
+    const isShowAddSite = MatomoUrl.urlParsed.value.showaddsite === '1'
+      || MatomoUrl.urlParsed.value.showaddsite === 'true';
+
+    const editsiteid = m[1];
+    if (editsiteid && $.isNumeric(editsiteid) && !isShowAddSite) {
       return editsiteid;
     }
+
     return undefined;
   }
 
@@ -70,4 +87,4 @@ class SiteTypesStore {
   }
 }
 
-export default lazyInitSingleton(SiteTypesStore);
+export default lazyInitSingleton(SiteTypesStore) as SiteTypesStore;

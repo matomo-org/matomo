@@ -10,6 +10,7 @@
     :idsite="theSite.idsite"
     :type="theSite.type"
     :class="{ 'editingSite': !!editMode }"
+    ref="root"
   >
     <div class="card-content">
       <div class="row" v-if="!editMode">
@@ -226,7 +227,7 @@ interface SiteFieldsState {
 }
 
 interface CreateEditSiteResponse {
-  value: string;
+  value: string|number;
 }
 
 const timezoneOptions = computed(
@@ -275,7 +276,7 @@ export default defineComponent({
     GroupedSettings,
     ActivityIndicator,
   },
-  emits: ['delete', 'cancelEditSite', 'save'],
+  emits: ['delete', 'editSite', 'cancelEditSite', 'save'],
   created() {
     this.onSiteChanged();
   },
@@ -320,6 +321,8 @@ export default defineComponent({
     },
     editSite() {
       this.editMode = true;
+
+      this.$emit('editSite', { idSite: this.theSite.idsite });
 
       this.measurableSettings = [];
 
@@ -392,7 +395,16 @@ export default defineComponent({
         this.editMode = false;
 
         if (!this.theSite.idsite && response && response.value) {
-          this.theSite.idsite = response.value;
+          this.theSite.idsite = `${response.value}`;
+        }
+
+        const timezoneInfo = TimezoneStore.timezones.value.find(
+          (t) => t.code === this.theSite.timezone,
+        );
+        this.theSite.timezone_name = timezoneInfo?.label || this.theSite.timezone;
+
+        if (this.theSite.currency) {
+          this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
         }
 
         const notificationId = NotificationsStore.show({
@@ -407,7 +419,7 @@ export default defineComponent({
 
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-        this.$emit('save', { site: this.theSite, settingValues: values.settingValues });
+        this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
       });
     },
     cancelEditSite(site: Site) {
@@ -415,7 +427,7 @@ export default defineComponent({
 
       SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-      this.$emit('cancelEditSite', site);
+      this.$emit('cancelEditSite', { site, element: this.$refs.root as HTMLElement });
     },
     deleteSite() {
       AjaxHelper.fetch({
