@@ -73,7 +73,7 @@ jobs:
             mysqli.allow_local_infile = On
           tools: composer:v2
           coverage: none
-          
+
       - name: set up google woff
         if:  matrix.tests == 'IntegrationTestsCore'
         run: |
