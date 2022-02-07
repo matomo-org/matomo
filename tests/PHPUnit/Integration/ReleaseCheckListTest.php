@@ -50,9 +50,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     public function test_woff2_fileIsUpToDate()
     {
-        if (getenv('GITHUB')) {
-            $this->markTestSkipped('this needs review');
-        }
+//        if (getenv('GITHUB')) {
+//            $this->markTestSkipped('this needs review');
+//        }
         link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
         $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
         $log = shell_exec($command);
