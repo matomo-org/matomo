@@ -19,11 +19,6 @@ then
   sudo sed -i -E 's/name="area" value="[^"]+"/name="area" value="1GiB"/g' /etc/ImageMagick-6/policy.xml
   sudo sed -i -E 's/name="disk" value="[^"]+"/name="area" value="4GiB"/g' /etc/ImageMagick-6/policy.xml
 
-  echo "installing woff2..."
-  rm -rf ../travis_woff2
-  git clone --recursive https://github.com/google/woff2.git ../travis_woff2
-  cd ../travis_woff2
-  make clean all
 fi
 
 # composer install

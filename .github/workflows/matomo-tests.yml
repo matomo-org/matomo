@@ -73,6 +73,13 @@ jobs:
             mysqli.allow_local_infile = On
           tools: composer:v2
           coverage: none
+          
+      - name: set up google woff
+        if:  matrix.tests == 'IntegrationTestsCore'
+        run: |
+           git clone --recursive https://github.com/google/woff2.git ../travis_woff2
+           cd ../travis_woff2
+           make clean all
 
       - name: prepare setup
         shell: bash
