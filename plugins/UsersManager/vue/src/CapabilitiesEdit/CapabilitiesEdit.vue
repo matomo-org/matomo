@@ -38,6 +38,7 @@
         :model-value="capabilityToAddId"
         @update:model-value="capabilityToAddId = $event; onToggleCapability(true)"
         :disabled="isBusy"
+        v-if="userRole !== 'noaccess'"
         uicontrol="expandable-select"
         name="add_capability"
         :full-width="true"
