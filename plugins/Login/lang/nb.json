@@ -3,6 +3,7 @@
         "BruteForceLog": "Logg over brutale styrkeangrep",
         "ChangeYourPassword": "Endret ditt passord",
         "ConfirmPasswordReset": "Bekreft tilbakestilling av passord",
+        "ConfirmPasswordResetIntro": "Skriv inn passordet ditt igjen for å bekrefte at det var du som forespurte tilbakestilling.",
         "ConfirmPasswordToContinue": "Bekreft passordet ditt for å fortsette.",
         "ConfirmationLinkSent": "En bekreftelseslenke har blitt sendt til din innboks. Sjekk din e-post og besøk denne lenken for å autorisere din forespørsel om å endre passord.",
         "ContactAdmin": "Mulig grunn: Din vert kan ha skrudd av mail()-funksjonen.<br>Kontakt din Matomo-administrator",

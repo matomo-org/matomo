@@ -23,6 +23,7 @@
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
         "Settings_PhoneNumber": "Telefonnummer",
         "Settings_PhoneNumbers_Add": "Legg til et nytt telefonnummer",
+        "Settings_PhoneNumbers_CountryCode_Help": "Hvis du ikke kjenner telefonens landsretningskode kan du se etter landskoder her.",
         "Settings_SMSAPIAccount": "Behandle SMS API-konto",
         "Settings_SMSProvider": "SMS-leverandør",
         "Settings_SelectCountry": "Velg land",

@@ -25,6 +25,7 @@
         "InstallAllPurchasedPlugins": "Installer alle kjøpte programtillegg samtidig",
         "InstallAllPurchasedPluginsAction": "Installer og aktiver %d kjøpte programtillegg",
         "InstallPurchasedPlugins": "Installerte kjøpte programtillegg",
+        "InstallingNewPluginViaMarketplaceOrUpload": "Du kan automatisk installere %1$s fra markedsstedet eller %2$slaste opp %3$s%4$s i .zip-format.",
         "InstallingPlugin": "Installerer %s",
         "LastCommitTime": "(siste bidrag %s)",
         "LastUpdated": "Sist oppdatert",
