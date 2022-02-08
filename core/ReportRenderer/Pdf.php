@@ -377,7 +377,7 @@ class Pdf extends ReportRenderer
                     $posX = $this->TCPDF->GetX();
                     $posY = $this->TCPDF->GetY();
                     if (isset($rowMetrics[$columnId])) {
-                        $text = substr($rowMetrics[$columnId], 0, $this->truncateAfter);
+                        $text = mb_substr($rowMetrics[$columnId], 0, $this->truncateAfter);
                         if ($isLogoDisplayable) {
                             $text = $leftSpacesBeforeLogo . $text;
                         }

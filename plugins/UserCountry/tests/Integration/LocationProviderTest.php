@@ -23,9 +23,9 @@ class LocationProviderTest extends IntegrationTestCase
     {
         $allProviders = LocationProvider::getAllProviderInfo();
 
-        // We currently have 3 Providers shipped with core
-        $this->assertSame(3, count($allProviders));
-        $this->assertEquals(['default', 'geoip2php', 'geoip2server'], array_keys($allProviders));
+        // We currently have 4 Providers shipped with core
+        $this->assertSame(4, count($allProviders));
+        $this->assertEquals(['disabled', 'default', 'geoip2php', 'geoip2server'], array_keys($allProviders));
     }
 
     public function testGetAllProviderInfoWithDuplicateOrder()

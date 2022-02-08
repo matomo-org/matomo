@@ -497,7 +497,7 @@ class CronArchive
 
         foreach ($urls as $index => $url) {
             $content = array_key_exists($index, $responses) ? $responses[$index] : null;
-            $this->checkResponse($content, $url);
+            $checkInvalid = $this->checkResponse($content, $url);
 
             $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
@@ -514,7 +514,10 @@ class CronArchive
 
             $visitsForPeriod = $this->getVisitsFromApiResponse($stats);
 
-            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod, $archivesBeingQueried[$index]['plugin'], $archivesBeingQueried[$index]['report']);
+
+            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod,
+              $archivesBeingQueried[$index]['plugin'], $archivesBeingQueried[$index]['report'], !$checkInvalid);
+
 
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
 
@@ -572,12 +575,14 @@ class CronArchive
         return [$url, $segment, $plugin];
     }
 
-    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null)
+    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null, $wasSkipped = null)
     {
         $params = UrlHelper::getArrayFromQueryString($url);
         $visits = (int) $visits;
 
-        $this->logger->info("Archived website id {$params['idSite']}, period = {$params['period']}, date = "
+        $message = $wasSkipped ? "Skipped Archiving website" : "Archived website";
+
+        $this->logger->info($message." id {$params['idSite']}, period = {$params['period']}, date = "
             . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode(urldecode($params['segment'])) : '') . "', "
             . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }
@@ -715,6 +720,12 @@ class CronArchive
 
     private function logNetworkError($url, $response)
     {
+
+        if (preg_match("/Segment (.*?) is not a supported segment/i", $response, $match)) {
+            $this->logger->info($match[0]);
+            return false;
+        }
+
         $message = "Got invalid response from API request: $url. ";
         if (empty($response)) {
             $message .= "The response was empty. This usually means a server error. A solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. ";
@@ -919,6 +930,11 @@ class CronArchive
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
+
+               // check if the segment is available
+                if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
+                    continue;
+                }
                 $params = new Parameters(new Site($idSite), $periodObj, new Segment($segmentDefinition, [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
                 if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
@@ -945,6 +961,24 @@ class CronArchive
                 }
             }
         }
+    }
+
+
+    /**
+     * check if segments that contain dimensions that don't exist anymore
+     * @param $segmentDefinition
+     * @param $idSites
+     * @return bool
+     */
+    protected function isSegmentAvailable($segmentDefinition, $idSites)
+    {
+        try {
+            new Segment($segmentDefinition, $idSites);
+        } catch (\Exception $e) {
+            $this->logger->info("Segment '".$segmentDefinition."' is not a supported segment");
+            return false;
+        }
+        return true;
     }
 
     /**

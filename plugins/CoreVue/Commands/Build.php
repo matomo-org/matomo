@@ -90,7 +90,8 @@ class Build extends ConsoleCommand
 
     private function watch($plugins, $printBuildCommand, OutputInterface $output)
     {
-        $commandSingle = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
+        $commandSingle = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s "
+            . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
             . "%1\$s --filename=%1\$s.development --no-clean ./plugins/%1\$s/vue/src/index.ts --dest ./plugins/%1\$s/vue/dist --watch &";
 
         $command = '';
@@ -107,13 +108,16 @@ class Build extends ConsoleCommand
 
     private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
     {
-        $command = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin " . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
+        $command = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin "
+            . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
             . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
 
         if ($printBuildCommand) {
             $output->writeln("<comment>$command</comment>");
             return 0;
         }
+
+        $this->clearPluginTypes($plugin);
 
         $output->writeln("<comment>Building $plugin...</comment>");
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
@@ -193,6 +197,12 @@ class Build extends ConsoleCommand
     private function clearWebpackCache()
     {
         $path = PIWIK_INCLUDE_PATH . '/node_modules/.cache';
+        Filesystem::unlinkRecursive($path, true);
+    }
+
+    private function clearPluginTypes($plugin)
+    {
+        $path = PIWIK_INCLUDE_PATH . '/@types/' . $plugin;
         Filesystem::unlinkRecursive($path, true);
     }
 
