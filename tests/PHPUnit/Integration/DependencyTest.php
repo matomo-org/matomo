@@ -48,16 +48,16 @@ class DependencyTest extends IntegrationTestCase
     public function test_getMissingDependencies_multipleConditions()
     {
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '<2.0'), array(
-          $this->missingPhp('<5.2'),
-          $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0')
+            $this->missingPhp('<5.2'),
+            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0')
         ));
 
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>=4.0.0-b1,<9.0'), array(
-          $this->missingPhp('<5.2')
+            $this->missingPhp('<5.2')
         ));
 
         $this->assertMissingDependency(array('php' => '<9.2', 'piwik' => '<2.0'), array(
-          $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0')
+            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0')
         ));
 
         $this->assertMissingDependency(array('php' => '<9.2', 'piwik' => '>=2.0,<9.0'), array());
@@ -66,11 +66,11 @@ class DependencyTest extends IntegrationTestCase
     public function test_getMissingDependencies_multipleConditions_differentConditions()
     {
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>2.0,<9.0.0'), array(
-          $this->missingPhp('<5.2')
+            $this->missingPhp('<5.2')
         ));
 
         $this->assertMissingDependency(array('php' => '>=5.3', 'piwik' => '>1.0,<2.0'), array(
-          $this->missingPiwik('>1.0,<2.0', '<2.0')
+            $this->missingPiwik('>1.0,<2.0', '<2.0')
         ));
 
         $this->assertMissingDependency(array('php' => '!=' . $this->formatPhpVersion(), 'piwik' => '<>' . Version::VERSION), array(
@@ -82,8 +82,8 @@ class DependencyTest extends IntegrationTestCase
     public function test_getMissingVersion_AND_Condition()
     {
         $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '>=3.0.0-b1,<4.0.0-b1'), array(
-          $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0'),
-          $this->missingPiwik('>=3.0.0-b1,<4.0.0-b1', '<4.0.0-b1')
+            $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0'),
+            $this->missingPiwik('>=3.0.0-b1,<4.0.0-b1', '<4.0.0-b1')
         ));
     }
 
@@ -96,7 +96,7 @@ class DependencyTest extends IntegrationTestCase
           $this->missingPhp('>' . $phpVersion)
         ));
         $this->assertMissingDependency(array('php' => '>=9.2'), array(
-          $this->missingPhp('>=9.2')
+            $this->missingPhp('>=9.2')
         ));
     }
 
@@ -105,20 +105,20 @@ class DependencyTest extends IntegrationTestCase
         $this->assertMissingDependency(array('piwik' => '>=2.1,<9.0.0'), array());
         $this->assertMissingDependency(array('piwik' => '>=' . Version::VERSION), array());
         $this->assertMissingDependency(array('piwik' => '>' . Version::VERSION), array(
-          $this->missingPiwik('>' . Version::VERSION.',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '>' . Version::VERSION)
+            $this->missingPiwik('>' . Version::VERSION.',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '>' . Version::VERSION)
         ));
         $this->assertMissingDependency(array('piwik' => '>=9.2'), array(
-          $this->missingPiwik('>=9.2,<10.0.0-b1', '>=9.2')
+            $this->missingPiwik('>=9.2,<10.0.0-b1', '>=9.2')
         ));
     }
 
     public function test_getMissingDependencies_detectUnknownDependencyName()
     {
         $this->assertMissingDependency(array('unkNowN' => '>99.99'), array(
-          $this->buildMissingDependecy('unkNowN', '', '>99.99')
+            $this->buildMissingDependecy('unkNowN', '', '>99.99')
         ));
         $this->assertMissingDependency(array('unkNowN' => '>=0.01'), array(
-          $this->buildMissingDependecy('unkNowN', '', '>=0.01')
+            $this->buildMissingDependecy('unkNowN', '', '>=0.01')
         ));
     }
 
@@ -129,10 +129,10 @@ class DependencyTest extends IntegrationTestCase
         $this->assertMissingDependency(array('Annotations' => '>=2.1'), array());
         $this->assertMissingDependency(array('Annotations' => '>=' . Version::VERSION), array());
         $this->assertMissingDependency(array('Annotations' => '>' . Version::VERSION), array(
-          $this->buildMissingDependecy('Annotations', Version::VERSION, '>' . Version::VERSION)
+            $this->buildMissingDependecy('Annotations', Version::VERSION, '>' . Version::VERSION)
         ));
         $this->assertMissingDependency(array('Annotations' => '>=9.2'), array(
-          $this->buildMissingDependecy('Annotations', Version::VERSION, '>=9.2')
+            $this->buildMissingDependecy('Annotations', Version::VERSION, '>=9.2')
         ));
     }
 
@@ -265,12 +265,12 @@ class DependencyTest extends IntegrationTestCase
     public function getHasDepenedencyToDisabledPluginProvider()
     {
         return array(
-          array($expected = false, $requires = null),
-          array($expected = false, $requires = array()),
-          array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0')),
-          array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'CoreHome' => '2.15.0')),
-          array($expected = false, $requires = array('CoreHome' => '<2.0', 'Actions' => '>=2.15.0')),
-          array($expected = true, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'FooBar' => '2.15.0')),
+            array($expected = false, $requires = null),
+            array($expected = false, $requires = array()),
+            array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0')),
+            array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'CoreHome' => '2.15.0')),
+            array($expected = false, $requires = array('CoreHome' => '<2.0', 'Actions' => '>=2.15.0')),
+            array($expected = true, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'FooBar' => '2.15.0')),
         );
     }
 
@@ -281,7 +281,6 @@ class DependencyTest extends IntegrationTestCase
 
     private function missingPhp($requiredVersion, $causedBy = null)
     {
-        //"7.2.34-28+ubuntu20.04.1+deb.sury.org+1"
         return $this->buildMissingDependecy('php', $this->formatPhpVersion(), $requiredVersion, $causedBy);
     }
 
@@ -292,10 +291,10 @@ class DependencyTest extends IntegrationTestCase
         }
 
         return array(
-          'requirement'     => $name,
-          'actualVersion'   => $currentVersion,
-          'requiredVersion' => $requiredVersion,
-          'causedBy'        => $causedBy
+            'requirement'     => $name,
+            'actualVersion'   => $currentVersion,
+            'requiredVersion' => $requiredVersion,
+            'causedBy'        => $causedBy
         );
     }
 
@@ -304,7 +303,7 @@ class DependencyTest extends IntegrationTestCase
         preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
         return $phpversion[0];
     }
-
+    
     private function assertMissingDependency($requires, $expectedMissing)
     {
         $missing = $this->dependency->getMissingDependencies($requires);
