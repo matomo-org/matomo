@@ -67,6 +67,17 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
+     * TODO
+     * @return void
+     */
+    public function getUmdJs()
+    {
+        $chunk = Common::getRequestVar('chunk');
+        $chunkFile = AssetManager::getInstance()->getMergedJavaScriptChunk($chunk);
+        $this->serveJsFile($chunkFile);
+    }
+
+    /**
      * @param UIAsset $uiAsset
      */
     private function serveJsFile($uiAsset)
