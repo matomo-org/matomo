@@ -71,7 +71,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
         $expected = array(
-          'sql' => 'SELECT /* sites 1 */ /* 2010-03-01,2010-03-31 */
+            'sql' => 'SELECT /* sites 1 */ /* 2010-03-01,2010-03-31 */
 				test, test2
 			FROM
 				log_visit AS log_visit
@@ -79,11 +79,11 @@ class LogAggregatorTest extends IntegrationTestCase
 				1=1
 			ORDER BY
 				5',
-          'bind' => array (
-            0 => '2010-03-01 00:00:00',
-            1 => '2010-03-31 23:59:59',
-            2 => 1
-          )
+            'bind' => array (
+                0 => '2010-03-01 00:00:00',
+                1 => '2010-03-31 23:59:59',
+                2 => 1
+            )
         );
         $this->assertSame($expected, $query);
     }
@@ -98,7 +98,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
         $expected = array(
-          'sql' => 'SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
+            'sql' => 'SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
 				test, test2
 			FROM
 				log_visit AS log_visit
@@ -108,12 +108,12 @@ class LogAggregatorTest extends IntegrationTestCase
                 ( log_visit.user_id = ? )
 			ORDER BY
 				5',
-          'bind' => array (
-            '2010-03-01 00:00:00',
-            '2010-03-31 23:59:59',
-            1,
-            '1'
-          )
+            'bind' => array (
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+                '1'
+            )
         );
         $this->assertSame($expected, $query);
     }
@@ -129,7 +129,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
         $expected = array(
-          'sql' => 'SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
+            'sql' => 'SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
 				test, test2
 			FROM
 				logtmpsegment0e053be69df974017fba4276a0d4347d AS logtmpsegment0e053be69df974017fba4276a0d4347d INNER JOIN log_visit AS log_visit ON log_visit.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit
@@ -137,18 +137,17 @@ class LogAggregatorTest extends IntegrationTestCase
 				1=1
 			ORDER BY
 				5',
-          'bind' => array (
-            '2010-03-01 00:00:00',
-            '2010-03-31 23:59:59',
-            1,
-          )
+            'bind' => array (
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+            )
         );
         $this->assertSame($expected, $query);
     }
 
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
-        // it seems doesn't work for MariaDb
         if (SystemTestCase::isMysqli() || getenv('GITHUB')) {
             // See https://github.com/matomo-org/matomo/issues/17871
             $this->markTestSkipped('Max execution query hint does not work for Mysqli.');
@@ -161,8 +160,8 @@ class LogAggregatorTest extends IntegrationTestCase
             $this->fail('Query was not aborted by max execution limit');
         } catch (\Zend_Db_Statement_Exception $e) {
             $isMaxExecutionTimeError = $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
-              || $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-              || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+                || $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
+                || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
 
             $this->assertTrue($isMaxExecutionTimeError);
         }
@@ -177,7 +176,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 // ignore General error: 1193 Unknown system variable 'sql_require_primary_key'
                 try {
                     // on mariadb this might work
-                    $this->logAggregator->getDb()->exec('SET GLOBAL innodb_force_primary_key = '.($val?'on':'off'));
+                    $this->logAggregator->getDb()->exec('SET GLOBAL innodb_force_primary_key = ' . ($val ? 'on' : 'off'));
                 } catch (\Exception $e) {
                     if ($this->logAggregator->getDb()->isErrNo($e, 1193)) {
                         // ignore General error: 1193 Unknown system variable 'sql_require_primary_key'
@@ -206,7 +205,7 @@ class LogAggregatorTest extends IntegrationTestCase
 
         $this->setSqlRequirePrimaryKeySetting(0);// reset variable
         $expected = array(
-          'sql' => 'SELECT /* segmenthash 4a4d16d6897e7fed2d5d151016a5a19c */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
+            'sql' => 'SELECT /* segmenthash 4a4d16d6897e7fed2d5d151016a5a19c */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
 				test, test2
 			FROM
 				logtmpsegment4ef74412006a3160b17ca5fe99a5f866 AS logtmpsegment4ef74412006a3160b17ca5fe99a5f866 INNER JOIN log_visit AS log_visit ON log_visit.idvisit = logtmpsegment4ef74412006a3160b17ca5fe99a5f866.idvisit
@@ -214,11 +213,11 @@ class LogAggregatorTest extends IntegrationTestCase
 				1=1
 			ORDER BY
 				5',
-          'bind' => array (
-            '2010-03-01 00:00:00',
-            '2010-03-31 23:59:59',
-            1,
-          )
+            'bind' => array (
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+            )
         );
         $this->assertSame($expected, $query);
     }
@@ -240,7 +239,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
         $expected = array(
-          'sql' => 'SELECT /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
+            'sql' => 'SELECT /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
 				test, test2
 			FROM
 				log_visit AS log_visit
@@ -248,11 +247,11 @@ class LogAggregatorTest extends IntegrationTestCase
 				1=1
 			ORDER BY
 				5',
-          'bind' => array (
-            0 => '2010-03-01 00:00:00',
-            1 => '2010-03-31 23:59:59',
-            2 => 1
-          )
+            'bind' => array (
+                0 => '2010-03-01 00:00:00',
+                1 => '2010-03-31 23:59:59',
+                2 => 1
+            )
         );
         $this->assertSame($expected, $query);
     }
@@ -260,9 +259,9 @@ class LogAggregatorTest extends IntegrationTestCase
     public function test_queryVisitsByDimension_withComplexDimensionSelect()
     {
         $dimensions = [
-          'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
-          'ELSE \'r\'' .
-          'END AS label',
+            'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
+            'ELSE \'r\'' .
+            'END AS label',
         ];
 
         /** @var \Zend_Db_Statement $query */
@@ -270,28 +269,28 @@ class LogAggregatorTest extends IntegrationTestCase
         $result = $query->fetchAll();
 
         $expected = [
-          [
-            'label' => 'l',
-            1 => '1',
-            2 => '1',
-            3 => '7',
-            4 => '7',
-            5 => '1621',
-            6 => '0',
-            7 => '1',
-            39 => '0',
-          ],
-          [
-            'label' => 'r',
-            1 => '1',
-            2 => '1',
-            3 => '1',
-            4 => '1',
-            5 => '1',
-            6 => '1',
-            7 => '1',
-            39 => '0',
-          ],
+            [
+                'label' => 'l',
+                1 => '1',
+                2 => '1',
+                3 => '7',
+                4 => '7',
+                5 => '1621',
+                6 => '0',
+                7 => '1',
+                39 => '0',
+            ],
+            [
+                'label' => 'r',
+                1 => '1',
+                2 => '1',
+                3 => '1',
+                4 => '1',
+                5 => '1',
+                6 => '1',
+                7 => '1',
+                39 => '0',
+            ],
         ];
         $this->assertEquals($expected, $result);
     }
