@@ -61,6 +61,7 @@ class UserCountryMap extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'UserCountryMap_Unlocated';
         $translationKeys[] = 'UserCountryMap_WithUnknownRegion';
         $translationKeys[] = 'UserCountryMap_WithUnknownCity';
         $translationKeys[] = 'General_UserId';

@@ -705,10 +705,11 @@
                 }
 
                 $('.unlocated-stats').html(
-                    $('.unlocated-stats').data('tpl')
-                        .replace('%s', unlocated)
-                        .replace('%p', '(' + formatPercentage(unlocated / total) + ')')
-                        .replace('%c', UserCountryMap.countriesByIso[self.lastSelected].name)
+                    _pk_translate('UserCountryMap_Unlocated', [
+                        unlocated,
+                        '(' + formatPercentage(unlocated / total) + ')',
+                        UserCountryMap.countriesByIso[self.lastSelected].name
+                    ])
                 );
                 $('.UserCountryMap-info-btn').show();
 
