@@ -241,7 +241,12 @@ class API extends \Piwik\Plugin\API
                 if (!empty($metadata['metrics']) && empty($reportColumns[self::DEFAULT_ORDINATE_METRIC])) {
                     $ordinateColumns[] = key($metadata['metrics']);
                 } else {
-                    $ordinateColumns[] = self::DEFAULT_ORDINATE_METRIC;
+                    throw new Exception(
+                      Piwik::translate(
+                        'ImageGraph_ColumnOrdinateMissing',
+                        array(self::DEFAULT_ORDINATE_METRIC, implode(',', array_keys($reportColumns)))
+                      )
+                    );
                 }
             } else {
                 $ordinateColumns = explode(',', $columns);
