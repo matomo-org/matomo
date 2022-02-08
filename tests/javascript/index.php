@@ -5236,9 +5236,6 @@ if ($mysql) {
 
         equal(siteIdPattern.test(requestWithoutFingerprint), true);
         equal(pattern.test(requestWithoutFingerprint), false, 'When browser fingerprint is disabled the request should not include browser resolution or cookie');
-
-
-
     });
 
 <?php
