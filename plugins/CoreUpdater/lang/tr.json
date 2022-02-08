@@ -31,6 +31,7 @@
         "ExceptionArchiveEmpty": "Arşiv boş.",
         "ExceptionArchiveIncompatible": "Arşiv uyumsuz: %s",
         "ExceptionArchiveIncomplete": "Arşiv eksik: Bazı dosyalar kayıp (%s gibi).",
+        "ExceptionDirWrongPermission": "Bazı klasörler yazılabilir değil. Lütfen şu klasörlerin yazılabilir olduğundan emin olun ve tekrar deneyin: %s.",
         "ExecuteDbUpgrade": "Veritabanının güncellenmesi gerekli. Güncellensin mi?",
         "FeedbackRequest": "Görüş ve önerilerinizi Matomo ekibi ile paylaşmaktan çekinmeyin:",
         "HelpMessageContent": "Güncelleme sırasında sık karşılaşılaşılan sorunlarla ilgili %1$s Matomo SSS %2$s bölümüne bakın. %3$s Sistem yöneticinizle görüşün. Genellikle MySQL kurulumu ilgili olan sorunun giderilmesine yardımcı olabilir.",
