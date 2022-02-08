@@ -303,7 +303,7 @@ class DependencyTest extends IntegrationTestCase
         preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
         return $phpversion[0];
     }
-    
+
     private function assertMissingDependency($requires, $expectedMissing)
     {
         $missing = $this->dependency->getMissingDependencies($requires);

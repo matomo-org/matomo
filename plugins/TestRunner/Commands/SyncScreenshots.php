@@ -33,6 +33,7 @@ class SyncScreenshots extends ConsoleCommand
 
     const buildURL = "https://builds-artifacts.matomo.org";
 
+
     public function __construct()
     {
         $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
@@ -50,11 +51,11 @@ class SyncScreenshots extends ConsoleCommand
         $this->setName('tests:sync-ui-screenshots');
         $this->setAliases(array('development:sync-ui-test-screenshots'));
         $this->setDescription('For Piwik core devs. Copies screenshots '
-          . 'from travis artifacts to the tests/UI/expected-screenshots/ folder');
+                            . 'from travis artifacts to the tests/UI/expected-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
+        $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+            'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', ['.*']);
         $this->addOption('agent','a', InputOption::VALUE_OPTIONAL, 'Build agent using you want to choose','github');
-        $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
-          'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
         $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
         $this->addOption('http-user', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH username (for premium plugins where artifacts are protected)');
         $this->addOption('http-password', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH password (for premium plugins where artifacts are protected)');
@@ -84,25 +85,27 @@ class SyncScreenshots extends ConsoleCommand
 
     private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null, $agent = null)
     {
+        $url = sprintf('https://builds-artifacts.matomo.org/api/%s/%s', $repository, $buildNumber);
+
+        //check if the request from github action
         if ($agent === 'github') {
             $repository = 'github/' . $repository;
         }
         $url = sprintf(self::buildURL.'/api/%s/%s', $repository, $buildNumber);
-
         $this->logger->debug('Fetching {url}', array('url' => $url));
 
         $response = Http::sendHttpRequest(
-          $url,
-          $timeout = 160,
-          $userAgent = null,
-          $destinationPath = null,
-          $followDepth = 0,
-          $acceptLanguage = false,
-          $byteRange = false,
-          $getExtendedInfo = true,
-          $httpMethod = 'GET',
-          $httpUser,
-          $httpPassword
+            $url,
+            $timeout = 160,
+            $userAgent = null,
+            $destinationPath = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'GET',
+            $httpUser,
+            $httpPassword
         );
         $httpStatus = $response['status'];
         if ($httpStatus == '200') {
@@ -118,6 +121,8 @@ class SyncScreenshots extends ConsoleCommand
     private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword, $agent)
     {
         $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
+        $url = 'https://builds-artifacts.matomo.org' . $url;
+
         if ($agent === 'github') {
             $url = self::buildURL . '/github' . $url;
         } else {
@@ -127,17 +132,17 @@ class SyncScreenshots extends ConsoleCommand
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
 
         Http::sendHttpRequest(
-          $url,
-          $timeout = 160,
-          $userAgent = null,
-          $downloadTo,
-          $followDepth = 0,
-          $acceptLanguage = false,
-          $byteRange = false,
-          $getExtendedInfo = true,
-          $httpMethod = 'GET',
-          $httpUser,
-          $httpPassword
+            $url,
+            $timeout = 160,
+            $userAgent = null,
+            $downloadTo,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'GET',
+            $httpUser,
+            $httpPassword
         );
     }
 
@@ -177,8 +182,8 @@ cd ../../../../../";
         }
 
         $possibleSubDirs = array(
-          'expected-screenshots',
-          'expected-ui-screenshots'
+            'expected-screenshots',
+            'expected-ui-screenshots'
         );
 
         foreach ($possibleSubDirs as $subDir) {
