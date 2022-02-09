@@ -445,8 +445,8 @@ class Controller extends ControllerAdmin
 
     public function activeInviteUser()
     {
-        $userLogin = Common::getRequestVar('login');
-        $token = Common::getRequestVar('token');
+        $userLogin = Common::getRequestVar('login', null, 'string');
+        $token = Common::getRequestVar('token', null, 'string');
 
         $user = $this->userModel->getUser($userLogin);
 
