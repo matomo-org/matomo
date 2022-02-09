@@ -486,8 +486,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
-
-            return parseInt(labelWidth , 10);
+            var totalColumns = domElem.find('table:first').find('tbody>tr:first').find('.label').length
+            return parseInt(labelWidth /totalColumns, 10);
         }
 
         function getLabelColumnMinWidth(domElem)
