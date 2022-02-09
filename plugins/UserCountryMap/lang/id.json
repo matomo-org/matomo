@@ -15,7 +15,7 @@
         "Searches": "%s pencarian",
         "SecondsAgo": "%s detik lalu",
         "ShowingVisits": "Kunjungan Lokasi-Geo terakhir",
-        "Unlocated": "<b>%1$s</b> %2$p kunjungan dari %3$c lokasi-geo tidak diketahui.",
+        "Unlocated": "<b>%1$s</b> %2$s kunjungan dari %3$s lokasi-geo tidak diketahui.",
         "VisitorMap": "Peta Pengunjung",
         "WithUnknownCity": "%s dengan kota tidak dikenal",
         "WithUnknownRegion": "%s dengan wilayah tidak dikenal",
