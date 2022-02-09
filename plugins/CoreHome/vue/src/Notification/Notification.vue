@@ -132,13 +132,13 @@ export default defineComponent({
       if (!this.notificationId) {
         return;
       }
-
-      AjaxHelper.fetch({ // GET params
+      AjaxHelper.post({ // GET params
         module: 'CoreHome',
         action: 'markNotificationAsRead',
       }, { // POST params
-        postParams: { notificationId: this.notificationId },
-      });
+        notificationId: this.notificationId,
+      },
+      { withTokenInUrl: true });
     },
   },
 });
