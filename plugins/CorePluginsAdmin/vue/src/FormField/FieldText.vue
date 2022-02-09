@@ -63,7 +63,10 @@ export default defineComponent({
   },
   methods: {
     onKeydown(event: Event) {
-      this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
+      const newValue = (event.target as HTMLInputElement).value;
+      if (this.modelValue !== newValue) {
+        this.$emit('update:modelValue', newValue);
+      }
     },
   },
 });
