@@ -26,6 +26,7 @@
         "DonateCall2": "Matomo trenger din fortsatte støtte for å vokse og blomstre.",
         "EndDate": "Sluttdato",
         "EndShortcut": "Slutt",
+        "ExceptionNotAllowlistedIP": "Du kan ikke bruke denne Matomo-installasjonen fordi din IP (%s) ikke tillates.",
         "ExcludeRowsWithLowPopulation": "All rader vises %s Ekskluder lav populasjon",
         "ExitZenMode": "Avslutt Zen-modus (vis menyene)",
         "ExpandSubtables": "Fold ut undertabeller",

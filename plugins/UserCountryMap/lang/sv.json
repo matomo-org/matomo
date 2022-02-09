@@ -18,7 +18,7 @@
         "Searches": "%s sökningar",
         "SecondsAgo": "%s sekunder sedan",
         "ShowingVisits": "Geolokaliserade besök de senaste",
-        "Unlocated": "<b>%1$s</b> %2$p av besöken från %3$c kunde inte geolokaliseras.",
+        "Unlocated": "<b>%1$s</b> %2$s av besöken från %3$s kunde inte geolokaliseras.",
         "VisitorMap": "Besökskarta",
         "WithUnknownCity": "%s med okänd stad",
         "WithUnknownRegion": "%s med okänd region",
