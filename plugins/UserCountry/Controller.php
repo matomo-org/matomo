@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\DisabledProvider;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
@@ -78,7 +79,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // check if there is a working provider (that isn't the default one)
         $isThereWorkingProvider = false;
         foreach ($allProviderInfo as $id => $provider) {
-            if ($id != DefaultProvider::ID
+            if ($id != DefaultProvider::ID && $id != DisabledProvider::ID
                 && $provider['status'] == LocationProvider::INSTALLED
             ) {
                 $isThereWorkingProvider = true;

@@ -28,9 +28,9 @@ type ParsedQueryParameters = Record<string, unknown>;
  * URL store and helper functions.
  */
 class MatomoUrl {
-  private urlQuery = ref('');
+  readonly urlQuery = ref('');
 
-  private hashQuery = ref('');
+  readonly hashQuery = ref('');
 
   readonly urlParsed = computed(() => readonly(
     broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true) as ParsedQueryParameters,
