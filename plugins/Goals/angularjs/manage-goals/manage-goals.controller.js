@@ -167,7 +167,7 @@
             }
 
             this.showAddEditForm();
-            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, '', /*allowMultiple = */ false, /*useEventValueAsRevenue = */ false, '0');
+            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, '', /*allowMultiple = */ false, /*useEventValueAsRevenue = */ false, 0);
             scrollToTop();
         };
 
@@ -190,7 +190,7 @@
                 }, function () {
                     self.isLoading = false;
                 });
-                
+
             }});
         };
 
