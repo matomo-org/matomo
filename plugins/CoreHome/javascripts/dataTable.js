@@ -566,6 +566,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (labelColumnWidth) {
                 $('td.label', domElem).each(function() {
+                    var tableClass =  $(this).closest('table').attr('class');
+                    // check if the table is sub table. remove the width by 20px to make sure the table size wont change.
+                    if (tableClass.includes('subDataTable')) {
+                        labelColumnWidth = labelColumnWidth - 20;
+                    }
                     $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
                 });
             }
