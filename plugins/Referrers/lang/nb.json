@@ -7,6 +7,7 @@
         "CampaignContent": "Kampanjeinnhold",
         "CampaignContentHelp": "Dette parameteret brukes ofte når du tester flere reklamer og ønsker å inkludere navnet for hver av dem for å se hvilken av dem som mest effektivt genererte trafikk.",
         "CampaignGroup": "Kampanjegruppe",
+        "CampaignGroupHelp": "Dette parameteret brukes til å spore en kampanjegruppe for å identifisere en gruppe eller eller publikum. Kampanjegrupper er nyttige for å spore totalt resultat for flere kampanjer med lignende mål.",
         "CampaignId": "Kampanje-ID",
         "CampaignKeywordHelp": "Hvis du har flere kampanjer med samme navn, kan du skille disse ved å angi et nøkkelord eller underkategori.",
         "CampaignMedium": "Kampanjemedium",
