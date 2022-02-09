@@ -47,7 +47,7 @@ class GetPremiumFeatures extends Widget
 
         //sort array by bundle first
         usort($plugins, function ($item1, $item2) {
-            return $item1['isBundle'] < $item2['isBundle'];
+            return $item1['isBundle'] < $item2['isBundle'] ? 1 : -1;
         });
 
         if (empty($plugins)) {
