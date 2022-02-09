@@ -150,6 +150,7 @@ declare global {
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(): {[key: string]: any};
     getSparklineColors(): SparklineColors;
+    getBaseDatePickerOptions(defaultDate: Date|null): any;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
