@@ -1,4 +1,4 @@
-# This script remove all files that shouldn't be removed in a build
+# This script removes all files that shouldn't be included in a release
 # It should be called from within the root directory of Matomo
 
 # ------------
@@ -207,19 +207,15 @@ rm -f libs/jqplot/plugins/jqplot.pieRenderer.js
 rm -f $(find config -type f -name '*.ini.php' -not -name global.ini.php)
 rm -f config/config.php
 
-# ------------
-# WARNING: Did you read the WARNING above?
-# ------------
-
 rm -rf tmp/*
 rm -f HIRING.md
 
-# delete unwanted folders, recursively
+# delete unwanted git folders, recursively
 for x in .git .github ; do
     find . -name "$x" -exec rm -rf {} \; 2>/dev/null
 done
 
-# delete unwanted files, recursively
+# delete unwanted common files, recursively
 for x in .gitignore .gitmodules .gitattributes .bowerrc .bower.json bower.json \
     .coveralls.yml .editorconfig .gitkeep .jshintrc .php_cs .php_cs.dist \
     phpunit.xml.dist phpunit.xml .phpcs.xml.dist phpcs.xml Gruntfile.js gruntfile.js \
