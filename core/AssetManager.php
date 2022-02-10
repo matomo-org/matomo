@@ -382,12 +382,7 @@ class AssetManager extends Singleton
 
     protected function getPluginUmdJScriptFetcher($chunk = null)
     {
-        $loadIndividually = Config::getInstance()->General['assets_umd_individually'] ?? false;
-        $chunkCount = Config::getInstance()->General['assets_umd_chunk_count'] ?? PluginUmdAssetFetcher::DEFAULT_CHUNKS;
-
-        // $loadIndividually = false, $chunkCount = self::DEFAULT_CHUNKS
-        return new PluginUmdAssetFetcher($this->getLoadedPlugins('all'), $this->theme, $chunk, $loadIndividually,
-            $chunkCount);
+        return new PluginUmdAssetFetcher($this->getLoadedPlugins('all'), $this->theme, $chunk);
     }
 
     /**

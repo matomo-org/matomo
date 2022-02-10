@@ -10,13 +10,12 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
+use Piwik\Config;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
 
 class PluginUmdAssetFetcher extends UIAssetFetcher
 {
-    const DEFAULT_CHUNKS = 3;
-
     /**
      * @var string
      */
@@ -32,9 +31,18 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
      */
     private $chunkCount;
 
-    public function __construct($plugins, $theme, $chunk, $loadIndividually = false, $chunkCount = self::DEFAULT_CHUNKS)
+    public function __construct($plugins, $theme, $chunk, $loadIndividually = null, $chunkCount = null)
     {
         parent::__construct($plugins, $theme);
+
+        if ($loadIndividually === null) {
+            $loadIndividually = self::getDefaultLoadIndividually();
+        }
+
+        if ($chunkCount === null) {
+            $chunkCount = self::getDefaultChunkCount();
+        }
+
         $this->requestedChunk = $chunk;
         $this->loadIndividually = $loadIndividually;
         $this->chunkCount = $chunkCount;
@@ -225,5 +233,15 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $result = Manager::getInstance()->getPluginDirectory($plugin);;
         $result = str_replace(PIWIK_INCLUDE_PATH . '/', '', $result);
         return $result;
+    }
+
+    public static function getDefaultLoadIndividually()
+    {
+        return (Config::getInstance()->General['assets_umd_load_individually'] ?? 0) == 1;
+    }
+
+    public static function getDefaultChunkCount()
+    {
+        return (int)(Config::getInstance()->General['assets_umd_chunk_count'] ?? 3);
     }
 }
