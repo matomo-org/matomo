@@ -485,6 +485,7 @@ describe("UsersManager", function () {
         await page.evaluate(function () {
             $('.userEditForm #user_email').val('testlogin3@example.com').change();
         });
+        await page.waitFor(100);
 
         var btnSave = await page.jQuery('.userEditForm .basic-info-tab .matomo-save-button .btn', { waitFor: true });
         await btnSave.click();
