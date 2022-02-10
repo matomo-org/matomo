@@ -126,6 +126,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "CapabilitiesEdit", function() { return /* reexport */ CapabilitiesEdit; });
+__webpack_require__.d(__webpack_exports__, "UserPermissionsEdit", function() { return /* reexport */ UserPermissionsEdit; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -575,6 +576,855 @@ CapabilitiesEditvue_type_script_lang_ts.render = render
     }
   }
 }));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=template&id=b8ef996c
+
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_1 = {
+  key: 0,
+  class: "row"
+};
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_2 = {
+  class: "row to-all-websites"
+};
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_3 = {
+  class: "col s12"
+};
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_4 = {
+  style: {
+    "margin-right": "3.5px"
+  }
+};
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_5 = {
+  id: "all-sites-access-select",
+  style: {
+    "margin-right": "3.5px"
+  }
+};
+
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, " ", -1);
+
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_7 = {
+  class: "filters row"
+};
+var UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_8 = {
+  class: "col s12 m12 l8"
+};
+var _hoisted_9 = {
+  class: "input-field bulk-actions",
+  style: {
+    "margin-right": "3.5px"
+  }
+};
+var _hoisted_10 = {
+  id: "user-permissions-edit-bulk-actions",
+  class: "dropdown-content"
+};
+var _hoisted_11 = {
+  class: "dropdown-trigger",
+  "data-target": "user-permissions-bulk-set-access"
+};
+var _hoisted_12 = {
+  id: "user-permissions-bulk-set-access",
+  class: "dropdown-content"
+};
+var _hoisted_13 = ["onClick"];
+var _hoisted_14 = {
+  class: "input-field site-filter",
+  style: {
+    "margin-right": "3.5px"
+  }
+};
+var _hoisted_15 = ["value", "placeholder"];
+var _hoisted_16 = {
+  class: "input-field access-filter",
+  style: {
+    "margin-right": "3.5px"
+  }
+};
+var _hoisted_17 = {
+  key: 0,
+  class: "col s12 m12 l4 sites-for-permission-pagination-container"
+};
+var _hoisted_18 = {
+  class: "sites-for-permission-pagination"
+};
+var _hoisted_19 = {
+  class: "counter"
+};
+var _hoisted_20 = ["textContent"];
+var _hoisted_21 = {
+  class: "roles-help-notification"
+};
+var _hoisted_22 = ["innerHTML"];
+var _hoisted_23 = {
+  class: "capabilities-help-notification"
+};
+var _hoisted_24 = {
+  id: "sitesForPermission"
+};
+var _hoisted_25 = {
+  class: "select-cell"
+};
+var _hoisted_26 = {
+  class: "checkbox-container"
+};
+var _hoisted_27 = ["checked"];
+
+var _hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
+
+var _hoisted_29 = {
+  class: "role_header"
+};
+var _hoisted_30 = ["innerHTML"];
+
+var _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-help"
+}, null, -1);
+
+var _hoisted_32 = [_hoisted_31];
+var _hoisted_33 = {
+  class: "capabilities_header"
+};
+var _hoisted_34 = ["innerHTML"];
+
+var _hoisted_35 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-help"
+}, null, -1);
+
+var _hoisted_36 = [_hoisted_35];
+var _hoisted_37 = {
+  key: 0,
+  class: "select-all-row"
+};
+var _hoisted_38 = {
+  colspan: "4"
+};
+var _hoisted_39 = {
+  key: 0
+};
+var _hoisted_40 = ["innerHTML"];
+var _hoisted_41 = ["innerHTML"];
+var _hoisted_42 = {
+  key: 1
+};
+var _hoisted_43 = ["innerHTML"];
+var _hoisted_44 = ["innerHTML"];
+var _hoisted_45 = {
+  class: "select-cell"
+};
+var _hoisted_46 = {
+  class: "checkbox-container"
+};
+var _hoisted_47 = ["id", "onUpdate:modelValue"];
+
+var _hoisted_48 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
+
+var _hoisted_49 = {
+  class: "role-select"
+};
+var _hoisted_50 = {
+  class: "delete-access-confirm-modal modal",
+  ref: "deleteAccessConfirmModal"
+};
+var _hoisted_51 = {
+  class: "modal-content"
+};
+var _hoisted_52 = ["innerHTML"];
+var _hoisted_53 = ["innerHTML"];
+var _hoisted_54 = {
+  class: "modal-footer"
+};
+var _hoisted_55 = {
+  class: "change-access-confirm-modal modal",
+  ref: "changeAccessConfirmModal"
+};
+var _hoisted_56 = {
+  class: "modal-content"
+};
+var _hoisted_57 = ["innerHTML"];
+var _hoisted_58 = ["innerHTML"];
+var _hoisted_59 = {
+  class: "modal-footer"
+};
+var _hoisted_60 = {
+  class: "confirm-give-access-all-sites modal",
+  ref: "confirmGiveAccessAllSitesModal"
+};
+var _hoisted_61 = {
+  class: "modal-content"
+};
+var _hoisted_62 = ["innerHTML"];
+var _hoisted_63 = {
+  class: "modal-footer"
+};
+function UserPermissionsEditvue_type_template_id_b8ef996c_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
+
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_CapabilitiesEdit = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CapabilitiesEdit");
+
+  var _directive_dropdown_menu = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("dropdown-menu");
+
+  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["userPermissionsEdit", {
+      loading: _ctx.isLoadingAccess
+    }])
+  }, [!_ctx.hasAccessToAtLeastOneSite ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Notification, {
+    context: "warning",
+    type: "transient",
+    noclear: true
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Warning')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_NoAccessWarning')), 1)];
+    }),
+    _: 1
+  })])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_GiveAccessToAll')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    modelValue: _ctx.allWebsitesAccssLevelSet,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.allWebsitesAccssLevelSet = $event;
+    }),
+    uicontrol: "select",
+    options: _ctx.filteredAccessLevels,
+    "full-width": true
+  }, null, 8, ["modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["btn", {
+      disabled: _ctx.isGivingAccessToAllSites
+    }]),
+    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.showChangeAccessAllSitesModal();
+    }, ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Apply')), 3)]), UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_OrManageIndividually')) + ":", 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_b8ef996c_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["dropdown-trigger btn", {
+      disabled: _ctx.isBulkActionsDisabled
+    }]),
+    href: "",
+    "data-target": "user-permissions-edit-bulk-actions"
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BulkActions')), 1)], 2), [[_directive_dropdown_menu, {
+    activates: '#user-permissions-edit-bulk-actions'
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SetPermission')), 1)], 512), [[_directive_dropdown_menu, {
+    activates: '#user-permissions-bulk-set-access'
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_12, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.filteredAccessLevels, function (access) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: access.key
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: "",
+      onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+        _ctx.siteAccessToChange = null;
+        _ctx.roleToChangeTo = access.key;
+
+        _ctx.showChangeAccessConfirm();
+      }, ["prevent"])
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(access.value), 9, _hoisted_13)]);
+  }), 128))])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      _ctx.siteAccessToChange = null;
+      _ctx.roleToChangeTo = 'noaccess';
+
+      _ctx.showRemoveAccessConfirm();
+    }, ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_RemovePermissions')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "text",
+    value: _ctx.siteNameFilter,
+    onKeydown: _cache[3] || (_cache[3] = function ($event) {
+      _ctx.onChangeSiteFilter($event);
+    }),
+    onChange: _cache[4] || (_cache[4] = function ($event) {
+      _ctx.onChangeSiteFilter($event);
+    }),
+    placeholder: _ctx.translate('UsersManager_FilterByWebsite')
+  }, null, 40, _hoisted_15)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    modelValue: _ctx.accessLevelFilter,
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.accessLevelFilter = $event;
+    }),
+    uicontrol: "select",
+    options: _ctx.filteredSelectAccessLevels,
+    "full-width": true,
+    placeholder: _ctx.translate('UsersManager_FilterByAccess')
+  }, null, 8, ["modelValue", "options", "placeholder"])])])]), _ctx.totalEntries > _ctx.limit ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["prev", {
+      disabled: _ctx.offset <= 0
+    }])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    class: "pointer",
+    onClick: _cache[6] || (_cache[6] = function ($event) {
+      return _ctx.gotoPreviousPage();
+    })
+  }, "« " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Previous')), 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.paginationText)
+  }, null, 8, _hoisted_20)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["next", {
+      disabled: _ctx.offset + _ctx.limit >= _ctx.totalEntries
+    }])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    class: "pointer",
+    onClick: _cache[7] || (_cache[7] = function ($event) {
+      return _ctx.gotoNextPage();
+    })
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')) + " »", 1)], 2)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_21, [_ctx.isRoleHelpToggled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
+    key: 0,
+    context: "info",
+    type: "persistent",
+    noclear: true
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        innerHTML: _ctx.$sanitize(_ctx.rolesHelpText)
+      }, null, 8, _hoisted_22)];
+    }),
+    _: 1
+  })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_23, [_ctx.isCapabilitiesHelpToggled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
+    key: 0,
+    context: "info",
+    type: "persistent",
+    noclear: true
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_CapabilitiesHelp')), 1)];
+    }),
+    _: 1
+  })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_25, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "checkbox",
+    id: "perm_edit_select_all",
+    checked: _ctx.isAllCheckboxSelected,
+    onChange: _cache[8] || (_cache[8] = function ($event) {
+      return _ctx.onAllCheckboxChange($event);
+    })
+  }, null, 40, _hoisted_27), _hoisted_28])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Name')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_29, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    innerHTML: "".concat(_ctx.translate('UsersManager_Role'), " ")
+  }, null, 8, _hoisted_30), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
+      sticky: _ctx.isRoleHelpToggled
+    }]),
+    onClick: _cache[9] || (_cache[9] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.isRoleHelpToggled = !_ctx.isRoleHelpToggled;
+    }, ["prevent"]))
+  }, _hoisted_32, 2)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_33, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    innerHTML: "".concat(_ctx.translate('UsersManager_Capabilities'), " ")
+  }, null, 8, _hoisted_34), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
+      sticky: _ctx.isCapabilitiesHelpToggled
+    }]),
+    onClick: _cache[10] || (_cache[10] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.isCapabilitiesHelpToggled = !_ctx.isCapabilitiesHelpToggled;
+    }, ["prevent"]))
+  }, _hoisted_36, 2)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [_ctx.isAllCheckboxSelected && _ctx.siteAccess.length < _ctx.totalEntries ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_38, [!_ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_39, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    innerHTML: _ctx.$sanitize(_ctx.theDisplayedWebsitesAreSelectedText),
+    style: {
+      "margin-right": "3.5px"
+    }
+  }, null, 8, _hoisted_40), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "#",
+    onClick: _cache[11] || (_cache[11] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected;
+    }, ["prevent"])),
+    innerHTML: _ctx.$sanitize(_ctx.clickToSelectAllText)
+  }, null, 8, _hoisted_41)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_42, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    innerHTML: _ctx.$sanitize(_ctx.allWebsitesAreSelectedText),
+    style: {
+      "margin-right": "3.5px"
+    }
+  }, null, 8, _hoisted_43), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "#",
+    onClick: _cache[12] || (_cache[12] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected;
+    }, ["prevent"])),
+    innerHTML: _ctx.$sanitize(_ctx.clickToSelectDisplayedWebsitesText)
+  }, null, 8, _hoisted_44)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.siteAccess, function (entry, index) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
+      key: entry.idsite
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_45, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_46, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "checkbox",
+      id: "perm_edit_select_row".concat(index),
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return _ctx.selectedRows[index] = $event;
+      },
+      onClick: _cache[13] || (_cache[13] = function ($event) {
+        return _ctx.onRowSelected();
+      })
+    }, null, 8, _hoisted_47), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.selectedRows[index]]]), _hoisted_48])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.site_name), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_49, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      "model-value": entry.role,
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        _ctx.onRoleChange(entry, $event);
+      },
+      uicontrol: "select",
+      options: _ctx.filteredAccessLevels,
+      "full-width": true
+    }, null, 8, ["model-value", "onUpdate:modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CapabilitiesEdit, {
+      idsite: entry.idsite,
+      "site-name": entry.site_name,
+      "user-login": _ctx.userLogin,
+      "user-role": entry.role,
+      capabilities: entry.capabilities,
+      onChange: _cache[14] || (_cache[14] = function ($event) {
+        return _ctx.fetchAccess();
+      })
+    }, null, 8, ["idsite", "site-name", "user-login", "user-role", "capabilities"])])])]);
+  }), 128))])], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_50, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_51, [_ctx.siteAccessToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
+    key: 0,
+    innerHTML: _ctx.$sanitize(_ctx.deletePermConfirmSingleText)
+  }, null, 8, _hoisted_52)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.siteAccessToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+    key: 1,
+    innerHTML: _ctx.$sanitize(_ctx.deletePermConfirmMultipleText)
+  }, null, 8, _hoisted_53)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_54, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close btn",
+    onClick: _cache[15] || (_cache[15] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.changeUserRole();
+    }, ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close modal-no",
+    onClick: _cache[16] || (_cache[16] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      _ctx.siteAccessToChange = null;
+      _ctx.roleToChangeTo = null;
+    }, ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_55, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_56, [_ctx.siteAccessToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
+    key: 0,
+    innerHTML: _ctx.$sanitize(_ctx.changePermToSiteConfirmSingleText)
+  }, null, 8, _hoisted_57)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.siteAccessToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+    key: 1,
+    innerHTML: _ctx.$sanitize(_ctx.changePermToSiteConfirmMultipleText)
+  }, null, 8, _hoisted_58)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_59, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close btn",
+    onClick: _cache[17] || (_cache[17] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.changeUserRole();
+    }, ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close modal-no",
+    onClick: _cache[18] || (_cache[18] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      _ctx.siteAccessToChange.role = _ctx.previousRole;
+      _ctx.siteAccessToChange = null;
+      _ctx.roleToChangeTo = null;
+    }, ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_60, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_61, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", {
+    innerHTML: _ctx.$sanitize(_ctx.changePermToAllSitesConfirmText)
+  }, null, 8, _hoisted_62), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ChangePermToAllSitesConfirm2')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_63, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close btn",
+    onClick: _cache[19] || (_cache[19] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.giveAccessToAllSites();
+    }, ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    class: "modal-action modal-close modal-no",
+    onClick: _cache[20] || (_cache[20] = function ($event) {
+      return $event.preventDefault();
+    })
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])], 512)], 2);
+}
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=template&id=b8ef996c
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=script&lang=ts
+
+
+
+
+var UserPermissionsEditvue_type_script_lang_ts_window = window,
+    UserPermissionsEditvue_type_script_lang_ts_$ = UserPermissionsEditvue_type_script_lang_ts_window.$;
+/* harmony default export */ var UserPermissionsEditvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    userLogin: {
+      type: String,
+      required: true
+    },
+    limit: {
+      type: Number,
+      default: 10
+    },
+    accessLevels: {
+      type: Array,
+      required: true
+    },
+    filterAccessLevels: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    Notification: external_CoreHome_["Notification"],
+    Field: external_CorePluginsAdmin_["Field"],
+    CapabilitiesEdit: CapabilitiesEdit
+  },
+  directives: {
+    DropdownMenu: external_CoreHome_["DropdownMenu"],
+    ContentTable: external_CoreHome_["ContentTable"]
+  },
+  data: function data() {
+    return {
+      siteAccess: [],
+      offset: 0,
+      totalEntries: null,
+      accessLevelFilter: '',
+      siteNameFilter: '',
+      isLoadingAccess: false,
+      allWebsitesAccssLevelSet: 'view',
+      isAllCheckboxSelected: false,
+      selectedRows: {},
+      isBulkActionsDisabled: true,
+      areAllResultsSelected: false,
+      previousRole: null,
+      hasAccessToAtLeastOneSite: true,
+      isRoleHelpToggled: false,
+      isCapabilitiesHelpToggled: false,
+      isGivingAccessToAllSites: false,
+      roleToChangeTo: null,
+      siteAccessToChange: null
+    };
+  },
+  emits: ['userHasAccessDetected', 'accessChanged'],
+  created: function created() {
+    var _this = this;
+
+    this.onChangeSiteFilter = Object(external_CoreHome_["debounce"])(this.onChangeSiteFilter, 300);
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+      return _this.allPropsWatch;
+    }, function () {
+      if (_this.limit) {
+        _this.fetchAccess();
+      }
+    });
+    this.fetchAccess();
+  },
+  watch: {
+    accessLevelFilter: function accessLevelFilter() {
+      this.offset = 0;
+      this.fetchAccess();
+    }
+  },
+  methods: {
+    onAllCheckboxChange: function onAllCheckboxChange(event) {
+      var _this2 = this;
+
+      this.isAllCheckboxSelected = event.target.checked;
+
+      if (!this.isAllCheckboxSelected) {
+        this.clearSelection();
+      } else {
+        this.siteAccess.forEach(function (e, i) {
+          _this2.selectedRows[i] = true;
+        });
+        this.isBulkActionsDisabled = false;
+      }
+    },
+    clearSelection: function clearSelection() {
+      this.selectedRows = {};
+      this.areAllResultsSelected = false;
+      this.isBulkActionsDisabled = true;
+      this.isAllCheckboxSelected = false;
+      this.siteAccessToChange = null;
+    },
+    onRowSelected: function onRowSelected() {
+      var _this3 = this;
+
+      setTimeout(function () {
+        var selectedRowKeyCount = _this3.selectedRowsCount;
+        _this3.isBulkActionsDisabled = selectedRowKeyCount === 0;
+        _this3.isAllCheckboxSelected = selectedRowKeyCount === _this3.siteAccess.length;
+      });
+    },
+    fetchAccess: function fetchAccess() {
+      var _this4 = this;
+
+      this.isLoadingAccess = true;
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'UsersManager.getSitesAccessForUser',
+        limit: this.limit,
+        offset: this.offset,
+        filter_search: this.siteNameFilter,
+        filter_access: this.accessLevelFilter,
+        userLogin: this.userLogin
+      }, {
+        returnResponseObject: true
+      }).then(function (helper) {
+        var result = helper.getRequestHandle();
+        _this4.isLoadingAccess = false;
+        _this4.siteAccess = result.responseJSON;
+        _this4.totalEntries = parseInt(result.getResponseHeader('x-matomo-total-results'), 10) || 0;
+        _this4.hasAccessToAtLeastOneSite = !!result.getResponseHeader('x-matomo-has-some');
+
+        _this4.$emit('userHasAccessDetected', {
+          hasAccess: _this4.hasAccessToAtLeastOneSite
+        });
+
+        _this4.clearSelection();
+      }).catch(function () {
+        _this4.isLoadingAccess = false;
+
+        _this4.clearSelection();
+      });
+    },
+    gotoPreviousPage: function gotoPreviousPage() {
+      this.offset = Math.max(0, this.offset - this.limit);
+      this.fetchAccess();
+    },
+    gotoNextPage: function gotoNextPage() {
+      var newOffset = this.offset + this.limit;
+
+      if (newOffset >= (this.totalEntries || 0)) {
+        return;
+      }
+
+      this.offset = newOffset;
+      this.fetchAccess();
+    },
+    showRemoveAccessConfirm: function showRemoveAccessConfirm() {
+      UserPermissionsEditvue_type_script_lang_ts_$(this.$refs.deleteAccessConfirmModal).modal({
+        dismissible: false
+      }).modal('open');
+    },
+    changeUserRole: function changeUserRole() {
+      var _this5 = this;
+
+      var getSelectedSites = function getSelectedSites() {
+        var result = [];
+        Object.keys(_this5.selectedRows).forEach(function (index) {
+          if (_this5.selectedRows[index] && _this5.siteAccess[index] // safety check
+          ) {
+            result.push(_this5.siteAccess[index].idsite);
+          }
+        });
+        return result;
+      };
+
+      var getAllSitesInSearch = function getAllSitesInSearch() {
+        return external_CoreHome_["AjaxHelper"].fetch({
+          method: 'UsersManager.getSitesAccessForUser',
+          filter_search: _this5.siteNameFilter,
+          filter_access: _this5.accessLevelFilter,
+          userLogin: _this5.userLogin,
+          filter_limit: '-1'
+        }).then(function (access) {
+          return access.map(function (a) {
+            return a.idsite;
+          });
+        });
+      };
+
+      this.isLoadingAccess = true;
+      return Promise.resolve().then(function () {
+        if (_this5.siteAccessToChange) {
+          return [_this5.siteAccessToChange.idsite];
+        }
+
+        if (_this5.areAllResultsSelected) {
+          return getAllSitesInSearch();
+        }
+
+        return getSelectedSites();
+      }).then(function (idSites) {
+        return external_CoreHome_["AjaxHelper"].post({
+          method: 'UsersManager.setUserAccess'
+        }, {
+          userLogin: _this5.userLogin,
+          access: _this5.roleToChangeTo,
+          idSites: idSites
+        });
+      }).catch(function () {// ignore (errors will still be displayed to the user)
+      }).then(function () {
+        _this5.$emit('accessChanged');
+
+        return _this5.fetchAccess();
+      });
+    },
+    showChangeAccessConfirm: function showChangeAccessConfirm() {
+      UserPermissionsEditvue_type_script_lang_ts_$(this.$refs.changeAccessConfirmModal).modal({
+        dismissible: false
+      }).modal('open');
+    },
+    getRoleDisplay: function getRoleDisplay(role) {
+      var result = null;
+      this.filteredAccessLevels.forEach(function (entry) {
+        if (entry.key === role) {
+          result = entry.value;
+        }
+      });
+      return result;
+    },
+    giveAccessToAllSites: function giveAccessToAllSites() {
+      var _this6 = this;
+
+      this.isGivingAccessToAllSites = true;
+      external_CoreHome_["AjaxHelper"].fetch({
+        method: 'SitesManager.getSitesWithAdminAccess'
+      }).then(function (allSites) {
+        var idSites = allSites.map(function (s) {
+          return s.idsite;
+        });
+        return external_CoreHome_["AjaxHelper"].post({
+          method: 'UsersManager.setUserAccess'
+        }, {
+          userLogin: _this6.userLogin,
+          access: _this6.allWebsitesAccssLevelSet,
+          idSites: idSites
+        });
+      }).then(function () {
+        return _this6.fetchAccess();
+      }).finally(function () {
+        _this6.isGivingAccessToAllSites = false;
+      });
+    },
+    showChangeAccessAllSitesModal: function showChangeAccessAllSitesModal() {
+      UserPermissionsEditvue_type_script_lang_ts_$(this.$refs.confirmGiveAccessAllSitesModal).modal({
+        dismissible: false
+      }).modal('open');
+    },
+    onChangeSiteFilter: function onChangeSiteFilter(event) {
+      var _this7 = this;
+
+      setTimeout(function () {
+        var inputValue = event.target.value;
+
+        if (_this7.siteNameFilter !== inputValue) {
+          _this7.siteNameFilter = inputValue;
+          _this7.offset = 0;
+
+          _this7.fetchAccess();
+        }
+      });
+    },
+    onRoleChange: function onRoleChange(entry, newRole) {
+      this.previousRole = entry.role;
+      this.roleToChangeTo = newRole;
+      this.siteAccessToChange = entry;
+      this.showChangeAccessConfirm();
+    }
+  },
+  computed: {
+    rolesHelpText: function rolesHelpText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_RolesHelp', '<a href="https://matomo.org/faq/general/faq_70/" target="_blank" rel="noreferrer noopener">', '</a>', '<a href="https://matomo.org/faq/general/faq_69/" target="_blank" rel="noreferrer noopener">', '</a>');
+    },
+    theDisplayedWebsitesAreSelectedText: function theDisplayedWebsitesAreSelectedText() {
+      var text = Object(external_CoreHome_["translate"])('UsersManager_TheDisplayedWebsitesAreSelected', "<strong>".concat(this.siteAccess.length, "</strong>"));
+      return "".concat(text, " ");
+    },
+    clickToSelectAllText: function clickToSelectAllText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ClickToSelectAll', "<strong>".concat(this.totalEntries, "</strong>"));
+    },
+    allWebsitesAreSelectedText: function allWebsitesAreSelectedText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_AllWebsitesAreSelected', "<strong>".concat(this.totalEntries, "</strong>"));
+    },
+    clickToSelectDisplayedWebsitesText: function clickToSelectDisplayedWebsitesText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ClickToSelectDisplayedWebsites', "<strong>".concat(this.siteAccess.length, "</strong>"));
+    },
+    deletePermConfirmSingleText: function deletePermConfirmSingleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_DeletePermConfirmSingle', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.siteAccessToChangeName, "</strong>"));
+    },
+    deletePermConfirmMultipleText: function deletePermConfirmMultipleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_DeletePermConfirmMultiple', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.affectedSitesCount, "</strong>"));
+    },
+    changePermToSiteConfirmSingleText: function changePermToSiteConfirmSingleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToSiteConfirmSingle', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.siteAccessToChangeName, "</strong>"), "<strong>".concat(this.getRoleDisplay(this.roleToChangeTo), "</strong>"));
+    },
+    changePermToSiteConfirmMultipleText: function changePermToSiteConfirmMultipleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToSiteConfirmMultiple', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.affectedSitesCount, "</strong>"), "<strong>".concat(this.getRoleDisplay(this.roleToChangeTo), "</strong>"));
+    },
+    changePermToAllSitesConfirmText: function changePermToAllSitesConfirmText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToAllSitesConfirm', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.getRoleDisplay(this.allWebsitesAccssLevelSet), "</strong>"));
+    },
+    paginationLowerBound: function paginationLowerBound() {
+      return this.offset + 1;
+    },
+    paginationUpperBound: function paginationUpperBound() {
+      if (!this.totalEntries) {
+        return '?';
+      }
+
+      return Math.min(this.offset + this.limit, this.totalEntries);
+    },
+    filteredAccessLevels: function filteredAccessLevels() {
+      return this.accessLevels.filter(function (entry) {
+        return entry.key !== 'superuser';
+      });
+    },
+    filteredSelectAccessLevels: function filteredSelectAccessLevels() {
+      return this.filterAccessLevels.filter(function (entry) {
+        return entry.key !== 'superuser';
+      });
+    },
+    selectedRowsCount: function selectedRowsCount() {
+      var selectedRowKeyCount = 0;
+      Object.values(this.selectedRows).forEach(function (v) {
+        if (v) {
+          selectedRowKeyCount += 1;
+        }
+      });
+      return selectedRowKeyCount;
+    },
+    affectedSitesCount: function affectedSitesCount() {
+      if (this.areAllResultsSelected) {
+        return this.totalEntries;
+      }
+
+      return this.selectedRowsCount;
+    },
+    allPropsWatch: function allPropsWatch() {
+      // see https://github.com/vuejs/vue/issues/844#issuecomment-390500758
+      // eslint-disable-next-line no-sequences
+      return this.userLogin, this.limit, this.accessLevels, this.filterAccessLevels, Date.now();
+    },
+    siteAccessToChangeName: function siteAccessToChangeName() {
+      return this.siteAccessToChange ? external_CoreHome_["Matomo"].helper.htmlEntities(this.siteAccessToChange.site_name) : '';
+    },
+    paginationText: function paginationText() {
+      var text = Object(external_CoreHome_["translate"])('General_Pagination', "".concat(this.paginationLowerBound), "".concat(this.paginationUpperBound), "".concat(this.totalEntries));
+      return " ".concat(text, " ");
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue
+
+
+
+UserPermissionsEditvue_type_script_lang_ts.render = UserPermissionsEditvue_type_template_id_b8ef996c_render
+
+/* harmony default export */ var UserPermissionsEdit = (UserPermissionsEditvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var UserPermissionsEdit_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: UserPermissionsEdit,
+  scope: {
+    userLogin: {
+      angularJsBind: '<'
+    },
+    limit: {
+      angularJsBind: '<'
+    },
+    onUserHasAccessDetected: {
+      angularJsBind: '&',
+      vue: 'userHasAccessDetected'
+    },
+    onAccessChange: {
+      angularJsBind: '&',
+      vue: 'accessChanged'
+    },
+    accessLevels: {
+      angularJsBind: '<'
+    },
+    filterAccessLevels: {
+      angularJsBind: '<'
+    }
+  },
+  directiveName: 'piwikUserPermissionsEdit',
+  restrict: 'E'
+}));
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -582,6 +1432,8 @@ CapabilitiesEditvue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
