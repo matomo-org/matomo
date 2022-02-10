@@ -19,6 +19,7 @@ interface AjaxOptions {
   format?: string;
   createErrorNotification?: boolean;
   abortController?: AbortController;
+  returnResponseObject?: boolean;
 }
 
 interface ErrorResponse {
@@ -173,6 +174,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
+  resolveWithHelper = false;
+
   // helper method entry point
   static fetch<R = any>( // eslint-disable-line
     params: QueryParameters,
@@ -205,13 +208,19 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.abortController = options.abortController;
     }
 
-    return helper.send().then((data: R | ErrorResponse) => {
+    if (options.returnResponseObject) {
+      helper.resolveWithHelper = true;
+    }
+
+    return helper.send().then((result: R | ErrorResponse | AjaxHelper) => {
+      const data = result instanceof AjaxHelper ? result.requestHandle!.responseJSON : result;
+
       // check for error if not using default notification behavior
       if ((data as ErrorResponse).result === 'error') {
         throw new ApiResponseError((data as ErrorResponse).message);
       }
 
-      return data as R;
+      return result as R;
     });
   }
 
@@ -434,7 +443,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const result = new Promise<T | ErrorResponse>((resolve, reject) => {
       this.requestHandle!.then((data: unknown) => {
-        resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
+        if (this.resolveWithHelper) {
+          // NOTE: we can't resolve w/ the jquery xhr, because it's a promise, and will
+          // just result in following the promise chain back to 'data'
+          resolve(this as unknown as (T | ErrorResponse)); // casting hack here
+        } else {
+          resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
+        }
       }).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
@@ -616,5 +631,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     return params;
+  }
+
+  getRequestHandle(): jqXHR|null {
+    return this.requestHandle;
   }
 }

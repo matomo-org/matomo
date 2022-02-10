@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Tracker\TrackerConfig;
 
 /**
  * The default LocationProvider, this LocationProvider guesses a visitor's country
@@ -47,13 +48,22 @@ class DefaultProvider extends LocationProvider
     /**
      * Returns whether this location provider is available.
      *
-     * This implementation is always available.
-     *
-     * @return bool  always true
+     * @return bool
      */
     public function isAvailable()
     {
-        return true;
+        return !!TrackerConfig::getConfigValue('enable_default_location_provider');
+    }
+
+
+    /**
+     * Returns whether this location provider is visible.
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        return !!TrackerConfig::getConfigValue('enable_default_location_provider');
     }
 
     /**

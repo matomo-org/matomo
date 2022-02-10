@@ -312,7 +312,7 @@ Mani Mishra <manimishra902@gmail.com>
 Hannah Methvin <hannahmethvin@gmail.com>
 Leonardo Balter <leonardo.balter@gmail.com>
 Benjamin Albert <benjamin_a5@yahoo.com>
-Michał Gołębiowski <m.goleb@gmail.com>
+Michał Gołębiowski-Owczarek <m.goleb@gmail.com>
 Alyosha Pushak <alyosha.pushak@gmail.com>
 Fahad Ahmad <fahadahmad41@hotmail.com>
 Matt Brundage <github@mattbrundage.com>
@@ -331,3 +331,35 @@ Peter Dave Hello <hsu@peterdavehello.org>
 Johannes Schäfer <johnschaefer@gmx.de>
 Ville Skyttä <ville.skytta@iki.fi>
 Ryan Oriecuia <ryan.oriecuia@visioncritical.com>
+Sergei Ratnikov <sergeir82@gmail.com>
+milk54 <milk851@gmail.com>
+Evelyn Masso <evoutofambit@gmail.com>
+Robin <mail@robin-fowler.com>
+Simon Asika <asika32764@gmail.com>
+Kevin Cupp <kevin.cupp@gmail.com>
+Jeremy Mickelson <Jeremy.Mickelson@gmail.com>
+Kyle Rosenberg <kyle.rosenberg@gmail.com>
+Petri Partio <petri.partio@gmail.com>
+pallxk <github@pallxk.com>
+Luke Brookhart <luke@onjax.com>
+claudi <hirt-claudia@gmx.de>
+Eirik Sletteberg <eiriksletteberg@gmail.com>
+Albert Johansson <albert@intervaro.se>
+A. Wells <borgboyone@users.noreply.github.com>
+Robert Brignull <robertbrignull@gmail.com>
+Horus68 <pauloizidoro@gmail.com>
+Maksymenkov Eugene <foatei@gmail.com>
+OskarNS <soerensen.oskar@gmail.com>
+Gez Quinn <holla@gezquinn.design>
+jigar gala <jigar.gala140291@gmail.com>
+Florian Wegscheider <flo.wegscheider@gmail.com>
+Fatér Zsolt <fater.zsolt@gmail.com>
+Szabolcs Szabolcsi-Toth <nec@shell8.net>
+Jérémy Munsch <github@jeremydev.ovh>
+Hrvoje Novosel <hrvoje.novosel@gmail.com>
+Paul Capron <PaulCapron@users.noreply.github.com>
+Micah Miller <mikhey@runbox.com>
+sakshi87 <53863764+sakshi87@users.noreply.github.com>
+Mikolaj Wolicki <wolicki.mikolaj@gmail.com>
+Patrick McKay <patrick.mckay@vumc.org>
+c-lambert <58025159+c-lambert@users.noreply.github.com>

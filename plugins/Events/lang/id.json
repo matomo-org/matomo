@@ -1,5 +1,6 @@
 {
     "Events": {
-        "AvgValue": "Nilai rata-rata"
+        "AvgValue": "Nilai rata-rata",
+        "PluginDescription": "Lacak Acara dan dapatkan laporan tentang aktivitas pengunjung Anda."
     }
 }

@@ -79,7 +79,7 @@
           @click="showSitesList = false"
         >
           <li
-            @click="switchSite(site, $event)"
+            @click="switchSite({ ...site, id: site.idsite }, $event)"
             v-show="!(!showSelectedSite && activeSiteId === site.idsite)"
             v-for="(site, index) in sites"
             :key="index"
@@ -278,10 +278,10 @@ export default defineComponent({
       }
     },
     onAllSitesClick(event: MouseEvent) {
-      this.switchSite({ idsite: 'all', name: this.$props.allSitesText }, event);
+      this.switchSite({ id: 'all', name: this.$props.allSitesText }, event);
       this.showSitesList = false;
     },
-    switchSite(site: Site, event: KeyboardEvent|MouseEvent) {
+    switchSite(site: SiteRef, event: KeyboardEvent|MouseEvent) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
       const controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
 
@@ -290,13 +290,13 @@ export default defineComponent({
         return;
       }
 
-      this.$emit('update:modelValue', { id: site.idsite, name: site.name });
+      this.$emit('update:modelValue', { id: site.id, name: site.name });
 
-      if (!this.switchSiteOnSelect || this.activeSiteId === site.idsite) {
+      if (!this.switchSiteOnSelect || this.activeSiteId === site.id) {
         return;
       }
 
-      SitesStore.loadSite(site.idsite);
+      SitesStore.loadSite(site.id);
     },
     onBlur() {
       this.showSitesList = false;

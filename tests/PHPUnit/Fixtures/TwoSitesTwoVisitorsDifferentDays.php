@@ -146,7 +146,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.1)->getDatetime());
             $visitorB->setUrl('http://example.org/thankyou');
             $visitorB->setPerformanceTimings(0, 199, 289, 998, 198, 299);
-            self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
+            self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view😀💩😀💩'));
 
             // testing a strange combination causing an error in r3767
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.2)->getDatetime());

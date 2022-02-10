@@ -9,6 +9,7 @@
         "CountryCode": "Landskode",
         "CurrentLocationIntro": "Ifølge denne leverandøren, er din nåværende posisjon",
         "DefaultLocationProviderDesc2": "Dette er ikke veldig nøyaktig, så %1$s det anbefales å installere og bruke %2$sen geoposisjonsdatabase%3$s. %4$s",
+        "DisabledLocationProvider": "Skrur av geolokaliseringen.",
         "DistinctCountries": "%s bestemte land",
         "FromDifferentCities": "forskjellige byer",
         "Geolocation": "Geoposisjonering",
@@ -27,6 +28,7 @@
         "country_a1": "Anonym Proxy",
         "country_a2": "Satellitt-tilbyder",
         "country_cat": "Områder som snakker katalansk",
-        "country_o1": "Annet land"
+        "country_o1": "Annet land",
+        "getContinentDocumentation": "Denne rapporten viser hvilket kontinent dine besøkende var i da de besøkte nettsiden din."
     }
 }
