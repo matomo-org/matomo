@@ -228,7 +228,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   static post<R = any>(
     params: QueryParameters,
     // eslint-disable-next-line
-    postParams: any,
+    postParams: any = {},
     options: AjaxOptions = {},
   ): Promise<R> {
     return this.fetch<R>(params, { ...options, postParams });
