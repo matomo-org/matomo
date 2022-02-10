@@ -48,7 +48,7 @@
             {{ translate('General_Apply') }}
           </a>
         </div>
-        <p>&nbsp;</p>
+        <p> </p>
         <p>{{ translate('UsersManager_OrManageIndividually') }}:</p>
       </div>
     </div>
