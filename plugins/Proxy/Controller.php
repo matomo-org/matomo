@@ -67,8 +67,10 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
-     * TODO
-     * @return void
+     * Output a UMD merged chunk JavaScript file.
+     * This method is called when the asset manager is enabled.
+     *
+     * @see core/AssetManager.php
      */
     public function getUmdJs()
     {
