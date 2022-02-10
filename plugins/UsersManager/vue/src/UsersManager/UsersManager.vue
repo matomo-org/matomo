@@ -27,7 +27,7 @@
             <div class="input-field" style="margin-right:3.5px">
               <a
                 class="btn add-new-user"
-                @click="isEditing = true; userBeingEdited = null"
+                @click="onAddNewUser()"
               >
                 {{ translate('UsersManager_AddUser') }}
               </a>
@@ -314,6 +314,16 @@ export default defineComponent({
       ).catch(() => {
         this.isLoadingUsers = false;
       });
+    },
+    onAddNewUser() {
+      const parameters = { isAllowed: true };
+      Matomo.postEvent('UsersManager.initAddUser', parameters);
+      if (parameters && !parameters.isAllowed) {
+        return;
+      }
+
+      this.isEditing = true;
+      this.userBeingEdited = null;
     },
   },
   computed: {
