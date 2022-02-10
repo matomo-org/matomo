@@ -11,6 +11,7 @@ namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Development;
+use Piwik\Plugin\Manager;
 
 class PluginUmdAssetFetcher extends UIAssetFetcher
 {
@@ -85,7 +86,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
         $allPluginUmds = [];
         foreach ($plugins as $plugin) {
-            $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
+            $pluginDir = Manager::getInstance()->getPluginDirectory($plugin);
+            $minifiedUmd = "$pluginDir/vue/dist/$plugin.umd.min.js";
             if (!is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
                 continue;
             }
@@ -154,9 +156,11 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $plugins = self::orderPluginsByPluginDependencies($plugins);
 
         foreach ($plugins as $plugin) {
-            $devUmd = "plugins/$plugin/vue/dist/$plugin.development.umd.js";
-            $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
-            $umdSrcFolder = "plugins/$plugin/vue/src";
+            $pluginDir = Manager::getInstance()->getPluginDirectory($plugin);
+
+            $devUmd = "$pluginDir/vue/dist/$plugin.development.umd.js";
+            $minifiedUmd = "$pluginDir/vue/dist/$plugin.umd.min.js";
+            $umdSrcFolder = "$pluginDir/vue/src";
 
             // in case there are dist files but no src files, which can happen during development
             if (is_dir($umdSrcFolder)) {
@@ -191,7 +195,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         // read the plugin dependencies, if any
-        $umdMetadata = "plugins/$plugin/vue/dist/umd.metadata.json";
+        $pluginDir = Manager::getInstance()->getPluginDirectory($plugin);
+        $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";
 
         $pluginDependencies = [];
         if (is_file($umdMetadata)) {
@@ -211,8 +216,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     protected function getPriorityOrder()
     {
-        return [
-            'plugins/',
-        ];
+        // the JS files are already ordered properly so this result doesn't matter
+        return [];
     }
 }
