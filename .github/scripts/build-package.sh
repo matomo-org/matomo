@@ -5,40 +5,13 @@
 # $ git tag 1.11-b3
 # $ git push origin tags/1.11-b3
 
-
-###########################################
-# Current Latest Matomo Major Version
-# -----------------------------------------
-# Update this to the MAJOR VERSION when:
-# 1) before releasing a "public stable" of the current major version to ship to everyone,
-#    (when matomo.org/download/ and builds.matomo.org/piwik.zip will be updated)
-# 2) or before releasing a "public beta" of the new major version to ship to everyone in beta channel
-#    (when builds.matomo.org/LATEST_BETA will be updated)
-#
-#
-###########################################
-CURRENT_LATEST_MAJOR_VERSION="4"
-
 URL_REPO=https://github.com/matomo-org/matomo.git
 
 LOCAL_REPO="matomo_last_version_git"
 LOCAL_ARCH="archives"
 
-REMOTE_SERVER="matomo.org"
-REMOTE_LOGIN="innocraft-staff-stefan"
-REMOTE_HTTP_PATH="/home/innocraft-staff-stefan/www/builds.piwik.org"
-
 # List of Sub-modules that SHOULD be in the packaged release, eg PiwikTracker|CorePluginName
 SUBMODULES_PACKAGED_WITH_CORE='log-analytics|plugins/Morpheus/icons|plugins/TagManager'
-
-REMOTE="${REMOTE_LOGIN}@${REMOTE_SERVER}"
-REMOTE_CMD="ssh -C ${REMOTE}"
-
-REMOTE_CMD_API="ssh -C innocraft-staff-stefan@${REMOTE_SERVER}"
-REMOTE_CMD_WWW="ssh -C innocraft-staff-stefan@${REMOTE_SERVER}"
-
-API_PATH="/home/innocraft-staff-stefan/www/api.piwik.org/"
-WWW_PATH="/home/innocraft-staff-stefan/www/"
 
 # Change these to gcp/gfind on mac (get from the appropriate homebrew packages)
 CP=cp
@@ -170,7 +143,6 @@ namespace Piwik;\nclass Manifest {\n\tstatic $files=array(\n/; $ s/$/\n\t);\n}/'
 
 }
 
-
 if [ -z "$1" ]; then
     echo "Expected a version number as a parameter"
     Usage "$0"
@@ -195,15 +167,6 @@ fi
 checkEnv
 
 echo -e "Going to build Matomo $VERSION (Major version: $MAJOR_VERSION)"
-
-if [ "$MAJOR_VERSION" == "$CURRENT_LATEST_MAJOR_VERSION" ]
-then
-    echo -e "-> Building a new release for the current latest major version (stable or beta)"
-    BUILDING_LATEST_MAJOR_VERSION_STABLE_OR_BETA=1
-else
-    echo -e "-> Building a new (stable or beta) release for the LONG TERM SUPPORT LTS (not for the current latest major version!) <-"
-    BUILDING_LATEST_MAJOR_VERSION_STABLE_OR_BETA=0
-fi
 
 if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev' -i
 then
@@ -286,11 +249,7 @@ for F in $FLAVOUR; do
 
 done
 
-# #### #### #### #### #### #
-# let's do the remote work #
-# #### #### #### #### #### #
-
-FILES=""
+# Check File signatures are correct
 for ext in zip tar.gz
 do
     for F in $FLAVOUR; do
@@ -298,90 +257,5 @@ do
         if [ "$?" -ne "0" ]; then
             die "Failed to verify signature for ../$LOCAL_ARCH/$F-$VERSION.$ext"
         fi
-        FILES="$FILES ../$LOCAL_ARCH/$F-$VERSION.$ext ../$LOCAL_ARCH/$F-$VERSION.$ext.asc"
     done
-done
-
-echo ${REMOTE}
-scp -p $FILES "${REMOTE}:$REMOTE_HTTP_PATH/"
-
-for F in $FLAVOUR
-do
-    if [ "$(echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev' -i | wc -l)" -eq 1 ]
-    then
-        if [ "$(echo $VERSION | grep -E 'rc|b|beta' -i | wc -l)" -eq 1 ]
-        then
-            echo -e "Beta or RC release"
-
-            if [ "$BUILDING_LATEST_MAJOR_VERSION_STABLE_OR_BETA" -eq "1" ]
-            then
-                echo -e "Beta or RC release of the latest Major Matomo release"
-                echo $REMOTE_CMD
-                $REMOTE_CMD "echo $VERSION > $REMOTE_HTTP_PATH/LATEST_BETA" || die "failed to deploy latest beta version file"
-
-                echo $REMOTE_CMD_API
-                $REMOTE_CMD_API "echo $VERSION > $API_PATH/LATEST_BETA" || die "cannot deploy new version file on piwik-api@$REMOTE_SERVER"
-            fi
-
-            echo -e "Updating LATEST_${MAJOR_VERSION}X_BETA version on api.matomo.org..."
-            echo $REMOTE_CMD_API
-            $REMOTE_CMD_API "echo $VERSION > $API_PATH/LATEST_${MAJOR_VERSION}X_BETA" || die "cannot deploy new version file on piwik-api@$REMOTE_SERVER"
-
-        fi
-        echo "build finished! http://builds.matomo.org/$F-$VERSION.zip"
-    else
-        echo "Stable release";
-
-        #linking matomo.org/latest.zip to the newly created build
-
-        if [ "$BUILDING_LATEST_MAJOR_VERSION_STABLE_OR_BETA" -eq "1" ]
-        then
-            echo -e "Built current latest Matomo major version: creating symlinks on the remote server"
-            for name in latest $F $F-latest
-            do
-                for ext in zip tar.gz; do
-                    $REMOTE_CMD "ln -sf $REMOTE_HTTP_PATH/$F-$VERSION.$ext $REMOTE_HTTP_PATH/$name.$ext" || die "failed to remotely link $REMOTE_HTTP_PATH/$F-$VERSION.$ext to $REMOTE_HTTP_PATH/$name.$ext"
-                    $REMOTE_CMD "ln -sf $REMOTE_HTTP_PATH/$F-$VERSION.$ext.asc $REMOTE_HTTP_PATH/$name.$ext.asc" || die "failed to remotely link $REMOTE_HTTP_PATH/$F-$VERSION.$ext/asc to $REMOTE_HTTP_PATH/$name.$ext.asc"
-                done
-            done
-
-            # record filesize in MB
-            SIZE=$(ls -l "../$LOCAL_ARCH/$F-$VERSION.zip" | awk '/d|-/{printf("%.3f %s\n",$5/(1024*1024),$9)}')
-
-            # upload to builds.matomo.org/LATEST*
-            echo $REMOTE_CMD
-            $REMOTE_CMD "echo $VERSION > $REMOTE_HTTP_PATH/LATEST" || die "cannot deploy new version file on $REMOTE"
-            $REMOTE_CMD "echo $SIZE > $REMOTE_HTTP_PATH/LATEST_SIZE" || die "cannot deploy new archive size on $REMOTE"
-            $REMOTE_CMD "echo $VERSION > $REMOTE_HTTP_PATH/LATEST_BETA"  || die "cannot deploy new version file on $REMOTE"
-
-            # upload to matomo.org/LATEST* for the website
-            echo $REMOTE_CMD_WWW
-            $REMOTE_CMD_WWW "echo $VERSION > $WWW_PATH/LATEST" || die "cannot deploy new version file on piwik@$REMOTE_SERVER"
-            $REMOTE_CMD_WWW "echo $SIZE > $WWW_PATH/LATEST_SIZE" || die "cannot deploy new archive size on piwik@$REMOTE_SERVER"
-
-        fi
-
-        echo -e ""
-
-
-        if [ "$BUILDING_LATEST_MAJOR_VERSION_STABLE_OR_BETA" -eq "1" ]
-        then
-            echo -e "Updating LATEST and LATEST_BETA versions on api.matomo.org..."
-            echo $REMOTE_CMD_API
-            $REMOTE_CMD_API "echo $VERSION > $API_PATH/LATEST" || die "cannot deploy new version file on piwik-api@$REMOTE_SERVER"
-            $REMOTE_CMD_API "echo $VERSION > $API_PATH/LATEST_BETA" || die "cannot deploy new version file on piwik-api@$REMOTE_SERVER"
-        fi
-
-        echo -e "Updating the LATEST_${MAJOR_VERSION}X and  LATEST_${MAJOR_VERSION}X_BETA version on api.piwik.org"
-        echo $REMOTE_CMD_API
-        $REMOTE_CMD_API "echo $VERSION > $API_PATH/LATEST_${MAJOR_VERSION}X" || die "cannot deploy new version file on piwik-api@$REMOTE_SERVER"
-        $REMOTE_CMD_API "echo $VERSION > $API_PATH/LATEST_${MAJOR_VERSION}X_BETA" || die "cannot deploy new version file on piwik-api@$REMOTE_SERVER"
-
-        if [ "$BUILDING_LATEST_MAJOR_VERSION_STABLE_OR_BETA" -eq "1" ]
-        then
-            echo -e "build finished! http://builds.matomo.org/$F.zip"
-        else
-            echo -e "build for LONG TERM SUPPORT version finished! http://builds.matomo.org/$F-$VERSION.zip"
-        fi
-    fi
 done
