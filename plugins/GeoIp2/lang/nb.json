@@ -4,6 +4,7 @@
         "AutomaticSetup": "Sett opp geoposisjon automatisk ved bruk av en DB-IP-database",
         "AutomaticSetupDescription": "For skikkelig geolokalisering krever Matomo en ekstern database. Ved bruk av dette valget vil Matomo atomatisk settes opp til å laste ned og bruke den seneste DB-IP-bynivådatabasen. [%1$sVis lisensvilkår%2$s]",
         "CannotFindGeoIPDatabaseInArchive": "Fant ingen gyldig DB-IP/GeoIP-database i TAR-arkivet %1$s.",
+        "CannotFindGeoIPServerVar": "%s-variabelen er ikke satt. Det kan hende tjeneren din ikke er satt opp rett.",
         "CannotListContent": "Kunne ikke vise innhold for %1$s: %2$s",
         "CannotUnzipGeoIPFile": "Kunne ikke pakke ut GeoIP-fil i %1$s: %2$s",
         "DownloadNewDatabasesEvery": "Oppdater databasene hver",

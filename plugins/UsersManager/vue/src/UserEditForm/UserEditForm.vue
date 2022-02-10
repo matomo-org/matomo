@@ -85,7 +85,7 @@
           <div>
             <Field
               v-model="theUser.login"
-              :disabled="isSavingUserInfo || !isAdd"
+              :disabled="isSavingUserInfo || !isAdd || isShowingPasswordConfirm"
               uicontrol="text"
               name="user_login"
               :maxlength="100"
@@ -95,7 +95,8 @@
           <div>
             <Field
               :model-value="theUser.password"
-              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)"
+              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
+                || isShowingPasswordConfirm"
               @update:model-value="theUser.password = $event; isPasswordModified = true"
               uicontrol="password"
               name="user_password"
@@ -105,7 +106,8 @@
           <div>
             <Field
               v-model="theUser.email"
-              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)"
+              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
+                || isShowingPasswordConfirm"
               v-if="currentUserRole === 'superuser' || isAdd"
               uicontrol="text"
               name="user_email"
@@ -332,6 +334,7 @@ interface UserEditFormState {
   superUserAccessChecked: boolean|null;
   passwordConfirmationForSuperUser: string;
   isResetting2FA: boolean;
+  isShowingPasswordConfirm: boolean;
 }
 
 const { $ } = window;
@@ -386,6 +389,7 @@ export default defineComponent({
       superUserAccessChecked: null,
       passwordConfirmationForSuperUser: '',
       isResetting2FA: false,
+      isShowingPasswordConfirm: false,
     };
   },
   emits: ['done', 'updated'],
@@ -480,6 +484,7 @@ export default defineComponent({
     },
     confirmUserChange() {
       this.passwordConfirmation = '';
+      this.isShowingPasswordConfirm = true;
 
       const onEnter = (event: KeyPressEvent) => {
         const keycode = event.keyCode ? event.keyCode : event.which;
@@ -492,6 +497,7 @@ export default defineComponent({
       $(this.$refs.changePasswordModal as HTMLElement).modal({
         dismissible: false,
         onOpenEnd: () => {
+          this.isShowingPasswordConfirm = false;
           $('.modal.open #currentUserPassword').focus().off('keypress').keypress(onEnter);
         },
       }).modal('open');
