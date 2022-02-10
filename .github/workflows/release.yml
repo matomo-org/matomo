@@ -146,7 +146,7 @@ jobs:
         shell: bash
       - uses: ncipollo/release-action@c4bf6c1ab090090498fb7f3ddc9f99ba5ab619b9
         with:
-          artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*"
+          artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*,archives/piwik-${{ steps.tag.outputs.version }}.*"
           allowUpdates: ${{ steps.tag.outputs.update }}
           tag: ${{ steps.tag.outputs.version }}
           body: ${{ steps.tag.outputs.body }}
