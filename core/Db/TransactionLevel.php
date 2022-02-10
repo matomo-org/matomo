@@ -40,8 +40,8 @@ class TransactionLevel
 
     public function setUncommitted()
     {
-        if ($this->db->supportsUncommitted === false) {
-            return false;
+        if ($this->db->supportsUncommitted !== null) {
+            return $this->db->supportsUncommitted;
         }
 
         try {
