@@ -48,7 +48,7 @@
             {{ translate('General_Apply') }}
           </a>
         </div>
-        <br/>
+        <p>&nbsp;</p>
         <p>{{ translate('UsersManager_OrManageIndividually') }}:</p>
       </div>
     </div>
@@ -312,6 +312,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="changeUserRole()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -336,6 +337,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="changeUserRole()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -357,6 +359,7 @@
           href=""
           class="modal-action modal-close btn"
           @click.prevent="giveAccessToAllSites()"
+          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
