@@ -20,8 +20,12 @@ on:
         description: 'Version to build'
         required: false
         default: ''
+      confirm:
+        type: boolean
+        description: 'Yes, I''m sure'
 jobs:
   release:
+    if: ${{ github.event.inputs.confirm == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: "Check if user is in group"
