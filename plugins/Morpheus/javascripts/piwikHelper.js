@@ -109,6 +109,9 @@ window.piwikHelper = {
         return value;
     },
 
+    /**
+     * @deprecated use window.vueSanitize instead
+     */
     escape: function (value)
     {
         var escape = angular.element(document).injector().get('$sanitize');

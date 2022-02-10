@@ -159,7 +159,7 @@ __webpack_require__.d(__webpack_exports__, "format", function() { return /* reex
 __webpack_require__.d(__webpack_exports__, "getToday", function() { return /* reexport */ getToday; });
 __webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
 __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
-__webpack_require__.d(__webpack_exports__, "Dropdown", function() { return /* reexport */ DropdownMenu; });
+__webpack_require__.d(__webpack_exports__, "DropdownMenu", function() { return /* reexport */ DropdownMenu; });
 __webpack_require__.d(__webpack_exports__, "FocusAnywhereButHere", function() { return /* reexport */ FocusAnywhereButHere; });
 __webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* reexport */ FocusIf; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
@@ -1489,6 +1489,8 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
     AjaxHelper_defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
 
+    AjaxHelper_defineProperty(this, "resolveWithHelper", false);
+
     this.errorCallback = defaultErrorCallback;
   }
   /**
@@ -1735,7 +1737,13 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
       var result = new Promise(function (resolve, reject) {
         _this2.requestHandle.then(function (data) {
-          resolve(data); // ignoring textStatus/jqXHR
+          if (_this2.resolveWithHelper) {
+            // NOTE: we can't resolve w/ the jquery xhr, because it's a promise, and will
+            // just result in following the promise chain back to 'data'
+            resolve(_this2); // casting hack here
+          } else {
+            resolve(data); // ignoring textStatus/jqXHR
+          }
         }).fail(function (xhr) {
           if (xhr.statusText !== 'abort') {
             console.log("Warning: the ".concat($.param(_this2.getParams), " request failed!"));
@@ -1926,6 +1934,11 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
       return params;
     }
+  }, {
+    key: "getRequestHandle",
+    value: function getRequestHandle() {
+      return this.requestHandle;
+    }
   }], [{
     key: "fetch",
     value:
@@ -2025,13 +2038,18 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.abortController = options.abortController;
       }
 
-      return helper.send().then(function (data) {
-        // check for error if not using default notification behavior
+      if (options.returnResponseObject) {
+        helper.resolveWithHelper = true;
+      }
+
+      return helper.send().then(function (result) {
+        var data = result instanceof AjaxHelper ? result.requestHandle.responseJSON : result; // check for error if not using default notification behavior
+
         if (data.result === 'error') {
           throw new ApiResponseError(data.message);
         }
 
-        return data;
+        return result;
       });
     } // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -2557,6 +2575,7 @@ function cloneThenApply(p) {
  *     </li>
  * </ul>
  */
+
 /* harmony default export */ var DropdownMenu = ({
   mounted: function mounted(element, binding) {
     var options = {};
@@ -2576,6 +2595,14 @@ function cloneThenApply(p) {
     }
 
     $(element).dropdown(options);
+  },
+  updated: function updated(element) {
+    // classes can be overwritten when elements bind to :class, nextTick + using
+    // updated avoids this problem (and doing in both mounted and updated avoids a temporary
+    // state where the classes aren't added)
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+      $(element).addClass('matomo-dropdown-menu');
+    });
   }
 });
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.adapter.ts
