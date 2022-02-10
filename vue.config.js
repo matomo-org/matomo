@@ -1,6 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
+const { parserOptions } = require('@vue/compiler-dom');
+
+// overwrite decodeEntities function in @vue/compiler-dom so it does not decode the &nbsp;
+// entity. ReleaseChecklistTest will not allow those characters in JS files.
+const oldDecodeEntities = parserOptions.decodeEntities;
+const NBSP_DECODED = oldDecodeEntities('&nbsp;');
+
+parserOptions.decodeEntities = (rawText) => {
+  const result = oldDecodeEntities(...arguments);
+  return result.replaceAll(NBSP_DECODED, '&nbsp;');
+};
+
 const pluginExternals = scanPluginExternals();
 
 function scanPluginExternals() {
