@@ -86,7 +86,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
         $allPluginUmds = [];
         foreach ($plugins as $plugin) {
-            $pluginDir = Manager::getInstance()->getPluginDirectory($plugin);
+            $pluginDir = self::getRelativePluginDirectory($plugin);
             $minifiedUmd = "$pluginDir/vue/dist/$plugin.umd.min.js";
             if (!is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
                 continue;
@@ -156,7 +156,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $plugins = self::orderPluginsByPluginDependencies($plugins);
 
         foreach ($plugins as $plugin) {
-            $pluginDir = Manager::getInstance()->getPluginDirectory($plugin);
+            $pluginDir = self::getRelativePluginDirectory($plugin);
 
             $devUmd = "$pluginDir/vue/dist/$plugin.development.umd.js";
             $minifiedUmd = "$pluginDir/vue/dist/$plugin.umd.min.js";
@@ -195,7 +195,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         // read the plugin dependencies, if any
-        $pluginDir = Manager::getInstance()->getPluginDirectory($plugin);
+        $pluginDir = self::getRelativePluginDirectory($plugin);
         $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";
 
         $pluginDependencies = [];
@@ -218,5 +218,12 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         // the JS files are already ordered properly so this result doesn't matter
         return [];
+    }
+
+    private static function getRelativePluginDirectory($plugin)
+    {
+        $result = Manager::getInstance()->getPluginDirectory($plugin);;
+        $result = str_replace(PIWIK_INCLUDE_PATH . '/', '', $result);
+        return $result;
     }
 }
