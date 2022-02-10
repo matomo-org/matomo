@@ -231,8 +231,10 @@ class AssetManager extends Singleton
     }
 
     /**
-     * TODO
-     * @param $chunk
+     * Return a chunk JS merged file absolute location.
+     * If there is none, the generation process will be triggered.
+     *
+     * @param string $chunk The name of the chunk. Will either be a plugin name or an integer.
      * @return UIAsset
      */
     public function getMergedJavaScriptChunk($chunk)
