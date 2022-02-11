@@ -2347,9 +2347,9 @@ function createAngularJsAdapter(options) {
               if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 var eventName = toKebabCase(info.vue);
 
-                if (!events[eventName]) {
+                if (!events[info.vue]) {
                   // pass through scope & w/o a custom event handler
-                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
+                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(info.vue, "', $event)\"");
                 }
               } else {
                 rootVueTemplate += " :".concat(toKebabCase(info.vue), "=\"").concat(info.vue, "\"");
