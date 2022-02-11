@@ -48,8 +48,7 @@
             {{ translate('General_Apply') }}
           </a>
         </div>
-        <p>&nbsp;</p>
-        <p>{{ translate('UsersManager_OrManageIndividually') }}:</p>
+        <p style="margin-top:18px">{{ translate('UsersManager_OrManageIndividually') }}:</p>
       </div>
     </div>
     <div class="filters row">
