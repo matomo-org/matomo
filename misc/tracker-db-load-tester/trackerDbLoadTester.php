@@ -20,6 +20,7 @@ Usage: php trackerLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB P
     -P          Database port, defaults to 3306
     -r          Tracking requests limit, will insert this many tracking requests then exit, runs indefinitely if omitted
     -v          Verbosity of output [0 = quiet, 3 = show everything]
+    -T          Throttle the number of requests per second to this value
     --cleanup   Delete all randomly named test databases
 
 USAGE;
@@ -35,6 +36,7 @@ $dbType = 'mysql';
 $verbosity = 0;
 $requests = -1;
 $cleanUp = false;
+$throttle = -1;
 
 foreach ($argv as $arg) {
 
@@ -77,6 +79,9 @@ foreach ($argv as $arg) {
         case '-v':
             $verbosity = $kv[1];
             break;
+        case '-T':
+            $throttle = $kv[1];
+            break;
     }
 }
 
@@ -104,12 +109,18 @@ if ($dbName === null || $dbHost === null || $dbUser === null || $dbPass === null
     die($usage);
 }
 
-if ($verbosity > 2) {
-    echo "Host: $dbHost Type: $dbType User: '$dbUser' Password: '$dbPass' Port: $dbPort Request Limit: ".($requests === -1 ? 'unlimited' : $requests)."\n";
-}
 #endregion
 
 #region Connect to db
+
+if (strpos($dbHost, ',') !== false) {
+    $hosts = explode(',', $dbHost);
+    $dbHost = $hosts[array_rand($hosts)];
+}
+
+if ($verbosity > 1) {
+    echo "Host: $dbHost Type: $dbType User: '$dbUser' Password: '$dbPass' Port: $dbPort Request Limit: ".($requests === -1 ? 'unlimited' : $requests)."\n";
+}
 
 $dsn = "mysql:host=$dbHost;port=$dbPort;charset=UTF8";
 
@@ -176,6 +187,10 @@ if ($verbosity > 0) {
 }
 
 $lastTimeSample = microtime(true);
+$lastCount = 0;
+$throttle = round($throttle / 2);
+$throttleIntervalCount = 0;
+$throttleLastTimeSample = microtime(true);
 while ($requestCount < $requests || $requests < 0) {
 
     // Get random action, 50% chance of being new until pool is full, then always an existing action
@@ -246,20 +261,30 @@ while ($requestCount < $requests || $requests < 0) {
     }
 
     $requestCount++;
+    $lastCount++;
+    $throttleIntervalCount++;
 
-    if ($requestCount % 2000 === 0) {
+    if ($throttle && $throttleIntervalCount >= $throttle) {
+        $newThrottleTimeSample = microtime(true);
+        $throttleTime = ($newThrottleTimeSample - $throttleLastTimeSample) * 1000;
+        if ($throttleTime < 1000) {
+            // Throttle limit has been reached before the second is up, so sleep the rest
+            $sleepTime = 1000 - $throttleTime;
+            usleep(($sleepTime * 1000));
+        }
+        $throttleLastTimeSample = $newThrottleTimeSample;
+        $throttleIntervalCount = 0;
+    }
 
-        $newTimeSample = microtime(true);
-        $elapsedTime = $newTimeSample - $lastTimeSample;
-        $lastTimeSample = $newTimeSample;
-        $rps = round((2000 / $elapsedTime),0);
+    if ((microtime(true) - $lastTimeSample) > 1) {
+        $lastTimeSample = microtime(true);
         echo "\033[70D";
-
-        echo str_pad($rps, 10, ' ', STR_PAD_LEFT) . " ";
+        echo str_pad($lastCount, 10, ' ', STR_PAD_LEFT) . " ";
         echo " Requests per second  ";
         echo str_pad(number_format($requestCount,0), 20, ' ', STR_PAD_LEFT) . " ";
         echo " Total requests ";
 
+        $lastCount = 0;
     }
 
 }
