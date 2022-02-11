@@ -12,14 +12,15 @@ require_once './trackerDbQueryGenerator.php';
 $usage = <<<USAGE
 Usage: php trackerLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB PASSWORD] {-r=[REQUEST LIMIT {-P=[DB PORT]} {-v=[VERBOSITY]}
     Example: php trackerLoadTester.php -d=mydb -h=127.0.0.1 -u=root -p=123 -P=3306
-    -d    Database name, if 'random' then a randomly named database will automatically be created and used    
-    -t    Database type, 'mysql' or 'tidb', used to adjust schema created with -d=random, defaults to 'mysql'
-    -h    Database hostname, defaults to 'localhost'
-    -u    Database username, defaults to 'root''
-    -p    Database password, defaults to none
-    -P    Database port, defaults to 3306
-    -r    Tracking requests limit, will insert this many tracking requests then exit, runs indefinitely if omitted
-    -v    Verbosity of output [0 = quiet, 3 = show everything]
+    -d          Database name, if 'random' then a randomly named database will automatically be created and used    
+    -t          Database type, 'mysql' or 'tidb', used to adjust schema created with -d=random, defaults to 'mysql'
+    -h          Database hostname, defaults to 'localhost'
+    -u          Database username, defaults to 'root''
+    -p          Database password, defaults to none
+    -P          Database port, defaults to 3306
+    -r          Tracking requests limit, will insert this many tracking requests then exit, runs indefinitely if omitted
+    -v          Verbosity of output [0 = quiet, 3 = show everything]
+    --cleanup   Delete all randomly named test databases
 
 USAGE;
 
