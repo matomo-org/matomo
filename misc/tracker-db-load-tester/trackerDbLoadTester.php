@@ -104,7 +104,7 @@ if ($dbName === null || $dbHost === null || $dbUser === null || $dbPass === null
     die($usage);
 }
 
-if ($verbosity > 1) {
+if ($verbosity > 2) {
     echo "Host: $dbHost Type: $dbType User: '$dbUser' Password: '$dbPass' Port: $dbPort Request Limit: ".($requests === -1 ? 'unlimited' : $requests)."\n";
 }
 #endregion
@@ -175,6 +175,7 @@ if ($verbosity > 0) {
     }
 }
 
+$lastTimeSample = microtime(true);
 while ($requestCount < $requests || $requests < 0) {
 
     // Get random action, 50% chance of being new until pool is full, then always an existing action
@@ -245,11 +246,20 @@ while ($requestCount < $requests || $requests < 0) {
     }
 
     $requestCount++;
-    if ($requestCount % 1000 === 0 && $verbosity === 1) {
-        echo ".";
-    }
-    if ($requestCount % 10000 === 0 && $verbosity > 1) {
-        echo "..".$requestCount;
+
+    if ($requestCount % 2000 === 0) {
+
+        $newTimeSample = microtime(true);
+        $elapsedTime = $newTimeSample - $lastTimeSample;
+        $lastTimeSample = $newTimeSample;
+        $rps = round((2000 / $elapsedTime),0);
+        echo "\033[70D";
+
+        echo str_pad($rps, 10, ' ', STR_PAD_LEFT) . " ";
+        echo " Requests per second  ";
+        echo str_pad(number_format($requestCount,0), 20, ' ', STR_PAD_LEFT) . " ";
+        echo " Total requests ";
+
     }
 
 }
