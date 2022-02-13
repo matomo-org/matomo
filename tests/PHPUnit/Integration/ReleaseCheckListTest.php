@@ -1083,7 +1083,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 || strpos($file, 'vendor/mayflower/mo4-coding-standard/') !== false
                 || strpos($file, 'vendor/symfony/polyfill-iconv/') !== false
                 || strpos($file, 'plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js') !== false
-                || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
+                || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false
+                || preg_match('%/plugins/[a-zA-Z0-9_]+/vue/dist%', $file)
+            ) {
                 continue;
             }
 

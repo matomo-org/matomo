@@ -2055,8 +2055,8 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
   }, {
     key: "post",
-    value: function post(params, // eslint-disable-next-line
-    postParams) {
+    value: function post(params) {
+      var postParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       return this.fetch(params, Object.assign(Object.assign({}, options), {}, {
         postParams: postParams
@@ -2347,9 +2347,9 @@ function createAngularJsAdapter(options) {
               if (info.angularJsBind === '&' || info.angularJsBind === '&?') {
                 var eventName = toKebabCase(info.vue);
 
-                if (!events[eventName]) {
+                if (!events[info.vue]) {
                   // pass through scope & w/o a custom event handler
-                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(eventName, "', $event)\"");
+                  rootVueTemplate += " @".concat(eventName, "=\"onEventHandler('").concat(info.vue, "', $event)\"");
                 }
               } else {
                 rootVueTemplate += " :".concat(toKebabCase(info.vue), "=\"").concat(info.vue, "\"");
