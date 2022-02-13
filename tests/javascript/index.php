@@ -5229,7 +5229,7 @@ if ($mysql) {
         var requestWithFingerprint = tracker.getRequest('hello=world');
 
         equal(siteIdPattern.test(requestWithFingerprint), true);
-        equal(pattern.test(requestWithFingerprint), true, 'When browser fingerprint is enabled the request should include browser resolution and cookie');
+        equal(pattern.test(requestWithFingerprint), true, 'When browser fingerprint is enabled the request should include browser resolution or cookie');
 
         tracker.disableBrowserFeatureDetection();
         var requestWithoutFingerprint = tracker.getRequest('hello=world');
