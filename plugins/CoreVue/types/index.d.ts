@@ -148,7 +148,7 @@ declare global {
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
-    getBaseDatePickerOptions(): {[key: string]: any};
+    getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
 
     on(eventName: string, listener: WrappedEventListener): void;

@@ -112,8 +112,13 @@ describe("UsersManager", function () {
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:').change();
         });
+        await page.waitForNetworkIdle();
+
+        await page.click('th.select-cell input + span');
+        await page.waitForTimeout(100);
 
         await page.click('.toggle-select-all-in-search'); // reselect all in search
+        await page.waitForTimeout(100);
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('a[data-target=user-list-bulk-actions]')).hover();
