@@ -7054,8 +7054,14 @@ if (typeof window.Matomo !== 'object') {
 
             Matomo.trigger('TrackerSetup', [this]);
 
-            Matomo.addPlugin('TrackerCookieAdd', { unload: setVisitorIdCookie });
-
+            Matomo.addPlugin('TrackerVisitorIdCookie' + uniqueTrackerId, {
+                // if no tracking request was sent we refresh the visitor id cookie on page unload
+                unload: function () {
+                    if (!hasSentTrackingRequestYet) {
+                        setVisitorIdCookie();
+                    }
+                }
+            });
         }
 
         function TrackerProxy() {
