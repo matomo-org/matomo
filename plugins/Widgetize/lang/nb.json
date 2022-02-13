@@ -1,7 +1,9 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Åpne i nytt vindu",
-        "PluginDescription": "Vis alle Matomo-rapporter du vil på ditt nettsted eller i din app med en enkel embed HTML-tagg.",
-        "TopLinkTooltip": "Eksporter Matomo-rapporter som widgeter og bygg dem inn kontrollpanelet i din app som en iframe."
+        "PluginDescription": "Vis alle Matomo-rapporter du vil på ditt nettsted eller i ditt program med en enkel «embed»-HTML-tagg.",
+        "TooHighAccessLevel": "Denne brukeren har superbrukertilgang. Innebygging av miniprogrammer med superbruker-identitetsbekreftelse tillates ikke. %1$sSjekk O-S-S for mer info.%2$s",
+        "TopLinkTooltip": "Eksporter Matomo-rapporter som miniprogrammer og bygg dem inn oversikten i programmet ditt som en iframe.",
+        "ViewAccessRequired": "Denne brukeren har ihvertfall litt skrivetilgang. Kun symboler tilhørende brukere som kun har lesetilgang kan brukes. Sjekk %1$s for mer info."
     }
 }

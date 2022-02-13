@@ -104,6 +104,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         unset($userAfter['date_registered']);
         unset($userAfter['ts_password_modified']);
+        unset($userAfter['idchange_last_viewed']);
         unset($userAfter['password']);
 
         // implicitly checks password!

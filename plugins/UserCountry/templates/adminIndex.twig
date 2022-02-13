@@ -89,7 +89,10 @@
     {% endfor %}
 
 
-    {% if locationProviders|length == 1 %}
+    {% if locationProviders|filter(provider => (
+        provider.id != constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DefaultProvider::ID") and
+        provider.id != constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DisabledProvider::ID")
+    ))|length == 0 %}
     <div piwik-notification
          noclear="true"
          context="warning">

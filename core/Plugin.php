@@ -530,7 +530,7 @@ class Plugin
      */
     public static function getPluginNameFromNamespace($namespaceOrClassName)
     {
-        if (preg_match("/Piwik\\\\Plugins\\\\([a-zA-Z_0-9]+)\\\\/", $namespaceOrClassName, $matches)) {
+        if ($namespaceOrClassName && preg_match("/Piwik\\\\Plugins\\\\([a-zA-Z_0-9]+)\\\\/", $namespaceOrClassName, $matches)) {
             return $matches[1];
         } else {
             return false;
@@ -648,6 +648,28 @@ class Plugin
         }
         return $dependency;
     }
+
+    /**
+     * Get all changes for this plugin
+     *
+     * @return array    Array of changes
+     *                  [{"title":"abc","description":"xyz","linkName":"def","link":"https://link","version":"1.2.3"}]
+     */
+    public function getChanges()
+    {
+        $file = Manager::getPluginDirectory($this->pluginName).'/changes.json';
+        if (file_exists($file)) {
+            $json = file_get_contents($file);
+            if ($json) {
+                $changes = json_decode($json, true);
+                if ($changes && is_array($changes)) {
+                    return array_reverse($changes);
+                }
+            }
+        }
+        return [];
+    }
+
 }
 
 }

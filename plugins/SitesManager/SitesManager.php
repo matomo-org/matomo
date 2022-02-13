@@ -48,7 +48,6 @@ class SitesManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Tracker.Cache.getSiteAttributes'        => array('function' => 'recordWebsiteDataInCache', 'before' => true),
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
@@ -160,22 +159,6 @@ class SitesManager extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/SitesManager/stylesheets/SitesManager.less";
-    }
-
-    /**
-     * Get JavaScript files
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-type-model.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-admin-sites-model.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/edit-trigger.directive.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager.controller.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-site.controller.js";
     }
 
     /**
@@ -373,7 +356,7 @@ class SitesManager extends \Piwik\Plugin
             self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
         ];
 
-        return $map[$siteType] ? $map[$siteType] : false;
+        return $map[$siteType] ?? false;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

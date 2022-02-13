@@ -67,7 +67,7 @@ class API extends \Piwik\Plugin\API
     public function getGoal($idSite, $idGoal)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        
+
         $goal = $this->getModel()->getActiveGoal($idSite, $idGoal);
 
         if (!empty($goal)) {
@@ -476,7 +476,16 @@ class API extends \Piwik\Plugin\API
         );
 
         foreach ($segments as $appendToMetricName => $predefinedSegment) {
-            $segmentToUse = $this->appendSegment($predefinedSegment, $segment);
+            if (!empty($predefinedSegment)) {
+                // we are disabling the archiving of these segments as the archiver archives them already using
+                // archiveProcessDependend logic. Otherwise we would eg archive reports that we don't need:
+                // userid=5;visitorType%3D%3Dnew;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer
+                // userid=5;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer;visitorType%3D%3Dnew;
+                // it would also archive dependends for these segments that we already combined here and then combine
+                // segments again when archiving dependends
+                Archiver::$ARCHIVE_DEPENDENT = false;
+            }
+            $segmentToUse = $this->appendSegment($segment, $predefinedSegment);
 
             /** @var DataTable|DataTable\Map $tableSegmented */
             $tableSegmented = Request::processRequest('Goals.getMetrics', array(
@@ -487,9 +496,9 @@ class API extends \Piwik\Plugin\API
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
                 'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
-                'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
+                'format_metrics' => !empty($compare) ? 0 : Common::getRequestVar('format_metrics', 'bc'),
             ), $default = []);
-
+            Archiver::$ARCHIVE_DEPENDENT = true;
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
                                     array($appendToMetricName));
 

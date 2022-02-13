@@ -78,7 +78,6 @@ use ReflectionClass;
 class Fixture extends \PHPUnit\Framework\Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '7.2';
     const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
@@ -262,7 +261,6 @@ class Fixture extends \PHPUnit\Framework\Assert
             Tracker::disconnectCachedDbConnection();
 
             // reconnect once we're sure the database exists
-            self::getConfig()->database['dbname'] = $this->dbName;
             Db::createDatabaseObject();
 
             Db::get()->query("SET wait_timeout=28800;");
@@ -912,7 +910,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            strpos( phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
             strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
     }
 
@@ -993,7 +990,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         $config = $iniReader->readFile(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
         $originalDbName = $config['database']['dbname'];
         if ($dbName == $originalDbName
-            && $dbName != 'piwik_tests'
+            && $dbName != 'piwik_tests' && $dbName !='matomo_tests'
         ) { // santity check
             throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }

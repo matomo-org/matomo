@@ -43,7 +43,7 @@ class FewVisitsWithSetVisitorId extends Fixture
     {
         // tests run in UTC, the Tracker in UTC
         if (!self::siteCreated($this->idSite)) {
-            self::createWebsite($this->dateTime);
+            self::createWebsite($this->dateTime, 1);
         }
         if (!self::goalExists($this->idSite, $this->idGoal)) {
             API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');

@@ -57,7 +57,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 exportText: _pk_translate('General_SaveImageOnYourComputer'),
                 metricsToPlot: _pk_translate('General_MetricsToPlot'),
                 metricToPlot: _pk_translate('General_MetricToPlot'),
-                recordsToPlot: _pk_translate('General_RecordsToPlot')
+                recordsToPlot: _pk_translate('General_RecordsToPlot'),
+                incompletePeriod: _pk_translate('General_IncompletePeriod')
             };
 
             // set a unique ID for the graph element (required by jqPlot)
@@ -377,6 +378,21 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             // create jqplot chart
             try {
+
+                // Work out incomplete data points
+                this.jqplotParams['incompleteDataPoints'] = 0;
+
+                var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+
+                var period = this.param.period;
+                // If date is actually a range then adjust the period type for the containsToday check
+                if (period === 'day' && this.param.date.indexOf(',') !== -1) {
+                    period = 'range';
+                }
+                if (piwikPeriods.parse(period, this.param.date).containsToday()) {
+                    this.jqplotParams['incompleteDataPoints'] = 1;
+                }
+
                 var plot = self._plot = $.jqplot(targetDivId, this.data, this.jqplotParams);
             } catch (e) {
                 // this is thrown when refreshing piwik in the browser
@@ -1345,3 +1361,418 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.postDrawHooks.push($.jqplot.PieLegend.postDraw);
 
 })(jQuery, require);
+
+// ------------------------------------------------------------
+//  MATOMO INCOMPLETE DATA INDICATOR FOR JQPLOT
+//  Show a dashed line to the last point to indicate incomplete
+// ------------------------------------------------------------
+
+(function ($) {
+
+    $.jqplot.LineRenderer.prototype.draw = function(ctx, gd, options, plot) {
+        var i;
+        // get a copy of the options, so we don't modify the original object.
+        var opts = $.extend(true, {}, options);
+        var shadow = (opts.shadow != undefined) ? opts.shadow : this.shadow;
+        var showLine = (opts.showLine != undefined) ? opts.showLine : this.showLine;
+        var fill = (opts.fill != undefined) ? opts.fill : this.fill;
+        var fillAndStroke = (opts.fillAndStroke != undefined) ? opts.fillAndStroke : this.fillAndStroke;
+        var xmin, ymin, xmax, ymax;
+
+        // Only change in this overridden method, to pass the option to the renderers
+        if (plot.options.hasOwnProperty('incompleteDataPoints')) {
+            opts.incompleteDataPoints = plot.options.incompleteDataPoints;
+        }
+
+        ctx.save();
+        if (gd.length) {
+            if (showLine) {
+                // if we fill, we'll have to add points to close the curve.
+                if (fill) {
+                    if (this.fillToZero) {
+                        // have to break line up into shapes at axis crossings
+                        var negativeColor = this.negativeColor;
+                        if (! this.useNegativeColors) {
+                            negativeColor = opts.fillStyle;
+                        }
+                        var isnegative = false;
+                        var posfs = opts.fillStyle;
+
+                        // if stoking line as well as filling, get a copy of line data.
+                        if (fillAndStroke) {
+                            var fasgd = gd.slice(0);
+                        }
+                        // if not stacked, fill down to axis
+                        if (this.index == 0 || !this._stack) {
+
+                            var tempgd = [];
+                            var pd = (this.renderer.smooth) ? this.renderer._smoothedPlotData : this._plotData;
+                            this._areaPoints = [];
+                            var pyzero = this._yaxis.series_u2p(this.fillToValue);
+                            var pxzero = this._xaxis.series_u2p(this.fillToValue);
+
+                            opts.closePath = true;
+
+                            if (this.fillAxis == 'y') {
+                                tempgd.push([gd[0][0], pyzero]);
+                                this._areaPoints.push([gd[0][0], pyzero]);
+
+                                for (var i=0; i<gd.length-1; i++) {
+                                    tempgd.push(gd[i]);
+                                    this._areaPoints.push(gd[i]);
+                                    // do we have an axis crossing?
+                                    if (pd[i][1] * pd[i+1][1] <= 0) {
+                                        if (pd[i][1] < 0) {
+                                            isnegative = true;
+                                            opts.fillStyle = negativeColor;
+                                        }
+                                        else {
+                                            isnegative = false;
+                                            opts.fillStyle = posfs;
+                                        }
+
+                                        var xintercept = gd[i][0] + (gd[i+1][0] - gd[i][0]) * (pyzero-gd[i][1])/(gd[i+1][1] - gd[i][1]);
+                                        tempgd.push([xintercept, pyzero]);
+                                        this._areaPoints.push([xintercept, pyzero]);
+                                        // now draw this shape and shadow.
+                                        if (shadow) {
+                                            this.renderer.shadowRenderer.draw(ctx, tempgd, opts);
+                                        }
+                                        this.renderer.shapeRenderer.draw(ctx, tempgd, opts);
+                                        // now empty temp array and continue
+                                        tempgd = [[xintercept, pyzero]];
+                                        // this._areaPoints = [[xintercept, pyzero]];
+                                    }
+                                }
+                                if (pd[gd.length-1][1] < 0) {
+                                    isnegative = true;
+                                    opts.fillStyle = negativeColor;
+                                }
+                                else {
+                                    isnegative = false;
+                                    opts.fillStyle = posfs;
+                                }
+                                tempgd.push(gd[gd.length-1]);
+                                this._areaPoints.push(gd[gd.length-1]);
+                                tempgd.push([gd[gd.length-1][0], pyzero]);
+                                this._areaPoints.push([gd[gd.length-1][0], pyzero]);
+                            }
+                            // now draw the last area.
+                            if (shadow) {
+                                this.renderer.shadowRenderer.draw(ctx, tempgd, opts);
+                            }
+                            this.renderer.shapeRenderer.draw(ctx, tempgd, opts);
+
+                        }
+                        // if stacked, fill to line below
+                        else {
+                            var prev = this._prevGridData;
+                            for (var i=prev.length; i>0; i--) {
+                                gd.push(prev[i-1]);
+                                // this._areaPoints.push(prev[i-1]);
+                            }
+                            if (shadow) {
+                                this.renderer.shadowRenderer.draw(ctx, gd, opts);
+                            }
+                            this._areaPoints = gd;
+                            this.renderer.shapeRenderer.draw(ctx, gd, opts);
+                        }
+                    }
+                    /////////////////////////
+                    // Not filled to zero
+                    ////////////////////////
+                    else {
+                        // if stoking line as well as filling, get a copy of line data.
+                        if (fillAndStroke) {
+                            var fasgd = gd.slice(0);
+                        }
+                        // if not stacked, fill down to axis
+                        if (this.index == 0 || !this._stack) {
+                            // var gridymin = this._yaxis.series_u2p(this._yaxis.min) - this.gridBorderWidth / 2;
+                            var gridymin = ctx.canvas.height;
+                            // IE doesn't return new length on unshift
+                            gd.unshift([gd[0][0], gridymin]);
+                            var len = gd.length;
+                            gd.push([gd[len - 1][0], gridymin]);
+                        }
+                        // if stacked, fill to line below
+                        else {
+                            var prev = this._prevGridData;
+                            for (var i=prev.length; i>0; i--) {
+                                gd.push(prev[i-1]);
+                            }
+                        }
+                        this._areaPoints = gd;
+
+                        if (shadow) {
+                            this.renderer.shadowRenderer.draw(ctx, gd, opts);
+                        }
+
+                        this.renderer.shapeRenderer.draw(ctx, gd, opts);
+                    }
+                    if (fillAndStroke) {
+                        var fasopts = $.extend(true, {}, opts, {fill:false, closePath:false});
+                        this.renderer.shapeRenderer.draw(ctx, fasgd, fasopts);
+                        // now draw the markers
+                        if (this.markerRenderer.show) {
+                            if (this.renderer.smooth) {
+                                fasgd = this.gridData;
+                            }
+                            for (i=0; i<fasgd.length; i++) {
+                                this.markerRenderer.draw(fasgd[i][0], fasgd[i][1], ctx, opts.markerOptions);
+                            }
+                        }
+                    }
+                }
+                else {
+
+                    if (this.renderer.bands.show) {
+                        var bdat;
+                        var bopts = $.extend(true, {}, opts);
+
+                        if (this.renderer.bands.showLines) {
+                            bdat = (this.renderer.smooth) ? this.renderer._hiBandSmoothedData : this.renderer._hiBandGridData;
+                            this.renderer.shapeRenderer.draw(ctx, bdat, opts);
+                            bdat = (this.renderer.smooth) ? this.renderer._lowBandSmoothedData : this.renderer._lowBandGridData;
+                            this.renderer.shapeRenderer.draw(ctx, bdat, bopts);
+                        }
+
+                        if (this.renderer.bands.fill) {
+                            if (this.renderer.smooth) {
+                                bdat = this.renderer._hiBandSmoothedData.concat(this.renderer._lowBandSmoothedData.reverse());
+                            }
+                            else {
+                                bdat = this.renderer._hiBandGridData.concat(this.renderer._lowBandGridData.reverse());
+                            }
+                            this._areaPoints = bdat;
+                            bopts.closePath = true;
+                            bopts.fill = true;
+                            bopts.fillStyle = this.renderer.bands.fillColor;
+                            this.renderer.shapeRenderer.draw(ctx, bdat, bopts);
+                        }
+                    }
+
+                    if (shadow) {
+                        this.renderer.shadowRenderer.draw(ctx, gd, opts);
+                    }
+
+                    this.renderer.shapeRenderer.draw(ctx, gd, opts);
+                }
+            }
+            // calculate the bounding box
+            var xmin = xmax = ymin = ymax = null;
+            for (i=0; i<this._areaPoints.length; i++) {
+                var p = this._areaPoints[i];
+                if (xmin > p[0] || xmin == null) {
+                    xmin = p[0];
+                }
+                if (ymax < p[1] || ymax == null) {
+                    ymax = p[1];
+                }
+                if (xmax < p[0] || xmax == null) {
+                    xmax = p[0];
+                }
+                if (ymin > p[1] || ymin == null) {
+                    ymin = p[1];
+                }
+            }
+
+            if (this.type === 'line' && this.renderer.bands.show) {
+                ymax = this._yaxis.series_u2p(this.renderer.bands._min);
+                ymin = this._yaxis.series_u2p(this.renderer.bands._max);
+            }
+
+            this._boundingBox = [[xmin, ymax], [xmax, ymin]];
+
+            // now draw the markers
+            if (this.markerRenderer.show && !fill) {
+                if (this.renderer.smooth) {
+                    gd = this.gridData;
+                }
+                for (i=0; i<gd.length; i++) {
+                    if (gd[i][0] != null && gd[i][1] != null) {
+                        this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, opts.markerOptions);
+                    }
+                }
+            }
+        }
+
+        ctx.restore();
+    };
+
+    $.jqplot.ShapeRenderer.prototype.draw = function(ctx, points, options) {
+        ctx.save();
+        var opts = (options != null) ? options : {};
+        var fill = (opts.fill != null) ? opts.fill : this.fill;
+        var closePath = (opts.closePath != null) ? opts.closePath : this.closePath;
+        var fillRect = (opts.fillRect != null) ? opts.fillRect : this.fillRect;
+        var strokeRect = (opts.strokeRect != null) ? opts.strokeRect : this.strokeRect;
+        var clearRect = (opts.clearRect != null) ? opts.clearRect : this.clearRect;
+        var isarc = (opts.isarc != null) ? opts.isarc : this.isarc;
+        var linePattern = (opts.linePattern != null) ? opts.linePattern : this.linePattern;
+        var ctxPattern = $.jqplot.LinePattern(ctx, linePattern);
+        ctx.lineWidth = opts.lineWidth || this.lineWidth;
+        ctx.lineJoin = opts.lineJoin || this.lineJoin;
+        ctx.lineCap = opts.lineCap || this.lineCap;
+        ctx.strokeStyle = (opts.strokeStyle || opts.color) || this.strokeStyle;
+        ctx.fillStyle = opts.fillStyle || this.fillStyle;
+        ctx.beginPath();
+
+        // Only do the incomplete visualization for line charts
+        var incompleteDataPoints = 0;
+        if (!closePath && !fill && opts.hasOwnProperty('incompleteDataPoints')) {
+            incompleteDataPoints = opts.incompleteDataPoints;
+        }
+
+        if (isarc) {
+            ctx.arc(points[0], points[1], points[2], points[3], points[4], true);
+            if (closePath) {
+                ctx.closePath();
+            }
+            if (fill) {
+                ctx.fill();
+            }
+            else {
+                ctx.stroke();
+            }
+            ctx.restore();
+            return;
+        }
+        else if (clearRect) {
+            ctx.clearRect(points[0], points[1], points[2], points[3]);
+            ctx.restore();
+            return;
+        }
+        else if (fillRect || strokeRect) {
+            if (fillRect) {
+                ctx.fillRect(points[0], points[1], points[2], points[3]);
+            }
+            if (strokeRect) {
+                ctx.strokeRect(points[0], points[1], points[2], points[3]);
+                ctx.restore();
+                return;
+            }
+        }
+        else if (points && points.length) {
+            var move = true;
+            // Draw the line normally, up to the number of incomplete points
+            for (var i = 0; i < points.length - incompleteDataPoints; i++) {
+
+                // skip to the first non-null point and move to it.
+                if (points[i][0] != null && points[i][1] != null) {
+                    if (move) {
+                      ctxPattern.moveTo(points[i][0], points[i][1]);
+                      move = false;
+                    } else {
+                      ctxPattern.lineTo(points[i][0], points[i][1]);
+                    }
+                } else {
+                    move = true;
+                }
+            }
+            if (closePath) {
+                ctxPattern.closePath();
+            }
+            if (fill) {
+                ctx.fill();
+            } else {
+                ctx.stroke();
+            }
+        }
+        ctx.restore();
+
+        // Draw a dashed line to the last point
+        if (incompleteDataPoints > 0) {
+
+          var lp = points.length - 1;
+
+          ctx.save();
+          ctx.setLineDash([3, 3]);
+          ctx.lineWidth = opts.lineWidth || this.lineWidth;
+          ctx.lineJoin = opts.lineJoin || this.lineJoin;
+          ctx.lineCap = opts.lineCap || this.lineCap;
+          ctx.strokeStyle = (opts.strokeStyle || opts.color) || this.strokeStyle;
+
+          ctx.beginPath();
+          for (var ii = (points.length - incompleteDataPoints); ii < points.length; ii++) {
+
+            ctx.moveTo(points[ii - 1][0], points[ii - 1][1]);
+            ctx.lineTo(points[ii][0], points[ii][1]);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+    };
+
+    // Only overriding this method to prevent drawing the shadow for the last line segment
+    $.jqplot.ShadowRenderer.prototype.draw = function(ctx, points, options) {
+        ctx.save();
+        var opts = (options != null) ? options : {};
+        var fill = (opts.fill != null) ? opts.fill : this.fill;
+        var fillRect = (opts.fillRect != null) ? opts.fillRect : this.fillRect;
+        var closePath = (opts.closePath != null) ? opts.closePath : this.closePath;
+        var offset = (opts.offset != null) ? opts.offset : this.offset;
+        var alpha = (opts.alpha != null) ? opts.alpha : this.alpha;
+        var depth = (opts.depth != null) ? opts.depth : this.depth;
+        var isarc = (opts.isarc != null) ? opts.isarc : this.isarc;
+        var linePattern = (opts.linePattern != null) ? opts.linePattern : this.linePattern;
+        ctx.lineWidth = (opts.lineWidth != null) ? opts.lineWidth : this.lineWidth;
+        ctx.lineJoin = (opts.lineJoin != null) ? opts.lineJoin : this.lineJoin;
+        ctx.lineCap = (opts.lineCap != null) ? opts.lineCap : this.lineCap;
+        ctx.strokeStyle = opts.strokeStyle || this.strokeStyle || 'rgba(0,0,0,'+alpha+')';
+        ctx.fillStyle = opts.fillStyle || this.fillStyle || 'rgba(0,0,0,'+alpha+')';
+
+        // Only do the incomplete visualization for line charts
+        var incompleteDataPoints = 0;
+        if (!closePath && !fill && opts.hasOwnProperty('incompleteDataPoints')) {
+            incompleteDataPoints = opts.incompleteDataPoints;
+        }
+
+        for (var j=0; j<depth; j++) {
+            var ctxPattern = $.jqplot.LinePattern(ctx, linePattern);
+            ctx.translate(Math.cos(this.angle*Math.PI/180)*offset, Math.sin(this.angle*Math.PI/180)*offset);
+            ctxPattern.beginPath();
+            if (isarc) {
+                ctx.arc(points[0], points[1], points[2], points[3], points[4], true);
+            }
+            else if (fillRect) {
+                if (fillRect) {
+                    ctx.fillRect(points[0], points[1], points[2], points[3]);
+                }
+            }
+            else if (points && points.length){
+                var move = true;
+
+                // Draw the line normally, except for the last point
+                for (var i=0; i<points.length - incompleteDataPoints; i++) {
+                    // skip to the first non-null point and move to it.
+                    if (points[i][0] != null && points[i][1] != null) {
+                        if (move) {
+                            ctxPattern.moveTo(points[i][0], points[i][1]);
+                            move = false;
+                        }
+                        else {
+                            ctxPattern.lineTo(points[i][0], points[i][1]);
+                        }
+                    }
+                    else {
+                        move = true;
+                    }
+                }
+
+            }
+            if (closePath) {
+                ctxPattern.closePath();
+            }
+            if (fill) {
+                ctx.fill();
+            }
+            else {
+                ctx.stroke();
+            }
+        }
+        ctx.restore();
+    };
+
+})(jQuery);

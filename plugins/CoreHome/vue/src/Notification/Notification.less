@@ -1,0 +1,83 @@
+.system.notification {
+  .alert;
+
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+  border: 0 !important;
+
+  p:not(:first-child) {
+    margin-top: 1em;
+  }
+
+  .notification-body {
+    min-width: 50px;
+  }
+
+  // We have to use !important because the default button style is crazy
+  .close {
+    position: relative;
+    top: -5px;
+    right: -10px;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    float: right;
+    font-size: 20px !important;
+    font-weight: bold;
+    line-height: 20px !important;
+    color: inherit !important;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+    cursor: pointer;
+  }
+
+  &.notification-success {
+    .alert-success;
+    color: #eef6ef !important;
+    background-color: @color-green-piwik !important;
+    &:before, p, a {
+      color: #eef6ef;
+    }
+  }
+  &.notification-warning {
+    .alert-warning;
+    background-color: @color-orange-brand;
+    color: #fbf7f1 !important;
+    &:before, p, a {
+      color: #fbf7f1;
+    }
+  }
+  &.notification-danger,
+  &.notification-error {
+    .alert-danger;
+    color: #fdf0f2 !important;
+    background-color: #e53935;
+    &:before, p, a {
+      color: #fdf0f2;
+    }
+  }
+  &.notification-info {
+    .alert-info;
+    color: #f3feff !important;
+    background-color: #00bcd4;
+    &:before, p, a {
+      color: #f3feff;
+    }
+  }
+
+  &.help-notification.notification-info {
+    background-color: @theme-color-help-background-color;
+
+    &:before {
+      content: "\e61f";
+    }
+  }
+}
+
+// toast-slide-up transition
+.toast-slide-up-enter-active {
+  transition: transform .3s ease;
+}
+
+.toast-slide-up-enter-from {
+  transform: translateY(-100%);
+}

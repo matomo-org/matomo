@@ -29,11 +29,13 @@ function createDashboard() {
             function (response) {
                 var id = response.value;
                 angular.element(document).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
-                    dashboardsModel.reloadAllDashboards().then(function () {
-
-                        $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
-                        $('#dashboardWidgetsArea').dashboard('rebuildMenu');
-                    });
+                  Promise.all([
+                    dashboardsModel.reloadAllDashboards(),
+                    reportingMenuModel.reloadMenuItems(),
+                  ]).then(function () {
+                    $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
+                    $('#dashboardWidgetsArea').dashboard('rebuildMenu');
+                  });
                 });
             }
         );

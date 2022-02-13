@@ -15,7 +15,7 @@ export function getToday(): Date {
   // undo browser timezone
   date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
-  // apply piwik site timezone (if it exists)
+  // apply Matomo site timezone (if it exists)
   date.setHours(date.getHours() + ((window.piwik.timezoneOffset || 0) / 3600));
 
   // get rid of hours/minutes/seconds/etc.
@@ -31,7 +31,10 @@ export function parseDate(date: string|Date): Date {
     return date;
   }
 
-  const strDate = decodeURIComponent(date);
+  const strDate = decodeURIComponent(date).trim();
+  if (strDate === '') {
+    throw new Error('Invalid date, empty string.');
+  }
 
   if (strDate === 'today'
     || strDate === 'now'
@@ -67,13 +70,7 @@ export function parseDate(date: string|Date): Date {
     return lastYear;
   }
 
-  try {
-    return $.datepicker.parseDate('yy-mm-dd', strDate);
-  } catch (err) {
-    // angular swallows this error, so manual console log here
-    console.error(err.message || err);
-    throw err;
-  }
+  return $.datepicker.parseDate('yy-mm-dd', strDate);
 }
 
 export function todayIsInRange(dateRange: Date[]): boolean {

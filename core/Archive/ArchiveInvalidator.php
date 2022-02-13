@@ -222,7 +222,6 @@ class ArchiveInvalidator
         // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
         //  So this must be a deleteLike call to get all the entries, where there used to only be one.
         $this->deleteOptionLike($id);
-        Cache::clearCacheGeneral();
     }
 
     private function deleteOptionLike($id)
@@ -458,7 +457,7 @@ class ArchiveInvalidator
      */
     public function reArchiveReport($idSites, string $plugin = null, string $report = null, Date $startDate = null, Segment $segment = null)
     {
-        $date2 = Date::yesterday();
+        $date2 = Date::today();
 
         $earliestDateToRearchive = $this->getEarliestDateToRearchive();
         if (empty($startDate)) {

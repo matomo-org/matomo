@@ -28,6 +28,7 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
+use Piwik\Scheduler\RetryableException;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Site;
 use Piwik\Translation\Translator;
@@ -608,9 +609,9 @@ class API extends \Piwik\Plugin\API
                         $report['period_param']
                     );
 
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 $this->enableSaveReportOnDisk = false;
-                throw $e;
+                throw new RetryableException($e->getMessage());
             }
 
             $this->enableSaveReportOnDisk = false;

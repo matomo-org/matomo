@@ -198,6 +198,32 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
     });
 
+    it('should display autocomplete dropdown options correctly with lower case', async function() {
+        await page.click('.expandableSelector .select-wrapper');
+        await page.waitForSelector('.expandableList');
+        await page.click('.expandableSelector');
+        await page.type('.expandableSelector', 'event');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_lowercase');
+    });
+
+    it('should display autocomplete dropdown options correctly with upper case', async function() {
+        const input = await page.$('.expandableSelector');
+        await input.click({ clickCount: 3 })
+        await page.type('.expandableSelector', 'EVENT');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_uppercase');
+    });
+
+    it('should display autocomplete dropdown options correctly with capitalized', async function() {
+        const input = await page.$('.expandableSelector');
+        await input.click({ clickCount: 3 })
+        await page.type('.expandableSelector', 'Event');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_capitalized');
+    });
+
+
     it("should correctly show delete dialog when the delete link is clicked", async function() {
         await page.click('.segmentEditorPanel a.delete');
         await page.waitForTimeout(500); // animation
@@ -282,5 +308,36 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments');
+    });
+
+    it("should save a new segment when enable_create_realtime_segments = 0", async function() {
+        // ensure segment won't be archived after saving it.
+        testEnvironment.overrideConfig('General', 'enable_create_realtime_segments', 0);
+        testEnvironment.overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        testEnvironment.overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+        testEnvironment.optionsOverride = {
+          enableBrowserTriggerArchiving: '0',
+        };
+        testEnvironment.save();
+        await page.evaluate(function () {
+          $('.segmentRow0 .segment-row:first .metricValueBlock input').val('3').change();
+        });
+
+        await page.type('input.edit_segment_name', 'auto archive segment');
+        await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
+
+        // this is for debug purpose. If segment can't be saved, and alert might be shown, causing the UI test to hang
+        page.on('dialog', (dialog)=> {
+            console.log(dialog.message());
+        });
+
+        await page.evaluate(function () {
+            $('button.saveAndApply').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.segmentationContainer');
+
+        await page.click('.segmentationContainer .title');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
     });
 });

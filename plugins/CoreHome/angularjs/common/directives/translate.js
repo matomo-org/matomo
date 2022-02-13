@@ -22,6 +22,9 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikTranslate', piwikTranslate);
 
+    /**
+     * @deprecated
+     */
     function piwikTranslate() {
         return {
             priority: 1,

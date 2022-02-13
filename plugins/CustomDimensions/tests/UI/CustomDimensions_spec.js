@@ -53,7 +53,7 @@ describe("CustomDimensions", function () {
         var rowToMatch = 'td.label:contains(' + labelToClick + '):first';
 
         await (await page.jQuery('table.dataTable tbody ' + rowToMatch)).hover();
-        await page.waitForTimeout(50);
+        await page.waitForTimeout(100);
         await (await page.jQuery(rowToMatch + ' a.'+ nameOfRowActionToTrigger + ':visible')).hover(); // necessary to get popover to display
         await (await page.jQuery(rowToMatch + ' a.' + nameOfRowActionToTrigger + ':visible')).click();
         await page.mouse.move(-10, -10);
@@ -147,6 +147,10 @@ describe("CustomDimensions", function () {
             await page.goto(reportUrlDimension3);
             await (await page.jQuery('.dataTable .subDataTable .value:contains(en):first')).click();
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500);
+            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+              $('.dataTableScroller').css('overflow-x', 'scroll');
+            });
             await (await page.jQuery('td.label:contains(en_US)')).hover();
             await page.waitForTimeout(100);
         });

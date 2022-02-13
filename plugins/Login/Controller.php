@@ -133,7 +133,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormLogin();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Nonce::verifyNonce('Login.login', $nonce)) {
+            $messageNoAccess = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce, null);
+
+            // validate if there is error message
+            if ($messageNoAccess === "") {
                 $loginOrEmail = $form->getSubmitValue('form_login');
                 $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
 
@@ -143,11 +146,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 } catch (Exception $e) {
                     $messageNoAccess = $e->getMessage();
                 }
-            } else {
-                $messageNoAccess = $this->getMessageExceptionNoAccess();
             }
         }
-        
+
         if ($messageNoAccess) {
             http_response_code(403);
         }
@@ -212,8 +213,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if ($password) {
                 $password = Common::unsanitizeInputValue($password);
             }
-            if (!Nonce::verifyNonce($nonceKey, $nonce)) {
-                $messageNoAccess = $this->getMessageExceptionNoAccess();
+            $errorMessage = Nonce::verifyNonceWithErrorMessage($nonceKey, $nonce);
+            if ($errorMessage !== "") {
+                $messageNoAccess = $errorMessage;
             } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
                 $this->passwordVerify->setPasswordVerifiedCorrectly();
                 return;
@@ -349,38 +351,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Url::redirectToUrl($urlToRedirect);
     }
 
-    protected function getMessageExceptionNoAccess()
-    {
-        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">', '</a>'));
-
-        $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed();
-
-        return $message;
-    }
-
-    /**
-     * The Session cookie is set to a secure cookie, when SSL is mis-configured, it can cause the PHP session cookie ID to change on each page view.
-     * Indicate to user how to solve this particular use case by forcing secure connections.
-     *
-     * @return string
-     */
-    protected function getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed()
-    {
-        $message = '';
-        if(Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
-            $message = '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
-                    array(
-                        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_91/">',
-                        '</a>',
-                        'config/config.ini.php',
-                        '<pre>force_ssl=1</pre>',
-                        '<pre>[General]</pre>',
-                    )
-                );
-        }
-        return $message;
-    }
-
     /**
      * Reset password action. Stores new password as hash and sends email
      * to confirm use.
@@ -394,13 +364,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormResetPassword();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Nonce::verifyNonce('Login.login', $nonce)) {
+            $errorMessage = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce);
+            if ($errorMessage === "") {
                 $formErrors = $this->resetPasswordFirstStep($form);
                 if (empty($formErrors)) {
                     $infoMessage = Piwik::translate('Login_ConfirmationLinkSent');
                 }
             } else {
-                $formErrors = array($this->getMessageExceptionNoAccess());
+                $formErrors = array($errorMessage);
             }
         } else {
             // if invalid, display error

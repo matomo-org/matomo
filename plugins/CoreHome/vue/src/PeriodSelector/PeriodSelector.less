@@ -1,0 +1,108 @@
+[piwik-period-selector],.periodSelector {
+  display: inline-block;
+
+  &.compare-dropdown-open {
+    label[for=comparePeriodEndDate] {
+      visibility: hidden;
+    }
+
+    #comparePeriodEndDate .input-field {
+      position: static; // needed when dropdown is open, since dropdown content is position: absolute, and this is position: relative, which causes it to show up in the background of the dropdown
+    }
+  }
+
+  // overrides theme CSS that always hides .loadingPiwik. since we use an ng-if to make
+  // sure it's only shown when we're actually loading a new page, it's not necessary to
+  // forcefully hide it.
+  .loadingPiwik {
+    display: inline-block !important;
+  }
+
+  .compare-checkbox {
+    margin-bottom: 20px;
+    label {
+        span {
+            padding-left:25px;
+            font-size: 14px;
+            margin-right: 3px;
+        }
+    }
+  }
+
+  .compare-date-range {
+    padding-top: 20px;
+  }
+
+  #comparePeriodToDropdown {
+    height: 30px;
+    display: inline-block;
+    width: 55%;
+    transform: scale(.9);
+    margin-left: -2%;
+    margin-right: -5%;
+
+    // dropdown width/height looks off due to scaling
+    .dropdown-content {
+      width: auto !important;
+      height: auto !important;
+    }
+
+    .form-group {
+      margin: 0;
+    }
+
+    .input-field {
+      margin-top: 0;
+      padding: 0 0 0 0.5rem;
+    }
+
+    .select-dropdown {
+      margin-bottom: 0;
+    }
+
+    .dropdown-content {
+      overflow-y: visible;
+    }
+  }
+
+  div#comparePeriodStartDate, div#comparePeriodEndDate {
+    display: inline-block;
+    width: calc(~"50% - 20px");
+
+    .form-group {
+      margin: 0;
+    }
+
+    .input-field {
+      margin-top: 0;
+      padding: 0;
+    }
+
+    .select-dropdown {
+      margin-bottom: 0;
+    }
+  }
+
+  .compare-dates-separator {
+    height: 0.5px;
+    margin-left: 11px;
+    margin-right: 11px;
+    background-color: @color-silver-l14;
+    width: 16px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 30px;
+  }
+
+  label[for=comparePeriodTo] {
+    transform: scale(.9);
+  }
+
+  .apply-button-container {
+    text-align: right;
+  }
+
+  .flex {
+    display: flex;
+  }
+}

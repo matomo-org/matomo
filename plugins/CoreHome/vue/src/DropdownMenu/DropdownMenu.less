@@ -1,0 +1,27 @@
+[piwik-dropdown-menu],.matomo-dropdown-menu {
+  position: relative;
+
+  &::after {
+    content: "▼";
+    font-size: .7em;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.submenu::after {
+    float: right;
+    content: "►";
+    color: @color-black-piwik;
+    font-size: .6em;
+  }
+}
+
+.submenu + .dropdown-content {
+  left: 100%!important;
+}
+
+.submenu-container.dropdown-content {
+  overflow:visible; // required for submenus to display
+}

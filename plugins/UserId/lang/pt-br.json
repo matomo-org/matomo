@@ -1,7 +1,6 @@
 {
     "UserId": {
         "PluginDescription": "Mostra relatórios de usuários",
-        "ThereIsNoDataForThisReport": "Não há dados para este relatório.",
         "ThereIsNoDataForThisReportHelp": "%1$sSaiba mais sobre como gerar dados para este relatório em nosso guia do usuário.%2$s",
         "UserId": "UserId",
         "UserReportDocumentation": "Este relatório mostra visitas e outras métricas gerais para cada ID de usuário individual.",

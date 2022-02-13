@@ -12,6 +12,7 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager as PluginManager;
@@ -345,5 +346,52 @@ abstract class VisitDimension extends Dimension
         }
 
         return $instances;
+    }
+
+    /**
+     * Sort a key => value array descending by the number of occurances of the key in the supplied table and column
+     *
+     * @param array     $array              Key value array
+     * @param DataTable $table              Datatable from which to count occurances
+     * @param string    $keyColumn          Column in the datatable to match against the array key
+     * @param int       $maxValuesToReturn  Limit the return array to this number of elements
+     *
+     * @return array    An array of values from the source array sorted by most occurances, descending
+     */
+    public function sortStaticListByUsage(array $array, DataTable $table, string $keyColumn, int $maxValuesToReturn) : array
+    {
+        // Convert to multi-dimensional array and count the number of visits for each browser name
+        foreach ($array as $k => $v) {
+            $array[$k] = ['count' => 0, 'name' => $v];
+        }
+        $array['xx'] = ['count' => 0, 'name' => 'Unknown'];
+
+        foreach ($table->getRows() as $row) {
+            if (isset($row[$keyColumn])) {
+                if (isset($array[$row[$keyColumn]])) {
+                    $array[$row[$keyColumn]]['count']++;
+                } else {
+                    $array['xx']['count']++;
+                }
+            }
+        }
+        // Sort by most visits descending
+        uasort($array, function($a, $b) {
+            return $a <=> $b;
+        });
+        $array = array_reverse($array, true);
+
+        // Flatten and limit the return array
+        $flat = [];
+        $i = 0;
+        foreach ($array as $k => $v) {
+            $flat[$k] = $v['name'];
+            $i++;
+            if ($i == ($maxValuesToReturn)) {
+                break;
+            }
+        }
+
+        return array_values($flat);
     }
 }

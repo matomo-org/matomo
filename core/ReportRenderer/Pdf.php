@@ -16,6 +16,7 @@ use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
 use Piwik\TCPDF;
+use TCPDF_FONTS;
 
 /**
  * @see libs/tcpdf
@@ -39,6 +40,8 @@ class Pdf extends ReportRenderer
     const NO_DATA_ROW_COUNT = 6;
     const MAX_GRAPH_REPORTS = 3;
     const MAX_2COL_TABLE_REPORTS = 2;
+
+    const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
 
     const PDF_CONTENT_TYPE = 'pdf';
 
@@ -136,6 +139,10 @@ class Pdf extends ReportRenderer
         }
         // WARNING: Did you read the warning above?
 
+        // When user follow the FAQ https://matomo.org/faq/how-to-install/faq_142/, imported unifont font, it will apply across the entire report
+        if (is_file(self::IMPORT_FONT_PATH)) {
+            $reportFont = TCPDF_FONTS::addTTFfont(self::IMPORT_FONT_PATH, 'TrueTypeUnicode');
+        }
         $this->reportFont = $reportFont;
     }
 
@@ -370,7 +377,7 @@ class Pdf extends ReportRenderer
                     $posX = $this->TCPDF->GetX();
                     $posY = $this->TCPDF->GetY();
                     if (isset($rowMetrics[$columnId])) {
-                        $text = substr($rowMetrics[$columnId], 0, $this->truncateAfter);
+                        $text = mb_substr($rowMetrics[$columnId], 0, $this->truncateAfter);
                         if ($isLogoDisplayable) {
                             $text = $leftSpacesBeforeLogo . $text;
                         }

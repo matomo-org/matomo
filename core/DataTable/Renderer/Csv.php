@@ -241,7 +241,7 @@ class Csv extends Renderer
         if (is_string($value)
             && !is_numeric($value)
         ) {
-            $value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
+            $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
         } elseif ($value === false) {
             $value = 0;
         }
@@ -489,7 +489,7 @@ class Csv extends Renderer
     protected function removeFirstPercentSign($value)
     {
         $needle = '%';
-        $posPercent = strpos($value, $needle);
+        $posPercent = strpos($value ?? '', $needle);
         if ($posPercent !== false) {
             return substr_replace($value, '', $posPercent, strlen($needle));
         }

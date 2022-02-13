@@ -395,7 +395,7 @@ function getBrowserEngineName($engineName) {
         'Gecko' => 'Gecko (Firefox)',
         'KHTML' => 'KHTML (Konqueror)',
         'Presto' => 'Presto (Opera)',
-        'WebKit' => 'WebKit (Safari, Chrome)',
+        'WebKit' => 'WebKit (Safari)',
         'Blink' => 'Blink (Chrome, Opera)'
     );
 
