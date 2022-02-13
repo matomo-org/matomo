@@ -18,7 +18,7 @@
         "Searches": "%s søk",
         "SecondsAgo": "%s sekunder siden",
         "ShowingVisits": "Stedsbestemte besøk siste",
-        "Unlocated": "<b>%1$s</b> %2$p av besøkene fra %3$c kunne ikke stedsbestemmes.",
+        "Unlocated": "<b>%1$s</b> %2$s av besøkene fra %3$s kunne ikke stedsbestemmes.",
         "VisitorMap": "Kart over besøkende",
         "WithUnknownCity": "%s med ukjent by",
         "WithUnknownRegion": "%s med ukjent region",

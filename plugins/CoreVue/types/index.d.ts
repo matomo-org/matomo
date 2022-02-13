@@ -82,8 +82,9 @@ declare global {
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
-    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string);
-    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
+    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
+    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
+    lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
   }
@@ -147,7 +148,7 @@ declare global {
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
-    getBaseDatePickerOptions(): {[key: string]: any};
+    getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
 
     on(eventName: string, listener: WrappedEventListener): void;

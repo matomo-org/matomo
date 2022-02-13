@@ -48,7 +48,6 @@ class SitesManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Tracker.Cache.getSiteAttributes'        => array('function' => 'recordWebsiteDataInCache', 'before' => true),
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
@@ -160,18 +159,6 @@ class SitesManager extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/SitesManager/stylesheets/SitesManager.less";
-    }
-
-    /**
-     * Get JavaScript files
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-admin-sites-model.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager.controller.js";
     }
 
     /**
