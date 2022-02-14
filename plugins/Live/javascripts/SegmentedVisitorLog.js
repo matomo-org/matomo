@@ -110,7 +110,15 @@ var SegmentedVisitorLog = function() {
 
             // remove title returned from the server
             var title = box.find('h2[piwik-enriched-headline]');
-            var defaultTitle = title.text();
+
+            // if the enriched headline has been already parsed, there might be additional content,
+            // so we prefer using the original title, which is placed in div with class "title"
+            // @see plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue
+            if (title.find('.title')) {
+                var defaultTitle = title.find('.title').text();
+            } else {
+                var defaultTitle = title.text();
+            }
 
             if (title.length) {
                 title.remove();
