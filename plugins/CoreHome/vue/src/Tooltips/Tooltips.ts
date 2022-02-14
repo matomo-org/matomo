@@ -8,16 +8,23 @@
 import { DirectiveBinding } from 'vue';
 
 interface TooltipsArgs {
-  content: () => void;
+  content?: () => void;
   delay?: number;
   duration?: number;
 }
 
+const { $ } = window;
+
+function defaultContentTransform(this: HTMLElement) {
+  const title = $(this).attr('title') || '';
+  return window.vueSanitize(title.replace(/\n/g, '<br />'));
+}
+
 function setupTooltips(el: HTMLElement, binding: DirectiveBinding<TooltipsArgs>) {
-  window.$(el).tooltip({
+  $(el).tooltip({
     track: true,
-    content: binding.value.content,
-    show: { delay: binding.value.delay || 700, duration: binding.value.duration || 200 },
+    content: binding.value?.content || defaultContentTransform,
+    show: { delay: binding.value?.delay || 700, duration: binding.value?.duration || 200 },
     hide: false,
   });
 }

@@ -11,6 +11,7 @@ interface User {
   uses_2fa: boolean;
   password?: string;
   email: string;
+  role?: string;
 }
 
 export default User;

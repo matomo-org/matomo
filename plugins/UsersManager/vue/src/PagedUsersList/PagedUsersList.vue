@@ -112,7 +112,7 @@
           </a>
           <div class="counter">
             <span
-              v-if="!isLoadingUsers"
+              :class="{ visibility: isLoadingUsers ? 'hidden' : 'visible' }"
             >
               {{ translate(
                   'General_Pagination',
@@ -410,17 +410,11 @@ import {
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import User from '../User';
+import SearchParams from './SearchParams';
 
 interface AccessLevel {
   key: string;
   value: unknown;
-}
-
-interface SearchParams {
-  idSite: number|string;
-  limit: number;
-  offset: number;
-  filter_search?: string;
 }
 
 interface PagedUsersListState {

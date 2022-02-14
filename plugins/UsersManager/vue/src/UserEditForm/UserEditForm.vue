@@ -542,11 +542,7 @@ export default defineComponent({
           passwordConfirmation: this.passwordConfirmation ? this.passwordConfirmation : undefined,
           email: this.theUser.email,
         },
-      ).catch((e) => {
-        this.isSavingUserInfo = false;
-        this.passwordConfirmation = '';
-        throw e;
-      }).then(() => {
+      ).then(() => {
         this.isSavingUserInfo = false;
         this.passwordConfirmation = '';
         this.isUserModified = true;
@@ -554,6 +550,9 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
+      }).catch(() => {
+        this.isSavingUserInfo = false;
+        this.passwordConfirmation = '';
       });
     },
     setSuperUserAccessChecked() {
