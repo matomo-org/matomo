@@ -18,7 +18,7 @@
         "Searches": "%s 検索",
         "SecondsAgo": "%s 秒前",
         "ShowingVisits": "位置情報が探索された最後の訪問",
-        "Unlocated": "%3$c からの訪問の <b> %1$s </b> %2$p は、位置情報が特定できませんでした。",
+        "Unlocated": "%3$s からの訪問の <b> %1$s </b> %2$s は、位置情報が特定できませんでした。",
         "VisitorMap": "ビジターマップ",
         "WithUnknownCity": "未知の都市と %s",
         "WithUnknownRegion": "未知の地域と %s",
