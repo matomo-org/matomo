@@ -613,7 +613,6 @@ class Archive implements ArchiveQuery
         $today = Date::today();
 
         foreach ($this->params->getPeriods() as $period) {
-            $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
 
             foreach ($this->params->getIdSites() as $idSite) {
@@ -635,8 +634,8 @@ class Archive implements ArchiveQuery
                     continue;
                 }
 
-                // if the starting date is in the future we know there is no visiidsite = ?t
-                if ($twoDaysBeforePeriod->isLater($today)) {
+                // if the starting date is in the future we know there are no visits
+                if ($period->getDateStart()->isLater($today)) {
                     Log::debug("Archive site %s, %s (%s) skipped, archive is after today.",
                         $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
