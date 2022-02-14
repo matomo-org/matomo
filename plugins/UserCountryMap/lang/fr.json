@@ -18,7 +18,7 @@
         "Searches": "%s recherches",
         "SecondsAgo": "%s secondes",
         "ShowingVisits": "Dernières visites géo-localisées",
-        "Unlocated": "<b>%1$s</b> %2$p des dernières visites de %3$c n'ont pas pu être géo-localisées.",
+        "Unlocated": "<b>%1$s</b> %2$s des dernières visites de %3$s n'ont pas pu être géo-localisées.",
         "VisitorMap": "Carte des visiteurs",
         "WithUnknownCity": "%s avec une ville inconnue",
         "WithUnknownRegion": "%s avec une région inconnue",

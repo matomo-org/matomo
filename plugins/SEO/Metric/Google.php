@@ -53,7 +53,7 @@ class Google implements MetricsProvider
             }
         } catch (\Exception $e) {
             $this->logger->info('Error while getting Google search SEO stats: {message}', array('message' => $e->getMessage()));
-            return Piwik::translate('General_ErrorTryAgain');
+            $pageCount = Piwik::translate('General_ErrorTryAgain');
         }
 
         return array(

@@ -185,7 +185,7 @@ class Piwik
         $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
         return $user['date_registered'] ?? '';
     }
-    
+
     /**
      * Returns the current user's Last Seen.
      *
@@ -888,5 +888,33 @@ class Piwik
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         return $translator->translate($translationId, $args, $language);
+    }
+
+    /**
+     * Returns the period provided in the current request.
+     * If no $default is provided, this method will throw an Exception if `period` can't be found in the request
+     *
+     * @param string|null $default  default value to use
+     * @throws Exception
+     * @return string
+     * @api
+     */
+    public static function getPeriod($default = null)
+    {
+        return Common::getRequestVar('period', $default, 'string');
+    }
+
+    /**
+     * Returns the date provided in the current request.
+     * If no $default is provided, this method will throw an Exception if `date` can't be found in the request
+     *
+     * @param string|null $default  default value to use
+     * @throws Exception
+     * @return string
+     * @api
+     */
+    public static function getDate($default = null)
+    {
+        return Common::getRequestVar('date', $default, 'string');
     }
 }

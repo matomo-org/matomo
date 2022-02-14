@@ -1,21 +1,22 @@
 {
     "Feedback": {
+        "CommunityHelp": "Bantuan Komunitas",
+        "ContactUs": "Kontak kami",
         "DoYouHaveBugReportOrFeatureRequest": "Apakah Anda ada laporan kutu atau permintaan fitur?",
+        "Forums": "Forum",
+        "HowCanWeHelp": "Bagaimana kami bisa membantu?",
         "IWantTo": "Saya ingin:",
         "LearnWaysToParticipate": "Pelajari bagaimana kamu dapat %1$s berpartisipasi%2$s",
         "ManuallySendEmailTo": "Silakan kirim manual pesan Anda ke",
+        "NeverAskMeAgain": "Jangan tanyakan saya lagi",
+        "ProfessionalHelp": "Bantuan Profesional",
+        "PurgeOldData": "Saya ingin menghapus beberapa data lama",
+        "RateFeatureDislikeMakeEasier": "Mudah digunakan",
         "RateFeatureThankYouTitle": "Terima kasih atas penilaian '%s' Anda!",
+        "RemindMeLater": "Ingatkan saya nani",
         "SendFeedback": "Kirim Umpanbalik",
         "ThankYou": "Terima kasih telah membantu kami menjadikan Matomo lebih baik!",
         "TopLinkTooltip": "Katakan apa yang Anda pikirkan, atau membutuhkan Bantuan Profesional.",
-        "UserGuides": "Panduan pengguna",
-        "CommunityHelp": "Bantuan Komunitas",
-        "ProfessionalHelp": "Bantuan Profesional",
-        "ContactUs": "Kontak kami",
-        "Forums": "Forum",
-        "RemindMeLater": "Ingatkan saya nani",
-        "NeverAskMeAgain": "Jangan tanyakan saya lagi",
-        "HowCanWeHelp": "Bagaimana kami bisa membantu?",
-        "PurgeOldData": "Saya ingin menghapus beberapa data lama"
+        "UserGuides": "Panduan pengguna"
     }
 }
