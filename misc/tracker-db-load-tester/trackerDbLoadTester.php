@@ -21,8 +21,9 @@ Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB
     -r          Tracking requests limit, will insert this many tracking requests then exit, runs indefinitely if omitted
     -v          Verbosity of output [0 = quiet, 3 = show everything]
     -T          Throttle the number of requests per second to this value
-    -b          Basic test, do a very basic insert test instead of using tracker data 1=insert k/v, 2=select/insert    
-    -m          Create multiple headless test processes using the supplied parameters
+    -b          Basic test, do a very basic insert test instead of using tracker data 1=insert k/v, 2=select/insert
+    -c          Create a new random database and tracking data schema only then exit    
+    -m          Create x multiple headless test processes using the supplied parameters   
     --cleanup   Delete all randomly named test databases
 
 USAGE;
@@ -41,11 +42,18 @@ $cleanUp = false;
 $throttle = -1;
 $basicTest = 0;
 $multipleProcesses = 0;
+$dbCreateOnly = false;
 
 foreach ($argv as $arg) {
 
     if ($arg == '--cleanup') {
         $cleanUp = true;
+        continue;
+    }
+
+    if ($arg == '-c') {
+        echo "hit";
+        $dbCreateOnly = true;
         continue;
     }
 
@@ -296,6 +304,10 @@ if (!$dbCreate) {
         }
     } catch (PDOException $e) {
         echo $e->getMessage();
+    }
+
+    if ($dbCreateOnly) {
+        die("Create database only option is set, exiting now\n");
     }
 
 }
