@@ -10,23 +10,24 @@ require_once './trackerDbQueryGenerator.php';
  */
 
 $usage = <<<USAGE
-Usage: php trackerLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB PASSWORD] {-r=[REQUEST LIMIT {-P=[DB PORT]} {-v=[VERBOSITY]}
-    Example: php trackerLoadTester.php -d=mydb -h=127.0.0.1 -u=root -p=123 -P=3306
+Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB PASSWORD] {-r=[REQUEST LIMIT {-P=[DB PORT]} {-v=[VERBOSITY]}
+    Example: php trackerDbLoadTester.php -d=mydb -h=127.0.0.1 -u=root -p=123 -P=3306
     -d          Database name, if 'random' then a randomly named database will automatically be created and used    
     -t          Database type, 'mysql' or 'tidb', used to adjust schema created with -d=random, defaults to 'mysql'
-    -h          Database hostname, defaults to 'localhost'
+    -h          Database hostname, defaults to 'localhost', multiple hosts can be specified and will be chosen randomly
     -u          Database username, defaults to 'root''
     -p          Database password, defaults to none
     -P          Database port, defaults to 3306
     -r          Tracking requests limit, will insert this many tracking requests then exit, runs indefinitely if omitted
     -v          Verbosity of output [0 = quiet, 3 = show everything]
     -T          Throttle the number of requests per second to this value
-    -b          Basic test, do a very basic insert test instead of using tracker data 1=insert k/v, 2=select/insert
+    -b          Basic test, do a very basic insert test instead of using tracker data 1=insert k/v, 2=select/insert    
+    -m          Create multiple headless test processes using the supplied parameters
     --cleanup   Delete all randomly named test databases
 
 USAGE;
 
-#region Get DB connection parameters from command line
+#region Get parameters from command line
 $dbName = null;
 $dbCreate = false;
 $dbHost = 'localhost';
@@ -34,11 +35,12 @@ $dbUser = 'root';
 $dbPass = '';
 $dbPort = 3306;
 $dbType = 'mysql';
-$verbosity = 0;
+$verbosity = 1;
 $requests = -1;
 $cleanUp = false;
 $throttle = -1;
 $basicTest = 0;
+$multipleProcesses = 0;
 
 foreach ($argv as $arg) {
 
@@ -87,11 +89,52 @@ foreach ($argv as $arg) {
         case '-b':
             $basicTest = $kv[1];
             break;
+        case '-m':
+            $multipleProcesses = $kv[1];
+            break;
     }
 }
 
 if ($dbName === null || $dbHost === null || $dbUser === null || $dbPass === null || $dbPort === null) {
     die($usage);
+}
+
+#endregion
+
+#region Spawn multiple processes
+
+if ($multipleProcesses) {
+
+    $argString = "";
+    foreach ($argv as $arg) {
+        if ($arg == 'trackerDbLoadTester.php') {
+            continue;
+        }
+        $kv = explode('=', $arg);
+        if (count($kv) == 2 && $kv[0] == '-m') {
+            continue;
+        }
+        $argString .= ' '.$arg;
+    }
+
+    $cmd = "/usr/bin/php ".__FILE__."".$argString;
+    echo "Spawning ".$multipleProcesses." test processes with command:\n\n";
+    echo $cmd."\n\n";
+
+    for ($i = 0; $i < $multipleProcesses; $i++) {
+        exec("nohup ".$cmd." > /dev/null 2>&1 & echo $!");
+        usleep(500000);
+        echo ".";
+    }
+
+    echo "Done:\n";
+    exec('ps ax | grep /usr/bin/php | grep trackerDbLoadTester | grep -v ps', $output);
+    foreach ($output as $line) {
+        echo $line."\n";
+    }
+    echo "\n";
+    echo "killall /usr/bin/php to terminate\n";
+    die();
 }
 
 #endregion
@@ -137,7 +180,7 @@ if ($basicTest) {
 
     try {
         $dbName = "tracker_db_test_basic_".bin2hex(random_bytes(10));
-        $pdo = new PDO($dsn, $dbUser, $dbPass);
+        $pdo = new PDO($dsn, $dbUser, $dbPass, [PDO::ATTR_PERSISTENT => true]);
         if ($verbosity > 0) {
             echo "Connected to the database server...\n";
         }
@@ -149,7 +192,7 @@ if ($basicTest) {
             echo "Using database '$dbName'...\n";
         }
 
-        $schemaSql = "
+        $schemaSql = /** @lang Text */ "
             CREATE TABLE basic_test
             (
 	            idaction bigint PRIMARY KEY AUTO_RANDOM(3),
@@ -192,15 +235,17 @@ if ($basicTest) {
             ];
             query($prepareCache, $pdo, $query);
 
-            if ((microtime(true) - $lastTimeSample) > 1) {
-                $lastTimeSample = microtime(true);
-                echo "\033[70D";
-                echo str_pad($lastCount, 10, ' ', STR_PAD_LEFT) . " ";
-                echo " Inserts per second  ";
-                echo str_pad(number_format($requestCount,0), 20, ' ', STR_PAD_LEFT) . " ";
-                echo " Total Inserts ";
+            if ($verbosity > 0) {
+                if ((microtime(true) - $lastTimeSample) > 1) {
+                    $lastTimeSample = microtime(true);
+                    echo "\033[70D";
+                    echo str_pad($lastCount, 10, ' ', STR_PAD_LEFT)." ";
+                    echo " Inserts per second  ";
+                    echo str_pad(number_format($requestCount, 0), 20, ' ', STR_PAD_LEFT)." ";
+                    echo " Total Inserts ";
 
-                $lastCount = 0;
+                    $lastCount = 0;
+                }
             }
         }
 
@@ -215,7 +260,7 @@ if ($basicTest) {
 if (!$dbCreate) {
     $dsn .= ";dbname=$dbName";
     try {
-        $pdo = new PDO($dsn, $dbUser, $dbPass);
+        $pdo = new PDO($dsn, $dbUser, $dbPass, [PDO::ATTR_PERSISTENT => true]);
         if ($verbosity > 0) {
             echo "Connected to the $dbName database...\n";
         }
@@ -226,7 +271,7 @@ if (!$dbCreate) {
 } else {
 
     try {
-        $pdo = new PDO($dsn, $dbUser, $dbPass);
+        $pdo = new PDO($dsn, $dbUser, $dbPass, [PDO::ATTR_PERSISTENT => true]);
         if ($verbosity > 0) {
             echo "Connected to the database server...\n";
         }
