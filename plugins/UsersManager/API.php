@@ -1444,6 +1444,21 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
+    public function getSiteAccessUsers($idSite)
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        $logins = $this->model->getSiteUsers($idSite);
+
+        if (empty($logins)) {
+            return array();
+        }
+
+        $logins = $this->userFilter->filterLogins($logins);
+        $logins = implode(',', $logins);
+
+        return $this->getUsers($logins);
+    }
+
     private function isUserHasAdminAccessTo($idSite)
     {
         try {

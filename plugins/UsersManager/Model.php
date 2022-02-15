@@ -132,7 +132,21 @@ class Model
     {
         $db = $this->getDb();
         $users = $db->fetchAll("SELECT login FROM " . Common::prefixTable("access")
-                               . " WHERE idsite = ? AND access = ?", array($idSite, $access));
+                               . " WHERE idsite = ? AND access in (?)", array($idSite, $access));
+
+        $logins = array();
+        foreach ($users as $user) {
+            $logins[] = $user['login'];
+        }
+
+        return $logins;
+    }
+
+    public function getSiteUsers($idSite)
+    {   $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login FROM " . Common::prefixTable("access")
+          . " WHERE idsite = ?", $idSite);
+
 
         $logins = array();
         foreach ($users as $user) {

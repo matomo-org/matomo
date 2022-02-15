@@ -103,16 +103,13 @@ function copyDashboardToUser() {
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams({
         module: 'API',
-        method: 'UsersManager.getUsers',
+        method: 'UsersManager.getSiteAccessUsers',
         format: 'json',
-        filter_limit: '-1'
+        filter_limit: '-1',
     }, 'get');
     ajaxRequest.setCallback(
         function (availableUsers) {
             $(makeSelectorLastId('copyDashboardUser')).empty();
-            $(makeSelectorLastId('copyDashboardUser')).append(
-                $('<option></option>').val(piwik.userLogin).text(piwik.userLogin)
-            );
             $.each(availableUsers, function (index, user) {
                 if (user.login != 'anonymous' && user.login != piwik.userLogin) {
                     $(makeSelectorLastId('copyDashboardUser')).append(
