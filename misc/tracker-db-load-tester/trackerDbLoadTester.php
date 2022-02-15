@@ -52,7 +52,6 @@ foreach ($argv as $arg) {
     }
 
     if ($arg == '-c') {
-        echo "hit";
         $dbCreateOnly = true;
         continue;
     }
