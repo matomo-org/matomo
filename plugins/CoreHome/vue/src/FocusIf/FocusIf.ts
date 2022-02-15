@@ -8,6 +8,7 @@
 import { DirectiveBinding } from 'vue';
 
 interface FocusIfArgs {
+  // input (provided by user)
   afterFocus?: () => void;
 }
 
