@@ -21,6 +21,7 @@ Usage: php trackerLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB P
     -r          Tracking requests limit, will insert this many tracking requests then exit, runs indefinitely if omitted
     -v          Verbosity of output [0 = quiet, 3 = show everything]
     -T          Throttle the number of requests per second to this value
+    -b          Basic test, do a very basic insert test instead of using tracker data 1=insert k/v, 2=select/insert
     --cleanup   Delete all randomly named test databases
 
 USAGE;
@@ -37,6 +38,7 @@ $verbosity = 0;
 $requests = -1;
 $cleanUp = false;
 $throttle = -1;
+$basicTest = 0;
 
 foreach ($argv as $arg) {
 
@@ -82,26 +84,9 @@ foreach ($argv as $arg) {
         case '-T':
             $throttle = $kv[1];
             break;
-    }
-}
-
-if ($cleanUp) {
-    try {
-        $pdo = new PDO("mysql:host=$dbHost;port=$dbPort;charset=UTF8", $dbUser, $dbPass);
-        if ($verbosity > 0) {
-            echo "Cleaning up test databases...";
-        }
-        $dbs = query($prepareCache, $pdo, ['sql' => "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME LIKE 'tracker_db_test_%'", 'bind' => []]);
-        $dropped = 0;
-        foreach ($dbs as $db) {
-            echo "Dropping database ".$db->SCHEMA_NAME."\n";
-            $pdo->exec("DROP DATABASE ".$db->SCHEMA_NAME.";");
-        }
-        die("Dropped ".$dropped." test databases");
-
-    } catch (PDOException $e) {
-        echo $e->getMessage()."\n";
-        die();
+        case '-b':
+            $basicTest = $kv[1];
+            break;
     }
 }
 
@@ -111,8 +96,7 @@ if ($dbName === null || $dbHost === null || $dbUser === null || $dbPass === null
 
 #endregion
 
-#region Connect to db
-
+#region Create DSN
 if (strpos($dbHost, ',') !== false) {
     $hosts = explode(',', $dbHost);
     $dbHost = $hosts[array_rand($hosts)];
@@ -123,7 +107,111 @@ if ($verbosity > 1) {
 }
 
 $dsn = "mysql:host=$dbHost;port=$dbPort;charset=UTF8";
+#endregion
 
+#region Do clean-up action and die
+if ($cleanUp) {
+    try {
+        $pdo = new PDO("mysql:host=$dbHost;port=$dbPort;charset=UTF8", $dbUser, $dbPass);
+        if ($verbosity > 0) {
+            echo "Cleaning up test databases...\n";
+        }
+        $dbs = query($prepareCache, $pdo, ['sql' => "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME LIKE 'tracker_db_test_%'", 'bind' => []]);
+        $dropped = 0;
+        foreach ($dbs as $db) {
+            echo "Dropping database ".$db->SCHEMA_NAME."\n";
+            $pdo->exec("DROP DATABASE ".$db->SCHEMA_NAME.";");
+            $dropped++;
+        }
+        die("Dropped ".$dropped." test databases\n\n");
+
+    } catch (PDOException $e) {
+        echo $e->getMessage()."\n";
+        die();
+    }
+}
+#endregion
+
+#region Do basic test instead - to compare vs tracker queries
+if ($basicTest) {
+
+    try {
+        $dbName = "tracker_db_test_basic_".bin2hex(random_bytes(10));
+        $pdo = new PDO($dsn, $dbUser, $dbPass);
+        if ($verbosity > 0) {
+            echo "Connected to the database server...\n";
+        }
+        $pdo->query("CREATE DATABASE `$dbName`;                
+                GRANT ALL ON `$dbName`.* TO '$dbUser'@'localhost';
+                FLUSH PRIVILEGES;");
+        $pdo->query("USE $dbName");
+        if ($verbosity > 1) {
+            echo "Using database '$dbName'...\n";
+        }
+
+        $schemaSql = "
+            CREATE TABLE basic_test
+            (
+	            idaction bigint PRIMARY KEY AUTO_RANDOM(3),
+	            name varchar(255) null	            
+            );
+            CREATE INDEX index_name on basic_test (name);
+        ";
+
+        if ($dbType !== 'tidb') {
+            $schemaSql = str_replace('bigint PRIMARY KEY AUTO_RANDOM(3)', 'int UNSIGNED AUTO_INCREMENT PRIMARY KEY', $schemaSql);
+        }
+        $pdo->query($schemaSql);
+        if ($verbosity > 0) {
+            echo "Created new database '$dbName'...\n";
+        }
+
+        $requestCount = 0;
+        $lastCount = 0;
+        $lastTimeSample = microtime(true);
+        while ($requestCount < $requests || $requests < 0) {
+
+            $requestCount++;
+            $lastCount++;
+
+            $rand = bin2hex(random_bytes(2));
+
+            if ($basicTest == 2) {
+                /** @noinspection SqlResolve */
+                $query = [
+                    'sql'  => "SELECT name FROM basic_test WHERE name = :name",
+                    'bind' => [':name' => $rand]
+                ];
+                query($prepareCache, $pdo, $query);
+            }
+
+            /** @noinspection SqlResolve */
+            $query = [
+                'sql'  => "INSERT IGNORE INTO basic_test (name) VALUES (:name)",
+                'bind' => [':name' => $rand]
+            ];
+            query($prepareCache, $pdo, $query);
+
+            if ((microtime(true) - $lastTimeSample) > 1) {
+                $lastTimeSample = microtime(true);
+                echo "\033[70D";
+                echo str_pad($lastCount, 10, ' ', STR_PAD_LEFT) . " ";
+                echo " Inserts per second  ";
+                echo str_pad(number_format($requestCount,0), 20, ' ', STR_PAD_LEFT) . " ";
+                echo " Total Inserts ";
+
+                $lastCount = 0;
+            }
+        }
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+}
+#endregion
+
+#region Setup schema for tracker data test
 if (!$dbCreate) {
     $dsn .= ";dbname=$dbName";
     try {
@@ -188,7 +276,9 @@ if ($verbosity > 0) {
 
 $lastTimeSample = microtime(true);
 $lastCount = 0;
-$throttle = round($throttle / 2);
+if ($throttle > 0) {
+    $throttle = round($throttle / 2);
+}
 $throttleIntervalCount = 0;
 $throttleLastTimeSample = microtime(true);
 while ($requestCount < $requests || $requests < 0) {
@@ -264,7 +354,7 @@ while ($requestCount < $requests || $requests < 0) {
     $lastCount++;
     $throttleIntervalCount++;
 
-    if ($throttle && $throttleIntervalCount >= $throttle) {
+    if ($throttle > 0 && $throttleIntervalCount >= $throttle) {
         $newThrottleTimeSample = microtime(true);
         $throttleTime = ($newThrottleTimeSample - $throttleLastTimeSample) * 1000;
         if ($throttleTime < 1000) {
