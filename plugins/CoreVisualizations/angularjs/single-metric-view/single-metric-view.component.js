@@ -177,12 +177,6 @@
             $element.closest('div.widget').find('.widgetTop > .widgetName > span').text(title);
         }
 
-        function getCurrentPeriod() {
-            if (piwik.startDateString === piwik.endDateString) {
-                return piwik.endDateString;
-            }
-            return piwik.startDateString + ', ' + piwik.endDateString;
-        }
 
         function createSeriesPicker() {
             vm.selectedColumns = [vm.idGoal ? ('goal' + vm.idGoal + '_' + vm.metric) : vm.metric];
@@ -250,27 +244,7 @@
             $element.closest('[widgetId]').trigger('setParameters', { column: vm.metric, idGoal: vm.idGoal });
         }
 
-        function setMetric(newColumn) {
-            var idGoal;
 
-            var m = newColumn.match(/^goal([0-9]+)_(.*)/);
-            if (m) {
-                idGoal = +m[1];
-                newColumn = m[2];
-            }
-
-            if (vm.metric !== newColumn || idGoal !== vm.idGoal) {
-                vm.metric = newColumn;
-                vm.idGoal = idGoal;
-                onMetricChanged();
-            }
-        }
-
-        function getPastPeriodStr() {
-            var startDate = piwikPeriods.get('range').getLastNRange(piwik.period, 2, piwik.currentDateString).startDate;
-            var dateRange = piwikPeriods.get(piwik.period).parse(startDate).getDateRange();
-            return piwikPeriods.format(dateRange[0]) + ',' + piwikPeriods.format(dateRange[1]);
-        }
 
         function isIdGoalSet() {
             return vm.idGoal || vm.idGoal === 0;
