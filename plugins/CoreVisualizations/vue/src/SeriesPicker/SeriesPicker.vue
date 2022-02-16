@@ -4,16 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- check uses:
-  ./plugins/CoreVisualizations/javascripts/seriesPicker.js
-  ./plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.js
-  ./plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.js
-  ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.less
-- create PR
-</todo>
-
 <template>
   <div
     class="jqplot-seriespicker"
@@ -75,6 +65,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { debounce } from 'CoreHome';
 
 interface SelectableColumnInfo {
   column: string;
@@ -160,6 +151,9 @@ export default defineComponent({
     };
   },
   emits: ['select'],
+  created() {
+    this.optionSelected = debounce(this.optionSelected, 0);
+  },
   methods: {
     optionSelected(optionValue: string, optionStates: Record<string, boolean>) {
       if (!this.multiselect) {
