@@ -112,8 +112,13 @@ describe("UsersManager", function () {
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:').change();
         });
+        await page.waitForNetworkIdle();
+
+        await page.click('th.select-cell input + span');
+        await page.waitForTimeout(100);
 
         await page.click('.toggle-select-all-in-search'); // reselect all in search
+        await page.waitForTimeout(100);
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('a[data-target=user-list-bulk-actions]')).hover();
@@ -197,10 +202,10 @@ describe("UsersManager", function () {
         await page.type('#user_password', 'thepassword');
         await page.type('#user_email', 'theuser@email.com');
 
-        await page.click('piwik-user-edit-form .siteSelector a.title');
-        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
+        await page.click('.userEditForm .siteSelector a.title');
+        await (await page.jQuery('.userEditForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
 
-        await page.evaluate(() => $('piwik-user-edit-form [piwik-save-button] input').click());
+        await page.evaluate(() => $('.userEditForm .matomo-save-button input').click());
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
@@ -331,7 +336,7 @@ describe("UsersManager", function () {
 
     it('should select all displayed rows when the select all checkbox is clicked', async function () {
         await page.click('.userPermissionsEdit th.select-cell input + span');
-        await page.waitForTimeout(250); // for checkbox animations
+        await page.waitForTimeout(400); // for checkbox animations
         await page.mouse.move(-10, -10);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
@@ -461,7 +466,7 @@ describe("UsersManager", function () {
 
     it('should go back to the manage users page when the back link is clicked', async function () {
         await page.click('.userEditForm .entityCancelLink');
-        await page.waitForSelector('piwik-paged-users-list');
+        await page.waitForSelector('.pagedUsersList');
 
         await page.evaluate(function () { // remove filter so new user shows
             $('#user-text-filter').val('').change();
@@ -485,8 +490,9 @@ describe("UsersManager", function () {
         await page.evaluate(function () {
             $('.userEditForm #user_email').val('testlogin3@example.com').change();
         });
+        await page.waitFor(100);
 
-        var btnSave = await page.jQuery('.userEditForm .basic-info-tab [piwik-save-button] .btn', { waitFor: true });
+        var btnSave = await page.jQuery('.userEditForm .basic-info-tab .matomo-save-button .btn', { waitFor: true });
         await btnSave.click();
 
         await page.waitForTimeout(500); // animation
@@ -546,9 +552,7 @@ describe("UsersManager", function () {
         });
 
         it('should not allow editing basic info for admin users', async function () {
-            await page.evaluate(function () {
-                $('.userEditForm .entityCancelLink').click();
-            });
+            await page.click('.userEditForm .entityCancelLink');
             await (await page.jQuery('button.edituser:eq(0)')).click();
             await page.waitForNetworkIdle();
 
@@ -563,9 +567,7 @@ describe("UsersManager", function () {
         });
 
         it('should show the add existing user modal', async function () {
-            await page.evaluate(function () {
-                $('.userEditForm .entityCancelLink').click();
-            });
+            await page.click('.userEditForm .entityCancelLink');
 
             await page.click('.add-existing-user');
             await page.waitForTimeout(500); // wait for animation

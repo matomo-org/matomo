@@ -202,7 +202,7 @@ class UrlHelper
      */
     public static function getArrayFromQueryString($urlQuery)
     {
-        if (strlen($urlQuery) == 0) {
+        if (empty($urlQuery)) {
             return array();
         }
 

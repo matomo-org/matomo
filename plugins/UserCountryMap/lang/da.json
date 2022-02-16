@@ -15,7 +15,7 @@
         "Searches": "%s søgninger",
         "SecondsAgo": "%s sekunder siden",
         "ShowingVisits": "Geografisk placeret besøg af sidste",
-        "Unlocated": "<b>%1$s</b> besøg %2$p fra %3$c kunne ikke placeres geografisk.",
+        "Unlocated": "<b>%1$s</b> besøg %2$s fra %3$s kunne ikke placeres geografisk.",
         "VisitorMap": "Besøgerkort",
         "WithUnknownCity": "%s med ukendt by",
         "WithUnknownRegion": "%s med ukendt region",
