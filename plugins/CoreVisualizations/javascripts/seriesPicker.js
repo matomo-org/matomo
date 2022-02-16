@@ -91,7 +91,7 @@
                 + ' selected-rows="selectedRows"'
                 + ' on-select="selectionChanged(columns, rows)"/>';
 
-            this.domElem = $(seriesPicker);
+            this.domElem = $('<div></div>');
 
             $(this).trigger('placeSeriesPicker');
 

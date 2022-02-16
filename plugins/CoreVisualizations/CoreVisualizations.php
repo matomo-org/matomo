@@ -39,7 +39,7 @@ class CoreVisualizations extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.less";
         $stylesheets[] = "plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.less";
 
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
@@ -48,7 +48,6 @@ class CoreVisualizations extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.js";
         $jsFiles[] = "plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.js";
 
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/seriesPicker.js";
