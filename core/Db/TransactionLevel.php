@@ -59,8 +59,13 @@ class TransactionLevel
             $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
             $this->statusBackup = $backup;
 
-            Option::set(self::TEST_OPTION_NAME, '1');   // try setting something w/ the new transaction isolation level
+            if ($this->db->supportsUncommitted === null) {
+                // the first time we need to check if the transaction level actually works by
+                // trying to set something w/ the new transaction isolation level
+                Option::set(self::TEST_OPTION_NAME, '1');
+            }
             $this->db->supportsUncommitted = true;
+            
         } catch (\Exception $e) {
             // catch eg 1665 Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED
             $this->restorePreviousStatus();
