@@ -65,11 +65,12 @@ class TransactionLevel
                 // trying to set something w/ the new transaction isolation level
                 Option::set(self::TEST_OPTION_NAME, '1');
             }
-            $this->db->supportsUncommitted = true;
 
+            $this->db->supportsUncommitted = true;
         } catch (\Exception $e) {
-            $this->db->supportsUncommitted = false;
+            // setting the transaction level status did not work
             // catch eg 1665 Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED
+            $this->db->supportsUncommitted = false;
             $this->restorePreviousStatus();
             return false;
         }
