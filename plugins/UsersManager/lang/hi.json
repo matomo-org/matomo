@@ -12,15 +12,14 @@
         "LastSeen": "अंतिम बार देखा गया",
         "ManageAccess": "उपयोग का प्रबंधन",
         "MenuAnonymousUserSettings": "बेनामी उपयोगकर्ता सेटिंग",
-        "MenuUsers": "उपयोगकर्ता",
-        "MenuUserSettings": "उपयोगकर्ता सेटिंग",
         "MenuPersonal": "व्यक्तिगत",
-        "PersonalSettings": "व्यक्तिगत सेटिंग",
+        "MenuUserSettings": "उपयोगकर्ता सेटिंग",
+        "MenuUsers": "उपयोगकर्ता",
         "NoUsersExist": "कोई उपयोगकर्ता अभी तक कर रहे हैं ।",
+        "PersonalSettings": "व्यक्तिगत सेटिंग",
         "PrivAdmin": "व्यवस्थापक",
         "PrivNone": "प्रवेश नही",
         "PrivView": "देखना",
-        "ShowAll": "सभी दिखाएँ",
         "Username": "उपयोगकर्ता नाम"
     }
 }

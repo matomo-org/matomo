@@ -17,8 +17,8 @@
         "ForAnonymousUsersReportDateToLoadByDefault": "Atskaite, kuru ielādēt pēc noklusējuma anonīmiem lietotājiem",
         "ManageAccess": "Pārvaldiet pieejas",
         "MenuAnonymousUserSettings": "Anonīmu lietotāju iestatījumi",
-        "MenuUsers": "Lietotāji",
         "MenuUserSettings": "Lietotāju iestatījumi",
+        "MenuUsers": "Lietotāji",
         "PrivAdmin": "Administrēt",
         "PrivNone": "Nav pieejas",
         "PrivView": "Skatījums",
@@ -28,11 +28,10 @@
         "ThereAreCurrentlyNRegisteredUsers": "Pašlaik ir %s reģistrēti lietotāji.",
         "TypeYourPasswordAgain": "Ierakstiet savu jauno paroli atkārtoti.",
         "User": "Lietotājs",
+        "Username": "Lietotājvārds",
         "UsersManagement": "Lietotāju pārvaldīšana",
         "UsersManagementMainDescription": "Izveidojiet jaunus vai labojiet esošu lietotāju iestatījumus. Augstāk Jūs varat uzstādīt šo lietotāju pieejas atļaujas.",
         "YourUsernameCannotBeChanged": "Jūsu lietotājvārdu nav iespējams izmainīt.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sJūsu apmeklējumi tiek ignorēti %2$s %3$s (pārlūkā tika atrasta Matomo ignorēšanas sīkdatne).",
-        "ShowAll": "Rādīt visu",
-        "Username": "Lietotājvārds"
+        "YourVisitsAreIgnoredOnDomain": "%1$sJūsu apmeklējumi tiek ignorēti %2$s %3$s (pārlūkā tika atrasta Matomo ignorēšanas sīkdatne)."
     }
 }

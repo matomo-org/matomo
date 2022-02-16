@@ -15,20 +15,19 @@
         "ExcludeVisitsViaCookie": "Utelukk dine vitjingar frå Matomo med ein informasjonskapsel.",
         "ManageAccess": "Bestem tilgang",
         "MenuAnonymousUserSettings": "Innstillingar for anonyme brukarar",
-        "MenuUsers": "Brukarar",
         "MenuUserSettings": "Brukarinnstillingar",
+        "MenuUsers": "Brukarar",
         "PrivAdmin": "Administrator",
         "PrivNone": "Inga tilgang",
         "PrivView": "Vis",
         "TheLoginScreen": "Innloggingsskjermen",
         "TypeYourPasswordAgain": "Skriv ditt nye passord på nytt.",
         "User": "Brukar",
+        "Username": "Brukarnamn",
         "UsersManagement": "Brukarbehandling",
         "UsersManagementMainDescription": "Lag nye brukarar eller oppdater eksisterande brukarar. Du kan deretter setta deira tilgangar ovanfor.",
         "YourUsernameCannotBeChanged": "Brukarnamnet ditt kan ikkje endrast.",
         "YourVisitsAreIgnoredOnDomain": "%1$sDine vitjingar blir ignorert av Matomo på %2$s %3$s (Informasjonskapselen frå Matomo vart funnen i din nettlesar).",
-        "YourVisitsAreNotIgnored": "%1$sDine vitjingar blir ikkje ignorert av Matomo%2$s (Informasjonskapselen frå Matomo vart ikkje funnen i din nettlesar).",
-        "ShowAll": "Toon alle",
-        "Username": "Brukarnamn"
+        "YourVisitsAreNotIgnored": "%1$sDine vitjingar blir ikkje ignorert av Matomo%2$s (Informasjonskapselen frå Matomo vart ikkje funnen i din nettlesar)."
     }
 }
