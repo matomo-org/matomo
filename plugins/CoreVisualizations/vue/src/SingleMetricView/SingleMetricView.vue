@@ -6,10 +6,6 @@
 
 <todo>
 - get to build
-- check uses:
-  ./plugins/CoreVisualizations/Widgets/SingleMetricView.php
-  ./plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.js
-  ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.less
 - create PR
 </todo>
 
@@ -64,7 +60,7 @@ import {
   Range,
   Periods,
   format,
-  createVueApp,
+  createVueApp, translate,
 } from 'CoreHome';
 import SeriesPicker from '../SeriesPicker/SeriesPicker.vue';
 
@@ -73,9 +69,16 @@ interface SelectableColumnInfo {
   translation: string;
 }
 
+type MetricValues = Record<string, number|string>;
+
+interface Goal {
+  idgoal: string|number;
+  name: string;
+}
+
 function getPastPeriodStr(): string {
-  const { startDate } = Range.getLastNRange(Matomo.period, 2, Matomo.currentDateString);
-  const dateRange = Periods.get(Matomo.period).parse(startDate).getDateRange();
+  const { startDate } = Range.getLastNRange(Matomo.period!, 2, Matomo.currentDateString!);
+  const dateRange = Periods.get(Matomo.period!).parse(startDate).getDateRange();
   return `${format(dateRange[0])},${format(dateRange[1])}`;
 }
 
@@ -93,19 +96,22 @@ export default defineComponent({
       required: true,
     },
     metricDocumentations: Object,
-    goals: Object,
+    goals: {
+      type: Object,
+      required: true,
+    },
     goalMetrics: Array,
   },
   components: {
     Sparkline,
   },
   setup(props) {
-    const root = ref(null);
+    const root = ref<HTMLElement|null>(null);
 
     const isLoading = ref<boolean>(false);
-    const responses = ref<null|unknown>(null);
+    const responses = ref<null|MetricValues[]>(null);
     const actualMetric = ref<string>(props.metric);
-    const actualIdGoal = ref<string|number>(props.idGoal);
+    const actualIdGoal = ref<string|number|undefined>(props.idGoal);
 
     const selectedColumns = computed(() => [
       actualIdGoal.value ? `goal${actualIdGoal.value}_${actualMetric.value}` : actualMetric.value,
@@ -128,14 +134,19 @@ export default defineComponent({
     });
 
     const metricChangePercent = computed(() => {
-      if (!responses.value?.[1]) {
+      if (!metricValueUnformatted.value) {
         return null;
       }
 
-      const evolution = Matomo.helper.calculateEvolution(
-        metricValueUnformatted.value,
-        pastValueUnformatted.value,
-      );
+      const currentValue: number = typeof metricValueUnformatted.value === 'string'
+        ? parseInt(metricValueUnformatted.value, 10)
+        : metricValueUnformatted.value as number;
+
+      const pastValue: number = typeof pastValueUnformatted.value === 'string'
+        ? parseInt(pastValueUnformatted.value, 10)
+        : pastValueUnformatted.value as number;
+
+      const evolution = Matomo.helper.calculateEvolution(currentValue, pastValue);
 
       return `${(evolution * 100).toFixed(2)} %`;
     });
@@ -218,9 +229,8 @@ export default defineComponent({
         });
       });
 
-      Object.keys(props.goals || {}).forEach((idgoal) => {
-        const goal = props.goals[idgoal];
-        props.goalMetrics.forEach((column) => {
+      Object.values((props.goals || {}) as Record<string, Goal>).forEach((goal) => {
+        (props.goalMetrics as string[]).forEach((column) => {
           result.push({
             column: `goal${goal.idgoal}_${column}`,
             translation: `${goal.name} - ${props.metricTranslations[column]}`,
@@ -235,7 +245,7 @@ export default defineComponent({
       let title = metricTranslation.value;
 
       if (isIdGoalSet()) {
-        const goalName = props.goals[actualIdGoal.value].name;
+        const goalName = props.goals[actualIdGoal.value!]?.name || translate('General_Unknown');
         title = `${goalName} - ${title}`;
       }
 
@@ -246,7 +256,7 @@ export default defineComponent({
     }
 
     function getLastPeriodDate(): string {
-      const range = Range.getLastNRange(Matomo.period, 2, Matomo.currentDateString);
+      const range = Range.getLastNRange(Matomo.period!, 2, Matomo.currentDateString!);
       return format(range.startDate);
     }
 
@@ -320,7 +330,7 @@ export default defineComponent({
     }
 
     function setMetric(newColumn: string) {
-      let idGoal: number;
+      let idGoal: number|undefined = undefined;
       let actualColumn: string = newColumn;
 
       const m = newColumn.match(/^goal([0-9]+)_(.*)/);
@@ -349,7 +359,7 @@ export default defineComponent({
           selectableRows: [],
           selectedColumns: selectedColumns.value,
           selectedRows: [],
-          onSelect: ({ columns }) => {
+          onSelect: ({ columns }: { columns: string[] }) => {
             setMetric(columns[0]);
           },
         }),

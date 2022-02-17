@@ -87,6 +87,7 @@ declare global {
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
+    calculateEvolution(currentValue: number, pastValue?: number|null): number;
   }
 
   let piwikHelper: PiwikHelperGlobal;
