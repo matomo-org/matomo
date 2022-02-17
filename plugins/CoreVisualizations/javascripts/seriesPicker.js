@@ -83,7 +83,7 @@
                 });
 
             // initialize dom element
-            this.domElem = $('<div><div></div></div>');
+            this.domElem = $('<div style="display:inline-block"><div></div></div>');
 
             $(this).trigger('placeSeriesPicker');
 

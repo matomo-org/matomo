@@ -382,6 +382,7 @@ export default defineComponent({
     watch(() => props.metric, () => {
       onMetricChanged();
     });
+    onMetricChanged();
 
     return {
       root,
