@@ -6,7 +6,6 @@
 
 <todo>
 - get to build
-- test in UI
 - check uses:
   ./plugins/CoreVisualizations/Widgets/SingleMetricView.php
   ./plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.js
@@ -117,11 +116,11 @@ export default defineComponent({
         return null;
       }
 
-      return responses.value[1][props.metric];
+      return responses.value[1][actualMetric.value];
     });
 
     const pastValueUnformatted = computed(() => {
-      if (!responses.value?.[1] || !responses.value?.[2]) {
+      if (!responses.value?.[2]) {
         return null;
       }
 
@@ -129,7 +128,7 @@ export default defineComponent({
     });
 
     const metricChangePercent = computed(() => {
-      if (!metricValueUnformatted.value || !pastValueUnformatted.value) {
+      if (!responses.value?.[1]) {
         return null;
       }
 
@@ -309,10 +308,10 @@ export default defineComponent({
       });
     }
 
-    function onMetricChanged() {
-      fetchData().then(setWidgetTitle); // notify widget of parameter change so it is replaced
+    function onMetricChanged(newMetric: string) {
+      actualMetric.value = newMetric;
 
-      actualMetric.value = props.metric;
+      fetchData().then(setWidgetTitle); // notify widget of parameter change so it is replaced
 
       $(root.value as HTMLElement).closest('[widgetId]').trigger('setParameters', {
         column: actualMetric.value,
@@ -330,10 +329,10 @@ export default defineComponent({
         [, , actualColumn] = m;
       }
 
-      if (props.metric !== actualColumn || idGoal !== actualIdGoal.value) {
+      if (actualMetric.value !== actualColumn || idGoal !== actualIdGoal.value) {
         actualMetric.value = actualColumn;
         actualIdGoal.value = idGoal;
-        onMetricChanged();
+        onMetricChanged(actualColumn);
       }
     }
 
@@ -380,9 +379,9 @@ export default defineComponent({
     });
 
     watch(() => props.metric, () => {
-      onMetricChanged();
+      onMetricChanged(props.metric);
     });
-    onMetricChanged();
+    onMetricChanged(props.metric);
 
     return {
       root,
