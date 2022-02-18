@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to build'
+        description: 'Or specify a tag to build from'
         required: false
         default: ''
       confirm:
@@ -59,21 +59,8 @@ jobs:
           gpg-connect-agent "RELOADAGENT" /bye
           gpg-connect-agent "PRESET_PASSPHRASE ${keygrip} -1 ${hexPassphrase}" /bye
           gpg-connect-agent "KEYINFO ${keygrip}" /bye
-      - name: Add SSH key
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p /home/runner/.ssh
-          ssh-keyscan matomo.org >> /home/runner/.ssh/known_hosts
-          # DOKKU_SSH_KEY is the name of the repository secret
-          echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/github_actions
-          chmod 600 /home/runner/.ssh/github_actions
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add /home/runner/.ssh/github_actions
       - name: Check preconditions, create tag, build and publish release
         id: tag
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           if [[ -n "${{ github.event.inputs.version }}" ]]
           then

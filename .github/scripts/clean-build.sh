@@ -1,3 +1,4 @@
+#!/bin/bash
 # This script removes all files that shouldn't be included in a release
 # It should be called from within the root directory of Matomo
 
