@@ -7,9 +7,9 @@
         "Engagement": "Compromís",
         "NPages": "%s pàgines",
         "OnePage": "1 pàgina",
+        "PluginDescription": "Informes sobre l'interès dels visitants: nombre de pàgines vistes, temps passat al lloc web, dies des de l'última visita i molt més.",
         "VisitNum": "Nombre de visites",
         "VisitsByDaysSinceLast": "Visites per dia des de l'última visita",
-        "visitsByVisitCount": "Visites per nombre de visita",
         "VisitsPerDuration": "Visites segons la durada",
         "VisitsPerNbOfPages": "Visites segons el nombre de pàgines",
         "WidgetLengths": "Durada de les visites",
@@ -18,6 +18,7 @@
         "WidgetPagesDocumentation": "En aquest informe podeu veure quantes visites han produït un nombre de pàgines vistes. Inicialment, la informació es mostra com un núvol d'etiquetes, on els nombres més comuns es mostren amb una mida més gran.",
         "WidgetVisitsByDaysSinceLast": "Visites per dia des de l'última visita",
         "WidgetVisitsByDaysSinceLastDocumentation": "En aquest informe, podeu veure quantes visites han estat de visitant que la seva visita va ser fa un cert nombre de dies.",
-        "WidgetVisitsByNumDocumentation": "En aquest informe podeu veure qui va ser la visita número N. Per exemple, els visitants que han vist el vostre lloc web com a mínim N vegades."
+        "WidgetVisitsByNumDocumentation": "En aquest informe podeu veure qui va ser la visita número N. Per exemple, els visitants que han vist el vostre lloc web com a mínim N vegades.",
+        "visitsByVisitCount": "Visites per nombre de visita"
     }
 }

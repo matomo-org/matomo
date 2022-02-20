@@ -2,7 +2,6 @@
     "API": {
         "ChangeTokenHint": "Als u deze token wilt wijzigen, gaat u naar uw %1$spersoonlijke instellingen-pagina%2$s.",
         "EvolutionMetricName": "%s Trends",
-        "GenerateVisits": "Als u geen data hebt voor vandaag, kunt u eerst wat data genereren met de %1$s plugin. U kunt de %2$s plugin inschakelen, en dan klikken op het 'Bezoekers Generator' menu in het Matomo beheer gedeelte.",
         "Glossary": "Woordenlijst",
         "KeepTokenSecret": "Deze token_auth is even geheim als uw login en wachtwoord, %1$sdeel het met niemand%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Leer over de standaard gebruikte termen om het meeste uit Matomo Analytics te halen.",

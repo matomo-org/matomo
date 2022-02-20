@@ -1,18 +1,21 @@
 {
     "Overlay": {
-        "Clicks": "%s clicks",
+        "Clicks": "%s clics",
         "ClicksFromXLinks": "%1$s clicks de un de %2$s enllaços",
         "Domain": "Domini",
-        "ErrorNotLoading": "No es pot iniciar la sessió de pàgines Overlay",
+        "ErrorNoSiteUrls": "ATENCIÓ: aquest lloc web no té cap URL de lloc definit a Matomo. Això pot provocar que la superposició i altres funcions es trenquin o es comportin de manera estranya. Per solucionar-ho, afegiu un URL a la configuració d'aquest lloc web a la secció Administració de Matomo.",
+        "ErrorNotLoading": "La sessió de superposició de pàgina encara no s'ha pogut iniciar.",
         "ErrorNotLoadingDetails": "Potser la pàgina carregada a la dreta no te el codi de rastreig de Matomo. En aquest cas, proveu de llençar el Overlay d'un altra pàgina del informe de pàgines.",
         "ErrorNotLoadingDetailsSSL": "Com esteu fent servir Matomo a través de https, es possible que el vostre lloc web no suporti el SSL. Proveu utilitzant el Matomo sobre http.",
-        "ErrorNotLoadingLink": "Feu click aquí per obtenir més informació sobre com solucionar el problema.",
+        "ErrorNotLoadingLink": "Feu clic aquí per obtenir més consells per resoldre problemes",
         "Link": "Enllaç",
         "Location": "Ubicació",
         "NoData": "No hi ha informació per aquesta pàgina en el període seleccionat.",
         "OneClick": "1 click",
         "OpenFullScreen": "Mostra a pantalla complerta (sense barra lateral)",
         "Overlay": "Overlay de pàgina",
+        "PluginDescription": "Vegeu les vostres dades d'anàlisi com una superposició al vostre lloc web real. Consulta quantes vegades els teus usuaris han fet clic a cada enllaç. Nota: requereix que el connector Transitions estigui habilitat.",
+        "RedirectUrlError": "Esteu provant d'obrir la superposició de pàgina per a l'URL \"%1$s\". %2$s Cap dels dominis de la configuració de Matomo coincideix amb l'enllaç.",
         "RedirectUrlErrorAdmin": "Podeu afegir una URL addicional per un domini a %1$s les preferències%2$s.",
         "RedirectUrlErrorUser": "Contacteu amb el vostre administrador per afegir el domini com una URL adicional."
     }
