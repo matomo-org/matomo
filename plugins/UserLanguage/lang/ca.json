@@ -1,5 +1,9 @@
 {
     "UserLanguage": {
-        "LanguageCode": "Codi de l'idioma"
+        "BrowserLanguage": "Idioma del navegador",
+        "LanguageCode": "Codi de l'idioma",
+        "PluginDescription": "Informa de l'idioma utilitzat pels navegadors dels vostres visitants.",
+        "getLanguageCodeDocumentation": "Aquest informe mostra en quin codi d'idioma exacte està configurat el navegador del visitant. (p. ex., \"Alemany - Àustria (de-at)\")",
+        "getLanguageDocumentation": "Aquest informe mostra quin idioma utilitza el navegador del visitant. (p. ex., \"anglès\")"
     }
 }
