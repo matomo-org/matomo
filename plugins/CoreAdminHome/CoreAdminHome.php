@@ -205,5 +205,9 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'Actions_ColumnPageName';
         $translationKeys[] = 'CoreAdminHome_JSTracking_MergeSubdomainsDesc';
         $translationKeys[] = 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc';
+        $translationKeys[] = 'CoreAdminHome_SinglePageApplication';
+        $translationKeys[] = 'CoreAdminHome_SinglePageApplicationDescription';
+
+
     }
 }
