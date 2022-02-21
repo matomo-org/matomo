@@ -192,7 +192,7 @@ class Sparklines extends ViewDataTable
 
                         $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period);
 
-                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change');
+                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change', '_trend');
 
                         foreach ($compareValues as $i => $value) {
                             $metricInfo = [
@@ -261,7 +261,7 @@ class Sparklines extends ViewDataTable
         $table->applyQueuedFilters();
     }
 
-    private function getValuesAndDescriptions($firstRow, $columns, $evolutionColumnNameSuffix = null)
+    private function getValuesAndDescriptions($firstRow, $columns, $evolutionColumnNameSuffix = null, $trendColumnNameSuffix = null)
     {
         if (!is_array($columns)) {
             $columns = array($columns);
@@ -285,8 +285,9 @@ class Sparklines extends ViewDataTable
 
             if ($evolutionColumnNameSuffix !== null) {
                 $evolution = $firstRow->getColumn($col . $evolutionColumnNameSuffix);
+                $trend = $firstRow->getColumn($col . $trendColumnNameSuffix);
                 if ($evolution !== false) {
-                    $evolutions[] = ['percent' => ltrim($evolution, '+'), 'tooltip' => ''];
+                    $evolutions[] = ['percent' => ltrim($evolution, '+'), 'trend' => $trend, 'tooltip' => ''];
                 }
             }
 

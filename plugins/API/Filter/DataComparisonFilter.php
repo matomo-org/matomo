@@ -502,11 +502,13 @@ class DataComparisonFilter
                     }
 
                     foreach ($compareRow->getColumns() as $name => $value) {
-                        $changeTo = $this->computeChangePercent($otherPeriodRow, $compareRow, $name);
+                        [$changeTo, $trendTo] = $this->computeChangePercent($otherPeriodRow, $compareRow, $name);
                         $compareRow->addColumn($name . '_change', $changeTo);
+                        $compareRow->addColumn($name . '_trend', $trendTo);
 
-                        $changeFrom = $this->computeChangePercent($compareRow, $otherPeriodRow, $name);
+                        [$changeFrom, $trendFrom] = $this->computeChangePercent($compareRow, $otherPeriodRow, $name);
                         $compareRow->addColumn($name . '_change_from', $changeFrom);
+                        $compareRow->addColumn($name . '_trend_from', $trendFrom);
                     }
                 }
             }
@@ -522,8 +524,9 @@ class DataComparisonFilter
         $valueToCompare = $valueToCompare ?: 0;
 
         $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, true, true);
+        $trend = $value - $valueToCompare < 0 ? -1 : ($value - $valueToCompare > 0 ? 1 : 0);
 
-        return $change;
+        return [$change, $trend];
     }
 
     /**
@@ -610,6 +613,8 @@ class DataComparisonFilter
             $mappings[$index] = $name;
             $mappings[$index . '_change'] = $name . '_change';
             $mappings[$index . '_change_from'] = $name . '_change_from';
+            $mappings[$index . '_trend'] = $name . '_trend';
+            $mappings[$index . '_trend_from'] = $name . '_trend_from';
         }
         return $mappings;
     }
