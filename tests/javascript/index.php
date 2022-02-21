@@ -3880,8 +3880,8 @@ if ($mysql) {
         attributionInfo2 = tracker.getAttributionInfo();
         ok( attributionInfo1 && attributionInfo2 && attributionInfo1.length == attributionInfo2.length, "getAttributionInfo()" );
         referrer2 = tracker.getAttributionReferrerUrl();
-        ok( referrer2 == referrerUrl, "getAttributionReferrerUrl() " + referrer2 );
-        ok( referrer1 == referrerUrl, "async getAttributionReferrerUrl() " + referrer1 );
+        ok( referrer2 == referrerUrl, "getAttributionReferrerUrl()" );
+        ok( referrer1 == referrerUrl, "async getAttributionReferrerUrl()" );
         referrerTimestamp2 = tracker.getAttributionReferrerTimestamp();
         ok( referrerTimestamp2 == referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
         var campaignName2 = tracker.getAttributionCampaignName();
@@ -4154,7 +4154,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "55", "count tracking events" );
+                equal( countTrackingEvents[1], "65", "count tracking events" );
             }
 
             // firing callback
