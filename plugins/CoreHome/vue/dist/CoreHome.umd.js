@@ -162,6 +162,7 @@ __webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return
 __webpack_require__.d(__webpack_exports__, "DropdownMenu", function() { return /* reexport */ DropdownMenu; });
 __webpack_require__.d(__webpack_exports__, "FocusAnywhereButHere", function() { return /* reexport */ FocusAnywhereButHere; });
 __webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* reexport */ FocusIf; });
+__webpack_require__.d(__webpack_exports__, "Tooltips", function() { return /* reexport */ Tooltips; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 __webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
 __webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
@@ -1337,6 +1338,18 @@ window.angular.module('piwikApp.service').run(initPiwikService);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function AjaxHelper_toConsumableArray(arr) { return AjaxHelper_arrayWithoutHoles(arr) || AjaxHelper_iterableToArray(arr) || AjaxHelper_unsupportedIterableToArray(arr) || AjaxHelper_nonIterableSpread(); }
+
+function AjaxHelper_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function AjaxHelper_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return AjaxHelper_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return AjaxHelper_arrayLikeToArray(o, minLen); }
+
+function AjaxHelper_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function AjaxHelper_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return AjaxHelper_arrayLikeToArray(arr); }
+
+function AjaxHelper_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function AjaxHelper_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function AjaxHelper_createClass(Constructor, protoProps, staticProps) { if (protoProps) AjaxHelper_defineProperties(Constructor.prototype, protoProps); if (staticProps) AjaxHelper_defineProperties(Constructor, staticProps); return Constructor; }
@@ -2017,10 +2030,15 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       }
 
       helper.setFormat(options.format || 'json');
-      helper.addParams(Object.assign({
-        module: 'API',
-        format: options.format || 'json'
-      }, params), 'get');
+
+      if (Array.isArray(params)) {
+        helper.setBulkRequests.apply(helper, AjaxHelper_toConsumableArray(params));
+      } else {
+        helper.addParams(Object.assign({
+          module: 'API',
+          format: options.format || 'json'
+        }, params), 'get');
+      }
 
       if (options.postParams) {
         helper.addParams(options.postParams, 'post');
@@ -2888,6 +2906,8 @@ function ExpandOnClick_onEscapeHandler(element, binding, event) {
 }
 
 var ExpandOnClick_doc = document.documentElement;
+var ExpandOnClick_window = window,
+    ExpandOnClick_$ = ExpandOnClick_window.$;
 /**
  * Usage (in a component):
  *
@@ -2910,7 +2930,7 @@ var ExpandOnClick_doc = document.documentElement;
       var expander = directiveUtilities.getRef(binding.value.expander, binding);
 
       if (expander) {
-        expander.addEventListener('click', binding.value.onExpand);
+        ExpandOnClick_$(expander).on('click', binding.value.onExpand);
       }
     });
     ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
@@ -2922,7 +2942,7 @@ var ExpandOnClick_doc = document.documentElement;
     var expander = directiveUtilities.getRef(binding.value.expander, binding);
 
     if (expander) {
-      expander.removeEventListener('click', binding.value.onExpand);
+      ExpandOnClick_$(expander).off('click', binding.value.onExpand);
     }
 
     ExpandOnClick_doc.removeEventListener('keyup', binding.value.onEscapeHandler);
@@ -4296,7 +4316,7 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
         return;
       }
 
-      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation') {
+      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation' || matomoModule === 'Overlay') {
         this.privateState.comparisonsDisabledFor = [];
         return;
       }
@@ -4470,13 +4490,23 @@ function Comparisonsvue_type_template_id_a22a9668_render(_ctx, _cache, $props, $
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+var Tooltips_window = window,
+    Tooltips_$ = Tooltips_window.$;
+
+function defaultContentTransform() {
+  var title = Tooltips_$(this).attr('title') || '';
+  return window.vueSanitize(title.replace(/\n/g, '<br />'));
+}
+
 function setupTooltips(el, binding) {
-  window.$(el).tooltip({
+  var _binding$value, _binding$value2, _binding$value3;
+
+  Tooltips_$(el).tooltip({
     track: true,
-    content: binding.value.content,
+    content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || defaultContentTransform,
     show: {
-      delay: binding.value.delay || 700,
-      duration: binding.value.duration || 200
+      delay: ((_binding$value2 = binding.value) === null || _binding$value2 === void 0 ? void 0 : _binding$value2.delay) || 700,
+      duration: ((_binding$value3 = binding.value) === null || _binding$value3 === void 0 ? void 0 : _binding$value3.duration) || 200
     },
     hide: false
   });
@@ -12059,6 +12089,7 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

@@ -28,10 +28,10 @@
         "LastSeen": "Huling nakita",
         "ManageAccess": "Pamahalaan ang access",
         "MenuAnonymousUserSettings": "Mga settings ng anonymous na user",
-        "MenuUsers": "Users",
         "MenuUserSettings": "Mga setting ng user",
-        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Tandaan: Hindi mo maaring baguhin ang mga setting sa seksyo na ito dahil wala kang anumang website na maaaring ma-access sa pamamagitan ng anonymous user",
+        "MenuUsers": "Users",
         "NoUsersExist": "Walang pang mga gumagamit.",
+        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Tandaan: Hindi mo maaring baguhin ang mga setting sa seksyo na ito dahil wala kang anumang website na maaaring ma-access sa pamamagitan ng anonymous user",
         "PrivAdmin": "Admin",
         "PrivNone": "Walang access",
         "PrivView": "Tingnan",
@@ -48,7 +48,6 @@
         "UsersManagementMainDescription": "Lumikha ng mga bagong user o i-update ang mga mayroon nang user. Pagkatapos ay maaari mong itakda ang kanilang mga permiso sa itaas.",
         "YourUsernameCannotBeChanged": "Hindi maaaring mabago ang iyong username.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Ang iyong bisita ay hindi na-ignore ng Matomo %2$s %3$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser).",
-        "YourVisitsAreNotIgnored": "%1$s Ang iyong bisita ay hindi na-ignore ng Matomo%2$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser).",
-        "ShowAll": "Ipakita lahat"
+        "YourVisitsAreNotIgnored": "%1$s Ang iyong bisita ay hindi na-ignore ng Matomo%2$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser)."
     }
 }

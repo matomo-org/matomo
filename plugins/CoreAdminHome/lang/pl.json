@@ -84,7 +84,7 @@
         "OptOutExplanation": "Statystyki Matomo, możesz dodać następującą informację w kodzie HTML na jednej ze swoich stron, na przykład na stronie Polityka prywatności.",
         "OptOutExplanationIntro": "Poniższy kod odpowiada za wyświetlenie iFrame zawierającego link pozwalający Twoim odwiedzającym zakazać śledzenia przez Matomo ich akcji na stronie, poprzez ustawienie ciasteczka opt-out. Zobacz poniżej (lub %1$skliknij tu%2$s) aby zapoznać się z treścią iFrame.",
         "OptOutForYourVisitors": "Wyłączenie działania Matomo dla twoich odwiedzających",
-        "OptingYouOut": "Wypisuję Cię, proszę zaczekaj...",
+        "OptingYouOut": "Wypisuję Cię, proszę zaczekaj…",
         "PersonalPluginSettings": "Osobiste ustawienia wtyczek",
         "PiwikIsInstalledAt": "Matomo jest zainstalowane na",
         "PluginSettingChangeNotAllowed": "Nie masz uprawnień do zmiany wartości parametru\"%1$s\" w pluginie \"%2$s\"",

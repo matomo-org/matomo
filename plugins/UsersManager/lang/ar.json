@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "2FA": "مث",
-        "TwoFactorAuthentication": "المصادقة الثنائية",
         "AddUser": "أضف مستخدم جديد",
         "AllWebsites": "كافة المواقع",
         "ApplyToAllWebsites": "تطبيق على كافة المواقع",
@@ -18,8 +17,8 @@
         "ForAnonymousUsersReportDateToLoadByDefault": "للمستخدمين المجهولين، حدد تاريخ التقرير",
         "ManageAccess": "إدارة صلاحيات الوصول",
         "MenuAnonymousUserSettings": "إعدادات المستخدمين المجهولين",
-        "MenuUsers": "المستخدمون",
         "MenuUserSettings": "إعدادات المستخدم",
+        "MenuUsers": "المستخدمون",
         "PrivAdmin": "إشراف",
         "PrivNone": "بدون وصول",
         "PrivView": "مشاهدة",
@@ -27,14 +26,14 @@
         "ReportToLoadByDefault": "التقرير الافتراضي",
         "TheLoginScreen": "شاشة تسجيل الدخول",
         "ThereAreCurrentlyNRegisteredUsers": "يوجد حالياً %s مستخدم مسجل.",
+        "TwoFactorAuthentication": "المصادقة الثنائية",
         "TypeYourPasswordAgain": "اكتب كلمة المرور الجديدة مرة أخرى.",
         "User": "المستخدم",
+        "Username": "اسم المستخدم",
         "UsersManagement": "إدارة المستخدمين",
         "UsersManagementMainDescription": "أنشئ متسخدم جديد أو قم بتحديث مستخدم قائم. يمكنك أن تضبط صلاحياتهم بالأعلى.",
         "YourUsernameCannotBeChanged": "لا يمكن تغيير اسم المستخدم الخاص بك.",
         "YourVisitsAreIgnoredOnDomain": "%1$s زياراتك يتم تجاهلها في Matomo%2$s %3$s(تم العثور على كوكيز التجاهل في متصفحك).",
-        "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Matomo%2$s (كوكيز التجاهل غير موجودة في متصفحك).",
-        "ShowAll": "عرض الكل",
-        "Username": "اسم المستخدم"
+        "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Matomo%2$s (كوكيز التجاهل غير موجودة في متصفحك)."
     }
 }

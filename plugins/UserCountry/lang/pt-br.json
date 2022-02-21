@@ -11,6 +11,7 @@
         "DefaultLocationProviderDesc1": "Detecta a localização padrão de um visitante baseando-se no idioma que ele usa.",
         "DefaultLocationProviderDesc2": "Isto não é muito preciso, então %1$srecomendamos instalar e usar %2$suma base de dados de geolocalização%3$s.%4$s",
         "DefaultLocationProviderExplanation": "Você está usando o provedor de localização padrão, que significa que o Matomo irá supor a localização do visitante, baseado no idioma que eles usam. %1$sLeia isso%2$s para aprender como configurar uma geolocalização mais precisa.",
+        "DisabledLocationProvider": "Desabilitar a geolocalização.",
         "DistinctCountries": "%s países distintos",
         "FromDifferentCities": "cidades diferentes",
         "GeoIPDocumentationSuffix": "Para ver os dados para este relatório, você deve configurar GeoIP na guia de administração de Geolocalização. Os %1$s banco de dados GeoIP Maxmind comerciais %2$s são mais precisos que os livres. Para ver como são precisos, clique %3$saqui%4$s.",

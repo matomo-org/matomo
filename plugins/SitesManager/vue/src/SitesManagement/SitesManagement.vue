@@ -307,7 +307,7 @@ export default defineComponent({
         measurableType: type,
       };
 
-      Matomo.postEvent('SitesManager.initAddSite', parameters); // TODO: test this
+      Matomo.postEvent('SitesManager.initAddSite', parameters);
 
       if (parameters && !parameters.isAllowed) {
         return;

@@ -1,6 +1,9 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Obrir en una nova finestra",
-        "TopLinkTooltip": "Exporteu informes i ginys de Matomo i incrusteu el Tauler de Control a la vostra aplicació com un iframe."
+        "PluginDescription": "Mostra qualsevol informe de Matomo al teu lloc web o aplicació amb una senzilla etiqueta HTML \"embed\".",
+        "TooHighAccessLevel": "Aquest usuari té accés de superusuari. No es permet incrustar ginys amb autenticació de testimoni de superusuari. %1$sConsulteu les FAQ per obtenir més informació.%2$s",
+        "TopLinkTooltip": "Exporta els informes de Matomo com a ginys i incrusta el tauler a la teva aplicació com a iframe.",
+        "ViewAccessRequired": "Aquest usuari té almenys accés d'escriptura. Només es poden utilitzar tokens d'usuari que només tinguin accés de visualització. Consulteu %1$s per obtenir més informació."
     }
 }

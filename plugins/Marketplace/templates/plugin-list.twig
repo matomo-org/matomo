@@ -70,7 +70,7 @@
                                     {% else %}
                                         {{ 'General_MoreDetails'|translate }}
                                     {% endif %}
-
+                                    <span style="white-space: nowrap;">({{ 'Marketplace_FreeTrialLabel'|translate }})</span>
                                 </a>
                             {% endmacro %}
 
@@ -86,7 +86,6 @@
                                         </div>
 
                                     {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
-
                                         <div class="alert alert-danger">
                                             {{ 'Marketplace_LicenseExceeded'|translate }}
 
@@ -99,7 +98,6 @@
                                             {{ 'CoreUpdater_UpdateTitle'|translate }}
                                         </a>
                                     {% elseif plugin.missingRequirements|length > 0 or not isAutoUpdatePossible %}
-
                                         {% macro downloadButton(showOr, plugin, isAutoUpdatePossible, showBrackets = false) -%}
                                             {%- if plugin.missingRequirements|length == 0 and plugin.isDownloadable and not isAutoUpdatePossible -%}
                                                 {% if showBrackets %}({% endif %}<span onclick="$(this).css('display', 'none')">

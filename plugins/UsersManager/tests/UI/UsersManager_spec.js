@@ -466,7 +466,7 @@ describe("UsersManager", function () {
 
     it('should go back to the manage users page when the back link is clicked', async function () {
         await page.click('.userEditForm .entityCancelLink');
-        await page.waitForSelector('piwik-paged-users-list');
+        await page.waitForSelector('.pagedUsersList');
 
         await page.evaluate(function () { // remove filter so new user shows
             $('#user-text-filter').val('').change();
