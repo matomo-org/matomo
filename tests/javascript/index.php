@@ -3854,9 +3854,7 @@ if ($mysql) {
         var visitorId1, visitorId2;
 
         _paq.push([ function() {
-            var asyncTracker = Piwik.getAsyncTracker();
-            asyncTracker.trackPageView();
-            visitorId1 = asyncTracker.getVisitorId();
+            visitorId1 = Piwik.getAsyncTracker().getVisitorId();
         }]);
         visitorId2 = tracker.getVisitorId();
         ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" + visitorId1 + " VS " + visitorId2 );
@@ -3866,15 +3864,9 @@ if ($mysql) {
         // Visitor INFO + Attribution INFO tests
         tracker.setReferrerUrl(referrerUrl);
         _paq.push([ function() {
-            var asyncTracker1 = Piwik.getAsyncTracker(),
-                asyncTracker2 = Piwik.getAsyncTracker(),
-                asyncTracker3 = Piwik.getAsyncTracker();
-            asyncTracker1.trackPageView();
-            asyncTracker2.trackPageView();
-            asyncTracker3.trackPageView();
-            visitorInfo1 = asyncTracker1.getVisitorInfo();
-            attributionInfo1 = asyncTracker2.getAttributionInfo();
-            referrer1 = asyncTracker3.getAttributionReferrerUrl();
+            visitorInfo1 = Piwik.getAsyncTracker().getVisitorInfo();
+            attributionInfo1 = Piwik.getAsyncTracker().getAttributionInfo();
+            referrer1 = Piwik.getAsyncTracker().getAttributionReferrerUrl();
         }]);
         visitorInfo2 = tracker.getVisitorInfo();
         ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo() " );
