@@ -3680,16 +3680,16 @@ if ($mysql) {
 
         tracker.setTrackerUrl("matomo.php");
 
+        equal(tracker.getCurrentUrl(), location.href, "getCurrentUrl, when no custom url set" );
+
+        tracker.trackPageView();
+
         var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
         strictEqual(thirteenMonths, tracker.getConfigVisitorCookieTimeout(), 'default visitor timeout should be 13 months');
 
         var actualTimeout   = tracker.getRemainingVisitorCookieTimeout();
         var isAbout13Months = (thirteenMonths + 1000) > actualTimeout && ((thirteenMonths - 6000) < actualTimeout);
         ok(isAbout13Months, 'remaining cookieTimeout should be about the deault tiemout of 13 months (' + thirteenMonths + ') but is ' + actualTimeout);
-
-        equal(tracker.getCurrentUrl(), location.href, "getCurrentUrl, when no custom url set" );
-
-        tracker.trackPageView();
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
@@ -3776,7 +3776,7 @@ if ($mysql) {
         var referrerUrl = "http://referrer.example.com/page/sub?query=test&test2=test3";
         tracker.setReferrerUrl(referrerUrl);
 
-        referrerTimestamp = Math.round(new Date().getTime() / 1000);
+        var referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
         strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
@@ -3860,6 +3860,9 @@ if ($mysql) {
         ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" + visitorId1 + " VS " + visitorId2 );
 
         var visitorInfo1, visitorInfo2;
+        var referrer1, referrer2;
+        var attributionInfo1, attributionInfo2;
+        var referrerTimestamp2;
 
         // Visitor INFO + Attribution INFO tests
         tracker.setReferrerUrl(referrerUrl);
@@ -3881,8 +3884,8 @@ if ($mysql) {
         ok( referrer1 == referrerUrl, "async getAttributionReferrerUrl()" );
         referrerTimestamp2 = tracker.getAttributionReferrerTimestamp();
         ok( referrerTimestamp2 == referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
-        campaignName2 = tracker.getAttributionCampaignName();
-        campaignKeyword2 = tracker.getAttributionCampaignKeyword();
+        var campaignName2 = tracker.getAttributionCampaignName();
+        var campaignKeyword2 = tracker.getAttributionCampaignKeyword();
         ok( campaignName2 == "YEAH", "getAttributionCampaignName()");
         ok( campaignKeyword2 == "RIGHT!", "getAttributionCampaignKeyword()");
 
