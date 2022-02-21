@@ -2288,6 +2288,7 @@ function PiwikTest() {
         deleteCookies();
 
         var asyncTracker = Piwik.getAsyncTracker();
+        asyncTracker.trackPageView();
         var asyncVisitorId = asyncTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getSiteId(), asyncTracker.getSiteId(), 'async same site id');
         equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
@@ -2295,16 +2296,19 @@ function PiwikTest() {
         wait(2000);
 
         var delayedTracker = Piwik.getTracker();
+        delayedTracker.trackPageView();
         var delayedVisitorId = delayedTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
 
         var prefixTracker = Piwik.getTracker();
         prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
+        prefixTracker.trackPageView();
 
         var prefixVisitorId = prefixTracker.getVisitorId();
         notEqual(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'Visitor ID are different when using a different cookie prefix');
 
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
+        customTracker.trackPageView();
         var customVisitorId = customTracker.getVisitorId();
         notEqual(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'Visitor ID are different on different websites');
     });
