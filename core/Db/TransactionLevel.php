@@ -42,7 +42,7 @@ class TransactionLevel
     {
         if ($this->db->supportsUncommitted === false) {
             // we know "Uncommitted" transaction level is not supported, we don't need to do anything as it won't work to set the status
-            return;
+            return false;
         }
 
         try {
