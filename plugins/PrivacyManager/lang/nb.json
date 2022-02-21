@@ -9,6 +9,7 @@
         "AnonymizeIpMaskLengtDescription": "Velg hvor mange byte av besøkendes IP-er som skal maskeres.",
         "AnonymizeIpMaskLength": "%1$s byte(s) – f.eks. %2$s",
         "AnonymizeLocation": "Anonymisering av posisjon",
+        "AnonymizeLocationHelp": "Denne handlingen kan ikke angres. Omvurderer posisjonen basert på anonymisert IP (minst 2 byte av IP-en vil bli anonymisert).",
         "AnonymizeReferrer": "Anonymiser henviser",
         "AnonymizeReferrerExcludeNone": "Ikke anonymiser henviseren",
         "AnonymizeReferrerExcludePath": "Kun behold domenedelen av henviser-nettadresse",

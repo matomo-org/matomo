@@ -2,7 +2,6 @@
     "API": {
         "ChangeTokenHint": "如果你想改变这个标记，请到你的%1$s个人设置页面%2$s。",
         "EvolutionMetricName": "%s演变",
-        "GenerateVisits": "如果您今天还沒有任何资料，可以先用 %1$s 插件来产生一些数据。您可以启用 %2$s 插件，然后点击在 Matomo 管理菜单下的'生成访客'选项。",
         "Glossary": "词汇表",
         "KeepTokenSecret": "授权号 token_auth 与您的帐号和密码一样重要，%1$s请不要公开%2$s！",
         "LearnAboutCommonlyUsedTerms2": "了解常用的术语，以充分利用 Matomo 数据分析。",

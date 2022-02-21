@@ -17,6 +17,7 @@
         "CorePluginTooltip": "Kjerne-utvidelser har ingen versjon siden de distribueres med Matomo.",
         "Deactivate": "Deaktiver",
         "DoMoreContactPiwikAdmins": "For å installer en ny utvidelse eller et nytt tema, kontakt administratoren for din Matomo.",
+        "FileExceedsUploadLimit": "Valgt fil overskrider opplastningsgrensen for din tjener.",
         "History": "Historikk",
         "Inactive": "Deaktivert",
         "InfoPluginUpdateIsRecommended": "Oppdater dine utvidelser nå for å få glede av de siste forbedringene.",

@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Attēlojuma uzstādījumi",
         "CreateReport": "Izveidot atskaiti",
         "EmailHello": "Sveiki,",
         "EmailReports": "E-pasta atskaites",
