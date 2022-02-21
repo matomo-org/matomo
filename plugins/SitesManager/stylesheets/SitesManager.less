@@ -49,6 +49,10 @@
             .editingSiteFooter {
                 padding: 15px;
                 margin: 0 -15px -15px;
+
+                > button {
+                    margin-left: 3.5px;
+                }
             }
         }
     }
@@ -118,11 +122,6 @@ td.editable-site-field:hover {
 }
 
 .site-without-data {
-    .card-title:after {
-        content: " \e9a5"; // icon-rocket
-        .matomo-icon();
-    }
-
     h3 {
         font-weight: bold;
     }

@@ -8,8 +8,10 @@
 import { DirectiveBinding } from 'vue';
 
 interface FocusAnywhereButHereArgs {
+  // input (provided by user)
   blur: () => void,
 
+  // state/event handlers
   isMouseDown?: boolean;
   hasScrolled?: boolean;
   onEscapeHandler?: (event: KeyboardEvent) => void;

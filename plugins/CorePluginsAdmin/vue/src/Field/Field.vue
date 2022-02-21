@@ -9,7 +9,6 @@
     :form-field="field"
     :model-value="modelValue"
     @update:model-value="onChange($event)"
-    :component="component"
   />
 </template>
 
@@ -34,7 +33,8 @@ export default defineComponent({
     description: String,
     introduction: String,
     title: String,
-    inlineHelp: String,
+    inlineHelp: [String, Object],
+    inlineHelpBind: Object,
     disabled: Boolean,
     uiControlAttributes: {
       type: Object,
@@ -85,7 +85,9 @@ export default defineComponent({
         description: this.description,
         introduction: this.introduction,
         inlineHelp: this.inlineHelp,
+        inlineHelpBind: this.inlineHelpBind,
         title: this.title,
+        component: this.component,
         uiControlAttributes: {
           ...this.uiControlAttributes,
           disabled: this.disabled,

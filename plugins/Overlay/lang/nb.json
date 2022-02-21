@@ -3,6 +3,8 @@
         "Clicks": "%s klikk",
         "ClicksFromXLinks": "%1$s klikk fra én av %2$s lenker",
         "Domain": "Domene",
+        "ErrorNotLoading": "Side-overlagsøkten kunne ikke startes enda.",
+        "ErrorNotLoadingDetails": "Kanskje siden innlastet til høyre ikke har Matomo-sporingskoden. I sådant fall kan du prøve å kjøre overlag for en annen side fra siderapporteringen.",
         "ErrorNotLoadingDetailsSSL": "Siden du bruker Matomo over HTTPS er den mest sannsynlige årsaken at nettsiden din ikke støtter SSL. Prøv å bruke Matomo over HTTP.",
         "ErrorNotLoadingLink": "Klikk her for å få flere tips for feilsøking",
         "Link": "Lenke",

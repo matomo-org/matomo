@@ -109,6 +109,9 @@ window.piwikHelper = {
         return value;
     },
 
+    /**
+     * @deprecated use window.vueSanitize instead
+     */
     escape: function (value)
     {
         var escape = angular.element(document).injector().get('$sanitize');
@@ -145,6 +148,68 @@ window.piwikHelper = {
 
     getAngularDependency: function (dependency) {
         return angular.element(document).injector().get(dependency);
+    },
+
+    // initial call for 'body' later in this file
+    compileVueEntryComponents: function (selector) {
+      function toKebabCase(arg) {
+        return arg.substring(0, 1).toLowerCase() + arg.substring(1)
+          .replace(/[A-Z]/g, function (s) { return '-' + s.toLowerCase(); });
+      }
+
+      $('[vue-entry]', selector).each(function () {
+        var entry = $(this).attr('vue-entry');
+
+        var parts = entry.split('.');
+        if (parts.length !== 2) {
+          throw new Error('Expects vue-entry to have format Plugin.Component, where Component is exported Vue component. Got: ' + entry);
+        }
+
+        var createVNode = Vue.createVNode;
+        var createVueApp = CoreHome.createVueApp;
+        var plugin = window[parts[0]];
+        if (!plugin) {
+          throw new Error('Unknown plugin in vue-entry: ' + plugin);
+        }
+
+        var component = plugin[parts[1]];
+        if (!component) {
+          throw new Error('Unknown component in vue-entry: ' + entry);
+        }
+
+        var componentParams = {};
+        $.each(this.attributes, function () {
+          if (this.name === 'vue-entry') {
+            return;
+          }
+
+          var value = this.value;
+          try {
+            value = JSON.parse(this.value);
+          } catch (e) {
+            // pass
+          }
+
+          componentParams[toKebabCase(this.name)] = value;
+        });
+
+        var app = createVueApp({
+          render: function () {
+            return createVNode(component, componentParams);
+          },
+        });
+        app.mount(this);
+
+        this.addEventListener('matomoVueDestroy', function () {
+          app.unmount();
+        });
+      });
+    },
+
+    destroyVueComponent: function (selector) {
+      $('[vue-entry]', selector).each(function () {
+        this.dispatchEvent(new CustomEvent('matomoVueDestroy'));
+      });
     },
 
     /**
@@ -645,3 +710,9 @@ try {
 
 } catch (e) {}
 }(jQuery));
+
+(function ($) {
+  $(function () {
+    piwikHelper.compileVueEntryComponents('body');
+  });
+}(jQuery))

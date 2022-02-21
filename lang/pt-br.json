@@ -149,6 +149,7 @@
         "Description": "Descrição",
         "Desktop": "Desktop",
         "Details": "Detalhes",
+        "Disabled": "Desabilitado",
         "Discount": "Desconto",
         "DisplaySimpleTable": "Exibir tabela simples",
         "DisplayTableWithGoalMetrics": "Exibir uma tabela com métricas das metas",

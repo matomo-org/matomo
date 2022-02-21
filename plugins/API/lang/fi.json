@@ -1,15 +1,14 @@
 {
     "API": {
         "ChangeTokenHint": "Jos haluat vaihtaa tämän poletin, mene %1$shenkilökohtaiselle asetussivullesi%2$s.",
-        "GenerateVisits": "Jos sinulla ei ole yhtään tietoja tälle päivälle, voit generoida satunnaisia tietoja käyttämällä lisäosaa %1$s. Voit ottaa käyttöön %2$s-lisäosan ja painaa 'Vierailijoiden luominen'-linkkiä Matomon ylläpitosivulla.",
+        "Glossary": "Sanasto",
         "KeepTokenSecret": "Tämä token_auth on yhtä salainen kuin salasanasi, %1$s älä jaa sitä%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Lue lisää usein käytetyistä termeistä saadaksesi kaiken irti Matomo-analytiikasta.",
         "LoadedAPIs": "Ladattiin %s APIa",
         "MoreInformation": "Lisätietoa Matomon APIsta löytyy sivulta %1$sJohdatus Matomon APIin%2$s ja %3$sMatomon API%4$s.",
         "PluginDescription": "Kaikki Matomossa olevat tiedot on saatavilla yksinkertaisten APIen kautta. Tämä lisäosa on API verkkosivuille. Tämän lisäosan kautta voit ladata tiedot xml:nä, json:ina, php:nä, csv:nä jne.",
         "ReportingApiReference": "Raportointi-API:n referenssi",
         "TopLinkTooltip": "Hae analytiikkatietoja automaattisesti yksinkertaisella API:lla JSON:lla, XML:llä jne.",
-        "UserAuthentication": "Käyttäjän autentikointi",
-        "Glossary": "Sanasto",
-        "LearnAboutCommonlyUsedTerms2": "Lue lisää usein käytetyistä termeistä saadaksesi kaiken irti Matomo-analytiikasta."
+        "UserAuthentication": "Käyttäjän autentikointi"
     }
 }

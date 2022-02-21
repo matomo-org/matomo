@@ -56,9 +56,6 @@ class Updates_4_7_0_b2 extends PiwikUpdates
                 'link' => 'VARCHAR(255) NULL',
             ), $primaryKey = 'idchange');
 
-
-        $migrations[] = $this->migration->db->addUniqueKey('changes', ['plugin_name', 'version', 'title'], 'unique_plugin_version_title');
-
         return $migrations;
     }
 
