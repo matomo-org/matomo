@@ -3685,6 +3685,8 @@ if ($mysql) {
 
         equal(tracker.getCurrentUrl(), location.href, "getCurrentUrl, when no custom url set" );
 
+        tracker.trackPageView();
+
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
         wait(2000);
@@ -3773,7 +3775,7 @@ if ($mysql) {
         referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
-        strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
@@ -3782,7 +3784,7 @@ if ($mysql) {
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
-        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+        strictEqual(3, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageviewCustomTitle = tracker.getConfigIdPageView();
         ok(idPageviewCustomTitle != idPageview, 'trackPageview, should generate a new random pageview id whenever it is called');
