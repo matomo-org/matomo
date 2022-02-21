@@ -10,7 +10,6 @@
         "PluginDescription": "Raporte mbi interesa të vizitorëve: numër faqesh të para, kohë e shpenzuar në sajt, ditë që nga vizita e fundit, etj.",
         "VisitNum": "Numër vizitash",
         "VisitsByDaysSinceLast": "Vizita sipas ditësh që pas vizitës së fundit",
-        "visitsByVisitCount": "Vizita sipas numrit të vizitave",
         "VisitsPerDuration": "Vizita sipas kohëzgjatjes së vizitës",
         "VisitsPerNbOfPages": "Vizita sipas numrit të faqeve",
         "WidgetLengths": "Gjatësi Vizitash",
@@ -19,6 +18,7 @@
         "WidgetPagesDocumentation": "Në këtë raport, mund të shihni sa vizitorë panë një numër të dhënë faqesh. Fillimisht, ky raport shfaqet si re etiketash, me numrat më të shpeshtë të faqeve të treguara me shkronja më të mëdha.",
         "WidgetVisitsByDaysSinceLast": "Vizita sipas Ditës Që Nga Vizita e Fundit",
         "WidgetVisitsByDaysSinceLastDocumentation": "Në këtë raport, mund të shihni se sa vizita kanë qenë prej vizitorësh vizita e fundit e të cilëve ka ndodhur një numër ditësh më parë.",
-        "WidgetVisitsByNumDocumentation": "Në këtë raport, mund të shihni numrin e vizitave që kanë qenë vizita e N-të, domethënë, vizitorët që e kanë vizituar sajtin tuaj të paktën N herë."
+        "WidgetVisitsByNumDocumentation": "Në këtë raport, mund të shihni numrin e vizitave që kanë qenë vizita e N-të, domethënë, vizitorët që e kanë vizituar sajtin tuaj të paktën N herë.",
+        "visitsByVisitCount": "Vizita sipas Numrit të Vizitave"
     }
 }

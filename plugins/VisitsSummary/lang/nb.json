@@ -6,6 +6,7 @@
         "GenerateTime": "%s sekunder for å generere denne siden",
         "MaxNbActions": "maks. antall handlinger for per besøk",
         "NbActionsDescription": "%s handlinger",
+        "NbActionsPerVisit": "handlinger (sidevisninger, nedlastninger, utlenker og interne sidesøk) per besøk",
         "NbDownloadsDescription": "nedlastinger",
         "NbKeywordsDescription": "unike nøkkelord",
         "NbOutlinksDescription": "utgående lenker",
