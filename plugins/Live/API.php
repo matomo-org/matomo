@@ -148,6 +148,12 @@ class API extends \Piwik\Plugin\API
         }
         Piwik::checkUserHasViewAccess($idSites);
 
+        if (is_numeric($minTimestamp)) {
+            $minTimestamp = (int) $minTimestamp;
+        } else {
+            $minTimestamp = false;
+        }
+
         if (Request::isCurrentApiRequestTheRootApiRequest() || !in_array(Request::getRootApiRequestMethod(), ['API.getSuggestedValuesForSegment', 'PrivacyManager.findDataSubjects'])) {
             if (is_array($idSites)) {
                 $filteredSites = array_filter($idSites, function($idSite) {

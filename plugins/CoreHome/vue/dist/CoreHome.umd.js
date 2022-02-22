@@ -2906,6 +2906,8 @@ function ExpandOnClick_onEscapeHandler(element, binding, event) {
 }
 
 var ExpandOnClick_doc = document.documentElement;
+var ExpandOnClick_window = window,
+    ExpandOnClick_$ = ExpandOnClick_window.$;
 /**
  * Usage (in a component):
  *
@@ -2928,7 +2930,7 @@ var ExpandOnClick_doc = document.documentElement;
       var expander = directiveUtilities.getRef(binding.value.expander, binding);
 
       if (expander) {
-        expander.addEventListener('click', binding.value.onExpand);
+        ExpandOnClick_$(expander).on('click', binding.value.onExpand);
       }
     });
     ExpandOnClick_doc.addEventListener('keyup', binding.value.onEscapeHandler);
@@ -2940,7 +2942,7 @@ var ExpandOnClick_doc = document.documentElement;
     var expander = directiveUtilities.getRef(binding.value.expander, binding);
 
     if (expander) {
-      expander.removeEventListener('click', binding.value.onExpand);
+      ExpandOnClick_$(expander).off('click', binding.value.onExpand);
     }
 
     ExpandOnClick_doc.removeEventListener('keyup', binding.value.onEscapeHandler);
