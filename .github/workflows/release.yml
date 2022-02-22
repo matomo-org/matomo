@@ -2,16 +2,16 @@
 name: Build release
 
 permissions:
-  actions: read
-  checks: read
-  contents: write
+  actions: none
+  checks: none
+  contents: write  # required to create tag and release
   deployments: none
-  issues: read
-  packages: write
-  pull-requests: read
+  issues: none
+  packages: none
+  pull-requests: none
   repository-projects: none
   security-events: none
-  statuses: read
+  statuses: none
 
 on:
   workflow_dispatch:
