@@ -105,6 +105,12 @@ jobs:
               exit 1
             fi
 
+            if [[ ${GITHUB_REF#refs/heads/} =~ ^[4-9]\.x-dev$ && $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$ ]]
+            then
+              echo "Only beta release tags can be created from ${GITHUB_REF#refs/heads/} branch."
+              exit 1
+            fi
+
             echo "Creating a tag for $version"
 
             git tag $version
