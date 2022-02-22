@@ -83,7 +83,6 @@ class TransactionLevel
         if ($this->statusBackup) {
             $value = strtoupper($this->statusBackup);
             $this->statusBackup = null;
-            $this->db->supportsUncommitted = null;
 
             $value = str_replace('-', ' ', $value);
             if (in_array($value, array('REPEATABLE READ', 'READ COMMITTED', 'SERIALIZABLE'))) {
