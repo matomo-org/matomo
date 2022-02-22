@@ -20,14 +20,23 @@ on:
         description: 'Or specify a tag to build from'
         required: false
         default: ''
-      confirm:
-        type: boolean
-        description: 'Yes, I''m sure'
+      password:
+        description: 'Release password'
+        required: true
+
+env:
+  RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
+
 jobs:
   release:
-    if: ${{ github.event.inputs.confirm == 'true' }}
     runs-on: ubuntu-latest
     steps:
+      - name: "Check release password"
+        if: ${{ github.event.inputs.password != env.RELEASE_PASSWORD }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Release password didn\'t match')
       - name: "Check if user is in group"
         run: |
           MEMBER=$( curl -s \
