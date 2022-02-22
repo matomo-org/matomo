@@ -87,6 +87,7 @@ declare global {
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
+    sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -148,8 +149,9 @@ declare global {
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
-    getBaseDatePickerOptions(): {[key: string]: any};
+    getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
+    getBaseDatePickerOptions(defaultDate: Date|null): any;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;

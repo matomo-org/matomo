@@ -92,7 +92,7 @@
         "OptOutExplanation": "Matomo 致力於在提供網路中的隱私權。要讓你的訪客選擇推出 Matomo 追蹤，你可以在你的網頁中加入以下的 HTML 代碼，例如在隱私權政策網頁。",
         "OptOutExplanationIntro": "這個程式碼將以頁框顯示，裡面有個連結可以在訪客的瀏覽器中設定 cookie 以退出 Matomo 追蹤。在下方（或%1$s點擊這裡%2$s）查看將於頁框中顯示的網頁內容。",
         "OptOutForYourVisitors": "讓你的訪客選擇退出 Matomo 追蹤",
-        "OptingYouOut": "正在設定退出追蹤，請稍後...",
+        "OptingYouOut": "正在設定退出追蹤，請稍後…",
         "PersonalPluginSettings": "個人外掛設定",
         "PiwikIsInstalledAt": "Matomo 安裝於",
         "PluginSettingChangeNotAllowed": "你無法修改外掛「%2$s」中的設定「%1$s」",

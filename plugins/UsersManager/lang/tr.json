@@ -152,7 +152,6 @@
         "RolesHelp": "Matomo üzerinde bir kullanıcının belirli bir web sitesi üzerinde yapabileceği işlemler roller tarafından belirlenir. Roller hakkında ayrıntılı bilgi almak için %1$sGörüntüleme%2$s ve %3$sYönetici%4$s bölümlerine bakabilirsiniz.",
         "SaveBasicInfo": "Temel bilgileri kaydet",
         "SetPermission": "İzinleri ayarla",
-        "ShowAll": "Tümünü görüntüle",
         "SuperUserAccess": "Süper kullanıcı izni",
         "SuperUserAccessManagement": "Süper kullanıcı izni yönetimi",
         "SuperUserAccessManagementGrantMore": "Diğer Matomo kullanıcılarına Süper Yönetici izinleri bu bölümden verilebilir. Lütfen bu özelliği dikkatli kullanın.",

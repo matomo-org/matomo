@@ -1,4 +1,4 @@
-piwik-paged-users-list {
+.pagedUsersList {
   display: block;
   position: relative;
 
@@ -45,8 +45,8 @@ piwik-paged-users-list {
   }
 
   table#manageUsersTable {
-    [piwik-field] {
-      .form-group {
+    .matomo-form-field {
+      &.form-group {
         margin: 0;
       }
       .input-field {
@@ -165,7 +165,7 @@ piwik-paged-users-list {
   }
 
 
-  .pagedUsersList.loading {
+  &.loading {
     table {
       opacity: 0.5;
     }
@@ -181,7 +181,7 @@ piwik-paged-users-list {
       }
     }
 
-    div[piwik-activity-indicator] {
+    .loadingPiwik {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -198,11 +198,11 @@ piwik-paged-users-list {
   }
 }
 
-#root piwik-paged-users-list .siteSelector.borderedControl {
+#root .pagedUsersList .siteSelector.borderedControl {
   background-color: white;
   width: 150px;
 }
 
-#content piwik-paged-users-list .sites_autocomplete > .siteSelector {
+#content .pagedUsersList .sites_autocomplete > .siteSelector {
   position: static;
 }

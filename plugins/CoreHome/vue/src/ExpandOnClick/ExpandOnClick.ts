@@ -10,11 +10,14 @@ import Matomo from '../Matomo/Matomo';
 import DirectiveUtilities from '../directiveUtilities';
 
 interface ExpandOnClickArgs {
+  // input (specified by user)
   expander: string | HTMLElement,
 
+  // state
   isMouseDown?: boolean;
   hasScrolled?: boolean;
 
+  // event handlers
   onExpand?: () => void;
   onClickOutsideElement?: (event: MouseEvent) => void;
   onScroll?: () => void;
@@ -71,6 +74,7 @@ function onEscapeHandler(
 }
 
 const doc = document.documentElement;
+const { $ } = window;
 
 /**
  * Usage (in a component):
@@ -93,7 +97,7 @@ export default {
     setTimeout(() => {
       const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
       if (expander) {
-        expander.addEventListener('click', binding.value.onExpand!);
+        $(expander).on('click', binding.value.onExpand!);
       }
     });
     doc.addEventListener('keyup', binding.value.onEscapeHandler);
@@ -104,7 +108,7 @@ export default {
   unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
     const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
     if (expander) {
-      expander.removeEventListener('click', binding.value.onExpand!);
+      $(expander).off('click', binding.value.onExpand!);
     }
     doc.removeEventListener('keyup', binding.value.onEscapeHandler!);
     doc.removeEventListener('mousedown', binding.value.onMouseDown!);
