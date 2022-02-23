@@ -30,6 +30,9 @@ abstract class Db
 
     protected $connection = null;
 
+    // this is used for indicate TransactionLevel Cache
+    public $supportsUncommitted = null;
+
     /**
      * Enables the SQL profiling.
      * For each query, saves in the DB the time spent on this query.
