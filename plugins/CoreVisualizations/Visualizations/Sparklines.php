@@ -81,6 +81,14 @@ class Sparklines extends ViewDataTable
 
         $this->requestConfig->request_parameters_to_modify['columns'] = $columnsList;
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = '1';
+
+        /**
+         * This special request parameter is used to include trend indication columns for all evolution columns
+         * this is done to be able to determine safely in the view if an evolution is positive or negative, as this
+         * can't be done with formatted evolution values due to language specific signs being used.
+         *
+         * @see DataComparisonFilter::compareChangePercents
+         */
         $this->requestConfig->request_parameters_to_modify['include_trends'] = '1';
 
         $request = $this->getRequestArray();

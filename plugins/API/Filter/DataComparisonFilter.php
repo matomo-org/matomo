@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\Simple;
 use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
@@ -22,7 +21,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\Filter\DataComparisonFilter\ComparisonRowGenerator;
 use Piwik\Segment;
-use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
 
 /**
@@ -586,6 +584,15 @@ class DataComparisonFilter
         return array_values($dates);
     }
 
+    /**
+     * Returns whether to include trend values for all evolution columns or not
+     * This is requested only for sparklines
+     *
+     * @see \Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines::render()
+     *
+     * @return bool
+     * @throws \Exception
+     */
     private function shouldIncludeTrendValues(): bool
     {
         return (bool) Common::getRequestVar('include_trends', 0, 'int', $this->request);
