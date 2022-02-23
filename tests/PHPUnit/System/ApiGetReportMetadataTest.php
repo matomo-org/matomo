@@ -33,10 +33,6 @@ class ApiGetReportMetadataTest extends SystemTestCase
         // URLs for the ignored functions
         Proxy::getInstance()->setHideIgnoredFunctions(false);
 
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $this->markTestSkipped('Skipping for PHP8');
-        }
-
     }
 
     public function tearDown(): void
