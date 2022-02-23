@@ -464,7 +464,7 @@ class Visualization extends ViewDataTable
 
         } else {
             if ($this->dataTable instanceof DataTable\Map) {
-                $this->metadata = $this->dataTable->getLastMetaData();
+                $this->metadata = $this->dataTable->getLatestMetaData();
             }
         }
         if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
