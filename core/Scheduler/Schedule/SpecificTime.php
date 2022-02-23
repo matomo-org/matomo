@@ -30,4 +30,10 @@ class SpecificTime extends Schedule
     {
         throw new \Exception('not supported');
     }
+
+    public function setScheduledTime($scheduledTime)
+    {
+        $this->scheduledTime = $scheduledTime;
+    }
+
 }

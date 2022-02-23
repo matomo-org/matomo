@@ -2,7 +2,6 @@
     "API": {
         "ChangeTokenHint": "Se quiser alterar este código, por favor, aceda à sua %1$spágina de definições pessoais%2$s.",
         "EvolutionMetricName": "Evolução de %s",
-        "GenerateVisits": "Se não tem dados para hoje, pode gerar primeiro alguns utilizando a extensão %1$s. Pode ativar a extensão %2$s e depois clicar no menu 'Gerador de Visitante' na área de «Administração» do Matomo.",
         "Glossary": "Glossário",
         "KeepTokenSecret": "Este token_auth é tão secreto como o seu nome de utilizador e a palavra-passe. %1$s não o partilhe%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Saber mais sobre os termos mais utilizados para obter o máximo do Matomo Analytics.",

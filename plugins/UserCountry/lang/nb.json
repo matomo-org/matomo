@@ -9,8 +9,11 @@
         "CountryCode": "Landskode",
         "CurrentLocationIntro": "Ifølge denne leverandøren, er din nåværende posisjon",
         "DefaultLocationProviderDesc2": "Dette er ikke veldig nøyaktig, så %1$s det anbefales å installere og bruke %2$sen geoposisjonsdatabase%3$s. %4$s",
+        "DefaultLocationProviderExplanation": "Du bruker forvalgt posisjonstilbyder, noe som betyr at Matomo gjetter den besøkendes posisjon basert på språket de bruker. %1$sLes dette%2$s for å lære mer om hvordan du setter opp mer nøyaktig geoposisjonering.",
+        "DisabledLocationProvider": "Skrur av geolokaliseringen.",
         "DistinctCountries": "%s bestemte land",
         "FromDifferentCities": "forskjellige byer",
+        "GeoIPDocumentationSuffix": "For å kunne se data for denne rapporten, må du sette opp GeoIP i administratorfanen for geoposisjonering. De kommersielle %1$sMaxMind%2$sGeoIP-databasene er mer nøyaktige enn dem som er gratis. For å se hvor nøyaktige de er kan du klikke %3$sher%4$s.",
         "Geolocation": "Geoposisjonering",
         "GeolocationPageDesc": "På denne siden kan du endre hvordan Matomo bestemmer posisjon for besøk.",
         "GeolocationProviderBroken": "Oppsatt %1$s-geoposisjonstilbyder er ødelagt. Fiks tilbyderen eller sett opp en annen for å få geoposisjonering til å virke igjen.",
@@ -27,6 +30,8 @@
         "country_a1": "Anonym Proxy",
         "country_a2": "Satellitt-tilbyder",
         "country_cat": "Områder som snakker katalansk",
-        "country_o1": "Annet land"
+        "country_o1": "Annet land",
+        "getContinentDocumentation": "Denne rapporten viser hvilket kontinent dine besøkende var i da de besøkte nettsiden din.",
+        "getCountryDocumentation": "Denne rapporten viser hvilket land dine besøkende var i da de besøkte nettsiden din."
     }
 }

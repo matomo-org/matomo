@@ -12,16 +12,17 @@
         "LoadingSegmentedDataMayTakeSomeTime": "Memproses pecahan data pengunjung mungkin membutuhkan waktu beberapa menit...",
         "OperatorAND": "TAMBAH",
         "OperatorOR": "ATAU",
+        "PluginDescription": "Segmen adalah kumpulan kriteria yang digunakan untuk memilih hanya sebagian dari keseluruhan kumpulan kunjungan. Dengan menggunakan segmen, Anda dapat memasukkan kembali konteks arbitrer ke dalam laporan Anda.",
         "SaveAndApply": "Simpan dan Terapkan",
         "SegmentDisplayedAllWebsites": "seluruh situs",
         "SegmentDisplayedThisWebsiteOnly": "hanya situs ini",
         "SegmentIsDisplayedForWebsite": "dan diproses untuk",
+        "SegmentOperatorIsNotNullNorEmpty": "tidak boleh null atau kosong",
+        "SharedWithYou": "Berbagi dengan Anda",
+        "Test": "Percobaan",
         "ThisSegmentIsVisibleTo": "Pecahan ini tampak untuk:",
         "VisibleToAllUsers": "seluruh pengunjung",
         "VisibleToMe": "saya",
-        "SharedWithYou": "Berbagi dengan Anda",
-        "YouMustBeLoggedInToCreateSegments": "Anda harus masuk-log untuk membuat dan menyunting pecahan pengunjung kustom.",
-        "SegmentOperatorIsNotNullNorEmpty": "tidak boleh null atau kosong",
-        "Test": "Percobaan"
+        "YouMustBeLoggedInToCreateSegments": "Anda harus masuk-log untuk membuat dan menyunting pecahan pengunjung kustom."
     }
 }

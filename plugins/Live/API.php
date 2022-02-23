@@ -148,6 +148,12 @@ class API extends \Piwik\Plugin\API
         }
         Piwik::checkUserHasViewAccess($idSites);
 
+        if (is_numeric($minTimestamp)) {
+            $minTimestamp = (int) $minTimestamp;
+        } else {
+            $minTimestamp = false;
+        }
+
         if (Request::isCurrentApiRequestTheRootApiRequest() || !in_array(Request::getRootApiRequestMethod(), ['API.getSuggestedValuesForSegment', 'PrivacyManager.findDataSubjects'])) {
             if (is_array($idSites)) {
                 $filteredSites = array_filter($idSites, function($idSite) {
@@ -204,7 +210,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         Live::checkIsVisitorProfileEnabled($idSite);
 
-        if ($limitVisits <= 0) {
+        if (!is_numeric($limitVisits) || $limitVisits <= 0) {
             $limitVisits = VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW;
         } else {
             $limitVisits = (int) $limitVisits;

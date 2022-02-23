@@ -123,6 +123,7 @@
 
                                     {% if plugin.shop.variations|length %}
 
+                                        <h4 style="color:#5bb75b;font-weight: bold;font-size: 1.2em;">{{ 'Marketplace_TryFreeTrialTitle'|translate }}</h4>
                                         <div class="input-field variationPicker">
                                             <select title="{{ 'Marketplace_ShownPriceIsExclTax'|translate|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}">
                                                 {% for variation in plugin.shop.variations %}
