@@ -461,9 +461,14 @@ class Visualization extends ViewDataTable
         if ($this->dataTable instanceof DataTable) {
             $this->metadata = $this->dataTable->getAllTableMetadata();
 
-            if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText();
+
+        } else {
+            if ($this->dataTable instanceof DataTable\Map) {
+                $this->metadata = $this->dataTable->getLastMetaData();
             }
+        }
+        if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+            $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText();
         }
 
         $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;

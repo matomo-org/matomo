@@ -540,4 +540,10 @@ class Map implements DataTableInterface
         }
         return array();
     }
+
+    public function getLastMetaData()
+    {
+        $lastItem = end($this->array);
+        return $lastItem->getAllTableMetadata();
+    }
 }
