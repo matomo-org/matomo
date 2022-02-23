@@ -31,6 +31,9 @@ describe("Comparison", function () {
             + "actionToWidgetize=getSearchEngines&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1" + comparePeriod,
         visitOverviewWidget = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
             "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&" + generalParams + "&" +
+            compareParams,
+        visitOverviewSparklines = "?module=Widgetize&action=iframe&disableLink=1&widget=1&" +
+            "moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=sparklines&" + generalParams + "&" +
             compareParams
     ;
 
@@ -251,5 +254,16 @@ describe("Comparison", function () {
         await page.goto(visitOverviewWidget);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget');
+    });
+
+    it('should show evolution metrics correctly formatted in other language', async () => {
+        await page.goto(visitOverviewSparklines + '&language=sv');
+        await page.waitForNetworkIdle();
+        await page.evaluate(function(){
+            // replace all metric names with `metric name` to avoid test failures when metric translation changes
+            $('.sparkline-metrics').each(function(){ $(this).html($(this).find('strong').prop('outerHTML') + ' metric name') });
+        });
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_sv');
     });
 });
