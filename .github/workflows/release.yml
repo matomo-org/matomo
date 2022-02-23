@@ -3,7 +3,6 @@
 # Required GitHub secrets:
 # 
 # RELEASE_PASSWORD  |  password that needs to be provided to start the action
-# GITTOKEN  |  GitHub token from someone that has access the the release team (@matomo-org/release-team)
 # GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
 # GPG_CERTIFICATE_PASS  |  Passphrase of the GPG key
 
@@ -49,7 +48,7 @@ jobs:
         run: |
           MEMBER=$( curl -s \
                  --request GET \
-                 --header 'authorization: Bearer ${{ secrets.GITTOKEN }}' \
+                 --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
                  --header 'content-type: application/json' \
                  --url https://api.github.com/orgs/matomo-org/teams/release-team/members \
                  | jq '.[] | select(.login == "${{ github.actor }}")' )
