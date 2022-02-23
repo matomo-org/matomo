@@ -83,7 +83,9 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         $totalSize = 0;
         foreach ($allPluginUmds as $chunk) {
-            $totalSize += filesize($chunk->getFiles()[0]);
+            if (is_file($chunk->getFiles()[0])) {
+                $totalSize += filesize($chunk->getFiles()[0]);
+            }
         }
         return $totalSize;
     }
@@ -114,6 +116,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $currentChunkIndex = 0;
         $currentChunkSize = 0;
         foreach ($allPluginUmds as $pluginChunk) {
+            if (!is_file($pluginChunk->getFiles()[0])) {
+                continue;
+            }
+
             $size = filesize($pluginChunk->getFiles()[0]);
             $currentChunkSize += $size;
 
