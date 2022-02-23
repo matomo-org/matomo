@@ -81,6 +81,7 @@ class Sparklines extends ViewDataTable
 
         $this->requestConfig->request_parameters_to_modify['columns'] = $columnsList;
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = '1';
+        $this->requestConfig->request_parameters_to_modify['include_trends'] = '1';
 
         $request = $this->getRequestArray();
         if ($this->isComparing()

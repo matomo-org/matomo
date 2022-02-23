@@ -484,7 +484,7 @@ class DataComparisonFilter
                 /** @var DataTable\Row[] $rows */
                 $rows = array_values($comparisons->getRows());
                 foreach ($rows as $index => $compareRow) {
-                    list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices($table, $index, $segmentCount);
+                    [$periodIndex, $segmentIndex] = self::getIndividualComparisonRowIndices($table, $index, $segmentCount);
 
                     if (!$this->invertCompareChangeCompute && $index < $segmentCount) {
                         continue; // do not calculate for first period
@@ -504,11 +504,15 @@ class DataComparisonFilter
                     foreach ($compareRow->getColumns() as $name => $value) {
                         [$changeTo, $trendTo] = $this->computeChangePercent($otherPeriodRow, $compareRow, $name);
                         $compareRow->addColumn($name . '_change', $changeTo);
-                        $compareRow->addColumn($name . '_trend', $trendTo);
+                        if ($this->shouldIncludeTrendValues()) {
+                            $compareRow->addColumn($name . '_trend', $trendTo);
+                        }
 
                         [$changeFrom, $trendFrom] = $this->computeChangePercent($compareRow, $otherPeriodRow, $name);
                         $compareRow->addColumn($name . '_change_from', $changeFrom);
-                        $compareRow->addColumn($name . '_trend_from', $trendFrom);
+                        if ($this->shouldIncludeTrendValues()) {
+                            $compareRow->addColumn($name . '_trend_from', $trendFrom);
+                        }
                     }
                 }
             }
@@ -582,6 +586,11 @@ class DataComparisonFilter
         return array_values($dates);
     }
 
+    private function shouldIncludeTrendValues(): bool
+    {
+        return (bool) Common::getRequestVar('include_trends', 0, 'int', $this->request);
+    }
+
     /**
      * Returns the pretty series label for a specific comparison based on the currently set comparison query parameters.
      *
@@ -593,7 +602,7 @@ class DataComparisonFilter
         $comparePeriods = self::getComparePeriods();
         $compareDates = self::getCompareDates();
 
-        list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices(null, $labelSeriesIndex, count($compareSegments));
+        [$periodIndex, $segmentIndex] = self::getIndividualComparisonRowIndices(null, $labelSeriesIndex, count($compareSegments));
 
         $segmentObj = new Segment($compareSegments[$segmentIndex], []);
         $prettySegment = $segmentObj->getStoredSegmentName(false);
