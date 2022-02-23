@@ -9,7 +9,7 @@
         "ConfigIniAccessible": "Abbiamo anche riscontrato che la directory di configurazione di Matomo è accessibile pubblicamente. Sebbene gli aggressori non possano leggere la configurazione ora, se il tuo server web interrompe l'esecuzione dei file PHP per qualche motivo, le tue credenziali MySQL e altre informazioni saranno disponibili a chiunque. Controlla la configurazione del tuo server web e nega l'accesso a questa directory.",
         "CronArchivingHasNotRun": "L'archiviazione non è ancora stata eseguita con successo.",
         "CronArchivingHasNotRunInAWhile": "L'ultima archiviazione è stata eseguita con successo il %1$s, cioè %2$s fa.",
-        "CronArchivingLastRunCheck": "Ultima Archiviazione Completata con Successo",
+        "CronArchivingLastRunCheck": "Ultima archiviazione completata con successo",
         "CronArchivingRanSuccessfullyXAgo": "Il processo di archiviazione è stato completato con successo %1$s fa.",
         "CronArchivingRunDetails": "Verifica di aver configurato un crontab per chiamare il comando di console %1$s, e di aver configurato un %2$s per ricevere gli errori via email se l'archiviazione fallisce. Puoi anche provare a eseguire il comando di console per archiviare manualmente i tuoi report: %3$s. %4$sPer saperne di più.%5$s",
         "DatabaseReaderConnection": "Connessione al Lettore del Database",

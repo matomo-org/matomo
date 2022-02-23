@@ -17,6 +17,7 @@
         "EventValue": "Hendelsesverdi",
         "EventValueTooltip": "Total hendelsesverdi er summen av alle %1$s hendelsesverdier %2$s mellom minimumsverdi %3$s og maksimumsverdi %4$s.",
         "Events": "Hendelser",
+        "EventsSubcategoryHelp2": "Lær mer om hendelsessporing her.",
         "EventsWithValue": "Hendelser med en verdi",
         "EventsWithValueDocumentation": "Antall hendelser der en hendelsesverdi er satt",
         "MaxValue": "Maks. hendelsesverdi",

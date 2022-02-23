@@ -152,7 +152,6 @@
         "RolesHelp": "Rollen geben vor, was ein Benutzer in Matomo im Bezug auf eine bestimmte Webseite tun kann. Lernen Sie mehr über die %1$sAnzeige%2$s und %3$sAdmin%4$s Rollen.",
         "SaveBasicInfo": "Basisinformationen speichern",
         "SetPermission": "Berechtigung setzen",
-        "ShowAll": "Alle anzeigen",
         "SuperUserAccess": "Hauptadministratoren-Zugriff",
         "SuperUserAccessManagement": "Hauptadministrator-Berechtigung verwalten",
         "SuperUserAccessManagementGrantMore": "Hier können Sie anderen Benutzern von Matomo Hauptadministrator-Berechtigung geben. Bitte nutzen Sie diese Funktion mit Bedacht.",

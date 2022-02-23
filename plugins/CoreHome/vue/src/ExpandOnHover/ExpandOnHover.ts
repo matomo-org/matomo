@@ -10,8 +10,10 @@ import Matomo from '../Matomo/Matomo';
 import DirectiveUtilities from '../directiveUtilities';
 
 interface ExpandOnHoverArgs {
+  // input (provided by user)
   expander: string | HTMLElement,
 
+  // event handlers
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   onClickOutsideElement?: (event: MouseEvent) => void;

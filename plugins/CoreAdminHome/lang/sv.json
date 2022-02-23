@@ -92,7 +92,7 @@
         "OptOutExplanation": "Matomo är dedikerat till att erbjuda personlig integritet på Internet. För att ge dina besökare möjligheten att välja om de ska exkluderas från Matomos webbanalys, kan du lägga till följande HTML-kod på någon av din webbplats sidor, t.ex. på en sida om sekretesspolicy.",
         "OptOutExplanationIntro": "Denna kod kommer att visas i en Iframe som innehåller en länk så att dina besökare kan välja bort Matomo genom att sätta en cookie i sina webbläsare. Se nedan (eller %1$s klicka här%2$s) för att visa innehållet som kommer att visas i Iframe'n.",
         "OptOutForYourVisitors": "Exkludera spårning för dina besökare",
-        "OptingYouOut": "Undantar dig, vänligen vänta...",
+        "OptingYouOut": "Undantar dig, vänligen vänta…",
         "PersonalPluginSettings": "Personliga plugininställningar",
         "PiwikIsInstalledAt": "Matomo är installerat på",
         "PluginSettingChangeNotAllowed": "Det är inte tillåtet att ändra värdet i inställningar för \"%1$s\" i plugin \"\"%2$s\"",

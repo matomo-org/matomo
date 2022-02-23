@@ -4,8 +4,9 @@
         "Bing_IndexedPages": "Pàgines indexades per Bing",
         "DomainAge": "Edat del domini",
         "Google_IndexedPages": "Pàgines indexades per Google",
+        "PluginDescription": "Aquest connector extreu i mostra mètriques de SEO: rànquing web d'Alexa, Google Pagerank, nombre de pàgines indexades i enllaços d'entrada del lloc web seleccionat actualment.",
         "Rank": "Ranking",
-        "SeoRankings": "Ranking SEO",
-        "SEORankingsFor": "Ranking SEO per %s"
+        "SEORankingsFor": "Ranking SEO per %s",
+        "SeoRankings": "Ranking SEO"
     }
 }

@@ -22,10 +22,10 @@
         "LastSeen": "آخرین بازدید",
         "ManageAccess": "مدیریت دسترسی",
         "MenuAnonymousUserSettings": "تنظیمات کاربران ناشناس",
-        "MenuUsers": "کاربران",
         "MenuUserSettings": "تنضیمات کاربران",
-        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "توجه: شما نمی توانید تنظیمات این بخش را تغییر دهید , زیرا شما هیچ وبسایتی ندارید که بتوان با کاربر ناشناخته به آن دسترسی داشت .",
+        "MenuUsers": "کاربران",
         "NoUsersExist": "هنوز کاربری وجود ندارد",
+        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "توجه: شما نمی توانید تنظیمات این بخش را تغییر دهید , زیرا شما هیچ وبسایتی ندارید که بتوان با کاربر ناشناخته به آن دسترسی داشت .",
         "PrivAdmin": "مدیر",
         "PrivNone": "عدم دسترسی",
         "PrivView": "نمایش",
@@ -36,10 +36,9 @@
         "ThereAreCurrentlyNRegisteredUsers": "هم اکنون %s کاربر عضو وجود دارد.",
         "TypeYourPasswordAgain": "پسورد جدیدتان را دوباره بنویسید.",
         "User": "کاربر",
+        "Username": "نام کاریری",
         "UsersManagement": "مدیریت کاربران",
         "UsersManagementMainDescription": "ایجاد کاربران جدید و یا به روز رسانی کاربران موجود است. بعد از آن شما می توانند مجوز خود را به صورت فوق تنظیم شده است.",
-        "YourUsernameCannotBeChanged": "نام کاربری شما نمی تواند تغییر کند.",
-        "ShowAll": "همه را نشان بده",
-        "Username": "نام کاریری"
+        "YourUsernameCannotBeChanged": "نام کاربری شما نمی تواند تغییر کند."
     }
 }
