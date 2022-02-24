@@ -45,6 +45,7 @@
     event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
+    userAgentData, getHighEntropyValues, brands, uaFullVersion, fullVersionList,
     serviceWorker, ready, then, sync, register,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
@@ -3033,24 +3034,21 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function injectClientHints (request, callback) {
-                if (!navigatorAlias.userAgentData) {
+                if (!isDefined(navigatorAlias.userAgentData) || !isDefined(navigatorAlias.userAgentData.getHighEntropyValues)) {
                     callback(request);
                 }
 
                 var appendix = '';
 
-                if (navigatorAlias.brands.length) {
-                    appendix += '&ua_browser=' + navigatorAlias.brands[navigatorAlias.brands.length - 1].brand;
-                }
-
                 navigatorAlias.userAgentData.getHighEntropyValues(
-                    ["model", "platform", "platformVersion",
-                        "uaFullVersion"]
+                    ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']
                 ).then(function(ua) {
-                    appendix += '&ua_model=' + ua.model;
-                    appendix += '&ua_os=' + ua.platform;
-                    appendix += '&ua_osv=' + ua.platformVersion;
-                    appendix += '&ua_browserv=' + ua.uaFullVersion;
+                    if (ua.fullVersionList) {
+                        // if fullVersionList is available, brands and uaFullVersion isn't needed
+                        delete ua.brands;
+                        delete ua.uaFullVersion;
+                    }
+                    appendix += '&uadata=' + JSON.stringify(ua);
 
                     if (request instanceof Array) {
                         for (i = 0; i < request.length; i++) {

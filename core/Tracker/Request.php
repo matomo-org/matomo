@@ -634,6 +634,20 @@ class Request
         return Common::getRequestVar('ua', $default, 'string', $this->params);
     }
 
+    public function getClientHints()
+    {
+        $default = [];
+
+        // use headers as default if no data was send with the tracking request
+        foreach ($_SERVER as $key => $value) {
+            if (0 === strpos(strtolower($key), strtolower('Sec-CH-UA'))) {
+                $default[$key] = $value;
+            }
+        }
+
+        return Common::getRequestVar('uadata', $default, 'json', $this->params);
+    }
+
     public function shouldUseThirdPartyCookie()
     {
         return TrackerConfig::getConfigValue('use_third_party_id_cookie', $this->getIdSiteIfExists());

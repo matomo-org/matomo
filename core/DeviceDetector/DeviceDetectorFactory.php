@@ -19,37 +19,39 @@ class DeviceDetectorFactory
      * Returns an instance of DeviceDetector for the given user agent. Uses template method pattern
      * and calls getDeviceDetectionInfo() when it doesn't find a matching instance in the cache.
      * @param string $userAgent
+     * @param array $clientHints
      * @return DeviceDetector|mixed
      */
-    public function makeInstance($userAgent)
+    public function makeInstance($userAgent, $clientHints)
     {
-        $userAgent = self::getNormalizedUserAgent($userAgent);
+        $cacheKey = self::getNormalizedUserAgent($userAgent, $clientHints);
 
-        if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
+        if (array_key_exists($cacheKey, self::$deviceDetectorInstances)) {
             return self::$deviceDetectorInstances[$userAgent];
         }
 
-        $deviceDetector = $this->getDeviceDetectionInfo($userAgent);
+        $deviceDetector = $this->getDeviceDetectionInfo($userAgent, $clientHints);
 
-        self::$deviceDetectorInstances[$userAgent] = $deviceDetector;
+        self::$deviceDetectorInstances[$cacheKey] = $deviceDetector;
 
         return $deviceDetector;
     }
 
-    public static function getNormalizedUserAgent($userAgent)
+    public static function getNormalizedUserAgent($userAgent, $clientHints = [])
     {
-        return mb_substr(trim($userAgent), 0, 500);
+        return mb_substr(md5(json_encode($clientHints) ?? '') . trim($userAgent), 0, 500);
     }
 
     /**
      * Creates a new DeviceDetector for the user agent. Called by makeInstance() when no matching instance
      * was found in the cache.
-     * @param $userAgent
+     * @param string $userAgent
+     * @param array $clientHints
      * @return DeviceDetector
      */
-    protected function getDeviceDetectionInfo($userAgent)
+    protected function getDeviceDetectionInfo($userAgent, $clientHints = [])
     {
-        $deviceDetector = new DeviceDetector($userAgent);
+        $deviceDetector = new DeviceDetector($userAgent, $clientHints);
         $deviceDetector->discardBotInformation();
         $deviceDetector->setCache(StaticContainer::get('DeviceDetector\Cache\Cache'));
         $deviceDetector->parse();
