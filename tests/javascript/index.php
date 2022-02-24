@@ -3177,7 +3177,6 @@ function PiwikTest() {
         var userIdString = 'userid@mydomain.org';
 
         var tracker = Piwik.getTracker();
-        tracker.trackPageView();
 
         // Force the cookie to be created....
         var visitorId = tracker.getVisitorId();
