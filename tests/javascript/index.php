@@ -2288,7 +2288,6 @@ function PiwikTest() {
         deleteCookies();
 
         var asyncTracker = Piwik.getAsyncTracker();
-        asyncTracker.trackPageView();
         var asyncVisitorId = asyncTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getSiteId(), asyncTracker.getSiteId(), 'async same site id');
         equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
@@ -2296,19 +2295,16 @@ function PiwikTest() {
         wait(2000);
 
         var delayedTracker = Piwik.getTracker();
-        delayedTracker.trackPageView();
         var delayedVisitorId = delayedTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
 
         var prefixTracker = Piwik.getTracker();
         prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
-        prefixTracker.trackPageView();
 
         var prefixVisitorId = prefixTracker.getVisitorId();
         notEqual(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'Visitor ID are different when using a different cookie prefix');
 
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
-        customTracker.trackPageView();
         var customVisitorId = customTracker.getVisitorId();
         notEqual(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'Visitor ID are different on different websites');
     });
@@ -3680,16 +3676,14 @@ if ($mysql) {
 
         tracker.setTrackerUrl("matomo.php");
 
-        equal(tracker.getCurrentUrl(), location.href, "getCurrentUrl, when no custom url set" );
-
-        tracker.trackPageView();
-
         var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
         strictEqual(thirteenMonths, tracker.getConfigVisitorCookieTimeout(), 'default visitor timeout should be 13 months');
 
         var actualTimeout   = tracker.getRemainingVisitorCookieTimeout();
         var isAbout13Months = (thirteenMonths + 1000) > actualTimeout && ((thirteenMonths - 6000) < actualTimeout);
         ok(isAbout13Months, 'remaining cookieTimeout should be about the deault tiemout of 13 months (' + thirteenMonths + ') but is ' + actualTimeout);
+
+        equal(tracker.getCurrentUrl(), location.href, "getCurrentUrl, when no custom url set" );
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
@@ -3779,7 +3773,7 @@ if ($mysql) {
         var referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
-        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+        strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
@@ -3788,7 +3782,7 @@ if ($mysql) {
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
-        strictEqual(3, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageviewCustomTitle = tracker.getConfigIdPageView();
         ok(idPageviewCustomTitle != idPageview, 'trackPageview, should generate a new random pageview id whenever it is called');
@@ -4154,7 +4148,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "65", "count tracking events" );
+                equal( countTrackingEvents[1], "54", "count tracking events" );
             }
 
             // firing callback
@@ -5218,7 +5212,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 530, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 530 ' );
+        ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);

@@ -2233,6 +2233,9 @@ if (typeof window.Matomo !== 'object') {
                 // Visitor UUID
                 visitorUUID = '',
 
+                // Initial VisitorId
+                initialVisitorIdCookie = [],
+
                 // Document URL
                 configCustomUrl,
 
@@ -3348,6 +3351,10 @@ if (typeof window.Matomo !== 'object') {
                     return cookieValue;
                 }
 
+                if (initialVisitorIdCookie.length) {
+                    return initialVisitorIdCookie;
+                }
+
                 if(visitorUUID.length) {
                     uuid = visitorUUID;
                 } else if ('0' === hasCookies()){
@@ -3357,7 +3364,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 // No visitor ID cookie, let's create a new one
-                cookieValue = [
+                initialVisitorIdCookie = [
                     // new visitor
                     '1',
 
@@ -3368,7 +3375,7 @@ if (typeof window.Matomo !== 'object') {
                     nowTs
                 ];
 
-                return cookieValue;
+                return initialVisitorIdCookie;
             }
 
 
