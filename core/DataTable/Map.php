@@ -11,8 +11,8 @@ namespace Piwik\DataTable;
 use Closure;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable\Renderer\Html;
-use Piwik\Exception\Exception;
 
 /**
  * Stores an array of {@link DataTable}s indexed by one type of {@link DataTable} metadata (such as site ID
@@ -539,26 +539,5 @@ class Map implements DataTableInterface
             }
         }
         return array();
-    }
-
-
-    /**
-     * Return the metadata of the latest item in the datable array.
-     * @return array
-     * @throws Exception
-     */
-    public function getLatestMetaData()
-    {
-
-        $largestKey = null;
-        // find the largest key
-        foreach ($this->array as $key => $item) {
-            if (!$largestKey || (strtotime($largestKey) < strtotime($key))) {
-                $largestKey = $key;
-            }
-        }
-
-        $latestItem = $this->array[$largestKey];
-        return $latestItem->getAllTableMetadata();
     }
 }
