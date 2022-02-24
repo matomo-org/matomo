@@ -4,7 +4,7 @@
         "BrowserWithPluginsEnabled": "%1$s me shtojca %2$s të aktivizuara",
         "PluginDescription": "Raporton listën e shtojcave që mbulohen nga shfletuesit e përdoruesve.",
         "PluginDetectionDoesNotWorkInIE": "Shënim: Zbulimi i shtojcave nuk funksionon nën Internet Explorer më të hershëm se 11. Ky raport bazohet vetëm në shfletues jo-IE dhe versione IE më të rinj.",
-        "WidgetPlugins": "Listë e Shtojcave",
+        "WidgetPlugins": "Shtojca Shfletuesish",
         "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj."
     }
 }
