@@ -1,11 +1,11 @@
 {
     "Live": {
         "GoalType": "Tipus",
-        "KeywordRankedOnSearchResultForThisVisitor": "La paraula clau %1$s està a la posició %2$s del ranking de %3$s resultats de cerca per aquest visitant.",
+        "KeywordRankedOnSearchResultForThisVisitor": "La paraula clau %1$s es va classificar %2$s a la pàgina de resultats de la cerca de %3$s per a aquest visitant",
         "LastHours": "Últimes %s hores",
         "LastMinutes": "Últims %s minuts",
         "MorePagesNotDisplayed": "No es mostre més pàgines per aquest visitant",
-        "PageRefreshed": "Nombre de vegades que s'ha vist\/refrescat una pàgina",
+        "PageRefreshed": "Nombre de vegades seguides que s'ha vist/s'ha actualitzat aquesta pàgina.",
         "Referrer_URL": "URL del referent",
         "VisitorLogDocumentation": "Aquesta taula mostra les últimes visites pel període de temps seleccionat. Podeu veure quan s'ha produït l'últim accès d'un visitant pasant per damunt de la data de visita. %1$s Si el període de temps inclou avui, podeu veure els visitants en temps real! %2$s La informació que es mostra és sempre en directa, sense dependre de cada quan executeu el treball programat d'arxivat.",
         "VisitorsLastVisit": "L'ultima visita d'aquest visitant va ser fa %s dies."

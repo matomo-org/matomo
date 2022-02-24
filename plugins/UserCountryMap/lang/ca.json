@@ -1,6 +1,28 @@
 {
     "UserCountryMap": {
-        "map": "mapa",
-        "ShowingVisits": "Visites geolocalitzades des de l'última vegada"
+        "AndNOthers": "i %s altres",
+        "Cities": "Ciutats",
+        "Countries": "Països",
+        "DaysAgo": "fa %s dies",
+        "GoalConversions": "%s conversió d'objectius",
+        "HoursAgo": "fa %s hores",
+        "MinutesAgo": "fa %s minuts",
+        "NoVisit": "Cap visita",
+        "NoVisitsInfo": "No hi ha visites mostrades actualment, perquè cap visita d'aquest període té la informació de geolocalització correcta (latitud i longitud).",
+        "NoVisitsInfo2": "Per resoldre aquest problema assegureu-vos que feu servir un proveïdor de geolocalització GeoIP amb una base de dades de ciutat GeoIP. Si això no resol el vostre problema, és possible (encara que poc probable) que les vostres visites tinguin adreces IP que simplement no es poden geolocalitzar.",
+        "None": "Cap",
+        "PluginDescription": "Aquest connector proporciona els widgets Mapa de visitants i Mapa en temps real. Nota: requereix que el connector UserCountry estigui habilitat.",
+        "RealTimeMap": "Mapa en temps real",
+        "RealTimeMapHelp": "El mapa en temps real mostra la ubicació dels visitants al vostre lloc durant els darrers 30 minuts. Les bombolles taronges grans representen visites més recents, mentre que les bombolles grises més petites representen visites més antigues. Aquestes dades s'actualitzen cada cinc segons i apareixen nous visitants amb un efecte intermitent.",
+        "Regions": "Regions",
+        "Searches": "%s cerques",
+        "SecondsAgo": "fa %s segons",
+        "ShowingVisits": "Visites geolocalitzades des de l'última vegada",
+        "Unlocated": "<b>%1$s</b> %2$s de les visites de %3$s no s'han pogut geolocalitzar.",
+        "VisitorMap": "Mapa de visitants",
+        "WithUnknownCity": "%s amb ciutat desconeguda",
+        "WithUnknownRegion": "%s amb ciutat desconeguda",
+        "WorldWide": "Mundial",
+        "map": "mapa"
     }
 }
