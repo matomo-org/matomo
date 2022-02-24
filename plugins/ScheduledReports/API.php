@@ -473,6 +473,10 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        usort($processedReports, function ($a, $b) {
+            return $a['metadata']['uniqueId'] <=> $b['metadata']['uniqueId'];
+        });
+
         /**
          * Triggered when generating the content of scheduled reports.
          *
