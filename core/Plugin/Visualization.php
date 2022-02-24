@@ -463,8 +463,26 @@ class Visualization extends ViewDataTable
 
 
         } else {
+            // if the dataTable is Map
             if ($this->dataTable instanceof DataTable\Map) {
-                $this->metadata = $this->dataTable->getLatestMetaData();
+                // load all the data
+                $dataTable = $this->dataTable->getDataTables();
+                // find the largest key
+                foreach ($dataTable as $item) {
+                    $metaData = $item->getAllTableMetadata();
+                    // if ts_created not exist exit loop
+                    if (!isset($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                        break;
+                    }
+                    // if ts_created not record in the metadata
+                    if (!isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                        $this->metadata = $metaData;
+                    }
+                    // if current is more recent up the metadata
+                    if (strtotime($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                        $this->metadata = $metaData;
+                    }
+                }
             }
         }
         if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
