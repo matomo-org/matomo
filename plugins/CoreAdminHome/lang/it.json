@@ -94,7 +94,7 @@
         "OptOutExplanation": "Matomo è impegnato ad assicurare la riservatezza su Internet. Per dare ai tuoi visitatori la possibilità di escludersi dalle Statistiche Web di Matomo, è possibile aggiungere il seguente codice HTML in una pagina del tuo sito web, ad esempio in una pagina sulla privacy.",
         "OptOutExplanationIntro": "Questo codice mostrerà ai tuoi visitatori un iframe contenente un link per escludersi da Matomo (opt-out) impostando un cookie apposito nel loro browser. Guarda qui sotto (o %1$s clicca qui %2$s) per vedere il contenuto che verrà mostrato dall'iframe.",
         "OptOutForYourVisitors": "Matomo opt-out per i tuoi visitatori",
-        "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi...",
+        "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi…",
         "PersonalPluginSettings": "Impostazioni Personali Plugin",
         "PiwikIsInstalledAt": "Matomo è installato su",
         "PluginSettingChangeNotAllowed": "Non sei abilitato a cambiare il valore dell'impostazione \"%1$s\" nel plugin \"%2$s\"",

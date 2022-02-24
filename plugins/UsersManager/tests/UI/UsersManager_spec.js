@@ -504,7 +504,7 @@ describe("UsersManager", function () {
     });
 
     it('should show error when wrong password entered', async function () {
-        await page.type('.modal.open #currentUserPassword', 'test123456');
+        await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
 
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();

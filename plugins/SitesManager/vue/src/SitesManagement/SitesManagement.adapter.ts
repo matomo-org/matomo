@@ -13,3 +13,7 @@ export default createAngularJsAdapter({
   scope: {},
   directiveName: 'matomoSitesManagement',
 });
+
+// sitesManagerAPI no longer exists, but it is still referenced by a premium feature. the feature
+// doesn't actually use it though so we can just create an empty object for an adapter.
+window.angular.module('piwikApp').factory('sitesManagerAPI', () => ({}));

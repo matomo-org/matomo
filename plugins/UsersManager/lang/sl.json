@@ -11,8 +11,8 @@
         "ExceptionUserDoesNotExist": "Uporabnik \"%s\" ne obstaja.",
         "ManageAccess": "Upravljaj dostop",
         "MenuAnonymousUserSettings": "Nastavitve anonimnih uporabnikov",
-        "MenuUsers": "Uporabniki",
         "MenuUserSettings": "Nastavitve uporabnikov",
+        "MenuUsers": "Uporabniki",
         "PrivAdmin": "Admin",
         "PrivNone": "Ni dostopa",
         "PrivView": "Ogled",
@@ -22,9 +22,8 @@
         "ThereAreCurrentlyNRegisteredUsers": "Trenutno je %s registriranih uporabnikov.",
         "TypeYourPasswordAgain": "Ponovno vpišite vaše novo geslo.",
         "User": "Uporabnik",
+        "Username": "Uporabniško Ime",
         "UsersManagement": "Upravljanje Uporabnikov",
-        "YourUsernameCannotBeChanged": "Vaše uporabniško ime ne more biti spremenjeno.",
-        "ShowAll": "Prikaži vse",
-        "Username": "Uporabniško Ime"
+        "YourUsernameCannotBeChanged": "Vaše uporabniško ime ne more biti spremenjeno."
     }
 }

@@ -41,7 +41,8 @@ class BuildPolyfill extends ConsoleCommand
 
         $dir = PIWIK_INCLUDE_PATH . '/plugins/CoreVue/polyfills';
         foreach (['development', 'production'] as $env) {
-            $command = "cd '$dir' && " . Build::getVueCliServiceBin() . ' build --target app --mode ' . $env . ' --name MatomoPolyfills ./src/index.ts --dest ./dist';
+            $command = "cd '$dir' && BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 " . Build::getVueCliServiceBin()
+                . ' build --target app --mode ' . $env . ' --name MatomoPolyfills ./src/index.ts --dest ./dist';
             if ($env == 'production') {
                 $command .= ' --no-clean';
             }

@@ -1,16 +1,15 @@
 {
     "API": {
         "ChangeTokenHint": "Если вы хотите изменить этот токен, пожалуйста, пройдите на вашу %1$sстраницу персональных настроек%2$s.",
-        "GenerateVisits": "Если у вас нет данных на сегодня, вы можете для начала сгенерировать немного статистики, используя плагин: %1$s. Включите плагин %2$s, кликните на ’Visitor Generator’ в панели администрирования Matomo.",
+        "EvolutionMetricName": "%s Динамика",
+        "Glossary": "Глоссарий",
         "KeepTokenSecret": "Этот token_auth является таким же секретным, как ваш логин и пароль. %1$s НЕ СООБЩАЙТЕ ЕГО НИКОМУ%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Узнайте о наиболее часто используемых терминах, чтобы максимально использовать Matomo Analytics.",
         "LoadedAPIs": "%s API успешно загружены",
         "MoreInformation": "Чтобы узнать больше информации о Matomo API, пожалуйста, посмотрите раздел %1$s Introduction to Matomo API %2$s и %3$s Matomo API Reference %4$s.",
         "PluginDescription": "Все данные из Matomo доступны через простые API. Этот плагин является входной точкой для веб сервиса, который можно вызвать чтобы получить данные веб аналитики в xml, json, php, csv и др.",
         "ReportingApiReference": "Сообщение справочной информации по API",
         "TopLinkTooltip": "Получайте доступ к вашей веб-аналитике с помощью простого API и использования json, xml и др.",
-        "UserAuthentication": "Аутентификация пользователя",
-        "Glossary": "Глоссарий",
-        "LearnAboutCommonlyUsedTerms2": "Узнайте о наиболее часто используемых терминах, чтобы максимально использовать Matomo Analytics.",
-        "EvolutionMetricName": "%s Динамика"
+        "UserAuthentication": "Аутентификация пользователя"
     }
 }

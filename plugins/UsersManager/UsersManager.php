@@ -36,7 +36,6 @@ class UsersManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
@@ -119,17 +118,6 @@ class UsersManager extends \Piwik\Plugin
     public function deleteSite($idSite)
     {
         Option::deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
-    }
-
-    /**
-     * Return list of plug-in specific JavaScript files to be imported by the asset manager
-     *
-     * @see \Piwik\AssetManager
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
     }
 
     /**
@@ -330,5 +318,15 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
         $translationKeys[] = 'UsersManager_FirstWebsitePermission';
+        $translationKeys[] = 'UsersManager_YourUsernameCannotBeChanged';
+        $translationKeys[] = 'General_Language';
+        $translationKeys[] = 'LanguagesManager_AboutPiwikTranslations';
+        $translationKeys[] = 'General_TimeFormat';
+        $translationKeys[] = 'UsersManager_ReportToLoadByDefault';
+        $translationKeys[] = 'UsersManager_ReportDateToLoadByDefault';
+        $translationKeys[] = 'UsersManager_NewsletterSignupTitle';
+        $translationKeys[] = 'UsersManager_NewsletterSignupMessage';
+        $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
+        $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
     }
 }
