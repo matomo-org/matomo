@@ -398,7 +398,15 @@ class Model
         $segment = new Segment($segment, $idSite, $startDate, $endDate = null);
         $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $numVisitors = Db::getReader()->fetchOne($query['sql'], $query['bind']);
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $this->getLiveQueryMaxExecutionTime());
+
+        $readerDb = Db::getReader();
+        try {
+            $numVisitors = $readerDb->fetchOne($query['sql'], $query['bind']);
+        } catch (Exception $e) {
+            $this->handleMaxExecutionTimeError($readerDb, $e, $segment, $startDate, Date::now(), null, 0, $query);
+            throw $e;
+        }
 
         return $numVisitors;
     }
@@ -529,7 +537,9 @@ class Model
 
         if (!$visitorId) {
             // for now let's not apply when looking for a specific visitor
-            $innerQuery['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($innerQuery['sql'], Config::getInstance()->General['live_query_max_execution_time']);
+            $innerQuery['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($innerQuery['sql'],
+                $this->getLiveQueryMaxExecutionTime()
+            );
         }
 
         return array($innerQuery['sql'], $bind);
@@ -655,5 +665,10 @@ class Model
             $where = false;
         }
         return array($whereBind, $where);
+    }
+
+    private function getLiveQueryMaxExecutionTime()
+    {
+        return Config::getInstance()->General['live_query_max_execution_time'];
     }
 }
