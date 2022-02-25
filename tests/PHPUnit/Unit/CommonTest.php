@@ -23,6 +23,7 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
 /**
  * @backupGlobals enabled
  * @group         Common
+ * @group         Core
  */
 class CommonTest extends TestCase
 {
@@ -261,7 +262,6 @@ class CommonTest extends TestCase
 
     /**
      * @dataProvider getRequestVarValues
-     * @group        Core
      */
     public function testGetRequestVar($varValue, $default, $type, $expected)
     {
@@ -322,10 +322,10 @@ class CommonTest extends TestCase
     public function testSafeUnserialize()
     {
         // should unserialize an allowed class
-        $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}', ['Piwik\Common']) instanceof Common);
+        self::assertInstanceOf(Common::class, Common::safe_unserialize('O:12:"Piwik\Common":0:{}', ['Piwik\Common']));
 
         // not allowed classed should result in an incomplete class
-        $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}') instanceof __PHP_Incomplete_Class);
+        self::assertInstanceOf(__PHP_Incomplete_Class::class, Common::safe_unserialize('O:12:"Piwik\Common":0:{}'));
 
         // strings not unserializable should return false and trigger a debug log
         $logger = $this->createFakeLogger();
@@ -334,6 +334,99 @@ class CommonTest extends TestCase
             'Unable to unserialize a string: unserialize(): Error at offset 0 of 14 bytes',
             $logger->output
         );
+
+        /*
+         * serialize() uses its internal machine representation when floats expressed in E-notation,
+         * which may vary between php versions, OS, and hardware platforms
+         */
+        $testData = -5.0E+142;
+        self::assertSame($testData, Common::safe_unserialize(serialize($testData)));
+
+        $unserialized = [
+            'announcement' => true,
+            'source'       => [
+                [
+                    'filename' => 'php-5.3.3.tar.bz2',
+                    'name'     => 'PHP 5.3.3 (tar.bz2)',
+                    'md5'      => '21ceeeb232813c10283a5ca1b4c87b48',
+                    'date'     => '22 July 2010',
+                ],
+                [
+                    'filename' => 'php-5.3.3.tar.gz',
+                    'name'     => 'PHP 5.3.3 (tar.gz)',
+                    'md5'      => '5adf1a537895c2ec933fddd48e78d8a2',
+                    'date'     => '22 July 2010',
+                ],
+            ],
+            'date'         => '22 July 2010',
+            'version'      => '5.3.3',
+        ];
+        $serialized   = 'a:4:{s:12:"announcement";b:1;s:6:"source";a:2:{i:0;a:4:{s:8:"filename";s:17:"php-5.3.3.tar.bz2";s:4:"name";s:19:"PHP 5.3.3 (tar.bz2)";s:3:"md5";s:32:"21ceeeb232813c10283a5ca1b4c87b48";s:4:"date";s:12:"22 July 2010";}i:1;a:4:{s:8:"filename";s:16:"php-5.3.3.tar.gz";s:4:"name";s:18:"PHP 5.3.3 (tar.gz)";s:3:"md5";s:32:"5adf1a537895c2ec933fddd48e78d8a2";s:4:"date";s:12:"22 July 2010";}}s:4:"date";s:12:"22 July 2010";s:7:"version";s:5:"5.3.3";}';
+
+        self::assertEquals($serialized, serialize($unserialized));
+        self::assertSame($unserialized, Common::safe_unserialize($serialized));
+        self::assertSame($unserialized, Common::safe_unserialize(serialize($unserialized)));
+        self::assertEquals($serialized, serialize(Common::safe_unserialize($serialized)));
+
+        $a  = 'a:1:{i:0;O:12:"Piwik\Common":0:{}}';
+        $ua = Common::safe_unserialize($a);
+        self::assertIsArray($ua);
+        self::assertInstanceOf(\__PHP_Incomplete_Class::class, $ua[0]);
+
+        $a  = 'a:1:{i:0;O:12:"Piwik\Common":0:{}}';
+        $ua = Common::safe_unserialize($a, ['Piwik\Common']);
+        self::assertIsArray($ua);
+        self::assertInstanceOf(Common::class, $ua[0]);
+
+        $a  = 'a:2:{i:0;s:4:"test";i:1;O:12:"Piwik\Common":0:{}}';
+        $ua = Common::safe_unserialize($a);
+        self::assertIsArray($ua);
+        self::assertSame('test', $ua[0]);
+        self::assertInstanceOf(\__PHP_Incomplete_Class::class, $ua[1]);
+
+        $a  = 'O:28:"Test_Piwik_Cookie_Mock_Class":1:{s:18:"' . "\0" . 'Piwik\Common' . "\0" . 'name";s:4:"test";}';
+        $ua = Common::safe_unserialize($a);
+        self::assertInstanceOf(\__PHP_Incomplete_Class::class, $ua);
+
+        // arrays and objects cannot be used as keys
+        $a = 'a:2:{i:0;a:0:{}O:28:"Test_Piwik_Cookie_Mock_Class":0:{}s:4:"test";';
+        $this->assertFalse(Common::safe_unserialize($a), "test: unserializing with illegal key");
+    }
+
+    /**
+     * Dataprovider for testSafeSerialize
+     */
+    public function getSafeSerializeData()
+    {
+        return [
+            ['null', null],
+            ['bool false', false],
+            ['bool true', true],
+            ['negative int', -42],
+            ['zero', 0],
+            ['positive int', 42],
+            ['float', 1.25],
+            ['empty string', ''],
+            ['nul in string', "\0"],
+            ['carriage return in string', "first line\r\nsecond line"],
+            ['utf7 in string', 'hello, world'],
+            ['utf8 in string', '是'],
+            ['empty array', []],
+            ['single element array', ["test"]],
+            ['associative array', ["alpha", 2 => "beta"]],
+            ['mixed keys', ['first' => 'john', 'last' => 'doe', 10 => 'age']],
+            ['nested arrays', ['top' => ['middle' => 2, ['bottom'], 'last'], 'the end' => true]],
+            ['array confusion', ['"', "'", '}', ';', ':']],
+        ];
+    }
+
+    /**
+     * @dataProvider getSafeSerializeData
+     */
+    public function testSafeSerialize($id, $testData)
+    {
+        $this->assertEquals($testData, unserialize(serialize($testData)), $id);
+        $this->assertSame($testData, Common::safe_unserialize(serialize($testData)), $id);
     }
 
     private function createFakeLogger()
@@ -341,7 +434,7 @@ class CommonTest extends TestCase
         $logger = new FakeLogger();
 
         $newEnv = new Environment('test', [
-            'Psr\Log\LoggerInterface' => $logger,
+            'Psr\Log\LoggerInterface'    => $logger,
             'Tests.log.allowAllHandlers' => true,
         ]);
         $newEnv->init();
@@ -391,7 +484,6 @@ class CommonTest extends TestCase
 
     /**
      * @dataProvider getBrowserLanguageData
-     * @group        Core
      */
     public function testGetBrowserLanguage($useragent, $browserLanguage)
     {
@@ -425,7 +517,6 @@ class CommonTest extends TestCase
 
     /**
      * @dataProvider getCountryCodeTestData
-     * @group        Core
      */
     public function testExtractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $expected)
     {
@@ -454,7 +545,6 @@ class CommonTest extends TestCase
 
     /**
      * @dataProvider getCountryCodeTestDataInfer
-     * @group        Core
      */
     public function testExtractCountryCodeFromBrowserLanguageInfer(
         $browserLanguage,
