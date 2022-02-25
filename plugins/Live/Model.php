@@ -404,7 +404,7 @@ class Model
         try {
             $numVisitors = $readerDb->fetchOne($query['sql'], $query['bind']);
         } catch (Exception $e) {
-            $this->handleMaxExecutionTimeError($readerDb, $e, $segment, $startDate, Date::now(), null, 0, $query);
+            $this->handleMaxExecutionTimeError($readerDb, $e, $segment->getOriginalString(), $startDate, Date::now(), null, 0, $query);
             throw $e;
         }
 
