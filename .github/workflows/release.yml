@@ -44,21 +44,6 @@ jobs:
         with:
           script: |
               core.setFailed('Release password didn\'t match')
-      - name: "Check if user is in group"
-        run: |
-          MEMBER=$( curl -s \
-                 --request GET \
-                 --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-                 --header 'content-type: application/json' \
-                 --url https://api.github.com/orgs/matomo-org/teams/release-team/members \
-                 | jq '.[] | select(.login == "${{ github.actor }}")' )
-
-          if [[ -z "$MEMBER" ]]
-          then
-           echo "Action was not triggered by a member with release permission"
-           exit 1;
-          fi
-        shell: bash
       - uses: actions/checkout@v2
         with:
           lfs: false
