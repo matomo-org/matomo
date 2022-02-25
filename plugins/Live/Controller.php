@@ -118,6 +118,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $segment = Request::getRawSegmentFromRequest();
         $executeTodayQuery = true;
+        $view->countErrorToday = '';
+        $view->countErrorHalfHour = '';
         try {
             $last30min = Request::processRequest('Live.getCounters', [
                 'idSite' => $this->idSite,
@@ -129,6 +131,8 @@ class Controller extends \Piwik\Plugin\Controller
         } catch (MaxExecutionTimeExceededException $e) {
             $last30min = ['visits' => '-', 'actions' => '-'];
             $today = ['visits' => '-', 'actions' => '-'];
+            $view->countErrorToday = $e->getMessage();
+            $view->countErrorHalfHour = $e->getMessage();
             $executeTodayQuery = false; // if query for last 30 min failed, we also expect the 24 hour query to fail
         }
 
@@ -144,6 +148,7 @@ class Controller extends \Piwik\Plugin\Controller
             }
         } catch (MaxExecutionTimeExceededException $e) {
             $today = ['visits' => '-', 'actions' => '-'];
+            $view->countErrorToday = $e->getMessage();
         }
 
         $view->visitorsCountHalfHour = $last30min['visits'];
