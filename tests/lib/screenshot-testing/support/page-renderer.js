@@ -305,7 +305,14 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
         await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
     }
 
-    await this.waitForLazyImages()
+    await this.waitForLazyImages();
+
+    // wait for any queued vue logic
+    await this.webpage.evaluate(function () {
+        return window.Vue.nextTick(function () {
+            // wait
+        });
+    });
 };
 
 PageRenderer.prototype.waitForLazyImages = async function () {
