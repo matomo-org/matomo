@@ -309,9 +309,11 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
 
     // wait for any queued vue logic
     await this.webpage.evaluate(function () {
-        return window.Vue.nextTick(function () {
-            // wait
-        });
+        if (window.Vue) {
+          return window.Vue.nextTick(function () {
+              // wait
+          });
+        }
     });
 };
 
