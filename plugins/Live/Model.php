@@ -476,12 +476,23 @@ class Model
         $segment = new Segment($segment, $idSite, $dateOneDayAgo, $dateOneDayInFuture);
         $queryInfo = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy);
 
-        $sql = "SELECT sub.idvisitor, sub.visit_last_action_time FROM ({$queryInfo['sql']}) as sub
+        $sql = "SELECT /* Live.queryAdjacentVisitorId */ sub.idvisitor, sub.visit_last_action_time FROM ({$queryInfo['sql']}) as sub
                  WHERE $visitLastActionTimeCondition
                  LIMIT 1";
         $bind = array_merge($queryInfo['bind'], array($visitLastActionTime));
 
-        $visitorId = Db::getReader()->fetchOne($sql, $bind);
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->getLiveQueryMaxExecutionTime());
+
+        $readerDb = Db::getReader();
+        try {
+            $visitorId = $readerDb->fetchOne($sql, $bind);
+        } catch (Exception $e) {
+            $this->handleMaxExecutionTimeError($readerDb, $e, $segment->getOriginalString(), Date::now(), Date::now(), null, 1, [
+                'sql' => $sql, 'bind' => $bind
+            ]);
+            throw $e;
+        }
+
         if (!empty($visitorId)) {
             $visitorId = bin2hex($visitorId);
         }
