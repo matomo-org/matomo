@@ -124,6 +124,8 @@ class ModelTest extends IntegrationTestCase
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
         $this->setLowestMaxExecutionTime();
 
+        $this->trackPageView();
+
         $model = new Model();
         $model->queryAndWhereSleepTestsOnly = true;
         $model->getNumVisits(1, 999999, '');
@@ -135,6 +137,7 @@ class ModelTest extends IntegrationTestCase
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
         $this->setLowestMaxExecutionTime();
 
+        $this->trackPageView();
         $model = new Model();
         $model->queryAndWhereSleepTestsOnly = true;
         $model->queryAdjacentVisitorId(1, '1234567812345678', Date::yesterday()->getDatetime(), '', true);
@@ -528,5 +531,15 @@ class ModelTest extends IntegrationTestCase
         $general = $config->General;
         $general['live_query_max_execution_time'] = $time;
         $config->General = $general;
+    }
+
+    private function trackPageView(): void
+    {
+        // Needed for the tests that may execute a sleep() to test max execution time. Otherwise if the table is empty
+        // the sleep would not be executed making the tests fail randomly
+        $t = Fixture::getTracker(1, Date::now()->getDatetime(), $defaultInit = true);
+        $t->setTokenAuth(Fixture::getTokenAuth());
+        $t->setVisitorId(substr(sha1('X4F66G776HGI'), 0, 16));
+        $t->doTrackPageView('foo');
     }
 }
