@@ -28,6 +28,11 @@ use Piwik\Updater\Migration\Db as DbMigration;
 class Model
 {
     /**
+     * @internal for tests only
+     */
+    public $queryAndWhereSleepTestsOnly = false;
+
+    /**
      * @param $idSite
      * @param $period
      * @param $date
@@ -371,6 +376,11 @@ class Model
         );
     }
 
+    private function shouldQuerySleepInTests()
+    {
+        return $this->queryAndWhereSleepTestsOnly && defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE;
+    }
+
     private function getLastMinutesCounterForQuery($idSite, $lastMinutes, $segment, $select, $from, $where)
     {
         $lastMinutes = (int)$lastMinutes;
@@ -394,16 +404,23 @@ class Model
         $bind[] = $startDate->toString('Y-m-d H:i:s');
 
         $where = $whereIdSites . "AND " . $where;
+        if ($this->shouldQuerySleepInTests()) {
+            $where = ' SLEEP(1)';
+        }
 
         $segment = new Segment($segment, $idSite, $startDate, $endDate = null);
         $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $this->getLiveQueryMaxExecutionTime());
-        $query['sql'] = trim($query['sql']);
+        if ($this->shouldQuerySleepInTests()) {
+            $query['bind'] = [];
+        }
 
+        $query['sql'] = trim($query['sql']);
         if (0 === stripos($query['sql'], 'SELECT')) {
             $query['sql'] = 'SELECT /* Live.getCounters */' . mb_substr($query['sql'], strlen('SELECT'));
         }
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $this->getLiveQueryMaxExecutionTime());
 
         $readerDb = Db::getReader();
         try {
@@ -473,6 +490,11 @@ class Model
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
 
+        if ($this->shouldQuerySleepInTests()) {
+            $where = ' SLEEP(1)';
+            $visitLastActionTimeCondition = 'SLEEP(1)';
+        }
+
         $segment = new Segment($segment, $idSite, $dateOneDayAgo, $dateOneDayInFuture);
         $queryInfo = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy);
 
@@ -480,6 +502,10 @@ class Model
                  WHERE $visitLastActionTimeCondition
                  LIMIT 1";
         $bind = array_merge($queryInfo['bind'], array($visitLastActionTime));
+
+        if ($this->shouldQuerySleepInTests()) {
+            $bind = [];
+        }
 
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->getLiveQueryMaxExecutionTime());
 

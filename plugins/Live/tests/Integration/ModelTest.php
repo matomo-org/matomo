@@ -118,6 +118,28 @@ class ModelTest extends IntegrationTestCase
         Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, ['param' => 'value']);
     }
 
+    public function test_getLastMinutesCounterForQuery_maxExecutionTime()
+    {
+        $this->expectException(MaxExecutionTimeExceededException::class);
+        $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
+        $this->setLowestMaxExecutionTime();
+
+        $model = new Model();
+        $model->queryAndWhereSleepTestsOnly = true;
+        $model->getNumVisits(1, 999999, '');
+    }
+
+    public function test_queryAdjacentVisitorId_maxExecutionTime()
+    {
+        $this->expectException(MaxExecutionTimeExceededException::class);
+        $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
+        $this->setLowestMaxExecutionTime();
+
+        $model = new Model();
+        $model->queryAndWhereSleepTestsOnly = true;
+        $model->queryAdjacentVisitorId(1, '1234567812345678', Date::yesterday()->getDatetime(), '', true);
+    }
+
     public function test_getStandAndEndDate()
     {
         $model = new Model();
@@ -316,10 +338,7 @@ class ModelTest extends IntegrationTestCase
 
     public function test_makeLogVisitsQueryString_addsMaxExecutionHintIfConfigured()
     {
-        $config = Config::getInstance();
-        $general = $config->General;
-        $general['live_query_max_execution_time'] = 30;
-        $config->General = $general;
+        $this->setMaxExecutionTime(30);
 
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
@@ -337,18 +356,14 @@ class ModelTest extends IntegrationTestCase
         $expectedSql = 'SELECT  /*+ MAX_EXECUTION_TIME(30000) */ 
 				log_visit.*';
 
-        $general['live_query_max_execution_time'] = -1;
-        $config->General = $general;
+        $this->setMaxExecutionTime(-1);
 
         $this->assertStringStartsWith($expectedSql, trim($sql));
     }
 
     public function test_makeLogVisitsQueryString_doesNotAddsMaxExecutionHintForVisitorIds()
     {
-        $config = Config::getInstance();
-        $general = $config->General;
-        $general['live_query_max_execution_time'] = 30;
-        $config->General = $general;
+        $this->setMaxExecutionTime(30);
 
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
@@ -366,8 +381,7 @@ class ModelTest extends IntegrationTestCase
         $expectedSql = 'SELECT
 				log_visit.*';
 
-        $general['live_query_max_execution_time'] = -1;
-        $config->General = $general;
+        $this->setMaxExecutionTime(-1);
 
         $this->assertStringStartsWith($expectedSql, trim($sql));
     }
@@ -501,5 +515,18 @@ class ModelTest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    private function setLowestMaxExecutionTime(): void
+    {
+        $this->setMaxExecutionTime(0.001);
+    }
+
+    private function setMaxExecutionTime($time): void
+    {
+        $config = Config::getInstance();
+        $general = $config->General;
+        $general['live_query_max_execution_time'] = $time;
+        $config->General = $general;
     }
 }
