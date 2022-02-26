@@ -399,6 +399,11 @@ class Model
         $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
         $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $this->getLiveQueryMaxExecutionTime());
+        $query['sql'] = trim($query['sql']);
+
+        if (0 === stripos($query['sql'], 'SELECT')) {
+            $query['sql'] = 'SELECT /* Live.getCounters */' . mb_substr($query['sql'], strlen('SELECT'));
+        }
 
         $readerDb = Db::getReader();
         try {
