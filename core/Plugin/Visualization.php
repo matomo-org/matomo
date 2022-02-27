@@ -471,19 +471,19 @@ class Visualization extends ViewDataTable
                 foreach ($dataTable as $item) {
                     $metaData = $item->getAllTableMetadata();
                     // if ts_created not exist exit loop
-                    if (!isset($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                        break;
+                    if (empty($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                        continue;
                     }
                     // if ts_created not record in the metadata or if current is more recent up the metadata
-                    if (!isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
+                    if (!empty($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
                       || strtotime($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
                         $this->metadata = $metaData;
                     }
                }
             }
         }
-        if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-            $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText();
+        if (!empty($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+            $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]);
         }
 
         $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
@@ -578,14 +578,16 @@ class Visualization extends ViewDataTable
         }
     }
 
+
     /**
      * Returns prettified and translated text that describes when a report was last updated.
      *
+     * @param $dateText
      * @return string
+     * @throws \Exception
      */
-    private function makePrettyArchivedOnText()
+    private function makePrettyArchivedOnText($dateText)
     {
-        $dateText = $this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
         $date     = Date::factory($dateText);
         $today    = mktime(0, 0, 0);
         $metricsFormatter = new HtmlFormatter();
