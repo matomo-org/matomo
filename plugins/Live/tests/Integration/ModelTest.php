@@ -18,6 +18,7 @@ use Piwik\Plugins\Live\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Integration\SegmentTest;
 
 /**
@@ -120,6 +121,10 @@ class ModelTest extends IntegrationTestCase
 
     public function test_getLastMinutesCounterForQuery_maxExecutionTime()
     {
+        if (SystemTestCase::isMysqli()) {
+            $this->markTestSkipped('max_execution_time not supported on mysqli');
+            return;
+        }
         $this->expectException(MaxExecutionTimeExceededException::class);
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
         $this->setLowestMaxExecutionTime();
@@ -133,6 +138,10 @@ class ModelTest extends IntegrationTestCase
 
     public function test_queryAdjacentVisitorId_maxExecutionTime()
     {
+        if (SystemTestCase::isMysqli()) {
+            $this->markTestSkipped('max_execution_time not supported on mysqli');
+            return;
+        }
         $this->expectException(MaxExecutionTimeExceededException::class);
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
         $this->setLowestMaxExecutionTime();
