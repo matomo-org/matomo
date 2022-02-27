@@ -68,11 +68,6 @@ class Controller extends ControllerAdmin
         parent::__construct();
     }
 
-    static function orderByName($a, $b)
-    {
-        return strcmp($a['name'], $b['name']);
-    }
-
     /**
      * The "Manage Users and Permissions" Admin UI screen
      */
