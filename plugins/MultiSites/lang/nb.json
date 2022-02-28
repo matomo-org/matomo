@@ -1,5 +1,6 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Denne rapporten gir deg en informasjonsoversikt for hver av nettsidene dine, inneholdende den vanligste statistikken om dine besøkende.",
         "Evolution": "Utvikling",
         "EvolutionComparisonDay": "%1$s %2$s denne dagen sammenlignet med %3$s %2$s i den forrige delvise perioden (%4$s) Utvikling: %5$s",
         "EvolutionComparisonIncomplete": "Valgt tidsperiode er %1$s fullført.",
