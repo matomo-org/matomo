@@ -15,6 +15,7 @@
         "IPsAlwaysBlocked": "Disse IP-ene blokkeres alltid",
         "InvalidNonceOrigin": "Skjemasikkerhet mislyktes som følge av ugyldig opphav. Hvis du tidligere koblet til med HTTPS, forsikre deg om at du kobler til over en sikker (SSL/TLS-) tilkobling og prøv igjen.",
         "InvalidNonceSSLMisconfigured": "I tillegg kan du %1$s tvinge Matomo til å bruke en sikker tilkobling%2$s: i din config-fil %3$s sett %4$s under seksjonen %5$s",
+        "InvalidNonceToken": "Skjemasikkerhet mislyktes fordi symbolene ikke samsvarer. Last inn skjemaet igjen og sjekk at informasjonskapslene dine er skrudd på.",
         "InvalidOrExpiredToken": "Autentiseringsnøkkelen er ugyldig eller har utløpt.",
         "InvalidUsernameEmail": "Feil brukernavn og/eller epost-adresse.",
         "LogIn": "Logg inn",

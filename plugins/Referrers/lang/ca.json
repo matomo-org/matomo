@@ -23,7 +23,7 @@
         "SearchEnginesDocumentation": "Un visitant ha vingut al vostre lloc web a través d'un navegador web. %1$s Visualitzeu l'informe %2$s per a més informació.",
         "SearchEnginesReportDocumentation": "Aquest informa mostra quins motors de cerca han portat usuaris al vostre lloc web. %s Clicant en una fila de la tabla, pedeu veureu que han estat cercant els vostres usuris en aquest lloc web.",
         "Socials": "Xarxes socials",
-        "SocialsReportDocumentation": "Aquest informe mostra quines xarxes socials han portat visitants al vostre lloc web. <br\/> Cliqueu una fila de la taule per mostrar de quines pàgines de les xarxes socials venen els vostres visitants.",
+        "SocialsReportDocumentation": "Aquest informe mostra quines xarxes socials han conduït els visitants al vostre lloc web.<br>Si feu clic a una fila de la taula, podeu veure des de quines pàgines de xarxes socials han arribat els visitants al vostre lloc web.",
         "SubmenuSearchEngines": "Cercadors i paraules clau",
         "SubmenuWebsitesOnly": "Llocs",
         "TypeCampaigns": "Hi ha %s visites provinents de campanyes",

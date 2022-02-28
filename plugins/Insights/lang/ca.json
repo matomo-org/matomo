@@ -1,5 +1,35 @@
 {
     "Insights": {
-        "MoversAndShakersWidgetTitle": "Els més actius"
+        "ControlComparedToDescription": "Creixement en comparació amb",
+        "ControlFilterByDescription": "Mostra-ho tot, només els actius, només nous o només desapareguts",
+        "DatePeriodCombinationNotSupported": "No és possible generar indicadors per a aquesta combinació de data i període.",
+        "DayComparedToPreviousDay": "dia anterior",
+        "DayComparedToPreviousWeek": "mateix dia de la setmana passada",
+        "DayComparedToPreviousYear": "mateix dia de l'any passat",
+        "Filter": "Filtre",
+        "FilterIncreaserAndDecreaser": "Augmentador i reductor",
+        "FilterOnlyDecreaser": "Només reductor",
+        "FilterOnlyDisappeared": "Només desapareguts",
+        "FilterOnlyIncreaser": "Només augmentador",
+        "FilterOnlyMovers": "Només actius",
+        "FilterOnlyNew": "Només nous",
+        "IgnoredChanges": "S'ha ignorat els canvis que afecten menys de %s visites.",
+        "MonthComparedToPreviousMonth": "mes passat",
+        "MonthComparedToPreviousYear": "el mateix mes de l'any passat",
+        "MoversAndShakersWidgetTitle": "Els més actius",
+        "NoResultMatchesCriteria": "No hi ha cap fila que coincideixi amb els criteris",
+        "OverviewWidgetTitle": "Visió general dels indicadors",
+        "PluginDescription": "Proporciona informació sobre el vostre trànsit. Les estadístiques estan disponibles com a ginys del tauler de control, així com una nova icona als informes, que us permet veure les tendències més importants de les vostres dades.",
+        "TitleConsideredInsightsChanges": "Les files van augmentar o disminuir almenys %1$s visites (%2$s%% de %3$s visites totals).",
+        "TitleConsideredInsightsGrowth": "Les files següents tenen un creixement d'almenys %1$s%% en comparació amb %2$s.",
+        "TitleConsideredMoversAndShakersChanges": "Es consideren actius només si van augmentar més del %1$s%% de visites o es van reduir en menys del %2$s%% de visites, les entrades noves només si van augmentar més del %3$s%% de visites (%4$s ), i files desaparegudes si es van reduir menys de %5$s%% visites (%6$s).",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s ha canviat de %2$s a %3$s en comparació amb %4$s. Per tant s'espera una evolució de cada fila de %5$s%%.",
+        "TitleRowChangeDetails": "'%1$s' ha canviat de %2$s (%3$s) a %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "'%1$s' es va reduir per %2$s i va desaparèixer el %3$s comparat amb %4$s.",
+        "TitleRowMoverAndShaker": "Aquesta fila va tenir un impacte superior a la mitjana.",
+        "TitleRowNewDetails": "\"%1$s\" va augmentar en %2$s i és nou en comparació amb %3$s.",
+        "WeekComparedToPreviousWeek": "setmana passada",
+        "WidgetCategory": "Indicadors",
+        "YearComparedToPreviousYear": "any passat"
     }
 }
