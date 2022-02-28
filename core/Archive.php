@@ -610,8 +610,6 @@ class Archive implements ArchiveQuery
      */
     private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
-        $today = Date::today();
-
         foreach ($this->params->getPeriods() as $period) {
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
 
@@ -633,6 +631,9 @@ class Archive implements ArchiveQuery
                         $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
                 }
+
+                // Allow for site timezone, local time may have started a new day ahead of UTC
+                $today = \Piwik\Date::factory('now', $site->getTimezone());
 
                 // if the starting date is in the future we know there are no visits
                 if ($period->getDateStart()->isLater($today)) {
