@@ -56,7 +56,7 @@ jobs:
           max-cache-ttl 31536000
           allow-preset-passphrase" > $HOME/.gnupg/gpg-agent.conf
           keygrip=$(gpg --import --import-options show-only --with-keygrip $HOME/private.asc | grep "Keygrip" | grep -oP "([A-F0-9]+)" | head -1)
-          hexPassphrase=$( echo -n "${{ secrets.GPG_CERTIFICATE_PASS }}" | od -A n -t x1 -w100 | sed 's/ *//g' )
+          hexPassphrase=$( echo -n '${{ secrets.GPG_CERTIFICATE_PASS }}' | od -A n -t x1 -w100 | sed 's/ *//g' )
           gpg-connect-agent "RELOADAGENT" /bye
           gpg-connect-agent "PRESET_PASSPHRASE ${keygrip} -1 ${hexPassphrase}" /bye
           gpg-connect-agent "KEYINFO ${keygrip}" /bye
