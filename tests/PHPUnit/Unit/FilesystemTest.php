@@ -327,9 +327,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
     private function createCaseInsensitiveSourceFiles()
     {
         $source = $this->createEmptySource();
-        Filesystem::mkdir($source . '/CoreHome');
-        Filesystem::mkdir($source . '/CoreHome/vue');
-        Filesystem::mkdir($source . '/CoreHome/vue/src');
         Filesystem::mkdir($source . '/CoreHome/vue/src/MenuDropdown');
 
         file_put_contents($source . '/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue', '');
