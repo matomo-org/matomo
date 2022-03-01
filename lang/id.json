@@ -49,7 +49,7 @@
         "ColumnBounceRateDocumentation": "Persentase kunjungan yang hanya melihat satu halaman. Ini berarti, bahwa pengunjung meninggalkan situs langsung dari halaman awal.",
         "ColumnBounces": "Pentalan",
         "ColumnBouncesDocumentation": "Jumlah kunjungan yang mulai dan berakhir pada halaman ini. Ini berarti bahwa pengunjung meninggalkan situs setelah melihat hanya halaman ini.",
-        "ColumnConversionRate": "Tingkat Tayangan",
+        "ColumnConversionRate": "Tingkat Konversi",
         "ColumnConversionRateDocumentation": "Persentase kunjungan yang dipicu tujuan tayangan.",
         "ColumnDestinationPage": "Halaman Tujuan",
         "ColumnEntrances": "Masukan",

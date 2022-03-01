@@ -25,6 +25,8 @@
           :uicontrol="field.uiControl"
           :title="field.title"
           :name="`${name}-${index}`"
+          :template-file="field.templateFile"
+          :component="field.component"
         >
         </Field>
       </div>
