@@ -314,7 +314,7 @@ class Filesystem
             return str_replace($target, '', $file);
         }, $targetFiles);
 
-        if (FileSystem::isFileSystemCaseSensitive()) {
+        if (FileSystem::isFileSystemCaseInsensitive()) {
             $diff = array_udiff($targetFiles, $sourceFiles, 'strcasecmp');
         } else {
             $diff = array_diff($targetFiles, $sourceFiles);
@@ -566,7 +566,7 @@ class Filesystem
      *
      * @return bool
      */
-    public static function isFileSystemCaseSensitive() : bool
+    public static function isFileSystemCaseInsensitive() : bool
     {
         $testFileName = 'caseSensitivityTest.txt';
         $pathTmp = StaticContainer::get('path.tmp');

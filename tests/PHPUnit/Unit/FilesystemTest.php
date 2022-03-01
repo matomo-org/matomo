@@ -204,7 +204,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
         $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
 
-        if (Filesystem::isFileSystemCaseSensitive()) {
+        if (Filesystem::isFileSystemCaseInsensitive()) {
 
             // Case insensitive filesystem:
             // Since the target and source will be treated as the same file then we do not want directoryDiff() to
