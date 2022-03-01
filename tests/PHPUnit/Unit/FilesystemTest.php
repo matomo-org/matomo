@@ -14,6 +14,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Core
+ * @group FileSystem
  */
 class FilesystemTest extends \PHPUnit\Framework\TestCase
 {
@@ -193,6 +194,22 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(), $result);
     }
 
+    public function test_unlockTargetFilesNotPresentInSource_shouldUnlinkCaseInsensitiveFiles()
+    {
+        $sourceInsensitive = $this->createCaseInsensitiveSourceFiles();
+        $targetInsensitive = $this->createCaseInsensitiveTargetFiles();
+
+        // make sure there is a difference between those folders
+        $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
+        $this->assertNotEmpty($result);
+
+        Filesystem::unlinkTargetFilesNotPresentInSource($sourceInsensitive, $targetInsensitive);
+
+        // make sure there is no longer a difference
+        $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
+        $this->assertEquals(array(), $result);
+    }
+
     private function createSourceFiles()
     {
         $source = $this->createEmptySource();
@@ -263,6 +280,46 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         Filesystem::mkdir($this->testPath . '/target');
 
         return $this->testPath . '/target';
+    }
+
+    private function createEmptyCaseInsensitiveSource()
+    {
+        Filesystem::mkdir($this->testPath . '/Source');
+
+        return $this->testPath . '/Source';
+    }
+
+    private function createEmptyCaseInsensitiveTarget()
+    {
+        Filesystem::mkdir($this->testPath . '/Target');
+
+        return $this->testPath . '/Target';
+    }
+
+    private function createCaseInsensitiveTargetFiles()
+    {
+        $target = $this->createEmptyCaseInsensitiveTarget();
+        Filesystem::mkdir($target . '/CoreHome');
+        Filesystem::mkdir($target . '/CoreHome/vue');
+        Filesystem::mkdir($target . '/CoreHome/vue/src');
+        Filesystem::mkdir($target . '/CoreHome/vue/src/Menudropdown');
+
+        file_put_contents($target . '/CoreHome/vue/src/Menudropdown/Menudropdown.vue', '');
+
+        return $target;
+    }
+
+    private function createCaseInsensitiveSourceFiles()
+    {
+        $source = $this->createEmptyCaseInsensitiveSource();
+        Filesystem::mkdir($source . '/CoreHome');
+        Filesystem::mkdir($source . '/CoreHome/vue');
+        Filesystem::mkdir($source . '/CoreHome/vue/src');
+        Filesystem::mkdir($source . '/CoreHome/vue/src/MenuDropdown');
+
+        file_put_contents($source . '/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue', '');
+
+        return $source;
     }
 
     public function test_getFileSize_ZeroSize()
