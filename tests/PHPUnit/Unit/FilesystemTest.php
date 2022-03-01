@@ -194,20 +194,49 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(), $result);
     }
 
-    public function test_unlockTargetFilesNotPresentInSource_shouldUnlinkCaseInsensitiveFiles()
+    public function test_unlockTargetFilesNotPresentInSource_doNotAttemptToUnlinkFilesWithTheSameCaseInsensitiveName()
     {
         $sourceInsensitive = $this->createCaseInsensitiveSourceFiles();
         $targetInsensitive = $this->createCaseInsensitiveTargetFiles();
 
-        // make sure there is a difference between those folders
-        $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
-        $this->assertNotEmpty($result);
+        // Target: /CoreHome/vue/src/Menudropdown/Menudropdown.vue'
+        // Source: /CoreHome/vue/src/MenuDropdown/MenuDropdown.vue'
 
-        Filesystem::unlinkTargetFilesNotPresentInSource($sourceInsensitive, $targetInsensitive);
-
-        // make sure there is no longer a difference
         $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
-        $this->assertEquals(array(), $result);
+
+        if (Filesystem::isFileSystemCaseSensitive()) {
+
+            // Case insensitive filesystem:
+            // Since the target and source will be treated as the same file then we do not want directoryDiff() to
+            // report a difference as copying the source command will overwrite the target file. Reporting a difference
+            // will cause the target file to be unlinked after the copy which will result in a missing file.
+
+            $this->assertEquals(array(), $result);
+
+        } else {
+
+            // Case sensitive filesystem:
+            // directoryDiff() should report a difference and we should be able to unlink the target file safely after
+            // the source file has been copied.
+
+            // make sure there is a difference between those folders
+            $this->assertNotEmpty($result);
+
+            Filesystem::unlinkTargetFilesNotPresentInSource($sourceInsensitive, $targetInsensitive);
+
+            // make sure there is no longer a difference
+            $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
+            $this->assertEquals(array(), $result);
+
+            $result = Filesystem::directoryDiff($targetInsensitive, $sourceInsensitive);
+            $this->assertEquals(array(
+                 '/CoreHome/vue/src/MenuDropdown',
+                 '/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue',
+                 '/CoreHome/vue/src/MenuDropdown/index.htm',
+                 '/CoreHome/vue/src/MenuDropdown/index.php',
+            ), $result);
+
+        }
     }
 
     private function createSourceFiles()
@@ -282,23 +311,9 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         return $this->testPath . '/target';
     }
 
-    private function createEmptyCaseInsensitiveSource()
-    {
-        Filesystem::mkdir($this->testPath . '/Source');
-
-        return $this->testPath . '/Source';
-    }
-
-    private function createEmptyCaseInsensitiveTarget()
-    {
-        Filesystem::mkdir($this->testPath . '/Target');
-
-        return $this->testPath . '/Target';
-    }
-
     private function createCaseInsensitiveTargetFiles()
     {
-        $target = $this->createEmptyCaseInsensitiveTarget();
+        $target = $this->createEmptyTarget();
         Filesystem::mkdir($target . '/CoreHome');
         Filesystem::mkdir($target . '/CoreHome/vue');
         Filesystem::mkdir($target . '/CoreHome/vue/src');
@@ -311,7 +326,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
     private function createCaseInsensitiveSourceFiles()
     {
-        $source = $this->createEmptyCaseInsensitiveSource();
+        $source = $this->createEmptySource();
         Filesystem::mkdir($source . '/CoreHome');
         Filesystem::mkdir($source . '/CoreHome/vue');
         Filesystem::mkdir($source . '/CoreHome/vue/src');
