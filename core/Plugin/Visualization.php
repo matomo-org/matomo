@@ -157,7 +157,6 @@ class Visualization extends ViewDataTable
 
     private $templateVars = array();
     private $reportLastUpdatedMessage = null;
-    private $metadata = null;
     protected $metricsFormatter = null;
 
     /**
@@ -459,7 +458,7 @@ class Visualization extends ViewDataTable
 
         // deal w/ table metadata
         if ($this->dataTable instanceof DataTable) {
-            $this->metadata = $this->dataTable->getAllTableMetadata();
+            $metadata = $this->dataTable->getAllTableMetadata();
 
 
         } else {
@@ -475,15 +474,15 @@ class Visualization extends ViewDataTable
                         continue;
                     }
                     // if ts_created not record in the metadata or if current is more recent up the metadata
-                    if (!empty($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
-                      || strtotime($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                        $this->metadata = $metaData;
+                    if (!empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
+                      || strtotime($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                        $metadata = $metaData;
                     }
                }
             }
         }
-        if (!empty($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-            $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]);
+        if (!empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+            $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]);
         }
 
         $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
