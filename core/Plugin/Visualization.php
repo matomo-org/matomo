@@ -457,6 +457,7 @@ class Visualization extends ViewDataTable
         }
 
         // deal w/ table metadata
+        $metadata = null;
         if ($this->dataTable instanceof DataTable) {
             $metadata = $this->dataTable->getAllTableMetadata();
 
