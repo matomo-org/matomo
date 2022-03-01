@@ -259,13 +259,21 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
 
     public function test_getCatalog_whenMultipleChunksConfigured()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Unexpected: should not call retrieveFileLocations() without loadFilesIndividually = true");
-
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 3);
 
-        $instance->getCatalog();
+        $catalog = $instance->getCatalog();
+        $assets = $catalog->getAssets();
+
+        $expectedAssets = [
+            new OnDiskUIAsset(PIWIK_INCLUDE_PATH, self::getUmdFile('TestPlugin1')),
+            new OnDiskUIAsset(PIWIK_INCLUDE_PATH, self::getUmdFile('TestPlugin2')),
+            new OnDiskUIAsset(PIWIK_INCLUDE_PATH, self::getUmdFile('TestPlugin3')),
+            new OnDiskUIAsset(PIWIK_INCLUDE_PATH, self::getUmdFile('TestPlugin5')),
+            new OnDiskUIAsset(PIWIK_INCLUDE_PATH, self::getUmdFile('TestPlugin4')),
+        ];
+
+        $this->assertEquals($expectedAssets, $assets);
     }
 
     public function test_getCatalog_whenRequestingASpecificChunk_andMultipleChunksConfigured()

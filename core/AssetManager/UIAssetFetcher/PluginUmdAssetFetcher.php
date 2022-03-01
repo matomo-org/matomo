@@ -166,11 +166,9 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             }
 
             return;
-        } else if (!$this->loadIndividually) {
-            throw new \Exception("Unexpected: should not call retrieveFileLocations() without loadFilesIndividually = true"
-                . " and no chunk specified, since each chunk has its own catalog.");
         }
 
+        // either loadFilesIndividually = true, or being called w/ disable_merged_assets=1
         $this->addUmdFilesIfDetected($this->plugins);
    }
 
