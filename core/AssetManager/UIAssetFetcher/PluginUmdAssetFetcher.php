@@ -12,6 +12,7 @@ namespace Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Development;
+use Piwik\Exception\Exception;
 use Piwik\Plugin\Manager;
 
 class PluginUmdAssetFetcher extends UIAssetFetcher
@@ -83,8 +84,9 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         $totalSize = 0;
         foreach ($allPluginUmds as $chunk) {
-            if (is_file($chunk->getFiles()[0])) {
-                $totalSize += filesize($chunk->getFiles()[0]);
+            $path = PIWIK_INCLUDE_PATH . '/' . $chunk->getFiles()[0];
+            if (is_file($path)) {
+                $totalSize += filesize($path);
             }
         }
         return $totalSize;
@@ -92,7 +94,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function getAllPluginUmds()
     {
-        $plugins = self::orderPluginsByPluginDependencies($this->plugins);
+        $plugins = self::orderPluginsByPluginDependencies($this->plugins, false);
 
         $allPluginUmds = [];
         foreach ($plugins as $plugin) {
@@ -116,14 +118,18 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $currentChunkIndex = 0;
         $currentChunkSize = 0;
         foreach ($allPluginUmds as $pluginChunk) {
-            if (!is_file($pluginChunk->getFiles()[0])) {
+            $path = PIWIK_INCLUDE_PATH . '/' . $pluginChunk->getFiles()[0];
+            if (!is_file($path)) {
                 continue;
             }
 
-            $size = filesize($pluginChunk->getFiles()[0]);
+            $size = filesize($path);
             $currentChunkSize += $size;
 
-            if ($currentChunkSize > $chunkSizeLimit) {
+            if ($currentChunkSize > $chunkSizeLimit
+                && !empty($chunkFiles[$currentChunkIndex])
+                && $currentChunkIndex < $this->chunkCount - 1
+            ) {
                 ++$currentChunkIndex;
                 $currentChunkSize = $size;
             }
@@ -160,6 +166,9 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             }
 
             return;
+        } else if (!$this->loadIndividually) {
+            throw new \Exception("Unexpected: should not call retrieveFileLocations() without loadFilesIndividually = true"
+                . " and no chunk specified, since each chunk has its own catalog.");
         }
 
         $this->addUmdFilesIfDetected($this->plugins);
@@ -167,7 +176,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function addUmdFilesIfDetected($plugins)
     {
-        $plugins = self::orderPluginsByPluginDependencies($plugins);
+        $plugins = self::orderPluginsByPluginDependencies($plugins, false);
 
         foreach ($plugins as $plugin) {
             $pluginDir = self::getRelativePluginDirectory($plugin);
@@ -177,7 +186,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             $umdSrcFolder = "$pluginDir/vue/src";
 
             // in case there are dist files but no src files, which can happen during development
-            if (is_dir($umdSrcFolder)) {
+            if (is_dir(PIWIK_INCLUDE_PATH . '/' . $umdSrcFolder)) {
                 if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
                     $this->fileLocations[] = $devUmd;
                 } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
@@ -187,18 +196,18 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
     }
 
-    public static function orderPluginsByPluginDependencies($plugins)
+    public static function orderPluginsByPluginDependencies($plugins, $keepUnresolved = true)
     {
         $result = [];
 
         while (!empty($plugins)) {
-            self::visitPlugin(reset($plugins), $plugins, $result);
+            self::visitPlugin(reset($plugins), $keepUnresolved, $plugins, $result);
         }
 
         return $result;
     }
 
-    private static function visitPlugin($plugin, &$plugins, &$result)
+    private static function visitPlugin($plugin, $keepUnresolved, &$plugins, &$result)
     {
         // remove the plugin from the array of plugins to visit
         $index = array_search($plugin, $plugins);
@@ -209,7 +218,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         // read the plugin dependencies, if any
-        $pluginDir = self::getRelativePluginDirectory($plugin);
+        $pluginDir = self::getPluginDirectory($plugin);
         $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";
 
         $pluginDependencies = [];
@@ -220,7 +229,14 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         if (!empty($pluginDependencies['dependsOn'])) {
             // visit each plugin this one depends on first, so it is loaded first
             foreach ($pluginDependencies['dependsOn'] as $pluginDependency) {
-                self::visitPlugin($pluginDependency, $plugins, $result);
+                // check if dependency is not activated
+                if (!in_array($pluginDependency, $plugins)
+                    && !in_array($pluginDependency, $result)
+                ) {
+                    return;
+                }
+
+                self::visitPlugin($pluginDependency, $keepUnresolved, $plugins, $result);
             }
         }
 
@@ -236,9 +252,14 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private static function getRelativePluginDirectory($plugin)
     {
-        $result = Manager::getInstance()->getPluginDirectory($plugin);;
+        $result = self::getPluginDirectory($plugin);
         $result = str_replace(PIWIK_INCLUDE_PATH . '/', '', $result);
         return $result;
+    }
+
+    private static function getPluginDirectory($plugin)
+    {
+        return Manager::getInstance()->getPluginDirectory($plugin);
     }
 
     public static function getDefaultLoadIndividually()
