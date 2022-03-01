@@ -122,7 +122,6 @@
                 ) }}
             </span>
             <ActivityIndicator
-              v-if="isLoadingUsers"
               :loading="isLoadingUsers"
             />
           </div>
