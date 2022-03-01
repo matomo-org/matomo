@@ -24,6 +24,7 @@
         "ForBetaTestersOnly": "For beta testers only",
         "HttpTrackingApi": "HTTP Tracking API",
         "HttpTrackingApiDescription": "The %1$sHTTP Tracking API%2$s allows you to track anything. This may be useful if you are using a programming language for which no SDK exists yet. It may also be useful when you want to track devices or application in a special way.",
+        "SinglePageApplicationDescription": "If you are tracking a single-page application (SPA) or progressive web application (PWA), please see %1$sthis guide%2$s.",
         "ImageTracking": "Image Tracking",
         "ImageTrackingIntro1": "When a visitor has disabled JavaScript, or when JavaScript cannot be used, you can use an image tracking link to track visitors.",
         "ImageTrackingIntro2": "Generate the link below and copy-paste the generated HTML in the page. If you're using this as a fallback for JavaScript tracking, you can surround it in %1$s tags.",
