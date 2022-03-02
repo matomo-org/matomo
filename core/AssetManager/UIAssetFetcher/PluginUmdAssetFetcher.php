@@ -146,12 +146,12 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             return;
         }
 
-        if ($this->requestedChunk) {
+        if ($this->requestedChunk !== null && $this->requestedChunk !== '') {
             $chunkFiles = $this->getChunkFiles();
 
             $foundChunk = null;
             foreach ($chunkFiles as $chunk) {
-                if ($chunk->getChunkName() === $this->requestedChunk) {
+                if ($chunk->getChunkName() == $this->requestedChunk) {
                     $foundChunk = $chunk;
                     break;
                 }

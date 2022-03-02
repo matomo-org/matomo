@@ -292,6 +292,29 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedAssets, $assets);
     }
 
+    public function test_getCatalog_whenRequestingASpecificChunk_andMultipleChunksConfigured_andChunkIsZero()
+    {
+        $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
+        $instance = new PluginUmdAssetFetcher($plugins, null, '0', false, 3);
+
+        $catalog = $instance->getCatalog();
+        $assets = $catalog->getAssets();
+
+        $expectedAssets = [
+            new OnDiskUIAsset(PIWIK_INCLUDE_PATH, self::getUmdFile('TestPlugin1')),
+        ];
+
+        $this->assertEquals($expectedAssets, $assets);
+
+        // check int 0 too
+        $instance = new PluginUmdAssetFetcher($plugins, null, 0, false, 3);
+
+        $catalog = $instance->getCatalog();
+        $assets = $catalog->getAssets();
+
+        $this->assertEquals($expectedAssets, $assets);
+    }
+
     private static function getUmdFile(string $pluginName)
     {
         $relativeRoot = str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR);
