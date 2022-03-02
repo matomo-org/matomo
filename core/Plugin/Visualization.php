@@ -460,8 +460,6 @@ class Visualization extends ViewDataTable
         $metadata = null;
         if ($this->dataTable instanceof DataTable) {
             $metadata = $this->dataTable->getAllTableMetadata();
-
-
         } else {
             // if the dataTable is Map
             if ($this->dataTable instanceof DataTable\Map) {
@@ -469,19 +467,21 @@ class Visualization extends ViewDataTable
                 $dataTable = $this->dataTable->getDataTables();
                 // find the latest key
                 foreach ($dataTable as $item) {
-                    $metaData = $item->getAllTableMetadata();
-                    // if ts_created not exist exit loop
-                    if (empty($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                    $itemMetaData = $item->getAllTableMetadata();
+                    // if ts_created not exist skip
+                    if (empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
                         continue;
                     }
-                    // if ts_created not record in the metadata or if current is more recent up the metadata
-                    if (!empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
-                      || strtotime($metaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                        $metadata = $metaData;
+                    // initial metadata and update metadata if current is more recent
+                    if (!empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])
+                      || strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                        $metadata = $itemMetaData;
                     }
                }
             }
         }
+
+        // if metadata set display report date
         if (!empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
             $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]);
         }
