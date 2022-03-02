@@ -30,6 +30,9 @@ use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
+use Piwik\Validators\Email;
+use Piwik\Validators\IdSite;
+use Piwik\Validators\Login;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -666,6 +669,9 @@ class API extends \Piwik\Plugin\API
         return $user;
     }
 
+    /**
+     * TODO: consider deprecated this method, move to validators
+     */
     private function checkLogin($userLogin)
     {
         if ($this->userExists($userLogin)) {
@@ -679,6 +685,9 @@ class API extends \Piwik\Plugin\API
         Piwik::checkValidLoginString($userLogin);
     }
 
+    /**
+     * TODO: consider deprecated this method, move to validators
+     */
     private function checkEmail($email, $userLogin = null)
     {
         if ($this->userEmailExists($email)) {
@@ -778,17 +787,18 @@ class API extends \Piwik\Plugin\API
                 throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
             }
             // check if the site exist
-            Piwik::checkSiteById($initialIdSite);
+            IdSite::validate($initialIdSite);
             Piwik::checkUserHasAdminAccess($initialIdSite);
         }
 
-        $this->checkLogin($userLogin);
-        $this->checkEmail($email);
+        //validate info
+        Login::validate($userLogin)->isUniqueUserLogin();
+        Email::validate($email)->isUniqueUserEmail();
 
-        $this->model->addUser($userLogin,null, $email, Date::now()->getDatetime(), true);
+        //insert user into database.
+        $user = $this->model->addUser($userLogin,'', $email, Date::now()->getDatetime(), true);
 
-        $container = StaticContainer::getContainer();
-        $mail = $container->make(UserCreatedEmail::class, array(
+        $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
           'login' => Piwik::getCurrentUserLogin(),
           'emailAddress' => Piwik::getCurrentUserEmail(),
           'userLogin' => $userLogin,
@@ -807,7 +817,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // send invited user an email
-        $this->sendInvite($userLogin, $expired);
+        $this->sendInvite($user, $expired);
 
     }
     /**
@@ -1607,7 +1617,9 @@ class API extends \Piwik\Plugin\API
 
         $this->checkUserIsNotAnonymous($userLogin);
 
-        $this->checkIfUserIsPending($userLogin);
+        if (!$this->model->isUserInvited($userLogin)) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
+        }
 
         $this->sendInvite($userLogin);
 
@@ -1617,22 +1629,23 @@ class API extends \Piwik\Plugin\API
 
     private function sendInvite($userLogin, $expired = 7)
     {
-        //add token
+        //remove all previous token
         $this->model->deleteAllTokensForUser($userLogin);
+
+        //generate Token
         $generatedToken = $this->model->generateRandomTokenAuth();
+
+        //attach token to user
         $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),  Date::now()->addDay($expired)->getDatetime());
 
+        //retrieve user details
+        $invitedUser = $this->getUser($userLogin);
 
-        $inviteUser = $this->getUser($userLogin);
-
-        $idSite = $this->model->getUserFirstSiteId($userLogin);
-
-        $container = StaticContainer::getContainer();
-        $email = $container->make(UserInviteEmail::class, array(
-          'currentUser'  => Piwik::getCurrentUserLogin(),
-          'inviteUser' => $inviteUser,
-          'idSite' => $idSite,
-          'token'=>$generatedToken
+        // send email
+        $email =  StaticContainer::getContainer()->make(UserInviteEmail::class, array(
+          'currentUser' => Piwik::getCurrentUserLogin(),
+          'inviteUser'  => $invitedUser,
+          'token'       => $generatedToken
         ));
         $email->safeSend();
     }

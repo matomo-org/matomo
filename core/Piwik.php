@@ -709,6 +709,7 @@ class Piwik
      */
 
     /**
+     * TODO: consider deprecated it, move to validator
      * Returns `true` if supplied the email address is a valid.
      *
      * @param string $emailAddress
@@ -721,6 +722,7 @@ class Piwik
     }
 
     /**
+     * TODO: consider deprecated it, move to validator
      * Returns `true` if the login is valid.
      *
      * _Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well._
@@ -919,16 +921,4 @@ class Piwik
         return Common::getRequestVar('date', $default, 'string');
     }
 
-    /**
-     * check if the site Existed by id
-     * @param $idSites
-     * @throws Exception
-     */
-    public static function checkSiteById($idSites)
-    {
-        $site = APISitesManager::getInstance()->getSiteFromId($idSites);
-        if (empty($site)) {
-            throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$idSites . ' couldn\'t be found');
-        }
-    }
 }
