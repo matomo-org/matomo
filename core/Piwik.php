@@ -15,6 +15,7 @@ use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Translation\Translator;
@@ -916,5 +917,18 @@ class Piwik
     public static function getDate($default = null)
     {
         return Common::getRequestVar('date', $default, 'string');
+    }
+
+    /**
+     * check if the site Existed by id
+     * @param $idSites
+     * @throws Exception
+     */
+    public static function checkSiteById($idSites)
+    {
+        $site = APISitesManager::getInstance()->getSiteFromId($idSites);
+        if (empty($site)) {
+            throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$idSites . ' couldn\'t be found');
+        }
     }
 }

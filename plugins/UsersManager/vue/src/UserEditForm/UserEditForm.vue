@@ -457,11 +457,10 @@ export default defineComponent({
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
-          method: 'UsersManager.addUser',
+          method: 'UsersManager.inviteUser',
         },
         {
           userLogin: this.theUser.login,
-          password: this.theUser.password,
           email: this.theUser.email,
           initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
         },

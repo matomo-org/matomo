@@ -24,6 +24,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\UserInviteEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Site;
@@ -767,7 +768,7 @@ class API extends \Piwik\Plugin\API
     }
 
 
-    public function inviteUser($userLogin, $email, $initialIdSite = null)
+    public function inviteUser($userLogin, $email, $initialIdSite = null, $expired = 7)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
@@ -776,7 +777,8 @@ class API extends \Piwik\Plugin\API
             if (empty($initialIdSite)) {
                 throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
             }
-
+            // check if the site exist
+            Piwik::checkSiteById($initialIdSite);
             Piwik::checkUserHasAdminAccess($initialIdSite);
         }
 
@@ -789,13 +791,9 @@ class API extends \Piwik\Plugin\API
         $mail = $container->make(UserCreatedEmail::class, array(
           'login' => Piwik::getCurrentUserLogin(),
           'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin' => $userLogin
+          'userLogin' => $userLogin,
         ));
         $mail->safeSend();
-
-        // we reload the access list which doesn't yet take in consideration this new user
-        Access::getInstance()->reloadAccess();
-        Cache::deleteTrackerCache();
 
         /**
          * Triggered after a new user is invited.
@@ -808,6 +806,8 @@ class API extends \Piwik\Plugin\API
             $this->setUserAccess($userLogin, 'view', $initialIdSite);
         }
 
+        // send invite email
+        $this->sendInvite($userLogin, $expired);
 
     }
     /**
@@ -1592,4 +1592,49 @@ class API extends \Piwik\Plugin\API
 
         return $description;
     }
+
+    /**
+     * resend the invite email to user
+     * @param $userLogin
+     * @throws NoAccessException
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    public function resendInvite($userLogin)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkUserIsNotAnonymous($userLogin);
+
+        $this->checkIfUserIsPending($userLogin);
+
+        $this->sendInvite($userLogin);
+
+        Cache::deleteTrackerCache();
+
+    }
+
+    private function sendInvite($userLogin, $expired = 7)
+    {
+        //add token
+        $this->model->deleteAllTokensForUser($userLogin);
+        $generatedToken = $this->model->generateRandomTokenAuth();
+        $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),  Date::now()->addDay($expired)->getDatetime());
+
+
+        $inviteUser = $this->getUser($userLogin);
+
+        $idSite = $this->model->getUserFirstSiteId($userLogin);
+
+        $container = StaticContainer::getContainer();
+        $email = $container->make(UserInviteEmail::class, array(
+          'currentUser'  => Piwik::getCurrentUserLogin(),
+          'inviteUser' => $inviteUser,
+          'idSite' => $idSite,
+          'token'=>$generatedToken
+        ));
+        $email->safeSend();
+    }
+
 }

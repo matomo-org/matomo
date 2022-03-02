@@ -466,6 +466,7 @@ class Model
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
+        return $user;
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)

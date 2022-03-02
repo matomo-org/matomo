@@ -29,7 +29,7 @@
                 class="btn add-new-user"
                 @click="onAddNewUser()"
               >
-                {{ translate('UsersManager_AddUser') }}
+                {{ translate('UsersManager_InviteNewUser') }}
               </a>
             </div>
             <div
