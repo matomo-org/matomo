@@ -238,10 +238,12 @@ class API extends \Piwik\Plugin\API
 
             $ordinateColumns = array();
             if (empty($columns)) {
-                if (!empty($reportColumns[self::DEFAULT_ORDINATE_METRIC])) {
+                if (!empty($metadata['metrics']) && false) {
+                    foreach ($metadata['metrics'] as $key => $value) {
+                        $ordinateColumns[] = $key;
+                    }
+                } else if (!empty($reportColumns[self::DEFAULT_ORDINATE_METRIC])) {
                     $ordinateColumns[] = self::DEFAULT_ORDINATE_METRIC;
-                } else if (!empty($metadata['metrics'])) {
-                    $ordinateColumns[] = key($metadata['metrics']);
                 } else {
                     throw new Exception(
                       Piwik::translate(
