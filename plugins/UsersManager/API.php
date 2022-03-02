@@ -699,7 +699,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated  this could deprecated since we move to inviteUser
+     * @deprecated  this could deprecate since we move to inviteUser
      * Add a user in the database.
      * A user is defined by
      * - a login that has to be unique and valid
@@ -806,7 +806,7 @@ class API extends \Piwik\Plugin\API
             $this->setUserAccess($userLogin, 'view', $initialIdSite);
         }
 
-        // send invite email
+        // send invited user an email
         $this->sendInvite($userLogin, $expired);
 
     }
