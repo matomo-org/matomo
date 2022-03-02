@@ -447,7 +447,7 @@ class Model
         }
     }
 
-    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered, $inviteStatus = null)
     {
         $user = array(
             'login'            => $userLogin,
@@ -458,6 +458,11 @@ class Model
             'ts_password_modified' => Date::now()->getDatetime(),
             'idchange_last_viewed' => null
         );
+
+
+        if ($inviteStatus) {
+            $user['invited_at'] = Date::now()->getDatetime();
+        }
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
@@ -689,6 +694,13 @@ class Model
         $logins = \Piwik\Db::fetchAll($loginSql);
         $logins = array_column($logins, 'login');
         return $logins;
+    }
+
+    public function isUserInvited($userLogin)
+    {
+        $db = $this->getDb();
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invited_at is not null", $userLogin);
+        return $count != 0;
     }
 
 }

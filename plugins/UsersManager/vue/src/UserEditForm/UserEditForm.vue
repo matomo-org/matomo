@@ -94,6 +94,7 @@
           </div>
           <div>
             <Field
+               v-if="!isAdd"
               :model-value="theUser.password"
               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
@@ -564,11 +565,11 @@ export default defineComponent({
   },
   computed: {
     formTitle() {
-      return this.isAdd ? translate('UsersManager_AddNewUser') : translate('UsersManager_EditUser');
+      return this.isAdd ? translate('UsersManager_InviteNewUser') : translate('UsersManager_EditUser');
     },
     saveButtonLabel() {
       return this.isAdd
-        ? translate('UsersManager_CreateUser')
+        ? translate('UsersManager_InviteUser')
         : translate('UsersManager_SaveBasicInfo');
     },
     isAdd() {

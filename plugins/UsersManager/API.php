@@ -698,6 +698,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @deprecated  this could deprecated since we move to inviteUser
      * Add a user in the database.
      * A user is defined by
      * - a login that has to be unique and valid
@@ -765,6 +766,50 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+
+    public function inviteUser($userLogin, $email, $initialIdSite = null)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+        UsersManager::dieIfUsersAdminIsDisabled();
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if (empty($initialIdSite)) {
+                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+            }
+
+            Piwik::checkUserHasAdminAccess($initialIdSite);
+        }
+
+        $this->checkLogin($userLogin);
+        $this->checkEmail($email);
+
+        $this->model->addUser($userLogin,null, $email, Date::now()->getDatetime(), true);
+
+        $container = StaticContainer::getContainer();
+        $mail = $container->make(UserCreatedEmail::class, array(
+          'login' => Piwik::getCurrentUserLogin(),
+          'emailAddress' => Piwik::getCurrentUserEmail(),
+          'userLogin' => $userLogin
+        ));
+        $mail->safeSend();
+
+        // we reload the access list which doesn't yet take in consideration this new user
+        Access::getInstance()->reloadAccess();
+        Cache::deleteTrackerCache();
+
+        /**
+         * Triggered after a new user is invited.
+         *
+         * @param string $userLogin The new user's details handle.
+         */
+        Piwik::postEvent('UsersManager.inviteUser.end', array($userLogin, $email));
+
+        if ($initialIdSite) {
+            $this->setUserAccess($userLogin, 'view', $initialIdSite);
+        }
+
+
+    }
     /**
      * Enable or disable Super user access to the given user login. Note: When granting Super User access all previous
      * permissions of the user will be removed as the user gains access to everything.

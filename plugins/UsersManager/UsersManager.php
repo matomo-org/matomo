@@ -292,9 +292,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ResetTwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_ResetTwoFactorAuthenticationInfo';
         $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
-        $translationKeys[] = 'UsersManager_AddNewUser';
+        $translationKeys[] = 'UsersManager_InviteNewUser';
         $translationKeys[] = 'UsersManager_EditUser';
-        $translationKeys[] = 'UsersManager_CreateUser';
+        $translationKeys[] = 'UsersManager_InviteUser';
         $translationKeys[] = 'UsersManager_SaveBasicInfo';
         $translationKeys[] = 'UsersManager_Email';
         $translationKeys[] = 'UsersManager_LastSeen';
