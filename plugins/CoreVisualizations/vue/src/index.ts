@@ -6,5 +6,7 @@
  */
 
 import './SeriesPicker/SeriesPicker.adapter';
+import './SingleMetricView/SingleMetricView.adapter';
 
 export { default as SeriesPicker } from './SeriesPicker/SeriesPicker.vue';
+export { default as SingleMetricView } from './SingleMetricView/SingleMetricView.vue';
