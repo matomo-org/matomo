@@ -304,24 +304,28 @@ function renderDashboard(dashboardId, dashboard, layout) {
 }
 
 function fetchDashboard(dashboardId) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  var dashboardElement = $('#dashboardWidgetsArea');
-  dashboardElement.dashboard('destroyWidgets');
-  dashboardElement.empty();
-  window.globalAjaxQueue.abort();
-  return Promise.all([Dashboard_store.getDashboard(dashboardId), Dashboard_store.getDashboardLayout(dashboardId)]).then(function (_ref) {
+  return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall).then(function () {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var dashboardElement = $('#dashboardWidgetsArea');
+    dashboardElement.dashboard('destroyWidgets');
+    dashboardElement.empty();
+    window.globalAjaxQueue.abort();
+    return Promise.all([Dashboard_store.getDashboard(dashboardId), Dashboard_store.getDashboardLayout(dashboardId)]);
+  }).then(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
         dashboard = _ref2[0],
         layout = _ref2[1];
 
-    $(function () {
-      renderDashboard(dashboardId, dashboard, layout);
+    return new Promise(function (resolve) {
+      $(function () {
+        renderDashboard(dashboardId, dashboard, layout);
+        resolve();
+      });
     });
   });
 }
 
 function clearDashboard() {
-  console.log('clearing');
   $('.top_controls .dashboard-manager').hide(); // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
   $('#dashboardWidgetsArea').dashboard('destroy');
@@ -346,7 +350,7 @@ function onLoadPage(params) {
       fetchDashboard(binding.value.idDashboard);
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return external_CoreHome_["MatomoUrl"].urlParsed.value;
+      return external_CoreHome_["MatomoUrl"].parsed.value;
     }, function (parsed) {
       onLocationChange(parsed);
     }); // load dashboard directly since it will be faster than going through reporting page API
@@ -354,7 +358,7 @@ function onLoadPage(params) {
     external_CoreHome_["Matomo"].on('ReportingPage.loadPage', onLoadPage);
   },
   unmounted: function unmounted() {
-    onLocationChange(external_CoreHome_["MatomoUrl"].urlParsed.value);
+    onLocationChange(external_CoreHome_["MatomoUrl"].parsed.value);
     external_CoreHome_["Matomo"].off('ReportingPage.loadPage', onLoadPage);
   }
 });
@@ -385,9 +389,12 @@ function piwikDashboard() {
         modifiers: {},
         dir: {}
       };
-      Dashboard.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        return Dashboard.unmounted();
+      Dashboard.mounted(element[0], binding); // using scope destroy instead of element destroy event, since piwik-dashboard elements
+      // are removed manually, outside of angularjs/vue workflow, so element destroy is not
+      // triggered
+
+      scope.$on('$destroy', function () {
+        Dashboard.unmounted();
       });
     }
   };

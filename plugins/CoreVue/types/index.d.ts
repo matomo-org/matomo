@@ -165,6 +165,8 @@ declare global {
   interface WidgetsHelper {
     availableWidgets?: unknown[];
     getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
+
+    firstGetAvailableWidgetsCall?: Promise<void>;
   }
 
   let widgetsHelper: WidgetsHelper;

@@ -63,16 +63,18 @@ function renderDashboard(
 }
 
 function fetchDashboard(dashboardId: string|number) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dashboardElement = $('#dashboardWidgetsArea') as any;
-  dashboardElement.dashboard('destroyWidgets');
-  dashboardElement.empty();
-  window.globalAjaxQueue.abort();
+  return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall).then(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dashboardElement = $('#dashboardWidgetsArea') as any;
+    dashboardElement.dashboard('destroyWidgets');
+    dashboardElement.empty();
+    window.globalAjaxQueue.abort();
 
-  return Promise.all([
-    DashboardStore.getDashboard(dashboardId),
-    DashboardStore.getDashboardLayout(dashboardId),
-  ]).then(([dashboard, layout]) => new Promise((resolve) => {
+    return Promise.all([
+      DashboardStore.getDashboard(dashboardId),
+      DashboardStore.getDashboardLayout(dashboardId),
+    ]);
+  }).then(([dashboard, layout]) => new Promise<void>((resolve) => {
     $(() => {
       renderDashboard(dashboardId, dashboard as Dashboard, layout as DashboardLayout);
       resolve();
