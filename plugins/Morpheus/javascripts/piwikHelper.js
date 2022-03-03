@@ -339,7 +339,7 @@ window.piwikHelper = {
             // skip this button if it's part of another modal, the current modal can launch
             // (which is true if there are more than one parent elements contained in domElem,
             // w/ css class ui-confirm)
-            const uiConfirm = $button.parents('.ui-confirm').filter(function () {
+            const uiConfirm = $button.parents('.ui-confirm,[ui-confirm]').filter(function () {
               return domElem[0] === this || $.contains(domElem[0], this);
             });
             if (uiConfirm.length > 1) {
