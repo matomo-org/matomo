@@ -108,6 +108,12 @@ function onLoadPage(params: LoadPageArgs) {
   }
 }
 
+function onLoadDashboard(idDashboard: string|number) {
+  setTimeout(() => {
+    fetchDashboard(idDashboard);
+  });
+}
+
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<DashboardDirectiveArgs>): void {
     setTimeout(() => {
@@ -120,10 +126,13 @@ export default {
 
     // load dashboard directly since it will be faster than going through reporting page API
     Matomo.on('ReportingPage.loadPage', onLoadPage);
+
+    Matomo.on('Dashboard.loadDashboard', onLoadDashboard);
   },
   unmounted(): void {
     onLocationChange(MatomoUrl.parsed.value);
 
     Matomo.off('ReportingPage.loadPage', onLoadPage);
+    Matomo.off('Dashboard.loadDashboard', onLoadDashboard);
   },
 };

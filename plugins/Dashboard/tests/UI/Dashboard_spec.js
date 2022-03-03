@@ -130,6 +130,8 @@ describe("Dashboard", function () {
     it("should add a widget when a widget is selected in the dashboard manager", async function() {
         await page.click('.dashboard-manager .title');
 
+        await page.waitForSelector('.widgetpreview-categorylist>li');
+
         var live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
         await live.hover();
         await live.click();
