@@ -454,6 +454,12 @@ class API extends \Piwik\Plugin\API
 
                 $processedReport['segment'] = $segment;
 
+                if (!empty($processedReport['metadata']['imageGraphUrl']) && !empty($processedReport['metadata']['metrics'])) {
+                    $columns = '&columns=' . implode(',', array_keys($processedReport['metadata']['metrics']));
+                    $processedReport['metadata']['imageGraphUrl'] .= $columns;
+                    $processedReport['metadata']['imageGraphEvolutionUrl'] .= $columns;
+                }
+
                 // TODO add static method getPrettyDate($period, $date) in Period
                 $prettyDate = $processedReport['prettyDate'];
 
