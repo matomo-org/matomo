@@ -6,5 +6,7 @@
  */
 
 import './Dashboard/Dashboard.store.adapter';
+import './Dashboard/Dashboard.adapter';
 
 export { default as DashboardStore } from './Dashboard/Dashboard.store';
+export { default as Dashboard } from './Dashboard/Dashboard';

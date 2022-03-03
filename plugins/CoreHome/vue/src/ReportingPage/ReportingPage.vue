@@ -83,6 +83,12 @@ interface ReportingPageState {
   hasNoPage: boolean;
 }
 
+interface LoadPageArgs {
+  category: string;
+  subcategory: string;
+  promise?: Promise<void>;
+}
+
 export default defineComponent({
   components: {
     ActivityIndicator,
@@ -175,24 +181,13 @@ export default defineComponent({
         this.showOnlyRawDataMessageIfRequired();
       }
 
-      if (category === 'Dashboard_Dashboard'
-        && $.isNumeric(subcategory)
-        && $('[piwik-dashboard]').length
-      ) {
-        // TODO: should be changed eventually
-        // hack to make loading of dashboards faster since all the information is already there
-        // in the piwik-dashboard widget, we can let the piwik-dashboard widget render the page.
-        // We need to find a proper solution for this. A workaround for now could be an event or
-        // something to let other components render a specific page.
+      const params: LoadPageArgs = { category, subcategory };
+      Matomo.postEvent('ReportingPage.loadPage', params);
+      if (params.promise) {
         this.loading = true;
-        const element = $('[piwik-dashboard]');
-        const scope = window.angular.element(element).scope() as any; // eslint-disable-line
-        scope.fetchDashboard(parseInt(subcategory, 10)).then(() => {
-          this.loading = false;
-        }, () => {
+        Promise.resolve(params.promise).finally(() => {
           this.loading = false;
         });
-
         return;
       }
 

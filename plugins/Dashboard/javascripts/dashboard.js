@@ -87,7 +87,6 @@ function showEmptyDashboardNotification() {
     piwikHelper.modalConfirm(makeSelectorLastId('dashboardEmptyNotification'), {
         resetDashboard: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); },
         addWidget: function () {
-          console.log('SDLKJF?');
           $('.dashboardSettings > a').trigger('click');
         }
     });

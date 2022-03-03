@@ -55,7 +55,7 @@ class DashboardStore {
     return this.getAllDashboards();
   }
 
-  getAllDashboards(): DashboardStore['dashboardsPromise'] {
+  getAllDashboards(): Promise<DeepReadonly<Dashboard[]>> {
     if (!this.dashboardsPromise) {
       this.dashboardsPromise = AjaxHelper.fetch<Dashboard[]>({
         method: 'Dashboard.getDashboards',

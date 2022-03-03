@@ -39,11 +39,11 @@ import { DeepReadonly, defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import WidgetContainer from '../WidgetContainer/WidgetContainer.vue';
 import WidgetByDimensionContainer from '../WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
-import WidgetsStoreInstance, {
-  getWidgetChildren,
+import WidgetsStoreInstance, { getWidgetChildren } from './Widgets.store';
+import {
   Widget as WidgetData,
   WidgetContainer as WidgetDataContainer,
-} from './Widgets.store';
+} from './types';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import Tooltips from '../Tooltips/Tooltips';

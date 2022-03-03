@@ -191,6 +191,7 @@ declare global {
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;
+    showEmptyDashboardNotification(): void;
   }
 }
 

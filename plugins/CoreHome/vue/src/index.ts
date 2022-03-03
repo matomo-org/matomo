@@ -113,6 +113,11 @@ export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';
 export { default as WidgetByDimensionContainer } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
 export { default as Widget } from './Widget/Widget.vue';
+export {
+  Widget as WidgetType,
+  WidgetContainer as WidgetContainerType,
+  GroupedWidgets as GroupedWidgetsType,
+} from './Widget/types';
 export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
 export { default as ReportExport } from './ReportExport/ReportExport';
 export { default as Sparkline } from './Sparkline/Sparkline.vue';

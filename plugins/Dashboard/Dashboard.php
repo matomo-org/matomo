@@ -292,7 +292,6 @@ class Dashboard extends \Piwik\Plugin
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboardObject.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboardWidget.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboard.js";
-        $jsFiles[] = "plugins/Dashboard/angularjs/dashboard/dashboard.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
