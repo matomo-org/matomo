@@ -235,6 +235,7 @@ export default defineComponent({
       site: {
         id: this.defaultReportIdSite,
         name: Matomo.helper.htmlDecode(this.defaultReportSiteName),
+
       },
       theDefaultDate: this.defaultDate,
       loading: false,
