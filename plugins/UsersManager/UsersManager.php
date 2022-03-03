@@ -327,5 +327,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_NewsletterSignupMessage';
         $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
         $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
+        $translationKeys[] = 'UsersManager_InviteSuccessNotification';
     }
 }

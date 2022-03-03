@@ -129,13 +129,24 @@
             />
           </div>
           <div>
-            <SaveButton
-              v-if="currentUserRole === 'superuser' || isAdd"
-              :value="saveButtonLabel"
-              :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
-              :saving="isSavingUserInfo"
-              @confirm="saveUserInfo()"
-            />
+            <div class="form-group row" style="position: relative">
+              <div class="col s12 m6">
+                <SaveButton
+                    style="position: absolute;bottom: 0"
+                    v-if="currentUserRole === 'superuser' || isAdd"
+                    :value="saveButtonLabel"
+                    :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
+                    :saving="isSavingUserInfo"
+                    @confirm="saveUserInfo()"
+                />
+              </div>
+              <div class="col s12 m6">
+                <div class="form-help">
+                <span class="inline-help"
+                      v-html="translate('UsersManager_InviteSuccessNotification', [7])"></span>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="entityCancel"

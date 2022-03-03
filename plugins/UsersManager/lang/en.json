@@ -185,6 +185,7 @@
         "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on %1$sMatomo's Privacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
-        "FirstWebsitePermission": "First website permission"
+        "FirstWebsitePermission": "First website permission",
+        "InviteSuccessNotification": "The invited User will receive an email to accept the invite, the invite valid for %1$s days, you can also resend and delete the invite in the user management page."
     }
 }

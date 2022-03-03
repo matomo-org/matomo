@@ -29,11 +29,6 @@ class UserInviteEmail extends mail
     /**
      * @var string
      */
-    private $idSite;
-
-    /**
-     * @var string
-     */
     private $token;
 
     /**
@@ -63,8 +58,7 @@ class UserInviteEmail extends mail
 
     protected function getDefaultSubject()
     {
-        return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          [$this->currentUser, Site::getNameFor($this->idSite)]);
+        return '';
     }
     private function getDefaultSubjectWithStyle()
     {
