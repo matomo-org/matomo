@@ -7,18 +7,27 @@
  *
  */
 
-namespace Piwik\Validators;
+namespace Piwik\Plugins\UsersManager\Validators;
 
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\Exception;
+
 
 class Login extends BaseValidator
 {
-    protected $login;
     const loginMinimumLength = 2;
     const loginMaximumLength = 100;
 
+
+    private $checkUnique;
+
+    public function __construct($checkUnique = false)
+    {
+        $this->checkUnique = $checkUnique;
+    }
 
     public function validate($value)
     {
@@ -30,30 +39,28 @@ class Login extends BaseValidator
 
         $l = strlen($value);
         if (!($l >= self::loginMinimumLength
-          && $l <=  self::loginMaximumLength
+          && $l <= self::loginMaximumLength
           && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $value) > 0))
         ) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidLoginFormat',
               array(self::loginMinimumLength, self::loginMaximumLength)));
         }
 
-        $this->login = $value;
-        return $this;
+        if ($this->checkUnique) {
+            $this->isUnique($value);
+        }
+
+
     }
 
-    public function isUnique()
+    private function isUnique($login)
     {
-        if (empty($this->login)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidLoginFormat',
-              array(self::loginMinimumLength, self::loginMaximumLength)));
+        if (APIUsersManager::getInstance()->userExists($login)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $login));
         }
 
-        if (APIUsersManager::getInstance()->userExists($this->login)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $this->login));
-        }
-
-        if (APIUsersManager::getInstance()->userEmailExists($this->login)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExistsAsEmail', $this->login));
+        if (APIUsersManager::getInstance()->userEmailExists($login)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExistsAsEmail', $login));
         }
     }
 }

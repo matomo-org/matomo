@@ -236,11 +236,13 @@ class Model
         return $sites;
     }
 
-    public function getUser($userLogin)
+    public function getUser($userLogin, $pending = false)
     {
         $db = $this->getDb();
 
-        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->userTable} WHERE login = ?", $userLogin);
+        $where = $pending ? ' and invited_at is not null' : '';
+
+        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->userTable} WHERE login = ?".$where, $userLogin);
 
         // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
         // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
@@ -697,11 +699,10 @@ class Model
         return $logins;
     }
 
-    public function isUserInvited($userLogin)
+    public function getPendingUser($userLogin)
     {
         $db = $this->getDb();
-        $count = $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invited_at is not null", $userLogin);
-        return $count != 0;
+        return $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invited_at is not null", $userLogin);
     }
 
 }

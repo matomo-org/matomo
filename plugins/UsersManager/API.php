@@ -23,15 +23,14 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
-use Piwik\Plugins\CoreAdminHome\Emails\UserInviteEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
+use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
+use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Validators\Email;
-use Piwik\Validators\IdSite;
 use Piwik\Validators\Login;
 
 /**
@@ -90,16 +89,19 @@ class API extends \Piwik\Plugin\API
 
     private $twoFaPluginActivated;
 
+    private $userRepository;
+
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access = null, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null, PasswordVerifier $passwordVerifier = null)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, UserRepository $userRepository, Access $access = null, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null, PasswordVerifier $passwordVerifier = null)
     {
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
+        $this->userRepository = $userRepository;
         $this->access = $access ?: StaticContainer::get(Access::class);
         $this->roleProvider = $roleProvider ?: StaticContainer::get(RolesProvider::class);
         $this->capabilityProvider = $capabilityProvider ?: StaticContainer::get(CapabilitiesProvider::class);
@@ -636,12 +638,12 @@ class API extends \Piwik\Plugin\API
      *
      * @return array the user information
      */
-    public function getUser($userLogin)
+    public function getUser($userLogin, $pending = false)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserExists($userLogin);
 
-        $user = $this->model->getUser($userLogin);
+        $user = $this->model->getUser($userLogin, $pending);
 
         $user = $this->userFilter->filterUser($user);
         $user = $this->enrichUser($user);
@@ -669,155 +671,14 @@ class API extends \Piwik\Plugin\API
         return $user;
     }
 
-    /**
-     * TODO: consider deprecated this method, move to validators
-     */
-    private function checkLogin($userLogin)
-    {
-        if ($this->userExists($userLogin)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $userLogin));
-        }
-
-        if ($this->userEmailExists($userLogin)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExistsAsEmail', $userLogin));
-        }
-
-        Piwik::checkValidLoginString($userLogin);
-    }
-
-    /**
-     * TODO: consider deprecated this method, move to validators
-     */
-    private function checkEmail($email, $userLogin = null)
-    {
-        if ($this->userEmailExists($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
-        }
-
-        if ($userLogin && mb_strtolower($userLogin) !== mb_strtolower($email) && $this->userExists($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
-        }
-
-        if (!$userLogin && $this->userExists($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
-        }
-
-        if (!Piwik::isValidEmailString($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail'));
-        }
-    }
-
-    /**
-     * @deprecated  this could deprecate since we move to inviteUser
-     * Add a user in the database.
-     * A user is defined by
-     * - a login that has to be unique and valid
-     * - a password that has to be valid
-     * - an email that has to be in a correct format
-     *
-     * @see userExists()
-     * @see isValidLoginString()
-     * @see isValidPasswordString()
-     * @see isValidEmailString()
-     *
-     * @exception in case of an invalid parameter
-     */
-    public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
-    {
-        Piwik::checkUserHasSomeAdminAccess();
-        UsersManager::dieIfUsersAdminIsDisabled();
-
-        if (!Piwik::hasUserSuperUserAccess()) {
-            if (empty($initialIdSite)) {
-                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
-            }
-
-            Piwik::checkUserHasAdminAccess($initialIdSite);
-        }
-
-        $this->checkLogin($userLogin);
-        $this->checkEmail($email);
-
-        $password = Common::unsanitizeInputValue($password);
-
-        if (!$_isPasswordHashed) {
-            UsersManager::checkPassword($password);
-
-            $passwordTransformed = UsersManager::getPasswordHash($password);
-        } else {
-            $passwordTransformed = $password;
-        }
-
-        $passwordTransformed = $this->password->hash($passwordTransformed);
-
-        $this->model->addUser($userLogin, $passwordTransformed, $email, Date::now()->getDatetime());
-
-        $container = StaticContainer::getContainer();
-        $mail = $container->make(UserCreatedEmail::class, array(
-            'login' => Piwik::getCurrentUserLogin(),
-            'emailAddress' => Piwik::getCurrentUserEmail(),
-            'userLogin' => $userLogin
-        ));
-        $mail->safeSend();
-
-        // we reload the access list which doesn't yet take in consideration this new user
-        Access::getInstance()->reloadAccess();
-        Cache::deleteTrackerCache();
-
-        /**
-         * Triggered after a new user is created.
-         *
-         * @param string $userLogin The new user's login handle.
-         */
-        Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password));
-
-        if ($initialIdSite) {
-            $this->setUserAccess($userLogin, 'view', $initialIdSite);
-        }
-    }
-
 
     public function inviteUser($userLogin, $email, $initialIdSite = null, $expired = 7)
     {
-        Piwik::checkUserHasSomeAdminAccess();
-        UsersManager::dieIfUsersAdminIsDisabled();
-
-        if (!Piwik::hasUserSuperUserAccess()) {
-            if (empty($initialIdSite)) {
-                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
-            }
-            // check if the site exist
-            IdSite::validate($initialIdSite);
-            Piwik::checkUserHasAdminAccess($initialIdSite);
-        }
-
-        //validate info
-        Login::validate($userLogin)->isUniqueUserLogin();
-        Email::validate($email)->isUniqueUserEmail();
-
-        //insert user into database.
-        $user = $this->model->addUser($userLogin,'', $email, Date::now()->getDatetime(), true);
-
-        $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
-          'login' => Piwik::getCurrentUserLogin(),
-          'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin' => $userLogin,
-        ));
-        $mail->safeSend();
-
-        /**
-         * Triggered after a new user is invited.
-         *
-         * @param string $userLogin The new user's details handle.
-         */
-        Piwik::postEvent('UsersManager.inviteUser.end', array($userLogin, $email));
-
-        if ($initialIdSite) {
-            $this->setUserAccess($userLogin, 'view', $initialIdSite);
-        }
+        //create User
+        $this->userRepository->create($userLogin, $email, $initialIdSite);
 
         // send invited user an email
-        $this->sendInvite($user, $expired);
+        $this->userRepository->sendInvite($userLogin, $expired);
 
     }
     /**
@@ -1021,7 +882,8 @@ class API extends \Piwik\Plugin\API
         $hasEmailChanged = mb_strtolower($email) !== mb_strtolower($userInfo['email']);
 
         if ($hasEmailChanged) {
-            $this->checkEmail($email, $userLogin);
+            Email::validate($email)->isUnique();
+            Login::validate($email)->isUnique();
             $changeShouldRequirePasswordConfirmation = true;
         }
 
@@ -1627,27 +1489,5 @@ class API extends \Piwik\Plugin\API
 
     }
 
-    private function sendInvite($userLogin, $expired = 7)
-    {
-        //remove all previous token
-        $this->model->deleteAllTokensForUser($userLogin);
-
-        //generate Token
-        $generatedToken = $this->model->generateRandomTokenAuth();
-
-        //attach token to user
-        $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),  Date::now()->addDay($expired)->getDatetime());
-
-        //retrieve user details
-        $invitedUser = $this->getUser($userLogin);
-
-        // send email
-        $email =  StaticContainer::getContainer()->make(UserInviteEmail::class, array(
-          'currentUser' => Piwik::getCurrentUserLogin(),
-          'inviteUser'  => $invitedUser,
-          'token'       => $generatedToken
-        ));
-        $email->safeSend();
-    }
 
 }

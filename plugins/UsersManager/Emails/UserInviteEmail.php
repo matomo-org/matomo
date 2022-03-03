@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\Plugins\CoreAdminHome\Emails;
+namespace Piwik\Plugins\UsersManager\Emails;
 
 use Piwik\Piwik;
 use Piwik\Site;
