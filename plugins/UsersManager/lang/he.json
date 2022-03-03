@@ -3,13 +3,12 @@
         "AllWebsites": "כל האתרים",
         "Email": "אימייל",
         "ManageAccess": "ניהול הרשאות",
-        "MenuUsers": "משתמשים",
         "MenuUserSettings": "הגדרות משתמש",
+        "MenuUsers": "משתמשים",
         "PrivNone": "אין הרשאות",
         "PrivView": "הצג",
         "User": "משתמש",
-        "UsersManagement": "ניהול משתמשים",
-        "ShowAll": "הצג הכל",
-        "Username": "שם משתמש"
+        "Username": "שם משתמש",
+        "UsersManagement": "ניהול משתמשים"
     }
 }

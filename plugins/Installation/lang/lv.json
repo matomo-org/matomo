@@ -1,5 +1,6 @@
 {
     "Installation": {
+        "CollaborativeProject": "Matomo ir kolaboratīvs projekts, kas veidots ar mīlestību.",
         "Congratulations": "Apsveicam",
         "DatabaseCreation": "Datubāzes izveide",
         "DatabaseErrorConnect": "Kļūda mēģinot sasniegt datubāzes serveri",
@@ -38,9 +39,9 @@
         "SystemCheckPdoAndMysqliHelp": "Uz Linux servera Jūs varat kompilēt php ar sekojošiem parametriem: %1$s Savā php.ini datnē pievienojiet sekojošas līnijas: %2$s",
         "SystemCheckPhp": "PHP versija",
         "SystemCheckPhpPdoAndMysqli": "Vairāk informācija par %1$sPHP PDO%2$s un %3$sMYSQLI%4$s.",
-        "SystemCheckWarnDomHelp": "Jums ir jāieslēdz \"dom\" paplašinājums (piem., instalējiet \"php-dom\" un\/vai \"php-xml\" pakotnes).",
+        "SystemCheckWarnDomHelp": "Jums ir jāieslēdz \"dom\" paplašinājums (piem., instalējiet \"php-dom\" un/vai \"php-xml\" pakotnes).",
         "SystemCheckWarnLibXmlHelp": "Jums ir jāieslēdz \"libxml\" paplašinājums (piem., instalējiet \"php-libxml\" pakotni), jo tā ir nepieciešama citiem PHP paplašinājumiem.",
-        "SystemCheckWarnSimpleXMLHelp": "Jums ir jāieslēdz \"SimpleXML\" paplašinājums (piem., instalējiet \"php-simplexml\" un\/vai \"php-xml\" pakotnes).",
+        "SystemCheckWarnSimpleXMLHelp": "Jums ir jāieslēdz \"SimpleXML\" paplašinājums (piem., instalējiet \"php-simplexml\" un/vai \"php-xml\" pakotnes).",
         "SystemCheckWinPdoAndMysqliHelp": "Uz Windows servera Jūs varat pievienot sekojošas līnijas savā php.ini datnē: %s",
         "SystemCheckWriteDirs": "Mapes ar rakstīšanas pieeju",
         "SystemCheckWriteDirsHelp": "Lai salabotu šo kļūdu Jūsu Linux sistēmā, pamēģiniet ierakstīt sekojošas komandas",

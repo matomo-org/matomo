@@ -31,6 +31,7 @@
         "ExceptionArchiveEmpty": "Arquivo vazio.",
         "ExceptionArchiveIncompatible": "Arquivo incompatível: %s",
         "ExceptionArchiveIncomplete": "Arquivo está incompleto: alguns arquivos estão faltando (ex. %s).",
+        "ExceptionDirWrongPermission": "Algumas pastas não são graváveis. Certifique-se de que as seguintes pastas sejam graváveis e tente novamente: %s.",
         "ExecuteDbUpgrade": "Uma atualização da base de dados é requerida. Executar atualização?",
         "FeedbackRequest": "Sinta-se livre para compartilhar suas idéias e sugestões com a Equipe Matomo aqui:",
         "HelpMessageContent": "Verifique o %1$s Matomo FAQ %2$s que explica os erros mais comuns durante a atualização. %3$s Pergunte ao seu administrador do sistema - Ele pode ser capaz de lhe ajudar com o erro que muito provavelmente é relacionado com o seu servidor ou o setup do MySQL.",

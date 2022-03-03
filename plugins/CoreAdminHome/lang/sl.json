@@ -9,6 +9,7 @@
         "CustomLogoFeedbackInfo": "Če želite prilagoditi Matomo logo, bi morda želeli tudi skriti povezavo %1$s v vrhnjem meniju. To lahko storite tako, da onemogočite vtičnik Feedback na strani %2$sUpravljanje vtičnikov%3$s.",
         "CustomLogoHelpText": "Matomo-ov logo lahko prilagodite po vaših željah. Spremembe bodo vidne tako v uporabniškem vmesniku, kot v email poročilih.",
         "EmailServerSettings": "Nastavitev strežnika za email",
+        "FaviconUpload": "Izberite Favicon datoteko za prenos",
         "ForBetaTestersOnly": "Samo za Beta testerje",
         "ImageTracking": "Sledenje s pomočjo slike",
         "ImageTrackingIntro1": "Ko ima uporabnik onemogočen JavaScript ali, ko JavaScript ne more biti uporabljen, lahko za sledenje obiskovalcev uporabite povezavo na sliko.",
@@ -18,20 +19,19 @@
         "ImportingServerLogs": "Uvažanje strežniških log datotek",
         "JavaScriptTracking": "Sledenje s pomočjo Javascripta",
         "LogoUpload": "Izberite Logo za nalaganje",
-        "FaviconUpload": "Izberite Favicon datoteko za prenos",
+        "MenuDevelopment": "Razvoj",
         "MenuDiagnostic": "Diagnostika",
         "MenuGeneralSettings": "Splošne nastavitve",
-        "MenuDevelopment": "Razvoj",
         "OptOutComplete": "Odjavljeno; vaši obiski spletne strani ne bodo zabeleženi z orodjem za analitiko.",
         "OptOutCompleteBis": "Upoštevajte, da če izbrišete piškotke, izbrišete tudi piškotek za onemogočanje analitike ali če spremenite računalnike ali spletne brskalnike, morate postopek odjave izvesti še enkrat.",
         "OptOutDntFound": "Vaš brskalnik sporoča, da ne želite biti sledeni. To je nastavitev brskalnika, zato se ne boste mogli odločiti za sledenje, dokler ne onemogočite funkcije »Ne sledi« v vašem brskalniku.",
         "OptOutExplanation": "Matomo želi zagotoviti zasebnost na internetu. Če želite svojim obiskovalcem omogočiti 'opt-out' iz Matomo spletne analitike, potem lahko dodate naslednjo HTML kodo na vašo spletno stran, npr. na stran 'Varovanje zasebnosti'.",
         "OptOutForYourVisitors": "'Opt-out' za vaše obiskovalce",
+        "OptingYouOut": "Odjavljamo vas, prosimo počakajte…",
         "PiwikIsInstalledAt": "Matomo je nameščen na",
         "UseCustomLogo": "Uporabi poseben logo",
         "YouAreOptedOut": "Trenutno niste prijavljeni.",
         "YouMayOptOut": "Odločite se lahko, da vašemu računalniku ne dodelimo enolične številčne oznake, ki jo potrebujemo za statistično analizo podatkov na tem spletnem mestu.",
-        "YouMayOptOutBis": "Za uveljavitev te odločitve prosimo kliknite spodaj, prejeli boste piškotek v katerega se bo odločitev shranila.",
-        "OptingYouOut": "Odjavljamo vas, prosimo počakajte..."
+        "YouMayOptOutBis": "Za uveljavitev te odločitve prosimo kliknite spodaj, prejeli boste piškotek v katerega se bo odločitev shranila."
     }
 }

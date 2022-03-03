@@ -146,7 +146,10 @@ class Cookie
             }
         }
 
-        $Expires = $this->formatExpireTime($Expires);
+        // Format expire time only for non session cookies
+        if (0 !== $Expires) {
+            $Expires = $this->formatExpireTime($Expires);
+        }
 
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
             . (empty($Expires) ? '' : '; expires=' . $Expires)

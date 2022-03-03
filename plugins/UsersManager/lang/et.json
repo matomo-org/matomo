@@ -16,12 +16,12 @@
         "LastSeen": "Viimati nähtud",
         "ManageAccess": "Halda ligipääsu",
         "MenuAnonymousUserSettings": "Tundmatu kasutaja seaded",
-        "MenuUsers": "Kasutajaid",
-        "MenuUserSettings": "Kasutaja seaded",
         "MenuPersonal": "Isiklik",
-        "PersonalSettings": "Isiklikud seaded",
-        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Märkus: Sa ei saa antud sätteid muuta, kuna puuduvad veebilehed, millele oleks anonüümne ligipääs Matomo lubatud.",
+        "MenuUserSettings": "Kasutaja seaded",
+        "MenuUsers": "Kasutajaid",
         "NoUsersExist": "Hetkel puuduvad teised kasutajad.",
+        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Märkus: Sa ei saa antud sätteid muuta, kuna puuduvad veebilehed, millele oleks anonüümne ligipääs Matomo lubatud.",
+        "PersonalSettings": "Isiklikud seaded",
         "PrivAdmin": "Haldaja",
         "PrivNone": "Ligipääs puudub",
         "PrivView": "Vaata",
@@ -32,11 +32,10 @@
         "ThereAreCurrentlyNRegisteredUsers": "Hetkel on %s registreeritud kasutajat.",
         "TypeYourPasswordAgain": "Korda oma uut salasõna.",
         "User": "Kasutaja",
+        "Username": "Kasutajanimi",
         "UsersManagement": "Kasutajate haldamine",
         "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool.",
         "YourUsernameCannotBeChanged": "Sinu kasutajanime ei saa muuta.",
-        "YourVisitsAreNotIgnored": "%1$sMatomo ei arva sinu külastusi statistikast välja%2$s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust).",
-        "ShowAll": "Kuva kõik",
-        "Username": "Kasutajanimi"
+        "YourVisitsAreNotIgnored": "%1$sMatomo ei arva sinu külastusi statistikast välja%2$s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust)."
     }
 }

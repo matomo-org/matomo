@@ -133,6 +133,7 @@ import {
   SiteSelector,
   NotificationsStore,
   translate,
+  Matomo,
 } from 'CoreHome';
 import {
   SaveButton,
@@ -233,7 +234,8 @@ export default defineComponent({
       theDefaultReport: this.defaultReport,
       site: {
         id: this.defaultReportIdSite,
-        name: this.defaultReportSiteName,
+        name: Matomo.helper.htmlDecode(this.defaultReportSiteName),
+
       },
       theDefaultDate: this.defaultDate,
       loading: false,
