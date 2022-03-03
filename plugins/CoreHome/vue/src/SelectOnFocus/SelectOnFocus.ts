@@ -8,9 +8,11 @@
 import { DirectiveBinding } from 'vue';
 
 interface SelectOnFocusArgs {
+  // state
   focusedElement?: HTMLElement;
   elementSupportsSelect?: boolean;
 
+  // event handlers
   onFocusHandler?: (event: Event) => void;
   onClickHandler?: (event: MouseEvent) => void;
   onBlurHandler?: (event: Event) => void;

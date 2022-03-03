@@ -152,7 +152,6 @@
         "RolesHelp": "Les rôles déterminent ce qui les utilisateurs ont le droit de faire au sein de Matomo vis à vis d'un site web spécifique. Apprenez en plus à propos des rôles %1$sLecture%2$s et %3$sAdmin%4$s.",
         "SaveBasicInfo": "Sauvegarder les informations de base",
         "SetPermission": "Définir la permission",
-        "ShowAll": "Afficher tout",
         "SuperUserAccess": "Accès super utilisateur",
         "SuperUserAccessManagement": "Gérer l'accès Super Utilisateur",
         "SuperUserAccessManagementGrantMore": "Ici vous pouvez accorder un accès Super Utilisateur aux autres utilisateurs Matomo. Veuillez effectuer cela avec précaution.",

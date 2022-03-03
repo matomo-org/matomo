@@ -1,6 +1,7 @@
 {
     "WebsiteMeasurable": {
         "Website": "Lloc web",
+        "WebsiteDescription": "Un lloc web consta de pàgines web que normalment es distribueixen des d'un únic domini web.",
         "Websites": "Llocs"
     }
 }

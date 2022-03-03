@@ -28,10 +28,10 @@
         "LastSeen": "Ultima data vazut",
         "ManageAccess": "Manageriaza accesul",
         "MenuAnonymousUserSettings": "Setările utilizatorului anonim",
-        "MenuUsers": "Utilizatori",
         "MenuUserSettings": "Setări utilizator",
-        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Notă: Nu puteți schimba setările din această secțiune, pentru că nu aveți nici un site web care poate fi accesat de către un utilizator anonim.",
+        "MenuUsers": "Utilizatori",
         "NoUsersExist": "Nu există încă utilizatori.",
+        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Notă: Nu puteți schimba setările din această secțiune, pentru că nu aveți nici un site web care poate fi accesat de către un utilizator anonim.",
         "PrivAdmin": "Admin",
         "PrivNone": "Fără acces",
         "PrivView": "Vezi",
@@ -44,12 +44,11 @@
         "ThereAreCurrentlyNRegisteredUsers": "La moment există %s utilizatori înregistraţi.",
         "TypeYourPasswordAgain": "Introduce parola nouă încă o dată.",
         "User": "Utilizator",
+        "Username": "Nume utilizator",
         "UsersManagement": "Management useri",
         "UsersManagementMainDescription": "Creaza user nou sau actualizeaza userul existent. Poti seta permisiunile lor.",
         "YourUsernameCannotBeChanged": "Numele tău de utilizator nu poate fi schimbat.",
         "YourVisitsAreIgnoredOnDomain": "%1$svizitele tale sunt ignorate de Matomo pe %2$s%3$s (Matomo ignora cookie care a fost găsit în browser-ul dvs.).",
-        "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (Matomo ignora cookie care nu au fost găsite în browser-ul dvs.).",
-        "ShowAll": "Arată tot",
-        "Username": "Nume utilizator"
+        "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (Matomo ignora cookie care nu au fost găsite în browser-ul dvs.)."
     }
 }

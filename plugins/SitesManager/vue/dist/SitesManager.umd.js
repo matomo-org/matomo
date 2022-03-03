@@ -1768,7 +1768,12 @@ SitesManagementvue_type_script_lang_ts.render = render
   component: SitesManagement,
   scope: {},
   directiveName: 'matomoSitesManagement'
-}));
+})); // sitesManagerAPI no longer exists, but it is still referenced by a premium feature. the feature
+// doesn't actually use it though so we can just create an empty object for an adapter.
+
+window.angular.module('piwikApp').factory('sitesManagerAPI', function () {
+  return {};
+});
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/ManageGlobalSettings/ManageGlobalSettings.vue?vue&type=template&id=1bcd889c
 
 var ManageGlobalSettingsvue_type_template_id_1bcd889c_hoisted_1 = {

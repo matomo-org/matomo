@@ -3,9 +3,11 @@
         "AddANDorORCondition": "Legg til %s-vilkår",
         "AddNewSegment": "Legg til nytt segment",
         "AddThisToMatomo": "Legg til dette segmentet i Matomo",
+        "AddingSegmentForAllWebsitesDisabled": "Tilføyelse av segmenter for alle nettsider har blitt skrudd av.",
         "AreYouSureDeleteSegment": "Er du sikker på at du vil slette dette segmentet?",
         "AutoArchivePreProcessed": "segmenterte rapporter forhåndsbehandles (raskere, krever cron)",
         "AutoArchiveRealTime": "segmenterte rapporter behandles i sanntid",
+        "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Du er i ferd med å endre segmentsdefinisjonen. Din analyserapport for dette nye segmentet vil ikke bli tilgjengelig til rapportene behandles igjen. Det kan ta noen timer til rapportdataen vises for dette segmentet. Fortsett uansett?",
         "ChooseASegment": "Velg et segment",
         "CurrentlySelectedSegment": "Valgt segment: %s",
         "CustomSegment": "Egendefinert segment",
@@ -25,7 +27,9 @@
         "Test": "Test",
         "ThisSegmentIsCompared": "Dette segmentet er valgt til sammenligning.",
         "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
+        "UnprocessedSegmentNoData1": "Disse rapportene har ingen data, fordi %1$s-segmentet du forespurte ikke har blitt behandlet av systemet enda.",
         "VisibleToAllUsers": "alle brukere",
-        "VisibleToMe": "meg"
+        "VisibleToMe": "meg",
+        "VisibleToSuperUser": "Synlig for deg siden du har superbrukertilgang"
     }
 }

@@ -10,7 +10,7 @@
 describe("SiteSelector", function () {
     this.timeout(0);
 
-    const selectorToCapture = '[piwik-siteselector],[piwik-siteselector] .dropdown';
+    const selectorToCapture = '.siteSelector,.siteSelector .dropdown';
     const url = "?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday";
 
     it("should load correctly", async function() {

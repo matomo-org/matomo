@@ -148,7 +148,6 @@
         "RolesHelp": "角色确定用户可以在Matomo中针对特定网站执行的操作。 了解有关%1$s视图%2$s和%3$s管理%4$s角色的更多信息。",
         "SaveBasicInfo": "保存基本信息",
         "SetPermission": "设定权限",
-        "ShowAll": "显示全部",
         "SuperUserAccess": "超级用户访问",
         "SuperUserAccessManagement": "管理超级用户访问",
         "SuperUserAccessManagementGrantMore": "您可以在这里向Matomo的其他用户授予超级用户访问权限。 请谨慎使用此功能。",
