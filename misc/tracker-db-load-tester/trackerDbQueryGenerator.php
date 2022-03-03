@@ -162,7 +162,7 @@ class TrackerDbQueryGenerator
         return strtolower($a2s[array_rand($a2s)]);
     }
 
-    public function getInsertVisitorQuery(string $idvisitor, string $entryActionUrlId): array
+    public function getInsertVisitorQuery(string $idvisitor, string $entryActionUrlId, int $timestamp): array
     {
 
         $sql = "
@@ -207,10 +207,10 @@ class TrackerDbQueryGenerator
                  ':location_ip' => $this->getRandomIP(),
                  ':idsite' => 1,
                  ':profilable' => 1,
-                 ':visit_first_action_time' => date('Y-m-d H:i:s', time()),
+                 ':visit_first_action_time' => date('Y-m-d H:i:s', $timestamp),
                  ':visit_goal_buyer' => 0,
                  ':visit_goal_converted' => 0,
-                 ':visit_last_action_time' => date('Y-m-d H:i:s', time()),
+                 ':visit_last_action_time' => date('Y-m-d H:i:s', $timestamp),
                  ':visitor_returning' => 0,
                  ':visitor_seconds_since_first' => 0,
                  ':visitor_seconds_since_order' => null,
@@ -267,7 +267,7 @@ class TrackerDbQueryGenerator
 
     }
 
-    public function getUpdateVisitQuery(int $idvisit, string $firstActionTime)
+    public function getUpdateVisitQuery(int $idvisit, string $firstActionTime, int $timestamp)
     {
         $sql = "
          UPDATE log_visit
@@ -280,16 +280,16 @@ class TrackerDbQueryGenerator
         $first = strtotime($firstActionTime);
 
         if ($first) {
-            $totalTime = time() - $first;
+            $totalTime = $timestamp - $first;
         } else {
             $totalTime = 0;
         }
 
-        $bind = [':lastaction' => date('Y-m-d H:i:s', time()), ':idvisit' => $idvisit, ':visittotaltime' => $totalTime];
+        $bind = [':lastaction' => date('Y-m-d H:i:s', $timestamp), ':idvisit' => $idvisit, ':visittotaltime' => $totalTime];
         return ['sql' => $sql, 'bind' => $bind];
     }
 
-    public function getInsertActionLinkQuery(string $idvisitor, int $idvisit, string $idaction): array
+    public function getInsertActionLinkQuery(string $idvisitor, int $idvisit, string $idaction, int $timestamp): array
     {
         $sql = "
         INSERT INTO log_link_visit_action (idvisit, idsite, idvisitor, idaction_url, idaction_url_ref, idaction_name_ref,
@@ -308,7 +308,7 @@ class TrackerDbQueryGenerator
             ':idaction_url_ref' => $idaction,
             ':idaction_name' => null,
             ':idaction_name_ref' => null,
-            ':server_time' => date('Y-m-d H:i:s', time()),
+            ':server_time' => date('Y-m-d H:i:s', $timestamp),
             ':idpageview' => bin2hex(random_bytes(3)),
             ':pageview_position' => rand(1,10),
             ':time_spent_ref_action' => rand(1,1000),

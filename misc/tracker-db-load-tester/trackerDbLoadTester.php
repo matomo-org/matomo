@@ -23,7 +23,9 @@ Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB
     -T          Throttle the number of requests per second to this value
     -b          Basic test, do a very basic insert test instead of using tracker data 1=insert k/v, 2=select/insert
     -c          Create a new random database and tracking data schema only then exit    
-    -m          Create x multiple headless test processes using the supplied parameters   
+    -m          Create x multiple headless test processes using the supplied parameters
+    -ds         Start date in UTC for random visit/action date range, yyyy-mm-dd,hh:mm:ss
+    -de         End date for random visit/action date, must be paired with -ds, if omitted then current date is used   
     --cleanup   Delete all randomly named test databases
 
 USAGE;
@@ -43,6 +45,8 @@ $throttle = -1;
 $basicTest = 0;
 $multipleProcesses = 0;
 $dbCreateOnly = false;
+$randomDateStart = null;
+$randomDateEnd = null;
 
 foreach ($argv as $arg) {
 
@@ -99,11 +103,27 @@ foreach ($argv as $arg) {
         case '-m':
             $multipleProcesses = $kv[1];
             break;
+        case '-ds':
+            if (strlen($kv[1]) !== 19 || strpos($kv[1],',') === false) {
+                die("Invalid date passed to -ds option: please use format yyyy-mm-dd,hh:mm:ss\n");
+            }
+            $randomDateStart = strtotime(str_replace(',', ' ', $kv[1]));
+            break;
+        case '-de':
+            if (strlen($kv[1]) !== 19 || strpos($kv[1],',') === false) {
+                die("Invalid date passed to -de option: please use format yyyy-mm-dd,hh:mm:ss\n");
+            }
+            $randomDateEnd = strtotime(str_replace(',', ' ', $kv[1]));
+            break;
     }
 }
 
 if ($dbName === null || $dbHost === null || $dbUser === null || $dbPass === null || $dbPort === null) {
     die($usage);
+}
+
+if ($randomDateStart && !$randomDateEnd) {
+    $randomDateEnd = time();
 }
 
 #endregion
@@ -339,6 +359,12 @@ $throttleIntervalCount = 0;
 $throttleLastTimeSample = microtime(true);
 while ($requestCount < $requests || $requests < 0) {
 
+    if ($randomDateStart) {
+        $timestampUTC = rand($randomDateStart, $randomDateEnd);
+    } else {
+        $timestampUTC = time();
+    }
+
     // Get random action, 50% chance of being new until pool is full, then always an existing action
     $actionUrl = $queryGenerator->getRandomActionURL();
 
@@ -375,19 +401,23 @@ while ($requestCount < $requests || $requests < 0) {
         }
 
         // Insert new visit
-        $insertVisitorQuery = $queryGenerator->getInsertVisitorQuery($idvisitor, $idaction);
+        $insertVisitorQuery = $queryGenerator->getInsertVisitorQuery($idvisitor, $idaction, $timestampUTC);
         $visitorRows = query($prepareCache, $pdo, $insertVisitorQuery);
         $idvisit = $pdo->lastInsertId();
 
     } else {
         $idvisit = $visitorRows[0]->idvisit;
 
-         if ($verbosity == 3) {
+        // Update random visit time to always be after an existing visit's first action time
+        $visitFirstTime = strtotime($visitorRows[0]->visit_first_action_time);
+        $timestampUTC = rand($visitFirstTime, $randomDateEnd);
+
+        if ($verbosity == 3) {
             echo "Existing visitor, updating...\n";
         }
 
         // Update visit
-        $updateVisitQuery = $queryGenerator->getUpdateVisitQuery($idvisit, $visitorRows[0]->visit_first_action_time);
+        $updateVisitQuery = $queryGenerator->getUpdateVisitQuery($idvisit, $visitorRows[0]->visit_first_action_time, $timestampUTC);
         query($prepareCache, $pdo, $updateVisitQuery);
 
     }
@@ -402,7 +432,7 @@ while ($requestCount < $requests || $requests < 0) {
         if ($verbosity == 3) {
             echo "Inserting action link...\n";
         }
-        $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction);
+        $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction, $timestampUTC);
         query($prepareCache, $pdo, $insertActionLinkQuery);
     }
 
