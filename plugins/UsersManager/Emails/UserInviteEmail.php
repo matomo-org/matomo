@@ -63,7 +63,7 @@ class UserInviteEmail extends mail
     private function getDefaultSubjectWithStyle()
     {
         return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          ["<strong>".$this->currentUser."</strong>", "<strong>".Site::getNameFor($this->idSite)."</strong>"]);
+          ["<strong>".$this->currentUser."</strong>", "<strong>"]);
     }
 
     protected function getDefaultBodyView()
@@ -71,7 +71,6 @@ class UserInviteEmail extends mail
         $view = new View('@UsersManager/_userInviteEmail.twig');
         $view->login = $this->user['login'];
         $view->emailAddress = $this->user['email'];
-        $view->siteName = Site::getNameFor($this->idSite);
         $view->token = $this->token;
 
         // content line for email body

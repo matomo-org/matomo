@@ -678,7 +678,7 @@ class API extends \Piwik\Plugin\API
         $this->userRepository->create($userLogin, $email, $initialIdSite);
 
         // send invited user an email
-        $this->userRepository->sendInvite($userLogin, $expired);
+        $this->userRepository->sendNewUserEmails($userLogin, $expired);
 
     }
     /**

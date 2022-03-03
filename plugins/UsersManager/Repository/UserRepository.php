@@ -61,13 +61,6 @@ class UserRepository
         //insert user into database.
         $this->model->addUser($userLogin, '', $email, Date::now()->getDatetime(), true);
 
-//        $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
-//          'login'        => Piwik::getCurrentUserLogin(),
-//          'emailAddress' => Piwik::getCurrentUserEmail(),
-//          'userLogin'    => $userLogin,
-//        ));
-//        $mail->safeSend();
-
         /**
          * Triggered after a new user is invited.
          *
@@ -91,8 +84,17 @@ class UserRepository
 
     }
 
-    public function sendInvite($userLogin, $expired = 7)
+    public function sendNewUserEmails($userLogin, $expired = 7)
     {
+
+        //send Admin Email
+        $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
+          'login'        => Piwik::getCurrentUserLogin(),
+          'emailAddress' => Piwik::getCurrentUserEmail(),
+          'userLogin'    => $userLogin,
+        ));
+        $mail->safeSend();
+
 
         //retrieve user details
         $user = API::getInstance()->getUser($userLogin, true);

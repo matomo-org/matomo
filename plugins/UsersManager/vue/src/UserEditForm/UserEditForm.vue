@@ -141,8 +141,8 @@
                 />
               </div>
               <div class="col s12 m6">
-                <div class="form-help">
-                <span class="inline-help"
+                <div v-if="isAdd" class="form-help">
+                     <span class="inline-help"
                       v-html="translate('UsersManager_InviteSuccessNotification', [7])"></span>
                 </div>
               </div>
