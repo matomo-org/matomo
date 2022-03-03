@@ -24,7 +24,7 @@ class UserInviteEmail extends mail
     /**
      * @var object
      */
-    private $inviteUser;
+    private $user;
 
     /**
      * @var string
@@ -38,16 +38,15 @@ class UserInviteEmail extends mail
 
     /**
      * @param string $currentUser
-     * @param array $inviteUser
+     * @param array $user
      * @param string $idSite
      * @param string $token
      */
-    public function __construct($currentUser, $inviteUser, $idSite, $token)
+    public function __construct($currentUser, $user,$token)
     {
         parent::__construct();
         $this->currentUser = $currentUser;
-        $this->inviteUser = $inviteUser;
-        $this->idSite = $idSite;
+        $this->user = $user;
         $this->token = $token;
         $this->setUpEmail();
     }
@@ -56,7 +55,7 @@ class UserInviteEmail extends mail
     private function setUpEmail()
     {
         $this->setDefaultFromPiwik();
-        $this->addTo($this->inviteUser['email']);
+        $this->addTo($this->user['email']);
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($this->getFrom(), $this->getFromName());
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
@@ -75,10 +74,9 @@ class UserInviteEmail extends mail
 
     protected function getDefaultBodyView()
     {
-        $view = new View('@CoreAdminHome/_userInviteEmail.twig');
-        $view->login = $this->inviteUser['login'];
-        $view->emailAddress = $this->inviteUser['email'];
-        $view->idSite = $this->idSite;
+        $view = new View('@UsersManager/_userInviteEmail.twig');
+        $view->login = $this->user['login'];
+        $view->emailAddress = $this->user['email'];
         $view->siteName = Site::getNameFor($this->idSite);
         $view->token = $this->token;
 

@@ -7,6 +7,7 @@ use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\Validators\Email;
@@ -97,12 +98,12 @@ class UserRepository
 
 
         // send email
-//        $email =  StaticContainer::getContainer()->make(UserInviteEmail::class, array(
-//          'currentUser' => Piwik::getCurrentUserLogin(),
-//          'inviteUser'  => $invitedUser,
-//          'token'       => $generatedToken
-//        ));
-//        $email->safeSend();
+        $email =  StaticContainer::getContainer()->make(UserInviteEmail::class, array(
+          'currentUser' => Piwik::getCurrentUserLogin(),
+          'user'  => $user,
+          'token'       => $generatedToken
+        ));
+        $email->safeSend();
     }
 
     private function validateAccess()

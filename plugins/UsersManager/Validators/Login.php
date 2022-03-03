@@ -21,7 +21,6 @@ class Login extends BaseValidator
     const loginMinimumLength = 2;
     const loginMaximumLength = 100;
 
-
     private $checkUnique;
 
     public function __construct($checkUnique = false)
@@ -49,10 +48,13 @@ class Login extends BaseValidator
         if ($this->checkUnique) {
             $this->isUnique($value);
         }
-
-
     }
 
+    /**
+     * check if login already exist in database
+     * @param $login
+     * @throws \Exception
+     */
     private function isUnique($login)
     {
         if (APIUsersManager::getInstance()->userExists($login)) {

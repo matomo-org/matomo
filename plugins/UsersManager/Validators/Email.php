@@ -39,6 +39,11 @@ class Email extends BaseValidator
 
     }
 
+    /**
+     * check if email already exist in database
+     * @param $email
+     * @throws \Exception
+     */
     private function isUnique($email)
     {
         if (APIUsersManager::getInstance()->userExists($email)) {
