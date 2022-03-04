@@ -344,6 +344,12 @@ function onLoadPage(params) {
   }
 }
 
+function onLoadDashboard(idDashboard) {
+  setTimeout(function () {
+    fetchDashboard(idDashboard);
+  });
+}
+
 /* harmony default export */ var Dashboard = ({
   mounted: function mounted(el, binding) {
     setTimeout(function () {
@@ -356,10 +362,12 @@ function onLoadPage(params) {
     }); // load dashboard directly since it will be faster than going through reporting page API
 
     external_CoreHome_["Matomo"].on('ReportingPage.loadPage', onLoadPage);
+    external_CoreHome_["Matomo"].on('Dashboard.loadDashboard', onLoadDashboard);
   },
   unmounted: function unmounted() {
     onLocationChange(external_CoreHome_["MatomoUrl"].parsed.value);
     external_CoreHome_["Matomo"].off('ReportingPage.loadPage', onLoadPage);
+    external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
 // CONCATENATED MODULE: ./plugins/Dashboard/vue/src/Dashboard/Dashboard.adapter.ts
