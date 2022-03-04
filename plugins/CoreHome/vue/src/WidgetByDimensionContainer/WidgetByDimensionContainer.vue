@@ -43,8 +43,6 @@ import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import { Widget } from '../Widget/types';
 import { sortOrderables } from '../Orderable';
 
-// TODO: is there a widget category ID or widget ID
-
 interface WidgetByDimensionContainerState {
   selectedWidget: Widget|null;
 }
