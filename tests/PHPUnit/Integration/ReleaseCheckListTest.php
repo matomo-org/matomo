@@ -1099,7 +1099,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             $countFileChecked++;
         }
-        $this->assertGreaterThan(35, $countFileChecked, "expected to test at least 35 files, but tested only " . $countFileChecked);
+        $this->assertGreaterThan(20, $countFileChecked, "expected to test at least 20 files, but tested only " . $countFileChecked);
 
         if (!empty($errors)) {
             throw new Exception(implode(",\n\n ", $errors));
