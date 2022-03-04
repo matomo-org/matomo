@@ -51,7 +51,7 @@ describe("Comparison", function () {
         await page.waitForNetworkIdle();
 
         const pageWrap = await page.$('.pageWrap');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('dashboard_last_period');
+        expect(await pageWrap.screenshot()).to.matchImage('dashboard_last_period');
     });
 
     it('should add a segment comparison when the compare icon in the segment list is clicked', async () => {

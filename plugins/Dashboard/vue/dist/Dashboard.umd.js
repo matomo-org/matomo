@@ -304,12 +304,16 @@ function renderDashboard(dashboardId, dashboard, layout) {
 }
 
 function fetchDashboard(dashboardId) {
-  return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall).then(function () {
+  window.globalAjaxQueue.abort();
+  return new Promise(function (resolve) {
+    return setTimeout(resolve);
+  }).then(function () {
+    return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall);
+  }).then(function () {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var dashboardElement = $('#dashboardWidgetsArea');
     dashboardElement.dashboard('destroyWidgets');
     dashboardElement.empty();
-    window.globalAjaxQueue.abort();
     return Promise.all([Dashboard_store.getDashboard(dashboardId), Dashboard_store.getDashboardLayout(dashboardId)]);
   }).then(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
@@ -345,16 +349,12 @@ function onLoadPage(params) {
 }
 
 function onLoadDashboard(idDashboard) {
-  setTimeout(function () {
-    fetchDashboard(idDashboard);
-  });
+  fetchDashboard(idDashboard);
 }
 
 /* harmony default export */ var Dashboard = ({
   mounted: function mounted(el, binding) {
-    setTimeout(function () {
-      fetchDashboard(binding.value.idDashboard);
-    });
+    fetchDashboard(binding.value.idDashboard);
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return external_CoreHome_["MatomoUrl"].parsed.value;
     }, function (parsed) {

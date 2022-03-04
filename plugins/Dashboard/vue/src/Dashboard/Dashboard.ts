@@ -63,12 +63,15 @@ function renderDashboard(
 }
 
 function fetchDashboard(dashboardId: string|number) {
-  return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall).then(() => {
+  window.globalAjaxQueue.abort();
+
+  return new Promise((resolve) => setTimeout(resolve)).then(
+    () => Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall),
+  ).then(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dashboardElement = $('#dashboardWidgetsArea') as any;
     dashboardElement.dashboard('destroyWidgets');
     dashboardElement.empty();
-    window.globalAjaxQueue.abort();
 
     return Promise.all([
       DashboardStore.getDashboard(dashboardId),
@@ -109,16 +112,12 @@ function onLoadPage(params: LoadPageArgs) {
 }
 
 function onLoadDashboard(idDashboard: string|number) {
-  setTimeout(() => {
-    fetchDashboard(idDashboard);
-  });
+  fetchDashboard(idDashboard);
 }
 
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<DashboardDirectiveArgs>): void {
-    setTimeout(() => {
-      fetchDashboard(binding.value.idDashboard);
-    });
+    fetchDashboard(binding.value.idDashboard);
 
     watch(() => MatomoUrl.parsed.value, (parsed) => {
       onLocationChange(parsed);
