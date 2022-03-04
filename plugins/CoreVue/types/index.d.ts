@@ -165,6 +165,8 @@ declare global {
   interface WidgetsHelper {
     availableWidgets?: unknown[];
     getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
+
+    firstGetAvailableWidgetsCall?: Promise<void>;
   }
 
   let widgetsHelper: WidgetsHelper;
@@ -191,6 +193,7 @@ declare global {
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;
+    showEmptyDashboardNotification(): void;
   }
 }
 
