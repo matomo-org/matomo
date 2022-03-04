@@ -230,6 +230,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
                 // check if dependency is not activated
                 if (!in_array($pluginDependency, $plugins)
                     && !in_array($pluginDependency, $result)
+                    && !$keepUnresolved
                 ) {
                     return;
                 }
