@@ -206,7 +206,7 @@ class Url
      *                          value from the request.
      * @return bool `true` if valid; `false` otherwise.
      */
-    public static function isValidHost($host = false)
+    public static function isValidHost($host = false): bool
     {
         // only do trusted host check if it's enabled
         if (isset(Config::getInstance()->General['enable_trusted_host_check'])
@@ -215,7 +215,7 @@ class Url
             return true;
         }
 
-        if ($host === false) {
+        if (false === $host || null === $host) {
             $host = self::getHostFromServerVariable();
             if (empty($host)) {
                 // if no current host, assume valid
