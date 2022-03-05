@@ -725,6 +725,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->checkLogin($userLogin);
+        $email = Common::unsanitizeInputValues($email);
         $this->checkEmail($email);
 
         $password = Common::unsanitizeInputValue($password);
@@ -961,6 +962,8 @@ class API extends \Piwik\Plugin\API
 
         if (empty($email)) {
             $email = $userInfo['email'];
+        } else {
+            $email = Common::unsanitizeInputValues($email);
         }
 
         $hasEmailChanged = mb_strtolower($email) !== mb_strtolower($userInfo['email']);
