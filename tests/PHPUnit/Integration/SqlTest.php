@@ -44,9 +44,9 @@ class SqlTest extends IntegrationTestCase
 
         // make sure innodb tables are skipped
         if (DB::isOptimizeInnoDBSupported()) {
-            $this->assertTrue(Db::optimizeTables(array('table3', 'table4')) !== false);
+            $this->assertTrue(Db::optimizeTables(array('table3', 'table4')));
         } else {
-            $this->assertTrue(Db::optimizeTables(array('table3', 'table4')) === false);
+            $this->assertFalse(Db::optimizeTables(array('table3', 'table4')));
         }
     }
 }
