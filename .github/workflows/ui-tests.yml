@@ -1,4 +1,4 @@
-name: Matomo Javascript Tests
+name: Matomo UI Tests
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ permissions:
   security-events: none
   statuses: none
 concurrency:
-  group: ${{ github.head_ref }}
+  group: ui-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
