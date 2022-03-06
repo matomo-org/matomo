@@ -113,9 +113,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.bindEventsAndApplyStyle(domElem);
         this._init(domElem);
         this.enableStickHead(domElem);
-
-        piwik.postEvent('DataTable.processHtml', this, this.$element);
-
         this.initialized = true;
     },
 
@@ -341,8 +338,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         content.trigger('piwik:dataTableLoaded');
-
-        piwik.postEvent('DataTable.processHtml', this, this.$element);
 
         if (doScroll || 'undefined' === typeof doScroll) {
             piwikHelper.lazyScrollTo(content[0], 400);

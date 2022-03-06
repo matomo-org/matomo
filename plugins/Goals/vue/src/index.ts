@@ -7,4 +7,4 @@
 
 import './GoalPageLink/GoalPageLink.adapter';
 
-export { default as Dashboard } from './GoalPageLink/GoalPageLink.ts';
+export { default as GoalPageLink } from './GoalPageLink/GoalPageLink.ts';

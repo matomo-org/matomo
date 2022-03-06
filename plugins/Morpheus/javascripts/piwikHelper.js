@@ -248,7 +248,15 @@ window.piwikHelper = {
             }
 
             $compile($element)(scope);
+
+            setTimeout(function () {
+                piwikHelper.processDynamicHtml($element);
+            });
         });
+    },
+
+    processDynamicHtml: function ($element) {
+        piwik.postEvent('Matomo.processDynamicHtml', $element);
     },
 
     /**

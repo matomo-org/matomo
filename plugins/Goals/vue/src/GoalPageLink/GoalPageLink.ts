@@ -45,8 +45,12 @@ export default GoalPageLink;
 // manually handle occurrence of goal-page-link on datatable html attributes since dataTable.js is
 // not managed by vue.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-Matomo.on('DataTable.processHtml', (dataTable: any, $element: JQuery) => {
+Matomo.on('Matomo.processDynamicHtml', ($element: JQuery) => {
   $element.find('[goal-page-link]').each((i, e) => {
+    if ($(e).attr('goal-page-link-handled')) {
+      return;
+    }
+
     const idGoal = $(e).attr('goal-page-link');
     if (idGoal) {
       GoalPageLink.mounted(e, {
@@ -59,5 +63,7 @@ Matomo.on('DataTable.processHtml', (dataTable: any, $element: JQuery) => {
         dir: {},
       });
     }
+
+    $(e).attr('goal-page-link-handled', '1');
   });
 });
