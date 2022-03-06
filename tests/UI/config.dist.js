@@ -19,7 +19,7 @@ exports.piwikUrl = "http://localhost/";
 exports.phpServer = {
     HTTP_HOST: 'localhost',
     REQUEST_URI: '/',
-    REMOTE_ADDR: 'localhost'
+    REMOTE_ADDR: '127.0.0.1'
 };
 
 /**
