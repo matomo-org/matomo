@@ -1,4 +1,4 @@
-name: Matomo Tests
+name: Matomo PHP Tests
 
 on:
   pull_request:
@@ -8,9 +8,9 @@ permissions:
   checks: none
   contents: read
   deployments: none
-  issues: write
+  issues: read
   packages: none
-  pull-requests: write
+  pull-requests: read
   repository-projects: none
   security-events: none
   statuses: none
@@ -31,8 +31,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      mariadb:
-        image: mariadb:latest
+      mysql:
+        image: mysql:5.7
         ports:
           - 3306:3306
         env:
@@ -97,173 +97,7 @@ jobs:
           GITHUB: true
           PHP_VERSION: ${{ matrix.php }}
           MYSQL_ADAPTER: ${{ matrix.adapter }}
-  Javascript:
-    runs-on: ubuntu-20.04
-    services:
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: piwik_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw
 
-    strategy:
-      fail-fast: false
-      matrix:
-        tests: [ 'JavascriptTests', 'AngularJSTests' ]
-        node: [ '12','16' ]
-        exclude:
-          - tests: 'JavascriptTests'
-            node: '16'
-          - tests: 'AngularJSTests'
-            node: '12'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          lfs: false
-          submodules: recursive
-
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.0
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite, gd, redis
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=4024M
-          tools: composer:v2
-          coverage: none
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: installing node/puppeteer
-        working-directory: ./tests/lib/screenshot-testing
-        run: npm install
-
-      - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
-        run: |
-          cp .github/artifacts/config.ini.github.php  config/config.ini.php
-          sed -i 's/3000/\//g' ./config/config.ini.php
-          cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
-          mkdir -p ./tmp/assets
-          mkdir -p ./tmp/cache
-          mkdir -p ./tmp/latest
-          mkdir -p ./tmp/logs
-          mkdir -p ./tmp/sessions
-          mkdir -p ./tmp/templates_c
-          mkdir -p ./tmp/templates_c/d2
-          mkdir -p ./tmp/tcpdf
-          mkdir -p ./tmp/climulti
-          chmod a+rw ./tests/lib/geoip-files || true
-          chmod a+rw ./plugins/*/tests/System/processed || true
-          chmod a+rw ./plugins/*/tests/Integration/processed || true
-          sudo chmod -R 755 ./tmp
-
-      - name: Install dependencies
-        run: |
-          composer clear-cache
-          composer install --ignore-platform-reqs
-      - name: Run PHP on 80
-        run: |
-          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
-          tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
-          tmux ls
-      - name: Javascript Tests
-        if: matrix.tests == 'JavascriptTests'
-        run: |
-          ./console tests:run-js --matomo-url='http://localhost'
-      - name: Running angularjs && vue tests
-        if: matrix.tests == 'AngularJSTests'
-        working-directory: ./tests/angularjs
-        run: |
-          npm install
-          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
-
-  UI:
-    runs-on: ubuntu-20.04
-
-    services:
-      redis:
-        image: redis:5.0
-        ports:
-          - 6379:6379
-        options: --entrypoint redis-server
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-
-    strategy:
-      fail-fast: false
-      matrix:
-        tests: [ 'UITests' ]
-        php: [ '7.2' ]
-        parts: [ 0,1,2 ]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          lfs: true
-          submodules: recursive
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1,zend.exception_ignore_args = Off
-          tools: composer:v2
-          coverage: none
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: prepare setup
-        shell: bash
-        run: ./.github/scripts/bash/prepare.sh
-        env:
-          PHP_VERSION: ${{ matrix.php }}
-          MATOMO_TEST_TARGET: 'UI'
-          MYSQL_ADAPTER: 'PDO_MYSQL'
-
-      - name: UI tests Group ${{ matrix.parts }}
-        env:
-          GITHUB: true
-        run: |
-          ./console tests:run-ui --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core --extra-options="--num-test-groups=8 --test-group=${{ matrix.parts }}"
-
-      - name: upload processed screenshots
-        if: failure()
-        shell: bash
-        run: ./.github/scripts/bash/upload_artifacts.sh
-        env:
-          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
-          GITHUB_REPO: ${{ github.repository }}
-          GITHUB_BRANCH: ${{ github.event.pull_request.base.ref }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_RUN_NUMBER: ${{ github.run_number }}
-
-      - name: View UI failures
-        if: failure()
-        shell: bash
-        run: ./.github/scripts/bash/view_ui_failed.sh
-        env:
-          GITHUB_REPO: ${{ github.repository }}
-          GITHUB_BRANCH: ${{ github.event.pull_request.base.ref }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
 
 
 
