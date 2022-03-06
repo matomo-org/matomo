@@ -468,13 +468,13 @@ class Visualization extends ViewDataTable
                 // find the latest key
                 foreach ($dataTable as $item) {
                     $itemMetaData = $item->getAllTableMetadata();
-                    // if ts_created not exist skip
-                    if (empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                        continue;
-                    }
                     // initial metadata and update metadata if current is more recent
                     if (!empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])
-                      || strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                        && (
+                            empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]) 
+                            || strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
+                        )
+                    ) {
                         $metadata = $itemMetaData;
                     }
                }
