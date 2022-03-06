@@ -84,6 +84,10 @@ jobs:
           chmod a+rw ./plugins/*/tests/Integration/processed || true
           sudo chmod -R 755 ./tmp
 
+      - name: Install dependencies
+        run: |
+          composer clear-cache
+          composer install --ignore-platform-reqs
       - name: Run PHP on 80
         run: |
           sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
