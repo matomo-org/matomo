@@ -136,6 +136,9 @@ class ImageGraph extends \Piwik\Plugin
             if (!empty($report['parameters'])) {
                 $parameters = array_merge($parameters, $report['parameters']);
             }
+            if (!empty($report['columns']) && !isset($parameters['columns'])) {
+               $parameters['columns'] = $report['columns'];
+            }
             if (empty($report['dimension'])) {
                 $parameters['period'] = $periodForMultiplePeriodGraph;
                 $parameters['date'] = $dateForMultiplePeriodGraph;
