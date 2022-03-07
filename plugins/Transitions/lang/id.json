@@ -4,7 +4,6 @@
         "DirectEntries": "Masukan Langsung",
         "ErrorBack": "Kembali ke aksi sebelumnya",
         "ExitsInline": "%s keluar",
-        "NumDownloads": "%s unduhan",
         "FromCampaigns": "Dari Kampanye",
         "FromPreviousPages": "Dari Halaman Dalam",
         "FromPreviousPagesInline": "%s dari halaman dalam",
@@ -16,14 +15,17 @@
         "LoopsInline": "%s halam dimuat ulang",
         "NoDataForAction": "Tidak tersedia data untuk %s",
         "NoDataForActionDetails": "Tidak ada tindakan memiliki tampilan halaman selama periode %s atau ini tidak sahih.",
+        "NumDownloads": "%s unduhan",
+        "NumOutlinks": "%s tautan luar",
+        "NumPageviews": "%s tampilan halaman",
         "OutgoingTraffic": "Lalu lintas keluar",
         "ShareOfAllPageviews": "Halaman ini memiliki %1$s tampilan halaman (%2$s dari semua tampilan halaman)",
         "ToFollowingPages": "Menuju Halaman Dalam",
         "ToFollowingPagesInline": "%s menuju halaman dalam",
         "ToFollowingSiteSearches": "Pencarian Dalam",
         "ToFollowingSiteSearchesInline": "%s pencarian dalam",
+        "TransitionsSubcategoryHelp2": "Selengkapnya",
         "XOfAllPageviews": "%s dari selruh tanpilan dari halaman ini",
-        "XOutOfYVisits": "%1$s (di luar dari %2$s)",
-        "TransitionsSubcategoryHelp2": "Selengkapnya"
+        "XOutOfYVisits": "%1$s (di luar dari %2$s)"
     }
 }

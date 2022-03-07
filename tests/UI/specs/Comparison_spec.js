@@ -48,6 +48,7 @@ describe("Comparison", function () {
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.piwik-graph');
+        await page.waitForNetworkIdle();
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('dashboard_last_period');
@@ -241,10 +242,16 @@ describe("Comparison", function () {
         expect(await dialog.screenshot()).to.matchImage('segmented_visitorlog');
     });
 
-    it('should show the goals table correctly when comparing segments and period', async () => {
+    it('should show the goals overview table correctly when comparing segments and period', async () => {
         await page.goto(goalsTableUrl);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('goals_table');
+    });
+
+    it('should show a specific goals table correctly when comparing segments and period', async () => {
+        await page.goto(goalsTableUrl + '&idGoal=1');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('goals_table_specific');
     });
 
     it('should load a widgetized sparklines visualization correctly', async () => {

@@ -1,6 +1,6 @@
 <div class="trackingHelpHeader">
     <h2>{{ 'SitesManager_TrackingTags'|translate(displaySiteName) }}</h2>
-    <a class="btn" 
+    <a class="btn"
         href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}">
         {{ 'SitesManager_EmailInstructionsButton'|translate }}
     </a>
@@ -35,6 +35,10 @@
 
     <h3>{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</h3>
     <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+
+    <h3>{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</h3>
+    <p>{{ 'SitesManager_SiteWithoutDataSinglePageApplicationDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/spa-tracking">','</a>')|raw }}</p>
+
     <p></p>
 
     {{ postEvent('Template.endTrackingHelpPage') }}

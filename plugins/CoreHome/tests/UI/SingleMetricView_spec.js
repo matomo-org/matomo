@@ -38,7 +38,7 @@ describe('SingleMetricView', function () {
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
         });
         await page.webpage.evaluate(function(){
-            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(Revenue)').click();
+            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(Revenue):eq(0)').click();
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -53,7 +53,7 @@ describe('SingleMetricView', function () {
         });
         await page.waitForTimeout(250);
         await page.evaluate(function(){
-            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(_x)').click()
+            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(_x):eq(0)').click()
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -69,7 +69,7 @@ describe('SingleMetricView', function () {
         });
         await page.waitForTimeout(250);
         await page.evaluate(function(){
-            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker-popover label:contains(Revenue)').click()
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker-popover label:contains(Revenue):eq(0)').click()
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);

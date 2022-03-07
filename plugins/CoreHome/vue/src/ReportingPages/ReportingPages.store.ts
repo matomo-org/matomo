@@ -10,7 +10,7 @@ import {
   computed, readonly, DeepReadonly,
 } from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import { Widget } from '../Widget/Widgets.store';
+import { Widget } from '../Widget/types';
 
 interface CategoryRef {
   id: string;
