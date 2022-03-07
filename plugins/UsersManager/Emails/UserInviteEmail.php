@@ -58,12 +58,14 @@ class UserInviteEmail extends mail
 
     protected function getDefaultSubject()
     {
-        return '';
+        return Piwik::translate('CoreAdminHome_UserInviteSubject',
+          [$this->currentUser]);
     }
+
     private function getDefaultSubjectWithStyle()
     {
         return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          ["<strong>".$this->currentUser."</strong>", "<strong>"]);
+          ["<strong>" . $this->currentUser . "</strong>", "<strong>"]);
     }
 
     protected function getDefaultBodyView()
@@ -77,7 +79,7 @@ class UserInviteEmail extends mail
         $view->content = $this->getDefaultSubjectWithStyle();
 
         //notes for email footer
-        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->currentUser,$this->currentUser]);
+        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->user['login'], $this->currentUser]);
         return $view;
     }
 }

@@ -1472,21 +1472,39 @@ class API extends \Piwik\Plugin\API
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    public function resendInvite($userLogin)
+    public function resendInvite($userLogin, $expired = 7)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSuperUserAccess();
 
         $this->checkUserIsNotAnonymous($userLogin);
 
-        if (!$this->model->isUserInvited($userLogin)) {
+        if (!$this->model->getPendingUser($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
         }
 
-        $this->sendInvite($userLogin);
-
+        $this->userRepository->sendNewUserEmails($userLogin, $expired);
         Cache::deleteTrackerCache();
+    }
 
+    public function acceptInvitation()
+    {
+        $userLogin = Common::getRequestVar('login', null, 'string');
+        $token = Common::getRequestVar('token', null, 'string');
+
+        $user = $this->userModel->getUser($userLogin);
+
+        $sessionInitializer = new SessionInitializer();
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setTokenAuth(null); // ensure authenticated through password
+        $auth->setLogin($user['login']);
+        $auth->setTokenAuth($token);
+        $sessionInitializer->initSession($auth);
+
+        //set pending to active
+        $this->model->updateUserFields($userLogin, ['invited_at' => null]);
+
+        $this->redirectToIndex('UsersManager',  'userSecurity');
     }
 
 

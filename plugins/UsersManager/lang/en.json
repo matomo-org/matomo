@@ -186,6 +186,10 @@
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
         "FirstWebsitePermission": "First website permission",
-        "InviteSuccessNotification": "The invited User will receive an email to accept the invite, the invite valid for %1$s days, you can also resend and delete the invite in the user management page."
+        "InviteSuccessNotification": "The invited User will receive an email to accept the invite, the invite valid for %1$s days, you can also resend and delete the invite in the user management page.",
+        "ResendInviteConfirmSingle": "Are you sure you want to resend invitation to %1$s?",
+        "Status": "Status",
+        "Pending": "Pending",
+        "Active": "Active"
     }
 }

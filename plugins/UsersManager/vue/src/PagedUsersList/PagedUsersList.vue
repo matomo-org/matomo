@@ -198,6 +198,7 @@
               :title="translate('UsersManager_UsesTwoFactorAuthentication')"
             >{{ translate('UsersManager_2FA') }}</th>
             <th v-if="currentUserRole === 'superuser'">{{ translate('UsersManager_LastSeen') }}</th>
+            <th>{{ translate('UsersManager_Status') }}</th>
             <th class="actions-cell-header">
               <div>{{ translate('General_Actions') }}</div>
             </th>
@@ -302,7 +303,23 @@
             >
               {{ user.last_seen ? `${user.last_seen} ago` : '-' }}
             </td>
+            <td id="status">
+              <span :class="[user.invited_at ? 'pending':'active']">
+              {{ user.invited_at ?
+               translate('UsersManager_Pending')
+              :translate('UsersManager_Active') }}
+                </span>
+            </td>
             <td class="center actions-cell">
+              <button
+                  class="resend table-action"
+                  title="Edit"
+                  @click="userToChange = user; showResendConfirm()"
+                  v-if="user.invited_at"
+              >
+                <span class="icon-email" />
+              </button>
+
               <button
                 class="edituser table-action"
                 title="Edit"
@@ -389,6 +406,30 @@
           @click.prevent="
             userToChange = null;
             roleToChangeTo = null;"
+        >{{ translate('General_No') }}</a>
+      </div>
+    </div>
+    <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
+      <div class="modal-content">
+        <h3
+            v-if="userToChange"
+            v-html="translate(
+            'UsersManager_ResendInviteConfirmSingle',
+            `<strong>${userToChange.login}</strong>`,
+          )"
+        ></h3>
+      </div>
+      <div class="modal-footer">
+        <a
+            href=""
+            class="modal-action modal-close btn"
+            @click.prevent="resendRequestedUser()"
+            style="margin-right:3.5px"
+        >{{ translate('General_Yes') }}</a>
+        <a
+            href=""
+            class="modal-action modal-close modal-no"
+            @click.prevent="userToChange = null; roleToChangeTo = null;"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
@@ -488,7 +529,7 @@ export default defineComponent({
       },
     };
   },
-  emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange'],
+  emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite'],
   created() {
     this.onUserTextFilterChange = debounce(this.onUserTextFilterChange, 300);
   },
@@ -538,8 +579,18 @@ export default defineComponent({
         users: this.userOperationSubject,
       });
     },
+    resendRequestedUser() {
+      this.$emit('resendInvite', {
+        user: this.userToChange,
+      });
+    },
     showDeleteConfirm() {
       $(this.$refs.deleteUserConfirmModal as HTMLElement).modal({
+        dismissible: false,
+      }).modal('open');
+    },
+    showResendConfirm() {
+      $(this.$refs.resendInviteConfirmModal as HTMLElement).modal({
         dismissible: false,
       }).modal('open');
     },

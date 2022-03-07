@@ -328,5 +328,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
         $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
         $translationKeys[] = 'UsersManager_InviteSuccessNotification';
+        $translationKeys[] = 'UsersManager_ResendInviteConfirmSingle';
+        $translationKeys[] = 'UsersManager_Status';
+        $translationKeys[] = 'UsersManager_Active';
+        $translationKeys[] = 'UsersManager_Pending';
     }
 }

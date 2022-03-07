@@ -113,7 +113,7 @@ class UserRepository
         // send email
         $email =  StaticContainer::getContainer()->make(UserInviteEmail::class, array(
           'currentUser' => Piwik::getCurrentUserLogin(),
-          'user'  => $user,
+          'user'        => $user,
           'token'       => $generatedToken
         ));
         $email->safeSend();

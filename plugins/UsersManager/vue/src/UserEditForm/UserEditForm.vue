@@ -94,9 +94,9 @@
           </div>
           <div>
             <Field
-               v-if="!isAdd"
-              :model-value="theUser.password"
-              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
+               v-if="!isAdd && !theUser.invited_at"
+               :model-value="theUser.password"
+               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
               @update:model-value="theUser.password = $event; isPasswordModified = true"
               uicontrol="password"
