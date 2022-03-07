@@ -57,8 +57,6 @@ import Matomo from '../Matomo/Matomo';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 
-const { $ } = window;
-
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
   const url = window.broadcast.buildReportingUrl(params);

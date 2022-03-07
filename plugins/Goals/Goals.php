@@ -340,11 +340,6 @@ class Goals extends \Piwik\Plugin
         return $reportsWithGoals;
     }
 
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/Goals/angularjs/common/directives/goal-page-link.js";
-    }
-
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Goals/stylesheets/goals.css";
