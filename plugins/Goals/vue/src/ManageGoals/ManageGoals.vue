@@ -452,7 +452,7 @@ export default defineComponent({
     ) {
       Matomo.postEvent('Goals.beforeInitGoalForm', goalMethodAPI, goalId);
 
-      this.goal = {};
+      this.goal = {} as unknown as Goal;
       this.goal.name = goalName;
       this.goal.description = description;
 
