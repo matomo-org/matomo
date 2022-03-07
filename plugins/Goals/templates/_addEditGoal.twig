@@ -44,5 +44,8 @@
     pattern-type-options="{{ patternTypeOptions|json_encode|e('html_attr') }}"
     numeric-comparison-type-options="{{ numericComparisonTypeOptions|json_encode|e('html_attr') }}"
     allow-multiple-options="{{ allowMultipleOptions|json_encode|e('html_attr') }}"
+    before-goal-list-actions-body="{{ beforeGoalListActionsBodyEventResult|default(null)|json_encode|e('html_attr') }}"
+    end-goal-edit-table="{{ endGoalEditTable|default(null)|json_encode|e('html_attr') }}"
 >
 </div>
+

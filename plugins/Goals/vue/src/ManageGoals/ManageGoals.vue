@@ -4,14 +4,7 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
 <todo>
-X conversion check (mistakes get fixed in quickmigrate)
-X property types
-X state types
-X look over template
-X look over component code
-- postEvent dynamic component check
 - get to build
 - test in UI
 - check uses:
@@ -45,7 +38,17 @@ X look over component code
 
         <table v-content-table>
           <thead>
-            <tr v-html="tableHeader">
+            <tr>
+              <th>{{ translate('Goals_GoalName') }}</th>
+              <th>{{ translate('General_Description') }}</th>
+              <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
+              <th>{{ translate('General_ColumnRevenue') }}</th>
+              <component
+                v-if="beforeGoalListActionsHeadComponent"
+                :is="beforeGoalListActionsHeadComponent"
+              />
+              <th v-if="userCanEditGoals">{{ translate('General_Edit') }}</th>
+              <th v-if="userCanEditGoals">{{ translate('General_Delete') }}</th>
             </tr>
           </thead>
           <tr v-if="!goals?.length">
@@ -75,7 +78,10 @@ X look over component code
             <td class="center" v-html="goal.revenue === 0 ? '-' : $sanitize(goal.goalRevenuePretty)">
             </td>
 
-            postEvent("Template.beforeGoalListActionsBody", goal) TODO
+            <component
+              v-if="beforeGoalListActionsBodyComponent[goal.idgoal]"
+              :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
+            ></component>
 
             <td v-if="userCanEditGoals" style="padding-top:2px">
               <button
@@ -324,7 +330,7 @@ X look over component code
           />
         </div>
 
-        postEvent("Template.endGoalEditTable") TODO
+        <component v-if="endGoalEditTableComponent" :is="endGoalEditTableComponent" />
 
         <input type="hidden" name="goalIdUpdate" value=""/>
 
@@ -352,7 +358,7 @@ X look over component code
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, markRaw } from 'vue';
 import {
   Matomo,
   AjaxHelper,
@@ -393,6 +399,8 @@ export default defineComponent({
     allowMultipleOptions: Array,
     showAddGoal: Boolean,
     showGoal: Number,
+    beforeGoalListActionsBody: Object,
+    endGoalEditTable: String,
   },
   data(): ManageGoalsState {
     return {
@@ -484,7 +492,6 @@ export default defineComponent({
       this.showGoalList = false;
       this.showEditGoal = true;
     },
-    // TODO
     createGoal() {
       const parameters = {
         isAllowed: true
@@ -580,20 +587,6 @@ export default defineComponent({
         websiteManageText,
       );
     },
-    // can't do this in vue because of the Template.beforeGoalListActionsHead twig event
-    // TODO: note that angularjs used inside Template.before*** will not work
-    tableHeader() {
-      const lines = [
-        `<th>${translate('Goals_GoalName')}</th>`,
-        `<th>${translate('General_Description')}</th>`,
-        `<th>${translate('Goals_GoalIsTriggeredWhen')}</th>`,
-        `<th>${translate('General_ColumnRevenue')}</th>`,
-        this.beforeGoalListActionsHead,
-        `<th v-if="userCanEditGoals">${translate('General_Edit')}</th>`,
-        `<th v-if="userCanEditGoals">${translate('General_Delete')}</th>`,
-      ]
-      return lines.join('');
-    },
     siteName() {
       // translate was called in original twig template
       return translate(Matomo.helper.htmlDecode(Matomo.siteName));
@@ -640,6 +633,37 @@ export default defineComponent({
         visit_duration: `${this.ucfirst(translate('Goals_VisitDuration'))}`,
       };
     },
+    beforeGoalListActionsBodyComponent() {
+      if (!this.beforeGoalListActionsBody) {
+        return {};
+      }
+
+      const componentsByIdGoal: Record<string, unknown> = {};
+      Object.values(this.goals as Record<string, Goal>).forEach((g) => {
+        componentsByIdGoal[g.idgoal] = {
+          template: this.beforeGoalListActionsBody[g.idgoal],
+        };
+      });
+      return markRaw(componentsByIdGoal);
+    },
+    endGoalEditTableComponent() {
+      if (!this.endGoalEditTable) {
+        return null;
+      }
+
+      return markRaw({
+        template: this.endGoalEditTable,
+      });
+    },
+    beforeGoalListActionsHeadComponent() {
+      if (!this.beforeGoalListActionsHead) {
+        return null;
+      }
+
+      return markRaw({
+        template: this.beforeGoalListActionsHead,
+      });
+    }
   },
 });
 </script>

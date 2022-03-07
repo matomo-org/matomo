@@ -134,7 +134,29 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
         $this->setGoalOptions($view);
+        $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
+    }
+
+    private function execAndSetResultsForTwigEvents(View $view)
+    {
+        if (empty($view->onlyShowAddGoal)) {
+            $beforeGoalListActionsBody = [];
+            foreach ($view->goals as $goal) {
+                $str = '';
+                Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
+
+                $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+            }
+            $view->beforeGoalListActionsBodyEventResult = $beforeGoalListActionsBody;
+        }
+
+        if ($view->userCanEditGoals) {
+            $str = '';
+            Piwik::postEvent("Template.endGoalEditTable", [&$str]);
+
+            $view->endGoalEditTable = $str;
+        }
     }
 
     public function hasConversions()
