@@ -7,7 +7,7 @@
 
 import createAngularJsAdapter from '../createAngularJsAdapter';
 import WidgetByDimensionContainer from './WidgetByDimensionContainer.vue';
-import { Widget } from '../Widget/Widgets.store';
+import { Widget } from '../Widget/types';
 
 export default createAngularJsAdapter({
   component: WidgetByDimensionContainer,

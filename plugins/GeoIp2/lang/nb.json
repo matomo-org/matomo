@@ -6,6 +6,7 @@
         "CannotFindGeoIPDatabaseInArchive": "Fant ingen gyldig DB-IP/GeoIP-database i TAR-arkivet %1$s.",
         "CannotFindGeoIPServerVar": "%s-variabelen er ikke satt. Det kan hende tjeneren din ikke er satt opp rett.",
         "CannotListContent": "Kunne ikke vise innhold for %1$s: %2$s",
+        "CannotSetupGeoIPAutoUpdating": "Det ser ut til at du har lagret dine geoposisjoneringsdatabaser utenfor Matomo (det er ingen databaser i «misc»-undermappen, men din GeoIP virker). Matomo kan ikke oppdatere dine geoposisjoneringsdatabaser automatisk hvis de ikke befinner seg i «misc».",
         "CannotUnzipGeoIPFile": "Kunne ikke pakke ut GeoIP-fil i %1$s: %2$s",
         "DownloadNewDatabasesEvery": "Oppdater databasene hver",
         "DownloadingDb": "Laster ned %s",

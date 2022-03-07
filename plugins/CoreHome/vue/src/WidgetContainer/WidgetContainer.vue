@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
-import { Widget as WidgetData } from '../Widget/Widgets.store';
+import { Widget as WidgetData } from '../Widget/types';
 
 // since we're recursing, don't import the plugin directly
 const Widget = useExternalPluginComponent('CoreHome', 'Widget');

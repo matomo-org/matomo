@@ -296,6 +296,10 @@ class DataComparisonFilter
                 'format_metrics' => 0,
                 'label' => '',
                 'flat' => Common::getRequestVar('flat', 0, 'int', $this->request),
+                'filter_add_columns_when_show_all_columns' => Common::getRequestVar('filter_add_columns_when_show_all_columns', '', 'string', $this->request),
+                'filter_update_columns_when_show_all_goals' => Common::getRequestVar('filter_update_columns_when_show_all_goals', '', 'string', $this->request),
+                'filter_show_goal_columns_process_goals' => Common::getRequestVar('filter_show_goal_columns_process_goals', '', 'string', $this->request),
+                'idGoal' => Common::getRequestVar('idGoal', '', 'string', $this->request),
             ],
             $paramsToModify
         );
