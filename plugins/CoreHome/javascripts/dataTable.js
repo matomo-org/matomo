@@ -114,7 +114,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this._init(domElem);
         this.enableStickHead(domElem);
         this.initialized = true;
-
     },
 
     enableStickHead: function (domElem) {
