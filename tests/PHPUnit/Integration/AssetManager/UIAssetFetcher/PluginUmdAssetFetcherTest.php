@@ -315,6 +315,26 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedAssets, $assets);
     }
 
+    public function test_orderPluginsByPluginDependencies()
+    {
+        $pluginList = PluginUmdAssetFetcher::orderPluginsByPluginDependencies([
+            'TestPlugin4',
+            'TestPlugin1',
+            'TestPlugin2',
+        ]);
+        $this->assertEquals(['TestPlugin4', 'TestPlugin1', 'TestPlugin2'], $pluginList);
+    }
+
+    public function test_orderPluginsByPluginDependencies_whenKeepUnresolvedIsFalse()
+    {
+        $pluginList = PluginUmdAssetFetcher::orderPluginsByPluginDependencies([
+            'TestPlugin4',
+            'TestPlugin1',
+            'TestPlugin2',
+        ], $keepUnresolved = false);
+        $this->assertEquals(['TestPlugin1', 'TestPlugin2'], $pluginList);
+    }
+
     private static function getUmdFile(string $pluginName)
     {
         $relativeRoot = str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR);
