@@ -164,7 +164,7 @@ class NotificationsStore {
     const app = createVueApp({
       render: () => createVNode(NotificationComponent, {
         ...notification,
-        notificationId: notification.id,
+        id: notification.id,
         type: 'toast',
         onClosed: () => {
           app.unmount();
