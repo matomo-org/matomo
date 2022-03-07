@@ -376,6 +376,7 @@ class Controller extends \Piwik\Plugin\Controller
             if (isset($goal['pattern'])) {
                 $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
             }
+            $goal['goalRevenuePretty'] = \Piwik\piwik_format_money($goal['revenue'], $this->idSite);
         }
 
         $view->goals = $goals;

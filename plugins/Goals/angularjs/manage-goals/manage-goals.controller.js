@@ -178,25 +178,6 @@
             scrollToTop();
         };
 
-        this.deleteGoal = function (goalId) {
-            var goal = piwik.goals[goalId];
-
-            $('#confirm').find('h2').text(sprintf(_pk_translate('Goals_DeleteGoalConfirm'), '"' + goal.name + '"'));
-            piwikHelper.modalConfirm('#confirm', {yes: function () {
-                self.isLoading = true;
-
-                piwikApi.fetch({idGoal: goalId, method: 'Goals.deleteGoal'}).then(function () {
-                    location.reload();
-                }, function () {
-                    self.isLoading = false;
-                });
-
-            }});
-        };
-
-        this.isMatchAttributeNumeric = function () {
-            return ['visit_duration'].indexOf(this.goal.matchAttribute) > -1;
-        };
 
         this.initPatternType = function () {
             if (this.isMatchAttributeNumeric()) {
@@ -206,9 +187,6 @@
             }
         };
 
-        this.getPatternFieldLabel = function () {
-            return this.goal.matchAttribute === 'visit_duration' ? _pk_translate('Goals_TimeInMinutes') : _pk_translate('Goals_Pattern');
-        };
 
         this.showListOfReports(false);
     }
