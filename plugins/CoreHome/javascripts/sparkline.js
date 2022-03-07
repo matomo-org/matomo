@@ -26,33 +26,35 @@ piwik.getSparklineColors = function () {
 
 // initializes each sparkline so they use colors defined in CSS
 piwik.initSparklines = function() {
-    $('.sparkline img').each(function () {
-        var $self = $(this);
+    $(function () {
+        $('.sparkline img').each(function () {
+          var $self = $(this);
 
-        if ($self.attr('src')) {
+          if ($self.attr('src')) {
             return;
-        }
+          }
 
-        var seriesIndices = $self.closest('.sparkline').data('series-indices');
-        var sparklineColors = piwik.getSparklineColors();
+          var seriesIndices = $self.closest('.sparkline').data('series-indices');
+          var sparklineColors = piwik.getSparklineColors();
 
-        if (seriesIndices && sparklineColors.lineColor instanceof Array) {
+          if (seriesIndices && sparklineColors.lineColor instanceof Array) {
             sparklineColors.lineColor = sparklineColors.lineColor.filter(function (c, index) {
-                return seriesIndices.indexOf(index) !== -1;
+              return seriesIndices.indexOf(index) !== -1;
             });
-        }
+          }
 
-        var colors = JSON.stringify(sparklineColors);
-        var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors);
+          var colors = JSON.stringify(sparklineColors);
+          var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors);
 
-        // Append the token_auth to the URL if it was set (eg. embed dashboard)
-        var token_auth = broadcast.getValueFromUrl('token_auth');
-        if (token_auth.length && piwik.shouldPropagateTokenAuth) {
+          // Append the token_auth to the URL if it was set (eg. embed dashboard)
+          var token_auth = broadcast.getValueFromUrl('token_auth');
+          if (token_auth.length && piwik.shouldPropagateTokenAuth) {
             appendToSparklineUrl += '&token_auth=' + token_auth;
-        }
-        $self.attr('width', sparklineDisplayWidth);
-        $self.attr('height', sparklineDisplayHeight);
-        $self.attr('src', $self.attr('data-src') + appendToSparklineUrl);
+          }
+          $self.attr('width', sparklineDisplayWidth);
+          $self.attr('height', sparklineDisplayHeight);
+          $self.attr('src', $self.attr('data-src') + appendToSparklineUrl);
+        });
     });
 };
 
