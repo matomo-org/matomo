@@ -8581,7 +8581,7 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
       var app = createVueApp({
         render: function render() {
           return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Notification, Object.assign(Object.assign({}, notification), {}, {
-            notificationId: notification.id,
+            id: notification.id,
             type: 'toast',
             onClosed: function onClosed() {
               app.unmount();
