@@ -152,12 +152,12 @@ window.piwikHelper = {
 
     // initial call for 'body' later in this file
     compileVueEntryComponents: function (selector) {
-      function toKebabCase(arg) {
-        return arg.substring(0, 1).toLowerCase() + arg.substring(1)
-          .replace(/[A-Z]/g, function (s) { return '-' + s.toLowerCase(); });
+      function toCamelCase(arg) {
+        return arg.substring(0, 1).toUpperCase() + arg.substring(1)
+          .replace(/-[a-z]/g, function (s) { return s.substring(1).toUpperCase(); });
       }
 
-      $('[vue-entry]', selector).each(function () {
+      $('[vue-entry]', selector).add($(selector).filter('[vue-entry]')).each(function () {
         var entry = $(this).attr('vue-entry');
 
         var parts = entry.split('.');
@@ -165,7 +165,6 @@ window.piwikHelper = {
           throw new Error('Expects vue-entry to have format Plugin.Component, where Component is exported Vue component. Got: ' + entry);
         }
 
-        var createVNode = Vue.createVNode;
         var createVueApp = CoreHome.createVueApp;
         var plugin = window[parts[0]];
         if (!plugin) {
@@ -177,11 +176,16 @@ window.piwikHelper = {
           throw new Error('Unknown component in vue-entry: ' + entry);
         }
 
+        var paramsStr = '';
+
         var componentParams = {};
         $.each(this.attributes, function () {
           if (this.name === 'vue-entry') {
             return;
           }
+
+          var camelName = toCamelCase(this.name);
+          paramsStr += ':' + this.name + '=' + JSON.stringify(camelName) + ' ';
 
           var value = this.value;
           try {
@@ -190,14 +194,20 @@ window.piwikHelper = {
             // pass
           }
 
-          componentParams[toKebabCase(this.name)] = value;
+          componentParams[camelName] = value;
         });
 
+        // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
+        // slots to be in the vue-entry element this way. So instead, we create a quick
+        // template that references the root component and wraps the vue-entry component's html.
+        // this allows using slots in twig.
         var app = createVueApp({
-          render: function () {
-            return createVNode(component, componentParams);
-          },
+          template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
+          data: function () {
+            return componentParams;
+          }
         });
+        app.component('root', component);
         app.mount(this);
 
         this.addEventListener('matomoVueDestroy', function () {

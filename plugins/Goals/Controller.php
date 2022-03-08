@@ -150,13 +150,6 @@ class Controller extends \Piwik\Plugin\Controller
             }
             $view->beforeGoalListActionsBodyEventResult = $beforeGoalListActionsBody;
         }
-
-        if ($view->userCanEditGoals) {
-            $str = '';
-            Piwik::postEvent("Template.endGoalEditTable", [&$str]);
-
-            $view->endGoalEditTable = $str;
-        }
     }
 
     public function hasConversions()

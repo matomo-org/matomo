@@ -45,10 +45,7 @@
               <th>{{ translate('General_Description') }}</th>
               <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
               <th>{{ translate('General_ColumnRevenue') }}</th>
-              <component
-                v-if="beforeGoalListActionsHeadComponent"
-                :is="beforeGoalListActionsHeadComponent"
-              />
+              <slot name="thead"></slot>
               <th v-if="userCanEditGoals">{{ translate('General_Edit') }}</th>
               <th v-if="userCanEditGoals">{{ translate('General_Delete') }}</th>
             </tr>
@@ -352,7 +349,7 @@
           />
         </div>
 
-        <component v-if="endGoalEditTableComponent" :is="endGoalEditTableComponent" />
+        <slot name="endEditTable"></slot>
 
         <input type="hidden" name="goalIdUpdate" value=""/>
 
@@ -417,7 +414,6 @@ export default defineComponent({
     onlyShowAddNewGoal: Boolean,
     userCanEditGoals: Boolean,
     ecommerceEnabled: Boolean,
-    beforeGoalListActionsHead: String,
     goals: {
       type: Object,
       required: true,
@@ -432,7 +428,6 @@ export default defineComponent({
     showAddGoal: Boolean,
     showGoal: Number,
     beforeGoalListActionsBody: Object,
-    endGoalEditTable: String,
   },
   data(): ManageGoalsState {
     return {
@@ -762,24 +757,6 @@ export default defineComponent({
         };
       });
       return markRaw(componentsByIdGoal);
-    },
-    endGoalEditTableComponent() {
-      if (!this.endGoalEditTable) {
-        return null;
-      }
-
-      return markRaw({
-        template: this.endGoalEditTable,
-      });
-    },
-    beforeGoalListActionsHeadComponent() {
-      if (!this.beforeGoalListActionsHead) {
-        return null;
-      }
-
-      return markRaw({
-        template: this.beforeGoalListActionsHead,
-      });
     },
     isManuallyTriggered() {
       return this.triggerType === 'manually';
