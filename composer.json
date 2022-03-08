@@ -39,7 +39,7 @@
         "lox/xhprof": "dev-master",
         "matomo/cache": "~2.0",
         "matomo/decompress": "~2.0",
-        "matomo/device-detector": "^5.0",
+        "matomo/device-detector": "~6.0.0",
         "matomo/ini": "~3.0",
         "matomo/matomo-php-tracker": "^3.0",
         "matomo/network": "~2.0",
