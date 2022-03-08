@@ -2,6 +2,8 @@
 
 namespace Piwik\Plugins\UsersManager\Repository;
 
+use Piwik\Auth\Password;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
@@ -24,10 +26,13 @@ class UserRepository
 
     protected $filter;
 
-    public function __construct(Model $model, UserAccessFilter $filter)
+    protected $password;
+
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password)
     {
         $this->model = $model;
         $this->filter = $filter;
+        $this->password = $password;
     }
 
 
@@ -83,17 +88,6 @@ class UserRepository
         if ($initialIdSite) {
             API::getInstance()->setUserAccess($userLogin, 'view', $initialIdSite);
         }
-    }
-
-
-    public function update()
-    {
-
-    }
-
-    public function delete()
-    {
-
     }
 
     public function sendNewUserEmails($userLogin, $expired = 7)
