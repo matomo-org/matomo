@@ -223,7 +223,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element)
 function piwikGoalPageLink() {
   return {
     restrict: 'A',
-    link: function expandOnClickLink(scope, element, attrs) {
+    link: function piwikGoalPageLinkLink(scope, element, attrs) {
       var binding = {
         instance: null,
         value: {
@@ -237,7 +237,7 @@ function piwikGoalPageLink() {
     }
   };
 }
-window.angular.module('piwikApp').directive('piwikExpandOnClick', piwikGoalPageLink);
+window.angular.module('piwikApp').directive('piwikGoalPageLink', piwikGoalPageLink);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 

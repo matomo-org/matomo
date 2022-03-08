@@ -11,7 +11,7 @@ import GoalPageLink from './GoalPageLink';
 export default function piwikGoalPageLink(): IDirective {
   return {
     restrict: 'A',
-    link: function expandOnClickLink(scope: IScope, element: JQuery, attrs: IAttributes) {
+    link: function piwikGoalPageLinkLink(scope: IScope, element: JQuery, attrs: IAttributes) {
       const binding = {
         instance: null,
         value: {
@@ -27,4 +27,4 @@ export default function piwikGoalPageLink(): IDirective {
   };
 }
 
-window.angular.module('piwikApp').directive('piwikExpandOnClick', piwikGoalPageLink);
+window.angular.module('piwikApp').directive('piwikGoalPageLink', piwikGoalPageLink);
