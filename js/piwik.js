@@ -3034,8 +3034,9 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function injectClientHints (request, callback) {
-                if (!isDefined(navigatorAlias.userAgentData) || !isDefined(navigatorAlias.userAgentData.getHighEntropyValues)) {
+                if (!isDefined(navigatorAlias.userAgentData) || !isFunction(navigatorAlias.userAgentData.getHighEntropyValues)) {
                     callback(request);
+                    return;
                 }
 
                 var appendix = '';
@@ -3043,6 +3044,7 @@ if (typeof window.Matomo !== 'object') {
                 navigatorAlias.userAgentData.getHighEntropyValues(
                     ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']
                 ).then(function(ua) {
+                    var i;
                     if (ua.fullVersionList) {
                         // if fullVersionList is available, brands and uaFullVersion isn't needed
                         delete ua.brands;
@@ -3051,7 +3053,7 @@ if (typeof window.Matomo !== 'object') {
                     appendix += '&uadata=' + JSON.stringify(ua);
 
                     if (request instanceof Array) {
-                        for (var i = 0; i < request.length; i++) {
+                        for (i = 0; i < request.length; i++) {
                             request[i] += appendix;
                         }
                     } else {
