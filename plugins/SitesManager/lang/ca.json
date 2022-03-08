@@ -101,6 +101,8 @@
         "SiteWithoutDataOtherIntegrations": "Altres integracions",
         "SiteWithoutDataOtherWays": "Altres maneres",
         "SiteWithoutDataSetupTracking": "Configureu el %1$scodi de seguiment%2$s a continuació al vostre lloc web o aplicació mòbil si encara no ho heu fet.",
+        "SiteWithoutDataSinglePageApplication": "Aplicació d'una sola pàgina o aplicació web progressiva",
+        "SiteWithoutDataSinglePageApplicationDescription": "Per alseguiment d'aplicacions d'una sola pàgina o d'aplicacions web progressives. Consulteu la nostra %1$sguia%2$s.",
         "SiteWithoutDataTitle": "Només un últim pas per fer un seguiment del vostre trànsit amb Matomo i obtenir informació valuosa",
         "Sites": "Llocs web",
         "SuperUserAccessCan": "Un usuari amb accés de superusuari també pot %1$s especificar la configuració global%2$s per als llocs web nous.",

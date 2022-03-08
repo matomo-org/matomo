@@ -2,6 +2,8 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s dengan tanpa pengaya diaktifkan",
         "BrowserWithPluginsEnabled": "%1$s dengan %2$s pengaya diaktifkan",
+        "PluginDescription": "Melaporkan daftar plugin yang didukung di peramban pengunjung.",
+        "PluginDetectionDoesNotWorkInIE": "Catatan: Deteksi plugin tidak berfungsi di Internet Explorer sebelum versi 11. Laporan ini hanya didasarkan pada peramban non-IE dan versi IE yang lebih baru.",
         "WidgetPlugins": "Daftar Pengaya",
         "WidgetPluginsDocumentation": "Laporan ini menunjukkan pengaya peramban yang diaktifkan oleh pengunjung. Informasi yang tersedia kemungkinan penting untuk memilih cara terbaik untuk menyampaikan konten Anda."
     }

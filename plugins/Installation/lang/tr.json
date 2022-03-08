@@ -58,7 +58,7 @@
         "PerformanceSettingsDesc2": "Bunun için, kurucu tarafından otomatik olarak yapılamayan bir Matomo komutunun zamanlanmış göreve eklenmesi gerekir. %1$sBunu nasıl yapabileceğinizi öğrenmek için sık sorulan sorular bölümüne bakabilirsiniz.%2$s",
         "PhpBinaryCheck": "64 bit PHP binary",
         "PhpBinaryCheckHelp": "32 bit <p>Hataları önlemek için 64 bit PHP binary dosyasına yükseltin.</p>",
-        "PiwikOrgNewsletter": "Bana Matomo topluluğundaki gelişmeler e-posta ile bildirilsin",
+        "PiwikOrgNewsletter": "Matomo hakkında düzenli bilgi almak için haber bültenimize abone olun.",
         "PleaseFixTheFollowingErrors": "Lütfen şu sorunları çözün",
         "ProfessionalServicesAdTitle": "Gelişmiş istatistikler ve hizmetler",
         "ProfessionalServicesNewsletter": "Bana Matomo %1$sprofesyonel hizmet ve ürünleri%2$s hakkında bilgiler gönderilsin",
