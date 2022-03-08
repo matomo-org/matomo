@@ -663,4 +663,14 @@ class Controller extends ControllerAdmin
     {
         return md5(SettingsPiwik::getSalt());
     }
+
+    public function acceptInvitation()
+    {
+        $userLogin = Common::getRequestVar('login', null, 'string');
+        $token = Common::getRequestVar('token', null, 'string');
+        $form = Common::getRequestVar('form_submit', null, 'string');
+        $terms = Common::getRequestVar('terms', false, 'boolean');
+        $password = Common::getRequestVar('password', null, 'string');
+        $passwordConfirm = Common::getRequestVar('passwordConfirmation', null, 'string');
+    }
 }

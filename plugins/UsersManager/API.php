@@ -1487,25 +1487,5 @@ class API extends \Piwik\Plugin\API
         Cache::deleteTrackerCache();
     }
 
-    public function acceptInvitation()
-    {
-        $userLogin = Common::getRequestVar('login', null, 'string');
-        $token = Common::getRequestVar('token', null, 'string');
-
-        $user = $this->userModel->getUser($userLogin);
-
-        $sessionInitializer = new SessionInitializer();
-        $auth = StaticContainer::get('Piwik\Auth');
-        $auth->setTokenAuth(null); // ensure authenticated through password
-        $auth->setLogin($user['login']);
-        $auth->setTokenAuth($token);
-        $sessionInitializer->initSession($auth);
-
-        //set pending to active
-        $this->model->updateUserFields($userLogin, ['invited_at' => null]);
-
-        $this->redirectToIndex('UsersManager',  'userSecurity');
-    }
-
 
 }
