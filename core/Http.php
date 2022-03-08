@@ -993,6 +993,21 @@ class Http
             : 'Matomo/' . Version::VERSION;
     }
 
+    public static function getClientHintsFromServerVariables(): array
+    {
+        $clientHints = [];
+
+        foreach ($_SERVER as $key => $value) {
+            if (0 === strpos(strtolower($key), strtolower('Sec-CH-UA'))) {
+                $clientHints[$key] = $value;
+            }
+        }
+
+        sort($clientHints);
+
+        return $clientHints;
+    }
+
     /**
      * Fetches a file located at `$url` and saves it to `$destinationPath`.
      *

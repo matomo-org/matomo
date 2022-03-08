@@ -8,6 +8,7 @@
  */
 namespace Piwik\DeviceDetector;
 
+use DeviceDetector\ClientHints;
 use DeviceDetector\DeviceDetector;
 use Piwik\Container\StaticContainer;
 
@@ -27,7 +28,7 @@ class DeviceDetectorFactory
         $cacheKey = self::getNormalizedUserAgent($userAgent, $clientHints);
 
         if (array_key_exists($cacheKey, self::$deviceDetectorInstances)) {
-            return self::$deviceDetectorInstances[$userAgent];
+            return self::$deviceDetectorInstances[$cacheKey];
         }
 
         $deviceDetector = $this->getDeviceDetectionInfo($userAgent, $clientHints);
@@ -51,7 +52,7 @@ class DeviceDetectorFactory
      */
     protected function getDeviceDetectionInfo($userAgent, $clientHints = [])
     {
-        $deviceDetector = new DeviceDetector($userAgent, $clientHints);
+        $deviceDetector = new DeviceDetector($userAgent, ClientHints::factory($clientHints));
         $deviceDetector->discardBotInformation();
         $deviceDetector->setCache(StaticContainer::get('DeviceDetector\Cache\Cache'));
         $deviceDetector->parse();
