@@ -357,7 +357,7 @@ class View implements ViewInterface
             $cache->save('cssCacheBusterId', $cssCacheBusterId);
         }
 
-        $tagJs  = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
+        $tagJs  = 'cb=' . ($this->cacheBuster ?? $cacheBuster->piwikVersionBasedCacheBuster());
         $tagCss = 'cb=' . $cssCacheBusterId;
 
         $pattern = array(
