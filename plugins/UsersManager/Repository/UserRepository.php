@@ -24,7 +24,7 @@ class UserRepository
 
     protected $filter;
 
-    public function __construct(Model $model,  UserAccessFilter $filter)
+    public function __construct(Model $model, UserAccessFilter $filter)
     {
         $this->model = $model;
         $this->filter = $filter;
@@ -42,7 +42,7 @@ class UserRepository
         return $this->enrichUser($user);
     }
 
-    public function create($userLogin, $email, $initialIdSite)
+    public function create($userLogin, $email, $initialIdSite, $password = '', $_isPasswordHashed = false)
     {
         $this->validateAccess();
         if (!Piwik::hasUserSuperUserAccess()) {
@@ -58,8 +58,20 @@ class UserRepository
         BaseValidator::check('userLogin', $userLogin, [new Login(true)]);
         BaseValidator::check('email', $email, [new Email(true)]);
 
+        if (!empty($password)) {
+            $password = Common::unsanitizeInputValue($password);
+            if (!$_isPasswordHashed) {
+                UsersManager::checkPassword($password);
+
+                $passwordTransformed = UsersManager::getPasswordHash($password);
+            } else {
+                $passwordTransformed = $password;
+            }
+            $password = $this->password->hash($passwordTransformed);
+        }
+
         //insert user into database.
-        $this->model->addUser($userLogin, '', $email, Date::now()->getDatetime(), true);
+        $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime(), true);
 
         /**
          * Triggered after a new user is invited.
@@ -96,27 +108,29 @@ class UserRepository
         $mail->safeSend();
 
 
-        //retrieve user details
-        $user = API::getInstance()->getUser($userLogin, true);
+        if (!empty($expired)) {
+            //retrieve user details
+            $user = API::getInstance()->getUser($userLogin, true);
 
-        //remove all previous token
-        $this->model->deleteAllTokensForUser($userLogin);
+            //remove all previous token
+            $this->model->deleteAllTokensForUser($userLogin);
 
-        //generate Token
-        $generatedToken = $this->model->generateRandomTokenAuth();
+            //generate Token
+            $generatedToken = $this->model->generateRandomTokenAuth();
 
-        //attach token to user
-        $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),
-          Date::now()->addDay($expired)->getDatetime());
+            //attach token to user
+            $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),
+              Date::now()->addDay($expired)->getDatetime());
 
 
-        // send email
-        $email =  StaticContainer::getContainer()->make(UserInviteEmail::class, array(
-          'currentUser' => Piwik::getCurrentUserLogin(),
-          'user'        => $user,
-          'token'       => $generatedToken
-        ));
-        $email->safeSend();
+            // send email
+            $email = StaticContainer::getContainer()->make(UserInviteEmail::class, array(
+              'currentUser' => Piwik::getCurrentUserLogin(),
+              'user'        => $user,
+              'token'       => $generatedToken
+            ));
+            $email->safeSend();
+        }
     }
 
     private function validateAccess()
