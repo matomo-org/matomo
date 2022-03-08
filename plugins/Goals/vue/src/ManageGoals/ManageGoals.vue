@@ -5,8 +5,8 @@
 -->
 
 <todo>
-- get to build
 - test in UI
+- get UI tests to pass
 - check uses:
   ./plugins/Goals/templates/_addEditGoal.twig
   ./plugins/Goals/angularjs/manage-goals/manage-goals.directive.js
