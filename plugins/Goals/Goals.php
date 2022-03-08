@@ -364,5 +364,13 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_TimeInMinutes';
         $translationKeys[] = 'Goals_Pattern';
         $translationKeys[] = 'Goals_ClickToViewThisGoal';
+        $translationKeys[] = 'Goals_ManageGoals';
+        $translationKeys[] = 'Goals_GoalName';
+        $translationKeys[] = 'Goals_GoalIsTriggeredWhen';
+        $translationKeys[] = 'Goals_ThereIsNoGoalToManage';
+        $translationKeys[] = 'Goals_GoalIsTriggeredWhen';
+        $translationKeys[] = 'Goals_ManuallyTriggeredUsingJavascriptFunction';
+        $translationKeys[] = 'Goals_VisitUrl';
+        $translationKeys[] = 'Goals_ClickOutlink';
     }
 }

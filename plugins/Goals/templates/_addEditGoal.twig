@@ -14,17 +14,15 @@
 </script>
 
 {% set beforeGoalListActionsHead = "" %}
-{% if not onlyShowAddNewGoal %}
+{% if not onlyShowAddNewGoal|default %}
     {% set beforeGoalListActionsHead %}{{ postEvent("Template.beforeGoalListActionsHead") }}{% endset %}
 {% endif %}
-{% endset %}
 
 <div
     piwik-manage-goals
     user-can-edit-goals="{{ userCanEditGoals|json_encode|e('html_attr') }}"
     only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode|e('html_attr') }}"
     ecommerce-enabled="{{ ecommerceEnabled|json_encode|e('html_attr') }}"
-    before-goal-list-actions-head="{{ beforeGoalListActionsHead|e('html_attr') }}"
     {% if userCanEditGoals %}
         {% if onlyShowAddNewGoal is not defined %}
             goals="{{ goals|json_encode|e('html_attr') }}"
@@ -44,8 +42,8 @@
     pattern-type-options="{{ patternTypeOptions|json_encode|e('html_attr') }}"
     numeric-comparison-type-options="{{ numericComparisonTypeOptions|json_encode|e('html_attr') }}"
     allow-multiple-options="{{ allowMultipleOptions|json_encode|e('html_attr') }}"
+    before-goal-list-actions-head="{{ beforeGoalListActionsHead|default(null)|json_encode|e('html_attr') }}"
     before-goal-list-actions-body="{{ beforeGoalListActionsBodyEventResult|default(null)|json_encode|e('html_attr') }}"
     end-goal-edit-table="{{ endGoalEditTable|default(null)|json_encode|e('html_attr') }}"
 >
 </div>
-

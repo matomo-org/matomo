@@ -11,4 +11,54 @@ import ManageGoals from './ManageGoals.vue';
 export default createAngularJsAdapter({
   component: ManageGoals,
   directiveName: 'piwikManageGoals',
+  scope: {
+    userCanEditGoals: {
+      angularJsBind: '<',
+    },
+    onlyShowAddNewGoal: {
+      angularJsBind: '<',
+    },
+    ecommerceEnabled: {
+      angularJsBind: '<',
+    },
+    beforeGoalListActionsHead: {
+      angularJsBind: '<',
+    },
+    goals: {
+      angularJsBind: '<',
+    },
+    showGoal: {
+      angularJsBind: '<',
+    },
+    showAddGoal: {
+      angularJsBind: '<',
+    },
+    addNewGoalIntro: {
+      angularJsBind: '<',
+    },
+    goalTriggerTypeOptions: {
+      angularJsBind: '<',
+    },
+    goalMatchAttributeOptions: {
+      angularJsBind: '<',
+    },
+    eventTypeOptions: {
+      angularJsBind: '<',
+    },
+    patternTypeOptions: {
+      angularJsBind: '<',
+    },
+    numericComparisonTypeOptions: {
+      angularJsBind: '<',
+    },
+    allowMultipleOptions: {
+      angularJsBind: '<',
+    },
+    beforeGoalListActionsBody: {
+      angularJsBind: '<',
+    },
+    endGoalEditTable: {
+      angularJsBind: '<',
+    },
+  },
 });

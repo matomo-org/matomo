@@ -40,6 +40,7 @@
         <table v-content-table>
           <thead>
             <tr>
+              <th class="first">Id</th>
               <th>{{ translate('Goals_GoalName') }}</th>
               <th>{{ translate('General_Description') }}</th>
               <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
@@ -52,60 +53,62 @@
               <th v-if="userCanEditGoals">{{ translate('General_Delete') }}</th>
             </tr>
           </thead>
-          <tr v-if="!goals?.length">
-            <td colspan='8'>
-              <br/>
-              {{ translate('Goals_ThereIsNoGoalToManage', siteName) }}
-              <br/><br/>
-            </td>
-          </tr>
-          <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
-            <td class="first">{{ goal.idgoal }}</td>
-            <td>{{ goal.name }}</td>
-            <td>{{ goal.description }}</td>
-            <td>
-              <span class='matchAttribute'>
-                {{ goalMatchAttributeTranslations[goal.match_attribute] || goal.match_attribute }}
-              </span>
-              <span v-if="goal.match_attribute === 'visit_duration'">
-                {{ lcfirst(translate('General_OperationGreaterThan')) }}
-                {{ translate('Intl_NMinutes', goal.pattern) }}
-              </span>
-              <span v-else-if="!!goal.pattern_type">
+          <tbody>
+            <tr v-if="!Object.keys(goals || {}).length">
+              <td colspan='8'>
                 <br/>
-                {{ translate('Goals_Pattern') }} {{ goal.pattern_type }}: {{ goal.pattern }}
-              </span>
-            </td>
-            <td
-              class="center"
-              v-html="goal.revenue === 0 ? '-' : $sanitize(goal.revenue_pretty)"
-            >
-            </td>
-
-            <component
-              v-if="beforeGoalListActionsBodyComponent[goal.idgoal]"
-              :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
-            ></component>
-
-            <td v-if="userCanEditGoals" style="padding-top:2px">
-              <button
-                @click="editGoal(goal.idgoal)"
-                class="table-action"
-                :title="translate('General_Edit')"
+                {{ translate('Goals_ThereIsNoGoalToManage', siteName) }}
+                <br/><br/>
+              </td>
+            </tr>
+            <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
+              <td class="first">{{ goal.idgoal }}</td>
+              <td>{{ goal.name }}</td>
+              <td>{{ goal.description }}</td>
+              <td>
+                <span class='matchAttribute'>
+                  {{ goalMatchAttributeTranslations[goal.match_attribute] || goal.match_attribute }}
+                </span>
+                <span v-if="goal.match_attribute === 'visit_duration'">
+                  {{ lcfirst(translate('General_OperationGreaterThan')) }}
+                  {{ translate('Intl_NMinutes', goal.pattern) }}
+                </span>
+                <span v-else-if="!!goal.pattern_type">
+                  <br/>
+                  {{ translate('Goals_Pattern') }} {{ goal.pattern_type }}: {{ goal.pattern }}
+                </span>
+              </td>
+              <td
+                class="center"
+                v-html="goal.revenue === 0 ? '-' : $sanitize(goal.revenue_pretty)"
               >
-                <span class="icon-edit"></span>
-              </button>
-            </td>
-            <td v-if="userCanEditGoals" style="padding-top:2px">
-              <button
-                @click="deleteGoal(goal.idgoal)"
-                class="table-action"
-                :title="translate('General_Delete')"
-              >
-                <span class="icon-delete"></span>
-              </button>
-            </td>
-          </tr>
+              </td>
+
+              <component
+                v-if="beforeGoalListActionsBodyComponent[goal.idgoal]"
+                :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
+              ></component>
+
+              <td v-if="userCanEditGoals" style="padding-top:2px">
+                <button
+                  @click="editGoal(goal.idgoal)"
+                  class="table-action"
+                  :title="translate('General_Edit')"
+                >
+                  <span class="icon-edit"></span>
+                </button>
+              </td>
+              <td v-if="userCanEditGoals" style="padding-top:2px">
+                <button
+                  @click="deleteGoal(goal.idgoal)"
+                  class="table-action"
+                  :title="translate('General_Delete')"
+                >
+                  <span class="icon-delete"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
 
         <div class="tableActionBar" v-if="userCanEditGoals && !onlyShowAddNewGoal">
@@ -149,7 +152,7 @@
               uicontrol="text"
               name="goal_description"
               v-model="goal.description"
-              maxlength="255"
+              :maxlength="255"
               :title="translate('General_Description')"
             />
           </div>
@@ -252,7 +255,7 @@
                 <Field
                   uicontrol="text" name="pattern"
                   v-model="goal.pattern"
-                  maxlength="255"
+                  :maxlength="255"
                   :title="patternFieldLabel"
                   :full-width="true"
                 />
@@ -420,7 +423,7 @@ export default defineComponent({
       required: true,
     },
     addNewGoalIntro: String,
-    goalTriggerTypeOptions: Array,
+    goalTriggerTypeOptions: Object,
     goalMatchAttributeOptions: Array,
     eventTypeOptions: Array,
     patternTypeOptions: Array,
@@ -703,8 +706,7 @@ export default defineComponent({
       );
     },
     siteName() {
-      // translate was called in original twig template
-      return translate(Matomo.helper.htmlDecode(Matomo.siteName));
+      return Matomo.helper.htmlDecode(Matomo.siteName);
     },
     whereVisitedPageManuallyCallsJsTrackerText() {
       const link = 'https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions';
