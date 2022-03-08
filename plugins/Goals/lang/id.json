@@ -18,7 +18,7 @@
         "ColumnAverageOrderRevenueDocumentation": "Rerata Nilai Pesanan (RNP) merupakan total pendapatan dari seluruh Permintaan Niaga-E dibagi dengan jumlah pesanan.",
         "ColumnAveragePriceDocumentation": "Pendapatan rerata untuk %s ini.",
         "ColumnAverageQuantityDocumentation": "Rerata kuantitas %s ini yang terjual dalam permintaan Niaga-E.",
-        "ColumnConversionRateDocumentation": "Persentasi kunjungan yang dipacu oleh tujuan %s.",
+        "ColumnConversionRateDocumentation": "Persentase kunjungan yang dipacu oleh tujuan %s.",
         "ColumnConversionRateProductDocumentation": "Tingkat konversi %s merupakan jumlah permintaan yang mengandung produk ini dibagi dengan jumlah kunjungan dalam halaman produk.",
         "ColumnConversions": "Konversi",
         "ColumnConversionsDocumentation": "Jumlah konversi untuk %s.",
