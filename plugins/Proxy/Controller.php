@@ -67,6 +67,19 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
+     * Output a UMD merged chunk JavaScript file.
+     * This method is called when the asset manager is enabled.
+     *
+     * @see core/AssetManager.php
+     */
+    public function getUmdJs()
+    {
+        $chunk = Common::getRequestVar('chunk');
+        $chunkFile = AssetManager::getInstance()->getMergedJavaScriptChunk($chunk);
+        $this->serveJsFile($chunkFile);
+    }
+
+    /**
      * @param UIAsset $uiAsset
      */
     private function serveJsFile($uiAsset)
