@@ -314,7 +314,11 @@ class Filesystem
             return str_replace($target, '', $file);
         }, $targetFiles);
 
-        $diff = array_diff($targetFiles, $sourceFiles);
+        if (FileSystem::isFileSystemCaseInsensitive()) {
+            $diff = array_udiff($targetFiles, $sourceFiles, 'strcasecmp');
+        } else {
+            $diff = array_diff($targetFiles, $sourceFiles);
+        }
 
         return array_values($diff);
     }
@@ -555,6 +559,23 @@ class Filesystem
         $pathIsTmp = StaticContainer::get('path.tmp');
         $isPathWithinTmpFolder = strpos($path, $pathIsTmp) === 0;
         return $isPathWithinTmpFolder;
+    }
+
+    /**
+     * Check if the filesystem is case sensitive by writing a temporary file
+     *
+     * @return bool
+     */
+    public static function isFileSystemCaseInsensitive() : bool
+    {
+        $testFileName = 'caseSensitivityTest.txt';
+        $pathTmp = StaticContainer::get('path.tmp');
+        @file_put_contents($pathTmp.'/'.$testFileName, 'Nothing to see here.');
+        if (\file_exists($pathTmp.'/'.strtolower($testFileName))) {
+             // Wrote caseSensitivityTest.txt but casesensitivitytest.txt exists, so case insensitive
+            return true;
+        }
+        return false;
     }
 
     /**
