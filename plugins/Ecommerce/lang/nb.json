@@ -17,6 +17,7 @@
         "ViewedProductCategory": "Vist produktkategori",
         "ViewedProductName": "Besøkt produktnavn",
         "ViewedProductPrice": "Vist produktpris",
+        "ViewedProductSKU": "Vist produkt-SKU",
         "VisitorProfileAbandonedCartSummary": "Forlot %1$s handlevogner med %2$s artikler verdt totalt %3$s.",
         "VisitorProfileItemsAndOrders": "Kjøpte %1$s artikler i totalt %2$s netthandler.",
         "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s."
