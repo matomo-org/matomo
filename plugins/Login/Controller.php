@@ -516,6 +516,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function acceptInvitation()
     {
         $model = new UsersModel();
+        $passwordHelper = new Password();
         $view = new View('@Login/invitation');
 
         $userLogin = Common::getRequestVar('login', null, 'string');
@@ -524,6 +525,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         //check token is valid
         $user = $model->getUserByTokenAuth($token);
+        if (!$user['invited_at']) {
+            throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
+
+        }
         if (!$user || $userLogin !== $user['login']) {
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
@@ -532,7 +537,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $password = Common::getRequestVar('password', false, 'string');
             $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
             $terms = Common::getRequestVar('terms', false, 'string');
-
             if (!$password) {
                 $view->AccessErrorString = Piwik::translate('Login_PasswordRequired');
             }
@@ -547,15 +551,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if ($password !== $passwordConfirmation) {
                 $view->AccessErrorString = Piwik::translate('Login_PasswordsDoNotMatch');
             }
+            $password = UsersManager::getPasswordHash($password);
+            $passwordInfo = $passwordHelper->info($password);
 
+            if (!isset($passwordInfo['algo']) || 0 >= $passwordInfo['algo']) {
+                // password may have already been fully hashed
+                $password = $passwordHelper->hash($password);
+            }
             $model->updateUserFields($user['login'], ['password' => $password, 'invited_at' => null]);
-            $newPassword = Common::unsanitizeInputValue($password);
             $sessionInitializer = new SessionInitializer();
             $auth = StaticContainer::get('Piwik\Auth');
             $auth->setTokenAuth(null); // ensure authenticated through password
             $auth->setLogin($userLogin);
-            $auth->setPassword($newPassword);
+            $auth->setPassword($passwordConfirmation);
             $sessionInitializer->initSession($auth);
+            $this->redirectToIndex('CoreHome', 'index');
+            return;
         }
 
 
