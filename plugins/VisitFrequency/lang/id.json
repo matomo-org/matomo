@@ -12,6 +12,7 @@
         "ColumnReturningUsers": "Penguna kembali",
         "ColumnReturningVisits": "Kunjungan Kembali",
         "ColumnSumVisitLengthReturning": "Jumlah waktu digunakan oleh pengunjung kembali (dalam detik)",
+        "ColumnUniqueNewVisitors": "Pengunjung baru unik",
         "ColumnUniqueReturningVisitors": "Pengnjung kembali unik",
         "NewVisits": "kunjungan baru",
         "PluginDescription": "Laporan matriks mengenai pengunjung baru dan pengunjung kembali.",

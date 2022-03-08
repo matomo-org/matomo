@@ -125,6 +125,7 @@
         "SendPluginUpdateCommunication": "Enviar un correu electrònic quan hi hagi una actualització del connector disponible",
         "SendPluginUpdateCommunicationHelp": "S'enviarà un correu electrònic als Superusuaris quan hi hagi una versió nova disponible per a un connector.",
         "SettingsSaveSuccess": "Configuració actualitzada.",
+        "SinglePageApplicationDescription": "Si feu el seguiment d'una aplicació d'una sola pàgina (SPA) o d'una aplicació web progressiva (PWA), consulteu %1$saquesta guia%2$s.",
         "Solution": "Solució",
         "StableReleases": "Si Matomo és una part fonamental del vostre negoci us recomanem que utilitzeu la darrera versió estable. Si feu servir la darrera versió beta i trobeu un error o teniu un suggeriment, %1$svegeu aquí%2$s.",
         "SystemPluginSettings": "Configuració del connector del sistema",

@@ -74,6 +74,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it("should load dashboard2 correctly", async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
+            await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
 
@@ -83,6 +84,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it("should load dashboard3 correctly", async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
+            await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same

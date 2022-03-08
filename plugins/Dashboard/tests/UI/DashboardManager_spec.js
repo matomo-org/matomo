@@ -109,6 +109,9 @@ describe("DashboardManager", function () {
         await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
 
+        await page.waitForSelector('.widget');
+        await page.waitForNetworkIdle();
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');
     });
 });

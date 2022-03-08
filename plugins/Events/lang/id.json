@@ -1,6 +1,12 @@
 {
     "Events": {
         "AvgValue": "Nilai rata-rata",
+        "Event": "Acara",
+        "EventAction": "Tindakan Acara",
+        "EventActions": "Tindakan Acara",
+        "EventName": "Nama Acara",
+        "EventNames": "Nama Acara",
+        "Events": "Acara",
         "PluginDescription": "Lacak Acara dan dapatkan laporan tentang aktivitas pengunjung Anda."
     }
 }
