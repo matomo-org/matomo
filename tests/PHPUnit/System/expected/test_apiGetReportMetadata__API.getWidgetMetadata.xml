@@ -2275,6 +2275,134 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Sales by Pages: Entry page titles</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+			<help />
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
+		</subcategory>
+		<module>Actions</module>
+		<action>getEntryPageTitles</action>
+		<order>104</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>Actions</module>
+			<action>getEntryPageTitles</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetActionsgetEntryPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Sales by Pages: Entry pages</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+			<help />
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
+		</subcategory>
+		<module>Actions</module>
+		<action>getEntryPageUrls</action>
+		<order>102</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>Actions</module>
+			<action>getEntryPageUrls</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetActionsgetEntryPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Sales by Pages: Page titles</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+			<help />
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
+		</subcategory>
+		<module>Actions</module>
+		<action>getPageTitles</action>
+		<order>103</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>Actions</module>
+			<action>getPageTitles</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Sales by Pages: Page URLs</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+			<help />
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
+		</subcategory>
+		<module>Actions</module>
+		<action>getPageUrls</action>
+		<order>101</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>Actions</module>
+			<action>getPageUrls</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Sales by User attribute: Custom Variables</name>
 		<category>
 			<id>Goals_Ecommerce</id>
@@ -2291,7 +2419,7 @@
 		</subcategory>
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
-		<order>402</order>
+		<order>401</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2323,7 +2451,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getBrand</action>
-		<order>307</order>
+		<order>303</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2355,7 +2483,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getBrowsers</action>
-		<order>308</order>
+		<order>305</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2387,7 +2515,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getModel</action>
-		<order>306</order>
+		<order>302</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2419,7 +2547,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getType</action>
-		<order>305</order>
+		<order>301</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2432,38 +2560,6 @@
 		<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
-		<name>Sales by Pages: Goals Overview - Goals Overview - </name>
-		<category>
-			<id>Goals_Ecommerce</id>
-			<name>Ecommerce</name>
-			<order>20</order>
-			<icon>icon-reporting-ecommerce</icon>
-			<help />
-		</category>
-		<subcategory>
-			<id>Ecommerce_Sales</id>
-			<name>Sales</name>
-			<order>15</order>
-			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
-		</subcategory>
-		<module>Goals</module>
-		<action>basePages</action>
-		<order>101</order>
-		<parameters>
-			<forceView>1</forceView>
-			<viewDataTable>table</viewDataTable>
-			<module>Goals</module>
-			<action>basePages</action>
-			<documentationForGoalsPage>1</documentationForGoalsPage>
-			<idGoal>ecommerceOrder</idGoal>
-			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
-		</parameters>
-		<uniqueId>widgetGoalsbasePagesforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
 	<row>
@@ -2496,102 +2592,6 @@
 		<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
-		<name>Sales by Pages: Entry Pages</name>
-		<category>
-			<id>Goals_Ecommerce</id>
-			<name>Ecommerce</name>
-			<order>20</order>
-			<icon>icon-reporting-ecommerce</icon>
-			<help />
-		</category>
-		<subcategory>
-			<id>Ecommerce_Sales</id>
-			<name>Sales</name>
-			<order>15</order>
-			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
-		</subcategory>
-		<module>Goals</module>
-		<action>getPagesEntry</action>
-		<order>103</order>
-		<parameters>
-			<forceView>1</forceView>
-			<viewDataTable>tableGoalsEntryPages</viewDataTable>
-			<module>Goals</module>
-			<action>getPagesEntry</action>
-			<documentationForGoalsPage>1</documentationForGoalsPage>
-			<idGoal>ecommerceOrder</idGoal>
-			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
-		</parameters>
-		<uniqueId>widgetGoalsgetPagesEntryforceView1viewDataTabletableGoalsEntryPagesdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>tableGoalsEntryPages</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
-		<name>Sales by Pages: Page Titles</name>
-		<category>
-			<id>Goals_Ecommerce</id>
-			<name>Ecommerce</name>
-			<order>20</order>
-			<icon>icon-reporting-ecommerce</icon>
-			<help />
-		</category>
-		<subcategory>
-			<id>Ecommerce_Sales</id>
-			<name>Sales</name>
-			<order>15</order>
-			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
-		</subcategory>
-		<module>Goals</module>
-		<action>getPagesTitles</action>
-		<order>104</order>
-		<parameters>
-			<forceView>1</forceView>
-			<viewDataTable>tableGoalsPages</viewDataTable>
-			<module>Goals</module>
-			<action>getPagesTitles</action>
-			<documentationForGoalsPage>1</documentationForGoalsPage>
-			<idGoal>ecommerceOrder</idGoal>
-			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
-		</parameters>
-		<uniqueId>widgetGoalsgetPagesTitlesforceView1viewDataTabletableGoalsPagesdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>tableGoalsPages</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
-		<name>Sales by Pages: Pages</name>
-		<category>
-			<id>Goals_Ecommerce</id>
-			<name>Ecommerce</name>
-			<order>20</order>
-			<icon>icon-reporting-ecommerce</icon>
-			<help />
-		</category>
-		<subcategory>
-			<id>Ecommerce_Sales</id>
-			<name>Sales</name>
-			<order>15</order>
-			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
-		</subcategory>
-		<module>Goals</module>
-		<action>getPagesUrl</action>
-		<order>102</order>
-		<parameters>
-			<forceView>1</forceView>
-			<viewDataTable>tableGoalsPages</viewDataTable>
-			<module>Goals</module>
-			<action>getPagesUrl</action>
-			<documentationForGoalsPage>1</documentationForGoalsPage>
-			<idGoal>ecommerceOrder</idGoal>
-			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
-		</parameters>
-		<uniqueId>widgetGoalsgetPagesUrlforceView1viewDataTabletableGoalsPagesdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>tableGoalsPages</viewDataTable>
 		<isReport>1</isReport>
 	</row>
 	<row>
@@ -2739,7 +2739,7 @@
 		</subcategory>
 		<module>Referrers</module>
 		<action>getSearchEngines</action>
-		<order>3</order>
+		<order>4</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2771,7 +2771,7 @@
 		</subcategory>
 		<module>Referrers</module>
 		<action>getWebsites</action>
-		<order>4</order>
+		<order>3</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2803,7 +2803,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getCity</action>
-		<order>304</order>
+		<order>308</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2835,7 +2835,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getContinent</action>
-		<order>302</order>
+		<order>306</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2867,7 +2867,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getCountry</action>
-		<order>301</order>
+		<order>304</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2899,7 +2899,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getRegion</action>
-		<order>303</order>
+		<order>307</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2931,7 +2931,7 @@
 		</subcategory>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<order>401</order>
+		<order>402</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
