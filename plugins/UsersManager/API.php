@@ -27,10 +27,11 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
+use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
-use Piwik\Validators\Email;
+use Piwik\Validators\BaseValidator;
 use Piwik\Validators\Login;
 
 /**
@@ -711,7 +712,7 @@ class API extends \Piwik\Plugin\API
     {
         //create User
         $this->userRepository->create($userLogin, $email, $initialIdSite, $password, $_isPasswordHashed);
-        
+
         // send admin Email
         $this->userRepository->sendNewUserEmails($userLogin, null);
     }
@@ -932,8 +933,7 @@ class API extends \Piwik\Plugin\API
         $hasEmailChanged = mb_strtolower($email) !== mb_strtolower($userInfo['email']);
 
         if ($hasEmailChanged) {
-            Email::validate($email)->isUnique();
-            Login::validate($email)->isUnique();
+            BaseValidator::check('email', $email, [new Email(true)]);
             $changeShouldRequirePasswordConfirmation = true;
         }
 
