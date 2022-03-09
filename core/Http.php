@@ -998,7 +998,7 @@ class Http
         $clientHints = [];
 
         foreach ($_SERVER as $key => $value) {
-            if (0 === strpos(strtolower($key), strtolower('Sec-CH-UA'))) {
+            if (0 === strpos(strtolower($key), strtolower('HTTP_SEC_CH_UA'))) {
                 $clientHints[$key] = $value;
             }
         }
