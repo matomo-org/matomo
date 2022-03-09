@@ -25,14 +25,12 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
-use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
-use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Validators\BaseValidator;
-use Piwik\Validators\Login;
+use Piwik\Validators\Email;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.

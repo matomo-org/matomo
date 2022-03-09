@@ -472,6 +472,7 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['token_auth']);
             unset($user['date_registered']);
             unset($user['ts_password_modified']);
+            unset($user['invited_at']);
         }
         return $users;
     }
