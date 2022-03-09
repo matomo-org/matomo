@@ -4,18 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- get UI tests to pass
-- check uses:
-  ./plugins/Goals/templates/_addEditGoal.twig
-  ./plugins/Goals/angularjs/manage-goals/manage-goals.directive.js
-  ./plugins/MultiChannelConversionAttribution/angularjs/manage-attribution/
-    manage-attribution.directive.js
-  ./plugins/Funnels/angularjs/manage-funnel/manage-funnel.directive.js
-- create PR
-</todo>
-
 <template>
   <div v-if="!onlyShowAddNewGoal">
     <div
@@ -118,9 +106,9 @@
     </div>
 
     <div class="ui-confirm" ref="confirm">
-      <h2>{{ translate('Goals_DeleteGoalConfirm', `"${this.goal.name}"`) }}</h2>
-      <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
-      <input role="no" type="button" value="{{ translate('General_No') }}"/>
+      <h2>{{ translate('Goals_DeleteGoalConfirm', `"${goalToDelete?.name}"`) }}</h2>
+      <input role="yes" type="button" :value="translate('General_Yes')"/>
+      <input role="no" type="button" :value="translate('General_No')"/>
     </div>
   </div>
 
@@ -259,49 +247,51 @@
             </div>
           </div>
 
-          <Alert id="examples_pattern" class="col s12" severity="info">
-            <span v-show="goal.match_attribute === 'url'">
-              {{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_Contains', "'checkout/confirmation'") }}
-              <br />{{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_IsExactly', "'http://example.com/thank-you.html'") }}
-              <br />{{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_MatchesExpression', "'(.*)\\\/demo\\\/(.*)'") }}
-            </span>
-            <span v-show="goal.match_attribute === 'title'">
-              {{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_Contains', "'Order confirmation'") }}
-            </span>
-            <span v-show="goal.match_attribute === 'file'">
-              {{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_Contains', "'files/brochure.pdf'") }}
-              <br />{{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_IsExactly', "'http://example.com/files/brochure.pdf'") }}
-              <br />{{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_MatchesExpression', "'(.*)\\\.zip'") }}
-            </span>
-            <span v-show="goal.match_attribute === 'external_website'">
-              {{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_Contains', "'amazon.com'") }}
-              <br />{{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_IsExactly', "'http://mypartner.com/landing.html'") }}
-              <br />{{ translate('General_ForExampleShort') }}
-              {{ this.matchesExpressionExternal }}
-            </span>
-            <span v-show="goal.match_attribute === 'event'">
-              {{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_Contains', "'video'") }}
-              <br />
-              {{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_IsExactly', "'click'") }}
-              <br />{{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_MatchesExpression', "'(.*)_banner'") }}"
-            </span>
-            <span v-show="goal.match_attribute === 'visit_duration'">
-              {{ translate('General_ForExampleShort') }}
-              {{ translate('Goals_AtLeastMinutes', '5', '0.5') }}
-            </span>
-          </Alert>
+          <div id="examples_pattern" class="col s12">
+            <Alert severity="info">
+              <span v-show="goal.match_attribute === 'url'">
+                {{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_Contains', "'checkout/confirmation'") }}
+                <br />{{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_IsExactly', "'http://example.com/thank-you.html'") }}
+                <br />{{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_MatchesExpression', "'(.*)\\\/demo\\\/(.*)'") }}
+              </span>
+              <span v-show="goal.match_attribute === 'title'">
+                {{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_Contains', "'Order confirmation'") }}
+              </span>
+              <span v-show="goal.match_attribute === 'file'">
+                {{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_Contains', "'files/brochure.pdf'") }}
+                <br />{{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_IsExactly', "'http://example.com/files/brochure.pdf'") }}
+                <br />{{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_MatchesExpression', "'(.*)\\\.zip'") }}
+              </span>
+              <span v-show="goal.match_attribute === 'external_website'">
+                {{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_Contains', "'amazon.com'") }}
+                <br />{{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_IsExactly', "'http://mypartner.com/landing.html'") }}
+                <br />{{ translate('General_ForExampleShort') }}
+                {{ matchesExpressionExternal }}
+              </span>
+              <span v-show="goal.match_attribute === 'event'">
+                {{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_Contains', "'video'") }}
+                <br />
+                {{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_IsExactly', "'click'") }}
+                <br />{{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_MatchesExpression', "'(.*)_banner'") }}"
+              </span>
+              <span v-show="goal.match_attribute === 'visit_duration'">
+                {{ translate('General_ForExampleShort') }}
+                {{ translate('Goals_AtLeastMinutes', '5', '0.5') }}
+              </span>
+            </Alert>
+          </div>
         </div>
 
         <div>
@@ -318,7 +308,8 @@
           <Field
             uicontrol="radio"
             name="allow_multiple"
-            v-model="goal.allow_multiple"
+            :model-value="goal.allow_multiple ? 1 : 0"
+            @update:model-value="goal.allow_multiple = $event"
             v-if="goal.match_attribute !== 'visit_duration'"
             :options="allowMultipleOptions"
             :introduction="translate('Goals_AllowMultipleConversionsPerVisit')"
@@ -342,14 +333,14 @@
           <Field
             uicontrol="checkbox"
             name="use_event_value"
-            v-model="goal.use_event_value_as_revenue"
+            v-model="goal.event_value_as_revenue"
             :title="translate('Goals_UseEventValueAsRevenue')"
             v-show="goal.match_attribute === 'event'"
             :inline-help="useEventValueAsRevenueHelp"
           />
         </div>
 
-        <slot name="endEditTable"></slot>
+        <slot name="endedittable"></slot>
 
         <input type="hidden" name="goalIdUpdate" value=""/>
 
@@ -407,6 +398,7 @@ interface ManageGoalsState {
   triggerType: string;
   apiMethod: string;
   submitText: string;
+  goalToDelete: Goal|null;
 }
 
 export default defineComponent({
@@ -439,6 +431,7 @@ export default defineComponent({
       triggerType: 'visitors',
       apiMethod: '',
       submitText: '',
+      goalToDelete: null,
     };
   },
   components: {
@@ -571,6 +564,7 @@ export default defineComponent({
       this.scrollToTop();
     },
     deleteGoal(goalId: string|number) {
+      this.goalToDelete = this.goals[`${goalId}`];
       Matomo.helper.modalConfirm((this.$refs.confirm as HTMLElement), {
         yes: () => {
           this.isLoading = true;
