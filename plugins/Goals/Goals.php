@@ -271,6 +271,8 @@ class Goals extends \Piwik\Plugin
 
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
+        $includeGoals = Common::getRequestVar('includeGoals', false);
+
         foreach ($reportsWithGoals as $reportWithGoals) {
             // Select this report from the API metadata array
             // and add the Goal metrics to it
@@ -278,6 +280,10 @@ class Goals extends \Piwik\Plugin
                 if ($apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])) {
+
+                    if (!$includeGoals && $reportWithGoals['module'] == 'Actions') {
+                        continue;
+                    }
 
                     if ($reportWithGoals['action'] == 'getPagesEntry') {
                         $apiReportToUpdate['metricsGoal'] = $goalEntryMetrics;
@@ -290,6 +296,7 @@ class Goals extends \Piwik\Plugin
                 }
             }
         }
+
     }
 
     private static function getAllReportsWithGoalMetrics()
