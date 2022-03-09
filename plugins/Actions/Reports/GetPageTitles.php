@@ -40,8 +40,8 @@ class GetPageTitles extends Base
         );
 
         $this->actionToLoadSubTables = $this->action;
-
         $this->subcategoryId = 'Actions_SubmenuPageTitles';
+        $this->hasGoalMetrics = true;
     }
 
     public function getMetrics()
@@ -80,6 +80,8 @@ class GetPageTitles extends Base
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);
+
+        $view->config->show_goals = true;
     }
 
     public function getRelatedReports()

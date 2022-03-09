@@ -38,8 +38,8 @@ class GetEntryPageTitles extends Base
         );
         $this->order   = 6;
         $this->actionToLoadSubTables = $this->action;
-
         $this->subcategoryId = 'Actions_SubmenuPagesEntry';
+        $this->hasGoalMetrics = true;
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
@@ -82,6 +82,8 @@ class GetEntryPageTitles extends Base
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);
+
+        $view->config->show_goals = true;
     }
 
     public function getRelatedReports()

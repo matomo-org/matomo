@@ -34,12 +34,16 @@ class TrackGoalsPagesTest extends SystemTestCase
     public function getApiForTesting()
     {
         return [
-            ['Goals.getPagesUrl',         ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime, 'idGoal' => 1]],
-            ['Goals.getPagesTitles',      ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime, 'idGoal' => 1]],
-            ['Goals.getPagesEntry',       ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime, 'idGoal' => 1,
-                                           'otherRequestParameters' => ['filter_update_columns_when_show_all_goals' => 1]]],
-            ['Goals.getPagesEntryTitles', ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime, 'idGoal' => 1,
-                                           'otherRequestParameters' => ['filter_update_columns_when_show_all_goals' => 1]]]
+            ['Actions.getPageUrls',        ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
+                                            'idGoal' => 1, 'includeGoals' => 1]],
+            ['Actions.getPageTitles',      ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
+                                            'idGoal' => 1, 'includeGoals' => 1]],
+            ['Actions.getEntryPageUrls',   ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
+                                            'idGoal' => 1, 'includeGoals' => 1, 'otherRequestParameters' =>
+                                                              ['filter_update_columns_when_show_all_goals' => 1]]],
+            ['Actions.getEntryPageTitles', ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
+                                            'idGoal' => 1, 'includeGoals' => 1, 'otherRequestParameters' =>
+                                                              ['filter_update_columns_when_show_all_goals' => 1]]]
         ];
     }
 

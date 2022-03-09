@@ -30,8 +30,27 @@ class Goals extends HtmlTable
     const FOOTER_ICON       = 'icon-goal';
     const FOOTER_ICON_TITLE = 'General_DisplayTableWithGoalMetrics';
 
+    const GOALS_DISPLAY_NORMAL = 0;
+    const GOALS_DISPLAY_PAGES = 1;
+    const GOALS_DISPLAY_ENTRY_PAGES = 2;
+
+    private $displayType = self::GOALS_DISPLAY_NORMAL;
+
     public function beforeLoadDataTable()
     {
+        // Check if one of the pages display types should be used
+        $requestMethod = $this->requestConfig->getApiModuleToRequest().'.'.$this->requestConfig->getApiMethodToRequest();
+        if (in_array($requestMethod, ['Actions.getPageUrls', 'Actions.getPageTitles'])) {
+            $this->displayType = self::GOALS_DISPLAY_PAGES;
+            $this->requestConfig->request_parameters_to_modify['includeGoals'] = true;
+            $this->requestConfig->request_parameters_to_modify['idGoal'] = -3;
+
+        } else if (in_array($requestMethod, ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'])) {
+            $this->displayType = self::GOALS_DISPLAY_ENTRY_PAGES;
+            $this->requestConfig->request_parameters_to_modify['includeGoals'] = true;
+            $this->requestConfig->request_parameters_to_modify['idGoal'] = -4;
+        }
+
         parent::beforeLoadDataTable();
 
         $this->config->show_totals_row = false;
@@ -51,12 +70,26 @@ class Goals extends HtmlTable
         $this->config->datatable_css_class = 'dataTableVizGoals';
         $this->config->show_exclude_low_population = true;
 
-        $this->config->metrics_documentation['nb_visits'] = Piwik::translate('Goals_ColumnVisits');
 
         if (1 == Common::getRequestVar('documentationForGoalsPage', 0, 'int')) {
             // TODO: should not use query parameter
             $this->config->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
                 array('<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank">', '</a>'));
+        }
+
+        if ($this->displayType == self::GOALS_DISPLAY_NORMAL) {
+            $this->config->metrics_documentation['nb_visits'] = Piwik::translate('Goals_ColumnVisits');
+        }
+
+        if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
+            $this->removeExcludedColumns();
+            $this->config->addTranslation('nb_hits', Piwik::translate('General_ColumnUniquePageviews'));
+            $this->config->metrics_documentation['nb_hits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
+        }
+
+        if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
+            $this->removeExcludedColumns();
+            $this->config->metrics_documentation['entry_nb_visits'] = Piwik::translate('General_ColumnEntrancesDocumentation');
         }
 
         parent::beforeRender();
@@ -119,46 +152,138 @@ class Goals extends HtmlTable
         $allGoals = $this->getGoals($idSite);
 
         // set view properties
-        $this->config->columns_to_display = array('label', 'nb_visits');
+        if ($this->displayType == self::GOALS_DISPLAY_NORMAL) {
+            $this->config->columns_to_display = array('label', 'nb_visits');
 
-        foreach ($allGoals as $goal) {
-            $column        = "goal_{$goal['idgoal']}_conversion_rate";
-            $this->config->columns_to_display[]  = $column;
+            foreach ($allGoals as $goal) {
+                $column = "goal_{$goal['idgoal']}_conversion_rate";
+                $this->config->columns_to_display[] = $column;
+            }
+
+            $this->config->columns_to_display[] = 'revenue_per_visit';
         }
 
-        $this->config->columns_to_display[] = 'revenue_per_visit';
+        if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
+            $this->config->columns_to_display = array('label', 'nb_hits');
+            $goalColumnTemplates = array(
+                'goal_%s_nb_conversions_attrib',
+                'goal_%s_revenue_attrib',
+                'goal_%s_nb_conversions_page_rate',
+            );
+
+            // set columns to display (columns of same type but different goals will be next to each other,
+            // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
+            foreach ($allGoals as $goal) {
+                foreach ($goalColumnTemplates as $columnTemplate) {
+                    $this->config->columns_to_display[] = sprintf($columnTemplate, $goal['idgoal']);
+                }
+            }
+        }
+
+        if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
+            $this->config->columns_to_display = array('label', 'entry_nb_visits');
+
+            $goalColumnTemplates = array(
+                'goal_%s_nb_conversions_entry',
+                'goal_%s_nb_conversions_entry_rate',
+                'goal_%s_revenue_entry',
+                'goal_%s_revenue_per_entry',
+            );
+
+            // set columns to display (columns of same type but different goals will be next to each other,
+            // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
+            foreach ($allGoals as $goal) {
+                foreach ($goalColumnTemplates as $columnTemplate) {
+                    $this->config->columns_to_display[] = sprintf($columnTemplate, $goal['idgoal']);
+                }
+            }
+        }
+
     }
 
     protected function setPropertiesForGoals($idSite, $idGoals)
     {
         $allGoals = $this->getGoals($idSite);
 
-        if ('all' == $idGoals) {
-            $idGoals = array_keys($allGoals);
-        } else {
-            // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-            $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions';
-            $this->requestConfig->filter_sort_order  = 'desc';
+        if ($this->displayType == self::GOALS_DISPLAY_NORMAL) {
+            if ('all' == $idGoals) {
+                $idGoals = array_keys($allGoals);
+            } else {
+                // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
+                $this->requestConfig->filter_sort_column = 'goal_'.reset($idGoals).'_nb_conversions';
+                $this->requestConfig->filter_sort_order = 'desc';
+            }
+
+            $this->config->columns_to_display = array('label', 'nb_visits');
+
+            $goalColumnTemplates = array(
+                'goal_%s_nb_conversions',
+                'goal_%s_conversion_rate',
+                'goal_%s_revenue',
+                'goal_%s_revenue_per_visit',
+            );
+
+            // set columns to display (columns of same type but different goals will be next to each other,
+            // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
+            foreach ($goalColumnTemplates as $columnTemplate) {
+                foreach ($idGoals as $idGoal) {
+                    $this->config->columns_to_display[] = sprintf($columnTemplate, $idGoal);
+                }
+            }
+
+            $this->config->columns_to_display[] = 'revenue_per_visit';
         }
 
-        $this->config->columns_to_display = array('label', 'nb_visits');
+        if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
+            if ('all' === $idGoals) {
+                $idGoals = array_keys($allGoals);
+                $this->requestConfig->filter_sort_column = 'nb_hits';
+            } else {
+                // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
+                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_attrib';
+            }
+            $this->requestConfig->filter_sort_order  = 'desc';
 
-        $goalColumnTemplates = array(
-            'goal_%s_nb_conversions',
-            'goal_%s_conversion_rate',
-            'goal_%s_revenue',
-            'goal_%s_revenue_per_visit',
-        );
+            $this->config->columns_to_display = array('label', 'nb_hits');
+            $goalColumnTemplates = array(
+                'goal_%s_nb_conversions_attrib',
+                'goal_%s_revenue_attrib',
+                'goal_%s_nb_conversions_page_rate',
+            );
 
-        // set columns to display (columns of same type but different goals will be next to each other,
-        // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
-        foreach ($goalColumnTemplates as $columnTemplate) {
+            // set columns to display (columns of same type but different goals will be next to each other,
+            // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
             foreach ($idGoals as $idGoal) {
-                $this->config->columns_to_display[] = sprintf($columnTemplate, $idGoal);
+                foreach ($goalColumnTemplates as $columnTemplate) {
+                    $this->config->columns_to_display[] = sprintf($columnTemplate, $idGoal);
+                }
             }
         }
 
-        $this->config->columns_to_display[] = 'revenue_per_visit';
+        if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
+            if ('all' === $idGoals) {
+                $idGoals = array_keys($allGoals);
+                $this->requestConfig->filter_sort_column = 'entry_nb_visits';
+            } else {
+                // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
+                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_entry';
+            }
+            $this->requestConfig->filter_sort_order  = 'desc';
+            $this->config->columns_to_display = array('label', 'entry_nb_visits');
+            $goalColumnTemplates = array(
+                'goal_%s_nb_conversions_entry',
+                'goal_%s_nb_conversions_entry_rate',
+                'goal_%s_revenue_entry',
+                'goal_%s_revenue_per_entry',
+            );
+
+            foreach ($idGoals as $idGoal) {
+                foreach ($goalColumnTemplates as $columnTemplate) {
+                    $this->config->columns_to_display[] = sprintf($columnTemplate, $idGoal);
+                }
+            }
+        }
+
     }
 
     protected $goalsForCurrentSite = null;

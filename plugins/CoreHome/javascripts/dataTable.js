@@ -1362,9 +1362,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (!iconHighlighted
             && !(self.param.viewDataTable == 'table'
             || self.param.viewDataTable == 'tableAllColumns'
-            || self.param.viewDataTable == 'tableGoals'
-            || self.param.viewDataTable == 'tableGoalsEntryPages'
-            || self.param.viewDataTable == 'tableGoalsPages')) {
+            || self.param.viewDataTable == 'tableGoals')) {
             hideConfigurationIcon();
             return;
         }
@@ -1979,9 +1977,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (domElem.prev().is('h2')) {
             h2 = domElem.prev();
         }
-        else if (this.param.viewDataTable == 'tableGoals'
-              || this.param.viewDataTable == 'tableGoalsEntryPages'
-              || this.param.viewDataTable == 'tableGoalsPages') {
+        else if (this.param.viewDataTable == 'tableGoals') {
             h2 = $('#titleGoalsByDimension');
         }
         else if ($('h2', domElem)) {
@@ -2030,8 +2026,6 @@ var switchToEcommerceView = function (dataTable, viewDataTable) {
 DataTable.registerFooterIconHandler('table', switchToHtmlTable);
 DataTable.registerFooterIconHandler('tableAllColumns', switchToHtmlTable);
 DataTable.registerFooterIconHandler('tableGoals', switchToHtmlTable);
-DataTable.registerFooterIconHandler('tableGoalsEntryPages', switchToHtmlTable);
-DataTable.registerFooterIconHandler('tableGoalsPages', switchToHtmlTable);
 DataTable.registerFooterIconHandler('ecommerceOrder', switchToEcommerceView);
 DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToEcommerceView);
 

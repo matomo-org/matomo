@@ -305,12 +305,9 @@ class Goals extends \Piwik\Plugin
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
-                    'parameters' => $report->getParameters()
+                    'parameters' => $report->getParameters(),
+                    'order' => $report->getOrder()
                 );
-
-                if ($report instanceof BasePages) {
-                    $r['viewDataTable'] = $report->getDefaultTypeViewDataTable();
-                }
 
                 $reportsWithGoals[] = $r;
             }
@@ -395,6 +392,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_TimeInMinutes';
         $translationKeys[] = 'Goals_Pattern';
         $translationKeys[] = 'Goals_ClickToViewThisGoal';
-        $translationKeys[] = 'Goals_CategoryTextPages';
+        $translationKeys[] = 'Goals_CategoryTextGeneral_Actions';
     }
 }

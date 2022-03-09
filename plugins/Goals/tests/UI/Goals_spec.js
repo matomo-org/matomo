@@ -23,7 +23,7 @@ describe("Goals", function () {
     it('should show goals by page', async function() {
 
         await page.evaluate(function(){
-            $('div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(2)').click();
+            $('div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(1)').click();
         });
 
         await page.waitForSelector('.dimensionReport');
@@ -36,7 +36,7 @@ describe("Goals", function () {
     it('should show goals by page titles', async function() {
 
         await page.evaluate(function(){
-            $('div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(4)').click();
+            $('div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(3)').click();
         });
 
         await page.waitForSelector('.dimensionReport');
@@ -49,7 +49,7 @@ describe("Goals", function () {
     it('should show goals by entry page', async function() {
 
         await page.evaluate(function(){
-            $('div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(3)').click();
+            $('div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(2)').click();
         });
 
         await page.waitForSelector('.dimensionReport');
@@ -62,7 +62,7 @@ describe("Goals", function () {
     it('should show goals by entry page titles', async function() {
 
         await page.evaluate(function(){
-            $('.datatableRelatedReports > ul:nth-child(1) > li:nth-child(2) > span:nth-child(1)').click();
+            $('.div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(4)').click();
         });
 
         await page.waitForSelector('.dimensionReport');

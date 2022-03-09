@@ -42,6 +42,7 @@ class GetPageUrls extends Base
         );
 
         $this->subcategoryId = 'General_Pages';
+        $this->hasGoalMetrics = true;
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
@@ -78,6 +79,8 @@ class GetPageUrls extends Base
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);
+
+        $view->config->show_goals = true;
 
         // related reports are only shown on performance page
         if ($view->requestConfig->getRequestParam('performance') !== '1') {

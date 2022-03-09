@@ -66,6 +66,16 @@ use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
 class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 {
     /**
+     * Process metrics for entry page views
+     */
+    const GOALS_ENTRY_PAGES = -4;
+
+    /**
+     * Process for page views
+     */
+    const GOALS_PAGES = -3;
+
+    /**
      * Process main goal metrics: conversion rate, revenue per visit
      */
     const GOALS_MINIMAL_REPORT = -2;
@@ -136,19 +146,25 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                 // When the table is displayed by clicking on the flag icon, we only display the columns
                 // Visits, Conversions, Per goal conversion rate, Revenue
                 if ($this->processOnlyIdGoal == self::GOALS_OVERVIEW) {
-                    continue;
+                   continue;
                 }
 
                 $extraProcessedMetrics[] = new Conversions($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
-                $extraProcessedMetrics[] = new ConversionsAttrib($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
-                $extraProcessedMetrics[] = new ConversionsEntry($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
                 $extraProcessedMetrics[] = new GoalSpecificRevenuePerVisit($idSite, $idGoal); // PerGoal\Revenue
-                $extraProcessedMetrics[] = new GoalSpecificRevenuePerEntry($idSite, $idGoal); // PerGoal\Revenue entries
                 $extraProcessedMetrics[] = new Revenue($idSite, $idGoal); // PerGoal\Revenue
-                $extraProcessedMetrics[] = new RevenueAttrib($idSite, $idGoal); // PerGoal\Revenue attrib
-                $extraProcessedMetrics[] = new RevenueEntry($idSite, $idGoal); // PerGoal\Revenue entrances
-                $extraProcessedMetrics[] = new ConversionEntryRate($idSite, $idGoal); // PerGoal\ConversionRate for entrances
-                $extraProcessedMetrics[] = new ConversionPageRate($idSite, $idGoal); // PerGoal\ConversionRate for page uniq views
+
+                if ($this->processOnlyIdGoal == self::GOALS_PAGES) {
+                    $extraProcessedMetrics[] = new ConversionsAttrib($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
+                    $extraProcessedMetrics[] = new RevenueAttrib($idSite, $idGoal); // PerGoal\Revenue attrib
+                    $extraProcessedMetrics[] = new ConversionPageRate($idSite, $idGoal); // PerGoal\ConversionRate for page uniq views
+                }
+
+                if ($this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES) {
+                    $extraProcessedMetrics[] = new ConversionsEntry($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
+                    $extraProcessedMetrics[] = new GoalSpecificRevenuePerEntry($idSite, $idGoal); // PerGoal\Revenue entries
+                    $extraProcessedMetrics[] = new RevenueEntry($idSite, $idGoal); // PerGoal\Revenue entrances
+                    $extraProcessedMetrics[] = new ConversionEntryRate($idSite, $idGoal); // PerGoal\ConversionRate for entrances
+                }
 
                 if ($this->isEcommerce) {
                     $extraProcessedMetrics[] = new AverageOrderRevenue($idSite, $idGoal);

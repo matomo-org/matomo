@@ -37,7 +37,7 @@
             onRefresh: null,
             onMaximise: null,
             onMinimise: null,
-            autoMaximiseVisualizations: ['tableAllColumns', 'tableGoals', 'tableGoalsEntryPages', 'tableGoalsPages']
+            autoMaximiseVisualizations: ['tableAllColumns', 'tableGoals']
         },
 
         /**

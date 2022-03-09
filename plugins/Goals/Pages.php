@@ -275,11 +275,12 @@ class Pages
                 $categoryText = $translationHelper->translateGoalMetricCategory($category);
             }
 
-            foreach ($reports as $report) {
+            // Sort reports in each category to respect the report order property
+            uasort($reports, function ($a, $b) {
+                return $a['order'] <=> $b['order'];
+            });
 
-                if ($report['name'] === Piwik::translate('Goals_EntryPagesTitles')) {
-                    continue;
-                }
+            foreach ($reports as $report) {
 
                 $order++;
 
@@ -329,7 +330,7 @@ class Pages
         if (is_null($order)) {
             $order = array(
                 'Referrers_Referrers',
-                'Pages',
+                'General_Actions',
                 'General_Visit',
                 'General_Visitors',
                 'VisitsSummary_VisitsSummary',

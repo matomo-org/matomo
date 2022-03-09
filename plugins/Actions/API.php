@@ -172,6 +172,9 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable, false, $flat, $includeGoals);
         $this->filterNonEntryActions($dataTable);
+        if ($includeGoals) {
+            $this->filterActionDataTableEntryGoals($dataTable);
+        }
         return $dataTable;
     }
 
@@ -222,6 +225,9 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable, $flat, $includeGoals);
         $this->filterNonEntryActions($dataTable);
+        if ($includeGoals) {
+            $this->filterActionDataTableEntryGoals($dataTable);
+        }
         return $dataTable;
     }
 
@@ -484,11 +490,29 @@ class API extends \Piwik\Plugin\API
 
         if (!$includeGoals) {
             $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\RemoveGoals');
+        } else {
+            $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
+            $dataTable->queueFilter('ReplaceColumnNames');
+            $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns');
+            $colsToRemove = ['idaction', 'type', 'nb_conversions', 'revenue', 'nb_visits'];
+            $dataTable->queueFilter('ColumnDelete', array($colsToRemove));
+            $nestedColsToRemove = ['nb_conversions', 'nb_visits_converted', 'nb_conv_pages_before', 'nb_conversions_page_uniq'];
+            $dataTable->queueFilter('ColumnDelete', array($nestedColsToRemove, [], false, true));
         }
 
         $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions', array($isPageTitleType));
 
         return $dataTable;
+    }
+
+    private function filterActionDataTableEntryGoals($dataTable)
+    {
+        if ($dataTable) {
+            $dataTable->queueFilter('ReplaceColumnNames');
+            $dataTable->queueFilter('Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns');
+            $dataTable->queueFilter('ColumnDelete',
+                array($columnsToRemove = ['idaction', 'nb_visits', 'entry_nb_uniq_visitors', 'revenue', 'nb_conversions']));
+        }
     }
 
     /**

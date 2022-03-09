@@ -326,8 +326,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
         }
     });
 
-    if (this.dataTable && (this.dataTable.jsViewDataTable === 'tableGoals' || this.dataTable.jsViewDataTable === 'tableGoalsEntryPages'
-        || this.dataTable.jsViewDataTable === 'tableGoalsPages')) {
+    if (this.dataTable && (this.dataTable.jsViewDataTable === 'tableGoals')) {
         // When there is a idGoal parameter available, the user is currently viewing a Goal or Ecommerce page
         // In this case we want to show the specific goal metrics in the row evolution
         if (extraParams['idGoal']) {

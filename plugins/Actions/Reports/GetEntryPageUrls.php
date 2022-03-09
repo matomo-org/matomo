@@ -40,8 +40,8 @@ class GetEntryPageUrls extends Base
         $this->order   = 3;
 
         $this->actionToLoadSubTables = $this->action;
-
         $this->subcategoryId = 'Actions_SubmenuPagesEntry';
+        $this->hasGoalMetrics = true;
     }
 
     public function getProcessedMetrics()
@@ -78,6 +78,8 @@ class GetEntryPageUrls extends Base
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);
+
+        $view->config->show_goals = true;
     }
 
     public function getRelatedReports()
