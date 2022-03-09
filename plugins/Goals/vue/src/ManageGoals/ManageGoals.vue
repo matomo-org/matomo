@@ -65,7 +65,9 @@
               </td>
               <td
                 class="center"
-                v-html="goal.revenue === 0 ? '-' : $sanitize(goal.revenue_pretty)"
+                v-html="goal.revenue === 0 || goal.revenue === '0'
+                  ? '-'
+                  : $sanitize(goal.revenue_pretty)"
               >
               </td>
 
