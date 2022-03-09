@@ -106,6 +106,8 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['ts_password_modified']);
         unset($userAfter['idchange_last_viewed']);
         unset($userAfter['password']);
+        unset($userAfter['invited_at']);
+
 
         // implicitly checks password!
         $user['email']            = $newEmail;
@@ -113,7 +115,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user['twofactor_secret'] = '';
 
         unset($user['password']);
-
+        unset($user['invited_at']);
         $this->assertEquals($user, $userAfter);
     }
 
