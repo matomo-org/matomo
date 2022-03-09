@@ -101,6 +101,8 @@
         "SiteWithoutDataOtherIntegrations": "Άλλες ενσωματώσεις",
         "SiteWithoutDataOtherWays": "Άλλοι τρόποι",
         "SiteWithoutDataSetupTracking": "Κάντε ορισμό του %1$sκώδικα παρακολούθησης%2$s στον ιστοτόπο σας ή στην εφαρμογή για κινητά αν δεν το έχετε ήδη κάνει.",
+        "SiteWithoutDataSinglePageApplication": "Εφαρμογή Μοναδικής-Σελίδας ή Προοδευτική Εφαρμογή Ιστού",
+        "SiteWithoutDataSinglePageApplicationDescription": "Για Ιχνηλάτηση Εφαρμογής Μοναδικής-Σελίδας ή Προοδευτικής Εφαρμογής Ιστού. Δείτε τον %1$sοδηγό μας%2$s.",
         "SiteWithoutDataTitle": "Ένα τελευταίο μόνο βήμα για την ιχνηλάτηση της κίνησής σας με το Matomo και κέρδος πολύτιμη γνώση",
         "Sites": "Ιστοτόποι",
         "SuperUserAccessCan": "Ένας χρήστης με πρόσβαση Υπερ Χρήστη μπορεί επίσης να %1$s ορίσει τις καθολικές παραμέτρους%2$s για νέους ιστοτόπους.",

@@ -8,6 +8,7 @@
         "AutoArchivePreProcessed": "segmenterte rapporter forhåndsbehandles (raskere, krever cron)",
         "AutoArchiveRealTime": "segmenterte rapporter behandles i sanntid",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Du er i ferd med å endre segmentsdefinisjonen. Din analyserapport for dette nye segmentet vil ikke bli tilgjengelig til rapportene behandles igjen. Det kan ta noen timer til rapportdataen vises for dette segmentet. Fortsett uansett?",
+        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Du er i ferd med å endre segmentdefinisjonen. Din analyserapporter fir dette nye segmentet vil behandles igjen ved behov neste gang du forespør dem. Det kan ta noen minutter å vise rapportene dine. Fortsett uansett?",
         "ChooseASegment": "Velg et segment",
         "CurrentlySelectedSegment": "Valgt segment: %s",
         "CustomSegment": "Egendefinert segment",

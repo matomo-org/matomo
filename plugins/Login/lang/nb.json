@@ -14,6 +14,7 @@
         "HelpIpRange": "Skriv inn én IP-adresse eller ett IP-tallfølge per linje. Du kan bruke CIDR-notasjon, f.eks. %1$s eller du kan bruke jokertegn, f.eks. %2$s eller %3$s",
         "IPsAlwaysBlocked": "Disse IP-ene blokkeres alltid",
         "InvalidNonceOrigin": "Skjemasikkerhet mislyktes som følge av ugyldig opphav. Hvis du tidligere koblet til med HTTPS, forsikre deg om at du kobler til over en sikker (SSL/TLS-) tilkobling og prøv igjen.",
+        "InvalidNonceReferrer": "Skjemasikkerhet mislyktes. Ugyldig hode-refenrent. Hvis du bruker en mellomtjener, må du %1$ssette opp Matomo til å godta mellomtjener-hodet%2$s som videresender vertshodet. Sjekk også at referent-hodet sendes riktig, og at du kobler til over en sikker tilkobling (SSL/TLS) og prøver igjen hvis du tidligere koblet til over HTTPS.",
         "InvalidNonceSSLMisconfigured": "I tillegg kan du %1$s tvinge Matomo til å bruke en sikker tilkobling%2$s: i din config-fil %3$s sett %4$s under seksjonen %5$s",
         "InvalidNonceToken": "Skjemasikkerhet mislyktes fordi symbolene ikke samsvarer. Last inn skjemaet igjen og sjekk at informasjonskapslene dine er skrudd på.",
         "InvalidOrExpiredToken": "Autentiseringsnøkkelen er ugyldig eller har utløpt.",
