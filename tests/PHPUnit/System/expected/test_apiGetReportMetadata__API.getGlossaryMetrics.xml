@@ -26,7 +26,7 @@
 		<documentation>Average time (in seconds) the browser spends loading the webpage after the response was fully received and before the user can start interacting with it.</documentation>
 	</row>
 	<row>
-		<name>Avg. Time on Website</name>
+		<name>Avg. Visit Duration (in seconds)</name>
 		<id>avg_time_on_site</id>
 		<documentation>The average duration of a visit.</documentation>
 	</row>

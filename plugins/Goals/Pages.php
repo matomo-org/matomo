@@ -277,7 +277,11 @@ class Pages
 
             // Sort reports in each category to respect the report order property
             uasort($reports, function ($a, $b) {
-                return $a['order'] <=> $b['order'];
+                if (isset($a['order']) && isset($b['order'])) {
+                    return $a['order'] <=> $b['order'];
+                } else {
+                    return 0;
+                }
             });
 
             foreach ($reports as $report) {
