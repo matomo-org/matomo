@@ -153,7 +153,7 @@ window.piwikHelper = {
     // initial call for 'body' later in this file
     compileVueEntryComponents: function (selector) {
       function toCamelCase(arg) {
-        return arg.substring(0, 1).toUpperCase() + arg.substring(1)
+        return arg.substring(0, 1) + arg.substring(1)
           .replace(/-[a-z]/g, function (s) { return s.substring(1).toUpperCase(); });
       }
 
