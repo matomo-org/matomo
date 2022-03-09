@@ -275,15 +275,6 @@ class Pages
                 $categoryText = $translationHelper->translateGoalMetricCategory($category);
             }
 
-            // Sort reports in each category to respect the report order property
-            uasort($reports, function ($a, $b) {
-                if (isset($a['order']) && isset($b['order'])) {
-                    return $a['order'] <=> $b['order'];
-                } else {
-                    return 0;
-                }
-            });
-
             foreach ($reports as $report) {
 
                 $order++;
