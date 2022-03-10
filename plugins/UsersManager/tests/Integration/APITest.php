@@ -390,7 +390,7 @@ class APITest extends IntegrationTestCase
     public function test_update_user_fails_if_email_exists_as_other_user_username()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ExceptionEmailExistsAsLogin');
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
         $user2 = 'existed@example.com';
         $this->api->addUser($user2, 'password', 'userlogin2@password.de');
