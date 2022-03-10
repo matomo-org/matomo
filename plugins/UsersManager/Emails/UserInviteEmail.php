@@ -13,7 +13,7 @@ use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\View;
 
-class UserInviteEmail extends mail
+class UserInviteEmail extends Mail
 {
     /**
      * @var string
