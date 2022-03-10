@@ -87,6 +87,7 @@ declare global {
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
+    calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
   }
 
@@ -164,6 +165,8 @@ declare global {
   interface WidgetsHelper {
     availableWidgets?: unknown[];
     getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
+
+    firstGetAvailableWidgetsCall?: Promise<void>;
   }
 
   let widgetsHelper: WidgetsHelper;
@@ -190,6 +193,7 @@ declare global {
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;
+    showEmptyDashboardNotification(): void;
   }
 }
 

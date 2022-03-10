@@ -57,7 +57,7 @@
         "Requirements": "Matomo Requirements",
         "RestartWebServer": "After making this change, restart your web server.",
         "ReusingTables": "Reusing the Tables",
-        "PiwikOrgNewsletter": "email me about major Matomo community updates",
+        "PiwikOrgNewsletter": "subscribe to our newsletter to receive regular information about Matomo.",
         "ProfessionalServicesNewsletter": "send me info on %1$sProfessional services and products%2$s for Matomo",
         "SeeBelowForMoreInfo": "More info below.",
         "SetupWebsite": "Set up a Website",

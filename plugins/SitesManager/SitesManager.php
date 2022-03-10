@@ -447,5 +447,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButton";
         $translationKeys[] = "SitesManager_EmailInstructionsSubject";
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
+        $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
+        $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
+
     }
 }

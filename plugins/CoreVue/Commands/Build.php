@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
+use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
@@ -63,7 +64,7 @@ class Build extends ConsoleCommand
             }
         }
 
-        $plugins = JScriptUIAssetFetcher::orderPluginsByPluginDependencies($plugins);
+        $plugins = PluginUmdAssetFetcher::orderPluginsByPluginDependencies($plugins);
 
         // remove webpack cache since it can result in strange builds if present
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);

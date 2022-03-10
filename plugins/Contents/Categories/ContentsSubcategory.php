@@ -20,6 +20,6 @@ class ContentsSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('Contents_ContentsSubcategoryHelp1') . '</p>'
-            . '<p><a href="https://matomo.org/docs/content-tracking/" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Contents_ContentsSubcategoryHelp2') . '</a></p>';
+            . '<p><a href="https://matomo.org/docs/content-tracking/?mtm_campaign=App_Help&mtm_source=Matomo_App&&mtm_keyword=UserGuides" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Contents_ContentsSubcategoryHelp2') . '</a></p>';
     }
 }
