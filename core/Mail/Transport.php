@@ -15,7 +15,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Version;
 
 class Transport
 {

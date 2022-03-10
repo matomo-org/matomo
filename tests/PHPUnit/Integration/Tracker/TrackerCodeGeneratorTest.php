@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Mock\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\TrackerCodeGenerator;

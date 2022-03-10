@@ -12,8 +12,6 @@ namespace Piwik\Plugins\CustomDimensions\Dimension;
 use Piwik\Common;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Action;
-use Piwik\Url;
-use Piwik\UrlHelper;
 use Piwik\Piwik;
 use Exception;
 use Piwik\Validators\Regex;

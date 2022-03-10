@@ -10,13 +10,10 @@ namespace Piwik\Tests\Integration\Plugin;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\Http\ControllerResolver;
 use Piwik\Plugin;
-use Piwik\Settings\Storage;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
-use Piwik\Widget\WidgetsList;
 
 /**
  * @group Plugin

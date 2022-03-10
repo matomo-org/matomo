@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Intl\Commands;
 
 use DateTimeZone;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Filesystem;

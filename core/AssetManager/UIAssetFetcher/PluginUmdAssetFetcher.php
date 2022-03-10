@@ -12,7 +12,6 @@ namespace Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Development;
-use Piwik\Exception\Exception;
 use Piwik\Plugin\Manager;
 
 class PluginUmdAssetFetcher extends UIAssetFetcher

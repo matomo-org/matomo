@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\UserId\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Plugins\UserId\API;
 use Piwik\Tests\Framework\Fixture;
 
 /**

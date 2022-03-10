@@ -11,7 +11,6 @@ namespace Piwik\DataTable;
 use Closure;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable\Renderer\Html;
 
 /**

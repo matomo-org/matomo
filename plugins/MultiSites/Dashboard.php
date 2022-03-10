@@ -11,15 +11,10 @@ namespace Piwik\Plugins\MultiSites;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
-use Piwik\Config;
-use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
-use Piwik\Period;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Site;
-use Piwik\View;
 
 /**
  * Fetches and formats the response of `MultiSites.getAll` in a way that it can be used by the All Websites AngularJS

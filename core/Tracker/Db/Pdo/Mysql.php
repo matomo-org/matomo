@@ -12,7 +12,6 @@ use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
-use Piwik\Config;
 use Piwik\Tracker\Db;
 use Piwik\Tracker\Db\DbException;
 

@@ -8,15 +8,9 @@
  */
 namespace Piwik\Plugins\PagePerformance\JqplotDataGenerator;
 
-use Piwik\Archive\DataTableFactory;
-use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Date;
-use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
-use Piwik\Url;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.

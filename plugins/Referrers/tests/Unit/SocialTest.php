@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Referrers\tests;
 
 use Piwik\Plugins\Referrers\Social;
-use Spyc;
 
 /**
  * @group Social

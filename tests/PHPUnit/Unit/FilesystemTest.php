@@ -10,7 +10,6 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Filesystem;
 use Piwik\Tests\Framework\Mock\File;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Core

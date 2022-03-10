@@ -12,7 +12,6 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ArchivedMetric;
-use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Segment;
 use Exception;
 use Piwik\CacheId;

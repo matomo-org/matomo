@@ -8,12 +8,10 @@
 
 namespace Piwik\Plugins\CoreVue\Commands;
 
-use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\MobileMessaging\SMSProvider\Development;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

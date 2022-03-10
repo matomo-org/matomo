@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Diagnostic;
 
-use Piwik\Config;
 use Piwik\Plugins\CoreUpdater;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;

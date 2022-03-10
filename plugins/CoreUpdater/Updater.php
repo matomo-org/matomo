@@ -10,17 +10,13 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Cache as PiwikCache;
 use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Context;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
-use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;

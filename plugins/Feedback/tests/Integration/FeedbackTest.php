@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Feedback\tests\Unit;
 
 
-use CpChart\Chart\Data;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;

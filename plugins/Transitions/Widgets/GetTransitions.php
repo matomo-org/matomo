@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Transitions\Widgets;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\Transitions\Controller;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 

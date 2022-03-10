@@ -14,7 +14,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
-use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 use Piwik\Date;
 use Piwik\NumberFormatter;
 use Piwik\Period;

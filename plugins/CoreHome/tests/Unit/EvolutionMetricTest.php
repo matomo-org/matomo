@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreHome\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\DataTable;
-use Piwik\Archive\DataCollection;
 use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;

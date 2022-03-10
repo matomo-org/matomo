@@ -9,12 +9,10 @@
 namespace Piwik\Plugins\CustomDimensions;
 
 use Piwik\Common;
-use Piwik\DataTable\Row;
 
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Filesystem;
-use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;

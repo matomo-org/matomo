@@ -10,9 +10,7 @@
 namespace Piwik\Tests\Integration\DataAccess;
 
 
-use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;

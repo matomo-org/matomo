@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Live\Reports;
 use Piwik\Config;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Live\Controller;
 use Piwik\API\Request;
 use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;

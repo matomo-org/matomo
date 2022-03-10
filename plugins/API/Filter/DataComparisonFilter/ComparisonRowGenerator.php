@@ -11,7 +11,6 @@ namespace Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Simple;
-use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;

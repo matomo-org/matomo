@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UsersManager\Sql;
 
 
-use Piwik\Access;
 use Piwik\Common;
 use Piwik\Piwik;
 

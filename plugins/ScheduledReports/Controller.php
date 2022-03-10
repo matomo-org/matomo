@@ -8,17 +8,13 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
-use Faker\Provider\Image;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Date;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\View;
 

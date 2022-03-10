@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\AssetManager;
-use Piwik\Common;
-use Piwik\Config;
 use Piwik\Development;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
