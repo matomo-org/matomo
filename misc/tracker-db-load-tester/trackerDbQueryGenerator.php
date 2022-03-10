@@ -9,7 +9,7 @@ class TrackerDbQueryGenerator
     private $referers = [];
 
     CONST RETURN_VISITOR_POOL_SIZE = 10000;
-    CONST ACTIONS_POOL_SIZE = 10000;
+    CONST ACTIONS_POOL_SIZE = 1000000;
 
     public function __construct() {
 
@@ -304,7 +304,7 @@ class TrackerDbQueryGenerator
             ':idvisit' => $idvisit,
             ':idsite' => 1,
             ':idvisitor' => $idvisitor,
-            ':idaction_url' => null,
+            ':idaction_url' => $idaction,
             ':idaction_url_ref' => $idaction,
             ':idaction_name' => null,
             ':idaction_name_ref' => null,
@@ -315,7 +315,7 @@ class TrackerDbQueryGenerator
             ':time_dom_processing' => rand(1,1000),
             ':time_network' => rand(1,1000),
             ':time_server' => rand(1,1000),
-            ':time_transfer' => rand(1,1000),
+            ':time_transfer' => rand(1,1000)
         ];
 
         return ['sql' => $sql, 'bind' => $bind];
