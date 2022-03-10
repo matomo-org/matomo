@@ -10,7 +10,6 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration\Model;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;

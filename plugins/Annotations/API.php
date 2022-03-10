@@ -10,10 +10,7 @@ namespace Piwik\Plugins\Annotations;
 
 use Exception;
 use Piwik\Date;
-use Piwik\Period\Range;
-use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
 /**
  * @see plugins/Annotations/AnnotationList.php

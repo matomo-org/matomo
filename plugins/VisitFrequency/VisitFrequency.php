@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\VisitFrequency;
 
-use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 class VisitFrequency extends \Piwik\Plugin
 {

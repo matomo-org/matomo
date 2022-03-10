@@ -21,7 +21,6 @@ use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\Actions\Actions;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Live\Model;
 use Piwik\RankingQuery;

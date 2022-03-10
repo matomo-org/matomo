@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DbHelper;
-use Piwik\Metrics\Formatter;
-use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;

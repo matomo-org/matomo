@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Cache;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;

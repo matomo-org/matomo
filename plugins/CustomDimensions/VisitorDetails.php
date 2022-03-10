@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CustomDimensions;
 
 use Piwik\API\Request;
-use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
 use Piwik\Plugins\CustomDimensions\Tracker\CustomDimensionsRequestProcessor;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;

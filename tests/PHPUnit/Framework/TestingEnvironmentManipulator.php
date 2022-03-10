@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Framework;
 
 use Psr\Container\ContainerInterface;
-use Piwik\Application\Environment;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;

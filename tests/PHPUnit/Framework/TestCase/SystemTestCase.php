@@ -24,8 +24,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\ReportRenderer;
 use Piwik\Site;
-use Piwik\Tests\Framework\Constraint\ResponseCode;
-use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\Mock\File as MockFileMethods;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;

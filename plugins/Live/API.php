@@ -15,7 +15,6 @@ use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 

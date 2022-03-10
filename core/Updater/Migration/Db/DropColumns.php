@@ -7,7 +7,6 @@
  */
 namespace Piwik\Updater\Migration\Db;
 
-use Piwik\Db;
 use Piwik\DbHelper;
 
 /**

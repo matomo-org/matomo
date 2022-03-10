@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Period\Range;

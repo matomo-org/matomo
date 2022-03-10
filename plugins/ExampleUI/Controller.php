@@ -8,11 +8,8 @@
  */
 namespace Piwik\Plugins\ExampleUI;
 
-use Piwik\Common;
 use Piwik\Notification;
-use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  */

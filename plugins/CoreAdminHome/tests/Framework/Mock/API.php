@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Framework\Mock;
 
-use Piwik\Tracker;
 
 class API extends \Piwik\Plugins\CoreAdminHome\API
 {

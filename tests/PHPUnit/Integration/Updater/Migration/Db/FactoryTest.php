@@ -9,10 +9,7 @@
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Updater\Migration\Config\Set;
 use Piwik\Updater\Migration\Db\AddColumn;
 use Piwik\Updater\Migration\Db\AddColumns;
 use Piwik\Updater\Migration\Db\AddIndex;

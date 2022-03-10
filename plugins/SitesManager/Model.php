@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Access;
-use Piwik\Date;
 use Piwik\Db;
 use Piwik\Common;
 use Exception;

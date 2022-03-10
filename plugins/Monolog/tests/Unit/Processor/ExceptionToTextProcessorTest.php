@@ -11,9 +11,7 @@ namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 use PHPUnit\Runner\Version;
 use Piwik\Access;
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Log;
-use Piwik\Piwik;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 /**

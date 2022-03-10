@@ -14,7 +14,6 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Timer;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @group DataTableTest

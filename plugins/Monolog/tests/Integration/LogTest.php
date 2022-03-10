@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Monolog\tests\Integration;
 use Exception;
 use Piwik\Application\Environment;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;

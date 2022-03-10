@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\ExampleUI\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 

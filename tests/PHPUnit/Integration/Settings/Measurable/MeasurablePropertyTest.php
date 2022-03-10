@@ -8,11 +8,9 @@
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Measurable\MeasurableProperty;
-use Piwik\Settings\Measurable\MeasurableSetting;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Settings\FakeMeasurableSettings;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;

@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;

@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
 
 /**

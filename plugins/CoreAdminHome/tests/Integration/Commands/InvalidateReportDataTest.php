@@ -9,11 +9,9 @@
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Monolog\Handler\AbstractProcessingHandler;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
-use Psr\Log\LoggerInterface;
 
 /**
  * @group CoreAdminHome

@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
 use Piwik\TCPDF;

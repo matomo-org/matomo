@@ -9,9 +9,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\CliMulti\CliPhp;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Tests\Framework\Fixture;

@@ -8,7 +8,6 @@
  */
 namespace Piwik\Changes;
 
-use Piwik\Exception\Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;

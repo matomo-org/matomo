@@ -10,7 +10,6 @@ namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 class ReferrerAnonymizer
 {

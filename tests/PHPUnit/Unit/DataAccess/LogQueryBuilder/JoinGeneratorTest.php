@@ -11,7 +11,6 @@ namespace Piwik\Tests\Unit\DataAccess;
 use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
-use Piwik\Tracker\Visit;
 
 /**
  * @group Core

@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Tracker\Handler;
 
-use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;

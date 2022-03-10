@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\Client\Browser;
 use Piwik\Columns\DimensionSegmentFactory;
-use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;

@@ -23,7 +23,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Diagnostics\Diagnostics;
 use Piwik\Segment;
-use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Period;

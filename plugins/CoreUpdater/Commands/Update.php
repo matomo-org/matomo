@@ -18,7 +18,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreUpdater\Commands\Update\CliUpdateObserver;
 use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

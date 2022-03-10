@@ -8,11 +8,8 @@
 
 namespace Piwik\Tests\Integration\Archive;
 
-use Piwik\Archive;
-use Piwik\ArchiveProcessor;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Db;
 use Piwik\Period;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;

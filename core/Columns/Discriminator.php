@@ -9,7 +9,6 @@
 namespace Piwik\Columns;
 
 use Exception;
-use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
  * @api

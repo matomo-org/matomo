@@ -19,7 +19,6 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Events\Actions\ActionEvent;
-use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**

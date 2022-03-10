@@ -7,13 +7,8 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Common;
-use Piwik\Db;
 use Piwik\Tests\Fixtures\Utf8mb4;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Tracker\Action;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
 
 /**
  * Tests for tracking parameters containing 4 byte UTF8 chars.

@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
-use Piwik\Development;
 use Piwik\Intl\Locale;
 use Piwik\Nonce;
 use Piwik\Piwik;

@@ -12,7 +12,6 @@ use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
-use Piwik\Plugins\Installation\View;
 use Piwik\Plugins\PagePerformance\Metrics;
 use Piwik\Plugins\PagePerformance\Visualizations\JqplotGraph\StackedBarEvolution;
 use Piwik\Plugins\PagePerformance\Visualizations\PerformanceColumns;
