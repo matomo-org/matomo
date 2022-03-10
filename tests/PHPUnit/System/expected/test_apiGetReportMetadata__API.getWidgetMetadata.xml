@@ -2291,7 +2291,7 @@
 		</subcategory>
 		<module>Actions</module>
 		<action>getEntryPageTitles</action>
-		<order>104</order>
+		<order>103</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2355,7 +2355,7 @@
 		</subcategory>
 		<module>Actions</module>
 		<action>getPageTitles</action>
-		<order>103</order>
+		<order>104</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2419,7 +2419,7 @@
 		</subcategory>
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
-		<order>401</order>
+		<order>402</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2451,7 +2451,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getBrand</action>
-		<order>303</order>
+		<order>307</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2483,7 +2483,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getBrowsers</action>
-		<order>305</order>
+		<order>308</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2515,7 +2515,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getModel</action>
-		<order>302</order>
+		<order>306</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2547,7 +2547,7 @@
 		</subcategory>
 		<module>DevicesDetection</module>
 		<action>getType</action>
-		<order>301</order>
+		<order>305</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2739,7 +2739,7 @@
 		</subcategory>
 		<module>Referrers</module>
 		<action>getSearchEngines</action>
-		<order>4</order>
+		<order>3</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2771,7 +2771,7 @@
 		</subcategory>
 		<module>Referrers</module>
 		<action>getWebsites</action>
-		<order>3</order>
+		<order>4</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2803,7 +2803,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getCity</action>
-		<order>308</order>
+		<order>304</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2835,7 +2835,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getContinent</action>
-		<order>306</order>
+		<order>302</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2867,7 +2867,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getCountry</action>
-		<order>304</order>
+		<order>301</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2899,7 +2899,7 @@
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getRegion</action>
-		<order>307</order>
+		<order>303</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>
@@ -2931,7 +2931,7 @@
 		</subcategory>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<order>402</order>
+		<order>401</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>

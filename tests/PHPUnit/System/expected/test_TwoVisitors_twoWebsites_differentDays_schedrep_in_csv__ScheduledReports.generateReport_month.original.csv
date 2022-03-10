@@ -156,66 +156,6 @@ No data available
 Goals Overview - Days to Conversion
 No data available
 
-Entry Pages
-label,entry_nb_visits,nb_conversions_entry,nb_visits_converted,revenue_entry,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-/index.htm,9,0,0,$0,0,00:00:00,0%,$0
-/products,1,0,0,$0,0,00:00:00,0%,$0
-Page URL not defined,0,0,0,$0,0,00:00:00,0%,$0
-/thankyou,0,0,0,$0,0,00:00:00,0%,$0
-
-Entry Pages Titles
-label,entry_nb_visits,nb_conversions_entry,nb_visits_converted,revenue_entry,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-first page view,2,0,0,$0,0,00:00:00,0%,$0
-Page Name not defined,0,0,0,$0,0,00:00:00,0%,$0
-Checkout / Purchasing...,0,0,0,$0,0,00:00:00,0%,$0
-second visitor/two days later/a new visit,8,0,0,$0,0,00:00:00,0%,$0
-second visitor/two days later/second page view😀💩😀💩,0,0,0,$0,0,00:00:00,0%,$0
-
-Goals Overview - Entry Pages Titles
-label,entry_nb_visits,nb_conversions_entry,nb_visits_converted,revenue_entry,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-first page view,2,0,0,$0,0,00:00:00,0%,0%
-Page Name not defined,0,0,0,$0,0,00:00:00,0%,0%
-Checkout / Purchasing...,0,0,0,$0,0,00:00:00,0%,0%
-second visitor/two days later/a new visit,8,0,0,$0,0,00:00:00,0%,0%
-second visitor/two days later/second page view😀💩😀💩,0,0,0,$0,0,00:00:00,0%,0%
-
-Goals Overview - Entry Pages
-label,entry_nb_visits,nb_conversions_entry,nb_visits_converted,revenue_entry,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-/index.htm,9,0,0,$0,0,00:00:00,0%,0%
-/products,1,0,0,$0,0,00:00:00,0%,0%
-Page URL not defined,0,0,0,$0,0,00:00:00,0%,0%
-/thankyou,0,0,0,$0,0,00:00:00,0%,0%
-
-Page Titles
-label,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_visits,nb_actions,revenue
-first page view,0,00:00:00,0%,0,0,$0
-Page Name not defined,0,00:00:00,0%,0,0,$0
-Checkout / Purchasing...,0,00:00:00,0%,0,0,$0
-second visitor/two days later/a new visit,0,00:00:00,0%,0,0,$0
-second visitor/two days later/second page view😀💩😀💩,0,00:00:00,0%,0,0,$0
-
-Goals Overview - Page Titles
-label,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_visits,nb_actions
-first page view,0%,0,00:00:00,0%,0,0
-Page Name not defined,0%,0,00:00:00,0%,0,0
-Checkout / Purchasing...,0%,0,00:00:00,0%,0,0
-second visitor/two days later/a new visit,0%,0,00:00:00,0%,0,0
-second visitor/two days later/second page view😀💩😀💩,0%,0,00:00:00,0%,0,0
-
-Pages
-label,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_visits,nb_actions,revenue
-/index.htm,0,00:00:00,0%,0,0,$0
-/products,0,00:00:00,0%,0,0,$0
-Page URL not defined,0,00:00:00,0%,0,0,$0
-/thankyou,0,00:00:00,0%,0,0,$0
-
-Goals Overview - Pages
-label,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_visits,nb_actions
-/index.htm,0%,0,00:00:00,0%,0,0
-/products,0%,0,00:00:00,0%,0,0
-Page URL not defined,0%,0,00:00:00,0%,0,0
-/thankyou,0%,0,00:00:00,0%,0,0
-
 Visits to Conversion
 No data available
 
