@@ -9,9 +9,8 @@
 
 namespace Piwik\Plugins\UsersManager\Emails;
 
-use Piwik\Piwik;
-use Piwik\Site;
 use Piwik\Mail;
+use Piwik\Piwik;
 use Piwik\View;
 
 class UserInviteEmail extends mail
