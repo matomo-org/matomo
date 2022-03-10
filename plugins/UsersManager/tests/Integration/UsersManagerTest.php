@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Access;
 use Piwik\Auth\Password;
-use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as APISitesManager;

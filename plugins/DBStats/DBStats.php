@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\DBStats;
 
 use Piwik\Piwik;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\DBStats\tests\Mocks\MockDataAccess;
 
 class DBStats extends \Piwik\Plugin

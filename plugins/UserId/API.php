@@ -9,10 +9,8 @@
 namespace Piwik\Plugins\UserId;
 
 use Piwik\Archive;
-use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 
 /**
  * API for plugin UserId. Allows to get User IDs table.

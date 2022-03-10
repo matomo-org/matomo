@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Log;
 use Piwik\Metrics;
 use Piwik\Period;
 use Psr\Log\LoggerInterface;

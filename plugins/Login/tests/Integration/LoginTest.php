@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 use Piwik\AuthResult;
-use Piwik\Common;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\DbHelper;
-use Piwik\NoAccessException;
 use Piwik\Plugins\Login\Auth;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\UserUpdater;

@@ -12,12 +12,9 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Config;
 use Piwik\DataTable\Filter\ColumnDelete;
-use Piwik\Date;
-use Piwik\Metrics\Formatter;
 use Piwik\Plugin;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
-use Piwik\Tracker\GoalManager;
 
 class Visitor implements VisitorInterface
 {

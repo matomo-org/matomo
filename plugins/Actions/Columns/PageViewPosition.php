@@ -8,11 +8,9 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 
 class PageViewPosition extends ActionDimension

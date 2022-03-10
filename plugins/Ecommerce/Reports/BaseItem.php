@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Ecommerce\Reports;
 
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -18,7 +17,6 @@ use Piwik\Plugins\Goals\Columns\Metrics\AveragePrice;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageQuantity;
 use Piwik\Plugins\Goals\Columns\Metrics\ProductConversionRate;
 use Piwik\Plugins\Goals\Conversions;
-use Piwik\Plugins\Goals\Model;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 

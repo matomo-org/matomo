@@ -10,8 +10,6 @@ namespace Piwik\Plugins\Goals\Widgets;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Piwik;
-use Piwik\Plugins\Goals\API;
 use Piwik\Widget\WidgetConfig;
 
 class AddNewGoal extends \Piwik\Widget\Widget

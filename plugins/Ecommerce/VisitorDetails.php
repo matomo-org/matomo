@@ -9,18 +9,12 @@
 namespace Piwik\Plugins\Ecommerce;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\Site;
-use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tracker\PageUrl;
 use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract

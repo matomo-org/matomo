@@ -9,20 +9,14 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
-use Piwik\Access;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Segment;
-use Piwik\Site;
-use Psr\Log\LoggerInterface;
 use Piwik\Cache;
 
 /**

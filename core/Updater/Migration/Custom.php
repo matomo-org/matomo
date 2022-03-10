@@ -7,8 +7,6 @@
  */
 namespace Piwik\Updater\Migration;
 
-use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Updater\Migration;
 
 /**

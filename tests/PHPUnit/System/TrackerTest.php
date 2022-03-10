@@ -9,7 +9,6 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -19,7 +18,6 @@ use Piwik\Scheduler\Timetable;
 use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tracker;
 
 /**
  * @group Core

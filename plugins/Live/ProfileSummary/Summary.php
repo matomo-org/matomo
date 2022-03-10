@@ -12,7 +12,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\Plugins\Goals\API as APIGoals;
 
 /**
  * Class Summary

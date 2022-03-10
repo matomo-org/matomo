@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\Referrers\Reports\Get;
 use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**

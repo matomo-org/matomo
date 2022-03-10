@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
-use Piwik\Db;
 use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\Plugin\SystemSettings;
 use Piwik\Tests\Integration\Settings\BaseSettingsTestCase;

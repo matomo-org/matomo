@@ -8,16 +8,12 @@
 
 namespace Piwik\Plugins\Goals\Visualizations;
 
-use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
-use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
 

@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\CoreUpdater\tests\Integration\Commands;
 
-use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;

@@ -9,7 +9,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;

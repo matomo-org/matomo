@@ -8,8 +8,6 @@
 
 namespace Piwik\Tests\Integration\Settings\Storage\Backend;
 
-use Piwik\Config;
-use Piwik\Db;
 use Piwik\Settings\Storage\Backend\SitesTable;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;

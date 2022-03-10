@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CustomDimensions\Dao;
 
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;

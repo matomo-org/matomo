@@ -13,7 +13,6 @@ use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
-use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 

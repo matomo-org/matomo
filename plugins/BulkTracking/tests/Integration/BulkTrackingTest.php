@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
-use Piwik\Plugin;
 use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
 use Piwik\Tracker\Handler as DefaultHandler;
