@@ -708,6 +708,8 @@ class API extends \Piwik\Plugin\API
      */
     public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
     {
+        $password = Common::unsanitizeInputValue($password);
+        UsersManager::checkPassword($password);
         //create User
         $this->userRepository->create($userLogin, $email, $initialIdSite, $password, $_isPasswordHashed);
 

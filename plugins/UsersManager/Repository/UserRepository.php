@@ -64,10 +64,7 @@ class UserRepository
         BaseValidator::check('email', $email, [new Email(true)]);
 
         if (!empty($password)) {
-            $password = Common::unsanitizeInputValue($password);
             if (!$_isPasswordHashed) {
-                UsersManager::checkPassword($password);
-
                 $passwordTransformed = UsersManager::getPasswordHash($password);
             } else {
                 $passwordTransformed = $password;
@@ -76,7 +73,7 @@ class UserRepository
         }
 
         //insert user into database.
-        $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime(), true);
+        $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime(), empty($password));
 
         /**
          * Triggered after a new user is invited.
