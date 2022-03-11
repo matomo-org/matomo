@@ -261,6 +261,10 @@ export default defineComponent({
     };
   },
   created() {
+    CurrencyStore.init();
+    TimezoneStore.init();
+    GlobalSettingsStore.init();
+
     watch(() => GlobalSettingsStore.globalSettings.value, (settings) => {
       this.keepURLFragmentsGlobal = settings.keepURLFragmentsGlobal;
       this.defaultTimezone = settings.defaultTimezone;
