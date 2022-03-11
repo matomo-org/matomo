@@ -5,372 +5,385 @@
 -->
 
 <template>
-  <div v-if="!onlyShowAddNewGoal">
-    <div
-      id='entityEditContainer'
-      feature="true"
-      v-show="showGoalList"
-      class="managegoals"
-    >
-      <ContentBlock :content-title="translate('Goals_ManageGoals')">
-        <ActivityIndicator :loading="isLoading"/>
-
-        <div class="contentHelp">
-          <span v-html="learnMoreAboutGoalTracking"/>
-          <span v-if="!ecommerceEnabled">
-            <br /><br/>
-
-            {{ translate('Goals_Optional') }} {{ translate('Goals_Ecommerce') }}:
-            <span v-html="youCanEnableEcommerceReports"/>
-          </span>
-        </div>
-
-        <table v-content-table>
-          <thead>
-            <tr>
-              <th class="first">Id</th>
-              <th>{{ translate('Goals_GoalName') }}</th>
-              <th>{{ translate('General_Description') }}</th>
-              <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
-              <th>{{ translate('General_ColumnRevenue') }}</th>
-              <slot name="thead"></slot>
-              <th v-if="userCanEditGoals">{{ translate('General_Edit') }}</th>
-              <th v-if="userCanEditGoals">{{ translate('General_Delete') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="!Object.keys(goals || {}).length">
-              <td colspan='8'>
-                <br/>
-                {{ translate('Goals_ThereIsNoGoalToManage', siteName) }}
-                <br/><br/>
-              </td>
-            </tr>
-            <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
-              <td class="first">{{ goal.idgoal }}</td>
-              <td>{{ goal.name }}</td>
-              <td>{{ goal.description }}</td>
-              <td>
-                <span class='matchAttribute'>
-                  {{ goalMatchAttributeTranslations[goal.match_attribute] || goal.match_attribute }}
-                </span>
-                <span v-if="goal.match_attribute === 'visit_duration'">
-                  {{ lcfirst(translate('General_OperationGreaterThan')) }}
-                  {{ translate('Intl_NMinutes', goal.pattern) }}
-                </span>
-                <span v-else-if="!!goal.pattern_type">
-                  <br/>
-                  {{ translate('Goals_Pattern') }} {{ goal.pattern_type }}: {{ goal.pattern }}
-                </span>
-              </td>
-              <td
-                class="center"
-                v-html="goal.revenue === 0 || goal.revenue === '0'
-                  ? '-'
-                  : $sanitize(goal.revenue_pretty)"
-              >
-              </td>
-
-              <component
-                v-if="beforeGoalListActionsBodyComponent[goal.idgoal]"
-                :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
-              ></component>
-
-              <td v-if="userCanEditGoals" style="padding-top:2px">
-                <button
-                  @click="editGoal(goal.idgoal)"
-                  class="table-action"
-                  :title="translate('General_Edit')"
-                >
-                  <span class="icon-edit"></span>
-                </button>
-              </td>
-              <td v-if="userCanEditGoals" style="padding-top:2px">
-                <button
-                  @click="deleteGoal(goal.idgoal)"
-                  class="table-action"
-                  :title="translate('General_Delete')"
-                >
-                  <span class="icon-delete"></span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="tableActionBar" v-if="userCanEditGoals && !onlyShowAddNewGoal">
-          <button id="add-goal" @click="createGoal()">
-            <span class="icon-add"></span>
-            {{ translate('Goals_AddNewGoal') }}
-          </button>
-        </div>
-      </ContentBlock>
-    </div>
-
-    <div class="ui-confirm" ref="confirm">
-      <h2>{{ translate('Goals_DeleteGoalConfirm', `"${goalToDelete?.name}"`) }}</h2>
-      <input role="yes" type="button" :value="translate('General_Yes')"/>
-      <input role="no" type="button" :value="translate('General_No')"/>
-    </div>
-  </div>
-
-  <div v-if="userCanEditGoals">
-    <div class="addEditGoal" v-show="showEditGoal">
-      <ContentBlock
-        :content-title="goal.idgoal
-          ? translate('Goals_UpdateGoal')
-          : translate('Goals_AddNewGoal')"
+  <div>
+    <!-- v-show required until funnels/multiattribution are using vue and not angularjs -->
+    <div v-show="!onlyShowAddNewGoal">
+      <div
+        id='entityEditContainer'
+        feature="true"
+        v-show="showGoalList"
+        class="managegoals"
       >
-        <div v-html="$sanitize(addNewGoalIntro)"></div>
+        <ContentBlock :content-title="translate('Goals_ManageGoals')">
+          <ActivityIndicator :loading="isLoading"/>
 
-        <div v-form>
-          <div>
-            <Field
-              uicontrol="text"
-              name="goal_name"
-              v-model="goal.name"
-              :maxlength="50"
-              :title="translate('Goals_GoalName')">
-            </Field>
+          <div class="contentHelp">
+            <span v-html="learnMoreAboutGoalTracking"/>
+            <span v-if="!ecommerceEnabled">
+              <br /><br/>
+
+              {{ translate('Goals_Optional') }} {{ translate('Goals_Ecommerce') }}:
+              <span v-html="youCanEnableEcommerceReports"/>
+            </span>
+          </div>
+
+          <table v-content-table>
+            <thead>
+              <tr>
+                <th class="first">{{ translate('General_Id') }}</th>
+                <th>{{ translate('Goals_GoalName') }}</th>
+                <th>{{ translate('General_Description') }}</th>
+                <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
+                <th>{{ translate('General_ColumnRevenue') }}</th>
+
+                <component
+                  v-if="beforeGoalListActionsHeadComponent"
+                  :is="beforeGoalListActionsHeadComponent"
+                ></component>
+
+                <th v-if="userCanEditGoals">{{ translate('General_Edit') }}</th>
+                <th v-if="userCanEditGoals">{{ translate('General_Delete') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="!Object.keys(goals || {}).length">
+                <td colspan='8'>
+                  <br/>
+                  {{ translate('Goals_ThereIsNoGoalToManage', siteName) }}
+                  <br/><br/>
+                </td>
+              </tr>
+              <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
+                <td class="first">{{ goal.idgoal }}</td>
+                <td>{{ goal.name }}</td>
+                <td>{{ goal.description }}</td>
+                <td>
+                  <span class='matchAttribute'>
+                    {{ goalMatchAttributeTranslations[goal.match_attribute]
+                      || goal.match_attribute }}
+                  </span>
+                  <span v-if="goal.match_attribute === 'visit_duration'">
+                    {{ lcfirst(translate('General_OperationGreaterThan')) }}
+                    {{ translate('Intl_NMinutes', goal.pattern) }}
+                  </span>
+                  <span v-else-if="!!goal.pattern_type">
+                    <br/>
+                    {{ translate('Goals_Pattern') }} {{ goal.pattern_type }}: {{ goal.pattern }}
+                  </span>
+                </td>
+                <td
+                  class="center"
+                  v-html="goal.revenue === 0 || goal.revenue === '0'
+                    ? '-'
+                    : $sanitize(goal.revenue_pretty)"
+                >
+                </td>
+
+                <component
+                  v-if="beforeGoalListActionsBodyComponent[goal.idgoal]"
+                  :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
+                ></component>
+
+                <td v-if="userCanEditGoals" style="padding-top:2px">
+                  <button
+                    @click="editGoal(goal.idgoal)"
+                    class="table-action"
+                    :title="translate('General_Edit')"
+                  >
+                    <span class="icon-edit"></span>
+                  </button>
+                </td>
+                <td v-if="userCanEditGoals" style="padding-top:2px">
+                  <button
+                    @click="deleteGoal(goal.idgoal)"
+                    class="table-action"
+                    :title="translate('General_Delete')"
+                  >
+                    <span class="icon-delete"></span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tableActionBar" v-if="userCanEditGoals && !onlyShowAddNewGoal">
+            <button id="add-goal" @click="createGoal()">
+              <span class="icon-add"></span>
+              {{ translate('Goals_AddNewGoal') }}
+            </button>
+          </div>
+        </ContentBlock>
+      </div>
+
+      <div class="ui-confirm" ref="confirm">
+        <h2>{{ translate('Goals_DeleteGoalConfirm', `"${goalToDelete?.name}"`) }}</h2>
+        <input role="yes" type="button" :value="translate('General_Yes')"/>
+        <input role="no" type="button" :value="translate('General_No')"/>
+      </div>
+    </div>
+
+    <!-- v-show required until funnels/multiattribution are using vue and not angularjs -->
+    <div v-show="userCanEditGoals">
+      <div class="addEditGoal" v-show="showEditGoal">
+        <ContentBlock
+          :content-title="goal.idgoal
+            ? translate('Goals_UpdateGoal')
+            : translate('Goals_AddNewGoal')"
+        >
+          <div v-html="$sanitize(addNewGoalIntro)"></div>
+
+          <div v-form>
+            <div>
+              <Field
+                uicontrol="text"
+                name="goal_name"
+                v-model="goal.name"
+                :maxlength="50"
+                :title="translate('Goals_GoalName')">
+              </Field>
+            </div>
+
+            <div>
+              <Field
+                uicontrol="text"
+                name="goal_description"
+                v-model="goal.description"
+                :maxlength="255"
+                :title="translate('General_Description')"
+              />
+            </div>
+
+            <div class="row goalIsTriggeredWhen">
+              <div class="col s12">
+                <h3>{{ translate('Goals_GoalIsTriggered') }}</h3>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col s12 m6 goalTriggerType">
+                <div>
+                  <Field
+                    uicontrol="select" name="trigger_type"
+                    :model-value="triggerType"
+                    @update:model-value="triggerType = $event; changedTriggerType()"
+                    :full-width="true"
+                    :options="goalTriggerTypeOptions"
+                  />
+                </div>
+              </div>
+              <div class="col s12 m6">
+                <Alert severity="info" v-show="triggerType === 'manually'">
+                  <span v-html="whereVisitedPageManuallyCallsJsTrackerText"></span>
+                </Alert>
+
+                <div>
+                  <Field
+                    uicontrol="radio"
+                    name="match_attribute"
+                    v-show="triggerType !== 'manually'"
+                    :full-width="true"
+                    :model-value="goal.match_attribute"
+                    @update:model-value="goal.match_attribute = $event; initPatternType()"
+                    :options="goalMatchAttributeOptions"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row whereTheMatchAttrbiute" v-show="triggerType !== 'manually'">
+              <h3 class="col s12">{{ translate('Goals_WhereThe') }}
+                <span v-show="goal.match_attribute === 'url'">
+                  {{ translate('Goals_URL') }}
+                </span>
+                <span v-show="goal.match_attribute === 'title'">
+                  {{ translate('Goals_PageTitle') }}
+                </span>
+                <span v-show="goal.match_attribute === 'file'">
+                  {{ translate('Goals_Filename') }}
+                </span>
+                <span v-show="goal.match_attribute === 'external_website'">
+                  {{ translate('Goals_ExternalWebsiteUrl') }}
+                </span>
+                <span v-show="goal.match_attribute === 'visit_duration'">
+                  {{ translate('Goals_VisitDuration') }}
+                </span>
+              </h3>
+            </div>
+
+            <div class="row" v-show="triggerType !== 'manually'">
+              <div class="col s12 m6 l4"
+                   v-show="goal.match_attribute === 'event'">
+                <div>
+                  <Field
+                    uicontrol="select" name="event_type"
+                    v-model="eventType"
+                    :full-width="true"
+                    :options="eventTypeOptions"
+                  />
+                </div>
+              </div>
+
+              <div class="col s12 m6 l4" v-if="!isMatchAttributeNumeric">
+                <div>
+                  <Field
+                    uicontrol="select"
+                    name="pattern_type"
+                    v-model="goal.pattern_type"
+                    :full-width="true"
+                    :options="patternTypeOptions"
+                  />
+                </div>
+              </div>
+
+              <div class="col s12 m6 l4" v-if="isMatchAttributeNumeric">
+                <div>
+                  <Field
+                    uicontrol="select" name="pattern_type"
+                    v-model="goal.pattern_type"
+                    :full-width="true"
+                    :options="numericComparisonTypeOptions"
+                  />
+                </div>
+              </div>
+
+              <div class="col s12 m6 l4">
+                <div>
+                  <Field
+                    uicontrol="text" name="pattern"
+                    v-model="goal.pattern"
+                    :maxlength="255"
+                    :title="patternFieldLabel"
+                    :full-width="true"
+                  />
+              </div>
+            </div>
+
+            <div id="examples_pattern" class="col s12">
+              <Alert severity="info">
+                <span v-show="goal.match_attribute === 'url'">
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_Contains', "'checkout/confirmation'") }}
+                  <br />{{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_IsExactly', "'http://example.com/thank-you.html'") }}
+                  <br />{{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_MatchesExpression', "'(.*)\\\/demo\\\/(.*)'") }}
+                </span>
+                <span v-show="goal.match_attribute === 'title'">
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_Contains', "'Order confirmation'") }}
+                </span>
+                <span v-show="goal.match_attribute === 'file'">
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_Contains', "'files/brochure.pdf'") }}
+                  <br />{{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_IsExactly', "'http://example.com/files/brochure.pdf'") }}
+                  <br />{{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_MatchesExpression', "'(.*)\\\.zip'") }}
+                </span>
+                <span v-show="goal.match_attribute === 'external_website'">
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_Contains', "'amazon.com'") }}
+                  <br />{{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_IsExactly', "'http://mypartner.com/landing.html'") }}
+                  <br />{{ translate('General_ForExampleShort') }}
+                  {{ matchesExpressionExternal }}
+                </span>
+                <span v-show="goal.match_attribute === 'event'">
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_Contains', "'video'") }}
+                  <br />
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_IsExactly', "'click'") }}
+                  <br />{{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_MatchesExpression', "'(.*)_banner'") }}"
+                </span>
+                <span v-show="goal.match_attribute === 'visit_duration'">
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_AtLeastMinutes', '5', '0.5') }}
+                </span>
+              </Alert>
+            </div>
           </div>
 
           <div>
             <Field
-              uicontrol="text"
-              name="goal_description"
-              v-model="goal.description"
-              :maxlength="255"
-              :title="translate('General_Description')"
+              uicontrol="checkbox"
+              name="case_sensitive"
+              v-model="goal.case_sensitive"
+              v-show="triggerType !== 'manually' && !isMatchAttributeNumeric"
+              :title="caseSensitiveTitle"
             />
           </div>
 
-          <div class="row goalIsTriggeredWhen">
-            <div class="col s12">
-              <h3>{{ translate('Goals_GoalIsTriggered') }}</h3>
-            </div>
+          <div>
+            <Field
+              uicontrol="radio"
+              name="allow_multiple"
+              :model-value="goal.allow_multiple ? 1 : 0"
+              @update:model-value="goal.allow_multiple = $event"
+              v-if="goal.match_attribute !== 'visit_duration'"
+              :options="allowMultipleOptions"
+              :introduction="translate('Goals_AllowMultipleConversionsPerVisit')"
+              :inline-help="translate('Goals_HelpOneConversionPerVisit')"
+            />
           </div>
 
-          <div class="row">
-            <div class="col s12 m6 goalTriggerType">
-              <div>
-                <Field
-                  uicontrol="select" name="trigger_type"
-                  :model-value="triggerType"
-                  @update:model-value="triggerType = $event; changedTriggerType()"
-                  :full-width="true"
-                  :options="goalTriggerTypeOptions"
-                />
-              </div>
-            </div>
-            <div class="col s12 m6">
-              <Alert severity="info" v-show="triggerType === 'manually'">
-                <span v-html="whereVisitedPageManuallyCallsJsTrackerText"></span>
-              </Alert>
+          <h3>{{ translate('Goals_GoalRevenue') }} {{ translate('Goals_Optional') }}</h3>
 
-              <div>
-                <Field
-                  uicontrol="radio"
-                  name="match_attribute"
-                  v-show="triggerType !== 'manually'"
-                  :full-width="true"
-                  :model-value="goal.match_attribute"
-                  @update:model-value="goal.match_attribute = $event; initPatternType()"
-                  :options="goalMatchAttributeOptions"
-                />
-              </div>
-            </div>
+          <div>
+            <Field
+              uicontrol="number"
+              name="revenue"
+              v-model="goal.revenue"
+              :placeholder="translate('Goals_DefaultRevenueLabel')"
+              :inline-help="translate('Goals_DefaultRevenueHelp')"
+            />
           </div>
 
-          <div class="row whereTheMatchAttrbiute" v-show="triggerType !== 'manually'">
-            <h3 class="col s12">{{ translate('Goals_WhereThe') }}
-              <span v-show="goal.match_attribute === 'url'">
-                {{ translate('Goals_URL') }}
-              </span>
-              <span v-show="goal.match_attribute === 'title'">
-                {{ translate('Goals_PageTitle') }}
-              </span>
-              <span v-show="goal.match_attribute === 'file'">
-                {{ translate('Goals_Filename') }}
-              </span>
-              <span v-show="goal.match_attribute === 'external_website'">
-                {{ translate('Goals_ExternalWebsiteUrl') }}
-              </span>
-              <span v-show="goal.match_attribute === 'visit_duration'">
-                {{ translate('Goals_VisitDuration') }}
-              </span>
-            </h3>
+          <div>
+            <Field
+              uicontrol="checkbox"
+              name="use_event_value"
+              v-model="goal.event_value_as_revenue"
+              :title="translate('Goals_UseEventValueAsRevenue')"
+              v-show="goal.match_attribute === 'event'"
+              :inline-help="useEventValueAsRevenueHelp"
+            />
           </div>
 
-          <div class="row" v-show="triggerType !== 'manually'">
-            <div class="col s12 m6 l4"
-                 v-show="goal.match_attribute === 'event'">
-              <div>
-                <Field
-                  uicontrol="select" name="event_type"
-                  v-model="eventType"
-                  :full-width="true"
-                  :options="eventTypeOptions"
-                />
-              </div>
-            </div>
-
-            <div class="col s12 m6 l4" v-if="!isMatchAttributeNumeric">
-              <div>
-                <Field
-                  uicontrol="select"
-                  name="pattern_type"
-                  v-model="goal.pattern_type"
-                  :full-width="true"
-                  :options="patternTypeOptions"
-                />
-              </div>
-            </div>
-
-            <div class="col s12 m6 l4" v-if="isMatchAttributeNumeric">
-              <div>
-                <Field
-                  uicontrol="select" name="pattern_type"
-                  v-model="goal.pattern_type"
-                  :full-width="true"
-                  :options="numericComparisonTypeOptions"
-                />
-              </div>
-            </div>
-
-            <div class="col s12 m6 l4">
-              <div>
-                <Field
-                  uicontrol="text" name="pattern"
-                  v-model="goal.pattern"
-                  :maxlength="255"
-                  :title="patternFieldLabel"
-                  :full-width="true"
-                />
-            </div>
+          <div ref="endedittable">
+            <component :is="endEditTableComponent" v-if="endEditTableComponent"/>
           </div>
 
-          <div id="examples_pattern" class="col s12">
-            <Alert severity="info">
-              <span v-show="goal.match_attribute === 'url'">
-                {{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_Contains', "'checkout/confirmation'") }}
-                <br />{{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_IsExactly', "'http://example.com/thank-you.html'") }}
-                <br />{{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_MatchesExpression', "'(.*)\\\/demo\\\/(.*)'") }}
-              </span>
-              <span v-show="goal.match_attribute === 'title'">
-                {{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_Contains', "'Order confirmation'") }}
-              </span>
-              <span v-show="goal.match_attribute === 'file'">
-                {{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_Contains', "'files/brochure.pdf'") }}
-                <br />{{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_IsExactly', "'http://example.com/files/brochure.pdf'") }}
-                <br />{{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_MatchesExpression', "'(.*)\\\.zip'") }}
-              </span>
-              <span v-show="goal.match_attribute === 'external_website'">
-                {{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_Contains', "'amazon.com'") }}
-                <br />{{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_IsExactly', "'http://mypartner.com/landing.html'") }}
-                <br />{{ translate('General_ForExampleShort') }}
-                {{ matchesExpressionExternal }}
-              </span>
-              <span v-show="goal.match_attribute === 'event'">
-                {{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_Contains', "'video'") }}
-                <br />
-                {{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_IsExactly', "'click'") }}
-                <br />{{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_MatchesExpression', "'(.*)_banner'") }}"
-              </span>
-              <span v-show="goal.match_attribute === 'visit_duration'">
-                {{ translate('General_ForExampleShort') }}
-                {{ translate('Goals_AtLeastMinutes', '5', '0.5') }}
-              </span>
-            </Alert>
-          </div>
-        </div>
+          <input type="hidden" name="goalIdUpdate" value=""/>
 
-        <div>
-          <Field
-            uicontrol="checkbox"
-            name="case_sensitive"
-            v-model="goal.case_sensitive"
-            v-show="triggerType !== 'manually' && !isMatchAttributeNumeric"
-            :title="caseSensitiveTitle"
+          <SaveButton
+            :saving="isLoading"
+            @confirm="save()"
+            :value="submitText"
           />
-        </div>
 
-        <div>
-          <Field
-            uicontrol="radio"
-            name="allow_multiple"
-            :model-value="goal.allow_multiple ? 1 : 0"
-            @update:model-value="goal.allow_multiple = $event"
-            v-if="goal.match_attribute !== 'visit_duration'"
-            :options="allowMultipleOptions"
-            :introduction="translate('Goals_AllowMultipleConversionsPerVisit')"
-            :inline-help="translate('Goals_HelpOneConversionPerVisit')"
-          />
-        </div>
-
-        <h3>{{ translate('Goals_GoalRevenue') }} {{ translate('Goals_Optional') }}</h3>
-
-        <div>
-          <Field
-            uicontrol="number"
-            name="revenue"
-            v-model="goal.revenue"
-            :placeholder="translate('Goals_DefaultRevenueLabel')"
-            :inline-help="translate('Goals_DefaultRevenueHelp')"
-          />
-        </div>
-
-        <div>
-          <Field
-            uicontrol="checkbox"
-            name="use_event_value"
-            v-model="goal.event_value_as_revenue"
-            :title="translate('Goals_UseEventValueAsRevenue')"
-            v-show="goal.match_attribute === 'event'"
-            :inline-help="useEventValueAsRevenueHelp"
-          />
-        </div>
-
-        <slot name="endedittable"></slot>
-
-        <input type="hidden" name="goalIdUpdate" value=""/>
-
-        <SaveButton
-          :saving="isLoading"
-          @confirm="save()"
-          :value="submitText"
-        />
-
-        <div v-if="!onlyShowAddNewGoal">
-          <div
-            class='entityCancel'
-            v-show="showEditGoal"
-            @click="showListOfReports()"
-            v-html="cancelText"
-           >
+          <div v-if="!onlyShowAddNewGoal">
+            <div
+              class='entityCancel'
+              v-show="showEditGoal"
+              @click="showListOfReports()"
+              v-html="cancelText"
+             >
+            </div>
           </div>
         </div>
-      </div>
-    </ContentBlock>
+      </ContentBlock>
+    </div>
+    </div>
+
+    <a id='bottom'></a>
   </div>
-  </div>
-
-  <a id='bottom'></a>
 </template>
 
 <script lang="ts">
-import { defineComponent, markRaw } from 'vue';
+import { IScope } from 'angular';
+import { defineComponent, markRaw, nextTick } from 'vue';
 import {
   Matomo,
   AjaxHelper,
@@ -401,9 +414,11 @@ interface ManageGoalsState {
   apiMethod: string;
   submitText: string;
   goalToDelete: Goal|null;
+  addEditTableComponent: boolean;
 }
 
 export default defineComponent({
+  inheritAttrs: false,
   props: {
     onlyShowAddNewGoal: Boolean,
     userCanEditGoals: Boolean,
@@ -422,6 +437,8 @@ export default defineComponent({
     showAddGoal: Boolean,
     showGoal: Number,
     beforeGoalListActionsBody: Object,
+    endEditTable: String,
+    beforeGoalListActionsHead: String,
   },
   data(): ManageGoalsState {
     return {
@@ -434,6 +451,7 @@ export default defineComponent({
       apiMethod: '',
       submitText: '',
       goalToDelete: null,
+      addEditTableComponent: false,
     };
   },
   components: {
@@ -447,7 +465,7 @@ export default defineComponent({
     ContentTable,
     Form,
   },
-  created() {
+  mounted() {
     if (this.showAddGoal) {
       this.createGoal();
     } else if (this.showGoal) {
@@ -455,6 +473,25 @@ export default defineComponent({
     }
 
     this.showListOfReports();
+
+    // this component can be used in multiple places, one where
+    // Matomo.helper.compileAngularComponents() is already called, one where it's not.
+    // to make sure this function is only applied once to the slot data, we explicitly do not
+    // add it to vue, then on the next update, add it and call compileAngularComponents()
+    nextTick(() => {
+      this.addEditTableComponent = true;
+
+      nextTick(() => {
+        const el = this.$refs.endedittable as HTMLElement;
+        const scope = Matomo.helper.getAngularDependency('$rootScope').$new(true);
+        $(el).data('scope', scope);
+        Matomo.helper.compileAngularComponents(el, { scope });
+      });
+    });
+  },
+  beforeUnmount() {
+    const el = this.$refs.endedittable as HTMLElement;
+    ($(el).data('scope') as IScope).$destroy();
   },
   methods: {
     scrollToTop() {
@@ -753,6 +790,24 @@ export default defineComponent({
         };
       });
       return markRaw(componentsByIdGoal);
+    },
+    endEditTableComponent() {
+      if (!this.endEditTable || !this.addEditTableComponent) {
+        return null;
+      }
+
+      return markRaw({
+        template: this.endEditTable,
+      });
+    },
+    beforeGoalListActionsHeadComponent() {
+      if (!this.beforeGoalListActionsHead) {
+        return null;
+      }
+
+      return markRaw({
+        template: this.beforeGoalListActionsHead,
+      });
     },
     isManuallyTriggered() {
       return this.triggerType === 'manually';

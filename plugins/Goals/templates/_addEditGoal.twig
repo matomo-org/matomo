@@ -14,12 +14,12 @@
 </script>
 
 <div
-    vue-entry="Goals.ManageGoals"
+    piwik-manage-goals
     user-can-edit-goals="{{ userCanEditGoals|json_encode|e('html_attr') }}"
     only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode|e('html_attr') }}"
     ecommerce-enabled="{{ ecommerceEnabled|json_encode|e('html_attr') }}"
     {% if userCanEditGoals %}
-        {% if onlyShowAddNewGoal is not defined %}
+        {% if onlyShowAddNewGoal is not defined or not onlyShowAddNewGoal %}
             goals="{{ goals|json_encode|e('html_attr') }}"
             {% if idGoal %}
                 show-goal="{{ idGoal|e('js') }}"
@@ -38,15 +38,7 @@
     numeric-comparison-type-options="{{ numericComparisonTypeOptions|json_encode|e('html_attr') }}"
     allow-multiple-options="{{ allowMultipleOptions|json_encode|e('html_attr') }}"
     before-goal-list-actions-body="{{ beforeGoalListActionsBodyEventResult|default(null)|json_encode|e('html_attr') }}"
+    end-edit-table="{{ endEditTable|default(null)|json_encode|e('html_attr') }}"
+    before-goal-list-actions-head="{{ beforeGoalListActionsHead|default(null)|json_encode|e('html_attr') }}"
 >
-    {% if not onlyShowAddNewGoal|default %}
-    <template v-slot:thead>
-        {{ postEvent("Template.beforeGoalListActionsHead") }}
-    </template>
-    {% endif %}
-    {% if userCanEditGoals %}
-    <template v-slot:endedittable>
-        {{ postEvent("Template.endGoalEditTable") }}
-    </template>
-    {% endif %}
 </div>

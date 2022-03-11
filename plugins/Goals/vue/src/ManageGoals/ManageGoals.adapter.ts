@@ -21,9 +21,6 @@ export default createAngularJsAdapter({
     ecommerceEnabled: {
       angularJsBind: '<',
     },
-    beforeGoalListActionsHead: {
-      angularJsBind: '<',
-    },
     goals: {
       angularJsBind: '<',
     },
@@ -57,7 +54,10 @@ export default createAngularJsAdapter({
     beforeGoalListActionsBody: {
       angularJsBind: '<',
     },
-    endGoalEditTable: {
+    endEditTable: {
+      angularJsBind: '<',
+    },
+    beforeGoalListActionsHead: {
       angularJsBind: '<',
     },
   },
