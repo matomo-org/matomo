@@ -4,13 +4,7 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
 <todo>
-- property types
-- state types
-- look over template
-- look over component code
-- get to build
 - test in UI
 - check uses:
   ./plugins/CustomDimensions/angularjs/manage/edit.directive.js
@@ -21,14 +15,16 @@
 <template>
   <div class="editCustomDimension">
     <ContentBlock
-      :content-title="translate('CustomDimensions_ConfigureDimension', ucfirst(dimensionScope), dimension.index || '')"
+      :content-title="contentTitleText"
     >
       <p v-show="isLoading || isUpdating">
-        <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif" />
-          {{ translate('General_LoadingData') }}</span>
+        <span class="loadingPiwik">
+          <img src="plugins/Morpheus/images/loading-blue.gif" />
+          {{ translate('General_LoadingData') }}
+        </span>
       </p>
       <div v-show="!isLoading">
-        <form @submit="edit ? updateCustomDimension() : createCustomDimension()">
+        <form @submit.prevent="edit ? updateCustomDimension() : createCustomDimension()">
           <div>
             <Field
               uicontrol="text"
@@ -53,14 +49,14 @@
           </div>
           <div
             class="row form-group"
-            v-show="doesScopeSupportExtraction()"
+            v-show="doesScopeSupportExtraction"
           >
             <h3 class="col s12">{{ translate('CustomDimensions_ExtractValue') }}</h3>
             <div class="col s12 m6">
               <div
+                v-for="(extraction, index) in dimension.extractions"
                 :class="`${index}extraction `"
-                v-for="(index, extraction) in dimension.extractions"
-                :key="TODO"
+                :key="index"
               >
                 <div class="row">
                   <div class="col s12 m6">
@@ -68,7 +64,7 @@
                       <Field
                         uicontrol="select"
                         :name="`${index}dimension`"
-                        v-model="dimension.extractions.index.dimension"
+                        v-model="extraction.dimension"
                         :full-width="true"
                         :options="extractionDimensionsOptions"
                       >
@@ -80,9 +76,11 @@
                       <Field
                         uicontrol="text"
                         :name="`${index}pattern`"
-                        v-model="dimension.extractions.index.pattern"
+                        v-model="extraction.pattern"
                         :full-width="true"
-                        :title="dimension.extractions.index.dimension === 'urlparam' ? 'url query string parameter' : 'eg. /blog/(.*)/'"
+                        :title="extraction.dimension === 'urlparam'
+                          ? 'url query string parameter'
+                          : 'eg. /blog/(.*)/'"
                       >
                       </Field>
                     </div>
@@ -90,7 +88,7 @@
                   <div class="col s12">
                     <span
                       class="icon-plus"
-                      v-show="dimension.extractions.index.pattern"
+                      v-show="extraction.pattern"
                       @click="addExtraction()"
                     />
                     <span
@@ -107,7 +105,7 @@
                     <Field
                       uicontrol="checkbox"
                       name="casesensitive"
-                      v-show="dimension.extractions[0].pattern"
+                      v-show="dimension.extractions[0]?.pattern"
                       v-model="dimension.case_sensitive"
                       :title="translate('Goals_CaseSensitive')"
                     >
@@ -126,6 +124,7 @@
             value="Update"
             v-show="edit"
             :disabled="isUpdating"
+            style="margin-right:3.5px;"
           />
           <input
             class="btn create"
@@ -133,6 +132,7 @@
             value="Create"
             v-show="create"
             :disabled="isUpdating"
+            style="margin-right:3.5px;"
           />
           <a
             class="btn cancel"
@@ -148,21 +148,23 @@
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaJs') }}
           </p>
-          <pre v-select-on-focus="{}"><code>_paq.push(['setCustomDimension', {{ dimension.idcustomdimension }},
-              '{{ translate('CustomDimensions_ExampleValue') }}']);</code></pre>
-          <p
-            v-html="$sanitize(translate('CustomDimensions_HowToTrackManuallyViaJsDetails', '<a target=_blank href=\u0027https://developer.piwik.org/guides/tracking-javascript-guide#custom-dimensions\u0027>', '</a>'))">
-          </p>
+          <pre v-select-on-focus="{}">
+            <code>_paq.push(['setCustomDimension', {{ dimension.idcustomdimension }},
+              '{{ translate('CustomDimensions_ExampleValue') }}']);</code>
+          </pre>
+          <p v-html="$sanitize(howToTrackManuallyText)"/>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaPhp') }}
           </p>
-          <pre v-select-on-focus="{}"><code>$tracker-&gt;setCustomDimension('{{ dimension.idcustomdimension }}',
-              '{{ translate('CustomDimensions_ExampleValue') }}');</code></pre>
+          <pre v-select-on-focus="{}">
+            <code>$tracker-&gt;setCustomDimension('{{ dimension.idcustomdimension }}',
+              '{{ translate('CustomDimensions_ExampleValue') }}');</code>
+          </pre>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaHttp') }}
           </p>
           <pre v-select-on-focus="{}">
-            <code>&amp;dimension{{ dimension.idcustomdimension }}={{ translate('CustomDimensions_ExampleValue') }}</code>
+            <code v-html="manuallyTrackCode"></code>
           </pre>
         </div>
       </div>
@@ -173,21 +175,23 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
+  clone,
   translate,
   Matomo,
   ContentBlock,
   SelectOnFocus,
   NotificationsStore,
   NotificationType,
+  MatomoUrl,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CustomDimensionsStore from '../CustomDimensions.store';
 import { CustomDimension } from '../types';
-
+import { ucfirst } from '../utilities';
 
 interface EditState {
   dimension: CustomDimension;
-  isUpdating: boolean;
+  isUpdatingDim: boolean;
 }
 
 const notificationId = 'customdimensions';
@@ -195,7 +199,10 @@ const notificationId = 'customdimensions';
 export default defineComponent({
   props: {
     dimensionId: Number,
-    dimensionScope: String, // TODO,
+    dimensionScope: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     ContentBlock,
@@ -206,9 +213,12 @@ export default defineComponent({
   },
   data(): EditState {
     return {
-      dimension: {} as unknown as CustomDimension,
-      isUpdating: false,
+      dimension: { extractions: [] } as unknown as CustomDimension,
+      isUpdatingDim: false,
     };
+  },
+  created() {
+    this.init();
   },
   watch: {
     dimensionId() {
@@ -233,20 +243,23 @@ export default defineComponent({
       }
 
       CustomDimensionsStore.fetch().then(() => {
-        if (this.edit) {
-          this.dimension = CustomDimensionsStore.customDimensions.value[this.dimensionId];
+        if (this.edit && this.dimensionId) {
+          this.dimension = clone(
+            CustomDimensionsStore.customDimensionsById.value[this.dimensionId],
+          ) as unknown as CustomDimension;
+
           if (this.dimension && !this.dimension.extractions.length) {
             this.addExtraction();
           }
         } else if (this.create) {
           this.dimension = {
-            idSite: Matomo.idSite,
+            idsite: Matomo.idSite,
             name: '',
             active: false,
             extractions: [],
             scope: this.dimensionScope,
             case_sensitive: true,
-          };
+          } as unknown as CustomDimension;
           this.addExtraction();
         }
       });
@@ -265,25 +278,30 @@ export default defineComponent({
       }
     },
     createCustomDimension() {
-      this.isUpdating = true;
+      this.isUpdatingDim = true;
       CustomDimensionsStore.createOrUpdateDimension(
         this.dimension,
         'CustomDimensions.configureNewCustomDimension',
       ).then(() => {
         this.showNotification(translate('CustomDimensions_DimensionCreated'), 'success');
+        console.log('before reload');
         CustomDimensionsStore.reload();
-        Matomo.helper.lazyScrollToContent();
+        MatomoUrl.updateHashToUrl('/list');
+      }).finally(() => {
+        this.isUpdatingDim = false;
       });
     },
     updateCustomDimension() {
-      this.isUpdating = true;
+      this.isUpdatingDim = true;
       CustomDimensionsStore.createOrUpdateDimension(
         this.dimension,
         'CustomDimensions.configureExistingCustomDimension',
       ).then(() => {
         this.showNotification(translate('CustomDimensions_DimensionUpdated'), 'success');
         CustomDimensionsStore.reload();
-        Matomo.helper.lazyScrollToContent();
+        MatomoUrl.updateHashToUrl('/list');
+      }).finally(() => {
+        this.isUpdatingDim = false;
       });
     },
   },
@@ -292,7 +310,7 @@ export default defineComponent({
       return CustomDimensionsStore.isLoading.value;
     },
     isUpdating() {
-      return CustomDimensionsStore.isUpdating.value || this.isUpdating;
+      return CustomDimensionsStore.isUpdating.value || this.isUpdatingDim;
     },
     create() {
       return this.dimensionId === 0; // TODO: dimensionId in adapter needs to be parsed
@@ -311,8 +329,29 @@ export default defineComponent({
         return false;
       }
 
-      const dimensionScope = this.availableScopes.find((scope) => scope.value === this.dimension.scope);
-      return dimensionScope && scope.supportsExtractions;
+      const dimensionScope = this.availableScopes.find(
+        (scope) => scope.value === this.dimension.scope,
+      );
+      return dimensionScope?.supportsExtractions;
+    },
+    contentTitleText() {
+      return translate(
+        'CustomDimensions_ConfigureDimension',
+        ucfirst(this.dimensionScope),
+        `${this.dimension?.index || ''}`,
+      );
+    },
+    howToTrackManuallyText() {
+      const link = 'https://developer.piwik.org/guides/tracking-javascript-guide#custom-dimensions';
+      return translate(
+        'CustomDimensions_HowToTrackManuallyViaJsDetails',
+        `<a target=_blank href="${link}" rel="noreferrer noopener">`,
+        '</a>',
+      );
+    },
+    manuallyTrackCode() {
+      const exampleValue = translate('CustomDimensions_ExampleValue');
+      return `&dimension${this.dimension.idcustomdimension}=${exampleValue}}`;
     },
   },
 });

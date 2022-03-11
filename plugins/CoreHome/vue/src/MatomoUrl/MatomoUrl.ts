@@ -61,6 +61,11 @@ class MatomoUrl {
     this.updatePeriodParamsFromUrl();
   }
 
+  updateHashToUrl(url: string) {
+    const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
+    $location.url(url);
+  }
+
   updateHash(params: QueryParameters|string) {
     const modifiedParams = this.getFinalHashParams(params);
     const serializedParams = this.stringify(modifiedParams);

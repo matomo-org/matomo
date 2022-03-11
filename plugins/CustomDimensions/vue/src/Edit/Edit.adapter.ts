@@ -13,6 +13,12 @@ export default createAngularJsAdapter({
   scope: {
     dimensionId: {
       angularJsBind: '=',
+      transform(v: unknown): unknown {
+        if (typeof v === 'string') {
+          return parseInt(v, 10);
+        }
+        return v;
+      },
     },
     dimensionScope: {
       angularJsBind: '=',

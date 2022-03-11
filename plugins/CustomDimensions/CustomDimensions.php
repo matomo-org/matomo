@@ -191,18 +191,13 @@ class CustomDimensions extends Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/CustomDimensions/angularjs/manage/model.js";
-        $jsFiles[] = "plugins/CustomDimensions/angularjs/manage/list.controller.js";
-        $jsFiles[] = "plugins/CustomDimensions/angularjs/manage/list.directive.js";
-        $jsFiles[] = "plugins/CustomDimensions/angularjs/manage/manage.controller.js";
-        $jsFiles[] = "plugins/CustomDimensions/angularjs/manage/manage.directive.js";
         $jsFiles[] = "plugins/CustomDimensions/javascripts/rowactions.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/CustomDimensions/vue/src/CustomDimensionsEdit/CustomDimensionsEdit.less";
-        $stylesheets[] = "plugins/CustomDimensions/angularjs/manage/list.directive.less";
+        $stylesheets[] = "plugins/CustomDimensions/vue/src/Edit/Edit.less";
+        $stylesheets[] = "plugins/CustomDimensions/vue/src/List/List.less";
         $stylesheets[] = "plugins/CustomDimensions/stylesheets/reports.less";
     }
 

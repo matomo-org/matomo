@@ -5,8 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { reactive, computed, readonly, DeepReadonly } from 'vue';
-import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
+import {
+  reactive,
+  computed,
+  readonly,
+  DeepReadonly,
+} from 'vue';
+import { AjaxHelper } from 'CoreHome';
 import { CustomDimension, AvailableScope, ExtractionDimension } from './types';
 
 interface CustomDimensionsStoreState {
@@ -19,7 +24,7 @@ interface CustomDimensionsStoreState {
 
 class CustomDimensionsStore {
   private privateState = reactive<CustomDimensionsStoreState>({
-    customDimensions : [],
+    customDimensions: [],
     availableScopes: [],
     extractionDimensions: [],
     isLoading: false,
@@ -40,9 +45,11 @@ class CustomDimensionsStore {
 
   readonly availableScopes = computed(() => this.state.value.availableScopes);
 
-  readonly customDimensions = computed(() => {
+  readonly customDimensions = computed(() => this.state.value.customDimensions);
+
+  readonly customDimensionsById = computed(() => {
     const dimensionsById: Record<string, DeepReadonly<CustomDimension>> = {};
-    this.state.value.customDimensions.forEach((c) => {
+    this.customDimensions.value.forEach((c) => {
       dimensionsById[`${c.idcustomdimension}`] = c;
     });
     return dimensionsById;
@@ -50,16 +57,12 @@ class CustomDimensionsStore {
 
   private reloadPromise: Promise<void>|null = null;
 
-  constructor() {
-    this.fetch();
-  }
-
   reload() {
     this.privateState.customDimensions = [];
     this.privateState.availableScopes = [];
     this.privateState.extractionDimensions = [];
     this.reloadPromise = null;
-    this.fetch();
+    return this.fetch();
   }
 
   fetch() {
@@ -74,9 +77,9 @@ class CustomDimensionsStore {
       this.fetchAvailableScopes(),
     ]).finally(() => {
       this.privateState.isLoading = false;
-    });
+    }) as unknown as Promise<void>;
 
-    return this.reloadPromise;
+    return this.reloadPromise!;
   }
 
   fetchConfiguredCustomDimensions() {
@@ -111,6 +114,7 @@ class CustomDimensionsStore {
     return AjaxHelper.post(
       {
         method,
+        scope: dimension.scope,
         idDimension: dimension.idcustomdimension,
         idSite: dimension.idsite,
         name: dimension.name,
@@ -126,4 +130,4 @@ class CustomDimensionsStore {
   }
 }
 
-export default lazyInitSingleton(CustomDimensionsStore) as CustomDimensionsStore;
+export default new CustomDimensionsStore();
