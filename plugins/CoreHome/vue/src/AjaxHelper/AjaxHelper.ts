@@ -12,7 +12,7 @@ import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 
-interface AjaxOptions {
+export interface AjaxOptions {
   withTokenInUrl?: boolean;
   postParams?: QueryParameters;
   headers?: Record<string, string>;

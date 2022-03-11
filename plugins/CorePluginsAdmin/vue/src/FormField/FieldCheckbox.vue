@@ -27,7 +27,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    modelValue: Boolean,
+    modelValue: [Boolean, Number],
     uiControlAttributes: Object,
     name: String,
     title: String,

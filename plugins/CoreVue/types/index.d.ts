@@ -87,6 +87,7 @@ declare global {
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
+    compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
   }

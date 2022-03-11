@@ -199,15 +199,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=06a43882
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckbox.vue?vue&type=template&id=4a0aa5c3
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckbox.vue?vue&type=template&id=3ee04378
 
-var FieldCheckboxvue_type_template_id_4a0aa5c3_hoisted_1 = {
+var FieldCheckboxvue_type_template_id_3ee04378_hoisted_1 = {
   class: "checkbox"
 };
-var FieldCheckboxvue_type_template_id_4a0aa5c3_hoisted_2 = ["checked", "id", "name"];
-var FieldCheckboxvue_type_template_id_4a0aa5c3_hoisted_3 = ["innerHTML"];
-function FieldCheckboxvue_type_template_id_4a0aa5c3_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldCheckboxvue_type_template_id_4a0aa5c3_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
+var FieldCheckboxvue_type_template_id_3ee04378_hoisted_2 = ["checked", "id", "name"];
+var FieldCheckboxvue_type_template_id_3ee04378_hoisted_3 = ["innerHTML"];
+function FieldCheckboxvue_type_template_id_3ee04378_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldCheckboxvue_type_template_id_3ee04378_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
     onChange: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.onChange($event);
     })
@@ -217,17 +217,17 @@ function FieldCheckboxvue_type_template_id_4a0aa5c3_render(_ctx, _cache, $props,
     type: "checkbox",
     id: _ctx.name,
     name: _ctx.name
-  }), null, 16, FieldCheckboxvue_type_template_id_4a0aa5c3_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }), null, 16, FieldCheckboxvue_type_template_id_3ee04378_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.title)
-  }, null, 8, FieldCheckboxvue_type_template_id_4a0aa5c3_hoisted_3)])]);
+  }, null, 8, FieldCheckboxvue_type_template_id_3ee04378_hoisted_3)])]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckbox.vue?vue&type=template&id=4a0aa5c3
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckbox.vue?vue&type=template&id=3ee04378
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckbox.vue?vue&type=script&lang=ts
 
 /* harmony default export */ var FieldCheckboxvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
-    modelValue: Boolean,
+    modelValue: [Boolean, Number],
     uiControlAttributes: Object,
     name: String,
     title: String
@@ -248,7 +248,7 @@ function FieldCheckboxvue_type_template_id_4a0aa5c3_render(_ctx, _cache, $props,
 
 
 
-FieldCheckboxvue_type_script_lang_ts.render = FieldCheckboxvue_type_template_id_4a0aa5c3_render
+FieldCheckboxvue_type_script_lang_ts.render = FieldCheckboxvue_type_template_id_3ee04378_render
 
 /* harmony default export */ var FieldCheckbox = (FieldCheckboxvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckboxArray.vue?vue&type=template&id=b01b8bfc
