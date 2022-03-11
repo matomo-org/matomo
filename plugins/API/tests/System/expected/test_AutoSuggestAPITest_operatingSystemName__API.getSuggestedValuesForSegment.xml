@@ -8,8 +8,10 @@
 	<row>watchOS</row>
 	<row>tvOS</row>
 	<row>palmOS</row>
+	<row>moonOS</row>
 	<row>iPadOS</row>
 	<row>iOS</row>
+	<row>Zenwalk</row>
 	<row>YunOS</row>
 	<row>Xubuntu</row>
 	<row>Xbox</row>
@@ -28,6 +30,4 @@
 	<row>Symbian^3</row>
 	<row>Symbian OS Series 60</row>
 	<row>Symbian OS Series 40</row>
-	<row>Symbian OS</row>
-	<row>Symbian</row>
 </result>
