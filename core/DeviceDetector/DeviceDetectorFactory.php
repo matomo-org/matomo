@@ -40,7 +40,18 @@ class DeviceDetectorFactory
 
     public static function getNormalizedUserAgent($userAgent, $clientHints = [])
     {
-        return mb_substr(md5(json_encode($clientHints) ?? '') . trim($userAgent), 0, 500);
+        $normalizedClientHints = '';
+        if ($clientHints) {
+            $hints  = ClientHints::factory($clientHints);
+            $brands = $hints->getBrandList();
+            ksort($brands);
+
+            // we only take the (sorted) list of brand, os + version and model name into account, as the other values
+            // are actually not used and should not change the result
+            $normalizedClientHints = md5(json_encode($brands) . $hints->getOperatingSystem() . $hints->getOperatingSystemVersion() . $hints->getModel());
+        }
+
+        return mb_substr($normalizedClientHints . trim($userAgent), 0, 500);
     }
 
     /**
