@@ -3,7 +3,6 @@
 namespace Piwik\Plugins\UsersManager\Repository;
 
 use Piwik\Auth\Password;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
