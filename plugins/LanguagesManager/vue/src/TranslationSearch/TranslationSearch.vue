@@ -69,8 +69,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { AjaxHelper, ContentTable } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
+import { AjaxHelper, ContentTable, useExternalPluginComponent } from 'CoreHome';
 
 interface Option {
   key: string;
@@ -94,6 +93,10 @@ interface TranslationSearchState {
   compareLanguage: string;
   searchTerm: string;
 }
+
+// loading a component this way since during Installation we don't want to load CorePluginsAdmin
+// just for the language selector directive
+const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
 export default defineComponent({
   components: {

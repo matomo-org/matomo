@@ -147,7 +147,7 @@ interface PersonalSettingsState {
   email: string;
   language: string;
   timeformat: number;
-  theDefaultReport: string;
+  theDefaultReport: string|number;
   site: SiteRef;
   theDefaultDate: string;
   loading: boolean;
@@ -191,7 +191,7 @@ export default defineComponent({
       required: true,
     },
     defaultReport: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
     defaultReportOptions: {
