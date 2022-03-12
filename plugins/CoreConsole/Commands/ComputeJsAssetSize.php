@@ -162,6 +162,7 @@ class ComputeJsAssetSize extends ConsoleCommand
             "WhiteLabel",
             "WooCommerceAnalytics",
             "AdvertisingConversionExport",
+            "AnonymousPiwikUsageMeasurement",
         ];
 
         if ($plugin) {
