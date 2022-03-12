@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Timer;

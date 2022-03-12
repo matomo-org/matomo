@@ -14,7 +14,6 @@ use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\Live\Live;
 use Piwik\Translation\Translator;
 use Piwik\View;

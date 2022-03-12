@@ -8,20 +8,15 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\Cache;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
-use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {

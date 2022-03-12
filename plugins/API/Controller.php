@@ -14,7 +14,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\API\Renderer\Original;
 use Piwik\Url;
 use Piwik\UrlHelper;

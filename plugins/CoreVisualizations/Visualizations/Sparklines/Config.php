@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
 use Piwik\NoAccessException;
-use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Site;
 use Piwik\Url;

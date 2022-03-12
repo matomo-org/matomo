@@ -5259,11 +5259,11 @@
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Java</browser>
-		<browserName>Java</browserName>
+		<browser>Apache HTTP Client 4.2</browser>
+		<browserName>Apache HTTP Client</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<browserCode>Java</browserCode>
-		<browserVersion />
+		<browserCode>Apache HTTP Client</browserCode>
+		<browserVersion>4.2</browserVersion>
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>

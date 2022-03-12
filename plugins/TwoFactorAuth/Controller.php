@@ -7,8 +7,6 @@
  */
 namespace Piwik\Plugins\TwoFactorAuth;
 
-use Endroid\QrCode\QrCode;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\IP;

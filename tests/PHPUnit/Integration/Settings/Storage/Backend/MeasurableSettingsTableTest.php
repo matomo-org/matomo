@@ -8,8 +8,6 @@
 
 namespace Piwik\Tests\Integration\Settings\Storage\Backend;
 
-use Piwik\Config;
-use Piwik\Db;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

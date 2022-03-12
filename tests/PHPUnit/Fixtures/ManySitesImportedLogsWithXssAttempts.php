@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Cache;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;

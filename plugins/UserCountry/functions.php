@@ -11,7 +11,6 @@ namespace Piwik\Plugins\UserCountry;
 
 use Piwik\DataTable;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Tracker\Visit;
 

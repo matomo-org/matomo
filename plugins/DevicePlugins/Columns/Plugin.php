@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\DevicePlugins\Columns;
 
 use Piwik\Columns\Dimension;
-use Piwik\Piwik;
 
 class Plugin extends Dimension
 {

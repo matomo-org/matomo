@@ -9,9 +9,6 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Cache;
-use Piwik\DataAccess\Model;
-use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Period;

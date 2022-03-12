@@ -11,7 +11,6 @@ use Piwik\Development;
 use Matomo\Ini\IniReader;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Settings as PiwikSettings;
-use Piwik\Plugin\Settings as PluginSettings;
 
 /**
  * A diagnostic report contains all the results of all the diagnostics.

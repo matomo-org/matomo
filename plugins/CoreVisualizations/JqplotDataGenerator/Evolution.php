@@ -11,8 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Period;

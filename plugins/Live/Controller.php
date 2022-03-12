@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;

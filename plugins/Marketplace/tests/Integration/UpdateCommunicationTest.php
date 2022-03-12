@@ -17,7 +17,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Twig;
 use Piwik\View;
-use Twig\Environment;
 
 /**
  * @group Plugins

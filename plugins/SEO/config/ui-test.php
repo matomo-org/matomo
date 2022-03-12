@@ -1,6 +1,5 @@
 <?php
 
-use Piwik\Container\StaticContainer;
 
 return array(
     'observers.global' => \DI\add([

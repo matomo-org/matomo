@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\VisitorInterest\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
 
 class VisitorDaysSinceLast extends VisitDimension
 {

@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Morpheus;
 
 use Piwik\Development;
 use Piwik\Piwik;
-use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {

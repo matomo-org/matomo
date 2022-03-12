@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
-use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\SettingsServer;

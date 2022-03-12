@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\Overlay;
 
-use Piwik\Common;
-use Piwik\Piwik;
 use Piwik\Url;
 use Piwik\UrlHelper;
 

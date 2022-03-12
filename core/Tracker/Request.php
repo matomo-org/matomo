@@ -10,7 +10,6 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
@@ -18,7 +17,6 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;

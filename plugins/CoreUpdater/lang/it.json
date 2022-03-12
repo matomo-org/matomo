@@ -1,7 +1,7 @@
 {
     "CoreUpdater": {
         "AlreadyUpToDate": "Tutto è già aggiornato.",
-        "CheckingForPluginUpdates": "Controllo nuovi aggiornamenti del plugin",
+        "CheckingForPluginUpdates": "Controllo nuovi aggiornamenti dei plugin",
         "ClickHereToViewSqlQueries": "Clicca qui per vedere e copiare l'elenco delle query SQL e i comandi di console che verranno eseguiti",
         "CloudHosting": "Cloud hosting",
         "ConsoleCommandDescription": "Trigger aggiornamenti. Usalo dopo il core di Matomo o eventuali file di plugin sono stati aggiornati. Aggiungi --yes per l'aggiornamento senza conferma.",
@@ -61,7 +61,7 @@
         "PostUpdateSupport": "Se hai bisogno di aiuto per utilizzare Matomo, puoi averlo dai suoi creatori:",
         "ReadyToGo": "Pronto a partire?",
         "ReceiveEmailBecauseIsSuperUser": "Hai ricevuto questa email perché sei un Super User di Matomo su: %s",
-        "ServicesSupport": "Servizi &amp; Supporto",
+        "ServicesSupport": "Servizi e Supporto",
         "SkipCacheClear": "Salta la cancellazione delle cache.",
         "SkipCacheClearDesc": "Salta la cancellazione delle cache prima dell'aggiornamento. Ciò è utile solo se puoi assicurarti che le istanze che eseguono questo comando non abbiano ancora creato una cache e se svuotare la cache per molti account Matomo non possa diventare un collo di bottiglia.",
         "ThankYouUpdatePiwik": "Grazie per l'utilizzo di Matomo e per averlo aggiornato!",

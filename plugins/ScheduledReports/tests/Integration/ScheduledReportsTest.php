@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests;
 
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;

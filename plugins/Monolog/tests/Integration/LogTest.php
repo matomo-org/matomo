@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Monolog\tests\Integration;
 use Exception;
 use Piwik\Application\Environment;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
@@ -28,7 +27,7 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] [%s] %s";
 
-    public static $expectedExceptionOutput = '[Monolog] [%s] LogTest.php(130): dummy error message
+    public static $expectedExceptionOutput = '[Monolog] [%s] LogTest.php(129): dummy error message
   dummy backtrace [Query: , CLI mode: 1]';
 
     public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): dummy error message

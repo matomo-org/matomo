@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Ecommerce\Reports;
 
-use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\DaysToConversion;
 

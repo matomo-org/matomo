@@ -9,10 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Common;
 use Piwik\Config;
-use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;

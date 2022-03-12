@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\Marketplace\Widgets;
 
-use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;

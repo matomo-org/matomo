@@ -8,14 +8,10 @@
  */
 namespace Piwik\Plugins\Widgetize;
 
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Session\SessionInitializer;
-use Piwik\Url;
 use Piwik\View;
 
 /**
