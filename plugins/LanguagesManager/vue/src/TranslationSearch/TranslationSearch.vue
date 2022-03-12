@@ -4,16 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
-<todo>
-- get to build
-- test in UI
-- check uses:
-  ./plugins/LanguagesManager/templates/searchTranslation.twig
-  ./plugins/LanguagesManager/angularjs/translationsearch/translationsearch.directive.js
-- create PR
-</todo>
-
 <template>
   <div>
     <p>

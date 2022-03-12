@@ -153,18 +153,27 @@ window.piwikHelper = {
     // initial call for 'body' later in this file
     compileVueEntryComponents: function (selector) {
       function toCamelCase(arg) {
-        return arg.substring(0, 1) + arg.substring(1)
-          .replace(/-[a-z]/g, function (s) { return s.substring(1).toUpperCase(); });
+        return arg[0] + arg.substring(1)
+          .replace(/-[a-z]/g, function (s) { return s[1].toUpperCase(); });
+      }
+
+      function toKebabCase(arg) {
+        return arg[0].toLowerCase() + arg.substring(1)
+          .replace(/[A-Z]/g, function (s) { return '-' + s[0].toLowerCase(); });
       }
 
       $('[vue-entry]', selector).add($(selector).filter('[vue-entry]')).each(function () {
         var entry = $(this).attr('vue-entry');
+        var componentsToRegister = $(this).attr('vue-components').split(/\s+/).filter(function (s) {
+          return !!s.length;
+        });
 
         var parts = entry.split('.');
         if (parts.length !== 2) {
           throw new Error('Expects vue-entry to have format Plugin.Component, where Component is exported Vue component. Got: ' + entry);
         }
 
+        var useExternalPluginComponent = CoreHome.useExternalPluginComponent;
         var createVueApp = CoreHome.createVueApp;
         var plugin = window[parts[0]];
         if (!plugin) {
@@ -208,6 +217,19 @@ window.piwikHelper = {
           }
         });
         app.component('root', component);
+
+        componentsToRegister.forEach(function (componentRef) {
+          var parts = componentRef.split('.');
+          var pluginName = parts[0];
+          var componentName = parts[1];
+
+          var component = useExternalPluginComponent(pluginName, componentName);
+
+          // the component is made available via kebab case, since casing is lost in HTML,
+          // and tag names will appear all lower case when vue processes them
+          app.component(toKebabCase(componentName), component);
+        });
+
         app.mount(this);
 
         this.addEventListener('matomoVueDestroy', function () {
