@@ -5,7 +5,7 @@
 		<email>login5@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_at>today-date-removed-in-tests</invited_at>
+		<invited_at />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -13,7 +13,7 @@
 		<email>login6@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_at>today-date-removed-in-tests</invited_at>
+		<invited_at />
 		<uses_2fa>0</uses_2fa>
 	</row>
 </result>
