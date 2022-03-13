@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\Dashboard;
 
 use Piwik\API\Request;
-use Piwik\NoAccessException;
 use Piwik\Piwik;
 
 /**

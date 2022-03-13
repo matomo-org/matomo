@@ -11,7 +11,6 @@ namespace Piwik\Tests\Integration\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor\LoaderLock;
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class LoaderLockTest extends IntegrationTestCase

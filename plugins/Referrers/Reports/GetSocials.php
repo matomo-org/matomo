@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Referrers\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;

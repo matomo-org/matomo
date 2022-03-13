@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\CoreVue\Commands;
 
-use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreConsole\Commands\GenerateAngularConstructBase;
 use Symfony\Component\Console\Input\InputInterface;

@@ -1,11 +1,11 @@
 
 {% macro sparklineEvolution(evolution) %}
     {% set evolutionPretty = evolution.percent %}
-
-    {% if evolution.percent < 0 %}
+    {% set compareValue = evolution.trend is defined ? evolution.trend : evolution.percent %}
+    {% if compareValue < 0 %}
         {% set evolutionClass = 'negative-evolution' %}
         {% set evolutionIcon  = 'arrow_down.png' %}
-    {% elseif evolution.percent == 0 or evolution.percent == '0%' %}
+    {% elseif compareValue == 0 or compareValue == '0%' %}
         {% set evolutionClass = 'neutral-evolution' %}
         {% set evolutionIcon  = 'stop.png' %}
     {% else %}

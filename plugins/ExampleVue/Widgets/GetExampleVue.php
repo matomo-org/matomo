@@ -10,7 +10,6 @@ namespace Piwik\Plugins\ExampleVue\Widgets;
 
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
-use Piwik\View;
 
 class GetExampleVue extends Widget
 {

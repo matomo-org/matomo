@@ -8,13 +8,9 @@
  */
 namespace Piwik\Plugins\Feedback;
 
-use Piwik\Date;
 use Piwik\View;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\Version;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Renderer\Json;
 
 class Controller extends \Piwik\Plugin\Controller
 {

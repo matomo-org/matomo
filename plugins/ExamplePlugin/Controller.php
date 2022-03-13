@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\ExamplePlugin;
 
-use Piwik\View;
 
 /**
  * A controller lets you for example create a page that can be added to a menu. For more information read our guide

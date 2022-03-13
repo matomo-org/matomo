@@ -8,11 +8,6 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Archive;
-use Piwik\Archive\ArchivePurger;
-use Piwik\Cache;
-use Piwik\Container\StaticContainer;
-use Piwik\Date;
-use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 

@@ -7,6 +7,7 @@
         "MobileReport_NoPhoneNumbers": "Aktiver minst ett telefonnummer ved å besøke",
         "MultiSites_Must_Be_Activated": "For å generere SMS-er av din nettsidestatistikk må du skru på MultiSites-programtillegget i Matomo.",
         "PhoneNumbers": "Telefonnumre",
+        "PluginDescription": "Opprett og last ned egendefinerte SMS-rapporter og få dem tilsendt mobiltelefonen din daglig, ukentlig, eller månedlig.",
         "SMS_Content_Too_Long": "[for lang]",
         "SettingsMenu": "Meldingstjenester",
         "Settings_APIKey": "API-nøkkel",

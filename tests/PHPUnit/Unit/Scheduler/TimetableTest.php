@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Unit\Scheduler;
 
 use Piwik\Date;
-use Piwik\Plugin;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;

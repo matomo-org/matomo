@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\CoreHome\tests\Integration\Column;
 
 use Piwik\Cache;
-use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Plugins\CoreHome\Columns\UserId;
 use Piwik\Tests\Framework\Fixture;

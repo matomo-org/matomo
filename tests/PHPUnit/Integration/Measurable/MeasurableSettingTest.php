@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration\Measurable;
 
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Measurable\MeasurableSetting;
-use Piwik\Settings\Storage\Storage;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;

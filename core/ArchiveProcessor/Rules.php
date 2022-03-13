@@ -9,18 +9,15 @@
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\ArchiveWriter;
-use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Controller;
-use Piwik\Scheduler\Task;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;

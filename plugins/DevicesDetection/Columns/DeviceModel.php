@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;

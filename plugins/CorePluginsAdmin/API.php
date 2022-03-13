@@ -12,7 +12,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Exception;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\Version;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\Emails\SettingsChangedEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\SecurityNotificationEmail;

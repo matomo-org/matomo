@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Average na panahon na mag-loag ng page",
         "ColumnTimeServer": "Oras ng server"
     }
 }

@@ -10,10 +10,8 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use DeviceDetector\DeviceDetector;
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
-use Piwik\Plugin\Report;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller

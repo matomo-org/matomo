@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7594badf335be345564cc3259be6940e",
+    "content-hash": "9f6dbec89d3c3357d4208cdf4be7ce74",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -398,16 +398,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "5.0.4",
+            "version": "5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "99ea1953fc7f23f785e593ce1499a00586645530"
+                "reference": "cd1283126b4cf5081fdc0381b5b5e7849333cfa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/99ea1953fc7f23f785e593ce1499a00586645530",
-                "reference": "99ea1953fc7f23f785e593ce1499a00586645530",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/cd1283126b4cf5081fdc0381b5b5e7849333cfa4",
+                "reference": "cd1283126b4cf5081fdc0381b5b5e7849333cfa4",
                 "shasum": ""
             },
             "require": {
@@ -463,7 +463,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2022-02-18T19:51:56+00:00"
+            "time": "2022-03-08T09:22:55+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -695,22 +695,23 @@
         },
         {
             "name": "matomo/referrer-spam-list",
-            "version": "4.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "afe4c1ea107ee7a8915a0d5eb0031cf0366608a8"
+                "reference": "980999af6f2f42c715066ef6b8ea289d34ae88ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/afe4c1ea107ee7a8915a0d5eb0031cf0366608a8",
-                "reference": "afe4c1ea107ee7a8915a0d5eb0031cf0366608a8",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/980999af6f2f42c715066ef6b8ea289d34ae88ee",
+                "reference": "980999af6f2f42c715066ef6b8ea289d34ae88ee",
                 "shasum": ""
             },
             "replace": {
                 "matomo/referrer-spam-blacklist": "*",
                 "piwik/referrer-spam-blacklist": "*"
             },
+            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -719,9 +720,9 @@
             "description": "Community-contributed list of referrer spammers",
             "support": {
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
-                "source": "https://github.com/matomo-org/referrer-spam-list/tree/4.0.0"
+                "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2020-08-10T19:54:07+00:00"
+            "time": "2022-02-12T02:36:05+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -1834,7 +1835,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -1896,7 +1897,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.25.0"
             },
             "funding": [
                 {
@@ -1916,7 +1917,7 @@
         },
         {
             "name": "symfony/polyfill-iconv",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-iconv.git",
@@ -1979,7 +1980,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-iconv/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-iconv/tree/v1.25.0"
             },
             "funding": [
                 {
@@ -1999,7 +2000,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -2062,7 +2063,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.25.0"
             },
             "funding": [
                 {
@@ -3428,16 +3429,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.23",
+            "version": "8.5.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "efb20ff3623b9d09bf190a68fdfe574538a8d496"
+                "reference": "293cb0099d75407d971a73f41e51f35b664667ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/efb20ff3623b9d09bf190a68fdfe574538a8d496",
-                "reference": "efb20ff3623b9d09bf190a68fdfe574538a8d496",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/293cb0099d75407d971a73f41e51f35b664667ed",
+                "reference": "293cb0099d75407d971a73f41e51f35b664667ed",
                 "shasum": ""
             },
             "require": {
@@ -3509,7 +3510,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.23"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.24"
             },
             "funding": [
                 {
@@ -3521,7 +3522,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-21T05:50:34+00:00"
+            "time": "2022-03-05T16:52:36+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4597,6 +4598,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "matomo/referrer-spam-list": 20,
         "lox/xhprof": 20
     },
     "prefer-stable": false,

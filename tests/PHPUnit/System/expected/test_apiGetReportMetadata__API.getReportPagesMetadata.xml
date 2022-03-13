@@ -576,7 +576,7 @@
 			<id>Contents_Contents</id>
 			<name>Contents</name>
 			<order>45</order>
-			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/content-tracking/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;&amp;mtm_keyword=UserGuides" rel="noreferrer noopener" target="_blank"&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/content-tracking/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;&amp;mtm_keyword=UserGuides&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1280,7 +1280,7 @@
 			<id>Live_VisitorLog</id>
 			<name>Visits Log</name>
 			<order>5</order>
-			<help>&lt;p&gt;The Visits Log shows you every visit your website receives in detail. You can see what actions each visitor has taken, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the Visits Log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/real-time/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides" target="_blank" rel="noreferrer noopener"&gt;Learn more in the Visits Log guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Visits Log shows you every visit your website receives in detail. You can see what actions each visitor has taken, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the Visits Log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/real-time/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more in the Visits Log guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1347,7 +1347,7 @@
 			<id>CustomVariables_CustomVariables</id>
 			<name>Custom Variables</name>
 			<order>45</order>
-			<help>&lt;p&gt;This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/custom-variables/" rel="noreferrer noopener" target="_blank"&gt;Read more about this topic in the online guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Read more about this topic in the online guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>

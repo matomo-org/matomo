@@ -8,10 +8,8 @@
 
 namespace Piwik\Plugins\CoreUpdater\tests\ReleaseChannel;
 
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
-use Piwik\UpdateCheck;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Url;
 use Piwik\Version;

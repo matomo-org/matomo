@@ -9,7 +9,6 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Access;
 use Piwik\Auth;
-use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;

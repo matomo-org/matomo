@@ -7,9 +7,7 @@
  */
 namespace Piwik\CliMulti;
 
-use Piwik\CliMulti;
 use Piwik\Common;
-use Piwik\Filesystem;
 
 class StaticOutput implements OutputInterface
 {

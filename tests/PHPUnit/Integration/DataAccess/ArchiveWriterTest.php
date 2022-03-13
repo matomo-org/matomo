@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Parameters;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -18,7 +17,6 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\Site;

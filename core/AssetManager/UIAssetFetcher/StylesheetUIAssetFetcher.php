@@ -9,7 +9,6 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
-use Piwik\Development;
 use Piwik\Piwik;
 
 class StylesheetUIAssetFetcher extends UIAssetFetcher

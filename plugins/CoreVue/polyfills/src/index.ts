@@ -43,8 +43,24 @@ window.Vue.toDisplayString = function matomoToDisplayString(val: unknown): strin
   return result;
 };
 
+function hasSafeRel(rel: string) {
+  const parts = rel.split(/\s+/);
+  return parts.includes('noopener') && parts.includes('noreferrer');
+}
+
+// remove target=_blank if a link doesn't have noopener noreferrer
+DOMPurify.addHook('afterSanitizeAttributes', (node: Element) => {
+  if (node.hasAttribute('target')
+    && node.getAttribute('target') === '_blank'
+    && (!node.hasAttribute('rel')
+      || !hasSafeRel(node.getAttribute('rel')))
+  ) {
+    node.removeAttribute('target');
+  }
+});
+
 window.vueSanitize = function vueSanitize(val: unknown): string {
-  let result = DOMPurify.sanitize(val);
+  let result = DOMPurify.sanitize(val, { ADD_ATTR: ['target'] });
   result = result.replace(/{{/g, '{&#8291;{');
   return result;
 };

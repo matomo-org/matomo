@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CustomDimensions\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\CoreHome\Columns\UserId;

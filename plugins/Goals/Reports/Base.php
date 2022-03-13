@@ -11,8 +11,6 @@ namespace Piwik\Plugins\Goals\Reports;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\API;
-use Piwik\Plugins\Goals\Goals;
 
 abstract class Base extends \Piwik\Plugin\Report
 {

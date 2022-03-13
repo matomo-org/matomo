@@ -36,7 +36,7 @@ const GoalPageLink = {
       });
     });
 
-    $(el).html(link);
+    $(el).html(link[0]);
   },
 };
 

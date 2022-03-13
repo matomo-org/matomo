@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;

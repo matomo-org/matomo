@@ -10,7 +10,6 @@ namespace Piwik\Tests\Unit\Period;
 
 use Exception;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;

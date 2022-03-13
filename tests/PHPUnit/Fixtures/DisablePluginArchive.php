@@ -7,12 +7,10 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use MatomoTracker;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Tests\Framework\Fixture;
-use Exception;
 use Piwik\Tracker\Cache;
 
 /**

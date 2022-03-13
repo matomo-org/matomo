@@ -1,5 +1,6 @@
 {
   "dependsOn": [
-    "CoreHome"
+    "CoreHome",
+    "CorePluginsAdmin"
   ]
 }

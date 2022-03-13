@@ -12,8 +12,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\UserId\Columns\UserId;
-use Piwik\Report\ReportWidgetFactory;
-use Piwik\Widget\WidgetsList;
 
 /**
  * A report showing all unique user IDs and some aggregated information about them. It also allows

@@ -8,12 +8,10 @@
 
 namespace Piwik\Plugins\CoreVue\Commands;
 
-use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\MobileMessaging\SMSProvider\Development;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -172,7 +170,7 @@ class Build extends ConsoleCommand
 
             $vueIndexFile = $vueDir . '/src/index.ts';
             if (!is_file($vueIndexFile)) {
-                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.", ['plugin' => $plugin]);
+                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no index.ts, cannot build it.", ['plugin' => $plugin]);
                 continue;
             }
 

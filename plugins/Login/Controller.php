@@ -9,18 +9,14 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\Access;
-use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\UsersManager\Model AS UsersModel;
-use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Url;

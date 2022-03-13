@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Goals\Columns;
 
 use Piwik\Columns\Dimension;
-use Piwik\Piwik;
 
 class DaysToConversion extends Dimension
 {
