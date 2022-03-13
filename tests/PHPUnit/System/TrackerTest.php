@@ -123,6 +123,26 @@ class TrackerTest extends IntegrationTestCase
         $this->assertActionEquals('scary <> movies', $conversionItems[0]['idaction_category']);
     }
 
+    public function test_trackingEcommerceOrder_WithNameAndSKUArrays()
+    {
+        // item sku, item name, item category, item price, item quantity
+        $ecItems = array(array(["sku1", "sku2"], ["name1", "name2"], 'category1', 12.99, 1));
+
+        $urlToTest = $this->getEcommerceItemsUrl($ecItems);
+
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        Fixture::checkResponse($response);
+
+        $this->assertEquals(1, $this->getCountOfConversions());
+
+        $conversionItems = $this->getConversionItems();
+        $this->assertEquals(1, count($conversionItems));
+
+        $this->assertActionEquals('sku1,sku2', $conversionItems[0]['idaction_sku']);
+        $this->assertActionEquals('name1,name2', $conversionItems[0]['idaction_name']);
+        $this->assertActionEquals('category1', $conversionItems[0]['idaction_category']);
+    }
+
     public function test_trackingEcommerceOrder_DoesNotFail_WhenEmptyEcommerceItemsParamUsed()
     {
         // item sku, item name, item category, item price, item quantity

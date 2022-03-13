@@ -170,7 +170,7 @@ class Build extends ConsoleCommand
 
             $vueIndexFile = $vueDir . '/src/index.ts';
             if (!is_file($vueIndexFile)) {
-                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.", ['plugin' => $plugin]);
+                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no index.ts, cannot build it.", ['plugin' => $plugin]);
                 continue;
             }
 
