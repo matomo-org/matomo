@@ -199,7 +199,6 @@ describe("UsersManager", function () {
 
     it('should create a user and show the edit user form when the create user button is clicked', async function () {
         await page.type('#user_login', '000newuser');
-        await page.type('#user_password', 'thepassword');
         await page.type('#user_email', 'theuser@email.com');
 
         await page.click('.userEditForm .siteSelector a.title');
