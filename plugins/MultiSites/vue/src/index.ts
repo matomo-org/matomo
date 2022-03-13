@@ -8,3 +8,4 @@
 import './MultisitesSite/MultisitesSite.adapter';
 
 export { default as MultisitesSite } from './MultisitesSite/MultisitesSite.vue';
+export { default as DashboadStore } from './Dashboard/Dashboard.store';

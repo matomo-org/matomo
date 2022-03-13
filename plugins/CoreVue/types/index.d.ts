@@ -176,6 +176,12 @@ declare global {
     scrollToAnchorInUrl(): void;
   }
 
+  interface NumberFormatter {
+    formatNumber(value?: number|string): string;
+    formatPercent(value?: number|string): string;
+    formatCurrency(value?: number|string, currency: string): string;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -189,6 +195,7 @@ declare global {
     anchorLinkFix: AnchorLinkFix;
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
+    NumberFormatter: NumberFormatter;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
