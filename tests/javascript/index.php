@@ -3228,6 +3228,8 @@ function PiwikTest() {
         tracker.setUserId(5939383);
         equal(5939383, tracker.getUserId(), "getUserId() returns numeric User Id");
 
+        tracker.trackPageView();
+        tracker2.trackPageView();
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
         equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
