@@ -13,11 +13,9 @@ function initializeVisitorActions(elem) {
 
     $('a', elem).on('focus', function () {
         // see https://github.com/piwik/piwik/issues/4099
-      try {
-        if (tooltipIsOpened && elem.length) {
-          elem.tooltip('close');
+        if (tooltipIsOpened) {
+            elem.tooltip('close');
         }
-      } catch (e) {}
     });
 
     elem.tooltip({
@@ -119,12 +117,9 @@ function initializeVisitorActions(elem) {
 
         $('a', $(this)).on('focus', function () {
             // see https://github.com/piwik/piwik/issues/4099
-          try {
-            if (tooltipIsOpened && $(this).length) {
-              $(this)
-                .tooltip('close');
+            if (tooltipIsOpened) {
+                $(this).tooltip('close');
             }
-          } catch (e) {}
         });
 
         var $this = $(this);
