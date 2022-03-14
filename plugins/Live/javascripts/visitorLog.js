@@ -69,6 +69,7 @@
                 this.$element.tooltip('destroy');
             } catch (e) {
                 // ignore
+                console.log(e);
             }
 
             dataTablePrototype._destroy.call(this);
