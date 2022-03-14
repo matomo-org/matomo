@@ -5,16 +5,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// TODO:
-// - state property types
-// - method signatures
-// - method code
-
 import {
   reactive,
   computed,
   readonly,
-  DeepReadonly,
 } from 'vue';
 import {
   AjaxHelper,
@@ -65,7 +59,7 @@ interface DashboardStoreState {
   loadingMessage: string;
   reverse: boolean;
   sortColumn: string;
-  refreshInterval: number;
+  refreshInterval?: number;
   errorLoadingSites: boolean;
 }
 
@@ -343,7 +337,7 @@ class DashboardStore {
         this.refreshTimeout = setTimeout(() => {
           this.refreshTimeout = null;
           this.fetchAllSites();
-        }, this.state.value.refreshInterval * 1000);
+        }, this.state.value.refreshInterval! * 1000);
       }
     });
   }
@@ -351,6 +345,14 @@ class DashboardStore {
   private onError(): void {
     this.privateState.errorLoadingSites = true;
     this.privateState.sites = [];
+  }
+
+  setRefreshInterval(interval?: number): void {
+    this.privateState.refreshInterval = interval;
+  }
+
+  setPageSize(pageSize: number): void {
+    this.privateState.pageSize = pageSize;
   }
 }
 

@@ -19,7 +19,6 @@ class MultiSites extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
@@ -80,14 +79,8 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_EvolutionComparisonYear';
     }
 
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard.controller.js";
-        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard.directive.js";
-    }
-
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/MultiSites/angularjs/dashboard/dashboard.directive.less";
+        $stylesheets[] = "plugins/MultiSites/vue/src/Dashboard/Dashboard.less";
     }
 }

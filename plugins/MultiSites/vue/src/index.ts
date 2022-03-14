@@ -6,6 +6,8 @@
  */
 
 import './MultisitesSite/MultisitesSite.adapter';
+import './Dashboard/Dashboard.adapter';
 
 export { default as MultisitesSite } from './MultisitesSite/MultisitesSite.vue';
 export { default as DashboadStore } from './Dashboard/Dashboard.store';
+export { default as Dashboard } from './Dashboard/Dashboard.vue';
