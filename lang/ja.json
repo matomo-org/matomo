@@ -149,6 +149,7 @@
         "Description": "説明",
         "Desktop": "デスクトップ",
         "Details": "詳細",
+        "Disabled": "無効",
         "Discount": "ディスカウント",
         "DisplaySimpleTable": "シンプルなテーブル表示",
         "DisplayTableWithGoalMetrics": "目標メトリックを含むテーブル表示",

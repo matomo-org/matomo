@@ -12,7 +12,6 @@ use Psr\Container\ContainerInterface;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
-use Piwik\Url;
 
 /**
  * @group Core

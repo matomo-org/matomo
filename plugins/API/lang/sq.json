@@ -1,18 +1,18 @@
 {
     "API": {
-        "ChangeTokenHint": "Nëse doni ta ndryshoni këtë token, ju lutemi, shkoni te %1$sfaqja juaj e rregullimeve personale%2$s.",
-        "GenerateVisits": "Nëse s’keni të dhëna për ditën e sotme, mund të prodhonit ca të dhëna duke përdorur shtojcën %1$s. Shtojcën %2$s mund ta aktivizoni, mandej klikoni mbi menunë 'Gjenerator Vizitorësh' te pjesa Përgjegjës Matomo-je.",
-        "KeepTokenSecret": "Ky token_auth është po aq i fshehtë sa të dhënat tuaja për hyrjen dhe fjalëkalimi juaj, %1$s mos ia jepni kujt%2$s!",
-        "LoadedAPIs": "U ngarkuan me sukses %s API",
-        "MoreInformation": "Për më tepër të dhëna rreth API-sh të Matomo-s, ju lutemi, hidhini një sy %1$s Hyrje në API-t e Matomo-s %2$s dhe %3$s Referencë API-sh Matomo %4$s.",
-        "PluginDescription": "Në Matomo krejt të dhënat janë të passhme përmes API-sh të thjeshta. Kjo shtojcë është pika e hyrjes për një shërbim web, të cilin mund ta vini në punë për t’i pasur të dhënat tuaja të Analizave Web në format xml, json, php, csv, etj.",
-        "ReportingApiReference": "Referencë API Raportimesh",
-        "TopLinkTooltip": "Hyni programatikisht te të dhënat tuaja të Analizave Web përmes një API-je të thjeshtë json, xml, etj.",
-        "UserAuthentication": "Mirëfilltësim përdoruesi",
-        "UsingTokenAuth": "Nëse doni %1$s të kërkoni të dhëna brenda një programthi, një crontab-i, etj. %2$s lypset të shtoni parametrin e URL-së %3$s te URL-të thirrëse të API-t që lypin doemos mirëfilltësim.",
+        "ChangeTokenHint": "Nëse doni ta ndryshoni këtë token, ju lutemi, shkoni te %1$sfaqja juaj personale e rregullimeve%2$s.",
+        "EvolutionMetricName": "Ecuri e %s",
+        "GenerateVisits": "Nëse s’keni të dhëna për ditën e sotme, mund të prodhonit ca të dhëna duke përdorur shtojcën %1$s, duke kaluar te 'Zhvillim → Prodhues Vizitorësh', te pjesa e administrimit të Matomo-s.",
         "Glossary": "Fjalorth",
+        "KeepTokenSecret": "Ky token_auth është po aq i fshehtë sa të dhënat tuaja për hyrjen dhe fjalëkalimi juaj, %1$s mos ia jepni kujt%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Mësoni më tepër rreth termash të përdorur rëndom, që të përfitoni maksimumin prej analizave Matomo.",
+        "LoadedAPIs": "U ngarkuan %s API",
         "MainMetricsReportDocumentation": "Ky raport ju jep një përmbledhje të statistikave më të rëndësishme nëpër krejt kategoritë dhe shtojcat.",
-        "LearnAboutCommonlyUsedTerms2": "Mësoni më tepër rreth termash të përdorur rëndom, që të përfitoni maksimumin prej Matomo Analytics.",
-        "EvolutionMetricName": "Ecuri e %s"
+        "MoreInformation": "Më tepër hollësi rreth API-sh të Matomo-s gjeni te %1$s Hyrje në API-t e Matomo-s %2$s dhe %3$s Referencë API-sh Matomo %4$s.",
+        "PluginDescription": "Në Matomo krejt të dhënat janë të passhme përmes API-sh të thjeshta. Kjo shtojcë është pika e hyrjes për një shërbim web, të cilin mund ta vini në punë për t’i pasur të dhënat tuaja të analizave web në format XML, JSON, PHP, CSV, etj.",
+        "ReportingApiReference": "Referencë API Raportimesh",
+        "TopLinkTooltip": "Përdorni programatikisht të dhënat tuaja të Analizave Web, përmes një API-je të thjeshtë, si JSON, XML, etj.",
+        "UserAuthentication": "Mirëfilltësim përdoruesi",
+        "UsingTokenAuth": "Nëse doni %1$s të kërkoni të dhëna brenda një programthi, një crontab-i, etj. %2$s, lypset të shtoni te thirrjet drejt API-t parametrin '%3$s' URL-sh, për URL që lypin mirëfilltësim."
     }
 }

@@ -15,7 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\SettingsPiwik;
-use Piwik\Url;
 
 class NewsletterSignup
 {

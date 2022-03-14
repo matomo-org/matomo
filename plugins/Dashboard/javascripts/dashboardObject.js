@@ -94,9 +94,7 @@
                     $location.search('subcategory', '' + dashboardIdToLoad);
                 });
             } else {
-                var element = $('[piwik-dashboard]');
-                var scope = angular.element(element).scope();
-                scope.fetchDashboard(dashboardIdToLoad);
+                piwik.postEvent('Dashboard.loadDashboard', dashboardIdToLoad);
             }
 
             return this;

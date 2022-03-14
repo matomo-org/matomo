@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Penggunaan Basisdata",
-        "DataSize": "Ukuran Data",
         "DBSize": "Ukuran Basisdat",
+        "DataSize": "Ukuran Data",
+        "DatabaseUsage": "Penggunaan Basisdata",
         "EstimatedSize": "Perkiraan ukuran",
         "IndexSize": "Ukuran Index",
         "LearnMore": "Pelajari selengkapnya tentang bagaimana Matomo mengolah data dan bagaimana Matomo bekerja baik dalam kunjungan situs menengah dan tinggi, lihat dokumentasi %s.",
@@ -10,7 +10,7 @@
         "MetricDataByYear": "Tabel Metrik berdasarkan Tahun",
         "MetricTables": "Tabel Metrik",
         "OtherTables": "Tabel Lain",
-        "PluginDescription": "Menyediakan laporan rincian penggunaan basis data MySQL. Tersedia untuk Pengguna Super dibawah diagnostik.",
+        "PluginDescription": "Menyediakan laporan penggunaan basis data MySQL yang terperinci. Tersedia untuk Pengguna Super di bawah Diagnostik.",
         "ReportDataByYear": "Tabel Laporan berdasarkan Tahun",
         "ReportTables": "Tabel Laporan",
         "RowCount": "Jumlah Baris",

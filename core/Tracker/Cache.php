@@ -17,7 +17,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Tracker;
 use Psr\Log\LoggerInterface;
-use function DI\object;
 
 /**
  * Simple cache mechanism used in Tracker to avoid requesting settings from mysql on every request

@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CustomJsTracker\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CustomJsTracker\TrackerUpdater;
-use Piwik\Plugins\CustomJsTracker\TrackingCode\PluginTrackerFiles;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

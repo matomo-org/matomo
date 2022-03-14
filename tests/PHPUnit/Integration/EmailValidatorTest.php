@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Http;
 use Piwik\Piwik;
 
 /**

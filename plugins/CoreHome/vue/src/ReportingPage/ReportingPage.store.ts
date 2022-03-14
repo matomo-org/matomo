@@ -14,12 +14,12 @@ import {
 import ReportingPagesStoreInstance, { Page } from '../ReportingPages/ReportingPages.store';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import { sortOrderables } from '../Orderable';
+import { getWidgetChildren } from '../Widget/Widgets.store';
 import {
-  getWidgetChildren,
   GroupedWidgets,
   Widget,
   WidgetContainer,
-} from '../Widget/Widgets.store';
+} from '../Widget/types';
 
 interface ReportingMenuStoreState {
   page?: DeepReadonly<Page>;

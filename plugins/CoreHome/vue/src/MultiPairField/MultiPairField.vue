@@ -26,6 +26,8 @@
           :uicontrol="field1.uiControl"
           :name="`${name}-p1-${index}`"
           :title="field1.title"
+          :template-file="field1.templateFile"
+          :component="field1.component"
         >
         </Field>
       </div>
@@ -42,6 +44,8 @@
           :uicontrol="field2.uiControl"
           :name="`${name}-p2-${index}`"
           :title="field2.title"
+          :template-file="field2.templateFile"
+          :component="field2.component"
         >
         </Field>
       </div>
@@ -57,6 +61,8 @@
           :placeholder="' '"
           :uicontrol="field3.uiControl"
           :title="field3.title"
+          :template-file="field3.templateFile"
+          :component="field3.component"
         >
         </Field>
       </div>
@@ -72,6 +78,8 @@
           :placeholder="' '"
           :uicontrol="field4.uiControl"
           :title="field4.title"
+          :template-file="field4.templateFile"
+          :component="field4.component"
         >
         </Field>
       </div>

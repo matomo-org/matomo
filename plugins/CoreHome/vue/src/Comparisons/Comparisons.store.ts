@@ -301,6 +301,7 @@ export default class ComparisonsStore {
 
     if (matomoModule === 'CoreUpdater'
       || matomoModule === 'Installation'
+      || matomoModule === 'Overlay'
     ) {
       this.privateState.comparisonsDisabledFor = [];
       return;

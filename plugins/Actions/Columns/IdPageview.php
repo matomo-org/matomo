@@ -13,7 +13,6 @@ use Piwik\Columns\MetricsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 
 class IdPageview extends ActionDimension

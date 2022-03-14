@@ -21,7 +21,7 @@ class VisitorsUserSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('UserId_VisitorsUserSubcategoryHelp') . '</p>'.
-            '<p><a target="_blank" rel="noopener noreferrer" href="https://matomo.org/docs/user-id/"><span class="icon-info"></span> ' . Piwik::translate('CoreAdminHome_LearnMore') . '</a></p>';
+            '<p><a target="_blank" rel="noopener noreferrer" href="https://matomo.org/docs/user-id/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides"><span class="icon-info"></span> ' . Piwik::translate('CoreAdminHome_LearnMore') . '</a></p>';
         ;
     }
 }

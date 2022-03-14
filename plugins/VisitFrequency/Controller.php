@@ -14,7 +14,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
-use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {

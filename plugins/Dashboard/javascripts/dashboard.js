@@ -28,9 +28,9 @@ function createDashboard() {
         ajaxRequest.setCallback(
             function (response) {
                 var id = response.value;
-                angular.element(document).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
+                angular.element(document).injector().invoke(function ($location, reportingMenuModel) {
                   Promise.all([
-                    dashboardsModel.reloadAllDashboards(),
+                    Dashboard.DashboardStore.reloadAllDashboards(),
                     reportingMenuModel.reloadMenuItems(),
                   ]).then(function () {
                     $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
@@ -86,7 +86,9 @@ function showChangeDashboardLayoutDialog() {
 function showEmptyDashboardNotification() {
     piwikHelper.modalConfirm(makeSelectorLastId('dashboardEmptyNotification'), {
         resetDashboard: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); },
-        addWidget: function () { $('.dashboardSettings > a').trigger('click'); }
+        addWidget: function () {
+          $('.dashboardSettings > a').trigger('click');
+        }
     });
 }
 

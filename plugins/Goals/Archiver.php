@@ -129,7 +129,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private function hasAnyGoalOrEcommerce($idSite)
     {
-        return $this->usesEcommerce($idSite) || GoalManager::getGoalIds($idSite);
+        return $this->usesEcommerce($idSite) || !empty(GoalManager::getGoalIds($idSite));
     }
 
     private function usesEcommerce($idSite)
@@ -154,9 +154,25 @@ class Archiver extends \Piwik\Plugin\Archiver
         $goals = new DataArray();
         $visitsToConversions = $daysToConversions = [];
 
+        $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($this->getSiteId());
+
+        // Special handling for sites that contain subordinated sites, like in roll up reporting.
+        // A roll up site, might not have ecommerce enabled or any configured goals,
+        // but if a subordinated site has, we calculate the overview conversion metrics nevertheless
+        if ($siteHasEcommerceOrGoals === false) {
+            $idSitesToArchive = $this->getProcessor()->getParams()->getIdSites();
+
+            foreach ($idSitesToArchive as $idSite) {
+                if ($this->hasAnyGoalOrEcommerce($idSite)) {
+                    $siteHasEcommerceOrGoals = true;
+                    break;
+                }
+            }
+        }
+
         // try to query goal data only, if goals or ecommerce is actually used
         // otherwise we simply insert empty records
-        if ($this->hasAnyGoalOrEcommerce($this->getSiteId())) {
+        if ($siteHasEcommerceOrGoals) {
             $selects = [];
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
                 self::VISITS_COUNT_FIELD, self::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::VISITS_UNTIL_RECORD_NAME]

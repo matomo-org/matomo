@@ -150,6 +150,78 @@ window.piwikHelper = {
         return angular.element(document).injector().get(dependency);
     },
 
+    // initial call for 'body' later in this file
+    compileVueEntryComponents: function (selector) {
+      function toCamelCase(arg) {
+        return arg.substring(0, 1) + arg.substring(1)
+          .replace(/-[a-z]/g, function (s) { return s.substring(1).toUpperCase(); });
+      }
+
+      $('[vue-entry]', selector).add($(selector).filter('[vue-entry]')).each(function () {
+        var entry = $(this).attr('vue-entry');
+
+        var parts = entry.split('.');
+        if (parts.length !== 2) {
+          throw new Error('Expects vue-entry to have format Plugin.Component, where Component is exported Vue component. Got: ' + entry);
+        }
+
+        var createVueApp = CoreHome.createVueApp;
+        var plugin = window[parts[0]];
+        if (!plugin) {
+          throw new Error('Unknown plugin in vue-entry: ' + plugin);
+        }
+
+        var component = plugin[parts[1]];
+        if (!component) {
+          throw new Error('Unknown component in vue-entry: ' + entry);
+        }
+
+        var paramsStr = '';
+
+        var componentParams = {};
+        $.each(this.attributes, function () {
+          if (this.name === 'vue-entry') {
+            return;
+          }
+
+          var camelName = toCamelCase(this.name);
+          paramsStr += ':' + this.name + '=' + JSON.stringify(camelName) + ' ';
+
+          var value = this.value;
+          try {
+            value = JSON.parse(this.value);
+          } catch (e) {
+            // pass
+          }
+
+          componentParams[camelName] = value;
+        });
+
+        // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
+        // slots to be in the vue-entry element this way. So instead, we create a quick
+        // template that references the root component and wraps the vue-entry component's html.
+        // this allows using slots in twig.
+        var app = createVueApp({
+          template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
+          data: function () {
+            return componentParams;
+          }
+        });
+        app.component('root', component);
+        app.mount(this);
+
+        this.addEventListener('matomoVueDestroy', function () {
+          app.unmount();
+        });
+      });
+    },
+
+    destroyVueComponent: function (selector) {
+      $('[vue-entry]', selector).each(function () {
+        this.dispatchEvent(new CustomEvent('matomoVueDestroy'));
+      });
+    },
+
     /**
      * As we still have a lot of old jQuery code and copy html from node to node we sometimes have to trigger the
      * compiling of angular components manually.
@@ -186,7 +258,15 @@ window.piwikHelper = {
             }
 
             $compile($element)(scope);
+
+            setTimeout(function () {
+                piwikHelper.processDynamicHtml($element);
+            });
         });
+    },
+
+    processDynamicHtml: function ($element) {
+        piwik.postEvent('Matomo.processDynamicHtml', $element);
     },
 
     /**
@@ -277,7 +357,7 @@ window.piwikHelper = {
             // skip this button if it's part of another modal, the current modal can launch
             // (which is true if there are more than one parent elements contained in domElem,
             // w/ css class ui-confirm)
-            const uiConfirm = $button.parents('.ui-confirm').filter(function () {
+            var uiConfirm = $button.parents('.ui-confirm,[ui-confirm]').filter(function () {
               return domElem[0] === this || $.contains(domElem[0], this);
             });
             if (uiConfirm.length > 1) {
@@ -310,7 +390,6 @@ window.piwikHelper = {
                     window.location.href = $button.data('href');
                 })
             }
-
 
             $footer.append(button);
         });
@@ -648,3 +727,9 @@ try {
 
 } catch (e) {}
 }(jQuery));
+
+(function ($) {
+  $(function () {
+    piwikHelper.compileVueEntryComponents('body');
+  });
+}(jQuery))

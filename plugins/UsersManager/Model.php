@@ -10,16 +10,13 @@ namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 use Piwik\SettingsPiwik;
-use Piwik\SettingsServer;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;

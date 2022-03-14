@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 
 /**

@@ -54,7 +54,13 @@
           class="inline-help"
           ref="inlineHelp"
           v-if="formField.inlineHelp"
-        />
+        >
+          <component
+            v-if="inlineHelpComponent"
+            :is="inlineHelpComponent"
+            v-bind="inlineHelpBind"
+          />
+        </span>
         <span v-show="showDefaultValue">
           <br />
           {{ translate('General_Default') }}:
@@ -95,6 +101,7 @@ import FieldTextArray from './FieldTextArray.vue';
 import FieldTextarea from './FieldTextarea.vue';
 import FieldTextareaArray from './FieldTextareaArray.vue';
 import { processCheckboxAndRadioAvailableValues } from './utilities';
+import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
 
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
@@ -140,6 +147,8 @@ interface FormField {
   uiControl: string;
   component: Component | ComponentReference;
   inlineHelp?: string;
+  inlineHelpBind?: unknown;
+  templateFile?: string;
 }
 
 interface OptionLike {
@@ -179,7 +188,10 @@ export default defineComponent({
     const setInlineHelp = (newVal?: string|HTMLElement|JQuery) => {
       let toAppend: HTMLElement|JQuery|string;
 
-      if (!newVal || !inlineHelpNode.value) {
+      if (!newVal
+        || !inlineHelpNode.value
+        || typeof (newVal as unknown as Record<string, unknown>).render === 'function'
+      ) {
         return;
       }
 
@@ -207,6 +219,18 @@ export default defineComponent({
     };
   },
   computed: {
+    inlineHelpComponent() {
+      const formField = this.formField as FormField;
+
+      const inlineHelpRecord = formField.inlineHelp as unknown as Record<string, unknown>;
+      if (inlineHelpRecord && typeof inlineHelpRecord.render === 'function') {
+        return formField.inlineHelp as Component;
+      }
+      return undefined;
+    },
+    inlineHelpBind() {
+      return this.inlineHelpComponent ? this.formField.inlineHelpBind : undefined;
+    },
     childComponent(): string|Component {
       const formField = this.formField as FormField;
 
@@ -224,6 +248,11 @@ export default defineComponent({
         }
 
         return markRaw(component);
+      }
+
+      // backwards compatibility w/ settings that use templateFile property
+      if (formField.templateFile) {
+        return markRaw(FieldAngularJsTemplate);
       }
 
       const { uiControl } = formField;

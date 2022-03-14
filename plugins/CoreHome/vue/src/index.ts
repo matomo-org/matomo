@@ -73,7 +73,7 @@ export { default as activityIndicatorAdapter } from './ActivityIndicator/Activit
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as translate } from './translate';
 export { default as Alert } from './Alert/Alert.vue';
-export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
+export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { default as Matomo } from './Matomo/Matomo';
@@ -81,6 +81,7 @@ export * from './Periods';
 export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
 export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAnywhereButHere';
 export { default as FocusIf } from './FocusIf/FocusIf';
+export { default as Tooltips } from './Tooltips/Tooltips';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
@@ -105,6 +106,7 @@ export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
 export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';
 export { default as ReportingMenu } from './ReportingMenu/ReportingMenu.vue';
+export { default as ReportingMenuStore } from './ReportingMenu/ReportingMenu.store';
 export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.store';
 export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
 export { default as WidgetsStore } from './Widget/Widgets.store';
@@ -112,6 +114,11 @@ export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';
 export { default as WidgetByDimensionContainer } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
 export { default as Widget } from './Widget/Widget.vue';
+export {
+  Widget as WidgetType,
+  WidgetContainer as WidgetContainerType,
+  GroupedWidgets as GroupedWidgetsType,
+} from './Widget/types';
 export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
 export { default as ReportExport } from './ReportExport/ReportExport';
 export { default as Sparkline } from './Sparkline/Sparkline.vue';

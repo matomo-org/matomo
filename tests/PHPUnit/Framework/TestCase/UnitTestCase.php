@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Application\Environment;
-use Piwik\Container\StaticContainer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\File;
 

@@ -1,8 +1,6 @@
 <?php
 
 use Piwik\Application\Environment;
-use Piwik\Container\StaticContainer;
-use Piwik\Http;
 use Piwik\Intl\Locale;
 use Piwik\Config;
 use Piwik\SettingsPiwik;

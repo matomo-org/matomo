@@ -466,7 +466,7 @@ describe("UsersManager", function () {
 
     it('should go back to the manage users page when the back link is clicked', async function () {
         await page.click('.userEditForm .entityCancelLink');
-        await page.waitForSelector('piwik-paged-users-list');
+        await page.waitForSelector('.pagedUsersList');
 
         await page.evaluate(function () { // remove filter so new user shows
             $('#user-text-filter').val('').change();
@@ -504,7 +504,7 @@ describe("UsersManager", function () {
     });
 
     it('should show error when wrong password entered', async function () {
-        await page.type('.modal.open #currentUserPassword', 'test123456');
+        await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
 
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();

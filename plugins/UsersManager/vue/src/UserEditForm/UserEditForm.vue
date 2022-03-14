@@ -244,7 +244,7 @@
                 <Field
                   v-model="passwordConfirmation"
                   uicontrol="password"
-                  name="currentUserPassword"
+                  name="currentUserPasswordTwoFa"
                   :autocomplete="false"
                   :full-width="true"
                   :title="translate('UsersManager_YourCurrentPassword')"
@@ -276,7 +276,7 @@
           <Field
             v-model="passwordConfirmation"
             uicontrol="password"
-            name="currentUserPassword"
+            name="currentUserPasswordChangePwd"
             :autocomplete="false"
             :full-width="true"
             :title="translate('UsersManager_YourCurrentPassword')"
@@ -498,7 +498,7 @@ export default defineComponent({
         dismissible: false,
         onOpenEnd: () => {
           this.isShowingPasswordConfirm = false;
-          $('.modal.open #currentUserPassword').focus().off('keypress').keypress(onEnter);
+          $('.modal.open #currentUserPasswordChangePwd').focus().off('keypress').keypress(onEnter);
         },
       }).modal('open');
     },
@@ -542,11 +542,7 @@ export default defineComponent({
           passwordConfirmation: this.passwordConfirmation ? this.passwordConfirmation : undefined,
           email: this.theUser.email,
         },
-      ).catch((e) => {
-        this.isSavingUserInfo = false;
-        this.passwordConfirmation = '';
-        throw e;
-      }).then(() => {
+      ).then(() => {
         this.isSavingUserInfo = false;
         this.passwordConfirmation = '';
         this.isUserModified = true;
@@ -554,6 +550,9 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
+      }).catch(() => {
+        this.isSavingUserInfo = false;
+        this.passwordConfirmation = '';
       });
     },
     setSuperUserAccessChecked() {

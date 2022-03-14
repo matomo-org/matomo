@@ -14,7 +14,6 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Range;

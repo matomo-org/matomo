@@ -152,7 +152,6 @@
         "RolesHelp": "ロールは、ユーザーが特定のウェブサイトに関して Matomo に何ができるかを決定します。 表示と%3$s管理者%4$sのロールの詳細を%1$sご覧ください%2$s。",
         "SaveBasicInfo": "基本情報を保存する",
         "SetPermission": "パーミッションを設定する",
-        "ShowAll": "全てを表示",
         "SuperUserAccess": "スーパーユーザーアクセス",
         "SuperUserAccessManagement": "スーパーユーザーアクセス権の管理",
         "SuperUserAccessManagementGrantMore": "ここでは、スーパーユーザーアクセス権を Matomo の他のユーザーに付与することができます。この機能は、慎重にご利用ください。",

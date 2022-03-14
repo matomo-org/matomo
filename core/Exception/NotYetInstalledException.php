@@ -8,8 +8,6 @@
  */
 namespace Piwik\Exception;
 
-use Piwik\Common;
-use Piwik\Url;
 use Throwable;
 
 class NotYetInstalledException extends InvalidRequestParameterException

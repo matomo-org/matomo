@@ -13,19 +13,18 @@
         "ExceptionUserDoesNotExist": "Používateľ '%s' neexistuje.",
         "ManageAccess": "Správa prístupov",
         "MenuAnonymousUserSettings": "Nastavenie pre anonymného užívateľa",
-        "MenuUsers": "Používatelia",
-        "MenuUserSettings": "Užívateľské nastavenia",
         "MenuPersonal": "Osobné",
+        "MenuUserSettings": "Užívateľské nastavenia",
+        "MenuUsers": "Používatelia",
         "PersonalSettings": "Osobné nastavenia",
         "PrivAdmin": "Admin",
         "PrivNone": "Bez prístupu",
         "PrivView": "Zobrazenie",
         "TypeYourPasswordAgain": "Zadajte nové heslo znovu.",
         "User": "Používatelia",
+        "Username": "Používateľské meno",
         "UsersManagement": "Správa používateľov",
         "UsersManagementMainDescription": "Vytvorenie nových alebo aktualizácia existujúcich používateľov V sekcií vyššie im môžete nastaviť rozsah prístupov.",
-        "YourUsernameCannotBeChanged": "Vaše užívateľské meno sa nedá zmeniť.",
-        "ShowAll": "Zobraziť všetko",
-        "Username": "Používateľské meno"
+        "YourUsernameCannotBeChanged": "Vaše užívateľské meno sa nedá zmeniť."
     }
 }

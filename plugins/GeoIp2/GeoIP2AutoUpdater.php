@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\Option;
@@ -195,7 +196,14 @@ class GeoIP2AutoUpdater extends Task
 
     public static function getTemporaryFolder($file, $isDownload = false)
     {
-        return \Piwik\Container\StaticContainer::get('path.tmp') . '/latest/' . $file . ($isDownload ? '.download' : '');
+        $folder = \Piwik\Container\StaticContainer::get('path.tmp') . '/latest/';
+        if (!is_dir($folder)) {
+            Filesystem::mkdir($folder);
+        }
+        if (!is_writable($folder)) {
+            throw new \Exception("GeoIP2AutoUpdater: Can't create temporary file for download.");
+        }
+        return $folder . $file . ($isDownload ? '.download' : '');
     }
 
     /**

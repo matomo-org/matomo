@@ -9,10 +9,7 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugins\Marketplace\Widgets\GetNewPlugins;
-use Piwik\Plugins\Marketplace\Widgets\GetPremiumFeatures;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 

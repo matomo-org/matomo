@@ -94,7 +94,6 @@ class Goals extends \Piwik\Plugin
     public function registerEvents()
     {
         $hooks = array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Tracker.Cache.getSiteAttributes'        => 'fetchGoalsFromDb',
             'API.getReportMetadata.end'              => 'getReportMetadataEnd',
@@ -340,13 +339,6 @@ class Goals extends \Piwik\Plugin
         return $reportsWithGoals;
     }
 
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/Goals/angularjs/common/directives/goal-page-link.js";
-        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.controller.js";
-        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.directive.js";
-    }
-
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Goals/stylesheets/goals.css";
@@ -364,12 +356,51 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_AddNewGoal';
         $translationKeys[] = 'Goals_UpdateGoal';
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
-        $translationKeys[] = 'Goals_UpdateGoal';
-        $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = 'Goals_TimeInMinutes';
         $translationKeys[] = 'Goals_Pattern';
         $translationKeys[] = 'Goals_ClickToViewThisGoal';
+        $translationKeys[] = 'Goals_ManageGoals';
+        $translationKeys[] = 'Goals_GoalName';
+        $translationKeys[] = 'Goals_GoalIsTriggeredWhen';
+        $translationKeys[] = 'Goals_ThereIsNoGoalToManage';
+        $translationKeys[] = 'Goals_ManuallyTriggeredUsingJavascriptFunction';
+        $translationKeys[] = 'Goals_VisitUrl';
+        $translationKeys[] = 'Goals_ClickOutlink';
+        $translationKeys[] = 'Goals_SendEvent';
+        $translationKeys[] = 'Goals_GoalIsTriggered';
+        $translationKeys[] = 'Goals_WhereThe';
+        $translationKeys[] = 'Goals_URL';
+        $translationKeys[] = 'General_ForExampleShort';
+        $translationKeys[] = 'Goals_Contains';
+        $translationKeys[] = 'Goals_IsExactly';
+        $translationKeys[] = 'Goals_MatchesExpression';
+        $translationKeys[] = 'Goals_AllowMultipleConversionsPerVisit';
+        $translationKeys[] = 'Goals_HelpOneConversionPerVisit';
+        $translationKeys[] = 'Goals_DefaultRevenueHelp';
+        $translationKeys[] = 'Goals_DefaultRevenueLabel';
+        $translationKeys[] = 'Goals_GoalRevenue';
+        $translationKeys[] = 'Goals_Filename';
+        $translationKeys[] = 'Goals_ExternalWebsiteUrl';
+        $translationKeys[] = 'Goals_VisitDuration';
+        $translationKeys[] = 'Goals_AtLeastMinutes';
+        $translationKeys[] = 'Goals_VisitPageTitle';
+        $translationKeys[] = 'Intl_NMinutes';
+        $translationKeys[] = 'Goals_PageTitle';
+        $translationKeys[] = 'Goals_UseEventValueAsRevenue';
+        $translationKeys[] = 'Goals_EventValueAsRevenueHelp';
+        $translationKeys[] = 'Goals_EventValueAsRevenueHelp2';
+        $translationKeys[] = 'Events_EventCategory';
+        $translationKeys[] = 'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore';
+        $translationKeys[] = 'Goals_LearnMoreAboutGoalTrackingDocumentation';
+        $translationKeys[] = 'Goals_EcommerceReports';
+        $translationKeys[] = 'SitesManager_WebsitesManagement';
+        $translationKeys[] = 'Goals_CaseSensitive';
+        $translationKeys[] = 'Goals_Download';
+        $translationKeys[] = 'Events_EventAction';
+        $translationKeys[] = 'Events_EventCategory';
+        $translationKeys[] = 'Events_EventName';
+        $translationKeys[] = 'Goals_YouCanEnableEcommerceReports';
     }
 }

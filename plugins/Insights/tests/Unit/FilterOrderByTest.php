@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Insights\tests\Unit;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\DataTable\Filter\OrderBy;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Insights

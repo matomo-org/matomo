@@ -5225,6 +5225,24 @@ if ($mysql) {
         ok( diffTime >= 2000, 'setLinkTrackingTimer(): ' + diffTime);
     });
 
+    test("Browser detector feature Disable and enable", function() {
+        var pattern = /(res=)|(cookie=)/;
+        var tracker = Piwik.getTracker();
+        var siteIdPattern = /idsite/;
+
+        tracker.enableBrowserFeatureDetection();
+        var requestWithFingerprint = tracker.getRequest('hello=world');
+
+        equal(siteIdPattern.test(requestWithFingerprint), true);
+        equal(pattern.test(requestWithFingerprint), true, 'When browser fingerprint is enabled the request should include browser resolution or cookie');
+
+        tracker.disableBrowserFeatureDetection();
+        var requestWithoutFingerprint = tracker.getRequest('hello=world');
+
+        equal(siteIdPattern.test(requestWithoutFingerprint), true);
+        equal(pattern.test(requestWithoutFingerprint), false, 'When browser fingerprint is disabled the request should not include browser resolution or cookie');
+    });
+
 <?php
 }
 ?>

@@ -8,11 +8,10 @@
 
 namespace Piwik\Plugins\CoreVue\Commands;
 
-use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
+use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\MobileMessaging\SMSProvider\Development;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,7 +62,7 @@ class Build extends ConsoleCommand
             }
         }
 
-        $plugins = JScriptUIAssetFetcher::orderPluginsByPluginDependencies($plugins);
+        $plugins = PluginUmdAssetFetcher::orderPluginsByPluginDependencies($plugins);
 
         // remove webpack cache since it can result in strange builds if present
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);
@@ -171,7 +170,7 @@ class Build extends ConsoleCommand
 
             $vueIndexFile = $vueDir . '/src/index.ts';
             if (!is_file($vueIndexFile)) {
-                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.", ['plugin' => $plugin]);
+                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no index.ts, cannot build it.", ['plugin' => $plugin]);
                 continue;
             }
 

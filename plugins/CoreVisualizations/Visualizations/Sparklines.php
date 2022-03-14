@@ -16,7 +16,6 @@ use Piwik\Period\Factory;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\SettingsPiwik;
-use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -81,6 +80,15 @@ class Sparklines extends ViewDataTable
 
         $this->requestConfig->request_parameters_to_modify['columns'] = $columnsList;
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = '1';
+
+        /**
+         * This special request parameter is used to include trend indication columns for all evolution columns
+         * this is done to be able to determine safely in the view if an evolution is positive or negative, as this
+         * can't be done with formatted evolution values due to language specific signs being used.
+         *
+         * @see DataComparisonFilter::compareChangePercents
+         */
+        $this->requestConfig->request_parameters_to_modify['include_trends'] = '1';
 
         $request = $this->getRequestArray();
         if ($this->isComparing()
@@ -192,7 +200,7 @@ class Sparklines extends ViewDataTable
 
                         $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period);
 
-                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change');
+                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change', '_trend');
 
                         foreach ($compareValues as $i => $value) {
                             $metricInfo = [
@@ -261,7 +269,7 @@ class Sparklines extends ViewDataTable
         $table->applyQueuedFilters();
     }
 
-    private function getValuesAndDescriptions($firstRow, $columns, $evolutionColumnNameSuffix = null)
+    private function getValuesAndDescriptions($firstRow, $columns, $evolutionColumnNameSuffix = null, $trendColumnNameSuffix = null)
     {
         if (!is_array($columns)) {
             $columns = array($columns);
@@ -285,8 +293,9 @@ class Sparklines extends ViewDataTable
 
             if ($evolutionColumnNameSuffix !== null) {
                 $evolution = $firstRow->getColumn($col . $evolutionColumnNameSuffix);
+                $trend = $firstRow->getColumn($col . $trendColumnNameSuffix);
                 if ($evolution !== false) {
-                    $evolutions[] = ['percent' => ltrim($evolution, '+'), 'tooltip' => ''];
+                    $evolutions[] = ['percent' => ltrim($evolution, '+'), 'trend' => $trend, 'tooltip' => ''];
                 }
             }
 

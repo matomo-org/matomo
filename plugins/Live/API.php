@@ -15,7 +15,6 @@ use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Psr\Log\LoggerInterface;
 
@@ -147,6 +146,12 @@ class API extends \Piwik\Plugin\API
             $idSites = array_shift($idSites);
         }
         Piwik::checkUserHasViewAccess($idSites);
+
+        if (is_numeric($minTimestamp)) {
+            $minTimestamp = (int) $minTimestamp;
+        } else {
+            $minTimestamp = false;
+        }
 
         if (Request::isCurrentApiRequestTheRootApiRequest() || !in_array(Request::getRootApiRequestMethod(), ['API.getSuggestedValuesForSegment', 'PrivacyManager.findDataSubjects'])) {
             if (is_array($idSites)) {
