@@ -165,7 +165,7 @@ export default defineComponent({
   computed: {
     tokenParam() {
       const token_auth = MatomoUrl.urlParsed.value.token_auth as string;
-      return token_auth.length ? `&token_auth=${token_auth}` : '';
+      return token_auth ? `&token_auth=${token_auth}` : '';
     },
     period() {
       return Matomo.period;

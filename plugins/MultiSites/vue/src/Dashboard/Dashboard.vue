@@ -170,19 +170,17 @@
             </div>
           </td>
         </tr>
-        <tr>
-          <MultisitesSite
-            v-for="website in sites"
-            :key="website.idsite"
-            :website="website"
-            :evolution-metric="evolutionSelector"
-            :date-sparkline="dateSparkline"
-            :show-sparklines="showSparklines"
-            :metric="sortColumn"
-            :display-revenue-column="displayRevenueColumn"
-          >
-          </MultisitesSite>
-        </tr>
+        <MultisitesSite
+          v-for="website in sites"
+          :key="website.idsite"
+          :website="website"
+          :evolution-metric="evolutionSelector"
+          :date-sparkline="dateSparkline"
+          :show-sparklines="showSparklines"
+          :metric="sortColumn"
+          :display-revenue-column="displayRevenueColumn"
+        >
+        </MultisitesSite>
       </tbody>
       <tfoot>
         <tr>
