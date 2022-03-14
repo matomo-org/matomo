@@ -167,7 +167,6 @@
                 $('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element)
                   .remove();
             } catch (e) {
-
             }
         },
 
