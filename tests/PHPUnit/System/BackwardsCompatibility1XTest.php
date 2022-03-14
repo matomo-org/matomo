@@ -233,11 +233,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'VisitsSummary.getSumVisitsLengthPretty',
 
             // did not exist before Matomo 4
-            'PagePerformance.get',
-            'Goals.getPagesUrl',
-            'Goals.getPagesTitles',
-            'Goals.getPagesEntry',
-            'Goals.getPagesEntryTitles',
+            'PagePerformance.get'
         );
 
         if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {

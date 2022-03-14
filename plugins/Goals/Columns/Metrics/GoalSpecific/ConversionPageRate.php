@@ -16,7 +16,7 @@ use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
 /**
- * The conversion rate for a specific goal. Calculated as:
+ * The page conversion rate for a specific goal. Calculated as:
  *
  *     goal's nb_conversions / sum_daily_nb_uniq_visitors
  *
@@ -42,7 +42,7 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('goals');
+        return [];
     }
 
     public function format($value, Formatter $formatter)

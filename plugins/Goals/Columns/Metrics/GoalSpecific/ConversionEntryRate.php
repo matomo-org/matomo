@@ -15,12 +15,11 @@ use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Plugins\Goals\Goals;
 
 /**
- * The conversion rate for a specific goal. Calculated as:
+ * The entry page conversion rate for a specific goal. Calculated as:
  *
- *     goal's nb_conversions / entry_nb_visits
+ *     goal's nb_conversions_entry / entry_nb_visits
  *
- * The goal's nb_conversions is calculated by the Goal archiver and nb_visits
- * by the core archiving process.
+ * The goal's nb_conversions_entry and entry_nb_visits is calculated by the Goal archiver.
  */
 class ConversionEntryRate extends GoalSpecificProcessedMetric
 {

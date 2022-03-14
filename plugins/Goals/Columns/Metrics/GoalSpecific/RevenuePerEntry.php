@@ -20,9 +20,9 @@ use Piwik\Tracker\GoalManager;
 /**
  * Revenue per entry for a specific goal. Calculated as:
  *
- *     goal's revenue / (entry_nb_visits or goal's nb_conversions depending on what is present in data)
+ *     goal's revenue / entry_nb_visits
  *
- * Goal revenue & nb_conversion are calculated by the Goals archiver.
+ * Goal revenue and entry_nb_visits are calculated by the Goals archiver.
  */
 class RevenuePerEntry extends GoalSpecificProcessedMetric
 {
@@ -47,7 +47,7 @@ class RevenuePerEntry extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('goals', 'entry_nb_visits');
+        return array('goals', 'entry_nb_visits', 'revenue');
     }
 
     public function compute(Row $row)

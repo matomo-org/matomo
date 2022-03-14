@@ -43,12 +43,23 @@ class Goals extends HtmlTable
         if (in_array($requestMethod, ['Actions.getPageUrls', 'Actions.getPageTitles'])) {
             $this->displayType = self::GOALS_DISPLAY_PAGES;
             $this->requestConfig->request_parameters_to_modify['includeGoals'] = true;
-            $this->requestConfig->request_parameters_to_modify['idGoal'] = -3;
+            if (isset($_REQUEST['idGoal']) &&
+                ($_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART))
+            {
+                $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
+            } else {
+                $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_PAGES;
+            }
 
         } else if (in_array($requestMethod, ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'])) {
             $this->displayType = self::GOALS_DISPLAY_ENTRY_PAGES;
             $this->requestConfig->request_parameters_to_modify['includeGoals'] = true;
-            $this->requestConfig->request_parameters_to_modify['idGoal'] = -4;
+            if (isset($_REQUEST['idGoal']) &&
+                ($_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART)) {
+                $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
+            } else {
+                $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES;
+            }
         }
 
         parent::beforeLoadDataTable();

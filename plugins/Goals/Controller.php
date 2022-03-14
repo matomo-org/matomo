@@ -307,7 +307,7 @@ class Controller extends \Piwik\Plugin\Controller
             $topDimension = array();
             $count = 0;
 
-            if ($apiMethod == 'Goals.getPagesEntry') {
+            if ($apiMethod == 'Actions.getEntryPageUrls') {
                 $columnConversionRate = 'goal_' . $idGoal . '_nb_conversions_entry_rate';
             } else {
                 $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';

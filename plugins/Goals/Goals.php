@@ -285,7 +285,7 @@ class Goals extends \Piwik\Plugin
                         continue;
                     }
 
-                    if ($reportWithGoals['action'] == 'getPagesEntry') {
+                    if ($reportWithGoals['action'] == 'getEntryPageUrls') {
                         $apiReportToUpdate['metricsGoal'] = $goalEntryMetrics;
                         $apiReportToUpdate['processedMetricsGoal'] = $goalEntryProcessedMetrics;
                     } else {
@@ -307,16 +307,13 @@ class Goals extends \Piwik\Plugin
 
         foreach ($reports->getAllReports() as $report) {
             if ($report->hasGoalMetrics() && $report->isEnabled()) {
-                $r = array(
+                $reportsWithGoals[] = array(
                     'category' => $report->getCategoryId(),
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
-                    'parameters' => $report->getParameters(),
-                    'order' => $report->getOrder()
+                    'parameters' => $report->getParameters()
                 );
-
-                $reportsWithGoals[] = $r;
             }
         }
 
