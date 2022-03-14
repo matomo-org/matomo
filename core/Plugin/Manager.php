@@ -55,8 +55,8 @@ class Manager
 
     protected $doLoadPlugins = true;
 
-    public static $pluginsToPathCache = array();
-    public static $pluginsToWebRootDirCache = array();
+    protected static $pluginsToPathCache = array();
+    protected static $pluginsToWebRootDirCache = array();
 
     private $pluginsLoadedAndActivated;
 
