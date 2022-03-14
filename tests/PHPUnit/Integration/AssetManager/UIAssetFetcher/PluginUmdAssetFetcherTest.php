@@ -91,6 +91,8 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         putenv("MATOMO_PLUGIN_DIRS=" . self::TEST_PLUGINS_DIR . ';'
             . str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR));
         unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
+        Manager::$pluginsToPathCache = [];
+        Manager::$pluginsToWebRootDirCache = [];
         Manager::initPluginDirectories();
     }
 
@@ -101,7 +103,10 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         clearstatcache(true);
 
         putenv("MATOMO_PLUGIN_DIRS=");
+        $this->assertEquals('', getenv('MATOMO_PLUGIN_DIRS')); // sanity check
         unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
+        Manager::$pluginsToPathCache = [];
+        Manager::$pluginsToWebRootDirCache = [];
         Manager::initPluginDirectories();
     }
 

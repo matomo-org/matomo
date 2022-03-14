@@ -144,6 +144,8 @@ class AssetManagerTest extends IntegrationTestCase
         putenv("MATOMO_PLUGIN_DIRS=" . self::TEST_PLUGINS_DIR . ';'
             . str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR));
         unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
+        Manager::$pluginsToPathCache = [];
+        Manager::$pluginsToWebRootDirCache = [];
         Manager::initPluginDirectories();
     }
 
@@ -154,7 +156,10 @@ class AssetManagerTest extends IntegrationTestCase
         clearstatcache(true);
 
         putenv("MATOMO_PLUGIN_DIRS=");
+        $this->assertEquals('', getenv('MATOMO_PLUGIN_DIRS')); // sanity check
         unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
+        Manager::$pluginsToPathCache = [];
+        Manager::$pluginsToWebRootDirCache = [];
         Manager::initPluginDirectories();
     }
 
