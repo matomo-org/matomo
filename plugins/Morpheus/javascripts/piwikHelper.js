@@ -13,6 +13,8 @@ function _pk_translate(translationStringId, values) {
         if (typeof values != 'undefined' && values && values.length) {
             values.unshift(translation);
             return sprintf.apply(null, values);
+        } else if (values && values.length === 0) {
+            translation = translation.replaceAll('%%', '%');
         }
 
         return translation;
