@@ -99,7 +99,6 @@ class API extends \Piwik\Plugin\API
       Model $model,
       UserAccessFilter $filter,
       Password $password,
-      UserRepository $userRepository,
       Access $access = null,
       Access\RolesProvider $roleProvider = null,
       Access\CapabilitiesProvider $capabilityProvider = null,
@@ -108,7 +107,7 @@ class API extends \Piwik\Plugin\API
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
-        $this->userRepository = $userRepository;
+        $this->userRepository = new UserRepository($model, $filter, $password);
         $this->access = $access ?: StaticContainer::get(Access::class);
         $this->roleProvider = $roleProvider ?: StaticContainer::get(RolesProvider::class);
         $this->capabilityProvider = $capabilityProvider ?: StaticContainer::get(CapabilitiesProvider::class);
