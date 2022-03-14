@@ -4152,7 +4152,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "54", "count tracking events" );
+                equal( countTrackingEvents[1], "55", "count tracking events" );
             }
 
             // firing callback
