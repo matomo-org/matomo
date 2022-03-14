@@ -401,6 +401,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_ComparisonCardTooltip1';
         $translationKeys[] = 'General_ComparisonCardTooltip2';
         $translationKeys[] = 'General_Comparisons';
+        $translationKeys[] = 'General_ExceptionLanguageFileNotFound';
         $translationKeys[] = 'General_ClickToRemoveComp';
         $translationKeys[] = 'General_Custom';
         $translationKeys[] = 'General_PreviousPeriod';
