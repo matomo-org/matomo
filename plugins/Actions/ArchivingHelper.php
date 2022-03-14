@@ -331,6 +331,8 @@ class ArchivingHelper
                 }
             }
 
+            unset($row['type']);
+            unset($row['idaction']);
             $rowsProcessed++;
 
         }
