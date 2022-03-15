@@ -13,7 +13,6 @@
     <span
       class="icon-search"
       @mouseenter="searchActive = true"
-      v-show="!(searchTerm || searchActive)"
     />
     <input
       class="s"
@@ -22,6 +21,7 @@
       v-model="searchTerm"
       type="text"
       tabindex="2"
+      placeholder="Search"
       v-focus-if:[searchActive]="{}"
       :title="quickAccessTitle"
       ref="input"
