@@ -147,7 +147,7 @@
                     if ($('#' + visitId, this.element).html() != $(item).html()) {
                         this.updated = true;
                     }
-                    // $('#' + visitId, this.element).remove();
+                    $('#' + visitId, this.element).remove();
                     $(this.element).prepend(item);
                 } else {
                     this.updated = true;
@@ -156,7 +156,7 @@
                     $(item).fadeIn(this.options.fadeInSpeed);
                 }
                 // remove rows if there are more than the maximum
-                //$('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
+                $('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
             } catch (e) {
             }
         },
