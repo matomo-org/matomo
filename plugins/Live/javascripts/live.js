@@ -10,6 +10,38 @@
  */
 
 (function ($) {
+    $.widget('ui.tooltip', $.extend({}, $.ui.tooltip.prototype, {
+        _registerCloseHandlers: function( event, target ) {
+            var events = {
+                keyup: function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.ESCAPE ) {
+                        var fakeEvent = $.Event( event );
+                        fakeEvent.currentTarget = target[ 0 ];
+                        this.close( fakeEvent, true );
+                    }
+                }
+            };
+
+            // Only bind remove handler for delegated targets. Non-delegated
+            // tooltips will handle this in destroy.
+            if ( target[ 0 ] !== this.element[ 0 ] ) {
+                events.remove = function() {
+                    if(this._find( target )) {
+                        this._removeTooltip(this._find(target).tooltip);
+                    }
+                };
+            }
+
+            if ( !event || event.type === "mouseover" ) {
+                events.mouseleave = "close";
+            }
+            if ( !event || event.type === "focusin" ) {
+                events.focusout = "close";
+            }
+            this._on( true, target, events );
+        }
+    }));
+
     $.widget('piwik.liveWidget', {
 
         /**
@@ -117,15 +149,6 @@
             this._initTooltips();
         },
 
-        /**
-         * Destory the icon tooltips
-         */
-        _destroyTooltips: function() {
-            try {
-                $('li.visit *[title]').tooltip('destroy');
-                $('li.visit .visitorLogIconWithDetails').tooltip('destroy');
-            } catch (e) {}
-        },
 
         /**
          * Initializes the icon tooltips
@@ -273,7 +296,6 @@ $(function() {
             return;
         }
 
-        $('.visitorLogIconWithDetails').tooltip('dispose');
 
         var lastMinutes = $(element).attr('data-last-minutes') || 3,
           translations = JSON.parse($(element).attr('data-translations'));
