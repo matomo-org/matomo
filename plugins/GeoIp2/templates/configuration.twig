@@ -1,15 +1,15 @@
 <div
   piwik-geoip2-updater
-  geoip-database-started-installed="{{ geoIPDatabasesInstalled|json_encode|e('html_attr') }}"
-  show-geo-ip-update-section="{{ showGeoIPUpdateSection|json_encode|e('html_attr') }}"
-  dbip-lite-url="{{ dbipLiteUrl|json_encode|e('html_attr') }}"
-  dbip-lite-filename="{{ dbipLiteFilename|json_encode|e('html_attr') }}"
-  geoip-loc-url="{{ geoIPLocUrl|json_encode|e('html_attr') }}"
-  is-provider-plugin-active="{{ isProviderPluginActive|json_encode|e('html_attr') }}"
-  geoip-isp-url="{{ geoIPIspUrl|json_encode|e('html_attr') }}"
-  last-time-updater-run="{{ lastTimeUpdaterRun|json_encode|e('html_attr') }}"
-  geoip-update-period="{{ geoIPUpdatePeriod|json_encode|e('html_attr') }}"
-  update-period-options="{{ updatePeriodOptions|json_encode|e('html_attr') }}"
-  is-provider-plugin-active="{{ isProviderPluginActive|json_encode|e('html_attr') }}"
+  geoip-database-started-installed="{{ geoIPDatabasesInstalled|default(null)|json_encode|e('html_attr') }}"
+  show-geoip-update-section="{{ showGeoIPUpdateSection|default(null)|json_encode|e('html_attr') }}"
+  dbip-lite-url="{{ dbipLiteUrl|default(null)|json_encode|e('html_attr') }}"
+  dbip-lite-filename="{{ dbipLiteFilename|default(null)|json_encode|e('html_attr') }}"
+  geoip-loc-url="{{ geoIPLocUrl|default(null)|json_encode|e('html_attr') }}"
+  is-provider-plugin-active="{{ isProviderPluginActive|default(null)|json_encode|e('html_attr') }}"
+  geoip-isp-url="{{ geoIPIspUrl|default(null)|json_encode|e('html_attr') }}"
+  last-time-updater-run="{{ lastTimeUpdaterRun|default(null)|json_encode|e('html_attr') }}"
+  geoip-update-period="{{ geoIPUpdatePeriod|default(null)|json_encode|e('html_attr') }}"
+  update-period-options="{{ updatePeriodOptions|default(null)|json_encode|e('html_attr') }}"
+  is-provider-plugin-active="{{ isProviderPluginActive|default(null)|json_encode|e('html_attr') }}"
 >
 </div>

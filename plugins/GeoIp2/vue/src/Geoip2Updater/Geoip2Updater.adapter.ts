@@ -23,19 +23,19 @@ export default createAngularJsAdapter({
     dbipLiteFilename: {
       angularJsBind: '<',
     },
-    geoIpLocUrl: {
+    geoipLocUrl: {
       angularJsBind: '<',
     },
     isProviderPluginActive: {
       angularJsBind: '<',
     },
-    geoIpIspUrl: {
+    geoipIspUrl: {
       angularJsBind: '<',
     },
     lastTimeUpdaterRun: {
       angularJsBind: '<',
     },
-    geoIPUpdatePeriod: {
+    geoipUpdatePeriod: {
       angularJsBind: '<',
     },
     updatePeriodOptions: {
@@ -44,10 +44,7 @@ export default createAngularJsAdapter({
     geoipDatabaseStartedInstalled: {
       angularJsBind: '<',
     },
-    showGeoIPUpdateSection: {
-      angularJsBind: '<',
-    },
-    isProviderPluginActive: {
+    showGeoipUpdateSection: {
       angularJsBind: '<',
     },
   },

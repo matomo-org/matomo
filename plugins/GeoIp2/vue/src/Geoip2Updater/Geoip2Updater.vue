@@ -4,17 +4,12 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- create PR
-</todo>
-
 <template>
   <ContentBlock :content-title="contentTitle" id="geoip-db-mangement">
-    <div v-if="showGeoIpUpdateSection">
+    <div v-if="showGeoipUpdateSection">
       <div v-if="!geoipDatabaseInstalled">
         <div v-show="showPiwikNotManagingInfo">
-          <h3 />
+          <h3>{{ translate('GeoIp2_NotManagingGeoIPDBs') }}</h3>
           <div id="manage-geoip-dbs">
             <div
               class="row"
@@ -24,7 +19,7 @@
                 <p>{{ translate('GeoIp2_IWantToDownloadFreeGeoIP') }}<sup><small>*</small></sup></p>
               </div>
               <div class="geoipdb-column-2 col s6">
-                <p />
+                <p v-html="purchasedGeoIpText"></p>
               </div>
               <div class="geoipdb-column-1 col s6">
                 <input
@@ -45,7 +40,7 @@
               </div>
             </div>
             <div class="row">
-              <p><sup>* <small>.</small></sup></p>
+              <p><sup>* <small v-html="accuracyNote"></small></sup></p>
             </div>
           </div>
         </div>
@@ -68,8 +63,10 @@
         v-if="geoipDatabaseInstalled && !downloadErrorMessage"
       >
         <p>
+          <span v-html="geoIPUpdaterInstructions"></span>
           <br /><br />
-          <span v-if="!!dbipLiteUrl"><br /><br /></span>
+          <span v-if="!!dbipLiteUrl" v-html="geoliteCityLink"></span>
+          <span v-html="maxMindLinkExplanation"></span>
           <span v-show="geoipDatabaseInstalled">
             <br /><br />{{ translate('GeoIp2_GeoIPUpdaterIntro') }}:
           </span>
@@ -78,11 +75,10 @@
           <Field
             uicontrol="text"
             name="geoip-location-db"
-            introduction
-            data-title
-            inline-help
+            :introduction="translate('GeoIp2_LocationDatabase')"
+            :title="translate('Actions_ColumnDownloadURL')"
+            :inline-help="translate('GeoIp2_LocationDatabaseHint')"
             v-model="locationDbUrl"
-            :value="geoIpLocUrl"
           >
           </Field>
         </div>
@@ -90,37 +86,40 @@
           <Field
             uicontrol="text"
             name="geoip-isp-db"
-            introduction
-            data-title
+            :introduction="translate('GeoIp2_ISPDatabase')"
+            :title="translate('Actions_ColumnDownloadURL')"
             :inline-help="providerPluginHelp"
             v-model="ispDbUrl"
             :disabled="!isProviderPluginActive"
-            :value="geoIpIspUrl"
           >
           </Field>
-        </div>
-        <div
-          id="locationProviderUpdatePeriodInlineHelp"
-          class="inline-help-node"
-          ref="inlineHelpNode"
-        >
-          <span v-if="lastTimeUpdaterRun">
-            {{ translate('GeoIp2_UpdaterWasLastRun', lastTimeUpdaterRun) }}
-          </span>
-          <span v-else>{{ translate('GeoIp2_UpdaterHasNotBeenRun') }}</span>
-          <br /><br />
-          <div id="geoip-updater-next-run-time" v-html="$sanitize(nextRunTimeText)">
-          </div>
         </div>
         <div>
           <Field
             uicontrol="radio"
             name="geoip-update-period"
-            introduction
-            inline-help="#locationProviderUpdatePeriodInlineHelp"
+            :introduction="translate('GeoIp2_DownloadNewDatabasesEvery')"
             v-model="updatePeriod"
             :options="updatePeriodOptions"
           >
+            <template v-slot:inline-help>
+              <div
+                id="locationProviderUpdatePeriodInlineHelp"
+                class="inline-help-node"
+                ref="inlineHelpNode"
+              >
+                <span
+                  v-if="lastTimeUpdaterRun"
+                  v-html="$sanitize(
+                    translate('GeoIp2_UpdaterWasLastRun', lastTimeUpdaterRun),
+                  )"
+                />
+                <span v-else>{{ translate('GeoIp2_UpdaterHasNotBeenRun') }}</span>
+                <br /><br />
+                <div id="geoip-updater-next-run-time" v-html="$sanitize(nextRunTimeText)">
+                </div>
+              </div>
+            </template>
           </Field>
         </div>
         <input
@@ -192,11 +191,8 @@ const { $ } = window;
 
 export default defineComponent({
   props: {
-    geoipDatabaseStartedInstalled: {
-      type: Boolean,
-      required: true,
-    },
-    showGeoIpUpdateSection: {
+    geoipDatabaseStartedInstalled: Boolean,
+    showGeoipUpdateSection: {
       type: Boolean,
       required: true,
     },
@@ -208,20 +204,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    geoIpLocUrl: {
-      type: String,
-      required: true,
-    },
-    isProviderPluginActive: {
-      type: Boolean,
-      required: true,
-    },
-    geoIpIspUrl: {
-      type: String,
-      required: true,
-    },
+    geoipLocUrl: String,
+    isProviderPluginActive: Boolean,
+    geoipIspUrl: String,
     lastTimeUpdaterRun: String,
-    geoIpUpdatePeriod: String,
+    geoipUpdatePeriod: String,
     updatePeriodOptions: {
       type: Object,
       required: true,
@@ -236,17 +223,17 @@ export default defineComponent({
   },
   data(): Geoip2UpdaterState {
     return {
-      geoipDatabaseInstalled: this.geoipDatabaseStartedInstalled,
+      geoipDatabaseInstalled: !!this.geoipDatabaseStartedInstalled,
       showFreeDownload: false,
       showPiwikNotManagingInfo: true,
       progressFreeDownload: 0,
       progressUpdateDownload: 0,
       buttonUpdateSaveText: translate('General_Save'),
       progressUpdateLabel: '',
-      locationDbUrl: '',
-      ispDbUrl: '',
+      locationDbUrl: this.geoipLocUrl || '',
+      ispDbUrl: this.geoipIspUrl || '',
       orgDbUrl: '',
-      updatePeriod: this.geoIpUpdatePeriod || 'month',
+      updatePeriod: this.geoipUpdatePeriod || 'month',
       isUpdatingGeoIpDatabase: false,
       downloadErrorMessage: null,
       nextRunTimePrettyUpdated: null,
@@ -418,6 +405,50 @@ export default defineComponent({
     contentTitle() {
       return translate(
         this.geoipDatabaseInstalled ? 'GeoIp2_SetupAutomaticUpdatesOfGeoIP' : 'GeoIp2_GeoIPDatabases',
+      );
+    },
+    accuracyNote() {
+      return translate(
+        'UserCountry_GeoIpDbIpAccuracyNote',
+        '<a href="https://dev.maxmind.com/geoip/geoip2/geolite2/?rId=piwik" rel="noreferrer noopener" target="_blank">',
+        '</a>',
+      );
+    },
+    purchasedGeoIpText() {
+      const maxMindLink = 'http://www.maxmind.com/en/geolocation_landing?rId=piwik';
+      return translate(
+        'GeoIp2_IPurchasedGeoIPDBs',
+        `<a rel="noreferrer noopener" href="${maxMindLink}" target="_blank">`,
+        '</a>',
+        '<a rel="noreferrer noopener" href="https://db-ip.com/db/?refid=mtm" target="_blank">',
+        '</a>',
+      );
+    },
+    geoIPUpdaterInstructions() {
+      return translate(
+        'GeoIp2_GeoIPUpdaterInstructions',
+        '<a href="http://www.maxmind.com/?rId=piwik" rel="noreferrer noopener" target="_blank">',
+        '</a>',
+        '<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm" target="_blank">',
+        '</a>',
+      );
+    },
+    geoliteCityLink() {
+      const translation = translate(
+        'GeoIp2_GeoLiteCityLink',
+        `<a rel="noreferrer noopener" href="${this.dbipLiteUrl}" target="_blank">`,
+        this.dbipLiteUrl,
+        '</a>',
+      );
+      return `${translation}<br /><br />`;
+    },
+    maxMindLinkExplanation() {
+      const link = 'https://matomo.org/faq/how-to/'
+        + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/';
+      return translate(
+        'UserCountry_MaxMindLinkExplanation',
+        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
+        '</a>',
       );
     },
   },
