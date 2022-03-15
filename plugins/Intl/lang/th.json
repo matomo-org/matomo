@@ -621,7 +621,7 @@
         "Format_Hour_24": "HH",
         "Format_Interval_Long_D": "d–d MMMM G y",
         "Format_Interval_Long_M": "d MMMM – d MMMM G y",
-        "Format_Interval_Long_Y": "d MMMM G y – d MMMM y",
+        "Format_Interval_Long_Y": "d MMMM G y – d MMMM G y",
         "Format_Interval_Short_D": "d–d MMM y",
         "Format_Interval_Short_M": "d MMM – d MMM y",
         "Format_Interval_Short_Y": "d MMM y – d MMM y",

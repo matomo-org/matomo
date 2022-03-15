@@ -46,6 +46,9 @@ class AssetManagerTest extends IntegrationTestCase
     const CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockCorePluginOnlyUmd';
     const NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockNonCorePluginOnlyUmd';
 
+    private $oldPluginDirsEnvVar;
+    private $oldPluginDirsGlobal;
+
     /**
      * @var AssetManager
      */
@@ -107,6 +110,9 @@ class AssetManagerTest extends IntegrationTestCase
 
     private function setUpPluginsDirectory()
     {
+        $this->oldPluginDirsEnvVar = getenv('MATOMO_PLUGIN_DIRS');
+        $this->oldPluginDirsGlobal = $GLOBALS['MATOMO_PLUGIN_DIRS'];
+
         parent::setUpBeforeClass();
 
         $pluginsWithUmds = [
@@ -153,8 +159,8 @@ class AssetManagerTest extends IntegrationTestCase
 
         clearstatcache(true);
 
-        putenv("MATOMO_PLUGIN_DIRS=");
-        unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
+        putenv("MATOMO_PLUGIN_DIRS={$this->oldPluginDirsEnvVar}");
+        $GLOBALS['MATOMO_PLUGIN_DIRS'] = $this->oldPluginDirsGlobal;
         Manager::initPluginDirectories();
     }
 

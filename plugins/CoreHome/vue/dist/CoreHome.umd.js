@@ -1118,11 +1118,11 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
 
     MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl("?".concat(_this.urlQuery.value), true));
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.parse(_this.urlQuery.value));
     }));
 
     MatomoUrl_defineProperty(this, "hashParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(MatomoUrl_broadcast.getValuesFromUrl("?".concat(_this.hashQuery.value), true));
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.parse(_this.hashQuery.value));
     }));
 
     MatomoUrl_defineProperty(this, "parsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
@@ -1179,8 +1179,8 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     key: "getFinalHashParams",
     value: function getFinalHashParams(params) {
       var urlParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var paramsObj = typeof params !== 'string' ? params : MatomoUrl_broadcast.getValuesFromUrl("?".concat(params), true);
-      var urlParamsObj = typeof params !== 'string' ? urlParams : MatomoUrl_broadcast.getValuesFromUrl("?".concat(urlParams), true);
+      var paramsObj = typeof params !== 'string' ? params : this.parse(params);
+      var urlParamsObj = typeof params !== 'string' ? urlParams : this.parse(urlParams);
       return Object.assign({
         // these params must always be present in the hash
         period: urlParamsObj.period || this.parsed.value.period,
@@ -1214,6 +1214,11 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       }
 
       return window.broadcast.getValueFromUrl(paramName, window.location.search);
+    }
+  }, {
+    key: "parse",
+    value: function parse(query) {
+      return MatomoUrl_broadcast.getValuesFromUrl("?".concat(query), true);
     }
   }, {
     key: "stringify",
