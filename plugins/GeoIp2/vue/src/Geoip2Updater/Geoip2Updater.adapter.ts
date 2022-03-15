@@ -11,10 +11,10 @@ import Geoip2Updater from './Geoip2Updater.vue';
 export default createAngularJsAdapter({
   component: Geoip2Updater,
   scope: {
-    geoIPDatabasesInstalled: {
+    geoIpDatabasesInstalled: {
       angularJsBind: '<',
     },
-    showGeoIPUpdateSection: {
+    showGeoIpUpdateSection: {
       angularJsBind: '<',
     },
     dbipLiteUrl: {
@@ -23,13 +23,13 @@ export default createAngularJsAdapter({
     dbipLiteFilename: {
       angularJsBind: '<',
     },
-    geoIPLocUrl: {
+    geoIpLocUrl: {
       angularJsBind: '<',
     },
     isProviderPluginActive: {
       angularJsBind: '<',
     },
-    geoIPIspUrl: {
+    geoIpIspUrl: {
       angularJsBind: '<',
     },
     lastTimeUpdaterRun: {
@@ -39,6 +39,15 @@ export default createAngularJsAdapter({
       angularJsBind: '<',
     },
     updatePeriodOptions: {
+      angularJsBind: '<',
+    },
+    geoipDatabaseStartedInstalled: {
+      angularJsBind: '<',
+    },
+    showGeoIPUpdateSection: {
+      angularJsBind: '<',
+    },
+    isProviderPluginActive: {
       angularJsBind: '<',
     },
   },

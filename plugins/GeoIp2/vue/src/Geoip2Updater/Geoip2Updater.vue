@@ -4,166 +4,164 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
 <todo>
-- look over template
-- look over component code
-- get to build
 - test in UI
-- check uses:
-  ./plugins/GeoIp2/templates/configuration.twig
-  ./plugins/GeoIp2/angularjs/geoip2-updater/geoip2-updater.directive.js
 - create PR
 </todo>
 
 <template>
-  <div v-if="showGeoIPUpdateSection">
-    <div v-if="!geoipDatabaseInstalled">
-      <div v-show="showPiwikNotManagingInfo">
-        <h3 />
-        <div id="manage-geoip-dbs">
-          <div
-            class="row"
-            id="geoipdb-screen1"
-          >
-            <div class="geoipdb-column-1 col s6">
-              <p>{{ translate('GeoIp2_IWantToDownloadFreeGeoIP') }}<sup><small>*</small></sup></p>
+  <ContentBlock :content-title="contentTitle" id="geoip-db-mangement">
+    <div v-if="showGeoIpUpdateSection">
+      <div v-if="!geoipDatabaseInstalled">
+        <div v-show="showPiwikNotManagingInfo">
+          <h3 />
+          <div id="manage-geoip-dbs">
+            <div
+              class="row"
+              id="geoipdb-screen1"
+            >
+              <div class="geoipdb-column-1 col s6">
+                <p>{{ translate('GeoIp2_IWantToDownloadFreeGeoIP') }}<sup><small>*</small></sup></p>
+              </div>
+              <div class="geoipdb-column-2 col s6">
+                <p />
+              </div>
+              <div class="geoipdb-column-1 col s6">
+                <input
+                  type="button"
+                  class="btn"
+                  @click="startDownloadFreeGeoIp()"
+                  :value="`${translate('General_GetStarted')}...`"
+                />
+              </div>
+              <div class="geoipdb-column-2 col s6">
+                <input
+                  type="button"
+                  class="btn"
+                  id="start-automatic-update-geoip"
+                  @click="startAutomaticUpdateGeoIp()"
+                  :value="`${translate('General_GetStarted')}...`"
+                />
+              </div>
             </div>
-            <div class="geoipdb-column-2 col s6">
-              <p />
-            </div>
-            <div class="geoipdb-column-1 col s6">
-              <input
-                type="button"
-                class="btn"
-                @click="startDownloadFreeGeoIp()"
-                :value="`${translate('General_GetStarted')}...`"
-              />
-            </div>
-            <div class="geoipdb-column-2 col s6">
-              <input
-                type="button"
-                class="btn"
-                id="start-automatic-update-geoip"
-                @click="startAutomaticUpdateGeoIp()"
-                :value="`${translate('General_GetStarted')}...`"
-              />
+            <div class="row">
+              <p><sup>* <small>.</small></sup></p>
             </div>
           </div>
-          <div class="row">
-            <p><sup>* <small>.</small></sup></p>
+        </div>
+        <div
+          id="geoipdb-screen2-download"
+          v-show="showFreeDownload"
+        >
+          <div>
+            <Progressbar
+              label
+              :progress="progressFreeDownload"
+            >
+            </Progressbar>
           </div>
         </div>
       </div>
-      <div
-        id="geoipdb-screen2-download"
-        v-show="showFreeDownload"
-      >
-        <div>
-          <Progressbar
-            label
-            :progress="progressFreeDownload"
-          >
-          </Progressbar>
-        </div>
-      </div>
-    </div>
 
-    <div
-      id="geoipdb-update-info"
-      v-if="geoipDatabaseInstalled"
-    >
-      <p>
-        <br /><br />
-        <span v-if="!!dbipLiteUrl"><br /><br /></span>
-        <span v-show="geoipDatabaseInstalled">
-          <br /><br />{{ translate('GeoIp2_GeoIPUpdaterIntro') }}:
-        </span>
-      </p>
-      <div>
-        <Field
-          uicontrol="text"
-          name="geoip-location-db"
-          introduction
-          data-title
-          inline-help
-          v-model="locationDbUrl"
-          :value="geoIPLocUrl"
-        >
-        </Field>
-      </div>
-      <div>
-        <Field
-          uicontrol="text"
-          name="geoip-isp-db"
-          introduction
-          data-title
-          :inline-help="providerPluginHelp"
-          v-model="ispDbUrl"
-          :disabled="!isProviderPluginActive"
-          :value="geoIPIspUrl"
-        >
-        </Field>
-      </div>
       <div
-        id="locationProviderUpdatePeriodInlineHelp"
-        class="inline-help-node"
+        id="geoipdb-update-info"
+        v-if="geoipDatabaseInstalled && !downloadErrorMessage"
       >
-        <span v-if="lastTimeUpdaterRun">
-          {{ translate('GeoIp2_UpdaterWasLastRun', lastTimeUpdaterRun) }}
-        </span>
-        <span v-else>{{ translate('GeoIp2_UpdaterHasNotBeenRun') }}</span>
-        <br /><br />
-        <div id="geoip-updater-next-run-time" v-html="$sanitize(nextRunTimeText)">
-        </div>
-      </div>
-      <div>
-        <Field
-          uicontrol="radio"
-          name="geoip-update-period"
-          introduction
-          inline-help="#locationProviderUpdatePeriodInlineHelp"
-          v-model="updatePeriod"
-          :options="json_encode(updatePeriodOptions)"
-        >
-        </Field>
-      </div>
-      <input
-        type="button"
-        class="btn"
-        @click="saveGeoIpLinks()"
-        :value="buttonUpdateSaveText"
-      />
-      <div>
-        <div id="done-updating-updater" />
-        <div id="geoipdb-update-info-error" />
+        <p>
+          <br /><br />
+          <span v-if="!!dbipLiteUrl"><br /><br /></span>
+          <span v-show="geoipDatabaseInstalled">
+            <br /><br />{{ translate('GeoIp2_GeoIPUpdaterIntro') }}:
+          </span>
+        </p>
         <div>
-          <Progressbar
-            v-show="isUpdatingGeoIpDatabase"
-            :progress="progressUpdateDownload"
-            :label="progressUpdateLabel"
-          />
+          <Field
+            uicontrol="text"
+            name="geoip-location-db"
+            introduction
+            data-title
+            inline-help
+            v-model="locationDbUrl"
+            :value="geoIpLocUrl"
+          >
+          </Field>
+        </div>
+        <div>
+          <Field
+            uicontrol="text"
+            name="geoip-isp-db"
+            introduction
+            data-title
+            :inline-help="providerPluginHelp"
+            v-model="ispDbUrl"
+            :disabled="!isProviderPluginActive"
+            :value="geoIpIspUrl"
+          >
+          </Field>
+        </div>
+        <div
+          id="locationProviderUpdatePeriodInlineHelp"
+          class="inline-help-node"
+          ref="inlineHelpNode"
+        >
+          <span v-if="lastTimeUpdaterRun">
+            {{ translate('GeoIp2_UpdaterWasLastRun', lastTimeUpdaterRun) }}
+          </span>
+          <span v-else>{{ translate('GeoIp2_UpdaterHasNotBeenRun') }}</span>
+          <br /><br />
+          <div id="geoip-updater-next-run-time" v-html="$sanitize(nextRunTimeText)">
+          </div>
+        </div>
+        <div>
+          <Field
+            uicontrol="radio"
+            name="geoip-update-period"
+            introduction
+            inline-help="#locationProviderUpdatePeriodInlineHelp"
+            v-model="updatePeriod"
+            :options="updatePeriodOptions"
+          >
+          </Field>
+        </div>
+        <input
+          type="button"
+          class="btn"
+          @click="saveGeoIpLinks()"
+          :value="buttonUpdateSaveText"
+        />
+        <div>
+          <div id="done-updating-updater" />
+          <div id="geoipdb-update-info-error" />
+          <div>
+            <Progressbar
+              v-show="isUpdatingGeoIpDatabase"
+              :progress="progressUpdateDownload"
+              :label="progressUpdateLabel"
+            />
+          </div>
         </div>
       </div>
+      <div v-if="downloadErrorMessage" v-html="$sanitize(downloadErrorMessage)"></div>
     </div>
-  </div>
-  <div v-else>
-    <p class="form-description">{{ translate('GeoIp2_CannotSetupGeoIPAutoUpdating') }}</p>
-  </div>
+    <div v-else>
+      <p class="form-description">{{ translate('GeoIp2_CannotSetupGeoIPAutoUpdating') }}</p>
+    </div>
+  </ContentBlock>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
   translate,
-  translate,
   AjaxHelper,
-  Progressbar
+  Progressbar,
+  ContentBlock,
+  NotificationsStore,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
-
 interface Geoip2UpdaterState {
+  geoipDatabaseInstalled: boolean;
   showFreeDownload: boolean;
   showPiwikNotManagingInfo: boolean;
   progressFreeDownload: number;
@@ -175,16 +173,31 @@ interface Geoip2UpdaterState {
   orgDbUrl: string;
   updatePeriod: string;
   isUpdatingGeoIpDatabase: boolean;
+  downloadErrorMessage: string|null;
+  nextRunTimePrettyUpdated: string|null;
 }
+
+interface UpdateGeoIpLinksResponse {
+  to_download?: string;
+  to_download_label?: string;
+  nextRunTime: string;
+}
+
+interface DownloadChunkResponse {
+  current_size: number;
+  expected_file_size: number;
+}
+
+const { $ } = window;
 
 export default defineComponent({
   props: {
     geoipDatabaseStartedInstalled: {
-      type: Boolean, // TODO angularjs adapter
+      type: Boolean,
       required: true,
     },
-    showGeoIPUpdateSection: {
-      type: Boolean, // TODO angularjs adapter
+    showGeoIpUpdateSection: {
+      type: Boolean,
       required: true,
     },
     dbipLiteUrl: {
@@ -195,20 +208,20 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    geoIPLocUrl: {
+    geoIpLocUrl: {
       type: String,
       required: true,
     },
     isProviderPluginActive: {
-      type: Boolean, // TODO: angularjs
+      type: Boolean,
       required: true,
     },
-    geoIPIspUrl: {
+    geoIpIspUrl: {
       type: String,
       required: true,
     },
     lastTimeUpdaterRun: String,
-    geoIPUpdatePeriod: String,
+    geoIpUpdatePeriod: String,
     updatePeriodOptions: {
       type: Object,
       required: true,
@@ -219,6 +232,7 @@ export default defineComponent({
   components: {
     Progressbar,
     Field,
+    ContentBlock,
   },
   data(): Geoip2UpdaterState {
     return {
@@ -232,149 +246,166 @@ export default defineComponent({
       locationDbUrl: '',
       ispDbUrl: '',
       orgDbUrl: '',
-      updatePeriod: this.geoIPUpdatePeriod || 'month',
+      updatePeriod: this.geoIpUpdatePeriod || 'month',
       isUpdatingGeoIpDatabase: false,
+      downloadErrorMessage: null,
+      nextRunTimePrettyUpdated: null,
     };
   },
   methods: {
-    // TODO
     startDownloadFreeGeoIp() {
       this.showFreeDownload = true;
       this.showPiwikNotManagingInfo = false;
       this.progressFreeDownload = 0; // start download of free dbs
 
-      this.downloadNextChunk('downloadFreeDBIPLiteDB', 'geoipdb-screen2-download', 'progressFreeDownload', false, {}, (response) => {
-        if (response.error) {
-          $('#geoipdb-update-info').html(response.error);
-          this.geoipDatabaseInstalled = true;
-        } else {
-          window.location.reload();
-        }
+      this.downloadNextChunk(
+        'downloadFreeDBIPLiteDB',
+        (v) => {
+          this.progressFreeDownload = v;
+        },
+        false,
+        {},
+      ).then(() => {
+        window.location.reload();
+      }).catch((e) => {
+        this.geoipDatabaseInstalled = true;
+        this.downloadErrorMessage = e.message;
       });
     },
-    // TODO
     startAutomaticUpdateGeoIp() {
       this.buttonUpdateSaveText = translate('General_Continue');
       this.showGeoIpUpdateInfo();
     },
-    // TODO
     showGeoIpUpdateInfo() {
       this.geoipDatabaseInstalled = true; // todo we need to replace this the proper way eventually
-
-      $('#geoip-db-mangement .card-title').text(translate('GeoIp2_SetupAutomaticUpdatesOfGeoIP'));
     },
-    // TODO
     saveGeoIpLinks() {
-      const currentDownloading = null;
+      let currentDownloading: string|null = null;
 
-      const updateGeoIPSuccess = (response) => {
-        if (response && response.error) {
-          this.isUpdatingGeoIpDatabase = false;
-
-          const UI = require('piwik/UI');
-
-          const notification = new UI.Notification();
-          notification.show(response.error, {
-            placeat: '#geoipdb-update-info-error',
-            context: 'error',
-            style: {
-              display: 'inline-block'
-            },
-            id: 'userCountryGeoIpUpdate'
-          });
-        } else if (response && response.to_download) {
-          const continuing = currentDownloading == response.to_download;
+      AjaxHelper.post<UpdateGeoIpLinksResponse>(
+        {
+          period: this.updatePeriod,
+          module: 'GeoIp2',
+          action: 'updateGeoIPLinks',
+        },
+        {
+          loc_db: this.locationDbUrl,
+          isp_db: this.ispDbUrl,
+          org_db: this.orgDbUrl,
+        },
+        {
+          withTokenInUrl: true,
+        },
+      ).then((response) => {
+        if (response?.to_download) {
+          const continuing = currentDownloading === response.to_download;
           currentDownloading = response.to_download; // show progress bar w/ message
 
           this.progressUpdateDownload = 0;
-          this.progressUpdateLabel = response.to_download_label;
+          this.progressUpdateLabel = response.to_download_label!;
           this.isUpdatingGeoIpDatabase = true; // start/continue download
 
-          this.downloadNextChunk('downloadMissingGeoIpDb', 'geoipdb-update-info', 'progressUpdateDownload', continuing, {
-            key: response.to_download
-          }, updateGeoIPSuccess);
-        } else {
-          this.progressUpdateLabel = '';
-          this.isUpdatingGeoIpDatabase = false;
-
-          const UI = require('piwik/UI');
-
-          const notification = new UI.Notification();
-          notification.show(translate('General_Done'), {
-            placeat: '#done-updating-updater',
-            context: 'success',
-            noclear: true,
-            type: 'toast',
-            style: {
-              display: 'inline-block'
+          return this.downloadNextChunk(
+            'downloadMissingGeoIpDb',
+            (v) => {
+              this.progressUpdateDownload = v;
             },
-            id: 'userCountryGeoIpUpdate'
-          });
-          $('#geoip-updater-next-run-time').html(response.nextRunTime).parent().effect('highlight', {
-            color: '#FFFFCB'
-          }, 2000);
+            continuing,
+            {
+              key: response.to_download,
+            },
+          );
         }
-      };
 
-      AjaxHelper.withTokenInUrl();
-      AjaxHelper.post({
-        period: this.updatePeriod,
-        module: 'GeoIp2',
-        action: 'updateGeoIPLinks'
-      }, {
-        loc_db: this.locationDbUrl,
-        isp_db: this.ispDbUrl,
-        org_db: this.orgDbUrl
-      }).then(updateGeoIPSuccess);
-    },
-    // TODO
-    downloadNextChunk(action, thisId, progressBarId, cont, extraData, callback) {
-      const data = {};
+        this.progressUpdateLabel = '';
+        this.isUpdatingGeoIpDatabase = false;
 
-      for (const k in extraData) {
-        data[k] = extraData[k];
-      }
-
-      AjaxHelper.withTokenInUrl();
-      AjaxHelper.post({
-        module: 'GeoIp2',
-        action: action,
-        'continue': cont ? 1 : 0
-      }, data).then((response) => {
-        if (!response || response.error) {
-          callback(response);
-        } else {
-          // update progress bar
-          const newProgressVal = Math.floor(response.current_size / response.expected_file_size * 100);
-          this[progressBarId] = Math.min(newProgressVal, 100); // if incomplete, download next chunk, otherwise, show updater manager
-
-          if (newProgressVal < 100) {
-            this.downloadNextChunk(action, thisId, progressBarId, true, extraData, callback);
-          } else {
-            callback(response);
-          }
-        }
-      }, () => {
-        callback({
-          error: translate('GeoIp2_FatalErrorDuringDownload')
+        NotificationsStore.show({
+          message: translate('General_Done'),
+          placeat: '#done-updating-updater',
+          context: 'success',
+          noclear: true,
+          type: 'toast',
+          style: {
+            display: 'inline-block',
+          },
+          id: 'userCountryGeoIpUpdate',
         });
+
+        this.nextRunTimePrettyUpdated = response.nextRunTime;
+        $(this.$refs.inlineHelpNode as HTMLElement).effect('highlight', {
+          color: '#FFFFCB',
+        }, 2000);
+
+        return undefined;
+      }).catch((e) => {
+        this.isUpdatingGeoIpDatabase = false;
+
+        NotificationsStore.show({
+          message: e.message,
+          placeat: '#geoipdb-update-info-error',
+          context: 'error',
+          style: {
+            display: 'inline-block',
+          },
+          id: 'userCountryGeoIpUpdate',
+          type: 'transient',
+        });
+      });
+    },
+    downloadNextChunk(
+      action: string,
+      progressBarSet: (value: number) => void,
+      cont: boolean,
+      extraData: QueryParameters,
+    ): Promise<void> {
+      const data: QueryParameters = { ...extraData };
+
+      return AjaxHelper.post<DownloadChunkResponse>(
+        {
+          module: 'GeoIp2',
+          action,
+          continue: cont ? 1 : 0,
+        },
+        data,
+        { withTokenInUrl: true },
+      ).then((response) => {
+        // update progress bar
+        const newProgressVal = Math.floor(
+          (response.current_size / response.expected_file_size) * 100,
+        );
+
+        // if incomplete, download next chunk, otherwise, show updater manager
+        progressBarSet(Math.min(newProgressVal, 100));
+
+        if (newProgressVal < 100) {
+          return this.downloadNextChunk(action, progressBarSet, true, extraData);
+        }
+
+        return undefined;
+      }).catch(() => {
+        throw new Error(translate('GeoIp2_FatalErrorDuringDownload'));
       });
     },
   },
   computed: {
     nextRunTimeText() {
+      if (this.nextRunTimePrettyUpdated) {
+        return this.nextRunTimePrettyUpdated;
+      }
+
       if (!this.nextRunTime) {
         return translate('GeoIp2_UpdaterIsNotScheduledToRun');
       }
 
       if (this.nextRunTime < Date.now()) { // TODO: check it works for UTC?
         return translate('GeoIp2_UpdaterScheduledForNextRun');
-      } else {
-        return translate(
-          'GeoIp2_UpdaterWillRunNext',
-          `<strong>${this.nextRunTimePretty}</strong>`,
-        );
       }
+
+      return translate(
+        'GeoIp2_UpdaterWillRunNext',
+        `<strong>${this.nextRunTimePretty}</strong>`,
+      );
     },
     providerPluginHelp() {
       if (this.isProviderPluginActive) {
@@ -383,6 +414,11 @@ export default defineComponent({
 
       const text = translate('GeoIp2_ISPRequiresProviderPlugin');
       return `<div class='alert alert-warning'>${text}</div>`;
+    },
+    contentTitle() {
+      return translate(
+        this.geoipDatabaseInstalled ? 'GeoIp2_SetupAutomaticUpdatesOfGeoIP' : 'GeoIp2_GeoIPDatabases',
+      );
     },
   },
 });
