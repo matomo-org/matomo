@@ -46,8 +46,6 @@ class GeoIp2 extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/GeoIp2/angularjs/geoip2-updater/geoip2-updater.controller.js";
-        $jsFiles[] = "plugins/GeoIp2/angularjs/geoip2-updater/geoip2-updater.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

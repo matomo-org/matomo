@@ -25,11 +25,11 @@
             compile: function (element, attrs) {
 
                 return function (scope, element, attrs, controller) {
-                    controller.geoipDatabaseInstalled = '0' !== attrs.geoipDatabaseInstalled;
-                    controller.showFreeDownload = false;
-                    controller.showPiwikNotManagingInfo = true;
-                    controller.progressFreeDownload = 0;
-                    controller.progressUpdateDownload = 0;
+                    scope.geoipDatabaseInstalled = '0' !== attrs.geoipDatabaseInstalled;
+                  scope.showFreeDownload = false;
+                  scope.showPiwikNotManagingInfo = true;
+                  scope.progressFreeDownload = 0;
+                  scope.progressUpdateDownload = 0;
                 };
             }
         };
