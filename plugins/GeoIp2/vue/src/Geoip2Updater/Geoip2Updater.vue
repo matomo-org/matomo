@@ -385,7 +385,7 @@ export default defineComponent({
         return translate('GeoIp2_UpdaterIsNotScheduledToRun');
       }
 
-      if (this.nextRunTime < Date.now()) { // TODO: check it works for UTC?
+      if (this.nextRunTime * 1000 < Date.now()) {
         return translate('GeoIp2_UpdaterScheduledForNextRun');
       }
 

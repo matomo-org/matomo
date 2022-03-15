@@ -11,5 +11,7 @@
   geoip-update-period="{{ geoIPUpdatePeriod|default(null)|json_encode|e('html_attr') }}"
   update-period-options="{{ updatePeriodOptions|default(null)|json_encode|e('html_attr') }}"
   is-provider-plugin-active="{{ isProviderPluginActive|default(null)|json_encode|e('html_attr') }}"
+  next-run-time="{{ (nextRunTime ? nextRunTime.getTimestamp() : null)|json_encode|e('html_attr') }}"
+  next-run-time-pretty="{{ (nextRunTime ? nextRunTime.toString() : null)|json_encode|e('html_attr') }}"
 >
 </div>

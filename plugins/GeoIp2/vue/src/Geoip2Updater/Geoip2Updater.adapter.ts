@@ -47,6 +47,12 @@ export default createAngularJsAdapter({
     showGeoipUpdateSection: {
       angularJsBind: '<',
     },
+    nextRunTime: {
+      angularJsBind: '<',
+    },
+    nextRunTimePretty: {
+      angularJsBind: '<',
+    },
   },
   directiveName: 'piwikGeoip2Updater',
   transclude: true,
