@@ -4,14 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- check uses:
-  ./plugins/CustomDimensions/templates/manage.twig
-  ./plugins/CustomDimensions/angularjs/manage/manage.directive.js
-- create PR
-</todo>
-
 <template>
   <div class="manageCustomDimensions">
     <div v-if="!editMode">

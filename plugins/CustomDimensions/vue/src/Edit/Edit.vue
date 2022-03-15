@@ -4,14 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- check uses:
-  ./plugins/CustomDimensions/angularjs/manage/edit.directive.js
-  ./plugins/CustomDimensions/angularjs/manage/manage.directive.html
-- create PR
-</todo>
-
 <template>
   <div class="editCustomDimension">
     <ContentBlock
@@ -313,7 +305,7 @@ export default defineComponent({
       return CustomDimensionsStore.isUpdating.value || this.isUpdatingDim;
     },
     create() {
-      return this.dimensionId === 0; // TODO: dimensionId in adapter needs to be parsed
+      return this.dimensionId === 0;
     },
     edit() {
       return !this.create;

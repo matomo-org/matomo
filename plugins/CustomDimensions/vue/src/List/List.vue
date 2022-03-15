@@ -4,14 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- check uses:
-  ./plugins/CustomDimensions/angularjs/manage/list.directive.js
-  ./plugins/CustomDimensions/angularjs/manage/manage.directive.html
-- create PR
-</todo>
-
 <template>
   <div>
     <div v-content-intro>
