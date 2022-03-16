@@ -61,7 +61,6 @@ export { default as useExternalPluginComponent } from './useExternalPluginCompon
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as getFormattedEvolution } from './getFormattedEvolution';
-export { default as lazyInitSingleton } from './lazyInitSingleton';
 export {
   default as createAngularJsAdapter,
   transformAngularJsBoolAttr,
