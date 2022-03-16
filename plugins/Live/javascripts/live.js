@@ -10,38 +10,6 @@
  */
 
 (function ($) {
-    $.widget('ui.tooltip', $.extend({}, $.ui.tooltip.prototype, {
-        _registerCloseHandlers: function( event, target ) {
-            var events = {
-                keyup: function( event ) {
-                    if ( event.keyCode === $.ui.keyCode.ESCAPE ) {
-                        var fakeEvent = $.Event( event );
-                        fakeEvent.currentTarget = target[ 0 ];
-                        this.close( fakeEvent, true );
-                    }
-                }
-            };
-
-            // Only bind remove handler for delegated targets. Non-delegated
-            // tooltips will handle this in destroy.
-            if ( target[ 0 ] !== this.element[ 0 ] ) {
-                events.remove = function() {
-                    if(this._find( target )) {
-                        this._removeTooltip(this._find(target).tooltip);
-                    }
-                };
-            }
-
-            if ( !event || event.type === "mouseover" ) {
-                events.mouseleave = "close";
-            }
-            if ( !event || event.type === "focusin" ) {
-                events.focusout = "close";
-            }
-            this._on( true, target, events );
-        }
-    }));
-
     $.widget('piwik.liveWidget', {
 
         /**
@@ -146,26 +114,24 @@
             for (var i = items.length; i--;) {
                 this._parseItem(items[i]);
             }
+
             this._initTooltips();
         },
-
 
         /**
          * Initializes the icon tooltips
          */
         _initTooltips: function() {
-            window.setTimeout(function() {
-                $('li.visit').tooltip({
-                    items: '.visitorLogIconWithDetails',
-                    track: true,
-                    show: false,
-                    hide: false,
-                    content: function() {
-                        return $('<ul>').html($('ul', $(this)).html());
-                    },
-                    tooltipClass: 'small'
-                });
-            }, 250);
+            $('li.visit').tooltip({
+                items: '.visitorLogIconWithDetails',
+                track: true,
+                show: false,
+                hide: false,
+                content: function() {
+                    return $('<ul>').html($('ul', $(this)).html());
+                },
+                tooltipClass: 'small'
+            });
         },
 
         /**
@@ -175,25 +141,21 @@
          * @return void
          */
         _parseItem: function (item) {
-            try {
-                var visitId = $(item).attr('id');
-                if ($('#' + visitId, this.element).length) {
-                    if ($('#' + visitId, this.element).html() != $(item).html()) {
-                        this.updated = true;
-                    }
-                    $('#' + visitId, this.element).remove();
-                    $(this.element).prepend(item);
-                } else {
+            var visitId = $(item).attr('id');
+            if ($('#' + visitId, this.element).length) {
+                if ($('#' + visitId, this.element).html() != $(item).html()) {
                     this.updated = true;
-                    $(item).hide();
-                    $(this.element).prepend(item);
-                    $(item).fadeIn(this.options.fadeInSpeed);
                 }
-                    // remove rows if there are more than the maximum
-                    $('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
-            } catch (e) {
-                console.log(e);
+                $('#' + visitId, this.element).remove();
+                $(this.element).prepend(item);
+            } else {
+                this.updated = true;
+                $(item).hide();
+                $(this.element).prepend(item);
+                $(item).fadeIn(this.options.fadeInSpeed);
             }
+            // remove rows if there are more than the maximum
+            $('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
         },
 
         /**
@@ -217,7 +179,7 @@
 
             var self = this;
 
-            self._initTooltips();
+            window.setTimeout(function() { self._initTooltips(); }, 250);
 
             this.updateInterval = window.setTimeout(function() { self._update(); }, this.currentInterval);
         },
@@ -295,7 +257,6 @@ $(function() {
             scheduleAnotherRequest();
             return;
         }
-
 
         var lastMinutes = $(element).attr('data-last-minutes') || 3,
           translations = JSON.parse($(element).attr('data-translations'));
