@@ -361,6 +361,8 @@ class ColumnDimensionTest extends IntegrationTestCase
         'Piwik\Plugins\Ecommerce\Columns\ProductViewName',
         'Piwik\Plugins\Ecommerce\Columns\ProductViewPrice',
         'Piwik\Plugins\Ecommerce\Columns\ProductViewSku',
+        'Piwik\Plugins\Ecommerce\Columns\RevenueOrder',
+        'Piwik\Plugins\Ecommerce\Columns\RevenueAbandonedCart',
         'Piwik\Plugins\Ecommerce\Columns\Revenue',
         'Piwik\Plugins\Events\Columns\EventAction',
         'Piwik\Plugins\Events\Columns\EventCategory',
