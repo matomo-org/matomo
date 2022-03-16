@@ -6,7 +6,7 @@
  */
 
 import { reactive, readonly, computed } from 'vue';
-import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
+import { AjaxHelper } from 'CoreHome';
 
 interface CurrencyStoreState {
   isLoading: boolean;
@@ -23,13 +23,19 @@ class CurrencyStore {
 
   readonly isLoading = computed(() => readonly(this.privateState).isLoading);
 
-  constructor() {
-    this.fetchCurrencies();
+  private initializePromise: Promise<void>|null = null;
+
+  init() {
+    if (!this.initializePromise) {
+      this.initializePromise = this.fetchCurrencies();
+    }
+
+    return this.initializePromise;
   }
 
   private fetchCurrencies() {
     this.privateState.isLoading = true;
-    AjaxHelper.fetch<CurrencyStoreState['currencies']>({
+    return AjaxHelper.fetch<CurrencyStoreState['currencies']>({
       method: 'SitesManager.getCurrencyList',
     }).then((currencies) => {
       this.privateState.currencies = currencies;
@@ -39,4 +45,4 @@ class CurrencyStore {
   }
 }
 
-export default lazyInitSingleton(CurrencyStore) as CurrencyStore;
+export default new CurrencyStore();
