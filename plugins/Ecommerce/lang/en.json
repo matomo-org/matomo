@@ -4,6 +4,7 @@
         "Sales": "Sales",
         "Order": "Order",
         "OrderId": "Order ID",
+        "OrderRevenue": "Order Revenue",
         "Orders": "Orders",
         "ViewedProductCategory": "Viewed Product Category",
         "ViewedProductName": "Viewed Product Name",
