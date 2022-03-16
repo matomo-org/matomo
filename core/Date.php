@@ -889,6 +889,10 @@ class Date
             case "ss":
             case "s":
                 return $this->toString('s');
+            // would normally also include AM, PM, Noon and Midnight
+            case "b":
+            // would normally be a textual presentation like "in the afternoon"
+            case "B":
             // am / pm
             case "a":
                 return $this->toString('a') == 'am' ? $translator->translate('Intl_Time_AM') : $translator->translate('Intl_Time_PM');
@@ -911,7 +915,7 @@ class Date
     }
 
     protected static $tokens = array(
-        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'k', 'K', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'z', 'Z', 'v',
+        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'k', 'K', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'b', 'B', 'z', 'Z', 'v',
     );
 
     /**
