@@ -23,76 +23,94 @@
 <template>
   <div class="marketplace-max-width">
     <div class="marketplace-paid-intro">
-      {% if isValidConsumer %}
-      {% if isSuperUser %}
-      {{ raw(translate('Marketplace_PaidPluginsWithLicenseKeyIntro', '')) }}
-      <br />
-      <div class="licenseToolbar valign-wrapper">
-        {{ raw(defaultLicenseKeyFields) }}
-        <SaveButton
-          class="valign"
-          id="remove_license_key"
-          @confirm="removeLicense()"
-          :value="e(translate('Marketplace_RemoveLicenseKey'), 'html_attr')"
-        />
-        <a
-          class="btn valign"
-          :href="linkTo({'action': 'subscriptionOverview'})"
-        >
-          {{ translate('Marketplace_ViewSubscriptions') }}
-        </a>
-        {% if isAutoUpdatePossible and isPluginsAdminEnabled and paidPluginsToInstallAtOnce|length %}
-        <a
-          href="javascript:;"
-          class="btn installAllPaidPlugins valign"
-        >
-          {{ translate('Marketplace_InstallPurchasedPlugins') }}
-        </a>
-        <div
-          class="ui-confirm"
-          id="installAllPaidPluginsAtOnce"
-        >
-          <h2>{{ translate('Marketplace_InstallAllPurchasedPlugins') }}</h2>
-          <p>
-            {{ translate('Marketplace_InstallThesePlugins') }}
-            <br /><br />
-          </p>
-          <ul>
-            {% for pluginName in paidPluginsToInstallAtOnce %}
-            <li>{{ pluginName }}</li>
-            {% endfor %}
-          </ul>
-          <p>
-            <input
-              role="install"
-              type="button"
-              :data-href="linkTo({'action': 'installAllPaidPlugins', 'nonce': installNonce})"
-              :value="translate('Marketplace_InstallAllPurchasedPluginsAction', paidPluginsToInstallAtOnce).length"
-            >
-            <input
-              role="cancel"
-              type="button"
-              :value="translate('General_Cancel')"
+      <div v-if="isValidConsumer">
+        <div v-if="isSuperUser">
+          {{ translate('Marketplace_PaidPluginsWithLicenseKeyIntro', '') }}
+          <br />
+          <div class="licenseToolbar valign-wrapper">
+            <DefaultLicenseKeyFields
+              :model-value="licenseKey"
+              @update:model-value="licenseKey = $event; updatedLicenseKey()"
+              @confirm="updateLicense()"
             />
-            </input>
-          </p>
+            <SaveButton
+              class="valign"
+              id="remove_license_key"
+              @confirm="removeLicense()"
+              :value="translate('Marketplace_RemoveLicenseKey')"
+            />
+            <a
+              class="btn valign"
+              :href="subscriptionOverviewLink"
+            >
+              {{ translate('Marketplace_ViewSubscriptions') }}
+            </a>
+            <div v-if="showInstallAllPaidPlugins">
+              <a
+                href="javascript:;"
+                class="btn installAllPaidPlugins valign"
+              >
+                {{ translate('Marketplace_InstallPurchasedPlugins') }}
+              </a>
+              <div
+                class="ui-confirm"
+                id="installAllPaidPluginsAtOnce"
+              >
+                <h2>{{ translate('Marketplace_InstallAllPurchasedPlugins') }}</h2>
+                <p>
+                  {{ translate('Marketplace_InstallThesePlugins') }}
+                  <br /><br />
+                </p>
+                <ul>
+                  <li v-for="pluginName in paidPluginsToInstallAtOnce" :key="pluginName">
+                    {{ pluginName }}
+                  </li>
+                </ul>
+                <p>
+                  <input
+                    role="install"
+                    type="button"
+                    :href="installAllPaidPluginsLink"
+                    :value="translate(
+                      'Marketplace_InstallAllPurchasedPluginsAction',
+                      paidPluginsToInstallAtOnce,
+                    ).length"
+                  />
+                  <input
+                    role="cancel"
+                    type="button"
+                    :value="translate('General_Cancel')"
+                  />
+                </p>
+              </div>
+            </div>
+          </div>
+          <ActivityIndicator :loading="isUpdating" />
         </div>
-        {% endif %}
       </div>
-      <ActivityIndicator :loading="isUpdating" />
-      {% endif %}
-      {% else %}
-      {% if isSuperUser %}
-      {{ raw(translate('Marketplace_PaidPluginsNoLicenseKeyIntro', '<a target="'_blank'" rel="'noreferrer" noopener' href="'https://matomo.org/recommends/premium-plugins/'">', '</a>')) }}
-      <br />
-      <div class="licenseToolbar valign-wrapper">
-        {{ raw(defaultLicenseKeyFields) }}
+      <div v-else>
+        <div v-if="isSuperUser">
+          <span v-html="$sanitize(noLicenseKeyIntroText)"></span>
+          <br />
+          <div class="licenseToolbar valign-wrapper">
+            <DefaultLicenseKeyFields
+              :model-value="licenseKey"
+              @update:model-value="licenseKey = $event; updatedLicenseKey()"
+              @confirm="updateLicense()"
+            />
+          </div>
+          <ActivityIndicator :loading="isUpdating" />
+        </div>
+        <div v-else>
+          <span v-html="$sanitize(noLicenseKeyIntroNoSuperUserAccessText)"></span>
+        </div>
       </div>
-      <ActivityIndicator :loading="isUpdating" />
-      {% else %}
-      {{ raw(translate('Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess', '<a target="'_blank'" rel="'noreferrer" noopener' href="'https://matomo.org/recommends/premium-plugins/'">', '</a>')) }}
-      {% endif %}
-      {% endif %}
+    </div>
+
+    <div class="ui-confirm" id="confirmRemoveLicense" ref="confirmRemoveLicense">
+      <h2>{{ 'Marketplace_ConfirmRemoveLicense'|translate }}</h2>
+      <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+      <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
   </div>
 </template>
@@ -103,11 +121,12 @@ import {
   translate,
   AjaxHelper,
   Matomo,
-  translate,
-  ActivityIndicator
+  ActivityIndicator,
+  MatomoUrl,
+  NotificationsStore,
 } from 'CoreHome';
 import { SaveButton } from 'CorePluginsAdmin';
-
+import DefaultLicenseKeyFields from './DefaultLicenseKeyFields';
 
 interface LicenseKeyState {
   licenseKey: string;
@@ -118,41 +137,34 @@ interface LicenseKeyState {
 export default defineComponent({
   props: {
     isValidConsumer: {
-      type: null, // TODO
+      type: Boolean,
       required: true,
     },
     isSuperUser: {
-      type: null, // TODO
-      required: true,
-    },
-    defaultLicenseKeyFields: {
-      type: null, // TODO
+      type: Boolean,
       required: true,
     },
     isAutoUpdatePossible: {
-      type: null, // TODO
+      type: Boolean,
       required: true,
     },
     isPluginsAdminEnabled: {
-      type: null, // TODO
+      type: Boolean,
       required: true,
     },
     paidPluginsToInstallAtOnce: {
-      type: null, // TODO
-      required: true,
-    },
-    pluginName: {
-      type: null, // TODO
+      type: Array,
       required: true,
     },
     installNonce: {
-      type: null, // TODO
+      type: String,
       required: true,
     },
   },
   components: {
     SaveButton,
     ActivityIndicator,
+    DefaultLicenseKeyFields,
   },
   data(): LicenseKeyState {
     return {
@@ -162,24 +174,25 @@ export default defineComponent({
     };
   },
   methods: {
-    // TODO
-    updateLicenseKey(action, licenseKey, onSuccessMessage) {
-      AjaxHelper.withTokenInUrl();
-      AjaxHelper.post({
-        module: 'API',
-        method: `Marketplace.${action}`,
-        format: 'JSON'
-      }, {
-        licenseKey: this.licenseKey
-      }).then((response) => {
+    updateLicenseKey(action: string, licenseKey: string, onSuccessMessage: string) {
+      AjaxHelper.post(
+        {
+          module: 'API',
+          method: `Marketplace.${action}`,
+          format: 'JSON',
+        },
+        {
+          licenseKey: this.licenseKey,
+        },
+        { withTokenInUrl: true },
+      ).then((response) => {
         this.isUpdating = false;
-    
+
         if (response && response.value) {
-          const UI = require('piwik/UI');
-    
-          const notification = new UI.Notification();
-          notification.show(onSuccessMessage, {
-            context: 'success'
+          NotificationsStore.show({
+            message: onSuccessMessage,
+            context: 'success',
+            type: 'transient',
           });
           Matomo.helper.redirect();
         }
@@ -187,15 +200,65 @@ export default defineComponent({
         this.isUpdating = false;
       });
     },
-    // TODO
     removeLicense() {
-      Matomo.helper.modalConfirm('#confirmRemoveLicense', {
+      Matomo.helper.modalConfirm(this.refs.confirmRemoveLicense as HTMLElement, {
         yes: () => {
           this.enableUpdate = false;
           this.isUpdating = true;
-          this.updateLicenseKey('deleteLicenseKey', '', translate('Marketplace_LicenseKeyDeletedSuccess'));
-        }
+          this.updateLicenseKey(
+            'deleteLicenseKey',
+            '',
+            translate('Marketplace_LicenseKeyDeletedSuccess'),
+          );
+        },
       });
+    },
+    showInstallAllPaidPlugins() {
+      return this.isAutoUpdatePossible
+        && this.isPluginsAdminEnabled
+        && this.paidPluginsToInstallAtOnce.length;
+    },
+    updatedLicenseKey() {
+      this.enableUpdate = !!this.licenseKey;
+    },
+    updateLicense() {
+      this.enableUpdate = false;
+      this.isUpdating = true;
+
+      this.updateLicenseKey(
+        'saveLicenseKey',
+        this.licenseKey,
+        translate('Marketplace_LicenseKeyActivatedSuccess'),
+      );
+    },
+  },
+  computed: {
+    subscriptionOverviewLink() {
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        action: 'subscriptionOverview',
+      })}`;
+    },
+    noLicenseKeyIntroText() {
+      return translate(
+        'Marketplace_PaidPluginsNoLicenseKeyIntro',
+        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/recommends/premium-plugins/">',
+        '</a>',
+      );
+    },
+    noLicenseKeyIntroNoSuperUserAccessText() {
+      return translate(
+        'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess',
+        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/recommends/premium-plugins/">',
+        '</a>',
+      );
+    },
+    installAllPaidPluginsLink() {
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        action: 'installAllPaidPlugins',
+        nonce: this.installNonce,
+      })}`
     },
   },
 });
