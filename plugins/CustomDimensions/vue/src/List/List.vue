@@ -131,14 +131,14 @@ export default defineComponent({
     contentIntroText(): string {
       const firstPart = translate(
         'CustomDimensions_CustomDimensionsIntroNext',
-        '<a target=_blank href=\u0027https://piwik.org/docs/custom-variables\u0027>',
+        '<a target=_blank href="https://piwik.org/docs/custom-variables">',
         '</a>',
-        '<a target=_blank href=\u0027https://piwik.org/faq/general/faq_21117\u0027>',
+        '<a target=_blank href="https://piwik.org/faq/general/faq_21117">',
         '</a>',
       );
       const secondPart = translate(
         'CustomDimensions_CustomDimensionsIntro',
-        '<a target=_blank href=\u0027https://piwik.org/docs/custom-dimensions\u0027>',
+        '<a target=_blank href="https://piwik.org/docs/custom-dimensions">',
         '</a>',
         this.siteName,
       );

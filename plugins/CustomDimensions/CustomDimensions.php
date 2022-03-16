@@ -315,6 +315,9 @@ class CustomDimensions extends Plugin
         $translationKeys[] = 'CustomDimensions_ColumnUniqueActions';
         $translationKeys[] = 'CustomDimensions_ColumnAvgTimeOnDimension';
         $translationKeys[] = 'CustomDimensions_CustomDimensionId';
+        $translationKeys[] = 'General_Update';
+        $translationKeys[] = 'General_Create';
+        $translationKeys[] = 'CustomDimensions_UrlQueryStringParameter';
     }
 
     public function addConversionInformation(&$conversion, $visitInformation, Tracker\Request $request)

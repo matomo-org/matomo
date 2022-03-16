@@ -71,7 +71,7 @@
                         v-model="extraction.pattern"
                         :full-width="true"
                         :title="extraction.dimension === 'urlparam'
-                          ? 'url query string parameter'
+                          ? translate('CustomDimensions_UrlQueryStringParameter')
                           : 'eg. /blog/(.*)/'"
                       >
                       </Field>
@@ -113,7 +113,7 @@
           <input
             class="btn update"
             type="submit"
-            value="Update"
+            :value="translate('General_Update')"
             v-show="edit"
             :disabled="isUpdating"
             style="margin-right:3.5px;"
@@ -121,7 +121,7 @@
           <input
             class="btn create"
             type="submit"
-            value="Create"
+            :value="translate('General_Create')"
             v-show="create"
             :disabled="isUpdating"
             style="margin-right:3.5px;"
@@ -140,24 +140,16 @@
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaJs') }}
           </p>
-          <pre v-select-on-focus="{}">
-            <code>_paq.push(['setCustomDimension', {{ dimension.idcustomdimension }},
-              '{{ translate('CustomDimensions_ExampleValue') }}']);</code>
-          </pre>
+          <pre v-select-on-focus="{}"><code v-html="manuallyTrackCodeViaJs"></code></pre>
           <p v-html="$sanitize(howToTrackManuallyText)"/>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaPhp') }}
           </p>
-          <pre v-select-on-focus="{}">
-            <code>$tracker-&gt;setCustomDimension('{{ dimension.idcustomdimension }}',
-              '{{ translate('CustomDimensions_ExampleValue') }}');</code>
-          </pre>
+          <pre v-select-on-focus="{}"><code v-html="manuallyTrackCodeViaPhp"></code></pre>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaHttp') }}
           </p>
-          <pre v-select-on-focus="{}">
-            <code v-html="manuallyTrackCode"></code>
-          </pre>
+          <pre v-select-on-focus="{}"><code v-html="manuallyTrackCode"></code></pre>
         </div>
       </div>
     </ContentBlock>
@@ -296,6 +288,14 @@ export default defineComponent({
         this.isUpdatingDim = false;
       });
     },
+    manuallyTrackCodeViaJs(dimension: CustomDimension) {
+      return `_paq.push(['setCustomDimension', ${dimension.idcustomdimension}, `
+        + `'${translate('CustomDimensions_ExampleValue')}']);`;
+    },
+    manuallyTrackCodeViaPhp(dimension: CustomDimension) {
+      return `$tracker->setCustomDimension('${dimension.idcustomdimension}', `
+        + `'${translate('CustomDimensions_ExampleValue')}');`;
+    },
   },
   computed: {
     isLoading() {
@@ -343,7 +343,7 @@ export default defineComponent({
     },
     manuallyTrackCode() {
       const exampleValue = translate('CustomDimensions_ExampleValue');
-      return `&dimension${this.dimension.idcustomdimension}=${exampleValue}}`;
+      return `&dimension${this.dimension.idcustomdimension}=${exampleValue}`;
     },
   },
 });

@@ -19,17 +19,12 @@
           <br/><br/>{{ translate('CustomDimensions_HowToCreateCustomDimension') }}
           <br/><br/>
         </p>
-        <pre v-select-on-focus="{}">
-          <code>./console customdimensions:add-custom-dimension --scope=action
-            ./console customdimensions:add-custom-dimension --scope=visit</code>
-        </pre>
+        <pre v-select-on-focus="{}"><code v-text="addCustomDimCode"></code></pre>
         <p>
           {{ translate('CustomDimensions_HowToManyCreateCustomDimensions') }}
           {{ translate('CustomDimensions_ExampleCreateCustomDimensions', 5) }}
         </p>
-        <pre v-select-on-focus="{}">
-          <code>./console customdimensions:add-custom-dimension --scope=action --count=5</code>
-        </pre>
+        <pre v-select-on-focus="{}"><code v-text="addMultipleCustomDimCode"></code></pre>
       </ContentBlock>
     </div>
     <div v-if="editMode">
@@ -124,6 +119,15 @@ export default defineComponent({
       }
 
       Matomo.helper.lazyScrollToContent();
+    },
+  },
+  computed: {
+    addCustomDimCode() {
+      return './console customdimensions:add-custom-dimension --scope=action\n'
+        + './console customdimensions:add-custom-dimension --scope=visit';
+    },
+    addMultipleCustomDimCode() {
+      return './console customdimensions:add-custom-dimension --scope=action --count=5';
     },
   },
 });
