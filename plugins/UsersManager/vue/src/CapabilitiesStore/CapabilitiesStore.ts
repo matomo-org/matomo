@@ -11,7 +11,7 @@ import {
   computed,
   DeepReadonly,
 } from 'vue';
-import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
+import { AjaxHelper } from 'CoreHome';
 import Capability from './Capability';
 
 interface CapabilitiesStoreState {
@@ -33,8 +33,8 @@ class CapabilitiesStore {
 
   private fetchPromise?: Promise<DeepReadonly<Capability[]>>;
 
-  constructor() {
-    this.fetchCapabilities();
+  init() {
+    return this.fetchCapabilities();
   }
 
   public fetchCapabilities(): Promise<DeepReadonly<Capability[]>> {
@@ -54,4 +54,4 @@ class CapabilitiesStore {
   }
 }
 
-export default lazyInitSingleton(CapabilitiesStore) as CapabilitiesStore;
+export default new CapabilitiesStore();

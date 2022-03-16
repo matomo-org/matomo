@@ -7,7 +7,7 @@
 
 import { DeepReadonly } from 'vue';
 import Capability from './Capability';
-import CapabilitiesStore from "./CapabilitiesStore";
+import CapabilitiesStore from './CapabilitiesStore';
 
 function permissionsMetadataServiceAdapter() {
   return {

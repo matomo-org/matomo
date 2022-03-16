@@ -164,7 +164,6 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/rowaction.js";
-        $jsFiles[] = "plugins/Live/angularjs/live-widget-refresh/live-widget-refresh.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
