@@ -21,9 +21,9 @@
       v-model="searchTerm"
       type="text"
       tabindex="2"
-      placeholder="Search"
       v-focus-if:[searchActive]="{}"
       :title="quickAccessTitle"
+      :placeholder="translate('General_Search')"
       ref="input"
     />
     <div
