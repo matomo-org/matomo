@@ -5,6 +5,7 @@
         "Order": "Order",
         "OrderId": "Order ID",
         "OrderRevenue": "Order Revenue",
+        "RevenueLeftInCart": "Revenue Left In Cart",
         "Orders": "Orders",
         "ViewedProductCategory": "Viewed Product Category",
         "ViewedProductName": "Viewed Product Name",

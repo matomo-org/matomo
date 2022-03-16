@@ -8,14 +8,13 @@
  */
 namespace Piwik\Plugins\Ecommerce\Columns;
 
-class OrderRevenue extends BaseConversion
+class RevenueOrder extends BaseConversion
 {
     protected $columnName = 'revenue';
     protected $columnType = 'float default NULL';
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Ecommerce_OrderRevenue';
-    protected $segmentName = 'orderRevenue';
-
+    protected $segmentName = 'revenueOrder';
 
 }
