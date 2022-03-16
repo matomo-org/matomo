@@ -156,7 +156,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=259d8ccf
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=7d385264
 
 var _hoisted_1 = ["title"];
 var _hoisted_2 = ["onClick"];
@@ -233,7 +233,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])], 512)], 2);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=259d8ccf
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=7d385264
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -280,11 +280,14 @@ var CapabilitiesStore_CapabilitiesStore = /*#__PURE__*/function () {
     }));
 
     _defineProperty(this, "fetchPromise", void 0);
-
-    this.fetchCapabilities();
   }
 
   _createClass(CapabilitiesStore, [{
+    key: "init",
+    value: function init() {
+      return this.fetchCapabilities();
+    }
+  }, {
     key: "fetchCapabilities",
     value: function fetchCapabilities() {
       var _this2 = this;
@@ -308,7 +311,7 @@ var CapabilitiesStore_CapabilitiesStore = /*#__PURE__*/function () {
   return CapabilitiesStore;
 }();
 
-/* harmony default export */ var src_CapabilitiesStore_CapabilitiesStore = (Object(external_CoreHome_["lazyInitSingleton"])(CapabilitiesStore_CapabilitiesStore));
+/* harmony default export */ var src_CapabilitiesStore_CapabilitiesStore = (new CapabilitiesStore_CapabilitiesStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=script&lang=ts
 
 
@@ -356,6 +359,8 @@ var _window = window,
   },
   created: function created() {
     var _this = this;
+
+    src_CapabilitiesStore_CapabilitiesStore.init();
 
     if (!this.capabilities) {
       this.isBusy = true;
