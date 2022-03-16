@@ -57,7 +57,6 @@ class Marketplace extends \Piwik\Plugin
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
 
         $jsFiles[] = "plugins/Marketplace/angularjs/plugins/plugin-name.directive.js";
-        $jsFiles[] = "plugins/Marketplace/angularjs/licensekey/licensekey.controller.js";
         $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.controller.js";
         $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.directive.js";
     }

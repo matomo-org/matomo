@@ -14,6 +14,17 @@
              id="submit_license_key"></div>
 {% endset %}
 
+<div
+  vue-entry="Marketplace.LicenseKey"
+  is-valid-consumer="{{ isValidConsumer|default(null)|json_encode|e('html_attr') }}"
+  is-super-user="{{ isSuperUser|default(null)|json_encode|e('html_attr') }}"
+  default-license-key-fields="{{ defaultLicenseKeyFields|default(null)|json_encode|e('html_attr') }}"
+  is-auto-update-possible="{{ isAutoUpdatePossible|default(null)|json_encode|e('html_attr') }}"
+  is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(null)|json_encode|e('html_attr') }}"
+  paid-plugins-to-install-at-once="{{ paidPluginsToInstallAtOnce|default(null)|json_encode|e('html_attr') }}"
+  plugin-name="{{ pluginName|default(null)|json_encode|e('html_attr') }}"
+  install-nonce="{{ installNonce|default(null)|json_encode|e('html_attr') }}"
+></div>
 <div class="marketplace-max-width" ng-controller="PiwikMarketplaceLicenseController as licenseController">
     <div class="marketplace-paid-intro">
     {% if isValidConsumer %}
@@ -39,7 +50,25 @@
                     <a href="javascript:;" class="btn installAllPaidPlugins valign">
                         {{ 'Marketplace_InstallPurchasedPlugins'|translate }}
                     </a>
-                    {% include '@Marketplace/paid-plugins-install-list.twig' %}
+                    <div class="ui-confirm" id="installAllPaidPluginsAtOnce">
+    <h2>{{ 'Marketplace_InstallAllPurchasedPlugins'|translate }}</h2>
+    <p>
+        {{ 'Marketplace_InstallThesePlugins'|translate }}
+        <br /><br />
+    </p>
+    <ul>
+        {% for pluginName in paidPluginsToInstallAtOnce %}
+            <li>{{ pluginName }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        <input role="install" type="button" data-href="{{ linkTo({'action': 'installAllPaidPlugins', 'nonce': installNonce}) }}"
+               value="{{ 'Marketplace_InstallAllPurchasedPluginsAction'|translate(paidPluginsToInstallAtOnce|length) }}">
+        <input role="cancel" type="button" value="{{ 'General_Cancel'|translate }}"/>
+    </p>
+</div>
+
                 {% endif %}
 
             </div>
@@ -66,7 +95,6 @@
     {% endif %}
     </div>
 </div>
-
 
 <div class="ui-confirm" id="confirmRemoveLicense">
     <h2>{{ 'Marketplace_ConfirmRemoveLicense'|translate }}</h2>
