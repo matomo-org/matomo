@@ -40,6 +40,7 @@
                 multisites_asc: !reverse && 'label' === sortColumn,
                 multisites_desc: reverse && 'label' === sortColumn,
               }"
+              style="margin-left: 3.5px"
             />
           </th>
           <th
@@ -54,6 +55,7 @@
                 multisites_asc: !reverse && 'nb_visits' === sortColumn,
                 multisites_desc: reverse && 'nb_visits' === sortColumn,
               }"
+              style="margin-right: 3.5px"
             />
             <span class="heading">{{ translate('General_ColumnNbVisits') }}</span>
           </th>
@@ -69,6 +71,7 @@
                 multisites_asc: !reverse && 'nb_pageviews' === sortColumn,
                 multisites_desc: reverse && 'nb_pageviews' === sortColumn,
               }"
+              style="margin-right: 3.5px"
             />
             <span class="heading">{{ translate('General_ColumnPageviews') }}</span>
           </th>
@@ -85,6 +88,7 @@
                 multisites_asc: !reverse && 'revenue' === sortColumn,
                 multisites_desc: reverse && 'revenue' === sortColumn,
               }"
+              style="margin-right: 3.5px"
             />
             <span class="heading">{{ translate('General_ColumnRevenue') }}</span>
           </th>
@@ -99,10 +103,12 @@
                 multisites_asc: !reverse && evolutionSelector === sortColumn,
                 multisites_desc: reverse && evolutionSelector === sortColumn,
               }"
+              style="margin-right: 3.5px"
             />
             <span
               class="evolution"
               @click="sortBy(evolutionSelector)"
+              style="margin-right: 3.5px"
             > {{ translate('MultiSites_Evolution') }}</span>
             <select
               class="selector browser-default"
@@ -182,7 +188,6 @@
           <td
             colspan="8"
             class="paging"
-            v-show="!(numberOfPages <= 1)"
           >
             <div class="row">
               <div class="col s3 add_new_site">
@@ -224,7 +229,7 @@
                   >{{ translate('General_Next') }} &#xBB;</span>
                 </span>
               </div>
-              <div class="col s3">&amp;nbsp;</div>
+              <div class="col s3">&nbsp;</div>
             </div>
           </td>
         </tr>
