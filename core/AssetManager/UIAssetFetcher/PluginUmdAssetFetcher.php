@@ -176,21 +176,31 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $plugins = self::orderPluginsByPluginDependencies($plugins, false);
 
         foreach ($plugins as $plugin) {
-            $pluginDir = self::getRelativePluginDirectory($plugin);
-
-            $devUmd = "$pluginDir/vue/dist/$plugin.development.umd.js";
-            $minifiedUmd = "$pluginDir/vue/dist/$plugin.umd.min.js";
-            $umdSrcFolder = "$pluginDir/vue/src";
-
-            // in case there are dist files but no src files, which can happen during development
-            if (is_dir(PIWIK_INCLUDE_PATH . '/' . $umdSrcFolder)) {
-                if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
-                    $this->fileLocations[] = $devUmd;
-                } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
-                    $this->fileLocations[] = $minifiedUmd;
-                }
+            $fileLocation = self::getUmdFileToUseForPlugin($plugin);
+            if ($fileLocation) {
+                $this->fileLocations[] = $fileLocation;
             }
         }
+    }
+
+    public static function getUmdFileToUseForPlugin($plugin)
+    {
+        $pluginDir = self::getRelativePluginDirectory($plugin);
+
+        $devUmd = "$pluginDir/vue/dist/$plugin.development.umd.js";
+        $minifiedUmd = "$pluginDir/vue/dist/$plugin.umd.min.js";
+        $umdSrcFolder = "$pluginDir/vue/src";
+
+        // in case there are dist files but no src files, which can happen during development
+        if (is_dir(PIWIK_INCLUDE_PATH . '/' . $umdSrcFolder)) {
+            if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
+                return $devUmd;
+            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
+                return $minifiedUmd;
+            }
+        }
+
+        return null;
     }
 
     public static function orderPluginsByPluginDependencies($plugins, $keepUnresolved = true)
