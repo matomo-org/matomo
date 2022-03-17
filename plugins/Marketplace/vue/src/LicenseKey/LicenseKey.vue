@@ -4,22 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
-<todo>
-- conversion check (mistakes get fixed in quickmigrate)
-- property types
-- state types
-- look over template
-- look over component code
-- get to build
-- REMOVE DUPLICATE CODE IN TEMPLATE
-- test in UI
-- check uses:
-  ./plugins/Marketplace/templates/licenseform.twig
-  ./plugins/Marketplace/angularjs/licensekey/licensekey.controller.js
-- create PR
-</todo>
-
 <template>
   <div class="marketplace-max-width">
     <div class="marketplace-paid-intro">
