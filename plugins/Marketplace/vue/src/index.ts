@@ -6,3 +6,4 @@
  */
 
 export { default as Marketplace } from './Marketplace/Marketplace.vue';
+export { default as LicenseKey } from './LicenseKey/LicenseKey.vue';

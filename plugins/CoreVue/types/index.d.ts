@@ -76,7 +76,7 @@ declare global {
 
   interface PiwikHelperGlobal {
     escape(text: string): string;
-    redirect(params: any);
+    redirect(params?: any);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);

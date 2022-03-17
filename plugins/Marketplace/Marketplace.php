@@ -57,7 +57,6 @@ class Marketplace extends \Piwik\Plugin
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
 
         $jsFiles[] = "plugins/Marketplace/angularjs/plugins/plugin-name.directive.js";
-        $jsFiles[] = "plugins/Marketplace/angularjs/licensekey/licensekey.controller.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -67,6 +66,20 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_Show';
         $translationKeys[] = 'Marketplace_Sort';
         $translationKeys[] = 'General_Plugins';
+        $translationKeys[] = 'Marketplace_PaidPluginsNoLicenseKeyIntro';
+        $translationKeys[] = 'Marketplace_PaidPluginsWithLicenseKeyIntro';
+        $translationKeys[] = 'Marketplace_RemoveLicenseKey';
+        $translationKeys[] = 'Marketplace_ViewSubscriptions';
+        $translationKeys[] = 'Marketplace_InstallPurchasedPlugins';
+        $translationKeys[] = 'Marketplace_InstallAllPurchasedPlugins';
+        $translationKeys[] = 'Marketplace_InstallThesePlugins';
+        $translationKeys[] = 'Marketplace_InstallAllPurchasedPluginsAction';
+        $translationKeys[] = 'Marketplace_ConfirmRemoveLicense';
+        $translationKeys[] = 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess';
+        $translationKeys[] = 'Marketplace_LicenseKeyIsValidShort';
+        $translationKeys[] = 'Marketplace_LicenseKey';
+        $translationKeys[] = 'CoreUpdater_UpdateTitle';
+        $translationKeys[] = 'Marketplace_ActivateLicenseKey';
     }
 
     /**
