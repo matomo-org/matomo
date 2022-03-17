@@ -166,7 +166,7 @@ window.piwikHelper = {
 
       $('[vue-entry]', selector).add($(selector).filter('[vue-entry]')).each(function () {
         var entry = $(this).attr('vue-entry');
-        var componentsToRegister = $(this).attr('vue-components').split(/\s+/).filter(function (s) {
+        var componentsToRegister = ($(this).attr('vue-components') || '').split(/\s+/).filter(function (s) {
           return !!s.length;
         });
 
