@@ -21,7 +21,6 @@ use Piwik\Tracker\Visitor;
 class RevenueAbandonedCart extends BaseConversion
 {
     protected $columnName = 'revenue';
-    protected $columnType = 'float default NULL';
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Ecommerce_RevenueLeftInCart';
