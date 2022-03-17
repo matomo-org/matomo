@@ -192,7 +192,7 @@
             <div class="row">
               <div class="col s3 add_new_site">
                 <a
-                  href="addSiteUrl"
+                  :href="addSiteUrl"
                   v-if="hasSuperUserAccess"
                 >
                   <span class="icon-add" /> {{ translate('SitesManager_AddSite') }}

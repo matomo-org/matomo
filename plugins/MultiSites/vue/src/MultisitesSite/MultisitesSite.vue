@@ -4,15 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- get to build
-- test in UI
-- check uses:
-  ./plugins/MultiSites/angularjs/site/site.directive.js
-  ./plugins/MultiSites/angularjs/dashboard/dashboard.directive.html
-- create PR
-</todo>
-
 <template>
   <tr
     :class="{'groupedWebsite': website.group, 'website': !website.group, 'group': website.isGroup}"
