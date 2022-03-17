@@ -23,7 +23,7 @@ class DeviceDetectorFactory
      * @param array $clientHints
      * @return DeviceDetector|mixed
      */
-    public function makeInstance($userAgent, $clientHints)
+    public function makeInstance($userAgent, $clientHints = [])
     {
         $cacheKey = self::getNormalizedUserAgent($userAgent, $clientHints);
 

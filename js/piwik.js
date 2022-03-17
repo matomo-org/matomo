@@ -3050,7 +3050,7 @@ if (typeof window.Matomo !== 'object') {
                         delete ua.brands;
                         delete ua.uaFullVersion;
                     }
-                    appendix += '&uadata=' + JSON.stringify(ua);
+                    appendix += '&uadata=' + encodeWrapper(windowAlias.JSON.stringify(ua));
 
                     if (request instanceof Array) {
                         for (i = 0; i < request.length; i++) {
