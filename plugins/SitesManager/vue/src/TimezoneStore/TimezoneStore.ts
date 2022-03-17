@@ -6,7 +6,7 @@
  */
 
 import { reactive, readonly, computed } from 'vue';
-import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
+import { AjaxHelper } from 'CoreHome';
 
 interface Timezone {
   group: string;
@@ -41,14 +41,20 @@ class TimezoneStore {
 
   readonly isLoading = computed(() => this.state.value.isLoading);
 
-  constructor() {
-    this.privateState.isLoading = true;
-    Promise.all([
-      this.checkTimezoneSupportEnabled(),
-      this.fetchTimezones(),
-    ]).finally(() => {
-      this.privateState.isLoading = false;
-    });
+  private initializePromise: Promise<void>|null = null;
+
+  init() {
+    if (!this.initializePromise) {
+      this.privateState.isLoading = true;
+      this.initializePromise = Promise.all([
+        this.checkTimezoneSupportEnabled(),
+        this.fetchTimezones(),
+      ]).finally(() => {
+        this.privateState.isLoading = false;
+      }) as unknown as Promise<void>;
+    }
+
+    return this.initializePromise;
   }
 
   private fetchTimezones() {
@@ -78,4 +84,4 @@ class TimezoneStore {
   }
 }
 
-export default lazyInitSingleton(TimezoneStore) as TimezoneStore;
+export default new TimezoneStore();

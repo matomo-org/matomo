@@ -135,6 +135,8 @@ export default defineComponent({
     },
   },
   created() {
+    CapabilitiesStore.init();
+
     if (!this.capabilities) {
       this.isBusy = true;
 
