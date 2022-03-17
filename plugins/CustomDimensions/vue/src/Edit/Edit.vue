@@ -288,14 +288,6 @@ export default defineComponent({
         this.isUpdatingDim = false;
       });
     },
-    manuallyTrackCodeViaJs(dimension: CustomDimension) {
-      return `_paq.push(['setCustomDimension', ${dimension.idcustomdimension}, `
-        + `'${translate('CustomDimensions_ExampleValue')}']);`;
-    },
-    manuallyTrackCodeViaPhp(dimension: CustomDimension) {
-      return `$tracker->setCustomDimension('${dimension.idcustomdimension}', `
-        + `'${translate('CustomDimensions_ExampleValue')}');`;
-    },
   },
   computed: {
     isLoading() {
@@ -344,6 +336,14 @@ export default defineComponent({
     manuallyTrackCode() {
       const exampleValue = translate('CustomDimensions_ExampleValue');
       return `&dimension${this.dimension.idcustomdimension}=${exampleValue}`;
+    },
+    manuallyTrackCodeViaJs(dimension: CustomDimension) {
+      return `_paq.push(['setCustomDimension', ${dimension.idcustomdimension}, `
+        + `'${translate('CustomDimensions_ExampleValue')}']);`;
+    },
+    manuallyTrackCodeViaPhp(dimension: CustomDimension) {
+      return `$tracker->setCustomDimension('${dimension.idcustomdimension}', `
+        + `'${translate('CustomDimensions_ExampleValue')}');`;
     },
   },
 });
