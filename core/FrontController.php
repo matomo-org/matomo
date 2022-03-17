@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Manager;
 use Piwik\Exception\AuthenticationFailedException;
@@ -493,10 +494,14 @@ class FrontController extends Singleton
 
     protected function handleMaintenanceMode()
     {
-        if ((Config::getInstance()->General['maintenance_mode'] != 1) || Common::isPhpCliMode()) {
+        if ((GeneralConfig::getConfigValue('maintenance_mode') != 1) || Common::isPhpCliMode() ) {
             return;
         }
-        Common::sendResponseCode(503);
+
+        // as request matomo behind load balancer should not return 503. https://github.com/matomo-org/matomo/issues/18054
+        if (GeneralConfig::getConfigValue('multi_server_environment') != 1) {
+            Common::sendResponseCode(503);
+        }
 
         $logoUrl = 'plugins/Morpheus/images/logo.svg';
         $faviconUrl = 'plugins/CoreHome/images/favicon.png';
