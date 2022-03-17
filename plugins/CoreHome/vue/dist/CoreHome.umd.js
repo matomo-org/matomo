@@ -1144,6 +1144,12 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
   }
 
   MatomoUrl_createClass(MatomoUrl, [{
+    key: "updateHashToUrl",
+    value: function updateHashToUrl(url) {
+      var $location = Matomo_Matomo.helper.getAngularDependency('$location');
+      $location.url(url);
+    }
+  }, {
     key: "updateHash",
     value: function updateHash(params) {
       var modifiedParams = this.getFinalHashParams(params);
