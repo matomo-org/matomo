@@ -9,8 +9,8 @@ namespace Piwik\Plugins\Ecommerce\tests\System;
 
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * Tests API methods after ecommerce orders are tracked.
@@ -304,6 +304,30 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                     'testSuffix' => '_productPrice',
                     'segment' => 'productPrice>500',
                 ]],
+                [
+                  ['Goals.get'],
+                  [
+                    'idSite'     => $idSite,
+                    'date'       => $dateTime,
+                    'periods'    => 'day',
+                    'testSuffix' => '_SegmentRevenueOrder',
+                    'segment'    => 'revenueOrder>500',
+                  ]
+                ],
+                [
+                  ['Goals.get'],
+                  [
+                    'idSite'     => $idSite,
+                    'date'       => $dateTime,
+                    'idGoal' => -1,
+                    'periods'    => 'day',
+                    'testSuffix' => '_SegmentCartRevenueOrder',
+                    'segment'    => 'revenueAbandonedCart>500',
+                  ]
+                ],
+
+
+
            ),
             self::getApiForTestingScheduledReports($dateTime, 'week')
         );

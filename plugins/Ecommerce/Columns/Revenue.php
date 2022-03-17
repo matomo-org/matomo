@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\Ecommerce\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\Discriminator;
-use Piwik\Tracker\GoalManager;
+use Piwik\Piwik;
+use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
@@ -26,6 +30,30 @@ class Revenue extends BaseConversion
     {
         return new Discriminator($this->dbTableName, 'idgoal', GoalManager::IDGOAL_ORDER);
     }
+
+
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
+    {
+        //new Segment revenue on order
+        $segment = new Segment();
+        $segment->setCategory($this->category);
+        $segment->setType('dimension');
+        $segment->setName(Piwik::translate('Ecommerce_OrderRevenue'));
+        $segment->setSegment('revenueOrder');
+        $segment->setSqlSegment('log_conversion.revenue');
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
+
+        //new Segment revenue left in cart
+        $segment = new Segment();
+        $segment->setCategory($this->category);
+        $segment->setType('dimension');
+        $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
+        $segment->setSegment('revenueAbandonedCart');
+        $segment->setSqlSegment('log_conversion.revenue');
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
+
+    }
+
 
     /**
      * @param Request $request
