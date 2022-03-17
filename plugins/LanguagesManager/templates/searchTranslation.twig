@@ -4,8 +4,13 @@
 
 {% block content %}
 
-    <div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
-        <div piwik-translation-search></div>
+    <div
+        vue-entry="CoreHome.ContentBlock"
+        vue-components="LanguagesManager.TranslationSearch"
+        content-title="{{ title|json_encode|e('html_attr') }}"
+        feature="{{ 'true'|json_encode }}"
+    >
+        <translation-search />
     </div>
 
 {% endblock %}
