@@ -70,11 +70,11 @@
           </tbody>
         </table>
         <div class="tableActionBar">
-          <a
-            value
-            :class="{'disabled': !scope.numSlotsLeft}"
+          <button
+            class="btn"
+            :disabled="!scope.numSlotsLeft"
             v-show="!isLoading"
-            :href="`#?idDimension=0&scope=${scope.value}`"
+            v-on:click="addDimension(scope.value)"
           >
             <span class="icon-add" /> {{ translate('CustomDimensions_ConfigureNewDimension') }}
             <span class="info">({{ translate(
@@ -82,7 +82,7 @@
               scope.numSlotsLeft,
               scope.numSlotsAvailable,
             ) }})</span>
-          </a>
+          </button>
         </div>
       </ContentBlock>
     </div>
@@ -94,6 +94,7 @@ import { DeepReadonly, defineComponent } from 'vue';
 import {
   translate,
   Matomo,
+  MatomoUrl,
   ContentIntro,
   EnrichedHeadline,
   ContentBlock,
@@ -119,6 +120,9 @@ export default defineComponent({
   methods: {
     ucfirst(s: string) {
       return ucfirst(s);
+    },
+    addDimension(scope: string) {
+      MatomoUrl.updateHashToUrl(`/?idDimension=0&scope=${scope}`);
     },
   },
   computed: {
