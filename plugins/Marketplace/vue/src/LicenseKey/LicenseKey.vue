@@ -34,8 +34,9 @@
             </a>
             <div v-if="showInstallAllPaidPlugins">
               <a
-                href="javascript:;"
+                href=""
                 class="btn installAllPaidPlugins valign"
+                @click.prevent="onInstallAllPaidPlugins()"
               >
                 {{ translate('Marketplace_InstallPurchasedPlugins') }}
               </a>
@@ -153,6 +154,9 @@ export default defineComponent({
     };
   },
   methods: {
+    onInstallAllPaidPlugins() {
+      return Matomo.postEvent('Marketplace.installAllPaidPlugins');
+    },
     updateLicenseKey(action: string, licenseKey: string, onSuccessMessage: string) {
       AjaxHelper.post(
         {
