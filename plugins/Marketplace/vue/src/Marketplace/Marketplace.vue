@@ -4,13 +4,8 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- create PR
-</todo>
-
 <template>
-  <div class="row marketplaceActions">
+  <div class="row marketplaceActions" ref="root">
     <div class="col s12 m6 l4">
       <Field
         uicontrol="select"
@@ -63,8 +58,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted } from 'vue';
-import { translate, MatomoUrl, Matomo } from 'CoreHome';
+import { defineComponent, nextTick } from 'vue';
+import { translate, MatomoUrl } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
 interface MarketplaceState {
@@ -74,6 +69,8 @@ interface MarketplaceState {
 }
 
 const lcfirst = (s: string) => `${s[0].toLowerCase()}${s.substring(1)}`;
+
+const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -116,107 +113,81 @@ export default defineComponent({
       searchQuery: this.query,
     };
   },
-  setup() {
-    const onInstallAllPaidPlugins = () => {
-      Matomo.helper.modalConfirm(this.$refs.installAllPaidPluginsAtOnce as HTMLElement);
-    };
-
-    Matomo.on('Marketplace.installAllPaidPlugins', onInstallAllPaidPlugins);
-
-    onUnmounted(() => {
-      Matomo.off('Marketplace.installAllPaidPlugins', onInstallAllPaidPlugins);
-    });
-  },
   created() {
-    setTimeout(() => {
+    function syncMaxHeight2(selector: string) {
+      if (!selector) {
+        return;
+      }
 
+      const $nodes = $(selector);
+      if (!$nodes || !$nodes.length) {
+        return;
+      }
+
+      let maxh3: number|undefined = undefined;
+      let maxMeta: number|undefined = undefined;
+      let maxFooter: number|undefined = undefined;
+      let nodesToUpdate: JQuery[] = [];
+      let lastTop = 0;
+      $nodes.each((index, node) => {
+        const $node = $(node);
+        const { top } = $node.offset()!;
+
+        if (lastTop !== top) {
+          nodesToUpdate = [];
+          lastTop = top;
+          maxh3 = undefined;
+          maxMeta = undefined;
+          maxFooter = undefined;
+        }
+
+        nodesToUpdate.push($node);
+
+        const heightH3 = $node.find('h3').height()!;
+        const heightMeta = $node.find('.metadata').height()!;
+        const heightFooter = $node.find('.footer').height()!;
+
+        if (!maxh3) {
+          maxh3 = heightH3;
+        } else if (maxh3 < heightH3) {
+          maxh3 = heightH3;
+        }
+
+        if (!maxMeta) {
+          maxMeta = heightMeta;
+        } else if (maxMeta < heightMeta) {
+          maxMeta = heightMeta;
+        }
+
+        if (!maxFooter) {
+          maxFooter = heightFooter;
+        } else if (maxFooter < heightFooter) {
+          maxFooter = heightFooter;
+        }
+
+        $.each(nodesToUpdate, (i, $nodeToUpdate) => {
+          if (maxh3) {
+            $nodeToUpdate.find('h3').height(`${maxh3}px`);
+          }
+          if (maxMeta) {
+            $nodeToUpdate.find('.metadata').height(`${maxMeta}px`);
+          }
+          if (maxFooter) {
+            $nodeToUpdate.find('.footer').height(`${maxFooter}px`);
+          }
+        });
+      });
+    }
+
+    nextTick(() => {
+      // Keeps the plugin descriptions the same height
+      $('.marketplace .plugin .description').dotdotdot({
+        after: 'a.more',
+        watch: 'window',
+      });
+
+      syncMaxHeight2('.marketplace .plugin');
     });
-    /*
-                    $timeout(function () {
-
-
-                        $('.installAllPaidPlugins').click(function (event) {
-                            event.preventDefault();
-
-                            piwikHelper.modalConfirm('#installAllPaidPluginsAtOnce');
-                        });
-
-                        // Keeps the plugin descriptions the same height
-                        $('.marketplace .plugin .description').dotdotdot({
-                            after: 'a.more',
-                            watch: 'window'
-                        });
-
-                        piwik.helper.compileAngularComponents(element.find('[piwik-plugin-name]'));
-
-                        function syncMaxHeight2 (selector) {
-
-                            if (!selector) {
-                                return;
-                            }
-
-                            var $nodes = $(selector);
-
-                            if (!$nodes || !$nodes.length) {
-                                return;
-                            }
-
-                            var maxh3 = null;
-                            var maxMeta = null;
-                            var maxFooter = null;
-                            var nodesToUpdate = [];
-                            var lastTop = 0;
-                            $nodes.each(function (index, node) {
-                                var $node = $(node);
-                                var top   = $node.offset().top;
-
-                                if (lastTop !== top) {
-                                    nodesToUpdate = [];
-                                    lastTop = top;
-                                    maxh3 = null;
-                                    maxMeta = null;
-                                    maxFooter = null;
-                                }
-
-                                nodesToUpdate.push($node);
-
-                                var heightH3 = $node.find('h3').height();
-                                var heightMeta = $node.find('.metadata').height();
-                                var heightFooter = $node.find('.footer').height();
-
-                                if (!maxh3) {
-                                    maxh3 = heightH3;
-                                } else if (maxh3 < heightH3) {
-                                    maxh3 = heightH3;
-                                }
-
-                                if (!maxMeta) {
-                                    maxMeta = heightMeta;
-                                } else if (maxMeta < heightMeta) {
-                                    maxMeta = heightMeta;
-                                }
-
-                                if (!maxFooter) {
-                                    maxFooter = heightFooter;
-                                } else if (maxFooter < heightFooter) {
-                                    maxFooter = heightFooter;
-                                }
-
-                                $.each(nodesToUpdate, function (index, $node) {
-                                    if (maxh3) {
-                                        $node.find('h3').height(maxh3 + 'px');
-                                    }
-                                    if (maxMeta) {
-                                        $node.find('.metadata').height(maxMeta + 'px');
-                                    }
-                                    if (maxFooter) {
-                                        $node.find('.footer').height(maxFooter + 'px');
-                                    }
-                                });
-                            });
-                        }
-                        syncMaxHeight2('.marketplace .plugin');
-     */
   },
   methods: {
     changePluginSort() {
