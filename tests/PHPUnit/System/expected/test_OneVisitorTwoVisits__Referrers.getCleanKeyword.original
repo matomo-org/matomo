@@ -1,0 +1,3 @@
+a:2:{s:6:"result";s:5:"error";s:7:"message";s:143:"Please specify a value for 'label'.
+ 
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php";}

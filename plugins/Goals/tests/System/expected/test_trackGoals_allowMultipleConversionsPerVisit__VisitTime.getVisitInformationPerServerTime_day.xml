@@ -39,7 +39,7 @@
 		</goals>
 		<nb_conversions>7</nb_conversions>
 		<revenue>1332</revenue>
-		<segment>visitStartServerHour==0</segment>
+		<segment>visitStartSiteHour==0</segment>
 	</row>
 	<row>
 		<label>01</label>
@@ -51,7 +51,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==1</segment>
+		<segment>visitStartSiteHour==1</segment>
 	</row>
 	<row>
 		<label>02</label>
@@ -63,7 +63,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==2</segment>
+		<segment>visitStartSiteHour==2</segment>
 	</row>
 	<row>
 		<label>03</label>
@@ -75,7 +75,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==3</segment>
+		<segment>visitStartSiteHour==3</segment>
 	</row>
 	<row>
 		<label>04</label>
@@ -87,7 +87,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==4</segment>
+		<segment>visitStartSiteHour==4</segment>
 	</row>
 	<row>
 		<label>05</label>
@@ -99,7 +99,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==5</segment>
+		<segment>visitStartSiteHour==5</segment>
 	</row>
 	<row>
 		<label>06</label>
@@ -111,7 +111,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==6</segment>
+		<segment>visitStartSiteHour==6</segment>
 	</row>
 	<row>
 		<label>07</label>
@@ -123,7 +123,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==7</segment>
+		<segment>visitStartSiteHour==7</segment>
 	</row>
 	<row>
 		<label>08</label>
@@ -135,7 +135,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==8</segment>
+		<segment>visitStartSiteHour==8</segment>
 	</row>
 	<row>
 		<label>09</label>
@@ -147,7 +147,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==9</segment>
+		<segment>visitStartSiteHour==9</segment>
 	</row>
 	<row>
 		<label>10</label>
@@ -159,7 +159,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==10</segment>
+		<segment>visitStartSiteHour==10</segment>
 	</row>
 	<row>
 		<label>11</label>
@@ -171,7 +171,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==11</segment>
+		<segment>visitStartSiteHour==11</segment>
 	</row>
 	<row>
 		<label>12</label>
@@ -183,7 +183,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==12</segment>
+		<segment>visitStartSiteHour==12</segment>
 	</row>
 	<row>
 		<label>13</label>
@@ -195,7 +195,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==13</segment>
+		<segment>visitStartSiteHour==13</segment>
 	</row>
 	<row>
 		<label>14</label>
@@ -207,7 +207,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==14</segment>
+		<segment>visitStartSiteHour==14</segment>
 	</row>
 	<row>
 		<label>15</label>
@@ -219,7 +219,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==15</segment>
+		<segment>visitStartSiteHour==15</segment>
 	</row>
 	<row>
 		<label>16</label>
@@ -231,7 +231,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==16</segment>
+		<segment>visitStartSiteHour==16</segment>
 	</row>
 	<row>
 		<label>17</label>
@@ -243,7 +243,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==17</segment>
+		<segment>visitStartSiteHour==17</segment>
 	</row>
 	<row>
 		<label>18</label>
@@ -255,7 +255,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==18</segment>
+		<segment>visitStartSiteHour==18</segment>
 	</row>
 	<row>
 		<label>19</label>
@@ -267,7 +267,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==19</segment>
+		<segment>visitStartSiteHour==19</segment>
 	</row>
 	<row>
 		<label>20</label>
@@ -279,7 +279,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==20</segment>
+		<segment>visitStartSiteHour==20</segment>
 	</row>
 	<row>
 		<label>21</label>
@@ -291,7 +291,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==21</segment>
+		<segment>visitStartSiteHour==21</segment>
 	</row>
 	<row>
 		<label>22</label>
@@ -303,7 +303,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==22</segment>
+		<segment>visitStartSiteHour==22</segment>
 	</row>
 	<row>
 		<label>23</label>
@@ -315,6 +315,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitStartServerHour==23</segment>
+		<segment>visitStartSiteHour==23</segment>
 	</row>
 </result>

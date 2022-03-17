@@ -192,79 +192,79 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - date (Time of last action)</name>
+		<name>Site time - hour (Start of visit)</name>
+		<segment>visitStartSiteHour</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Site time - hour (Time of last action)</name>
+		<segment>visitSiteHour</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Time in UTC - date (Time of last action)</name>
 		<segment>visitEndServerDate</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - day of month (Time of last action)</name>
+		<name>Time in UTC - day of month (Time of last action)</name>
 		<segment>visitEndServerDayOfMonth</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - day of week (Time of last action)</name>
+		<name>Time in UTC - day of week (Time of last action)</name>
 		<segment>visitEndServerDayOfWeek</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - day of year (Time of last action)</name>
+		<name>Time in UTC - day of year (Time of last action)</name>
 		<segment>visitEndServerDayOfYear</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - hour (Start of visit)</name>
-		<segment>visitStartServerHour</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visitors</category>
-		<name>Server time - hour (Time of last action)</name>
-		<segment>visitServerHour</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visitors</category>
-		<name>Server time - minute (Start of visit)</name>
+		<name>Time in UTC - minute (Start of visit)</name>
 		<segment>visitStartServerMinute</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - minute (Time of last action)</name>
+		<name>Time in UTC - minute (Time of last action)</name>
 		<segment>visitEndServerMinute</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - month (Time of last action)</name>
+		<name>Time in UTC - month (Time of last action)</name>
 		<segment>visitEndServerMonth</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - quarter (Time of last action)</name>
+		<name>Time in UTC - quarter (Time of last action)</name>
 		<segment>visitEndServerQuarter</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - second (Time of last action)</name>
+		<name>Time in UTC - second (Time of last action)</name>
 		<segment>visitEndServerSecond</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - week of year (Time of last action)</name>
+		<name>Time in UTC - week of year (Time of last action)</name>
 		<segment>visitEndServerWeekOfYear</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Server time - year (Time of last action)</name>
+		<name>Time in UTC - year (Time of last action)</name>
 		<segment>visitEndServerYear</segment>
 	</row>
 	<row>
@@ -441,13 +441,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
-		<name>Server time - hour</name>
-		<segment>actionServerHour</segment>
+		<name>Site time - hour</name>
+		<segment>actionSiteHour</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
-		<name>Server time - minute</name>
+		<name>Time in UTC - minute</name>
 		<segment>actionServerMinute</segment>
 	</row>
 </result>
