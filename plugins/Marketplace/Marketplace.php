@@ -58,14 +58,15 @@ class Marketplace extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/Marketplace/angularjs/plugins/plugin-name.directive.js";
         $jsFiles[] = "plugins/Marketplace/angularjs/licensekey/licensekey.controller.js";
-        $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.controller.js";
-        $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Marketplace_LicenseKeyActivatedSuccess';
         $translationKeys[] = 'Marketplace_LicenseKeyDeletedSuccess';
+        $translationKeys[] = 'Marketplace_Show';
+        $translationKeys[] = 'Marketplace_Sort';
+        $translationKeys[] = 'General_Plugins';
     }
 
     /**
