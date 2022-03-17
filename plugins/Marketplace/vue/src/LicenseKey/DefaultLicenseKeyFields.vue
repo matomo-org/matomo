@@ -5,11 +5,10 @@
 -->
 
 <template>
-  <div>
+  <div class="valign licenseKeyText">
     <Field
       uicontrol="text"
       name="license_key"
-      class="valign licenseKeyText"
       :full-width="true"
       :model-value="modelValue"
       @update:model-value="$emit('update:modelValue', $event)"

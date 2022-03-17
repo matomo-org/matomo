@@ -32,6 +32,9 @@
               :model-value="licenseKey"
               @update:model-value="licenseKey = $event; updatedLicenseKey()"
               @confirm="updateLicense()"
+              :has-license-key="hasLicenseKey"
+              :is-valid-consumer="isValidConsumer"
+              :enable-update="enableUpdate"
             />
             <SaveButton
               class="valign"
@@ -73,8 +76,8 @@
                     :href="installAllPaidPluginsLink"
                     :value="translate(
                       'Marketplace_InstallAllPurchasedPluginsAction',
-                      paidPluginsToInstallAtOnce,
-                    ).length"
+                      paidPluginsToInstallAtOnce.length,
+                    )"
                   />
                   <input
                     role="cancel"
@@ -97,6 +100,9 @@
               :model-value="licenseKey"
               @update:model-value="licenseKey = $event; updatedLicenseKey()"
               @confirm="updateLicense()"
+              :has-license-key="hasLicenseKey"
+              :is-valid-consumer="isValidConsumer"
+              :enable-update="enableUpdate"
             />
           </div>
           <ActivityIndicator :loading="isUpdating" />
@@ -108,9 +114,9 @@
     </div>
 
     <div class="ui-confirm" id="confirmRemoveLicense" ref="confirmRemoveLicense">
-      <h2>{{ 'Marketplace_ConfirmRemoveLicense'|translate }}</h2>
-      <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-      <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+      <h2>{{ translate('Marketplace_ConfirmRemoveLicense') }}</h2>
+      <input role="yes" type="button" :value="translate('General_Yes')"/>
+      <input role="no" type="button" :value="translate('General_No')"/>
     </div>
   </div>
 </template>
@@ -126,7 +132,7 @@ import {
   NotificationsStore,
 } from 'CoreHome';
 import { SaveButton } from 'CorePluginsAdmin';
-import DefaultLicenseKeyFields from './DefaultLicenseKeyFields';
+import DefaultLicenseKeyFields from './DefaultLicenseKeyFields.vue';
 
 interface LicenseKeyState {
   licenseKey: string;
@@ -136,22 +142,11 @@ interface LicenseKeyState {
 
 export default defineComponent({
   props: {
-    isValidConsumer: {
-      type: Boolean,
-      required: true,
-    },
-    isSuperUser: {
-      type: Boolean,
-      required: true,
-    },
-    isAutoUpdatePossible: {
-      type: Boolean,
-      required: true,
-    },
-    isPluginsAdminEnabled: {
-      type: Boolean,
-      required: true,
-    },
+    isValidConsumer: Boolean,
+    isSuperUser: Boolean,
+    isAutoUpdatePossible: Boolean,
+    isPluginsAdminEnabled: Boolean,
+    hasLicenseKey: Boolean,
     paidPluginsToInstallAtOnce: {
       type: Array,
       required: true,
@@ -201,7 +196,7 @@ export default defineComponent({
       });
     },
     removeLicense() {
-      Matomo.helper.modalConfirm(this.refs.confirmRemoveLicense as HTMLElement, {
+      Matomo.helper.modalConfirm(this.$refs.confirmRemoveLicense as HTMLElement, {
         yes: () => {
           this.enableUpdate = false;
           this.isUpdating = true;
@@ -212,11 +207,6 @@ export default defineComponent({
           );
         },
       });
-    },
-    showInstallAllPaidPlugins() {
-      return this.isAutoUpdatePossible
-        && this.isPluginsAdminEnabled
-        && this.paidPluginsToInstallAtOnce.length;
     },
     updatedLicenseKey() {
       this.enableUpdate = !!this.licenseKey;
@@ -258,7 +248,12 @@ export default defineComponent({
         ...MatomoUrl.urlParsed.value,
         action: 'installAllPaidPlugins',
         nonce: this.installNonce,
-      })}`
+      })}`;
+    },
+    showInstallAllPaidPlugins() {
+      return this.isAutoUpdatePossible
+        && this.isPluginsAdminEnabled
+        && this.paidPluginsToInstallAtOnce.length;
     },
   },
 });
