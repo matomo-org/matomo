@@ -55,8 +55,6 @@ class Marketplace extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
-
-        $jsFiles[] = "plugins/Marketplace/angularjs/plugins/plugin-name.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
