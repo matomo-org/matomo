@@ -57,7 +57,7 @@
                   <input
                     role="install"
                     type="button"
-                    :href="installAllPaidPluginsLink"
+                    :data-href="installAllPaidPluginsLink"
                     :value="translate(
                       'Marketplace_InstallAllPurchasedPluginsAction',
                       paidPluginsToInstallAtOnce.length,
