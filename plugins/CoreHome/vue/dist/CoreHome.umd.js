@@ -11991,6 +11991,8 @@ window.angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 function calculateEvolution(currentValue, pastValue) {
   var pastValueParsed = parseInt(pastValue, 10);
   var currentValueParsed = parseInt(currentValue, 10) - pastValueParsed;
@@ -12008,7 +12010,7 @@ function calculateEvolution(currentValue, pastValue) {
 }
 
 function formatEvolution(evolution) {
-  return "".concat(evolution > 0 ? '+' : '').concat(Math.round(evolution), "}%");
+  return "".concat(evolution > 0 ? Matomo_Matomo.numbers.symbolPlus : '').concat(Math.round(evolution), "}%");
 }
 
 function getFormattedEvolution(currentValue, pastValue) {

@@ -5,6 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import Matomo from './Matomo/Matomo';
+
 function calculateEvolution(currentValue: string|number, pastValue: string|number) {
   const pastValueParsed = parseInt(pastValue as string, 10);
   const currentValueParsed = parseInt(currentValue as string, 10) - pastValueParsed;
@@ -23,7 +25,7 @@ function calculateEvolution(currentValue: string|number, pastValue: string|numbe
 }
 
 function formatEvolution(evolution: number) {
-  return `${evolution > 0 ? '+' : ''}${Math.round(evolution)}}%`;
+  return `${evolution > 0 ? Matomo.numbers.symbolPlus : ''}${Math.round(evolution)}}%`;
 }
 
 export default function getFormattedEvolution(
