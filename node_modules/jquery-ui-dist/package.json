@@ -2,11 +2,11 @@
 	"name": "jquery-ui-dist",
 	"title": "jQuery UI",
 	"description": "A curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.",
-	"version": "1.13.0",
+	"version": "1.13.1",
 	"homepage": "http://jqueryui.com",
 	"author": {
 		"name": "jQuery Foundation and other contributors",
-		"url": "https://github.com/jquery/jquery-ui/blob/1.13.0/AUTHORS.txt"
+		"url": "https://github.com/jquery/jquery-ui/blob/1.13.1/AUTHORS.txt"
 	},
 	"main": "ui/widget.js",
 	"maintainers": [
@@ -40,7 +40,9 @@
 		"type": "git",
 		"url": "git://github.com/jquery/jquery-ui.git"
 	},
-	"bugs": "https://bugs.jqueryui.com/",
+	"bugs": {
+		"url": "https://github.com/jquery/jquery-ui/issues"
+	},
 	"license": "MIT",
 	"scripts": {
 		"test": "grunt"
@@ -51,14 +53,14 @@
 	"devDependencies": {
 		"commitplease": "3.2.0",
 		"eslint-config-jquery": "3.0.0",
-		"glob": "7.1.7",
+		"glob": "7.2.0",
 		"grunt": "1.4.1",
 		"grunt-bowercopy": "1.2.5",
 		"grunt-cli": "1.4.3",
 		"grunt-compare-size": "0.4.2",
 		"grunt-contrib-concat": "1.0.1",
 		"grunt-contrib-csslint": "2.0.0",
-		"grunt-contrib-qunit": "5.0.1",
+		"grunt-contrib-qunit": "5.1.1",
 		"grunt-contrib-requirejs": "1.0.0",
 		"grunt-contrib-uglify": "5.0.1",
 		"grunt-eslint": "23.0.0",

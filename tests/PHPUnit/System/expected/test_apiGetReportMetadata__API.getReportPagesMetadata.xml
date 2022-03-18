@@ -3715,7 +3715,7 @@
 			<id>General_Overview</id>
 			<name>Overview</name>
 			<order>2</order>
-			<help>&lt;p&gt;The Goals Overview reports on the performance of the goals defined for your website. You can access your goal’s conversion percentages, amount of revenue generated and full reports for each.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Goals Overview reports on the performance of the goals defined for your website. You can access your goal&#x2019;s conversion percentages, amount of revenue generated and full reports for each.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/tracking-goals-web-analytics/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides" rel="noreferrer noopener" target="_blank"&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -4443,7 +4443,7 @@
 			<id>General_Overview</id>
 			<name>Overview</name>
 			<order>2</order>
-			<help>&lt;p&gt;The Ecommerce Overview section is the best place to get a high-level view of your online store’s performance. At a glance, you can see how many sales you’re making, how much revenue you are generating, and your website’s conversion rate.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Ecommerce Overview section is the best place to get a high-level view of your online store&#x2019;s performance. At a glance, you can see how many sales you&#x2019;re making, how much revenue you are generating, and your website&#x2019;s conversion rate.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;&lt;p&gt;&lt;a href="https://matomo.org/docs/ecommerce-analytics/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides" rel="noreferrer noopener" target="_blank"&gt;Learn more in our Ecommerce guide here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
