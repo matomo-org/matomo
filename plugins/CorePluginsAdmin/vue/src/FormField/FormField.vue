@@ -395,7 +395,11 @@ export default defineComponent({
       return this.defaultValuePretty.substring(0, 50);
     },
     hasInlineHelpSlot() {
-      const inlineHelpSlot = this.$slots['inline-help']!();
+      if (!this.$slots['inline-help']) {
+        return false;
+      }
+
+      const inlineHelpSlot = this.$slots['inline-help']();
       return !!inlineHelpSlot?.[0]?.children?.length;
     },
   },
