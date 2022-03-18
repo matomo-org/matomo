@@ -400,7 +400,7 @@ export default defineComponent({
       }
 
       const text = translate('GeoIp2_ISPRequiresProviderPlugin');
-      return `<div class='alert alert-warning'>${text}</div>`;
+      return `<div style="margin:0" class='alert alert-warning'>${text}</div>`;
     },
     contentTitle() {
       return translate(
