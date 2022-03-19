@@ -4,15 +4,8 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
 <todo>
-- get to build
-- REMOVE DUPLICATE CODE IN TEMPLATE
 - test in UI
-- check uses:
-  ./plugins/MobileMessaging/templates/index.twig
-  ./plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js
-- create PR
 </todo>
 
 <template>
