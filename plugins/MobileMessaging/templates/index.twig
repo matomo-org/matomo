@@ -8,17 +8,11 @@
 <div class="manageMobileMessagingSettings">
     {% if isSuperUser %}
     <div piwik-content-block content-title="{{ title|e('html_attr') }}">
-        <div ng-controller="DelegateMobileMessagingSettingsController as delegateManagement">
-            <div piwik-field uicontrol="radio" name="delegatedManagement"
-                 options="{{ delegateManagementOptions|json_encode }}"
-                 full-width="true"
-                 ng-model="delegateManagement.enabled"
-                 data-title="{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate|e('html_attr') }}"
-                 value="{% if delegatedManagement %}1{% else %}0{% endif %}">
-            </div>
-            <div piwik-save-button onconfirm="delegateManagement.save()" saving="delegateManagement.isLoading"></div>
-        </div>
-    </div>
+    <div
+      vue-entry="MobileMessaging.DelegateMobileMessagingSettings"
+      delegate-management-options="{{ delegateManagementOptions|default(null)|json_encode|e('html_attr') }}"
+      delegated-management="{{ delegatedManagement|default(null)|json_encode|e('html_attr') }}"
+    ></div>
     {% endif %}
 
     {% if accountManagedByCurrentUser %}
