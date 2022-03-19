@@ -93,7 +93,6 @@ class MobileMessaging extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/MobileMessaging/angularjs/delegate-mobile-messaging-settings.controller.js";
         $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-sms-provider.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
         $jsFiles[] = "plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js";
     }
 
@@ -107,6 +106,10 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'MobileMessaging_Settings_InvalidActivationCode';
         $translationKeys[] = 'MobileMessaging_Settings_PhoneActivated';
+        $translationKeys[] = 'MobileMessaging_Settings_SelectCountry';
+        $translationKeys[] = 'MobileMessaging_Settings_CountryCode';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumber';
+        $translationKeys[] = 'MobileMessaging_Settings_EnterActivationCode';
     }
     
     public function validateReportParameters(&$parameters, $reportType)
