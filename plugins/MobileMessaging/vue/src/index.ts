@@ -8,4 +8,4 @@
 import './SmsProviderCredentials/SmsProviderCredentials.adapter';
 
 export { default as ManageSmsProvider } from './ManageSmsProvider/ManageSmsProvider.vue';
-export { default as smsProviderCredentials } from './smsProviderCredentials/SmsProviderCredentials.vue';
+export { default as SmsProviderCredentials } from './SmsProviderCredentials/SmsProviderCredentials.vue';

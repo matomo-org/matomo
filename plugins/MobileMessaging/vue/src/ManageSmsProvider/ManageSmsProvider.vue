@@ -4,19 +4,9 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
 <todo>
-- conversion check (mistakes get fixed in quickmigrate)
-- property types
-- state types
-- look over template
-- look over component code
 - get to build
-- REMOVE DUPLICATE CODE IN TEMPLATE
 - test in UI
-- check uses:
-  ./plugins/MobileMessaging/templates/macros.twig
-  ./plugins/MobileMessaging/angularjs/manage-sms-provider.controller.js
 - create PR
 </todo>
 
@@ -34,7 +24,7 @@
         {{ creditLeft }}
       </span>
       <br />
-      <span v-html="updateOrDeleteAccountText"></span>
+      <span v-html="updateOrDeleteAccountText" @click="onUpdateOrDeleteClick($event)"></span>
     </p>
     <p v-else>{{ translate('MobileMessaging_Settings_PleaseSignUp') }}</p>
     <div
@@ -53,30 +43,27 @@
         >
         </Field>
       </div>
-      <div
-        sms-provider-credentials
-        provider="manageProvider.smsProvider"
-        value="{}"
-        ng-init="manageProvider.isUpdateAccountPossible()"
+      <SmsProviderCredentials
+        :provider="smsProvider"
+        v-model="credentials"
         :model-value="credentials"
-        @update:model-value="credentials = $event; isUpdateAccountPossible()"
+        @update:model-value="credentials = $event;"
       />
       <SaveButton
         id="apiAccountSubmit"
-        :disabled="!canBeUpdated"
+        :disabled="!isUpdateAccountPossible"
         :saving="isUpdatingAccount"
         @confirm="updateAccount()"
       />
-      {% for smsProvider, description in smsProviders %}
       <div
+        v-for="(theProvider, description) in smsProviders"
+        :key="theProvider"
         class="providerDescription"
-        v-show="`manageProvider.smsProvider == "
-        ${smsProvider}"`"
-        :id="smsProvider"
+        v-show="smsProvider === theProvider"
+        :id="theProvider"
       >
-        {{ raw(description) }}
+        {{ description }}
       </div>
-      {% endfor %}
     </div>
   </div>
 </template>
@@ -87,51 +74,31 @@ import {
   translate,
   AjaxHelper,
   Matomo,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'CoreHome';
 import { Form, Field, SaveButton } from 'CorePluginsAdmin';
-
+import SmsProviderCredentials from '../SmsProviderCredentials/SmsProviderCredentials';
 
 interface ManageSmsProviderState {
   isDeletingAccount: boolean;
   isUpdatingAccount: boolean;
   showAccountForm: boolean;
-  isUpdateAccountPossible: boolean;
-  credentials: string;
+  credentials: Record<string, unknown>;
+  smsProvider?: string;
 }
 
 export default defineComponent({
   props: {
-    credentialSupplied: {
-      type: null, // TODO
-      required: true,
-    },
-    credentialError: {
-      type: null, // TODO
-      required: true,
-    },
-    provider: {
-      type: null, // TODO
-      required: true,
-    },
-    creditLeft: {
-      type: null, // TODO
-      required: true,
-    },
+    credentialSupplied: Boolean,
+    credentialError: String,
+    provider: String,
+    creditLeft: String,
     smsProviderOptions: {
-      type: null, // TODO
+      type: Array,
       required: true,
     },
     smsProviders: {
-      type: null, // TODO
-      required: true,
-    },
-    smsProvider: {
-      type: null, // TODO
-      required: true,
-    },
-    description: {
-      type: null, // TODO
+      type: Object,
       required: true,
     },
   },
@@ -139,6 +106,7 @@ export default defineComponent({
     ActivityIndicator,
     Field,
     SaveButton,
+    SmsProviderCredentials,
   },
   directives: {
     Form,
@@ -148,74 +116,92 @@ export default defineComponent({
       isDeletingAccount: false,
       isUpdatingAccount: false,
       showAccountForm: false,
-      isUpdateAccountPossible: false,
-      credentials: '{}',
+      credentials: {},
+      smsProvider: this.provider,
     };
   },
   methods: {
-    // TODO
     deleteApiAccount() {
       this.isDeletingAccount = true;
-      AjaxHelper.fetch({
-        method: 'MobileMessaging.deleteSMSAPICredential'
-      }, {
-        placeat: '#ajaxErrorManageSmsProviderSettings'
-      }).then(() => {
-        this.isDeletingAccount = false;
+      AjaxHelper.fetch(
+        {
+          method: 'MobileMessaging.deleteSMSAPICredential',
+        },
+        {
+          errorElement: '#ajaxErrorManageSmsProviderSettings',
+        },
+      ).then(() => {
         Matomo.helper.redirect();
-      }, () => {
+      }).finally(() => {
         this.isDeletingAccount = false;
       });
     },
-    // TODO
     showUpdateAccount() {
       this.showAccountForm = true;
     },
-    // TODO
     updateAccount() {
-      if (this.isUpdateAccountPossible()) {
+      if (this.isUpdateAccountPossible) {
         this.isUpdatingAccount = true;
-        AjaxHelper.post({
-          method: 'MobileMessaging.setSMSAPICredential'
-        }, {
-          provider: this.smsProvider,
-          credentials: angular.fromJson(this.credentials)
-        }, {
-          placeat: '#ajaxErrorManageSmsProviderSettings'
-        }).then(() => {
-          this.isUpdatingAccount = false;
+        AjaxHelper.post(
+          {
+            method: 'MobileMessaging.setSMSAPICredential',
+          },
+          {
+            provider: this.smsProvider,
+            credentials: this.credentials,
+          },
+          {
+            errorElement: '#ajaxErrorManageSmsProviderSettings',
+          },
+        ).then(() => {
           Matomo.helper.redirect();
-        }, () => {
+        }).finally(() => {
           this.isUpdatingAccount = false;
         });
       }
     },
-    // TODO
     deleteAccount() {
-      piwikHelper.modalConfirm('#confirmDeleteAccount', {
-        yes: deleteApiAccount
+      Matomo.helper.modalConfirm('#confirmDeleteAccount', {
+        yes: () => {
+          this.isDeletingAccount = true;
+
+          AjaxHelper.fetch(
+            {
+              method: 'MobileMessaging.deleteSMSAPICredential',
+            },
+            {
+              errorElement: '#ajaxErrorManageSmsProviderSettings',
+            },
+          ).then(() => {
+            this.isDeletingAccount = false;
+            Matomo.helper.redirect();
+          }).finally(() => {
+            this.isDeletingAccount = false;
+          });
+        },
       });
+    },
+    onUpdateOrDeleteClick(event: Event) {
+      const target = event.target as HTMLElement;
+      if (target.id === 'displayAccountForm') {
+        this.showUpdateAccount();
+      } else if (target.id === 'deleteAccount') {
+        this.deleteAccount();
+      }
     },
   },
   computed: {
-    // TODO
     isUpdateAccountPossible() {
-      const this = this;
-      this.canBeUpdated = !!this.smsProvider;
-      const credentials = angular.fromJson(this.credentials);
-      angular.forEach(this.credentials, (value, key) => {
-        if (value == '') {
-          this.canBeUpdated = false;
-        }
-      });
-      return this.canBeUpdated;
+      // possible if smsProvider is set and all credential field values are set to something
+      return !!this.smsProvider
+        && Object.values(this.credentials as Record<string, string>).every((v) => !!v);
     },
     updateOrDeleteAccountText() {
       return translate(
         'MobileMessaging_Settings_UpdateOrDeleteAccount',
-        '<a id="displayAccountForm" @click="showUpdateAccount()">',
+        '<a id="displayAccountForm">',
         '</a>',
-        '<a id="deleteAccount" @click="deleteAccount()">',
+        '<a id="deleteAccount">',
         '</a>',
       );
     },
