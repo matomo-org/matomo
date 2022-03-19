@@ -1,4 +1,15 @@
 {% macro manageSmsApi(credentialSupplied, credentialError, creditLeft, smsProviderOptions, smsProviders, provider) %}
+<div
+  vue-entry="MobileMessaging.ManageSmsProvider"
+  credential-supplied="{{ credentialSupplied|default(null)|json_encode|e('html_attr') }}"
+  credential-error="{{ credentialError|default(null)|json_encode|e('html_attr') }}"
+  provider="{{ provider|default(null)|json_encode|e('html_attr') }}"
+  credit-left="{{ creditLeft|default(null)|json_encode|e('html_attr') }}"
+  sms-provider-options="{{ smsProviderOptions|default(null)|json_encode|e('html_attr') }}"
+  sms-providers="{{ smsProviders|default(null)|json_encode|e('html_attr') }}"
+  sms-provider="{{ smsProvider|default(null)|json_encode|e('html_attr') }}"
+  description="{{ description|default(null)|json_encode|e('html_attr') }}"
+></div>
 <div ng-controller="ManageSmsProviderController as manageProvider">
 
     <div piwik-activity-indicator loading="manageProvider.isDeletingAccount"></div>
