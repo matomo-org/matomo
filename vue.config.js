@@ -23,6 +23,7 @@ if (!process.env.MATOMO_CURRENT_PLUGIN) {
   console.log("The MATOMO_CURRENT_PLUGIN environment variable is not set!");
 }
 
+const srcPath = `plugins/${process.env.MATOMO_CURRENT_PLUGIN}/vue/src/`;
 const publicPath = `plugins/${process.env.MATOMO_CURRENT_PLUGIN}/vue/dist/`;
 
 // hack to get publicPath working for lib build target (see https://github.com/vuejs/vue-cli/issues/4896#issuecomment-569001811)
@@ -54,8 +55,10 @@ OutputDetectedDependentPluginsPlugin.prototype.apply = function (compiler) {
     const metadata = {
       dependsOn: detectedDependentPlugins,
     };
-    fs.mkdirSync(path.dirname(metadataPath), { recursive: true });
-    fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
+    if (fs.existsSync(path.join(srcPath))) {
+      fs.mkdirSync(path.dirname(metadataPath), {recursive: true});
+      fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
+    }
   });
 };
 
