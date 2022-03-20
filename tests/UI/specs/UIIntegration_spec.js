@@ -818,8 +818,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should switch the SMS provider correctly', async function () {
             await page.evaluate(function () {
-                $('[name=smsProviders] ul li:nth-child(2)').click();
+              $('[name=smsProviders]').val('string:Clockwork').trigger('change');
             });
+            await page.waitFor(100);
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging_provider');
