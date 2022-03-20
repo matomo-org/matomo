@@ -4,40 +4,32 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
-<todo>
-- conversion check (mistakes get fixed in quickmigrate)
-- property types
-- state types
-- look over template
-- look over component code
-- get to build
-- test in UI
-- check uses:
-  ./plugins/MobileMessaging/templates/macros.twig
-  ./plugins/MobileMessaging/MobileMessaging.php
-  ./plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js
-  ./plugins/MobileMessaging/vue/src/ManageSmsProvider/ManageSmsProvider.vue
-- create PR
-</todo>
-
 <template>
   <div v-if="fields">
-    <GroupedSettings
-      :settings="fields"
-      :all-setting-values="modelValue"
-      @change="$emit('update:modelValue', { ...modelValue, [$event.name]: $event.value })"
+    <Field
+      v-for="field in fields"
+      :key="field.name"
+      :uicontrol="field.type"
+      :name="field.name"
+      :model-value="modelValue?.[field.name]"
+      @update:model-value="$emit('update:modelValue', { ...modelValue, [field.name]: $event })"
+      :title="translate(field.title)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { AjaxHelper } from 'CoreHome';
-import { GroupedSettings } from 'CorePluginsAdmin';
+import { Field } from 'CorePluginsAdmin';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const allFieldsByProvider: Record<string, any[]> = {};
+interface FieldInfo {
+  name: string;
+  type: string;
+  title: string;
+}
+
+const allFieldsByProvider = reactive<Record<string, FieldInfo[]>>({});
 
 export default defineComponent({
   props: {
@@ -52,12 +44,12 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   components: {
-    GroupedSettings,
+    Field,
   },
   watch: {
     provider() {
       // unset credentials when new provider is chosen
-      this.$emit('update:modelValue', [{}]);
+      this.$emit('update:modelValue', {});
 
       // fetch fields for provider
       this.getCredentialFields();
@@ -77,7 +69,7 @@ export default defineComponent({
         action: 'getCredentialFields',
         provider: this.provider,
       }).then((fields) => {
-        this.fields = fields;
+        allFieldsByProvider[this.provider] = fields;
       });
     },
   },

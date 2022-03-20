@@ -4,12 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- get to build
-- test in UI
-- create PR
-</todo>
-
 <template>
   <div>
     <ActivityIndicator :loading="isDeletingAccount" />
@@ -92,9 +86,9 @@ export default defineComponent({
     credentialSupplied: Boolean,
     credentialError: String,
     provider: String,
-    creditLeft: String,
+    creditLeft: [Number, String],
     smsProviderOptions: {
-      type: Array,
+      type: Object,
       required: true,
     },
     smsProviders: {
@@ -194,6 +188,7 @@ export default defineComponent({
     isUpdateAccountPossible() {
       // possible if smsProvider is set and all credential field values are set to something
       return !!this.smsProvider
+        && Object.keys(this.credentials).length > 0
         && Object.values(this.credentials as Record<string, string>).every((v) => !!v);
     },
     updateOrDeleteAccountText() {

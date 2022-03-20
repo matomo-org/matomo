@@ -106,6 +106,13 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_Settings_InvalidActivationCode';
         $translationKeys[] = 'MobileMessaging_Settings_PhoneActivated';
         $translationKeys[] = 'MobileMessaging_Settings_SMSProvider';
+        $translationKeys[] = 'MobileMessaging_Settings_PleaseSignUp';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialInvalid';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialProvided';
+        $translationKeys[] = 'MobileMessaging_Settings_UpdateOrDeleteAccount';
+        $translationKeys[] = 'MobileMessaging_UserKey';
+        $translationKeys[] = 'General_Password';
+        $translationKeys[] = 'MobileMessaging_Settings_APIKey';
     }
     
     public function validateReportParameters(&$parameters, $reportType)
