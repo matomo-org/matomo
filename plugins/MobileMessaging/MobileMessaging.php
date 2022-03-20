@@ -110,6 +110,13 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_Settings_CountryCode';
         $translationKeys[] = 'MobileMessaging_Settings_PhoneNumber';
         $translationKeys[] = 'MobileMessaging_Settings_EnterActivationCode';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Add';
+        $translationKeys[] = 'MobileMessaging_Settings_DelegatedPhoneNumbersOnlyUsedByYou';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Help';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help';
+        $translationKeys[] = 'MobileMessaging_Settings_ManagePhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_Settings_VerificationCodeJustSent';
+        $translationKeys[] = 'MobileMessaging_Settings_ValidatePhoneNumber';
     }
     
     public function validateReportParameters(&$parameters, $reportType)

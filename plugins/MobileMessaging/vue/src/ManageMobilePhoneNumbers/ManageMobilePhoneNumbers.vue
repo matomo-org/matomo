@@ -4,10 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-</todo>
-
 <template>
   <div>
     <p>{{ translate('MobileMessaging_Settings_PhoneNumbers_Help') }}</p>
@@ -82,12 +78,12 @@
     </div>
     <div id="ajaxErrorAddPhoneNumber" />
     <ActivityIndicator :loading="isAddingPhonenumber" />
-    <div class="row" v-if="phoneNumbers.length > 0">
+    <div class="row" v-if="Object.keys(phoneNumbers || {}).length > 0">
       <h3 class="col s12">{{ translate('MobileMessaging_Settings_ManagePhoneNumbers') }}</h3>
     </div>
     <div
       class="form-group row"
-      v-for="(phoneNumber, validated, index) in phoneNumbers"
+      v-for="(validated, phoneNumber, index) in phoneNumbers || []"
       :key="index"
     >
       <div class="col s12 m6">
@@ -99,6 +95,7 @@
           v-model="validationCode[index]"
           v-show="!isActivated[index]"
           :placeholder="translate('MobileMessaging_Settings_EnterActivationCode')"
+          style="margin-right:3.5px"
         />
         <SaveButton
           v-if="!validated"
@@ -106,6 +103,7 @@
           v-show="`!(isActivated[index])`"
           @confirm="validateActivationCode(phoneNumber, index)"
           :value="translate('MobileMessaging_Settings_ValidatePhoneNumber')"
+          style="margin-right:3.5px"
         />
         <SaveButton
           :disabled="isChangingPhoneNumber"
@@ -117,7 +115,7 @@
         <div v-show="!(isActivated[index])">
             {{ translate('MobileMessaging_Settings_VerificationCodeJustSent') }}
         </div>
-        &amp;nbsp;
+        &nbsp;
       </div>
     </div>
     <div id="invalidVerificationCodeAjaxError" style="display:none"></div>
@@ -149,10 +147,7 @@ interface ManageMobilePhoneNumbersState {
 export default defineComponent({
   props: {
     isSuperUser: Boolean,
-    defaultCallingCode: {
-      type: String,
-      required: true,
-    },
+    defaultCallingCode: String,
     countries: {
       type: Array,
       required: true,
@@ -161,10 +156,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    phoneNumbers: {
-      type: Array,
-      required: true,
-    },
+    phoneNumbers: Object,
   },
   components: {
     Field,
@@ -177,7 +169,7 @@ export default defineComponent({
       isAddingPhonenumber: false,
       isChangingPhoneNumber: false,
       isActivated: {},
-      countryCallingCode: this.defaultCallingCode,
+      countryCallingCode: this.defaultCallingCode || '',
       newPhoneNumber: '',
       validationCode: {},
     };
