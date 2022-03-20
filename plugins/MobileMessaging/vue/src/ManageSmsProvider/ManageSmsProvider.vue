@@ -50,13 +50,9 @@
         @confirm="updateAccount()"
       />
       <div
-        v-for="(theProvider, description) in smsProviders"
-        :key="theProvider"
         class="providerDescription"
-        v-show="smsProvider === theProvider"
-        :id="theProvider"
+        v-html="$sanitize(currentProviderDescription)"
       >
-        {{ description }}
       </div>
     </div>
   </div>
@@ -199,6 +195,13 @@ export default defineComponent({
         '<a id="deleteAccount">',
         '</a>',
       );
+    },
+    currentProviderDescription() {
+      if (!this.smsProvider || !this.smsProviders) {
+        return '';
+      }
+
+      return this.smsProviders[this.smsProvider];
     },
   },
 });
