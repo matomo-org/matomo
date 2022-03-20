@@ -103,13 +103,6 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
-/***/ "7ad5":
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
@@ -153,7 +146,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue?vue&type=template&id=e4df5df2
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue?vue&type=template&id=8e4eafcc
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
@@ -163,7 +156,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "radio",
     name: "delegatedManagement",
-    value: _ctx.delegatedManagement ? 1 : 0,
     title: _ctx.translate('MobileMessaging_Settings_LetUsersManageAPICredential'),
     modelValue: _ctx.enabled,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -171,14 +163,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "full-width": true,
     options: _ctx.delegateManagementOptions
-  }, null, 8, ["value", "title", "modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+  }, null, 8, ["title", "modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
     onConfirm: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.save();
     }),
     saving: _ctx.isLoading
   }, null, 8, ["saving"])]);
 }
-// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue?vue&type=template&id=e4df5df2
+// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue?vue&type=template&id=8e4eafcc
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -192,7 +184,6 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 /* harmony default export */ var DelegateMobileMessagingSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
-    isSuperUser: Boolean,
     delegateManagementOptions: {
       type: Array,
       required: true
@@ -206,7 +197,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
   data: function data() {
     return {
       isLoading: false,
-      enabled: false
+      enabled: this.delegatedManagement ? 1 : 0
     };
   },
   methods: {
@@ -235,19 +226,11 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 }));
 // CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue?vue&type=script&lang=ts
  
-// EXTERNAL MODULE: ./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue?vue&type=custom&index=0&blockType=todo
-var DelegateMobileMessagingSettingsvue_type_custom_index_0_blockType_todo = __webpack_require__("7ad5");
-var DelegateMobileMessagingSettingsvue_type_custom_index_0_blockType_todo_default = /*#__PURE__*/__webpack_require__.n(DelegateMobileMessagingSettingsvue_type_custom_index_0_blockType_todo);
-
 // CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue
 
 
 
 DelegateMobileMessagingSettingsvue_type_script_lang_ts.render = render
-/* custom blocks */
-
-if (typeof DelegateMobileMessagingSettingsvue_type_custom_index_0_blockType_todo_default.a === 'function') DelegateMobileMessagingSettingsvue_type_custom_index_0_blockType_todo_default()(DelegateMobileMessagingSettingsvue_type_script_lang_ts)
-
 
 /* harmony default export */ var DelegateMobileMessagingSettings = (DelegateMobileMessagingSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/index.ts
