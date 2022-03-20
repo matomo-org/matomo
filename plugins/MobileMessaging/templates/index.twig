@@ -8,11 +8,12 @@
 <div class="manageMobileMessagingSettings">
     {% if isSuperUser %}
     <div piwik-content-block content-title="{{ title|e('html_attr') }}">
-    <div
-      vue-entry="MobileMessaging.DelegateMobileMessagingSettings"
-      delegate-management-options="{{ delegateManagementOptions|default(null)|json_encode|e('html_attr') }}"
-      delegated-management="{{ delegatedManagement|default(null)|json_encode|e('html_attr') }}"
-    ></div>
+        <div
+          vue-entry="MobileMessaging.DelegateMobileMessagingSettings"
+          delegate-management-options="{{ delegateManagementOptions|default(null)|json_encode|e('html_attr') }}"
+          delegated-management="{{ delegatedManagement|default(null)|json_encode|e('html_attr') }}"
+        ></div>
+    </div>
     {% endif %}
 
     {% if accountManagedByCurrentUser %}

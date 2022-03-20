@@ -4,18 +4,12 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- create PR
-</todo>
-
 <template>
   <div>
     <div>
       <Field
         uicontrol="radio"
         name="delegatedManagement"
-        :value="delegatedManagement ? 1 : 0"
         :title="translate('MobileMessaging_Settings_LetUsersManageAPICredential')"
         v-model="enabled"
         :full-width="true"
@@ -60,7 +54,7 @@ export default defineComponent({
   data(): DelegateMobileMessagingSettingsState {
     return {
       isLoading: false,
-      enabled: false,
+      enabled: this.delegatedManagement ? 1 : 0,
     };
   },
   methods: {
