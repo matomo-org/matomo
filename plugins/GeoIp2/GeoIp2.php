@@ -24,7 +24,6 @@ class GeoIp2 extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
             'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
@@ -42,10 +41,6 @@ class GeoIp2 extends \Piwik\Plugin
         if (LocationProvider::getCurrentProvider() instanceof \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2) {
             LocationProvider::setCurrentProvider(LocationProvider::getDefaultProviderId());
         }
-    }
-
-    public function getJsFiles(&$jsFiles)
-    {
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
