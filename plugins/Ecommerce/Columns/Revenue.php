@@ -40,7 +40,15 @@ class Revenue extends BaseConversion
         $segment->setCategory($this->category);
         $segment->setName(Piwik::translate('Ecommerce_OrderRevenue'));
         $segment->setSegment('revenueOrder');
-        $segment->setSqlSegment('log_conversion.revenue');
+        $segment->setSqlSegment('log_conversion.idvisit');
+        $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
+            $table = Common::prefixTable($this->dbTableName);
+            $sql = " SELECT {$sqlField} from {$table} WHERE (log_conversion.revenue {$matchType} ?) ";
+            return [
+              'SQL'  => $sql,
+              'bind' => (float)$valueToMatch,
+            ];
+        });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
         //new Segment revenue left in cart
@@ -49,12 +57,12 @@ class Revenue extends BaseConversion
         $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
         $segment->setSegment('revenueAbandonedCart');
         $segment->setSqlSegment('log_conversion.idvisit');
-        $segment->setSqlFilter(function ($valueToMatch, $sqlField) {
+        $segment->setSqlFilter(function ($valueToMatch, $sqlField , $matchType) {
             $table = Common::prefixTable($this->dbTableName);
-            $sql = " SELECT {$sqlField} from {$table} WHERE (idgoal = ?) ";
+            $sql = " SELECT {$sqlField} from {$table} WHERE (idgoal = -1 and log_conversion.revenue {$matchType} ?) ";
             return [
               'SQL'  => $sql,
-              'bind' => -1,
+              'bind' =>(float)$valueToMatch,
             ];
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
