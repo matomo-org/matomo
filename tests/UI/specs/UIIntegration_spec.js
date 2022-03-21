@@ -814,13 +814,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging');
-        });
+        })
 
         it('should switch the SMS provider correctly', async function () {
             await page.evaluate(function () {
               $('[name=smsProviders]').val('string:Clockwork').trigger('change');
             });
-            await page.waitFor(100);
+            await page.waitForNetworkIdle();
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging_provider');
