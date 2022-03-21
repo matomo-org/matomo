@@ -4999,27 +4999,27 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Get visitor ID (from first party cookie)
-             *
-             * @return string Visitor ID in hexits (or empty string, if not yet known)
-             */
-            this.getVisitorId = function () {
-                if (!configCookiesDisabled && !getCookie(getCookieName('id'))) {
-                    setVisitorIdCookie();
-                }
-
-                return getValuesFromVisitorIdCookie().uuid;
-            };
-
-            /**
              * Get the visitor information (from first party cookie)
              *
              * @return array
              */
             this.getVisitorInfo = function () {
+                if (!configCookiesDisabled && !getCookie(getCookieName('id'))) {
+                    setVisitorIdCookie();
+                }
+
                 // Note: in a new method, we could return also return getValuesFromVisitorIdCookie()
                 //       which returns named parameters rather than returning integer indexed array
                 return loadVisitorIdCookie();
+            };
+
+            /**
+             * Get visitor ID (from first party cookie)
+             *
+             * @return string Visitor ID in hexits (or empty string, if not yet known)
+             */
+            this.getVisitorId = function () {
+                return this.getVisitorInfo()[1];
             };
 
             /**
