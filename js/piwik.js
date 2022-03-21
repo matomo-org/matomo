@@ -2233,9 +2233,6 @@ if (typeof window.Matomo !== 'object') {
                 // Visitor UUID
                 visitorUUID = '',
 
-                // Initial VisitorId
-                initialVisitorIdCookie = [],
-
                 // Document URL
                 configCustomUrl,
 
@@ -3351,10 +3348,6 @@ if (typeof window.Matomo !== 'object') {
                     return cookieValue;
                 }
 
-                if (initialVisitorIdCookie.length) {
-                    return initialVisitorIdCookie;
-                }
-
                 if(visitorUUID.length) {
                     uuid = visitorUUID;
                 } else if ('0' === hasCookies()){
@@ -3363,19 +3356,25 @@ if (typeof window.Matomo !== 'object') {
                     uuid = generateRandomUuid();
                 }
 
+                var newVisitorId = [
+                  // new visitor
+                  '1',
+
+                  // uuid
+                  uuid,
+
+                  // creation timestamp - seconds since Unix epoch
+                  nowTs
+                ]
+
                 // No visitor ID cookie, let's create a new one
-                initialVisitorIdCookie = [
-                    // new visitor
-                    '1',
+                setVisitorIdCookie({
+                    newVisitor: newVisitorId[0],
+                    uuid: newVisitorId[1],
+                    createTs: newVisitorId[2],
+                });
 
-                    // uuid
-                    uuid,
-
-                    // creation timestamp - seconds since Unix epoch
-                    nowTs
-                ];
-
-                return initialVisitorIdCookie;
+                return newVisitorId;
             }
 
 
