@@ -3356,6 +3356,7 @@ if (typeof window.Matomo !== 'object') {
                     uuid = generateRandomUuid();
                 }
 
+                // No visitor ID cookie, let's create a new one
                 cookieValue = [
                     // new visitor
                     '1',
@@ -3366,13 +3367,6 @@ if (typeof window.Matomo !== 'object') {
                     // creation timestamp - seconds since Unix epoch
                     nowTs
                 ];
-
-                // No visitor ID cookie, let's create a new one
-                setVisitorIdCookie({
-                    newVisitor: cookieValue[0],
-                    uuid: cookieValue[1],
-                    createTs: cookieValue[2]
-                });
 
                 return cookieValue;
             }
@@ -5010,6 +5004,10 @@ if (typeof window.Matomo !== 'object') {
              * @return string Visitor ID in hexits (or empty string, if not yet known)
              */
             this.getVisitorId = function () {
+                if (!configCookiesDisabled && !getCookie(getCookieName('id'))) {
+                    setVisitorIdCookie();
+                }
+
                 return getValuesFromVisitorIdCookie().uuid;
             };
 
