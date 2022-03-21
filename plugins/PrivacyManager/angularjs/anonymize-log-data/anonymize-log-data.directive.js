@@ -21,9 +21,6 @@
             templateUrl: 'plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.html?cb=' + piwik.cacheBuster,
             controller: 'AnonymizeLogDataController',
             controllerAs: 'anonymizeLogData',
-            compile: function (element, attrs) {
-
-            }
         };
     }
 })();
