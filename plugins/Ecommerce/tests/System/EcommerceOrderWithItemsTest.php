@@ -319,10 +319,9 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                   [
                     'idSite'     => $idSite,
                     'date'       => $dateTime,
-                    'idGoal' => -1,
                     'periods'    => 'day',
                     'testSuffix' => '_SegmentCartRevenueOrder',
-                    'segment'    => 'revenueAbandonedCart>500',
+                    'segment'    => 'revenueAbandonedCart>100',
                   ]
                 ],
 

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\Discriminator;
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
@@ -49,7 +50,14 @@ class Revenue extends BaseConversion
         $segment->setType('dimension');
         $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
         $segment->setSegment('revenueAbandonedCart');
-        $segment->setSqlSegment('log_conversion.revenue');
+        $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
+            $table = Common::prefixTable($this->dbTableName);
+            $sql = "select {$sqlField} from {$table} where idgoal = -1 and {$sqlField}{$matchType} ? ";
+            return [
+              'SQL'  => $sql,
+              'bind' => $valueToMatch,
+            ];
+        });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
     }
