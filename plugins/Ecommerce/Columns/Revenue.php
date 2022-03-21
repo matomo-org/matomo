@@ -37,26 +37,26 @@ class Revenue extends BaseConversion
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         //new Segment revenue on order
-//        $segment = new Segment();
-//        $segment->setCategory($this->category);
-//        $segment->setName(Piwik::translate('Ecommerce_OrderRevenue'));
-//        $segment->setSegment('revenueOrder');
-//        $segment->setSqlSegment('log_conversion.idvisit');
-//        $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
-//            return $this->getRevenueQuery($valueToMatch, $sqlField , $matchType);
-//        });
-//        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
-//
-//        //new Segment revenue left in cart
-//        $segment = new Segment();
-//        $segment->setCategory($this->category);
-//        $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
-//        $segment->setSegment('revenueAbandonedCart');
-//        $segment->setSqlSegment('log_conversion.idvisit');
-//        $segment->setSqlFilter(function ($valueToMatch, $sqlField , $matchType) {
-//           return $this->getRevenueQuery($valueToMatch, $sqlField , $matchType,true);
-//        });
-//        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
+        $segment = new Segment();
+        $segment->setCategory($this->category);
+        $segment->setName(Piwik::translate('Ecommerce_OrderRevenue'));
+        $segment->setSegment('revenueOrder');
+        $segment->setSqlSegment('log_conversion.idvisit');
+        $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
+            return $this->getRevenueQuery($valueToMatch, $sqlField , $matchType, 0);
+        });
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
+
+        //new Segment revenue left in cart
+        $segment = new Segment();
+        $segment->setCategory($this->category);
+        $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
+        $segment->setSegment('revenueAbandonedCart');
+        $segment->setSqlSegment('log_conversion.idvisit');
+        $segment->setSqlFilter(function ($valueToMatch, $sqlField , $matchType) {
+           return $this->getRevenueQuery($valueToMatch, $sqlField , $matchType,-1);
+        });
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
     }
 
@@ -68,14 +68,13 @@ class Revenue extends BaseConversion
      * @param false $cart
      * @return array
      */
-    private function getRevenueQuery($valueToMatch, $sqlField , $matchType, $cart = false)
+    private function getRevenueQuery($valueToMatch, $sqlField , $matchType, $idGoal)
     {
-        $where = $cart ? 'idgoal = -1 and' : '';
         if ($matchType === SegmentExpression::MATCH_EQUAL) {
             $matchType = "=";
         }
         $table = Common::prefixTable($this->dbTableName);
-        $sql = " SELECT {$sqlField} from {$table} WHERE ({$where} log_conversion.revenue {$matchType} ?) ";
+        $sql = " SELECT {$sqlField} from {$table} WHERE (idgoal = {$idGoal} log_conversion.revenue {$matchType} ?) ";
         return [
           'SQL'  => $sql,
           'bind' =>(float)$valueToMatch,
