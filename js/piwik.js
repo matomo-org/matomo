@@ -3356,25 +3356,25 @@ if (typeof window.Matomo !== 'object') {
                     uuid = generateRandomUuid();
                 }
 
-                var newVisitorId = [
-                  // new visitor
-                  '1',
+                cookieValue = [
+                    // new visitor
+                    '1',
 
-                  // uuid
-                  uuid,
+                    // uuid
+                    uuid,
 
-                  // creation timestamp - seconds since Unix epoch
-                  nowTs
+                    // creation timestamp - seconds since Unix epoch
+                    nowTs
                 ]
 
                 // No visitor ID cookie, let's create a new one
                 setVisitorIdCookie({
-                    newVisitor: newVisitorId[0],
-                    uuid: newVisitorId[1],
-                    createTs: newVisitorId[2],
+                    newVisitor: cookieValue[0],
+                    uuid: cookieValue[1],
+                    createTs: cookieValue[2],
                 });
 
-                return newVisitorId;
+                return cookieValue;
             }
 
 

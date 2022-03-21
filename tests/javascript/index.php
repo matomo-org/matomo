@@ -2288,7 +2288,6 @@ function PiwikTest() {
         deleteCookies();
 
         var asyncTracker = Piwik.getAsyncTracker();
-        asyncTracker.trackPageView();
         var asyncVisitorId = asyncTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getSiteId(), asyncTracker.getSiteId(), 'async same site id');
         equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
@@ -2296,12 +2295,10 @@ function PiwikTest() {
         wait(2000);
 
         var delayedTracker = Piwik.getTracker();
-        delayedTracker.trackPageView();
         var delayedVisitorId = delayedTracker.getVisitorId();
         equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
 
         var prefixTracker = Piwik.getTracker();
-        prefixTracker.trackPageView();
         prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
 
         var prefixVisitorId = prefixTracker.getVisitorId();
@@ -3231,8 +3228,6 @@ function PiwikTest() {
         tracker.setUserId(5939383);
         equal(5939383, tracker.getUserId(), "getUserId() returns numeric User Id");
 
-        tracker.trackPageView();
-        tracker2.trackPageView();
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
         equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
@@ -3774,7 +3769,7 @@ if ($mysql) {
         var referrerUrl = "http://referrer.example.com/page/sub?query=test&test2=test3";
         tracker.setReferrerUrl(referrerUrl);
 
-        var referrerTimestamp = Math.round(new Date().getTime() / 1000);
+        referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
         strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
@@ -3858,9 +3853,6 @@ if ($mysql) {
         ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" + visitorId1 + " VS " + visitorId2 );
 
         var visitorInfo1, visitorInfo2;
-        var referrer1, referrer2;
-        var attributionInfo1, attributionInfo2;
-        var referrerTimestamp2;
 
         // Visitor INFO + Attribution INFO tests
         tracker.setReferrerUrl(referrerUrl);
@@ -3882,8 +3874,8 @@ if ($mysql) {
         ok( referrer1 == referrerUrl, "async getAttributionReferrerUrl()" );
         referrerTimestamp2 = tracker.getAttributionReferrerTimestamp();
         ok( referrerTimestamp2 == referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
-        var campaignName2 = tracker.getAttributionCampaignName();
-        var campaignKeyword2 = tracker.getAttributionCampaignKeyword();
+        campaignName2 = tracker.getAttributionCampaignName();
+        campaignKeyword2 = tracker.getAttributionCampaignKeyword();
         ok( campaignName2 == "YEAH", "getAttributionCampaignName()");
         ok( campaignKeyword2 == "RIGHT!", "getAttributionCampaignKeyword()");
 
@@ -4152,7 +4144,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "55", "count tracking events" );
+                equal( countTrackingEvents[1], "54", "count tracking events" );
             }
 
             // firing callback
@@ -5216,7 +5208,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 520, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 520 ' );
+        ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
