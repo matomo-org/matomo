@@ -2378,6 +2378,11 @@ if (typeof window.Matomo !== 'object') {
                 // Browser features via client-side data collection
                 browserFeatures = {},
 
+                // Browser client hints
+                clientHints = {},
+                clientHintsRequestQueue = [],
+                clientHintsResolved = false,
+
                 // Keeps track of previously tracked content impressions
                 trackedContentImpressions = [],
                 isTrackOnlyVisibleContentEnabled = false,
@@ -3033,14 +3038,39 @@ if (typeof window.Matomo !== 'object') {
                 }
             }
 
-            function injectClientHints (request, callback) {
-                if (!isDefined(navigatorAlias.userAgentData) || !isFunction(navigatorAlias.userAgentData.getHighEntropyValues)) {
-                    callback(request);
+            function injectClientHints(request) {
+                if (!clientHints) {
+                    return request;
+                }
+
+                var i, appendix = '&uadata=' + encodeWrapper(windowAlias.JSON.stringify(clientHints));
+
+                if (request instanceof Array) {
+                    for (i = 0; i < request.length; i++) {
+                       request[i] += appendix;
+                    }
+                } else {
+                    request += appendix;
+                }
+
+                return request;
+            }
+
+            function detectClientHints (callback) {
+                if (!configBrowserFeatureDetection || !isDefined(navigatorAlias.userAgentData) || !isFunction(navigatorAlias.userAgentData.getHighEntropyValues)) {
+                    callback();
                     return;
                 }
 
-                var appendix = '';
+                // Initialize with low entropy values that are always available
+                clientHints = {
+                    brands: navigatorAlias.userAgentData.brands,
+                    platform: navigatorAlias.userAgentData.platform
+                };
 
+                // try to gather high entropy values
+                // currently this methods simply returns the requested values through a Promise
+                // In later versions it might require a user permission
                 navigatorAlias.userAgentData.getHighEntropyValues(
                     ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']
                 ).then(function(ua) {
@@ -3050,19 +3080,11 @@ if (typeof window.Matomo !== 'object') {
                         delete ua.brands;
                         delete ua.uaFullVersion;
                     }
-                    appendix += '&uadata=' + encodeWrapper(windowAlias.JSON.stringify(ua));
 
-                    if (request instanceof Array) {
-                        for (i = 0; i < request.length; i++) {
-                            request[i] += appendix;
-                        }
-                    } else {
-                        request += appendix;
-                    }
-
-                    callback(request);
+                    clientHints = ua;
+                    callback();
                 }, function (message) {
-                    callback(request);
+                    callback();
                 });
             }
 
@@ -3070,6 +3092,11 @@ if (typeof window.Matomo !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                if (!clientHintsResolved) {
+                  clientHintsRequestQueue.push(request);
+                  return;
+                }
+
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push(request);
@@ -3083,21 +3110,21 @@ if (typeof window.Matomo !== 'object') {
                         request += '&consent=1';
                     }
 
+                    request = injectClientHints(request);
+
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        injectClientHints(request, function(request) {
-                            if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
-                                setExpireDateTime(100);
-                                return;
-                            }
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
+                            setExpireDateTime(100);
+                            return;
+                        }
 
-                            if (shouldForcePost(request)) {
-                                sendXmlHttpRequest(request, callback);
-                            } else {
-                                getImage(request, callback);
-                            }
+                        if (shouldForcePost(request)) {
+                            sendXmlHttpRequest(request, callback);
+                        } else {
+                            getImage(request, callback);
+                        }
 
-                            setExpireDateTime(delay);
-                        });
+                        setExpireDateTime(delay);
                     });
                 }
                 if (!heartBeatSetUp) {
@@ -3140,6 +3167,11 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
+                if (!clientHintsResolved) {
+                    clientHintsRequestQueue.push(requests);
+                    return;
+                }
+
                 if (!configHasConsent) {
                     consentRequestsQueue.push(requests);
                     return;
@@ -3152,7 +3184,7 @@ if (typeof window.Matomo !== 'object') {
 
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
-                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"],"send_image":0}';
+                        bulk = '{"requests":["?' + injectClientHints(chunks[i]).join('","?') + '"],"send_image":0}';
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
                             // makes sure to load the next page faster by not waiting as long
                             // we apply this once we know send beacon works
@@ -3211,6 +3243,19 @@ if (typeof window.Matomo !== 'object') {
              * Browser features (plugins, resolution, cookies)
              */
             function detectBrowserFeatures() {
+                detectClientHints(function() {
+                    var i, requestType;
+                    clientHintsResolved = true;
+                    for (i = 0; i < clientHintsRequestQueue.length; i++) {
+                        requestType = typeof clientHintsRequestQueue[i];
+                        if (requestType === 'string') {
+                            sendRequest(clientHintsRequestQueue[i], configTrackerPause);
+                        } else if (requestType === 'object') {
+                            sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause);
+                        }
+                    }
+                    clientHintsRequestQueue = [];
+                });
 
                 // Browser Feature is disabled return empty object
                 if (!configBrowserFeatureDetection) {
