@@ -76,7 +76,7 @@ declare global {
 
   interface PiwikHelperGlobal {
     escape(text: string): string;
-    redirect(params: any);
+    redirect(params?: any);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
@@ -147,6 +147,7 @@ declare global {
     hasSuperUserAccess: boolean;
     language: string;
     cacheBuster: string;
+    numbers: Record<string, string>;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -176,6 +177,12 @@ declare global {
     scrollToAnchorInUrl(): void;
   }
 
+  interface NumberFormatter {
+    formatNumber(value?: number|string): string;
+    formatPercent(value?: number|string): string;
+    formatCurrency(value?: number|string, currency: string): string;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -189,6 +196,7 @@ declare global {
     anchorLinkFix: AnchorLinkFix;
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
+    NumberFormatter: NumberFormatter;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
