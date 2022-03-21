@@ -38,7 +38,6 @@ class Revenue extends BaseConversion
         //new Segment revenue on order
         $segment = new Segment();
         $segment->setCategory($this->category);
-        $segment->setType('dimension');
         $segment->setName(Piwik::translate('Ecommerce_OrderRevenue'));
         $segment->setSegment('revenueOrder');
         $segment->setSqlSegment('log_conversion.revenue');
@@ -47,12 +46,11 @@ class Revenue extends BaseConversion
         //new Segment revenue left in cart
         $segment = new Segment();
         $segment->setCategory($this->category);
-        $segment->setType('dimension');
         $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
         $segment->setSegment('revenueAbandonedCart');
         $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
             $table = Common::prefixTable($this->dbTableName);
-            $sql = "select {$sqlField} from {$table} where idgoal = -1 and {$sqlField}{$matchType} ? ";
+            $sql = "select {$sqlField} from {$table} where (idgoal = -1 and {$sqlField}{$matchType} ?) ";
             return [
               'SQL'  => $sql,
               'bind' => $valueToMatch,
