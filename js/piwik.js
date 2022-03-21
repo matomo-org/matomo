@@ -3365,13 +3365,13 @@ if (typeof window.Matomo !== 'object') {
 
                     // creation timestamp - seconds since Unix epoch
                     nowTs
-                ]
+                ];
 
                 // No visitor ID cookie, let's create a new one
                 setVisitorIdCookie({
                     newVisitor: cookieValue[0],
                     uuid: cookieValue[1],
-                    createTs: cookieValue[2],
+                    createTs: cookieValue[2]
                 });
 
                 return cookieValue;
