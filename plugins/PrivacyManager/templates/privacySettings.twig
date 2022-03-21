@@ -15,7 +15,16 @@
 <div piwik-content-block
      id="anonymizeIPAnchor"
      content-title="{{ 'PrivacyManager_UseAnonymizeTrackingData'|translate|e('html_attr') }}">
-    <div piwik-form ng-controller="AnonymizeIpController as anonymizeIp">
+  <div
+    vue-entry="PrivacyManager.AnonymizeIp"
+    anonymize-i-p="{{ anonymizeIP|default(null)|json_encode|e('html_attr') }}"
+    mask-length-options="{{ maskLengthOptions|default(null)|json_encode|e('html_attr') }}"
+    use-anonymized-ip-for-visit-enrichment-options="{{ useAnonymizedIpForVisitEnrichmentOptions|default(null)|json_encode|e('html_attr') }}"
+    tracker-file-name="{{ trackerFileName|default(null)|json_encode|e('html_attr') }}"
+    tracker-writable="{{ trackerWritable|default(null)|json_encode|e('html_attr') }}"
+    referrer-anonymization-options="{{ referrerAnonymizationOptions|default(null)|json_encode|e('html_attr') }}"
+  ></div>
+  <div piwik-form ng-controller="AnonymizeIpController as anonymizeIp">
 
         <div piwik-field uicontrol="checkbox" name="anonymizeIpSettings"
              ng-model="anonymizeIp.enabled"
