@@ -48,12 +48,13 @@ class Revenue extends BaseConversion
         $segment->setCategory($this->category);
         $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
         $segment->setSegment('revenueAbandonedCart');
-        $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
+        $segment->setSqlSegment('log_conversion.idvisit');
+        $segment->setSqlFilter(function ($valueToMatch, $sqlField) {
             $table = Common::prefixTable($this->dbTableName);
-            $sql = "select {$sqlField} from {$table} where (idgoal = -1 and {$sqlField}{$matchType} ?) ";
+            $sql = " SELECT {$sqlField} from {$table} WHERE (idgoal = ?) ";
             return [
               'SQL'  => $sql,
-              'bind' => $valueToMatch,
+              'bind' => -1,
             ];
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
