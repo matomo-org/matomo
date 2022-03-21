@@ -74,7 +74,7 @@ class Revenue extends BaseConversion
             $matchType = "=";
         }
         $table = Common::prefixTable($this->dbTableName);
-        $sql = " SELECT {$sqlField} from {$table} WHERE (idgoal = {$idGoal} log_conversion.revenue {$matchType} ?) ";
+        $sql = " SELECT {$sqlField} from {$table} WHERE (idgoal = {$idGoal} and log_conversion.revenue {$matchType} ?) ";
         return [
           'SQL'  => $sql,
           'bind' =>(float)$valueToMatch,
