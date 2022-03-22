@@ -11,13 +11,10 @@ namespace Piwik\Plugins\UserCountry;
 use Matomo\Cache\Cache;
 use Matomo\Cache\Transient;
 use Piwik\Common;
-use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Matomo\Network\IPUtils;
-use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DisabledProvider;
-use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit;
 use Psr\Log\LoggerInterface;
 

@@ -9,7 +9,6 @@
 
 namespace Piwik\Session;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 

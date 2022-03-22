@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
-use Piwik\Archive;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;

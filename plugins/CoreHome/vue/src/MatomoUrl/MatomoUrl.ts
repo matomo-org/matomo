@@ -33,11 +33,11 @@ class MatomoUrl {
   readonly hashQuery = ref('');
 
   readonly urlParsed = computed(() => readonly(
-    broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true) as ParsedQueryParameters,
+    this.parse(this.urlQuery.value) as ParsedQueryParameters,
   ));
 
   readonly hashParsed = computed(() => readonly(
-    broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true) as ParsedQueryParameters,
+    this.parse(this.hashQuery.value) as ParsedQueryParameters,
   ));
 
   readonly parsed = computed(() => readonly({
@@ -59,6 +59,11 @@ class MatomoUrl {
     });
 
     this.updatePeriodParamsFromUrl();
+  }
+
+  updateHashToUrl(url: string) {
+    const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
+    $location.url(url);
   }
 
   updateHash(params: QueryParameters|string) {
@@ -95,11 +100,11 @@ class MatomoUrl {
   ) {
     const paramsObj = typeof params !== 'string'
       ? params as QueryParameters
-      : broadcast.getValuesFromUrl(`?${params}`, true);
+      : this.parse(params as string);
 
     const urlParamsObj = typeof params !== 'string'
       ? urlParams as QueryParameters
-      : broadcast.getValuesFromUrl(`?${urlParams}`, true);
+      : this.parse(urlParams as string);
 
     return {
       // these params must always be present in the hash
@@ -137,6 +142,10 @@ class MatomoUrl {
     }
 
     return window.broadcast.getValueFromUrl(paramName, window.location.search);
+  }
+
+  parse(query: string): QueryParameters {
+    return broadcast.getValuesFromUrl(`?${query}`, true);
   }
 
   stringify(search: QueryParameters): string {

@@ -10,7 +10,7 @@ import {
   readonly,
   computed,
 } from 'vue';
-import { AjaxHelper, MatomoUrl, lazyInitSingleton } from 'CoreHome';
+import { AjaxHelper, MatomoUrl } from 'CoreHome';
 import SiteType from './SiteType';
 
 interface SiteTypesStoreState {
@@ -28,19 +28,19 @@ class SiteTypesStore {
     typesById: {},
   });
 
-  public readonly typesById = computed(() => readonly(this.state).typesById);
+  readonly typesById = computed(() => readonly(this.state).typesById);
 
-  public readonly isLoading = computed(() => readonly(this.state).isLoading);
+  readonly isLoading = computed(() => readonly(this.state).isLoading);
 
-  public readonly types = computed(() => Object.values(this.typesById.value));
+  readonly types = computed(() => Object.values(this.typesById.value));
 
   private response?: Promise<SiteTypesStore['types']['value']>;
 
-  constructor() {
-    this.fetchAvailableTypes();
+  init() {
+    return this.fetchAvailableTypes();
   }
 
-  public fetchAvailableTypes(): Promise<SiteTypesStore['types']['value']> {
+  fetchAvailableTypes(): Promise<SiteTypesStore['types']['value']> {
     if (this.response) {
       return Promise.resolve(this.response);
     }
@@ -62,7 +62,7 @@ class SiteTypesStore {
     return this.response;
   }
 
-  public getEditSiteIdParameter(): string|undefined {
+  getEditSiteIdParameter(): string|undefined {
     // parse query directly because #/editsiteid=N was supported alongside #/?editsiteid=N
     const m = MatomoUrl.hashQuery.value.match(/editsiteid=([0-9]+)/);
     if (!m) {
@@ -80,11 +80,11 @@ class SiteTypesStore {
     return undefined;
   }
 
-  public removeEditSiteIdParameterFromHash(): void {
+  removeEditSiteIdParameterFromHash(): void {
     const params = { ...MatomoUrl.hashParsed.value };
     delete params.editsiteid;
     MatomoUrl.updateHash(params);
   }
 }
 
-export default lazyInitSingleton(SiteTypesStore) as SiteTypesStore;
+export default new SiteTypesStore();

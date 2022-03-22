@@ -60,7 +60,7 @@ export { default as createVueApp } from './createVueApp';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
-export { default as lazyInitSingleton } from './lazyInitSingleton';
+export { default as getFormattedEvolution } from './getFormattedEvolution';
 export {
   default as createAngularJsAdapter,
   transformAngularJsBoolAttr,
@@ -73,7 +73,7 @@ export { default as activityIndicatorAdapter } from './ActivityIndicator/Activit
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as translate } from './translate';
 export { default as Alert } from './Alert/Alert.vue';
-export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
+export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { default as Matomo } from './Matomo/Matomo';
@@ -106,6 +106,7 @@ export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
 export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';
 export { default as ReportingMenu } from './ReportingMenu/ReportingMenu.vue';
+export { default as ReportingMenuStore } from './ReportingMenu/ReportingMenu.store';
 export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.store';
 export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
 export { default as WidgetsStore } from './Widget/Widgets.store';

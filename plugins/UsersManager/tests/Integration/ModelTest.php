@@ -10,20 +10,15 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
-use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
-use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Access\Role\Admin;
 
 
 /**

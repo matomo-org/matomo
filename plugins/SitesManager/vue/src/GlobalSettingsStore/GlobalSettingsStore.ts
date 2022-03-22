@@ -10,7 +10,7 @@ import {
   readonly,
   computed,
 } from 'vue';
-import { AjaxHelper, lazyInitSingleton } from 'CoreHome';
+import { AjaxHelper } from 'CoreHome';
 import GlobalSettings from './GlobalSettings';
 
 interface GlobalSettingsStoreState {
@@ -48,11 +48,11 @@ class GlobalSettingsStore {
 
   readonly globalSettings = computed(() => readonly(this.privateState).globalSettings);
 
-  constructor() {
-    this.fetchGlobalSettings();
+  init() {
+    return this.fetchGlobalSettings();
   }
 
-  public saveGlobalSettings(settings: SaveGlobalSettingsParams) {
+  saveGlobalSettings(settings: SaveGlobalSettingsParams) {
     this.privateState.isLoading = true;
     return AjaxHelper.post(
       {
@@ -91,4 +91,4 @@ class GlobalSettingsStore {
   }
 }
 
-export default lazyInitSingleton(GlobalSettingsStore) as GlobalSettingsStore;
+export default new GlobalSettingsStore();

@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Actions\DataTable\Filter;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\BaseFilter;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;

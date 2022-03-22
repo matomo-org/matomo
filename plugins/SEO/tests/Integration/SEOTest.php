@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\SEO\tests\Integration;
 
 use Piwik\DataTable\Renderer;
-use Piwik\Http;
-use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SEO\API;
-use Exception;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

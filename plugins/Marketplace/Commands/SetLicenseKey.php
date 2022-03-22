@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Marketplace\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\Marketplace\LicenseKey;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

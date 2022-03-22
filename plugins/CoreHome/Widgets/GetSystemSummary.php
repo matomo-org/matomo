@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\CoreHome\Widgets;
 
-use Piwik\API\Request;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin;

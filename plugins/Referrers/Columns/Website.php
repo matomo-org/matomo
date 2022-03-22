@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Common;
-use Piwik\Piwik;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;

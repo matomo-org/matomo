@@ -7,8 +7,6 @@
  */
 namespace Piwik\Plugins\CustomDimensions\Columns\Metrics;
 
-use Piwik\DataTable\Row;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 

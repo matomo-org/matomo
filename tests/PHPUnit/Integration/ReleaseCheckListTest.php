@@ -15,8 +15,6 @@ use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
-use Piwik\Http;
-use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -1099,7 +1097,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             $countFileChecked++;
         }
-        $this->assertGreaterThan(20, $countFileChecked, "expected to test at least 20 files, but tested only " . $countFileChecked);
+        $this->assertGreaterThan(1, $countFileChecked, "expected to test at least one file, but tested only " . $countFileChecked);
 
         if (!empty($errors)) {
             throw new Exception(implode(",\n\n ", $errors));

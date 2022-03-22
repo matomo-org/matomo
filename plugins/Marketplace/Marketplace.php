@@ -9,10 +9,7 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugins\Marketplace\Widgets\GetNewPlugins;
-use Piwik\Plugins\Marketplace\Widgets\GetPremiumFeatures;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
@@ -60,7 +57,6 @@ class Marketplace extends \Piwik\Plugin
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
 
         $jsFiles[] = "plugins/Marketplace/angularjs/plugins/plugin-name.directive.js";
-        $jsFiles[] = "plugins/Marketplace/angularjs/licensekey/licensekey.controller.js";
         $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.controller.js";
         $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.directive.js";
     }
@@ -69,6 +65,20 @@ class Marketplace extends \Piwik\Plugin
     {
         $translationKeys[] = 'Marketplace_LicenseKeyActivatedSuccess';
         $translationKeys[] = 'Marketplace_LicenseKeyDeletedSuccess';
+        $translationKeys[] = 'Marketplace_PaidPluginsNoLicenseKeyIntro';
+        $translationKeys[] = 'Marketplace_PaidPluginsWithLicenseKeyIntro';
+        $translationKeys[] = 'Marketplace_RemoveLicenseKey';
+        $translationKeys[] = 'Marketplace_ViewSubscriptions';
+        $translationKeys[] = 'Marketplace_InstallPurchasedPlugins';
+        $translationKeys[] = 'Marketplace_InstallAllPurchasedPlugins';
+        $translationKeys[] = 'Marketplace_InstallThesePlugins';
+        $translationKeys[] = 'Marketplace_InstallAllPurchasedPluginsAction';
+        $translationKeys[] = 'Marketplace_ConfirmRemoveLicense';
+        $translationKeys[] = 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess';
+        $translationKeys[] = 'Marketplace_LicenseKeyIsValidShort';
+        $translationKeys[] = 'Marketplace_LicenseKey';
+        $translationKeys[] = 'CoreUpdater_UpdateTitle';
+        $translationKeys[] = 'Marketplace_ActivateLicenseKey';
     }
 
     /**

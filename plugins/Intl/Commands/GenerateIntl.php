@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Intl\Commands;
 
 use DateTimeZone;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Filesystem;
@@ -41,6 +40,7 @@ class GenerateIntl extends ConsoleCommand
     {
         $this->setName('translations:generate-intl-data')
             ->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'language that should be fetched')
+            ->addOption('cldr-version', '', InputOption::VALUE_OPTIONAL, 'CLDR version to use for update')
             ->setDescription('Generates Intl-data for Piwik');
     }
 
@@ -71,14 +71,16 @@ class GenerateIntl extends ConsoleCommand
             $matomoLanguages = [$input->getOption('language')];
         }
 
+        if ($input->getOption('cldr-version')) {
+            $this->CLDRVersion = $input->getOption('cldr-version');
+        }
+
         $aliasesUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-core/supplemental/aliases.json';
         $aliasesData = Http::fetchRemoteFile(sprintf($aliasesUrl, $this->CLDRVersion));
         $aliasesData = json_decode($aliasesData, true);
-        $aliasesData = $aliasesData['supplemental']['metadata']['alias']['languageAlias'];
+        $aliasesData = $aliasesData['supplemental']['metadata']['alias']['languageAlias'] ?? [];
 
         $this->checkCurrencies($output);
-
-        $writePath = Filesystem::getPathToPiwikRoot() . '/plugins/Intl/lang/%s.json';
 
         foreach ($matomoLanguages AS $langCode) {
 
@@ -151,7 +153,7 @@ class GenerateIntl extends ConsoleCommand
 
         $currencyData = Http::fetchRemoteFile(sprintf($currencyDataUrl, $this->CLDRVersion, 'en'));
         $currencyData = json_decode($currencyData, true);
-        $currencyData = $currencyData['supplemental']['currencyData']['region'];
+        $currencyData = $currencyData['supplemental']['currencyData']['region'] ?? [];
 
         $cldrCurrencies = array();
         foreach ($currencyData as $region) {
@@ -188,7 +190,7 @@ class GenerateIntl extends ConsoleCommand
             if (empty($languageData)) {
                 $languageData = Http::fetchRemoteFile(sprintf($languageDataUrl, $this->CLDRVersion, 'en'));
                 $languageData = json_decode($languageData, true);
-                $languageData = $languageData['main']['en']['localeDisplayNames']['languages'];
+                $languageData = $languageData['main']['en']['localeDisplayNames']['languages'] ?? [];
             }
 
             if (array_key_exists($code, $languageData) && $languageData[$code] != $code) {
@@ -213,7 +215,7 @@ class GenerateIntl extends ConsoleCommand
                 try {
                     $territoryData = Http::fetchRemoteFile(sprintf($territoryDataUrl, $this->CLDRVersion, 'en'));
                     $territoryData = json_decode($territoryData, true);
-                    $territoryData = $territoryData['main']['en']['localeDisplayNames']['territories'];
+                    $territoryData = $territoryData['main']['en']['localeDisplayNames']['territories'] ?? [];
 
                     if (array_key_exists($territory, $territoryData)) {
                         $englishName .= ' ('.$territoryData[$territory].')';
@@ -242,7 +244,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $languageData = Http::fetchRemoteFile(sprintf($languageDataUrl, $this->CLDRVersion, $requestLangCode));
             $languageData = json_decode($languageData, true);
-            $languageData = $languageData['main'][$requestLangCode]['localeDisplayNames']['languages'];
+            $languageData = $languageData['main'][$requestLangCode]['localeDisplayNames']['languages'] ?? [];
 
             if (empty($languageData)) {
                 throw new \Exception();
@@ -274,7 +276,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $layoutData = Http::fetchRemoteFile(sprintf($layoutDirectionUrl, $this->CLDRVersion, $requestLangCode));
             $layoutData = json_decode($layoutData, true);
-            $layoutData = $layoutData['main'][$requestLangCode]['layout']['orientation'];
+            $layoutData = $layoutData['main'][$requestLangCode]['layout']['orientation'] ?? [];
 
             if (empty($layoutData)) {
                 throw new \Exception();
@@ -312,7 +314,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $territoryData = Http::fetchRemoteFile(sprintf($territoryDataUrl, $this->CLDRVersion, $requestLangCode));
             $territoryData = json_decode($territoryData, true);
-            $territoryData = $territoryData['main'][$requestLangCode]['localeDisplayNames']['territories'];
+            $territoryData = $territoryData['main'][$requestLangCode]['localeDisplayNames']['territories'] ?? [];
 
             if (empty($territoryData)) {
                 throw new \Exception();
@@ -343,7 +345,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $calendarData = Http::fetchRemoteFile(sprintf($calendarDataUrl, $this->CLDRVersion, $requestLangCode));
             $calendarData = json_decode($calendarData, true);
-            $calendarData = $calendarData['main'][$requestLangCode]['dates']['calendars']['gregorian'];
+            $calendarData = $calendarData['main'][$requestLangCode]['dates']['calendars']['gregorian'] ?? [];
 
             if (empty($calendarData)) {
                 throw new \Exception();
@@ -419,7 +421,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $dateFieldData = Http::fetchRemoteFile(sprintf($dateFieldsUrl, $this->CLDRVersion, $requestLangCode));
             $dateFieldData = json_decode($dateFieldData, true);
-            $dateFieldData = $dateFieldData['main'][$requestLangCode]['dates']['fields'];
+            $dateFieldData = $dateFieldData['main'][$requestLangCode]['dates']['fields'] ?? [];
 
             if (empty($dateFieldData)) {
                 throw new \Exception();
@@ -446,7 +448,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $timeZoneData = Http::fetchRemoteFile(sprintf($timeZoneDataUrl, $this->CLDRVersion, $requestLangCode));
             $timeZoneData = json_decode($timeZoneData, true);
-            $timeZoneData = $timeZoneData['main'][$requestLangCode]['dates']['timeZoneNames'];
+            $timeZoneData = $timeZoneData['main'][$requestLangCode]['dates']['timeZoneNames'] ?? [];
 
             if (empty($timeZoneData)) {
                 throw new \Exception();
@@ -509,7 +511,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $unitsData = Http::fetchRemoteFile(sprintf($unitsUrl, $this->CLDRVersion, $requestLangCode));
             $unitsData = json_decode($unitsData, true);
-            $unitsData = $unitsData['main'][$requestLangCode]['numbers'];
+            $unitsData = $unitsData['main'][$requestLangCode]['numbers'] ?? [];
 
             if (empty($unitsData)) {
                 throw new \Exception();
@@ -539,7 +541,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $unitsData = Http::fetchRemoteFile(sprintf($unitsUrl, $this->CLDRVersion, $requestLangCode));
             $unitsData = json_decode($unitsData, true);
-            $unitsData = $unitsData['main'][$requestLangCode]['units'];
+            $unitsData = $unitsData['main'][$requestLangCode]['units'] ?? [];
 
             if (empty($unitsData)) {
                 throw new \Exception();
@@ -597,7 +599,7 @@ class GenerateIntl extends ConsoleCommand
         try {
             $currencyData = Http::fetchRemoteFile(sprintf($currenciesUrl, $this->CLDRVersion, $requestLangCode));
             $currencyData = json_decode($currencyData, true);
-            $currencyData = $currencyData['main'][$requestLangCode]['numbers']['currencies'];
+            $currencyData = $currencyData['main'][$requestLangCode]['numbers']['currencies'] ?? [];
 
             if (empty($currencyData)) {
                 throw new \Exception();

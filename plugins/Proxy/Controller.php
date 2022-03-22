@@ -12,10 +12,7 @@ use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
 use Piwik\Exception\StylesheetLessCompileException;
-use Piwik\Piwik;
 use Piwik\ProxyHttp;
-use Piwik\Url;
-use Piwik\UrlHelper;
 
 /**
  * Controller for proxy services

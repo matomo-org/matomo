@@ -9,13 +9,9 @@
 namespace Piwik\Plugins\Feedback;
 
 use Piwik\Date;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Site;
 use Piwik\View;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Feedback\FeedbackReminder;
 
 /**

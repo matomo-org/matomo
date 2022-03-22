@@ -30,7 +30,6 @@ use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\Tracker\Model as TrackerModel;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;

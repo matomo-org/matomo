@@ -25,7 +25,6 @@ use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
 use Piwik\Plugins\PagePerformance\Columns\TimeOnLoad;
 use Piwik\Plugins\PagePerformance\Columns\TimeServer;
 use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
-use Piwik\Plugins\UsersManager\Model;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\UserCountry\LocationProvider;

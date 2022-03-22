@@ -3095,7 +3095,7 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function deleteCookie(cookieName, path, domain) {
-                setCookie(cookieName, '', -86400, path, domain);
+                setCookie(cookieName, '', -129600000, path, domain);
             }
 
             /*

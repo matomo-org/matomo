@@ -16,9 +16,6 @@ use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
-use Piwik\Plugins\UsersManager\API;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 
 /**
  * @group TwoFactorAuth

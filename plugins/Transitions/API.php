@@ -21,7 +21,6 @@ use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\Actions\Actions;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Live\Model;
 use Piwik\RankingQuery;
@@ -326,7 +325,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param $idaction
      * @param $actionType
-     * @param Logaggregator $logAggregator
+     * @param LogAggregator $logAggregator
      * @param $limitBeforeGrouping
      * @return DataTable
      */

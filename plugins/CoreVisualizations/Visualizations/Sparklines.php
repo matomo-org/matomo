@@ -16,7 +16,6 @@ use Piwik\Period\Factory;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\SettingsPiwik;
-use Piwik\Url;
 use Piwik\View;
 
 /**

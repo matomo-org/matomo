@@ -8,16 +8,8 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Config;
 use Piwik\Date;
-use Piwik\Plugins\SitesManager\API;
-use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Tracker\Action;
 use Piwik\Tracker\FingerprintSalt;
-use Piwik\Tracker\PageUrl;
-use Piwik\Tracker\Request;
-use Piwik\Translate;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

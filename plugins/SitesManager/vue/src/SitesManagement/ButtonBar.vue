@@ -103,6 +103,8 @@ export default defineComponent({
   },
   emits: ['add', 'search', 'prev', 'next', 'update:searchTerm'],
   created() {
+    SiteTypesStore.init();
+
     this.onKeydown = debounce(this.onKeydown, 50);
   },
   computed: {
