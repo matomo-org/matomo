@@ -278,6 +278,10 @@ export default defineComponent({
   },
   emits: ['delete', 'editSite', 'cancelEditSite', 'save'],
   created() {
+    CurrencyStore.init();
+    TimezoneStore.init();
+    SiteTypesStore.init();
+
     this.onSiteChanged();
   },
   watch: {

@@ -37,6 +37,9 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         'TestPlugin5' => ['TestPlugin1', 'TestPlugin3'],
     ];
 
+    private $oldPluginDirsEnvVar;
+    private $oldPluginDirsGlobal;
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
@@ -84,6 +87,9 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
 
     public function setUp(): void
     {
+        $this->oldPluginDirsEnvVar = getenv('MATOMO_PLUGIN_DIRS');
+        $this->oldPluginDirsGlobal = $GLOBALS['MATOMO_PLUGIN_DIRS'];
+
         parent::setUp();
 
         clearstatcache(true);
@@ -100,8 +106,8 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
 
         clearstatcache(true);
 
-        putenv("MATOMO_PLUGIN_DIRS=");
-        unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
+        putenv("MATOMO_PLUGIN_DIRS={$this->oldPluginDirsEnvVar}");
+        $GLOBALS['MATOMO_PLUGIN_DIRS'] = $this->oldPluginDirsGlobal;
         Manager::initPluginDirectories();
     }
 

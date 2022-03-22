@@ -205,6 +205,10 @@ export default defineComponent({
     };
   },
   created() {
+    TimezoneStore.init();
+    SiteTypesStore.init();
+    GlobalSettingsStore.init();
+
     this.isLoadingInitialEntities = true;
     Promise.all([
       SiteTypesStore.fetchAvailableTypes(),
