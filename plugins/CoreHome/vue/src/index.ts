@@ -55,14 +55,17 @@ import './Progressbar/Progressbar.adapter';
 import './ContentIntro/ContentIntro.adapter';
 import './ContentTable/ContentTable.adapter';
 import './AjaxForm/AjaxForm.adapter';
+import Matomo from './Matomo/Matomo';
+import createAngularJsAdapter from './createAngularJsAdapter';
 
 export { default as createVueApp } from './createVueApp';
+export { default as importPluginUmd } from './importPluginUmd';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as getFormattedEvolution } from './getFormattedEvolution';
+export { createAngularJsAdapter };
 export {
-  default as createAngularJsAdapter,
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   removeAngularJsSpecificProperties,
@@ -76,7 +79,7 @@ export { default as Alert } from './Alert/Alert.vue';
 export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
-export { default as Matomo } from './Matomo/Matomo';
+export { Matomo };
 export * from './Periods';
 export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
 export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAnywhereButHere';
@@ -126,3 +129,5 @@ export { default as Progressbar } from './Progressbar/Progressbar.vue';
 export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';
 export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';
+
+Matomo.postEvent('Matomo.addAngularJsAdapters', createAngularJsAdapter);

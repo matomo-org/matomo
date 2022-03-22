@@ -10,6 +10,7 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
@@ -93,7 +94,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function getAllPluginUmds()
     {
-        $plugins = self::orderPluginsByPluginDependencies($this->plugins, false);
+        $pluginsToLoadOnInit = $this->getPluginsToLoadOnInit();
+        $this->checkForMissingPluginDependencies($pluginsToLoadOnInit);
+
+        $plugins = self::orderPluginsByPluginDependencies($pluginsToLoadOnInit, false);
 
         $allPluginUmds = [];
         foreach ($plugins as $plugin) {
@@ -106,6 +110,28 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             $allPluginUmds[] = new Chunk($plugin, [$minifiedUmd]);
         }
         return $allPluginUmds;
+    }
+
+    private function checkForMissingPluginDependencies($pluginsToLoadOnInit)
+    {
+        foreach ($pluginsToLoadOnInit as $pluginName) {
+            $pluginDependencies = self::getPluginDependencies($pluginName);
+            if (!empty(array_diff($pluginDependencies, $pluginsToLoadOnInit))) {
+                throw new \Exception("Missing plugin dependency: $pluginName requires plugins "
+                    . implode(', ', $pluginDependencies) . ', but one or more of these is set to load lazily. '
+                    . 'Use the importPluginUmd() function to asynchronously load those plugins, instead of '
+                    . 'a normal ES import ... statement.');
+            }
+        }
+    }
+
+    private function getPluginsToLoadOnInit()
+    {
+        $plugins = $this->plugins;
+        $plugins = array_filter($plugins, function ($pluginName) {
+            return !Manager::getInstance()->getLoadedPlugin($pluginName)->shouldLoadUmdOnDemand();
+        });
+        return $plugins;
     }
 
     private function dividePluginUmdsByChunkCount($allPluginUmds, $totalSize)
@@ -176,6 +202,12 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $plugins = self::orderPluginsByPluginDependencies($plugins, false);
 
         foreach ($plugins as $plugin) {
+            if (Manager::getInstance()->isPluginLoaded($plugin)
+                && Manager::getInstance()->getLoadedPlugin($plugin)->shouldLoadUmdOnDemand()
+            ) {
+                continue;
+            }
+
             $fileLocation = self::getUmdFileToUseForPlugin($plugin);
             if ($fileLocation) {
                 $this->fileLocations[] = $fileLocation;
@@ -214,6 +246,26 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $result;
     }
 
+    private static function getPluginDependencies($plugin)
+    {
+        $pluginDir = self::getPluginDirectory($plugin);
+        $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";
+
+        $cache = Cache::getTransientCache();
+        $cacheKey = 'PluginUmdAssetFetcher.pluginDependencies.' . $plugin;
+
+        $pluginDependencies = $cache->fetch($cacheKey);
+        if (!is_array($pluginDependencies)) {
+            $pluginDependencies = [];
+            if (is_file($umdMetadata)) {
+                $pluginDependencies = json_decode(file_get_contents($umdMetadata), true);
+                $pluginDependencies = $pluginDependencies['dependsOn'] ?? [];
+            }
+            $cache->save($cacheKey, $pluginDependencies);
+        }
+        return $cache->fetch($cacheKey);
+    }
+
     private static function visitPlugin($plugin, $keepUnresolved, &$plugins, &$result)
     {
         // remove the plugin from the array of plugins to visit
@@ -225,17 +277,11 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         // read the plugin dependencies, if any
-        $pluginDir = self::getPluginDirectory($plugin);
-        $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";
+        $pluginDependencies = self::getPluginDependencies($plugin);
 
-        $pluginDependencies = [];
-        if (is_file($umdMetadata)) {
-            $pluginDependencies = json_decode(file_get_contents($umdMetadata), true);
-        }
-
-        if (!empty($pluginDependencies['dependsOn'])) {
+        if (!empty($pluginDependencies)) {
             // visit each plugin this one depends on first, so it is loaded first
-            foreach ($pluginDependencies['dependsOn'] as $pluginDependency) {
+            foreach ($pluginDependencies as $pluginDependency) {
                 // check if dependency is not activated
                 if (!in_array($pluginDependency, $plugins)
                     && !in_array($pluginDependency, $result)
