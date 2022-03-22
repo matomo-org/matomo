@@ -321,76 +321,76 @@
 	</reportData>
 	<reportMetadata>
 		<row>
-			<segment>visitStartSiteHour==12</segment>
+			<segment>visitStartServerHour==12</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==11</segment>
+			<segment>visitStartServerHour==11</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==0</segment>
+			<segment>visitStartServerHour==0</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==1</segment>
+			<segment>visitStartServerHour==1</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==2</segment>
+			<segment>visitStartServerHour==2</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==3</segment>
+			<segment>visitStartServerHour==3</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==4</segment>
+			<segment>visitStartServerHour==4</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==5</segment>
+			<segment>visitStartServerHour==5</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==6</segment>
+			<segment>visitStartServerHour==6</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==7</segment>
+			<segment>visitStartServerHour==7</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==8</segment>
+			<segment>visitStartServerHour==8</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==9</segment>
+			<segment>visitStartServerHour==9</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==10</segment>
+			<segment>visitStartServerHour==10</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==13</segment>
+			<segment>visitStartServerHour==13</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==14</segment>
+			<segment>visitStartServerHour==14</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==15</segment>
+			<segment>visitStartServerHour==15</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==16</segment>
+			<segment>visitStartServerHour==16</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==17</segment>
+			<segment>visitStartServerHour==17</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==18</segment>
+			<segment>visitStartServerHour==18</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==19</segment>
+			<segment>visitStartServerHour==19</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==20</segment>
+			<segment>visitStartServerHour==20</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==21</segment>
+			<segment>visitStartServerHour==21</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==22</segment>
+			<segment>visitStartServerHour==22</segment>
 		</row>
 		<row>
-			<segment>visitStartSiteHour==23</segment>
+			<segment>visitStartServerHour==23</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>

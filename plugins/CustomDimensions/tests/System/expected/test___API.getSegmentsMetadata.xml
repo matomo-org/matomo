@@ -193,13 +193,13 @@
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Site time - hour (Start of visit)</name>
-		<segment>visitStartSiteHour</segment>
+		<segment>visitStartServerHour</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Site time - hour (Time of last action)</name>
-		<segment>visitSiteHour</segment>
+		<segment>visitServerHour</segment>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -442,7 +442,7 @@
 		<type>dimension</type>
 		<category>Behaviour</category>
 		<name>Site time - hour</name>
-		<segment>actionSiteHour</segment>
+		<segment>actionServerHour</segment>
 	</row>
 	<row>
 		<type>dimension</type>

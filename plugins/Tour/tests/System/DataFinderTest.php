@@ -56,7 +56,7 @@ class DataFinderTest extends SystemTestCase
         $this->assertFalse($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
 
         Request::processRequest('SegmentEditor.add', array(
-            'name' => 'foo', 'definition' => 'visitSiteHour==5'
+            'name' => 'foo', 'definition' => 'visitServerHour==5'
         ));
         $this->assertTrue($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
     }
