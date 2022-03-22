@@ -54,7 +54,7 @@ class UserRepository
                 throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
             }
             // check if the site exist
-            IdSite::validate($initialIdSite);
+            BaseValidator::check('siteId', $initialIdSite, [new IdSite()]);
             Piwik::checkUserHasAdminAccess($initialIdSite);
         }
 
