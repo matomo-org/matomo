@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
+use Piwik\Metrics;
 use Piwik\Piwik;
 
 class CalculateConversionPageRate extends BaseFilter
@@ -29,47 +30,37 @@ class CalculateConversionPageRate extends BaseFilter
      */
     public function filter($table)
     {
-
         $goalTotals = [];
 
         // Find all conversions for each goal in the table and store in an array
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
-            if (isset($row['goals'])) {
-                foreach ($row['goals'] as $goalIdString => $metrics) {
-                    if (isset($row['goals'][$goalIdString]['nb_conversions_attrib'])) {
-                        if (isset($goalTotals[$goalIdString])) {
-                            $goalTotals[$goalIdString] += $row['goals'][$goalIdString]['nb_conversions_attrib'];
-                        } else {
-                            $goalTotals[$goalIdString] = $row['goals'][$goalIdString]['nb_conversions_attrib'];
+            if (isset($row[Metrics::INDEX_GOALS])) {
+                foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
+                    if (isset($row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB])) {
+                        if (!isset($goalTotals[$goalIdString])) {
+                            $goalTotals[$goalIdString] = 0;
                         }
+                        $goalTotals[$goalIdString] += $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB];
                     }
                 }
             }
         }
 
         // Walk the rows and populate the nb_conversions_page_rate with nb_conversions_page_uniq / $goalTotals[goal id]
-        foreach ($table->getRowsWithoutSummaryRow() as $row) {
-            if (isset($row['goals'])) {
-                foreach ($row['goals'] as $goalIdString => $metrics) {
-                    $goalId = substr($goalIdString,7);
-                    if (isset($row['goals'][$goalIdString]['nb_conversions_page_uniq'])) {
+        foreach ($table->getRowsWithoutSummaryRow() as &$row) {
+            if (isset($row[Metrics::INDEX_GOALS])) {
+                foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
+                    if (isset($row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ])) {
 
                         $rate = Piwik::getQuotientSafe(
-                                $row['goals'][$goalIdString]['nb_conversions_page_uniq'],
+                                $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ],
                                 $goalTotals[$goalIdString],
                                 3
                             );
-                        $row['goals'][$goalIdString]['nb_conversions_page_rate'] = $rate;
-
-                        // This filter runs after the goal values have been copied from numeric named columns in the subtable
-                        // to labelled columns on the row, so we need to update the goal_x_nb_conversions_page_rate column too
-                        $row['goal_'.$goalId.'_nb_conversions_page_rate'] = $rate;
-
+                        $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = $rate;
                     }
                 }
             }
         }
-
     }
-
 }

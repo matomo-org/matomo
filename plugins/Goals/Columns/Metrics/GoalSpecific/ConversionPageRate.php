@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
@@ -40,7 +41,7 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return [];
+        return ['goals'];
     }
 
     public function format($value, Formatter $formatter)
@@ -50,6 +51,9 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $this->getMetric($row, 'nb_conversions_page_rate');
+        $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
+        $goalMetrics = $this->getGoalMetrics($row);
+
+        return $this->getMetric($goalMetrics, 'nb_conversions_page_rate', $mappingFromNameToIdGoal);
     }
 }

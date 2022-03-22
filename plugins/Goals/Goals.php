@@ -256,40 +256,22 @@ class Goals extends \Piwik\Plugin
             'revenue'         => Piwik::translate('General_ColumnRevenue')
         );
 
-        // Entry type goals, not per visit
-        $goalEntryProcessedMetrics = array(
-            'revenue_per_entry' => Piwik::translate('General_ColumnValuePerEntry'),
-        );
-
-        $goalEntryMetrics = array(
-            'nb_conversions'  => Piwik::translate('Goals_ColumnConversions'),
-            'nb_conversions_entry_rate' => Piwik::translate('General_ColumnConversionRate'),
-            'revenue'         => Piwik::translate('General_ColumnRevenue')
-        );
-
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
-
-        $includeGoals = Common::getRequestVar('includeGoals', false);
 
         foreach ($reportsWithGoals as $reportWithGoals) {
             // Select this report from the API metadata array
             // and add the Goal metrics to it
             foreach ($reports as &$apiReportToUpdate) {
+                // We do not add anything for Action reports, as no overall metrics are processed there at the moment
+                if ($apiReportToUpdate['module'] === 'Actions') {
+                    continue;
+                }
+
                 if ($apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])) {
-
-                    if (!$includeGoals && $reportWithGoals['module'] == 'Actions') {
-                        continue;
-                    }
-
-                    if ($reportWithGoals['action'] == 'getEntryPageUrls') {
-                        $apiReportToUpdate['metricsGoal'] = $goalEntryMetrics;
-                        $apiReportToUpdate['processedMetricsGoal'] = $goalEntryProcessedMetrics;
-                    } else {
-                        $apiReportToUpdate['metricsGoal'] = $goalMetrics;
-                        $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
-                    }
+                    $apiReportToUpdate['metricsGoal'] = $goalMetrics;
+                    $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
                     break;
                 }
             }

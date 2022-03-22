@@ -327,8 +327,7 @@ class Controller extends \Piwik\Plugin\Controller
                                    &filter_sort_order=desc
                                    &filter_sort_column=$columnNbConversions" .
                 // select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")
-                "&filter_limit=" . (self::COUNT_TOP_ROWS_TO_DISPLAY + 2).
-                ($dimensionName == 'entry_page' ? '&$includeGoals=1' : ''));
+                "&filter_limit=" . (self::COUNT_TOP_ROWS_TO_DISPLAY + 2));
             $datatable = $request->process();
             $topDimension = array();
             $count = 0;

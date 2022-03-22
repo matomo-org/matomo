@@ -28,7 +28,7 @@ class RevenueAttrib extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('%s ' . Piwik::translate('Goals_ColumnRevenueAttributed'), $this->getGoalName());
+        return Piwik::translate(Piwik::translate('Goals_NRevenue'), $this->getGoalName());
     }
 
     public function getDocumentation()

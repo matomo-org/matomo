@@ -182,9 +182,9 @@ class DataArray
     protected static function makeEmptyGoalRow($idGoal)
     {
         if ($idGoal > GoalManager::IDGOAL_ORDER) {
-            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS         => 0,
-                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED    => 0,
-                         Metrics::INDEX_GOAL_REVENUE                => 0,
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
+                         Metrics::INDEX_GOAL_REVENUE             => 0,
             );
         }
         if ($idGoal == GoalManager::IDGOAL_ORDER) {

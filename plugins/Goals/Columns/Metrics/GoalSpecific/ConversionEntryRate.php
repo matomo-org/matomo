@@ -30,7 +30,7 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('Goals_ColumnConversionEntryRate', $this->getGoalName());
+        return Piwik::translate('Goals_ConversionRate', $this->getGoalName());
     }
 
     public function getDocumentation()

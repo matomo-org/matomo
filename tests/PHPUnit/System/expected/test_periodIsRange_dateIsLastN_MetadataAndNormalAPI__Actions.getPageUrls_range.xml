@@ -20,7 +20,7 @@
 				<revenue>0</revenue>
 				<nb_conv_pages_before>3</nb_conv_pages_before>
 				<nb_conversions_attrib>0.3333</nb_conversions_attrib>
-				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
 				<revenue_attrib>0</revenue_attrib>
 				<revenue_entry>1000</revenue_entry>
@@ -33,7 +33,7 @@
 				<revenue>0</revenue>
 				<nb_conv_pages_before>1</nb_conv_pages_before>
 				<nb_conversions_attrib>1</nb_conversions_attrib>
-				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
 				<revenue_attrib>0</revenue_attrib>
 				<revenue_entry>0</revenue_entry>
@@ -69,7 +69,7 @@
 				<revenue>0</revenue>
 				<nb_conv_pages_before>3</nb_conv_pages_before>
 				<nb_conversions_attrib>0.6667</nb_conversions_attrib>
-				<nb_conversions_page_rate>0</nb_conversions_page_rate>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
 				<revenue_attrib>0</revenue_attrib>
 			</row>

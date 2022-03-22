@@ -164,20 +164,20 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                 $extraProcessedMetrics[] = new GoalSpecificRevenuePerVisit($idSite, $idGoal); // PerGoal\Revenue
                 $extraProcessedMetrics[] = new Revenue($idSite, $idGoal); // PerGoal\Revenue
 
-                if ($this->processOnlyIdGoal == self::GOALS_PAGES || self::GOALS_PAGES_ECOMMERCE) {
+                if ($this->processOnlyIdGoal == self::GOALS_PAGES || $this->processOnlyIdGoal == self::GOALS_PAGES_ECOMMERCE) {
                     $extraProcessedMetrics[] = new ConversionsAttrib($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
                     $extraProcessedMetrics[] = new RevenueAttrib($idSite, $idGoal); // PerGoal\Revenue attrib
                     $extraProcessedMetrics[] = new ConversionPageRate($idSite, $idGoal); // PerGoal\ConversionRate for page uniq views
                 }
 
-                if ($this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES || self::GOALS_ENTRY_PAGES_ECOMMERCE) {
+                if ($this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES || $this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES_ECOMMERCE) {
                     $extraProcessedMetrics[] = new ConversionsEntry($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
                     $extraProcessedMetrics[] = new GoalSpecificRevenuePerEntry($idSite, $idGoal); // PerGoal\Revenue entries
                     $extraProcessedMetrics[] = new RevenueEntry($idSite, $idGoal); // PerGoal\Revenue entrances
                     $extraProcessedMetrics[] = new ConversionEntryRate($idSite, $idGoal); // PerGoal\ConversionRate for entrances
                 }
 
-                if ($this->isEcommerce || self::GOALS_PAGES_ECOMMERCE || self::GOALS_ENTRY_PAGES_ECOMMERCE) {
+                if ($this->isEcommerce || $this->processOnlyIdGoal == self::GOALS_PAGES_ECOMMERCE || $this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES_ECOMMERCE) {
                     $extraProcessedMetrics[] = new AverageOrderRevenue($idSite, $idGoal);
                     $extraProcessedMetrics[] = new ItemsCount($idSite, $idGoal);
                 }

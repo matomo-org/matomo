@@ -34,14 +34,15 @@ class Goals extends HtmlTable
 
     public function beforeLoadDataTable()
     {
+        $request = $this->getRequestArray();
+        $idGoal = $request['idGoal'] ?? null;
+
         // Check if one of the pages display types should be used
         $requestMethod = $this->requestConfig->getApiModuleToRequest().'.'.$this->requestConfig->getApiMethodToRequest();
         if (in_array($requestMethod, ['Actions.getPageUrls', 'Actions.getPageTitles'])) {
             $this->displayType = self::GOALS_DISPLAY_PAGES;
-            $this->requestConfig->request_parameters_to_modify['includeGoals'] = true;
-            if (isset($_REQUEST['idGoal']) &&
-                ($_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART))
-            {
+            $this->config->filters[] = ['Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns'];
+            if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
                 $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
             } else {
                 $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_PAGES;
@@ -49,9 +50,8 @@ class Goals extends HtmlTable
 
         } else if (in_array($requestMethod, ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'])) {
             $this->displayType = self::GOALS_DISPLAY_ENTRY_PAGES;
-            $this->requestConfig->request_parameters_to_modify['includeGoals'] = true;
-            if (isset($_REQUEST['idGoal']) &&
-                ($_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $_REQUEST['idGoal'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART)) {
+            $this->config->filters[] = ['Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns'];
+            if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
                 $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
             } else {
                 $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES;
@@ -89,13 +89,11 @@ class Goals extends HtmlTable
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
-            $this->removeExcludedColumns();
             $this->config->addTranslation('nb_hits', Piwik::translate('General_ColumnUniquePageviews'));
             $this->config->metrics_documentation['nb_hits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
-            $this->removeExcludedColumns();
             $this->config->metrics_documentation['entry_nb_visits'] = Piwik::translate('General_ColumnEntrancesDocumentation');
         }
 
@@ -334,25 +332,4 @@ class Goals extends HtmlTable
             return $data['idgoal'];
         }, $allGoals);
     }
-
-    /**
-     * Hide any goal columns marked as excluded by datatable filters
-     */
-    protected function removeExcludedColumns()
-    {
-        $excludedGoalColumns = $this->dataTable->getMetadata('excluded_goal_columns');
-        if ($excludedGoalColumns) {
-            $excludedGoalColumns = json_decode($excludedGoalColumns);
-            foreach ($this->config->columns_to_display as $k => $v) {
-                foreach ($excludedGoalColumns as $excludeColName) {
-                    if ($v === $excludeColName) {
-                        unset($this->config->columns_to_display[$k]);
-                        break;
-                    }
-                }
-            }
-            $this->dataTable->deleteMetadata('excluded_goal_columns');
-        }
-    }
-
 }

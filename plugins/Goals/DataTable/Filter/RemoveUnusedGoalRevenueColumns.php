@@ -13,7 +13,6 @@ use Piwik\DataTable;
 
 class RemoveUnusedGoalRevenueColumns extends BaseFilter
 {
-
     /**
      * @param DataTable $table
      */
@@ -43,34 +42,20 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
 
         // Check if there are any values in each column
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
-
-            $didChecks = false;
             foreach ($columnsToCheck as $colName => $shouldRemove) {
-                if ($shouldRemove) {
-                    $didChecks = true;
-                }
                 if (isset($row[$colName]) && $row[$colName] > 0) {
                     $columnsToCheck[$colName] = false;
                 }
             }
-            if (!$didChecks) {
-                break 1;
-            }
-
         }
 
-        $columnsToRemove = [];
-        foreach ($columnsToCheck as $c => $shouldRemove) {
-            if ($shouldRemove) {
-                $columnsToRemove[] = $c;
-            }
+        $columnsToCheck = array_filter($columnsToCheck);
+
+        if (empty($columnsToCheck)) {
+            return;
         }
 
-        // We can't remove the columns from here, it needs to be done in the visualisation, so set a metadata value
-        // on the datatable to indicate the columns to be removed, the visualisation can then check for this and
-        // adjust the view config
-        $table->setMetadata('excluded_goal_columns', json_encode($columnsToRemove, true));
-
+        $table->deleteColumns(array_keys($columnsToCheck));
     }
 
     /**
@@ -84,13 +69,13 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
     {
         $result = array();
         foreach ($table->getRows() as $row) {
-            $goals = $row->getMetadata('goals');
+            $goals = $row->getColumn('goals');
             if (!$goals) {
                 continue;
             }
 
-            foreach ($goals as $goalId) {
-                $result[] = $goalId;
+            foreach ($goals as $goalIdString => $metrics) {
+                $result[] = substr($goalIdString, 7);
             }
         }
         return array_unique($result);

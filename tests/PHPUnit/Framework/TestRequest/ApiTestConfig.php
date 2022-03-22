@@ -93,13 +93,6 @@ class ApiTestConfig
     public $idGoal = false;
 
     /**
-     * The value to use for the idGoal query parameter.
-     *
-     * @var int|bool
-     */
-    public $includeGoals = false;
-
-    /**
      * The value to use for the apiModule query parameter.
      *
      * @var string|false
