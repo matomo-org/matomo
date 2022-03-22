@@ -420,7 +420,7 @@ class SegmentTest extends IntegrationTestCase
         $where = 'log_conversion.idvisit = ?';
         $bind = array(1);
 
-        $segment = 'visitConvertedGoalId==1,visitServerHour==12';
+        $segment = 'visitConvertedGoalId==1,visitSiteHour==12';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -632,7 +632,7 @@ class SegmentTest extends IntegrationTestCase
         $where = false;
         $bind = array();
 
-        $segment = 'visitServerHour==12;visitConvertedGoalId==1';
+        $segment = 'visitSiteHour==12;visitConvertedGoalId==1';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -664,7 +664,7 @@ class SegmentTest extends IntegrationTestCase
         $where = false;
         $bind = array();
 
-        $segment = 'visitConvertedGoalId==1;visitServerHour==12;siteSearchCategory==Test;pageUrl!=';
+        $segment = 'visitConvertedGoalId==1;visitSiteHour==12;siteSearchCategory==Test;pageUrl!=';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -1341,7 +1341,7 @@ log_visit.visit_total_actions
         $where = false;
         $bind = array();
 
-        $segment = 'visitServerHour==3;pageUrl==' . urlencode($pageUrlFoundInDb);
+        $segment = 'visitSiteHour==3;pageUrl==' . urlencode($pageUrlFoundInDb);
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -1374,7 +1374,7 @@ log_visit.visit_total_actions
         $where = false;
         $bind = array();
 
-        $segment = 'visitServerHour==12;pageUrl==xyz';
+        $segment = 'visitSiteHour==12;pageUrl==xyz';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -1399,7 +1399,7 @@ log_visit.visit_total_actions
         $where = false;
         $bind = array();
 
-        $segment = 'visitServerHour==12,pageUrl==xyz';
+        $segment = 'visitSiteHour==12,pageUrl==xyz';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -1438,7 +1438,7 @@ log_visit.visit_total_actions
          * pageUrl!@not-found                        -- matches all
          * pageUrl!@found                            -- Matches none
          */
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
+        $segment = 'visitSiteHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
         $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -1509,7 +1509,7 @@ log_visit.visit_total_actions
          * pageUrl!@not-found                        -- matches all
          * pageUrl!@found                            -- Matches none
          */
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
+        $segment = 'visitSiteHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
         $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
