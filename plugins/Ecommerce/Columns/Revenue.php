@@ -70,11 +70,26 @@ class Revenue extends BaseConversion
      */
     private function getRevenueQuery($valueToMatch, $sqlField , $matchType, $idGoal)
     {
+        //supported operator type
+        $supportType = [
+          SegmentExpression::MATCH_EQUAL,
+          SegmentExpression::MATCH_GREATER_OR_EQUAL,
+          SegmentExpression::MATCH_LESS_OR_EQUAL,
+          SegmentExpression::MATCH_GREATER,
+          SegmentExpression::MATCH_LESS,
+        ];
+
+        if (!in_array($valueToMatch, $supportType)) {
+            throw new \Exception("This match type $matchType is not available for action-segments.");
+        }
+
+        //to fit mysql operator
         if ($matchType === SegmentExpression::MATCH_EQUAL) {
             $matchType = "=";
         }
+
         $table = Common::prefixTable($this->dbTableName);
-        $sql = " SELECT {$sqlField} from {$table} WHERE (idgoal = {$idGoal} and log_conversion.revenue {$matchType} ?) ";
+        $sql = " SELECT idvisit from {$table} WHERE (idgoal = {$idGoal} and revenue {$matchType} ?) ";
         return [
           'SQL'  => $sql,
           'bind' =>(float)$valueToMatch,
