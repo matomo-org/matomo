@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Goals\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
-use Piwik\Plugin\Metric;
 use Piwik\DataTable;
 
 class RemoveUnusedGoalRevenueColumns extends BaseFilter

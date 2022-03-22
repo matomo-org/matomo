@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\Goals\tests\System;
 
-use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
 

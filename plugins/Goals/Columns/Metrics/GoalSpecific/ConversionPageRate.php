@@ -8,12 +8,10 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Plugins\Goals\Goals;
-use Piwik\Tracker\GoalManager;
 
 /**
  * The page conversion rate for a specific goal. Calculated as:
