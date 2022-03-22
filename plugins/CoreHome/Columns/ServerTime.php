@@ -21,7 +21,7 @@ class ServerTime extends ActionDimension
 {
     protected $columnName = 'server_time';
     protected $columnType = 'DATETIME NOT NULL';
-    protected $segmentName = 'actionSiteHour';
+    protected $segmentName = 'actionServerHour';
     protected $sqlSegment = 'HOUR(log_link_visit_action.server_time)';
     protected $nameSingular = 'VisitTime_ColumnSiteHour';
     protected $type = self::TYPE_DATETIME;
