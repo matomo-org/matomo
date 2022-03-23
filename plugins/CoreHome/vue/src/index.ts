@@ -60,6 +60,7 @@ export { default as createVueApp } from './createVueApp';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
+export { default as getFormattedEvolution } from './getFormattedEvolution';
 export {
   default as createAngularJsAdapter,
   transformAngularJsBoolAttr,

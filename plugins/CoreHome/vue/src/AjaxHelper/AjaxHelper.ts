@@ -20,6 +20,7 @@ export interface AjaxOptions {
   createErrorNotification?: boolean;
   abortController?: AbortController;
   returnResponseObject?: boolean;
+  errorElement?: HTMLElement|JQuery|JQLite|string;
 }
 
 interface ErrorResponse {
@@ -184,6 +185,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
+    }
+    if (options.errorElement) {
+      helper.setErrorElement(options.errorElement);
     }
     helper.setFormat(options.format || 'json');
     if (Array.isArray(params)) {
