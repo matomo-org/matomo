@@ -227,7 +227,7 @@ class ArchiveInvalidator
     {
         // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
         // we want to reduce number of rows scanned and only delete specific primary key
-        $keys = Option::getLike(str_replace('_', '\_', $id) . '%');
+        $keys = Option::getLike('%' . str_replace('_', '\_', $id) . '%');
 
         if (empty($keys)) {
             return;
