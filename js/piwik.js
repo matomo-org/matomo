@@ -5004,7 +5004,7 @@ if (typeof window.Matomo !== 'object') {
              * @return array
              */
             this.getVisitorInfo = function () {
-                if (!configCookiesDisabled && !getCookie(getCookieName('id'))) {
+                if (!getCookie(getCookieName('id'))) {
                     setVisitorIdCookie();
                 }
 
