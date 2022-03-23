@@ -97,7 +97,7 @@ class ArchiveInvalidator
         // we do not really have to get the value first. we could simply always try to call set() and it would update or
         // insert the record if needed but we do not want to lock the table (especially since there are still some
         // MyISAM installations)
-        $values = Option::getLike(str_replace('_', '\_', $this->rememberArchivedReportIdStart) . '%');
+        $values = Option::getLike('%' . str_replace('_', '\_', $this->rememberArchivedReportIdStart) . '%');
 
         $all = [];
         foreach ($values as $name => $value) {
@@ -122,7 +122,7 @@ class ArchiveInvalidator
             // we do not really have to get the value first. we could simply always try to call set() and it would update or
             // insert the record if needed but we do not want to lock the table (especially since there are still some
             // MyISAM installations)
-            $value = Option::getLike('%' . $key . '%');
+            $value = Option::getLike('%' . str_replace('_', '\_', $key) . '%');
         }
 
         // getLike() returns an empty array rather than 'false'
@@ -155,7 +155,7 @@ class ArchiveInvalidator
 
     public function getRememberedArchivedReportsThatShouldBeInvalidated()
     {
-        $reports = Option::getLike(str_replace('_', '\_', $this->rememberArchivedReportIdStart) . '%\_%');
+        $reports = Option::getLike('%' . str_replace('_', '\_', $this->rememberArchivedReportIdStart) . '%\_%');
 
         $sitesPerDay = array();
 
