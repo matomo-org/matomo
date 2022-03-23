@@ -2041,6 +2041,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.withTokenInUrl();
       }
 
+      if (options.errorElement) {
+        helper.setErrorElement(options.errorElement);
+      }
+
       helper.setFormat(options.format || 'json');
 
       if (Array.isArray(params)) {
