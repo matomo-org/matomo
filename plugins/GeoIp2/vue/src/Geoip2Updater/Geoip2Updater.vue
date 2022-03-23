@@ -173,7 +173,7 @@ interface Geoip2UpdaterState {
   updatePeriod: string;
   isUpdatingGeoIpDatabase: boolean;
   downloadErrorMessage: string|null;
-  nextRunTimePrettyUpdated: string|null;
+  nextRunTimePrettyUpdated?: string;
 }
 
 interface UpdateGeoIpLinksResponse {
@@ -185,6 +185,10 @@ interface UpdateGeoIpLinksResponse {
 interface DownloadChunkResponse {
   current_size: number;
   expected_file_size: number;
+  nextRunTime?: string;
+  to_download?: string;
+  to_download_label?: string;
+  error?: string;
 }
 
 const { $ } = window;
@@ -236,7 +240,6 @@ export default defineComponent({
       updatePeriod: this.geoipUpdatePeriod || 'month',
       isUpdatingGeoIpDatabase: false,
       downloadErrorMessage: null,
-      nextRunTimePrettyUpdated: null,
     };
   },
   methods: {
@@ -267,9 +270,7 @@ export default defineComponent({
       this.geoipDatabaseInstalled = true; // todo we need to replace this the proper way eventually
     },
     saveGeoIpLinks() {
-      let currentDownloading: string|null = null;
-
-      AjaxHelper.post<UpdateGeoIpLinksResponse>(
+      return AjaxHelper.post<UpdateGeoIpLinksResponse>(
         {
           period: this.updatePeriod,
           module: 'GeoIp2',
@@ -283,27 +284,9 @@ export default defineComponent({
         {
           withTokenInUrl: true,
         },
+      ).then(
+        (response) => this.downloadNextFileIfNeeded(response, null),
       ).then((response) => {
-        if (response?.to_download) {
-          const continuing = currentDownloading === response.to_download;
-          currentDownloading = response.to_download; // show progress bar w/ message
-
-          this.progressUpdateDownload = 0;
-          this.progressUpdateLabel = response.to_download_label!;
-          this.isUpdatingGeoIpDatabase = true; // start/continue download
-
-          return this.downloadNextChunk(
-            'downloadMissingGeoIpDb',
-            (v) => {
-              this.progressUpdateDownload = v;
-            },
-            continuing,
-            {
-              key: response.to_download,
-            },
-          );
-        }
-
         this.progressUpdateLabel = '';
         this.isUpdatingGeoIpDatabase = false;
 
@@ -340,12 +323,37 @@ export default defineComponent({
         });
       });
     },
+    downloadNextFileIfNeeded(
+      response: DownloadChunkResponse|UpdateGeoIpLinksResponse,
+      currentDownloading?: string|null,
+    ): Promise<DownloadChunkResponse|UpdateGeoIpLinksResponse> {
+      if (response?.to_download) {
+        const continuing = currentDownloading === response.to_download;
+
+        this.progressUpdateDownload = 0;
+        this.progressUpdateLabel = response.to_download_label!;
+        this.isUpdatingGeoIpDatabase = true; // start/continue download
+
+        return this.downloadNextChunk(
+          'downloadMissingGeoIpDb',
+          (v) => {
+            this.progressUpdateDownload = v;
+          },
+          continuing,
+          {
+            key: response.to_download,
+          },
+        ).then((r) => this.downloadNextFileIfNeeded(r, response.to_download));
+      }
+
+      return Promise.resolve(response);
+    },
     downloadNextChunk(
       action: string,
       progressBarSet: (value: number) => void,
       cont: boolean,
       extraData: QueryParameters,
-    ): Promise<void> {
+    ): Promise<DownloadChunkResponse> {
       const data: QueryParameters = { ...extraData };
 
       return AjaxHelper.post<DownloadChunkResponse>(
@@ -356,7 +364,13 @@ export default defineComponent({
         },
         data,
         { withTokenInUrl: true },
-      ).then((response) => {
+      ).catch(() => {
+        throw new Error(translate('GeoIp2_FatalErrorDuringDownload'));
+      }).then((response) => {
+        if (response.error) {
+          throw new Error(response.error!);
+        }
+
         // update progress bar
         const newProgressVal = Math.floor(
           (response.current_size / response.expected_file_size) * 100,
@@ -369,9 +383,7 @@ export default defineComponent({
           return this.downloadNextChunk(action, progressBarSet, true, extraData);
         }
 
-        return undefined;
-      }).catch(() => {
-        throw new Error(translate('GeoIp2_FatalErrorDuringDownload'));
+        return response;
       });
     },
   },

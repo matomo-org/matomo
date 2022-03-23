@@ -149,7 +149,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=433655dc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=5688200c
 
 var _hoisted_1 = {
   key: 0
@@ -341,7 +341,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=433655dc
+// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=5688200c
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -398,8 +398,7 @@ var _window = window,
       orgDbUrl: '',
       updatePeriod: this.geoipUpdatePeriod || 'month',
       isUpdatingGeoIpDatabase: false,
-      downloadErrorMessage: null,
-      nextRunTimePrettyUpdated: null
+      downloadErrorMessage: null
     };
   },
   methods: {
@@ -429,8 +428,7 @@ var _window = window,
     saveGeoIpLinks: function saveGeoIpLinks() {
       var _this2 = this;
 
-      var currentDownloading = null;
-      external_CoreHome_["AjaxHelper"].post({
+      return external_CoreHome_["AjaxHelper"].post({
         period: this.updatePeriod,
         module: 'GeoIp2',
         action: 'updateGeoIPLinks'
@@ -441,21 +439,8 @@ var _window = window,
       }, {
         withTokenInUrl: true
       }).then(function (response) {
-        if (response !== null && response !== void 0 && response.to_download) {
-          var continuing = currentDownloading === response.to_download;
-          currentDownloading = response.to_download; // show progress bar w/ message
-
-          _this2.progressUpdateDownload = 0;
-          _this2.progressUpdateLabel = response.to_download_label;
-          _this2.isUpdatingGeoIpDatabase = true; // start/continue download
-
-          return _this2.downloadNextChunk('downloadMissingGeoIpDb', function (v) {
-            _this2.progressUpdateDownload = v;
-          }, continuing, {
-            key: response.to_download
-          });
-        }
-
+        return _this2.downloadNextFileIfNeeded(response, null);
+      }).then(function (response) {
         _this2.progressUpdateLabel = '';
         _this2.isUpdatingGeoIpDatabase = false;
         external_CoreHome_["NotificationsStore"].show({
@@ -488,8 +473,28 @@ var _window = window,
         });
       });
     },
-    downloadNextChunk: function downloadNextChunk(action, progressBarSet, cont, extraData) {
+    downloadNextFileIfNeeded: function downloadNextFileIfNeeded(response, currentDownloading) {
       var _this3 = this;
+
+      if (response !== null && response !== void 0 && response.to_download) {
+        var continuing = currentDownloading === response.to_download;
+        this.progressUpdateDownload = 0;
+        this.progressUpdateLabel = response.to_download_label;
+        this.isUpdatingGeoIpDatabase = true; // start/continue download
+
+        return this.downloadNextChunk('downloadMissingGeoIpDb', function (v) {
+          _this3.progressUpdateDownload = v;
+        }, continuing, {
+          key: response.to_download
+        }).then(function (r) {
+          return _this3.downloadNextFileIfNeeded(r, response.to_download);
+        });
+      }
+
+      return Promise.resolve(response);
+    },
+    downloadNextChunk: function downloadNextChunk(action, progressBarSet, cont, extraData) {
+      var _this4 = this;
 
       var data = Object.assign({}, extraData);
       return external_CoreHome_["AjaxHelper"].post({
@@ -498,19 +503,23 @@ var _window = window,
         continue: cont ? 1 : 0
       }, data, {
         withTokenInUrl: true
+      }).catch(function () {
+        throw new Error(Object(external_CoreHome_["translate"])('GeoIp2_FatalErrorDuringDownload'));
       }).then(function (response) {
-        // update progress bar
+        if (response.error) {
+          throw new Error(response.error);
+        } // update progress bar
+
+
         var newProgressVal = Math.floor(response.current_size / response.expected_file_size * 100); // if incomplete, download next chunk, otherwise, show updater manager
 
         progressBarSet(Math.min(newProgressVal, 100));
 
         if (newProgressVal < 100) {
-          return _this3.downloadNextChunk(action, progressBarSet, true, extraData);
+          return _this4.downloadNextChunk(action, progressBarSet, true, extraData);
         }
 
-        return undefined;
-      }).catch(function () {
-        throw new Error(Object(external_CoreHome_["translate"])('GeoIp2_FatalErrorDuringDownload'));
+        return response;
       });
     }
   },
