@@ -5,9 +5,7 @@
 -->
 
 <todo>
-- get to build
 - test in UI
-- create PR
 </todo>
 
 <template>

@@ -124,75 +124,14 @@
 
     </div>
 
-    <div piwik-form
-         ng-controller="ScheduleReportDeletionController as reportDeletionSchedule"
-         id="formDeleteSettings">
-
-        <div piwik-content-block id="scheduleSettingsHeadline"
-             ng-show="reportDeletionSchedule.model.isEitherDeleteSectionEnabled()"
-             content-title="{{ 'PrivacyManager_DeleteSchedulingSettings'|translate|e('html_attr') }}">
-
-            <div id="deleteSchedulingSettings">
-                <div id="deleteSchedulingSettingsInlineHelp" class="inline-help-node">
-                    {% if deleteData.lastRun %}<strong>{{ 'PrivacyManager_LastDelete'|translate }}:</strong>
-                        {{ deleteData.lastRunPretty }}
-                        <br/>
-                        <br/>
-                    {% endif %}
-                    <strong>{{ 'PrivacyManager_NextDelete'|translate }}:</strong>
-                    {{ deleteData.nextRunPretty|rawSafeDecoded }}
-                    <br/>
-                    <br/>
-                    <a id="purgeDataNowLink" href="#"
-                           ng-show="reportDeletionSchedule.showPurgeNowLink"
-                           ng-click="reportDeletionSchedule.executeDataPurgeNow()">{{ 'PrivacyManager_PurgeNow'|translate }}</a>
-
-                        <div piwik-activity-indicator
-                             loading-message="'{{ 'PrivacyManager_PurgingData'|translate|e('html_attr') }}'"
-                             loading="reportDeletionSchedule.loadingDataPurge"></div>
-                    <span id="db-purged-message"
-                          ng-show="reportDeletionSchedule.dataWasPurged"
-                    >{{ 'PrivacyManager_DBPurged'|translate }}</span>
-                </div>
-
-                <div piwik-field uicontrol="select" name="deleteLowestInterval"
-                     ng-model="reportDeletionSchedule.deleteLowestInterval"
-                     options="{{ scheduleDeletionOptions|json_encode }}"
-                     data-title="{{ 'PrivacyManager_DeleteDataInterval'|translate|e('html_attr') }}"
-                     value="{{ deleteData.config.delete_logs_schedule_lowest_interval }}"
-                     inline-help="#deleteSchedulingSettingsInlineHelp">
-                </div>
-            </div>
-
-            {% if deleteData.config.enable_database_size_estimate == '1' %}
-            <div id="deleteDataEstimateSect" class="form-group row">
-
-                <h3 class="col s12" id="databaseSizeHeadline">
-                    {{ 'PrivacyManager_ReportsDataSavedEstimate'|translate }}
-                </h3>
-                <div class="col s12 m6">
-                    <div id="deleteDataEstimate" ng-show="reportDeletionSchedule.model.showEstimate"
-                          ng-bind-html="reportDeletionSchedule.model.estimation"></div>
-                    &nbsp;
-                    <div piwik-activity-indicator loading="reportDeletionSchedule.model.loadingEstimation"></div>
-                </div>
-                <div class="col s12 m6">
-                    {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
-                    <div class="form-help">
-                        <a id="getPurgeEstimateLink"
-                           ng-click="reportDeletionSchedule.model.reloadDbStats(true)"
-                           href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            {% endif %}
-
-            <div piwik-save-button onconfirm="reportDeletionSchedule.save()" saving="reportDeletionSchedule.isLoading"></div>
-
-        </div>
-    {% endif %}
-</div>
+  <div
+    vue-entry="PrivacyManager.ScheduleReportDeletion"
+    is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode|e('html_attr') }}"
+    delete-data="{{ deleteData|default(null)|json_encode|e('html_attr') }}"
+    delete-old-logs="{{ deleteOldLogs|default(null)|json_encode|e('html_attr') }}"
+    schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode|e('html_attr') }}"
+  ></div>
+{% endif %}
 
     <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
 

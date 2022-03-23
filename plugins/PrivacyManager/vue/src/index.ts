@@ -10,3 +10,4 @@ export {
 } from './ReportDeletionSettings/ReportDeletionSettings.store';
 export { default as DeleteOldLogs } from './DeleteOldLogs/DeleteOldLogs.vue';
 export { default as DeleteOldReports } from './DeleteOldReports/DeleteOldReports.vue';
+export { default as ScheduleReportDeletion } from './ScheduleReportDeletion/ScheduleReportDeletion.vue';

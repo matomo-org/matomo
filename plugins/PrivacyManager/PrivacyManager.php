@@ -302,6 +302,8 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_LeastMonthsInput';
         $translationKeys[] = 'PrivacyManager_KeepBasicMetricsReportsDetailedInfo';
         $translationKeys[] = 'PrivacyManager_KeepReportSegments';
+        $translationKeys[] = 'PrivacyManager_DeleteDataInterval';
+        $translationKeys[] = 'PrivacyManager_DeleteSchedulingSettings';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -319,7 +321,6 @@ class PrivacyManager extends Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/PrivacyManager/angularjs/report-deletion.model.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/schedule-report-deletion/schedule-report-deletion.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-ip/anonymize-ip.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";

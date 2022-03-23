@@ -103,6 +103,13 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
+/***/ "5912":
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
@@ -142,6 +149,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "ReportDeletionSettings", function() { return /* reexport */ ReportDeletionSettings_store; });
 __webpack_require__.d(__webpack_exports__, "DeleteOldLogs", function() { return /* reexport */ DeleteOldLogs; });
 __webpack_require__.d(__webpack_exports__, "DeleteOldReports", function() { return /* reexport */ DeleteOldReports; });
+__webpack_require__.d(__webpack_exports__, "ScheduleReportDeletion", function() { return /* reexport */ ScheduleReportDeletion; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -303,7 +311,7 @@ var ReportDeletionSettings_store_ReportDeletionSettingsStore = /*#__PURE__*/func
 }();
 
 /* harmony default export */ var ReportDeletionSettings_store = (new ReportDeletionSettings_store_ReportDeletionSettingsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=702c4cc4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=02a380b6
 
 var _hoisted_1 = {
   id: "formDeleteSettings"
@@ -361,7 +369,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     saving: _ctx.isLoading
   }, null, 8, ["saving"])], 512)), [[_directive_form]]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=702c4cc4
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=02a380b6
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -740,6 +748,237 @@ if (typeof DeleteOldReportsvue_type_custom_index_0_blockType_todo_default.a === 
 
 
 /* harmony default export */ var DeleteOldReports = (DeleteOldReportsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ScheduleReportDeletion/ScheduleReportDeletion.vue?vue&type=template&id=412c10ce
+
+var ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_1 = {
+  id: "formDeleteSettings"
+};
+var ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_2 = {
+  id: "deleteSchedulingSettings"
+};
+var ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_3 = {
+  id: "deleteSchedulingSettingsInlineHelp",
+  class: "inline-help-node"
+};
+var ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_4 = {
+  key: 0
+};
+
+var ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_9 = {
+  key: 0,
+  id: "deleteDataEstimateSect",
+  class: "form-group row"
+};
+var _hoisted_10 = {
+  class: "col s12",
+  id: "databaseSizeHeadline"
+};
+var _hoisted_11 = {
+  class: "col s12 m6"
+};
+var _hoisted_12 = ["innerHTML"];
+
+var _hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("&nbsp;");
+
+var _hoisted_14 = {
+  class: "col s12 m6"
+};
+var _hoisted_15 = {
+  key: 0,
+  class: "form-help"
+};
+function ScheduleReportDeletionvue_type_template_id_412c10ce_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    id: "scheduleSettingsHeadline",
+    "content-title": _ctx.translate('PrivacyManager_DeleteSchedulingSettings')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "select",
+        name: "deleteLowestInterval",
+        title: _ctx.translate('PrivacyManager_DeleteDataInterval'),
+        modelValue: _ctx.deleteLowestInterval,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          return _ctx.deleteLowestInterval = $event;
+        }),
+        options: _ctx.scheduleDeletionOptions
+      }, {
+        "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_3, [_ctx.deleteData.lastRun ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_LastDelete')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.deleteData.lastRunPretty) + " ", 1), ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_5, ScheduleReportDeletionvue_type_template_id_412c10ce_hoisted_6])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_NextDelete')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.deleteData.nextRunPretty) + " ", 1), _hoisted_7, _hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+            id: "purgeDataNowLink",
+            href: "#",
+            onClick: _cache[0] || (_cache[0] = function ($event) {
+              return _ctx.executeDataPurgeNow();
+            })
+          }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_PurgeNow')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showPurgeNowLink]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+            "loading-message": _ctx.translate('PrivacyManager_PurgingData'),
+            loading: _ctx.loadingDataPurge
+          }, null, 8, ["loading-message", "loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            id: "db-purged-message"
+          }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DBPurged')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.dataWasPurged]])])];
+        }),
+        _: 1
+      }, 8, ["title", "modelValue", "options"])])]), _ctx.deleteData.config.enable_database_size_estimate === '1' || _ctx.deleteData.config.enable_database_size_estimate === 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ReportsDataSavedEstimate')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+        id: "deleteDataEstimate",
+        innerHTML: _ctx.$sanitize(_ctx.estimation)
+      }, null, 8, _hoisted_12), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEstimate]]), _hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+        loading: _ctx.loadingEstimation
+      }, null, 8, ["loading"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [_ctx.deleteData.config.enable_auto_database_size_estimate !== '1' && _ctx.deleteData.config.enable_auto_database_size_estimate !== 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+        id: "getPurgeEstimateLink",
+        href: "#",
+        onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+          return _ctx.getPurgeEstimate();
+        }, ["prevent"]))
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GetPurgeEstimate')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+        onConfirm: _cache[3] || (_cache[3] = function ($event) {
+          return _ctx.save();
+        }),
+        saving: _ctx.isLoading
+      }, null, 8, ["saving"])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isEitherDeleteSectionEnabled]])], 512)), [[_directive_form]]);
+}
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ScheduleReportDeletion/ScheduleReportDeletion.vue?vue&type=template&id=412c10ce
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ScheduleReportDeletion/ScheduleReportDeletion.vue?vue&type=script&lang=ts
+
+
+
+
+/* harmony default export */ var ScheduleReportDeletionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    isDataPurgeSettingsEnabled: Boolean,
+    deleteData: {
+      type: Object,
+      required: true
+    },
+    deleteOldLogs: {
+      type: Object,
+      required: true
+    },
+    scheduleDeletionOptions: {
+      type: Object,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    ActivityIndicator: external_CoreHome_["ActivityIndicator"],
+    Field: external_CorePluginsAdmin_["Field"],
+    SaveButton: external_CorePluginsAdmin_["SaveButton"]
+  },
+  directives: {
+    Form: external_CorePluginsAdmin_["Form"]
+  },
+  data: function data() {
+    return {
+      isLoading: false,
+      loadingDataPurge: false,
+      dataWasPurged: false,
+      showPurgeNowLink: true,
+      deleteLowestInterval: this.deleteData.config.delete_logs_schedule_lowest_interval
+    };
+  },
+  methods: {
+    save: function save() {
+      var method = 'PrivacyManager.setScheduleReportDeletionSettings';
+      ReportDeletionSettings_store.savePurgeDataSettings(method, {
+        deleteLowestInterval: this.deleteLowestInterval
+      });
+    },
+    executeDataPurgeNow: function executeDataPurgeNow() {
+      var _this = this;
+
+      if (ReportDeletionSettings_store.state.value.isModified) {
+        // ask user if they really want to delete their old data
+        external_CoreHome_["Matomo"].helper.modalConfirm('#saveSettingsBeforePurge', {
+          yes: function yes() {
+            return null;
+          }
+        });
+        return;
+      }
+
+      external_CoreHome_["Matomo"].helper.modalConfirm('#confirmPurgeNow', {
+        yes: function yes() {
+          _this.loadingDataPurge = true;
+          _this.showPurgeNowLink = false; // execute a data purge
+
+          external_CoreHome_["AjaxHelper"].fetch({
+            module: 'PrivacyManager',
+            action: 'executeDataPurge',
+            format: 'html'
+          }, {
+            withTokenInUrl: true
+          }).then(function () {
+            // force reload
+            ReportDeletionSettings_store.reloadDbStats();
+            _this.dataWasPurged = true;
+            setTimeout(function () {
+              _this.dataWasPurged = false;
+              _this.showPurgeNowLink = true;
+            }, 2000);
+          }).finally(function () {
+            _this.loadingDataPurge = false;
+          });
+        }
+      });
+    },
+    getPurgeEstimate: function getPurgeEstimate() {
+      return ReportDeletionSettings_store.reloadDbStats(true);
+    }
+  },
+  computed: {
+    showEstimate: function showEstimate() {
+      return ReportDeletionSettings_store.state.value.showEstimate;
+    },
+    isEitherDeleteSectionEnabled: function isEitherDeleteSectionEnabled() {
+      return ReportDeletionSettings_store.isEitherDeleteSectionEnabled();
+    },
+    estimation: function estimation() {
+      return ReportDeletionSettings_store.state.value.estimation;
+    },
+    loadingEstimation: function loadingEstimation() {
+      return ReportDeletionSettings_store.state.value.loadingEstimation;
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ScheduleReportDeletion/ScheduleReportDeletion.vue?vue&type=script&lang=ts
+ 
+// EXTERNAL MODULE: ./plugins/PrivacyManager/vue/src/ScheduleReportDeletion/ScheduleReportDeletion.vue?vue&type=custom&index=0&blockType=todo
+var ScheduleReportDeletionvue_type_custom_index_0_blockType_todo = __webpack_require__("5912");
+var ScheduleReportDeletionvue_type_custom_index_0_blockType_todo_default = /*#__PURE__*/__webpack_require__.n(ScheduleReportDeletionvue_type_custom_index_0_blockType_todo);
+
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ScheduleReportDeletion/ScheduleReportDeletion.vue
+
+
+
+ScheduleReportDeletionvue_type_script_lang_ts.render = ScheduleReportDeletionvue_type_template_id_412c10ce_render
+/* custom blocks */
+
+if (typeof ScheduleReportDeletionvue_type_custom_index_0_blockType_todo_default.a === 'function') ScheduleReportDeletionvue_type_custom_index_0_blockType_todo_default()(ScheduleReportDeletionvue_type_script_lang_ts)
+
+
+/* harmony default export */ var ScheduleReportDeletion = (ScheduleReportDeletionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -747,6 +986,7 @@ if (typeof DeleteOldReportsvue_type_custom_index_0_blockType_todo_default.a === 
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

@@ -28,6 +28,7 @@ export interface ReportDeletionSettings {
   keepYear?: string;
   keepRange?: string;
   keepSegments?: string;
+  deleteLowestInterval?: string;
 }
 
 interface ReportDeletionSettingsStoreState {
