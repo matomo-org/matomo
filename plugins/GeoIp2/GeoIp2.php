@@ -72,6 +72,7 @@ class GeoIp2 extends \Piwik\Plugin
         $translationKeys[] = 'GeoIp2_UpdaterHasNotBeenRun';
         $translationKeys[] = 'GeoIp2_UpdaterScheduledForNextRun';
         $translationKeys[] = 'GeoIp2_UpdaterWillRunNext';
+        $translationKeys[] = 'GeoIp2_DownloadingDb';
     }
 
     /**

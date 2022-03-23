@@ -50,7 +50,7 @@
         >
           <div>
             <Progressbar
-              label
+              :label="freeProgressbarLabel"
               :progress="progressFreeDownload"
             >
             </Progressbar>
@@ -461,6 +461,12 @@ export default defineComponent({
         'UserCountry_MaxMindLinkExplanation',
         `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
         '</a>',
+      );
+    },
+    freeProgressbarLabel() {
+      return translate(
+        'GeoIp2_DownloadingDb',
+        `<a href="${this.dbipLiteUrl}">${this.dbipLiteFilename}</a>...`,
       );
     },
   },

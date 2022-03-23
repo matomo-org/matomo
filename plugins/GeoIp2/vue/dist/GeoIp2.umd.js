@@ -149,7 +149,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=5688200c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=10f3bd2c
 
 var _hoisted_1 = {
   key: 0
@@ -273,9 +273,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8, _hoisted_12)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("sup", null, [_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("small", {
         innerHTML: _ctx.accuracyNote
       }, null, 8, _hoisted_15)])])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showPiwikNotManagingInfo]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Progressbar, {
-        label: "",
+        label: _ctx.freeProgressbarLabel,
         progress: _ctx.progressFreeDownload
-      }, null, 8, ["progress"])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showFreeDownload]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.geoipDatabaseInstalled && !_ctx.downloadErrorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      }, null, 8, ["label", "progress"])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showFreeDownload]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.geoipDatabaseInstalled && !_ctx.downloadErrorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
         innerHTML: _ctx.geoIPUpdaterInstructions
       }, null, 8, _hoisted_18), _hoisted_19, _hoisted_20, !!_ctx.dbipLiteUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
         key: 0,
@@ -341,7 +341,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=5688200c
+// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=10f3bd2c
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -567,6 +567,9 @@ var _window = window,
     maxMindLinkExplanation: function maxMindLinkExplanation() {
       var link = 'https://matomo.org/faq/how-to/' + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/';
       return Object(external_CoreHome_["translate"])('UserCountry_MaxMindLinkExplanation', "<a href=\"".concat(link, "\" rel=\"noreferrer noopener\" target=\"_blank\">"), '</a>');
+    },
+    freeProgressbarLabel: function freeProgressbarLabel() {
+      return Object(external_CoreHome_["translate"])('GeoIp2_DownloadingDb', "<a href=\"".concat(this.dbipLiteUrl, "\">").concat(this.dbipLiteFilename, "</a>..."));
     }
   }
 }));
