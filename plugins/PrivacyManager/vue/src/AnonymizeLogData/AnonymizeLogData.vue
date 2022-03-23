@@ -5,16 +5,7 @@
 -->
 
 <todo>
-- property types
-- state types
-- look over template
-- look over component code
-- get to build
 - test in UI
-- check uses:
-  ./plugins/PrivacyManager/templates/privacySettings.twig
-  ./plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.js
-- create PR
 </todo>
 
 <template>
@@ -47,11 +38,12 @@
           >{{ translate('PrivacyManager_AnonymizeRowDataFrom') }}</label>
           <input
             type="text"
+            id="anonymizeStartDate"
             class="anonymizeStartDate"
+            ref="anonymizeStartDate"
             name="anonymizeStartDate"
-            v-model="start_date"
-          >
-          </input>
+            v-model="startDate"
+          />
         </div>
       </div>
       <div class="col s6 input-field">
@@ -63,10 +55,11 @@
           <input
             type="text"
             class="anonymizeEndDate"
+            id="anonymizeEndDate"
+            ref="anonymizeEndDate"
             name="anonymizeEndDate"
-            v-model="end_date"
-          >
-          </input>
+            v-model="endDate"
+          />
         </div>
       </div>
     </div>
@@ -107,15 +100,15 @@
           <label for="visit_columns">{{ translate('PrivacyManager_UnsetVisitColumns') }}</label>
           <div
             :class="`selectedVisitColumns selectedVisitColumns${index} multiple valign-wrapper`"
-            v-for="(index, visitColumn) in selectedVisitColumns"
-            :key="TODO"
+            v-for="(visitColumn, index) in selectedVisitColumns"
+            :key="index"
           >
             <div class="innerFormField">
               <Field
                 uicontrol="select"
                 name="visit_columns"
-                :model-value="selectedVisitColumns.index.column"
-                @update:model-value="selectedVisitColumns.index.column = $event; onVisitColumnChange()"
+                :model-value="visitColumn.column"
+                @update:model-value="visitColumn.column = $event; onVisitColumnChange()"
                 :full-width="true"
                 :options="availableVisitColumns"
               >
@@ -124,7 +117,7 @@
             <span
               class="icon-minus valign"
               @click="removeVisitColumn(index)"
-              v-show="!(index + 1 == (anonymizeLogData.selectedVisitColumns | length))"
+              v-show="index + 1 !== selectedVisitColumns.length"
               :title="translate('General_Remove')"
             />
           </div>
@@ -147,15 +140,15 @@
           <label for="action_columns">{{ translate('PrivacyManager_UnsetActionColumns') }}</label>
           <div
             :class="`selectedActionColumns selectedActionColumns${index} multiple valign-wrapper`"
-            v-for="(index, actionColumn) in selectedActionColumns"
-            :key="TODO"
+            v-for="(actionColumn, index) in selectedActionColumns"
+            :key="index"
           >
             <div class="innerFormField">
               <Field
                 uicontrol="select"
                 name="action_columns"
-                :model-value="selectedActionColumns.index.column"
-                @update:model-value="selectedActionColumns.index.column = $event; onActionColumnChange()"
+                :model-value="actionColumn.column"
+                @update:model-value="actionColumn.column = $event; onActionColumnChange()"
                 :full-width="true"
                 :options="availableActionColumns"
               >
@@ -164,7 +157,7 @@
             <span
               class="icon-minus valign"
               @click="removeActionColumn(index)"
-              v-show="!(index + 1 == (anonymizeLogData.selectedActionColumns | length))"
+              v-show="index + 1 !== selectedActionColumns.length"
               :title="translate('General_Remove')"
             />
           </div>
@@ -180,13 +173,14 @@
     <SaveButton
       class="anonymizePastData"
       @confirm="scheduleAnonymization()"
-      :disabled="!anonymizeIp && !anonymizeLocation && !selectedVisitColumns && !selectedActionColumns"
+      :disabled="isAnonymizePastDataDisabled"
       :value="translate('PrivacyManager_AnonymizeDataNow')"
     >
     </SaveButton>
     <div
       class="ui-confirm"
       id="confirmAnonymizeLogData"
+      ref="confirmAnonymizeLogData"
     >
       <h2>{{ translate('PrivacyManager_AnonymizeDataConfirm') }}</h2>
       <input
@@ -206,13 +200,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  translate,
   Matomo,
   AjaxHelper,
-  SiteSelector
+  SiteSelector,
 } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
+interface Option {
+  key: string;
+  value: string;
+}
 
 interface AnonymizeLogDataState {
   isLoading: boolean;
@@ -221,24 +218,30 @@ interface AnonymizeLogDataState {
   anonymizeLocation: boolean;
   anonymizeUserId: boolean;
   site: Record<string, string>;
-  availableVisitColumns: unknown[]; // TODO
-  availableActionColumns: unknown[]; // TODO
+  availableVisitColumns: Option[];
+  availableActionColumns: Option[];
   selectedVisitColumns: Record<string, string>[];
   selectedActionColumns: Record<string, string>[];
-  start_date: unknown; // TODO
-  end_date: unknown; // TODO
-  now: unknown; // TODO
+  startDate: string;
+  endDate: string;
+}
+
+function sub(value: number) {
+  if (value < 10) {
+    return `0${value}`;
+  }
+  return value;
 }
 
 export default defineComponent({
-  props: {
-  },
   components: {
     SiteSelector,
     Field,
     SaveButton,
   },
   data(): AnonymizeLogDataState {
+    const now = new Date();
+    const startDate = `${now.getFullYear()}-${sub(now.getMonth() + 1)}-${sub(now.getDay() + 1)}`;
     return {
       isLoading: false,
       isDeleting: false,
@@ -247,154 +250,129 @@ export default defineComponent({
       anonymizeUserId: false,
       site: {
         id: 'all',
-        name: 'All Websites'
+        name: 'All Websites',
       },
       availableVisitColumns: [],
       availableActionColumns: [],
       selectedVisitColumns: [{
-        column: ''
+        column: '',
       }],
       selectedActionColumns: [{
-        column: ''
+        column: '',
       }],
-      start_date: `${now.getFullYear()}-${sub(now.getMonth() + 1)}-` + sub(now.getDay() + 1),
-      end_date: this.start_date,
-      now: new Date(),
+      startDate,
+      endDate: startDate,
     };
   },
   created() {
-    AjaxHelper.fetch({
-      method: 'PrivacyManager.getAvailableVisitColumnsToAnonymize'
+    AjaxHelper.fetch<{ column_name: string }[]>({
+      method: 'PrivacyManager.getAvailableVisitColumnsToAnonymize',
     }).then((columns) => {
       this.availableVisitColumns = [];
-      angular.forEach(columns, (column) => {
+      columns.forEach((column) => {
         this.availableVisitColumns.push({
           key: column.column_name,
-          value: column.column_name
+          value: column.column_name,
         });
       });
     });
-    AjaxHelper.fetch({
-      method: 'PrivacyManager.getAvailableLinkVisitActionColumnsToAnonymize'
+
+    AjaxHelper.fetch<{ column_name: string }[]>({
+      method: 'PrivacyManager.getAvailableLinkVisitActionColumnsToAnonymize',
     }).then((columns) => {
       this.availableActionColumns = [];
-      angular.forEach(columns, (column) => {
+      columns.forEach((column) => {
         this.availableActionColumns.push({
           key: column.column_name,
-          value: column.column_name
+          value: column.column_name,
         });
       });
     });
+
     setTimeout(() => {
       const options1 = Matomo.getBaseDatePickerOptions(null);
       const options2 = Matomo.getBaseDatePickerOptions(null);
-      $(".anonymizeStartDate").datepicker(options1);
-      $(".anonymizeEndDate").datepicker(options2);
+      $(this.$refs.anonymizeStartDate as HTMLElement).datepicker(options1);
+      $(this.$refs.anonymizeEndDate as HTMLElement).datepicker(options2);
     });
   },
   methods: {
-    // TODO
     onVisitColumnChange() {
-      const hasAll = true;
-      angular.forEach(this.selectedVisitColumns, (visitColumn) => {
-        if (!visitColumn || !visitColumn.column) {
-          hasAll = false;
-        }
-      });
-
+      const hasAll = this.selectedVisitColumns.every((col) => !!col?.column);
       if (hasAll) {
         this.addVisitColumn();
       }
     },
-    // TODO
     addVisitColumn() {
-      this.selectedVisitColumns.push({
-        column: ''
-      });
+      this.selectedVisitColumns.push({ column: '' });
     },
-    // TODO
-    removeVisitColumn(index) {
+    removeVisitColumn(index: number) {
       if (index > -1) {
         const lastIndex = this.selectedVisitColumns.length - 1;
 
         if (lastIndex === index) {
-          this.selectedVisitColumns[index] = {
-            column: ''
-          };
+          this.selectedVisitColumns[index] = { column: '' };
         } else {
           this.selectedVisitColumns.splice(index, 1);
         }
       }
     },
-    // TODO
     onActionColumnChange() {
-      const hasAll = true;
-      angular.forEach(this.selectedActionColumns, (actionColumn) => {
-        if (!actionColumn || !actionColumn.column) {
-          hasAll = false;
-        }
-      });
-
+      const hasAll = this.selectedActionColumns.every((col) => !!col?.column);
       if (hasAll) {
         this.addActionColumn();
       }
     },
-    // TODO
     addActionColumn() {
-      this.selectedActionColumns.push({
-        column: ''
-      });
+      this.selectedActionColumns.push({ column: '' });
     },
-    // TODO
-    removeActionColumn(index) {
+    removeActionColumn(index: number) {
       if (index > -1) {
         const lastIndex = this.selectedActionColumns.length - 1;
 
         if (lastIndex === index) {
           this.selectedActionColumns[index] = {
-            column: ''
+            column: '',
           };
         } else {
           this.selectedActionColumns.splice(index, 1);
         }
       }
     },
-    // TODO
     scheduleAnonymization() {
-      const date = `${this.start_date},${this.end_date}`;
+      let date = `${this.startDate},${this.endDate}`;
 
-      if (this.start_date === this.end_date) {
-        date = this.start_date;
+      if (this.startDate === this.endDate) {
+        date = this.startDate;
       }
 
-      const params = {
-        date: date
-      };
+      const params: QueryParameters = { date };
       params.idSites = this.site.id;
       params.anonymizeIp = this.anonymizeIp ? '1' : '0';
       params.anonymizeLocation = this.anonymizeLocation ? '1' : '0';
       params.anonymizeUserId = this.anonymizeUserId ? '1' : '0';
-      params.unsetVisitColumns = [];
-      params.unsetLinkVisitActionColumns = [];
-      angular.forEach(this.selectedVisitColumns, (column) => {
-        if (column.column) {
-          params.unsetVisitColumns.push(column.column);
-        }
-      });
-      angular.forEach(this.selectedActionColumns, (column) => {
-        if (column.column) {
-          params.unsetLinkVisitActionColumns.push(column.column);
-        }
-      });
-      Matomo.helper.modalConfirm('#confirmAnonymizeLogData', {
+      params.unsetVisitColumns = this.selectedVisitColumns.filter(
+        (c) => !!c?.column,
+      ).map((c) => c.column);
+      params.unsetLinkVisitActionColumns = this.selectedActionColumns.filter(
+        (c) => !!c?.column,
+      ).map((c) => c.column);
+
+      Matomo.helper.modalConfirm(this.$refs.confirmAnonymizeLogData as HTMLElement, {
         yes: () => {
           AjaxHelper.post({
-            method: 'PrivacyManager.anonymizeSomeRawData'
+            method: 'PrivacyManager.anonymizeSomeRawData',
           }, params).then(() => {
-            location.reload(true);
+            window.location.reload(true);
           });
-        }
+        },
       });
+    },
+  },
+  computed: {
+    isAnonymizePastDataDisabled(): boolean {
+      return !this.anonymizeIp && !this.anonymizeLocation && !this.selectedVisitColumns
+        && !this.selectedActionColumns;
     },
   },
 });
