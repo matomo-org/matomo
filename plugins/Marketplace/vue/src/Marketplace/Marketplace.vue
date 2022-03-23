@@ -191,18 +191,32 @@ export default defineComponent({
   },
   methods: {
     changePluginSort() {
-      MatomoUrl.updateLocation({
-        ...MatomoUrl.urlParsed.value,
-        query: '',
-        sort: this.pluginSort,
-      });
+      MatomoUrl.updateUrl(
+        {
+          ...MatomoUrl.urlParsed.value,
+          query: '',
+          sort: this.pluginSort,
+        },
+        {
+          ...MatomoUrl.hashParsed.value,
+          query: '',
+          sort: this.pluginSort,
+        },
+      );
     },
     changePluginType() {
-      MatomoUrl.updateLocation({
-        ...MatomoUrl.urlParsed.value,
-        query: '',
-        show: this.pluginType,
-      });
+      MatomoUrl.updateUrl(
+        {
+          ...MatomoUrl.urlParsed.value,
+          query: '',
+          sort: this.pluginSort,
+        },
+        {
+          ...MatomoUrl.hashParsed.value,
+          query: '',
+          sort: this.pluginSort,
+        },
+      );
     },
   },
   computed: {
