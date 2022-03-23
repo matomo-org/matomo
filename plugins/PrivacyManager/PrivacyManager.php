@@ -283,6 +283,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroAccessRight';
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroEraseRight';
         $translationKeys[] = 'PrivacyManager_GdprToolsOverviewHint';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Description';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -302,7 +303,6 @@ class PrivacyManager extends Plugin
         $jsFiles[] = "plugins/PrivacyManager/angularjs/report-deletion.model.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/schedule-report-deletion/schedule-report-deletion.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-ip/anonymize-ip.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-logs/delete-old-logs.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
