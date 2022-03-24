@@ -212,7 +212,7 @@ function generateUniqueId() {
 }
 
 function findAndExplodeByMatch(metric: string) {
-  const matches = ["==" , "!=" , "<=", ">=", "=@" , "!@","<",">", "=^", "=$"];
+  const matches = ['==', '!=', '<=', '>=', '=@', '!@', '<', '>', '=^', '=$'];
   const newMetric: SegmentOrCondition = {} as unknown as SegmentOrCondition;
   let minPos = metric.length;
   let match;
@@ -225,7 +225,7 @@ function findAndExplodeByMatch(metric: string) {
     if (index !== -1) {
       if (index < minPos) {
         minPos = index;
-        if(match.length === 1){
+        if (match.length === 1) {
           singleChar = true;
         }
       }
@@ -234,19 +234,19 @@ function findAndExplodeByMatch(metric: string) {
 
   if (minPos < metric.length) {
     // sth found - explode
-    if (singleChar == true) {
-      newMetric.segment = metric.substr(0,minPos);
-      newMetric.matches = metric.substr(minPos,1);
-      newMetric.value = decodeURIComponent(metric.substr(minPos+1));
+    if (singleChar === true) {
+      newMetric.segment = metric.substr(0, minPos);
+      newMetric.matches = metric.substr(minPos, 1);
+      newMetric.value = decodeURIComponent(metric.substr(minPos + 1));
     } else {
-      newMetric.segment = metric.substr(0,minPos);
-      newMetric.matches = metric.substr(minPos,2);
-      newMetric.value = decodeURIComponent(metric.substr(minPos+2));
+      newMetric.segment = metric.substr(0, minPos);
+      newMetric.matches = metric.substr(minPos, 2);
+      newMetric.value = decodeURIComponent(metric.substr(minPos + 2));
     }
 
-    // if value is only "" -> change to empty string
+    // if value is only '' -> change to empty string
     if (newMetric.value === '""') {
-      newMetric.value = "";
+      newMetric.value = '';
     }
   }
 
@@ -261,7 +261,7 @@ function findAndExplodeByMatch(metric: string) {
 }
 
 function stripTags(text?: unknown) {
-  return text ? `${text}`.replace(/(<([^>]+)>)/ig,"") : text;
+  return text ? `${text}`.replace(/(<([^>]+)>)/ig, '') : text;
 }
 
 const { $ } = window;
@@ -270,7 +270,10 @@ export default defineComponent({
   props: {
     addInitialCondition: Boolean,
     visitSegmentsOnly: Boolean,
-    idsite: [String, Number],
+    idsite: {
+      type: [String, Number],
+      required: true,
+    },
     modelValue: {
       type: String,
       default: '',
@@ -314,12 +317,10 @@ export default defineComponent({
   methods: {
     reloadSegments(idsite: string|number, visitSegmentsOnly?: boolean) {
       SegmentGeneratorStore.loadSegments(idsite, visitSegmentsOnly).then((segments) => {
-        this.queriedSegments = segments.map((s) => {
-          return {
-            ...s,
-            category: s.category || 'Others',
-          };
-        });
+        this.queriedSegments = segments.map((s) => ({
+          ...s,
+          category: s.category || 'Others',
+        }));
 
         if (this.addInitialCondition && this.conditions.length === 0) {
           this.addNewAndCondition();
@@ -334,7 +335,7 @@ export default defineComponent({
     addNewOrCondition(condition: SegmentAndCondition) {
       const orCondition = {
         segment: this.firstSegment,
-        matches: this.firstMatch,
+        matches: this.firstMatch!,
         value: '',
       };
 
@@ -381,7 +382,8 @@ export default defineComponent({
           .autocomplete({
             source: response,
             minLength: 0,
-            select: (event, ui) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            select: (event: Event, ui: any) => {
               event.preventDefault();
 
               orCondition.value = ui.item.value;
@@ -399,7 +401,7 @@ export default defineComponent({
         $(`.orCondId${orCondition.id} .metricValueBlock input`)
           .autocomplete({
             source: [],
-            minLength: 0
+            minLength: 0,
           })
           .autocomplete('search', orCondition.value);
       });
@@ -418,10 +420,10 @@ export default defineComponent({
       }
 
       if (condition.orConditions.length === 0) {
-        const index = this.conditions.indexOf(condition);
+        const andCondIndex = this.conditions.indexOf(condition);
 
         if (index > -1) {
-          this.conditions.splice(index, 1);
+          this.conditions.splice(andCondIndex, 1);
         }
 
         if (this.conditions.length === 0) {
@@ -441,9 +443,7 @@ export default defineComponent({
 
       const blocks = segmentStr.split(';').map((b) => b.split(','));
       blocks.forEach((block) => {
-        condition = {
-          orConditions: []
-        };
+        condition = { orConditions: [] };
 
         this.addAndCondition(condition);
 
@@ -470,7 +470,7 @@ export default defineComponent({
       return this.queriedSegments[0].segment;
     },
     firstMatch() {
-      const segment = this.firstSegment;
+      const segment = this.queriedSegments[0];
       if (!segment) {
         return null;
       }
@@ -494,7 +494,7 @@ export default defineComponent({
         key: s.segment,
         value: s.name,
         tooltip: s.acceptedValues ? stripTags(s.acceptedValues) : undefined,
-      }))
+      }));
     },
     segmentDefinition() {
       let segmentStr = '';
@@ -522,7 +522,8 @@ export default defineComponent({
       return segmentStr;
     },
     addNewOrConditionLinkText() {
-      return `+${translate('SegmentEditor_AddANDorORCondition',
+      return `+${translate(
+        'SegmentEditor_AddANDorORCondition',
         `<span>${translate('SegmentEditor_OperatorOR')}</span>`,
       )}`;
     },

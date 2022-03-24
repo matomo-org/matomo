@@ -28,14 +28,15 @@ class SegmentGeneratorStore {
   readonly state = computed(() => readonly(this.privateState));
 
   private loadSegmentsAbort?: AbortController;
-  private loadSegmentsPromise: Promise<SegmentMetadata[]>;
+
+  private loadSegmentsPromise?: Promise<SegmentMetadata[]>;
 
   private fetchedSiteId?: string|number;
 
   loadSegments(
     siteId: string|number,
     visitSegmentsOnly?: boolean,
-  ): Promise<DeepReadonly<SegmentMetadata>[]> {
+  ): Promise<DeepReadonly<SegmentMetadata[]>> {
     if (this.loadSegmentsAbort) {
       this.loadSegmentsAbort.abort();
       this.loadSegmentsAbort = undefined;
@@ -49,8 +50,8 @@ class SegmentGeneratorStore {
     }
 
     if (!this.loadSegmentsPromise) {
-      let idSites: string|number;
-      let idSite: string|number;
+      let idSites: string|number|undefined = undefined;
+      let idSite: string|number|undefined = undefined;
 
       if (siteId === 'all' || !siteId) {
         idSites = 'all';
@@ -64,7 +65,7 @@ class SegmentGeneratorStore {
       this.loadSegmentsPromise = AjaxHelper.fetch<SegmentMetadata[]>({
         method: 'API.getSegmentsMetadata',
         filter_limit: '-1',
-        '_hideImplementationData': 0,
+        _hideImplementationData: 0,
         idSites,
         idSite,
       });
