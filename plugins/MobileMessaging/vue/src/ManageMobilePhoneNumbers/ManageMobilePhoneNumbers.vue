@@ -89,30 +89,28 @@
       <div class="col s12 m6">
         <span class="phoneNumber">{{ phoneNumber }}</span>
         <input
-          v-if="!validated"
+          v-if="!validated && !isActivated[index]"
           type="text"
           class="verificationCode"
           v-model="validationCode[index]"
-          v-show="!isActivated[index]"
           :placeholder="translate('MobileMessaging_Settings_EnterActivationCode')"
           style="margin-right:3.5px"
         />
         <SaveButton
-          v-if="!validated"
+          v-if="!validated && !(isActivated[index])"
           :disabled="!validationCode[index] || isChangingPhoneNumber"
-          v-show="`!(isActivated[index])`"
           @confirm="validateActivationCode(phoneNumber, index)"
           :value="translate('MobileMessaging_Settings_ValidatePhoneNumber')"
-          style="margin-right:3.5px"
         />
         <SaveButton
           :disabled="isChangingPhoneNumber"
           @confirm="removePhoneNumber(phoneNumber)"
           :value="translate('General_Remove')"
+          style="margin-left:3.5px"
         />
       </div>
-      <div class="form-help col s12 m6" v-if="!validated">
-        <div v-show="!(isActivated[index])">
+      <div class="form-help col s12 m6" v-if="!validated && !(isActivated[index])">
+        <div>
             {{ translate('MobileMessaging_Settings_VerificationCodeJustSent') }}
         </div>
         &nbsp;
