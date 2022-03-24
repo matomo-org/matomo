@@ -183,6 +183,16 @@ class RangeTest extends BasePeriodTest
     }
 
     // test range date1,date2
+    public function testRangeComma4_EndDateIncludesTodayWithTimezone()
+    {
+        $range = new Range('day', '2008-01-01,today', 'Europe/Berlin');
+        $subPeriods = $range->getSubperiods();
+        $this->assertEquals('2008-01-01', $subPeriods[0]->toString());
+        $this->assertEquals('2008-01-02', $subPeriods[1]->toString());
+        $this->assertEquals('2008-01-03', $subPeriods[2]->toString());
+    }
+
+    // test range date1,date2
     public function testRangeWeekcomma1()
     {
         $range = new Range('week', '2007-12-22,2008-01-03');
