@@ -79,7 +79,7 @@ class Revenue extends BaseConversion
           SegmentExpression::MATCH_LESS,
         ];
 
-        if (!in_array($valueToMatch, $supportType)) {
+        if (!in_array($matchType, $supportType)) {
             throw new \Exception("This match type $matchType is not available for action-segments.");
         }
 
