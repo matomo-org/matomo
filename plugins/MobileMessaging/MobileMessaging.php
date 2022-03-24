@@ -65,7 +65,6 @@ class MobileMessaging extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
             'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
@@ -84,14 +83,6 @@ class MobileMessaging extends \Piwik\Plugin
     public function requiresInternetConnection()
     {
         return true;
-    }
-
-    /**
-     * Get JavaScript files
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -113,6 +104,17 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'General_Password';
         $translationKeys[] = 'MobileMessaging_Settings_APIKey';
         $translationKeys[] = 'MobileMessaging_Settings_LetUsersManageAPICredential';
+        $translationKeys[] = 'MobileMessaging_Settings_SelectCountry';
+        $translationKeys[] = 'MobileMessaging_Settings_CountryCode';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumber';
+        $translationKeys[] = 'MobileMessaging_Settings_EnterActivationCode';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Add';
+        $translationKeys[] = 'MobileMessaging_Settings_DelegatedPhoneNumbersOnlyUsedByYou';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Help';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help';
+        $translationKeys[] = 'MobileMessaging_Settings_ManagePhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_Settings_VerificationCodeJustSent';
+        $translationKeys[] = 'MobileMessaging_Settings_ValidatePhoneNumber';
     }
     
     public function validateReportParameters(&$parameters, $reportType)
