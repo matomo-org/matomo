@@ -20,7 +20,7 @@ class VisitLastActionMonth extends VisitDimension
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
     protected $segmentName = 'visitEndServerMonth';
-    protected $nameSingular = 'VisitTime_ColumnVisitEndServerMonth';
+    protected $nameSingular = 'VisitTime_ColumnVisitEndUTCMonth';
     protected $sqlSegment = 'MONTH(log_visit.visit_last_action_time)';
     protected $acceptValues = '1, 2, 3, ..., 11, 12';
 

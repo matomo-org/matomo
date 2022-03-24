@@ -1,6 +1,8 @@
 {
     "CoreHome": {
         "CategoryNoData": "इस श्रेणी में कोई डेटा नहीं. \"सभी लोगों को शामिल\" करने का प्रयास करें.",
+        "ChangePeriod": "अवधि बदलें",
+        "ChangeVisualization": "विज़ुअलाइज़ेशन बदलें",
         "CheckForUpdates": "अद्यतन देखें",
         "CheckPiwikOut": "Matomo जाँच करें!",
         "ClickToEditX": "%s को संपादित करने के लिए क्लिक करें",
@@ -29,12 +31,12 @@
         "ShowJSCode": "सम्मिलित करने के लिए जावास्क्रिप्ट कोड दिखाएँ",
         "SubscribeAndBecomePiwikSupporter": "एक Matomo समर्थक बनने के लिए एक सुरक्षित क्रेडिट कार्ड भुगतान पृष्ठ (पेपैल) के लिए आगे बढ़ें!",
         "SupportPiwik": "पिविक को अपना सहयोग दें।",
+        "SystemSummaryPhpVersion": "PHP संस्करण",
         "TableNoData": "इस तालिका के लिए कोई डेटा नहीं है .",
         "ThereIsNoDataForThisReport": "इस रिपोर्ट के लिए कोई डाटा नहीं है.",
         "UnFlattenDataTable": "रिपोर्ट फ्लैट %s है इसे श्रेणीबद्ध करें",
         "ViewAllPiwikVideoTutorials": "सभी Matomo वीडियो ट्यूटोरियल देखें",
         "WebAnalyticsReports": "वेब विश्लेषिकी रिपोर्टें",
-        "YouAreUsingTheLatestVersion": "आप Matomo का नवीनतम संस्करण का उपयोग कर रहे हैं!",
-        "SystemSummaryPhpVersion": "PHP संस्करण"
+        "YouAreUsingTheLatestVersion": "आप Matomo का नवीनतम संस्करण का उपयोग कर रहे हैं!"
     }
 }

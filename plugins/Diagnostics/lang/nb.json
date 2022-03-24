@@ -11,7 +11,7 @@
         "CronArchivingHasNotRunInAWhile": "Arkivering ble sist fullført %1$s, som er %2$s siden.",
         "CronArchivingLastRunCheck": "Siste fullførte arkivering",
         "CronArchivingRanSuccessfullyXAgo": "Arkiveringsprosessen ble fullført for %1$s siden.",
-        "CronArchivingRunDetails": "Sjekk at du har satt opp en crontab som kaller %1$s-konsollkommandoen, og at du har satt opp en %2$s for å motta feilmeldinger per e-post hvis arkivering mislykkes. Du kan også prøve å kjøre konsollkomandoen for å arkivere rapportene dine manuelt: %3$s. %4$sLær mer%5$s.",
+        "CronArchivingRunDetails": "Sjekk at du har satt opp en crontab som kaller %1$s-konsoll-kommandoen, og at du har satt opp en %2$s for å motta feilmeldinger per e-post hvis arkivering misslykkes. Du kan også prøve å kjøre konsoll-kommandoen for å arkivere rapportene dine manuelt: %3$s. %4$sLær mer%5$s.",
         "DatabaseReaderConnection": "Databaseleser-tilkobling",
         "DatabaseUtf8Requirement": "Dette kreves for å kunne lagre 4-byte lange UTF-8-tegn. Med mindre utf8mb4 er tilgjengelig, vil spesialtegn som f.eks. emoji-er, mindre vanlige tegn i asiatiske språk, forskjellige historiske og matematiske symboler bli erstattet med %1$s. Du kan lese mer om dette i %2$sO-S-S%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Databasen din støtter utf8mb4-tegnsettet, men databasetabellene har ikke blitt konvertert enda. Du kan gjøre dette ved å kjøre kommandoen «%1$s» eller ved å skru på auto-konvertering i generelle innstillinger.",
