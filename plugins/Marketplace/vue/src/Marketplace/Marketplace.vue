@@ -209,23 +209,28 @@ export default defineComponent({
         {
           ...MatomoUrl.urlParsed.value,
           query: '',
-          sort: this.pluginSort,
+          show: this.pluginTypeFilter,
         },
         {
           ...MatomoUrl.hashParsed.value,
           query: '',
-          sort: this.pluginSort,
+          show: this.pluginTypeFilter,
         },
       );
     },
   },
   computed: {
     pluginSearchFormAction(): string {
-      return MatomoUrl.stringify({
+      return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         sort: '',
         embed: '0',
-      });
+      })}#?${MatomoUrl.stringify({
+        ...MatomoUrl.hashParsed.value,
+        sort: '',
+        embed: '0',
+        query: this.searchQuery,
+      })}`;
     },
     queryInputTitle(): string {
       const plugins = lcfirst(translate('General_Plugins'));
