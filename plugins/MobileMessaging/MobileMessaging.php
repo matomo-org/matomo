@@ -65,7 +65,6 @@ class MobileMessaging extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
             'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
@@ -86,16 +85,6 @@ class MobileMessaging extends \Piwik\Plugin
         return true;
     }
 
-    /**
-     * Get JavaScript files
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/delegate-mobile-messaging-settings.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-sms-provider.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js";
-    }
-
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
@@ -106,6 +95,15 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'MobileMessaging_Settings_InvalidActivationCode';
         $translationKeys[] = 'MobileMessaging_Settings_PhoneActivated';
+        $translationKeys[] = 'MobileMessaging_Settings_SMSProvider';
+        $translationKeys[] = 'MobileMessaging_Settings_PleaseSignUp';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialInvalid';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialProvided';
+        $translationKeys[] = 'MobileMessaging_Settings_UpdateOrDeleteAccount';
+        $translationKeys[] = 'MobileMessaging_UserKey';
+        $translationKeys[] = 'General_Password';
+        $translationKeys[] = 'MobileMessaging_Settings_APIKey';
+        $translationKeys[] = 'MobileMessaging_Settings_LetUsersManageAPICredential';
         $translationKeys[] = 'MobileMessaging_Settings_SelectCountry';
         $translationKeys[] = 'MobileMessaging_Settings_CountryCode';
         $translationKeys[] = 'MobileMessaging_Settings_PhoneNumber';

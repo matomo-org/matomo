@@ -132,6 +132,7 @@ __webpack_require__.d(__webpack_exports__, "createVueApp", function() { return /
 __webpack_require__.d(__webpack_exports__, "useExternalPluginComponent", function() { return /* reexport */ useExternalPluginComponent; });
 __webpack_require__.d(__webpack_exports__, "DirectiveUtilities", function() { return /* reexport */ directiveUtilities; });
 __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
+__webpack_require__.d(__webpack_exports__, "getFormattedEvolution", function() { return /* reexport */ getFormattedEvolution; });
 __webpack_require__.d(__webpack_exports__, "createAngularJsAdapter", function() { return /* reexport */ createAngularJsAdapter; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsBoolAttr", function() { return /* reexport */ transformAngularJsBoolAttr; });
 __webpack_require__.d(__webpack_exports__, "transformAngularJsIntAttr", function() { return /* reexport */ transformAngularJsIntAttr; });
@@ -11550,34 +11551,37 @@ Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_693cd955
   directiveName: 'piwikSparkline',
   restrict: 'E'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=086b2ffe
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=0048ddd7
 
-var Progressbarvue_type_template_id_086b2ffe_hoisted_1 = {
+var Progressbarvue_type_template_id_0048ddd7_hoisted_1 = {
   class: "progressbar"
 };
-var Progressbarvue_type_template_id_086b2ffe_hoisted_2 = {
+var Progressbarvue_type_template_id_0048ddd7_hoisted_2 = {
   class: "progress"
 };
 
-var Progressbarvue_type_template_id_086b2ffe_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-  src: "plugins/Morpheus/images/loading-blue.gif"
+var Progressbarvue_type_template_id_0048ddd7_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  src: "plugins/Morpheus/images/loading-blue.gif",
+  style: {
+    "margin-right": "3.5px"
+  }
 }, null, -1);
 
-var Progressbarvue_type_template_id_086b2ffe_hoisted_4 = ["innerHTML"];
-function Progressbarvue_type_template_id_086b2ffe_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Progressbarvue_type_template_id_086b2ffe_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Progressbarvue_type_template_id_086b2ffe_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+var Progressbarvue_type_template_id_0048ddd7_hoisted_4 = ["innerHTML"];
+function Progressbarvue_type_template_id_0048ddd7_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Progressbarvue_type_template_id_0048ddd7_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Progressbarvue_type_template_id_0048ddd7_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "determinate",
     style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])([{
       "width": "0"
     }, {
       width: "".concat(_ctx.actualProgress, "%")
     }])
-  }, null, 4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Progressbarvue_type_template_id_086b2ffe_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Progressbarvue_type_template_id_0048ddd7_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "label",
     innerHTML: _ctx.$sanitize(_ctx.label)
-  }, null, 8, Progressbarvue_type_template_id_086b2ffe_hoisted_4)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !!_ctx.label]])]);
+  }, null, 8, Progressbarvue_type_template_id_0048ddd7_hoisted_4)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !!_ctx.label]])]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=086b2ffe
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=0048ddd7
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=script&lang=ts
 
@@ -11609,7 +11613,7 @@ function Progressbarvue_type_template_id_086b2ffe_render(_ctx, _cache, $props, $
 
 
 
-Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_086b2ffe_render
+Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_0048ddd7_render
 
 /* harmony default export */ var Progressbar = (Progressbarvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Progressbar/Progressbar.adapter.ts
@@ -11994,6 +11998,39 @@ function piwikAjaxForm($parse) {
 
 piwikAjaxForm.$inject = ['$parse'];
 window.angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/getFormattedEvolution.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function calculateEvolution(currentValue, pastValue) {
+  var pastValueParsed = parseInt(pastValue, 10);
+  var currentValueParsed = parseInt(currentValue, 10) - pastValueParsed;
+  var evolution;
+
+  if (currentValueParsed === 0 || Number.isNaN(currentValueParsed)) {
+    evolution = 0;
+  } else if (pastValueParsed === 0 || Number.isNaN(pastValueParsed)) {
+    evolution = 100;
+  } else {
+    evolution = currentValueParsed / pastValueParsed * 100;
+  }
+
+  return evolution;
+}
+
+function formatEvolution(evolution) {
+  return "".concat(evolution > 0 ? Matomo_Matomo.numbers.symbolPlus : '').concat(Math.round(evolution), "}%");
+}
+
+function getFormattedEvolution(currentValue, pastValue) {
+  var evolution = calculateEvolution(currentValue, pastValue);
+  return formatEvolution(evolution);
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -12073,6 +12110,7 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
