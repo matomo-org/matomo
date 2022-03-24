@@ -6,12 +6,6 @@
 
 // TODO
 <todo>
-- conversion check (mistakes get fixed in quickmigrate)
-- property types
-- state types
-- look over template
-- look over component code
-- get to build
 - test in UI
 - check uses:
   ./plugins/SegmentEditor/javascripts/Segmentation.js
@@ -19,7 +13,6 @@
   ./plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.html
   ./plugins/AdvertisingConversionExport/angularjs/manage/edit.directive.html
   ./plugins/CustomReports/angularjs/manage/edit.directive.html
-- create PR
 </todo>
 
 <template>
