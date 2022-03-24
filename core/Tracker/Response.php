@@ -229,6 +229,8 @@ class Response
 
     protected function logExceptionToErrorLog($e)
     {
-        error_log(sprintf("Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
+        $hostname = Common::getValidHostname();
+        $hostStr = $hostname ? "[$hostname]" : '-';
+        error_log(sprintf("$hostStr Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
     }
 }

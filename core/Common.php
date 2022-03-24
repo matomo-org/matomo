@@ -1234,4 +1234,18 @@ class Common
         }
         return $validLanguages;
     }
+
+    /**
+     * Returns the valid hostname as a string; else it will return false if it isn't valid.
+     * If the hostname isn't supplied it will default to using the $_SERVER['HTTP_HOST']
+     * @param $hostname
+     * @return false|string
+     */
+    public static function getValidHostname($hostname = null)
+    {
+        if (empty($hostname) && isset($_SERVER['HTTP_HOST'])) {
+            $hostname = $_SERVER['HTTP_HOST'];
+        }
+        return filter_var($hostname, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
+    }
 }

@@ -498,4 +498,15 @@ class CommonTest extends TestCase
     {
         $this->assertEquals($expected, Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
     }
+
+
+    public function testGetValidHostname()
+    {
+        $_SERVER['HTTP_HOST'] = 'demo.matomo.org';
+        $this->assertEquals('demo.matomo.org', Common::getValidHostname());
+        unset($_SERVER['HTTP_HOST']);
+        $this->assertEquals('matomo.org', Common::getValidHostname('matomo.org'));
+        $this->assertEquals(false, Common::getValidHostname('matomo org'));
+        $this->assertEquals(false, Common::getValidHostname('matomo.org;<script'));
+    }
 }
