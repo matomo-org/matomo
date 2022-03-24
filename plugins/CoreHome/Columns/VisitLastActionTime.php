@@ -32,7 +32,7 @@ class VisitLastActionTime extends VisitDimension
 {
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
-    protected $nameSingular = 'VisitTime_ColumnVisitEndServerHour';
+    protected $nameSingular = 'VisitTime_ColumnVisitEndSiteHour';
     protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';
     protected $segmentName = 'visitServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
