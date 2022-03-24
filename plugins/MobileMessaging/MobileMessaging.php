@@ -91,7 +91,6 @@ class MobileMessaging extends \Piwik\Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/delegate-mobile-messaging-settings.controller.js";
         $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
     }
 
@@ -113,6 +112,7 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_UserKey';
         $translationKeys[] = 'General_Password';
         $translationKeys[] = 'MobileMessaging_Settings_APIKey';
+        $translationKeys[] = 'MobileMessaging_Settings_LetUsersManageAPICredential';
     }
     
     public function validateReportParameters(&$parameters, $reportType)

@@ -9,3 +9,4 @@ import './SmsProviderCredentials/SmsProviderCredentials.adapter';
 
 export { default as ManageSmsProvider } from './ManageSmsProvider/ManageSmsProvider.vue';
 export { default as SmsProviderCredentials } from './SmsProviderCredentials/SmsProviderCredentials.vue';
+export { default as DelegateMobileMessagingSettings } from './DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue';
