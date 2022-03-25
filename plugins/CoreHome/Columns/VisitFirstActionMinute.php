@@ -23,7 +23,7 @@ class VisitFirstActionMinute extends VisitDimension
     protected $sqlSegment = 'MINUTE(log_visit.visit_first_action_time)';
     protected $segmentName = 'visitStartServerMinute';
     protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
-    protected $nameSingular = 'VisitTime_ColumnVisitStartServerMinute';
+    protected $nameSingular = 'VisitTime_ColumnVisitStartUTCMinute';
 
     public function __construct()
     {
