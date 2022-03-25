@@ -23,6 +23,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
+use Piwik\Tracker;
 use Psr\Log\LoggerInterface;
 use Piwik\CronArchive\SegmentArchiving;
 
@@ -424,17 +425,34 @@ class Loader
     private function invalidatedReportsIfNeeded()
     {
         $sitesPerDays = $this->getReportsToInvalidate();
+
         if (empty($sitesPerDays)) {
             return;
         }
 
+        $timeCacheLastCleared = time();
+
         foreach ($sitesPerDays as $date => $siteIds) {
+            $clearCache = false;
+
+            if (time() - $timeCacheLastCleared >= 4) {
+                // for performance reason we don't want to clear the cache for every site but only once per 4 seconds.
+                $clearCache = true;
+                $timeCacheLastCleared = time();
+            }
             try {
-                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment());
+                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment(),
+                                    $cascadeDown = false, $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false, $clearCache);
             } catch (\Exception $e) {
                 Site::clearCache();
+                Tracker\Cache::clearCacheGeneral();
                 throw $e;
             }
+        }
+
+        if (empty($clearCache)) {
+            // make sure the general cache is cleared if we didn't clear it in the last run
+            Tracker\Cache::clearCacheGeneral();
         }
 
         Site::clearCache();

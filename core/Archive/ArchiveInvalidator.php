@@ -250,11 +250,13 @@ class ArchiveInvalidator
      * @param bool $forceInvalidateNonexistantRanges set true to force inserting rows for ranges in archive_invalidations
      * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      *                     or a plugin name to only archive the specific plugin.
+     * @param bool $ignorePurgeLogDataDate
+     * @param bool $clearCache
      * @return InvalidationResult
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false)
+                                              $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false, $clearCache = true)
     {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
@@ -328,7 +330,10 @@ class ArchiveInvalidator
                 }
             }
         }
-        Cache::clearCacheGeneral();
+
+        if ($clearCache) {
+            Cache::clearCacheGeneral();
+        }
 
         return $invalidationInfo;
     }
