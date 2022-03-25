@@ -289,6 +289,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserId';
         $translationKeys[] = 'PrivacyManager_UseAnonymizeOrderId';
         $translationKeys[] = 'PrivacyManager_ForceCookielessTracking';
+        $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescription';
+        $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescription2';
+        $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescriptionNotWritable';
         $translationKeys[] = 'PrivacyManager_AnonymizeIpInlineHelp';
         $translationKeys[] = 'PrivacyManager_AnonymizeIpDescription';
         $translationKeys[] = 'PrivacyManager_GeolocationAnonymizeIpNote';

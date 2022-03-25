@@ -4,12 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- get to build
-- test in UI
-- create PR
-</todo>
-
 <template>
   <div v-form>
     <div>
@@ -118,7 +112,7 @@ import { Form, Field, SaveButton } from 'CorePluginsAdmin';
 interface AnonymizeIpState {
   isLoading: boolean;
   actualEnabled: boolean;
-  actualMaskLength: string;
+  actualMaskLength: number;
   actualUseAnonymizedIpForVisitEnrichment: number;
   actualAnonymizeUserId: boolean;
   actualAnonymizeOrderId: boolean;
@@ -131,7 +125,7 @@ export default defineComponent({
     anonymizeIpEnabled: Boolean,
     anonymizeUserId: Boolean,
     maskLength: {
-      type: String,
+      type: Number,
       required: true,
     },
     useAnonymizedIpForVisitEnrichment: Boolean,
