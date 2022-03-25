@@ -20,7 +20,7 @@ class VisitLastActionDayOfWeek extends VisitDimension
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
     protected $segmentName = 'visitEndServerDayOfWeek';
-    protected $nameSingular = 'VisitTime_ColumnVisitEndServerDayOfWeek';
+    protected $nameSingular = 'VisitTime_ColumnVisitEndUTCDayOfWeek';
     protected $sqlSegment = 'DAYOFWEEK(log_visit.visit_last_action_time)';
     protected $acceptValues = '1, 2, 3, 4, 5, 6, 7';
 
