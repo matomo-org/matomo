@@ -112,9 +112,9 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      * @return string
      */
     function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
-                                       $logoUrl = false, $faviconUrl = false, $isCli = null)
+                                       $logoUrl = false, $faviconUrl = false, $isCli = null, $errorLogPrefix = "")
     {
-        error_log(sprintf("Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
+        error_log(sprintf("${errorLogPrefix}Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
 
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');

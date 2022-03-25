@@ -146,7 +146,10 @@ class ExceptionHandler
             }
         }
 
-        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl);
+        $hostname = Common::getValidHostname();
+        $hostStr = $hostname ? "[$hostname]" : '-';
+        $hostStr .= " ";
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl, null, $hostStr);
 
         try {
             /**
