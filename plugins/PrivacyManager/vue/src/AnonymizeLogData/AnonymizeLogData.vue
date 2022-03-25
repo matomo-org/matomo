@@ -38,7 +38,9 @@
             class="anonymizeStartDate"
             ref="anonymizeStartDate"
             name="anonymizeStartDate"
-            v-model="startDate"
+            :value="startDate"
+            @keydown="onKeydownStartDate($event)"
+            @change="onKeydownStartDate($event)"
           />
         </div>
       </div>
@@ -54,7 +56,9 @@
             id="anonymizeEndDate"
             ref="anonymizeEndDate"
             name="anonymizeEndDate"
-            v-model="endDate"
+            @keydown="onKeydownEndDate($event)"
+            @change="onKeydownEndDate($event)"
+            :model-value="endDate"
           />
         </div>
       </div>
@@ -199,6 +203,7 @@ import {
   Matomo,
   AjaxHelper,
   SiteSelector,
+  debounce,
 } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
@@ -261,6 +266,9 @@ export default defineComponent({
     };
   },
   created() {
+    this.onKeydownStartDate = debounce(this.onKeydownStartDate, 50);
+    this.onKeydownEndDate = debounce(this.onKeydownStartDate, 50);
+
     AjaxHelper.fetch<{ column_name: string }[]>({
       method: 'PrivacyManager.getAvailableVisitColumnsToAnonymize',
     }).then((columns) => {
@@ -363,6 +371,12 @@ export default defineComponent({
           });
         },
       });
+    },
+    onKeydownStartDate(event: Event) {
+      this.startDate = (event.target as HTMLInputElement).value;
+    },
+    onKeydownEndDate(event: Event) {
+      this.endDate = (event.target as HTMLInputElement).value;
     },
   },
   computed: {
