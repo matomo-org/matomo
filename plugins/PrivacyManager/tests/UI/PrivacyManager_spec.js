@@ -28,6 +28,7 @@ describe("PrivacyManager", function () {
             $('input.anonymizeStartDate').val('2018-03-02').change();
             $('input.anonymizeEndDate').val('2018-03-02').change();
         });
+        await page.waitFor(200);
     }
 
     async function loadActionPage(action)
