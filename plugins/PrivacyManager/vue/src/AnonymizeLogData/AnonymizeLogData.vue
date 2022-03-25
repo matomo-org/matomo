@@ -4,10 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-</todo>
-
 <template>
   <div class="anonymizeLogData">
     <div class="form-group row">
@@ -63,7 +59,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div name="anonymizeIp">
       <Field
         uicontrol="checkbox"
         name="anonymizeIp"
@@ -74,7 +70,7 @@
       >
       </Field>
     </div>
-    <div>
+    <div name="anonymizeLocation">
       <Field
         uicontrol="checkbox"
         name="anonymizeLocation"
@@ -84,7 +80,7 @@
       >
       </Field>
     </div>
-    <div>
+    <div name="anonymizeTheUserId">
       <Field
         uicontrol="checkbox"
         name="anonymizeTheUserId"
@@ -103,7 +99,7 @@
             v-for="(visitColumn, index) in selectedVisitColumns"
             :key="index"
           >
-            <div class="innerFormField">
+            <div class="innerFormField" name="visit_columns">
               <Field
                 uicontrol="select"
                 name="visit_columns"
@@ -143,7 +139,7 @@
             v-for="(actionColumn, index) in selectedActionColumns"
             :key="index"
           >
-            <div class="innerFormField">
+            <div class="innerFormField" name="action_columns">
               <Field
                 uicontrol="select"
                 name="action_columns"
