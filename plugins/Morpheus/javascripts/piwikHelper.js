@@ -242,6 +242,10 @@ window.piwikHelper = {
       });
 
       // process vue-directive attributes (only uses .mounted/.unmounted hooks)
+      piwikHelper.compileVueDirectives(selector);
+    },
+
+    compileVueDirectives: function (selector) {
       $('[vue-directive]', selector).add($(selector).filter('[vue-entry]')).each(function () {
         var vueDirectiveName = $(this).attr('vue-directive');
 

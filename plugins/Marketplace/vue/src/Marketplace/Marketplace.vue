@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue';
-import { translate, MatomoUrl } from 'CoreHome';
+import { translate, MatomoUrl, Matomo } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
 interface MarketplaceState {
@@ -181,10 +181,13 @@ export default defineComponent({
 
     nextTick(() => {
       // Keeps the plugin descriptions the same height
-      $('.marketplace .plugin .description').dotdotdot({
+      const descriptions = $('.marketplace .plugin .description');
+      descriptions.dotdotdot({
         after: 'a.more',
         watch: 'window',
       });
+
+      Matomo.helper.compileVueDirectives(descriptions); // have to recompile any vue directives
 
       syncMaxHeight2('.marketplace .plugin');
     });
