@@ -4,7 +4,7 @@
         "EvolutionMetricName": "%s Evolusi",
         "GenerateVisits": "Jika Anda tidak memiliki data hari ini, Anda dapat membuatnya beberapa menggunakan plugin %1$s dengan membuka 'Pengembangan → Generator Pengunjung' di area administrasi Matomo.",
         "Glossary": "Glosarium",
-        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama-id dan sandi Anda, %1$s sehingga jangan memberitahukannya%2$s!",
+        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama pengguna dan kata sandi Anda, %1$s jadi jangan memberitahukannya%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Pelajari tentang istilah yang umum digunakan untuk memaksimalkan analitik Matomo.",
         "LoadedAPIs": "Memuat %s API",
         "MainMetricsReportDocumentation": "Laporan ini memberikan gambaran umum tentang metrik terpenting di semua kategori dan plugin.",
@@ -12,7 +12,7 @@
         "PluginDescription": "Semua data di Matomo tersedia melalui API yang sederhana. Plugin ini adalah titik masuk layanan web yang dapat Anda hubungkan untuk mendapatkan data analitik web Anda dalam format XML, JSON, PHP, CSV, dll.",
         "ReportingApiReference": "Referensi Pelaporan API",
         "TopLinkTooltip": "Akses data Analitik Web Anda secara terprogram melalui API sederhana di JSON, XML, dll.",
-        "UserAuthentication": "Otentikasi pengguna",
-        "UsingTokenAuth": "Jika Anda ingin %1$smeminta data dalam skrip, crontab, dll.%2$s Anda perlu menambahkan parameter URL '%3$s' ke API memanggil URL yang memerlukan autentikasi."
+        "UserAuthentication": "Autentikasi pengguna",
+        "UsingTokenAuth": "Jika Anda ingin %1$smeminta data dalam skrip, crontab, dll.%2$s Anda perlu menambahkan parameter URL '%3$s' ke panggilan API untuk URL yang memerlukan autentikasi."
     }
 }
