@@ -196,7 +196,8 @@ window.piwikHelper = {
             return;
           }
 
-          var camelName = toCamelCase(this.name);
+          // append with underscore so reserved javascripy keywords aren't accidentally used
+          var camelName = toCamelCase(this.name) + '_';
           paramsStr += ':' + this.name + '=' + JSON.stringify(camelName) + ' ';
 
           var value = this.value;

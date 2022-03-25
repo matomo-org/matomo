@@ -10,6 +10,7 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
@@ -214,6 +215,26 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $result;
     }
 
+    public static function getPluginDependencies($plugin)
+    {
+        $pluginDir = self::getPluginDirectory($plugin);
+        $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";
+
+        $cache = Cache::getTransientCache();
+        $cacheKey = 'PluginUmdAssetFetcher.pluginDependencies.' . $plugin;
+
+        $pluginDependencies = $cache->fetch($cacheKey);
+        if (!is_array($pluginDependencies)) {
+            $pluginDependencies = [];
+            if (is_file($umdMetadata)) {
+                $pluginDependencies = json_decode(file_get_contents($umdMetadata), true);
+                $pluginDependencies = $pluginDependencies['dependsOn'] ?? [];
+            }
+            $cache->save($cacheKey, $pluginDependencies);
+        }
+        return $cache->fetch($cacheKey);
+    }
+
     private static function visitPlugin($plugin, $keepUnresolved, &$plugins, &$result)
     {
         // remove the plugin from the array of plugins to visit
@@ -225,17 +246,11 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         // read the plugin dependencies, if any
-        $pluginDir = self::getPluginDirectory($plugin);
-        $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";
+        $pluginDependencies = self::getPluginDependencies($plugin);
 
-        $pluginDependencies = [];
-        if (is_file($umdMetadata)) {
-            $pluginDependencies = json_decode(file_get_contents($umdMetadata), true);
-        }
-
-        if (!empty($pluginDependencies['dependsOn'])) {
+        if (!empty($pluginDependencies)) {
             // visit each plugin this one depends on first, so it is loaded first
-            foreach ($pluginDependencies['dependsOn'] as $pluginDependency) {
+            foreach ($pluginDependencies as $pluginDependency) {
                 // check if dependency is not activated
                 if (!in_array($pluginDependency, $plugins)
                     && !in_array($pluginDependency, $result)

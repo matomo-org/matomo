@@ -24,7 +24,6 @@ class GeoIp2 extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
             'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys',
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
@@ -44,12 +43,6 @@ class GeoIp2 extends \Piwik\Plugin
         }
     }
 
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/GeoIp2/angularjs/geoip2-updater/geoip2-updater.controller.js";
-        $jsFiles[] = "plugins/GeoIp2/angularjs/geoip2-updater/geoip2-updater.directive.js";
-    }
-
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "GeoIp2_FatalErrorDuringDownload";
@@ -57,6 +50,29 @@ class GeoIp2 extends \Piwik\Plugin
         $translationKeys[] = "General_Done";
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Continue";
+        $translationKeys[] = 'GeoIp2_ISPRequiresProviderPlugin';
+        $translationKeys[] = 'GeoIp2_UpdaterWasLastRun';
+        $translationKeys[] = 'GeoIp2_UpdaterIsNotScheduledToRun';
+        $translationKeys[] = 'GeoIp2_GeoIPUpdaterIntro';
+        $translationKeys[] = 'GeoIp2_IWantToDownloadFreeGeoIP';
+        $translationKeys[] = 'General_GetStarted';
+        $translationKeys[] = 'GeoIp2_GeoIPDatabases';
+        $translationKeys[] = 'GeoIp2_NotManagingGeoIPDBs';
+        $translationKeys[] = 'GeoIp2_IPurchasedGeoIPDBs';
+        $translationKeys[] = 'UserCountry_GeoIpDbIpAccuracyNote';
+        $translationKeys[] = 'GeoIp2_GeoIPUpdaterInstructions';
+        $translationKeys[] = 'GeoIp2_GeoLiteCityLink';
+        $translationKeys[] = 'UserCountry_MaxMindLinkExplanation';
+        $translationKeys[] = 'GeoIp2_LocationDatabase';
+        $translationKeys[] = 'Actions_ColumnDownloadURL';
+        $translationKeys[] = 'GeoIp2_LocationDatabaseHint';
+        $translationKeys[] = 'GeoIp2_ISPDatabase';
+        $translationKeys[] = 'GeoIp2_DownloadNewDatabasesEvery';
+        $translationKeys[] = 'GeoIp2_CannotSetupGeoIPAutoUpdating';
+        $translationKeys[] = 'GeoIp2_UpdaterHasNotBeenRun';
+        $translationKeys[] = 'GeoIp2_UpdaterScheduledForNextRun';
+        $translationKeys[] = 'GeoIp2_UpdaterWillRunNext';
+        $translationKeys[] = 'GeoIp2_DownloadingDb';
     }
 
     /**

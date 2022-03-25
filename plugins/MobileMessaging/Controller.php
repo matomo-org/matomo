@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
 use Piwik\Piwik;
@@ -150,10 +151,7 @@ class Controller extends ControllerAdmin
             }
         }
 
-        $view = new View('@MobileMessaging/credentials');
-
-        $view->credentialfields = $credentialFields;
-
-        return $view->render();
+        Json::sendHeaderJSON();
+        return json_encode($credentialFields);
     }
 }

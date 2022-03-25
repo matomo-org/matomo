@@ -16,7 +16,7 @@ class ServerMinute extends ActionDimension
     protected $columnName = 'server_time';
     protected $segmentName = 'actionServerMinute';
     protected $sqlSegment = 'MINUTE(log_link_visit_action.server_time)';
-    protected $nameSingular = 'VisitTime_ColumnServerMinute';
+    protected $nameSingular = 'VisitTime_ColumnUTCMinute';
     protected $type = self::TYPE_DATETIME;
     protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
 
