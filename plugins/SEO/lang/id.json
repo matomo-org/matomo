@@ -2,8 +2,8 @@
     "SEO": {
         "AlexaRank": "Peringkat Alexa",
         "Bing_IndexedPages": "Halaman terindeks Bing",
-        "DomainAge": "Umut Ranah",
-        "Google_IndexedPages": "Halaman terindeks Google",
+        "DomainAge": "Usia Domain",
+        "Google_IndexedPages": "Halaman yang terindeks Google",
         "PluginDescription": "Plugin ini mengekstrak dan menampilkan metrik SEO: peringkat web Alexa, Google Pagerank, jumlah halaman yang terindeks, dan tautan balik dari situs web yang saat ini dipilih.",
         "Rank": "Peringkat",
         "SEORankingsFor": "Peringkat SEO untuk %s",

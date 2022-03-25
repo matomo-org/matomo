@@ -62,6 +62,7 @@ class Build extends ConsoleCommand
             }
         }
 
+        $plugins = $this->ensureUntranspiledPluginDependenciesArePresent($plugins);
         $plugins = PluginUmdAssetFetcher::orderPluginsByPluginDependencies($plugins);
 
         // remove webpack cache since it can result in strange builds if present
@@ -69,6 +70,26 @@ class Build extends ConsoleCommand
 
         $failed = $this->build($output, $plugins, $printBuildCommand, $watch);
         return $failed;
+    }
+
+    private function ensureUntranspiledPluginDependenciesArePresent($plugins)
+    {
+        $pluginDependenciesToAdd = [];
+        foreach ($plugins as $plugin) {
+            $dependencies = PluginUmdAssetFetcher::getPluginDependencies($plugin);
+            foreach ($dependencies as $dependency) {
+                if (!$this->isTypeOutputPresent($dependency)) {
+                    $pluginDependenciesToAdd[] = $dependency;
+                }
+            }
+        }
+        return array_unique(array_merge($plugins, $pluginDependenciesToAdd));
+    }
+
+    private function isTypeOutputPresent($dependency)
+    {
+        $typeDirectory = PIWIK_INCLUDE_PATH . '/@types/' . $dependency . '/index.d.ts';
+        return is_file($typeDirectory);
     }
 
     private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false)

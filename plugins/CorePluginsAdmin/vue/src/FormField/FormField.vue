@@ -53,13 +53,15 @@
         <span
           class="inline-help"
           ref="inlineHelp"
-          v-if="formField.inlineHelp"
+          v-if="formField.inlineHelp || hasInlineHelpSlot"
         >
           <component
             v-if="inlineHelpComponent"
             :is="inlineHelpComponent"
             v-bind="inlineHelpBind"
           />
+
+          <slot name="inline-help"></slot>
         </span>
         <span v-show="showDefaultValue">
           <br />
@@ -277,7 +279,8 @@ export default defineComponent({
     showFormHelp() {
       return this.formField.description
         || this.formField.inlineHelp
-        || this.showDefaultValue;
+        || this.showDefaultValue
+        || this.hasInlineHelpSlot;
     },
     showDefaultValue() {
       return this.defaultValuePretty
@@ -390,6 +393,14 @@ export default defineComponent({
     },
     defaultValuePrettyTruncated() {
       return this.defaultValuePretty.substring(0, 50);
+    },
+    hasInlineHelpSlot() {
+      if (!this.$slots['inline-help']) {
+        return false;
+      }
+
+      const inlineHelpSlot = this.$slots['inline-help']();
+      return !!inlineHelpSlot?.[0]?.children?.length;
     },
   },
   methods: {
