@@ -146,7 +146,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.vue?vue&type=template&id=cf0e01fc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.vue?vue&type=template&id=bdf32a0e
 
 var _hoisted_1 = {
   class: "anonymizeLogData"
@@ -182,7 +182,7 @@ var _hoisted_11 = {
   for: "anonymizeEndDate",
   class: "active"
 };
-var _hoisted_12 = ["model-value"];
+var _hoisted_12 = ["value"];
 var _hoisted_13 = {
   name: "anonymizeIp"
 };
@@ -291,13 +291,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "anonymizeEndDate",
     ref: "anonymizeEndDate",
     name: "anonymizeEndDate",
+    value: _ctx.endDate,
     onKeydown: _cache[3] || (_cache[3] = function ($event) {
       return _ctx.onKeydownEndDate($event);
     }),
     onChange: _cache[4] || (_cache[4] = function ($event) {
       return _ctx.onKeydownEndDate($event);
-    }),
-    "model-value": _ctx.endDate
+    })
   }, null, 40, _hoisted_12)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "checkbox",
     name: "anonymizeIp",
@@ -387,7 +387,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: _ctx.translate('General_No')
   }, null, 8, _hoisted_37)], 512)]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.vue?vue&type=template&id=cf0e01fc
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.vue?vue&type=template&id=bdf32a0e
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -443,7 +443,7 @@ function sub(value) {
     var _this = this;
 
     this.onKeydownStartDate = Object(external_CoreHome_["debounce"])(this.onKeydownStartDate, 50);
-    this.onKeydownEndDate = Object(external_CoreHome_["debounce"])(this.onKeydownStartDate, 50);
+    this.onKeydownEndDate = Object(external_CoreHome_["debounce"])(this.onKeydownEndDate, 50);
     external_CoreHome_["AjaxHelper"].fetch({
       method: 'PrivacyManager.getAvailableVisitColumnsToAnonymize'
     }).then(function (columns) {

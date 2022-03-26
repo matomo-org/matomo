@@ -56,9 +56,9 @@
             id="anonymizeEndDate"
             ref="anonymizeEndDate"
             name="anonymizeEndDate"
+            :value="endDate"
             @keydown="onKeydownEndDate($event)"
             @change="onKeydownEndDate($event)"
-            :model-value="endDate"
           />
         </div>
       </div>
@@ -267,7 +267,7 @@ export default defineComponent({
   },
   created() {
     this.onKeydownStartDate = debounce(this.onKeydownStartDate, 50);
-    this.onKeydownEndDate = debounce(this.onKeydownStartDate, 50);
+    this.onKeydownEndDate = debounce(this.onKeydownEndDate, 50);
 
     AjaxHelper.fetch<{ column_name: string }[]>({
       method: 'PrivacyManager.getAvailableVisitColumnsToAnonymize',
