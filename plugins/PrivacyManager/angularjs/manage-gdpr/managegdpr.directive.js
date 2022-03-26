@@ -21,9 +21,6 @@
             templateUrl: 'plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.html?cb=' + piwik.cacheBuster,
             controller: 'ManageGdprController',
             controllerAs: 'manageGdpr',
-            compile: function (element, attrs) {
-
-            }
         };
     }
 })();
