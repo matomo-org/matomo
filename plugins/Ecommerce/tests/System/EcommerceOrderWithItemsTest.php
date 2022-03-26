@@ -305,7 +305,7 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                     'segment' => 'productPrice>500',
                 ]],
                 [
-                  ['Goals.get'],
+                  ['Live.getLastVisitsDetails', 'Goals.get'],
                   [
                     'idSite'     => $idSite,
                     'date'       => $dateTime,
@@ -315,7 +315,7 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                   ]
                 ],
                 [
-                  ['Goals.get'],
+                  ['Live.getLastVisitsDetails', 'Goals.get'],
                   [
                     'idSite'     => $idSite,
                     'date'       => $dateTime,
