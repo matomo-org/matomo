@@ -47,8 +47,15 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
   },
   postCreate(vm, scope, element, attrs, controller) {
-    const ngModel = controller as INgModelController;
+    // methods to forward for BC
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (element.scope() as any).segmentGenerator = {
+      getSegmentString(): string {
+        return vm.modelValue;
+      },
+    };
 
+    const ngModel = controller as INgModelController;
     if (!ngModel) {
       scope.$watch('segmentDefinition', (newVal: unknown) => {
         if (newVal !== vm.modelValue) {
@@ -57,6 +64,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
           });
         }
       });
+
       return;
     }
 

@@ -34,7 +34,7 @@ class SegmentGeneratorStore {
   private fetchedSiteId?: string|number;
 
   loadSegments(
-    siteId: string|number,
+    siteId?: string|number,
     visitSegmentsOnly?: boolean,
   ): Promise<DeepReadonly<SegmentMetadata[]>> {
     if (this.loadSegmentsAbort) {

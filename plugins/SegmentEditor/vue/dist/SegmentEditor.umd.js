@@ -151,19 +151,160 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/types.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=44bb3c06
+
+var _hoisted_1 = {
+  class: "segment-generator",
+  ref: "root"
+};
+var _hoisted_2 = {
+  class: "segment-rows"
+};
+var _hoisted_3 = {
+  class: "segment-row"
+};
+var _hoisted_4 = ["onClick"];
+var _hoisted_5 = {
+  href: "#",
+  class: "segment-loading"
+};
+var _hoisted_6 = {
+  class: "segment-row-inputs valign-wrapper"
+};
+var _hoisted_7 = {
+  class: "segment-input metricListBlock valign-wrapper"
+};
+var _hoisted_8 = {
+  style: {
+    "width": "100%"
+  }
+};
+var _hoisted_9 = {
+  class: "segment-input metricMatchBlock valign-wrapper"
+};
+var _hoisted_10 = {
+  style: {
+    "display": "inline-block"
+  }
+};
+var _hoisted_11 = {
+  class: "segment-input metricValueBlock valign-wrapper"
+};
+var _hoisted_12 = {
+  class: "form-group row",
+  style: {
+    "width": "100%"
+  }
+};
+var _hoisted_13 = {
+  class: "input-field col s12"
+};
+
+var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  role: "status",
+  "aria-live": "polite",
+  class: "ui-helper-hidden-accessible"
+}, null, -1);
+
+var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  class: "clear"
+}, null, -1);
+
+var _hoisted_16 = {
+  class: "segment-or"
+};
+var _hoisted_17 = ["onClick"];
+var _hoisted_18 = ["innerHTML"];
+var _hoisted_19 = {
+  class: "segment-and"
+};
+var _hoisted_20 = ["innerHTML"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
+  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_ValueInput = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ValueInput");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    loading: _ctx.isLoading
+  }, null, 8, ["loading"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.conditions, function (condition, conditionIndex) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("segmentRow".concat(conditionIndex)),
+      key: conditionIndex
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(condition.orConditions, function (orCondition, orConditionIndex) {
+      var _ctx$segments$orCondi, _ctx$segments$orCondi2;
+
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("orCondId".concat(orCondition.id)),
+        key: orConditionIndex
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+        class: "segment-close",
+        onClick: function onClick($event) {
+          return _ctx.removeOrCondition(condition, orCondition);
+        }
+      }, null, 8, _hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_5, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.conditionValuesLoading[orCondition.id]]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "expandable-select",
+        name: "segments",
+        "model-value": orCondition.segment,
+        "onUpdate:modelValue": function onUpdateModelValue($event) {
+          orCondition.segment = $event;
+
+          _ctx.updateAutocomplete(orCondition);
+
+          _ctx.computeSegmentDefinition();
+        },
+        title: (_ctx$segments$orCondi = _ctx.segments[orCondition.segment]) === null || _ctx$segments$orCondi === void 0 ? void 0 : _ctx$segments$orCondi.name,
+        "full-width": true,
+        options: _ctx.segmentList
+      }, null, 8, ["model-value", "onUpdate:modelValue", "title", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "select",
+        name: "matchType",
+        "model-value": orCondition.matches,
+        "onUpdate:modelValue": function onUpdateModelValue($event) {
+          orCondition.matches = $event;
+
+          _ctx.computeSegmentDefinition();
+        },
+        "full-width": true,
+        options: _ctx.matches[(_ctx$segments$orCondi2 = _ctx.segments[orCondition.segment]) === null || _ctx$segments$orCondi2 === void 0 ? void 0 : _ctx$segments$orCondi2.type]
+      }, null, 8, ["model-value", "onUpdate:modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ValueInput, {
+        or: orCondition,
+        onUpdate: function onUpdate($event) {
+          orCondition.value = $event; // deep watch doesn't catch this change
+
+          _this.computeSegmentDefinition();
+        }
+      }, null, 8, ["or", "onUpdate"])])])]), _hoisted_15])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_OperatorOR')), 1)], 2);
+    }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+      class: "segment-add-or",
+      onClick: function onClick($event) {
+        return _ctx.addNewOrCondition(condition);
+      }
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      innerHTML: _ctx.$sanitize(_ctx.addNewOrConditionLinkText)
+    }, null, 8, _hoisted_18)])], 8, _hoisted_17)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_OperatorAND')), 1)], 2);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    class: "segment-add-row initial",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.addNewAndCondition();
+    })
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
+  }, null, 8, _hoisted_20)])])], 512);
+}
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=44bb3c06
+
+// EXTERNAL MODULE: external "CorePluginsAdmin"
+var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 // CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -268,151 +409,55 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=1db0295a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=17b64c0b
 
-var _hoisted_1 = {
-  class: "segment-generator",
-  ref: "root"
-};
-var _hoisted_2 = {
-  class: "segment-rows"
-};
-var _hoisted_3 = {
-  class: "segment-row"
-};
-var _hoisted_4 = ["onClick"];
-var _hoisted_5 = {
-  href: "#",
-  class: "segment-loading"
-};
-var _hoisted_6 = {
-  class: "segment-row-inputs valign-wrapper"
-};
-var _hoisted_7 = {
-  class: "segment-input metricListBlock valign-wrapper"
-};
-var _hoisted_8 = {
-  style: {
-    "width": "100%"
-  }
-};
-var _hoisted_9 = {
-  class: "segment-input metricMatchBlock valign-wrapper"
-};
-var _hoisted_10 = {
-  style: {
-    "display": "inline-block"
-  }
-};
-var _hoisted_11 = {
-  class: "segment-input metricValueBlock valign-wrapper"
-};
-var _hoisted_12 = {
-  class: "form-group row",
-  style: {
-    "width": "100%"
-  }
-};
-var _hoisted_13 = {
-  class: "input-field col s12"
-};
-
-var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  role: "status",
-  "aria-live": "polite",
-  class: "ui-helper-hidden-accessible"
-}, null, -1);
-
-var _hoisted_15 = ["value", "onKeydown"];
-
-var _hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-  class: "clear"
-}, null, -1);
-
-var _hoisted_17 = {
-  class: "segment-or"
-};
-var _hoisted_18 = ["onClick"];
-var _hoisted_19 = ["innerHTML"];
-var _hoisted_20 = {
-  class: "segment-and"
-};
-var _hoisted_21 = ["innerHTML"];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-    loading: _ctx.isLoading
-  }, null, 8, ["loading"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.conditions, function (condition, conditionIndex) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("segmentRow".concat(conditionIndex)),
-      key: conditionIndex
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(condition.orConditions, function (orCondition, orConditionIndex) {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("orCondId".concat(orCondition.id)),
-        key: orConditionIndex
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        class: "segment-close",
-        onClick: function onClick($event) {
-          return _ctx.removeOrCondition(condition, orCondition);
-        }
-      }, null, 8, _hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_5, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], orCondition.isLoading]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "expandable-select",
-        name: "segments",
-        "model-value": orCondition.segment,
-        "onUpdate:modelValue": function onUpdateModelValue($event) {
-          orCondition.segment = $event;
-
-          _ctx.updateAutocomplete(orCondition);
-        },
-        title: _ctx.segments[orCondition.segment].name,
-        "full-width": true,
-        options: _ctx.segmentList
-      }, null, 8, ["model-value", "onUpdate:modelValue", "title", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "matchType",
-        modelValue: orCondition.matches,
-        "onUpdate:modelValue": function onUpdateModelValue($event) {
-          return orCondition.matches = $event;
-        },
-        "full-width": true,
-        options: _ctx.matches.segments[orCondition.segment].type
-      }, null, 8, ["modelValue", "onUpdate:modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        placeholder: "Value",
-        type: "text",
-        class: "autocomplete",
-        title: "Value",
-        autocomplete: "off",
-        value: orCondition.value,
-        onKeydown: function onKeydown($event) {
-          return _ctx.onKeydownOrConditionValue(orCondition, $event);
-        }
-      }, null, 40, _hoisted_15)])])]), _hoisted_16])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_OperatorOR')), 1)], 2);
-    }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-      class: "segment-add-or",
-      onClick: function onClick($event) {
-        return _ctx.addNewOrCondition(condition);
-      }
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-      innerHTML: _ctx.$sanitize(_ctx.addNewOrConditionLinkText)
-    }, null, 8, _hoisted_19)])], 8, _hoisted_18)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_OperatorAND')), 1)], 2);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-    class: "segment-add-row initial",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.addNewAndCondition();
+var ValueInputvue_type_template_id_17b64c0b_hoisted_1 = ["placeholder", "title", "value"];
+function ValueInputvue_type_template_id_17b64c0b_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
+    placeholder: _ctx.translate('General_Value'),
+    type: "text",
+    class: "autocomplete",
+    title: _ctx.translate('General_Value'),
+    autocomplete: "off",
+    value: _ctx.or.value,
+    onKeydown: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.onKeydownOrConditionValue($event);
+    }),
+    onChange: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.onKeydownOrConditionValue($event);
     })
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
-  }, null, 8, _hoisted_21)])])], 512);
+  }, null, 40, ValueInputvue_type_template_id_17b64c0b_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=1db0295a
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=17b64c0b
 
-// EXTERNAL MODULE: external "CorePluginsAdmin"
-var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts
 
+
+/* harmony default export */ var ValueInputvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    or: Object
+  },
+  created: function created() {
+    this.onKeydownOrConditionValue = Object(external_CoreHome_["debounce"])(this.onKeydownOrConditionValue, 50);
+  },
+  emits: ['update'],
+  methods: {
+    onKeydownOrConditionValue: function onKeydownOrConditionValue(event) {
+      this.$emit('update', event.target.value);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue
+
+
+
+ValueInputvue_type_script_lang_ts.render = ValueInputvue_type_template_id_17b64c0b_render
+
+/* harmony default export */ var ValueInput = (ValueInputvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts
+
 
 
 
@@ -532,10 +577,7 @@ var _window = window,
   props: {
     addInitialCondition: Boolean,
     visitSegmentsOnly: Boolean,
-    idsite: {
-      type: [String, Number],
-      required: true
-    },
+    idsite: [String, Number],
     modelValue: {
       type: String,
       default: ''
@@ -543,14 +585,16 @@ var _window = window,
   },
   components: {
     ActivityIndicator: external_CoreHome_["ActivityIndicator"],
-    Field: external_CorePluginsAdmin_["Field"]
+    Field: external_CorePluginsAdmin_["Field"],
+    ValueInput: ValueInput
   },
   data: function data() {
     return {
       conditions: [],
       queriedSegments: [],
       matches: initialMatches(),
-      andConditionLabel: ''
+      conditionValuesLoading: {},
+      segmentDefinition: ''
     };
   },
   emits: ['update:modelValue'],
@@ -558,6 +602,12 @@ var _window = window,
     modelValue: function modelValue(newVal) {
       if (newVal !== this.segmentDefinition) {
         this.setSegmentString(newVal);
+      }
+    },
+    conditions: {
+      deep: true,
+      handler: function handler() {
+        this.computeSegmentDefinition();
       }
     },
     segmentDefinition: function segmentDefinition(newVal) {
@@ -570,9 +620,9 @@ var _window = window,
     }
   },
   created: function created() {
-    this.onKeydownOrConditionValue = Object(external_CoreHome_["debounce"])(this.onKeydownOrConditionValue, 50); // TODO: ngModel bindings
-
     this.matches[''] = this.matches.dimension;
+    this.setSegmentString(this.modelValue);
+    this.segmentDefinition = this.modelValue;
     this.reloadSegments(this.idsite, this.visitSegmentsOnly);
   },
   methods: {
@@ -592,7 +642,6 @@ var _window = window,
       });
     },
     addAndCondition: function addAndCondition(condition) {
-      this.andConditionLabel = Object(external_CoreHome_["translate"])('SegmentEditor_OperatorAND');
       this.conditions.push(condition);
     },
     addNewOrCondition: function addNewOrCondition(condition) {
@@ -606,15 +655,17 @@ var _window = window,
     addOrCondition: function addOrCondition(condition, orCondition) {
       var _this2 = this;
 
-      orCondition.isLoading = false;
+      this.conditionValuesLoading[orCondition.id] = false;
       orCondition.id = generateUniqueId();
       condition.orConditions.push(orCondition);
-      setTimeout(function () {
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
         _this2.updateAutocomplete(orCondition);
       });
     },
     updateAutocomplete: function updateAutocomplete(orCondition) {
-      orCondition.isLoading = true;
+      var _this3 = this;
+
+      this.conditionValuesLoading[orCondition.id] = true;
       $(".orCondId".concat(orCondition.id, " .metricValueBlock input"), this.$refs.root).autocomplete({
         source: [],
         minLength: 0
@@ -626,11 +677,8 @@ var _window = window,
         format: 'json',
         method: 'API.getSuggestedValuesForSegment',
         segmentName: orCondition.segment
-      }, {
-        createErrorNotification: false,
-        abortController: abortController
       }).then(function (response) {
-        orCondition.isLoading = false;
+        _this3.conditionValuesLoading[orCondition.id] = false;
         resolved = true;
         var inputElement = $(".orCondId".concat(orCondition.id, " .metricValueBlock input")).autocomplete({
           source: response,
@@ -639,13 +687,18 @@ var _window = window,
           select: function select(event, ui) {
             event.preventDefault();
             orCondition.value = ui.item.value;
+
+            _this3.computeSegmentDefinition(); // deep watch doesn't catch this change
+
+
+            _this3.$forceUpdate();
           }
         }).off('click').click(function () {
           $(inputElement).autocomplete('search', orCondition.value);
         });
       }).catch(function () {
         resolved = true;
-        orCondition.isLoading = false;
+        _this3.conditionValuesLoading[orCondition.id] = false;
         $(".orCondId".concat(orCondition.id, " .metricValueBlock input")).autocomplete({
           source: [],
           minLength: 0
@@ -670,17 +723,11 @@ var _window = window,
         if (index > -1) {
           this.conditions.splice(andCondIndex, 1);
         }
-
-        if (this.conditions.length === 0) {
-          this.andConditionLabel = '';
-        }
       }
     },
     setSegmentString: function setSegmentString(segmentStr) {
-      var _this3 = this;
+      var _this4 = this;
 
-      var orCondition;
-      var condition;
       this.conditions = [];
 
       if (!segmentStr) {
@@ -690,18 +737,16 @@ var _window = window,
       var blocks = segmentStr.split(';').map(function (b) {
         return b.split(',');
       });
-      blocks.forEach(function (block) {
-        condition = {
+      this.conditions = blocks.map(function (block) {
+        var condition = {
           orConditions: []
         };
-
-        _this3.addAndCondition(condition);
-
         block.forEach(function (innerBlock) {
-          orCondition = findAndExplodeByMatch(innerBlock);
+          var orCondition = findAndExplodeByMatch(innerBlock);
 
-          _this3.addOrCondition(condition, orCondition);
+          _this4.addOrCondition(condition, orCondition);
         });
+        return condition;
       });
     },
     addNewAndCondition: function addNewAndCondition() {
@@ -712,8 +757,38 @@ var _window = window,
       this.addNewOrCondition(condition);
       return condition;
     },
-    onKeydownOrConditionValue: function onKeydownOrConditionValue(orCondition, event) {
-      orCondition.value = event.target.value;
+    // NOTE: can't use a computed property since we need to recompute on changes inside the
+    //       structure. don't have to if we don't do in-place changes, but with nested structures,
+    //       that's complicated.
+    computeSegmentDefinition: function computeSegmentDefinition() {
+      var segmentStr = '';
+      this.conditions.forEach(function (condition) {
+        if (!condition.orConditions.length) {
+          return;
+        }
+
+        var subSegmentStr = '';
+        condition.orConditions.forEach(function (orCondition) {
+          if (!orCondition.value && !orCondition.segment && !orCondition.matches) {
+            return;
+          }
+
+          if (subSegmentStr !== '') {
+            subSegmentStr += ','; // OR operator
+          } // one encode for urldecode on value, one encode for urldecode on condition
+
+
+          var value = encodeURIComponent(encodeURIComponent(orCondition.value));
+          subSegmentStr += "".concat(orCondition.segment).concat(orCondition.matches).concat(value);
+        });
+
+        if (segmentStr !== '') {
+          segmentStr += ';'; // add AND operator between segment blocks
+        }
+
+        segmentStr += subSegmentStr;
+      });
+      this.segmentDefinition = segmentStr;
     }
   },
   computed: {
@@ -750,30 +825,11 @@ var _window = window,
         };
       });
     },
-    segmentDefinition: function segmentDefinition() {
-      var segmentStr = '';
-      this.conditions.forEach(function (conditions) {
-        var subSegmentStr = '';
-        conditions.orConditions.forEach(function (orCondition) {
-          if (subSegmentStr !== '') {
-            subSegmentStr += ','; // OR operator
-          } // one encode for urldecode on value, one encode for urldecode on condition
-
-
-          var value = encodeURIComponent(encodeURIComponent(orCondition.value));
-          subSegmentStr += "".concat(orCondition.segment).concat(orCondition.matches).concat(value);
-        });
-
-        if (segmentStr !== '') {
-          segmentStr += ';'; // add AND operator between segment blocks
-        }
-
-        segmentStr += subSegmentStr;
-      });
-      return segmentStr;
-    },
     addNewOrConditionLinkText: function addNewOrConditionLinkText() {
       return "+".concat(Object(external_CoreHome_["translate"])('SegmentEditor_AddANDorORCondition', "<span>".concat(Object(external_CoreHome_["translate"])('SegmentEditor_OperatorOR'), "</span>")));
+    },
+    andConditionLabel: function andConditionLabel() {
+      return this.conditions.length ? Object(external_CoreHome_["translate"])('SegmentEditor_OperatorAND') : '';
     },
     addNewAndConditionLinkText: function addNewAndConditionLinkText() {
       return "+".concat(Object(external_CoreHome_["translate"])('SegmentEditor_AddANDorORCondition', "<span>".concat(this.andConditionLabel, "</span>")));
@@ -800,6 +856,96 @@ if (typeof SegmentGeneratorvue_type_custom_index_0_blockType_todo_default.a === 
 
 
 /* harmony default export */ var SegmentGenerator = (SegmentGeneratorvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+/* harmony default export */ var SegmentGenerator_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: SegmentGenerator,
+  scope: {
+    segmentDefinition: {
+      angularJsBind: '@',
+      vue: 'modelValue'
+    },
+    addInitialCondition: {
+      angularJsBind: '='
+    },
+    visitSegmentsOnly: {
+      angularJsBind: '='
+    },
+    idsite: {
+      angularJsBind: '='
+    }
+  },
+  directiveName: 'piwikSegmentGenerator',
+  $inject: ['$timeout'],
+  events: {
+    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel, $timeout) {
+      var currentValue = ngModel ? ngModel.$viewValue : scope.segmentDefinition;
+
+      if (newValue !== currentValue) {
+        $timeout(function () {
+          if (!ngModel) {
+            scope.segmentDefinition = newValue;
+            return;
+          } // ngModel being used
+
+
+          ngModel.$setViewValue(newValue);
+          ngModel.$render(); // not detected by the watch for some reason
+        });
+      }
+    }
+  },
+  postCreate: function postCreate(vm, scope, element, attrs, controller) {
+    // methods to forward for BC
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    element.scope().segmentGenerator = {
+      getSegmentString: function getSegmentString() {
+        return vm.modelValue;
+      }
+    };
+    var ngModel = controller;
+
+    if (!ngModel) {
+      scope.$watch('segmentDefinition', function (newVal) {
+        if (newVal !== vm.modelValue) {
+          Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+            vm.modelValue = newVal;
+          });
+        }
+      });
+      return;
+    } // ngModel being used
+
+
+    ngModel.$render = function () {
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+        vm.modelValue = Object(external_CoreHome_["removeAngularJsSpecificProperties"])(ngModel.$viewValue);
+      });
+    };
+
+    if (typeof scope.segmentDefinition !== 'undefined') {
+      ngModel.$setViewValue(scope.segmentDefinition);
+    } else {
+      ngModel.$setViewValue(vm.modelValue);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/types.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 // CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -807,6 +953,7 @@ if (typeof SegmentGeneratorvue_type_custom_index_0_blockType_todo_default.a === 
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

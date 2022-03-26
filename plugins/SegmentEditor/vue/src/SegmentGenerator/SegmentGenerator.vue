@@ -37,7 +37,7 @@
             <a
               href="#"
               class="segment-loading"
-              v-show="orCondition.isLoading"
+              v-show="conditionValuesLoading[orCondition.id]"
             />
             <div class="segment-row-inputs valign-wrapper">
               <div class="segment-input metricListBlock valign-wrapper">
@@ -47,8 +47,8 @@
                     name="segments"
                     :model-value="orCondition.segment"
                     @update:model-value="orCondition.segment = $event;
-                      updateAutocomplete(orCondition)"
-                    :title="segments[orCondition.segment].name"
+                      updateAutocomplete(orCondition); computeSegmentDefinition();"
+                    :title="segments[orCondition.segment]?.name"
                     :full-width="true"
                     :options="segmentList"
                   >
@@ -60,9 +60,10 @@
                   <Field
                     uicontrol="select"
                     name="matchType"
-                    v-model="orCondition.matches"
+                    :model-value="orCondition.matches"
+                    @update:model-value="orCondition.matches = $event; computeSegmentDefinition();"
                     :full-width="true"
-                    :options="matches.segments[orCondition.segment].type"
+                    :options="matches[segments[orCondition.segment]?.type]"
                   >
                   </Field>
                 </div>
@@ -78,14 +79,11 @@
                       aria-live="polite"
                       class="ui-helper-hidden-accessible"
                     />
-                    <input
-                      placeholder="Value"
-                      type="text"
-                      class="autocomplete"
-                      title="Value"
-                      autocomplete="off"
-                      :value="orCondition.value"
-                      @keydown="onKeydownOrConditionValue(orCondition, $event)"
+                    <ValueInput
+                      :or="orCondition"
+                      @update="orCondition.value = $event;
+                      // deep watch doesn't catch this change
+                      this.computeSegmentDefinition();"
                     />
                   </div>
                 </div>
@@ -118,22 +116,23 @@
 </template>
 
 <script lang="ts">
-import { DeepReadonly, defineComponent } from 'vue';
+import { DeepReadonly, defineComponent, nextTick } from 'vue';
 import {
   translate,
   AjaxHelper,
   ActivityIndicator,
-  debounce,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import SegmentGeneratorStore from './SegmentGenerator.store';
 import { SegmentAndCondition, SegmentMetadata, SegmentOrCondition } from '../types';
+import ValueInput from './ValueInput.vue';
 
 interface SegmentGeneratorState {
   conditions: SegmentAndCondition[];
   matches: Record<string, { key: string, value: string }[]>;
   queriedSegments: DeepReadonly<SegmentMetadata[]>;
-  andConditionLabel: string;
+  conditionValuesLoading: Record<string, boolean>;
+  segmentDefinition: string;
 }
 
 function initialMatches() {
@@ -263,10 +262,7 @@ export default defineComponent({
   props: {
     addInitialCondition: Boolean,
     visitSegmentsOnly: Boolean,
-    idsite: {
-      type: [String, Number],
-      required: true,
-    },
+    idsite: [String, Number],
     modelValue: {
       type: String,
       default: '',
@@ -275,13 +271,15 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Field,
+    ValueInput,
   },
   data(): SegmentGeneratorState {
     return {
       conditions: [],
       queriedSegments: [],
       matches: initialMatches(),
-      andConditionLabel: '',
+      conditionValuesLoading: {},
+      segmentDefinition: '',
     };
   },
   emits: ['update:modelValue'],
@@ -290,6 +288,12 @@ export default defineComponent({
       if (newVal !== this.segmentDefinition) {
         this.setSegmentString(newVal);
       }
+    },
+    conditions: {
+      deep: true,
+      handler() {
+        this.computeSegmentDefinition();
+      },
     },
     segmentDefinition(newVal) {
       if (newVal !== this.modelValue) {
@@ -301,14 +305,14 @@ export default defineComponent({
     },
   },
   created() {
-    this.onKeydownOrConditionValue = debounce(this.onKeydownOrConditionValue, 50);
-
-    // TODO: ngModel bindings
     this.matches[''] = this.matches.dimension;
+    this.setSegmentString(this.modelValue);
+    this.segmentDefinition = this.modelValue;
+
     this.reloadSegments(this.idsite, this.visitSegmentsOnly);
   },
   methods: {
-    reloadSegments(idsite: string|number, visitSegmentsOnly?: boolean) {
+    reloadSegments(idsite?: string|number, visitSegmentsOnly?: boolean) {
       SegmentGeneratorStore.loadSegments(idsite, visitSegmentsOnly).then((segments) => {
         this.queriedSegments = segments.map((s) => ({
           ...s,
@@ -321,8 +325,6 @@ export default defineComponent({
       });
     },
     addAndCondition(condition: SegmentAndCondition) {
-      this.andConditionLabel = translate('SegmentEditor_OperatorAND');
-
       this.conditions.push(condition);
     },
     addNewOrCondition(condition: SegmentAndCondition) {
@@ -335,17 +337,17 @@ export default defineComponent({
       this.addOrCondition(condition, orCondition);
     },
     addOrCondition(condition: SegmentAndCondition, orCondition: SegmentOrCondition) {
-      orCondition.isLoading = false;
+      this.conditionValuesLoading[orCondition.id!] = false;
       orCondition.id = generateUniqueId();
 
       condition.orConditions.push(orCondition);
 
-      setTimeout(() => {
+      nextTick(() => {
         this.updateAutocomplete(orCondition);
       });
     },
     updateAutocomplete(orCondition: SegmentOrCondition) {
-      orCondition.isLoading = true;
+      this.conditionValuesLoading[orCondition.id!] = true;
 
       $(`.orCondId${orCondition.id} .metricValueBlock input`, this.$refs.root as HTMLElement)
         .autocomplete({
@@ -363,12 +365,8 @@ export default defineComponent({
           method: 'API.getSuggestedValuesForSegment',
           segmentName: orCondition.segment,
         },
-        {
-          createErrorNotification: false,
-          abortController,
-        },
       ).then((response) => {
-        orCondition.isLoading = false;
+        this.conditionValuesLoading[orCondition.id!] = false;
         resolved = true;
 
         const inputElement = $(`.orCondId${orCondition.id} .metricValueBlock input`)
@@ -380,6 +378,8 @@ export default defineComponent({
               event.preventDefault();
 
               orCondition.value = ui.item.value;
+              this.computeSegmentDefinition(); // deep watch doesn't catch this change
+              this.$forceUpdate();
             },
           })
           .off('click')
@@ -389,7 +389,7 @@ export default defineComponent({
       }).catch(() => {
         resolved = true;
 
-        orCondition.isLoading = false;
+        this.conditionValuesLoading[orCondition.id!] = false;
 
         $(`.orCondId${orCondition.id} .metricValueBlock input`)
           .autocomplete({
@@ -418,16 +418,9 @@ export default defineComponent({
         if (index > -1) {
           this.conditions.splice(andCondIndex, 1);
         }
-
-        if (this.conditions.length === 0) {
-          this.andConditionLabel = '';
-        }
       }
     },
     setSegmentString(segmentStr: string) {
-      let orCondition: SegmentOrCondition;
-      let condition: SegmentAndCondition;
-
       this.conditions = [];
 
       if (!segmentStr) {
@@ -435,15 +428,15 @@ export default defineComponent({
       }
 
       const blocks = segmentStr.split(';').map((b) => b.split(','));
-      blocks.forEach((block) => {
-        condition = { orConditions: [] };
-
-        this.addAndCondition(condition);
+      this.conditions = blocks.map((block) => {
+        const condition: SegmentAndCondition = { orConditions: [] };
 
         block.forEach((innerBlock) => {
-          orCondition = findAndExplodeByMatch(innerBlock);
+          const orCondition: SegmentOrCondition = findAndExplodeByMatch(innerBlock);
           this.addOrCondition(condition, orCondition);
         });
+
+        return condition;
       });
     },
     addNewAndCondition() {
@@ -454,8 +447,40 @@ export default defineComponent({
 
       return condition;
     },
-    onKeydownOrConditionValue(orCondition: SegmentOrCondition, event: Event) {
-      orCondition.value = (event.target as HTMLInputElement).value;
+    // NOTE: can't use a computed property since we need to recompute on changes inside the
+    //       structure. don't have to if we don't do in-place changes, but with nested structures,
+    //       that's complicated.
+    computeSegmentDefinition() {
+      let segmentStr = '';
+
+      this.conditions.forEach((condition) => {
+        if (!condition.orConditions.length) {
+          return;
+        }
+
+        let subSegmentStr = '';
+        condition.orConditions.forEach((orCondition) => {
+          if (!orCondition.value && !orCondition.segment && !orCondition.matches) {
+            return;
+          }
+
+          if (subSegmentStr !== '') {
+            subSegmentStr += ','; // OR operator
+          }
+
+          // one encode for urldecode on value, one encode for urldecode on condition
+          const value = encodeURIComponent(encodeURIComponent(orCondition.value));
+          subSegmentStr += `${orCondition.segment}${orCondition.matches}${value}`;
+        });
+
+        if (segmentStr !== '') {
+          segmentStr += ';'; // add AND operator between segment blocks
+        }
+
+        segmentStr += subSegmentStr;
+      });
+
+      this.segmentDefinition = segmentStr;
     },
   },
   computed: {
@@ -489,36 +514,14 @@ export default defineComponent({
         tooltip: s.acceptedValues ? stripTags(s.acceptedValues) : undefined,
       }));
     },
-    segmentDefinition() {
-      let segmentStr = '';
-
-      this.conditions.forEach((conditions) => {
-        let subSegmentStr = '';
-
-        conditions.orConditions.forEach((orCondition) => {
-          if (subSegmentStr !== '') {
-            subSegmentStr += ','; // OR operator
-          }
-
-          // one encode for urldecode on value, one encode for urldecode on condition
-          const value = encodeURIComponent(encodeURIComponent(orCondition.value));
-          subSegmentStr += `${orCondition.segment}${orCondition.matches}${value}`;
-        });
-
-        if (segmentStr !== '') {
-          segmentStr += ';'; // add AND operator between segment blocks
-        }
-
-        segmentStr += subSegmentStr;
-      });
-
-      return segmentStr;
-    },
     addNewOrConditionLinkText() {
       return `+${translate(
         'SegmentEditor_AddANDorORCondition',
         `<span>${translate('SegmentEditor_OperatorOR')}</span>`,
       )}`;
+    },
+    andConditionLabel() {
+      return this.conditions.length ? translate('SegmentEditor_OperatorAND') : '';
     },
     addNewAndConditionLinkText() {
       return `+${translate('SegmentEditor_AddANDorORCondition', `<span>${this.andConditionLabel}</span>`)}`;
