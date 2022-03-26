@@ -4,17 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
-<todo>
-- test in UI
-- check uses:
-  ./plugins/SegmentEditor/javascripts/Segmentation.js
-  ./plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.js
-  ./plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.html
-  ./plugins/AdvertisingConversionExport/angularjs/manage/edit.directive.html
-  ./plugins/CustomReports/angularjs/manage/edit.directive.html
-</todo>
-
 <template>
   <div class="segment-generator" ref="root">
     <ActivityIndicator :loading="isLoading" />
