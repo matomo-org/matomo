@@ -146,7 +146,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=88f92020
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=536c794c
 
 
 var _hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
@@ -256,7 +256,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     saving: _ctx.isLoading
   }, null, 8, ["saving"])], 512)), [[_directive_form]]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=88f92020
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=536c794c
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -279,7 +279,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
     useAnonymizedIpForVisitEnrichment: Boolean,
     anonymizeOrderId: Boolean,
     forceCookielessTracking: Boolean,
-    anonymizeReferrer: Boolean,
+    anonymizeReferrer: String,
     maskLengthOptions: {
       type: Array,
       required: true
@@ -311,13 +311,13 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
   data: function data() {
     return {
       isLoading: false,
-      actualEnabled: !!this.enabled,
+      actualEnabled: !!this.anonymizeIpEnabled,
       actualMaskLength: this.maskLength,
-      actualUseAnonymizedIpForVisitEnrichment: this.useAnonymizedIpForVisitEnrichment ? 1 : 0,
+      actualUseAnonymizedIpForVisitEnrichment: this.useAnonymizedIpForVisitEnrichment ? '1' : '0',
       actualAnonymizeUserId: !!this.anonymizeUserId,
       actualAnonymizeOrderId: !!this.anonymizeOrderId,
       actualForceCookielessTracking: !!this.forceCookielessTracking,
-      actualAnonymizeReferrer: !!this.anonymizeReferrer
+      actualAnonymizeReferrer: this.anonymizeReferrer
     };
   },
   methods: {

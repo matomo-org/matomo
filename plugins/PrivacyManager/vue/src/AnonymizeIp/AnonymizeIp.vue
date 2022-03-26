@@ -113,11 +113,11 @@ interface AnonymizeIpState {
   isLoading: boolean;
   actualEnabled: boolean;
   actualMaskLength: number;
-  actualUseAnonymizedIpForVisitEnrichment: number;
+  actualUseAnonymizedIpForVisitEnrichment: string;
   actualAnonymizeUserId: boolean;
   actualAnonymizeOrderId: boolean;
   actualForceCookielessTracking: boolean;
-  actualAnonymizeReferrer: boolean;
+  actualAnonymizeReferrer?: string;
 }
 
 export default defineComponent({
@@ -131,7 +131,7 @@ export default defineComponent({
     useAnonymizedIpForVisitEnrichment: Boolean,
     anonymizeOrderId: Boolean,
     forceCookielessTracking: Boolean,
-    anonymizeReferrer: Boolean,
+    anonymizeReferrer: String,
     maskLengthOptions: {
       type: Array,
       required: true,
@@ -163,13 +163,13 @@ export default defineComponent({
   data(): AnonymizeIpState {
     return {
       isLoading: false,
-      actualEnabled: !!this.enabled,
+      actualEnabled: !!this.anonymizeIpEnabled,
       actualMaskLength: this.maskLength,
-      actualUseAnonymizedIpForVisitEnrichment: this.useAnonymizedIpForVisitEnrichment ? 1 : 0,
+      actualUseAnonymizedIpForVisitEnrichment: this.useAnonymizedIpForVisitEnrichment ? '1' : '0',
       actualAnonymizeUserId: !!this.anonymizeUserId,
       actualAnonymizeOrderId: !!this.anonymizeOrderId,
       actualForceCookielessTracking: !!this.forceCookielessTracking,
-      actualAnonymizeReferrer: !!this.anonymizeReferrer,
+      actualAnonymizeReferrer: this.anonymizeReferrer,
     };
   },
   methods: {
