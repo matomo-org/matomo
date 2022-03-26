@@ -7,11 +7,16 @@
 
 import { INgModelController, ITimeoutService } from 'angular';
 import { nextTick } from 'vue';
-import { createAngularJsAdapter, removeAngularJsSpecificProperties } from 'CoreHome';
+import {
+  createAngularJsAdapter,
+  removeAngularJsSpecificProperties,
+  transformAngularJsBoolAttr,
+} from 'CoreHome';
 import SegmentGenerator from './SegmentGenerator.vue';
 
 export default createAngularJsAdapter<[ITimeoutService]>({
   component: SegmentGenerator,
+  require: '?ngModel',
   scope: {
     segmentDefinition: {
       angularJsBind: '@',
@@ -19,9 +24,11 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
     addInitialCondition: {
       angularJsBind: '=',
+      transform: transformAngularJsBoolAttr,
     },
     visitSegmentsOnly: {
       angularJsBind: '=',
+      transform: transformAngularJsBoolAttr,
     },
     idsite: {
       angularJsBind: '=',

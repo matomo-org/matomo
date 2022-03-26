@@ -868,16 +868,19 @@ if (typeof SegmentGeneratorvue_type_custom_index_0_blockType_todo_default.a === 
 
 /* harmony default export */ var SegmentGenerator_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
   component: SegmentGenerator,
+  require: '?ngModel',
   scope: {
     segmentDefinition: {
       angularJsBind: '@',
       vue: 'modelValue'
     },
     addInitialCondition: {
-      angularJsBind: '='
+      angularJsBind: '=',
+      transform: external_CoreHome_["transformAngularJsBoolAttr"]
     },
     visitSegmentsOnly: {
-      angularJsBind: '='
+      angularJsBind: '=',
+      transform: external_CoreHome_["transformAngularJsBoolAttr"]
     },
     idsite: {
       angularJsBind: '='

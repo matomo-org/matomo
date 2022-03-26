@@ -73,7 +73,7 @@ describe("PrivacyManager", function () {
                 $(this).val(theVal).change();
             });
         }, value);
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(200);
     }
 
     async function selectVisitColumn(title)
