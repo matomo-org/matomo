@@ -4,10 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-</todo>
-
 <template>
   <div v-form>
     <div>
@@ -34,7 +30,7 @@ import { Form, Field, SaveButton } from 'CorePluginsAdmin';
 
 interface DoNotTrackPreferenceState {
   isLoading: boolean;
-  enabled: number;
+  enabled: number|string|boolean;
 }
 
 export default defineComponent({
@@ -64,7 +60,7 @@ export default defineComponent({
       this.isLoading = true;
 
       let action = 'deactivateDoNotTrack';
-      if (this.enabled === 1) {
+      if (this.enabled && this.enabled !== '0') {
         action = 'activateDoNotTrack';
       }
 
