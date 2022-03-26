@@ -322,8 +322,6 @@ class PrivacyManager extends Plugin
         $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-logs/delete-old-logs.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.controller.js";
@@ -332,7 +330,7 @@ class PrivacyManager extends Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/vue/src/OptOutCustomizer/OptOutCustomizer.less";
         $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
         $stylesheets[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.less";
