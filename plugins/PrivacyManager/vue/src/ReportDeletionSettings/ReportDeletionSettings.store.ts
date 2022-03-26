@@ -132,14 +132,14 @@ class ReportDeletionSettingsStore {
         format: 'html',
       },
       formData,
-      { abortController: this.currentRequest },
+      { abortController: this.currentRequest, format: 'html' },
     ).then((data) => {
       this.privateState.estimation = data;
       this.privateState.showEstimate = true;
       this.privateState.loadingEstimation = false;
     }).finally(() => {
       this.currentRequest = undefined;
-      this.privateState.loadingEstimation = true;
+      this.privateState.loadingEstimation = false;
     });
   }
 }

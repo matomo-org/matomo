@@ -106,7 +106,6 @@
           vue-entry="PrivacyManager.DeleteOldLogs"
           is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode|e('html_attr') }}"
           delete-data="{{ deleteData|default(null)|json_encode|e('html_attr') }}"
-          delete-old-logs="{{ deleteOldLogs|default(null)|json_encode|e('html_attr') }}"
           schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode|e('html_attr') }}"
         ></div>
     </div>

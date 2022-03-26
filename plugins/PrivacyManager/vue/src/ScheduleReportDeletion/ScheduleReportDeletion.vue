@@ -74,7 +74,7 @@
             id="deleteDataEstimate"
             v-show="showEstimate"
             v-html="$sanitize(estimation)"
-          />&amp;nbsp;<ActivityIndicator :loading="loadingEstimation" />
+          />&nbsp;<ActivityIndicator :loading="loadingEstimation" />
         </div>
         <div class="col s12 m6">
           <div
@@ -121,10 +121,6 @@ export default defineComponent({
   props: {
     isDataPurgeSettingsEnabled: Boolean,
     deleteData: {
-      type: Object,
-      required: true,
-    },
-    deleteOldLogs: {
       type: Object,
       required: true,
     },

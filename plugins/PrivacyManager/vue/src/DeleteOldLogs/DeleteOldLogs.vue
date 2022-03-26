@@ -81,10 +81,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    deleteOldLogs: {
-      type: Object,
-      required: true,
-    },
     scheduleDeletionOptions: {
       type: Object,
       required: true,

@@ -165,10 +165,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    deleteOldLogs: {
-      type: Object,
-      required: true,
-    },
     scheduleDeletionOptions: {
       type: Object,
       required: true,
@@ -184,15 +180,24 @@ export default defineComponent({
   data(): DeleteOldReportsState {
     return {
       isLoading: false,
-      enabled: this.deleteData.config.delete_reports_enable === '1',
+      enabled: parseInt(this.deleteData.config.delete_reports_enable, 10) === 1,
       deleteOlderThan: this.deleteData.config.delete_reports_older_than,
-      keepBasic: this.deleteData.config.delete_reports_keep_basic_metrics === '1',
-      keepDataForDay: this.deleteData.config.delete_reports_keep_day_reports === '1',
-      keepDataForWeek: this.deleteData.config.delete_reports_keep_week_reports === '1',
-      keepDataForMonth: this.deleteData.config.delete_reports_keep_month_reports === '1',
-      keepDataForYear: this.deleteData.config.delete_reports_keep_year_reports === '1',
-      keepDataForRange: this.deleteData.config.delete_reports_keep_range_reports === '1',
-      keepDataForSegments: this.deleteData.config.delete_reports_keep_segment_reports === '1',
+      keepBasic: parseInt(this.deleteData.config.delete_reports_keep_basic_metrics, 10) === 1,
+      keepDataForDay: parseInt(this.deleteData.config.delete_reports_keep_day_reports, 10) === 1,
+      keepDataForWeek: parseInt(this.deleteData.config.delete_reports_keep_week_reports, 10) === 1,
+      keepDataForMonth: parseInt(
+        this.deleteData.config.delete_reports_keep_month_reports,
+        10,
+      ) === 1,
+      keepDataForYear: parseInt(this.deleteData.config.delete_reports_keep_year_reports, 10) === 1,
+      keepDataForRange: parseInt(
+        this.deleteData.config.delete_reports_keep_range_reports,
+        10,
+      ) === 1,
+      keepDataForSegments: parseInt(
+        this.deleteData.config.delete_reports_keep_segment_reports,
+        10,
+      ) === 1,
     };
   },
   created() {
@@ -253,7 +258,7 @@ export default defineComponent({
       const first = translate('PrivacyManager_DeleteReportsOlderThan');
       return `${first} (${translate('Intl_PeriodMonths')})`;
     },
-    deleteReportsKeepBasic(): string {
+    deleteReportsKeepBasicTitle(): string {
       const first = translate('PrivacyManager_KeepBasicMetrics');
       return `${first} (${translate('General_Recommended')})`;
     },

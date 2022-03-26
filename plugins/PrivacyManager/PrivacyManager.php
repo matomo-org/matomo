@@ -304,6 +304,14 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_KeepReportSegments';
         $translationKeys[] = 'PrivacyManager_DeleteDataInterval';
         $translationKeys[] = 'PrivacyManager_DeleteSchedulingSettings';
+        $translationKeys[] = 'PrivacyManager_LastDelete';
+        $translationKeys[] = 'PrivacyManager_NextDelete';
+        $translationKeys[] = 'PrivacyManager_PurgeNow';
+        $translationKeys[] = 'PrivacyManager_ReportsDataSavedEstimate';
+        $translationKeys[] = 'General_ClickHere';
+        $translationKeys[] = 'PrivacyManager_KeepDataFor';
+        $translationKeys[] = 'PrivacyManager_DeleteReportsInfo2';
+        $translationKeys[] = 'PrivacyManager_DeleteReportsInfo3';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
