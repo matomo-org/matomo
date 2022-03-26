@@ -125,6 +125,7 @@
         "SendPluginUpdateCommunication": "Envie um e-mail quando uma atualização de plugin estiver disponível",
         "SendPluginUpdateCommunicationHelp": "Um e-mail será enviado para os Super Usuários quando houver uma nova versão disponível para um plugin.",
         "SettingsSaveSuccess": "Configurações atualizadas.",
+        "SinglePageApplicationDescription": "Se você estiver acompanhando um aplicativo de página única (SPA) ou aplicativo da Web progressivo (PWA), consulte %1$seste guia%2$s.",
         "Solution": "Solução",
         "StableReleases": "Se o Matomo é uma parte crítica do seu negócio, recomendamos que você use a última versão estável. Se você usar a versão beta mais recente e encontrar uma falha ou tiver alguma sugestão, por favor, %1$sveja aqui%2$s.",
         "SystemPluginSettings": "Configurações de Plugin do Sistema",

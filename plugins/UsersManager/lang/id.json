@@ -40,10 +40,10 @@
         "ThereAreCurrentlyNRegisteredUsers": "Telah ada %s pengguna terdaftar.",
         "TypeYourPasswordAgain": "Ketik sandi baru Anda di sini.",
         "User": "Pengguna",
-        "Username": "Nama-Id",
+        "Username": "Nama pengguna",
         "UsersManagement": "Pengatur Pengguna",
         "UsersManagementMainDescription": "Menciptakan pengguna baru atau memperbarui pengguna yang telah ada. Anda dapat mengatur perizinan di atas.",
-        "YourUsernameCannotBeChanged": "Nama-id Anda tidak dapat diubah.",
+        "YourUsernameCannotBeChanged": "Nama pengguna Anda tidak dapat diubah.",
         "YourVisitsAreIgnoredOnDomain": "%1$sKunjungan Anda diabaikan oleh Matomo dalam %2$s %3$s (kuki pengecualian ditemukan dalam peramban Anda).",
         "YourVisitsAreNotIgnored": "%1$sKunjungan Anda tidak diabaikan oleh Matomo%2$s (kuki pengecualian tidak ditemukan dalam peramban Anda)."
     }
