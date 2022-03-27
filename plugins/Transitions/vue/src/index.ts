@@ -8,3 +8,4 @@
 import './TransitionExporter/TransitionExporter.adapter.ts';
 
 export { default as TransitionExporter } from './TransitionExporter/TransitionExporter';
+export { default as TransitionSwitcher } from './TransitionSwitcher/TransitionSwitcher.vue';

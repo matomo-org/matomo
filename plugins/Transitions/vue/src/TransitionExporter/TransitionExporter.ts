@@ -13,7 +13,9 @@ const { Piwik_Popover } = window;
 
 export default {
   mounted(element: HTMLElement): void {
-    element.addEventListener('click', () => {
+    element.addEventListener('click', (e) => {
+      e.preventDefault();
+
       const props = {
         exportFormat: 'JSON',
         exportFormatOptions: [
