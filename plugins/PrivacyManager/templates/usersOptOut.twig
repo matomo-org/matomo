@@ -25,7 +25,6 @@
 
       <div
         vue-entry="PrivacyManager.DoNotTrackPreference"
-        is-super-user="{{ isSuperUser|default(null)|json_encode|e('html_attr') }}"
         dnt-support="{{ dntSupport|default(null)|json_encode|e('html_attr') }}"
         do-not-track-options="{{ doNotTrackOptions|default(null)|json_encode|e('html_attr') }}"
       ></div>
