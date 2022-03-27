@@ -35,7 +35,6 @@ interface DoNotTrackPreferenceState {
 
 export default defineComponent({
   props: {
-    isSuperUser: Boolean,
     dntSupport: Boolean,
     doNotTrackOptions: {
       type: Array,
