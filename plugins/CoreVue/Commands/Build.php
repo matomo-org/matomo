@@ -124,7 +124,7 @@ class Build extends ConsoleCommand
             return;
         }
 
-        passthru($commandSingle);
+        passthru($command);
     }
 
     private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
