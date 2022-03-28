@@ -14,7 +14,7 @@
       />
     </div>
     <span v-show="!!label">
-      <img src="plugins/Morpheus/images/loading-blue.gif" />
+      <img src="plugins/Morpheus/images/loading-blue.gif" style="margin-right: 3.5px" />
       <span class="label" v-html="$sanitize(label)" />
     </span>
   </div>

@@ -9,8 +9,8 @@ namespace Piwik\Plugins\Ecommerce\tests\System;
 
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * Tests API methods after ecommerce orders are tracked.
@@ -304,6 +304,29 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                     'testSuffix' => '_productPrice',
                     'segment' => 'productPrice>500',
                 ]],
+                [
+                  ['Live.getLastVisitsDetails', 'Goals.get'],
+                  [
+                    'idSite'     => $idSite,
+                    'date'       => $dateTime,
+                    'periods'    => 'day',
+                    'testSuffix' => '_SegmentRevenueOrder',
+                    'segment'    => 'revenueOrder>500',
+                  ]
+                ],
+                [
+                  ['Live.getLastVisitsDetails', 'Goals.get'],
+                  [
+                    'idSite'     => $idSite,
+                    'date'       => $dateTime,
+                    'periods'    => 'day',
+                    'testSuffix' => '_SegmentCartRevenueOrder',
+                    'segment'    => 'revenueAbandonedCart>100',
+                  ]
+                ],
+
+
+
            ),
            // Temporarily skip these tests for PHP8 due to sorting inconsistencies with PHP7
            (version_compare(PHP_VERSION, '8.0.0') >= 0 ? [] :

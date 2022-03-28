@@ -1178,7 +1178,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Visits per server time</name>
+				<name>Visits per hour in the site's timezone</name>
 				<module>VisitTime</module>
 				<action>getVisitInformationPerServerTime</action>
 				<order>120</order>
@@ -2064,7 +2064,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Visits per server time</name>
+						<name>Visits per hour in the site's timezone</name>
 						<category>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
@@ -2866,7 +2866,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Visits per server time</name>
+						<name>Visits per hour in the site's timezone</name>
 						<category>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
@@ -3668,7 +3668,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Visits per server time</name>
+						<name>Visits per hour in the site's timezone</name>
 						<category>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
@@ -4460,7 +4460,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Visits per server time</name>
+						<name>Visits per hour in the site's timezone</name>
 						<category>
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
@@ -5459,7 +5459,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Visits per server time</name>
+						<name>Visits per hour in the site's timezone</name>
 						<category>
 							<id>Sales by User attribute</id>
 							<name>Sales by User attribute</name>

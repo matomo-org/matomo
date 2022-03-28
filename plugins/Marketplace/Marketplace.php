@@ -55,16 +55,15 @@ class Marketplace extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
-
-        $jsFiles[] = "plugins/Marketplace/angularjs/plugins/plugin-name.directive.js";
-        $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.controller.js";
-        $jsFiles[] = "plugins/Marketplace/angularjs/marketplace/marketplace.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Marketplace_LicenseKeyActivatedSuccess';
         $translationKeys[] = 'Marketplace_LicenseKeyDeletedSuccess';
+        $translationKeys[] = 'Marketplace_Show';
+        $translationKeys[] = 'Marketplace_Sort';
+        $translationKeys[] = 'General_Plugins';
         $translationKeys[] = 'Marketplace_PaidPluginsNoLicenseKeyIntro';
         $translationKeys[] = 'Marketplace_PaidPluginsWithLicenseKeyIntro';
         $translationKeys[] = 'Marketplace_RemoveLicenseKey';
