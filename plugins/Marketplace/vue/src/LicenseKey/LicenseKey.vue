@@ -34,14 +34,16 @@
             </a>
             <div v-if="showInstallAllPaidPlugins">
               <a
-                href="javascript:;"
+                href=""
                 class="btn installAllPaidPlugins valign"
+                @click.prevent="onInstallAllPaidPlugins()"
               >
                 {{ translate('Marketplace_InstallPurchasedPlugins') }}
               </a>
               <div
                 class="ui-confirm"
                 id="installAllPaidPluginsAtOnce"
+                ref="installAllPaidPluginsAtOnce"
               >
                 <h2>{{ translate('Marketplace_InstallAllPurchasedPlugins') }}</h2>
                 <p>
@@ -153,6 +155,9 @@ export default defineComponent({
     };
   },
   methods: {
+    onInstallAllPaidPlugins() {
+      Matomo.helper.modalConfirm(this.$refs.installAllPaidPluginsAtOnce as HTMLElement);
+    },
     updateLicenseKey(action: string, licenseKey: string, onSuccessMessage: string) {
       AjaxHelper.post(
         {

@@ -22,8 +22,8 @@ class GetVisitInformationPerServerTime extends Base
     {
         parent::init();
         $this->dimension     = new VisitFirstActionTime();
-        $this->name          = Piwik::translate('VisitTime_ServerTime');
-        $this->documentation = Piwik::translate('VisitTime_WidgetServerTimeDocumentation', array('<strong>', '</strong>'));
+        $this->name          = Piwik::translate('VisitTime_SiteTime');
+        $this->documentation = Piwik::translate('VisitTime_WidgetSiteTimeDocumentation', array('<strong>', '</strong>'));
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
         $this->order = 20;

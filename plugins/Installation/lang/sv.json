@@ -2,7 +2,7 @@
     "Installation": {
         "CannotConnectToDb": "Kan inte ansluta till databasen",
         "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din Matomo administratör om problemet kvarstår.",
-        "CollaborativeProject": "Matomo är ett projekt som arbetats fram av människor från hela världen, med samma mål och mycket kärlek!",
+        "CollaborativeProject": "Matomo är ett samarbetsprojekt byggt med kärlek.",
         "ConfigurationHelp": "Din Matomo konfigurationsfil verkar vara felkonfigurerad. Du kan antingen ta bort config/config.ini.php och återuppta installationen, eller korrigera inställningarna för databasanslutningen.",
         "ConfirmDeleteExistingTables": "Är du säker på att du vill ta bort tabellerna: %s från din databas? Varning: Data från dessa tabeller kommer inte kunna återskapas!",
         "Congratulations": "Grattis",

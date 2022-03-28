@@ -812,14 +812,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + generalParams + "&module=MobileMessaging&action=index");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
+            const pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging');
-        });
+        })
 
         it('should switch the SMS provider correctly', async function () {
             await page.evaluate(function () {
-                $('[name=smsProviders] ul li:nth-child(2)').click();
+              $('[name=smsProviders]').val('string:Clockwork').trigger('change');
             });
+            await page.waitForTimeout(200);
+            await page.waitForNetworkIdle();
+            await page.waitForTimeout(200);
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging_provider');
