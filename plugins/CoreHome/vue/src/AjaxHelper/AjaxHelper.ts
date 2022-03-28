@@ -21,6 +21,7 @@ export interface AjaxOptions {
   abortController?: AbortController;
   returnResponseObject?: boolean;
   errorElement?: HTMLElement|JQuery|JQLite|string;
+  redirectOnSuccess?: QueryParameters|boolean;
 }
 
 interface ErrorResponse {
@@ -189,6 +190,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     if (options.errorElement) {
       helper.setErrorElement(options.errorElement);
     }
+    if (options.redirectOnSuccess) {
+      helper.redirectOnSuccess(options.redirectOnSuccess || undefined);
+    }
     helper.setFormat(options.format || 'json');
     if (Array.isArray(params)) {
       helper.setBulkRequests(...(params as QueryParameters[]));
@@ -343,7 +347,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    * @param [params] to modify in redirect url
    * @return {void}
    */
-  redirectOnSuccess(params: QueryParameters): void {
+  redirectOnSuccess(params?: QueryParameters): void {
     this.setCallback(() => {
       piwikHelper.redirect(params);
     });

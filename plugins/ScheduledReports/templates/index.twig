@@ -9,7 +9,47 @@
 
 {% block content %}
 
-<div class="emailReports" piwik-manage-scheduled-report>
+<div
+  vue-entry="ScheduledReports.ManageScheduledReport"
+  ajax="{{ ajax|default(null)|json_encode|e('html_attr') }}"
+  title="{{ title|default(null)|json_encode|e('html_attr') }}"
+  user-login="{{ userLogin|default(null)|json_encode|e('html_attr') }}"
+  login-module="{{ loginModule|default(null)|json_encode|e('html_attr') }}"
+  reports="{{ reports|default(null)|json_encode|e('html_attr') }}"
+  site-name="{{ siteName|default(null)|json_encode|e('html_attr') }}"
+  report="{{ report|default(null)|json_encode|e('html_attr') }}"
+  segment-editor-activated="{{ segmentEditorActivated|default(null)|json_encode|e('html_attr') }}"
+  saved-segments-by-id="{{ savedSegmentsById|default(null)|json_encode|e('html_attr') }}"
+  periods="{{ periods|default(null)|json_encode|e('html_attr') }}"
+  recipient="{{ recipient|default(null)|json_encode|e('html_attr') }}"
+  report-types="{{ reportTypes|default(null)|json_encode|e('html_attr') }}"
+  download-output-type="{{ downloadOutputType|default(null)|json_encode|e('html_attr') }}"
+  language="{{ language|default(null)|json_encode|e('html_attr') }}"
+  token_auth="{{ token_auth|default(null)|json_encode|e('html_attr') }}"
+  report-formats-by-report-type="{{ reportFormatsByReportType|default(null)|json_encode|e('html_attr') }}"
+  segment-editor_-default-all-visits="{{ SegmentEditor_DefaultAllVisits|default(null)|json_encode|e('html_attr') }}"
+  segment-editor_-add-new-segment="{{ SegmentEditor_AddNewSegment|default(null)|json_encode|e('html_attr') }}"
+  param-periods="{{ paramPeriods|default(null)|json_encode|e('html_attr') }}"
+  timezone-offset="{{ timezoneOffset|default(null)|json_encode|e('html_attr') }}"
+  report-type-options="{{ reportTypeOptions|default(null)|json_encode|e('html_attr') }}"
+  report-formats-by-report-type-options="{{ reportFormatsByReportTypeOptions|default(null)|json_encode|e('html_attr') }}"
+  report-type="{{ reportType|default(null)|json_encode|e('html_attr') }}"
+  report-formats="{{ reportFormats|default(null)|json_encode|e('html_attr') }}"
+  display-formats="{{ displayFormats|default(null)|json_encode|e('html_attr') }}"
+  reports-by-category-by-report-type="{{ reportsByCategoryByReportType|default(null)|json_encode|e('html_attr') }}"
+  allow-multiple-reports-by-report-type="{{ allowMultipleReportsByReportType|default(null)|json_encode|e('html_attr') }}"
+  reports-by-category="{{ reportsByCategory|default(null)|json_encode|e('html_attr') }}"
+  count-category="{{ countCategory|default(null)|json_encode|e('html_attr') }}"
+  new-column-after="{{ newColumnAfter|default(null)|json_encode|e('html_attr') }}"
+  category="{{ category|default(null)|json_encode|e('html_attr') }}"
+  report-input-type="{{ reportInputType|default(null)|json_encode|e('html_attr') }}"
+  count-websites="{{ countWebsites|default(null)|json_encode|e('html_attr') }}"
+>
+    <template v-slot:report-parameters>
+        {{ postEvent('Template.reportParametersScheduledReports') }}
+    </template>
+</div>
+<div class="emailReports" ng-controller="ManageScheduledReportController as manageScheduledReport">
 
     <span id="reportSentSuccess"></span>
     <span id="reportUpdatedSuccess"></span>

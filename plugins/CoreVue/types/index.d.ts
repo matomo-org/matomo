@@ -90,6 +90,7 @@ declare global {
     compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
+    hideAjaxError(): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
