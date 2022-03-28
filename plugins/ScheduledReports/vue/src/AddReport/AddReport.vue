@@ -30,7 +30,8 @@
           uicontrol="textarea"
           name="report_description"
           :title="translate('General_Description')"
-          v-model="report.description"
+          :model-value="report.description"
+          @update:model-value="$emit('change', { prop: 'description', value: $event })"
           :inline-help="translate('ScheduledReports_DescriptionOnFirstPage')"
         >
         </Field>
@@ -40,7 +41,8 @@
           uicontrol="select"
           name="report_segment"
           :title="translate('SegmentEditor_ChooseASegment')"
-          v-model="report.idsegment"
+          :model-value="report.idsegment"
+          @update:model-value="$emit('change', { prop: 'idsegment', value: $event })"
           :options="savedSegmentsById"
         >
           <template v-slot:inline-help>
@@ -58,8 +60,11 @@
           uicontrol="select"
           name="report_schedule"
           :model-value="report.period"
-          @update:model-value="report.period = $event;
-                report.periodParam = report.period === 'never' ? null : report.period"
+          @update:model-value="$emit('change', { prop: 'period', value: $event });
+            $emit('change', {
+              prop: 'periodParam',
+              value: report.period === 'never' ? null : report.period,
+            })"
           :title="translate('ScheduledReports_EmailSchedule')"
           :options="periods"
         >
@@ -79,7 +84,8 @@
         <Field
           uicontrol="select"
           name="report_period"
-          v-model="report.periodParam"
+          :model-value="report.periodParam"
+          @update:model-value="$emit('change', { prop: 'periodParam', value: $event })"
           :options="paramPeriods"
           :title="translate('ScheduledReports_ReportPeriod')"
         >
@@ -100,7 +106,7 @@
           uicontrol="select"
           name="report_hour"
           :model-value="report.hour"
-          @update:model-value="report.hour = $event; updateReportHourUtc()"
+          @update:model-value="$emit('change', { prop: 'hour', value: $event })"
           :title="translate('ScheduledReports_ReportHour', 'X')"
           :options="reportHours"
         >
@@ -121,20 +127,24 @@
           name="report_type"
           :disabled="reportTypes.length === 1"
           :model-value="report.type"
-          @update:model-value="report.type = $event; changedReportType()"
+          @update:model-value="$emit('change', { prop: 'type', value: $event })"
           :title="translate('ScheduledReports_ReportType')"
           :options="reportTypeOptions"
         >
         </Field>
       </div>
-      <div v-for="(reportType, reportFormats) in reportFormatsByReportTypeOptions">
+      <div
+        v-for="(reportType, reportFormats) in reportFormatsByReportTypeOptions"
+        :key="reportType"
+      >
         <Field
           uicontrol="select"
           name="report_format"
           :title="translate('ScheduledReports_ReportFormat')"
           :class="reportType"
           v-show="report.type === reportType"
-          v-model="report[`format${reportType}`]"
+          :model-value="report[`format${reportType}`]"
+          @update:model-value="$emit('change', { prop: `format${reportType}`, value: $event })"
           :options="reportFormats"
         >
         </Field>
@@ -149,7 +159,8 @@
           <Field
             uicontrol="select"
             name="display_format"
-            v-model="report.displayFormat"
+            :model-value="report.displayFormat"
+            @update:model-value="$emit('change', { prop: 'displayFormat', value: $event })"
             :options="displayFormats"
             :introduction="translate('ScheduledReports_AggregateReportsFormat')"
           >
@@ -161,7 +172,8 @@
             name="report_evolution_graph"
             :title="translate('ScheduledReports_EvolutionGraph', 5)"
             v-show="report.displayFormat in [2, '2', 3, '3']"
-            v-model="report.evolutionGraph"
+            :model-value="report.evolutionGraph"
+            @update:model-value="$emit('change', { prop: 'evolutionGraph', value: $event })"
           >
           </Field>
         </div>
@@ -175,11 +187,11 @@
                 id="report_evolution_period_for_each"
                 name="report_evolution_period_for"
                 type="radio"
-                checked
-                v-model="actualReport.evolutionPeriodFor"
+                value="each"
+                :checked="report.evolutionPeriodFor === 'each'"
+                @change="$emit('change', { prop: 'evolutionPeriodFor', value: $event })"
               />
-              <span v-html="$sanitize(evolutionGraphsShowForEachInPeriod)">
-                  </span>
+              <span v-html="$sanitize(evolutionGraphsShowForEachInPeriod)"></span>
             </label>
           </div>
           <div class="col s12">
@@ -188,18 +200,22 @@
                 id="report_evolution_period_for_prev"
                 name="report_evolution_period_for"
                 type="radio"
-                v-model="actualReport.evolutionPeriodFor"
+                value="prev"
+                :checked="report.evolutionPeriodFor === 'prev'"
+                @change="$emit('change', { prop: 'evolutionPeriodFor', value: $event })"
               />
               <span>{{ translate(
                 'ScheduledReports_EvolutionGraphsShowForPreviousN',
                 frequencyPeriodPlural,
               ) }}:
-                    <input
-                      type="number"
-                      name="report_evolution_period_n"
-                      v-model="report.evolutionPeriodN"
-                    />
-                  </span>
+                <input
+                  type="number"
+                  name="report_evolution_period_n"
+                  :value="report.evolutionPeriodN"
+                  @keydown="onEvolutionPeriodN($event)"
+                  @change="onEvolutionPeriodN($event)"
+                />
+              </span>
             </label>
           </div>
         </div>
@@ -212,19 +228,23 @@
         :class="`row ${reportType}`"
         v-show="report.type === reportType"
         v-for="(reportType, reportColumns) in reportsByCategoryByReportTypeInColumns"
+        :key="reportType"
       >
-        <div class="col s12 m6" v-for="reportsByCategory in reportColumns">
-          <div v-for="(category, reports) in reportsByCategory">
+        <div class="col s12 m6" v-for="(reportsByCategory, index) in reportColumns" :key="index">
+          <div v-for="(category, reports) in reportsByCategory" :key="category">
             <h3 class="reportCategory">{{ category }}</h3>
             <ul class="listReports">
-              <li v-for="report in reports">
+              <li v-for="report in reports" :key="report.uniqueId">
                 <label>
                   <input
                     :name="`${reportType}Reports`"
                     :type="allowMultipleReportsByReportType[reportType] ? 'checkbox' : 'radio'"
                     :id="`${reportType}${report.uniqueId}`"
                     :checked="selectedReports[reportType]?.[report.uniqueId]"
-                    @change="$emit('toggleSelectedReport', { reportType, uniqueId: report.uniqueId })"
+                    @change="$emit('toggleSelectedReport', {
+                      reportType,
+                      uniqueId: report.uniqueId,
+                    })"
                   />
                   <span>{{ report.name }}</span>
                   <div class="entityInlineHelp" v-if="report.uniqueId === 'MultiSites_getAll'">
@@ -237,11 +257,6 @@
           </div>
         </div>
       </div>
-      <input
-        type="hidden"
-        id="report_idreport"
-        v-model="editingReportId"
-      />
       <SaveButton
         :value="saveButtonTitle"
         @confirm="$emit('submit')"
@@ -257,9 +272,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentBlock, Matomo, translate } from 'CoreHome';
+import {
+  ContentBlock,
+  Matomo,
+  translate,
+  debounce,
+} from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
-import { Report } from '../types';
 import { adjustHourToTimezone } from '../utilities';
 
 interface Option {
@@ -271,7 +290,10 @@ const { ReportPlugin } = window;
 
 export default defineComponent({
   props: {
-    report: Object,
+    report: {
+      type: Object,
+      required: true,
+    },
     selectedReports: Object,
     paramPeriods: {
       type: Object,
@@ -306,7 +328,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['submit'],
+  emits: ['submit', 'change'],
   components: {
     ContentBlock,
     Field,
@@ -315,22 +337,40 @@ export default defineComponent({
   directives: {
     Form,
   },
+  created() {
+    this.onEvolutionPeriodN = debounce(this.onEvolutionPeriodN, 50);
+  },
+  methods: {
+    onEvolutionPeriodN(value: number) {
+      this.$emit('change', 'evolutionPeriodN', value);
+    },
+  },
   computed: {
     reportsByCategoryByReportTypeInColumns() {
       const reportsByCategoryByReportType = this.reportsByCategoryByReportType as
-        Record<string, Record<string, Report[]>>;
+        Record<string, Record<string, unknown[]>>;
 
-      const inColumns = Object.values(reportsByCategoryByReportType).map((reportsByCategory) => {
-        const newColumnAfter = Math.floor((reportsByCategory.length + 1) / 2);
-        const column1 = reportsByCategory.slice(0, newColumnAfter);
-        const column2 = reportsByCategory.slice(newColumnAfter);
-        return [column1, column2];
-      });
+      const inColumns = Object.entries(reportsByCategoryByReportType).map(
+        ([key, reportsByCategory]) => {
+          const newColumnAfter = Math.floor((Object.keys(reportsByCategory).length + 1) / 2);
 
-      return Object.fromEntries(
-        Object.keys(reportsByCategoryByReportType),
-        inColumns,
+          const column1: Record<string, unknown[]> = {};
+          const column2: Record<string, unknown[]> = {};
+
+          let currentColumn = column1;
+          Object.entries(reportsByCategory).forEach(([category, reports]) => {
+            currentColumn[category] = reports;
+
+            if (Object.keys(currentColumn).length > newColumnAfter) {
+              currentColumn = column2;
+            }
+          });
+
+          return [key, [column1, column2]];
+        },
       );
+
+      return Object.fromEntries(inColumns);
     },
     entityCancelText() {
       return translate(
@@ -387,7 +427,7 @@ export default defineComponent({
     reportHours() {
       const hours: Option[] = [];
       for (let i = 0; i < 24; i += 1) {
-        if (this.timeZoneDifferenceInHours * 2 % 2 != 0) {
+        if ((this.timeZoneDifferenceInHours * 2) % 2 !== 0) {
           hours.push({
             key: `${i}.5`,
             value: `${i}:30`,

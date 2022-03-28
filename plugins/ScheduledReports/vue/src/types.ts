@@ -12,6 +12,8 @@ export interface ReportParameters {
 }
 
 export interface Report {
+  [name: string]: unknown;
+
   idreport: string|number;
   idsite: string|number;
   login: string;
@@ -50,7 +52,7 @@ interface ReportPluginGlobal {
 declare global {
   interface Window {
     ReportPlugin: ReportPluginGlobal;
-    getReportParametersFunctions: Record<string, (report: Report) => void>;
+    getReportParametersFunctions: Record<string, (report: Report) => QueryParameters>;
     resetReportParametersFunctions: Record<string, (report: Report) => void>;
     updateReportParametersFunctions: Record<string, (report: Report) => void>;
   }

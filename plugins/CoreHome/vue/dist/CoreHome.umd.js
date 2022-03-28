@@ -2045,6 +2045,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.setErrorElement(options.errorElement);
       }
 
+      if (options.redirectOnSuccess) {
+        helper.redirectOnSuccess(options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined);
+      }
+
       helper.setFormat(options.format || 'json');
 
       if (Array.isArray(params)) {

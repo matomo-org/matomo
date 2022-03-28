@@ -6,18 +6,11 @@
 
 // TODO
 <todo>
-- conversion check (mistakes get fixed in quickmigrate)
-- property types
-- state types
-- look over template
-- look over component code
 - get to build
 - REMOVE DUPLICATE CODE IN TEMPLATE
 - test in UI
 - check uses:
   ./plugins/ScheduledReports/templates/index.twig
-  ./plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.controller.js
-  ./plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.directive.js
 - create PR
 </todo>
 
@@ -75,6 +68,7 @@
         :site-name="siteName"
         :selected-reports="selectedReports"
         @toggle-selected-report="selectedReports[$event.reportType][$event.uniqueId]"
+        @change="onChangeProperty($event.prop, $event.value)"
         @submit="submitReport()"
       />
 
@@ -89,11 +83,10 @@ import {
   translate,
   Matomo,
   NotificationsStore,
-  ContentBlock,
   ContentTable,
   AjaxHelper,
 } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import { Form } from 'CorePluginsAdmin';
 import AddReport from '../AddReport/AddReport.vue';
 import ListReports from '../ListReports/ListReports.vue';
 import { Report } from '../types';
@@ -101,12 +94,12 @@ import { adjustHourToTimezone } from '../utilities';
 
 interface ManageScheduledReportState {
   showReportsList: boolean;
-  actualReport: Report;
+  report: Report;
   selectedReports: Record<string, Record<string, boolean>>;
 }
 
 function scrollToTop() {
-  Matomo.helper.lazyScrollTo(".emailReports", 200);
+  Matomo.helper.lazyScrollTo('.emailReports', 200);
 }
 
 function updateParameters(reportType: string, report: Report) {
@@ -197,9 +190,6 @@ export default defineComponent({
   components: {
     AddReport,
     ListReports,
-    ContentBlock,
-    Field,
-    SaveButton,
   },
   directives: {
     ContentTable,
@@ -213,7 +203,7 @@ export default defineComponent({
   data(): ManageScheduledReportState {
     return {
       showReportsList: true,
-      actualReport: {} as unknown as Report, // TODO: set evolution period for = 'prev' initially
+      report: {} as unknown as Report,
       selectedReports: {},
     };
   },
@@ -264,7 +254,7 @@ export default defineComponent({
       Object.keys(report.reports).forEach((key) => {
         this.selectedReports[report.type] = this.selectedReports[report.type] || {};
         this.selectedReports[report.type][key] = true;
-      })
+      });
 
       report[`format${report.type}`] = report.format;
 
@@ -334,7 +324,7 @@ export default defineComponent({
         description: this.report.description,
         idSegment: this.report.idsegment,
         reportType: this.report.type,
-        reportFormat: this.report[`format${this.report.type}`],
+        reportFormat: this.report[`format${this.report.type}`] as string,
         periodParam: this.report.periodParam,
         evolutionPeriodFor: this.report.evolutionPeriodFor,
       };
@@ -343,20 +333,20 @@ export default defineComponent({
         apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
       }
 
-      const period = this.report.period;
-      const hour = adjustHourToTimezone(this.report.hour, -timeZoneDifferenceInHours);
+      const { period } = this.report;
+      const hour = adjustHourToTimezone(this.report.hour as string, -timeZoneDifferenceInHours);
 
-      const reports = Object.keys(this.selectedReports[apiParameters.reportType]).filter(
-        (name) => this.selectedReports[apiParameters.reportType][name],
+      const reports = Object.keys(this.selectedReports[apiParameters.reportType as string]).filter(
+        (name) => this.selectedReports[apiParameters.reportType as string][name],
       );
 
       if (reports.length > 0) {
-        apiParameters.reports = this.reports;
+        apiParameters.reports = reports;
       }
 
       apiParameters.parameters = window.getReportParametersFunctions[this.report.type](this.report);
 
-      const isCreate = this.report.idReport > 0;
+      const isCreate = this.report.idreport > 0;
       AjaxHelper.post(
         {
           method: isCreate ? 'ScheduledReports.updateReport' : 'ScheduledReports.addReport',
@@ -374,6 +364,13 @@ export default defineComponent({
         );
       });
       return false;
+    },
+    onChangeProperty(propName: string, value: unknown) {
+      this.report[propName] = value;
+
+      if (propName === 'type') {
+        this.changedReportType();
+      }
     },
   },
   computed: {

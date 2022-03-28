@@ -93,6 +93,7 @@ declare global {
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
     hideAjaxError(): void;
+    refreshAfter(timeoutPeriod: number): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;

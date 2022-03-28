@@ -29,8 +29,8 @@
           <br />
           {{ translate('ScheduledReports_MustBeLoggedIn') }}
           <br />&rsaquo; <a :href="`index.php?module=${loginModule}`">
-          {{ translate('Login_LogIn') }}
-        </a>
+            {{ translate('Login_LogIn') }}
+          </a>
           <br /><br />
         </td>
       </tr>
@@ -41,7 +41,7 @@
           <br /><br />
         </td>
       </tr>
-      <tr v-for="report in reports">
+      <tr v-for="report in reports" :key="report.idreport">
         <td class="first">
           {{ report.description }}
           <div
@@ -64,13 +64,13 @@
           <span v-if="report.format">{{ report.format.toUpperCase() }}</span>
         </td>
         <td>
-              <span v-if="report.recipients.length === 0">
-                {{ translate('ScheduledReports_NoRecipients') }}
-              </span>
-          <span v-for="recipient in report.recipients">
-                {{ recipient }}
-                <br />
-              </span>
+          <span v-if="report.recipients.length === 0">
+            {{ translate('ScheduledReports_NoRecipients') }}
+          </span>
+          <span v-for="(recipient, index) in report.recipients" :key="index">
+            {{ recipient }}
+            <br />
+          </span>
 
           <a
             href="#"
@@ -167,11 +167,9 @@ import { defineComponent } from 'vue';
 import {
   ContentBlock,
   ContentTable,
-  translate,
   MatomoUrl,
   Matomo,
 } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
 
 export default defineComponent({
   props: {
@@ -216,7 +214,6 @@ export default defineComponent({
   },
   components: {
     ContentBlock,
-    Field,
   },
   directives: {
     ContentTable,
@@ -226,8 +223,7 @@ export default defineComponent({
     linkTo(params: QueryParameters) {
       return `?${MatomoUrl.stringify(params)}`;
     },
-    // TODO
-    displayReport(reportId) {
+    displayReport(reportId: number|string) {
       $(`#downloadReportForm_${reportId}`).submit();
     },
   },

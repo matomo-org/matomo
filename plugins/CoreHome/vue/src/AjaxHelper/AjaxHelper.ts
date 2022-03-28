@@ -191,7 +191,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.setErrorElement(options.errorElement);
     }
     if (options.redirectOnSuccess) {
-      helper.redirectOnSuccess(options.redirectOnSuccess || undefined);
+      helper.redirectOnSuccess(
+        options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined,
+      );
     }
     helper.setFormat(options.format || 'json');
     if (Array.isArray(params)) {
