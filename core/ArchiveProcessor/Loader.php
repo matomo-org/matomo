@@ -442,10 +442,11 @@ class Loader
                 $dateToInvalidate = Date::factory($date);
                 $idSite = $this->params->getSite()->getId();
                 $timezone = Site::getTimezoneFor($idSite);
+                $isDateToday = ((string)$dateToInvalidate) == ((string)Date::factoryInTimezone('today', $timezone));
 
                 $anySiteRequiresGeneralCache = $anySiteRequiresGeneralCache // a previous site required a general cache clear but because of the 4s interval we might not have executed it just yet. We carry this "true" flag forward until the 4seconds have past or it's the end of the function to make sure it will be executed at some point
                     || $isBrowserTriggerEnabled  // when browser archiving is used then to be safe we always want to invalidate the general cache as otherwise invalidating of today might not happen.
-                    || ((string)$dateToInvalidate) != ((string)Date::factoryInTimezone('today', $timezone));  // date is not for today. this means we need to invalidate the general cache so a new tracking request for the same date can set the flag again that another archive invalidation is needed. this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
+                    || !$isDateToday;  // invalidation is not for today. this means we need to invalidate the general cache so a new tracking request for the same date can set the flag again that another archive invalidation is needed. this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
 
                 if (time() - $timeCacheLastCleared >= 4 && $anySiteRequiresGeneralCache) {
                     // for performance reason we don't want to clear the cache for every site but only once per 4 seconds.
