@@ -431,17 +431,30 @@ class Loader
         }
 
         $timeCacheLastCleared = time();
+        $anySiteRequiresGeneralCache = false;
+        $clearCache = false;
+        $isBrowserTriggerEnabled = Rules::isBrowserTriggerEnabled();
 
         foreach ($sitesPerDays as $date => $siteIds) {
             $clearCache = false;
 
-            if (time() - $timeCacheLastCleared >= 4) {
-                // for performance reason we don't want to clear the cache for every site but only once per 4 seconds.
-                $clearCache = true;
-                $timeCacheLastCleared = time();
-            }
             try {
-                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment(),
+                $dateToInvalidate = Date::factory($date);
+                $idSite = $this->params->getSite()->getId();
+                $timezone = Site::getTimezoneFor($idSite);
+
+                $anySiteRequiresGeneralCache = $anySiteRequiresGeneralCache // a previous site required a general cache clear but because of the 4s interval we might not have executed it just yet. We carry this "true" flag forward until the 4seconds have past or it's the end of the function to make sure it will be executed at some point
+                    || $isBrowserTriggerEnabled  // when browser archiving is used then to be safe we always want to invalidate the general cache as otherwise invalidating of today might not happen.
+                    || ((string)$dateToInvalidate) != ((string)Date::factoryInTimezone('today', $timezone));  // date is not for today. this means we need to invalidate the general cache so a new tracking request for the same date can set the flag again that another archive invalidation is needed. this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
+
+                if (time() - $timeCacheLastCleared >= 4 && $anySiteRequiresGeneralCache) {
+                    // for performance reason we don't want to clear the cache for every site but only once per 4 seconds.
+                    $clearCache = true;
+                    $timeCacheLastCleared = time();
+                    $anySiteRequiresGeneralCache = false; // make sure we only execute a clear cache again if another period needs it
+                }
+
+                $this->invalidator->markArchivesAsInvalidated([$idSite], array($dateToInvalidate), false, $this->params->getSegment(),
                                     $cascadeDown = false, $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false, $clearCache);
             } catch (\Exception $e) {
                 Site::clearCache();
@@ -450,7 +463,7 @@ class Loader
             }
         }
 
-        if (empty($clearCache)) {
+        if (!$clearCache && $anySiteRequiresGeneralCache) {
             // make sure the general cache is cleared if we didn't clear it in the last run
             Tracker\Cache::clearCacheGeneral();
         }
