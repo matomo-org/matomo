@@ -175,9 +175,9 @@ describe("CustomDimensions", function () {
             await page.goto(reportUrlDimension3);
             await (await page.jQuery('.dataTable .subDataTable .value:contains(en):first')).click();
             await page.waitForNetworkIdle();
-            await page.waitForTimeout(100);
-            await (await page.jQuery('td.label:contains(en_US)')).hover();
-            await page.waitForTimeout(100);
+            await page.waitForTimeout(200);
+            await (await page.jQuery('td.label:contains(en_US):visible')).hover();
+            await page.waitForTimeout(200);
             await triggerRowAction('en_US', 'actionTransitions');
         });
     });
