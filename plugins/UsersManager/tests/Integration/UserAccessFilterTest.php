@@ -300,6 +300,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         $model->addUser('login6', md5('pass'), 'email6@example.com', '2008-01-01 00:00:00');
         $model->addUser('login7', md5('pass'), 'email7@example.com', '2008-01-01 00:00:00');
         $model->addUser('login8', md5('pass'), 'email8@example.com', '2008-01-01 00:00:00');
+        $model->addUser('pendingUser', md5('pass'), 'pendingUser@example.com', '2008-01-01 00:00:00',true);
         $model->addUser('anonymous', '', 'ano@example.com', '2008-01-01 00:00:00');
 
         $model->setSuperUserAccess('login1', true); // we treat this one as our superuser

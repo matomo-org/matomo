@@ -515,10 +515,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
 
         }
+
+        //if user not match the invite user
         if (!$user || $userLogin !== $user['login']) {
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
+        //if form is blank
         if (!empty($form)) {
             $password = Common::getRequestVar('password', false, 'string');
             $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
@@ -527,13 +530,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $view->AccessErrorString = Piwik::translate('Login_PasswordRequired');
             }
 
+            //not accept terms
             if (!$terms) {
                 $view->AccessErrorString = Piwik::translate('Login_TermsRequired');
             }
+
+            //valid password
             if (!UsersManager::isValidPasswordString($password)) {
                 $view->AccessErrorString = Piwik::translate('UsersManager_ExceptionInvalidPassword',
                   array(UsersManager::PASSWORD_MIN_LENGTH));
             }
+            //confirm matching password
             if ($password !== $passwordConfirmation) {
                 $view->AccessErrorString = Piwik::translate('Login_PasswordsDoNotMatch');
             }
@@ -544,6 +551,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // password may have already been fully hashed
                 $password = $passwordHelper->hash($password);
             }
+
+            //update pending user to active user
             $model->updateUserFields($user['login'], ['password' => $password, 'invited_at' => null]);
             $sessionInitializer = new SessionInitializer();
             $auth = StaticContainer::get('Piwik\Auth');

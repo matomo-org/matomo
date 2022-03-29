@@ -40,6 +40,7 @@ class ModelTest extends IntegrationTestCase
 
     private $login = 'userLogin';
     private $login2 = 'userLogin2';
+    private $login3 ='pendingLogin3';
 
     public function setUp(): void
     {
@@ -56,6 +57,8 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, 'password', 'userlogin@password.de');
         $this->api->addUser($this->login2, 'password2', 'userlogin2@password.de');
+        $this->api->inviteUser($this->login3, 'password2', 'pendingUser3@password.de');
+
     }
 
     public function test_getSitesAccessFromUser_noAccess()
@@ -374,6 +377,11 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($id4, $tokens[0]['idusertokenauth']);
         $this->assertEquals($id5, $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
+    }
+
+    public function test_inviteUser()
+    {
+
     }
 
 }

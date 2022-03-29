@@ -165,6 +165,17 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
     });
 
+    it('should show resend confirm when resend clicked', async function () {
+        await (await page.jQuery('.resend:eq(0)')).click();
+
+        expect(await pageWrap.screenshot()).to.matchImage('resend_popup');
+
+        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForNetworkIdle();
+
+
+    });
+
     it('should delete a single user when the modal is confirmed is clicked', async function () {
         await (await page.jQuery('.deleteuser:eq(0)')).click();
         await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
