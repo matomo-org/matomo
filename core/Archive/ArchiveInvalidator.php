@@ -271,6 +271,10 @@ class ArchiveInvalidator
 
         $invalidationInfo = new InvalidationResult();
 
+        // when browser archiving is used then to be safe we always want to invalidate the general cache as otherwise
+        // invalidating of today might not happen.
+        $requiresGeneralCacheInvalidation = Rules::isBrowserTriggerEnabled();
+
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
         // to reprocess.
         $hasMoreThanJustToday = [];
@@ -282,7 +286,13 @@ class ArchiveInvalidator
                 && count($dates) == 1
                 && ((string)$dates[0]) == ((string)Date::factoryInTimezone('today', $tz))
             ) {
+                // date is for today
                 $hasMoreThanJustToday[$idSite] = false;
+            } else {
+                // date is not for today. this means we need to invalidate the general cache so a new tracking request
+                // for the same date can set the flag again that another archive invalidation is needed.
+                // this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
+                $requiresGeneralCacheInvalidation = true;
             }
         }
 
@@ -331,7 +341,7 @@ class ArchiveInvalidator
             }
         }
 
-        if ($clearCache) {
+        if ($clearCache && $requiresGeneralCacheInvalidation) {
             Cache::clearCacheGeneral();
         }
 
