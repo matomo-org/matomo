@@ -1,8 +1,8 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Buka di jendela baru",
-        "PluginDescription": "Tampilkan laporan Matomo apa pun di situs web atau aplikasi Anda dengan tag HTML \"sematkan\" sederhana.",
-        "TooHighAccessLevel": "Pengguna ini memiliki akses super-user. Menyematkan widget dengan autentikasi token super-user tidak diperbolehkan. %1$sPeriksa FAQ untuk melihat info lebih lanjut.%2$s",
+        "PluginDescription": "Tampilkan laporan Matomo apa pun di situs web atau aplikasi Anda dengan \"penyematan\" tag HTML sederhana.",
+        "TooHighAccessLevel": "Pengguna ini memiliki akses pengguna super. Menyematkan widget dengan autentikasi token pengguna super tidak diperbolehkan. %1$sPeriksa FAQ untuk info lebih lanjut.%2$s",
         "TopLinkTooltip": "Ekspor laporan Matomo sebagai widget dan sematkan dalam dasbor di aplikasi Anda sebagai iframe.",
         "ViewAccessRequired": "Pengguna ini memiliki setidaknya beberapa akses tulis. Hanya token pengguna yang hanya memiliki akses lihat yang dapat digunakan. Periksa %1$s untuk melihat info lebih lanjut."
     }
