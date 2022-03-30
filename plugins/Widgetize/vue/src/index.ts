@@ -7,3 +7,4 @@
 
 export { default as WidgetPreviewIframe } from './WidgetPreview/WidgetPreviewIframe.vue';
 export { default as WidgetPreview } from './WidgetPreview/WidgetPreview.vue';
+export { default as ExportWidget } from './ExportWidget/ExportWidget.vue';
