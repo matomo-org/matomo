@@ -11,6 +11,11 @@
 
 <div>
 
+<div
+  vue-entry="Widgetize.ExportWidget"
+  title="{{ title|default(null)|json_encode|e('html_attr') }}"
+  export-widget="{{ exportWidget|default(null)|json_encode|e('html_attr') }}"
+></div>
 <div class="widgetize" ng-controller="ExportWidgetController as exportWidget">
 <div piwik-content-intro>
     <h2 piwik-enriched-headline>{{ title|e('html_attr') }}</h2>
@@ -19,15 +24,15 @@
 <div piwik-content-block content-title="Authentication">
     <p>
         If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions
-        to the anonymous user in the <a href='index.php?module=UsersManager' rel='noreferrer noopener' target='_blank'>Users Management section</a>.
+        to the anonymous user in the <a href="index.php?module=UsersManager" rel="noreferrer noopener" target="_blank">Users Management section</a>.
         <br/>Alternatively, if you are publishing widgets on a password protected or private page,
         you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret <code>token_auth</code> parameter in the widget URL.
-        You can manage your auth tokens on your <a href='{{ linkTo({'module':'UsersManager','action':'userSecurity'}) }}' rel='noreferrer noopener' target='_blank'>Security page</a>.
+        You can manage your auth tokens on your <a href="{{ linkTo({'module':'UsersManager','action':'userSecurity'}) }}" rel="noreferrer noopener" target="_blank">Security page</a>.
     </p>
 </div>
 <div piwik-content-block content-title="Widgetize dashboards">
     <p>You can also display the full Matomo dashboard in your application or website in an IFRAME
-        (<a ng-href='{{ '{{ exportWidget.dashboardUrl }}'|raw }}' rel='noreferrer noopener' target='_blank' >see example</a>).
+        (<a ng-href="{{ exportWidget.dashboardUrl }}" rel="noreferrer noopener" target="_blank" >see example</a>).
         The date parameter can be set to a specific calendar date, "today", or "yesterday". The period parameter can be set to "day", "week", "month", or
         "year".
         The language parameter can be set to the language code of a translation, such as language=fr.
@@ -39,7 +44,7 @@
 
         <br />
         You can also widgetize the all websites dashboard in an IFRAME
-        (<a ng-href='{{ '{{ exportWidget.allWebsitesDashboardUrl }}'|raw }}' rel='noreferrer noopener' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
+        (<a ng-href="{{ exportWidget.allWebsitesDashboardUrl }}" rel="noreferrer noopener" target="_blank" id="linkAllWebsitesDashboardUrl">see example</a>)
 
         <br />
 
