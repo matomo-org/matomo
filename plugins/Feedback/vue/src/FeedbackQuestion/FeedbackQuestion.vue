@@ -24,8 +24,8 @@
         >
           <h2>{{ translate(`Feedback_Question${question}`) }}</h2>
           <p
-            v-html="translate('Feedback_FeedbackSubtitle',
-            `<i class='icon-heart red-text'></i>`)"></p>
+            v-html="$sanitize(translate('Feedback_FeedbackSubtitle',
+            `<i class='icon-heart red-text'></i>`))"></p>
           <br/>
           <div class="messageContainer">
             <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
@@ -33,7 +33,7 @@
           </div>
           <br/>
           <p
-            v-html="translate('Feedback_Policy',`<a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>`,'</a>')"></p>
+            v-html="$sanitize(feedbackPolicy)"></p>
           <input
             type="button"
             role="validation"
@@ -51,8 +51,8 @@
           class="ui-confirm ratefeatureDialog"
         >
           <h2>{{ translate(`Feedback_ThankYou`) }}</h2>
-          <p v-html="translate('Feedback_ThankYourForFeedback',
-        `<i class='icon-heart red-text'></i>`)">
+          <p v-html="$sanitize(translate('Feedback_ThankYourForFeedback',
+        `<i class='icon-heart red-text'></i>`))">
           </p>
           <input
             type="button"
@@ -102,6 +102,13 @@ export default defineComponent({
         return true;
       }
       return !!this.hide;
+    },
+    feedbackPolicy() {
+      return translate(
+        'Feedback_Policy',
+        '<a rel="nofollow" href="https://matomo.org/privacy-policy/" target="_blank">',
+        '</a>',
+      );
     },
   },
   data(): FeedbackQuestionState {

@@ -38,7 +38,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         parent::setUp();
     }
-    
+
     public function test_TestCaseHasSetGroupsMethod()
     {
         // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
@@ -694,6 +694,31 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEmpty($filesThatDoNotExist, 'The following asset files in UIAssetFetcher::$bowerComponentFileMappings do not exist: '
             . implode(', ', $filesThatDoNotExist));
+    }
+
+    public function test_noVueHtmlWithoutSanitize()
+    {
+        $command = 'grep -r "v-html=" ' . PIWIK_INCLUDE_PATH . '/plugins --include=*.vue | grep -v "v-html=[\'\\"]\\$sanitize"';
+        $output = shell_exec($command);
+
+        $errorMessage = "";
+        if (!empty($output)) {
+            $lines = explode("\n", $output);
+
+            $files = [];
+            foreach ($lines as $line) {
+                if (empty(trim($line))) {
+                    continue;
+                }
+
+                list($file, $match) = explode(':', $line);
+                $files[] = '- ' . trim($file);
+            }
+
+            $errorMessage = "Found uses of v-html without \$sanitize:\n" . implode("\n", $files);
+        }
+
+        $this->assertEmpty($output, $errorMessage);
     }
 
     /**

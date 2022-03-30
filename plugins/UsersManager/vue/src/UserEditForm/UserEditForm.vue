@@ -270,7 +270,7 @@
     </div>
     <div class="change-password-modal modal" ref="changePasswordModal">
       <div class="modal-content">
-        <h2 v-html="changePasswordTitle"></h2>
+        <h2 v-html="$sanitize(changePasswordTitle)"></h2>
         <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
         <div>
           <Field

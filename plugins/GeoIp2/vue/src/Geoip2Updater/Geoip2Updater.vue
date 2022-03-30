@@ -19,7 +19,7 @@
                 <p>{{ translate('GeoIp2_IWantToDownloadFreeGeoIP') }}<sup><small>*</small></sup></p>
               </div>
               <div class="geoipdb-column-2 col s6">
-                <p v-html="purchasedGeoIpText"></p>
+                <p v-html="$sanitize(purchasedGeoIpText)"></p>
               </div>
               <div class="geoipdb-column-1 col s6">
                 <input
@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="row">
-              <p><sup>* <small v-html="accuracyNote"></small></sup></p>
+              <p><sup>* <small v-html="$sanitize(accuracyNote)"></small></sup></p>
             </div>
           </div>
         </div>
@@ -63,10 +63,10 @@
         v-if="geoipDatabaseInstalled && !downloadErrorMessage"
       >
         <p>
-          <span v-html="geoIPUpdaterInstructions"></span>
+          <span v-html="$sanitize(geoIPUpdaterInstructions)"></span>
           <br /><br />
-          <span v-if="!!dbipLiteUrl" v-html="geoliteCityLink"></span>
-          <span v-html="maxMindLinkExplanation"></span>
+          <span v-if="!!dbipLiteUrl" v-html="$sanitize(geoliteCityLink)"></span>
+          <span v-html="$sanitize(maxMindLinkExplanation)"></span>
           <span v-show="geoipDatabaseInstalled">
             <br /><br />{{ translate('GeoIp2_GeoIPUpdaterIntro') }}:
           </span>
