@@ -36,14 +36,14 @@ class RequestSet
         if (empty($requests)|| !is_array($requests)) {
             return;
         }
-        
+
         foreach ($requests as $request) {
             if (empty($request) && !is_array($request)) {
                 continue;
             }
 
             if (!$request instanceof Request) {
-                $request = new Request($request, $this->getTokenAuth());
+                $request = new Request($request, $this->getTokenAuth(), getallheaders(), $_SERVER['REQUEST_METHOD']);
             }
 
             $this->requests[] = $request;

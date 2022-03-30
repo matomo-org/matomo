@@ -381,6 +381,10 @@ abstract class Action
      */
     public function record(Visitor $visitor, $idReferrerActionUrl, $idReferrerActionName)
     {
+        if ($this->request->isPreFightCorsRequest()) {
+            return;
+        }
+
         $this->loadIdsFromLogActionTable();
 
         $visitAction = array(
