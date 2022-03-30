@@ -449,6 +449,10 @@ class Archive implements ArchiveQuery
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        if (!empty($idSubtable) && !is_numeric($idSubtable)) {
+            throw new \Exception("idSubtable needs to be a number, '$idSubtable' given.");
+        }
+
         if ($flat && !$idSubtable) {
             $expanded = true;
         }
