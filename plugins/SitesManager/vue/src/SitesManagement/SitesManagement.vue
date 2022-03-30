@@ -26,7 +26,7 @@
 
           <span v-show="hasSuperUserAccess">
             <br/>
-            <span v-html="superUserAccessMessage"></span>
+            <span v-html="$sanitize(superUserAccessMessage)"></span>
         </span>
         </p>
       </div>
