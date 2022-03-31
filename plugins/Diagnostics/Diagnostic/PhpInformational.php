@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\CliMulti\CliPhp;
 use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
@@ -39,78 +40,38 @@ class PhpInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('PHP_BINARY', PHP_BINARY);
         }
 
-
-        $results[] = DiagnosticResult::informationalResult('PHP SAPI', php_sapi_name());
-
-        // Check for php fpm
         $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
-        $disableDirectoryCheck = (Config::getInstance()->General['enable_required_directories_diagnostic'] == 0);
-
-        if (strpos(strtolower(php_sapi_name()), 'fpm-fcgi') !== false) {
-
-            // Add additional diagnostic item if SAPI is fpm-fcgi
-            $result = new DiagnosticResult($this->translator->translate('Diagnostics_PHPFPMRequiredPrivateDirectories'));
-
-            if($disableDirectoryCheck) {
-
-                // PHP-FPM, but directory check is disabled
-                $result->addItem(
-                    new DiagnosticResultItem(
-                        DiagnosticResult::STATUS_WARNING,
-                        $this->translator->translate('Diagnostics_EnableRequiredDirectoriesDiagnostic')
-                    )
-                );
-                $results[] = $result;
-
-            } else {
-
-                if (SettingsPiwik::isMatomoInstalled()) {
-                    $rpd = new RequiredPrivateDirectories($this->translator);
-                    $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
-                }
-
-                if ($isGlobalConfigIniAccessible) {
-
-                    // PHP-FPM, files are accessible
-
-                    $comment = php_sapi_name()."<br><br>";
-
-                    if (!empty($_SERVER['SERVER_SOFTWARE'])) {
-                        if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {
-                            $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningApache', [
-                                '<code>ProxyPass /config !</code>', '<code>mod_proxy_fcgi.c</code>', '<code>ProxyPassMatch</code>']);
-                        } else if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false) {
-                            $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningNginx', [
-                                '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);
-                        } else {
-                            $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningGeneric');
-                        }
-                    } else {
-                        $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningGeneric');
-                    }
-
-                    $result->addItem(
-                        new DiagnosticResultItem(
-                            DiagnosticResult::STATUS_WARNING,
-                            $comment
-                        )
-                    );
-                    $results[] = $result;
-
-                } else {
-
-                    // PHP-FPM but files are not accessible
-                     $result->addItem(
-                        new DiagnosticResultItem(
-                            DiagnosticResult::STATUS_OK
-                        )
-                    );
-                    $results[] = $result;
-                }
+        // Only attempt to check file accessibility if the config setting allows it
+        $disableFileAccessCheck = (GeneralConfig::getConfigValue('enable_required_directories_diagnostic') == 0);
+        if(!$disableFileAccessCheck) {
+            if (SettingsPiwik::isMatomoInstalled()) {
+                $rpd = new RequiredPrivateDirectories($this->translator);
+                $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
             }
-
         }
 
+        if (strpos(strtolower(php_sapi_name()), 'fpm-fcgi') !== false && $isGlobalConfigIniAccessible && !$disableFileAccessCheck) {
+
+            // Using PHP-FPM and private files are accessible
+            $comment = php_sapi_name()."<br><br>";
+
+            if (!empty($_SERVER['SERVER_SOFTWARE'])) {
+                if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {
+                    $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningApache', [
+                        '<code>ProxyPass /config !</code>', '<code>mod_proxy_fcgi.c</code>', '<code>ProxyPassMatch</code>']);
+                } else if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false) {
+                    $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningNginx', [
+                        '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);
+                } else {
+                    $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningGeneric');
+                }
+            } else {
+                $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningGeneric');
+            }
+            $results[] = DiagnosticResult::singleResult('PHP SAPI', DiagnosticResult::STATUS_WARNING, $comment);
+        } else {
+            $results[] = DiagnosticResult::informationalResult('PHP SAPI', php_sapi_name());
+        }
 
         if (SettingsPiwik::isMatomoInstalled()) {
             $cliPhp = new CliPhp();
