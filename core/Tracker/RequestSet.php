@@ -43,7 +43,7 @@ class RequestSet
             }
 
             if (!$request instanceof Request) {
-                $request = new Request($request, $this->getTokenAuth(),  $_SERVER, $_SERVER['REQUEST_METHOD']);
+                $request = new Request($request, $this->getTokenAuth(),  $_SERVER);
             }
 
             $this->requests[] = $request;
