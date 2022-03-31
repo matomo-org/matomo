@@ -205,8 +205,10 @@ class ArchiveInvalidator
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
     {
         $id = $this->buildRememberArchivedReportIdForSite($idSite) . '_';
-        $this->deleteOptionLike($id);
-        Cache::clearCacheGeneral();
+        $hasDeletedSomething = $this->deleteOptionLike($id);
+        if ($hasDeletedSomething) {
+            Cache::clearCacheGeneral();
+        }
     }
 
     /**
@@ -220,9 +222,14 @@ class ArchiveInvalidator
 
         // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
         //  So this must be a deleteLike call to get all the entries, where there used to only be one.
-        $this->deleteOptionLike($id);
+        return $this->deleteOptionLike($id);
     }
 
+    /**
+     * @param $id
+     * @return bool true if a record was deleted, false otherwise.
+     * @throws \Zend_Db_Statement_Exception
+     */
     private function deleteOptionLike($id)
     {
         // we're not using deleteLike since it maybe could cause deadlocks see https://github.com/matomo-org/matomo/issues/15545
@@ -230,7 +237,7 @@ class ArchiveInvalidator
         $keys = Option::getLike('%' . str_replace('_', '\_', $id) . '%');
 
         if (empty($keys)) {
-            return;
+            return false;
         }
 
         $keys = array_keys($keys);
@@ -238,7 +245,8 @@ class ArchiveInvalidator
         $placeholders = Common::getSqlStringFieldsArray($keys);
 
         $table = Common::prefixTable('option');
-        Db::query('DELETE FROM `' . $table . '` WHERE `option_name` IN (' . $placeholders . ')', $keys);
+        $db = Db::query('DELETE FROM `' . $table . '` WHERE `option_name` IN (' . $placeholders . ')', $keys);
+        return (bool) $db->rowCount();
     }
 
     /**
@@ -251,12 +259,11 @@ class ArchiveInvalidator
      * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      *                     or a plugin name to only archive the specific plugin.
      * @param bool $ignorePurgeLogDataDate
-     * @param bool $clearCache
      * @return InvalidationResult
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false, $clearCache = true)
+                                              $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false)
     {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
@@ -269,7 +276,9 @@ class ArchiveInvalidator
             throw new \Exception("Plugin is not activated: '$plugin'");
         }
 
+        $anySiteRequiresGeneralCache = false;
         $invalidationInfo = new InvalidationResult();
+        $isBrowserTriggerEnabled = Rules::isBrowserTriggerEnabled();
 
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
         // to reprocess.
@@ -284,6 +293,11 @@ class ArchiveInvalidator
             ) {
                 // date is for today
                 $hasMoreThanJustToday[$idSite] = false;
+            } else {
+                // invalidation is not for today.
+                // this means we need to try to invalidate the general cache so a new tracking request for the same date can set the flag again that another archive invalidation is needed. this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
+                $anySiteRequiresGeneralCache = $anySiteRequiresGeneralCache // a previous site required a general cache clear but because of the 4s interval we might not have executed it just yet. We carry this "true" flag forward until the 4seconds have past or it's the end of the function to make sure it will be executed at some point
+                    || $isBrowserTriggerEnabled;  // when browser archiving is used then to be safe we always want to invalidate the general cache as otherwise invalidating of today might not happen.
             }
         }
 
@@ -318,22 +332,25 @@ class ArchiveInvalidator
 
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
+
         if ($isInvalidatingDays
             && $isNotInvalidatingSegment
         ) {
+
+            $hasDeleted = true;
             foreach ($idSites as $idSite) {
                 foreach ($dates as $date) {
                     if (is_string($date)) {
                         $date = Date::factory($date);
                     }
 
-                    $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+                    $hasDeleted = $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date) || $hasDeleted;
                 }
             }
-        }
 
-        if ($clearCache) {
-            Cache::clearCacheGeneral();
+            if ($anySiteRequiresGeneralCache && $hasDeleted) {
+                Cache::clearCacheGeneral();
+            }
         }
 
         return $invalidationInfo;
