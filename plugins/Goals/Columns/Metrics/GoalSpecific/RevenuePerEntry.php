@@ -47,7 +47,7 @@ class RevenuePerEntry extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('goals', 'entry_nb_visits', 'revenue');
+        return array('goals', 'entry_nb_visits');
     }
 
     public function compute(Row $row)
