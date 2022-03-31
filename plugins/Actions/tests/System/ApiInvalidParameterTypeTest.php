@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\tests\System;
 
 use Piwik\API\Request;
+use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -50,6 +51,18 @@ class ApiInvalidParameterTypeTest extends IntegrationTestCase
         $urls = Request::processRequest('Actions.getPageUrls', [
             'idSite' => $idSite,
             'idSubtable' => 1, // valid
+            'period' => 'day',
+            'date' => '2015-03-04',
+            'flat' => '1',
+        ]);
+
+        $this->assertEquals(1, $urls->getRowsCount());
+
+        // Attempt to call the same API method with the 'all' idSubtable value
+        /** @var DataTable $urls */
+        $urls = Request::processRequest('Actions.getPageUrls', [
+            'idSite' => $idSite,
+            'idSubtable' => Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES, // valid
             'period' => 'day',
             'date' => '2015-03-04',
             'flat' => '1',

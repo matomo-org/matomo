@@ -441,7 +441,7 @@ class Archive implements ArchiveQuery
      * @param string $segment @see {@link build()}
      * @param bool $expanded If true, loads all subtables. See {@link getDataTableExpanded()}
      * @param bool $flat If true, loads all subtables and disabled all recursive filters.
-     * @param int|null $idSubtable See {@link getDataTableExpanded()}
+     * @param int|null|string $idSubtable See {@link getDataTableExpanded()}
      * @param int|null $depth See {@link getDataTableExpanded()}
      * @return DataTable|DataTable\Map
      */
@@ -449,8 +449,8 @@ class Archive implements ArchiveQuery
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if (!empty($idSubtable) && !is_numeric($idSubtable)) {
-            throw new \Exception("idSubtable needs to be a number, '$idSubtable' given.");
+        if (!empty($idSubtable) && (strtolower($idSubtable) !== self::ID_SUBTABLE_LOAD_ALL_SUBTABLES && !is_numeric($idSubtable))) {
+            throw new \Exception("idSubtable needs to be a number or '".self::ID_SUBTABLE_LOAD_ALL_SUBTABLES."', '$idSubtable' given.");
         }
 
         if ($flat && !$idSubtable) {
