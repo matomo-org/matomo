@@ -934,6 +934,6 @@ class Request
      */
     public function isPreFightCorsRequest()
     {
-        return $this->method === 'OPTIONS' && (isset($this->headers['Access-Control-Request-Headers']) || isset($this->headers['Access-Control-Request-Method']));
+        return $this->method === 'OPTIONS' && (!empty($this->headers['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($this->headers['HTTP_ACCESS_CONTROL_REQUEST_METHOD']));
     }
 }
