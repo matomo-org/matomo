@@ -330,23 +330,15 @@ class ArchiveInvalidator
             && $isNotInvalidatingSegment
         ) {
 
-            $isBrowserTriggerEnabled = Rules::isBrowserTriggerEnabled();
             $hasDeletedAny = false;
 
             foreach ($idSites as $idSite) {
-                $tz = Site::getTimezoneFor($idSite);
-
                 foreach ($dates as $date) {
                     if (is_string($date)) {
                         $date = Date::factory($date);
                     }
-                    $isToday = ((string)$date) == ((string)Date::factoryInTimezone('today', $tz));
 
-                    if (!$isToday || $isBrowserTriggerEnabled) {
-                        // invalidation is not for today. this means we need to try to invalidate the general cache so a new tracking request for the same date can set the flag again that another archive invalidation is needed. this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
-                        // when browser archiving is used, to be safe, we always want to invalidate the general cache as otherwise invalidating of today might not happen.
-                        $hasDeletedAny = $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date) || $hasDeletedAny;
-                    }
+                    $hasDeletedAny = $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date) || $hasDeletedAny;
                 }
             }
 
