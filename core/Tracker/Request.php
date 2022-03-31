@@ -45,7 +45,6 @@ class Request
     protected $tokenAuth;
 
 
-    protected $server;
 
     /**
      * Stores plugin specific tracking request metadata. RequestProcessors can store
@@ -63,9 +62,8 @@ class Request
     /**
      * @param $params
      * @param bool|string $tokenAuth
-     * @param null|array $server
      */
-    public function __construct($params, $tokenAuth = false, $server = null)
+    public function __construct($params, $tokenAuth = false)
     {
         if (!is_array($params)) {
             $params = array();
@@ -76,8 +74,6 @@ class Request
         $this->timestamp = time();
         $this->isEmptyRequest = empty($params);
 
-        //if request is options, pass $_SERVER param to check preFight cors
-        $this->server = (isset($server['REQUEST_METHOD']) && strtoupper($server['REQUEST_METHOD']) === 'OPTIONS') ? $server : null;
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
@@ -934,6 +930,6 @@ class Request
      */
     public function isPreFightCorsRequest()
     {
-        return !empty($this->server['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($this->server['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
+        return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
     }
 }
