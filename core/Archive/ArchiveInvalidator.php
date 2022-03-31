@@ -276,9 +276,7 @@ class ArchiveInvalidator
             throw new \Exception("Plugin is not activated: '$plugin'");
         }
 
-        $anySiteRequiresGeneralCache = false;
         $invalidationInfo = new InvalidationResult();
-        $isBrowserTriggerEnabled = Rules::isBrowserTriggerEnabled();
 
         // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
         // to reprocess.
@@ -293,11 +291,6 @@ class ArchiveInvalidator
             ) {
                 // date is for today
                 $hasMoreThanJustToday[$idSite] = false;
-            } else {
-                // invalidation is not for today.
-                // this means we need to try to invalidate the general cache so a new tracking request for the same date can set the flag again that another archive invalidation is needed. this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
-                $anySiteRequiresGeneralCache = $anySiteRequiresGeneralCache // a previous site required a general cache clear but because of the 4s interval we might not have executed it just yet. We carry this "true" flag forward until the 4seconds have past or it's the end of the function to make sure it will be executed at some point
-                    || $isBrowserTriggerEnabled;  // when browser archiving is used then to be safe we always want to invalidate the general cache as otherwise invalidating of today might not happen.
             }
         }
 
@@ -337,18 +330,27 @@ class ArchiveInvalidator
             && $isNotInvalidatingSegment
         ) {
 
-            $hasDeleted = true;
+            $isBrowserTriggerEnabled = Rules::isBrowserTriggerEnabled();
+            $hasDeletedAny = false;
+
             foreach ($idSites as $idSite) {
+                $tz = Site::getTimezoneFor($idSite);
+
                 foreach ($dates as $date) {
                     if (is_string($date)) {
                         $date = Date::factory($date);
                     }
+                    $isToday = ((string)$date) == ((string)Date::factoryInTimezone('today', $tz));
 
-                    $hasDeleted = $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date) || $hasDeleted;
+                    if (!$isToday || $isBrowserTriggerEnabled) {
+                        // invalidation is not for today. this means we need to try to invalidate the general cache so a new tracking request for the same date can set the flag again that another archive invalidation is needed. this behaviour is not needed for today as we always force archiving of "yesterday" anyway.
+                        // when browser archiving is used, to be safe, we always want to invalidate the general cache as otherwise invalidating of today might not happen.
+                        $hasDeletedAny = $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date) || $hasDeletedAny;
+                    }
                 }
             }
 
-            if ($anySiteRequiresGeneralCache && $hasDeleted) {
+            if ($hasDeletedAny) {
                 Cache::clearCacheGeneral();
             }
         }
