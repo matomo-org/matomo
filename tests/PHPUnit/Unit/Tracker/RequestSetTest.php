@@ -225,7 +225,7 @@ class RequestSetTest extends UnitTestCase
     {
         $serverBackup = $_SERVER;
         $cookieBackup = $_COOKIE;
-        
+
         $this->requestSet->setEnvironment($this->getFakeEnvironment());
         $this->requestSet->restoreEnvironment();
 
@@ -359,6 +359,15 @@ class RequestSetTest extends UnitTestCase
         $this->assertTrue($requests[0]->isEmptyRequest());
         $this->assertEquals(array('url' => 'mytesturl'), $requests[0]->getParams());
         $this->assertTrue(empty($_SERVER['HTTP_REFERER']));
+    }
+
+    public function test_preFightCors()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'options';
+        $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'] = "test";
+        $this->requestSet->setRequests(array(new Request(array(), false, $_SERVER)));
+        $requests = $this->requestSet->getRequests();
+        $this->assertTrue($requests[0]->isPreFightCorsRequest());
     }
 
     /**
