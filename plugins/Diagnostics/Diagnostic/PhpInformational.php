@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\CliMulti\CliPhp;
-use Piwik\Config;
 use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\SettingsPiwik;
