@@ -70,7 +70,11 @@
         @toggle-selected-report="selectedReports[$event.reportType][$event.uniqueId]"
         @change="onChangeProperty($event.prop, $event.value)"
         @submit="submitReport()"
-      />
+      >
+        <template v-slot:report-parameters>
+          <slot name="report-parameters"></slot>
+        </template>
+      </AddReport>
 
       <a id="bottom" />
     </div>

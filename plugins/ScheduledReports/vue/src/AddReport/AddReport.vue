@@ -149,7 +149,9 @@
         >
         </Field>
       </div>
-      <slot name="report-parameters"></slot>
+      <div ref="reportParameters">
+        <slot name="report-parameters"></slot>
+      </div>
       <div
         v-show="report.type === 'email'
               && report.formatemail !== 'csv'
@@ -344,6 +346,9 @@ export default defineComponent({
     onEvolutionPeriodN(value: number) {
       this.$emit('change', 'evolutionPeriodN', value);
     },
+  },
+  mounted() {
+    Matomo.helper.compileAngularComponents($(this.$refs.reportParameters as HTMLElement));
   },
   computed: {
     reportsByCategoryByReportTypeInColumns() {
