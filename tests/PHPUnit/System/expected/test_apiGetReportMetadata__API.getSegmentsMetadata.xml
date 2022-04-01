@@ -762,8 +762,20 @@
 	<row>
 		<type>metric</type>
 		<category>Ecommerce</category>
+		<name>Order Revenue</name>
+		<segment>revenueOrder</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Ecommerce</category>
 		<name>Product Price</name>
 		<segment>productPrice</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Ecommerce</category>
+		<name>Revenue Left In Cart</name>
+		<segment>revenueAbandonedCart</segment>
 	</row>
 	<row>
 		<type>metric</type>

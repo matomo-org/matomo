@@ -86,13 +86,6 @@ class NoScriptsTest extends \PHPUnit\Framework\TestCase
             array(
                 array(
                     'test' => array(
-                        'test' => 'that will fail on document. or not?'
-                    )
-                ),
-            ),
-            array(
-                array(
-                    'test' => array(
                         'test' => 'bla <a background="yellow">link</a>'
                     )
                 ),

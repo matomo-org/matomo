@@ -83,7 +83,7 @@
             </div>
 
             <div v-if="!logosWriteable">
-              <div class="alert alert-warning" v-html="logosNotWriteableWarning"/>
+              <div class="alert alert-warning" v-html="$sanitize(logosNotWriteableWarning)"/>
             </div>
           </div>
           <div v-if="!fileUploadEnabled">

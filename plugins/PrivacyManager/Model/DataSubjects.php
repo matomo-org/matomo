@@ -70,10 +70,19 @@ class DataSubjects
         }
 
         $logTables = $this->getLogTablesToDeleteFrom();
-        $results = array_merge($results, $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($idSitesNoLongerExisting) {
-            $idSitesNoLongerExisting = array_map('intval', $idSitesNoLongerExisting);
-            return [$tableToSelectFrom . '.idsite in ('. implode(',', $idSitesNoLongerExisting).')', []];
-        }));
+        // It's quicker to call the delete queries one site at a time instead of using the IN operator and potentially
+        // creating a huge result set
+        foreach ($idSitesNoLongerExisting as $idSiteNoLongerExisting) {
+            $r = $this->deleteLogDataFrom($logTables, function($tableToSelectFrom) use ($idSiteNoLongerExisting) {
+                return [$tableToSelectFrom . '.idsite = '. $idSiteNoLongerExisting, []];
+            });
+            foreach ($r as $k => $v) {
+                if (!array_key_exists($k, $results)) {
+                    $results[$k] = 0;
+                }
+                $results[$k] += $v;
+            }
+        }
 
         krsort($results); // make sure test results are always in same order
         return $results;
