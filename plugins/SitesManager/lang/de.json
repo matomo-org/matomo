@@ -101,6 +101,8 @@
         "SiteWithoutDataOtherIntegrations": "Andere Integrationen",
         "SiteWithoutDataOtherWays": "Andere Wege",
         "SiteWithoutDataSetupTracking": "Bitte fügen Sie den folgenden %1$sTracking Code%2$s auf ihrer Website ein, insofern Sie dies noch nicht haben.",
+        "SiteWithoutDataSinglePageApplication": "Single-Page-Anwendung oder Progressive Web App",
+        "SiteWithoutDataSinglePageApplicationDescription": "Für das Tracking von Single-Page-Anwendungen oder progressiven Web-Apps. Lesen Sie unseren %1$sLeitfaden%2$s.",
         "SiteWithoutDataTitle": "Nur noch ein letzter Schritt, um ihren Datenverkehr mit Matomo zu tracken und wertvolle Einsichten zu erhalten",
         "Sites": "Websites/Webseiten",
         "SuperUserAccessCan": "Ein Nutzer mit Hauptadministrator-Berechtigung kann ebenfalls %1$sglobale Einstellungen%2$s für neue Websites vornehmen.",
