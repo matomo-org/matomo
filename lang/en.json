@@ -533,7 +533,9 @@
         "YouMustBeLoggedIn": "You must be logged in to access this functionality.",
         "YouMustUpgradePhpVersionToReceiveLatestPiwik": "You must upgrade your PHP version in order to receive the latest Matomo update.",
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
-        "YourSessionHasExpired": "Your session has expired due to inactivity. Please log in to continue."
+        "YourSessionHasExpired": "Your session has expired due to inactivity. Please log in to continue.",
+        "Update": "Update",
+        "Create": "Create"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

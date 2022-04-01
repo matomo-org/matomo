@@ -9,7 +9,11 @@
     :form-field="field"
     :model-value="modelValue"
     @update:model-value="onChange($event)"
-  />
+  >
+    <template v-slot:inline-help>
+      <slot name="inline-help"></slot>
+    </template>
+  </FormField>
 </template>
 
 <script lang="ts">

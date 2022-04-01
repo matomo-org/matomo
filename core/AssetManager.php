@@ -279,10 +279,40 @@ class AssetManager extends Singleton
                 } else {
                     $assetsToRemove[] = $this->getMergedNonCoreJSAsset();
                 }
+
+                $assetFetcher = $this->getPluginUmdJScriptFetcher();
+                foreach ($assetFetcher->getChunkFiles() as $chunk) {
+                    $files = $chunk->getFiles();
+
+                    $foundInChunk = false;
+                    foreach ($files as $file) {
+                        if (strpos($file, "/$pluginName.umd.") !== false) {
+                            $foundInChunk = true;
+                        }
+                    }
+
+                    if ($foundInChunk) {
+                        $outputFile = $chunk->getOutputFile();
+                        $asset = $this->getMergedUIAsset($outputFile);
+                        if ($asset->exists()) {
+                            $assetsToRemove[] = $asset;
+                        }
+                        break;
+                    }
+                }
             }
         } else {
             $assetsToRemove[] = $this->getMergedCoreJSAsset();
             $assetsToRemove[] = $this->getMergedNonCoreJSAsset();
+
+            $assetFetcher = $this->getPluginUmdJScriptFetcher();
+            foreach ($assetFetcher->getChunkFiles() as $chunk) {
+                $outputFile = $chunk->getOutputFile();
+                $asset = $this->getMergedUIAsset($outputFile);
+                if ($asset->exists()) {
+                    $assetsToRemove[] = $asset;
+                }
+            }
         }
 
         $this->removeAssets($assetsToRemove);

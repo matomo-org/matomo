@@ -18,7 +18,7 @@ class VisitLastActionSecond extends VisitDimension
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
     protected $segmentName = 'visitEndServerSecond';
-    protected $nameSingular = 'VisitTime_ColumnVisitEndServerSecond';
+    protected $nameSingular = 'VisitTime_ColumnVisitEndUTCSecond';
     protected $sqlSegment = 'SECOND(log_visit.visit_last_action_time)';
     protected $acceptValues = '0, 1, 2, 3, ..., 58, 59';
 

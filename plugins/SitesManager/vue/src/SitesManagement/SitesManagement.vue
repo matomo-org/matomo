@@ -26,7 +26,7 @@
 
           <span v-show="hasSuperUserAccess">
             <br/>
-            <span v-html="superUserAccessMessage"></span>
+            <span v-html="$sanitize(superUserAccessMessage)"></span>
         </span>
         </p>
       </div>
@@ -205,6 +205,10 @@ export default defineComponent({
     };
   },
   created() {
+    TimezoneStore.init();
+    SiteTypesStore.init();
+    GlobalSettingsStore.init();
+
     this.isLoadingInitialEntities = true;
     Promise.all([
       SiteTypesStore.fetchAvailableTypes(),

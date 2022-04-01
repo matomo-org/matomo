@@ -23,7 +23,7 @@
 
           <br/><br/>
 
-          <span v-html="yourCurrentIpAddressIs"></span>
+          <span v-html="$sanitize(yourCurrentIpAddressIs)"></span>
         </div>
       </div>
 
@@ -69,7 +69,7 @@
       </div>
 
       <div id="keepURLFragmentsHelp" class="inline-help-node">
-        <div v-html="keepUrlFragmentHelp"></div>
+        <div v-html="$sanitize(keepUrlFragmentHelp)"></div>
         <div>{{ translate('SitesManager_KeepURLFragmentsHelp2') }}</div>
       </div>
 
@@ -261,6 +261,10 @@ export default defineComponent({
     };
   },
   created() {
+    CurrencyStore.init();
+    TimezoneStore.init();
+    GlobalSettingsStore.init();
+
     watch(() => GlobalSettingsStore.globalSettings.value, (settings) => {
       this.keepURLFragmentsGlobal = settings.keepURLFragmentsGlobal;
       this.defaultTimezone = settings.defaultTimezone;

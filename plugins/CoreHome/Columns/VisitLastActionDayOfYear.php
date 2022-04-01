@@ -18,7 +18,7 @@ class VisitLastActionDayOfYear extends VisitDimension
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
     protected $segmentName = 'visitEndServerDayOfYear';
-    protected $nameSingular = 'VisitTime_ColumnVisitEndServerDayOfYear';
+    protected $nameSingular = 'VisitTime_ColumnVisitEndUTCDayOfYear';
     protected $sqlSegment = 'DAYOFYEAR(log_visit.visit_last_action_time)';
     protected $acceptValues = '1, 2, 3, 4, ..., 365, 366';
 
