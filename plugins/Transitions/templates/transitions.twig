@@ -5,7 +5,7 @@
 
 <div
   vue-entry="Transitions.TransitionSwitcher"
-  is-widget="{{ isWidget|default(null)|json_encode|e('html_attr') }}"
+  is-widget="{{ (not not isWidget)|default(null)|json_encode|e('html_attr') }}"
 ></div>
 
 {% if not isWidget %}</div>{% endif %}

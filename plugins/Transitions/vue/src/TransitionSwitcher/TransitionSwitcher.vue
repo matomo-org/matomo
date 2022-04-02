@@ -4,12 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- get to build
-- test in UI
-- create PR
-</todo>
-
 <template>
   <div
     :class="{ widgetBody: isWidget }"
@@ -17,7 +11,7 @@
   >
     <div class="row">
       <div class="col s12 m3">
-        <div>
+        <div name="actionType">
           <Field
             uicontrol="select"
             name="actionType"
@@ -30,7 +24,7 @@
         </div>
       </div>
       <div class="col s12 m9">
-        <div>
+        <div name="actionName">
           <Field
             uicontrol="select"
             name="actionName"
@@ -49,7 +43,6 @@
       class="loadingPiwik"
       style="display:none;"
       id="transitions_inline_loading"
-      v-show="!isLoading"
     >
       <img src="plugins/Morpheus/images/loading-blue.gif" alt/>
       <span>{{ translate('General_LoadingData') }}</span>
@@ -95,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onBeforeUnmount, ref } from 'vue';
 import {
   translate,
   AjaxHelper,
@@ -170,7 +163,7 @@ export default defineComponent({
 
     Matomo.on('Transitions.switchTransitionsUrl', onSwitchTransitionsUrl);
 
-    onMounted(() => {
+    onBeforeUnmount(() => {
       Matomo.off('Transitions.switchTransitionsUrl', onSwitchTransitionsUrl);
     });
 
@@ -297,7 +290,7 @@ export default defineComponent({
             value: translate('CoreHome_ThereIsNoDataForThisReport'),
           });
         }
-      }).finally(() => {
+      }).catch(() => {
         this.isLoading = false;
         this.isEnabled = false;
       });
@@ -308,7 +301,7 @@ export default defineComponent({
       return this.actionType === 'Actions.getPageUrls';
     },
     availableInOtherReports2() {
-      return translate('Transitions_AvailableInOtherReports2', '<span class="icon-transition"/>');
+      return translate('Transitions_AvailableInOtherReports2', '<span class="icon-transition"></span>');
     },
   },
 });
