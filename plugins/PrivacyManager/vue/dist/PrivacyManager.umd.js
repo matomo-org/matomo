@@ -96,13 +96,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "0e9f":
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
 /***/ "19dc":
 /***/ (function(module, exports) {
 
@@ -163,7 +156,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=118fbffa
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=5e41ce82
 
 var _hoisted_1 = {
   class: "manageGdpr"
@@ -254,7 +247,10 @@ var _hoisted_39 = ["src"];
 var _hoisted_40 = ["onClick"];
 
 var _hoisted_41 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-  src: "plugins/Live/images/visitorProfileLaunch.png"
+  src: "plugins/Live/images/visitorProfileLaunch.png",
+  style: {
+    "margin-right": "3.5px"
+  }
 }, null, -1);
 
 var _hoisted_42 = {
@@ -297,7 +293,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return _ctx.segment_filter = $event;
         }),
-        "visit-segments-only": 1,
+        "visit-segments-only": true,
         idsite: _ctx.site.id
       }, null, 8, ["modelValue", "idsite"])])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
         class: "findDataSubjects",
@@ -351,17 +347,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return _ctx.addFilter('userId', dataSubject.userId);
       }
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(dataSubject.userId), 9, _hoisted_31)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      title: "".concat(dataSubject.deviceType, " ").concat(dataSubject.deviceModel)
+      title: "".concat(dataSubject.deviceType, " ").concat(dataSubject.deviceModel),
+      style: {
+        "margin-right": "3.5px"
+      }
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
       height: "16",
       src: dataSubject.deviceTypeIcon
     }, null, 8, _hoisted_33)], 8, _hoisted_32), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      title: dataSubject.operatingSystem
+      title: dataSubject.operatingSystem,
+      style: {
+        "margin-right": "3.5px"
+      }
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
       height: "16",
       src: dataSubject.operatingSystemIcon
     }, null, 8, _hoisted_35)], 8, _hoisted_34), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      title: "".concat(dataSubject.browser, " ").concat(dataSubject.browserFamilyDescription)
+      title: "".concat(dataSubject.browser, " ").concat(dataSubject.browserFamilyDescription),
+      style: {
+        "margin-right": "3.5px"
+      }
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
       height: "16",
       src: dataSubject.browserIcon
@@ -379,6 +384,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [_hoisted_41, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_ViewVisitorProfile')), 1)], 8, _hoisted_40)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.profileEnabled]])], 8, _hoisted_22);
   }), 128))])], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
     class: "exportDataSubjects",
+    style: {
+      "margin-right": "3.5px"
+    },
     onConfirm: _cache[4] || (_cache[4] = function ($event) {
       return _ctx.exportDataSubject();
     }),
@@ -401,7 +409,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: _ctx.translate('General_No')
   }, null, 8, _hoisted_44)], 512)]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=118fbffa
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=5e41ce82
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -584,19 +592,11 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 }));
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=script&lang=ts
  
-// EXTERNAL MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=custom&index=0&blockType=todo
-var ManageGdprvue_type_custom_index_0_blockType_todo = __webpack_require__("0e9f");
-var ManageGdprvue_type_custom_index_0_blockType_todo_default = /*#__PURE__*/__webpack_require__.n(ManageGdprvue_type_custom_index_0_blockType_todo);
-
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue
 
 
 
 ManageGdprvue_type_script_lang_ts.render = render
-/* custom blocks */
-
-if (typeof ManageGdprvue_type_custom_index_0_blockType_todo_default.a === 'function') ManageGdprvue_type_custom_index_0_blockType_todo_default()(ManageGdprvue_type_script_lang_ts)
-
 
 /* harmony default export */ var ManageGdpr = (ManageGdprvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=536c794c

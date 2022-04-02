@@ -4,11 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- create PR
-</todo>
-
 <template>
   <div class="manageGdpr">
     <ContentBlock :content-title="translate('PrivacyManager_GdprTools')">
@@ -61,7 +56,7 @@
             <div>
               <SegmentGenerator
                 v-model="segment_filter"
-                :visit-segments-only="1"
+                :visit-segments-only="true"
                 :idsite="site.id"
               />
             </div>
@@ -157,25 +152,36 @@
               >{{ dataSubject.userId }}</a>
             </td>
             <td>
-              <span :title="`${dataSubject.deviceType} ${dataSubject.deviceModel}`">
+              <span
+                :title="`${dataSubject.deviceType} ${dataSubject.deviceModel}`"
+                style="margin-right:3.5px"
+              >
                 <img
                   height="16"
                   :src="dataSubject.deviceTypeIcon"
                 />
               </span>
-              <span :title="dataSubject.operatingSystem">
+              <span
+                :title="dataSubject.operatingSystem"
+                style="margin-right:3.5px"
+              >
                 <img
                   height="16"
                   :src="dataSubject.operatingSystemIcon"
                 />
               </span>
-              <span :title="`${dataSubject.browser} ${dataSubject.browserFamilyDescription}`">
+              <span
+                :title="`${dataSubject.browser} ${dataSubject.browserFamilyDescription}`"
+                style="margin-right:3.5px"
+              >
                 <img
                   height="16"
                   :src="dataSubject.browserIcon"
                 />
               </span>
-              <span :title="`${dataSubject.country} ${dataSubject.region}`">
+              <span
+                :title="`${dataSubject.country} ${dataSubject.region}`"
+              >
                 <img
                   height="16"
                   :src="dataSubject.countryFlag"
@@ -188,7 +194,7 @@
                 title="View visitor profile"
                 @click="showProfile(dataSubject.visitorId, dataSubject.idSite)"
               >
-                <img src="plugins/Live/images/visitorProfileLaunch.png"/>
+                <img src="plugins/Live/images/visitorProfileLaunch.png" style="margin-right:3.5px"/>
                 <span>{{ translate('Live_ViewVisitorProfile') }}</span>
               </a>
             </td>
@@ -197,6 +203,7 @@
       </table>
       <SaveButton
         class="exportDataSubjects"
+        style="margin-right:3.5px"
         @confirm="exportDataSubject()"
         :disabled="!hasActiveDataSubjects"
         :value="translate('PrivacyManager_ExportSelectedVisits')"
