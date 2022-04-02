@@ -103,13 +103,6 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
-/***/ "2b69":
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
@@ -150,10 +143,13 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
+
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue?vue&type=template&id=2b291634
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue?vue&type=template&id=e419d880
 
 var _hoisted_1 = {
   class: "campaignUrlBuilder"
@@ -256,7 +252,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return _ctx.generateUrl();
     }),
     disabled: !_ctx.websiteUrl || !_ctx.campaignName,
-    value: _ctx.translate('Referrers_GenerateUrl')
+    value: _ctx.translate('Referrers_GenerateUrl'),
+    style: {
+      "margin-right": "3.5px"
+    }
   }, null, 8, ["disabled", "value"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
     class: "resetCampaignUrl",
     onConfirm: _cache[10] || (_cache[10] = function ($event) {
@@ -267,10 +266,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.generatedUrl)
   }, null, 8, _hoisted_3)], 512), [[_directive_select_on_focus, {}]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.generatedUrl]])])]);
 }
-// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue?vue&type=template&id=2b291634
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
+// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue?vue&type=template&id=e419d880
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -390,21 +386,31 @@ var _window = window,
 }));
 // CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue?vue&type=script&lang=ts
  
-// EXTERNAL MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue?vue&type=custom&index=0&blockType=todo
-var CampaignBuildervue_type_custom_index_0_blockType_todo = __webpack_require__("2b69");
-var CampaignBuildervue_type_custom_index_0_blockType_todo_default = /*#__PURE__*/__webpack_require__.n(CampaignBuildervue_type_custom_index_0_blockType_todo);
-
 // CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue
 
 
 
 CampaignBuildervue_type_script_lang_ts.render = render
-/* custom blocks */
-
-if (typeof CampaignBuildervue_type_custom_index_0_blockType_todo_default.a === 'function') CampaignBuildervue_type_custom_index_0_blockType_todo_default()(CampaignBuildervue_type_script_lang_ts)
-
 
 /* harmony default export */ var CampaignBuilder = (CampaignBuildervue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var CampaignBuilder_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: CampaignBuilder,
+  scope: {
+    hasExtraPlugin: {
+      angularJsBind: '<'
+    }
+  },
+  directiveName: 'matomoCampaignBuilder'
+}));
 // CONCATENATED MODULE: ./plugins/Referrers/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -412,6 +418,7 @@ if (typeof CampaignBuildervue_type_custom_index_0_blockType_todo_default.a === '
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
