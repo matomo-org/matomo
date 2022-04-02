@@ -21,6 +21,7 @@ return array(
                 while ($attempts < $retryCount) {
                     try {
                         parent::write($key, $content);
+                        return;
                     } catch (\Exception $ex) {
                         if (!preg_match('/^Failed to write cache file/', $ex->getMessage())) {
                             throw $ex;
