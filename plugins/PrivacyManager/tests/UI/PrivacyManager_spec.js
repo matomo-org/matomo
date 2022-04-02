@@ -24,14 +24,21 @@ describe("PrivacyManager", function () {
     {
         // make sure tests do not fail every day
         await page.waitForSelector('input.anonymizeStartDate');
+        await page.waitForSelector('input.anonymizeEndDate');
+        await page.waitForTimeout(100);
         await page.evaluate(function () {
             $('input.anonymizeStartDate').val('2018-03-02').change();
+        });
+        await page.waitForTimeout(100);
+        await page.evaluate(function () {
             $('input.anonymizeEndDate').val('2018-03-02').change();
         });
+        await page.waitForTimeout(100);
     }
 
     async function loadActionPage(action)
     {
+        await page.goto('about:blank');
         await page.goto(urlBase + action);
         await page.waitForNetworkIdle();
 
@@ -78,18 +85,20 @@ describe("PrivacyManager", function () {
 
     async function selectVisitColumn(title)
     {
+        await page.waitForTimeout(100);
         await page.evaluate(function () {
             $('.selectedVisitColumns:last input.select-dropdown').click();
         });
-        var selector = '.selectedVisitColumns:last .dropdown-content li:contains(' + title + ')';
-        await page.waitForFunction('$("'+selector+'").length > 0');
-        var elem = await page.jQuery(selector);
-        await elem.click();
+        await page.waitForTimeout(100);
+        await page.evaluate(title => {
+            $('.selectedVisitColumns:last .dropdown-content li:contains(' + title + ')').click();
+        }, title);
         await page.waitForTimeout(100);
     }
 
     async function selectActionColumn(title)
     {
+        await page.waitForTimeout(100);
         await page.evaluate(function () {
             $('.selectedActionColumns:last input.select-dropdown').click();
         });
@@ -206,9 +215,13 @@ describe("PrivacyManager", function () {
         await page.waitForTimeout(1000);
         await page.click(".form-group #anonymizeSite [title='Site 1']");
         await page.click('[name="anonymizeIp"] label');
+        await page.waitForTimeout(100);
         await page.evaluate(function () {
             $('input.anonymizeStartDate').val('2017-01-01').change();
-            $('input.anonymizeEndDate').val('2017-02-14').change();
+        });
+        await page.waitForTimeout(100);
+        await page.evaluate(function () {
+           $('input.anonymizeEndDate').val('2017-02-14').change();
         });
         await page.waitForTimeout(100);
 

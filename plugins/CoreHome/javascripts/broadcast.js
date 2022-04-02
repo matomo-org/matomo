@@ -504,8 +504,6 @@ var broadcast = {
      *                       handler.
      */
     propagateNewPopoverParameter: function (handlerName, value) {
-        var $location = angular.element(document).injector().get('$location');
-
         var popover = '';
         if (handlerName && '' != value && 'undefined' != typeof value) {
             popover = handlerName + ':' + value;
@@ -524,15 +522,10 @@ var broadcast = {
             }
         }
 
-        var $window = piwikHelper.getAngularDependency('$window');
-        var urlStr = $window.location.hash;
-        urlStr = broadcast.updateParamValue('popover=' + encodeURIComponent(popover), urlStr);
-        urlStr = urlStr.replace(/^[#?]+/, '');
-        $location.search(urlStr);
-
-        setTimeout(function () {
-            angular.element(document).injector().get('$rootScope').$apply();
-        }, 1);
+        var MatomoUrl = window.CoreHome.MatomoUrl;
+        MatomoUrl.updateHash(
+          Object.assign({}, MatomoUrl.hashParsed.value, { popover }),
+        );
     },
 
     /**

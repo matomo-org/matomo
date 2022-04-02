@@ -15,67 +15,21 @@
 <div piwik-content-block
      id="anonymizeIPAnchor"
      content-title="{{ 'PrivacyManager_UseAnonymizeTrackingData'|translate|e('html_attr') }}">
-    <div piwik-form ng-controller="AnonymizeIpController as anonymizeIp">
-
-        <div piwik-field uicontrol="checkbox" name="anonymizeIpSettings"
-             ng-model="anonymizeIp.enabled"
-             data-title="{{ 'PrivacyManager_UseAnonymizeIp'|translate|e('html_attr') }}"
-             value="{{ anonymizeIP.enabled }}"
-             inline-help="{{ 'PrivacyManager_AnonymizeIpInlineHelp'|translate|e('html_attr') }} {{ 'PrivacyManager_AnonymizeIpDescription'|translate|e('html_attr') }}">
-        </div>
-
-        <div ng-show="anonymizeIp.enabled">
-            <div piwik-field uicontrol="radio" name="maskLength"
-                 ng-model="anonymizeIp.maskLength"
-                 data-title="{{ 'PrivacyManager_AnonymizeIpMaskLengtDescription'|translate|e('html_attr') }}"
-                 value="{{ anonymizeIP.maskLength }}"
-                 options="{{ maskLengthOptions|json_encode }}"
-                 inline-help="{{ 'PrivacyManager_GeolocationAnonymizeIpNote'|translate|e('html_attr') }}">
-            </div>
-
-            <div piwik-field uicontrol="radio" name="useAnonymizedIpForVisitEnrichment"
-                 ng-model="anonymizeIp.useAnonymizedIpForVisitEnrichment"
-                 data-title="{{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichment'|translate|e('html_attr') }}"
-                 value="{% if anonymizeIP.useAnonymizedIpForVisitEnrichment %}1{% else %}0{% endif %}"
-                 options="{{ useAnonymizedIpForVisitEnrichmentOptions|json_encode }}"
-                 inline-help="{{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate|e('html_attr') }}">
-            </div>
-        </div>
-
-        <div piwik-field uicontrol="checkbox" name="anonymizeUserId"
-             ng-model="anonymizeIp.anonymizeUserId"
-             data-title="{{ 'PrivacyManager_PseudonymizeUserId'|translate|e('html_attr') }}"
-             value="{{ anonymizeIP.anonymizeUserId }}"
-             inline-help="{{ 'PrivacyManager_PseudonymizeUserIdNote'|translate|e('html_attr') }}<br/><br/><em>{{ 'PrivacyManager_PseudonymizeUserIdNote2'|translate|e('html_attr') }}</em>">
-        </div>
-
-        <div piwik-field uicontrol="checkbox" name="anonymizeOrderId"
-             ng-model="anonymizeIp.anonymizeOrderId"
-             data-title="{{ 'PrivacyManager_UseAnonymizeOrderId'|translate|e('html_attr') }}"
-             value="{{ anonymizeIP.anonymizeOrderId }}"
-             inline-help="{{ 'PrivacyManager_AnonymizeOrderIdNote'|translate|e('html_attr') }}">
-        </div>
-
-        <div piwik-field uicontrol="checkbox" name="forceCookielessTracking"
-             ng-model="anonymizeIp.forceCookielessTracking"
-             data-title="{{ 'PrivacyManager_ForceCookielessTracking'|translate|e('html_attr') }}"
-             value="{{ anonymizeIP.forceCookielessTracking }}"
-             inline-help="{{ 'PrivacyManager_ForceCookielessTrackingDescription'|translate(trackerFileName)|e('html_attr') }}<br/><br/><em>{{ 'PrivacyManager_ForceCookielessTrackingDescription2'|translate|e('html_attr') }}</em>
-                          {%- if not trackerWritable %}
-                                <br /><br /><p class='alert-warning alert'>{{ 'PrivacyManager_ForceCookielessTrackingDescriptionNotWritable'|translate(trackerFileName)|e('html_attr') }}</p>
-                          {% endif -%}">
-        </div>
-
-        <div piwik-field uicontrol="select" name="anonymizeReferrer"
-             ng-model="anonymizeIp.anonymizeReferrer"
-             options='{{ referrerAnonymizationOptions|json_encode|e('html_attr') }}'
-             data-title="{{ 'PrivacyManager_AnonymizeReferrer'|translate|e('html_attr') }}"
-             value="{{ anonymizeIP.anonymizeReferrer }}"
-             inline-help="{{ 'PrivacyManager_AnonymizeReferrerNote'|translate|e('html_attr') }}">
-        </div>
-
-        <div piwik-save-button onconfirm="anonymizeIp.save()" saving="anonymizeIp.isLoading"></div>
-    </div>
+  <div
+    vue-entry="PrivacyManager.AnonymizeIp"
+    anonymize-ip-enabled="{{ anonymizeIP.enabled|default(null)|json_encode|e('html_attr') }}"
+    anonymize-user-id="{{ anonymizeIP.anonymizeUserId|default(null)|json_encode|e('html_attr') }}"
+    mask-length="{{ anonymizeIP.maskLength|default(null)|json_encode|e('html_attr') }}"
+    use-anonymized-ip-for-visit-enrichment="{{ anonymizeIP.useAnonymizedIpForVisitEnrichment|default(null)|json_encode|e('html_attr') }}"
+    anonymize-order-id="{{ anonymizeIP.anonymizeOrderId|default(null)|json_encode|e('html_attr') }}"
+    force-cookieless-tracking="{{ anonymizeIP.forceCookielessTracking|default(null)|json_encode|e('html_attr') }}"
+    anonymize-referrer="{{ anonymizeIP.anonymizeReferrer|default(null)|json_encode|e('html_attr') }}"
+    mask-length-options="{{ maskLengthOptions|default(null)|json_encode|e('html_attr') }}"
+    use-anonymized-ip-for-visit-enrichment-options="{{ useAnonymizedIpForVisitEnrichmentOptions|default(null)|json_encode|e('html_attr') }}"
+    tracker-file-name="{{ trackerFileName|default(null)|json_encode|e('html_attr') }}"
+    tracker-writable="{{ trackerWritable|default(null)|json_encode|e('html_attr') }}"
+    referrer-anonymization-options="{{ referrerAnonymizationOptions|default(null)|json_encode|e('html_attr') }}"
+  ></div>
 </div>
 
 {% if isDataPurgeSettingsEnabled %}
@@ -308,7 +262,7 @@
         </p>
 
         {% if isSuperUser %}
-            <div matomo-anonymize-log-data></div>
+            <div vue-entry="PrivacyManager.AnonymizeLogData"></div>
         {% else %}
             <p>Only a user with Super User access can anonymize previously tracked raw data.</p>
         {% endif %}

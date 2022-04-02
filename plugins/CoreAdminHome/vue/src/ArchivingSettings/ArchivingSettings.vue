@@ -42,14 +42,14 @@
               <span>{{ translate('General_No') }}</span>
               <span
                 class="form-description"
-                v-html="archivingTriggerDesc"
+                v-html="$sanitize(archivingTriggerDesc)"
                 style="margin-left: 4px;"
               >
               </span>
             </label>
           </p>
         </div><div class="col s12 m6">
-        <div class="form-help" v-html="archivingInlineHelp">
+        <div class="form-help" v-html="$sanitize(archivingInlineHelp)">
         </div>
       </div>
       </div>
