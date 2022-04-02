@@ -25,7 +25,7 @@ describe("Marketplace", function () {
     async function loadPluginDetailPage(pluginName, isFreePlugin)
     {
         await page.goto(isFreePlugin ? pluginsUrl : paidPluginsUrl);
-        const elem = await page.waitForSelector('.card-title [piwik-plugin-name="' + pluginName + '"]');
+        const elem = await page.waitForSelector('.card-title [vue-directive="Marketplace.PluginName"][vue-directive-value*="' + pluginName + '"]');
         await elem.click();
         await page.waitForNetworkIdle();
         await page.waitForSelector('.ui-dialog .pluginDetails');

@@ -146,7 +146,12 @@ class ExceptionHandler
             }
         }
 
-        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl);
+        // Unsupported browser errors shouldn't be written to the web server log. At DEBUG logging level this error will
+        // be written to the application log instead
+        $writeErrorLog = !($ex instanceof \Piwik\Exception\NotSupportedBrowserException);
+
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl,
+                                            $logoFaviconUrl, null, $writeErrorLog);
 
         try {
             /**

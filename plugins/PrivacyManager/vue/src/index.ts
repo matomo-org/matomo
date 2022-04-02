@@ -7,3 +7,5 @@
 
 export { default as AnonymizeIp } from './AnonymizeIp/AnonymizeIp.vue';
 export { default as OptOutCustomizer } from './OptOutCustomizer/OptOutCustomizer.vue';
+export { default as AnonymizeLogData } from './AnonymizeLogData/AnonymizeLogData.vue';
+export { default as DoNotTrackPreference } from './DoNotTrackPreference/DoNotTrackPreference.vue';
