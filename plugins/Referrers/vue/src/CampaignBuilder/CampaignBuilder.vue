@@ -205,7 +205,7 @@ export default defineComponent({
       let generatedUrl = String(this.websiteUrl);
 
       if (generatedUrl.indexOf('http') !== 0) {
-        this.generatedUrl = `https://${generatedUrl.trim()}`;
+        generatedUrl = `https://${generatedUrl.trim()}`;
       }
 
       const urlHashPos = generatedUrl.indexOf('#');
