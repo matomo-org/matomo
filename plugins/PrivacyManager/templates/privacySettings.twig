@@ -262,7 +262,7 @@
         </p>
 
         {% if isSuperUser %}
-            <div matomo-anonymize-log-data></div>
+            <div vue-entry="PrivacyManager.AnonymizeLogData"></div>
         {% else %}
             <p>Only a user with Super User access can anonymize previously tracked raw data.</p>
         {% endif %}

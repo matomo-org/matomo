@@ -54,6 +54,7 @@ declare global {
     setContent(html: string|HTMLElement|JQuery|JQLite): void;
     showLoading(loadingName: string, popoverSubject?: string, height?: number, dialogClass?: string): JQuery;
     onClose(fn: () => void);
+    createPopupAndLoadUrl(url: string, loadingName: string, dialogClass?: string, ajaxRequest?: QueryParameters): void;
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;
@@ -88,6 +89,7 @@ declare global {
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
     compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string): void;
+    compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
   }
@@ -101,9 +103,11 @@ declare global {
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
+    propagateNewPopoverParameter(handleName: string, value?: string);
     buildReportingUrl(ajaxUrl: string): string;
     isLoginPage(): boolean;
     resetPopoverStack(): void;
+    addPopoverHandler(handlerName: string, callback: (string) => void): void;
 
     popoverHandlers: Record<string, (param: string) => void>;
   }
