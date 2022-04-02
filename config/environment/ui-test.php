@@ -23,7 +23,7 @@ return array(
                         parent::write($key, $content);
                     } catch (\Exception $ex) {
                         if (!preg_match('/^Failed to write cache file/', $ex->getMessage())) {
-                            throw;
+                            throw $ex;
                         }
 
                         usleep(50);
