@@ -498,12 +498,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->rememberReportsForManySitesAndDates();
 
         // site does not match
-        $this->invalidator->forgetRememberedArchivedReportsToInvalidate(10, Date::factory('2014-04-05'));
+        $hasDeleted = $this->invalidator->forgetRememberedArchivedReportsToInvalidate(10, Date::factory('2014-04-05'));
+        $this->assertFalse($hasDeleted);
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
 
         // date does not match
-        $this->invalidator->forgetRememberedArchivedReportsToInvalidate(7, Date::factory('2012-04-05'));
+        $hasDeleted = $this->invalidator->forgetRememberedArchivedReportsToInvalidate(7, Date::factory('2012-04-05'));
+        $this->assertFalse($hasDeleted);
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
@@ -512,7 +514,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         $this->rememberReportsForManySitesAndDates();
 
-        $this->invalidator->forgetRememberedArchivedReportsToInvalidate(2, Date::factory('2014-04-05'));
+        $hasDeleted = $this->invalidator->forgetRememberedArchivedReportsToInvalidate(2, Date::factory('2014-04-05'));
+        $this->assertTrue($hasDeleted);
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         $expected = array(
@@ -526,7 +529,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         unset($expected['2014-05-08']);
 
-        $this->invalidator->forgetRememberedArchivedReportsToInvalidate(7, Date::factory('2014-05-08'));
+        $hasDeleted = $this->invalidator->forgetRememberedArchivedReportsToInvalidate(7, Date::factory('2014-05-08'));
+        $this->assertTrue($hasDeleted);
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
         $this->assertSameReports($expected, $reports);
     }

@@ -140,18 +140,20 @@
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaJs') }}
           </p>
-          <pre v-select-on-focus="{}"><code v-html="manuallyTrackCodeViaJs(dimension)"></code></pre>
+          <pre v-select-on-focus="{}"><code
+            v-html="$sanitize(manuallyTrackCodeViaJs(dimension))"
+          ></code></pre>
           <p v-html="$sanitize(howToTrackManuallyText)"/>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaPhp') }}
           </p>
           <pre
             v-select-on-focus="{}"
-          ><code v-html="manuallyTrackCodeViaPhp(dimension)"></code></pre>
+          ><code v-html="$sanitize(manuallyTrackCodeViaPhp(dimension))"></code></pre>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaHttp') }}
           </p>
-          <pre v-select-on-focus="{}"><code v-html="manuallyTrackCode"></code></pre>
+          <pre v-select-on-focus="{}"><code v-html="$sanitize(manuallyTrackCode)"></code></pre>
         </div>
       </div>
     </ContentBlock>

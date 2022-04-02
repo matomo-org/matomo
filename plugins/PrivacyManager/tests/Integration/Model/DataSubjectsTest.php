@@ -24,6 +24,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 /**
  * Class DataSubjectsTest
  *
+ * @group DataSubjectsTest
  * @group Plugins
  */
 class DataSubjectsTest extends IntegrationTestCase
