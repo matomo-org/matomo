@@ -101,6 +101,7 @@ class ReportDeletionSettingsStore {
   reloadDbStats(forceEstimate?: boolean) {
     if (this.currentRequest) { // if the manual estimate link is showing, abort unless forcing
       this.currentRequest.abort();
+      this.currentRequest = undefined;
     }
 
     if (!forceEstimate
@@ -116,6 +117,7 @@ class ReportDeletionSettingsStore {
 
     const { settings } = this.privateState;
     const formData: QueryParameters = {
+      ...settings,
       enableDeleteLogs: settings.enableDeleteLogs ? '1' : '0',
       enableDeleteReports: settings.enableDeleteReports ? '1' : '0',
     };

@@ -334,6 +334,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UseDeleteLog';
         $translationKeys[] = 'PrivacyManager_UseDeleteReports';
         $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
+        $translationKeys[] = 'PrivacyManager_GetPurgeEstimate';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

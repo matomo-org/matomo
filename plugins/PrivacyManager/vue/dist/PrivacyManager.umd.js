@@ -990,6 +990,7 @@ var ReportDeletionSettings_store_ReportDeletionSettingsStore = /*#__PURE__*/func
       if (this.currentRequest) {
         // if the manual estimate link is showing, abort unless forcing
         this.currentRequest.abort();
+        this.currentRequest = undefined;
       }
 
       if (!forceEstimate && (!this.isEitherDeleteSectionEnabled() || this.isManualEstimationLinkShowing())) {
@@ -1000,10 +1001,10 @@ var ReportDeletionSettings_store_ReportDeletionSettingsStore = /*#__PURE__*/func
       this.privateState.estimation = '';
       this.privateState.showEstimate = false;
       var settings = this.privateState.settings;
-      var formData = {
+      var formData = Object.assign(Object.assign({}, settings), {}, {
         enableDeleteLogs: settings.enableDeleteLogs ? '1' : '0',
         enableDeleteReports: settings.enableDeleteReports ? '1' : '0'
-      };
+      });
 
       if (forceEstimate === true) {
         formData.forceEstimate = 1;
