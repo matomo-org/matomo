@@ -134,7 +134,7 @@
         </Field>
       </div>
       <div
-        v-for="(reportType, reportFormats) in reportFormatsByReportTypeOptions"
+        v-for="(reportFormats, reportType) in reportFormatsByReportTypeOptions"
         :key="reportType"
       >
         <Field
@@ -229,11 +229,11 @@
         name="reportsList"
         :class="`row ${reportType}`"
         v-show="report.type === reportType"
-        v-for="(reportType, reportColumns) in reportsByCategoryByReportTypeInColumns"
+        v-for="(reportColumns, reportType) in reportsByCategoryByReportTypeInColumns"
         :key="reportType"
       >
         <div class="col s12 m6" v-for="(reportsByCategory, index) in reportColumns" :key="index">
-          <div v-for="(category, reports) in reportsByCategory" :key="category">
+          <div v-for="(reports, category) in reportsByCategory" :key="category">
             <h3 class="reportCategory">{{ category }}</h3>
             <ul class="listReports">
               <li v-for="report in reports" :key="report.uniqueId">
@@ -288,8 +288,6 @@ interface Option {
   value: string;
 }
 
-const { ReportPlugin } = window;
-
 export default defineComponent({
   props: {
     report: {
@@ -329,6 +327,16 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    reportTypes: {
+      type: Object,
+      required: true,
+    },
+    segmentEditorActivated: Boolean,
+    savedSegmentsById: Object,
+    periods: {
+      type: Object,
+      required: true,
+    },
   },
   emits: ['submit', 'change'],
   components: {
@@ -348,7 +356,13 @@ export default defineComponent({
     },
   },
   mounted() {
-    Matomo.helper.compileAngularComponents($(this.$refs.reportParameters as HTMLElement));
+    const reportParameters = this.$refs.reportParameters as HTMLElement;
+    Matomo.helper.compileAngularComponents(reportParameters);
+    Matomo.helper.compileVueEntryComponents(reportParameters);
+  },
+  beforeUnmount() {
+    const reportParameters = this.$refs.reportParameters as HTMLElement;
+    Matomo.helper.destroyVueComponent(reportParameters);
   },
   computed: {
     reportsByCategoryByReportTypeInColumns() {
@@ -389,6 +403,8 @@ export default defineComponent({
         return '';
       }
 
+      const { ReportPlugin } = window;
+
       let translation = ReportPlugin.periodTranslations[this.report.period];
       if (!translation) {
         translation = ReportPlugin.periodTranslations.day;
@@ -399,6 +415,8 @@ export default defineComponent({
       if (!this.report || !this.report.period) {
         return '';
       }
+
+      const { ReportPlugin } = window;
 
       let translation = ReportPlugin.periodTranslations[this.report.period];
       if (!translation) {
@@ -454,6 +472,8 @@ export default defineComponent({
       return translate('ScheduledReports_ReportHourWithUTC', [reportHour]);
     },
     saveButtonTitle() {
+      const { ReportPlugin } = window;
+
       const isCreate = this.report.idreport > 0;
       return isCreate ? ReportPlugin.updateReportString : ReportPlugin.createReportString;
     },

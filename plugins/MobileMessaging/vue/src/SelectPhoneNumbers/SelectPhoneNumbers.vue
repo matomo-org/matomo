@@ -19,12 +19,12 @@
     >
       <template v-slot:inline-help>
         <div id="mobilePhoneNumbersHelp" class="inline-help-node">
-          <span class="icon-info"></span>
+          <span class="icon-info" style="margin-right:3.5px"></span>
 
-          <span v-if="phoneNumbers.length === 0">
+          <span v-if="phoneNumbers.length === 0" style="margin-right:3.5px">
             {{ translate('MobileMessaging_MobileReport_NoPhoneNumbers') }}
           </span>
-          <span v-else>
+          <span v-else style="margin-right:3.5px">
             {{ translate('MobileMessaging_MobileReport_AdditionalPhoneNumbers') }}
           </span>
           <a :href="linkTo({ module: 'MobileMessaging', action: 'index', updated: null })">

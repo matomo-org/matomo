@@ -4,14 +4,9 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-// TODO
 <todo>
-- get to build
-- REMOVE DUPLICATE CODE IN TEMPLATE
 - test in UI
-- check uses:
-  ./plugins/ScheduledReports/templates/index.twig
-- create PR
+- ui tests
 </todo>
 
 <template>
@@ -43,7 +38,6 @@
         :segment-editor-activated="segmentEditorActivated"
         :saved-segments-by-id="savedSegmentsById"
         :periods="periods"
-        :recipient="recipient"
         :report-types="reportTypes"
         :download-output-type="downloadOutputType"
         :language="language"
@@ -56,18 +50,20 @@
       <AddReport
         v-if="showReportForm"
         :report="report"
+        :periods="periods"
         :param-periods="paramPeriods"
         :report-type-options="reportTypeOptions"
         :report-formats-by-report-type-options="reportFormatsByReportTypeOptions"
-        :report-formats="reportFormats"
         :display-formats="displayFormats"
         :reports-by-category-by-report-type="reportsByCategoryByReportType"
         :allow-multiple-reports-by-report-type="allowMultipleReportsByReportType"
-        :reports-by-category="reportsByCategory"
         :count-websites="countWebsites"
         :site-name="siteName"
         :selected-reports="selectedReports"
-        @toggle-selected-report="selectedReports[$event.reportType][$event.uniqueId]"
+        :report-types="reportTypes"
+        :segment-editor-activated="segmentEditorActivated"
+        :saved-segments-by-id="savedSegmentsById"
+        @toggle-selected-report="toggleSelectedReport($event.reportType, $event.uniqueId)"
         @change="onChangeProperty($event.prop, $event.value)"
         @submit="submitReport()"
       >
@@ -82,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import {
   translate,
   Matomo,
@@ -118,7 +114,11 @@ function resetParameters(reportType: string, report: Report) {
   }
 }
 
-const { $, ReportPlugin } = window;
+window.resetReportParametersFunctions = window.resetReportParametersFunctions || {};
+window.updateReportParametersFunctions = window.updateReportParametersFunctions || {};
+window.getReportParametersFunctions = window.getReportParametersFunctions || {};
+
+const { $ } = window;
 
 const timeZoneDifferenceInHours = Matomo.timezoneOffset / 3600;
 
@@ -151,7 +151,7 @@ export default defineComponent({
       required: true,
     },
     downloadOutputType: {
-      type: String,
+      type: Number,
       required: true,
     },
     language: {
@@ -188,6 +188,10 @@ export default defineComponent({
     },
     countWebsites: {
       type: Number,
+      required: true,
+    },
+    reportTypes: {
+      type: Object,
       required: true,
     },
   },
@@ -231,7 +235,9 @@ export default defineComponent({
       });
     },
     formSetEditReport(idReport: number) {
-      const report: Report = {
+      const { ReportPlugin } = window;
+
+      let report: Report = {
         idreport: idReport,
         type: ReportPlugin.defaultReportType,
         format: ReportPlugin.defaultReportFormat,
@@ -246,18 +252,18 @@ export default defineComponent({
       } as unknown as Report;
 
       if (idReport > 0) {
-        this.report = ReportPlugin.reportList[idReport];
-        updateParameters(report.type, this.report);
+        report = ReportPlugin.reportList[idReport];
+        updateParameters(report.type, report);
       } else {
-        resetParameters(report.type, this.report);
+        resetParameters(report.type, report);
       }
 
       report.hour = adjustHourToTimezone(report.hour as string, timeZoneDifferenceInHours);
 
       this.selectedReports = {};
-      Object.keys(report.reports).forEach((key) => {
+      Object.values(report.reports).forEach((reportId) => {
         this.selectedReports[report.type] = this.selectedReports[report.type] || {};
-        this.selectedReports[report.type][key] = true;
+        this.selectedReports[report.type][reportId] = true;
       });
 
       report[`format${report.type}`] = report.format;
@@ -316,11 +322,21 @@ export default defineComponent({
     },
     createReport() {
       this.showReportsList = false;
-      this.formSetEditReport(0);
+
+      // in nextTick so global report function records get manipulated before individual
+      // entries are used
+      nextTick(() => {
+        this.formSetEditReport(0);
+      });
     },
     editReport(reportId: number) {
       this.showReportsList = false;
-      this.formSetEditReport(reportId);
+
+      // in nextTick so global report function records get manipulated before individual
+      // entries are used
+      nextTick(() => {
+        this.formSetEditReport(reportId);
+      });
     },
     submitReport() {
       const apiParameters: QueryParameters = {
@@ -348,7 +364,8 @@ export default defineComponent({
         apiParameters.reports = reports;
       }
 
-      apiParameters.parameters = window.getReportParametersFunctions[this.report.type](this.report);
+      const reportParams = window.getReportParametersFunctions[this.report.type](this.report);
+      apiParameters.parameters = reportParams as unknown as QueryParameters;
 
       const isCreate = this.report.idreport > 0;
       AjaxHelper.post(
@@ -376,10 +393,14 @@ export default defineComponent({
         this.changedReportType();
       }
     },
+    toggleSelectedReport(reportType: string, uniqueId: string) {
+      this.selectedReports[reportType] = this.selectedReports[reportType] || {};
+      this.selectedReports[reportType][uniqueId] = !this.selectedReports[reportType][uniqueId];
+    },
   },
   computed: {
     showReportForm() {
-      return !this.showListOfReports;
+      return !this.showReportsList;
     },
   },
 });

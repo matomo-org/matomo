@@ -9,7 +9,7 @@
     id="entityEditContainer"
     class="entityTableContainer"
     help-url="https://matomo.org/docs/email-reports/"
-    :feature="true"
+    :feature="'true'"
     :content-title="title"
   >
     <table v-content-table>
@@ -24,130 +24,133 @@
         <th>{{ translate('General_Delete') }}</th>
       </tr>
       </thead>
-      <tr v-if="userLogin === 'anonymous'">
-        <td colspan="7">
-          <br />
-          {{ translate('ScheduledReports_MustBeLoggedIn') }}
-          <br />&rsaquo; <a :href="`index.php?module=${loginModule}`">
-            {{ translate('Login_LogIn') }}
-          </a>
-          <br /><br />
-        </td>
-      </tr>
-      <tr v-else-if="!reports?.length">
-        <td colspan="7">
-          <br />
-          {{ translate('ScheduledReports_ThereIsNoReportToManage', siteName) }}.
-          <br /><br />
-        </td>
-      </tr>
-      <tr v-for="report in reports" :key="report.idreport">
-        <td class="first">
-          {{ report.description }}
-          <div
-            class="entityInlineHelp"
-            style="font-size: 9pt;"
-            v-if="segmentEditorActivated && report.idsegment"
-          >
-                <span v-if="savedSegmentsById[report.idsegment]">
-                  {{ savedSegmentsById.report.idsegment }}
-                </span>
-            <span v-else>
-                  {{ translate('ScheduledReports_SegmentDeleted') }}
-                </span>
-          </div>
-        </td>
-        <td>{{ periods.report.period }}
-          <!-- Last sent on {{ report.ts_last_sent }} -->
-        </td>
-        <td>
-          <span v-if="report.format">{{ report.format.toUpperCase() }}</span>
-        </td>
-        <td>
-          <span v-if="report.recipients.length === 0">
-            {{ translate('ScheduledReports_NoRecipients') }}
-          </span>
-          <span v-for="(recipient, index) in report.recipients" :key="index">
-            {{ recipient }}
+      <tbody>
+        <tr v-if="userLogin === 'anonymous'">
+          <td colspan="7">
             <br />
-          </span>
+            {{ translate('ScheduledReports_MustBeLoggedIn') }}
+            <br />&rsaquo; <a :href="`index.php?module=${loginModule}`">
+              {{ translate('Login_LogIn') }}
+            </a>
+            <br /><br />
+          </td>
+        </tr>
+        <tr v-else-if="!reports?.length">
+          <td colspan="7">
+            <br />
+            {{ translate('ScheduledReports_ThereIsNoReportToManage', siteName) }}.
+            <br /><br />
+          </td>
+        </tr>
+        <tr v-for="report in reports" :key="report.idreport">
+          <td class="first">
+            {{ report.description }}
+            <div
+              class="entityInlineHelp"
+              style="font-size: 9pt;"
+              v-if="segmentEditorActivated && report.idsegment"
+            >
+                  <span v-if="savedSegmentsById[report.idsegment]">
+                    {{ savedSegmentsById.report.idsegment }}
+                  </span>
+              <span v-else>
+                    {{ translate('ScheduledReports_SegmentDeleted') }}
+                  </span>
+            </div>
+          </td>
+          <td>{{ periods[report.period] }}
+            <!-- Last sent on {{ report.ts_last_sent }} -->
+          </td>
+          <td>
+            <span v-if="report.format">{{ report.format.toUpperCase() }}</span>
+          </td>
+          <td>
+            <span v-if="report.recipients.length === 0">
+              {{ translate('ScheduledReports_NoRecipients') }}
+            </span>
+            <span v-for="(recipient, index) in report.recipients" :key="index">
+              {{ recipient }}
+              <br />
+            </span>
 
-          <a
-            href="#"
-            name="linkSendNow"
-            class="link_but withIcon"
-            style="margin-top:3px;"
-            @click.prevent="$emit('sendnow', report.idreport)"
-          >
-            <img
-              border="0"
-              :src="reportTypes.report.type"
-            />
-            {{ translate('ScheduledReports_SendReportNow') }}
-          </a>
-        </td>
-        <td>
-          <form
-            method="POST"
-            target="_blank"
-            :id="`downloadReportForm_${report.idreport}`"
-            :action="linkTo({
-                  'module':'API',
-                  'segment': null,
-                  'method': 'ScheduledReports.generateReport',
-                  'idReport': report.idreport,
-                  'outputType': downloadOutputType,
-                  'language': language,
-                  'format': (report.format in ['html', 'csv', 'tsv']) ? report.format : false,
-                })"
-          >
-            <input
-              type="hidden"
-              name="token_auth"
-              :value="token_auth"
-            />
-            <input
-              type="hidden"
-              name="force_api_session"
-              value="1"
-            />
-          </form>
-          <a
-            href=""
-            rel="noreferrer noopener"
-            name="linkDownloadReport"
-            class="link_but withIcon"
-            @click.prevent="displayReport(report.idreport)"
-            :id="report.idreport"
-          >
-            <img
-              border="0"
-              width="16px"
-              height="16px"
-              :src="reportFormatsByReportType[report.type][report.format]"
-            />
-            {{ translate('General_Download') }}
-          </a>
-        </td>
-        <td style="text-align: center;padding-top:2px;">
-          <button
-            class="table-action"
-            @click="$emit('edit', parseInt(report.idreport, 10))"
-            :title="translate('General_Edit')"
-          >
-            <span class="icon-edit" />
-          </button>
-        </td>
-        <td style="text-align: center;padding-top:2px;">
-          <button
-            class="table-action"
-            @click="$emit('delete', report.idreport)"
-            :title="translate('General_Delete')"
-          >
-            <span class="icon-delete" />
-          </button>
-        </td>
-      </tr>
+            <a
+              href="#"
+              name="linkSendNow"
+              class="link_but withIcon"
+              style="margin-top:3px;"
+              @click.prevent="$emit('sendnow', report.idreport)"
+            >
+              <img
+                border="0"
+                :src="reportTypes[report.type]"
+              />
+              {{ translate('ScheduledReports_SendReportNow') }}
+            </a>
+          </td>
+          <td>
+            <form
+              method="POST"
+              target="_blank"
+              :id="`downloadReportForm_${report.idreport}`"
+              :action="linkTo({
+                module: 'API',
+                segment: null,
+                method: 'ScheduledReports.generateReport',
+                idReport: report.idreport,
+                outputType: downloadOutputType,
+                language: language,
+                format: ['html', 'csv', 'tsv'].indexOf(report.format) !== -1
+                  ? report.format : false,
+              })"
+            >
+              <input
+                type="hidden"
+                name="token_auth"
+                :value="token_auth"
+              />
+              <input
+                type="hidden"
+                name="force_api_session"
+                value="1"
+              />
+            </form>
+            <a
+              href=""
+              rel="noreferrer noopener"
+              name="linkDownloadReport"
+              class="link_but withIcon"
+              @click.prevent="displayReport(report.idreport)"
+              :id="report.idreport"
+            >
+              <img
+                border="0"
+                :width="16"
+                :height="16"
+                :src="reportFormatsByReportType[report.type][report.format]"
+              />
+              {{ translate('General_Download') }}
+            </a>
+          </td>
+          <td style="text-align: center;padding-top:2px;">
+            <button
+              class="table-action"
+              @click="$emit('edit', report.idreport)"
+              :title="translate('General_Edit')"
+            >
+              <span class="icon-edit" />
+            </button>
+          </td>
+          <td style="text-align: center;padding-top:2px;">
+            <button
+              class="table-action"
+              @click="$emit('delete', report.idreport)"
+              :title="translate('General_Delete')"
+            >
+              <span class="icon-delete" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
     </table>
     <div class="tableActionBar">
       <button
@@ -200,7 +203,7 @@ export default defineComponent({
       required: true,
     },
     downloadOutputType: {
-      type: String,
+      type: Number,
       required: true,
     },
     language: {
@@ -208,6 +211,10 @@ export default defineComponent({
       required: true,
     },
     reportFormatsByReportType: {
+      type: Object,
+      required: true,
+    },
+    reportTypes: {
       type: Object,
       required: true,
     },
@@ -221,7 +228,10 @@ export default defineComponent({
   emits: ['create', 'edit', 'delete', 'sendnow'],
   methods: {
     linkTo(params: QueryParameters) {
-      return `?${MatomoUrl.stringify(params)}`;
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        ...params,
+      })}`;
     },
     displayReport(reportId: number|string) {
       $(`#downloadReportForm_${reportId}`).submit();

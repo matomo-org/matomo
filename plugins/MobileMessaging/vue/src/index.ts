@@ -8,6 +8,7 @@
 import './SmsProviderCredentials/SmsProviderCredentials.adapter';
 import './SelectPhoneNumbers/SelectPhoneNumbers.adapter';
 
+export { default as ReportParameters } from './ReportParameters/ReportParameters.vue';
 export { default as ManageSmsProvider } from './ManageSmsProvider/ManageSmsProvider.vue';
 export { default as SmsProviderCredentials } from './SmsProviderCredentials/SmsProviderCredentials.vue';
 export { default as DelegateMobileMessagingSettings } from './DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue';

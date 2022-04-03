@@ -5,12 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-export interface ReportParameters {
-  displayFormat?: string|number;
-  emailMe?: boolean;
-  evolutionGraph?: boolean;
-}
-
 export interface Report {
   [name: string]: unknown;
 
@@ -24,7 +18,7 @@ export interface Report {
   type: string;
   format: string;
   reports: string[];
-  parameters: ReportParameters;
+  parameters: Record<string, unknown>; // QueryParameters
   ts_created: string;
   ts_last_sent: string|null;
   deleted: string|number;
@@ -52,7 +46,7 @@ interface ReportPluginGlobal {
 declare global {
   interface Window {
     ReportPlugin: ReportPluginGlobal;
-    getReportParametersFunctions: Record<string, (report: Report) => QueryParameters>;
+    getReportParametersFunctions: Record<string, (report: Report) => Record<string, unknown>>;
     resetReportParametersFunctions: Record<string, (report: Report) => void>;
     updateReportParametersFunctions: Record<string, (report: Report) => void>;
   }

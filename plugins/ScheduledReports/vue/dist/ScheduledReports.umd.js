@@ -132,6 +132,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
+__webpack_require__.d(__webpack_exports__, "ReportParameters", function() { return /* reexport */ ReportParameters; });
 __webpack_require__.d(__webpack_exports__, "ManageScheduledReport", function() { return /* reexport */ ManageScheduledReport; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
@@ -150,16 +151,145 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/types.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ManageScheduledReport/ManageScheduledReport.vue?vue&type=template&id=bde43de2
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ReportParameters/ReportParameters.vue?vue&type=template&id=42c798f4
 
 var _hoisted_1 = {
+  key: 0
+};
+var _hoisted_2 = {
+  key: 1
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [_ctx.report ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    uicontrol: "checkbox",
+    name: "report_email_me",
+    introduction: _ctx.translate('ScheduledReports_SendReportTo'),
+    modelValue: _ctx.report.emailMe,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.report.emailMe = $event;
+    }),
+    title: "".concat(_ctx.translate('ScheduledReports_SentToMe'), " (").concat(_ctx.currentUserEmail, ")")
+  }, null, 8, ["introduction", "modelValue", "title"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.report.type === 'email']])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.report ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    uicontrol: "textarea",
+    "var-type": "array",
+    modelValue: _ctx.report.additionalEmails,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.report.additionalEmails = $event;
+    }),
+    title: _ctx.translate('ScheduledReports_AlsoSendReportToTheseEmails')
+  }, null, 8, ["modelValue", "title"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.report.type === 'email']])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
+}
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/ReportParameters/ReportParameters.vue?vue&type=template&id=42c798f4
+
+// EXTERNAL MODULE: external "CorePluginsAdmin"
+var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ReportParameters/ReportParameters.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var ReportParametersvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    reportType: {
+      type: String,
+      required: true
+    },
+    defaultDisplayFormat: {
+      type: Number,
+      required: true
+    },
+    defaultEmailMe: {
+      type: Boolean,
+      required: true
+    },
+    defaultEvolutionGraph: {
+      type: Boolean,
+      required: true
+    },
+    currentUserEmail: {
+      type: String,
+      required: true
+    }
+  },
+  components: {
+    Field: external_CorePluginsAdmin_["Field"]
+  },
+  setup: function setup(props) {
+    var report = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    var _window = window,
+        resetReportParametersFunctions = _window.resetReportParametersFunctions,
+        updateReportParametersFunctions = _window.updateReportParametersFunctions,
+        getReportParametersFunctions = _window.getReportParametersFunctions;
+
+    if (!resetReportParametersFunctions[props.reportType]) {
+      resetReportParametersFunctions[props.reportType] = function (theReport) {
+        report.value = theReport;
+        theReport.displayFormat = props.defaultDisplayFormat;
+        theReport.emailMe = props.defaultEmailMe;
+        theReport.evolutionGraph = props.defaultEvolutionGraph;
+        theReport.additionalEmails = [];
+      };
+    }
+
+    if (!updateReportParametersFunctions[props.reportType]) {
+      updateReportParametersFunctions[props.reportType] = function (theReport) {
+        if (!(theReport !== null && theReport !== void 0 && theReport.parameters)) {
+          return;
+        }
+
+        report.value = theReport;
+        ['displayFormat', 'emailMe', 'evolutionGraph', 'additionalEmails'].forEach(function (field) {
+          if (field in theReport.parameters) {
+            theReport[field] = theReport.parameters[field];
+          }
+        });
+      };
+    }
+
+    if (!getReportParametersFunctions[props.reportType]) {
+      getReportParametersFunctions[props.reportType] = function (theReport) {
+        return {
+          displayFormat: theReport.displayFormat,
+          emailMe: theReport.emailMe,
+          evolutionGraph: theReport.evolutionGraph,
+          additionalEmails: theReport.additionalEmails || []
+        };
+      };
+    }
+
+    return {
+      report: report
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/ReportParameters/ReportParameters.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/ReportParameters/ReportParameters.vue
+
+
+
+ReportParametersvue_type_script_lang_ts.render = render
+
+/* harmony default export */ var ReportParameters = (ReportParametersvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ManageScheduledReport/ManageScheduledReport.vue?vue&type=template&id=643283ec
+
+var ManageScheduledReportvue_type_template_id_643283ec_hoisted_1 = {
   class: "emailReports",
   ref: "root"
 };
-var _hoisted_2 = {
+var ManageScheduledReportvue_type_template_id_643283ec_hoisted_2 = {
   ref: "reportSentSuccess"
 };
 var _hoisted_3 = {
@@ -191,12 +321,12 @@ var _hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vu
   id: "bottom"
 }, null, -1);
 
-function render(_ctx, _cache, $props, $setup, $data, $options) {
+function ManageScheduledReportvue_type_template_id_643283ec_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ListReports = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ListReports");
 
   var _component_AddReport = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AddReport");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, null, 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, null, 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ManageScheduledReportvue_type_template_id_643283ec_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageScheduledReportvue_type_template_id_643283ec_hoisted_2, null, 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, null, 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
     src: "plugins/Morpheus/images/loading-blue.gif",
     alt: _ctx.translate('General_LoadingData')
   }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ListReports, {
@@ -208,7 +338,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "segment-editor-activated": _ctx.segmentEditorActivated,
     "saved-segments-by-id": _ctx.savedSegmentsById,
     periods: _ctx.periods,
-    recipient: _ctx.recipient,
     "report-types": _ctx.reportTypes,
     "download-output-type": _ctx.downloadOutputType,
     language: _ctx.language,
@@ -225,25 +354,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSendnow: _cache[3] || (_cache[3] = function ($event) {
       return _ctx.sendReportNow($event);
     })
-  }, null, 8, ["title", "user-login", "login-module", "reports", "site-name", "segment-editor-activated", "saved-segments-by-id", "periods", "recipient", "report-types", "download-output-type", "language", "report-formats-by-report-type"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showReportsList]]), _ctx.showReportForm ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_AddReport, {
+  }, null, 8, ["title", "user-login", "login-module", "reports", "site-name", "segment-editor-activated", "saved-segments-by-id", "periods", "report-types", "download-output-type", "language", "report-formats-by-report-type"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showReportsList]]), _ctx.showReportForm ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_AddReport, {
     key: 0,
     report: _ctx.report,
+    periods: _ctx.periods,
     "param-periods": _ctx.paramPeriods,
     "report-type-options": _ctx.reportTypeOptions,
     "report-formats-by-report-type-options": _ctx.reportFormatsByReportTypeOptions,
-    "report-formats": _ctx.reportFormats,
     "display-formats": _ctx.displayFormats,
     "reports-by-category-by-report-type": _ctx.reportsByCategoryByReportType,
     "allow-multiple-reports-by-report-type": _ctx.allowMultipleReportsByReportType,
-    "reports-by-category": _ctx.reportsByCategory,
     "count-websites": _ctx.countWebsites,
     "site-name": _ctx.siteName,
     "selected-reports": _ctx.selectedReports,
-    onToggleSelectedReport: _ctx.selectedReports[_ctx.$event.reportType][_ctx.$event.uniqueId],
-    onChange: _cache[4] || (_cache[4] = function ($event) {
+    "report-types": _ctx.reportTypes,
+    "segment-editor-activated": _ctx.segmentEditorActivated,
+    "saved-segments-by-id": _ctx.savedSegmentsById,
+    onToggleSelectedReport: _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.toggleSelectedReport($event.reportType, $event.uniqueId);
+    }),
+    onChange: _cache[5] || (_cache[5] = function ($event) {
       return _ctx.onChangeProperty($event.prop, $event.value);
     }),
-    onSubmit: _cache[5] || (_cache[5] = function ($event) {
+    onSubmit: _cache[6] || (_cache[6] = function ($event) {
       return _ctx.submitReport();
     })
   }, {
@@ -251,44 +384,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "report-parameters")];
     }),
     _: 3
-  }, 8, ["report", "param-periods", "report-type-options", "report-formats-by-report-type-options", "report-formats", "display-formats", "reports-by-category-by-report-type", "allow-multiple-reports-by-report-type", "reports-by-category", "count-websites", "site-name", "selected-reports", "onToggleSelectedReport"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _hoisted_9])], 512);
+  }, 8, ["report", "periods", "param-periods", "report-type-options", "report-formats-by-report-type-options", "display-formats", "reports-by-category-by-report-type", "allow-multiple-reports-by-report-type", "count-websites", "site-name", "selected-reports", "report-types", "segment-editor-activated", "saved-segments-by-id"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _hoisted_9])], 512);
 }
-// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/ManageScheduledReport/ManageScheduledReport.vue?vue&type=template&id=bde43de2
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/ManageScheduledReport/ManageScheduledReport.vue?vue&type=template&id=643283ec
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
 
-// EXTERNAL MODULE: external "CorePluginsAdmin"
-var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=47b1ff78
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=b3999d8c
 
 
-var AddReportvue_type_template_id_47b1ff78_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+var AddReportvue_type_template_id_b3999d8c_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "clear"
 }, null, -1);
 
-var AddReportvue_type_template_id_47b1ff78_hoisted_2 = {
+var AddReportvue_type_template_id_b3999d8c_hoisted_2 = {
   key: 0
 };
-var AddReportvue_type_template_id_47b1ff78_hoisted_3 = ["innerHTML"];
-var AddReportvue_type_template_id_47b1ff78_hoisted_4 = {
+var AddReportvue_type_template_id_b3999d8c_hoisted_3 = ["innerHTML"];
+var AddReportvue_type_template_id_b3999d8c_hoisted_4 = {
   id: "emailScheduleInlineHelp",
   class: "inline-help-node"
 };
 
-var AddReportvue_type_template_id_47b1ff78_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AddReportvue_type_template_id_b3999d8c_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AddReportvue_type_template_id_47b1ff78_hoisted_6 = {
+var AddReportvue_type_template_id_b3999d8c_hoisted_6 = {
   id: "emailReportPeriodInlineHelp",
   class: "inline-help-node"
 };
 
-var AddReportvue_type_template_id_47b1ff78_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AddReportvue_type_template_id_b3999d8c_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AddReportvue_type_template_id_47b1ff78_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AddReportvue_type_template_id_b3999d8c_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AddReportvue_type_template_id_47b1ff78_hoisted_9 = {
+var AddReportvue_type_template_id_b3999d8c_hoisted_9 = {
   key: 0,
   id: "reportHourHelpText",
   class: "inline-help-node"
@@ -343,7 +473,7 @@ var _hoisted_28 = {
 var _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
 var _hoisted_30 = ["innerHTML"];
-function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $setup, $data, $options) {
+function AddReportvue_type_template_id_b3999d8c_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
@@ -357,7 +487,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
     "content-title": _ctx.translate('ScheduledReports_CreateAndScheduleReport')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [AddReportvue_type_template_id_47b1ff78_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+      return [AddReportvue_type_template_id_b3999d8c_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
         id: "addEditReport",
         onSubmit: _cache[13] || (_cache[13] = function ($event) {
           return _ctx.$emit('submit');
@@ -380,7 +510,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
           });
         }),
         "inline-help": _ctx.translate('ScheduledReports_DescriptionOnFirstPage')
-      }, null, 8, ["title", "model-value", "inline-help"])]), _ctx.segmentEditorActivated ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_47b1ff78_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      }, null, 8, ["title", "model-value", "inline-help"])]), _ctx.segmentEditorActivated ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_b3999d8c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "select",
         name: "report_segment",
         title: _ctx.translate('SegmentEditor_ChooseASegment'),
@@ -399,7 +529,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
             id: "reportSegmentInlineHelp",
             class: "inline-help-node",
             innerHTML: _ctx.reportSegmentInlineHelp
-          }, null, 8, AddReportvue_type_template_id_47b1ff78_hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+          }, null, 8, AddReportvue_type_template_id_b3999d8c_hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
         }),
         _: 1
       }, 8, ["title", "model-value", "options"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -421,7 +551,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
         options: _ctx.periods
       }, {
         "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_47b1ff78_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_WeeklyScheduleHelp')) + " ", 1), AddReportvue_type_template_id_47b1ff78_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_MonthlyScheduleHelp')), 1)])];
+          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_b3999d8c_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_WeeklyScheduleHelp')) + " ", 1), AddReportvue_type_template_id_b3999d8c_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_MonthlyScheduleHelp')), 1)])];
         }),
         _: 1
       }, 8, ["model-value", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -438,7 +568,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
         title: _ctx.translate('ScheduledReports_ReportPeriod')
       }, {
         "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_47b1ff78_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp')) + " ", 1), AddReportvue_type_template_id_47b1ff78_hoisted_7, AddReportvue_type_template_id_47b1ff78_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp2')), 1)])];
+          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_b3999d8c_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp')) + " ", 1), AddReportvue_type_template_id_b3999d8c_hoisted_7, AddReportvue_type_template_id_b3999d8c_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp2')), 1)])];
         }),
         _: 1
       }, 8, ["model-value", "options", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -455,7 +585,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
         options: _ctx.reportHours
       }, {
         "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [_ctx.timezoneOffset !== 0 && _ctx.timezoneOffset !== '0' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_47b1ff78_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+          return [_ctx.timezoneOffset !== 0 && _ctx.timezoneOffset !== '0' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_b3999d8c_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
             textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.reportHourUtc)
           }, null, 8, _hoisted_10)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
         }),
@@ -473,7 +603,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
         }),
         title: _ctx.translate('ScheduledReports_ReportType'),
         options: _ctx.reportTypeOptions
-      }, null, 8, ["disabled", "model-value", "title", "options"])]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.reportFormatsByReportTypeOptions, function (reportType, reportFormats) {
+      }, null, 8, ["disabled", "model-value", "title", "options"])]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.reportFormatsByReportTypeOptions, function (reportFormats, reportType) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
           key: reportType
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -549,7 +679,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
         onChange: _cache[11] || (_cache[11] = function ($event) {
           return _ctx.onEvolutionPeriodN($event);
         })
-      }, null, 40, _hoisted_22)])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.report.displayFormat in [1, '1', 2, '2', 3, '3']]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.report.type === 'email' && _ctx.report.formatemail !== 'csv' && _ctx.report.formatemail !== 'tsv']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_23, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportsIncluded')), 1)]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.reportsByCategoryByReportTypeInColumns, function (reportType, reportColumns) {
+      }, null, 40, _hoisted_22)])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.report.displayFormat in [1, '1', 2, '2', 3, '3']]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.report.type === 'email' && _ctx.report.formatemail !== 'csv' && _ctx.report.formatemail !== 'tsv']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_23, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportsIncluded')), 1)]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.reportsByCategoryByReportTypeInColumns, function (reportColumns, reportType) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
           name: "reportsList",
           class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("row ".concat(reportType)),
@@ -558,7 +688,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
           return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
             class: "col s12 m6",
             key: index
-          }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(reportsByCategory, function (category, reports) {
+          }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(reportsByCategory, function (reports, category) {
             return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
               key: category
             }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(category), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_26, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(reports, function (report) {
@@ -594,7 +724,7 @@ function AddReportvue_type_template_id_47b1ff78_render(_ctx, _cache, $props, $se
     _: 3
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=47b1ff78
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=b3999d8c
 
 // CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/utilities.ts
 /*!
@@ -623,8 +753,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var _window = window,
-    ReportPlugin = _window.ReportPlugin;
 /* harmony default export */ var AddReportvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     report: {
@@ -663,6 +791,16 @@ var _window = window,
     siteName: {
       type: String,
       required: true
+    },
+    reportTypes: {
+      type: Object,
+      required: true
+    },
+    segmentEditorActivated: Boolean,
+    savedSegmentsById: Object,
+    periods: {
+      type: Object,
+      required: true
     }
   },
   emits: ['submit', 'change'],
@@ -683,7 +821,13 @@ var _window = window,
     }
   },
   mounted: function mounted() {
-    external_CoreHome_["Matomo"].helper.compileAngularComponents($(this.$refs.reportParameters));
+    var reportParameters = this.$refs.reportParameters;
+    external_CoreHome_["Matomo"].helper.compileAngularComponents(reportParameters);
+    external_CoreHome_["Matomo"].helper.compileVueEntryComponents(reportParameters);
+  },
+  beforeUnmount: function beforeUnmount() {
+    var reportParameters = this.$refs.reportParameters;
+    external_CoreHome_["Matomo"].helper.destroyVueComponent(reportParameters);
   },
   computed: {
     reportsByCategoryByReportTypeInColumns: function reportsByCategoryByReportTypeInColumns() {
@@ -720,6 +864,8 @@ var _window = window,
         return '';
       }
 
+      var _window = window,
+          ReportPlugin = _window.ReportPlugin;
       var translation = ReportPlugin.periodTranslations[this.report.period];
 
       if (!translation) {
@@ -733,6 +879,8 @@ var _window = window,
         return '';
       }
 
+      var _window2 = window,
+          ReportPlugin = _window2.ReportPlugin;
       var translation = ReportPlugin.periodTranslations[this.report.period];
 
       if (!translation) {
@@ -777,6 +925,8 @@ var _window = window,
       return Object(external_CoreHome_["translate"])('ScheduledReports_ReportHourWithUTC', [reportHour]);
     },
     saveButtonTitle: function saveButtonTitle() {
+      var _window3 = window,
+          ReportPlugin = _window3.ReportPlugin;
       var isCreate = this.report.idreport > 0;
       return isCreate ? ReportPlugin.updateReportString : ReportPlugin.createReportString;
     }
@@ -788,91 +938,91 @@ var _window = window,
 
 
 
-AddReportvue_type_script_lang_ts.render = AddReportvue_type_template_id_47b1ff78_render
+AddReportvue_type_script_lang_ts.render = AddReportvue_type_template_id_b3999d8c_render
 
 /* harmony default export */ var AddReport = (AddReportvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ListReports/ListReports.vue?vue&type=template&id=4db01cfb
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ListReports/ListReports.vue?vue&type=template&id=6665735a
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_1 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_1 = {
   class: "first"
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_2 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_2 = {
   key: 0
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_3 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_3 = {
   colspan: "7"
 };
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("› ");
+var ListReportsvue_type_template_id_6665735a_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("› ");
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_7 = ["href"];
+var ListReportsvue_type_template_id_6665735a_hoisted_7 = ["href"];
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_10 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_10 = {
   key: 1
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_11 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_11 = {
   colspan: "7"
 };
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_15 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_15 = {
   class: "first"
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_16 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_16 = {
   key: 0,
   class: "entityInlineHelp",
   style: {
     "font-size": "9pt"
   }
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_17 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_17 = {
   key: 0
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_18 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_18 = {
   key: 1
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_19 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_19 = {
   key: 0
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_20 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_20 = {
   key: 0
 };
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ListReportsvue_type_template_id_6665735a_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_22 = ["onClick"];
-var ListReportsvue_type_template_id_4db01cfb_hoisted_23 = ["src"];
-var ListReportsvue_type_template_id_4db01cfb_hoisted_24 = ["id", "action"];
-var ListReportsvue_type_template_id_4db01cfb_hoisted_25 = ["value"];
+var ListReportsvue_type_template_id_6665735a_hoisted_22 = ["onClick"];
+var ListReportsvue_type_template_id_6665735a_hoisted_23 = ["src"];
+var ListReportsvue_type_template_id_6665735a_hoisted_24 = ["id", "action"];
+var ListReportsvue_type_template_id_6665735a_hoisted_25 = ["value"];
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+var ListReportsvue_type_template_id_6665735a_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
   type: "hidden",
   name: "force_api_session",
   value: "1"
 }, null, -1);
 
-var ListReportsvue_type_template_id_4db01cfb_hoisted_27 = ["onClick", "id"];
-var ListReportsvue_type_template_id_4db01cfb_hoisted_28 = ["src"];
-var ListReportsvue_type_template_id_4db01cfb_hoisted_29 = {
+var ListReportsvue_type_template_id_6665735a_hoisted_27 = ["onClick", "id"];
+var ListReportsvue_type_template_id_6665735a_hoisted_28 = ["src"];
+var ListReportsvue_type_template_id_6665735a_hoisted_29 = {
   style: {
     "text-align": "center",
     "padding-top": "2px"
   }
 };
-var ListReportsvue_type_template_id_4db01cfb_hoisted_30 = ["onClick", "title"];
+var ListReportsvue_type_template_id_6665735a_hoisted_30 = ["onClick", "title"];
 
 var _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-edit"
@@ -900,7 +1050,7 @@ var _hoisted_38 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_V
   class: "icon-add"
 }, null, -1);
 
-function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ListReportsvue_type_template_id_6665735a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
 
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
@@ -909,21 +1059,21 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
     id: "entityEditContainer",
     class: "entityTableContainer",
     "help-url": "https://matomo.org/docs/email-reports/",
-    feature: true,
+    feature: 'true',
     "content-title": _ctx.title
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
       var _ctx$reports;
 
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", ListReportsvue_type_template_id_4db01cfb_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_EmailSchedule')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportFormat')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_SendReportTo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Download')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Edit')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Delete')), 1)])]), _ctx.userLogin === 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", ListReportsvue_type_template_id_4db01cfb_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_4db01cfb_hoisted_3, [ListReportsvue_type_template_id_4db01cfb_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_MustBeLoggedIn')) + " ", 1), ListReportsvue_type_template_id_4db01cfb_hoisted_5, ListReportsvue_type_template_id_4db01cfb_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", ListReportsvue_type_template_id_6665735a_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_EmailSchedule')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportFormat')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_SendReportTo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Download')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Edit')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Delete')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [_ctx.userLogin === 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", ListReportsvue_type_template_id_6665735a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_6665735a_hoisted_3, [ListReportsvue_type_template_id_6665735a_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_MustBeLoggedIn')) + " ", 1), ListReportsvue_type_template_id_6665735a_hoisted_5, ListReportsvue_type_template_id_6665735a_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         href: "index.php?module=".concat(_ctx.loginModule)
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_LogIn')), 9, ListReportsvue_type_template_id_4db01cfb_hoisted_7), ListReportsvue_type_template_id_4db01cfb_hoisted_8, ListReportsvue_type_template_id_4db01cfb_hoisted_9])])) : !((_ctx$reports = _ctx.reports) !== null && _ctx$reports !== void 0 && _ctx$reports.length) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", ListReportsvue_type_template_id_4db01cfb_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_4db01cfb_hoisted_11, [ListReportsvue_type_template_id_4db01cfb_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ThereIsNoReportToManage', _ctx.siteName)) + ". ", 1), ListReportsvue_type_template_id_4db01cfb_hoisted_13, ListReportsvue_type_template_id_4db01cfb_hoisted_14])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.reports, function (report) {
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_LogIn')), 9, ListReportsvue_type_template_id_6665735a_hoisted_7), ListReportsvue_type_template_id_6665735a_hoisted_8, ListReportsvue_type_template_id_6665735a_hoisted_9])])) : !((_ctx$reports = _ctx.reports) !== null && _ctx$reports !== void 0 && _ctx$reports.length) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", ListReportsvue_type_template_id_6665735a_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_6665735a_hoisted_11, [ListReportsvue_type_template_id_6665735a_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ThereIsNoReportToManage', _ctx.siteName)) + ". ", 1), ListReportsvue_type_template_id_6665735a_hoisted_13, ListReportsvue_type_template_id_6665735a_hoisted_14])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.reports, function (report) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
           key: report.idreport
-        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_4db01cfb_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(report.description) + " ", 1), _ctx.segmentEditorActivated && report.idsegment ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ListReportsvue_type_template_id_4db01cfb_hoisted_16, [_ctx.savedSegmentsById[report.idsegment] ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_4db01cfb_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.savedSegmentsById.report.idsegment), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_4db01cfb_hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_SegmentDeleted')), 1))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.periods.report.period), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [report.format ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_4db01cfb_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(report.format.toUpperCase()), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [report.recipients.length === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_4db01cfb_hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_NoRecipients')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(report.recipients, function (recipient, index) {
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_6665735a_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(report.description) + " ", 1), _ctx.segmentEditorActivated && report.idsegment ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ListReportsvue_type_template_id_6665735a_hoisted_16, [_ctx.savedSegmentsById[report.idsegment] ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_6665735a_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.savedSegmentsById.report.idsegment), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_6665735a_hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_SegmentDeleted')), 1))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.periods[report.period]), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [report.format ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_6665735a_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(report.format.toUpperCase()), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [report.recipients.length === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ListReportsvue_type_template_id_6665735a_hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_NoRecipients')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(report.recipients, function (recipient, index) {
           return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
             key: index
-          }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(recipient) + " ", 1), ListReportsvue_type_template_id_4db01cfb_hoisted_21]);
+          }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(recipient) + " ", 1), ListReportsvue_type_template_id_6665735a_hoisted_21]);
         }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
           href: "#",
           name: "linkSendNow",
@@ -936,25 +1086,25 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
           }, ["prevent"])
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
           border: "0",
-          src: _ctx.reportTypes.report.type
-        }, null, 8, ListReportsvue_type_template_id_4db01cfb_hoisted_23), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_SendReportNow')), 1)], 8, ListReportsvue_type_template_id_4db01cfb_hoisted_22)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+          src: _ctx.reportTypes[report.type]
+        }, null, 8, ListReportsvue_type_template_id_6665735a_hoisted_23), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_SendReportNow')), 1)], 8, ListReportsvue_type_template_id_6665735a_hoisted_22)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
           method: "POST",
           target: "_blank",
           id: "downloadReportForm_".concat(report.idreport),
           action: _ctx.linkTo({
-            'module': 'API',
-            'segment': null,
-            'method': 'ScheduledReports.generateReport',
-            'idReport': report.idreport,
-            'outputType': _ctx.downloadOutputType,
-            'language': _ctx.language,
-            'format': report.format in ['html', 'csv', 'tsv'] ? report.format : false
+            module: 'API',
+            segment: null,
+            method: 'ScheduledReports.generateReport',
+            idReport: report.idreport,
+            outputType: _ctx.downloadOutputType,
+            language: _ctx.language,
+            format: ['html', 'csv', 'tsv'].indexOf(report.format) !== -1 ? report.format : false
           })
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
           type: "hidden",
           name: "token_auth",
           value: _ctx.token_auth
-        }, null, 8, ListReportsvue_type_template_id_4db01cfb_hoisted_25), ListReportsvue_type_template_id_4db01cfb_hoisted_26], 8, ListReportsvue_type_template_id_4db01cfb_hoisted_24), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+        }, null, 8, ListReportsvue_type_template_id_6665735a_hoisted_25), ListReportsvue_type_template_id_6665735a_hoisted_26], 8, ListReportsvue_type_template_id_6665735a_hoisted_24), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
           href: "",
           rel: "noreferrer noopener",
           name: "linkDownloadReport",
@@ -965,23 +1115,23 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
           id: report.idreport
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
           border: "0",
-          width: "16px",
-          height: "16px",
+          width: 16,
+          height: 16,
           src: _ctx.reportFormatsByReportType[report.type][report.format]
-        }, null, 8, ListReportsvue_type_template_id_4db01cfb_hoisted_28), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Download')), 1)], 8, ListReportsvue_type_template_id_4db01cfb_hoisted_27)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_4db01cfb_hoisted_29, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+        }, null, 8, ListReportsvue_type_template_id_6665735a_hoisted_28), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Download')), 1)], 8, ListReportsvue_type_template_id_6665735a_hoisted_27)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", ListReportsvue_type_template_id_6665735a_hoisted_29, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
           class: "table-action",
           onClick: function onClick($event) {
-            return _ctx.$emit('edit', parseInt(report.idreport, 10));
+            return _ctx.$emit('edit', report.idreport);
           },
           title: _ctx.translate('General_Edit')
-        }, _hoisted_32, 8, ListReportsvue_type_template_id_4db01cfb_hoisted_30)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_33, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+        }, _hoisted_32, 8, ListReportsvue_type_template_id_6665735a_hoisted_30)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_33, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
           class: "table-action",
           onClick: function onClick($event) {
             return _ctx.$emit('delete', report.idreport);
           },
           title: _ctx.translate('General_Delete')
         }, _hoisted_36, 8, _hoisted_34)])]);
-      }), 128))], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_37, [_ctx.userLogin !== 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+      }), 128))])], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_37, [_ctx.userLogin !== 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
         key: 0,
         id: "add-report",
         onClick: _cache[0] || (_cache[0] = function ($event) {
@@ -992,7 +1142,7 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/ListReports/ListReports.vue?vue&type=template&id=4db01cfb
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/ListReports/ListReports.vue?vue&type=template&id=6665735a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ListReports/ListReports.vue?vue&type=script&lang=ts
 
@@ -1026,7 +1176,7 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
       required: true
     },
     downloadOutputType: {
-      type: String,
+      type: Number,
       required: true
     },
     language: {
@@ -1034,6 +1184,10 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
       required: true
     },
     reportFormatsByReportType: {
+      type: Object,
+      required: true
+    },
+    reportTypes: {
       type: Object,
       required: true
     }
@@ -1047,7 +1201,7 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
   emits: ['create', 'edit', 'delete', 'sendnow'],
   methods: {
     linkTo: function linkTo(params) {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(params));
+      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), params)));
     },
     displayReport: function displayReport(reportId) {
       $("#downloadReportForm_".concat(reportId)).submit();
@@ -1065,7 +1219,7 @@ function ListReportsvue_type_template_id_4db01cfb_render(_ctx, _cache, $props, $
 
 
 
-ListReportsvue_type_script_lang_ts.render = ListReportsvue_type_template_id_4db01cfb_render
+ListReportsvue_type_script_lang_ts.render = ListReportsvue_type_template_id_6665735a_render
 
 /* harmony default export */ var ListReports = (ListReportsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ManageScheduledReport/ManageScheduledReport.vue?vue&type=script&lang=ts
@@ -1096,9 +1250,11 @@ function resetParameters(reportType, report) {
   }
 }
 
+window.resetReportParametersFunctions = window.resetReportParametersFunctions || {};
+window.updateReportParametersFunctions = window.updateReportParametersFunctions || {};
+window.getReportParametersFunctions = window.getReportParametersFunctions || {};
 var ManageScheduledReportvue_type_script_lang_ts_window = window,
-    ManageScheduledReportvue_type_script_lang_ts_$ = ManageScheduledReportvue_type_script_lang_ts_window.$,
-    ManageScheduledReportvue_type_script_lang_ts_ReportPlugin = ManageScheduledReportvue_type_script_lang_ts_window.ReportPlugin;
+    ManageScheduledReportvue_type_script_lang_ts_$ = ManageScheduledReportvue_type_script_lang_ts_window.$;
 var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = external_CoreHome_["Matomo"].timezoneOffset / 3600;
 /* harmony default export */ var ManageScheduledReportvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -1129,7 +1285,7 @@ var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = ext
       required: true
     },
     downloadOutputType: {
-      type: String,
+      type: Number,
       required: true
     },
     language: {
@@ -1166,6 +1322,10 @@ var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = ext
     },
     countWebsites: {
       type: Number,
+      required: true
+    },
+    reportTypes: {
+      type: Object,
       required: true
     }
   },
@@ -1208,32 +1368,34 @@ var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = ext
     formSetEditReport: function formSetEditReport(idReport) {
       var _this3 = this;
 
+      var _window2 = window,
+          ReportPlugin = _window2.ReportPlugin;
       var report = {
         idreport: idReport,
-        type: ManageScheduledReportvue_type_script_lang_ts_ReportPlugin.defaultReportType,
-        format: ManageScheduledReportvue_type_script_lang_ts_ReportPlugin.defaultReportFormat,
+        type: ReportPlugin.defaultReportType,
+        format: ReportPlugin.defaultReportFormat,
         description: '',
-        period: ManageScheduledReportvue_type_script_lang_ts_ReportPlugin.defaultPeriod,
-        hour: ManageScheduledReportvue_type_script_lang_ts_ReportPlugin.defaultHour,
+        period: ReportPlugin.defaultPeriod,
+        hour: ReportPlugin.defaultHour,
         reports: [],
         idsegment: '',
         evolutionPeriodFor: 'prev',
-        evolutionPeriodN: ManageScheduledReportvue_type_script_lang_ts_ReportPlugin.defaultEvolutionPeriodN,
-        periodParam: ManageScheduledReportvue_type_script_lang_ts_ReportPlugin.defaultPeriod
+        evolutionPeriodN: ReportPlugin.defaultEvolutionPeriodN,
+        periodParam: ReportPlugin.defaultPeriod
       };
 
       if (idReport > 0) {
-        this.report = ManageScheduledReportvue_type_script_lang_ts_ReportPlugin.reportList[idReport];
-        updateParameters(report.type, this.report);
+        report = ReportPlugin.reportList[idReport];
+        updateParameters(report.type, report);
       } else {
-        resetParameters(report.type, this.report);
+        resetParameters(report.type, report);
       }
 
       report.hour = adjustHourToTimezone(report.hour, ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours);
       this.selectedReports = {};
-      Object.keys(report.reports).forEach(function (key) {
+      Object.values(report.reports).forEach(function (reportId) {
         _this3.selectedReports[report.type] = _this3.selectedReports[report.type] || {};
-        _this3.selectedReports[report.type][key] = true;
+        _this3.selectedReports[report.type][reportId] = true;
       });
       report["format".concat(report.type)] = report.format;
 
@@ -1284,15 +1446,27 @@ var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = ext
       }
     },
     createReport: function createReport() {
-      this.showReportsList = false;
-      this.formSetEditReport(0);
+      var _this4 = this;
+
+      this.showReportsList = false; // in nextTick so global report function records get manipulated before individual
+      // entries are used
+
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+        _this4.formSetEditReport(0);
+      });
     },
     editReport: function editReport(reportId) {
-      this.showReportsList = false;
-      this.formSetEditReport(reportId);
+      var _this5 = this;
+
+      this.showReportsList = false; // in nextTick so global report function records get manipulated before individual
+      // entries are used
+
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+        _this5.formSetEditReport(reportId);
+      });
     },
     submitReport: function submitReport() {
-      var _this4 = this;
+      var _this6 = this;
 
       var apiParameters = {
         idReport: this.report.idreport,
@@ -1311,14 +1485,15 @@ var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = ext
       var period = this.report.period;
       var hour = adjustHourToTimezone(this.report.hour, -ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours);
       var reports = Object.keys(this.selectedReports[apiParameters.reportType]).filter(function (name) {
-        return _this4.selectedReports[apiParameters.reportType][name];
+        return _this6.selectedReports[apiParameters.reportType][name];
       });
 
       if (reports.length > 0) {
         apiParameters.reports = reports;
       }
 
-      apiParameters.parameters = window.getReportParametersFunctions[this.report.type](this.report);
+      var reportParams = window.getReportParametersFunctions[this.report.type](this.report);
+      apiParameters.parameters = reportParams;
       var isCreate = this.report.idreport > 0;
       external_CoreHome_["AjaxHelper"].post({
         method: isCreate ? 'ScheduledReports.updateReport' : 'ScheduledReports.addReport',
@@ -1327,7 +1502,7 @@ var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = ext
       }, apiParameters, {
         redirectOnSuccess: true
       }).then(function () {
-        _this4.fadeInOutSuccessMessage(_this4.$refs.reportUpdatedSuccess, Object(external_CoreHome_["translate"])('ScheduledReports_ReportUpdated'));
+        _this6.fadeInOutSuccessMessage(_this6.$refs.reportUpdatedSuccess, Object(external_CoreHome_["translate"])('ScheduledReports_ReportUpdated'));
       });
       return false;
     },
@@ -1337,11 +1512,15 @@ var ManageScheduledReportvue_type_script_lang_ts_timeZoneDifferenceInHours = ext
       if (propName === 'type') {
         this.changedReportType();
       }
+    },
+    toggleSelectedReport: function toggleSelectedReport(reportType, uniqueId) {
+      this.selectedReports[reportType] = this.selectedReports[reportType] || {};
+      this.selectedReports[reportType][uniqueId] = !this.selectedReports[reportType][uniqueId];
     }
   },
   computed: {
     showReportForm: function showReportForm() {
-      return !this.showListOfReports;
+      return !this.showReportsList;
     }
   }
 }));
@@ -1355,7 +1534,7 @@ var ManageScheduledReportvue_type_custom_index_0_blockType_todo_default = /*#__P
 
 
 
-ManageScheduledReportvue_type_script_lang_ts.render = render
+ManageScheduledReportvue_type_script_lang_ts.render = ManageScheduledReportvue_type_template_id_643283ec_render
 /* custom blocks */
 
 if (typeof ManageScheduledReportvue_type_custom_index_0_blockType_todo_default.a === 'function') ManageScheduledReportvue_type_custom_index_0_blockType_todo_default()(ManageScheduledReportvue_type_script_lang_ts)
@@ -1369,6 +1548,8 @@ if (typeof ManageScheduledReportvue_type_custom_index_0_blockType_todo_default.a
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
