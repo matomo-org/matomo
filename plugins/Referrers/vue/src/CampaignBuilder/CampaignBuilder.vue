@@ -200,6 +200,7 @@ export default defineComponent({
       this.campaignContent = '';
       this.campaignGroup = '';
       this.campaignPlacement = '';
+      this.generatedUrl = '';
     },
     generateUrl() {
       let generatedUrl = String(this.websiteUrl);
