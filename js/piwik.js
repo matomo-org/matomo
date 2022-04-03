@@ -501,24 +501,26 @@ if (typeof window.Matomo !== 'object') {
             var now;
             isPageUnloading = true;
 
-            executePluginMethod('unload');
+            if (documentAlias.visibilityState === 'hidden') {
+                executePluginMethod('unload');
 
-            now  = new Date();
-            var aliasTime = now.getTimeAlias();
-            if ((expireDateTime - aliasTime) > 3000) {
-                expireDateTime = aliasTime + 3000;
-            }
+                now = new Date();
+                var aliasTime = now.getTimeAlias();
+                if ((expireDateTime - aliasTime) > 3000) {
+                    expireDateTime = aliasTime + 3000;
+                }
 
-            /*
-             * Delay/pause (blocks UI)
-             */
-            if (expireDateTime) {
-                // the things we do for backwards compatibility...
-                // in ECMA-262 5th ed., we could simply use:
-                //     while (Date.now() < expireDateTime) { }
-                do {
-                    now = new Date();
-                } while (now.getTimeAlias() < expireDateTime);
+                /*
+                 * Delay/pause (blocks UI)
+                 */
+                if (expireDateTime) {
+                    // the things we do for backwards compatibility...
+                    // in ECMA-262 5th ed., we could simply use:
+                    //     while (Date.now() < expireDateTime) { }
+                    do {
+                        now = new Date();
+                    } while (now.getTimeAlias() < expireDateTime);
+                }
             }
         }
 
@@ -7166,7 +7168,7 @@ if (typeof window.Matomo !== 'object') {
          ************************************************************/
 
         // initialize the Matomo singleton
-        addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
+        addEventListener(windowAlias, 'visibilitychange', beforeUnloadHandler, false);
         addEventListener(windowAlias, 'online', function () {
             if (isDefined(navigatorAlias.serviceWorker)) {
                 navigatorAlias.serviceWorker.ready.then(function(swRegistration) {
