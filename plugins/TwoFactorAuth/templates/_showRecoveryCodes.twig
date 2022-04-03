@@ -1,0 +1,38 @@
+
+<script type="text/javascript">
+    function copyRecoveryCodesToClipboard()
+    {
+        var textarea = document.createElement('textarea');
+        textarea.value = {{ codes|join("\n")|json_encode|raw }};
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    }
+    function downloadRecoveryCodes()
+    {
+        piwikHelper.sendContentAsDownload('analytics_recovery_codes.txt', {{ codes|join("\n")|json_encode|raw }});
+    }
+</script>
+
+    <p>{{ 'TwoFactorAuth_RecoveryCodesExplanation'|translate }}<br /><br /></p>
+    <div class="alert alert-warning">{{ 'TwoFactorAuth_RecoveryCodesSecurity'|translate }}</div>
+
+    {% if codes|length > 0 %}
+        <ul piwik-select-on-focus class="twoFactorRecoveryCodes browser-default">{% for code in codes %}
+            <li>{{ code|upper|split('', 4)|join('-') }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-danger">{{ 'TwoFactorAuth_RecoveryCodesAllUsed'|translate }}</div>
+    {% endif %}
+
+    <p>
+        <br />
+        <input type="button" class="btn backupRecoveryCode" onclick="downloadRecoveryCodes()" value="{{ 'General_Download'|translate }}">
+        <input type="button" class="btn backupRecoveryCode" onclick="window.print()" value="{{ 'General_Print'|translate }}">
+        <input type="button" class="btn backupRecoveryCode" onclick="copyRecoveryCodesToClipboard()" value="{{ 'General_Copy'|translate }}">
+    </p>
