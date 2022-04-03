@@ -196,7 +196,7 @@
           </th>
           <th>{{ translate('General_Name') }}</th>
           <th class="role_header">
-            <span v-html="`${translate('UsersManager_Role')} `"></span>
+            <span v-html="$sanitize(`${translate('UsersManager_Role')} `)"></span>
             <a
               href=""
               class="helpIcon"
@@ -207,7 +207,7 @@
             </a>
           </th>
           <th class="capabilities_header">
-            <span v-html="`${translate('UsersManager_Capabilities')} `"></span>
+            <span v-html="$sanitize(`${translate('UsersManager_Capabilities')} `)"></span>
             <a
               href=""
               class="helpIcon"

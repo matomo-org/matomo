@@ -89,6 +89,10 @@ module.exports = {
     // disable asset size warnings
     config.performance.hints(false);
 
+    config.watchOptions({
+      ignored: /node_modules/,
+    });
+
     // override config so we can generate type definitions for plugin libraries
     // see https://github.com/vuejs/vue-cli/issues/6543
     if (process.env.NODE_ENV !== 'development') {
