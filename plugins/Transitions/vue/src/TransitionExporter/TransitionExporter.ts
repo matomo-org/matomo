@@ -38,6 +38,7 @@ export default {
       const mountPoint = document.createElement('div');
       app.mount(mountPoint);
 
+      Piwik_Popover.showLoading('');
       Piwik_Popover.setTitle(`${actionName.value} ${translate('Transitions_Transitions')}`);
       Piwik_Popover.setContent(mountPoint);
 

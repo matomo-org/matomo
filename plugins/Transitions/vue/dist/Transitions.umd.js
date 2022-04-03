@@ -300,6 +300,7 @@ var _window = window,
       app.component('popover', TransitionExporterPopover);
       var mountPoint = document.createElement('div');
       app.mount(mountPoint);
+      Piwik_Popover.showLoading('');
       Piwik_Popover.setTitle("".concat(actionName.value, " ").concat(Object(external_CoreHome_["translate"])('Transitions_Transitions')));
       Piwik_Popover.setContent(mountPoint);
       Piwik_Popover.onClose(function () {
