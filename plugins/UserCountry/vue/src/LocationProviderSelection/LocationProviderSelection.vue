@@ -47,7 +47,7 @@
         <p
           v-if="provider.status !== 1 && provider.install_docs"
           v-html="$sanitize(provider.install_docs)"
-        />
+        ></p>
       </div>
       <div class="col s12 m4 l4">
         <div class="form-help" v-if="provider.status === 1">
