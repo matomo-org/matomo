@@ -42,6 +42,7 @@ class UserCountry extends \Piwik\Plugin
         $translations[] = 'General_Refresh';
         $translations[] = 'UserCountry_CannotLocalizeLocalIP';
         $translations[] = 'UserCountry_NoProviders';
+        $translations[] = 'General_Disabled';
     }
 
     public function addReportToInsightsOverview(&$reports)

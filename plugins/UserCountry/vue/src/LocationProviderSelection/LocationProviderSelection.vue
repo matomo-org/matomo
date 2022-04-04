@@ -4,19 +4,14 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- create PR
-</todo>
-
 <template>
-  <div>
+  <div class="locationProviderSelection">
     <div v-if="!isThereWorkingProvider" v-html="$sanitize(setUpGuides)"></div>
     <div class="row">
       <div class="col s12 push-m9 m3">{{ translate('General_InfoFor', thisIp) }}</div>
     </div>
     <div
-      v-for="(id, provider) in visibleLocationProviders"
+      v-for="(provider, id) in visibleLocationProviders"
       :key="id"
       :class="`row form-group provider${id}`"
     >
@@ -27,11 +22,12 @@
               class="location-provider"
               name="location-provider"
               type="radio"
-              :id="`'provider_input_${id }'`"
+              :id="`provider_input_${id}`"
               :disabled="provider.status !== 1"
-              v-model="selectedProvider"
+              :checked="selectedProvider === id"
+              @change="selectedProvider = id"
             />
-            <span>{{ translate(provider.title) }}</span>
+            <span>{{ translateOrDefault(provider.title) }}</span>
           </label>
         </p>
         <p class="loc-provider-status">
@@ -47,7 +43,7 @@
         </p>
       </div>
       <div class="col s12 m4 l6">
-        <p v-html="$sanitize(translate(provider.description))"></p>
+        <p v-html="$sanitize(translateOrDefault(provider.description))"></p>
         <p
           v-if="provider.status !== 1 && provider.install_docs"
           v-html="$sanitize(provider.install_docs)"
@@ -59,12 +55,16 @@
             {{ translate('UserCountry_CurrentLocationIntro') }}:
             <div>
               <br />
-              <ActivityIndicator
-                style="position: absolute;"
-                :loading="updateLoading[id]"
-              />
-              <span class="location" v-show="providerLocations[id]">
-                <strong v-html="$sanitize(providerLocations[id])"/>
+              <div style="position: absolute;">
+                <ActivityIndicator
+                  :loading="updateLoading[id]"
+                />
+              </div>
+              <span
+                class="location"
+                :style="{ visibility: providerLocations[id] ? 'visible' : 'hidden'}"
+              >
+                <strong v-html="$sanitize(providerLocations[id] || '&nbsp;')"/>
               </span>
             </div>
             <div class="text-right">
@@ -184,12 +184,17 @@ export default defineComponent({
 
       delete this.providerLocations[providerId];
 
-      AjaxHelper.fetch({
-        module: 'UserCountry',
-        action: 'getLocationUsingProvider',
-        id: providerId,
-        format: 'html',
-      }).then((response) => {
+      AjaxHelper.fetch<string>(
+        {
+          module: 'UserCountry',
+          action: 'getLocationUsingProvider',
+          id: providerId,
+          format: 'html',
+        },
+        {
+          format: 'html',
+        },
+      ).then((response) => {
         this.providerLocations[providerId] = response;
       }).finally(() => {
         this.updateLoading[providerId] = false;
@@ -239,7 +244,7 @@ export default defineComponent({
     noProvidersText() {
       return translate(
         'UserCountry_NoProviders',
-        '<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm">',
+        '<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm" target="_blank">',
         '</a>',
       );
     },
