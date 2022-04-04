@@ -85,23 +85,4 @@ class Cache extends File
         $this->directory = $initialDir;
     }
 
-    public function rmInvalidCacheRootDir() {
-        // target the empty dirs
-        $targetDir = dirname($this->getDirectory(), 2);
-
-        // remove empty child dirs
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($targetDir, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST
-        );
-        foreach ($iterator as  $name => $file) {
-            if ($file->isDir()) {
-                $path = $file->getPathname();
-                rmdir($path);
-            }
-        }
-        // remove invalid host dir
-        rmdir($targetDir);
-    }
-
 }

@@ -264,9 +264,6 @@ class IniFileChain
                 // we make sure to save the config only if the host is valid...
                 $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
                 $cache->doSave(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
-            } else {
-                // if this isn't a valid host we clean up the directory created in the cache constructor.
-                $cache->rmInvalidCacheRootDir();
             }
         }
     }
