@@ -38,14 +38,6 @@ matrix:
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=0"
       dist: bionic
       sudo: false
-    - php: 7.2
-      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=1"
-      dist: bionic
-      sudo: false
-    - php: 7.2
-      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=2"
-      dist: bionic
-      sudo: false
 
 dist: bionic
 

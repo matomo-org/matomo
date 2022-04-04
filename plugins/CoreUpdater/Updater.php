@@ -96,29 +96,37 @@ class Updater
      */
     public function updatePiwik($https = true)
     {
+        echo "1<br/>";@ob_flush();
         if (!$this->isNewVersionAvailable()) {
             throw new Exception($this->translator->translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
 
         SettingsServer::setMaxExecutionTime(0);
+        echo "2<br/>";@ob_flush();
 
         $newVersion = $this->getLatestVersion();
         $url = $this->getArchiveUrl($newVersion, $https);
         $messages = array();
 
         try {
+            echo "3<br/>";@ob_flush();
             $archiveFile = $this->downloadArchive($newVersion, $url);
             $messages[] = $this->translator->translate('CoreUpdater_DownloadingUpdateFromX', $url);
+            echo "4<br/>";@ob_flush();
 
             $extractedArchiveDirectory = $this->decompressArchive($archiveFile);
             $messages[] = $this->translator->translate('CoreUpdater_UnpackingTheUpdate');
+            echo "5<br/>";@ob_flush();
 
             $this->verifyDecompressedArchive($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_VerifyingUnpackedFiles');
+            echo "6<br/>";@ob_flush();
 
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
 
+            echo "7<br/>";@ob_flush();
+            exit;
         } catch (ArchiveDownloadException $e) {
             throw $e;
         } catch (Exception $e) {
