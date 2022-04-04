@@ -213,6 +213,7 @@ declare global {
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
     translate: (translationStringId: string, ...values: string[]|string[][]) => string;
+    translateOrDefault: (translationStringIdOrText: string, ...values: string[]|string[][]) => string;
     $sanitize: Window['vueSanitize'];
   }
 }

@@ -6,7 +6,7 @@
 
 <template>
   <div class="locationProviderSelection">
-    <div v-if="!isThereWorkingProvider" v-html="$sanitize(setUpGuides)"></div>
+    <div v-if="!isThereWorkingProvider" v-html="$sanitize(setUpGuides || '')"></div>
     <div class="row">
       <div class="col s12 push-m9 m3">{{ translate('General_InfoFor', thisIp) }}</div>
     </div>
@@ -89,7 +89,7 @@
         </div>
       </div>
     </div>
-    <div v-if="locationProvidersNotDefaultOrDisabled.length">
+    <div v-if="!Object.keys(locationProvidersNotDefaultOrDisabled).length">
       <Notification
         :noclear="true"
         context="warning"
@@ -140,10 +140,7 @@ export default defineComponent({
       required: true,
     },
     isThereWorkingProvider: Boolean,
-    setUpGuides: {
-      type: String,
-      required: true,
-    },
+    setUpGuides: String,
     thisIp: {
       type: String,
       required: true,
