@@ -50,12 +50,12 @@
               style="font-size: 9pt;"
               v-if="segmentEditorActivated && report.idsegment"
             >
-                  <span v-if="savedSegmentsById[report.idsegment]">
-                    {{ savedSegmentsById.report.idsegment }}
-                  </span>
+              <span v-if="savedSegmentsById[report.idsegment]">
+                {{ savedSegmentsById[report.idsegment] }}
+              </span>
               <span v-else>
-                    {{ translate('ScheduledReports_SegmentDeleted') }}
-                  </span>
+                {{ translate('ScheduledReports_SegmentDeleted') }}
+              </span>
             </div>
           </td>
           <td>{{ periods[report.period] }}
@@ -74,6 +74,7 @@
             </span>
 
             <a
+              v-if="report.recipients.length !== 0"
               href="#"
               name="linkSendNow"
               class="link_but withIcon"
@@ -100,7 +101,7 @@
                 outputType: downloadOutputType,
                 language: language,
                 format: ['html', 'csv', 'tsv'].indexOf(report.format) !== -1
-                  ? report.format : false,
+                  ? report.format : undefined,
               })"
             >
               <input
@@ -127,8 +128,7 @@
                 :width="16"
                 :height="16"
                 :src="reportFormatsByReportType[report.type][report.format]"
-              />
-              {{ translate('General_Download') }}
+              /> {{ translate('General_Download') }}
             </a>
           </td>
           <td style="text-align: center;padding-top:2px;">

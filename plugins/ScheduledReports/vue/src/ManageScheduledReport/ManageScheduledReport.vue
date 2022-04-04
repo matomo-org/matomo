@@ -34,7 +34,7 @@
         :user-login="userLogin"
         :login-module="loginModule"
         :reports="reports"
-        :site-name="siteName"
+        :site-name="decodedSiteName"
         :segment-editor-activated="segmentEditorActivated"
         :saved-segments-by-id="savedSegmentsById"
         :periods="periods"
@@ -58,7 +58,7 @@
         :reports-by-category-by-report-type="reportsByCategoryByReportType"
         :allow-multiple-reports-by-report-type="allowMultipleReportsByReportType"
         :count-websites="countWebsites"
-        :site-name="siteName"
+        :site-name="decodedSiteName"
         :selected-reports="selectedReports"
         :report-types="reportTypes"
         :segment-editor-activated="segmentEditorActivated"
@@ -401,6 +401,9 @@ export default defineComponent({
   computed: {
     showReportForm() {
       return !this.showReportsList;
+    },
+    decodedSiteName() {
+      return Matomo.helper.htmlDecode(this.siteName);
     },
   },
 });

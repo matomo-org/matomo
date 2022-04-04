@@ -21,7 +21,7 @@
           name="website"
           :title="translate('General_Website')"
           :disabled="true"
-          :value="siteName"
+          :model-value="siteName"
         >
         </Field>
       </div>
@@ -173,7 +173,7 @@
             uicontrol="checkbox"
             name="report_evolution_graph"
             :title="translate('ScheduledReports_EvolutionGraph', 5)"
-            v-show="report.displayFormat in [2, '2', 3, '3']"
+            v-show="[2, '2', 3, '3'].indexOf(report.displayFormat) !== -1"
             :model-value="report.evolutionGraph"
             @update:model-value="$emit('change', { prop: 'evolutionGraph', value: $event })"
           >
@@ -181,7 +181,7 @@
         </div>
         <div
           class="row evolution-graph-period"
-          v-show="report.displayFormat in [1, '1', 2, '2', 3, '3']"
+          v-show="[1, '1', 2, '2', 3, '3'].indexOf(report.displayFormat) !== -1"
         >
           <div class="col s12">
             <label for="report_evolution_period_for_each">
@@ -248,7 +248,7 @@
                       uniqueId: report.uniqueId,
                     })"
                   />
-                  <span>{{ report.name }}</span>
+                  <span>{{ decode(report.name) }}</span>
                   <div class="entityInlineHelp" v-if="report.uniqueId === 'MultiSites_getAll'">
                     {{ translate('ScheduledReports_ReportIncludeNWebsites', countWebsites) }}
                   </div>
@@ -338,7 +338,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['submit', 'change'],
+  emits: ['submit', 'change', 'toggleSelectedReport'],
   components: {
     ContentBlock,
     Field,
@@ -351,8 +351,15 @@ export default defineComponent({
     this.onEvolutionPeriodN = debounce(this.onEvolutionPeriodN, 50);
   },
   methods: {
-    onEvolutionPeriodN(value: number) {
-      this.$emit('change', 'evolutionPeriodN', value);
+    onEvolutionPeriodN(event: Event) {
+      this.$emit('change', {
+        prop: 'evolutionPeriodN',
+        value: (event.target as HTMLInputElement).value,
+      });
+    },
+    decode(s: string) {
+      // report names can be encoded (mainly goals)
+      return Matomo.helper.htmlDecode(s);
     },
   },
   mounted() {
@@ -380,7 +387,7 @@ export default defineComponent({
           Object.entries(reportsByCategory).forEach(([category, reports]) => {
             currentColumn[category] = reports;
 
-            if (Object.keys(currentColumn).length > newColumnAfter) {
+            if (Object.keys(currentColumn).length >= newColumnAfter) {
               currentColumn = column2;
             }
           });
