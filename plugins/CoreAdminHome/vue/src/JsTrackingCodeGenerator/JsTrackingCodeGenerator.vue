@@ -14,12 +14,12 @@
         {{ translate('CoreAdminHome_JSTrackingIntro1') }}
         <br/><br/>
         {{ translate('CoreAdminHome_JSTrackingIntro2') }}
-        <span v-html="jsTrackingIntro3a"></span>
-        <span v-html="' ' + jsTrackingIntro3b"></span>
+        <span v-html="$sanitize(jsTrackingIntro3a)"></span>
+        <span v-html="$sanitize(' ' + jsTrackingIntro3b)"></span>
         <br/><br/>
-        <span v-html="jsTrackingIntro4a"></span>
+        <span v-html="$sanitize(jsTrackingIntro4a)"></span>
         <br/><br/>
-        <span v-html="jsTrackingIntro5"></span>
+        <span v-html="$sanitize(jsTrackingIntro5)"></span>
         <br><br/>
         {{ translate('SitesManager_InstallationGuides') }} :
         <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/"
@@ -68,8 +68,8 @@
       <div id="optional-js-tracking-options">
         <!-- track across all subdomains -->
         <div id="jsTrackAllSubdomainsInlineHelp" class="inline-help-node">
-          <span v-html="mergeSubdomainsDesc"></span>
-          <span v-html="learnMoreText"></span>
+          <span v-html="$sanitize(mergeSubdomainsDesc)"></span>
+          <span v-html="$sanitize(learnMoreText)"></span>
         </div>
 
         <Field
@@ -233,7 +233,7 @@
       <!-- custom campaign name/keyword query params -->
       <div id="jsTrackCampaignParamsInlineHelp"
            class="inline-help-node"
-           v-html="jsTrackCampaignParamsInlineHelp">
+           v-html="$sanitize(jsTrackCampaignParamsInlineHelp)">
       </div>
 
       <Field

@@ -13,8 +13,8 @@
 
     <div id="image-tracking-code-options">
 
-      <p v-html="imageTrackingIntro"></p>
-      <p v-html="imageTrackingIntro3"></p>
+      <p v-html="$sanitize(imageTrackingIntro)"></p>
+      <p v-html="$sanitize(imageTrackingIntro3)"></p>
 
       <!-- website -->
       <Field

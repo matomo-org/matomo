@@ -32,7 +32,7 @@
         </option>
       </optgroup>
     </select>
-    <label :for="name" v-html="title"></label>
+    <label :for="name" v-html="$sanitize(title)"></label>
   </div>
   <div v-if="!groupedOptions && options" class="matomo-field-select">
     <select
@@ -55,7 +55,7 @@
         {{ option.value }}
       </option>
     </select>
-    <label :for="name" v-html="title"></label>
+    <label :for="name" v-html="$sanitize(title)"></label>
   </div>
 </template>
 

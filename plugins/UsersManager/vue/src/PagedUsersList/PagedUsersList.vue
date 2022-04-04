@@ -144,7 +144,7 @@
         type="persistent"
         :noclear="true"
       >
-        <span v-html="rolesHelpText"></span>
+        <span v-html="$sanitize(rolesHelpText)"></span>
       </Notification>
     </div>
     <ContentBlock>
@@ -212,37 +212,37 @@
             <td colspan="8">
               <div v-if="!areAllResultsSelected">
                 <span
-                  v-html="translate(
+                  v-html="$sanitize(translate(
                     'UsersManager_TheDisplayedUsersAreSelected',
                     `<strong>${users.length}</strong>`,
-                  )"
+                  ))"
                   style="margin-right:3.5px"
                 ></span>
                 <a
                   class="toggle-select-all-in-search"
                   href="#"
                   @click.prevent="areAllResultsSelected = !areAllResultsSelected"
-                  v-html="translate(
+                  v-html="$sanitize(translate(
                     'UsersManager_ClickToSelectAll',
                     `<strong>${totalEntries}</strong>`,
-                  )"
+                  ))"
                 ></a>
               </div>
               <div v-if="areAllResultsSelected">
-                <span v-html="translate(
+                <span v-html="$sanitize(translate(
                     'UsersManager_AllUsersAreSelected',
                     `<strong>${totalEntries}</strong>`,
-                  )"
+                  ))"
                   style="margin-right:3.5px"
                 ></span>
                 <a
                   class="toggle-select-all-in-search"
                   href="#"
                   @click.prevent="areAllResultsSelected = !areAllResultsSelected"
-                  v-html="translate(
+                  v-html="$sanitize(translate(
                     'UsersManager_ClickToSelectDisplayedUsers',
                     `<strong>${users.length}</strong>`,
-                  )"
+                  ))"
                 ></a>
               </div>
             </td>
@@ -345,17 +345,17 @@
       <div class="modal-content">
         <h3
           v-if="userToChange"
-          v-html="translate(
+          v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmSingle',
             `<strong>${userToChange.login}</strong>`,
-          )"
+          ))"
         ></h3>
         <p
           v-if="!userToChange"
-          v-html="translate(
+          v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmMultiple',
             `<strong>${affectedUsersCount}</strong>`,
-          )"
+          ))"
         ></p>
       </div>
       <div class="modal-footer">
@@ -380,17 +380,17 @@
         ></h3>
         <h3 v-if="userToChange && userToChange.login === 'anonymous' && roleToChangeTo === 'view'">
           <em>{{ translate('General_Note') }}:
-            <span v-html="translate(
+            <span v-html="$sanitize(translate(
               'UsersManager_AnonymousUserRoleChangeWarning',
               'anonymous',
               getRoleDisplay(roleToChangeTo),
-            )">
+            ))">
             </span>
           </em>
         </h3>
         <p
           v-if="!userToChange"
-          v-html="deleteUserPermConfirmMultipleText"
+          v-html="$sanitize(deleteUserPermConfirmMultipleText)"
         ></p>
       </div>
       <div class="modal-footer">
@@ -447,6 +447,7 @@ import {
   debounce,
   translate,
   SiteRef,
+  Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import User from '../User';
@@ -702,7 +703,7 @@ export default defineComponent({
         'UsersManager_DeleteUserPermConfirmSingle',
         `<strong>${this.userToChange?.login || ''}</strong>`,
         `<strong>${this.getRoleDisplay(this.roleToChangeTo)}</strong>`,
-        `<strong>${this.permissionsForSite?.name || ''}</strong>`,
+        `<strong>${Matomo.helper.htmlEntities(this.permissionsForSite?.name || '')}</strong>`,
       );
     },
     deleteUserPermConfirmMultipleText() {
@@ -710,7 +711,7 @@ export default defineComponent({
         'UsersManager_DeleteUserPermConfirmMultiple',
         `<strong>${this.affectedUsersCount}</strong>`,
         `<strong>${this.getRoleDisplay(this.roleToChangeTo)}</strong>`,
-        `<strong>${this.permissionsForSite?.name || ''}</strong>`,
+        `<strong>${Matomo.helper.htmlEntities(this.permissionsForSite?.name || '')}</strong>`,
       );
     },
     bulkActionAccessLevels() {
