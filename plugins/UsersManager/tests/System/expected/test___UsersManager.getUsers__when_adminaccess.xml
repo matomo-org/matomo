@@ -25,4 +25,8 @@
 		<login>login9</login>
 		<superuser_access>0</superuser_access>
 	</row>
+	<row>
+		<login>pendingUser1</login>
+		<superuser_access>0</superuser_access>
+	</row>
 </result>
