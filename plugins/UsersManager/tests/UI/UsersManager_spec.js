@@ -166,6 +166,12 @@ describe("UsersManager", function () {
     });
 
     it('should show resend confirm when resend clicked', async function () {
+
+        await page.evaluate(function () {
+            $('select[name=access-level-filter]').val('string:view').change();
+            $('#user-text-filter').val('pendingUser1').change();
+        });
+
         await (await page.jQuery('.resend:eq(0)')).click();
 
         expect(await pageWrap.screenshot()).to.matchImage('resend_popup');
@@ -177,6 +183,12 @@ describe("UsersManager", function () {
     });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
+
+        await page.evaluate(function () {
+            $('select[name=access-level-filter]').val('string:view').change();
+            $('#user-text-filter').val('ight').change();
+        });
+
         await (await page.jQuery('.deleteuser:eq(0)')).click();
         await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();

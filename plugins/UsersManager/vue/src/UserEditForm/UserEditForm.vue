@@ -94,7 +94,7 @@
           </div>
           <div>
             <Field
-               v-if="!isAdd && !theUser.invited_at"
+               v-if="!isAdd && theUser.invited_at!=''"
                :model-value="theUser.password"
                :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
@@ -331,7 +331,7 @@ const DEFAULT_USER: User = {
   uses_2fa: false,
   password: '',
   email: '',
-  invited_at: null,
+  invited_at: '',
 };
 
 interface UserEditFormState {
@@ -483,7 +483,7 @@ export default defineComponent({
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
-        this.theUser.invited_at = true;
+        this.theUser.invited_at = 'xx';
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
