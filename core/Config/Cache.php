@@ -36,9 +36,14 @@ class Cache extends File
         return PIWIK_INCLUDE_PATH . '/tmp/' . $host . '/cache/tracker';
     }
 
+    public static function hasHostConfig($mergedConfigSettings)
+    {
+        return isset($mergedConfigSettings['General']['trusted_hosts']) && is_array($mergedConfigSettings['General']['trusted_hosts']);
+    }
+
     public function isValidHost($mergedConfigSettings)
     {
-        if (!isset($mergedConfigSettings['General']['trusted_hosts']) || !is_array($mergedConfigSettings['General']['trusted_hosts'])) {
+        if (!self::hasHostConfig($mergedConfigSettings)) {
             return false;
         }
         // note: we do not support "enable_trusted_host_check" to keep things secure

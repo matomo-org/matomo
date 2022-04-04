@@ -256,7 +256,8 @@ class IniFileChain
         
         if ($useConfigCache
             && !empty($this->mergedSettings)
-            && !empty($this->settingsChain)) {
+            && !empty($this->settingsChain)
+            && Cache::hasHostConfig($this->mergedSettings)) {
 
             $ttlOneHour = 3600;
             $cache = new Cache();
