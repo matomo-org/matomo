@@ -498,28 +498,29 @@ if (typeof window.Matomo !== 'object') {
          * "slow unload", i.e., calling getTime() > 1000 times
          */
         function beforeUnloadHandler() {
+            var now;
+
             if (documentAlias.visibilityState === 'hidden') {
-                var now;
                 isPageUnloading = true;
                 executePluginMethod('unload');
+            }
 
-                now = new Date();
-                var aliasTime = now.getTimeAlias();
-                if ((expireDateTime - aliasTime) > 3000) {
-                    expireDateTime = aliasTime + 3000;
-                }
+            now = new Date();
+            var aliasTime = now.getTimeAlias();
+            if ((expireDateTime - aliasTime) > 3000) {
+                expireDateTime = aliasTime + 3000;
+            }
 
-                /*
-                 * Delay/pause (blocks UI)
-                 */
-                if (expireDateTime) {
-                    // the things we do for backwards compatibility...
-                    // in ECMA-262 5th ed., we could simply use:
-                    //     while (Date.now() < expireDateTime) { }
-                    do {
-                        now = new Date();
-                    } while (now.getTimeAlias() < expireDateTime);
-                }
+            /*
+             * Delay/pause (blocks UI)
+             */
+            if (expireDateTime) {
+                // the things we do for backwards compatibility...
+                // in ECMA-262 5th ed., we could simply use:
+                //     while (Date.now() < expireDateTime) { }
+                do {
+                    now = new Date();
+                } while (now.getTimeAlias() < expireDateTime);
             }
         }
 
