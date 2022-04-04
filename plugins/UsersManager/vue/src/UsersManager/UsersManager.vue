@@ -271,7 +271,7 @@ export default defineComponent({
           userLogin: user.login,
         },
       ).then((res) => {
-        console.log('here');
+        console.log(res);
       });
     },
     fetchUsers() {

@@ -45,7 +45,7 @@ class ManyUsers extends Fixture
 
     public $pendingUser = array(
       'login'=>'pendingUser1',
-      'email'=>'pendinguser2@example.com'
+      'email'=>'pendinguser1light@example.com'
     );
 
     public $baseSites = [

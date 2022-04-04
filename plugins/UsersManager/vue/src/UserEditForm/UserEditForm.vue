@@ -331,6 +331,7 @@ const DEFAULT_USER: User = {
   uses_2fa: false,
   password: '',
   email: '',
+  invited_at: null,
 };
 
 interface UserEditFormState {
@@ -482,6 +483,7 @@ export default defineComponent({
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
+        this.theUser.invited_at = true;
 
         this.resetPasswordVar();
         this.showUserSavedNotification();

@@ -1,6 +1,6 @@
 {% set closingHeadTag %}<code>{{ '</head>'|e('html') }}</code>{% endset %}
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
 <p>{{ content|raw }}</p>
-<a target="_blank" href="{{ piwikUrl }}?module=UsersManager&action=acceptInvitation&login={{ login }}&token={{ token }}"
+<a target="_blank" href="{{ piwikUrl }}?module=Login&action=acceptInvitation&login={{ login }}&token={{ token }}"
 >{{ 'CoreAdminHome_AcceptInvite'|translate }}</a>
 <p><b>Notes:</b>{{ notes }}</p>
