@@ -74,7 +74,7 @@
         "QuickAccessTitle": "Sök efter %s. Använd piltangenterna för att navigera i sökresultatet. Genväg: Tryck på 'f' för att söka.",
         "QuickLinks": "Snabblänkar",
         "ReadMoreOnlineGuide": "Läs mer om ämnet i onlineguiden.",
-        "RemoveTotalsRowDataTable": "Rapporten visar totalt antal rader 1%s Ta bort totalt antal rader",
+        "RemoveTotalsRowDataTable": "Rapporten visar totalt antal rader %s Ta bort totalt antal rader",
         "ReportGeneratedOn": "Rapporten genererades på %s",
         "ReportGeneratedXAgo": "Rapporten genererades för %s sen",
         "ReportType": "Rapporttyp",

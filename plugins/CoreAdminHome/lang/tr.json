@@ -125,6 +125,7 @@
         "SendPluginUpdateCommunication": "Uygulama eki güncellemeleri e-posta ile bildirilsin",
         "SendPluginUpdateCommunicationHelp": "Bu seçenek etkinleştirildiğinde, yayınlanan uygulama eki güncellemeleri e-posta ile süper kullanıcılara bildirilir.",
         "SettingsSaveSuccess": "Ayarlar güncellendi.",
+        "SinglePageApplicationDescription": "Tek sayfalık bir uygulamayı (SPA) veya aşamalı web uygulamasını (PWA) izliyorsanız, lütfen %1$sbu rehbere%2$s bakın.",
         "Solution": "Çözüm",
         "StableReleases": "Matomo işinizin önemli bir parçasıysa, son kararlı sürümü kullanmanız önerilir. Son beta sürümünü kullanıyorsanız ve bir hata ya da öneri bildirmek isterseniz, %1$sburaya bakabilirsiniz%2$s.",
         "SystemPluginSettings": "Sistem uygulama eki ayarları",

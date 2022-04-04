@@ -246,7 +246,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $result;
     }
 
-    private static function getPluginDependencies($plugin)
+    public static function getPluginDependencies($plugin)
     {
         $pluginDir = self::getPluginDirectory($plugin);
         $umdMetadata = "$pluginDir/vue/dist/umd.metadata.json";

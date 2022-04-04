@@ -18,7 +18,7 @@ class VisitLastActionWeekOfYear extends VisitDimension
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
     protected $segmentName = 'visitEndServerWeekOfYear';
-    protected $nameSingular = 'VisitTime_ColumnVisitEndServerWeekOfYear';
+    protected $nameSingular = 'VisitTime_ColumnVisitEndUTCWeekOfYear';
     protected $sqlSegment = 'WEEKOFYEAR(log_visit.visit_last_action_time)';
     protected $acceptValues = '1, 2, 3, 4, ..., 51, 52, 53';
 
