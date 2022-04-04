@@ -218,7 +218,7 @@ class IniFileChain
         $hasAbsoluteConfigFile = !empty($userSettingsFile) && strpos($userSettingsFile, DIRECTORY_SEPARATOR) === 0;
         $useConfigCache = !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE']) && $hasAbsoluteConfigFile;
 
-        if ($useConfigCache) {
+        if ($useConfigCache && is_file($userSettingsFile)) {
             $cache = new Cache();
             $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
             
