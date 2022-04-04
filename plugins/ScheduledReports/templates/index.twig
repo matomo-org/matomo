@@ -9,6 +9,14 @@
 
 {% block content %}
 
+{% set reportParametersScheduledReportsEvent %}{{ postEvent('Template.reportParametersScheduledReports') }}{% endset %}
+
+{# load the Template.reportParametersScheduledReports event twice, once here outside of vue so any inline scripts
+   will execute. then again in the vue slot so it will be used correctly. This is hack to provide some level of BC. #}
+<div style="display:none">
+    {{ reportParametersScheduledReportsEvent|raw }}
+</div>
+
 <div
   vue-entry="ScheduledReports.ManageScheduledReport"
   title="{{ title|default(null)|json_encode|e('html_attr') }}"
@@ -33,7 +41,7 @@
   count-websites="{{ countWebsites|default(null)|json_encode|e('html_attr') }}"
 >
     <template v-slot:report-parameters>
-        {{ postEvent('Template.reportParametersScheduledReports') }}
+        {{ reportParametersScheduledReportsEvent|raw }}
     </template>
 </div>
 
