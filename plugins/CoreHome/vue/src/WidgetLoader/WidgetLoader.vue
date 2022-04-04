@@ -219,8 +219,8 @@ export default defineComponent({
         const scope = $rootScope.$new();
         this.currentScope = scope;
 
-        Matomo.helper.compileVueEntryComponents($content);
         Matomo.helper.compileAngularComponents($content, { scope });
+        Matomo.helper.compileVueEntryComponents($content);
 
         NotificationsStore.parseNotificationDivs();
 
