@@ -3,66 +3,10 @@
                           help-url="https://matomo.org/docs/transitions/"
                           content-title="{{ 'Transitions_Transitions'|translate|e('html_attr') }}">{% endif %}
 
-<div id="transitions_report" {% if isWidget %}class="widgetBody"{% endif %} ng-controller="TransitionSwitcherController as transitionSwitcher">
-    <div class="row"> 
-        <div class="col s12 m3">
-            <div piwik-field uicontrol="select" name="actionType"
-                 ng-model="transitionSwitcher.actionType"
-                 ng-change="transitionSwitcher.onActionTypeChange(transitionSwitcher.actionType)"
-                 data-title="{{ 'Actions_ActionType'|translate|e('html_attr') }}"
-                 full-width="true"
-                 options='transitionSwitcher.actionTypeOptions'>
-            </div>
-        </div>
-        <div class="col s12 m9">
-            <div piwik-field uicontrol="select" name="actionName"
-                 ng-model="transitionSwitcher.actionName"
-                 ng-change="transitionSwitcher.onActionNameChange(transitionSwitcher.actionName)"
-                 data-title="{{ 'Transitions_TopX'|translate(100)|e('html_attr') }}"
-                 full-width="true"
-                 data-disabled="!transitionSwitcher.isEnabled"
-                 options='transitionSwitcher.actionNameOptions'>
-            </div>
-        </div>
-    </div>
-
-    <div piwik-activity-indicator loading="transitionSwitcher.isLoading"></div>
-
-    <div class="loadingPiwik" ng-show="!transitionSwitcher.isLoading" style="display:none" id="transitions_inline_loading">
-        <img src="plugins/Morpheus/images/loading-blue.gif" alt=""/> <span>{{ 'General_LoadingData'|translate }}</span>
-    </div>
-
-    <div class="popoverContainer" ng-show="!transitionSwitcher.isLoading && transitionSwitcher.isEnabled">
-
-    </div>
-
-    <div id="Transitions_Error_Container" ng-show="!transitionSwitcher.isLoading">
-
-    </div>
-
-    <div class="dataTableWrapper" ng-show="transitionSwitcher.isEnabled">
-        <div class="dataTableFeatures">
-            <div class="dataTableFooterNavigation">
-                <div class="dataTableControls">
-                    <div class="row">
-                        <a class="dataTableAction" href="javascript:;" transition-exporter>
-                            <span class="icon-export"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="alert alert-info">
-        {{ 'Transitions_AvailableInOtherReports'|translate }}
-        {{ 'Actions_PageUrls'|translate }}, {{ 'Actions_SubmenuPageTitles'|translate }},
-        {{ 'Actions_SubmenuPagesEntry'|translate }}
-        {{ 'General_And'|translate }}
-        {{ 'Actions_SubmenuPagesExit'|translate }}.
-        {{ 'Transitions_AvailableInOtherReports2'|translate('<span class="icon-transition"></span>')|raw }}
-    </div>
-</div>
+<div
+  vue-entry="Transitions.TransitionSwitcher"
+  is-widget="{{ (not not isWidget)|default(null)|json_encode|e('html_attr') }}"
+></div>
 
 {% if not isWidget %}</div>{% endif %}
 
