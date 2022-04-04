@@ -2285,7 +2285,7 @@ var pluginLoadingPromises = {};
 var PLUGIN_LOAD_TIMEOUT = 120;
 var POLL_INTERVAL = 50;
 var POLL_LIMIT = 1000; // code based off webpack's generated code for import()
-// currently does not load styles lazily
+// currently does not load styles on demand
 
 function importPluginUmd(plugin) {
   if (pluginLoadingPromises[plugin]) {
@@ -2311,11 +2311,18 @@ function importPluginUmd(plugin) {
     // avoid mem leaks in IE.
     script.onerror = null;
     script.onload = null;
-    clearTimeout(timeout);
+    clearTimeout(timeout); // the script may not load entirely at the time onload is called, so we poll for a small
+    // amount of time until the window.PluginName object appears
+
     var pollProgress = 0;
 
     function checkPluginInWindow() {
-      pollProgress += POLL_INTERVAL;
+      pollProgress += POLL_INTERVAL; // promise was already handled
+
+      if (!promiseReject || !promiseResolve) {
+        return;
+      } // promise was not resolved, and window object exists
+
 
       if (window[plugin] && promiseResolve) {
         try {
@@ -2326,18 +2333,16 @@ function importPluginUmd(plugin) {
         }
 
         return;
-      }
+      } // script took too long to execute or failed to execute, and no plugin object appeared in
+      // window, so we report an error
 
-      if (!promiseReject || !promiseResolve) {
-        return;
-      }
 
       if (pollProgress > POLL_LIMIT) {
         try {
           var errorType = event && (event.type === 'load' ? 'missing' : event.type);
           var realSrc = event && event.target && event.target.src;
-          error.message = "Loading plugin ".concat(plugin, " lazily failed.\n(").concat(errorType, ": ").concat(realSrc, ")");
-          error.name = 'PluginLazyLoadError';
+          error.message = "Loading plugin ".concat(plugin, " on demand failed.\n(").concat(errorType, ": ").concat(realSrc, ")");
+          error.name = 'PluginOnDemandLoadError';
           error.type = errorType;
           error.request = realSrc;
           promiseReject(error);
@@ -12324,6 +12329,15 @@ function deleteCookie(name) {
 
 
 
+ // for plugin modules loaded on demand that provide angularjs adapters, the adapters
+// have to be loaded through this event. this is because they must be defined before
+// the angular app is bootstrapped, so they must be in the javascripts/ folder.
+// but they must also be defined after CoreHome is loaded since that is where the
+// createAngularJsAdapter function is defined, and CoreHome is loaded after
+// javascripts/* scripts are. the event allows the adapters to be loaded right after
+// CoreHome is loaded at initial page load.
+//
+// Note: this will be removed in Matomo 5 and is only here for the interim.
 
 Matomo_Matomo.postEvent('Matomo.addAngularJsAdapters', createAngularJsAdapter);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js

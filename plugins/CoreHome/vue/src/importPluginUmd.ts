@@ -14,7 +14,7 @@ const POLL_INTERVAL = 50;
 const POLL_LIMIT = 1000;
 
 // code based off webpack's generated code for import()
-// currently does not load styles lazily
+// currently does not load styles on demand
 export default function importPluginUmd(plugin: string): Promise<unknown> {
   if (pluginLoadingPromises[plugin]) {
     return pluginLoadingPromises[plugin];
@@ -44,10 +44,18 @@ export default function importPluginUmd(plugin: string): Promise<unknown> {
     script.onload = null;
     clearTimeout(timeout);
 
+    // the script may not load entirely at the time onload is called, so we poll for a small
+    // amount of time until the window.PluginName object appears
     let pollProgress = 0;
     function checkPluginInWindow() {
       pollProgress += POLL_INTERVAL;
 
+      // promise was already handled
+      if (!promiseReject || !promiseResolve) {
+        return;
+      }
+
+      // promise was not resolved, and window object exists
       if ((window as any)[plugin] && promiseResolve) {
         try {
           promiseResolve((window as any)[plugin]);
@@ -58,16 +66,14 @@ export default function importPluginUmd(plugin: string): Promise<unknown> {
         return;
       }
 
-      if (!promiseReject || !promiseResolve) {
-        return;
-      }
-
+      // script took too long to execute or failed to execute, and no plugin object appeared in
+      // window, so we report an error
       if (pollProgress > POLL_LIMIT) {
         try {
           const errorType = event && (event.type === 'load' ? 'missing' : event.type);
           const realSrc = event && event.target && (event.target as HTMLScriptElement).src;
-          error.message = `Loading plugin ${plugin} lazily failed.\n(${errorType}: ${realSrc})`;
-          error.name = 'PluginLazyLoadError';
+          error.message = `Loading plugin ${plugin} on demand failed.\n(${errorType}: ${realSrc})`;
+          error.name = 'PluginOnDemandLoadError';
           error.type = errorType;
           error.request = realSrc;
           promiseReject(error);
