@@ -498,12 +498,14 @@ if (typeof window.Matomo !== 'object') {
          * "slow unload", i.e., calling getTime() > 1000 times
          */
         function beforeUnloadHandler() {
-            var now;
-
-            if (documentAlias.visibilityState === 'hidden') {
-                isPageUnloading = true;
-                executePluginMethod('unload');
+    
+            if (documentAlias.visibilityState !== 'hidden') {
+                return;
             }
+
+            var now;
+            isPageUnloading = true;
+            executePluginMethod('unload');
 
             now = new Date();
             var aliasTime = now.getTimeAlias();
