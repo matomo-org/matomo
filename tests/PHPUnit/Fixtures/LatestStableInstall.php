@@ -89,6 +89,8 @@ class LatestStableInstall extends Fixture
          */
         shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/4.x-dev/plugins/CoreUpdater/Updater.php > ' . $installSubdirectory . '/plugins/CoreUpdater/Updater.php');
         shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/4.x-dev/plugins/CoreUpdater/lang/en.json > ' . $installSubdirectory . '/plugins/CoreUpdater/lang/en.json');
+
+        copy(PIWIK_INCLUDE_PATH . '/overwrite.php', './vendor/monolog/monolog/src/Monolog/Processor/PsrLogMessageProcessor.php');
     }
 
     private function installSubdirectoryInstall()

@@ -178,13 +178,19 @@ class Controller extends \Piwik\Plugin\Controller
         try {
             $messages = $this->updater->updatePiwik($useHttps);
         } catch (ArchiveDownloadException $e) {
+            print 'archive download: ' . $e->getMessage() . "\n";
             $view->httpsFail = $useHttps;
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         } catch (UpdaterException $e) {
+            print 'updater exception: ' . $e->getMessage() . "\n";
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         }
+
+        print "done\n";
+        print_r($messages);
+        exit;
 
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
