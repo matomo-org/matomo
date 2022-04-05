@@ -41,10 +41,6 @@ class LatestStableInstall extends Fixture
         $this->downloadAndUnzipLatestStable();
         $tokenAuth = $this->installSubdirectoryInstall();
         $this->verifyInstall($tokenAuth);
-
-        $installSubdirectory = $this->getInstallSubdirectoryPath();
-        print '2: ' . $installSubdirectory . '/core/FrontController.php' . "\n";
-        print '2: ' . file_get_contents($installSubdirectory . '/core/FrontController.php');
     }
 
     private function removeLatestStableInstall()
@@ -84,8 +80,7 @@ class LatestStableInstall extends Fixture
 
         shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
 
-        // copy(PIWIK_INCLUDE_PATH . '/overwrite.php', $installSubdirectory . '/vendor/monolog/monolog/src/Monolog/Processor/PsrLogMessageProcessor.php');
-        copy('cp ' . PIWIK_INCLUDE_PATH . '/overwrite.php', $installSubdirectory . '/core/FrontController.php');
+        copy('cp ' . PIWIK_INCLUDE_PATH . '/overwrite.php', $installSubdirectory . '/vendor/monolog/monolog/src/Monolog/Processor/PsrLogMessageProcessor.php');
     }
 
     private function installSubdirectoryInstall()
