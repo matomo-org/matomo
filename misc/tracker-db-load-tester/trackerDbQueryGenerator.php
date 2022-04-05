@@ -130,8 +130,10 @@ class TrackerDbQueryGenerator
          config_client_type, config_device_brand, config_device_model, config_device_type, visit_total_events, visit_total_time, location_ip,
          location_browser_lang, campaign_content, campaign_group, campaign_id, campaign_keyword, campaign_medium, campaign_name, campaign_placement, 
          campaign_source,last_idlink_va, custom_dimension_1, custom_dimension_2, custom_dimension_3, custom_dimension_4, custom_dimension_5
-         FROM log_visit FORCE INDEX (index_idsite_idvisitor)
+         FROM log_visit 
          WHERE idsite = 1 AND visit_last_action_time >= :lastaction AND idvisitor = UNHEX(:idvisitor) ORDER BY visit_last_action_time DESC LIMIT 1";
+
+        // Removed FORCE INDEX (index_idsite_idvisitor)
 
         $bind = [':lastaction' => $timeLookback, ':idvisitor' => bin2hex($idvisitor)];
         return ['sql' => $sql, 'bind' => $bind];
