@@ -44,7 +44,7 @@ class ManyUsers extends Fixture
     );
 
     public $pendingUser = array(
-      'login'=>'pendingUser1',
+      'login'=>'000pendingUser1',
       'email'=>'pendinguser1light@example.com'
     );
 

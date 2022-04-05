@@ -171,7 +171,7 @@ describe("UsersManager", function () {
             $('#user-text-filter').val('pendingUser1').change();
         });
 
-        await (await page.jQuery('.resend:eq(0)')).click();
+        // await (await page.jQuery('.resend:eq(0)')).click();
 
         expect(await pageWrap.screenshot()).to.matchImage('resend_popup');
 
