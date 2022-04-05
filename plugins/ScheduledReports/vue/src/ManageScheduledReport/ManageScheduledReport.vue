@@ -4,11 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- ui tests
-</todo>
-
 <template>
   <div class="emailReports" ref="root">
     <div ref="reportSentSuccess" />
@@ -356,7 +351,8 @@ export default defineComponent({
       const { period } = this.report;
       const hour = adjustHourToTimezone(this.report.hour as string, -timeZoneDifferenceInHours);
 
-      const reports = Object.keys(this.selectedReports[apiParameters.reportType as string]).filter(
+      const selectedReports = this.selectedReports[apiParameters.reportType as string] || {};
+      const reports = Object.keys(selectedReports).filter(
         (name) => this.selectedReports[apiParameters.reportType as string][name],
       );
 

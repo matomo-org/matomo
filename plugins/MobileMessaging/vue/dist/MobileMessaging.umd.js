@@ -154,7 +154,7 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/SmsProviderCredentials/SmsProviderCredentials.vue?vue&type=template&id=71256e6a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/SmsProviderCredentials/SmsProviderCredentials.vue?vue&type=template&id=e5a63bc6
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -179,7 +179,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["uicontrol", "name", "model-value", "onUpdate:modelValue", "title"]);
   }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/SmsProviderCredentials/SmsProviderCredentials.vue?vue&type=template&id=71256e6a
+// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/SmsProviderCredentials/SmsProviderCredentials.vue?vue&type=template&id=e5a63bc6
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -195,10 +195,7 @@ var allFieldsByProvider = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["
       type: String,
       required: true
     },
-    modelValue: {
-      type: Object,
-      required: true
-    }
+    modelValue: Object
   },
   emits: ['update:modelValue'],
   components: {
@@ -207,7 +204,7 @@ var allFieldsByProvider = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["
   watch: {
     provider: function provider() {
       // unset credentials when new provider is chosen
-      this.$emit('update:modelValue', {}); // fetch fields for provider
+      this.$emit('update:modelValue', null); // fetch fields for provider
 
       this.getCredentialFields();
     }
@@ -220,6 +217,9 @@ var allFieldsByProvider = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["
       var _this = this;
 
       if (allFieldsByProvider[this.provider]) {
+        this.$emit('update:modelValue', Object.fromEntries(allFieldsByProvider[this.provider].map(function (f) {
+          return [f.name, null];
+        })));
         return;
       }
 
@@ -228,6 +228,10 @@ var allFieldsByProvider = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["
         action: 'getCredentialFields',
         provider: this.provider
       }).then(function (fields) {
+        _this.$emit('update:modelValue', Object.fromEntries(fields.map(function (f) {
+          return [f.name, null];
+        })));
+
         allFieldsByProvider[_this.provider] = fields;
       });
     }
@@ -315,9 +319,9 @@ SmsProviderCredentialsvue_type_script_lang_ts.render = render
     }
   }
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/SelectPhoneNumbers/SelectPhoneNumbers.vue?vue&type=template&id=575d89f4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/SelectPhoneNumbers/SelectPhoneNumbers.vue?vue&type=template&id=12d83df9
 
-var SelectPhoneNumbersvue_type_template_id_575d89f4_hoisted_1 = {
+var SelectPhoneNumbersvue_type_template_id_12d83df9_hoisted_1 = {
   class: "mobile"
 };
 var _hoisted_2 = {
@@ -345,10 +349,10 @@ var _hoisted_5 = {
   }
 };
 var _hoisted_6 = ["href"];
-function SelectPhoneNumbersvue_type_template_id_575d89f4_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SelectPhoneNumbersvue_type_template_id_12d83df9_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SelectPhoneNumbersvue_type_template_id_575d89f4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SelectPhoneNumbersvue_type_template_id_12d83df9_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "checkbox",
     "var-type": "array",
     name: "phoneNumbers",
@@ -373,7 +377,7 @@ function SelectPhoneNumbersvue_type_template_id_575d89f4_render(_ctx, _cache, $p
     _: 1
   }, 8, ["model-value", "introduction", "title", "disabled", "options"])]);
 }
-// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/SelectPhoneNumbers/SelectPhoneNumbers.vue?vue&type=template&id=575d89f4
+// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/SelectPhoneNumbers/SelectPhoneNumbers.vue?vue&type=template&id=12d83df9
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/SelectPhoneNumbers/SelectPhoneNumbers.vue?vue&type=script&lang=ts
 
@@ -383,7 +387,7 @@ function SelectPhoneNumbersvue_type_template_id_575d89f4_render(_ctx, _cache, $p
   props: {
     modelValue: Array,
     phoneNumbers: {
-      type: Array,
+      type: [Array, Object],
       required: true
     },
     withIntroduction: Boolean
@@ -404,7 +408,7 @@ function SelectPhoneNumbersvue_type_template_id_575d89f4_render(_ctx, _cache, $p
 
 
 
-SelectPhoneNumbersvue_type_script_lang_ts.render = SelectPhoneNumbersvue_type_template_id_575d89f4_render
+SelectPhoneNumbersvue_type_script_lang_ts.render = SelectPhoneNumbersvue_type_template_id_12d83df9_render
 
 /* harmony default export */ var SelectPhoneNumbers = (SelectPhoneNumbersvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/SelectPhoneNumbers/SelectPhoneNumbers.adapter.ts
@@ -428,7 +432,8 @@ SelectPhoneNumbersvue_type_script_lang_ts.render = SelectPhoneNumbersvue_type_te
       angularJsBind: '<'
     },
     value: {
-      angularJsBind: '<'
+      angularJsBind: '<',
+      vue: 'modelValue'
     }
   },
   $inject: ['$timeout'],
@@ -463,24 +468,24 @@ SelectPhoneNumbersvue_type_script_lang_ts.render = SelectPhoneNumbersvue_type_te
     }
   }
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ReportParameters/ReportParameters.vue?vue&type=template&id=65d44201
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ReportParameters/ReportParameters.vue?vue&type=template&id=5f520e2e
 
-var ReportParametersvue_type_template_id_65d44201_hoisted_1 = {
+var ReportParametersvue_type_template_id_5f520e2e_hoisted_1 = {
   key: 0
 };
-function ReportParametersvue_type_template_id_65d44201_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ReportParametersvue_type_template_id_5f520e2e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SelectPhoneNumbers = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SelectPhoneNumbers");
 
-  return _ctx.report && _ctx.report.type === 'mobile' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportParametersvue_type_template_id_65d44201_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SelectPhoneNumbers, {
+  return _ctx.report && _ctx.report.type === 'mobile' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportParametersvue_type_template_id_5f520e2e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SelectPhoneNumbers, {
     "phone-numbers": _ctx.phoneNumbers,
     "with-introduction": true,
-    modelValue: _ctx.report.phoneNumbers,
+    "model-value": _ctx.report.phoneNumbers,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.report.phoneNumbers = $event;
+      return _ctx.$emit('change', 'phoneNumbers', $event);
     })
-  }, null, 8, ["phone-numbers", "modelValue"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, ["phone-numbers", "model-value"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/ReportParameters/ReportParameters.vue?vue&type=template&id=65d44201
+// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/ReportParameters/ReportParameters.vue?vue&type=template&id=5f520e2e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ReportParameters/ReportParameters.vue?vue&type=script&lang=ts
 
@@ -488,22 +493,20 @@ function ReportParametersvue_type_template_id_65d44201_render(_ctx, _cache, $pro
 var REPORT_TYPE = 'mobile';
 /* harmony default export */ var ReportParametersvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
+    report: {
+      type: Object,
+      required: true
+    },
     phoneNumbers: {
-      type: Array,
+      type: [Array, Object],
       required: true
     }
   },
   components: {
     SelectPhoneNumbers: SelectPhoneNumbers
   },
-  data: function data() {
-    return {
-      report: undefined
-    };
-  },
+  emits: ['change'],
   created: function created() {
-    var _this = this;
-
     var _window = window,
         resetReportParametersFunctions = _window.resetReportParametersFunctions,
         updateReportParametersFunctions = _window.updateReportParametersFunctions,
@@ -511,7 +514,6 @@ var REPORT_TYPE = 'mobile';
 
     if (!resetReportParametersFunctions[REPORT_TYPE]) {
       resetReportParametersFunctions[REPORT_TYPE] = function (report) {
-        _this.report = report;
         report.phoneNumbers = [];
         report.formatmobile = 'sms';
       };
@@ -522,8 +524,6 @@ var REPORT_TYPE = 'mobile';
         if (!(report !== null && report !== void 0 && report.parameters)) {
           return;
         }
-
-        _this.report = report;
 
         if (report.parameters && report.parameters.phoneNumbers) {
           report.phoneNumbers = report.parameters.phoneNumbers;
@@ -551,30 +551,30 @@ var REPORT_TYPE = 'mobile';
 
 
 
-ReportParametersvue_type_script_lang_ts.render = ReportParametersvue_type_template_id_65d44201_render
+ReportParametersvue_type_script_lang_ts.render = ReportParametersvue_type_template_id_5f520e2e_render
 
 /* harmony default export */ var ReportParameters = (ReportParametersvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ManageSmsProvider/ManageSmsProvider.vue?vue&type=template&id=d55b293c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ManageSmsProvider/ManageSmsProvider.vue?vue&type=template&id=6fdded90
 
 
-var ManageSmsProvidervue_type_template_id_d55b293c_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+var ManageSmsProvidervue_type_template_id_6fdded90_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   id: "ajaxErrorManageSmsProviderSettings"
 }, null, -1);
 
-var ManageSmsProvidervue_type_template_id_d55b293c_hoisted_2 = {
+var ManageSmsProvidervue_type_template_id_6fdded90_hoisted_2 = {
   key: 0
 };
-var ManageSmsProvidervue_type_template_id_d55b293c_hoisted_3 = {
+var ManageSmsProvidervue_type_template_id_6fdded90_hoisted_3 = {
   key: 0
 };
 
-var ManageSmsProvidervue_type_template_id_d55b293c_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ManageSmsProvidervue_type_template_id_6fdded90_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var ManageSmsProvidervue_type_template_id_d55b293c_hoisted_5 = {
+var ManageSmsProvidervue_type_template_id_6fdded90_hoisted_5 = {
   key: 1
 };
 
-var ManageSmsProvidervue_type_template_id_d55b293c_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var ManageSmsProvidervue_type_template_id_6fdded90_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
 var _hoisted_7 = ["innerHTML"];
 var _hoisted_8 = {
@@ -584,7 +584,7 @@ var _hoisted_9 = {
   id: "accountForm"
 };
 var _hoisted_10 = ["innerHTML"];
-function ManageSmsProvidervue_type_template_id_d55b293c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ManageSmsProvidervue_type_template_id_6fdded90_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
 
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
@@ -597,7 +597,7 @@ function ManageSmsProvidervue_type_template_id_d55b293c_render(_ctx, _cache, $pr
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.isDeletingAccount
-  }, null, 8, ["loading"]), ManageSmsProvidervue_type_template_id_d55b293c_hoisted_1, _ctx.credentialSupplied ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", ManageSmsProvidervue_type_template_id_d55b293c_hoisted_2, [_ctx.credentialError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ManageSmsProvidervue_type_template_id_d55b293c_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_CredentialInvalid', _ctx.provider)), 1), ManageSmsProvidervue_type_template_id_d55b293c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.credentialError), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ManageSmsProvidervue_type_template_id_d55b293c_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_CredentialProvided', _ctx.provider)) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.creditLeft), 1)), ManageSmsProvidervue_type_template_id_d55b293c_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 8, ["loading"]), ManageSmsProvidervue_type_template_id_6fdded90_hoisted_1, _ctx.credentialSupplied ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", ManageSmsProvidervue_type_template_id_6fdded90_hoisted_2, [_ctx.credentialError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ManageSmsProvidervue_type_template_id_6fdded90_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_CredentialInvalid', _ctx.provider)), 1), ManageSmsProvidervue_type_template_id_6fdded90_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.credentialError), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ManageSmsProvidervue_type_template_id_6fdded90_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_CredentialProvided', _ctx.provider)) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.creditLeft), 1)), ManageSmsProvidervue_type_template_id_6fdded90_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.updateOrDeleteAccountText),
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.onUpdateOrDeleteClick($event);
@@ -633,7 +633,7 @@ function ManageSmsProvidervue_type_template_id_d55b293c_render(_ctx, _cache, $pr
     innerHTML: _ctx.$sanitize(_ctx.currentProviderDescription)
   }, null, 8, _hoisted_10)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.credentialSupplied || _ctx.showAccountForm], [_directive_form]])]);
 }
-// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/ManageSmsProvider/ManageSmsProvider.vue?vue&type=template&id=d55b293c
+// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/ManageSmsProvider/ManageSmsProvider.vue?vue&type=template&id=6fdded90
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ManageSmsProvider/ManageSmsProvider.vue?vue&type=script&lang=ts
 
@@ -669,7 +669,7 @@ function ManageSmsProvidervue_type_template_id_d55b293c_render(_ctx, _cache, $pr
       isDeletingAccount: false,
       isUpdatingAccount: false,
       showAccountForm: false,
-      credentials: {},
+      credentials: null,
       smsProvider: this.provider
     };
   },
@@ -742,7 +742,7 @@ function ManageSmsProvidervue_type_template_id_d55b293c_render(_ctx, _cache, $pr
   computed: {
     isUpdateAccountPossible: function isUpdateAccountPossible() {
       // possible if smsProvider is set and all credential field values are set to something
-      return !!this.smsProvider && Object.keys(this.credentials).length > 0 && Object.values(this.credentials).every(function (v) {
+      return !!this.smsProvider && this.credentials !== null && Object.values(this.credentials).every(function (v) {
         return !!v;
       });
     },
@@ -764,7 +764,7 @@ function ManageSmsProvidervue_type_template_id_d55b293c_render(_ctx, _cache, $pr
 
 
 
-ManageSmsProvidervue_type_script_lang_ts.render = ManageSmsProvidervue_type_template_id_d55b293c_render
+ManageSmsProvidervue_type_script_lang_ts.render = ManageSmsProvidervue_type_template_id_6fdded90_render
 
 /* harmony default export */ var ManageSmsProvider = (ManageSmsProvidervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/DelegateMobileMessagingSettings/DelegateMobileMessagingSettings.vue?vue&type=template&id=8e4eafcc

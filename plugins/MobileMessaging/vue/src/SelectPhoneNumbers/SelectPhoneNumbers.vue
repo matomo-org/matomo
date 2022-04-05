@@ -45,7 +45,7 @@ export default defineComponent({
   props: {
     modelValue: Array,
     phoneNumbers: {
-      type: Array,
+      type: [Array, Object],
       required: true,
     },
     withIntroduction: Boolean,

@@ -4,14 +4,6 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
-## Matomo 4.10.0
-
-### Breaking Changes
-
-* The Template.reportParametersScheduledReports PHP event will can no longer be used to inject inline scripts. If you need to execute
-  some JavaScript when that HTML is loaded, you'll need to create a Vue component. (AngularJS will work as well but support for that
-  will be removed in Matomo 5).
-
 ## Matomo 4.8.0
 
 ### New config.ini.php settings

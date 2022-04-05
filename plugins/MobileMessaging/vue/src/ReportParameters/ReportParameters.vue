@@ -9,7 +9,8 @@
     <SelectPhoneNumbers
       :phone-numbers="phoneNumbers"
       :with-introduction="true"
-      v-model="report.phoneNumbers"
+      :model-value="report.phoneNumbers"
+      @update:model-value="$emit('change', 'phoneNumbers', $event)"
     />
   </div>
 </template>
@@ -19,29 +20,23 @@ import { defineComponent } from 'vue';
 import { Report } from 'ScheduledReports';
 import SelectPhoneNumbers from '../SelectPhoneNumbers/SelectPhoneNumbers.vue';
 
-// TODO: note that the global funciton usage should be replaced with events for matomo 5
-
-interface ReportParametersState {
-  report?: Report;
-}
-
 const REPORT_TYPE = 'mobile';
 
 export default defineComponent({
   props: {
+    report: {
+      type: Object,
+      required: true,
+    },
     phoneNumbers: {
-      type: Array,
+      type: [Array, Object],
       required: true,
     },
   },
   components: {
     SelectPhoneNumbers,
   },
-  data(): ReportParametersState {
-    return {
-      report: undefined,
-    };
-  },
+  emits: ['change'],
   created() {
     const {
       resetReportParametersFunctions,
@@ -50,21 +45,17 @@ export default defineComponent({
     } = window;
 
     if (!resetReportParametersFunctions[REPORT_TYPE]) {
-      resetReportParametersFunctions[REPORT_TYPE] = (report) => {
-        this.report = report;
-
+      resetReportParametersFunctions[REPORT_TYPE] = (report: Report) => {
         report.phoneNumbers = [];
         report.formatmobile = 'sms';
       };
     }
 
     if (!updateReportParametersFunctions[REPORT_TYPE]) {
-      updateReportParametersFunctions[REPORT_TYPE] = (report) => {
+      updateReportParametersFunctions[REPORT_TYPE] = (report: Report) => {
         if (!report?.parameters) {
           return;
         }
-
-        this.report = report;
 
         if (report.parameters && report.parameters.phoneNumbers) {
           report.phoneNumbers = report.parameters.phoneNumbers;
@@ -74,7 +65,7 @@ export default defineComponent({
     }
 
     if (!getReportParametersFunctions[REPORT_TYPE]) {
-      getReportParametersFunctions[REPORT_TYPE] = (report) => {
+      getReportParametersFunctions[REPORT_TYPE] = (report: Report) => {
         // returning [''] when no phone numbers are selected avoids the "please provide a value
         // for 'parameters'" error message
         const phoneNumbers: string[]|undefined = report.phoneNumbers as string[]|undefined;

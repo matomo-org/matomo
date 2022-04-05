@@ -11,7 +11,8 @@
       name="report_email_me"
       :introduction="translate('ScheduledReports_SendReportTo')"
       v-show="report.type === 'email'"
-      v-model="report.emailMe"
+      :model-value="report.emailMe"
+      @update:model-value="$emit('change', 'emailMe', $event)"
       :title="`${translate('ScheduledReports_SentToMe')} (${currentUserEmail})`"
     />
   </div>
@@ -21,19 +22,23 @@
       uicontrol="textarea"
       var-type="array"
       v-show="report.type === 'email'"
-      v-model="report.additionalEmails"
+      :model-value="report.additionalEmails"
+      @update:model-value="$emit('change', 'additionalEmails', $event)"
       :title="translate('ScheduledReports_AlsoSendReportToTheseEmails')">
     </Field>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { Field } from 'CorePluginsAdmin';
-import { Report } from '../types';
 
 export default defineComponent({
   props: {
+    report: {
+      type: Object,
+      required: true,
+    },
     reportType: {
       type: String,
       required: true,
@@ -55,12 +60,11 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['change'],
   components: {
     Field,
   },
   setup(props) {
-    const report = ref<Report|null>(null);
-
     const {
       resetReportParametersFunctions,
       updateReportParametersFunctions,
@@ -69,8 +73,6 @@ export default defineComponent({
 
     if (!resetReportParametersFunctions[props.reportType]) {
       resetReportParametersFunctions[props.reportType] = (theReport) => {
-        report.value = theReport;
-
         theReport.displayFormat = props.defaultDisplayFormat;
         theReport.emailMe = props.defaultEmailMe;
         theReport.evolutionGraph = props.defaultEvolutionGraph;
@@ -83,8 +85,6 @@ export default defineComponent({
         if (!theReport?.parameters) {
           return;
         }
-
-        report.value = theReport;
 
         ['displayFormat', 'emailMe', 'evolutionGraph', 'additionalEmails'].forEach((field) => {
           if (field in theReport.parameters) {
@@ -102,10 +102,6 @@ export default defineComponent({
         additionalEmails: (theReport.additionalEmails || []),
       });
     }
-
-    return {
-      report,
-    };
   },
 });
 </script>

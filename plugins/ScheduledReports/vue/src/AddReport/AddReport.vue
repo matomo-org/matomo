@@ -191,7 +191,10 @@
                 type="radio"
                 value="each"
                 :checked="report.evolutionPeriodFor === 'each'"
-                @change="$emit('change', { prop: 'evolutionPeriodFor', value: $event })"
+                @change="$emit(
+                  'change',
+                  { prop: 'evolutionPeriodFor', value: $event.target.value },
+                )"
               />
               <span v-html="$sanitize(evolutionGraphsShowForEachInPeriod)"></span>
             </label>
@@ -204,7 +207,10 @@
                 type="radio"
                 value="prev"
                 :checked="report.evolutionPeriodFor === 'prev'"
-                @change="$emit('change', { prop: 'evolutionPeriodFor', value: $event })"
+                @change="$emit(
+                  'change',
+                  { prop: 'evolutionPeriodFor', value: $event.target.value },
+                )"
               />
               <span>{{ translate(
                 'ScheduledReports_EvolutionGraphsShowForPreviousN',
@@ -273,7 +279,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {
+  defineComponent,
+  onMounted,
+  reactive,
+  ref,
+  watch,
+} from 'vue';
 import {
   ContentBlock,
   Matomo,
@@ -362,10 +374,55 @@ export default defineComponent({
       return Matomo.helper.htmlDecode(s);
     },
   },
-  mounted() {
-    const reportParameters = this.$refs.reportParameters as HTMLElement;
-    Matomo.helper.compileAngularComponents(reportParameters);
-    Matomo.helper.compileVueEntryComponents(reportParameters);
+  setup(props, ctx) {
+    const reportParameters = ref<HTMLElement|null>(null);
+
+    const angularControllerProxy = reactive({
+      report: {
+        ...props.report,
+      },
+    });
+
+    watch(
+      () => angularControllerProxy.report,
+      (newValue) => {
+        Object.keys(newValue).forEach((key) => {
+          if (newValue[key] !== props.report[key]) {
+            ctx.emit('change', { prop: key, value: newValue[key] });
+          }
+        });
+      },
+      { deep: true },
+    );
+
+    watch(
+      () => props.report,
+      (newValue) => {
+        Object.assign(angularControllerProxy.report, newValue);
+        Matomo.helper.getAngularDependency('$timeout')();
+      },
+      { deep: true },
+    );
+
+    onMounted(() => {
+      const reportParametersElement = reportParameters.value as HTMLElement;
+      Matomo.helper.compileAngularComponents(reportParametersElement, {
+        params: {
+          manageScheduledReport: angularControllerProxy,
+        },
+      });
+
+      Matomo.helper.compileVueEntryComponents(reportParametersElement, {
+        report: angularControllerProxy.report,
+        onChange(prop: string, value: unknown) {
+          ctx.emit('change', { prop, value });
+        },
+      });
+    });
+
+    return {
+      reportParameters,
+    };
   },
   beforeUnmount() {
     const reportParameters = this.$refs.reportParameters as HTMLElement;

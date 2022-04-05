@@ -11,9 +11,10 @@
 {% endmacro %}
 
 {% macro selectPhoneNumbers(phoneNumbers, angularContext, value, withIntroduction) %}
-    <matomo-select-phone-numbers
+    <div matomo-select-phone-numbers
+      phone-numbers="{{ phoneNumbers|json_encode|e('html_attr') }}"
       ng-model="{{ angularContext }}.report.phoneNumbers"
       with-introduction="{{ withIntroduction|json_encode|e('html_attr') }}"
       {% if value %}value="{{ value|json_encode|e('html_attr') }}"{% endif %}
-    />
+    ></div>
 {% endmacro %}

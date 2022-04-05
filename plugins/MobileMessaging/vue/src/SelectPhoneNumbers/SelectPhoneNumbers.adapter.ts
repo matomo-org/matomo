@@ -22,6 +22,7 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
     value: {
       angularJsBind: '<',
+      vue: 'modelValue',
     },
   },
   $inject: ['$timeout'],
