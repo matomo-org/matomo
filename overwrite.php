@@ -118,11 +118,10 @@ class FrontController extends Singleton
         ]);
         */
 
-        file_put_contents(PIWIK_INCLUDE_PATH . '/../tmp/logs/matomo.log', 'something', FILE_APPEND);
-        file_put_contents(PIWIK_INCLUDE_PATH . '/../tmp/logs/matomo.log', get_class($e), FILE_APPEND);
-        file_put_contents(PIWIK_INCLUDE_PATH . '/../tmp/logs/matomo.log', $e->getMessage(), FILE_APPEND);
+        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/logs/matomo.log', 'something', FILE_APPEND);
+        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/logs/matomo.log', get_class($e), FILE_APPEND);
+        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/logs/matomo.log', $e->getMessage(), FILE_APPEND);
         sleep(1);
-        exit;
 
         $error = array(
             'message' => $e->getMessage(),
@@ -135,17 +134,16 @@ class FrontController extends Singleton
         }
 
         $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
-        //$error['backtrace'] .= $e->getTraceAsString();
+        $error['backtrace'] .= $e->getTraceAsString();
 
-        /*
         $exception = $e;
         while ($exception = $exception->getPrevious()) {
             $error['backtrace'] .= "\ncaused by: " . $exception->getMessage();
             $error['backtrace'] .= ' on ' . $exception->getFile() . '(' . $exception->getLine() . ")\n";
             $error['backtrace'] .= $exception->getTraceAsString();
         }
-        */
 
+        exit;
         return self::generateSafeModeOutputFromError($error);
     }
 
