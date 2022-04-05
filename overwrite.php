@@ -295,8 +295,8 @@ class FrontController extends Singleton
      */
     public function init()
     {
-        if (@$_GET['action'] === 'oneClickUpdate') {
-            print "here";exit;
+        if (@$_GET['action'] === 'oneClickUpdatePartTwo') {
+            print "here";
         }
         if ($this->initialized) {
             return;
