@@ -143,7 +143,6 @@ class FrontController extends Singleton
             $error['backtrace'] .= $exception->getTraceAsString();
         }
 
-        exit;
         return self::generateSafeModeOutputFromError($error);
     }
 
