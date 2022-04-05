@@ -80,8 +80,8 @@ class LatestStableInstall extends Fixture
 
         shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
 
-        // copy(PIWIK_INCLUDE_PATH . '/overwrite.php', $installSubdirectory . '/vendor/monolog/monolog/src/Monolog/Processor/PsrLogMessageProcessor.php');
-        copy('cp ' . PIWIK_INCLUDE_PATH . '/overwrite.php', $installSubdirectory . '/core/FrontController.php');
+        copy(PIWIK_INCLUDE_PATH . '/overwrite2.php', $installSubdirectory . '/vendor/monolog/monolog/src/Monolog/Processor/PsrLogMessageProcessor.php');
+        copy(PIWIK_INCLUDE_PATH . '/overwrite.php', $installSubdirectory . '/core/FrontController.php');
     }
 
     private function installSubdirectoryInstall()
