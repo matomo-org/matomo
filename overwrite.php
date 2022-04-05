@@ -118,6 +118,8 @@ class FrontController extends Singleton
         ]);
         */
 
+        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/logs/matomo.log', $e->getMessage(), FILE_APPEND);
+
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
