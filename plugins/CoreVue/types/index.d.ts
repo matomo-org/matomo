@@ -189,6 +189,15 @@ declare global {
     formatCurrency(value?: number|string, currency: string): string;
   }
 
+  interface Transitions {
+    reset(actionType: string, actionName: string, overrideParams: string);
+    showPopover(showEmbeddedInReport: boolean): void;
+  }
+
+  interface TransitionsGlobal {
+    new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -203,6 +212,7 @@ declare global {
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
+    Piwik_Transitions: TransitionsGlobal;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;

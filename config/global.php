@@ -35,6 +35,8 @@ return array(
 
     'view.clearcompiledtemplates.enable' => true,
 
+    'twig.cache' => DI\string('{path.tmp}/templates'),
+
     'Matomo\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Matomo\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id');
