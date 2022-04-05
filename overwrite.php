@@ -50,6 +50,12 @@ class PsrLogMessageProcessor implements ProcessorInterface
             return $record;
         }
 
+        if (@$_GET['action'] === 'oneClickUpdate') {
+            print_r($record['message']);
+            @ob_flush();
+            exit;
+        }
+
         $replacements = array();
         foreach ($record['context'] as $key => $val) {
             $placeholder = '{' . $key . '}';
@@ -74,7 +80,6 @@ class PsrLogMessageProcessor implements ProcessorInterface
             }
         }
 
-        print_r($record['message']);@ob_flush();
         $record['message'] = strtr($record['message'], $replacements);
 
         return $record;
