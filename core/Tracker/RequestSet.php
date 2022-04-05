@@ -46,7 +46,9 @@ class RequestSet
                 $request = new Request($request, $this->getTokenAuth());
             }
 
-            $this->requests[] = $request;
+            if (!$request->isPreFightCorsRequest()) {
+                $this->requests[] = $request;
+            }
         }
     }
 
