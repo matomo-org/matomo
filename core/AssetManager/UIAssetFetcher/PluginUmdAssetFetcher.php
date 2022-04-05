@@ -129,7 +129,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         $plugins = $this->plugins;
         $plugins = array_filter($plugins, function ($pluginName) {
-            return $this->shouldLoadUmdOnDemand($pluginName);
+            return !$this->shouldLoadUmdOnDemand($pluginName);
         });
         return $plugins;
     }
@@ -331,6 +331,6 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         // check if method exists before calling since during the update from the previous version to this one,
         // there may be a Plugin instance in memory that does not have this method.
         $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
-        return method_exists($plugin, 'shouldLoadUmdOnDemand') && !$plugin->shouldLoadUmdOnDemand();
+        return method_exists($plugin, 'shouldLoadUmdOnDemand') && $plugin->shouldLoadUmdOnDemand();
     }
 }
