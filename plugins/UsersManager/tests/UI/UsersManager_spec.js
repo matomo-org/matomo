@@ -168,7 +168,6 @@ describe("UsersManager", function () {
     it('should show resend confirm when resend clicked', async function () {
 
         await page.evaluate(function () {
-            $('select[name=access-level-filter]').val('string:view').change();
             $('#user-text-filter').val('pendingUser1').change();
         });
 
