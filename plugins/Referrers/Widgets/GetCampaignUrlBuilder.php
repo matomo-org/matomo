@@ -40,7 +40,7 @@ class GetCampaignUrlBuilder extends \Piwik\Widget\Widget
         $hasExtraPlugin = Plugin\Manager::getInstance()->isPluginActivated('MarketingCampaignsReporting');
 
         return $this->renderTemplate('campaignBuilder', array(
-            'hasExtraPlugin' => (int)$hasExtraPlugin
+            'hasExtraPlugin' => $hasExtraPlugin,
         ));
     }
 

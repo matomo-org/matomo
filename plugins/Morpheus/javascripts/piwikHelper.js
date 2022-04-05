@@ -188,6 +188,8 @@ window.piwikHelper = {
           throw new Error('Unknown component in vue-entry: ' + entry);
         }
 
+        $(this).attr('ng-non-bindable', '');
+
         var paramsStr = '';
 
         var componentParams = {};
