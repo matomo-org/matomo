@@ -295,12 +295,6 @@ class FrontController extends Singleton
      */
     public function init()
     {
-        if (@$_GET['action'] === 'oneClickUpdatePartTwo' || @$_POST['action'] === 'oneClickUpdatePartTwo') {
-            print "here 1";@ob_flush();
-        }
-        if (@$_GET['action'] === 'oneClickUpdate' || @$_POST['action'] === 'oneClickUpdate') {
-            print "here 2";@ob_flush();
-        }
         if ($this->initialized) {
             return;
         }
@@ -455,6 +449,12 @@ class FrontController extends Singleton
 
         \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
 
+        if (@$_GET['action'] === 'oneClickUpdatePartTwo' || @$_POST['action'] === 'oneClickUpdatePartTwo') {
+            print "here 1";@ob_flush();
+        }
+        if (@$_GET['action'] === 'oneClickUpdate' || @$_POST['action'] === 'oneClickUpdate') {
+            print "here 2";@ob_flush();
+        }
         /**
          * Triggered after the platform is initialized and after the user has been authenticated, but
          * before the platform has handled the request.
