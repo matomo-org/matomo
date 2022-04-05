@@ -65,7 +65,7 @@
       </div>
       <SaveButton
         class="findDataSubjects"
-        value="Find matching data subjects"
+        :value="translate('PrivacyManager_FindMatchingDataSubjects')"
         @confirm="findDataSubjects()"
         :disabled="!segment_filter"
         :saving="isLoading"
@@ -130,7 +130,7 @@
             </td>
             <td
               class="site"
-              :title="`(ID ${dataSubject.idSite})`"
+              :title="`(${translate('General_Id')} ${dataSubject.idSite})`"
             >{{ dataSubject.siteName }}</td>
             <td class="visitId">{{ dataSubject.idVisit }}</td>
             <td class="visitorId">
@@ -399,6 +399,7 @@ export default defineComponent({
       this.dataSubjectsActive = [];
       this.isLoading = true;
       this.toggleAll = true;
+      this.hasSearched = false;
 
       this.getSites().then((idsites) => {
         let siteIds: QueryParameters[string] = this.site.id;

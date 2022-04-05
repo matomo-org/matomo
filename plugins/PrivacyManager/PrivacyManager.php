@@ -339,6 +339,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyDeleted';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyExported';
         $translationKeys[] = 'UsersManager_AllWebsites';
+        $translationKeys[] = 'General_Id';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

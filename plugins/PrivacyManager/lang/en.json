@@ -187,6 +187,7 @@
         "TermsAndConditions": "Terms & Conditions",
         "VisitsSuccessfullyExported": "Visits were successfully exported",
         "VisitsSuccessfullyDeleted": "Visits were successfully deleted",
-        "LastAction": "Last action"
+        "LastAction": "Last action",
+        "FindMatchingDataSubjects": "Find matching data subjects"
     }
 }
