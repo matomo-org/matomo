@@ -21,6 +21,7 @@ use Piwik\Plugin\LogTablesProvider;
 use Piwik\Site;
 use Piwik\Tracker\LogTable;
 use Piwik\Tracker\PageUrl;
+use Psr\Log\LoggerInterface;
 
 class DataSubjects
 {
@@ -304,7 +305,11 @@ class DataSubjects
             $dimensionPerCol = array();
             foreach ($cols as $col => $config) {
                 foreach ($dimensions as $dimension) {
-                    if ($dimension->getDbTableName() === $logTableName && $dimension->getColumnName() === $col) {
+                    if (
+                        $dimension->getDbTableName() === $logTableName
+                        && $dimension->getColumnName() === $col
+                        && $dimension->getSqlSegment() === $logTableName . '.' . $col
+                    ) {
                         if ($dimension->getType() === Dimension::TYPE_BINARY) {
                             $binaryFields[] = $col;
                         }
@@ -348,8 +353,27 @@ class DataSubjects
                 }
                 foreach ($result[$index] as $rowColumn => $rowValue) {
                     if (isset($dimensionPerCol[$rowColumn])) {
-                        $result[$index][$rowColumn] = $dimensionPerCol[$rowColumn]->formatValue($rowValue, $result[$index]['idsite'], new Formatter());
-                    } else if (!empty($rowValue)) {
+                        try {
+                            $result[$index][$rowColumn] = $dimensionPerCol[$rowColumn]->formatValue(
+                                $rowValue,
+                                $result[$index]['idsite'],
+                                new Formatter()
+                            );
+                        } catch (\Exception $e) {
+                            // if formatting failes for some reason use the raw value
+                            StaticContainer::get(LoggerInterface::class)->error(
+                                'Failed to format column {column} with dimension {dimension}: {exception}',
+                                [
+                                    'column' => $rowColumn,
+                                    'dimension' => get_class($dimensionPerCol[$rowColumn]),
+                                    'exception' => $e,
+                                    'ignoreInScreenWriter' => true,
+                                ]
+                            );
+
+                            $result[$index][$rowColumn] = $rowValue;
+                        }
+                    } elseif (!empty($rowValue)) {
                         // we try to auto detect uncompressed values so plugins have to do less themselves. makes it a bit slower but should be fine
                         $testValue = @gzuncompress($rowValue);
                         if ($testValue !== false) {
