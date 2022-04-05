@@ -129,7 +129,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         $plugins = $this->plugins;
         $plugins = array_filter($plugins, function ($pluginName) {
-            return !Manager::getInstance()->getLoadedPlugin($pluginName)->shouldLoadUmdOnDemand();
+            return $this->shouldLoadUmdOnDemand($pluginName);
         });
         return $plugins;
     }
@@ -203,7 +203,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
         foreach ($plugins as $plugin) {
             if (Manager::getInstance()->isPluginLoaded($plugin)
-                && Manager::getInstance()->getLoadedPlugin($plugin)->shouldLoadUmdOnDemand()
+                && $this->shouldLoadUmdOnDemand($plugin)
             ) {
                 continue;
             }
@@ -324,5 +324,13 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     public static function getDefaultChunkCount()
     {
         return (int)(Config::getInstance()->General['assets_umd_chunk_count'] ?? 3);
+    }
+
+    private function shouldLoadUmdOnDemand(string $pluginName)
+    {
+        // check if method exists before calling since during the update from the previous version to this one,
+        // there may be a Plugin instance in memory that does not have this method.
+        $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
+        return method_exists($plugin, 'shouldLoadUmdOnDemand') && !$plugin->shouldLoadUmdOnDemand();
     }
 }
