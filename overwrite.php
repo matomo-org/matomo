@@ -117,7 +117,7 @@ class FrontController extends Singleton
             'ignoreInScreenWriter' => true,
         ]);
         */
-        print $e->getMessage();
+        echo $e->getMessage(); @ob_flush();
         exit;
 
         $error = array(
@@ -295,8 +295,11 @@ class FrontController extends Singleton
      */
     public function init()
     {
-        if (@$_GET['action'] === 'oneClickUpdatePartTwo') {
-            print "here";
+        if (@$_GET['action'] === 'oneClickUpdatePartTwo' || @$_POST['action'] === 'oneClickUpdatePartTwo') {
+            print "here 1";@ob_flush();
+        }
+        if (@$_GET['action'] === 'oneClickUpdate' || @$_POST['action'] === 'oneClickUpdate') {
+            print "here 2";@ob_flush();
         }
         if ($this->initialized) {
             return;
