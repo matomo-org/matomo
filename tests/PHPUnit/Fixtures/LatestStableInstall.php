@@ -81,7 +81,7 @@ class LatestStableInstall extends Fixture
         shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
 
         // copy(PIWIK_INCLUDE_PATH . '/overwrite.php', $installSubdirectory . '/vendor/monolog/monolog/src/Monolog/Processor/PsrLogMessageProcessor.php');
-        copy(PIWIK_INCLUDE_PATH . '/matomo/plugins/CoreUpdater/Controller.php', $installSubdirectory . '/matomo/plugins/CoreUpdater/Controller.php');
+        // copy(PIWIK_INCLUDE_PATH . '/matomo/plugins/CoreUpdater/Controller.php', $installSubdirectory . '/matomo/plugins/CoreUpdater/Controller.php');
     }
 
     private function installSubdirectoryInstall()
