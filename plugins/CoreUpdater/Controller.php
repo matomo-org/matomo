@@ -190,7 +190,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         print "done\n";
         print_r($messages);
-        exit;
+        throw new \Exception('sdlkfsjdf');
 
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);

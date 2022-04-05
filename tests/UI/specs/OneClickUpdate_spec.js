@@ -68,6 +68,9 @@ describe("OneClickUpdate", function () {
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
+        await page.evaluate(() => {
+          $(document.body).append('force failure');
+        });
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_success');
     });
 

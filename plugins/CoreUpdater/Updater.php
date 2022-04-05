@@ -126,7 +126,7 @@ class Updater
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
 
             echo "7<br/>";@ob_flush();
-            exit;
+            throw new \Exception('ahhhhhh');
         } catch (ArchiveDownloadException $e) {
             throw $e;
         } catch (Exception $e) {
