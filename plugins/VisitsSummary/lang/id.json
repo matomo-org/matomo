@@ -19,7 +19,7 @@
         "NbUsersDescription": "pengguna",
         "NbVisitsBounced": "kunjungan telah terpental (meninggalkan situs web setelah satu halaman)",
         "NbVisitsDescription": "kunjungan",
-        "PluginDescription": "Melaporkan metrik analitik umum: kunjungan, pengunjung unik, jumlah tindakan, rasio pentalan, dll.",
+        "PluginDescription": "Melaporkan metrik analitik umum: kunjungan, pengunjung unik, jumlah tindakan, rasio pantulan, dll.",
         "VisitsSummary": "Rangkuman Kunjungan",
         "VisitsSummaryDocumentation": "Ini merupakan iktisar perkembangan kunjungan.",
         "VisitsSummaryReportDocumentation": "Laporan ini memberikan gambaran yang sangat umum tentang bagaimana pengunjung Anda berperilaku.",

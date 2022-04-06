@@ -54,6 +54,7 @@ declare global {
     setContent(html: string|HTMLElement|JQuery|JQLite): void;
     showLoading(loadingName: string, popoverSubject?: string, height?: number, dialogClass?: string): JQuery;
     onClose(fn: () => void);
+    createPopupAndLoadUrl(url: string, loadingName: string, dialogClass?: string, ajaxRequest?: QueryParameters): void;
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;
@@ -88,8 +89,10 @@ declare global {
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
     compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string): void;
+    compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
+    showVisitorProfilePopup(visitorId: string, idSite: string|number): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -101,9 +104,11 @@ declare global {
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
+    propagateNewPopoverParameter(handleName: string, value?: string);
     buildReportingUrl(ajaxUrl: string): string;
     isLoginPage(): boolean;
     resetPopoverStack(): void;
+    addPopoverHandler(handlerName: string, callback: (string) => void): void;
 
     popoverHandlers: Record<string, (param: string) => void>;
   }
@@ -148,6 +153,7 @@ declare global {
     language: string;
     cacheBuster: string;
     numbers: Record<string, string>;
+    visitorProfileEnabled: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -183,6 +189,15 @@ declare global {
     formatCurrency(value?: number|string, currency: string): string;
   }
 
+  interface Transitions {
+    reset(actionType: string, actionName: string, overrideParams: string);
+    showPopover(showEmbeddedInReport: boolean): void;
+  }
+
+  interface TransitionsGlobal {
+    new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -197,6 +212,7 @@ declare global {
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
+    Piwik_Transitions: TransitionsGlobal;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;

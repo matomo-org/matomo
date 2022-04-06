@@ -263,7 +263,7 @@ class Range extends Period
             if (strpos($strDateEnd, '-') === false) {
                 $timezone = $this->timezone;
             }
-            $endDate = Date::factory($strDateEnd, $timezone);
+            $endDate = Date::factory($strDateEnd, $timezone)->setTime("00:00:00");
         } else {
             throw new Exception($this->translator->translate('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
         }
