@@ -57,7 +57,6 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, 'password', 'userlogin@password.de');
         $this->api->addUser($this->login2, 'password2', 'userlogin2@password.de');
-        $this->api->inviteUser($this->login3, 'pendingUser3@password.de');
 
     }
 
@@ -80,9 +79,9 @@ class ModelTest extends IntegrationTestCase
         $this->model->addUserAccess($this->login, Write::ID, array(2));
         $this->model->addUserAccess($this->login, View::ID, array(1));
         $this->assertEquals(array(
-            array('site' => '3', 'access' => Write::ID),
-            array('site' => '2', 'access' => Write::ID),
-            array('site' => '1', 'access' => View::ID),
+          array('site' => '1', 'access' => View::ID),
+          array('site' => '2', 'access' => Write::ID),
+          array('site' => '3', 'access' => Write::ID),
         ), $this->model->getSitesAccessFromUser($this->login));
     }
 
@@ -121,7 +120,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05');
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertEquals(array(array(
-            'idusertokenauth' => '2',
+            'idusertokenauth' => '1',
             'login' => 'userLogin',
             'description' => 'MyDescription',
             'password' => '2265daba0872fc3aef169d079365e590f0cbc8ed46c2a7984c8a642803cfd96cb47804a63cf22a79f6ca469268c29ee9e72a5059b62d0a598fe42dfc8dcc51bc',
@@ -200,7 +199,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', '2030-01-05 03:04:05');
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertEquals(array(array(
-            'idusertokenauth' => '2',
+            'idusertokenauth' => '1',
             'login' => 'userLogin',
             'description' => 'MyDescription',
             'password' => '2265daba0872fc3aef169d079365e590f0cbc8ed46c2a7984c8a642803cfd96cb47804a63cf22a79f6ca469268c29ee9e72a5059b62d0a598fe42dfc8dcc51bc',
@@ -381,7 +380,9 @@ class ModelTest extends IntegrationTestCase
 
     public function test_inviteUser()
     {
-
+        $this->api->inviteUser($this->login3, 'pendingUser3@password.de');
+        $user = $this->api->getUser($this->login3);
+        $this->assertNotEmpty($user['invited_at']);
     }
 
 }
