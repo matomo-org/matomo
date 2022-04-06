@@ -141,11 +141,10 @@ class IniFileChainCacheTest extends IniFileChainTest
         $expected['General'] = array('trusted_hosts' => array($this->testHost));
         $this->assertEquals($expected, $fileChain->getAll(), "'$testDescription' failed");
 
-        // even though the passed config files don't exist it still returns the same result as it is fetched from
-        // cache
-        unlink($userSettingsFileCopy);
+        // ensure it can be read only from cache
         $testChain = new TestIniFileChain(array('foo'), $userSettingsFileCopy);
         $this->assertEquals($expected, $testChain->getAll(), "'$testDescription' failed");
+        unlink($userSettingsFileCopy);
     }
 
     /**
