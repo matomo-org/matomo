@@ -168,7 +168,6 @@ describe("UsersManager", function () {
     it('should show resend confirm when resend clicked', async function () {
 
         await page.goto(url);
-        await (await page.jQuery('.resend:eq(0)')).click();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
 
