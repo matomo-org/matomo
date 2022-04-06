@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div ref="root">
     <h2 class="card-title">
       <EnrichedHeadline
         help-url="https://matomo.org/docs/manage-websites/#all-websites-dashboard"
