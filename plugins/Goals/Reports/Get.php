@@ -11,7 +11,9 @@ namespace Piwik\Plugins\Goals\Reports;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\NumberFormatter;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
@@ -128,6 +130,7 @@ class Get extends Base
                 $firstRow = $table->getFirstRow();
                 if ($firstRow) {
                     $revenue = $firstRow->getColumn('revenue');
+                    $firstRow->setColumn('revenue_unformatted', $revenue);
                     $currencySymbol = Site::getCurrencySymbolFor($idSite);
                     $revenue = $numberFormatter->formatCurrency($revenue, $currencySymbol, GoalManager::REVENUE_PRECISION);
                     $firstRow->setColumn('revenue', $revenue);
@@ -170,6 +173,59 @@ class Get extends Base
                     $view->config->addSparklineMetric(array('revenue'), $order = 30);
                 }
             }
+
+            // Add evolution values to sparklines
+            list($lastPeriodDate, $ignore) = Range::getLastDate();
+            if ($lastPeriodDate !== false) {
+                $date = Common::getRequestVar('date');
+
+                /** @var DataTable $previousData */
+                $previousData = Request::processRequest('Goals.get', ['date' => $lastPeriodDate]);
+                $previousDataRow = $previousData->getFirstRow();
+
+                /** @var DataTable\Row $currentDataRow */
+                $view->config->compute_evolution = function ($columns, $currentDataRow) use ($date, $lastPeriodDate, $previousDataRow) {
+
+                    $value = reset($columns);
+                    $columnName = key($columns);
+                    $pastValue = $previousDataRow->getColumn($columnName);
+
+                    if ($columnName == 'revenue') {
+                        if ($currentDataRow->hasColumn('revenue_unformatted')) {
+                            $numberFormatter = NumberFormatter::getInstance();
+                            $value = $currentDataRow->getColumn('revenue_unformatted');
+                            $idSite = $this->getIdSite();
+                            $currencySymbol = Site::getCurrencySymbolFor($idSite);
+                            $currentValueFormatted = $numberFormatter->formatCurrency($value, $currencySymbol, GoalManager::REVENUE_PRECISION);
+                            $pastValueFormatted = $numberFormatter->formatCurrency($pastValue, $currencySymbol, GoalManager::REVENUE_PRECISION);
+                        } else {
+                            return;
+                        }
+                    } else {
+                        $pastValueFormatted = NumberFormatter::getInstance()->format($pastValue, 1, 1);
+                        $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
+                    }
+
+                    $columnTranslations = $this->getSparklineTranslationsKeys();
+                    $metricTranslationKey = 'Goals_Conversions';
+                    if (array_key_exists($columnName, $columnTranslations)) {
+                        $metricTranslationKey = 'Goals_'.$columnTranslations[$columnName];
+                    }
+
+                    return [
+                        'currentValue' => $value,
+                        'pastValue' => $pastValue,
+                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
+                            Piwik::translate($metricTranslationKey, $currentValueFormatted),
+                            $date,
+                            Piwik::translate($metricTranslationKey, $pastValueFormatted),
+                            $lastPeriodDate,
+                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
+                        )),
+                    ];
+                };
+            }
+
         } else if ($view->isViewDataTableId(Evolution::ID)) {
             if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite)) {
                 $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified(array(
@@ -196,6 +252,16 @@ class Get extends Base
                 $view->config->columns_to_display = array('nb_conversions');
             }
         }
+    }
+
+    private function getSparklineTranslationsKeys()
+    {
+        return [
+            'nb_conversions' => 'Conversions',
+            'conversion_rate' => 'ConversionRate',
+            'revenue' => 'NRevenue'
+        ];
+
     }
 
     public function configureReportMetadata(&$availableReports, $infos)

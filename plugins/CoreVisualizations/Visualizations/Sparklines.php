@@ -246,7 +246,7 @@ class Sparklines extends ViewDataTable
 
                 $computeEvolution = $this->config->compute_evolution;
                 if ($computeEvolution) {
-                    $evolution = $computeEvolution(array_combine($column, $values));
+                    $evolution = $computeEvolution(array_combine((is_array($column) ? $column : [$column]), $values), $firstRow);
                     $newMetric['evolution'] = $evolution;
                 }
 

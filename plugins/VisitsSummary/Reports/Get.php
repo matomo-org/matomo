@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DbHelper;
+use Piwik\NumberFormatter;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
@@ -109,6 +113,48 @@ class Get extends \Piwik\Plugin\Report
                 }
             };
 
+            // Add evolution values to sparklines
+            list($lastPeriodDate, $ignore) = Range::getLastDate();
+            if ($lastPeriodDate !== false) {
+                $date = Common::getRequestVar('date');
+
+                /** @var DataTable $previousData */
+                $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate]);
+                $previousDataRow = $previousData->getFirstRow();
+
+                $view->config->compute_evolution = function ($columns) use ($date, $lastPeriodDate, $previousDataRow) {
+                    $value = reset($columns);
+                    $columnName = key($columns);
+                    $pastValue = $previousDataRow->getColumn($columnName);
+
+                    if ($columnName == 'avg_time_on_site') {
+                        // TODO Unable to calculate this evolution because the visit summary archive stores the time pre-formatted.
+                        return;
+                    }
+
+                    $pastValueFormatted = NumberFormatter::getInstance()->format($pastValue, 1, 1);
+                    $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
+
+                    $columnTranslations = $this->getSparklineTranslationsKeys();
+                    $metricTranslationKey = 'VisitsSummary_NbVisitsDescription';
+                    if (array_key_exists($columnName, $columnTranslations)) {
+                        $metricTranslationKey = 'VisitsSummary_'.$columnTranslations[$columnName];
+                    }
+
+                    return [
+                        'currentValue' => $value,
+                        'pastValue' => $pastValue,
+                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
+                            $currentValueFormatted.' '.Piwik::translate($metricTranslationKey),
+                            $date,
+                            $pastValueFormatted.' '.Piwik::translate($metricTranslationKey),
+                            $lastPeriodDate,
+                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
+                        )),
+                    ];
+                };
+            }
+
             // Remove metric tooltips
             $view->config->metrics_documentation['nb_actions'] = '';
             $view->config->metrics_documentation['nb_visits'] = '';
@@ -130,9 +176,9 @@ class Get extends \Piwik\Plugin\Report
         }
     }
 
-    private function getSparklineTranslations()
+    private function getSparklineTranslationsKeys()
     {
-        $translations = array(
+        return array(
             'nb_actions' => 'NbActionsDescription',
             'nb_visits' => 'NbVisitsDescription',
             'nb_users' => 'NbUsersDescription',
@@ -152,6 +198,11 @@ class Get extends \Piwik\Plugin\Report
             'bounce_rate' => 'NbVisitsBounced',
         );
 
+    }
+
+    private function getSparklineTranslations()
+    {
+        $translations = $this->getSparklineTranslationsKeys();
         foreach ($translations as $metric => $key) {
             $translations[$metric] = Piwik::translate('VisitsSummary_' . $key);
         }
