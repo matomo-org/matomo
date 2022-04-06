@@ -143,7 +143,8 @@
               <div class="col s12 m6">
                 <div v-if="isAdd" class="form-help">
                      <span class="inline-help"
-                      v-html="translate('UsersManager_InviteSuccessNotification', [7])"></span>
+                      v-html="$sanitize(
+                          translate('UsersManager_InviteSuccessNotification', [7]))"></span>
                 </div>
               </div>
             </div>

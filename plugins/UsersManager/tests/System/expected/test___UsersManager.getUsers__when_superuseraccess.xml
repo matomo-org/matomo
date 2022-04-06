@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<login>000pendingUser1</login>
+		<email>pendinguser1light@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+		<invited_at>today-date-removed-in-tests</invited_at>
+		<uses_2fa>0</uses_2fa>
+	</row>
+	<row>
 		<login>login1</login>
 		<email>login1@example.com</email>
 		<superuser_access>1</superuser_access>
@@ -78,14 +86,6 @@
 		<superuser_access>0</superuser_access>
 		
 		<invited_at />
-		<uses_2fa>0</uses_2fa>
-	</row>
-	<row>
-		<login>pendingUser1</login>
-		<email>pendinguser1light@example.com</email>
-		<superuser_access>0</superuser_access>
-		
-		<invited_at>today-date-removed-in-tests</invited_at>
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>

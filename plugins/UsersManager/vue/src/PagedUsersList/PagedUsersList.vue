@@ -413,10 +413,10 @@
       <div class="modal-content">
         <h3
             v-if="userToChange"
-            v-html="translate(
+            v-html="$sanitize(translate(
             'UsersManager_ResendInviteConfirmSingle',
             `<strong>${userToChange.login}</strong>`,
-          )"
+          ))"
         ></h3>
       </div>
       <div class="modal-footer">

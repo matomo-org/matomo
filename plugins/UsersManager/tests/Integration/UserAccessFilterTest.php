@@ -277,6 +277,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         foreach ($ids as $id) {
             $logins[] = 'login' . $id;
         }
+        $logins[] = "pendingUser";
         return $logins;
     }
 

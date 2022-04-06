@@ -169,9 +169,11 @@ describe("UsersManager", function () {
 
         await page.goto(url);
 
+        await (await page.jQuery('.resend')).click();
+
+
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
 
-        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
 

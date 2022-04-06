@@ -121,7 +121,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05');
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertEquals(array(array(
-            'idusertokenauth' => '1',
+            'idusertokenauth' => '2',
             'login' => 'userLogin',
             'description' => 'MyDescription',
             'password' => '2265daba0872fc3aef169d079365e590f0cbc8ed46c2a7984c8a642803cfd96cb47804a63cf22a79f6ca469268c29ee9e72a5059b62d0a598fe42dfc8dcc51bc',
@@ -200,7 +200,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', '2030-01-05 03:04:05');
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertEquals(array(array(
-            'idusertokenauth' => '1',
+            'idusertokenauth' => '2',
             'login' => 'userLogin',
             'description' => 'MyDescription',
             'password' => '2265daba0872fc3aef169d079365e590f0cbc8ed46c2a7984c8a642803cfd96cb47804a63cf22a79f6ca469268c29ee9e72a5059b62d0a598fe42dfc8dcc51bc',
