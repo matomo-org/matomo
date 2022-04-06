@@ -7,7 +7,7 @@
 
 import { DirectiveBinding } from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-import translate from '../translate';
+import { translate } from '../translate';
 import ReportExportPopover from './ReportExportPopover.vue';
 import Matomo from '../Matomo/Matomo';
 import createVueApp from '../createVueApp';
