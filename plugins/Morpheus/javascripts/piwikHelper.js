@@ -188,6 +188,8 @@ window.piwikHelper = {
           throw new Error('Unknown component in vue-entry: ' + entry);
         }
 
+        $(this).attr('ng-non-bindable', '');
+
         var paramsStr = '';
 
         var componentParams = {};
@@ -741,7 +743,11 @@ window.piwikHelper = {
         } else {
             return Math.round((dividend / divisor) * 1000) / 1000;
         }
-    }
+    },
+
+    showVisitorProfilePopup: function (visitorId, idSite) {
+      require('piwik/UI').VisitorProfileControl.showPopover(visitorId, idSite);
+    },
 };
 if (typeof String.prototype.trim !== 'function') {
     String.prototype.trim = function() {
