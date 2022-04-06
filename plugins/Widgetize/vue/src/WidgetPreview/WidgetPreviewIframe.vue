@@ -39,6 +39,7 @@ export default defineComponent({
       required: true,
     },
   },
+  inheritAttrs: false,
   directives: {
     SelectOnFocus,
   },

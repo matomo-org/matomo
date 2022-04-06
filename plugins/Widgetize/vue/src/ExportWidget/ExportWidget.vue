@@ -4,11 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- test in UI
-- create PR
-</todo>
-
 <template>
   <div class="widgetize">
     <div v-content-intro>
@@ -22,7 +17,7 @@
         >export your Web Analytics reports</a> on your blog, website, or intranet dashboard...
         in one click.</p>
     </div>
-    <ContentBlock :content-title="Authentication">
+    <ContentBlock content-title="Authentication">
       <p>
         If you want your widgets to be viewable by everybody, you first have to set the 'view'
         permissions to the anonymous user in the <a
@@ -160,6 +155,14 @@ export default defineComponent({
     },
     allWebsitesDashboardCode() {
       return getIframeCode(this.allWebsitesDashboardUrl);
+    },
+  },
+  methods: {
+    linkTo(params: QueryParameters) {
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        params,
+      })}`;
     },
   },
 });

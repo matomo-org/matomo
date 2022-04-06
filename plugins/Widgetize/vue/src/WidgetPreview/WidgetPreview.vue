@@ -4,12 +4,6 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<todo>
-- get to build
-- test in UI
-- create PR
-</todo>
-
 <template>
   <div ref="root"></div>
 </template>
@@ -25,7 +19,7 @@ import {
 const { $, widgetsHelper } = window;
 
 export default defineComponent({
-  created() {
+  mounted() {
     const element = this.$refs.root as HTMLElement;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,7 +42,7 @@ export default defineComponent({
 
         const previewIframe = $('<div>')
           .attr('vue-entry', 'Widgetize.WidgetPreviewIframe')
-          .attr('widget-iframe', JSON.stringify(widgetIframeHtml))
+          .attr('widget-iframe-html', JSON.stringify(widgetIframeHtml))
           .attr('url-iframe', JSON.stringify(urlIframe));
         $(exportButtonsElement).append(previewIframe);
 
