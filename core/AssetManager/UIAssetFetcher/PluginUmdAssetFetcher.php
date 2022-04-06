@@ -12,6 +12,7 @@ namespace Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Cache;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
 
@@ -116,9 +117,18 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         foreach ($pluginsToLoadOnInit as $pluginName) {
             $pluginDependencies = self::getPluginDependencies($pluginName);
-            if (!empty(array_diff($pluginDependencies, $pluginsToLoadOnInit))) {
+
+            // if the plugin dependencies has a plugin that is in $this->plugins, but not in $pluginsToLoadOnInit,
+            // the dependency was set to load on demand, and we report an error since this should only happen
+            // during development.
+            //
+            // if it's not in either $this->plugins and not in $pluginsToLoadOnInit, then it's not activated
+            // and we ignore it.
+            if (!empty(array_diff($pluginDependencies, $pluginsToLoadOnInit))
+                && empty(array_diff($pluginDependencies, $this->plugins))
+            ) {
                 throw new \Exception("Missing plugin dependency: $pluginName requires plugins "
-                    . implode(', ', $pluginDependencies) . ', but one or more of these is set to load lazily. '
+                    . implode(', ', $pluginDependencies) . ', but one or more of these is set to load on demand. '
                     . 'Use the importPluginUmd() function to asynchronously load those plugins, instead of '
                     . 'a normal ES import ... statement.');
             }
@@ -129,7 +139,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         $plugins = $this->plugins;
         $plugins = array_filter($plugins, function ($pluginName) {
-            return !$this->shouldLoadUmdOnDemand($pluginName);
+            return Manager::getInstance()->isPluginLoaded($pluginName)
+                && !$this->shouldLoadUmdOnDemand($pluginName);
         });
         return $plugins;
     }
@@ -328,6 +339,16 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function shouldLoadUmdOnDemand(string $pluginName)
     {
+        $pluginsToNotLoadOnDemand = StaticContainer::get('plugins.shouldNotLoadOnDemand');
+        if (in_array($pluginName, $pluginsToNotLoadOnDemand)) {
+            return false;
+        }
+
+        $pluginsToLoadOnDemand = StaticContainer::get('plugins.shouldLoadOnDemand');
+        if (in_array($pluginName, $pluginsToLoadOnDemand)) {
+            return true;
+        }
+
         // check if method exists before calling since during the update from the previous version to this one,
         // there may be a Plugin instance in memory that does not have this method.
         $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
