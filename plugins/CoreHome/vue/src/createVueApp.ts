@@ -6,7 +6,7 @@
  */
 
 import { createApp } from 'vue';
-import translate from './translate';
+import { translate, translateOrDefault } from './translate';
 
 export default function createVueApp(
   ...args: Parameters<typeof createApp>
@@ -14,5 +14,6 @@ export default function createVueApp(
   const app = createApp(...args);
   app.config.globalProperties.$sanitize = window.vueSanitize;
   app.config.globalProperties.translate = translate;
+  app.config.globalProperties.translateOrDefault = translateOrDefault;
   return app;
 }

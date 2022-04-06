@@ -150,7 +150,7 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 import SelectOnFocus from '../SelectOnFocus/SelectOnFocus';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-import translate from '../translate';
+import { translate } from '../translate';
 
 interface DataTable {
   param: Record<string, string|string[]>;

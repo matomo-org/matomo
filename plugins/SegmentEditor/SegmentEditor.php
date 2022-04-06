@@ -294,15 +294,12 @@ class SegmentEditor extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
-        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator-model.js";
-        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.controller.js";
-        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
-        $stylesheets[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.less";
+        $stylesheets[] = "plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.less";
     }
 
     /**
