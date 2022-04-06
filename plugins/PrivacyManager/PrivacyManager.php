@@ -301,10 +301,12 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroAccessRight';
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroEraseRight';
         $translationKeys[] = 'PrivacyManager_GeolocationAnonymizeIpNote';
+        $translationKeys[] = 'PrivacyManager_GetPurgeEstimate';
         $translationKeys[] = 'PrivacyManager_KeepBasicMetrics';
         $translationKeys[] = 'PrivacyManager_KeepBasicMetricsReportsDetailedInfo';
         $translationKeys[] = 'PrivacyManager_KeepDataFor';
         $translationKeys[] = 'PrivacyManager_KeepReportSegments';
+        $translationKeys[] = 'PrivacyManager_LastAction';
         $translationKeys[] = 'PrivacyManager_LastDelete';
         $translationKeys[] = 'PrivacyManager_LeastDaysInput';
         $translationKeys[] = 'PrivacyManager_LeastMonthsInput';
@@ -334,7 +336,11 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UseDeleteLog';
         $translationKeys[] = 'PrivacyManager_UseDeleteReports';
         $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
-        $translationKeys[] = 'PrivacyManager_GetPurgeEstimate';
+        $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyDeleted';
+        $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyExported';
+        $translationKeys[] = 'UsersManager_AllWebsites';
+        $translationKeys[] = 'General_Id';
+        $translationKeys[] = 'PrivacyManager_FindMatchingDataSubjects';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -353,14 +359,12 @@ class PrivacyManager extends Plugin
     {
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
-        $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
         $stylesheets[] = "plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/footerLinks.less";

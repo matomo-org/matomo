@@ -92,6 +92,7 @@ declare global {
     compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
+    showVisitorProfilePopup(visitorId: string, idSite: string|number): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -152,6 +153,7 @@ declare global {
     language: string;
     cacheBuster: string;
     numbers: Record<string, string>;
+    visitorProfileEnabled: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;

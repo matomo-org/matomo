@@ -82,7 +82,7 @@
       {{ translate('Actions_SubmenuPagesEntry') }}
       {{ translate('General_And') }}
       {{ translate('Actions_SubmenuPagesExit') }}.
-      <span v-html="availableInOtherReports2"></span>
+      <span v-html="$sanitize(availableInOtherReports2)"></span>
     </div>
   </div>
 </template>
