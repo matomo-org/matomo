@@ -48,6 +48,8 @@ class RequestSet
 
             if (!$request->isPreFightCorsRequest()) {
                 $this->requests[] = $request;
+            } else {
+                Common::sendResponseCode(204);
             }
         }
     }

@@ -930,8 +930,7 @@ class Request
      */
     public function isPreFightCorsRequest()
     {
-        if(isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS')
-        {
+        if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
             return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
         }
         return false;
