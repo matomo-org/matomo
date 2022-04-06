@@ -133,6 +133,22 @@ class APITest extends SystemTestCase
         return $apiToTest;
     }
 
+    public function testFindDataSubjectsAllSites()
+    {
+        $this->runAnyApiTest('PrivacyManager.findDataSubjects', 'allSites', [
+            'idSite'     => 'all',
+            'segment'    => 'countryCode==CN',
+        ]);
+    }
+
+    public function testFindDataSubjectsSpecificSite()
+    {
+        $this->runAnyApiTest('PrivacyManager.findDataSubjects', 'specificSite', [
+            'idSite'     => '5',
+            'segment'    => 'countryCode==CN',
+        ]);
+    }
+
     public static function getOutputPrefix()
     {
         return '';
