@@ -79,9 +79,9 @@ class ModelTest extends IntegrationTestCase
         $this->model->addUserAccess($this->login, Write::ID, array(2));
         $this->model->addUserAccess($this->login, View::ID, array(1));
         $this->assertEquals(array(
-          array('site' => '1', 'access' => View::ID),
-          array('site' => '2', 'access' => Write::ID),
           array('site' => '3', 'access' => Write::ID),
+          array('site' => '2', 'access' => Write::ID),
+          array('site' => '1', 'access' => View::ID),
         ), $this->model->getSitesAccessFromUser($this->login));
     }
 

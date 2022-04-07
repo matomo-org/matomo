@@ -38,7 +38,7 @@ describe("UsersManager", function () {
 
     it('should show resend confirm when resend clicked', async function () {
         await (await page.jQuery('.resend')).click();
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+        expect(await page.screenshotSelector('.resend-invite-confirm-modal')).to.matchImage('resend_popup');
     });
 
     it('should change the results page when next is clicked', async function () {
@@ -564,7 +564,7 @@ describe("UsersManager", function () {
 
         it('should not allow editing basic info for admin users', async function () {
             await page.click('.userEditForm .entityCancelLink');
-            await (await page.jQuery('button.edituser:eq(0)')).click();
+            await (await page.jQuery('button.edituser:eq(1)')).click();
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('edit_user_basic_info');
