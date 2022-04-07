@@ -15,6 +15,7 @@ use Piwik\Profiler;
 use Piwik\Timer;
 use Piwik\Tracker;
 use Piwik\Tracker\Db as TrackerDb;
+use Piwik\Url;
 
 class Response
 {
@@ -229,7 +230,7 @@ class Response
 
     protected function logExceptionToErrorLog($e)
     {
-        $hostname = Common::getValidHostname();
+        $hostname = Url::getRFCValidHostname();
         $hostStr = $hostname ? "[$hostname]" : '-';
         error_log(sprintf("$hostStr Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
     }

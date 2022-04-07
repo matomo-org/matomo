@@ -340,6 +340,21 @@ class Url
     }
 
     /**
+     * Returns the valid hostname (according to RFC standards) as a string; else it will return false if it isn't valid.
+     * If the hostname isn't supplied it will default to using Url::getHost
+     * Note: this will not verify if the hostname is trusted.
+     * @param $hostname
+     * @return false|string
+     */
+    public static function getRFCValidHostname($hostname = null)
+    {
+        if (empty($hostname)) {
+            $hostname = self::getHost(false);
+        }
+        return filter_var($hostname, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
+    }
+
+    /**
      * Sets the host. Useful for CLI scripts, eg. core:archive command
      *
      * @param $host string

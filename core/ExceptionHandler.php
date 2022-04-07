@@ -146,7 +146,7 @@ class ExceptionHandler
             }
         }
 
-        $hostname = Common::getValidHostname();
+        $hostname = Url::getRFCValidHostname();
         $hostStr = $hostname ? "[$hostname]" : '-';
         $hostStr .= " ";
         $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl, null, $hostStr);
