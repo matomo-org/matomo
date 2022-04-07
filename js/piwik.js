@@ -498,14 +498,13 @@ if (typeof window.Matomo !== 'object') {
          * "slow unload", i.e., calling getTime() > 1000 times
          */
         function beforeUnloadHandler() {
-    
-            if (documentAlias.visibilityState !== 'hidden') {
-                return;
+
+            if (documentAlias.visibilityState === 'hidden') {
+                executePluginMethod('unload');
             }
 
             var now;
             isPageUnloading = true;
-            executePluginMethod('unload');
 
             now = new Date();
             var aliasTime = now.getTimeAlias();
@@ -7170,7 +7169,7 @@ if (typeof window.Matomo !== 'object') {
          ************************************************************/
 
         // initialize the Matomo singleton
-        addEventListener(windowAlias, 'visibilitychange', beforeUnloadHandler, false);
+        addEventListener(windowAlias, 'visibilitychange', beforeUnloadHandler);
         addEventListener(windowAlias, 'online', function () {
             if (isDefined(navigatorAlias.serviceWorker)) {
                 navigatorAlias.serviceWorker.ready.then(function(swRegistration) {
