@@ -19,7 +19,7 @@
 
 <div
   vue-entry="ScheduledReports.ManageScheduledReport"
-  title="{{ title|default(null)|json_encode|e('html_attr') }}"
+  content-title="{{ title|default(null)|json_encode|e('html_attr') }}"
   user-login="{{ userLogin|default(null)|json_encode|e('html_attr') }}"
   login-module="{{ loginModule|default(null)|json_encode|e('html_attr') }}"
   reports="{{ reports|default(null)|json_encode|e('html_attr') }}"

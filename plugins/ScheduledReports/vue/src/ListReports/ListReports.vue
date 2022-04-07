@@ -10,7 +10,7 @@
     class="entityTableContainer"
     help-url="https://matomo.org/docs/email-reports/"
     :feature="'true'"
-    :content-title="title"
+    :content-title="contentTitle"
   >
     <table v-content-table>
       <thead>
@@ -101,7 +101,7 @@
                 outputType: downloadOutputType,
                 language: language,
                 format: ['html', 'csv', 'tsv'].indexOf(report.format) !== -1
-                  ? report.format : undefined,
+                  ? report.format : 'original',
               })"
             >
               <input
@@ -176,7 +176,7 @@ import {
 
 export default defineComponent({
   props: {
-    title: {
+    contentTitle: {
       type: String,
       required: true,
     },

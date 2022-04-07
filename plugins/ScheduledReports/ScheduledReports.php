@@ -145,7 +145,6 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_ReportPeriodHelp2';
         $translationKeys[] = 'ScheduledReports_ReportHour';
         $translationKeys[] = 'ScheduledReports_ReportType';
-        $translationKeys[] = 'ScheduledReports_ReportFormat';
         $translationKeys[] = 'ScheduledReports_AggregateReportsFormat';
         $translationKeys[] = 'ScheduledReports_EvolutionGraph';
         $translationKeys[] = 'ScheduledReports_EvolutionGraphsShowForPreviousN';

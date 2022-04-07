@@ -50,7 +50,7 @@
               id="reportSegmentInlineHelp"
               class="inline-help-node"
               v-if="segmentEditorActivated"
-              v-html="reportSegmentInlineHelp"
+              v-html="$sanitize(reportSegmentInlineHelp)"
             />
           </template>
         </Field>
@@ -271,7 +271,7 @@
       />
       <div
         class="entityCancel"
-        v-html="entityCancelText"
+        v-html="$sanitize(entityCancelText)"
       >
       </div>
     </form>

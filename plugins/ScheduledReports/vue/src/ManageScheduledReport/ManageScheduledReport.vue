@@ -25,7 +25,7 @@
       </div>
       <ListReports
         v-show="showReportsList"
-        :title="title"
+        :content-title="contentTitle"
         :user-login="userLogin"
         :login-module="loginModule"
         :reports="reports"
@@ -119,7 +119,7 @@ const timeZoneDifferenceInHours = Matomo.timezoneOffset / 3600;
 
 export default defineComponent({
   props: {
-    title: {
+    contentTitle: {
       type: String,
       required: true,
     },
@@ -226,6 +226,7 @@ export default defineComponent({
         this.fadeInOutSuccessMessage(
           this.$refs.reportSentSuccess as HTMLElement,
           translate('ScheduledReports_ReportSent'),
+          false,
         );
       });
     },
@@ -270,7 +271,7 @@ export default defineComponent({
       this.report = report;
       this.report.description = Matomo.helper.htmlDecode(report.description);
     },
-    fadeInOutSuccessMessage(selector: HTMLElement, message: string) {
+    fadeInOutSuccessMessage(selector: HTMLElement, message: string, reload = true) {
       NotificationsStore.show({
         message,
         placeat: selector,
@@ -284,7 +285,9 @@ export default defineComponent({
         id: 'scheduledReportSuccess',
       });
 
-      Matomo.helper.refreshAfter(2);
+      if (reload) {
+        Matomo.helper.refreshAfter(2);
+      }
     },
     changedReportType() {
       resetParameters(this.report.type, this.report);
@@ -371,9 +374,6 @@ export default defineComponent({
           hour,
         },
         apiParameters,
-        {
-          redirectOnSuccess: true,
-        },
       ).then(() => {
         this.fadeInOutSuccessMessage(
           this.$refs.reportUpdatedSuccess as HTMLElement,
