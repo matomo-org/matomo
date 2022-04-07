@@ -268,11 +268,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach((key) => {
-      const value = params[key];
+      let value = params[key];
       if (arrayParams.indexOf(key) !== -1
         && !value
       ) {
         return;
+      }
+
+      if (typeof value === 'boolean') {
+        value = value ? 1 : 0;
       }
 
       if (type.toLowerCase() === 'get') {
