@@ -109,12 +109,15 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      * @param bool $optionalLinkBack If true, displays a link to go back
      * @param bool|string $logoUrl The URL to the logo to use.
      * @param bool|string $faviconUrl The URL to the favicon to use.
+     * @param bool $writeErrorLog If true then a webserver error log will be written, defaults to true
      * @return string
      */
     function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
-                                       $logoUrl = false, $faviconUrl = false, $isCli = null)
+                                       $logoUrl = false, $faviconUrl = false, $isCli = null, bool $writeErrorLog = true)
     {
-        error_log(sprintf("Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
+        if ($writeErrorLog) {
+            error_log(sprintf("Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
+        }
 
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');

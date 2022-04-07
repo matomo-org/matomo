@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -10,6 +11,7 @@ namespace Piwik\Plugins\Goals\Visualizations;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -38,7 +40,7 @@ class Goals extends HtmlTable
         $idGoal = $request['idGoal'] ?? null;
 
         // Check if one of the pages display types should be used
-        $requestMethod = $this->requestConfig->getApiModuleToRequest().'.'.$this->requestConfig->getApiMethodToRequest();
+        $requestMethod = $this->requestConfig->getApiModuleToRequest() . '.' . $this->requestConfig->getApiMethodToRequest();
         if (in_array($requestMethod, ['Actions.getPageUrls', 'Actions.getPageTitles'])) {
             $this->displayType = self::GOALS_DISPLAY_PAGES;
             $this->config->filters[] = ['Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns'];
@@ -80,8 +82,10 @@ class Goals extends HtmlTable
 
         if (1 == Common::getRequestVar('documentationForGoalsPage', 0, 'int')) {
             // TODO: should not use query parameter
-            $this->config->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
-                array('<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank">', '</a>'));
+            $this->config->documentation = Piwik::translate(
+                'Goals_ConversionByTypeReportDocumentation',
+                ['<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank">', '</a>']
+            );
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_NORMAL) {
@@ -91,13 +95,34 @@ class Goals extends HtmlTable
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
             $this->config->addTranslation('nb_hits', Piwik::translate('General_ColumnUniquePageviews'));
             $this->config->metrics_documentation['nb_hits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
+            $this->removeUnusedRevenueColumns();
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
             $this->config->metrics_documentation['entry_nb_visits'] = Piwik::translate('General_ColumnEntrancesDocumentation');
+            $this->removeUnusedRevenueColumns();
         }
 
         parent::beforeRender();
+    }
+
+    /**
+     * Remove all *revenue* columns from being displayed that had been removed by RemoveUnusedGoalRevenueColumns filter
+     */
+    private function removeUnusedRevenueColumns()
+    {
+        if ($this->dataTable instanceof DataTable\DataTableInterface) {
+            foreach ($this->config->columns_to_display as $key => $column) {
+                if (false === strpos($column, 'revenue')) {
+                    continue;
+                }
+                $columnValues = $this->dataTable->getColumn($column);
+                $columnValues = array_filter($columnValues);
+                if (empty($columnValues)) {
+                    unset($this->config->columns_to_display[$key]);
+                }
+            }
+        }
     }
 
     private function setShowGoalsColumnsProperties()
@@ -111,11 +136,11 @@ class Goals extends HtmlTable
             $this->setPropertiesForEcommerceView();
 
             $goalsToProcess = array($idGoal);
-        } else if (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
+        } elseif (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
             $this->setPropertiesForGoals($idSite, 'all');
 
             $goalsToProcess = $this->getAllGoalIds($idSite);
-        } else if (AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW == $idGoal) {
+        } elseif (AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW == $idGoal) {
             $this->setPropertiesForGoalsOverview($idSite);
 
             $goalsToProcess = $this->getAllGoalIds($idSite);
@@ -203,7 +228,6 @@ class Goals extends HtmlTable
                 }
             }
         }
-
     }
 
     protected function setPropertiesForGoals($idSite, $idGoals)
@@ -215,7 +239,7 @@ class Goals extends HtmlTable
                 $idGoals = array_keys($allGoals);
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-                $this->requestConfig->filter_sort_column = 'goal_'.reset($idGoals).'_nb_conversions';
+                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions';
                 $this->requestConfig->filter_sort_order = 'desc';
             }
 
@@ -288,7 +312,6 @@ class Goals extends HtmlTable
                 }
             }
         }
-
     }
 
     protected $goalsForCurrentSite = null;

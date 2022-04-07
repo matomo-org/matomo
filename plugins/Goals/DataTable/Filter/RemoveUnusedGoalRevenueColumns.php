@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Goals\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
@@ -36,7 +38,7 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
         $columnsToCheck = [];
         foreach ($goals as $goalId) {
             foreach ($columnNames as $columnName) {
-                $columnsToCheck['goal_'.$goalId.'_'.$columnName] = true;
+                $columnsToCheck['goal_' . $goalId . '_' . $columnName] = true;
             }
         }
 
@@ -67,7 +69,7 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
      */
     private function getGoalsInTable(DataTable &$table)
     {
-        $result = array();
+        $result = [];
         foreach ($table->getRows() as $row) {
             $goals = $row->getColumn('goals');
             if (!$goals) {
@@ -80,5 +82,4 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
         }
         return array_unique($result);
     }
-
 }

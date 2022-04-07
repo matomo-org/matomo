@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
@@ -40,7 +42,7 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('goals', 'entry_nb_visits');
+        return ['goals', 'entry_nb_visits'];
     }
 
     public function compute(Row $row)
@@ -63,5 +65,4 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
     {
         return $formatter->getPrettyPercentFromQuotient($value);
     }
-
 }

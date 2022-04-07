@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\DataTable\Row;
@@ -36,7 +38,7 @@ class ConversionsEntry extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('goals');
+        return ['goals'];
     }
 
     public function compute(Row $row)

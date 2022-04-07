@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\Archive\DataTableFactory;
@@ -38,16 +40,16 @@ class RevenuePerEntry extends GoalSpecificProcessedMetric
 
     public function getDocumentation()
     {
-        if ($this->idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+        if ($this->idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             return Piwik::translate('Goals_ColumnAverageOrderRevenueDocumentation', $this->getGoalNameForDocs());
-        } else {
-            return Piwik::translate('Goals_ColumnRevenuePerEntryDocumentation', Piwik::translate('Goals_EcommerceAndGoalsMenu'));
         }
+
+        return Piwik::translate('Goals_ColumnRevenuePerEntryDocumentation', Piwik::translate('Goals_EcommerceAndGoalsMenu'));
     }
 
     public function getDependentMetrics()
     {
-        return array('goals', 'entry_nb_visits', 'revenue');
+        return ['goals', 'entry_nb_visits'];
     }
 
     public function compute(Row $row)
