@@ -18,12 +18,12 @@
           <ActivityIndicator :loading="isLoading"/>
 
           <div class="contentHelp">
-            <span v-html="learnMoreAboutGoalTracking"/>
+            <span v-html="$sanitize(learnMoreAboutGoalTracking)"/>
             <span v-if="!ecommerceEnabled">
               <br /><br/>
 
               {{ translate('Goals_Optional') }} {{ translate('Goals_Ecommerce') }}:
-              <span v-html="youCanEnableEcommerceReports"/>
+              <span v-html="$sanitize(youCanEnableEcommerceReports)"/>
             </span>
           </div>
 
@@ -73,9 +73,9 @@
                 </td>
                 <td
                   class="center"
-                  v-html="goal.revenue === 0 || goal.revenue === '0'
-                    ? '-'
-                    : $sanitize(goal.revenue_pretty)"
+                  v-html="$sanitize(
+                    goal.revenue === 0 || goal.revenue === '0' ? '-' : goal.revenue_pretty,
+                    )"
                 >
                 </td>
 
@@ -173,7 +173,7 @@
               </div>
               <div class="col s12 m6">
                 <Alert severity="info" v-show="triggerType === 'manually'">
-                  <span v-html="whereVisitedPageManuallyCallsJsTrackerText"></span>
+                  <span v-html="$sanitize(whereVisitedPageManuallyCallsJsTrackerText)"></span>
                 </Alert>
 
                 <div>
@@ -368,7 +368,7 @@
               class='entityCancel'
               v-show="showEditGoal"
               @click="showListOfReports()"
-              v-html="cancelText"
+              v-html="$sanitize(cancelText)"
              >
             </div>
           </div>

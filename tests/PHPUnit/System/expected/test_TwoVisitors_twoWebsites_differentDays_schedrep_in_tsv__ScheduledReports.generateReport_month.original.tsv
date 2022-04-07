@@ -126,7 +126,7 @@ label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site
 22	0	0	0%	0	00:00:00	0%
 23	0	0	0%	0	00:00:00	0%
 
-Visits per server time
+Visits per hour in the site's timezone
 label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
 00	1	1	1	00:00:00	100%	$0
 01	0	0	0	00:00:00	0%	$0

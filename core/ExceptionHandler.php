@@ -146,10 +146,15 @@ class ExceptionHandler
             }
         }
 
+        // Unsupported browser errors shouldn't be written to the web server log. At DEBUG logging level this error will
+        // be written to the application log instead
+        $writeErrorLog = !($ex instanceof \Piwik\Exception\NotSupportedBrowserException);
+
         $hostname = Url::getRFCValidHostname();
-        $hostStr = $hostname ? "[$hostname]" : '-';
-        $hostStr .= " ";
-        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl, null, $hostStr);
+        $hostStr = $hostname ? "[$hostname] " : '- ';
+
+        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl,
+                                            $logoFaviconUrl, null, $hostStr, $writeErrorLog);
 
         try {
             /**

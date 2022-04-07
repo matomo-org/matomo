@@ -209,7 +209,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         $show  = Common::getRequestVar('show', 'plugins', 'string');
-        $query = Common::getRequestVar('query', '', 'string', $_POST);
+        $query = Common::getRequestVar('query', '', 'string');
 
         $sort = new Sort();
         $sort = $sort->getSort();

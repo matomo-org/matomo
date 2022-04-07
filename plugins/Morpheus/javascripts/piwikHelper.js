@@ -164,6 +164,7 @@ window.piwikHelper = {
           .replace(/[A-Z]/g, function (s) { return '-' + s[0].toLowerCase(); });
       }
 
+      // process vue-entry attributes
       $('[vue-entry]', selector).add($(selector).filter('[vue-entry]')).each(function () {
         var entry = $(this).attr('vue-entry');
         var componentsToRegister = ($(this).attr('vue-components') || '').split(/\s+/).filter(function (s) {
@@ -179,13 +180,15 @@ window.piwikHelper = {
         var createVueApp = CoreHome.createVueApp;
         var plugin = window[parts[0]];
         if (!plugin) {
-          throw new Error('Unknown plugin in vue-entry: ' + plugin);
+          throw new Error('Unknown plugin in vue-entry: ' + entry);
         }
 
         var component = plugin[parts[1]];
         if (!component) {
           throw new Error('Unknown component in vue-entry: ' + entry);
         }
+
+        $(this).attr('ng-non-bindable', '');
 
         var paramsStr = '';
 
@@ -237,6 +240,52 @@ window.piwikHelper = {
 
         this.addEventListener('matomoVueDestroy', function () {
           app.unmount();
+        });
+      });
+
+      // process vue-directive attributes (only uses .mounted/.unmounted hooks)
+      piwikHelper.compileVueDirectives(selector);
+    },
+
+    compileVueDirectives: function (selector) {
+      $('[vue-directive]', selector).add($(selector).filter('[vue-entry]')).each(function () {
+        var vueDirectiveName = $(this).attr('vue-directive');
+
+        var parts = vueDirectiveName.split('.');
+        if (parts.length !== 2) {
+          throw new Error('Expects vue-entry to have format Plugin.Component, where Component is exported Vue component. Got: ' + vueDirectiveName);
+        }
+
+        var plugin = window[parts[0]];
+        if (!plugin) {
+          throw new Error('Unknown plugin in vue-entry: ' + vueDirectiveName);
+        }
+
+        var directive = plugin[parts[1]];
+        if (!directive) {
+          throw new Error('Unknown component in vue-entry: ' + vueDirectiveName);
+        }
+
+        var directiveArgument = $(this).attr('vue-directive-value');
+
+        var value;
+        try {
+          value = JSON.parse(directiveArgument || '{}');
+        } catch (e) {
+          console.log('failed to parse directive value ' + value + ': ' + directiveArgument);
+          return;
+        }
+
+        var binding = { value: value };
+
+        if (directive.mounted) {
+          directive.mounted(this, binding);
+        }
+
+        this.addEventListener('matomoVueDestroy', function () {
+          if (directive.unmounted) {
+            directive.unmounted(this, binding);
+          }
         });
       });
     },
@@ -694,7 +743,11 @@ window.piwikHelper = {
         } else {
             return Math.round((dividend / divisor) * 1000) / 1000;
         }
-    }
+    },
+
+    showVisitorProfilePopup: function (visitorId, idSite) {
+      require('piwik/UI').VisitorProfileControl.showPopover(visitorId, idSite);
+    },
 };
 if (typeof String.prototype.trim !== 'function') {
     String.prototype.trim = function() {

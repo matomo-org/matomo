@@ -18,7 +18,10 @@
         {{ creditLeft }}
       </span>
       <br />
-      <span v-html="updateOrDeleteAccountText" @click="onUpdateOrDeleteClick($event)"></span>
+      <span
+        v-html="$sanitize(updateOrDeleteAccountText)"
+        @click="onUpdateOrDeleteClick($event)"
+      />
     </p>
     <p v-else>{{ translate('MobileMessaging_Settings_PleaseSignUp') }}</p>
     <div
