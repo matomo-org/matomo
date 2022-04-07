@@ -323,4 +323,41 @@ class TrackerDbQueryGenerator
         return ['sql' => $sql, 'bind' => $bind];
     }
 
+    public function getInsertConversionQuery(string $idvisitor, int $idvisit, string $idaction, string $url, int $timestamp,
+                                             int $idlink_va, int $idgoal): array
+    {
+
+        $sql = "
+        INSERT INTO log_conversion (idvisit, idsite, idvisitor, server_time, idaction_url, idlink_va, idgoal, buster,
+            url, revenue, visitor_count_visits, visitor_returning, visitor_seconds_since_first, config_browser_name,
+            config_client_type, config_device_brand, config_device_model, config_device_type)
+        VALUES (:idvisit, :idsite, :idvisitor, :server_time, :idaction_url, :idlink_va, :idgoal, :buster,
+            :url, :revenue, :visitor_count_visits, :visitor_returning, :visitor_seconds_since_first, :config_browser_name,
+            :config_client_type, :config_device_brand, :config_device_model, :config_device_type)
+        ";
+
+        $bind = [
+            ':idvisit' => $idvisit,
+            ':idsite' => 1,
+            ':idvisitor' => $idvisitor,
+            ':server_time' => date('Y-m-d H:i:s', $timestamp),
+            ':idaction_url' => $idaction,
+            ':idlink_va' => $idlink_va,
+            ':idgoal' => $idgoal,
+            ':buster' => 0,
+            ':url' => $url,
+            ':revenue' => round(mt_rand() / mt_getrandmax(),2),
+            ':visitor_count_visits' => rand(1,10),
+            ':visitor_returning' => rand(0,1),
+            ':visitor_seconds_since_first' => rand(1,5000),
+            ':config_browser_name' => '',
+            ':config_client_type' => 1,
+            ':config_device_brand' => '',
+            ':config_device_model' => '',
+            ':config_device_type' => 0
+        ];
+
+        return ['sql' => $sql, 'bind' => $bind];
+    }
+
 }

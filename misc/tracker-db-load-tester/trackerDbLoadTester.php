@@ -22,7 +22,8 @@ Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB
     -v          Verbosity of output [0 = quiet, 3 = show everything]
     -T          Throttle the number of requests per second to this value
     -b          Basic test, do a very basic insert test instead of using tracker data 1=insert k/v, 2=select/insert
-    -c          Create a new random database and tracking data schema only then exit    
+    -c          Create a new random database and tracking data schema only then exit
+    -n          Percent of logged actions which will trigger a conversion, defaults to zero    
     -m          Create x multiple headless test processes using the supplied parameters
     -ds         Start date in UTC for random visit/action date range, yyyy-mm-dd,hh:mm:ss
     -de         End date for random visit/action date, must be paired with -ds, if omitted then current date is used   
@@ -47,6 +48,7 @@ $multipleProcesses = 0;
 $dbCreateOnly = false;
 $randomDateStart = null;
 $randomDateEnd = null;
+$conversionPercent = 0;
 
 foreach ($argv as $arg) {
 
@@ -81,6 +83,9 @@ foreach ($argv as $arg) {
             break;
         case '-u':
             $dbUser = $kv[1];
+            break;
+        case '-n':
+            $conversionPercent = $kv[1];
             break;
         case '-p':
             $dbPass = $kv[1];
@@ -427,6 +432,7 @@ while ($requestCount < $requests || $requests < 0) {
     }
 
     // Insert the action link
+    $idlinkva = null;
     if ($idvisit && $idaction) {
 
         if ($verbosity == 3) {
@@ -434,6 +440,22 @@ while ($requestCount < $requests || $requests < 0) {
         }
         $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction, $timestampUTC);
         query($prepareCache, $pdo, $insertActionLinkQuery);
+        $idlinkva = $pdo->lastInsertId();
+    }
+
+    // Insert conversion
+    if ($idlinkva && $conversionPercent > 0 && (rand(0, 100) < $conversionPercent)) {
+
+        $idgoal = array_rand([1,2,3,4,5,6,7,8,9,10]);
+
+        if ($verbosity == 3) {
+            echo "Inserting conversion...\n";
+        }
+
+        $insertConversionQuery = $queryGenerator->getInsertConversionQuery($idvisitor, $idvisit, $idaction, $actionUrl, $timestampUTC,
+            $idlinkva, $idgoal);
+        query($prepareCache, $pdo, $insertConversionQuery);
+
     }
 
     $requestCount++;
