@@ -1105,7 +1105,8 @@ class LogAggregator
              WHERE cam.idgoal = log_conversion.idgoal AND vam.idvisit = log_link_visit_action.idvisit
              AND vam.idaction_url IS NOT NULL AND am.type = %2$s
              AND vam.server_time <= log_conversion.server_time
-             GROUP BY cam.idgoal, cam.idvisit)) AS `%3$s`
+             GROUP BY cam.idgoal, cam.idvisit
+             ORDER BY NULL)) AS `%3$s`
         ', $tablePrefix, Action::TYPE_PAGE_URL, Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE);
 
         // Get unique pages visited before the goal conversion, one row per goal / visit / page combination
@@ -1135,11 +1136,11 @@ class LogAggregator
                 self::LOG_CONVERSION_TABLE,
                 array(
                     "table" => "log_link_visit_action",
-                    "joinOn" => "log_link_visit_action.idvisit = log_conversion.idvisit AND log_link_visit_action.server_time <= log_conversion.server_time"
+                    "joinOn" => "log_link_visit_action.idvisit = log_conversion.idvisit AND log_link_visit_action.server_time <= log_conversion.server_time AND log_link_visit_action.".$linkField." IS NOT NULL"
                 ),
                 array(
                     "table" => "log_action",
-                    "joinOn" => "log_action.idaction = log_link_visit_action.".$linkField
+                    "joinOn" => "log_action.idaction = log_link_visit_action.".$linkField." AND ".($linkField == 'idaction_url' ? 'log_action.type = 1' : 'log_action.type = 4')
                 )
             ),
             // WHERE ... AND ...
@@ -1149,9 +1150,7 @@ class LogAggregator
                     'log_conversion.server_time >= ?',
                     'log_conversion.server_time <= ?',
                     'log_conversion.idsite IN ('.Common::getSqlStringFieldsArray($this->sites).')',
-                    'log_conversion.idgoal >= 0',
-                    'log_link_visit_action.'.$linkField.' IS NOT NULL',
-                    ($linkField == 'idaction_url' ? 'log_action.type = 1' : 'log_action.type = 4')
+                    'log_conversion.idgoal >= 0'
                 )
             ),
 
