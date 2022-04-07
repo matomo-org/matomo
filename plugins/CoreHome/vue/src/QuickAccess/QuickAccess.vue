@@ -99,7 +99,7 @@
 import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
-import translate from '../translate';
+import { translate } from '../translate';
 import SitesStore from '../SiteSelector/SitesStore';
 import Site from '../SiteSelector/Site';
 import Matomo from '../Matomo/Matomo';

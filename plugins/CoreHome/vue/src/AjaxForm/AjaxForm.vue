@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import translate from '../translate';
+import { translate } from '../translate';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { NotificationsStore } from '../Notification';
 

@@ -6,7 +6,7 @@
  */
 
 import { DirectiveBinding } from 'vue';
-import translate from '../translate';
+import { translate } from '../translate';
 
 interface ShowSensitiveDataArgs {
   sensitiveData: string;

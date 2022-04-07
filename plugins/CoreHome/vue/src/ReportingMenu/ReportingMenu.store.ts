@@ -8,7 +8,7 @@
 import { computed, reactive, readonly } from 'vue';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-import translate from '../translate';
+import { translate } from '../translate';
 import { sortOrderables } from '../Orderable';
 import { Category, CategoryContainer, getCategoryChildren } from './Category';
 import { getSubcategoryChildren, Subcategory, SubcategoryContainer } from './Subcategory';

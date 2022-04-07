@@ -93,6 +93,7 @@ declare global {
     compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
+    showVisitorProfilePopup(visitorId: string, idSite: string|number): void;
     hideAjaxError(): void;
     refreshAfter(timeoutPeriod: number): void;
   }
@@ -155,6 +156,7 @@ declare global {
     language: string;
     cacheBuster: string;
     numbers: Record<string, string>;
+    visitorProfileEnabled: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -190,6 +192,15 @@ declare global {
     formatCurrency(value?: number|string, currency: string): string;
   }
 
+  interface Transitions {
+    reset(actionType: string, actionName: string, overrideParams: string);
+    showPopover(showEmbeddedInReport: boolean): void;
+  }
+
+  interface TransitionsGlobal {
+    new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -204,6 +215,7 @@ declare global {
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
+    Piwik_Transitions: TransitionsGlobal;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
@@ -216,6 +228,7 @@ declare global {
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
     translate: (translationStringId: string, ...values: string[]|string[][]) => string;
+    translateOrDefault: (translationStringIdOrText: string, ...values: string[]|string[][]) => string;
     $sanitize: Window['vueSanitize'];
   }
 }
