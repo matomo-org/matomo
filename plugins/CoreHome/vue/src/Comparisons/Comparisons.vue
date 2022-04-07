@@ -76,7 +76,7 @@ import ComparisonsStoreInstance from './Comparisons.store.instance';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import translate from '../translate';
+import { translate } from '../translate';
 import Tooltips from '../Tooltips/Tooltips';
 
 interface ProcessedReportComparison {

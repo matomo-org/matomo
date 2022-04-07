@@ -38,14 +38,12 @@ class Transitions extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = 'plugins/Transitions/stylesheets/transitions.less';
-        $stylesheets[] = 'plugins/Transitions/angularjs/transitionexporter/transitionexporter.popover.less';
+        $stylesheets[] = 'plugins/Transitions/vue/src/TransitionExporter/TransitionExporterPopover.less';
     }
 
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = 'plugins/Transitions/javascripts/transitions.js';
-        $jsFiles[] = 'plugins/Transitions/angularjs/transitionswitcher/transitionswitcher.controller.js';
-        $jsFiles[] = 'plugins/Transitions/angularjs/transitionexporter/transitionexporter.directive.js';
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -58,6 +56,13 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_Transitions';
         $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
         $translationKeys[] = 'General_Others';
+        $translationKeys[] = 'Actions_ActionType';
+        $translationKeys[] = 'Transitions_TopX';
+        $translationKeys[] = 'Transitions_AvailableInOtherReports';
+        $translationKeys[] = 'Actions_SubmenuPageTitles';
+        $translationKeys[] = 'Actions_SubmenuPagesEntry';
+        $translationKeys[] = 'Actions_SubmenuPagesExit';
+        $translationKeys[] = 'Transitions_AvailableInOtherReports2';
     }
 
     public function addJsGlobalVariables(&$out)
