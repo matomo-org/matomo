@@ -36,7 +36,13 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('load');
     });
 
+    it('should show resend confirm when resend clicked', async function () {
+        await (await page.jQuery('.resend')).click();
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+    });
+
     it('should change the results page when next is clicked', async function () {
+        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.click('.usersListPagination .btn.next');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
@@ -163,15 +169,6 @@ describe("UsersManager", function () {
         await page.waitForSelector('.pagedUsersList:not(.loading)');
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
-    });
-
-    it('should show resend confirm when resend clicked', async function () {
-
-        await page.goto(url);
-        await page.waitForTimeout(500); // for angular to re-render
-        await (await page.jQuery('.resend')).click();
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
-        await page.waitForNetworkIdle();
     });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
