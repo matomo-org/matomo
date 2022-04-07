@@ -6,26 +6,28 @@
 
 <template>
   <div v-if="report">
-    <Field
-      uicontrol="checkbox"
-      name="report_email_me"
-      :introduction="translate('ScheduledReports_SendReportTo')"
-      v-show="report.type === 'email'"
-      :model-value="report.emailMe"
-      @update:model-value="$emit('change', 'emailMe', $event)"
-      :title="`${translate('ScheduledReports_SentToMe')} (${currentUserEmail})`"
-    />
-  </div>
+    <div>
+      <Field
+        uicontrol="checkbox"
+        name="report_email_me"
+        :introduction="translate('ScheduledReports_SendReportTo')"
+        v-show="report.type === 'email'"
+        :model-value="report.emailMe"
+        @update:model-value="$emit('change', 'emailMe', $event)"
+        :title="`${translate('ScheduledReports_SentToMe')} (${currentUserEmail})`"
+      />
+    </div>
 
-  <div v-if="report">
-    <Field
-      uicontrol="textarea"
-      var-type="array"
-      v-show="report.type === 'email'"
-      :model-value="report.additionalEmails"
-      @update:model-value="$emit('change', 'additionalEmails', $event)"
-      :title="translate('ScheduledReports_AlsoSendReportToTheseEmails')">
-    </Field>
+    <div>
+      <Field
+        uicontrol="textarea"
+        var-type="array"
+        v-show="report.type === 'email'"
+        :model-value="report.additionalEmails"
+        @update:model-value="$emit('change', 'additionalEmails', $event)"
+        :title="translate('ScheduledReports_AlsoSendReportToTheseEmails')">
+      </Field>
+    </div>
   </div>
 </template>
 

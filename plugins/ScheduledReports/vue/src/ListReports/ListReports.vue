@@ -42,7 +42,7 @@
             <br /><br />
           </td>
         </tr>
-        <tr v-for="report in reports" :key="report.idreport">
+        <tr v-for="report in decodedReports" :key="report.idreport">
           <td class="first">
             {{ report.description }}
             <div
@@ -173,6 +173,7 @@ import {
   MatomoUrl,
   Matomo,
 } from 'CoreHome';
+import { Report } from '../types';
 
 export default defineComponent({
   props: {
@@ -240,6 +241,11 @@ export default defineComponent({
   computed: {
     token_auth() {
       return Matomo.token_auth;
+    },
+    decodedReports() {
+      return (this.reports as Report[]).map(
+        (r) => ({ ...r, description: Matomo.helper.htmlDecode(r.description) }),
+      );
     },
   },
 });

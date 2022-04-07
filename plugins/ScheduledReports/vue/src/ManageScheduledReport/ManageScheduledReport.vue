@@ -303,7 +303,7 @@ export default defineComponent({
               idReport,
             },
             {
-              redirectOnSuccess: {},
+              redirectOnSuccess: true,
             },
           );
         },
