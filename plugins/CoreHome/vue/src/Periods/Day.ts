@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import translate from '../translate';
+import { translate } from '../translate';
 import Periods from './Periods';
 import { parseDate, format, todayIsInRange } from './utilities';
 
