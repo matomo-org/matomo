@@ -180,7 +180,7 @@
                 />
               </span>
               <span
-                :title="`${dataSubject.country} ${dataSubject.region}`"
+                :title="`${dataSubject.country} ${dataSubject.region || ''}`"
               >
                 <img
                   height="16"
@@ -266,7 +266,7 @@ interface DataSubject {
   lastActionDateTime: string;
   operatingSystem: string;
   operatingSystemIcon: string;
-  region: string;
+  region: string|null;
   siteName: string;
   userId: string|null;
   visitIp: string;
