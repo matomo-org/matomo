@@ -498,7 +498,6 @@ if (typeof window.Matomo !== 'object') {
          * "slow unload", i.e., calling getTime() > 1000 times
          */
         function beforeUnloadHandler(event) {
-
             if (isPageUnloading || (event.type === 'visibilitychange' && documentAlias.visibilityState !== 'hidden')) {
                 return;
             }
