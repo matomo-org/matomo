@@ -184,6 +184,7 @@ class Model
         $sql   = "INSERT INTO $table (name, hash, type, url_prefix) VALUES (?,CRC32(?),?,?)";
 
         $db = $this->getDb();
+        $name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
         $db->query($sql, array($name, $name, $type, $urlPrefix));
 
         $actionId = $db->lastInsertId();
