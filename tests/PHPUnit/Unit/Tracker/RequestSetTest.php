@@ -361,14 +361,6 @@ class RequestSetTest extends UnitTestCase
         $this->assertTrue(empty($_SERVER['HTTP_REFERER']));
     }
 
-    public function test_preFightCors()
-    {
-        $_SERVER['REQUEST_METHOD'] = 'options';
-        $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'] = "test";
-        $this->requestSet->setRequests(array(new Request(array(), false)));
-        $requests = $this->requestSet->getRequests();
-        $this->assertEmpty($requests);
-    }
 
     /**
      * @param int $numRequests

@@ -45,12 +45,8 @@ class RequestSet
             if (!$request instanceof Request) {
                 $request = new Request($request, $this->getTokenAuth());
             }
-
-            if (!$request->isPreFightCorsRequest()) {
-                $this->requests[] = $request;
-            } else {
-                Common::sendResponseCode(204);
-            }
+            $this->requests[] = $request;
+            Common::sendResponseCode(204);
         }
     }
 

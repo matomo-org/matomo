@@ -133,6 +133,12 @@ class Tracker
             return;
         }
 
+        if ($this->isPreFightCorsRequest()) {
+            Common::sendResponseCode(204);
+            return;
+        }
+
+
         $requestSet->initRequestsAndTokenAuth();
 
         if ($requestSet->hasRequests()) {
@@ -354,5 +360,14 @@ class Tracker
         }
 
         return false;
+    }
+
+    public function isPreFightCorsRequest()
+    {
+        if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
+            return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
+        }
+        return false;
+
     }
 }
