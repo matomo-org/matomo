@@ -112,6 +112,14 @@ class Tracker
             $this->init();
             $handler->init($this, $requestSet);
 
+            if ($this->isPreFightCorsRequest()) {
+               header('Access-Control-Allow-Methods: GET, POST');
+               header('Access-Control-Allow-Headers: *');
+               header('Access-Control-Allow-Origin: *');
+               Common::sendResponseCode(204);
+               return;
+            }
+
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
             StaticContainer::get(LoggerInterface::class)->debug("Tracker encountered an exception: {ex}", [$e]);
@@ -132,12 +140,6 @@ class Tracker
         if (!$this->shouldRecordStatistics()) {
             return;
         }
-
-        if ($this->isPreFightCorsRequest()) {
-            Common::sendResponseCode(204);
-            return;
-        }
-
 
         $requestSet->initRequestsAndTokenAuth();
 
