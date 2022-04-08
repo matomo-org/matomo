@@ -153,7 +153,7 @@ window.piwikHelper = {
     },
 
     // initial call for 'body' later in this file
-    compileVueEntryComponents: function (selector) {
+    compileVueEntryComponents: function (selector, extraProps) {
       function toCamelCase(arg) {
         return arg[0] + arg.substring(1)
           .replace(/-[a-z]/g, function (s) { return s[1].toUpperCase(); });
@@ -166,6 +166,10 @@ window.piwikHelper = {
 
       // process vue-entry attributes
       $('[vue-entry]', selector).add($(selector).filter('[vue-entry]')).each(function () {
+        if ($(this).closest('[vue-entry-ignore]').length) {
+          return;
+        }
+
         var entry = $(this).attr('vue-entry');
         var componentsToRegister = ($(this).attr('vue-components') || '').split(/\s+/).filter(function (s) {
           return !!s.length;
@@ -191,25 +195,31 @@ window.piwikHelper = {
         $(this).attr('ng-non-bindable', '');
 
         var paramsStr = '';
-
         var componentParams = {};
-        $.each(this.attributes, function () {
-          if (this.name === 'vue-entry') {
+
+        function handleProperty(name, value) {
+          if (name === 'vue-entry') {
             return;
           }
 
           // append with underscore so reserved javascripy keywords aren't accidentally used
-          var camelName = toCamelCase(this.name) + '_';
-          paramsStr += ':' + this.name + '=' + JSON.stringify(camelName) + ' ';
+          var camelName = toCamelCase(name) + '_';
+          paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
-          var value = this.value;
           try {
-            value = JSON.parse(this.value);
+            value = JSON.parse(value);
           } catch (e) {
             // pass
           }
 
           componentParams[camelName] = value;
+        }
+
+        $.each(this.attributes, function () {
+          handleProperty(this.name, this.value);
+        });
+        Object.entries(extraProps || {}).forEach(([name, value]) => {
+          handleProperty(name, value);
         });
 
         // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
