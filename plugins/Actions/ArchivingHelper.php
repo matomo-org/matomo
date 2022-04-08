@@ -231,38 +231,69 @@ class ArchivingHelper
                         'type' => $row['type'],
                         PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB => 1,
                         PiwikMetrics::INDEX_GOAL_NB_VISITS_CONVERTED => 1,
-                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ => 1,
-                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS => 1,
-                        PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE => 0,
                         PiwikMetrics::INDEX_GOAL_REVENUE =>
-                            ($row[PiwikMetrics::INDEX_GOAL_REVENUE] !== null ? round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2) : 0),
+                            ($row[PiwikMetrics::INDEX_GOAL_REVENUE] !== null ? round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2) : null),
                         PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2) : 0),
+                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2) : null),
                         PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2) : 0),
+                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2) : null),
                         PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2) : 0),
+                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2) : null),
                         PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2) : 0),
+                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2) : null),
                         PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2) : 0)
+                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2) : null),
+                        PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE => 0,
+                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ => 1,
+                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS => 1
                     ];
                 } else {
                     $data[$key][PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]++;
                     $data[$key][PiwikMetrics::INDEX_GOAL_NB_VISITS_CONVERTED]++;
                     $data[$key][PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS]++;
-                    $data[$key][PiwikMetrics::INDEX_GOAL_REVENUE] +=
-                        ($row[PiwikMetrics::INDEX_GOAL_REVENUE] != null ? round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2) : 0);
-                    $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] +=
-                        ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2) : 0);
-                    $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] +=
-                        ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2) : 0);
-                    $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] +=
-                        ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2) : 0);
-                    $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] +=
-                        ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2) : 0);
-                    $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] +=
-                        ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2) : 0);
+                    if ($row[PiwikMetrics::INDEX_GOAL_REVENUE] !== null) {
+                        if ($data[$key][PiwikMetrics::INDEX_GOAL_REVENUE] === null) {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_REVENUE] = round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2);
+                        } else {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_REVENUE] += round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2);
+                        }
+                    }
+
+                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] !== null) {
+                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] === null) {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2);
+                        } else {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2);
+                        }
+                    }
+                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] !== null) {
+                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] === null) {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2);
+                        } else {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2);
+                        }
+                    }
+                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] !== null) {
+                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] === null) {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2);
+                        } else {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2);
+                        }
+                    }
+                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] !== null) {
+                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] === null) {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2);
+                        } else {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2);
+                        }
+                    }
+                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] !== null) {
+                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] === null) {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2);
+                        } else {
+                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2);
+                        }
+                    }
                 }
 
             }
