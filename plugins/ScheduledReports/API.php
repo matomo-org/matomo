@@ -608,7 +608,11 @@ class API extends \Piwik\Plugin\API
                         self::OUTPUT_SAVE_ON_DISK,
                         $report['period_param']
                     );
-
+            } catch (NoAccessException $e) {
+                // This might occur if for some reason a report exists where the user does no longer have access to the
+                // configured site. Normally those reports should be automatically deleted.
+                Log::info("Skipping report as user does no longer have access to configured site");
+                return;
             } catch (\Throwable $e) {
                 $this->enableSaveReportOnDisk = false;
                 throw new RetryableException($e->getMessage());
