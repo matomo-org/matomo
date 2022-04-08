@@ -1564,6 +1564,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           return;
         }
 
+        if (typeof value === 'boolean') {
+          value = value ? 1 : 0;
+        }
+
         if (type.toLowerCase() === 'get') {
           _this.getParams[key] = value;
         } else if (type.toLowerCase() === 'post') {
