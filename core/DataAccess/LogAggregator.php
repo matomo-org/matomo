@@ -20,7 +20,6 @@ use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
 use Piwik\Segment;
-use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Psr\Log\LoggerInterface;
 
@@ -1095,21 +1094,7 @@ class LogAggregator
      */
     public function queryConversionsByPageView(string $linkField, $rankingQueryLimit = 0)
     {
-        $dbSettings = new \Piwik\Db\Settings();
-        $tablePrefix = $dbSettings->getTablePrefix();
-        $subQuery = sprintf('
-            MAX((SELECT COUNT(am.idaction)
-             FROM %1$slog_conversion cam
-             LEFT JOIN %1$slog_link_visit_action vam ON vam.idvisit = cam.idvisit
-             LEFT JOIN %1$slog_action am ON am.idaction = vam.idaction_url
-             WHERE cam.idgoal = log_conversion.idgoal AND vam.idvisit = log_link_visit_action.idvisit
-             AND vam.idaction_url IS NOT NULL AND am.type = %2$s
-             AND vam.server_time <= log_conversion.server_time
-             GROUP BY cam.idgoal, cam.idvisit
-             ORDER BY NULL)) AS `%3$s`
-        ', $tablePrefix, Action::TYPE_PAGE_URL, Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE);
 
-        // Get unique pages visited before the goal conversion, one row per goal / visit / page combination
         $query = $this->generateQuery(
         // SELECT ...
             implode(
@@ -1118,17 +1103,15 @@ class LogAggregator
                     'log_conversion.idgoal AS idgoal',
                     sprintf('log_link_visit_action.%s AS idaction', $linkField),
                     'log_action.type',
-                    sprintf('COUNT(*) AS `%d`',Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB),
-                    sprintf('COUNT(distinct log_conversion.idvisit) AS `%d`', Metrics::INDEX_GOAL_NB_VISITS_CONVERTED),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), Metrics::INDEX_GOAL_REVENUE),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_tax)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
-                    sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
-                    $subQuery,
+                    'log_conversion.idvisit',
+                    sprintf('log_conversion.idvisit AS `%d`', Metrics::INDEX_GOAL_NB_VISITS_CONVERTED),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_subtotal'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_tax'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_shipping'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_discount'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
+                    sprintf('log_conversion.items AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
                     sprintf('1 AS `%s`', Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ),
-                    sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS)
                 )
             ),
             // FROM...
@@ -1155,10 +1138,10 @@ class LogAggregator
             ),
 
             // GROUP BY ...
-            'log_conversion.idgoal, log_conversion.idvisit, log_action.idaction',
+            false,
 
             // ORDER ...
-            false
+            'NULL'
         );
 
         return $this->getDb()->query($query['sql'], $query['bind']);
