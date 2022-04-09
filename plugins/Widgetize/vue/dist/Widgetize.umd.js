@@ -216,15 +216,15 @@ var external_CoreHome_ = __webpack_require__("19dc");
 WidgetPreviewIframevue_type_script_lang_ts.render = render
 
 /* harmony default export */ var WidgetPreviewIframe = (WidgetPreviewIframevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=12cb7f65
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=73d2ef45
 
-var WidgetPreviewvue_type_template_id_12cb7f65_hoisted_1 = {
+var WidgetPreviewvue_type_template_id_73d2ef45_hoisted_1 = {
   ref: "root"
 };
-function WidgetPreviewvue_type_template_id_12cb7f65_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_12cb7f65_hoisted_1, null, 512);
+function WidgetPreviewvue_type_template_id_73d2ef45_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_73d2ef45_hoisted_1, null, 512);
 }
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=12cb7f65
+// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=73d2ef45
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts
 
@@ -273,8 +273,6 @@ var _window = window,
         disableLink: 1,
         widget: 1
       });
-      delete finalParams.action;
-      delete finalParams.module;
       var _window$location = window.location,
           protocol = _window$location.protocol,
           hostname = _window$location.hostname;
@@ -291,7 +289,7 @@ var _window = window,
 
 
 
-WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_12cb7f65_render
+WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_73d2ef45_render
 
 /* harmony default export */ var WidgetPreview = (WidgetPreviewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=6a596dc6

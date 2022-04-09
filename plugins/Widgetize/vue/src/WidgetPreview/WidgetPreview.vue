@@ -64,9 +64,6 @@ export default defineComponent({
         widget: 1,
       };
 
-      delete finalParams.action;
-      delete finalParams.module;
-
       const { protocol, hostname } = window.location;
       const port = window.location.port === '' ? '' : `:${window.location.port}`;
       const path = window.location.pathname;
