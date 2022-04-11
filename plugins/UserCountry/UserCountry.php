@@ -24,11 +24,25 @@ class UserCountry extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
             'Insights.addReportToOverview'           => 'addReportToInsightsOverview',
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'General_InfoFor';
+        $translations[] = 'General_NotInstalled';
+        $translations[] = 'General_Installed';
+        $translations[] = 'General_Broken';
+        $translations[] = 'UserCountry_CurrentLocationIntro';
+        $translations[] = 'General_Refresh';
+        $translations[] = 'UserCountry_CannotLocalizeLocalIP';
+        $translations[] = 'UserCountry_NoProviders';
+        $translations[] = 'General_Disabled';
     }
 
     public function addReportToInsightsOverview(&$reports)
@@ -48,8 +62,6 @@ class UserCountry extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-selection/location-provider-selection.controller.js";
-        $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-selection/location-provider-selection.directive.js";
     }
 
     /**

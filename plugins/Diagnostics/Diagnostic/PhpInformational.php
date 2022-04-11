@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\CliMulti\CliPhp;
+use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
@@ -38,17 +39,19 @@ class PhpInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('PHP_BINARY', PHP_BINARY);
         }
 
-        // Check for php fpm and warn about access rules
-
         $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
-
-        if (SettingsPiwik::isMatomoInstalled()) {
-            $rpd = new RequiredPrivateDirectories($this->translator);
-            $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+        // Only attempt to check file accessibility if the config setting allows it
+        $disableFileAccessCheck = (GeneralConfig::getConfigValue('enable_required_directories_diagnostic') == 0);
+        if(!$disableFileAccessCheck) {
+            if (SettingsPiwik::isMatomoInstalled()) {
+                $rpd = new RequiredPrivateDirectories($this->translator);
+                $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();
+            }
         }
 
-        if (strpos(strtolower(php_sapi_name()), 'fpm-fcgi') !== false && $isGlobalConfigIniAccessible) {
+        if (strpos(strtolower(php_sapi_name()), 'fpm-fcgi') !== false && $isGlobalConfigIniAccessible && !$disableFileAccessCheck) {
 
+            // Using PHP-FPM and private files are accessible
             $comment = php_sapi_name()."<br><br>";
 
             if (!empty($_SERVER['SERVER_SOFTWARE'])) {
@@ -64,7 +67,6 @@ class PhpInformational implements Diagnostic
             } else {
                 $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningGeneric');
             }
-
             $results[] = DiagnosticResult::singleResult('PHP SAPI', DiagnosticResult::STATUS_WARNING, $comment);
         } else {
             $results[] = DiagnosticResult::informationalResult('PHP SAPI', php_sapi_name());
