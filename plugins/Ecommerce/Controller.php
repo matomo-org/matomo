@@ -10,11 +10,17 @@ namespace Piwik\Plugins\Ecommerce;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\NumberFormatter;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Live\Live;
+use Piwik\Site;
+use Piwik\Tracker\GoalManager;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\Plugins\Goals\TranslationHelper;
@@ -71,6 +77,111 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
 
         return $view->render();
+    }
+
+
+    /**
+     * Get metrics for an ecommerce goal and add evolution values
+     *
+     * @param      $idGoal
+     * @param null $dataRow
+     *
+     * @return array
+     */
+    protected function getMetricsForGoal($idGoal, $dataRow = null)
+    {
+        $request = new Request("method=Goals.get&format=original&idGoal=$idGoal");
+        $datatable = $request->process();
+        $dataRow = $datatable->getFirstRow();
+
+        $return = parent::getMetricsForGoal($idGoal, $dataRow);
+
+         // Previous period data for evolution
+        list($lastPeriodDate, $ignore) = Range::getLastDate();
+        if ($lastPeriodDate !== false) {
+            $date = Common::getRequestVar('date');
+
+            /** @var DataTable $previousData */
+            $previousData = Request::processRequest('Goals.get', ['date' => $lastPeriodDate]);
+            $previousDataRow = $previousData->getFirstRow();
+
+            $return = $this->addSparklineEvolutionValues($return, $idGoal, $date, $lastPeriodDate, $dataRow, $previousDataRow);
+
+        }
+        return $return;
+    }
+
+    /**
+     * Add sparkline evolution figures to the metrics in the supplied array
+     *
+     * @param array         $return
+     * @param string|int    $idGoal
+     * @param string        $date
+     * @param string        $lastPeriodDate
+     * @param DataTable\Row $currentDataRow
+     * @param DataTable\Row $previousDataRow
+     *
+     * @return array
+     */
+    private function addSparklineEvolutionValues(array $return, $idGoal, string $date, string $lastPeriodDate,
+                                                 DataTable\Row $currentDataRow, DataTable\Row $previousDataRow) : array
+    {
+        $metrics = [
+            'nb_conversions' => Piwik::translate('General_EcommerceOrders'),
+            'nb_visits_converted' => Piwik::translate('General_NVisits'),
+            'conversion_rate' => Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders')),
+            'revenue' => Piwik::translate('General_TotalRevenue')
+        ];
+
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            $metrics = array_merge($metrics, [
+                'items' => Piwik::translate('General_PurchasedProducts'),
+                'avg_order_revenue' => Piwik::translate('General_AverageOrderValue')
+            ]);
+        }
+
+        $prefix = '';
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+            $abandonedCart = Piwik::translate('Goals_AbandonedCart');;
+            $metrics['nb_conversions'] = Piwik::translate('General_VisitsWith', $abandonedCart);
+            $metrics['conversion_rate'] = Piwik::translate('General_VisitsWith', $abandonedCart);
+            $metrics['revenue'] = Piwik::translate('Ecommerce_RevenueLeftInCart', Piwik::translate('General_ColumnRevenue'));
+            unset($metrics['nb_visits_converted']);
+        }
+
+        foreach ($return as $columnName => $value) {
+            if (array_key_exists($columnName, $metrics) && array_key_exists($columnName, $return)) {
+
+                $pastValue = $previousDataRow->getColumn($columnName);
+
+                if (in_array($columnName, ['revenue', 'avg_order_revenue'])) {
+                    $numberFormatter = NumberFormatter::getInstance();
+                    $currencySymbol = Site::getCurrencySymbolFor($this->idSite);
+                    $currentValueFormatted = $numberFormatter->formatCurrency($value, $currencySymbol, GoalManager::REVENUE_PRECISION);
+                    $pastValueFormatted = $numberFormatter->formatCurrency($pastValue, $currencySymbol, GoalManager::REVENUE_PRECISION);
+                } else {
+                    $pastValueFormatted = NumberFormatter::getInstance()->format($pastValue, 1, 1);
+                    $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
+                }
+
+                $metricTranslationKey = '';
+                if (array_key_exists($columnName, $metrics)) {
+                    $metricTranslationKey = $metrics[$columnName];
+                }
+                $trend = CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1);
+
+                $return[$columnName.'_trend'] = ($pastValue - $value > 0 ? -1 : ($pastValue - $value < 0 ? 1 : 0));
+                $return[$columnName.'_trend_percent'] = $trend;
+                $return[$columnName.'_tooltip'] = Piwik::translate('General_EvolutionSummaryGeneric', array(
+                    $currentValueFormatted.' '.Piwik::translate($metricTranslationKey),
+                    $date,
+                    $pastValueFormatted.' '.Piwik::translate($metricTranslationKey),
+                    $lastPeriodDate,
+                    $trend));
+            }
+        }
+
+        return $return;
     }
 
     public function getConversionsOverview()
