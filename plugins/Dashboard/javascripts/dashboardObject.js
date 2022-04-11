@@ -73,7 +73,9 @@
          * @return void
          */
         destroy: function () {
-            window.CoreHome.Matomo.postEvent('Dashboard.Dashboard.unmounted', { element: dashboardElement[0] });
+            if (dashboardElement && dashboardElement.length) {
+              window.CoreHome.Matomo.postEvent('Dashboard.Dashboard.unmounted', {element: dashboardElement[0]});
+            }
 
             $(dashboardElement).remove();
             dashboardElement = null;
