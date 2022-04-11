@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Tracker;
 
 use Exception;
@@ -90,7 +92,8 @@ class Response
 
         Common::printDebug("End of the page.");
 
-        if ($tracker->isDebugModeEnabled()
+        if (
+            $tracker->isDebugModeEnabled()
             && $tracker->isDatabaseConnected()
             && TrackerDb::isProfilingEnabled()
         ) {
@@ -191,7 +194,7 @@ class Response
             // Base64 image string
             $img = base64_decode($customImage);
             $size = getimagesizefromstring($img);
-        } else if (is_file($customImage) && is_readable($customImage)) {
+        } elseif (is_file($customImage) && is_readable($customImage)) {
             // Image file
             $img = file_get_contents($customImage);
             $size = getimagesize($customImage); // imagesize is used to get the mime type
@@ -199,7 +202,7 @@ class Response
 
         // Must have valid image data and a valid mime type to proceed
         if ($img && $size && isset($size['mime'])  && in_array($size['mime'], $supportedMimeTypes)) {
-            Common::sendHeader('Content-Type: '.$size['mime']);
+            Common::sendHeader('Content-Type: ' . $size['mime']);
             echo $img;
             return true;
         }
