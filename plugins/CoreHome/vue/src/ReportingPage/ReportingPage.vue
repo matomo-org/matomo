@@ -52,7 +52,7 @@ import ReportingPageStoreInstance from './ReportingPage.store';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { Periods } from '../Periods';
 import { NotificationsStore } from '../Notification';
-import translate from '../translate';
+import { translate } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';

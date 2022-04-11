@@ -111,10 +111,10 @@ class DefaultProvider extends LocationProvider
      */
     public function getInfo()
     {
-        $desc = Piwik::translate('UserCountry_DefaultLocationProviderDesc1') . ' '
+        $desc = '<p>' . Piwik::translate('UserCountry_DefaultLocationProviderDesc1') . ' '
             . Piwik::translate('UserCountry_DefaultLocationProviderDesc2',
                 array('<strong>', '', '', '</strong>'))
-            . '<p><a href="https://matomo.org/faq/how-to/#faq_163" rel="noreferrer noopener"  target="_blank">'
+            . '</p><p><a href="https://matomo.org/faq/how-to/#faq_163" rel="noreferrer noopener"  target="_blank">'
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a></p>';
         return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 1);

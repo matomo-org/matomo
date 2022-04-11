@@ -7,10 +7,7 @@
             <strong>{{ nb_conversions|number }}</strong>
             {{ 'General_EcommerceOrders'|translate }}
             <img src='plugins/Morpheus/images/ecommerceOrder.png'>
-
-            {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
-                ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
-            {% endif %}
+            ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
         </div>
         {% if nb_conversions_trend is defined %}
         <div class="metricEvolution" title="{{ nb_conversions_tooltip|raw }}">

@@ -1,30 +1,4 @@
-{% import '@MobileMessaging/macros.twig' as macro %}
-
-<div ng-show="manageScheduledReport.report.type == 'mobile'">
-    {{ macro.selectPhoneNumbers(phoneNumbers, 'manageScheduledReport', '', true) }}
-</div>
-
-<script>
-$(function () {
-    resetReportParametersFunctions['mobile'] = function (report) {
-        report.phoneNumbers = [];
-        report.formatmobile = 'sms';
-    };
-
-    updateReportParametersFunctions['mobile'] = function (report) {
-        if (report.parameters && report.parameters.phoneNumbers) {
-            report.phoneNumbers = report.parameters.phoneNumbers;
-        }
-        report.formatmobile = 'sms';
-    };
-
-    getReportParametersFunctions['mobile'] = function (report) {
-        var parameters = {};
-
-        // returning [''] when no phone numbers are selected avoids the "please provide a value for 'parameters'" error message
-        parameters.phoneNumbers = report.phoneNumbers && report.phoneNumbers.length > 0 ? report.phoneNumbers : [''];
-
-        return parameters;
-    };
-});
-</script>
+<div
+  vue-entry="MobileMessaging.ReportParameters"
+  phone-numbers="{{ phoneNumbers|default([])|json_encode|e('html_attr') }}"
+></div>
