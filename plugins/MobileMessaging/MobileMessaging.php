@@ -76,7 +76,7 @@ class MobileMessaging extends \Piwik\Plugin
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
 
@@ -115,6 +115,11 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_Settings_ManagePhoneNumbers';
         $translationKeys[] = 'MobileMessaging_Settings_VerificationCodeJustSent';
         $translationKeys[] = 'MobileMessaging_Settings_ValidatePhoneNumber';
+        $translationKeys[] = 'MobileMessaging_MobileReport_NoPhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_MobileReport_AdditionalPhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_MobileReport_MobileMessagingSettingsLink';
+        $translationKeys[] = 'ScheduledReports_SendReportTo';
+        $translationKeys[] = 'MobileMessaging_PhoneNumbers';
     }
     
     public function validateReportParameters(&$parameters, $reportType)

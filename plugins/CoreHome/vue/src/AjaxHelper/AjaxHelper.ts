@@ -21,6 +21,7 @@ export interface AjaxOptions {
   abortController?: AbortController;
   returnResponseObject?: boolean;
   errorElement?: HTMLElement|JQuery|JQLite|string;
+  redirectOnSuccess?: QueryParameters|boolean;
 }
 
 interface ErrorResponse {
@@ -189,6 +190,11 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     if (options.errorElement) {
       helper.setErrorElement(options.errorElement);
     }
+    if (options.redirectOnSuccess) {
+      helper.redirectOnSuccess(
+        options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined,
+      );
+    }
     helper.setFormat(options.format || 'json');
     if (Array.isArray(params)) {
       helper.setBulkRequests(...(params as QueryParameters[]));
@@ -268,11 +274,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach((key) => {
-      const value = params[key];
+      let value = params[key];
       if (arrayParams.indexOf(key) !== -1
         && !value
       ) {
         return;
+      }
+
+      if (typeof value === 'boolean') {
+        value = value ? 1 : 0;
       }
 
       if (type.toLowerCase() === 'get') {
@@ -343,7 +353,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    * @param [params] to modify in redirect url
    * @return {void}
    */
-  redirectOnSuccess(params: QueryParameters): void {
+  redirectOnSuccess(params?: QueryParameters): void {
     this.setCallback(() => {
       piwikHelper.redirect(params);
     });
