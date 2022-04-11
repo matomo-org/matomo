@@ -46,7 +46,6 @@ class RequestSet
                 $request = new Request($request, $this->getTokenAuth());
             }
             $this->requests[] = $request;
-            Common::sendResponseCode(204);
         }
     }
 
