@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-describe('InviteUser', function () {
+describe('Invite', function () {
   this.timeout(0);
   this.fixture = 'Piwik\\Plugins\\Login\\tests\\Fixtures\\PendingUsers';
 
