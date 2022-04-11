@@ -36,7 +36,7 @@ class UserInviteEmail extends Mail
      * @param string $idSite
      * @param string $token
      */
-    public function __construct($currentUser, $user,$token)
+    public function __construct($currentUser, $user, $token)
     {
         parent::__construct();
         $this->currentUser = $currentUser;
@@ -58,13 +58,13 @@ class UserInviteEmail extends Mail
     protected function getDefaultSubject()
     {
         return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          [$this->currentUser]);
+          [$this->currentUser, $this->user['login']]);
     }
 
     private function getDefaultSubjectWithStyle()
     {
         return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          ["<strong>" . $this->currentUser . "</strong>", "<strong>"]);
+          ["<strong>" . $this->currentUser . "</strong>", "<strong>" . $this->user['login'] . "</strong>"]);
     }
 
     protected function getDefaultBodyView()
