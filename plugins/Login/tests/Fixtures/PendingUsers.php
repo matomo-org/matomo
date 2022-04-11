@@ -25,21 +25,14 @@ class PendingUsers extends Fixture
 
 
     public $pendingUser = array(
-      'login' => '000pendingUser2',
+      'login' => '000pendingUser',
       'email' => 'pendinguser2light@example.com'
     );
 
     public $token = "13cb9dcef6cc70b02a640cee30dc8ce9";
 
-
-    public function __construct()
-    {
-
-    }
-
     public function setUp(): void
     {
-        $this->setUpWebsite();
         $this->setUpUser();
     }
 
@@ -48,16 +41,10 @@ class PendingUsers extends Fixture
         // empty
     }
 
-    private function setUpWebsite()
-    {
-        Fixture::createWebsite('2010-01-01 00:00:00', $ecommerce = 0, "example");
-    }
-
     protected function setUpUser()
     {
         $model = new Model();
-        $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime,
-          false);
+        $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime);
 
         $model->addTokenAuth($this->pendingUser['login'], $this->token, "Invite Token",
           Date::now()->getDatetime(),

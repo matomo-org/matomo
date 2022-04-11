@@ -507,20 +507,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordHelper = new Password();
         $view = new View('@Login/invitation');
 
-        $userLogin = Common::getRequestVar('login', null, 'string');
         $token = Common::getRequestVar('token', null, 'string');
         $form = Common::getRequestVar('invitation_form', false, 'string');
 
         //check token is valid
         $user = $model->getUserByTokenAuth($token);
         if (!$user['invited_at']) {
-            throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
+            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
 
         }
 
         //if user not match the invite user
-        if (!$user || $userLogin !== $user['login']) {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+        if (!$user) {
+            throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
         //if form is blank
@@ -559,7 +558,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $sessionInitializer = new SessionInitializer();
             $auth = StaticContainer::get('Piwik\Auth');
             $auth->setTokenAuth(null); // ensure authenticated through password
-            $auth->setLogin($userLogin);
+            $auth->setLogin($user['login']);
             $auth->setPassword($passwordConfirmation);
             $sessionInitializer->initSession($auth);
             $this->redirectToIndex('CoreHome', 'index');

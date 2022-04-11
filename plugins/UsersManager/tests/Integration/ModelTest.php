@@ -378,11 +378,5 @@ class ModelTest extends IntegrationTestCase
         $this->assertCount(2, $tokens);
     }
 
-    public function test_inviteUser()
-    {
-        $this->api->inviteUser($this->login3, 'pendingUser3@password.de');
-        $user = $this->api->getUser($this->login3);
-        $this->assertNotEmpty($user['invited_at']);
-    }
 
 }

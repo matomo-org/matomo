@@ -1123,7 +1123,7 @@ class UsersManagerTest extends IntegrationTestCase
         $content = <<<END
 <p>General_HelloUser</p>
 <p>CoreAdminHome_UserInviteSubject</p>
-<a target="_blank" href="$host?module=Login&action=acceptInvitation&login=test&token=thisisatoken"
+<a target="_blank" href="$host?module=Login&action=acceptInvitation&token=thisisatoken"
 >CoreAdminHome_AcceptInvite</a>
 <p><b>Notes:</b>CoreAdminHome_UserInviteNotes</p>
 END;

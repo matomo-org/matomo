@@ -11,8 +11,8 @@ describe('Invite', function () {
   this.timeout(0);
   this.fixture = 'Piwik\\Plugins\\Login\\tests\\Fixtures\\PendingUsers';
 
-  var pendingUserUrl = '?module=Login&action=acceptInvitation&login=000pendingUser2&token=13cb9dcef6cc70b02a640cee30dc8ce9';
-  var wrongUserUrl = '?module=Login&action=acceptInvitation&login=000pendingUser2&token=123';
+  var pendingUserUrl = '?module=Login&action=acceptInvitation&token=13cb9dcef6cc70b02a640cee30dc8ce9';
+  var wrongUserUrl = '?module=Login&action=acceptInvitation&token=123';
 
 
   it('should display error page', async function (){
