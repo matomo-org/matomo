@@ -112,12 +112,12 @@ class Tracker
             $this->init();
             $handler->init($this, $requestSet);
 
-            if ($this->isPreFightCorsRequest()) {
-               header('Access-Control-Allow-Methods: GET, POST');
-               header('Access-Control-Allow-Headers: *');
-               header('Access-Control-Allow-Origin: *');
-               Common::sendResponseCode(204);
-               return;
+            if ($this->isPreFlightCorsRequest()) {
+                header('Access-Control-Allow-Methods: GET, POST');
+                header('Access-Control-Allow-Headers: *');
+                header('Access-Control-Allow-Origin: *');
+                Common::sendResponseCode(204);
+                return;
             }
 
             $this->track($handler, $requestSet);
@@ -364,12 +364,11 @@ class Tracker
         return false;
     }
 
-    public function isPreFightCorsRequest()
+    public function isPreFlightCorsRequest(): bool
     {
         if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
             return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
         }
         return false;
-
     }
 }
