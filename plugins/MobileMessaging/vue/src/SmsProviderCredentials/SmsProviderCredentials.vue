@@ -37,10 +37,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    modelValue: {
-      type: Object,
-      required: true,
-    },
+    modelValue: Object,
   },
   emits: ['update:modelValue'],
   components: {
@@ -49,7 +46,7 @@ export default defineComponent({
   watch: {
     provider() {
       // unset credentials when new provider is chosen
-      this.$emit('update:modelValue', {});
+      this.$emit('update:modelValue', null);
 
       // fetch fields for provider
       this.getCredentialFields();
@@ -61,14 +58,21 @@ export default defineComponent({
   methods: {
     getCredentialFields() {
       if (allFieldsByProvider[this.provider]) {
+        this.$emit(
+          'update:modelValue',
+          Object.fromEntries(
+            (allFieldsByProvider[this.provider] as FieldInfo[]).map((f) => [f.name, null]),
+          ),
+        );
         return;
       }
 
-      AjaxHelper.fetch({
+      AjaxHelper.fetch<FieldInfo[]>({
         module: 'MobileMessaging',
         action: 'getCredentialFields',
         provider: this.provider,
       }).then((fields) => {
+        this.$emit('update:modelValue', Object.fromEntries(fields.map((f) => [f.name, null])));
         allFieldsByProvider[this.provider] = fields;
       });
     },

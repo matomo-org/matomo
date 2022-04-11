@@ -189,8 +189,19 @@ class PrivacyManager extends Plugin
             'Template.pageFooter'                     => 'renderPrivacyPolicyLinks',
             'Db.getTablesInstalled'                   => 'getTablesInstalled',
             'Visualization.beforeRender'              => 'onConfigureVisualisation',
-            'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile'
+            'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile',
+            'Request.shouldDisablePostProcessing'     => 'shouldDisablePostProcessing'
         ];
+    }
+
+    public function shouldDisablePostProcessing(&$shouldDisable, $request)
+    {
+        // We disable the post processor for this API method as it passes through the results of
+        // `Live.getLastVisitsDetails`, which is already post processed.
+        // Otherwise, the PostProcessor would trigger warning when trying to calculate a totals row.
+        if ($request['method'] === 'PrivacyManager.findDataSubjects') {
+            $shouldDisable = true;
+        }
     }
 
     public function onConfigureVisualisation(Plugin\Visualization $view)

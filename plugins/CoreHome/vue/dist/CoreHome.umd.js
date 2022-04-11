@@ -1564,6 +1564,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           return;
         }
 
+        if (typeof value === 'boolean') {
+          value = value ? 1 : 0;
+        }
+
         if (type.toLowerCase() === 'get') {
           _this.getParams[key] = value;
         } else if (type.toLowerCase() === 'post') {
@@ -2065,6 +2069,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
       if (options.errorElement) {
         helper.setErrorElement(options.errorElement);
+      }
+
+      if (options.redirectOnSuccess) {
+        helper.redirectOnSuccess(options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined);
       }
 
       helper.setFormat(options.format || 'json');
