@@ -59,7 +59,7 @@ class PendingUsers extends Fixture
         $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime,
           false);
 
-        $this->model->addTokenAuth($this->pendingUser['login'], $this->token, "Invite Token",
+        $model->addTokenAuth($this->pendingUser['login'], $this->token, "Invite Token",
           Date::now()->getDatetime(),
           Date::now()->addDay(7)->getDatetime());
 
