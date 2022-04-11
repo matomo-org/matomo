@@ -114,9 +114,9 @@ class Tracker
             $this->init();
 
             if ($this->isPreFlightCorsRequest()) {
-                header('Access-Control-Allow-Methods: GET, POST');
-                header('Access-Control-Allow-Headers: *');
-                header('Access-Control-Allow-Origin: *');
+                Common::sendHeader('Access-Control-Allow-Methods: GET, POST');
+                Common::sendHeader('Access-Control-Allow-Headers: *');
+                Common::sendHeader('Access-Control-Allow-Origin: *');
                 Common::sendResponseCode(204);
                 $this->logger->debug("Tracker detected preflight CORS request. Skipping...");
                 return null;
