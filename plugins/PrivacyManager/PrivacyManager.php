@@ -179,7 +179,6 @@ class PrivacyManager extends Plugin
     public function registerEvents()
     {
         return [
-            'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
             'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'                 => [$this->dntChecker, 'checkHeaderInTracker'],
@@ -366,15 +365,9 @@ class PrivacyManager extends Plugin
         $cacheContent['delete_logs_older_than'] = $purgeSettings['delete_logs_older_than'];
     }
 
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
-    }
-
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/vue/src/OptOutCustomizer/OptOutCustomizer.less";
         $stylesheets[] = "plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
         $stylesheets[] = "plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.less";
