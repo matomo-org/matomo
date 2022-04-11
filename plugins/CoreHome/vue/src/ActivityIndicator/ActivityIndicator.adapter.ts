@@ -6,7 +6,7 @@
  */
 
 import ActivityIndicator from './ActivityIndicator.vue';
-import translate from '../translate';
+import { translate } from '../translate';
 import createAngularJsAdapter from '../createAngularJsAdapter';
 
 export default createAngularJsAdapter({

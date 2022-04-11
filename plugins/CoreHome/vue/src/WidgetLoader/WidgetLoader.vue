@@ -32,7 +32,7 @@
 import { IRootScopeService, IScope } from 'angular';
 import { defineComponent } from 'vue';
 import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
-import translate from '../translate';
+import { translate } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { NotificationsStore } from '../Notification';

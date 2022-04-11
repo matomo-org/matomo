@@ -5,10 +5,7 @@
         <strong>{{ nb_conversions|number }}</strong>
         {{ 'General_EcommerceOrders'|translate }}
         <img src='plugins/Morpheus/images/ecommerceOrder.png'>
-
-        {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
-            ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
-        {% endif %}
+        ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
 	</div>
     </div>
 
