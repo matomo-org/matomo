@@ -153,8 +153,8 @@ CREATE TABLE log_visit
 	custom_var_v5 varchar(200) null,
 	location_provider varchar(200) null,
 	SHARD KEY(idvisit),
-	SORT KEY(visit_last_action_time)
-
+	SORT KEY(visit_last_action_time),
+	KEY (idsite) USING HASH,
+    KEY (idvisitor) USING HASH
 );
-CREATE INDEX index_idsite_config_datetime ON log_visit (idsite, UNHEX(idvisitor), visit_last_action_time, config_id);
--- CREATE INDEX index_idsite_idvisitor ON log_visit (idsite, idvisitor);
+CREATE INDEX index_idsite_config_datetime ON log_visit (idsite, idvisitor, visit_last_action_time, config_id);
