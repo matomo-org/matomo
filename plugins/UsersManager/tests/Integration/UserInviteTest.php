@@ -8,11 +8,9 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
-use Piwik\API\Request;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Plugins\Login\Login\Controller as LoginController;
 
 /**
  * @group UsersManager
