@@ -117,7 +117,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @deprecated use the jquery promise API
    */
-  errorCallback: AnyFunction;
+  errorCallback: AnyFunction|null;
 
   withToken = false;
 
@@ -220,10 +220,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.headers = options.headers;
     }
 
+    let createErrorNotification = true;
     if (typeof options.createErrorNotification !== 'undefined'
       && !options.createErrorNotification
     ) {
       helper.useCallbackInCaseOfError();
+      helper.setErrorCallback(null);
+      createErrorNotification = false;
     }
 
     if (options.abortController) {
@@ -243,6 +246,16 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       }
 
       return result as R;
+    }).catch((xhr: jqXHR) => {
+      if (createErrorNotification) {
+        throw xhr;
+      }
+
+      let message = 'Something went wrong';
+      if (xhr.status === 504) {
+        message = 'Request was prossibly aborted';
+      }
+      throw new Error(message);
     });
   }
 
@@ -364,7 +377,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @deprecated use the jquery promise API
    */
-  setErrorCallback(callback: AnyFunction): void {
+  setErrorCallback(callback: AnyFunction|null): void {
     this.errorCallback = callback;
   }
 
@@ -477,11 +490,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
         }
       }).fail((xhr: jqXHR) => {
-        if (xhr.statusText !== 'abort') {
-          console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
-
-          reject(xhr);
+        if (xhr.statusText === 'abort') {
+          return;
         }
+
+        console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
+
+        reject(xhr);
       }).done(() => {
         if ($timeout) {
           $timeout(); // trigger digest
