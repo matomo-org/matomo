@@ -18,7 +18,10 @@
         {{ creditLeft }}
       </span>
       <br />
-      <span v-html="updateOrDeleteAccountText" @click="onUpdateOrDeleteClick($event)"></span>
+      <span
+        v-html="$sanitize(updateOrDeleteAccountText)"
+        @click="onUpdateOrDeleteClick($event)"
+      />
     </p>
     <p v-else>{{ translate('MobileMessaging_Settings_PleaseSignUp') }}</p>
     <div
@@ -73,7 +76,7 @@ interface ManageSmsProviderState {
   isDeletingAccount: boolean;
   isUpdatingAccount: boolean;
   showAccountForm: boolean;
-  credentials: Record<string, unknown>;
+  credentials: Record<string, unknown>|null;
   smsProvider?: string;
 }
 
@@ -106,7 +109,7 @@ export default defineComponent({
       isDeletingAccount: false,
       isUpdatingAccount: false,
       showAccountForm: false,
-      credentials: {},
+      credentials: null,
       smsProvider: this.provider,
     };
   },
@@ -184,7 +187,7 @@ export default defineComponent({
     isUpdateAccountPossible() {
       // possible if smsProvider is set and all credential field values are set to something
       return !!this.smsProvider
-        && Object.keys(this.credentials).length > 0
+        && this.credentials !== null
         && Object.values(this.credentials as Record<string, string>).every((v) => !!v);
     },
     updateOrDeleteAccountText() {

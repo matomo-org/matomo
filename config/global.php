@@ -4,7 +4,7 @@ use Psr\Container\ContainerInterface;
 use Matomo\Cache\Eager;
 use Piwik\SettingsServer;
 
-return array(
+return [
 
     'path.root' => PIWIK_DOCUMENT_ROOT,
 
@@ -35,6 +35,8 @@ return array(
 
     'view.clearcompiledtemplates.enable' => true,
 
+    'twig.cache' => DI\string('{path.tmp.templates}'),
+
     'Matomo\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Matomo\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id');
@@ -58,7 +60,7 @@ return array(
         // If Piwik is not installed yet, it's possible the tmp/ folder is not writable
         // we prevent failing with an unclear message eg. coming from doctrine-cache
         // by forcing to use a cache backend which always works ie. array
-        if(!\Piwik\SettingsPiwik::isMatomoInstalled()) {
+        if (!\Piwik\SettingsPiwik::isMatomoInstalled()) {
             $backend = 'array';
         } else {
             try {
@@ -71,10 +73,10 @@ return array(
         return \Piwik\Cache::buildBackend($backend);
     },
     'cache.eager.cache_id' => function () {
-        return 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
+        return 'eagercache-' . str_replace(['.', '-'], '', \Piwik\Version::VERSION) . '-';
     },
 
-    'entities.idNames' => DI\add(array('idGoal', 'idDimension')),
+    'entities.idNames' => DI\add(['idGoal', 'idDimension']),
 
     'Psr\Log\LoggerInterface' => DI\create('Psr\Log\NullLogger'),
 
@@ -83,19 +85,20 @@ return array(
 
     'DeviceDetector\Cache\Cache' => DI\autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
 
-    'observers.global' => array(),
+    'observers.global' => [],
 
     /**
-     * By setting this option to false, the check that the DB schema version matches the version of the source code will be no longer performed.
-     * Thus it allows you to execute for example a newer version of Matomo with an older Matomo database version. Please note
-     * disabling this setting is not recommended because often an older DB version is not compatible with newer source code.
-     * If you disable this setting, make sure to execute the updates after updating the source code. The setting can be useful if
-     * you want to update Matomo without any outage when you know the current source code update will still run fine for a short time
-     * while in the background the database updates are running.
+     * By setting this option to false, the check that the DB schema version matches the version of the source code will
+     * be no longer performed. Thus it allows you to execute for example a newer version of Matomo with an older Matomo
+     * database version. Please note disabling this setting is not recommended because often an older DB version is not
+     * compatible with newer source code.
+     * If you disable this setting, make sure to execute the updates after updating the source code. The setting can be
+     * useful if you want to update Matomo without any outage when you know the current source code update will still
+     * run fine for a short time while in the background the database updates are running.
      */
     'EnableDbVersionCheck' => true,
 
-    'fileintegrity.ignore' => DI\add(array(
+    'fileintegrity.ignore' => DI\add([
         '*.htaccess',
         '*web.config',
         'bootstrap.php',
@@ -146,7 +149,7 @@ return array(
         '*.gitattributes',
         '*.bower.json',
         '*.travis.yml',
-    )),
+    ]),
 
     'Piwik\EventDispatcher' => DI\autowire()->constructorParameter('observers', DI\get('observers.global')),
 
@@ -155,7 +158,7 @@ return array(
         $config = $c->get('Piwik\Config');
         $general = $config->General;
 
-        $ips = array();
+        $ips = [];
         if (!empty($general['login_allowlist_ip']) && is_array($general['login_allowlist_ip'])) {
             $ips = $general['login_allowlist_ip'];
         } elseif (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
@@ -163,7 +166,7 @@ return array(
             $ips = $general['login_whitelist_ip'];
         }
 
-        $ipsResolved = array();
+        $ipsResolved = [];
 
         foreach ($ips as $ip) {
             $ip = trim($ip);
@@ -186,8 +189,10 @@ return array(
                     if (function_exists('dns_get_record')) {
                         $entry = @dns_get_record($ip, DNS_AAAA);
 
-                        if (!empty($entry['0']['ipv6'])
-                            && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)) {
+                        if (
+                            !empty($entry['0']['ipv6'])
+                            && filter_var($entry['0']['ipv6'], FILTER_VALIDATE_IP)
+                        ) {
                             $resolvedIps[] = $entry['0']['ipv6'];
                         }
                     }
@@ -216,15 +221,19 @@ return array(
         ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor')),
 
     'Piwik\Tracker\Settings' => DI\autowire()
-        ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
+        ->constructorParameter(
+            'isSameFingerprintsAcrossWebsites',
+            DI\get('ini.Tracker.enable_fingerprinting_across_websites')
+        ),
 
     'archiving.performance.logger' => null,
 
-    \Piwik\CronArchive\Performance\Logger::class => DI\autowire()->constructorParameter('logger', DI\get('archiving.performance.logger')),
+    \Piwik\CronArchive\Performance\Logger::class => DI\autowire()
+        ->constructorParameter('logger', DI\get('archiving.performance.logger')),
 
     \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
 
-    \Piwik\Segment\SegmentsList::class => function(){
+    \Piwik\Segment\SegmentsList::class => function () {
         return \Piwik\Segment\SegmentsList::get();
     }
-);
+];

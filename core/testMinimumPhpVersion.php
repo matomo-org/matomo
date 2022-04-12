@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -61,12 +62,12 @@ if ($minimumPhpInvalid) {
             $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line. "
                 . " <br>Then run this command in a terminal in the matomo directory: <br> $ php composer.phar install ";
         }
-        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' rel='noreferrer noopener' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
-                    "<br/>" . $composerInstall.
-                    " This will initialize composer for Matomo and download libraries we use in vendor/* directory.".
+        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' rel='noreferrer noopener' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n" .
+                    "<br/>" . $composerInstall .
+                    " This will initialize composer for Matomo and download libraries we use in vendor/* directory." .
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
                     "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
-                    "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from ".
+                    "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from " .
                     "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener'>builds.matomo.org</a>.</p>";
     }
 }
@@ -83,7 +84,8 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
-        if (class_exists('\Piwik\SettingsServer')
+        if (
+            class_exists('\Piwik\SettingsServer')
             && class_exists('\Piwik\Common')
             && \Piwik\SettingsServer::isArchivePhpTriggered()
             && \Piwik\Common::isPhpCliMode()
@@ -109,12 +111,24 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      * @param bool $optionalLinkBack If true, displays a link to go back
      * @param bool|string $logoUrl The URL to the logo to use.
      * @param bool|string $faviconUrl The URL to the favicon to use.
+     * @param string $errorLogPrefix String to prepend to the error in log file
+     * @param bool $writeErrorLog If true then a webserver error log will be written, defaults to true
      * @return string
      */
-    function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
-                                       $logoUrl = false, $faviconUrl = false, $isCli = null)
-    {
-        error_log(sprintf("Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
+    function Piwik_GetErrorMessagePage(
+        $message,
+        $optionalTrace = false,
+        $optionalLinks = false,
+        $optionalLinkBack = false,
+        $logoUrl = false,
+        $faviconUrl = false,
+        $isCli = null,
+        $errorLogPrefix = '',
+        bool $writeErrorLog = true
+    ) {
+        if ($writeErrorLog) {
+            error_log(sprintf("${errorLogPrefix}Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
+        }
 
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
@@ -127,7 +141,8 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         // We return only an HTML fragment for AJAX requests
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+        if (
+            isset($_SERVER['HTTP_X_REQUESTED_WITH'])
             && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
         ) {
             return "<div class='alert alert-danger'><strong>Error:</strong> $message</div>";
@@ -179,7 +194,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
             . ' ' . $optionalLinks;
 
 
-        $message = str_replace(array("<br />", "<br>", "<br/>", "</p>"), "\n", $message);
+        $message = str_replace(["<br />", "<br>", "<br/>", "</p>"], "\n", $message);
         $message = str_replace("\t", "", $message);
         $message = strip_tags($message);
 
