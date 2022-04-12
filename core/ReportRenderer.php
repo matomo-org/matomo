@@ -169,7 +169,12 @@ abstract class ReportRenderer extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
+        $baseAssetsDir = StaticContainer::get('path.tmp') . '/assets/';
+        $outputFilename = $baseAssetsDir . $filename;
+
+        if (!is_dir($baseAssetsDir)) {
+            Filesystem::mkdir($baseAssetsDir);
+        }
 
         @chmod($outputFilename, 0600);
 
