@@ -7169,7 +7169,7 @@ if (typeof window.Matomo !== 'object') {
          ************************************************************/
 
         // initialize the Matomo singleton
-        addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler,false);
+        addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
         addEventListener(windowAlias, 'visibilitychange', beforeUnloadHandler);
         addEventListener(windowAlias, 'online', function () {
             if (isDefined(navigatorAlias.serviceWorker)) {
