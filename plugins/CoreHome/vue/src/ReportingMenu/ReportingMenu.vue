@@ -145,7 +145,7 @@ import { NotificationsStore } from '../Notification';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import ReportingMenuStoreInstance from './ReportingMenu.store';
 import Matomo from '../Matomo/Matomo';
-import translate from '../translate';
+import { translate } from '../translate';
 import WidgetsStoreInstance from '../Widget/Widgets.store';
 import { Category, CategoryContainer } from './Category';
 import { Subcategory, SubcategoryContainer } from './Subcategory';

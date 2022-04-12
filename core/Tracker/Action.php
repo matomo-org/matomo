@@ -381,6 +381,8 @@ abstract class Action
      */
     public function record(Visitor $visitor, $idReferrerActionUrl, $idReferrerActionName)
     {
+
+
         $this->loadIdsFromLogActionTable();
 
         $visitAction = array(

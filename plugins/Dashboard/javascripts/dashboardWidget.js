@@ -4,6 +4,7 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 (function ($) {
 
     $.widget('piwik.dashboardWidget', {
@@ -136,6 +137,7 @@
                     // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
                     // removed from DOM
                     piwikHelper.compileAngularComponents($widgetContent, { forceNewScope: true });
+                    piwikHelper.compileVueEntryComponents($widgetContent);
                 }
                 $widgetContent.removeClass('loading');
                 $widgetContent.trigger('widget:create', [self]);

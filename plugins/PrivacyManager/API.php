@@ -126,6 +126,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        // Note: Datatable PostProcessor is disabled for this method in PrivacyManager::shouldDisablePostProcessing
         return $result;
     }
 
