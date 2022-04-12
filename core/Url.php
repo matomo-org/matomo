@@ -657,7 +657,7 @@ class Url
      * Returns hostname, without port numbers
      *
      * @param $host
-     * @return array
+     * @return string
      */
     public static function getHostSanitized($host)
     {
