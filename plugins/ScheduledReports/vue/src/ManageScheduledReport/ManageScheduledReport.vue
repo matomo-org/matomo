@@ -202,6 +202,15 @@ export default defineComponent({
     $(this.$refs.root as HTMLElement).on('click', 'a.entityCancelLink', () => {
       this.showListOfReports();
     });
+
+    Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
+      element: this.$refs.root,
+    });
+  },
+  unmounted() {
+    Matomo.postEvent('ScheduledReports.ManageScheduledReport.unmounted', {
+      element: this.$refs.root,
+    });
   },
   data(): ManageScheduledReportState {
     return {
