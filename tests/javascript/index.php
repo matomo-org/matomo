@@ -5215,9 +5215,8 @@ if ($mysql) {
         tracker.setLinkTrackingTimer(2000);
         startTime = new Date();
         tracker.trackPageView();
-        Object.defineProperty(document, 'visibilityState', {value: 'hidden', writable: true});
+        tracker.hook.test._beforeUnloadHandler({ type: 'beforeunload' });
         tracker.hook.test._beforeUnloadHandler({ type: 'visibilitychange' });
-        Object.defineProperty(document, 'visibilityState', {value: 'visible', writable: true});
         stopTime = new Date();
         var diffTime = (stopTime.getTime() - startTime.getTime());
         ok( diffTime >= 2000, 'setLinkTrackingTimer(): ' + diffTime);
