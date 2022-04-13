@@ -62,7 +62,7 @@ class DefaultProvider extends LocationProvider
     {
         if (
             !Manager::getInstance()->isPluginInstalled('Provider')
-            || Common::getRequestVar('dp', 0, 'int') !== 1
+            || Common::getRequestVar('dp', 0, 'int') === 1
         ) {
             return false;
         }
@@ -98,7 +98,7 @@ class DefaultProvider extends LocationProvider
      * @param string $ipStr IP Address
      * @return string hostname (or human-readable IP address)
      */
-    private function getHost($ipStr)
+    protected function getHost($ipStr)
     {
         $ip = IP::fromStringIP($ipStr);
 
