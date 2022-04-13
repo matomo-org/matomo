@@ -251,6 +251,10 @@ class ApiTest extends SystemTestCase
         $settings->disableVisitorProfile->setValue(true);
         $settings->save();
 
+        $date                      = mktime(0, 0, 0, 1, 1, 2010);
+        $lookBack                  = ceil((time() - $date) / 86400);
+        API::$_autoSuggestLookBack = $lookBack;
+
         Fixture::clearInMemoryCaches();
 
         $this->runApiTests('API.getSuggestedValuesForSegment', [
