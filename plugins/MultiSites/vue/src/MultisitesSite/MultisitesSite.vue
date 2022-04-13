@@ -7,6 +7,7 @@
 <template>
   <tr
     :class="{'groupedWebsite': website.group, 'website': !website.group, 'group': website.isGroup}"
+    ref="root"
   >
     <td
       class="multisites-label label"
@@ -19,7 +20,7 @@
       >
         {{ websiteLabel }}
       </a>
-      <span>
+      <span v-if="website.main_url">
         <a
           rel="noreferrer noopener"
           target="_blank"
@@ -124,6 +125,12 @@ export default defineComponent({
     dateSparkline: String,
     displayRevenueColumn: Boolean,
     metric: String,
+  },
+  mounted() {
+    Matomo.postEvent('MultiSites.MultiSitesSite.mounted', { element: this.$refs.root });
+  },
+  unmounted() {
+    Matomo.postEvent('MultiSites.MultiSitesSite.unmounted', { element: this.$refs.root });
   },
   methods: {
     dashboardUrl(website: Site) {
