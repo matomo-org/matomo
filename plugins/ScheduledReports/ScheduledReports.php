@@ -126,6 +126,36 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = "ScheduledReports_ReportHourWithUTC";
         $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForEachInPeriod";
         $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForPreviousN";
+        $translationKeys[] = 'ScheduledReports_EmailSchedule';
+        $translationKeys[] = 'ScheduledReports_ReportFormat';
+        $translationKeys[] = 'ScheduledReports_SendReportTo';
+        $translationKeys[] = 'ScheduledReports_MustBeLoggedIn';
+        $translationKeys[] = 'Login_LogIn';
+        $translationKeys[] = 'ScheduledReports_ThereIsNoReportToManage';
+        $translationKeys[] = 'ScheduledReports_SegmentDeleted';
+        $translationKeys[] = 'ScheduledReports_NoRecipients';
+        $translationKeys[] = 'ScheduledReports_SendReportNow';
+        $translationKeys[] = 'ScheduledReports_CreateAndScheduleReport';
+        $translationKeys[] = 'ScheduledReports_DescriptionOnFirstPage';
+        $translationKeys[] = 'SegmentEditor_ChooseASegment';
+        $translationKeys[] = 'ScheduledReports_WeeklyScheduleHelp';
+        $translationKeys[] = 'ScheduledReports_MonthlyScheduleHelp';
+        $translationKeys[] = 'ScheduledReports_ReportPeriod';
+        $translationKeys[] = 'ScheduledReports_ReportPeriodHelp';
+        $translationKeys[] = 'ScheduledReports_ReportPeriodHelp2';
+        $translationKeys[] = 'ScheduledReports_ReportHour';
+        $translationKeys[] = 'ScheduledReports_ReportType';
+        $translationKeys[] = 'ScheduledReports_AggregateReportsFormat';
+        $translationKeys[] = 'ScheduledReports_EvolutionGraph';
+        $translationKeys[] = 'ScheduledReports_EvolutionGraphsShowForPreviousN';
+        $translationKeys[] = 'ScheduledReports_ReportsIncluded';
+        $translationKeys[] = 'ScheduledReports_ReportIncludeNWebsites';
+        $translationKeys[] = 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime';
+        $translationKeys[] = 'General_Download';
+        $translationKeys[] = 'ScheduledReports_Segment_Help';
+        $translationKeys[] = 'SegmentEditor_AddNewSegment';
+        $translationKeys[] = 'ScheduledReports_SentToMe';
+        $translationKeys[] = 'ScheduledReports_AlsoSendReportToTheseEmails';
     }
 
     /**
@@ -143,8 +173,6 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.controller.js";
-        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -487,8 +515,8 @@ class ScheduledReports extends \Piwik\Plugin
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
         $view->reportType = self::EMAIL_TYPE;
         $view->defaultDisplayFormat = self::DEFAULT_DISPLAY_FORMAT;
-        $view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
-        $view->defaultEvolutionGraph = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
+        $view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE;
+        $view->defaultEvolutionGraph = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE;
         $out .= $view->render();
     }
 

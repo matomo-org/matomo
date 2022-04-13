@@ -1564,6 +1564,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           return;
         }
 
+        if (typeof value === 'boolean') {
+          value = value ? 1 : 0;
+        }
+
         if (type.toLowerCase() === 'get') {
           _this.getParams[key] = value;
         } else if (type.toLowerCase() === 'post') {
@@ -1792,10 +1796,12 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             resolve(data); // ignoring textStatus/jqXHR
           }
         }).fail(function (xhr) {
-          if (xhr.statusText !== 'abort') {
-            console.log("Warning: the ".concat($.param(_this2.getParams), " request failed!"));
-            reject(xhr);
+          if (xhr.statusText === 'abort') {
+            return;
           }
+
+          console.log("Warning: the ".concat($.param(_this2.getParams), " request failed!"));
+          reject(xhr);
         }).done(function () {
           if ($timeout) {
             $timeout(); // trigger digest
@@ -2067,6 +2073,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.setErrorElement(options.errorElement);
       }
 
+      if (options.redirectOnSuccess) {
+        helper.redirectOnSuccess(options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined);
+      }
+
       helper.setFormat(options.format || 'json');
 
       if (Array.isArray(params)) {
@@ -2095,8 +2105,12 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         helper.headers = options.headers;
       }
 
+      var createErrorNotification = true;
+
       if (typeof options.createErrorNotification !== 'undefined' && !options.createErrorNotification) {
         helper.useCallbackInCaseOfError();
+        helper.setErrorCallback(null);
+        createErrorNotification = false;
       }
 
       if (options.abortController) {
@@ -2115,6 +2129,18 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         }
 
         return result;
+      }).catch(function (xhr) {
+        if (createErrorNotification) {
+          throw xhr;
+        }
+
+        var message = 'Something went wrong';
+
+        if (xhr.status === 504) {
+          message = 'Request was prossibly aborted';
+        }
+
+        throw new Error(message);
       });
     } // eslint-disable-next-line @typescript-eslint/no-explicit-any
 

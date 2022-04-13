@@ -88,11 +88,14 @@ declare global {
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
-    compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string): void;
+    compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string, extraProps?: Record<string, unknown>): void;
+    destroyVueComponent(selector: JQuery|JQLite|HTMLElement|string): void;
     compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
     showVisitorProfilePopup(visitorId: string, idSite: string|number): void;
+    hideAjaxError(): void;
+    refreshAfter(timeoutPeriod: number): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -173,6 +176,7 @@ declare global {
   interface WidgetsHelper {
     availableWidgets?: unknown[];
     getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
+    getWidgetObjectFromUniqueId(id: string, callback: (widget: unknown) => void);
 
     firstGetAvailableWidgetsCall?: Promise<void>;
   }
