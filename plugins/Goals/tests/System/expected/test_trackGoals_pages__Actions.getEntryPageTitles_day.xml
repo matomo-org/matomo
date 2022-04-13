@@ -2,32 +2,45 @@
 <result>
 	<row>
 		<label> Page A</label>
-		<nb_visits>3</nb_visits>
-		<nb_uniq_visitors>3</nb_uniq_visitors>
-		<nb_hits>4</nb_hits>
-		<sum_time_spent>1440</sum_time_spent>
+		<nb_visits>4</nb_visits>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_hits>6</nb_hits>
+		<sum_time_spent>2160</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
-		<entry_nb_uniq_visitors>3</entry_nb_uniq_visitors>
-		<entry_nb_visits>3</entry_nb_visits>
-		<entry_nb_actions>10</entry_nb_actions>
-		<entry_sum_visit_length>2525</entry_sum_visit_length>
+		<entry_nb_uniq_visitors>4</entry_nb_uniq_visitors>
+		<entry_nb_visits>4</entry_nb_visits>
+		<entry_nb_actions>17</entry_nb_actions>
+		<entry_sum_visit_length>4687</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>3</nb_conversions>
-				<revenue>30</revenue>
-				<nb_conv_pages_before>6</nb_conv_pages_before>
-				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions>4</nb_conversions>
+				<revenue>40</revenue>
+				<nb_conv_pages_before>8</nb_conv_pages_before>
+				<nb_conversions_attrib>1.5</nb_conversions_attrib>
 				<nb_conversions_page_rate>1</nb_conversions_page_rate>
-				<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
-				<revenue_attrib>10</revenue_attrib>
-				<revenue_entry>20</revenue_entry>
-				<nb_conversions_entry_rate>0.667</nb_conversions_entry_rate>
-				<revenue_per_entry>6.667</revenue_per_entry>
-				<nb_conversions_entry>2</nb_conversions_entry>
+				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
+				<revenue_attrib>15</revenue_attrib>
+				<revenue_entry>30</revenue_entry>
+				<nb_conversions_entry_rate>0.75</nb_conversions_entry_rate>
+				<revenue_per_entry>7.5</revenue_per_entry>
+				<nb_conversions_entry>3</nb_conversions_entry>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>2</nb_conversions>
+				<revenue>20</revenue>
+				<nb_conv_pages_before>5</nb_conv_pages_before>
+				<nb_conversions_attrib>0.4</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>4</revenue_attrib>
+				<revenue_entry>10</revenue_entry>
+				<nb_conversions_entry_rate>0.25</nb_conversions_entry_rate>
+				<revenue_per_entry>2.5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
 			</row>
 		</goals>
 		<avg_bandwidth>0</avg_bandwidth>

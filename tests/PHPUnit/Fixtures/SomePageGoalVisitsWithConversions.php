@@ -43,6 +43,12 @@ class SomePageGoalVisitsWithConversions extends Fixture
                 'contains', false, 10);
         }
 
+        // Contact me signup goal
+        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+            API::getInstance()->addGoal($this->idSite, 'Contact me', 'event_action', 'click2',
+                'contains', false, 10);
+        }
+
     }
 
     private function doPageVisit($t, string $pageLetter)
@@ -58,6 +64,10 @@ class SomePageGoalVisitsWithConversions extends Fixture
         if ($idGoal == 1) {
             $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour((($this->ticks += 0.1)))->getDatetime());
             self::checkResponse($t->doTrackEvent('category', 'click_action', 'name'));
+        }
+        if ($idGoal == 2) {
+            $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour((($this->ticks += 0.1)))->getDatetime());
+            self::checkResponse($t->doTrackEvent('category', 'click2_action', 'name'));
         }
     }
 
@@ -76,14 +86,14 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
         $t = self::getTracker(1, $this->dateTime, $defaultInit = true);
 
-        // Visit 1: A > B > A > C > Conversion
+        // Visit 1: A > B > A > C > Conversion 1
         $this->doPageVisit($t, 'A');
         $this->doPageVisit($t, 'B');
         $this->doPageVisit($t, 'A');
         $this->doPageVisit($t, 'C');
         $this->doConversion($t, 1);
 
-        // Visit 2: A > C > Conversion
+        // Visit 2: A > C > Conversion 1
         $this->doNewVisitor($t, 'f66bc315f2a01a79');
         $this->doPageVisit($t, 'A');
         $this->doPageVisit($t, 'C');
@@ -93,6 +103,17 @@ class SomePageGoalVisitsWithConversions extends Fixture
         $this->doNewVisitor($t,  'a13b7c5a62f72dea');
         $this->doPageVisit($t, 'A');
         $this->doPageVisit($t, 'D');
+
+        // Visit 4: A > C > Conversion 1
+        //          A > B > C > Conversion 2
+        $this->doNewVisitor($t,  '39f72e3961e18b4e');
+        $this->doPageVisit($t, 'A');
+        $this->doPageVisit($t, 'C');
+        $this->doConversion($t, 1);
+        $this->doPageVisit($t, 'A');
+        $this->doPageVisit($t, 'B');
+        $this->doPageVisit($t, 'C');
+        $this->doConversion($t, 2);
 
     }
 
