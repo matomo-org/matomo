@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Marketplace\Api;
 
-use Piwik\Config\GeneralConfig;
 use Piwik\Http;
 
 /**
@@ -130,21 +129,6 @@ class Service
 
         $query = Http::buildQuery($params);
         $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
-
-        $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
-        $enableSSL = GeneralConfig::getConfigValue('enable_ssl_request');
-
-        if (!$isHttps && $enableSSL) {
-            throw new Exception(
-              'Matomo require certificate, please issue a ssl certificate or set enable_ssl_request=0 in config'
-            );
-        }
-
-        //force ssl
-        if($enableSSL) {
-            $url = preg_replace("/^http:/i", "https:", $url);
-        }
-
 
         $response = $this->download($url);
 

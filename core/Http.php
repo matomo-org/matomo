@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Composer\CaBundle\CaBundle;
 use Exception;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 
 /**
@@ -195,11 +196,26 @@ class Http
             throw new Exception('Too many redirects (' . $followDepth . ')');
         }
 
+        // check if matomo is under http and enable_ssl_request is enable
+        $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
+        $enableSSL = GeneralConfig::getConfigValue('enable_ssl_request');
+
+        if (!$isHttps && $enableSSL) {
+            throw new Exception(
+              'Matomo tracking do not have certificate, please issue a ssl certificate or set enable_ssl_request=0 in config'
+            );
+        }
+
         $aUrl = preg_replace('/[\x00-\x1F\x7F]/', '', trim($aUrl));
         $parsedUrl = @parse_url($aUrl);
 
         if (empty($parsedUrl['scheme'])) {
             throw new Exception('Missing scheme in given url');
+        }
+
+        // force ssl
+        if ($enableSSL) {
+            $parsedUrl['scheme'] = 'https';
         }
 
         $allowedProtocols = Config::getInstance()->General['allowed_outgoing_protocols'];
