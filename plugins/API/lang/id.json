@@ -4,7 +4,7 @@
         "EvolutionMetricName": "%s Evolusi",
         "GenerateVisits": "Jika Anda tidak memiliki data hari ini, Anda dapat membuatnya beberapa menggunakan plugin %1$s dengan membuka 'Pengembangan → Generator Pengunjung' di area administrasi Matomo.",
         "Glossary": "Glosarium",
-        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama pengguna dan kata sandi Anda, %1$s jadi jangan memberitahukannya%2$s!",
+        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana log masuk dan kata sandi Anda, %1$s jadi jangan memberitahukannya%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Pelajari tentang istilah yang umum digunakan untuk memaksimalkan analitik Matomo.",
         "LoadedAPIs": "Memuat %s API",
         "MainMetricsReportDocumentation": "Laporan ini memberikan gambaran umum tentang metrik terpenting di semua kategori dan plugin.",

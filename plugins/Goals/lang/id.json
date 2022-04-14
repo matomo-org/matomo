@@ -33,7 +33,7 @@
         "ColumnRevenueDocumentation": "Total pendapatan yang dihasilkan oleh %s.",
         "ColumnRevenuePerVisitDocumentation": "Total pendapatan yang dihasilkan oleh %s dibagi dengan jumlah kunjungan.",
         "ColumnVisits": "Jumlah total kunjungan, terlepas dari apakah sasaran dipicu atau tidak.",
-        "ColumnVisitsProductDocumentation": "Jumlah kunjungan pada halaman Produk/ Kategori. Ini juga digunakan untuk mengolah rasio konversi %s. Metrik ini ada di dalam laporan jika pelacakan tampilan Niaga-el telah disiapkan di halaman Produk/ Kategori.",
+        "ColumnVisitsProductDocumentation": "Jumlah kunjungan pada halaman Produk/Kategori. Ini juga digunakan untuk mengolah rasio konversi %s. Metrik ini ada di dalam laporan jika pelacakan tampilan Niaga-el telah disiapkan di halaman Produk/Kategori.",
         "Contains": "mengandung %s",
         "Conversion": "Konversi",
         "ConversionByTypeReportDocumentation": "Laporan ini menyediakan laporan terperinci tentang kinerja sasaran (konversi, rasio konversi, dan pendapatan tiap kunjungan) untuk setiap kategori yang tersedia di panel kiri. %1$s Silakan klik salah satu kategori untuk melihat laporan. %2$s Informasi selengkapnya, silakan lihat %3$sdokumentasi Pelacakan Sasaran%4$s",

@@ -3,8 +3,11 @@
         "ColumnConfiguration": "Konfiguracija",
         "ColumnResolution": "Rezolucija",
         "Configurations": "Konfiguracije",
+        "PluginDescription": "Izvještava o rezoluciji ekrana tvojih posjetitelja.",
         "Resolutions": "Rezolucije",
         "WidgetGlobalVisitors": "Konfiguracija posjetitelja",
-        "WidgetResolutions": "Rezolucija zaslona"
+        "WidgetGlobalVisitorsDocumentation": "Ovaj izvještaj prikazuje najčešće konfiguracije tvojih posjetitelja. Konfiguracija je kombinacija operacijskog sustava, vrste preglednika i rezolucije ekrana.",
+        "WidgetResolutions": "Rezolucija zaslona",
+        "WidgetResolutionsDocumentation": "Ovaj izvještaj prikazuje rezolucije ekrana koje su tvoji posjetitelji koristili prilikom pregledavanja tvoje web-stranice."
     }
 }
