@@ -197,14 +197,7 @@ class Http
         }
 
         // check if matomo is under http and enable_ssl_request is enable
-        $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
         $enableSSL = GeneralConfig::getConfigValue('enable_ssl_request');
-
-        if (!$isHttps && $enableSSL) {
-            throw new Exception(
-              'Matomo tracking do not have certificate, please issue a ssl certificate or set enable_ssl_request=0 in config'
-            );
-        }
 
         $aUrl = preg_replace('/[\x00-\x1F\x7F]/', '', trim($aUrl));
         $parsedUrl = @parse_url($aUrl);
@@ -213,8 +206,8 @@ class Http
             throw new Exception('Missing scheme in given url');
         }
 
-        // force ssl
-        if ($enableSSL) {
+        if ($enableSSL && preg_match('/^[a-zA-Z]+.matomo.org/gi',
+            $parsedUrl['host']) && $parsedUrl['scheme'] == 'http') {
             $parsedUrl['scheme'] = 'https';
         }
 
