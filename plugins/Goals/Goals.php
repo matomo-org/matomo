@@ -402,5 +402,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Events_EventCategory';
         $translationKeys[] = 'Events_EventName';
         $translationKeys[] = 'Goals_YouCanEnableEcommerceReports';
+        $translationKeys[] = 'General_Description';
     }
 }
