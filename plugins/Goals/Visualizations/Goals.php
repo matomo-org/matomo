@@ -49,8 +49,7 @@ class Goals extends HtmlTable
             } else {
                 $this->requestConfig->request_parameters_to_modify['idGoal'] = AddColumnsProcessedMetricsGoal::GOALS_PAGES;
             }
-
-        } else if (in_array($requestMethod, ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'])) {
+        } elseif (in_array($requestMethod, ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'])) {
             $this->displayType = self::GOALS_DISPLAY_ENTRY_PAGES;
             $this->config->filters[] = ['Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns'];
             if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
@@ -135,7 +134,7 @@ class Goals extends HtmlTable
         if (Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER == $idGoal) {
             $this->setPropertiesForEcommerceView();
 
-            $goalsToProcess = array($idGoal);
+            $goalsToProcess = [$idGoal];
         } elseif (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
             $this->setPropertiesForGoals($idSite, 'all');
 
@@ -145,9 +144,9 @@ class Goals extends HtmlTable
 
             $goalsToProcess = $this->getAllGoalIds($idSite);
         } else {
-            $this->setPropertiesForGoals($idSite, array($idGoal));
+            $this->setPropertiesForGoals($idSite, [$idGoal]);
 
-            $goalsToProcess = array($idGoal);
+            $goalsToProcess = [$idGoal];
         }
 
         // add goals columns
@@ -160,17 +159,17 @@ class Goals extends HtmlTable
         $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
         $this->requestConfig->filter_sort_order = 'desc';
 
-        $this->config->columns_to_display = array(
+        $this->config->columns_to_display = [
             'label', 'nb_visits', 'goal_ecommerceOrder_nb_conversions', 'goal_ecommerceOrder_revenue',
             'goal_ecommerceOrder_conversion_rate', 'goal_ecommerceOrder_avg_order_revenue', 'goal_ecommerceOrder_items',
             'goal_ecommerceOrder_revenue_per_visit'
-        );
+        ];
 
-        $this->config->translations = array_merge($this->config->translations, array(
+        $this->config->translations = array_merge($this->config->translations, [
             'goal_ecommerceOrder_nb_conversions'    => Piwik::translate('General_EcommerceOrders'),
             'goal_ecommerceOrder_revenue'           => Piwik::translate('General_TotalRevenue'),
             'goal_ecommerceOrder_revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit')
-        ));
+        ]);
 
         $goalName = Piwik::translate('General_EcommerceOrders');
         $this->config->metrics_documentation['revenue_per_visit'] =
@@ -183,7 +182,7 @@ class Goals extends HtmlTable
 
         // set view properties
         if ($this->displayType == self::GOALS_DISPLAY_NORMAL) {
-            $this->config->columns_to_display = array('label', 'nb_visits');
+            $this->config->columns_to_display = ['label', 'nb_visits'];
 
             foreach ($allGoals as $goal) {
                 $column = "goal_{$goal['idgoal']}_conversion_rate";
@@ -194,12 +193,12 @@ class Goals extends HtmlTable
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
-            $this->config->columns_to_display = array('label', 'nb_hits');
-            $goalColumnTemplates = array(
+            $this->config->columns_to_display = ['label', 'nb_hits'];
+            $goalColumnTemplates = [
                 'goal_%s_nb_conversions_attrib',
                 'goal_%s_revenue_attrib',
                 'goal_%s_nb_conversions_page_rate',
-            );
+            ];
 
             // set columns to display (columns of same type but different goals will be next to each other,
             // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
@@ -211,14 +210,14 @@ class Goals extends HtmlTable
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
-            $this->config->columns_to_display = array('label', 'entry_nb_visits');
+            $this->config->columns_to_display = ['label', 'entry_nb_visits'];
 
-            $goalColumnTemplates = array(
+            $goalColumnTemplates = [
                 'goal_%s_nb_conversions_entry',
                 'goal_%s_nb_conversions_entry_rate',
                 'goal_%s_revenue_entry',
                 'goal_%s_revenue_per_entry',
-            );
+            ];
 
             // set columns to display (columns of same type but different goals will be next to each other,
             // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
@@ -243,14 +242,14 @@ class Goals extends HtmlTable
                 $this->requestConfig->filter_sort_order = 'desc';
             }
 
-            $this->config->columns_to_display = array('label', 'nb_visits');
+            $this->config->columns_to_display = ['label', 'nb_visits'];
 
-            $goalColumnTemplates = array(
+            $goalColumnTemplates = [
                 'goal_%s_nb_conversions',
                 'goal_%s_conversion_rate',
                 'goal_%s_revenue',
                 'goal_%s_revenue_per_visit',
-            );
+            ];
 
             // set columns to display (columns of same type but different goals will be next to each other,
             // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
@@ -273,12 +272,12 @@ class Goals extends HtmlTable
             }
             $this->requestConfig->filter_sort_order  = 'desc';
 
-            $this->config->columns_to_display = array('label', 'nb_hits');
-            $goalColumnTemplates = array(
+            $this->config->columns_to_display = ['label', 'nb_hits'];
+            $goalColumnTemplates = [
                 'goal_%s_nb_conversions_attrib',
                 'goal_%s_revenue_attrib',
                 'goal_%s_nb_conversions_page_rate',
-            );
+            ];
 
             // set columns to display (columns of same type but different goals will be next to each other,
             // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
@@ -298,13 +297,13 @@ class Goals extends HtmlTable
                 $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_entry';
             }
             $this->requestConfig->filter_sort_order  = 'desc';
-            $this->config->columns_to_display = array('label', 'entry_nb_visits');
-            $goalColumnTemplates = array(
+            $this->config->columns_to_display = ['label', 'entry_nb_visits'];
+            $goalColumnTemplates = [
                 'goal_%s_nb_conversions_entry',
                 'goal_%s_nb_conversions_entry_rate',
                 'goal_%s_revenue_entry',
                 'goal_%s_revenue_per_entry',
-            );
+            ];
 
             foreach ($idGoals as $idGoal) {
                 foreach ($goalColumnTemplates as $columnTemplate) {
@@ -320,15 +319,15 @@ class Goals extends HtmlTable
     {
         if ($this->goalsForCurrentSite === null) {
             // get all goals to display info for
-            $allGoals = array();
+            $allGoals = [];
 
             // add the ecommerce goal if ecommerce is enabled for the site
             if (Site::isEcommerceEnabledFor($idSite)) {
-                $ecommerceGoal = array(
+                $ecommerceGoal = [
                     'idgoal'      => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
                     'name'        => Piwik::translate('Goals_EcommerceOrder'),
                     'quoted_name' => false
-                );
+                ];
                 $allGoals[$ecommerceGoal['idgoal']] = $ecommerceGoal;
             }
 
