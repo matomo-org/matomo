@@ -1,11 +1,12 @@
 {
     "Login": {
+        "BruteForceLog": "Лог за brute force атаки",
         "ConfirmationLinkSent": "Изпратена е връзка за потвърждение. Проверете пощенската си кутия, за да потвърдите заявката за смяна на парола.",
         "ExceptionPasswordMD5HashExpected": "Параметърът на паролата се очаква да бъде MD5 хеш на парола.",
-        "InvalidOrExpiredToken": "Token е грешен или изтекъл",
-        "InvalidUsernameEmail": "Грешно потребителско име и/или имейл адрес",
+        "InvalidOrExpiredToken": "Token-ът е грешен или изтекъл.",
+        "InvalidUsernameEmail": "Грешно потребителско име и/или имейл адрес.",
         "LogIn": "Вход",
-        "LoginPasswordNotCorrect": "Потребителското име & Паролата не са верни",
+        "LoginPasswordNotCorrect": "Потребителското име и паролата не са верни.",
         "LostYourPassword": "Забравена парола?",
         "MailTopicPasswordChange": "Потвърждение смяната на паролата",
         "PasswordChanged": "Вашата парола е сменена.",

@@ -30,7 +30,7 @@
         "Settings_PhoneNumbers_Add": "Tambahkan Nomor Telepon baru",
         "Settings_PhoneNumbers_CountryCode_Help": "Jika Anda tidak tahu kode negara telepon, Anda bisa mencarinya di sini.",
         "Settings_PhoneNumbers_Help": "Sebelum menerima laporan SMS (pesan teks) dalam telepon, nomor telepon harus dimasukkan di bawah.",
-        "Settings_PhoneNumbers_HelpAdd": "Ketika Anda mengeklik \"Tambah\", SMS berisi kode akan dikirimkan ke ponsel. Pengguna yang menerima kode harus masuk ke Matomo, klik Pengaturan, lalu klik Pesan Seluler. Setelah memasukkan kode, pengguna dapat menerima laporan teks di ponsel mereka.",
+        "Settings_PhoneNumbers_HelpAdd": "Ketika Anda mengeklik \"Tambah\", SMS berisi kode akan dikirimkan ke ponsel. Pengguna yang menerima kode harus log masuk ke Matomo, klik Pengaturan, lalu klik Pesan Seluler. Setelah memasukkan kode, pengguna dapat menerima laporan teks di ponsel mereka.",
         "Settings_PleaseSignUp": "Untuk membuat laporan SMS dan menerima pesan pendek dengan statistik situs Anda dalam telepon seluler, harap mendaftar dengan API SMS dan masukkan informasi Anda di bawah.",
         "Settings_SMSAPIAccount": "Kelola Akun API SMS",
         "Settings_SMSProvider": "Penyedia SMS",

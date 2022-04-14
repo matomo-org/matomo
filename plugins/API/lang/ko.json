@@ -1,15 +1,18 @@
 {
     "API": {
-        "ChangeTokenHint": "만약 이 토큰을 변경하고 싶으시다면, %1$s 에 있는 개인 설정페이지 %2$s 에서 변경하실 수 있습니다.",
+        "ChangeTokenHint": "만약 이 토큰을 변경하려면, %1$s개인 설정 페이지%2$s로 이동하십시오.",
+        "EvolutionMetricName": "%s 에볼루션",
+        "GenerateVisits": "오늘 데이터가 없으면 Matomo 관리 영역의 '개발 → 방문자 생성기'로 이동하여 %1$s 플러그인을 사용하여 일부를 생성할 수 있습니다.",
         "Glossary": "용어",
-        "KeepTokenSecret": "token_auth는 외부 로그인을 위한 비밀키입니다. %1$s 절대로 공유하지 마세요 %2$s!",
-        "LearnAboutCommonlyUsedTerms2": "Matomo Analytics 에서 자주 사용되는 용어 배우기",
-        "LoadedAPIs": "성공적으로 %s API를 불러옴",
-        "MoreInformation": "Matomo API에 대한 자세한 내용은 %1$sIntroduction to Matomo API %2$s 문서와 %3$sMatomo API Reference%4$s 문서를 참조하세요.",
-        "PluginDescription": "Matomo 내 모든 데이터는 간단한 API를 통해서 접근할 수 있습니다. 이 플러그인은 웹 분석 데이터를 xml, json, php, csv 등의 형태로 받을 수 있는 웹 서비스 진입로입니다.",
+        "KeepTokenSecret": "이 token_auth는 로그인 및 비밀번호만큼 비밀이며, %1$s 공유하지 마십시오%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Matomo 분석을 최대한 활용하기 위해 일반적으로 사용되는 용어에 대해 알아봅니다.",
+        "LoadedAPIs": "%s API 불러오기됨",
+        "MainMetricsReportDocumentation": "이 보고서는 모든 범주 및 플러그인에서 가장 중요한 메트릭에 대한 개요를 제공합니다.",
+        "MoreInformation": "%1$sMatomo API 소개%2$s 및 %3$sMatomo API 레퍼런스%4$s에서 사용할 수 있는 Matomo API에 대한 추가 정보입니다.",
+        "PluginDescription": "Matomo의 모든 데이터는 간단한 API를 통해 이용할 수 있습니다. 이 플러그인은 웹 서비스 진입점으로, XML, JSON, PHP, CSV 등의 웹 분석 데이터를 가져오기 위해 호출할 수 있습니다.",
         "ReportingApiReference": "API 레퍼런스 보고",
-        "TopLinkTooltip": "JSON, XML 등의 간단한 API를 통해 프로그래밍 방식으로 웹 로그 분석 데이터에 접근할 수 있습니다.",
+        "TopLinkTooltip": "JSON, XML 등의 간단한 API를 통해 프로그래밍 방식으로 웹 분석 데이터에 접근할 수 있습니다.",
         "UserAuthentication": "사용자 인증",
-        "UsingTokenAuth": "%1$s 스크립트 (crontab 등)에서 요청 데이터를 얻고 싶다면 %2$s는 API를 호출하는 URL (인증 필요)에 매개 변수 %3$s를 추가해야합니다."
+        "UsingTokenAuth": "%1$s스크립트, crontab 등의 데이터를 요청하려면 %2$s 인증이 필요한 URL에 대한 API 호출에 '%3$s' URL 매개변수를 추가해야 합니다."
     }
 }
