@@ -196,8 +196,6 @@ class Http
             throw new Exception('Too many redirects (' . $followDepth . ')');
         }
 
-        // check if matomo is under http and enable_ssl_request is enable
-        $enableSSL = GeneralConfig::getConfigValue('enable_ssl_request');
 
         $aUrl = preg_replace('/[\x00-\x1F\x7F]/', '', trim($aUrl));
         $parsedUrl = @parse_url($aUrl);
@@ -206,7 +204,8 @@ class Http
             throw new Exception('Missing scheme in given url');
         }
 
-        if ($enableSSL && preg_match('/^[a-zA-Z]+.matomo.org/gi',
+        //secure matomo request in https
+        if (GeneralConfig::getConfigValue('enable_ssl_request') && preg_match('/^[a-zA-Z]+.matomo.org/',
             $parsedUrl['host']) && $parsedUrl['scheme'] == 'http') {
             $parsedUrl['scheme'] = 'https';
         }
