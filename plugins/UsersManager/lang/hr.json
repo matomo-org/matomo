@@ -1,11 +1,11 @@
 {
     "UsersManager": {
-        "ExceptionEmailExists": "Korisnik sa istim emailom '%s' već postoji.",
-        "ExceptionInvalidEmail": "Nije dobar format emaila.",
+        "ExceptionEmailExists": "Korisnik s e-mail adresom „%s” već postoji.",
+        "ExceptionInvalidEmail": "Format e-mail adrese ne valja.",
         "MenuUserSettings": "Korisničke postavke",
         "MenuUsers": "Korisnici",
-        "TypeYourPasswordAgain": "Ponovi novu lozinku.",
+        "TypeYourPasswordAgain": "Ponovo upiši svoju novu lozinku.",
         "Username": "Korisničko ime",
-        "YourUsernameCannotBeChanged": "Korisničko ime se ne može promijeniti"
+        "YourUsernameCannotBeChanged": "Tvoje se korisničko ime ne može promijeniti."
     }
 }

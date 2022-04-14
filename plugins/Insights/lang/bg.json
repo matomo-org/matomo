@@ -8,6 +8,7 @@
         "FilterOnlyNew": "Само нови",
         "MonthComparedToPreviousMonth": "предишен месец",
         "MonthComparedToPreviousYear": "същия месец на предходната година",
+        "PluginDescription": "Показва информация за Вашия трафик. Информацията може да се достъпи като уиджети на таблото или като иконка в новите рапорти, което позволява да се проседят важни тенденции в данните.",
         "TitleRowDisappearedDetails": "'%1$s' намалял с %2$s и изчезна в %3$s сравнено с %4$s.",
         "WeekComparedToPreviousWeek": "предишна седмица",
         "YearComparedToPreviousYear": "предишна година"
