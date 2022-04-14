@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "средно време за генериране",
         "GenerateQueries": "%s заявки са изпълнени",
         "GenerateTime": "%s секунди за генериране на страницата",
         "NbActionsDescription": "%s действия (показвания, изтегляния и outlinks)",

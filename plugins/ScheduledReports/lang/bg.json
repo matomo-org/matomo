@@ -1,7 +1,8 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Опции за показване",
         "AggregateReportsFormat_GraphsOnly": "Покажете само графики (без докладни таблици)",
-        "AggregateReportsFormat_TablesAndGraphs": "Покажете докладни таблици и графики за всички доклади.",
+        "AggregateReportsFormat_TablesAndGraphs": "Покажете докладни таблици и графики за всички доклади",
         "AggregateReportsFormat_TablesOnly": "(по подразбиране) Покажи таблицата с отчетите (Графики само за ключови метрични данни)",
         "AlsoSendReportToTheseEmails": "Също така изпраща доклада до тези имейли (по един на ред):",
         "AreYouSureDeleteReport": "Сигурни ли сте че искате да изтриете този доклад и разписание?",
@@ -25,9 +26,9 @@
         "ReportFormat": "Формат на доклад",
         "ReportIncludeNWebsites": "Този отчет ще включва главните метрични данни за всички уеб сайтове, които са били посещавани поне веднъж (от %s сайта, които са налични).",
         "ReportSent": "Отчетът е изпратен",
-        "ReportsIncluded": "Включена статистика",
         "ReportType": "Изпрати доклад чрез",
         "ReportUpdated": "Отчетът е обновен",
+        "ReportsIncluded": "Включена статистика",
         "SegmentAppliedToReports": "Сегментът '%s' се прилага към отчетите.",
         "SendReportNow": "Изпрати доклад сега",
         "SendReportTo": "Изпрати доклад до",

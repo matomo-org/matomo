@@ -97,7 +97,7 @@
         "WarningMessages": "Peringatan:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Kami secara otomatis menonaktifkan plugin berikut ini: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Anda dapat memperbarui ke versi %s secara otomatis atau mengunduh paket dan memasangnya secara manual:",
-        "YouMustDownloadPackageOrFixPermissions": "Matomo tidak dapat menimpa instalasi Anda saat ini. Anda dapat memperbaiki izin direktori/ berkas atau mengunduh paket dan memasang versi %s secara manual:",
+        "YouMustDownloadPackageOrFixPermissions": "Matomo tidak dapat menimpa instalasi Anda saat ini. Anda dapat memperbaiki izin direktori/berkas atau mengunduh paket dan memasang versi %s secara manual:",
         "YourDatabaseIsOutOfDate": "Basis Data Matomo Anda kedaluwarsa, dan harus diperbarui sebelum Anda dapat melanjutkan."
     }
 }

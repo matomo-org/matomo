@@ -12,6 +12,7 @@
         "SettingsMenu": "Meldingstjenester",
         "Settings_APIKey": "API-nøkkel",
         "Settings_CountryCode": "Landskode",
+        "Settings_CredentialInvalid": "Din %1$s-SMS-API-konto er satt opp, men en feil inntraff under forsøk på mottak av tilgjengelig kreditt.",
         "Settings_CredentialNotProvided": "Før du kan opprette og håndtere telefonnummer, koble Matomo til din SMS-konto ovenfor.",
         "Settings_CredentialNotProvidedByAdmin": "Før du kan opprette og håndtere telefonnummer må du spørre din administrator om å koble Matomo til en SMS-konto.",
         "Settings_CredentialProvided": "Din %s-SMS-API-konto er satt opp rett.",
@@ -22,12 +23,15 @@
         "Settings_InvalidActivationCode": "Koden du har angitt var ikke gyldig, vennligst prøv igjen.",
         "Settings_LetUsersManageAPICredential": "Tillat brukere å håndtere sin egen SMS-tilbyder",
         "Settings_LetUsersManageAPICredential_No_Help": "Alle brukere vil kunne motta SMS-rapporter og bruke saldoen på kontoen din.",
+        "Settings_LetUsersManageAPICredential_Yes_Help": "Hver bruker vil kunne sette opp sin egen SMS-API-konto, og ikke bruke din kreditt.",
         "Settings_ManagePhoneNumbers": "Administrer telefonnummer",
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
         "Settings_PhoneNumber": "Telefonnummer",
         "Settings_PhoneNumbers_Add": "Legg til et nytt telefonnummer",
         "Settings_PhoneNumbers_CountryCode_Help": "Hvis du ikke kjenner telefonens landsretningskode kan du se etter landskoder her.",
         "Settings_PhoneNumbers_Help": "Før du mottar SMS-rapporter på en telefon, må telefonnummeret skrives inn nedenfor.",
+        "Settings_PhoneNumbers_HelpAdd": "Når du klikker «Legg til» vil en SMS inneholdende en kode bli sendt til telefonen. Brukeren som mottar koden skal så logge inn på Matomo, klikke på «Innstillinger», og så «Mobil-meldingstjeneste». Etter å ha skrevet inn koden, skal brukeren kunne motta tekstrapporter på telefonen sin.",
+        "Settings_PleaseSignUp": "For å motta SMS-rapporter og motta korte tekstmeldinger med statistikk fra dine nettsider på mobiltelefoner må du logge inn med SMS-API-et og skrive inn informasjonen din nedenfor.",
         "Settings_SMSAPIAccount": "Behandle SMS API-konto",
         "Settings_SMSProvider": "SMS-leverandør",
         "Settings_SelectCountry": "Velg land",
@@ -36,7 +40,9 @@
         "Settings_UpdateOrDeleteAccount": "Du kan også %1$soppdatere%2$s eller %3$sslette%4$s denne kontoen.",
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "En SMS med en kode har blitt sendt til dette nummeret. Skriv denne koden ovenfor og klikk «Bekreft».",
+        "TopLinkTooltip": "Få vev-analyserapporter levert i innboksen til e-posten din, eller din mobiltelefon.",
         "TopMenu": "E-post- og SMS-rapporter",
-        "UserKey": "Brukernøkkel"
+        "UserKey": "Brukernøkkel",
+        "VerificationText": "Koden er %1$s. For å bekrefte telefonnummeret ditt og motta Matomo-SMS-rapporter kan du kopiere denne koden i skjemaet tilgjengelig i Matomo &gt; %2$s &gt; %3$s."
     }
 }

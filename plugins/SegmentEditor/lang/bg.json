@@ -7,18 +7,19 @@
         "AutoArchiveRealTime": "Сегментираните отчети са обработени в реално време",
         "ChooseASegment": "Избери сегмент",
         "DefaultAllVisits": "Всички посещения",
-        "DragDropCondition": "Състояние „Плъзгане & Пускане“",
+        "DragDropCondition": "Състояние „Плъзгане &amp; Пускане“",
         "LoadingSegmentedDataMayTakeSomeTime": "Обработката на сегментирани данни за посетителите може да отнеме няколко минути…",
         "OperatorAND": "И",
         "OperatorOR": "ИЛИ",
+        "PluginDescription": "Сегментът е набор от критерии, използвани за избор само на част от цял набор посещения. Използвайки сегменти може да се добави контекст към отчетите.",
         "SaveAndApply": "Запази & Приложи",
         "SegmentDisplayedAllWebsites": "всички сайтове",
         "SegmentDisplayedThisWebsiteOnly": "само този уебсайт",
         "SegmentNotApplied": "Сегмент '%s' не е приложен",
+        "Test": "Тест",
         "ThisSegmentIsVisibleTo": "Този сегмент е видим за:",
         "VisibleToAllUsers": "всички потребители",
         "VisibleToMe": "аз",
-        "YouMustBeLoggedInToCreateSegments": "Трябва да сте вписани, за да създавате и редактирате персонализираните посетителски сегменти.",
-        "Test": "Тест"
+        "YouMustBeLoggedInToCreateSegments": "Трябва да сте вписани, за да създавате и редактирате персонализираните посетителски сегменти."
     }
 }
