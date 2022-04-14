@@ -11,29 +11,10 @@
 {% endmacro %}
 
 {% macro selectPhoneNumbers(phoneNumbers, angularContext, value, withIntroduction) %}
-    <div id="mobilePhoneNumbersHelp" class="inline-help-node">
-        <span class="icon-info"></span>
-
-        {% if phoneNumbers|length == 0 %}
-            {{ 'MobileMessaging_MobileReport_NoPhoneNumbers'|translate }}
-        {% else %}
-            {{ 'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate|e('html_attr') }}
-        {% endif %}
-        <a href="{{ linkTo({'module':"MobileMessaging", 'action': 'index', 'updated':null}) }}">{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a>
-    </div>
-
-    <div class='mobile'
-         piwik-field uicontrol="checkbox"
-         var-type="array"
-         name="phoneNumbers"
-         ng-model="{{ angularContext }}.report.phoneNumbers"
-         {% if withIntroduction %}
-             introduction="{{ 'ScheduledReports_SendReportTo'|translate|e('html_attr') }}"
-         {% endif %}
-         data-title="{{ 'MobileMessaging_PhoneNumbers'|translate|e('html_attr') }}"
-         {% if phoneNumbers|length == 0 %}disabled="true"{% endif %}
-         options="{{ phoneNumbers|json_encode }}"
-         inline-help="#mobilePhoneNumbersHelp"
-         {% if value %}value="{{ value|json_encode }}"{% endif %}>
-    </div>
+    <div matomo-select-phone-numbers
+      phone-numbers="{{ phoneNumbers|json_encode|e('html_attr') }}"
+      ng-model="{{ angularContext }}.report.phoneNumbers"
+      with-introduction="{{ withIntroduction|json_encode|e('html_attr') }}"
+      {% if value %}value="{{ value|json_encode|e('html_attr') }}"{% endif %}
+    ></div>
 {% endmacro %}

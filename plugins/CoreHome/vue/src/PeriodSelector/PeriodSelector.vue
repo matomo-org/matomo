@@ -165,7 +165,7 @@ import DateRangePicker from '../DateRangePicker/DateRangePicker.vue';
 import PeriodDatePicker from '../PeriodDatePicker/PeriodDatePicker.vue';
 import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
 import Matomo from '../Matomo/Matomo';
-import translate from '../translate';
+import { translate } from '../translate';
 import ComparisonsStore from '../Comparisons/Comparisons.store.instance';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 import {

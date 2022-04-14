@@ -74,7 +74,7 @@ export {
 } from './createAngularJsAdapter';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
-export { default as translate } from './translate';
+export * from './translate';
 export { default as Alert } from './Alert/Alert.vue';
 export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
