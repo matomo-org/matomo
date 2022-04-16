@@ -805,7 +805,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $.each(patternsToReplace, function (index, pattern) {
             if (0 === currentPattern.indexOf(pattern.to)) {
-                currentPattern = pattern.from + currentPattern.substr(2);
+                currentPattern = pattern.from + currentPattern.slice(2);
             }
         });
 
@@ -881,7 +881,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             $.each(patternsToReplace, function (index, pattern) {
                 if (0 === keyword.indexOf(pattern.from)) {
-                    keyword = pattern.to + keyword.substr(1);
+                    keyword = pattern.to + keyword.slice(1);
                 }
             });
 

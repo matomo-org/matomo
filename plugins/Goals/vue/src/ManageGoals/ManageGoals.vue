@@ -701,10 +701,10 @@ export default defineComponent({
       }
     },
     lcfirst(s: string) {
-      return `${s.substr(0, 1).toLowerCase()}${s.substr(1)}`;
+      return `${s.slice(0, 1).toLowerCase()}${s.slice(1)}`;
     },
     ucfirst(s: string) {
-      return `${s.substr(0, 1).toUpperCase()}${s.substr(1)}`;
+      return `${s.slice(0, 1).toUpperCase()}${s.slice(1)}`;
     },
   },
   computed: {

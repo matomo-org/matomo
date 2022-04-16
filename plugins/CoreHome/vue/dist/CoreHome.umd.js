@@ -367,7 +367,7 @@ Matomo_piwik.updateDateInTitle = function updateDateInTitle(date, period) {
 
   if (originalTitle.indexOf(Matomo_piwik.siteName) === 0) {
     var dateString = " - ".concat(Periods_Periods.parse(period, date).getPrettyString(), " ");
-    document.title = "".concat(Matomo_piwik.siteName).concat(dateString).concat(originalTitle.substr(Matomo_piwik.siteName.length));
+    document.title = "".concat(Matomo_piwik.siteName).concat(dateString).concat(originalTitle.slice(Matomo_piwik.siteName.length));
   }
 };
 
@@ -3191,10 +3191,10 @@ var ShowSensitiveData_window = window,
     var protectedData = '';
 
     if (showCharacters > 0) {
-      protectedData += sensitiveData.substr(0, showCharacters);
+      protectedData += sensitiveData.slice(0, showCharacters);
     }
 
-    protectedData += sensitiveData.substr(showCharacters).replace(/./g, '*');
+    protectedData += sensitiveData.slice(showCharacters).replace(/./g, '*');
     element.html(protectedData);
 
     function onClickHandler() {
@@ -6973,7 +6973,7 @@ function scrollFirstElementIntoView(element) {
 
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"
-          category = category.substr(0, category.lastIndexOf('\n')).trim();
+          category = category.slice(0, category.lastIndexOf('\n')).trim();
         }
 
         window.$(element).find('li .item').each(function (i, subElement) {
