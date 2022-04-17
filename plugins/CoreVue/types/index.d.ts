@@ -157,6 +157,7 @@ declare global {
     cacheBuster: string;
     numbers: Record<string, string>;
     visitorProfileEnabled: boolean;
+    languageName: string;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
