@@ -1,7 +1,8 @@
 {
     "Tour": {
-        "Engagement": "Ангажимент",
         "BrowseMarketplace": "Разгледайте магазина",
-        "CompletionTitle": "Браво!"
+        "CompletionTitle": "Браво!",
+        "Engagement": "Ангажимент",
+        "PluginDescription": "Станете Matomo експерт като изпълните задачи, които Ви запознават с Matomo."
     }
 }
