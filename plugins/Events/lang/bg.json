@@ -8,6 +8,7 @@
         "Events": "Събития",
         "MaxValueDocumentation": "Максималната стойност за това събитие",
         "MinValueDocumentation": "Минималната стойност за това събитие",
+        "PluginDescription": "Проследи събития и получи отчети за действията на посетителите.",
         "SecondaryDimension": "Второстепенното измерение е %s.",
         "SwitchToSecondaryDimension": "Превключване към %s",
         "TopEvents": "Най-важните събития",

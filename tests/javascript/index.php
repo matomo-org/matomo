@@ -5208,7 +5208,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler({ type: 'beforeunload' });
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 530, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 530 ' );
+        ok( msSinceStarted < 520, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 520 ' );
 
         Piwik.getTracker().unsetPageIsUnloading();
         tracker.disableAlwaysUseSendBeacon();

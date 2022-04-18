@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Средно време за зареждане на страница",
         "ColumnTimeServer": "Сървърно време (на сървъра)"
     }
 }

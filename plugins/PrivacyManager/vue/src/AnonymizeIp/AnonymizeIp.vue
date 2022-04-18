@@ -113,11 +113,15 @@ interface AnonymizeIpState {
   isLoading: boolean;
   actualEnabled: boolean;
   actualMaskLength: number;
-  actualUseAnonymizedIpForVisitEnrichment: string;
+  actualUseAnonymizedIpForVisitEnrichment: number;
   actualAnonymizeUserId: boolean;
   actualAnonymizeOrderId: boolean;
   actualForceCookielessTracking: boolean;
   actualAnonymizeReferrer?: string;
+}
+
+function configBoolToInt(value?: string|number|boolean): number {
+  return value === true || value === 1 || value === '1' ? 1 : 0;
 }
 
 export default defineComponent({
@@ -128,7 +132,7 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    useAnonymizedIpForVisitEnrichment: Boolean,
+    useAnonymizedIpForVisitEnrichment: [Boolean, String, Number],
     anonymizeOrderId: Boolean,
     forceCookielessTracking: Boolean,
     anonymizeReferrer: String,
@@ -163,9 +167,11 @@ export default defineComponent({
   data(): AnonymizeIpState {
     return {
       isLoading: false,
-      actualEnabled: !!this.anonymizeIpEnabled,
+      actualEnabled: this.anonymizeIpEnabled,
       actualMaskLength: this.maskLength,
-      actualUseAnonymizedIpForVisitEnrichment: this.useAnonymizedIpForVisitEnrichment ? '1' : '0',
+      actualUseAnonymizedIpForVisitEnrichment: configBoolToInt(
+        this.useAnonymizedIpForVisitEnrichment,
+      ),
       actualAnonymizeUserId: !!this.anonymizeUserId,
       actualAnonymizeOrderId: !!this.anonymizeOrderId,
       actualForceCookielessTracking: !!this.forceCookielessTracking,
@@ -187,7 +193,7 @@ export default defineComponent({
           forceCookielessTracking: this.actualForceCookielessTracking ? '1' : '0',
           anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
           maskLength: this.actualMaskLength,
-          useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment ? '1' : '0',
+          useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
         },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({

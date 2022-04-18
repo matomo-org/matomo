@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -11,8 +12,10 @@ namespace Piwik\Plugins\Live\tests\System;
 use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Plugins\Live\SystemSettings;
 use Piwik\Plugins\Live\tests\Fixtures\ManyVisitsOfSameVisitor;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -225,15 +228,54 @@ class ApiTest extends SystemTestCase
                 'format' => 'xml',
                 'otherRequestParameters' => [
                     'urls' => [
-                        urlencode("idSite=1&date=".self::$fixture->dateTime."&period=day&method=Live.getLastVisitsDetails"),
-                        urlencode("idSite=1&date=".self::$fixture->dateTime."&period=day&method=API.getSuggestedValuesForSegment&segmentName=pageTitle"),
-                        urlencode("idSite=1&date=".self::$fixture->dateTime."&period=day&method=Live.getVisitorProfile"),
+                        urlencode("idSite=1&date=" . self::$fixture->dateTime . "&period=day&method=Live.getLastVisitsDetails"),
+                        urlencode("idSite=1&date=" . self::$fixture->dateTime . "&period=day&method=API.getSuggestedValuesForSegment&segmentName=pageTitle"),
+                        urlencode("idSite=1&date=" . self::$fixture->dateTime . "&period=day&method=Live.getVisitorProfile"),
                     ]
                 ],
             ]
         ];
 
         return $apiToTest;
+    }
+
+    public function testVisitorIdSegmentWithDisabledProfileForSite()
+    {
+        $settings = new SystemSettings();
+        $settings->disableVisitorLog->setValue(false);
+        $settings->disableVisitorProfile->setValue(false);
+        $settings->save();
+
+        $settings = new MeasurableSettings(1);
+        $settings->disableVisitorLog->setValue(false);
+        $settings->disableVisitorProfile->setValue(true);
+        $settings->save();
+
+        $date                      = mktime(0, 0, 0, 1, 1, 2010);
+        $lookBack                  = ceil((time() - $date) / 86400);
+        API::$_autoSuggestLookBack = $lookBack;
+
+        Fixture::clearInMemoryCaches();
+
+        $this->runApiTests('API.getSuggestedValuesForSegment', [
+            'idSite'                 => 1,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => ['day'],
+            'otherRequestParameters' => [
+                'segmentName' => 'visitorId',
+            ],
+            'testSuffix' => 'disabledProfile'
+        ]);
+
+        $this->runApiTests('API.getSuggestedValuesForSegment', [
+            'idSite'                 => 2,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => ['day'],
+            'otherRequestParameters' => [
+                'segmentName' => 'visitorId',
+            ],
+            'testSuffix' => 'disabledProfile2'
+        ]);
     }
 
     public static function getOutputPrefix()
@@ -245,7 +287,6 @@ class ApiTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 ApiTest::$fixture = new ManyVisitsOfSameVisitor();
