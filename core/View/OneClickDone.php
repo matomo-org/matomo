@@ -32,7 +32,7 @@ class OneClickDone
     /**
      * @var string
      */
-    public $error;
+    public $error = '';
 
     /**
      * @var array
