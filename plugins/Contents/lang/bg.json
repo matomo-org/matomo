@@ -1,6 +1,14 @@
 {
     "Contents": {
+        "ContentImpression": "Импресия на съдържание",
+        "ContentInteraction": "Взаимодействие със съдържание",
+        "ContentInteractions": "Взаимодействия със съдържание",
         "ContentName": "Име на съдържанието",
+        "ContentNameReportDocumentation": "Този отчет показва имената на съдържанието, което Вашите посетители са гледали и с което са взаимодействали.",
+        "ContentNames": "Имена на съдържанието",
+        "ContentPiece": "Част от съдържанието",
+        "ContentPieceReportDocumentation": "Този отчет показва частите от съдържанието, които Вашите посетители са разглеждали и с които са взаимодействали.",
+        "ContentPieces": "Части от съдържанието",
         "ContentTarget": "Целево съдържание",
         "Contents": "Съдържание",
         "Impressions": "Импресии",
