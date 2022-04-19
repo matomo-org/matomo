@@ -31,6 +31,10 @@
                      value="" inline-help="{{ 'UsersManager_TypeYourCurrentPassword'|translate|e('html_attr') }}">
                 </div>
 
+                <div class="alert alert-info">
+                    {{ 'UsersManager_PasswordChangeTerminatesOtherSessions'|translate }}
+                </div>
+
                 <input type="submit"
                        value="{{ 'General_Save'|translate|e('html_attr') }}"
                        class="btn"/>

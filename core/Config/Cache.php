@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -36,9 +37,14 @@ class Cache extends File
         return PIWIK_INCLUDE_PATH . '/tmp/' . $host . '/cache/tracker';
     }
 
+    public static function hasHostConfig($mergedConfigSettings)
+    {
+        return isset($mergedConfigSettings['General']['trusted_hosts']) && is_array($mergedConfigSettings['General']['trusted_hosts']);
+    }
+
     public function isValidHost($mergedConfigSettings)
     {
-        if (!isset($mergedConfigSettings['General']['trusted_hosts']) || !is_array($mergedConfigSettings['General']['trusted_hosts'])) {
+        if (!self::hasHostConfig($mergedConfigSettings)) {
             return false;
         }
         // note: we do not support "enable_trusted_host_check" to keep things secure
@@ -51,10 +57,12 @@ class Cache extends File
         $host = Url::getHostSanitized($host); // Remove any port number to get actual hostname
         $host = Common::sanitizeInputValue($host);
 
-        if (empty($host)
+        if (
+            empty($host)
             || strpos($host, '..') !== false
             || strpos($host, '\\') !== false
-            || strpos($host, '/') !== false) {
+            || strpos($host, '/') !== false
+        ) {
             throw new \Exception('Unsupported host');
         }
 
@@ -70,19 +78,17 @@ class Cache extends File
         $hosts = Url::getTrustedHosts();
         $initialDir = $this->directory;
 
-        foreach ($hosts as $host)
-        {
+        foreach ($hosts as $host) {
             $dir = $this->makeCacheDir($host);
             if (@is_dir($dir)) {
                 $this->directory = $dir;
                 $success = parent::doDelete($id);
                 if ($success) {
-                    Piwik::postEvent('Core.configFileDeleted', array($this->getFilename($id)));
+                    Piwik::postEvent('Core.configFileDeleted', [$this->getFilename($id)]);
                 }
             }
         }
 
         $this->directory = $initialDir;
     }
-
 }

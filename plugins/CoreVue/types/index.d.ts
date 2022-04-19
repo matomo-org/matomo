@@ -157,6 +157,7 @@ declare global {
     cacheBuster: string;
     numbers: Record<string, string>;
     visitorProfileEnabled: boolean;
+    languageName: string;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -176,6 +177,7 @@ declare global {
   interface WidgetsHelper {
     availableWidgets?: unknown[];
     getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
+    getWidgetObjectFromUniqueId(id: string, callback: (widget: unknown) => void);
 
     firstGetAvailableWidgetsCall?: Promise<void>;
   }

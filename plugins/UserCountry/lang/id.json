@@ -32,7 +32,7 @@
         "NoDataForGeoIPReport1": "Tidak ada data untuk laporan ini sebab tidak ada data lokasi yang tersedia atau alamat IP tidak dikenali oleh geolokasi.",
         "NoDataForGeoIPReport2": "Untuk mengaktifkan geolokasi yang akurat, ubah pengaturan %1$sdi sini%2$s dan gunakan basis data tingkat kota %3$s%4$s.",
         "NoProviders": "Saat ini tidak ada penyedia geolokasi tambahan yang tersedia. Matomo merekomendasikan untuk menggunakan basis data %1$sdbip%2$s, tetapi ini memerlukan pengaktifan plugin GeoIp2. (Atau Anda dapat memasang plugin pihak ketiga yang menyediakan fungsionalitas geolokasi sendiri dari lokapasar.)",
-        "PluginDescription": "Melaporkan lokasi pengunjung Anda: negara, wilayah, kota, dan koordinat geografis (lintang/ bujur).",
+        "PluginDescription": "Melaporkan lokasi pengunjung Anda: negara, wilayah, kota, dan koordinat geografis (lintang/bujur).",
         "Region": "Wilayah",
         "SubmenuLocations": "Lokasi",
         "TestIPLocatorFailed": "Matomo mencoba memeriksa lokasi alamat IP yang diketahui (%1$s), tetapi server Anda tidak memberikan informasinya. Penyedia ini mungkin tidak dikonfigurasi dengan benar (misalnya, basis data geolokasi mungkin namanya salah atau terletak di direktori yang salah).",

@@ -1,7 +1,17 @@
 {
     "Tour": {
-        "Engagement": "Ангажимент",
+        "AddAnnotation": "Добавете пояснение",
+        "AddReport": "Добавете насрочен отчет",
+        "AddSegment": "Добавете сегмент",
+        "AddUser": "Добавете друг потребител",
+        "AddWebsite": "Добавете друг уебсайт",
         "BrowseMarketplace": "Разгледайте магазина",
-        "CompletionTitle": "Браво!"
+        "CompletionTitle": "Браво!",
+        "Engagement": "Ангажимент",
+        "NextChallenges": "Следващи предизвикателства",
+        "PluginDescription": "Станете Matomo експерт като изпълните задачи, които Ви запознават с Matomo.",
+        "PreviousChallenges": "Предишни предизвикателства",
+        "Tour": "Тур",
+        "UploadLogo": "Качете Вашето лого"
     }
 }
