@@ -13,7 +13,6 @@ use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Cache as TrackerCache;
 
 /**
@@ -1171,7 +1170,7 @@ class Common
     {
         $cache = TrackerCache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
-            ? DefaultProvider::ID
+            ? Plugins\UserCountry\LocationProvider::getDefaultProviderId()
             : $cache['currentLocationProviderId'];
     }
 

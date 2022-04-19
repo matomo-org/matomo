@@ -16,13 +16,13 @@
         <tbody>
         <tr class="">
             <td class="label column">{{ 'Live_LastHours'|translate(24) }}</td>
-            <td class="column">{{ visitorsCountToday|number }}</td>
-            <td class="column">{{ pisToday|number }}</td>
+            <td class="column" {% if countErrorToday %}title="{{ countErrorToday|e('html_attr') }}"{% endif %}>{{ visitorsCountToday|number }}</td>
+            <td class="column" {% if countErrorToday %}title="{{ countErrorToday|e('html_attr') }}"{% endif %}>{{ pisToday|number }}</td>
         </tr>
         <tr class="">
             <td class="label column">{{ 'Live_LastMinutes'|translate(30) }}</td>
-            <td class="column">{{ visitorsCountHalfHour|number }}</td>
-            <td class="column">{{ pisHalfhour|number }}</td>
+            <td class="column" {% if countErrorHalfHour %}title="{{ countErrorHalfHour|e('html_attr') }}"{% endif %}>{{ visitorsCountHalfHour|number }}</td>
+            <td class="column" {% if countErrorHalfHour %}title="{{ countErrorHalfHour|e('html_attr') }}"{% endif %}>{{ pisHalfhour|number }}</td>
         </tr>
         </tbody>
     </table>

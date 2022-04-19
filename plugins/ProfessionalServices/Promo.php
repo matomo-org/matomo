@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\ProfessionalServices;
 
-use Piwik\ProfessionalServices\Advertising;
 
 class Promo
 {

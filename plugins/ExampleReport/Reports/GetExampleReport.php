@@ -9,10 +9,8 @@
 namespace Piwik\Plugins\ExampleReport\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
-use Piwik\View;
 
 /**
  * This class defines a new report.

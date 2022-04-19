@@ -13,7 +13,6 @@
     <span
       class="icon-search"
       @mouseenter="searchActive = true"
-      v-show="!(searchTerm || searchActive)"
     />
     <input
       class="s"
@@ -24,6 +23,7 @@
       tabindex="2"
       v-focus-if:[searchActive]="{}"
       :title="quickAccessTitle"
+      :placeholder="translate('General_Search')"
       ref="input"
     />
     <div
@@ -84,7 +84,7 @@
           @mouseenter="searchIndex = 'help'"
         >
           <a
-            :href="`https://matomo.org?s=${encodeURIComponent(searchTerm)}`"
+            :href="`https://matomo.org?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=QuickSearch&s=${encodeURIComponent(searchTerm)}`"
             target="_blank"
           >
             {{ translate('CoreHome_SearchOnMatomo', searchTerm) }}

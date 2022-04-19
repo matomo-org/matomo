@@ -7,9 +7,7 @@
  */
 namespace Piwik\Plugins\SitesManager\tests\Fixtures;
 
-use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
-use Piwik\Plugins\WebsiteMeasurable;
 use Piwik\Tests\Framework\Fixture;
 
 /**

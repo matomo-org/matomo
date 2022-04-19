@@ -9,7 +9,6 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -19,7 +18,6 @@ use Piwik\Scheduler\Timetable;
 use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tracker;
 
 /**
  * @group Core
@@ -45,6 +43,7 @@ class TrackerTest extends IntegrationTestCase
         Option::delete(self::TASKS_STARTED_OPTION_NAME);
         Option::delete(self::TASKS_FINISHED_OPTION_NAME);
         Option::delete(Timetable::TIMETABLE_OPTION_STRING);
+        Option::delete(Timetable::RETRY_OPTION_STRING);
 
         SettingsPiwik::overwritePiwikUrl(self::$fixture->getRootUrl() . "tests/PHPUnit/proxy");
     }
@@ -122,6 +121,26 @@ class TrackerTest extends IntegrationTestCase
         $this->assertActionEquals('"scarysku&', $conversionItems[0]['idaction_sku']);
         $this->assertActionEquals('superscarymovie\'', $conversionItems[0]['idaction_name']);
         $this->assertActionEquals('scary <> movies', $conversionItems[0]['idaction_category']);
+    }
+
+    public function test_trackingEcommerceOrder_WithNameAndSKUArrays()
+    {
+        // item sku, item name, item category, item price, item quantity
+        $ecItems = array(array(["sku1", "sku2"], ["name1", "name2"], 'category1', 12.99, 1));
+
+        $urlToTest = $this->getEcommerceItemsUrl($ecItems);
+
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        Fixture::checkResponse($response);
+
+        $this->assertEquals(1, $this->getCountOfConversions());
+
+        $conversionItems = $this->getConversionItems();
+        $this->assertEquals(1, count($conversionItems));
+
+        $this->assertActionEquals('sku1,sku2', $conversionItems[0]['idaction_sku']);
+        $this->assertActionEquals('name1,name2', $conversionItems[0]['idaction_name']);
+        $this->assertActionEquals('category1', $conversionItems[0]['idaction_category']);
     }
 
     public function test_trackingEcommerceOrder_DoesNotFail_WhenEmptyEcommerceItemsParamUsed()
@@ -399,7 +418,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertCustomTasksWereStarted();
 
         Option::clearCachedOption(self::TASKS_FINISHED_OPTION_NAME);
-        $this->assertEmpty(Option::get(self::TASKS_FINISHED_OPTION_NAME));
+        $this->assertFalse(Option::get(self::TASKS_FINISHED_OPTION_NAME));
     }
 
     private function assertCustomTasksWereStarted()

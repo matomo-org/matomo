@@ -1,6 +1,9 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Buka di jendela baru",
-        "TopLinkTooltip": "Ekspor Laporan Matomo sebagai gawit dan sematkan dalam Penel Kendali di aplikasi Anda sebagai binkai pendam."
+        "PluginDescription": "Tampilkan laporan Matomo apa pun di situs web atau aplikasi Anda dengan \"penyematan\" tag HTML sederhana.",
+        "TooHighAccessLevel": "Pengguna ini memiliki akses pengguna super. Menyematkan widget dengan autentikasi token pengguna super tidak diperbolehkan. %1$sPeriksa FAQ untuk info lebih lanjut.%2$s",
+        "TopLinkTooltip": "Ekspor laporan Matomo sebagai widget dan sematkan dalam dasbor di aplikasi Anda sebagai iframe.",
+        "ViewAccessRequired": "Pengguna ini memiliki setidaknya beberapa akses tulis. Hanya token pengguna yang hanya memiliki akses lihat yang dapat digunakan. Periksa %1$s untuk melihat info lebih lanjut."
     }
 }

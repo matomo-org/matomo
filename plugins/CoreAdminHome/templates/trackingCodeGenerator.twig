@@ -23,6 +23,7 @@
             <a href="#/importServerLogs">{{ 'CoreAdminHome_ImportingServerLogs'|translate }}</a>
             <a href="#/mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
             <a href="#/trackingApi">{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</a>
+            <a href="#/singlePageApplication">{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</a>
             {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
         </div>
     </div>
@@ -56,6 +57,11 @@
 <div piwik-content-block content-title="{{ 'CoreAdminHome_HttpTrackingApi'|translate }}" anchor="trackingApi">
     <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
+
+<div piwik-content-block content-title="{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}" anchor="singlePageApplication">
+     <p>{{ 'CoreAdminHome_SinglePageApplicationDescription'|translate('<a href="https://developer.matomo.org/guides/spa-tracking" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+</div>
+
 
 {{ postEvent('Template.endTrackingCodePage') }}
 

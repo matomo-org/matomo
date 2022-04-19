@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 use Piwik\Piwik;

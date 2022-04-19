@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\WebsiteMeasurable\Settings;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Settings\FieldConfig;
-use Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\UrlHelper;
 

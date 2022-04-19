@@ -5208,7 +5208,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
+        ok( msSinceStarted < 520, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 520 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
@@ -5218,6 +5218,24 @@ if ($mysql) {
         stopTime = new Date();
         var diffTime = (stopTime.getTime() - startTime.getTime());
         ok( diffTime >= 2000, 'setLinkTrackingTimer(): ' + diffTime);
+    });
+
+    test("Browser detector feature Disable and enable", function() {
+        var pattern = /(res=)|(cookie=)/;
+        var tracker = Piwik.getTracker();
+        var siteIdPattern = /idsite/;
+
+        tracker.enableBrowserFeatureDetection();
+        var requestWithFingerprint = tracker.getRequest('hello=world');
+
+        equal(siteIdPattern.test(requestWithFingerprint), true);
+        equal(pattern.test(requestWithFingerprint), true, 'When browser fingerprint is enabled the request should include browser resolution or cookie');
+
+        tracker.disableBrowserFeatureDetection();
+        var requestWithoutFingerprint = tracker.getRequest('hello=world');
+
+        equal(siteIdPattern.test(requestWithoutFingerprint), true);
+        equal(pattern.test(requestWithoutFingerprint), false, 'When browser fingerprint is disabled the request should not include browser resolution or cookie');
     });
 
 <?php

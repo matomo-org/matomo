@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
 use Piwik\Archive\ArchiveQuery;
@@ -140,7 +142,7 @@ class Archive implements ArchiveQuery
      *
      * @var array
      */
-    private $idarchives = array();
+    private $idarchives = [];
 
     /**
      * If set to true, the result of all get functions (ie, getNumeric, getBlob, etc.)
@@ -181,9 +183,11 @@ class Archive implements ArchiveQuery
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
-    public function __construct(Parameters $params, $forceIndexedBySite = false,
-                                $forceIndexedByDate = false)
-    {
+    public function __construct(
+        Parameters $params,
+        $forceIndexedBySite = false,
+        $forceIndexedByDate = false
+    ) {
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
@@ -210,8 +214,13 @@ class Archive implements ArchiveQuery
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
-        return StaticContainer::get(ArchiveQueryFactory::class)->build($idSites, $period, $strDate, $segment,
-            $_restrictSitesToLogin);
+        return StaticContainer::get(ArchiveQueryFactory::class)->build(
+            $idSites,
+            $period,
+            $strDate,
+            $segment,
+            $_restrictSitesToLogin
+        );
     }
 
     /**
@@ -236,11 +245,20 @@ class Archive implements ArchiveQuery
      *
      * @return ArchiveQuery
      */
-    public static function factory(Segment $segment, array $periods, array $idSites, $idSiteIsAll = false,
-                                   $isMultipleDate = false)
-    {
-        return StaticContainer::get(ArchiveQueryFactory::class)->factory($segment, $periods, $idSites, $idSiteIsAll,
-            $isMultipleDate);
+    public static function factory(
+        Segment $segment,
+        array $periods,
+        array $idSites,
+        $idSiteIsAll = false,
+        $isMultipleDate = false
+    ) {
+        return StaticContainer::get(ArchiveQueryFactory::class)->factory(
+            $segment,
+            $periods,
+            $idSites,
+            $idSiteIsAll,
+            $isMultipleDate
+        );
     }
 
     public static function shouldSkipArchiveIfSkippingSegmentArchiveForToday(Site $site, Period $period, Segment $segment)
@@ -277,7 +295,8 @@ class Archive implements ArchiveQuery
         $result = $data->getIndexedArray($resultIndices);
 
         // if only one metric is returned, just return it as a numeric value
-        if (empty($resultIndices)
+        if (
+            empty($resultIndices)
             && count($result) <= 1
             && (!is_array($names) || count($names) === 1)
         ) {
@@ -410,7 +429,7 @@ class Archive implements ArchiveQuery
      */
     private function getRequestedPlugins($archiveNames)
     {
-        $result = array();
+        $result = [];
 
         foreach ($archiveNames as $name) {
             $result[] = self::getPluginForReport($name);
@@ -441,7 +460,7 @@ class Archive implements ArchiveQuery
      * @param string $segment @see {@link build()}
      * @param bool $expanded If true, loads all subtables. See {@link getDataTableExpanded()}
      * @param bool $flat If true, loads all subtables and disabled all recursive filters.
-     * @param int|null $idSubtable See {@link getDataTableExpanded()}
+     * @param int|null|string $idSubtable See {@link getDataTableExpanded()}
      * @param int|null $depth See {@link getDataTableExpanded()}
      * @return DataTable|DataTable\Map
      */
@@ -449,14 +468,19 @@ class Archive implements ArchiveQuery
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        if ($idSubtable === false || $idSubtable === '') {
+            $idSubtable = null;
+        }
+
+        if (!empty($idSubtable) && (strtolower($idSubtable) !== self::ID_SUBTABLE_LOAD_ALL_SUBTABLES && !is_numeric($idSubtable))) {
+            throw new \Exception("idSubtable needs to be a number or '" . self::ID_SUBTABLE_LOAD_ALL_SUBTABLES . "', '$idSubtable' given.");
+        }
+
         if ($flat && !$idSubtable) {
             $expanded = true;
         }
 
         $archive = Archive::build($idSite, $period, $date, $segment, $_restrictSitesToLogin = false);
-        if ($idSubtable === false || $idSubtable === '') {
-            $idSubtable = null;
-        }
 
         if ($expanded) {
             $dataTable = $archive->getDataTableExpanded($recordName, $idSubtable, $depth);
@@ -489,19 +513,20 @@ class Archive implements ArchiveQuery
     protected function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
         if (!is_array($archiveNames)) {
-            $archiveNames = array($archiveNames);
+            $archiveNames = [$archiveNames];
         }
 
         $archiveNames = array_filter($archiveNames);
 
         // apply idSubtable
-        if ($idSubtable !== null
+        if (
+            $idSubtable !== null
             && $idSubtable !== self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             // this is also done in ArchiveSelector. It should be actually only done in ArchiveSelector but DataCollection
             // does require to have the subtableId appended. Needs to be changed in refactoring to have it only in one
             // place.
-            $dataNames = array();
+            $dataNames = [];
             foreach ($archiveNames as $name) {
                 $dataNames[] = ArchiveSelector::appendIdsubtable($name, $idSubtable);
             }
@@ -510,9 +535,15 @@ class Archive implements ArchiveQuery
         }
 
         $result = new Archive\DataCollection(
-            $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
+            $dataNames,
+            $archiveDataType,
+            $this->params->getIdSites(),
+            $this->params->getPeriods(),
+            $this->params->getSegment(),
+            $defaultRow = null
+        );
         if (empty($dataNames)) {
-            return $result; // NOTE: note posting Archive.noArchivedData here, because there might be archive data, someone just requested nothing
+            return $result; // NOTE: not posting Archive.noArchivedData here, because there might be archive data, someone just requested nothing
         }
 
         $archiveIds = $this->getArchiveIds($archiveNames);
@@ -560,8 +591,8 @@ class Archive implements ArchiveQuery
 
         // figure out which archives haven't been processed (if an archive has been processed,
         // then we have the archive IDs in $this->idarchives)
-        $doneFlags     = array();
-        $archiveGroups = array();
+        $doneFlags     = [];
+        $archiveGroups = [];
         foreach (array_merge($plugins, ['all']) as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $this->params->getIdSites());
 
@@ -586,7 +617,8 @@ class Archive implements ArchiveQuery
 
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (Rules::isArchivingEnabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
+            if (
+                Rules::isArchivingEnabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
                 && !$this->forceFetchingWithoutLaunchingArchiving
             ) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
@@ -610,16 +642,14 @@ class Archive implements ArchiveQuery
      */
     private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
-        $today = Date::today();
-
         foreach ($this->params->getPeriods() as $period) {
-            $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
 
             foreach ($this->params->getIdSites() as $idSite) {
                 $site = new Site($idSite);
 
-                if (Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
+                if (
+                    Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
                     && self::shouldSkipArchiveIfSkippingSegmentArchiveForToday($site, $period, $this->params->getSegment())
                 ) {
                     Log::debug("Skipping archive %s for %s as segment today is disabled", $period->getLabel(), $period->getPrettyString());
@@ -630,15 +660,26 @@ class Archive implements ArchiveQuery
                 // we already know there are no stats for this period
                 // we add one day to make sure we don't miss the day of the website creation
                 if ($twoDaysAfterPeriod->isEarlier($site->getCreationDate())) {
-                    Log::debug("Archive site %s, %s (%s) skipped, archive is before the website was created.",
-                        $idSite, $period->getLabel(), $period->getPrettyString());
+                    Log::debug(
+                        "Archive site %s, %s (%s) skipped, archive is before the website was created.",
+                        $idSite,
+                        $period->getLabel(),
+                        $period->getPrettyString()
+                    );
                     continue;
                 }
 
-                // if the starting date is in the future we know there is no visiidsite = ?t
-                if ($twoDaysBeforePeriod->isLater($today)) {
-                    Log::debug("Archive site %s, %s (%s) skipped, archive is after today.",
-                        $idSite, $period->getLabel(), $period->getPrettyString());
+                // Allow for site timezone, local time may have started a new day ahead of UTC
+                $today = \Piwik\Date::factory('now', $site->getTimezone());
+
+                // if the starting date is in the future we know there are no visits
+                if ($period->getDateStart()->isLater($today)) {
+                    Log::debug(
+                        "Archive site %s, %s (%s) skipped, archive is after today.",
+                        $idSite,
+                        $period->getLabel(),
+                        $period->getPrettyString()
+                    );
                     continue;
                 }
 
@@ -657,7 +698,11 @@ class Archive implements ArchiveQuery
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
         $idarchivesByReport = ArchiveSelector::getArchiveIds(
-            $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
+            $this->params->getIdSites(),
+            $this->params->getPeriods(),
+            $this->params->getSegment(),
+            $plugins
+        );
 
         // initialize archive ID cache for each report
         foreach ($plugins as $plugin) {
@@ -686,10 +731,10 @@ class Archive implements ArchiveQuery
     private function getDoneStringForPlugin($plugin, $idSites)
     {
         return Rules::getDoneStringFlagFor(
-                    $idSites,
-                    $this->params->getSegment(),
-                    $this->getPeriodLabel(),
-                    $plugin
+            $idSites,
+            $this->params->getSegment(),
+            $this->getPeriodLabel(),
+            $plugin
         );
     }
 
@@ -707,15 +752,17 @@ class Archive implements ArchiveQuery
      */
     private function getResultIndices()
     {
-        $indices = array();
+        $indices = [];
 
-        if (count($this->params->getIdSites()) > 1
+        if (
+            count($this->params->getIdSites()) > 1
             || $this->forceIndexedBySite
         ) {
             $indices['site'] = 'idSite';
         }
 
-        if (count($this->params->getPeriods()) > 1
+        if (
+            count($this->params->getPeriods()) > 1
             || $this->forceIndexedByDate
         ) {
             $indices['period'] = 'date';
@@ -757,7 +804,7 @@ class Archive implements ArchiveQuery
     private function initializeArchiveIdCache($doneFlag)
     {
         if (!isset($this->idarchives[$doneFlag])) {
-            $this->idarchives[$doneFlag] = array();
+            $this->idarchives[$doneFlag] = [];
         }
     }
 
@@ -795,11 +842,11 @@ class Archive implements ArchiveQuery
      */
     public static function getPluginForReport($report)
     {
-        // Core metrics are always processed in Core, for the requested date/period/segment
         if (in_array($report, Metrics::getVisitsMetricNames())) {
+            // Core metrics are always processed in Core, for the requested date/period/segment
             $report = 'VisitsSummary_CoreMetrics';
-        } // Goal_* metrics are processed by the Goals plugin (HACK)
-        elseif (strpos($report, 'Goal_') === 0) {
+        } elseif (strpos($report, 'Goal_') === 0) {
+            // Goal_* metrics are processed by the Goals plugin (HACK)
             $report = 'Goals_Metrics';
         } elseif (
             strrpos($report, '_returning') === strlen($report) - strlen('_returning') ||
@@ -809,7 +856,8 @@ class Archive implements ArchiveQuery
         }
 
         $plugin = substr($report, 0, strpos($report, '_'));
-        if (empty($plugin)
+        if (
+            empty($plugin)
             || !\Piwik\Plugin\Manager::getInstance()->isPluginActivated($plugin)
         ) {
             throw new \Exception("Error: The report '$report' was requested but it is not available at this stage."
@@ -835,7 +883,7 @@ class Archive implements ArchiveQuery
         $periodString = $period->getRangeString();
         $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();
 
-        $idSites = array($site->getId());
+        $idSites = [$site->getId()];
 
         // process for each plugin as well
         foreach ($archiveGroups as $plugin) {
@@ -843,10 +891,16 @@ class Archive implements ArchiveQuery
             $this->initializeArchiveIdCache($doneFlag);
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
-                $site->getId(), $period->getLabel(), $periodDateStr, $this->params->getSegment()->getOriginalString(),
-                $plugin, $requestedReport);
+                $site->getId(),
+                $period->getLabel(),
+                $periodDateStr,
+                $this->params->getSegment()->getOriginalString(),
+                $plugin,
+                $requestedReport
+            );
 
-            if (!empty($prepareResult)
+            if (
+                !empty($prepareResult)
                 && !empty($prepareResult['idarchives'])
             ) {
                 foreach ($prepareResult['idarchives'] as $idArchive) {
@@ -859,7 +913,7 @@ class Archive implements ArchiveQuery
     private function getIdArchivesByMonth($doneFlags)
     {
         // order idarchives by the table month they belong to
-        $idArchivesByMonth = array();
+        $idArchivesByMonth = [];
 
         foreach (array_keys($doneFlags) as $doneFlag) {
             if (empty($this->idarchives[$doneFlag])) {

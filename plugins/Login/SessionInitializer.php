@@ -13,8 +13,6 @@ use Piwik\Auth as AuthInterface;
 use Piwik\AuthResult;
 use Piwik\Config;
 use Piwik\Cookie;
-use Piwik\Db;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\ProxyHttp;

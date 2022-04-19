@@ -12,8 +12,6 @@ use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Common;
-use Piwik\Db;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
@@ -22,7 +20,6 @@ use Piwik\Plugins\CustomVariables\Tracker\CustomVariablesRequestProcessor;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
 
 class ProductViewCategory extends ActionDimension
 {

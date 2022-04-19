@@ -10,10 +10,8 @@
 namespace Piwik\Plugins\CustomDimensions\Dao;
 
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\CustomDimensions\Archiver;
 
 class AutoSuggest

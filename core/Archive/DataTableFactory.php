@@ -11,7 +11,6 @@ namespace Piwik\Archive;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 

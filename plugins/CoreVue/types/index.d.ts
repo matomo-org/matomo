@@ -54,6 +54,7 @@ declare global {
     setContent(html: string|HTMLElement|JQuery|JQLite): void;
     showLoading(loadingName: string, popoverSubject?: string, height?: number, dialogClass?: string): JQuery;
     onClose(fn: () => void);
+    createPopupAndLoadUrl(url: string, loadingName: string, dialogClass?: string, ajaxRequest?: QueryParameters): void;
   }
 
   let Piwik_Popover: PiwikPopoverGlobal;
@@ -76,16 +77,21 @@ declare global {
 
   interface PiwikHelperGlobal {
     escape(text: string): string;
-    redirect(params: any);
+    redirect(params?: any);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
-    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string);
-    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean);
+    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
+    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
+    lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
     compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
+    compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string): void;
+    compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
+    calculateEvolution(currentValue: number, pastValue?: number|null): number;
+    sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
   }
 
   let piwikHelper: PiwikHelperGlobal;
@@ -97,9 +103,11 @@ declare global {
     isWidgetizeRequestWithoutSession(): boolean;
     updateParamValue(newParamValue: string, urlStr: string): string;
     propagateNewPage(str?: string, showAjaxLoading?: boolean, strHash?: string, paramsToRemove?: string[], wholeNewUrl?: string);
+    propagateNewPopoverParameter(handleName: string, value?: string);
     buildReportingUrl(ajaxUrl: string): string;
     isLoginPage(): boolean;
     resetPopoverStack(): void;
+    addPopoverHandler(handlerName: string, callback: (string) => void): void;
 
     popoverHandlers: Record<string, (param: string) => void>;
   }
@@ -143,12 +151,14 @@ declare global {
     hasSuperUserAccess: boolean;
     language: string;
     cacheBuster: string;
+    numbers: Record<string, string>;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
-    getBaseDatePickerOptions(): {[key: string]: any};
+    getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
+    getBaseDatePickerOptions(defaultDate: Date|null): any;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
@@ -161,12 +171,20 @@ declare global {
   interface WidgetsHelper {
     availableWidgets?: unknown[];
     getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
+
+    firstGetAvailableWidgetsCall?: Promise<void>;
   }
 
   let widgetsHelper: WidgetsHelper;
 
   interface AnchorLinkFix {
     scrollToAnchorInUrl(): void;
+  }
+
+  interface NumberFormatter {
+    formatNumber(value?: number|string): string;
+    formatPercent(value?: number|string): string;
+    formatCurrency(value?: number|string, currency: string): string;
   }
 
   interface Window {
@@ -182,11 +200,13 @@ declare global {
     anchorLinkFix: AnchorLinkFix;
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
+    NumberFormatter: NumberFormatter;
 
     _pk_translate(translationStringId: string, values: string[]): string;
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;
+    showEmptyDashboardNotification(): void;
   }
 }
 

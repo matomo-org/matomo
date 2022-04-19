@@ -283,6 +283,25 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroAccessRight';
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroEraseRight';
         $translationKeys[] = 'PrivacyManager_GdprToolsOverviewHint';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizeIp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIpMaskLengtDescription';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichment';
+        $translationKeys[] = 'PrivacyManager_PseudonymizeUserId';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizeOrderId';
+        $translationKeys[] = 'PrivacyManager_ForceCookielessTracking';
+        $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescription';
+        $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescription2';
+        $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescriptionNotWritable';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIpInlineHelp';
+        $translationKeys[] = 'PrivacyManager_AnonymizeIpDescription';
+        $translationKeys[] = 'PrivacyManager_GeolocationAnonymizeIpNote';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote';
+        $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote';
+        $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote2';
+        $translationKeys[] = 'PrivacyManager_AnonymizeOrderIdNote';
+        $translationKeys[] = 'PrivacyManager_AnonymizeReferrerNote';
+        $translationKeys[] = 'PrivacyManager_AnonymizeReferrer';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Description';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -301,16 +320,12 @@ class PrivacyManager extends Plugin
     {
         $jsFiles[] = "plugins/PrivacyManager/angularjs/report-deletion.model.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/schedule-report-deletion/schedule-report-deletion.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-ip/anonymize-ip.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-logs/delete-old-logs.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.controller.js";
-        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -318,7 +333,7 @@ class PrivacyManager extends Plugin
         $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
         $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
-        $stylesheets[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/footerLinks.less";
     }
 

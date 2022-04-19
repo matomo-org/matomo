@@ -13,6 +13,7 @@ use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager;
 use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\Config;
+use Piwik\Filesystem;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -28,6 +29,8 @@ class AssetManagerTest extends IntegrationTestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
 
+    const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
+
     const ASSET_MANAGER_TEST_DIR = 'tests/PHPUnit/Unit/AssetManager/';
 
     const FIRST_CACHE_BUSTER_JS = 'first-cache-buster-js';
@@ -40,6 +43,11 @@ class AssetManagerTest extends IntegrationTestCase
     const NON_CORE_PLUGIN_NAME = 'MockNonCorePlugin';
     const CORE_THEME_PLUGIN_NAME = 'CoreThemePlugin';
     const NON_CORE_THEME_PLUGIN_NAME = 'NonCoreThemePlugin';
+    const CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockCorePluginOnlyUmd';
+    const NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockNonCorePluginOnlyUmd';
+
+    private $oldPluginDirsEnvVar;
+    private $oldPluginDirsGlobal;
 
     /**
      * @var AssetManager
@@ -65,6 +73,8 @@ class AssetManagerTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        $this->setUpPluginsDirectory();
+
         $this->setUpConfig();
 
         $this->activateMergedAssets();
@@ -82,6 +92,8 @@ class AssetManagerTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
+        $this->removePluginsDirectory();
+
         if ($this->assetManager !== null) {
             $this->assetManager->removeMergedAssets();
         }
@@ -94,6 +106,62 @@ class AssetManagerTest extends IntegrationTestCase
         return array(
             'Piwik\Plugin\Manager' => \DI\autowire('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
         );
+    }
+
+    private function setUpPluginsDirectory()
+    {
+        $this->oldPluginDirsEnvVar = getenv('MATOMO_PLUGIN_DIRS');
+        $this->oldPluginDirsGlobal = $GLOBALS['MATOMO_PLUGIN_DIRS'];
+
+        parent::setUpBeforeClass();
+
+        $pluginsWithUmds = [
+            self::CORE_PLUGIN_NAME,
+            self::NON_CORE_PLUGIN_NAME,
+            self::CORE_PLUGIN_WITH_ONLY_UMD_NAME,
+            self::NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME,
+        ];
+
+        // setup plugin test directories
+        Filesystem::unlinkRecursive(self::TEST_PLUGINS_DIR, true);
+        foreach ($pluginsWithUmds as $pluginName) {
+            $vueDir = self::TEST_PLUGINS_DIR . '/' . $pluginName . '/vue/dist';
+            $vueSrcDir = self::TEST_PLUGINS_DIR . '/' . $pluginName . '/vue/src';
+
+            Filesystem::mkdir($vueDir);
+            Filesystem::mkdir($vueSrcDir);
+
+            $umdDependencies = [
+                "dependsOn" => [],
+            ];
+            $umdDependenciesPath = $vueDir . '/umd.metadata.json';
+
+            file_put_contents($umdDependenciesPath, json_encode($umdDependencies));
+
+            $umdPath = $vueDir . '/' . $pluginName . '.umd.min.js';
+            $umdContent = "// begin $pluginName\n";
+            $umdContent .= "// end $pluginName\n";
+
+            file_put_contents($umdPath, $umdContent);
+        }
+
+        clearstatcache(true);
+
+        putenv("MATOMO_PLUGIN_DIRS=" . self::TEST_PLUGINS_DIR . ';'
+            . str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR));
+        unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
+        Manager::initPluginDirectories();
+    }
+
+    private function removePluginsDirectory()
+    {
+        Filesystem::unlinkRecursive(self::TEST_PLUGINS_DIR, true);
+
+        clearstatcache(true);
+
+        putenv("MATOMO_PLUGIN_DIRS={$this->oldPluginDirsEnvVar}");
+        $GLOBALS['MATOMO_PLUGIN_DIRS'] = $this->oldPluginDirsGlobal;
+        Manager::initPluginDirectories();
     }
 
     private function activateMergedAssets()
@@ -142,7 +210,9 @@ class AssetManagerTest extends IntegrationTestCase
                  $this->getNonCoreTheme()->getPlugin(),
                  $this->getCorePlugin(),
                  $this->getCorePluginWithoutUIAssets(),
-                 $this->getNonCorePlugin()
+                 $this->getNonCorePlugin(),
+                 $this->getCorePluginWithOnlyUmd(),
+                 $this->getNonCorePluginWithOnlyUmd(),
             )
         );
 
@@ -177,6 +247,16 @@ class AssetManagerTest extends IntegrationTestCase
         $corePlugin->setCssCustomization('/* customization via event */');
 
         return $corePlugin;
+    }
+
+    private function getCorePluginWithOnlyUmd()
+    {
+        return new PluginMock(self::CORE_PLUGIN_WITH_ONLY_UMD_NAME);
+    }
+
+    private function getNonCorePluginWithOnlyUmd()
+    {
+        return new PluginMock(self::NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME);
     }
 
     /**
@@ -277,6 +357,15 @@ class AssetManagerTest extends IntegrationTestCase
     private function triggerGetMergedNonCoreJavaScript()
     {
         $this->mergedAsset = $this->assetManager->getMergedNonCoreJavaScript();
+    }
+
+    private function triggerGetMergedChunkJavaScript()
+    {
+        $chunks = [];
+        for ($i = 0; $i < AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getDefaultChunkCount(); ++$i) {
+            $chunks[] = $this->assetManager->getMergedJavaScriptChunk($i);
+        }
+        return $chunks;
     }
 
     private function triggerGetMergedStylesheet()
@@ -413,7 +502,7 @@ class AssetManagerTest extends IntegrationTestCase
     }
 
     /**
-     * @return UIAsset[]
+     * @return array
      */
     private function generateAllMergedAssets()
     {
@@ -430,7 +519,13 @@ class AssetManagerTest extends IntegrationTestCase
         $this->assertTrue($coreJsAsset->exists());
         $this->assertTrue($nonCoreJsAsset->exists());
 
-        return array($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset);
+        $chunks = $this->triggerGetMergedChunkJavaScript();
+        $this->assertCount(3, $chunks);
+        $this->assertTrue($chunks[0]->exists());
+        $this->assertTrue($chunks[1]->exists());
+        $this->assertTrue($chunks[2]->exists());
+
+        return array($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks);
     }
 
     /**
@@ -611,7 +706,11 @@ class AssetManagerTest extends IntegrationTestCase
             '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleObject.js"></script>' . "\n" .
             '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleArray.js"></script>' . "\n" .
             '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleComments.js"></script>' . "\n" .
-            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleAlert.js"></script>' . "\n";
+            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleAlert.js"></script>' . "\n" .
+            '<script type="text/javascript" src="tests/PHPUnit/Integration/plugins/MockCorePlugin/vue/dist/MockCorePlugin.umd.min.js"></script>' . "\n" .
+            '<script type="text/javascript" src="tests/PHPUnit/Integration/plugins/MockNonCorePlugin/vue/dist/MockNonCorePlugin.umd.min.js"></script>' . "\n" .
+            '<script type="text/javascript" src="tests/PHPUnit/Integration/plugins/MockCorePluginOnlyUmd/vue/dist/MockCorePluginOnlyUmd.umd.min.js"></script>' . "\n" .
+            '<script type="text/javascript" src="tests/PHPUnit/Integration/plugins/MockNonCorePluginOnlyUmd/vue/dist/MockNonCorePluginOnlyUmd.umd.min.js"></script>' . "\n";
 
         $this->assertEquals($expectedJsInclusionDirective, $this->assetManager->getJsInclusionDirective());
     }
@@ -624,7 +723,10 @@ class AssetManagerTest extends IntegrationTestCase
         $expectedJsInclusionDirective =
             $this->getJsTranslationScript() .
             '<script type="text/javascript" src="index.php?module=Proxy&action=getCoreJs"></script>' . "\n" .
-            '<script type="text/javascript" src="index.php?module=Proxy&action=getNonCoreJs"></script>' . "\n";
+            '<script type="text/javascript" src="index.php?module=Proxy&action=getNonCoreJs"></script>' . "\n" .
+            '<script type="text/javascript" src="index.php?module=Proxy&action=getUmdJs&chunk=0" defer></script>' . "\n" .
+            '<script type="text/javascript" src="index.php?module=Proxy&action=getUmdJs&chunk=1" defer></script>' . "\n" .
+            '<script type="text/javascript" src="index.php?module=Proxy&action=getUmdJs&chunk=2" defer></script>' . "\n";
 
         $this->assertEquals($expectedJsInclusionDirective, $this->assetManager->getJsInclusionDirective());
     }
@@ -656,13 +758,18 @@ class AssetManagerTest extends IntegrationTestCase
      */
     public function test_removeMergedAssets()
     {
-        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset) = $this->generateAllMergedAssets();
+        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
         $this->assetManager->removeMergedAssets();
 
         $this->assertFalse($stylesheetAsset->exists());
         $this->assertFalse($coreJsAsset->exists());
         $this->assertFalse($nonCoreJsAsset->exists());
+
+        $this->assertCount(3, $chunks);
+        $this->assertFalse($chunks[0]->exists());
+        $this->assertFalse($chunks[1]->exists());
+        $this->assertFalse($chunks[2]->exists());
     }
 
     /**
@@ -670,13 +777,18 @@ class AssetManagerTest extends IntegrationTestCase
      */
     public function test_removeMergedAssets_PluginNameSpecified_PluginWithoutAssets()
     {
-        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset) = $this->generateAllMergedAssets();
+        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
         $this->assetManager->removeMergedAssets(self::CORE_PLUGIN_WITHOUT_ASSETS_NAME);
 
         $this->assertFalse($stylesheetAsset->exists());
         $this->assertTrue($coreJsAsset->exists());
         $this->assertTrue($nonCoreJsAsset->exists());
+
+        $this->assertCount(3, $chunks);
+        $this->assertTrue($chunks[0]->exists());
+        $this->assertTrue($chunks[1]->exists());
+        $this->assertTrue($chunks[2]->exists());
     }
 
     /**
@@ -684,13 +796,18 @@ class AssetManagerTest extends IntegrationTestCase
      */
     public function test_removeMergedAssets_PluginNameSpecified_CorePlugin()
     {
-        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset) = $this->generateAllMergedAssets();
+        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
         $this->assetManager->removeMergedAssets(self::CORE_PLUGIN_NAME);
 
         $this->assertFalse($stylesheetAsset->exists());
         $this->assertFalse($coreJsAsset->exists());
         $this->assertTrue($nonCoreJsAsset->exists());
+
+        $this->assertCount(3, $chunks);
+        $this->assertFalse($chunks[0]->exists());
+        $this->assertTrue($chunks[1]->exists());
+        $this->assertTrue($chunks[2]->exists());
     }
 
     /**
@@ -698,12 +815,17 @@ class AssetManagerTest extends IntegrationTestCase
      */
     public function test_removeMergedAssets_PluginNameSpecified_NonCoreThemeWithAssets()
     {
-        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset) = $this->generateAllMergedAssets();
+        list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
         $this->assetManager->removeMergedAssets(self::NON_CORE_THEME_PLUGIN_NAME);
 
         $this->assertFalse($stylesheetAsset->exists());
         $this->assertTrue($coreJsAsset->exists());
         $this->assertFalse($nonCoreJsAsset->exists());
+
+        $this->assertCount(3, $chunks);
+        $this->assertTrue($chunks[0]->exists());
+        $this->assertTrue($chunks[1]->exists());
+        $this->assertTrue($chunks[2]->exists());
     }
 }

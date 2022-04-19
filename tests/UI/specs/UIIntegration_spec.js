@@ -74,6 +74,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it("should load dashboard2 correctly", async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
+            await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
 
@@ -83,6 +84,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it("should load dashboard3 correctly", async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
+            await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
@@ -810,14 +812,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + generalParams + "&module=MobileMessaging&action=index");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
+            const pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging');
-        });
+        })
 
         it('should switch the SMS provider correctly', async function () {
             await page.evaluate(function () {
-                $('[name=smsProviders] ul li:nth-child(2)').click();
+              $('[name=smsProviders]').val('string:Clockwork').trigger('change');
             });
+            await page.waitForTimeout(200);
+            await page.waitForNetworkIdle();
+            await page.waitForTimeout(200);
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging_provider');

@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\Fixture;
 class APITest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Api
+     * @var API
      */
     private $api;
 

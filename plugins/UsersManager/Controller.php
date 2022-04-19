@@ -23,16 +23,12 @@ use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\Plugins\TagManager\Validators\TriggerIds;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Translation\Translator;
 use Piwik\Url;
-use Piwik\Validators\BaseValidator;
-use Piwik\Validators\CharacterLength;
-use Piwik\Validators\NotEmpty;
 use Piwik\View;
 use Piwik\Session\SessionInitializer;
 use Piwik\Plugins\CoreAdminHome\Emails\TokenAuthCreatedEmail;
@@ -66,11 +62,6 @@ class Controller extends ControllerAdmin
         $this->userModel = $userModel;
 
         parent::__construct();
-    }
-
-    static function orderByName($a, $b)
-    {
-        return strcmp($a['name'], $b['name']);
     }
 
     /**
@@ -110,7 +101,7 @@ class Controller extends ControllerAdmin
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'disabled' => true],
         ];
         $view->filterAccessLevels = [
-            ['key' => '', 'value' => Piwik::translate('UsersManager_ShowAll')],
+            ['key' => '', 'value' => ''], // show all
             ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
             ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView')],
             ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],

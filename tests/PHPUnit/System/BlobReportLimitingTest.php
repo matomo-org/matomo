@@ -7,13 +7,9 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Cache;
 use Piwik\Config;
-use Piwik\Date;
 use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 

@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -17,7 +16,6 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
@@ -80,6 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
         $this->setGoalOptions($view);
+        $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
     }
 
@@ -125,6 +124,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setGoalOptions($view);
         $view->onlyShowAddNewGoal = true;
+        $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
     }
 
@@ -134,7 +134,33 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
         $this->setGoalOptions($view);
+        $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
+    }
+
+    private function execAndSetResultsForTwigEvents(View $view)
+    {
+        if (empty($view->onlyShowAddGoal)) {
+            $beforeGoalListActionsBody = [];
+            foreach ($view->goals as $goal) {
+                $str = '';
+                Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
+
+                $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+            }
+            $view->beforeGoalListActionsBodyEventResult = $beforeGoalListActionsBody;
+
+            $str = '';
+            Piwik::postEvent('Template.beforeGoalListActionsHead', [&$str]);
+            $view->beforeGoalListActionsHead = $str;
+        }
+
+        if (!empty($view->userCanEditGoals)) {
+            $str = '';
+            Piwik::postEvent('Template.endGoalEditTable', [&$str]);
+
+            $view->endEditTable = $str;
+        }
     }
 
     public function hasConversions()
@@ -376,6 +402,7 @@ class Controller extends \Piwik\Plugin\Controller
             if (isset($goal['pattern'])) {
                 $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
             }
+            $goal['revenue_pretty'] = \Piwik\piwik_format_money($goal['revenue'], $this->idSite);
         }
 
         $view->goals = $goals;

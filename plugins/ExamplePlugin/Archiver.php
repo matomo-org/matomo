@@ -9,11 +9,9 @@
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Sequence;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class Archiver

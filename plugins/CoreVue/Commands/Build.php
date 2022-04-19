@@ -8,11 +8,10 @@
 
 namespace Piwik\Plugins\CoreVue\Commands;
 
-use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
+use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\MobileMessaging\SMSProvider\Development;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,13 +62,34 @@ class Build extends ConsoleCommand
             }
         }
 
-        $plugins = JScriptUIAssetFetcher::orderPluginsByPluginDependencies($plugins);
+        $plugins = $this->ensureUntranspiledPluginDependenciesArePresent($plugins);
+        $plugins = PluginUmdAssetFetcher::orderPluginsByPluginDependencies($plugins);
 
         // remove webpack cache since it can result in strange builds if present
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);
 
         $failed = $this->build($output, $plugins, $printBuildCommand, $watch);
         return $failed;
+    }
+
+    private function ensureUntranspiledPluginDependenciesArePresent($plugins)
+    {
+        $pluginDependenciesToAdd = [];
+        foreach ($plugins as $plugin) {
+            $dependencies = PluginUmdAssetFetcher::getPluginDependencies($plugin);
+            foreach ($dependencies as $dependency) {
+                if (!$this->isTypeOutputPresent($dependency)) {
+                    $pluginDependenciesToAdd[] = $dependency;
+                }
+            }
+        }
+        return array_unique(array_merge($plugins, $pluginDependenciesToAdd));
+    }
+
+    private function isTypeOutputPresent($dependency)
+    {
+        $typeDirectory = PIWIK_INCLUDE_PATH . '/@types/' . $dependency . '/index.d.ts';
+        return is_file($typeDirectory);
     }
 
     private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false)
@@ -90,7 +110,8 @@ class Build extends ConsoleCommand
 
     private function watch($plugins, $printBuildCommand, OutputInterface $output)
     {
-        $commandSingle = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s " . self::getVueCliServiceBin() . ' build --mode=development --target lib --name '
+        $commandSingle = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s "
+            . 'node ' . self::getVueCliServiceProxyBin() . ' build --mode=development --target lib --name '
             . "%1\$s --filename=%1\$s.development --no-clean ./plugins/%1\$s/vue/src/index.ts --dest ./plugins/%1\$s/vue/dist --watch &";
 
         $command = '';
@@ -102,12 +123,14 @@ class Build extends ConsoleCommand
             $output->writeln("<comment>$command</comment>");
             return;
         }
+
         passthru($command);
     }
 
     private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
     {
-        $command = "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin " . self::getVueCliServiceBin() . ' build --target lib --name ' . $plugin
+        $command = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin "
+            . 'node ' . self::getVueCliServiceProxyBin() . ' build --target lib --name ' . $plugin
             . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
 
         if ($printBuildCommand) {
@@ -115,9 +138,11 @@ class Build extends ConsoleCommand
             return 0;
         }
 
+        $this->clearPluginTypes($plugin);
+
         $output->writeln("<comment>Building $plugin...</comment>");
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-            passthru($command, $returnCode);
+            passthru($command);
         } else {
             exec($command, $cmdOutput, $returnCode);
             if ($returnCode != 0
@@ -167,7 +192,7 @@ class Build extends ConsoleCommand
 
             $vueIndexFile = $vueDir . '/src/index.ts';
             if (!is_file($vueIndexFile)) {
-                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no webpack config, cannot build it.", ['plugin' => $plugin]);
+                $logger->warning("NOTE: Plugin {plugin} has a vue folder but no index.ts, cannot build it.", ['plugin' => $plugin]);
                 continue;
             }
 
@@ -182,6 +207,11 @@ class Build extends ConsoleCommand
         return PIWIK_INCLUDE_PATH . "/node_modules/@vue/cli-service/bin/vue-cli-service.js";
     }
 
+    public static function getVueCliServiceProxyBin()
+    {
+        return PIWIK_INCLUDE_PATH . "/plugins/CoreVue/scripts/cli-service-proxy.js";
+    }
+
     public static function checkVueCliServiceAvailable()
     {
         $vueCliBin = self::getVueCliServiceBin();
@@ -193,6 +223,12 @@ class Build extends ConsoleCommand
     private function clearWebpackCache()
     {
         $path = PIWIK_INCLUDE_PATH . '/node_modules/.cache';
+        Filesystem::unlinkRecursive($path, true);
+    }
+
+    private function clearPluginTypes($plugin)
+    {
+        $path = PIWIK_INCLUDE_PATH . '/@types/' . $plugin;
         Filesystem::unlinkRecursive($path, true);
     }
 

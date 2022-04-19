@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Widget\WidgetConfig;
-use Piwik\SettingsPiwik;
 
 class GetCampaignUrlBuilder extends \Piwik\Widget\Widget
 {

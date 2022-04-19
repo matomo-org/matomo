@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker;
 
-use Piwik\Tracker;
 
 class Requests extends \Piwik\Plugins\BulkTracking\Tracker\Requests
 {

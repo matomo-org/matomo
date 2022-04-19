@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
-use Exception;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 use DeviceDetector\Parser\Device\AbstractDeviceParser as DeviceParser;

@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
- (function ($, require) {
+(function ($, require) {
 
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
@@ -127,6 +127,8 @@
                 .each(function () {
                     if (self.param.filter_pattern_recursive) {
                         $(this).addClass('expanded');
+                        // remove tooltip "Click this row to expand or contract the subtable"
+                        $(this).attr('title', '');
                     }
                 });
 

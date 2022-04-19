@@ -130,6 +130,8 @@ describe("Dashboard", function () {
     it("should add a widget when a widget is selected in the dashboard manager", async function() {
         await page.click('.dashboard-manager .title');
 
+        await page.waitForSelector('.widgetpreview-categorylist>li');
+
         var live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
         await live.hover();
         await live.click();
@@ -233,6 +235,8 @@ describe("Dashboard", function () {
         await button.click();
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
+        await page.waitForSelector('.widget');
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('reset');
     });
@@ -245,6 +249,8 @@ describe("Dashboard", function () {
         await button.click();
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(200);
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');
@@ -288,11 +294,11 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
         await page.mouse.move(-10, -10);
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });
-
     it("should load segmented dashboard", async function() {
         await removeAllExtraDashboards();
         await page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"));

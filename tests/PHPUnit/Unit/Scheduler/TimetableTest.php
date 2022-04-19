@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Unit\Scheduler;
 
 use Piwik\Date;
-use Piwik\Plugin;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
@@ -79,6 +78,21 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         $timetable->rescheduleTaskAndRunTomorrow($task);
 
         $this->assertEquals(Date::factory('tomorrow')->getTimeStamp(), $timetable->getTimetable()[$task->getName()]);
+    }
+
+    public function testRescheduleTaskAndRunInOneHour()
+    {
+        self::stubPiwikOption(serialize([]));
+
+        $timetable = new Timetable();
+        $task = $this->getMockBuilder(Task::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $task->method('getName')->willReturn('taskName');
+
+        $timetable->rescheduleTaskAndRunInOneHour($task);
+
+        $this->assertEquals(Date::factory('now')->addHour(1)->getTimeStamp(), $timetable->getTimetable()[$task->getName()]);
     }
 
     /**

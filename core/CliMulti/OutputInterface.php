@@ -7,9 +7,6 @@
  */
 namespace Piwik\CliMulti;
 
-use Piwik\CliMulti;
-use Piwik\Common;
-use Piwik\Filesystem;
 
 interface OutputInterface
 {

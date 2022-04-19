@@ -12,13 +12,10 @@ use Exception;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
-use Piwik\Auth\Password;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
-use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\SettingsPiwik;
 
 /**
@@ -36,7 +33,6 @@ class UsersManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
@@ -122,34 +118,17 @@ class UsersManager extends \Piwik\Plugin
     }
 
     /**
-     * Return list of plug-in specific JavaScript files to be imported by the asset manager
-     *
-     * @see \Piwik\AssetManager
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/UsersManager/angularjs/users-manager/users-manager.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/permissions-metadata/permissions-metadata.service.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.js";
-    }
-
-    /**
      * Get CSS files
      */
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/UsersManager/stylesheets/usersManager.less";
 
-        $stylesheets[] = "plugins/UsersManager/angularjs/users-manager/users-manager.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UsersManager/UsersManager.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UserEditForm/UserEditForm.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.less";
     }
 
     /**
@@ -336,5 +315,15 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
         $translationKeys[] = 'UsersManager_FirstWebsitePermission';
+        $translationKeys[] = 'UsersManager_YourUsernameCannotBeChanged';
+        $translationKeys[] = 'General_Language';
+        $translationKeys[] = 'LanguagesManager_AboutPiwikTranslations';
+        $translationKeys[] = 'General_TimeFormat';
+        $translationKeys[] = 'UsersManager_ReportToLoadByDefault';
+        $translationKeys[] = 'UsersManager_ReportDateToLoadByDefault';
+        $translationKeys[] = 'UsersManager_NewsletterSignupTitle';
+        $translationKeys[] = 'UsersManager_NewsletterSignupMessage';
+        $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
+        $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
     }
 }

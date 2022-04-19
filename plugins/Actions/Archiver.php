@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\Config;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;

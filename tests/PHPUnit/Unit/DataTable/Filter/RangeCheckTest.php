@@ -11,7 +11,6 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable\Filter\RangeCheck;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
 /**
  * @group DataTableTest

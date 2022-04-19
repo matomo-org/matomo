@@ -11,9 +11,6 @@ namespace Piwik\Plugins\MultiSites;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Period;
-use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -70,12 +67,15 @@ class Controller extends \Piwik\Plugin\Controller
         return json_encode($response);
     }
 
+    /**
+     * @throws \Piwik\NoAccessException
+     */
     public function getSitesInfo($isWidgetized = false)
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $date   = Common::getRequestVar('date', 'today');
-        $period = Common::getRequestVar('period', 'day');
+        $date = Piwik::getDate('today');
+        $period = Piwik::getPeriod('day');
 
         $view = new View("@MultiSites/getSitesInfo");
 
@@ -93,8 +93,8 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];
         }
-
-        $params = $this->getGraphParamsModified();
+        $paramsToSet = ['period' => $period, 'date' => $date];
+        $params = $this->getGraphParamsModified($paramsToSet);
         $view->dateSparkline = $period == 'range' ? $date : $params['date'];
 
         $this->setGeneralVariablesView($view);

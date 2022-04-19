@@ -40,7 +40,6 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Session\SaveHandler\DbTable;
@@ -48,7 +47,6 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Singleton;
 use Piwik\Site;
-use Piwik\Tests;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\File as MockFileMethods;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -78,7 +76,6 @@ use ReflectionClass;
 class Fixture extends \PHPUnit\Framework\Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '7.2';
     const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
@@ -911,7 +908,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            strpos( phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
             strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
     }
 

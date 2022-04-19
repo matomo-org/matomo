@@ -11,7 +11,6 @@ use Piwik\Archive;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;

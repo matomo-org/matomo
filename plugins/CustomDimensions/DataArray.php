@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\CustomDimensions;
 
-use Piwik\Metrics;
 
 /**
  * The DataArray is a data structure used to aggregate datasets,

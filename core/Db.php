@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
 
 /**
@@ -40,6 +39,8 @@ class Db
 
     private static $logQueries = true;
 
+    // this is used for indicate TransactionLevel Cache
+    public $supportsUncommitted;
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *

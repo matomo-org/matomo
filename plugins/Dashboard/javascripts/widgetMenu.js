@@ -8,6 +8,11 @@
 function widgetsHelper() {
 }
 
+// a Promise for the first call to getAvailableWidgets. this should not be aborted,
+// so any code that aborts all ajax requests should make sure this promise is resolved
+// first.
+widgetsHelper.firstGetAvailableWidgetsCall = null;
+
 /**
  * Returns the available widgets fetched via AJAX (if not already done)
  *
@@ -61,41 +66,50 @@ widgetsHelper.getAvailableWidgets = function (callback) {
         return moved;
     }
 
-    if (!widgetsHelper.availableWidgets) {
+    var promise = new Promise(function (resolve, reject) {
+      if (!widgetsHelper.availableWidgets) {
         var ajaxRequest = new ajaxHelper();
         ajaxRequest._mixinDefaultGetParams = function (params) {
-            return params;
+          return params;
         };
         ajaxRequest.addParams({
-            module: 'API',
-            method: 'API.getWidgetMetadata',
-            filter_limit: '-1',
-            format: 'JSON',
-            deep: '1',
-            idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite')
+          module: 'API',
+          method: 'API.getWidgetMetadata',
+          filter_limit: '-1',
+          format: 'JSON',
+          deep: '1',
+          idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite')
         }, 'get');
         ajaxRequest.setCallback(
-            function (data) {
-                widgetsHelper.availableWidgets = mergeCategoriesAndSubCategories(data);
+          function (data) {
+            widgetsHelper.availableWidgets = mergeCategoriesAndSubCategories(data);
 
-                if (callback) {
-                    callback(widgetsHelper.availableWidgets);
-                }
-            }
+            resolve();
+          }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-            if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
-                return;
-            }
-            $('#loadingError').show();
+          if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+            return;
+          }
+          $('#loadingError').show();
+          reject();
         });
         ajaxRequest.send();
         return;
+      }
+
+      resolve();
+    });
+
+    if (!widgetsHelper.firstGetAvailableWidgetsCall) {
+      widgetsHelper.firstGetAvailableWidgetsCall = promise;
     }
 
-    if (callback) {
+    promise.then(function () {
+      if (callback) {
         callback(widgetsHelper.availableWidgets);
-    }
+      }
+    });
 };
 
 /**

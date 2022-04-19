@@ -8,8 +8,6 @@
 
 namespace Piwik\Tests\Unit\Translation\Loader;
 
-use Piwik\Translation\Loader\JsonFileLoader;
-use Piwik\Translation\Translator;
 
 /**
  * @group Translation

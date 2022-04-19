@@ -12,7 +12,6 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ArchivedMetric;
-use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Segment;
 use Exception;
 use Piwik\CacheId;
@@ -456,10 +455,7 @@ abstract class Dimension
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
             case Dimension::TYPE_DURATION_MS:
-                $val = number_format($value / 1000, 2);
-                if ($val > 60) {
-                    $val = round($val);
-                }
+                $val = round(($value / 1000), ($value / 1000) > 60 ? 0 : 2);
                 return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);

@@ -1,0 +1,296 @@
+
+.smallTitle {
+  font-size: 15px;
+}
+
+.widget {
+  #multisites {
+    padding: 15px;
+  }
+}
+
+#mt {
+  table.dataTable td.label img {
+    margin-top: -8px;
+  }
+}
+
+#multisites {
+
+  > .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .notification-error {
+    margin-top: 15px;
+    a {
+      text-decoration: underline !important;
+    }
+  }
+
+  .add_new_site {
+    border: 0 !important;
+    font-size: 13px;
+    text-align: left;
+    padding-left: 27px;
+
+    a {
+      color: @theme-color-text;
+      &:hover {
+        text-decoration: underline !important;
+      }
+    }
+  }
+
+  .clean {
+    border: 0 !important;
+    text-align: right;
+    padding-right:10px;
+    padding-top: 19px;
+    padding-bottom: 5px;
+  }
+
+  @media print{
+    .add_new_site{
+      display: none;
+    }
+
+    .row .col.s6{
+      width: 100%;
+    }
+
+    .row .col.s3{
+      display: none;
+    }
+
+  }
+
+  .site_search {
+    padding: 0;
+    text-align: center;
+    border: 0 !important;
+    @media print{
+      display: none;
+    }
+  }
+
+  .multisites-evolution,
+  .multisites-column {
+    text-align: right;
+  }
+
+  .multisites-evolution {
+    width:170px;
+  }
+
+  td, tr, .sparkline {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  td.empty-row {
+    border-bottom: none !important;
+  }
+
+  .paging {
+    padding: 5px;
+    border-bottom: 0 !important;
+
+    .row {
+      margin-top: 16px;
+    }
+
+    .previous {
+      visibility: visible;
+    }
+    .next {
+      visibility: visible;
+    }
+  }
+
+  th:first-child {
+    text-align:left;
+    padding-left: 32px;
+  }
+
+  th {
+    cursor: pointer;
+    text-align: right;
+    padding-right: 0 !important;
+
+    &#evolution {
+      text-align: center;
+    }
+
+    &.columnSorted {
+      font-weight: normal !important;
+    }
+  }
+
+  .site_search input {
+    margin-right: 0;
+    margin-left: 25px;
+    padding-right: 25px;
+    width: 250px;
+    height: 3rem;
+    padding-left: 5px;
+  }
+
+  .site_search {
+    label {
+      position: static;
+    }
+    .row,.input-field {
+      margin-bottom: 0;
+    }
+  }
+
+  .search_ico {
+    position: relative;
+    left: -30px;
+    top: 1px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .reset {
+    position: relative;
+    left: -25px;
+    cursor: pointer;
+    margin-right: 0;
+  }
+
+  tr.group {
+    font-weight: bold;
+    height: 30px;
+  }
+  tr.groupedWebsite .label {
+    padding-left: 50px;
+  }
+  td.multisites-label {
+    text-align: left;
+    width: 250px;
+    max-width: 250px;
+    padding-left: 32px;
+
+    a {
+      width: auto;
+      float: left;
+      padding-right: 0.5em;
+    }
+  }
+  td.multisites-label a:hover {
+    text-decoration: underline;
+  }
+
+  td.multisites-column,
+  th.multisites-column {
+    width: 70px;
+    white-space: nowrap;
+  }
+
+  td.multisites-column-evolution,
+  th.multisites-column-evolution {
+    width: 70px;
+  }
+
+  th#evolution {
+    width:350px;
+  }
+
+  th#visits {
+    width: 100px;
+  }
+
+  th#pageviews {
+    width: 110px;
+  }
+
+  th#revenue {
+    width: 110px;
+  }
+
+  .evolution {
+    cursor:pointer;
+  }
+
+  .allWebsitesLoading {
+    padding:20px
+  }
+
+  .heading {
+    display: inline;
+    margin-top: 4px;
+  }
+
+  #evolution_selector {
+    height: 28px;
+    margin: -9px 0 0 5px;
+    width: 80px;
+    display: inline-block;
+  }
+
+  .label .arrow {
+    margin-left: 2px;
+  }
+
+  .multisites_asc,
+  .multisites_desc {
+    float: none;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+    margin-left: 6px;
+    margin-top: -1px;
+  }
+
+  #evolution {
+    .multisites_asc,
+    .multisites_desc {
+      margin-right: 6px;
+      margin-left: 0;
+    }
+    .evolution {
+      vertical-align: top;
+    }
+  }
+
+  .multisites_asc {
+    margin-top: -7px;
+    vertical-align: top;
+  }
+
+  .multisites_desc:after {
+    content: " \25BC";
+    font-size: 1px;
+    color: @theme-color-brand;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-top: 5px solid @theme-color-brand;
+  }
+  .multisites_asc:after {
+    content: " \25BC";
+    font-size: 1px;
+    color: @theme-color-brand;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid @theme-color-brand;
+  }
+
+  .multisites_icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  div.sparkline {
+    float:none;
+  }
+
+  tfoot td {
+    border-bottom: 0;
+  }
+
+  .dataTablePages {
+    margin: 10px 13.5px;
+  }
+}

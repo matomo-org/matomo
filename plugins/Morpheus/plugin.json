@@ -1,6 +1,6 @@
 {
     "name": "Morpheus",
-    "description": "Morpheus is the default theme of Matomo 3 designed to help you focus on your analytics. In Greek mythology, Morpheus is the God of dreams. In the Matrix movie, Morpheus is the leader of the rebel forces who fight to awaken humans from a dreamlike reality called The Matrix. ",
+    "description": "Morpheus is the default theme of Matomo designed to help you focus on your analytics. In Greek mythology, Morpheus is the God of dreams. In the Matrix movie, Morpheus is the leader of the rebel forces who fight to awaken humans from a dreamlike reality called The Matrix. ",
     "theme": true,
     "stylesheet": "stylesheets/main.less"
 }

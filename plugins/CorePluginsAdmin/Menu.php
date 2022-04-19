@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Plugins;

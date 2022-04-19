@@ -75,7 +75,7 @@
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
-    addListener, enableLinkTracking, disableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
+    addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, enabled, sendRequests, queueRequest, canQueue, pushMultiple, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, getJavascriptErrors, unsetPageIsUnloading,
@@ -3095,7 +3095,7 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function deleteCookie(cookieName, path, domain) {
-                setCookie(cookieName, '', -86400, path, domain);
+                setCookie(cookieName, '', -129600000, path, domain);
             }
 
             /*
@@ -4896,7 +4896,6 @@ if (typeof window.Matomo !== 'object') {
              * initialize tracker
              */
             updateDomainHash();
-            setVisitorIdCookie();
 
             /*<DEBUG>*/
             /*
@@ -5000,23 +4999,27 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Get visitor ID (from first party cookie)
-             *
-             * @return string Visitor ID in hexits (or empty string, if not yet known)
-             */
-            this.getVisitorId = function () {
-                return getValuesFromVisitorIdCookie().uuid;
-            };
-
-            /**
              * Get the visitor information (from first party cookie)
              *
              * @return array
              */
             this.getVisitorInfo = function () {
+                if (!getCookie(getCookieName('id'))) {
+                    setVisitorIdCookie();
+                }
+
                 // Note: in a new method, we could return also return getValuesFromVisitorIdCookie()
                 //       which returns named parameters rather than returning integer indexed array
                 return loadVisitorIdCookie();
+            };
+
+            /**
+             * Get visitor ID (from first party cookie)
+             *
+             * @return string Visitor ID in hexits (or empty string, if not yet known)
+             */
+            this.getVisitorId = function () {
+                return this.getVisitorInfo()[1];
             };
 
             /**
@@ -6405,6 +6408,10 @@ if (typeof window.Matomo !== 'object') {
                 configBrowserFeatureDetection = false;
             };
 
+            this.enableBrowserFeatureDetection = function () {
+                configBrowserFeatureDetection = true;
+            };
+
             /**
              * Scans the entire DOM for all content blocks and tracks all impressions once the DOM ready event has
              * been triggered.
@@ -7067,6 +7074,15 @@ if (typeof window.Matomo !== 'object') {
             });
 
             Matomo.trigger('TrackerSetup', [this]);
+
+            Matomo.addPlugin('TrackerVisitorIdCookie' + uniqueTrackerId, {
+                // if no tracking request was sent we refresh the visitor id cookie on page unload
+                unload: function () {
+                    if (!hasSentTrackingRequestYet) {
+                        setVisitorIdCookie();
+                    }
+                }
+            });
         }
 
         function TrackerProxy() {
@@ -7119,7 +7135,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

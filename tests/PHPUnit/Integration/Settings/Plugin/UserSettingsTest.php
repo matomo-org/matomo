@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
-use Piwik\Db;
 use Piwik\Settings\Plugin\UserSetting;
 use Piwik\Settings\Plugin\UserSettings;
 use Piwik\Tests\Framework\Mock\Settings\FakeUserSettings;

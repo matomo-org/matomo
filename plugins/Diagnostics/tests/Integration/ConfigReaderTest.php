@@ -13,7 +13,6 @@ use Matomo\Ini\IniReader;
 use Piwik\Plugins\Diagnostics\ConfigReader;
 use Piwik\Plugins\ExampleSettingsPlugin\SystemSettings;
 use Piwik\Settings\FieldConfig;
-use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

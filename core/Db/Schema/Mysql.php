@@ -191,7 +191,7 @@ class Mysql implements SchemaInterface
                                 PRIMARY KEY(idvisit),
                                 INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
                                 INDEX index_idsite_datetime (idsite, visit_last_action_time),
-                                INDEX index_idsite_idvisitor (idsite, idvisitor)
+                                INDEX index_idsite_idvisitor (idsite, idvisitor, visit_last_action_time DESC)
                               ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
 
@@ -362,14 +362,14 @@ class Mysql implements SchemaInterface
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (
                                       `idchange` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
                                       `created_time` DATETIME NOT NULL,
-                                      `plugin_name` VARCHAR(255) NOT NULL,
+                                      `plugin_name` VARCHAR(60) NOT NULL,
                                       `version` VARCHAR(20) NOT NULL, 
                                       `title` VARCHAR(255) NOT NULL,                                      
                                       `description` TEXT NULL,
                                       `link_name` VARCHAR(255) NULL,
                                       `link` VARCHAR(255) NULL,       
                                       PRIMARY KEY(`idchange`),
-                                      UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`)                            
+                                      UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`(100))                            
                                   ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
         );

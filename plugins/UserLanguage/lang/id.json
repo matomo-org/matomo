@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Bahasa Peramban",
         "LanguageCode": "Kode Bahasa",
-        "PluginDescription": "Laporan bahasa yang digunakan oleh peramban pengguna"
+        "PluginDescription": "Laporan bahasa yang digunakan oleh peramban web pengunjung.",
+        "getLanguageCodeDocumentation": "Laporan ini menunjukkan kode bahasa yang diatur oleh peramban milik pengunjung. (misalnya \"Jerman - Austria (de-at)\")",
+        "getLanguageDocumentation": "Laporan ini menunjukkan bahasa mana yang digunakan oleh peramban web milik pengunjung. (misalnya \"Bahasa Inggris\")"
     }
 }

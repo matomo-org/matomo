@@ -12,13 +12,15 @@ import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 
-interface AjaxOptions {
+export interface AjaxOptions {
   withTokenInUrl?: boolean;
   postParams?: QueryParameters;
   headers?: Record<string, string>;
   format?: string;
   createErrorNotification?: boolean;
   abortController?: AbortController;
+  returnResponseObject?: boolean;
+  errorElement?: HTMLElement|JQuery|JQLite|string;
 }
 
 interface ErrorResponse {
@@ -173,21 +175,38 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
+  resolveWithHelper = false;
+
   // helper method entry point
   static fetch<R = any>( // eslint-disable-line
-    params: QueryParameters,
+    params: QueryParameters|QueryParameters[],
     options: AjaxOptions = {},
   ): Promise<R> {
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
     }
+    if (options.errorElement) {
+      helper.setErrorElement(options.errorElement);
+    }
     helper.setFormat(options.format || 'json');
-    helper.addParams({
-      module: 'API',
-      format: options.format || 'json',
-      ...params,
-    }, 'get');
+    if (Array.isArray(params)) {
+      helper.setBulkRequests(...(params as QueryParameters[]));
+    } else {
+      helper.addParams({
+        module: 'API',
+        format: options.format || 'json',
+        ...params,
+        // ajax helper does not encode the segment parameter assuming it is already encoded. this is
+        // probably for pre-angularjs code, so we don't want to do this now, but just treat segment
+        // as a normal query parameter input (so it will have double encoded values in input params
+        // object, then naturally triple encoded in the URL after a $.param call), however we need
+        // to support any existing uses of the old code, so instead we do a manual encode here. new
+        // code that uses .fetch() will not need to pre-encode the parameter, while old code
+        // can pre-encode it.
+        segment: params.segment ? encodeURIComponent(params.segment as string) : undefined,
+      }, 'get');
+    }
     if (options.postParams) {
       helper.addParams(options.postParams, 'post');
     }
@@ -205,13 +224,19 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.abortController = options.abortController;
     }
 
-    return helper.send().then((data: R | ErrorResponse) => {
+    if (options.returnResponseObject) {
+      helper.resolveWithHelper = true;
+    }
+
+    return helper.send().then((result: R | ErrorResponse | AjaxHelper) => {
+      const data = result instanceof AjaxHelper ? result.requestHandle!.responseJSON : result;
+
       // check for error if not using default notification behavior
       if ((data as ErrorResponse).result === 'error') {
         throw new ApiResponseError((data as ErrorResponse).message);
       }
 
-      return data as R;
+      return result as R;
     });
   }
 
@@ -219,7 +244,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   static post<R = any>(
     params: QueryParameters,
     // eslint-disable-next-line
-    postParams: any,
+    postParams: any = {},
     options: AjaxOptions = {},
   ): Promise<R> {
     return this.fetch<R>(params, { ...options, postParams });
@@ -243,11 +268,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach((key) => {
-      const value = params[key];
+      let value = params[key];
       if (arrayParams.indexOf(key) !== -1
         && !value
       ) {
         return;
+      }
+
+      if (typeof value === 'boolean') {
+        value = value ? 1 : 0;
       }
 
       if (type.toLowerCase() === 'get') {
@@ -434,7 +463,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const result = new Promise<T | ErrorResponse>((resolve, reject) => {
       this.requestHandle!.then((data: unknown) => {
-        resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
+        if (this.resolveWithHelper) {
+          // NOTE: we can't resolve w/ the jquery xhr, because it's a promise, and will
+          // just result in following the promise chain back to 'data'
+          resolve(this as unknown as (T | ErrorResponse)); // casting hack here
+        } else {
+          resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
+        }
       }).fail((xhr: jqXHR) => {
         if (xhr.statusText !== 'abort') {
           console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
@@ -616,5 +651,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     return params;
+  }
+
+  getRequestHandle(): jqXHR|null {
+    return this.requestHandle;
   }
 }
