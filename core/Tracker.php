@@ -11,6 +11,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
@@ -114,9 +115,18 @@ class Tracker
             $this->init();
 
             if ($this->isPreFlightCorsRequest()) {
+
+                //check if cors domain is in the white list
+                $corsDomains = GeneralConfig::getConfigValue('cors_domains');
+                if (!empty($corsDomains)) {
+                    $corsDomains = implode(',', $corsDomains);
+                } else {
+                    $corsDomains = '*';
+                }
+
                 Common::sendHeader('Access-Control-Allow-Methods: GET, POST');
                 Common::sendHeader('Access-Control-Allow-Headers: *');
-                Common::sendHeader('Access-Control-Allow-Origin: *');
+                Common::sendHeader('Access-Control-Allow-Origin: ' . $corsDomains);
                 Common::sendResponseCode(204);
                 $this->logger->debug("Tracker detected preflight CORS request. Skipping...");
                 return null;
