@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Date;
+use Piwik\Http;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -38,13 +40,13 @@ class UserInviteTest extends IntegrationTestCase
     {
         parent::setUp();
         $this->model = new Model();
-        $this->model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime);
+        $this->model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime,1);
     }
 
     public function test_getInviteUser()
     {
         $user = $this->model->getUser($this->pendingUser['login']);
-        $this->assertEquals(null, $user['invited_at']);
+        $this->assertNotEmpty($user['invited_at']);
 
     }
 
@@ -55,8 +57,9 @@ class UserInviteTest extends IntegrationTestCase
           Date::now()->getDatetime(),
           Date::now()->addDay(7)->getDatetime());
 
-        $user = $this->model->getUserByTokenAuth($this->token);
-        $this->assertEquals(null, $user['invited_at']);
+        $response = Http::sendHttpRequest(Fixture::getRootUrl().'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token='.$this->token,10);
+
+        $this->assertStringContainsString('Accept Invitation', $response, 'error on accept invitation');
     }
 
 }

@@ -501,6 +501,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
     }
 
+    /**
+     * Init page for invite user
+     * @return string|void
+     */
     public function acceptInvitation()
     {
         $model = new UsersModel();
