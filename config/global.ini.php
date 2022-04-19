@@ -521,9 +521,6 @@ enable_framed_pages = 0
 ; Default is 0 (i.e., bust frames on the Settings forms).
 enable_framed_settings = 0
 
-; Set to 1 to force send request from ssl
-enable_ssl_request = 1
-
 ; Set to 1 to allow using token_auths with write or admin access in iframes that embed Matomo.
 ; Note that the token used will be in the URL in the iframe, and thus will be stored in webserver
 ; logs and possibly other places. Using write or admin token_auths can be seen as a security risk,

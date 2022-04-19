@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Composer\CaBundle\CaBundle;
 use Exception;
-use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 
 /**
@@ -202,12 +201,6 @@ class Http
 
         if (empty($parsedUrl['scheme'])) {
             throw new Exception('Missing scheme in given url');
-        }
-
-        //secure matomo request in https
-        if (GeneralConfig::getConfigValue('enable_ssl_request') && preg_match('/^[a-zA-Z]+.matomo.org/',
-            $parsedUrl['host']) && $parsedUrl['scheme'] == 'http') {
-            $parsedUrl['scheme'] = 'https';
         }
 
         $allowedProtocols = Config::getInstance()->General['allowed_outgoing_protocols'];

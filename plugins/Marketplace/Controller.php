@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Filesystem;
+use Piwik\Http;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Notification;
@@ -520,5 +521,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->errorMessage = '';
 
         return $view;
+    }
+
+    public static function isUpdatingOverHttps()
+    {
+        $openSslEnabled = extension_loaded('openssl');
+        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
+
+        return $openSslEnabled && $usingMethodSupportingHttps;
     }
 }

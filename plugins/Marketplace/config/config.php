@@ -6,11 +6,10 @@ use Piwik\Plugins\Marketplace\LicenseKey;
 
 return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
-        $domain = 'http://plugins.matomo.org';
-        $updater = $c->get('Piwik\Plugins\CoreUpdater\Updater');
+        $domain = 'https://plugins.matomo.org';
 
-        if ($updater->isUpdatingOverHttps()) {
-            $domain = str_replace('http://', 'https://', $domain);
+        if (!MarketPlace\Controller::isUpdatingOverHttps()) {
+            $domain = str_replace('https://', 'http://', $domain);
         }
 
         return $domain;
@@ -28,5 +27,8 @@ return array(
         $service->authenticate($accessToken);
 
         return $service;
-    }
+    },
+    'diagnostics.optional' => DI\add(array(
+      DI\get('Piwik\Plugins\MarketPlace\Diagnostic\HttpsUpdateCheck'),
+    )),
 );
