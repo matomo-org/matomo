@@ -39,6 +39,7 @@
         "ScopeDescriptionActionMoreInfo": "Uttrekk kan defineres slik at verdien til den tilpassede dimensjonen hentes ut fra side-URL, sidetittel eller et spørreparameter i URL-en.",
         "ScopeDescriptionVisit": "Tilpassede dimensjoner av typen «Besøk» kan sendes sammen med alle sporingsspørringer og lagres i besøket.",
         "ScopeDescriptionVisitMoreInfo": "Hvis du setter ulike verdier for en gitt dimensjon i løpet av livstiden til et besøk, vil den siste verdien bli brukt.",
+        "UrlQueryStringParameter": "URL-strengspørringsparameter",
         "XofYLeft": "%1$s av %2$s dimensjoner igjen"
     }
 }

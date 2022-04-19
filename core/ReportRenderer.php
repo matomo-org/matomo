@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
 use Exception;
@@ -40,12 +42,12 @@ abstract class ReportRenderer extends BaseFactory
 
     protected $report;
 
-    private static $availableReportRenderers = array(
+    private static $availableReportRenderers = [
         self::PDF_FORMAT,
         self::HTML_FORMAT,
         self::CSV_FORMAT,
         self::TSV_FORMAT,
-    );
+    ];
 
     /**
      * Sets the site id
@@ -71,7 +73,7 @@ abstract class ReportRenderer extends BaseFactory
     {
         return Piwik::translate(
             'General_ExceptionInvalidReportRendererFormat',
-            array(self::normalizeRendererType($rendererType), implode(', ', self::$availableReportRenderers))
+            [self::normalizeRendererType($rendererType), implode(', ', self::$availableReportRenderers)]
         );
     }
 
@@ -155,7 +157,7 @@ abstract class ReportRenderer extends BaseFactory
     protected static function makeFilenameWithExtension($filename, $extension)
     {
         // the filename can be used in HTTP headers, remove new lines to prevent HTTP header injection
-        $filename = str_replace(array("\n", "\t"), " ", $filename);
+        $filename = str_replace(["\n", "\t"], " ", $filename);
 
         return $filename . "." . $extension;
     }
@@ -169,11 +171,16 @@ abstract class ReportRenderer extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
+        $baseAssetsDir = StaticContainer::get('path.tmp') . '/assets/';
+        $outputFilename = $baseAssetsDir . $filename;
+
+        if (!is_dir($baseAssetsDir)) {
+            Filesystem::mkdir($baseAssetsDir);
+        }
 
         @chmod($outputFilename, 0600);
 
-        if(file_exists($outputFilename)){
+        if (file_exists($outputFilename)) {
             @unlink($outputFilename);
         }
 
@@ -236,16 +243,16 @@ abstract class ReportRenderer extends BaseFactory
                 }
             }
 
-            $reportColumns = array(
+            $reportColumns = [
                 'label' => Piwik::translate('General_Name'),
                 'value' => Piwik::translate('General_Value'),
-            );
+            ];
         }
 
-        return array(
+        return [
             $finalReport,
             $reportColumns,
-        );
+        ];
     }
 
     public static function getStaticGraph($reportMetadata, $width, $height, $evolution, $segment)

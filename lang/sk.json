@@ -65,7 +65,7 @@
         "ColumnMaxActions": "Maximum akcií počas jednej návštevy",
         "ColumnNbActions": "Akcie",
         "ColumnNbActionsDocumentation": "Počet akcií vykonaných návštevníkmi. Akcie môžu byť zhliadnuté stránky, stiahnutia alebo odchádzajúce prekliky.",
-        "ColumnNbUniqVisitors": "Unikátny návštevníci",
+        "ColumnNbUniqVisitors": "Unikátni návštevníci",
         "ColumnNbUniqVisitorsDocumentation": "Počet neduplikovaných návštevníkov na vašu webovú stránku. Každý návštevník sa počíta len raz, aj keď stránku navštívi niekoľko ráz za deň.",
         "ColumnNbUsers": "Používatelia",
         "ColumnNbUsersDocumentation": "Počet užívateľov prihlásených na vašejwebstránke. Je to počet jednotlivých aktívnych užívateľov, ktorí majú vytvorené užívateľské konto (cez Tracking code funkciu 'setUserId')",
