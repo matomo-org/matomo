@@ -18,7 +18,6 @@ use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -28,10 +27,10 @@ use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
+use Piwik\Updater\Migration\Db as DbMigration;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\View\OneClickDone;
-use Piwik\Updater\Migration\Db as DbMigration;
 
 class Controller extends \Piwik\Plugin\Controller
 {
