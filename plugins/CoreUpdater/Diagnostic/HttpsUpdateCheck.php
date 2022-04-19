@@ -7,7 +7,7 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Diagnostic;
 
-use Piwik\Plugins\CoreUpdater;
+use Piwik\Http;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Translation\Translator;
@@ -31,7 +31,7 @@ class HttpsUpdateCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
-        if (CoreUpdater\Controller::isUpdatingOverHttps()) {
+        if (Http::isUpdatingOverHttps()) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
 

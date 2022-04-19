@@ -8,10 +8,10 @@
 
 namespace Piwik\Plugins\Marketplace;
 
+use Exception;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Notification;
@@ -30,7 +30,6 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\View;
-use Exception;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
@@ -523,11 +522,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view;
     }
 
-    public static function isUpdatingOverHttps()
-    {
-        $openSslEnabled = extension_loaded('openssl');
-        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
-
-        return $openSslEnabled && $usingMethodSupportingHttps;
-    }
 }

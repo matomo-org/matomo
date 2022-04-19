@@ -1100,4 +1100,16 @@ class Http
 
         return array($proxyHost, $proxyPort, $proxyUser, $proxyPassword);
     }
+
+    /**
+     * Checks the request is over SSL
+     * @return bool
+     */
+    public static function isUpdatingOverHttps()
+    {
+        $openSslEnabled = extension_loaded('openssl');
+        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
+
+        return $openSslEnabled && $usingMethodSupportingHttps;
+    }
 }

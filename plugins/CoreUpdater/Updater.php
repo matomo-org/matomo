@@ -353,7 +353,7 @@ class Updater
         $channel = $this->releaseChannels->getActiveReleaseChannel();
         $url = $channel->getDownloadUrlWithoutScheme($version);
 
-        if ($this->isUpdatingOverHttps() && $https) {
+        if (Http::isUpdatingOverHttps() && $https) {
             $url = 'https' . $url;
         } else {
             $url = 'http' . $url;

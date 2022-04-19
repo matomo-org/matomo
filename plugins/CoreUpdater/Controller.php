@@ -92,7 +92,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
-    
+
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
@@ -126,7 +126,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function newVersionAvailable()
     {
         Piwik::checkUserHasSuperUserAccess();
-        
+
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
@@ -452,11 +452,4 @@ class Controller extends \Piwik\Plugin\Controller
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
     }
 
-    public static function isUpdatingOverHttps()
-    {
-        $openSslEnabled = extension_loaded('openssl');
-        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
-
-        return $openSslEnabled && $usingMethodSupportingHttps;
-    }
 }

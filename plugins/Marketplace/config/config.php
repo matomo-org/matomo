@@ -1,5 +1,6 @@
 <?php
 
+use Piwik\Http;
 use Psr\Container\ContainerInterface;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\LicenseKey;
@@ -8,7 +9,7 @@ return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
         $domain = 'https://plugins.matomo.org';
 
-        if (!MarketPlace\Controller::isUpdatingOverHttps()) {
+        if (Http::isUpdatingOverHttps()) {
             $domain = str_replace('https://', 'http://', $domain);
         }
 
@@ -29,6 +30,6 @@ return array(
         return $service;
     },
     'diagnostics.optional' => DI\add(array(
-      DI\get('Piwik\Plugins\MarketPlace\Diagnostic\HttpsUpdateCheck'),
+      DI\get('Piwik\Plugins\CoreUpdater\Diagnostic\HttpsUpdateCheck'),
     )),
 );
