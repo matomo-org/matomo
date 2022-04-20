@@ -25,9 +25,9 @@ describe('Invite', function () {
     expect(await page.screenshot({ fullPage: true })).to.matchImage('set_password');
   });
 
-  it('Setup Wrong Password', async function () {
+  it('password confirmation error', async function () {
     await page.type('#password', 'abcd1234');
-    await page.type('#passwordConfirmation', 'abcd123');
+    await page.type('#password_confirm', 'abcd123');
     await page.evaluate(function(){
       $('#login_form_submit').click();
     });
