@@ -1,7 +1,16 @@
 {
     "VisitTime": {
+        "ColumnLocalHour": "Местно време - час (Начало на посещението)",
+        "ColumnLocalMinute": "Местно време - минута (Начало на посещението)",
         "ColumnLocalTime": "Локално време (на посетителя)",
+        "ColumnServerHour": "Време на сървъра - час",
         "ColumnServerTime": "Сървърно време (на сървъра)",
+        "ColumnSiteHour": "Време на сайта - час",
+        "ColumnVisitEndServerHour": "Време на сървъра - час (Време на последно действие)",
+        "ColumnVisitEndServerMinute": "Време на сървъра - минута (Време на последно действие)",
+        "ColumnVisitEndSiteHour": "Време на сайта - час (Време на последно действие)",
+        "ColumnVisitEndUTCMinute": "Час в UTC - минута (време на последно действие)",
+        "ColumnVisitStartServerHour": "Време на сървъра - час (Начало на посещението)",
         "DayOfWeek": "Ден от седмицата",
         "LocalTime": "Посещения по локално време",
         "NHour": "%sч",

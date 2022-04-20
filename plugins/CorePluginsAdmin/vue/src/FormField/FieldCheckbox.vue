@@ -11,7 +11,7 @@
         @change="onChange($event)"
         v-bind="uiControlAttributes"
         :value="1"
-        :checked="!!modelValue"
+        :checked="isChecked"
         type="checkbox"
         :id="name"
         :name="name"
@@ -27,7 +27,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    modelValue: [Boolean, Number],
+    modelValue: [Boolean, Number, String],
     uiControlAttributes: Object,
     name: String,
     title: String,
@@ -39,6 +39,11 @@ export default defineComponent({
       if (this.modelValue !== (event.target as HTMLInputElement).checked) {
         this.$emit('update:modelValue', (event.target as HTMLInputElement).checked);
       }
+    },
+  },
+  computed: {
+    isChecked() {
+      return !!this.modelValue && this.modelValue !== '0';
     },
   },
 });

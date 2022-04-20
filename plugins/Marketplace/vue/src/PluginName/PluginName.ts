@@ -60,7 +60,9 @@ export default {
     }
 
     binding.value.onClickHandler = onClickPluginNameLink.bind(null, binding);
-    $(element).on('click', binding.value.onClickHandler!);
+    $(element).on('click', binding.value.onClickHandler!)
+      // attribute added for AnonymousPiwikUsageMeasurement
+      .attr('matomo-plugin-name', pluginName);
   },
   unmounted(element: HTMLElement, binding: DirectiveBinding<PluginNameDirectiveValue>): void {
     $(element).off('click', binding.value.onClickHandler!);
