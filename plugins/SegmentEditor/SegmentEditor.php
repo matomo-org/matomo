@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
@@ -177,7 +178,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+        list($segment, $storedSegment, $isSegmentToPreprocess, $archived) = $segmentInfo;
 
         throw new UnprocessedSegmentException($segment, $isSegmentToPreprocess, $storedSegment);
     }
@@ -194,7 +195,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+        list($segment, $storedSegment, $isSegmentToPreprocess, $archived) = $segmentInfo;
 
         if (!$isSegmentToPreprocess) {
             return; // do not display the notification for custom segments
@@ -205,6 +206,7 @@ class SegmentEditor extends \Piwik\Plugin
         $view = new View('@SegmentEditor/_unprocessedSegmentMessage.twig');
         $view->isSegmentToPreprocess = $isSegmentToPreprocess;
         $view->segmentName = $segmentDisplayName;
+        $view->archived = $archived;
         $view->visitorLogLink = '#' . Url::getCurrentQueryStringWithParametersModified([
             'category' => 'General_Visitors',
             'subcategory' => 'Live_VisitorLog',
@@ -283,7 +285,18 @@ class SegmentEditor extends \Piwik\Plugin
             $storedSegment = null;
         }
 
-        return [$segment, $storedSegment, $isSegmentToPreprocess];
+
+        $lastArchiveData =  ArchiveInvalidator::getEarliestDateToRearchive();
+
+        $archived = true;
+        $endDate = $period->getDateEnd();
+        if ($lastArchiveData->isEarlier($endDate)) {
+            $archived = false;
+        }
+
+
+
+        return [$segment, $storedSegment, $isSegmentToPreprocess, $archived];
     }
 
     public function install()

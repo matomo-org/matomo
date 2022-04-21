@@ -183,7 +183,7 @@ class ArchiveInvalidator
     {
         return $this->rememberArchivedReportIdStart . (int) $idSite;
     }
-    
+
     private function buildRememberArchivedReportIdForSiteAndDate($idSite, $date)
     {
         $id  = $this->buildRememberArchivedReportIdForSite($idSite);
@@ -795,7 +795,7 @@ class ArchiveInvalidator
         return $this->allIdSitesCache;
     }
 
-    private function getEarliestDateToRearchive()
+    public static function getEarliestDateToRearchive()
     {
         $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
         if (empty($lastNMonthsToInvalidate)) {
