@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { Report } from 'ScheduledReports';
 import SelectPhoneNumbers from '../SelectPhoneNumbers/SelectPhoneNumbers.vue';
 
 const REPORT_TYPE = 'mobile';
