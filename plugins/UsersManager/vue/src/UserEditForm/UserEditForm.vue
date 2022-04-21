@@ -94,7 +94,7 @@
           </div>
           <div>
             <Field
-               v-if="!isAdd && theUser.invited_at!=''"
+               v-if="theUser.invited_at==''"
                :model-value="theUser.password"
                :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
