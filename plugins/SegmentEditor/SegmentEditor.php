@@ -288,9 +288,10 @@ class SegmentEditor extends \Piwik\Plugin
 
         $lastArchiveData =  ArchiveInvalidator::getEarliestDateToRearchive();
 
+        $endDate = $period->getDateEnd();
         $archived = true;
-        if (!empty($lastArchiveData) && !empty($period->getDateEnd())) {
-            if ($lastArchiveData->isEarlier($period->getDateEnd())) {
+        if (!empty($lastArchiveData)) {
+            if ($lastArchiveData->isLater($endDate)) {
                 $archived = false;
             }
         }
