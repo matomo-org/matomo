@@ -768,12 +768,12 @@ var PiwikApiMock = /*#__PURE__*/function () {
       this.createGoal();
     } else if (this.showGoal) {
       this.editGoal(this.showGoal);
+    } else {
+      this.showListOfReports(); // this component can be used in multiple places, one where
+      // Matomo.helper.compileAngularComponents() is already called, one where it's not.
+      // to make sure this function is only applied once to the slot data, we explicitly do not
+      // add it to vue, then on the next update, add it and call compileAngularComponents()
     }
-
-    this.showListOfReports(); // this component can be used in multiple places, one where
-    // Matomo.helper.compileAngularComponents() is already called, one where it's not.
-    // to make sure this function is only applied once to the slot data, we explicitly do not
-    // add it to vue, then on the next update, add it and call compileAngularComponents()
 
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
       _this.addEditTableComponent = true;
