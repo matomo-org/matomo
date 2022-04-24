@@ -1096,6 +1096,16 @@ class Http
         $proxyPort = Config::getInstance()->proxy['port'];
         $proxyUser = Config::getInstance()->proxy['username'];
         $proxyPassword = Config::getInstance()->proxy['password'];
+        $proxyExclude = Config::getInstance()->proxy['exclude'];
+
+        if (!empty($proxyExclude)) {
+            $excludes = explode(',', $proxyExclude);
+            $excludes = array_map('trim', $excludes);
+            $excludes = array_filter($excludes);
+            if (in_array($hostname, $excludes)) {
+                return array(null, null, null, null);
+            }
+        }
 
         return array($proxyHost, $proxyPort, $proxyUser, $proxyPassword);
     }
