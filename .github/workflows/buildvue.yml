@@ -9,7 +9,7 @@ permissions:
   checks: none
   contents: write
   deployments: none
-  issues: read
+  issues: write
   packages: none
   pull-requests: write
   repository-projects: none
