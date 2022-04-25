@@ -361,7 +361,7 @@ class Twig
     {
         $rawSafeDecoded = new TwigFilter('rawSafeDecoded', function ($string) {
 
-            if (!$string) {
+            if ($string === null) {
                 return '';
             }
 
