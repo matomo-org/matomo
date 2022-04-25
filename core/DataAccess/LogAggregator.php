@@ -321,8 +321,22 @@ class LogAggregator
             return;
         }
 
-        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
-        $readerDb->query($insertIntoStatement, $segmentSelectBind);
+        try {
+            $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+            $readerDb->query($insertIntoStatement, $segmentSelectBind);
+        } catch (\Exception $e) {
+            if (!$readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_DUPLICATE_ENTRY)) {
+                throw $e;
+            }
+
+            StaticContainer::get('Psr\Log\LoggerInterface')->error(
+                'Duplicate record occurred while creating segment table for sql: {sql}',
+                ['sql' => $insertIntoStatement]
+            );
+
+            $insertIntoStatement = 'INSERT IGNORE INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+            $readerDb->query($insertIntoStatement, $segmentSelectBind);
+        }
 
         $transactionLevel->restorePreviousStatus();
     }
