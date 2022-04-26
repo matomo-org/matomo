@@ -207,7 +207,7 @@ class Model
 
         $access = $db->fetchAll($sql, $bind);
         foreach ($access as &$entry) {
-            $entry['access'] = explode('|', $entry['access']);
+            $entry['access'] = explode('|', $entry['access'] ?? '');
         }
 
         $count = $db->fetchOne("SELECT FOUND_ROWS()");
@@ -659,7 +659,7 @@ class Model
 
         $users = $db->fetchAll($sql, $bind);
         foreach ($users as &$user) {
-            $user['access'] = explode('|', $user['access']);
+            $user['access'] = explode('|', $user['access'] ?? '');
         }
 
         $count = $db->fetchOne("SELECT FOUND_ROWS()");
