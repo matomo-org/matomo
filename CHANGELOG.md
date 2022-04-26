@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.10.0
+
+### Breaking Changes
+
+* As access to files like `plugin.json` might reveal version details, `json` files will now longer be considered as static files that can be served safely. Therefore `json` will no longer be included in the list of static file extensions in generated `.htaccess` files.
+
 ## Matomo 4.8.0
 
 ### New config.ini.php settings

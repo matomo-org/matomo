@@ -79,16 +79,6 @@ class LatestStableInstall extends Fixture
         }
 
         shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
-
-        /**
-         * The additional permissions check was added within Matomo 4.8 development. Therefor the OneClickUpdate UI tests
-         * would not already perform this check, as it uses the latest stable version to perform an update the the git checkout.
-         * As soon as 4.8 has been release, which should include the permission check, this won't be needed anymore.
-         *
-         * @todo remove this after Matomo 4.8 has been released
-         */
-        shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/4.x-dev/plugins/CoreUpdater/Updater.php > ' . $installSubdirectory . '/plugins/CoreUpdater/Updater.php');
-        shell_exec('curl https://raw.githubusercontent.com/matomo-org/matomo/4.x-dev/plugins/CoreUpdater/lang/en.json > ' . $installSubdirectory . '/plugins/CoreUpdater/lang/en.json');
     }
 
     private function installSubdirectoryInstall()

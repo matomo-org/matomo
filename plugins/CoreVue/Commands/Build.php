@@ -22,6 +22,7 @@ class Build extends ConsoleCommand
 {
     const RECOMMENDED_NODE_VERSION = '16.0.0';
     const RECOMMENDED_NPM_VERSION = '7.0.0';
+    const RETRY_COUNT = 2;
 
     protected function configure()
     {
@@ -144,13 +145,28 @@ class Build extends ConsoleCommand
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
             passthru($command);
         } else {
-            exec($command, $cmdOutput, $returnCode);
-            if ($returnCode != 0
-                || stripos(implode("\n", $cmdOutput), 'warning') !== false
-            ) {
-                $output->writeln("<error>Failed:</error>\n");
-                $output->writeln($cmdOutput);
-                $output->writeln("");
+            $attempts = 0;
+            while ($attempts < self::RETRY_COUNT) {
+                exec($command, $cmdOutput, $returnCode);
+
+                $concattedOutput = implode("\n", $cmdOutput);
+                if ($this->isTypeScriptRaceConditionInOutput($plugin, $concattedOutput)) {
+                    $output->writeln("<comment>The TypeScript compiler encountered a race condition when compiling "
+                        . "files (files that exist were not found), retrying.</comment>");
+
+                    ++$attempts;
+                    continue;
+                }
+
+                if ($returnCode != 0
+                    || stripos($concattedOutput, 'warning') !== false
+                ) {
+                    $output->writeln("<error>Failed:</error>\n");
+                    $output->writeln($cmdOutput);
+                    $output->writeln("");
+                }
+
+                break;
             }
         }
 
@@ -251,5 +267,17 @@ class Build extends ConsoleCommand
                 . "command %s</comment>",
                 self::RECOMMENDED_NPM_VERSION, $npmVersion, 'npm install -g npm@latest'));
         }
+    }
+
+    private function isTypeScriptRaceConditionInOutput($plugin, $concattedOutput)
+    {
+        if (!preg_match('/^TS2307: Cannot find module \'([^\']+)\' or its corresponding type declarations./', $concattedOutput, $matches)) {
+            return false;
+        }
+
+        $file = $matches[1];
+        $filePath = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/vue/src/' . $file;
+        $isTypeScriptCompilerBug = file_exists($filePath);
+        return $isTypeScriptCompilerBug;
     }
 }

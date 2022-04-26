@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
 use Exception;
@@ -129,7 +131,8 @@ class Url
         $url = '';
 
         // insert extra path info if proxy_uri_header is set and enabled
-        if (isset(Config::getInstance()->General['proxy_uri_header'])
+        if (
+            isset(Config::getInstance()->General['proxy_uri_header'])
             && Config::getInstance()->General['proxy_uri_header'] == 1
             && !empty($_SERVER['HTTP_X_FORWARDED_URI'])
         ) {
@@ -209,7 +212,8 @@ class Url
     public static function isValidHost($host = false): bool
     {
         // only do trusted host check if it's enabled
-        if (isset(Config::getInstance()->General['enable_trusted_host_check'])
+        if (
+            isset(Config::getInstance()->General['enable_trusted_host_check'])
             && Config::getInstance()->General['enable_trusted_host_check'] == 0
         ) {
             return true;
@@ -277,12 +281,13 @@ class Url
 
     protected static function saveHostsnameInConfig($host, $domain, $key)
     {
-        if (Piwik::hasUserSuperUserAccess()
+        if (
+            Piwik::hasUserSuperUserAccess()
             && file_exists(Config::getLocalConfigPath())
         ) {
             $config = Config::getInstance()->$domain;
             if (!is_array($host)) {
-                $host = array($host);
+                $host = [$host];
             }
             $host = array_filter($host);
             if (empty($host)) {
@@ -340,6 +345,21 @@ class Url
     }
 
     /**
+     * Returns the valid hostname (according to RFC standards) as a string; else it will return false if it isn't valid.
+     * If the hostname isn't supplied it will default to using Url::getHost
+     * Note: this will not verify if the hostname is trusted.
+     * @param $hostname
+     * @return false|string
+     */
+    public static function getRFCValidHostname($hostname = null)
+    {
+        if (empty($hostname)) {
+            $hostname = self::getHost(false);
+        }
+        return filter_var($hostname, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
+    }
+
+    /**
      * Sets the host. Useful for CLI scripts, eg. core:archive command
      *
      * @param $host string
@@ -363,7 +383,7 @@ class Url
      */
     public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
-        $hostHeaders = array();
+        $hostHeaders = [];
 
         $config = Config::getInstance()->General;
         if (isset($config['proxy_host_headers'])) {
@@ -371,7 +391,7 @@ class Url
         }
 
         if (!is_array($hostHeaders)) {
-            $hostHeaders = array();
+            $hostHeaders = [];
         }
 
         $host = self::getHost($checkTrustedHost);
@@ -390,7 +410,8 @@ class Url
     public static function getCurrentQueryString()
     {
         $url = '';
-        if (isset($_SERVER['QUERY_STRING'])
+        if (
+            isset($_SERVER['QUERY_STRING'])
             && !empty($_SERVER['QUERY_STRING'])
         ) {
             $url .= "?" . $_SERVER['QUERY_STRING'];
@@ -491,7 +512,8 @@ class Url
 
     private static function redirectToUrlNoExit($url)
     {
-        if (UrlHelper::isLookLikeUrl($url)
+        if (
+            UrlHelper::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {
             Common::sendResponseCode(302);
@@ -568,13 +590,13 @@ class Url
         // handle host name mangling
         $requestUri = isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '';
         $parseRequest = @parse_url($requestUri);
-        $hosts = array(self::getHost(), self::getCurrentHost());
+        $hosts = [self::getHost(), self::getCurrentHost()];
         if (!empty($parseRequest['host'])) {
             $hosts[] = $parseRequest['host'];
         }
 
         // drop port numbers from hostnames and IP addresses
-        $hosts = array_map(array('self', 'getHostSanitized'), $hosts);
+        $hosts = array_map(['self', 'getHostSanitized'], $hosts);
 
         $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host
@@ -583,7 +605,7 @@ class Url
         return !empty($host)
         && ($disableHostCheck || in_array($host, $hosts))
         && !empty($parsedUrl['scheme'])
-        && in_array($parsedUrl['scheme'], array('http', 'https'));
+        && in_array($parsedUrl['scheme'], ['http', 'https']);
     }
 
     /**
@@ -635,7 +657,7 @@ class Url
      * Returns hostname, without port numbers
      *
      * @param $host
-     * @return array
+     * @return string
      */
     public static function getHostSanitized($host)
     {
@@ -650,12 +672,12 @@ class Url
         $config = @Config::getInstance()->$domain;
 
         if (!isset($config[$key])) {
-            return array();
+            return [];
         }
 
         $hosts = $config[$key];
         if (!is_array($hosts)) {
-            return array();
+            return [];
         }
         return $hosts;
     }
@@ -735,7 +757,7 @@ class Url
      */
     public static function getLocalHostnames()
     {
-        return array('localhost', '127.0.0.1', '::1', '[::1]', '[::]', '0000::1', '0177.0.0.1', '2130706433', '[0:0:0:0:0:ffff:127.0.0.1]');
+        return ['localhost', '127.0.0.1', '::1', '[::1]', '[::]', '0000::1', '0177.0.0.1', '2130706433', '[0:0:0:0:0:ffff:127.0.0.1]'];
     }
 
     /**
@@ -769,10 +791,10 @@ class Url
             return 'http';
         }
 
-        if ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
+        if (
+            (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
             || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
         ) {
-
             return 'https';
         }
         return 'http';
@@ -796,7 +818,8 @@ class Url
     {
         $host = @$_SERVER['SERVER_NAME'];
         if (!empty($host)) {
-            if (strpos($host, ':') === false
+            if (
+                strpos($host, ':') === false
                 && !empty($_SERVER['SERVER_PORT'])
                 && $_SERVER['SERVER_PORT'] != 80
                 && $_SERVER['SERVER_PORT'] != 443
