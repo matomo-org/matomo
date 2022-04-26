@@ -917,4 +917,29 @@ class Piwik
     {
         return Common::getRequestVar('date', $default, 'string');
     }
+
+    /**
+     * Returns the earliest date to rearchive provided in the config.
+     * @return Date|null
+     */
+    public static function getEarliestDateToRearchive()
+    {
+        $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
+        if (empty($lastNMonthsToInvalidate)) {
+            return null;
+        }
+
+        if (!is_numeric($lastNMonthsToInvalidate)) {
+            $lastNMonthsToInvalidate = (int)str_replace('last', '', $lastNMonthsToInvalidate);
+            if (empty($lastNMonthsToInvalidate)) {
+                return null;
+            }
+        }
+
+        if ($lastNMonthsToInvalidate <= 0) {
+            return null;
+        }
+
+        return Date::yesterday()->subMonth($lastNMonthsToInvalidate)->setDay(1);
+    }
 }

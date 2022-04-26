@@ -1,14 +1,16 @@
 {% set visitorLogLinkHtml %}<a href="{{ visitorLogLink }}" target="_blank">{% endset %}
     {% if isSegmentToPreprocess %}
-        {% if not archived %}
+        {% if not canBeArchived %}
             <p>
                 {{ 'SegmentEditor_UnprocessedSegmentNoData3'|translate }}
+                {{ 'SegmentEditor_UnprocessedSegmentNoData1'|translate('<strong>(' ~ segmentName ~ ')</strong>')|raw }}
+            </p>
+        {% else %}
+            <p>
+                {{ 'SegmentEditor_UnprocessedSegmentNoData1'|translate('<strong>(' ~ segmentName ~ ')</strong>')|raw }}
+                {{ 'SegmentEditor_UnprocessedSegmentNoData2'|translate }}
             </p>
         {% endif %}
-        <p>
-            {{ 'SegmentEditor_UnprocessedSegmentNoData1'|translate('<strong>(' ~ segmentName ~ ')</strong>')|raw }}
-            {{ 'SegmentEditor_UnprocessedSegmentNoData2'|translate }}
-        </p>
     {% else %}
         <p>
             {{ 'SegmentEditor_CustomUnprocessedSegmentApiError1'|translate }}

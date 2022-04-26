@@ -475,7 +475,7 @@ class ArchiveInvalidator
     {
         $date2 = Date::today();
 
-        $earliestDateToRearchive = $this->getEarliestDateToRearchive();
+        $earliestDateToRearchive = Piwik::getEarliestDateToRearchive();
         if (empty($startDate)) {
             if (empty($earliestDateToRearchive)) {
                 return null; // INI setting set to 0 months so no rearchiving
@@ -795,24 +795,4 @@ class ArchiveInvalidator
         return $this->allIdSitesCache;
     }
 
-    public static function getEarliestDateToRearchive()
-    {
-        $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
-        if (empty($lastNMonthsToInvalidate)) {
-            return null;
-        }
-
-        if (!is_numeric($lastNMonthsToInvalidate)) {
-            $lastNMonthsToInvalidate = (int)str_replace('last', '', $lastNMonthsToInvalidate);
-            if (empty($lastNMonthsToInvalidate)) {
-                return null;
-            }
-        }
-
-        if ($lastNMonthsToInvalidate <= 0) {
-            return null;
-        }
-
-        return Date::yesterday()->subMonth($lastNMonthsToInvalidate)->setDay(1);
-    }
 }
