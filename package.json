@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/matomo-org/matomo#readme",
   "dependencies": {
+    "@materializecss/materialize": "^1.1.0",
     "@types/jquery": "^3.5.6",
     "@types/jqueryui": "^1.12.16",
     "chroma-js": "^0.6.3",
@@ -39,7 +40,6 @@
     "jquery.browser": "^0.1.0",
     "jquery.dotdotdot": "^3.2.3",
     "jquery.scrollto": "^2.1.2",
-    "materialize-css": "^1.0.0",
     "mathjs": "^10.6.4",
     "mousetrap": "^1.6.5",
     "qrcodejs2": "0.0.2",
