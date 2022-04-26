@@ -116,10 +116,13 @@ class Tracker
 
             if ($this->isPreFlightCorsRequest()) {
 
+
                 //check if cors domain is in the white list
                 $corsDomains = GeneralConfig::getConfigValue('cors_domains');
                 if (!empty($corsDomains)) {
-                    $corsDomains = implode(',', $corsDomains);
+                    if (in_array($_SERVER['HTTP_ORIGIN'], $corsDomains)) {
+                        $corsDomains = $_SERVER['HTTP_ORIGIN'];
+                    }
                 } else {
                     $corsDomains = '*';
                 }
