@@ -124,7 +124,7 @@ class CoreHome extends \Piwik\Plugin
     {
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.theme.min.css";
-        $stylesheets[] = "node_modules/materialize-css/dist/css/materialize.min.css";
+        $stylesheets[] = "node_modules/@materializecss/materialize/dist/css/materialize.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/bootstrap.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/icons.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
@@ -162,7 +162,7 @@ class CoreHome extends \Piwik\Plugin
     {
         $jsFiles[] = "node_modules/jquery/dist/jquery.min.js";
         $jsFiles[] = "node_modules/jquery-ui-dist/jquery-ui.min.js";
-        $jsFiles[] = "node_modules/materialize-css/dist/js/materialize.min.js";
+        $jsFiles[] = "node_modules/@materializecss/materialize/dist/js/materialize.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/materialize-bc.js";
         $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.min.js";
         $jsFiles[] = "node_modules/jquery.scrollto/jquery.scrollTo.min.js";
