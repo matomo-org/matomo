@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Unit\Config;
 
 use Piwik\Config;
@@ -15,7 +17,7 @@ class TestIniFileChain extends IniFileChain
 {
     public $addHostInfo = '';
 
-    public function __construct(array $defaultSettingsFiles = array(), $userSettingsFile = null, $addhostInfo = '')
+    public function __construct(array $defaultSettingsFiles = [], $userSettingsFile = null, $addhostInfo = '')
     {
         $this->addHostInfo = $addhostInfo;
         parent::__construct($defaultSettingsFiles, $userSettingsFile);
@@ -26,7 +28,7 @@ class TestIniFileChain extends IniFileChain
         $settings = parent::mergeFileSettings();
 
         if (!empty($this->addHostInfo)) {
-            $settings['General'] = ['trusted_hosts'=> [$this->addHostInfo]];
+            $settings['General'] = ['trusted_hosts' => [$this->addHostInfo]];
         }
 
         return $settings;
@@ -56,7 +58,7 @@ class IniFileChainCacheTest extends IniFileChainTest
 
     private function setTrustedHosts()
     {
-        Config::setSetting('General', 'trusted_hosts', array($this->testHost, 'foonot.exists'));
+        Config::setSetting('General', 'trusted_hosts', [$this->testHost, 'foonot.exists']);
     }
 
     public function tearDown(): void
@@ -70,7 +72,7 @@ class IniFileChainCacheTest extends IniFileChainTest
     /**
      * @dataProvider getMergingTestData
      */
-    public function test_reload_shouldNotPopulateCacheWhenNoTrustedHostIsConfigured($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
+    public function testReloadShouldNotPopulateCacheWhenNoTrustedHostIsConfigured($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
     {
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertEquals(false, $value);
@@ -86,14 +88,14 @@ class IniFileChainCacheTest extends IniFileChainTest
     /**
      * @dataProvider getMergingTestData
      */
-    public function test_reload_shouldNotPopulateCacheWhenTrustedHostIsNotValid($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
+    public function testReloadShouldNotPopulateCacheWhenTrustedHostIsNotValid($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
     {
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertEquals(false, $value);
 
         // reading the chain should populate the cache
         $fileChain = new TestIniFileChain($defaultSettingFiles, $userSettingsFile, 'foo.bar.com');
-        $expected['General'] = array('trusted_hosts' => array('foo.bar.com'));
+        $expected['General'] = ['trusted_hosts' => ['foo.bar.com']];
         $this->assertEquals($expected, $fileChain->getAll(), "'$testDescription' failed");
 
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
@@ -103,20 +105,20 @@ class IniFileChainCacheTest extends IniFileChainTest
     /**
      * @dataProvider getMergingTestData
      */
-    public function test_reload_shoulPopulateCacheWhenTrustedHostIsValid($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
+    public function testReloadShoulPopulateCacheWhenTrustedHostIsValid($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
     {
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertEquals(false, $value);
 
         // reading the chain should populate the cache
         $fileChain = new TestIniFileChain($defaultSettingFiles, $userSettingsFile, $this->testHost);
-        $expected['General'] = array('trusted_hosts' => array($this->testHost));
+        $expected['General'] = ['trusted_hosts' => [$this->testHost]];
         $this->assertEquals($expected, $fileChain->getAll(), "'$testDescription' failed");
 
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $settingsChain = $value['settingsChain'];
         unset($value['settingsChain']);
-        $this->assertEquals(array('mergedSettings' => $expected), $value);
+        $this->assertEquals(['mergedSettings' => $expected], $value);
 
         foreach ($defaultSettingFiles as $defaultSettingFile) {
             self::assertTrue(array_key_exists($defaultSettingFile, $settingsChain));
@@ -124,11 +126,11 @@ class IniFileChainCacheTest extends IniFileChainTest
 
         $this->assertNotEmpty(array_keys($settingsChain));
     }
-    
+
     /**
      * @dataProvider getMergingTestData
      */
-    public function test_reload_canReadFromCache($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
+    public function testReloadCanReadFromCache($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
     {
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertEquals(false, $value);
@@ -138,22 +140,21 @@ class IniFileChainCacheTest extends IniFileChainTest
 
         // reading the chain should populate the cache
         $fileChain = new TestIniFileChain($defaultSettingFiles, $userSettingsFileCopy, $this->testHost);
-        $expected['General'] = array('trusted_hosts' => array($this->testHost));
+        $expected['General'] = ['trusted_hosts' => [$this->testHost]];
         $this->assertEquals($expected, $fileChain->getAll(), "'$testDescription' failed");
 
-        // even though the passed config files don't exist it still returns the same result as it is fetched from
-        // cache
-        unlink($userSettingsFileCopy);
-        $testChain = new TestIniFileChain(array('foo'), $userSettingsFileCopy);
+        // ensure it can be read only from cache
+        $testChain = new TestIniFileChain(['foo'], $userSettingsFileCopy);
         $this->assertEquals($expected, $testChain->getAll(), "'$testDescription' failed");
+        unlink($userSettingsFileCopy);
     }
 
     /**
      * @dataProvider getMergingTestData
      */
-    public function test_populateCache_DeleteCache($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
+    public function testPopulateCacheDeleteCache($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
     {
-        $this->test_reload_shoulPopulateCacheWhenTrustedHostIsValid($testDescription, $defaultSettingFiles, $userSettingsFile, $expected);
+        $this->testReloadShoulPopulateCacheWhenTrustedHostIsValid($testDescription, $defaultSettingFiles, $userSettingsFile, $expected);
 
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertNotEmpty($value);

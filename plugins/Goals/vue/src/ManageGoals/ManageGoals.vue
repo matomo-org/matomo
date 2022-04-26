@@ -470,9 +470,9 @@ export default defineComponent({
       this.createGoal();
     } else if (this.showGoal) {
       this.editGoal(this.showGoal);
+    } else {
+      this.showListOfReports();
     }
-
-    this.showListOfReports();
 
     // this component can be used in multiple places, one where
     // Matomo.helper.compileAngularComponents() is already called, one where it's not.

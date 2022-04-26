@@ -44,6 +44,8 @@ class Request
 
     protected $tokenAuth;
 
+
+
     /**
      * Stores plugin specific tracking request metadata. RequestProcessors can store
      * whatever they want in this array, and other RequestProcessors can modify these
@@ -71,6 +73,7 @@ class Request
         $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
         $this->isEmptyRequest = empty($params);
+
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
@@ -921,4 +924,5 @@ class Request
         }
         return false;
     }
+
 }

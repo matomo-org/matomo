@@ -113,6 +113,12 @@ export default defineComponent({
       searchQuery: this.query,
     };
   },
+  mounted() {
+    Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });
+  },
+  unmounted() {
+    Matomo.postEvent('Marketplace.Marketplace.unmounted', { element: this.$refs.root });
+  },
   created() {
     function syncMaxHeight2(selector: string) {
       if (!selector) {

@@ -124,6 +124,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setGoalOptions($view);
         $view->onlyShowAddNewGoal = true;
+        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
         $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
     }
@@ -142,12 +143,16 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (empty($view->onlyShowAddGoal)) {
             $beforeGoalListActionsBody = [];
-            foreach ($view->goals as $goal) {
-                $str = '';
-                Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
 
-                $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+            if ($view->goals) {
+                foreach ($view->goals as $goal) {
+                    $str = '';
+                    Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
+    
+                    $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+                }
             }
+
             $view->beforeGoalListActionsBodyEventResult = $beforeGoalListActionsBody;
 
             $str = '';
