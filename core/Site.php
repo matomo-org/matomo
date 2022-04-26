@@ -438,7 +438,7 @@ class Site
         }
         $validIds = array();
         foreach ($ids as $id) {
-            $id = trim($id);
+            $id = is_string($id) ? trim($id) : $id;
             if (!empty($id) && is_numeric($id) && $id > 0) {
                 $validIds[] = $id;
             }
