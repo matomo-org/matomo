@@ -127,6 +127,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Nota: no podeu canviar la configuració d'aquesta secció, perquè no teniu cap lloc web al qual pugui accedir l'usuari anònim.",
         "OrManageIndividually": "O gestioneu l'accés d'aquest usuari a cada lloc web de manera individual",
         "PasswordChangeNotificationSubject": "S'acaba de canviar la contrasenya del vostre compte de Matomo",
+        "PasswordChangeTerminatesOtherSessions": "Quan canvieu la vostra contrasenya, es tancarà qualsevol altra sessió activa d'aquest compte.",
         "PasswordChangedEmail": "S'acaba de canviar la teva contrasenya. El canvi s'ha iniciat des del dispositiu següent: %1$s (adreça IP = %2$s).",
         "Permissions": "Permisos",
         "PersonalSettings": "Configuració personal",
