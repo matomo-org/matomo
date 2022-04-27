@@ -44,17 +44,6 @@ describe("UnprocessedSegmentTest", function () {
         expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('unprocessed_segment');
     });
 
-    it("should show a notification for unprocessed segments without limit on rearchive", async function () {
-        testEnvironment.configOverride.General = {
-            rearchive_reports_in_past_last_n_months: '0',
-        };
-
-        testEnvironment.save();
-        await page.goto(url + '&segment=' + encodeURIComponent(segment));
-
-        expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('unprocessed_segment_no_limit');
-    });
-
 
     it('should not show a notification for custom segments that are not preprocessed', async function () {
         await page.goto(url + '&segment=' + encodeURIComponent(customSegment));

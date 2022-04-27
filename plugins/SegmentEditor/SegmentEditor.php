@@ -286,7 +286,7 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // get the earliest date to rearchive
-        $earliestDateToRearchive =  ArchiveInvalidator::getEarliestDateToRearchive();
+        $earliestDateToRearchive =  Piwik::getEarliestDateToRearchive();
 
         //get the request end period
         $endDate = $period->getDateEnd();
