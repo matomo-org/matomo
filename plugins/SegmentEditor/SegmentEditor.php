@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
@@ -19,18 +18,18 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\Date;
 use Piwik\Notification;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Diagnostics\Diagnostics;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Piwik\Period;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\Plugins\UsersManager\API as UsersManagerApi;
-use Piwik\Date;
 
 /**
  */
