@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -20,7 +21,10 @@ class Disable2FAForUser extends ConsoleCommand
     protected function configure()
     {
         $this->setName('twofactorauth:disable-2fa-for-user');
-        $this->setDescription('Disable two-factor authentication for a user. Useful if a user loses the device that was used for two-factor authentication. After it was disabled, the user will be able to set it up again.');
+        $this->setDescription(
+            'Disable two-factor authentication for a user. Useful if a user loses the device that was used for'
+            . ' two-factor authentication. After it was disabled, the user will be able to set it up again.'
+        );
         $this->addOption('login', null, InputOption::VALUE_REQUIRED, 'Login of an existing user');
     }
 
