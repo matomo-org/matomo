@@ -10,75 +10,32 @@
       <h2>
         <EnrichedHeadline>{{ title }}</EnrichedHeadline>
       </h2>
-      <p>With Matomo, you can <a
-          rel="noreferrer noopener"
-          target="_blank"
-          href="https://matomo.org/docs/embed-piwik-report/"
-        >export your Web Analytics reports</a> on your blog, website, or intranet dashboard...
-        in one click.</p>
+      <p v-html="$sanitize(intro)"></p>
     </div>
     <ContentBlock content-title="Authentication">
-      <p>
-        If you want your widgets to be viewable by everybody, you first have to set the 'view'
-        permissions to the anonymous user in the <a
-          href="index.php?module=UsersManager"
-          rel="noreferrer noopener"
-          target="_blank"
-        >Users Management section</a>.
-        <br />Alternatively, if you are publishing widgets on a password protected or private page,
-        you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can
-        add the secret <code>token_auth</code> parameter in the widget URL.
-        You can manage your auth tokens on your <a
-          rel="noreferrer noopener"
-          target="_blank"
-          :href="linkTo({'module': 'UsersManager', 'action': 'userSecurity'})"
-        >Security page</a>.
-      </p>
+      <p v-html="$sanitize(viewableAnonymously)"></p>
     </ContentBlock>
     <ContentBlock content-title="Widgetize dashboards">
       <div>
-        <p>
-            You can also display the full Matomo dashboard in your application or website in an
-          IFRAME (<a
-            rel="noreferrer noopener"
-            target="_blank"
-            :href="dashboardUrl"
-          >see example</a>).
-          The date parameter can be set to a specific calendar date, "today", or "yesterday". The
-          period parameter can be set to "day", "week", "month", or
-          "year".
-          The language parameter can be set to the language code of a translation, such as
-          language=fr. For example, for idSite=1 and date=yesterday, you can write:
-          <br />
-        </p>
+        <p v-html="$sanitize(displayInIframe)"></p>
         <pre
           v-text="dashboardCode"
           v-select-on-focus="{}"
         ></pre>
-        <p>
-          <br />
-          You can also widgetize the all websites dashboard in an IFRAME
-          (<a
-            rel="noreferrer noopener"
-            target="_blank"
-            id="linkAllWebsitesDashboardUrl"
-            :href="allWebsitesDashboardUrl"
-          >see example</a>)
-          <br />
-        </p>
+        <p v-html="$sanitize(displayInIframeAllSites)"></p>
         <pre
           v-text="allWebsitesDashboardCode"
           v-select-on-focus="{}"
         ></pre>
       </div>
     </ContentBlock>
-    <ContentBlock content-title="Widgetize reports">
+    <ContentBlock :content-title="translate('Widgetize_Reports')">
       <div>
-        <p>Select a report, and copy paste in your page the embed code below the widget:</p>
+        <p>{{ translate('Widgetize_SelectAReport') }}</p>
         <div>
-          <WidgetPreview />
+          <WidgetPreview/>
         </div>
-        <br class="clearfix" />
+        <br class="clearfix"/>
       </div>
     </ContentBlock>
   </div>
@@ -87,6 +44,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
+  translate,
   Matomo,
   ContentIntro,
   EnrichedHeadline,
@@ -155,6 +113,53 @@ export default defineComponent({
     },
     allWebsitesDashboardCode() {
       return getIframeCode(this.allWebsitesDashboardUrl);
+    },
+    intro() {
+      return translate(
+        'Widgetize_Intro',
+        `<a
+          rel="noreferrer noopener"
+          target="_blank"
+          href="https://matomo.org/docs/embed-piwik-report/"
+        >${translate('Widgetize_Intro2')}</a>`,
+      );
+    },
+    viewableAnonymously() {
+      console.log(this.linkTo({ module: 'UsersManager', action: 'userSecurity' }));
+      return translate(
+        'Widgetize_ViewableAnonymously',
+        `<a
+          href="index.php?module=UsersManager"
+          rel="noreferrer noopener"
+          target="_blank"
+        >${translate('Widgetize_ViewableAnonymously2')}</a>`,
+        `<a
+          rel="noreferrer noopener"
+          target="_blank"
+          href="${this.linkTo({ module: 'UsersManager', action: 'userSecurity' })}"
+        >${translate('Widgetize_ViewableAnonymously3')}</a>`,
+      );
+    },
+    displayInIframe() {
+      return translate(
+        'Widgetize_DisplayDashboardInIframe',
+        `<a
+          rel="noreferrer noopener"
+          target="_blank"
+          href="${this.dashboardUrl}"
+        >${translate('Widgetize_DisplayDashboardInIframe2')}</a>`,
+      );
+    },
+    displayInIframeAllSites() {
+      return translate(
+        'Widgetize_DisplayDashboardInIframeAllSites',
+        `<a
+          rel="noreferrer noopener"
+          target="_blank"
+          id="linkAllWebsitesDashboardUrl"
+          href="${this.allWebsitesDashboardUrl}"
+        >${translate('Widgetize_DisplayDashboardInIframeAllSites2')}</a>`,
+      );
     },
   },
   methods: {
