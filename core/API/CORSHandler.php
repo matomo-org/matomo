@@ -25,36 +25,37 @@ class CORSHandler
 
     public function handle()
     {
-        if (empty($this->domains)) {
-            Common::sendHeader('Access-Control-Allow-Origin: *');
-            return false;
-        }
 
+        // set default header
         Common::sendHeader('Vary: Origin');
+        Common::sendHeader('Access-Control-Allow-Credentials: true');
+        Common::sendHeader('Access-Control-Allow-Origin: *');
 
-        // allow Piwik to serve data to all domains
-        if (in_array("*", $this->domains)) {
 
-            Common::sendHeader('Access-Control-Allow-Credentials: true');
+        // when origin is set, response http origin as response
+        if (!empty($_SERVER['HTTP_ORIGIN'])) {
+            Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+        }
 
-            if (!empty($_SERVER['HTTP_ORIGIN'])) {
-                Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-                return false;
-            }
+        if (!empty($this->domains) && !in_array('*', $this->domains) && !in_array($_SERVER['HTTP_ORIGIN'],
+            $this->domains, true)) {
+            Common::stripHeader('Access-Control-Allow-Origin');
+        }
 
-            Common::sendHeader('Access-Control-Allow-Origin: *');
+        if ($this->isPreFlightCorsRequest()) {
+            Common::sendHeader('Access-Control-Allow-Methods: GET, POST');
+            Common::sendHeader('Access-Control-Allow-Headers: *');
+            $this->logger->debug("Tracker detected preflight CORS request. Skipping...");
             return false;
         }
 
-        // specifically allow if it is one of the allowlisted CORS domains
-        if (!empty($_SERVER['HTTP_ORIGIN'])) {
-            $origin = $_SERVER['HTTP_ORIGIN'];
-            if (in_array($origin, $this->domains, true)) {
-                Common::sendHeader('Access-Control-Allow-Credentials: true');
-                Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-            }else{
-                return true;
-            }
+        return true;
+    }
+
+    public function isPreFlightCorsRequest(): bool
+    {
+        if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
+            return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
         }
         return false;
     }

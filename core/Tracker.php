@@ -114,19 +114,12 @@ class Tracker
         try {
 
             $corsHandler = new CORSHandler();
-            $cors = $corsHandler->handle();
+            $corsChecker = $corsHandler->handle();
 
-            $this->init();
-
-            if ($this->isPreFlightCorsRequest()) {
-                Common::sendHeader('Access-Control-Allow-Methods: GET, POST');
-                Common::sendHeader('Access-Control-Allow-Headers: *');
-                if (!$cors) {
-                    Common::sendResponseCode(204);
-                }
-                $this->logger->debug("Tracker detected preflight CORS request. Skipping...");
+            if (!$corsChecker) {
                 return null;
             }
+            $this->init();
 
             $handler->init($this, $requestSet);
 
@@ -377,11 +370,4 @@ class Tracker
         return false;
     }
 
-    public function isPreFlightCorsRequest(): bool
-    {
-        if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
-            return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
-        }
-        return false;
-    }
 }
