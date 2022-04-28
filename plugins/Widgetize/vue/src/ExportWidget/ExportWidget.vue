@@ -33,9 +33,9 @@
       <div>
         <p>{{ translate('Widgetize_SelectAReport') }}</p>
         <div>
-          <WidgetPreview/>
+          <WidgetPreview />
         </div>
-        <br class="clearfix"/>
+        <br class="clearfix" />
       </div>
     </ContentBlock>
   </div>
