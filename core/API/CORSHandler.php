@@ -28,18 +28,17 @@ class CORSHandler
 
         // set default header
         Common::sendHeader('Vary: Origin');
-        Common::sendHeader('Access-Control-Allow-Credentials: true');
         Common::sendHeader('Access-Control-Allow-Origin: *');
-
-
-        // when origin is set, response http origin as response
-        if (!empty($_SERVER['HTTP_ORIGIN'])) {
-            Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-        }
 
         if (!empty($this->domains) && !in_array('*', $this->domains) && !in_array($_SERVER['HTTP_ORIGIN'],
             $this->domains, true)) {
-            Common::stripHeader('Access-Control-Allow-Origin');
+            Common::stripHeader('Access-Control-Allow-Credentials');
+        }
+
+        // when origin is set, response http origin as response
+        if (!empty($_SERVER['HTTP_ORIGIN'])) {
+            Common::sendHeader('Access-Control-Allow-Credentials: true');
+            Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
         }
 
         if ($this->isPreFlightCorsRequest()) {
