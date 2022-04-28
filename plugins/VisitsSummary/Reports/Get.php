@@ -13,7 +13,10 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DbHelper;
+use Piwik\Metrics;
 use Piwik\NumberFormatter;
+use Piwik\Period;
+use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -116,41 +119,44 @@ class Get extends \Piwik\Plugin\Report
             // Add evolution values to sparklines
             list($lastPeriodDate, $ignore) = Range::getLastDate();
             if ($lastPeriodDate !== false) {
-                $date = Common::getRequestVar('date');
+
+                $currentPeriod = Period\Factory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
+                $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
+                $lastPeriod = Period\Factory::build(Piwik::getPeriod(), $lastPeriodDate);
+                $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
 
                 /** @var DataTable $previousData */
                 $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate]);
                 $previousDataRow = $previousData->getFirstRow();
 
-                $view->config->compute_evolution = function ($columns) use ($date, $lastPeriodDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
                     $value = reset($columns);
                     $columnName = key($columns);
                     $pastValue = $previousDataRow->getColumn($columnName);
 
-                    if ($columnName == 'avg_time_on_site') {
-                        // TODO Unable to calculate this evolution because the visit summary archive stores the time pre-formatted.
+                    if (!is_numeric($value) || in_array($columnName, ['avg_time_on_site', 'bounce_rate'])) {
+                        // TODO Unable to calculate this evolution because the API is returning some columns pre-formatted.
                         return;
                     }
 
                     $pastValueFormatted = NumberFormatter::getInstance()->format($pastValue, 1, 1);
                     $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
 
-                    $columnTranslations = $this->getSparklineTranslationsKeys();
-                    $metricTranslationKey = 'VisitsSummary_NbVisitsDescription';
+                    $columnTranslations = Metrics::getDefaultMetricTranslations();
+                    $columnTranslation = '';
                     if (array_key_exists($columnName, $columnTranslations)) {
-                        $metricTranslationKey = 'VisitsSummary_'.$columnTranslations[$columnName];
+                        $columnTranslation = $columnTranslations[$columnName];
                     }
 
                     return [
                         'currentValue' => $value,
                         'pastValue' => $pastValue,
-                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
-                            $currentValueFormatted.' '.Piwik::translate($metricTranslationKey),
-                            $date,
-                            $pastValueFormatted.' '.Piwik::translate($metricTranslationKey),
-                            $lastPeriodDate,
-                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
-                        )),
+                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', [
+                            $currentValueFormatted.' '.$columnTranslation,
+                            $currentPrettyDate,
+                            $pastValueFormatted.' '.$columnTranslation,
+                            $lastPrettyDate,
+                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)])
                     ];
                 };
             }

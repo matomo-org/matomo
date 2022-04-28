@@ -16,8 +16,11 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Metrics;
 use Piwik\NumberFormatter;
+use Piwik\Period\Month;
 use Piwik\Period\Range;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Live\Live;
@@ -121,7 +124,6 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             ]);
         }
 
-        $prefix = '';
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
             $abandonedCart = Piwik::translate('Goals_AbandonedCart');;
             $metrics['nb_conversions'] = Piwik::translate('General_VisitsWith', $abandonedCart);
@@ -130,7 +132,18 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             unset($metrics['nb_visits_converted']);
         }
 
+        $currentPeriod = PeriodFactory::build(Piwik::getPeriod(), $date);
+        $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
+        $lastPeriod = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
+        $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
+
         foreach ($return as $columnName => $value) {
+
+            if (!is_numeric($value) || in_array($columnName, ['conversion_rate'])) {
+                // TODO Unable to calculate this evolution because the API is returning columns pre-formatted.
+                continue;
+            }
+
             if (array_key_exists($columnName, $metrics) && array_key_exists($columnName, $return)) {
 
                 $pastValue = $previousDataRow->getColumn($columnName);
@@ -145,19 +158,20 @@ class Controller extends \Piwik\Plugins\Goals\Controller
                     $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
                 }
 
-                $metricTranslationKey = '';
-                if (array_key_exists($columnName, $metrics)) {
-                    $metricTranslationKey = $metrics[$columnName];
+                $columnTranslations = Metrics::getDefaultMetricTranslations();
+                $columnTranslation = '';
+                if (array_key_exists($columnName, $columnTranslations)) {
+                    $columnTranslation = $columnTranslations[$columnName];
                 }
                 $trend = CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1);
 
                 $return[$columnName.'_trend'] = ($pastValue - $value > 0 ? -1 : ($pastValue - $value < 0 ? 1 : 0));
                 $return[$columnName.'_trend_percent'] = $trend;
                 $return[$columnName.'_tooltip'] = Piwik::translate('General_EvolutionSummaryGeneric', array(
-                    $currentValueFormatted.' '.Piwik::translate($metricTranslationKey),
-                    $date,
-                    $pastValueFormatted.' '.Piwik::translate($metricTranslationKey),
-                    $lastPeriodDate,
+                    $currentValueFormatted.' '.$columnTranslation,
+                    $currentPrettyDate,
+                    $pastValueFormatted.' '.$columnTranslation,
+                    $lastPrettyDate,
                     $trend));
             }
         }

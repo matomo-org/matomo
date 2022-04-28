@@ -12,9 +12,12 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\Metrics;
 use Piwik\NumberFormatter;
+use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
@@ -177,18 +180,26 @@ class Get extends Base
             // Add evolution values to sparklines
             list($lastPeriodDate, $ignore) = Range::getLastDate();
             if ($lastPeriodDate !== false) {
-                $date = Common::getRequestVar('date');
 
                 /** @var DataTable $previousData */
                 $previousData = Request::processRequest('Goals.get', ['date' => $lastPeriodDate]);
                 $previousDataRow = $previousData->getFirstRow();
 
+                $currentPeriod = PeriodFactory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
+                $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
+                $lastPeriod = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
+                $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
+
                 /** @var DataTable\Row $currentDataRow */
-                $view->config->compute_evolution = function ($columns, $currentDataRow) use ($date, $lastPeriodDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns, $currentDataRow) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
 
                     $value = reset($columns);
                     $columnName = key($columns);
                     $pastValue = $previousDataRow->getColumn($columnName);
+
+                    if (!is_numeric($value)) {
+                        return;
+                    }
 
                     if ($columnName == 'revenue') {
                         if ($currentDataRow->hasColumn('revenue_unformatted')) {
@@ -206,20 +217,20 @@ class Get extends Base
                         $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
                     }
 
-                    $columnTranslations = $this->getSparklineTranslationsKeys();
-                    $metricTranslationKey = 'Goals_Conversions';
+                    $columnTranslations = Metrics::getDefaultMetricTranslations();
+                    $columnTranslation = '';
                     if (array_key_exists($columnName, $columnTranslations)) {
-                        $metricTranslationKey = 'Goals_'.$columnTranslations[$columnName];
+                        $columnTranslation = $columnTranslations[$columnName];
                     }
 
                     return [
                         'currentValue' => $value,
                         'pastValue' => $pastValue,
                         'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
-                            Piwik::translate($metricTranslationKey, $currentValueFormatted),
-                            $date,
-                            Piwik::translate($metricTranslationKey, $pastValueFormatted),
-                            $lastPeriodDate,
+                            $currentValueFormatted.' '.$columnTranslation,
+                            $currentPrettyDate,
+                            $pastValueFormatted.' '.$columnTranslation,
+                            $lastPrettyDate,
                             CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
                         )),
                     ];
@@ -252,16 +263,6 @@ class Get extends Base
                 $view->config->columns_to_display = array('nb_conversions');
             }
         }
-    }
-
-    private function getSparklineTranslationsKeys()
-    {
-        return [
-            'nb_conversions' => 'Conversions',
-            'conversion_rate' => 'ConversionRate',
-            'revenue' => 'NRevenue'
-        ];
-
     }
 
     public function configureReportMetadata(&$availableReports, $infos)
