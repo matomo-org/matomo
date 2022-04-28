@@ -193,7 +193,8 @@ var _window = window,
     }
 
     binding.value.onClickHandler = onClickPluginNameLink.bind(null, binding);
-    $(element).on('click', binding.value.onClickHandler);
+    $(element).on('click', binding.value.onClickHandler) // attribute added for AnonymousPiwikUsageMeasurement
+    .attr('matomo-plugin-name', pluginName);
   },
   unmounted: function unmounted(element, binding) {
     $(element).off('click', binding.value.onClickHandler);
@@ -234,7 +235,7 @@ window.angular.module('piwikApp').directive('piwikPluginName', piwikPluginName);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=210cda1c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=0f694c50
 
 var _hoisted_1 = {
   class: "row marketplaceActions",
@@ -299,7 +300,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   })], 8, _hoisted_5)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=210cda1c
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=0f694c50
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -358,6 +359,16 @@ var Marketplacevue_type_script_lang_ts_window = window,
       pluginTypeFilter: this.pluginType,
       searchQuery: this.query
     };
+  },
+  mounted: function mounted() {
+    external_CoreHome_["Matomo"].postEvent('Marketplace.Marketplace.mounted', {
+      element: this.$refs.root
+    });
+  },
+  unmounted: function unmounted() {
+    external_CoreHome_["Matomo"].postEvent('Marketplace.Marketplace.unmounted', {
+      element: this.$refs.root
+    });
   },
   created: function created() {
     function syncMaxHeight2(selector) {

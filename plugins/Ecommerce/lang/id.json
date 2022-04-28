@@ -1,7 +1,32 @@
 {
     "Ecommerce": {
+        "EcommerceLogSubcategoryHelp1": "Log Niaga-el menyediakan data tingkat sesi yang terperinci sehingga Anda dapat melihat sesi penuh untuk setiap pengguna yang melakukan pembelian atau meninggalkan keranjang mereka. Ini dapat membantu Anda untuk memahami apa yang dilakukan pengguna sebelum dan sesudah membeli untuk mengungkapkan peluang pengoptimalan.",
+        "EcommerceLogSubcategoryHelp2": "Data di halaman ini diperbarui secara waktu nyata.",
+        "EcommerceOverviewSubcategoryHelp1": "Bagian Ikhtisar Niaga-el adalah tempat terbaik untuk mendapatkan tampilan tingkat tinggi tentang kinerja toko daring Anda. Sekilas, Anda dapat melihat berapa banyak penjualan dan pendapatan yang Anda hasilkan dan tingkat konversi situs web Anda.",
+        "EcommerceOverviewSubcategoryHelp2": "Klik metrik individual dalam bagan grafik mini untuk memfokuskannya dalam grafik evolusi ukuran penuh.",
+        "EcommerceOverviewSubcategoryHelp3": "Pelajari lebih lanjut di panduan Niaga-el kami di sini.",
+        "LifeTimeValue": "Nilai Niaga-el Secara Keseluruhan",
+        "LifeTimeValueDescription": "Total pendapatan Niaga-el yang diatribusikan ke pelanggan ini di semua kunjungan: jumlah pendapatan dari semua pesanan Niaga-el untuk ID Pengunjung %s.",
+        "NumberOfItems": "Jumlah Barang di Keranjang",
+        "Order": "Pesanan",
+        "OrderId": "ID Pesanan",
+        "OrderRevenue": "Pendapatan Pesanan",
+        "OrderValue": "Nilai pesanan",
+        "Orders": "Pesanan",
+        "PluginDescription": "Niaga-el memungkinkan Anda untuk melacak kapan pengguna menambahkan produk ke keranjang dan kapan mereka mengonversi ke penjualan niaga-el. Juga lacak tampilan produk dan kategori produk serta keranjang yang ditinggalkan.",
+        "ProductSubcategoryHelp": "Tampilan Produk dapat membantu Anda dalam mengidentifikasi produk dan kategori yang kinerjanya berlebihan atau buruk untuk mengungkapkan tren dan peluang yang terkait dengan pilihan produk dan halaman toko Anda.",
+        "RevenueLeftInCart": "Pendapatan yang Tertinggal di Keranjang",
         "Sales": "Penjualan",
-        "SalesBy": "Penjualan oleh %s",
-        "SalesAdjective": "Penjualan %s"
+        "SalesAdjective": "Penjualan %s",
+        "SalesBy": "Penjualan menurut %s",
+        "SalesSubcategoryHelp1": "Bagian ini berisi kumpulan laporan yang ekstensif untuk membantu Anda menganalisis berbagai kondisi, yang biasanya, menghasilkan penjualan, seperti lalu lintas dan sumber kampanye, waktu dan lokasi pengguna, serta perangkat yang digunakan untuk mengaksesnya.",
+        "SalesSubcategoryHelp2": "Anda juga dapat mempelajari dengan tepat bagaimana pendapatan dikaitkan dengan setiap dimensi, seperti jenis lalu lintas tertentu atau kampanye yang dilacak.",
+        "ViewedProductCategory": "Kategori Produk yang Dilihat",
+        "ViewedProductName": "Nama Produk yang Dilihat",
+        "ViewedProductPrice": "Harga Produk yang Dilihat",
+        "ViewedProductSKU": "SKU Produk yang Dilihat",
+        "VisitorProfileAbandonedCartSummary": "Meninggalkan %1$s keranjang termasuk %2$s barang senilai total %3$s.",
+        "VisitorProfileItemsAndOrders": "Membeli %1$s barang dalam %2$s pesanan niaga-el.",
+        "VisitorProfileLTV": "Menghasilkan Pendapatan Keseluruhan %1$s."
     }
 }

@@ -31,6 +31,7 @@
         "ExceptionArchiveEmpty": "Archive vide.",
         "ExceptionArchiveIncompatible": "Archive incompatible : %s",
         "ExceptionArchiveIncomplete": "L'archive est incomplète : des fichiers sont manquants (ex. %s).",
+        "ExceptionDirWrongPermission": "Certains dossiers ne sont pas accessibles en écriture. Veuillez vous assurer que les dossiers suivants sont accessibles en écriture puis réessayez : %s.",
         "ExecuteDbUpgrade": "Une mise à jour de la base de données est nécessaire. Exécuter la mise à jour ?",
         "FeedbackRequest": "N'hésitez pas à partager vos idées et suggestions avec l'équipe Matomo :",
         "HelpMessageContent": "Allez voir la %1$s FAQ Matomo %2$s qui explique les erreurs courantes lors de la mise à jour. %3$s Demandez à votre administrateur système - il pourra être à même avec cette erreur qui est très probablement liée à la configuration de votre serveur MySQL.",

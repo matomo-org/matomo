@@ -153,6 +153,9 @@ class Build extends ConsoleCommand
                 if ($this->isTypeScriptRaceConditionInOutput($plugin, $concattedOutput)) {
                     $output->writeln("<comment>The TypeScript compiler encountered a race condition when compiling "
                         . "files (files that exist were not found), retrying.</comment>");
+
+                    ++$attempts;
+                    continue;
                 }
 
                 if ($returnCode != 0
@@ -163,7 +166,7 @@ class Build extends ConsoleCommand
                     $output->writeln("");
                 }
 
-                ++$attempts;
+                break;
             }
         }
 

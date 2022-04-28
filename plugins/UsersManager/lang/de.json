@@ -127,6 +127,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Hinweis: Sie können die Einstellungen in diesem Bereich nicht ändern, weil Sie keine Website eingerichtet haben, die vom anonymen Benutzer angezeigt werden kann.",
         "OrManageIndividually": "Oder die Zugriffsrechte dieses Benutzers für jede Website individuell verwalten",
         "PasswordChangeNotificationSubject": "Das Passwort Ihres Matomo Benutzerkontos wurde soeben geändert",
+        "PasswordChangeTerminatesOtherSessions": "Wenn Sie Ihr Passwort ändern, werden alle anderen aktiven Sitzungen dieses Kontos abgemeldet.",
         "PasswordChangedEmail": "Ihr Passwort wurde soeben geändert. Diese Änderung wurde von diesem Gerät veranlasst: %1$s (IP-Adresse = %2$s).",
         "Permissions": "Berechtigungen",
         "PersonalSettings": "Persönliche Einstellungen",
