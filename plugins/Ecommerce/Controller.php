@@ -51,7 +51,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
 
         $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
         foreach ($goal as $name => $value) {
-            if ($name == 'conversion_rate') {
+            if ($name === 'conversion_rate') {
                 $value = $value * 100;
             }
             $view->$name = $value;
@@ -59,7 +59,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
 
         $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
         foreach ($goal as $name => $value) {
-            if ($name == 'conversion_rate') {
+            if ($name === 'conversion_rate') {
                 $value = $value * 100;
             }
             $name        = 'cart_' . $name;

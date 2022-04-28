@@ -191,8 +191,7 @@ class Get extends Base
                 $lastPeriod = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
                 $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
 
-                /** @var DataTable\Row $currentDataRow */
-                $view->config->compute_evolution = function ($columns, $currentDataRow) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
 
                     $value = reset($columns);
                     $columnName = key($columns);
@@ -206,7 +205,7 @@ class Get extends Base
                     $formatter = new MetricFormatter();
                     $currentValueFormatted = $value;
                     $pastValueFormatted = $pastValue;
-                    foreach ($this->processedMetrics as $metric) {
+                    foreach ($metrics as $metric) {
                         if ($metric->getName() == $columnName) {
                             $pastValueFormatted = $metric->format($pastValue, $formatter);
                             $currentValueFormatted = $metric->format($value, $formatter);

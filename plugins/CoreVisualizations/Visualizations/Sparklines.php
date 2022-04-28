@@ -119,30 +119,6 @@ class Sparklines extends ViewDataTable
         return $view->render();
     }
 
-    /**
-     * Load the datatable from the API using the pre-configured request object
-     *
-     * @param array $extraParams
-     *
-     * @return mixed
-     */
-    protected function loadDataTableFromAPI(array $extraParams = [])
-    {
-        if (!is_null($this->dataTable)) {
-            // data table is already there
-            // this happens when setDataTable has been used
-            return $this->dataTable;
-        }
-
-        if ($this->isComparing()) {
-            $extraParams['compare'] = '1';
-        }
-
-        $this->dataTable = $this->request->loadDataTableFromAPI($extraParams);
-
-        return $this->dataTable;
-    }
-
     private function fetchConfiguredSparklines()
     {
         $data = $this->loadDataTableFromAPI(['format_metrics' => '0']);
@@ -286,7 +262,7 @@ class Sparklines extends ViewDataTable
 
                 $computeEvolution = $this->config->compute_evolution;
                 if ($computeEvolution) {
-                    $evolution = $computeEvolution(array_combine((is_array($column) ? $column : [$column]), $values), $firstRow, $metricsObjs);
+                    $evolution = $computeEvolution(array_combine((is_array($column) ? $column : [$column]), $values), $metricsObjs);
                     $newMetric['evolution'] = $evolution;
                 }
 

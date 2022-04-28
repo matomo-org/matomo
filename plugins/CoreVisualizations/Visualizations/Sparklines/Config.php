@@ -51,10 +51,9 @@ class Config extends \Piwik\ViewDataTable\Config
      *
      * The function is passed three parameters:
      * - an array mapping column names with column values ['column' => 123]
-     * - the first DataTable Piwik\DataTable\Row object
      * - an array of \Piwik\Plugin\Metrics objects available for the report - useful for formatting values
      *
-     * compute_evolution(array, Piwik\DataTable\Row, array)
+     * compute_evolution(array, array)
      *
      * @var callable
      */
@@ -304,7 +303,8 @@ class Config extends \Piwik\ViewDataTable\Config
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
                 $sparkline['evolution'] = array(
                     'percent' => $evolutionPercent,
-                    'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null
+                    'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null,
+                    'trend' => $evolution['currentValue'] - $evolution['pastValue'],
                 );
             }
 

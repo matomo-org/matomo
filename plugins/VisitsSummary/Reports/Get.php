@@ -129,7 +129,7 @@ class Get extends \Piwik\Plugin\Report
                 $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate, 'format_metrics' => '0']);
                 $previousDataRow = $previousData->getFirstRow();
 
-                $view->config->compute_evolution = function ($columns, $firstRow, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
                     $value = reset($columns);
                     $columnName = key($columns);
                     $pastValue = $previousDataRow->getColumn($columnName);
