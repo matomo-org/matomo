@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
+use Piwik\Metrics\Formatter as MetricFormatter;
 use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period\Range;
@@ -182,7 +183,7 @@ class Get extends Base
             if ($lastPeriodDate !== false) {
 
                 /** @var DataTable $previousData */
-                $previousData = Request::processRequest('Goals.get', ['date' => $lastPeriodDate]);
+                $previousData = Request::processRequest('Goals.get', ['date' => $lastPeriodDate, 'format_metrics' => '0']);
                 $previousDataRow = $previousData->getFirstRow();
 
                 $currentPeriod = PeriodFactory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
@@ -201,20 +202,16 @@ class Get extends Base
                         return;
                     }
 
-                    if ($columnName == 'revenue') {
-                        if ($currentDataRow->hasColumn('revenue_unformatted')) {
-                            $numberFormatter = NumberFormatter::getInstance();
-                            $value = $currentDataRow->getColumn('revenue_unformatted');
-                            $idSite = $this->getIdSite();
-                            $currencySymbol = Site::getCurrencySymbolFor($idSite);
-                            $currentValueFormatted = $numberFormatter->formatCurrency($value, $currencySymbol, GoalManager::REVENUE_PRECISION);
-                            $pastValueFormatted = $numberFormatter->formatCurrency($pastValue, $currencySymbol, GoalManager::REVENUE_PRECISION);
-                        } else {
-                            return;
+                    // Format
+                    $formatter = new MetricFormatter();
+                    $currentValueFormatted = $value;
+                    $pastValueFormatted = $pastValue;
+                    foreach ($this->processedMetrics as $metric) {
+                        if ($metric->getName() == $columnName) {
+                            $pastValueFormatted = $metric->format($pastValue, $formatter);
+                            $currentValueFormatted = $metric->format($value, $formatter);
+                            break;
                         }
-                    } else {
-                        $pastValueFormatted = NumberFormatter::getInstance()->format($pastValue, 1, 1);
-                        $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
                     }
 
                     $columnTranslations = Metrics::getDefaultMetricTranslations();

@@ -14,7 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DbHelper;
 use Piwik\Metrics;
-use Piwik\NumberFormatter;
+use Piwik\Metrics\Formatter as MetricFormatter;
 use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Range;
@@ -126,21 +126,25 @@ class Get extends \Piwik\Plugin\Report
                 $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
 
                 /** @var DataTable $previousData */
-                $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate]);
+                $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate, 'format_metrics' => '0']);
                 $previousDataRow = $previousData->getFirstRow();
 
-                $view->config->compute_evolution = function ($columns) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns, $firstRow, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
                     $value = reset($columns);
                     $columnName = key($columns);
                     $pastValue = $previousDataRow->getColumn($columnName);
 
-                    if (!is_numeric($value) || in_array($columnName, ['avg_time_on_site', 'bounce_rate'])) {
-                        // TODO Unable to calculate this evolution because the API is returning some columns pre-formatted.
-                        return;
+                    // Format
+                    $formatter = new MetricFormatter();
+                    $currentValueFormatted = $value;
+                    $pastValueFormatted = $pastValue;
+                    foreach ($metrics as $metric) {
+                        if ($metric->getName() == $columnName) {
+                            $pastValueFormatted = $metric->format($pastValue, $formatter);
+                            $currentValueFormatted = $metric->format($value, $formatter);
+                            break;
+                        }
                     }
-
-                    $pastValueFormatted = NumberFormatter::getInstance()->format($pastValue, 1, 1);
-                    $currentValueFormatted = NumberFormatter::getInstance()->format($value, 1, 1);
 
                     $columnTranslations = Metrics::getDefaultMetricTranslations();
                     $columnTranslation = '';

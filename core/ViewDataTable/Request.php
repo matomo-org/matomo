@@ -34,7 +34,7 @@ class Request
     {
         // we build the request (URL) to call the API
         $requestArray = $this->getRequestArray();
-        $requestArray = array_merge($extraParams, $requestArray);
+        $requestArray = array_merge($requestArray, $extraParams);
 
         // we make the request to the API
         $request = new ApiRequest($requestArray);

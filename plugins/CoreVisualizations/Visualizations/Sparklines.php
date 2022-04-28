@@ -12,7 +12,9 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Metrics\Formatter as MetricFormatter;
 use Piwik\Period\Factory;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\SettingsPiwik;
@@ -117,9 +119,33 @@ class Sparklines extends ViewDataTable
         return $view->render();
     }
 
+    /**
+     * Load the datatable from the API using the pre-configured request object
+     *
+     * @param array $extraParams
+     *
+     * @return mixed
+     */
+    protected function loadDataTableFromAPI(array $extraParams = [])
+    {
+        if (!is_null($this->dataTable)) {
+            // data table is already there
+            // this happens when setDataTable has been used
+            return $this->dataTable;
+        }
+
+        if ($this->isComparing()) {
+            $extraParams['compare'] = '1';
+        }
+
+        $this->dataTable = $this->request->loadDataTableFromAPI($extraParams);
+
+        return $this->dataTable;
+    }
+
     private function fetchConfiguredSparklines()
     {
-        $data = $this->loadDataTableFromAPI();
+        $data = $this->loadDataTableFromAPI(['format_metrics' => '0']);
 
         $this->applyFilters($data);
 
@@ -128,6 +154,8 @@ class Sparklines extends ViewDataTable
                 $this->config->addSparklineMetric($column);
             }
         }
+
+        $report = ReportsProvider::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
 
         $firstRow = $data->getFirstRow();
         if ($firstRow) {
@@ -232,10 +260,22 @@ class Sparklines extends ViewDataTable
             } else {
                 list($values, $descriptions) = $this->getValuesAndDescriptions($firstRow, $column);
 
+                $metricsObjs = $report->getProcessedMetricsById();
                 $metrics = [];
                 foreach ($values as $i => $value) {
+
+                    // Format metric
+                    $formatter = new MetricFormatter();
+                    $valueFormatted = $value;
+                    foreach ($metricsObjs as $metricObj) {
+                        if ((is_array($column) && in_array($metricObj->getName(), ($column)) || $metricObj->getName() == $column)) {
+                            $valueFormatted = $metricObj->format($value, $formatter);
+                            break;
+                        }
+                    }
+
                     $newMetric = [
-                        'value' => $value,
+                        'value' => $valueFormatted,
                         'description' => $descriptions[$i],
                     ];
 
@@ -246,7 +286,7 @@ class Sparklines extends ViewDataTable
 
                 $computeEvolution = $this->config->compute_evolution;
                 if ($computeEvolution) {
-                    $evolution = $computeEvolution(array_combine((is_array($column) ? $column : [$column]), $values), $firstRow);
+                    $evolution = $computeEvolution(array_combine((is_array($column) ? $column : [$column]), $values), $firstRow, $metricsObjs);
                     $newMetric['evolution'] = $evolution;
                 }
 

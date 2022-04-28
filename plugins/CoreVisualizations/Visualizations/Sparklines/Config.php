@@ -49,10 +49,12 @@ class Config extends \Piwik\ViewDataTable\Config
     /**
      * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
      *
-     * The function is passed an array mapping column names with column values ['column' => 123] and the first
-     * DataTable row object
+     * The function is passed three parameters:
+     * - an array mapping column names with column values ['column' => 123]
+     * - the first DataTable Piwik\DataTable\Row object
+     * - an array of \Piwik\Plugin\Metrics objects available for the report - useful for formatting values
      *
-     * compute_evolution(array, Piwik\DataTable\Row)
+     * compute_evolution(array, Piwik\DataTable\Row, array)
      *
      * @var callable
      */
