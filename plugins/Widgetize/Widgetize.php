@@ -49,14 +49,9 @@ class Widgetize extends \Piwik\Plugin
         $translations[] = 'Widgetize_SelectAReport';
         $translations[] = 'Widgetize_Reports';
         $translations[] = 'Widgetize_Intro';
-        $translations[] = 'Widgetize_Intro2';
         $translations[] = 'Widgetize_DisplayDashboardInIframe';
-        $translations[] = 'Widgetize_DisplayDashboardInIframe2';
         $translations[] = 'Widgetize_DisplayDashboardInIframeAllSites';
-        $translations[] = 'Widgetize_DisplayDashboardInIframeAllSites2';
         $translations[] = 'Widgetize_ViewableAnonymously';
-        $translations[] = 'Widgetize_ViewableAnonymously2';
-        $translations[] = 'Widgetize_ViewableAnonymously3';
         $translations[] = 'Widgetize_EmbedIframe';
         $translations[] = 'Widgetize_DirectLink';
     }
