@@ -17,12 +17,19 @@
     </ContentBlock>
     <ContentBlock content-title="Widgetize dashboards">
       <div>
-        <p v-html="$sanitize(displayInIframe)"></p>
+        <p>
+          <span v-html="$sanitize(displayInIframe)"></span>
+          <br/>
+        </p>
         <pre
           v-text="dashboardCode"
           v-select-on-focus="{}"
         ></pre>
-        <p v-html="$sanitize(displayInIframeAllSites)"></p>
+        <p>
+          <br />
+          <span v-html="$sanitize(displayInIframeAllSites)"></span>
+          <br />
+        </p>
         <pre
           v-text="allWebsitesDashboardCode"
           v-select-on-focus="{}"
@@ -121,23 +128,25 @@ export default defineComponent({
           rel="noreferrer noopener"
           target="_blank"
           href="https://matomo.org/docs/embed-piwik-report/"
-        >${translate('Widgetize_Intro2')}</a>`,
+        >`,
+        '</a>',
       );
     },
     viewableAnonymously() {
-      console.log(this.linkTo({ module: 'UsersManager', action: 'userSecurity' }));
       return translate(
         'Widgetize_ViewableAnonymously',
         `<a
           href="index.php?module=UsersManager"
           rel="noreferrer noopener"
           target="_blank"
-        >${translate('Widgetize_ViewableAnonymously2')}</a>`,
+        >`,
+        '</a>',
         `<a
           rel="noreferrer noopener"
           target="_blank"
           href="${this.linkTo({ module: 'UsersManager', action: 'userSecurity' })}"
-        >${translate('Widgetize_ViewableAnonymously3')}</a>`,
+        >`,
+        '</a>',
       );
     },
     displayInIframe() {
@@ -147,7 +156,8 @@ export default defineComponent({
           rel="noreferrer noopener"
           target="_blank"
           href="${this.dashboardUrl}"
-        >${translate('Widgetize_DisplayDashboardInIframe2')}</a>`,
+        >`,
+        '</a>',
       );
     },
     displayInIframeAllSites() {
@@ -158,7 +168,8 @@ export default defineComponent({
           target="_blank"
           id="linkAllWebsitesDashboardUrl"
           href="${this.allWebsitesDashboardUrl}"
-        >${translate('Widgetize_DisplayDashboardInIframeAllSites2')}</a>`,
+        >`,
+        '</a>',
       );
     },
   },
