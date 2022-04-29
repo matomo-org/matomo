@@ -352,14 +352,7 @@ abstract class ViewDataTable implements ViewInterface
         return new VizRequest();
     }
 
-    /**
-     * Load the datatable from the API using the pre-configured request object
-     *
-     * @param array $forcedParams   Optional parameters which will be used to overwrite the request parameters
-     *
-     * @return mixed
-     */
-    protected function loadDataTableFromAPI(array $forcedParams = [])
+    protected function loadDataTableFromAPI()
     {
         if (!is_null($this->dataTable)) {
             // data table is already there
@@ -367,11 +360,12 @@ abstract class ViewDataTable implements ViewInterface
             return $this->dataTable;
         }
 
+        $extraParams = [];
         if ($this->isComparing()) {
-            $forcedParams['compare'] = '1';
+            $extraParams['compare'] = '1';
         }
 
-        $this->dataTable = $this->request->loadDataTableFromAPI($forcedParams);
+        $this->dataTable = $this->request->loadDataTableFromAPI($extraParams);
 
         return $this->dataTable;
     }

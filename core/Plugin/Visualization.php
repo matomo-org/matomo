@@ -310,16 +310,7 @@ class Visualization extends ViewDataTable
         return $hasData;
     }
 
-    /**
-     * Load the datatable from the API using the pre-configured request object
-     *
-     * @param array $forcedParams   Optional parameters which will be used to overwrite the request parameters
-     *
-     * @return mixed
-     *
-     * @internal
-     */
-    protected function loadDataTableFromAPI(array $forcedParams = [])
+    protected function loadDataTableFromAPI()
     {
         if (!is_null($this->dataTable)) {
             // data table is already there
@@ -343,8 +334,6 @@ class Visualization extends ViewDataTable
                 'disable_root_datatable_post_processor' => 1,
             ]);
         }
-
-        $proxyRequestParams = array_merge($proxyRequestParams, $forcedParams);
 
         $class     = ApiRequest::getClassNameAPI($module);
         $dataTable = Proxy::getInstance()->call($class, $method, $proxyRequestParams);
