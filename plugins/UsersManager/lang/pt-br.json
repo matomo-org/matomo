@@ -127,6 +127,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Obs: Você não pode alterar as configurações nesta seção, porque você não tem nenhum site que pode ser acessado pelo usuário anônimo.",
         "OrManageIndividually": "Ou gerencie o acesso deste usuário em cada site individualmente",
         "PasswordChangeNotificationSubject": "A senha da sua conta Matomo acabou de ser alterada",
+        "PasswordChangeTerminatesOtherSessions": "Quando você altera sua senha, qualquer outra sessão ativa desta conta será desconectada.",
         "PasswordChangedEmail": "Sua senha acabou de ser alterada. A alteração foi iniciada a partir do seguinte dispositivo: %1$s (endereço IP = %2$s).",
         "Permissions": "Permissões",
         "PersonalSettings": "Configurações pessoais",
