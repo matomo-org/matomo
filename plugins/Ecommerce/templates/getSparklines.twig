@@ -11,11 +11,11 @@
         </div>
         {% if nb_conversions_trend is defined %}
         <div class="metricEvolution" title="{{ nb_conversions_tooltip|raw }}">
-            {% if nb_conversions_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %} {% endif %}
-            {% if nb_conversions_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if nb_conversions_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if nb_conversions_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if nb_conversions_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if nb_conversions_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ nb_conversions_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ nb_conversions_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
@@ -28,11 +28,11 @@
 	    </div>
         {% if revenue_trend is defined %}
         <div class="metricEvolution" title="{{ revenue_tooltip|raw }}">
-            {% if revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %}  {% endif %}
-            {% if revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ revenue_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ revenue_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
@@ -45,11 +45,11 @@
         </div>
         {% if avg_order_revenue_trend is defined %}
         <div class="metricEvolution" title="{{ avg_order_revenue_tooltip|raw }}">
-            {% if avg_order_revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %}  {% endif %}
-            {% if avg_order_revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if avg_order_revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if avg_order_revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if avg_order_revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if avg_order_revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ avg_order_revenue_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ avg_order_revenue_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
@@ -66,11 +66,11 @@
         </div>
         {% if conversion_rate_trend is defined %}
         <div class="metricEvolution" title="{{ conversion_rate_tooltip|raw }}">
-            {% if conversion_rate_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %}  {% endif %}
-            {% if conversion_rate_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if conversion_rate_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if conversion_rate_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if conversion_rate_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if conversion_rate_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ conversion_rate_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ conversion_rate_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
@@ -82,11 +82,11 @@
         </div>
         {% if items_trend is defined %}
         <div class="metricEvolution" title="{{ items_tooltip|raw }}">
-            {% if items_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %}  {% endif %}
-            {% if items_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if items_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if items_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if items_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if items_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ items_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ items_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
@@ -106,11 +106,11 @@
 	    </div>
         {% if cart_nb_conversions_trend is defined %}
         <div class="metricEvolution" title="{{ cart_nb_conversions_tooltip|raw }}">
-            {% if cart_nb_conversions_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %}  {% endif %}
-            {% if cart_nb_conversions_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if cart_nb_conversions_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if cart_nb_conversions_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if cart_nb_conversions_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if cart_nb_conversions_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ cart_nb_conversions_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ cart_nb_conversions_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
@@ -124,11 +124,11 @@
 	    </div>
         {% if cart_revenue_trend is defined %}
         <div class="metricEvolution" title="{{ cart_revenue_tooltip|raw }}">
-            {% if cart_revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %}  {% endif %}
-            {% if cart_revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if cart_revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if cart_revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if cart_revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if cart_revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ cart_revenue_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ cart_revenue_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
@@ -141,11 +141,11 @@
 	    </div>
         {% if cart_conversion_rate_trend is defined %}
         <div class="metricEvolution" title="{{ cart_conversion_rate_tooltip|raw }}">
-            {% if cart_conversion_rate_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% set trend_prefix='' %}  {% endif %}
-            {% if cart_conversion_rate_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% set trend_prefix='+' %} {% endif %}
-            {% if cart_conversion_rate_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% set trend_prefix='' %} {% endif %}
+            {% if cart_conversion_rate_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if cart_conversion_rate_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if cart_conversion_rate_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
             <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
-            <strong class="{{ trend_class }}-evolution">{{ trend_prefix }}{{ cart_conversion_rate_trend_percent|raw }}</strong>
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ cart_conversion_rate_trend_percent|raw }}</strong>
         </div>
         {% endif %}
     </div>
