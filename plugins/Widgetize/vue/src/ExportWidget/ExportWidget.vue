@@ -177,7 +177,7 @@ export default defineComponent({
     linkTo(params: QueryParameters) {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
-        params,
+        ...params,
       })}`;
     },
   },
