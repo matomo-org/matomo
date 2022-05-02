@@ -94,7 +94,7 @@
           </div>
           <div>
             <Field
-               v-if="theUser.invited_at=='' && theUser.login!=''"
+               v-if="isPendingUser"
                :model-value="theUser.password"
                :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
@@ -584,6 +584,10 @@ export default defineComponent({
       return this.isAdd
         ? translate('UsersManager_InviteUser')
         : translate('UsersManager_SaveBasicInfo');
+    },
+    isPendingUser() {
+      // eslint-disable-next-line eqeqeq
+      return (this.theUser.invited_at === '' || !this.theUser.invited_at) && this.theUser.login != '';
     },
     isAdd() {
       return !this.user; // purposefully checking input property not theUser state
