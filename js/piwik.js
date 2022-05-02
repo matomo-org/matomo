@@ -498,10 +498,6 @@ if (typeof window.Matomo !== 'object') {
          * "slow unload", i.e., calling getTime() > 1000 times
          */
         function beforeUnloadHandler(event) {
-            if (isPageUnloading || documentAlias.hidden || (event.type === 'visibilitychange' && documentAlias.visibilityState !== 'hidden')) {
-                return;
-            }
-
             var now;
             isPageUnloading = true;
 
@@ -7170,7 +7166,16 @@ if (typeof window.Matomo !== 'object') {
 
         // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
-        addEventListener(windowAlias, 'visibilitychange', beforeUnloadHandler);
+        addEventListener(windowAlias, 'visibilitychange', function () {
+            // if unloaded, return
+            if (isPageUnloading) {
+                return;
+            }
+            // if not visible
+            if (documentAlias.visibilityState == 'hidden') {
+                executePluginMethod('unload');
+            }
+        }, false);
         addEventListener(windowAlias, 'online', function () {
             if (isDefined(navigatorAlias.serviceWorker)) {
                 navigatorAlias.serviceWorker.ready.then(function(swRegistration) {

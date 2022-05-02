@@ -5205,18 +5205,16 @@ if ($mysql) {
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
         startTime = new Date();
-        tracker.hook.test._beforeUnloadHandler({ type: 'beforeunload' });
+        tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
         ok( msSinceStarted < 530, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 530 ' );
 
-        Piwik.getTracker().unsetPageIsUnloading();
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
         startTime = new Date();
         tracker.trackPageView();
-        tracker.hook.test._beforeUnloadHandler({ type: 'beforeunload' });
-        tracker.hook.test._beforeUnloadHandler({ type: 'visibilitychange' });
+        tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var diffTime = (stopTime.getTime() - startTime.getTime());
         ok( diffTime >= 2000, 'setLinkTrackingTimer(): ' + diffTime);
