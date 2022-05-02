@@ -7172,7 +7172,7 @@ if (typeof window.Matomo !== 'object') {
                 return;
             }
             // if not visible
-            if (documentAlias.visibilityState == 'hidden') {
+            if (documentAlias.visibilityState === 'hidden') {
                 executePluginMethod('unload');
             }
         }, false);
