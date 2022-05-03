@@ -6,10 +6,10 @@
  */
 
 import createAngularJsAdapter from '../createAngularJsAdapter';
-import MenuDropdown from './MenuDropdown.vue';
+import MenuItemsDropdown from './MenuItemsDropdown.vue';
 
 export default createAngularJsAdapter({
-  component: MenuDropdown,
+  component: MenuItemsDropdown,
   scope: {
     menuTitle: {
       angularJsBind: '@',
