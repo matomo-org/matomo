@@ -258,8 +258,11 @@ window.piwikHelper = {
     },
 
     compileVueDirectives: function (selector) {
-      $('[vue-directive]', selector).add($(selector).filter('[vue-entry]')).each(function () {
+      $('[vue-directive]', selector).add($(selector).filter('[vue-directive]')).each(function () {
         var vueDirectiveName = $(this).attr('vue-directive');
+        if (!vueDirectiveName) {
+          return;
+        }
 
         var parts = vueDirectiveName.split('.');
         if (parts.length !== 2) {

@@ -497,13 +497,12 @@ if (typeof window.Matomo !== 'object') {
          * Chrome V8 extension that terminates JS that exhibits
          * "slow unload", i.e., calling getTime() > 1000 times
          */
-        function beforeUnloadHandler() {
+        function beforeUnloadHandler(event) {
             var now;
             isPageUnloading = true;
 
             executePluginMethod('unload');
-
-            now  = new Date();
+            now = new Date();
             var aliasTime = now.getTimeAlias();
             if ((expireDateTime - aliasTime) > 3000) {
                 expireDateTime = aliasTime + 3000;
@@ -7167,6 +7166,16 @@ if (typeof window.Matomo !== 'object') {
 
         // initialize the Matomo singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
+        addEventListener(windowAlias, 'visibilitychange', function () {
+            // if unloaded, return
+            if (isPageUnloading) {
+                return;
+            }
+            // if not visible
+            if (documentAlias.visibilityState === 'hidden') {
+                executePluginMethod('unload');
+            }
+        }, false);
         addEventListener(windowAlias, 'online', function () {
             if (isDefined(navigatorAlias.serviceWorker)) {
                 navigatorAlias.serviceWorker.ready.then(function(swRegistration) {

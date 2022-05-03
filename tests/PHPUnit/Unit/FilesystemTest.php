@@ -198,8 +198,8 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $sourceInsensitive = $this->createCaseInsensitiveSourceFiles();
         $targetInsensitive = $this->createCaseInsensitiveTargetFiles();
 
-        // Target: /CoreHome/vue/src/Menudropdown/Menudropdown.vue'
-        // Source: /CoreHome/vue/src/MenuDropdown/MenuDropdown.vue'
+        // Target: /CoreHome/vue/src/MenuItemsDropdown/MenuItemsDropdown.vue'
+        // Source: /CoreHome/vue/src/MenuItemsDropdown/MenuItemsDropdown.vue'
 
         $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
 
@@ -229,10 +229,10 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
             $result = Filesystem::directoryDiff($targetInsensitive, $sourceInsensitive);
             $this->assertEquals(array(
-                 '/CoreHome/vue/src/MenuDropdown',
-                 '/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue',
-                 '/CoreHome/vue/src/MenuDropdown/index.htm',
-                 '/CoreHome/vue/src/MenuDropdown/index.php',
+                 '/CoreHome/vue/src/MenuItemsDropdown',
+                 '/CoreHome/vue/src/MenuItemsDropdown/MenuItemsDropdown.vue',
+                 '/CoreHome/vue/src/MenuItemsDropdown/index.htm',
+                 '/CoreHome/vue/src/MenuItemsDropdown/index.php',
             ), $result);
 
         }
@@ -313,9 +313,9 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
     private function createCaseInsensitiveTargetFiles()
     {
         $target = $this->createEmptyTarget();
-        Filesystem::mkdir($target . '/CoreHome/vue/src/Menudropdown');
+        Filesystem::mkdir($target . '/CoreHome/vue/src/Menuitemsdropdown');
 
-        file_put_contents($target . '/CoreHome/vue/src/Menudropdown/Menudropdown.vue', '');
+        file_put_contents($target . '/CoreHome/vue/src/Menuitemsdropdown/Menuitemsdropdown.vue', '');
 
         return $target;
     }
@@ -323,9 +323,9 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
     private function createCaseInsensitiveSourceFiles()
     {
         $source = $this->createEmptySource();
-        Filesystem::mkdir($source . '/CoreHome/vue/src/MenuDropdown');
+        Filesystem::mkdir($source . '/CoreHome/vue/src/MenuItemsDropdown');
 
-        file_put_contents($source . '/CoreHome/vue/src/MenuDropdown/MenuDropdown.vue', '');
+        file_put_contents($source . '/CoreHome/vue/src/MenuItemsDropdown/MenuItemsDropdown.vue', '');
 
         return $source;
     }
