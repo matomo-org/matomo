@@ -637,6 +637,7 @@ export default defineComponent({
       this.isGivingAccessToAllSites = true;
       AjaxHelper.fetch<Site[]>({
         method: 'SitesManager.getSitesWithAdminAccess',
+        filter_limit: -1,
       }).then((allSites) => {
         const idSites = allSites.map((s) => s.idsite);
         return AjaxHelper.post(
