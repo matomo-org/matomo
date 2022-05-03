@@ -1,7 +1,9 @@
 {
     "UserId": {
+        "PluginDescription": "显示用户报告",
         "UserId": "用户ID",
+        "UserReportDocumentation": "此报告显示每个用户ID的访问量和其他常规指标。",
         "UserReportTitle": "用户ID",
-        "PluginDescription": "显示用户报告"
+        "VisitorsUserSubcategoryHelp": "用户ID报告显示与所有注册和登录用户相关的访问。您可以使用本节了解特定用户对网站的使用情况，并确定哪些是您最活跃和最不活跃的用户。"
     }
 }
