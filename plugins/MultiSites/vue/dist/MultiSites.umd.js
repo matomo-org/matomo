@@ -908,8 +908,7 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
       this.privateState.isLoading = true;
       this.privateState.errorLoadingSites = false;
       var params = {
-        module: 'MultiSites',
-        action: 'getAllWithGroups',
+        method: 'MultiSites.getAllWithGroups',
         hideMetricsDoc: '1',
         filter_sort_order: 'asc',
         filter_limit: this.state.value.pageSize,

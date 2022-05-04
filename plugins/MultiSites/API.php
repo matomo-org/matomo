@@ -190,6 +190,38 @@ class API extends \Piwik\Plugin\API
         );
     }
 
+    /**
+     * @param null|string  $period
+     * @param null|string  $date
+     * @param false|string $segment
+     * @param string       $pattern
+     * @param int          $filter_limit
+     * @return array
+     * @throws Exception
+     */
+    public function getAllWithGroups($period = null, $date = null, $segment = false, $pattern = '', $filter_limit = 0)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $segment = $segment ?: false;
+        $request = $_GET + $_POST;
+
+        $dashboard = new Dashboard($period, $date, $segment);
+
+        if ($pattern !== '') {
+            $dashboard->search(strtolower($pattern));
+        }
+
+        $response = [
+            'numSites' => $dashboard->getNumSites(),
+            'totals'   => $dashboard->getTotals(),
+            'lastDate' => $dashboard->getLastDate(),
+            'sites'    => $dashboard->getSites($request, $filter_limit)
+        ];
+
+        return $response;
+    }
+
     private function getSiteFromId($idSite)
     {
         $idSite = (int) $idSite;
@@ -242,7 +274,7 @@ class API extends \Piwik\Plugin\API
 
         // if the period isn't a range & a lastN/previousN date isn't used, we get the same
         // data for the last period to show the evolution of visits/actions/revenue
-        list($strLastDate, $lastPeriod) = Range::getLastDate($date, $period);
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, $period);
 
         if ($strLastDate !== false) {
 
