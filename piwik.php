@@ -60,6 +60,8 @@ try {
 
 Tracker::loadTrackerEnvironment();
 
+$corsHandler = new CORSHandler();
+$corsHandler->handle();
 
 $tracker    = new Tracker();
 $requestSet = new RequestSet();

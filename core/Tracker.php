@@ -11,7 +11,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\API\CORSHandler;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
@@ -112,13 +111,6 @@ class Tracker
     public function main(Handler $handler, RequestSet $requestSet)
     {
         try {
-
-            $corsHandler = new CORSHandler();
-            $corsChecker = $corsHandler->handle();
-
-            if (!$corsChecker) {
-                return null;
-            }
             $this->init();
 
             $handler->init($this, $requestSet);
@@ -370,4 +362,11 @@ class Tracker
         return false;
     }
 
+    public function isPreFlightCorsRequest(): bool
+    {
+        if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
+            return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
+        }
+        return false;
+    }
 }

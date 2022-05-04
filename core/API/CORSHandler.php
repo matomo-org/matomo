@@ -9,7 +9,9 @@
 namespace Piwik\API;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Url;
+use Psr\Log\LoggerInterface;
 
 class CORSHandler
 {
@@ -18,9 +20,13 @@ class CORSHandler
      */
     protected $domains;
 
+    private $logger;
+
     public function __construct()
     {
         $this->domains = Url::getCorsHostsFromConfig();
+        $this->logger = StaticContainer::get(LoggerInterface::class);
+
     }
 
     public function handle()
@@ -42,17 +48,34 @@ class CORSHandler
             Common::stripHeader('Access-Control-Allow-Origin');
         }
 
-        if ($this->isPreFlightCorsRequest()) {
+        if (self::isPreFlightCorsRequest()) {
             Common::sendHeader('Access-Control-Allow-Methods: GET, POST');
             Common::sendHeader('Access-Control-Allow-Headers: *');
+            Common::sendResponseCode(204);
             $this->logger->debug("Tracker detected preflight CORS request. Skipping...");
-            return false;
+            exit;
         }
 
-        return true;
     }
 
-    public function isPreFlightCorsRequest(): bool
+    public static function isHttpGetRequest()
+    {
+        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+
+        return strtoupper($requestMethod) === 'GET';
+    }
+
+    public static function outputAccessControlHeaders()
+    {
+        if (!self::isHttpGetRequest()) {
+            $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
+            Common::sendHeader('Access-Control-Allow-Origin: ' . $origin);
+            Common::sendHeader('Access-Control-Allow-Credentials: true');
+        }
+    }
+
+
+    public static function isPreFlightCorsRequest(): bool
     {
         if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
             return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);

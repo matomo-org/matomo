@@ -11,6 +11,7 @@
 namespace Piwik\Tracker;
 
 use Exception;
+use Piwik\API\CORSHandler;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Profiler;
@@ -38,7 +39,7 @@ class Response
 
     public function getOutput()
     {
-        $this->outputAccessControlHeaders();
+        CORSHandler::outputAccessControlHeaders();
 
         if (is_null($this->content) && ob_get_level() > 0) {
             $this->content = ob_get_clean();
@@ -79,7 +80,7 @@ class Response
             $this->outputApiResponse($tracker);
             Common::printDebug("Logging disabled, display transparent logo");
         } elseif (!$tracker->hasLoggedRequests()) {
-            if (!$this->isHttpGetRequest() || !empty($_GET) || !empty($_POST)) {
+            if (!CORSHandler::isHttpGetRequest() || !empty($_GET) || !empty($_POST)) {
                 Common::sendResponseCode(400);
             }
             Common::printDebug("Empty request => Matomo page");
@@ -108,22 +109,6 @@ class Response
         }
     }
 
-    private function outputAccessControlHeaders()
-    {
-        if (!$this->isHttpGetRequest()) {
-            $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
-            Common::sendHeader('Access-Control-Allow-Origin: ' . $origin);
-            Common::sendHeader('Access-Control-Allow-Credentials: true');
-        }
-    }
-
-    private function isHttpGetRequest()
-    {
-        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-
-        return strtoupper($requestMethod) === 'GET';
-    }
-
     private function getOutputBuffer()
     {
         return ob_get_contents();
@@ -146,7 +131,7 @@ class Response
 
         $request = $_GET + $_POST;
 
-        if ($this->isHttpGetRequest()) {
+        if (CORSHandler::isHttpGetRequest()) {
             Common::sendHeader('Cache-Control: no-store');
         }
 
