@@ -44,7 +44,7 @@ class ApiTest extends SystemTestCase
                         'filter_limit' => 20,
                     ],
                     'testSuffix' => '',
-                ]
+                ],
             ],
             [
                 'MultiSites.getAllWithGroups',
@@ -55,7 +55,7 @@ class ApiTest extends SystemTestCase
                         'filter_limit' => 5,
                     ],
                     'testSuffix' => 'limited',
-                ]
+                ],
             ],
             [
                 'MultiSites.getAllWithGroups',
@@ -67,7 +67,7 @@ class ApiTest extends SystemTestCase
                         'filter_offset' => 4,
                     ],
                     'testSuffix' => 'limitedWithOffset',
-                ]
+                ],
             ],
             [
                 'MultiSites.getAllWithGroups',
@@ -79,8 +79,19 @@ class ApiTest extends SystemTestCase
                         'pattern' => 'Site 1',
                     ],
                     'testSuffix' => 'limitedWithPattern',
-                ]
+                ],
             ],
+            [
+                'MultiSites.getAllWithGroups',
+                [
+                    'period' => 'day',
+                    'date' => '2013-01-23,2013-01-25',
+                    'otherRequestParameters' => [
+                        'filter_limit' => 5,
+                    ],
+                    'testSuffix' => 'multiplePeriods',
+                ],
+            ]
         ];
     }
 

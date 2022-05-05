@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
@@ -202,6 +203,10 @@ class API extends \Piwik\Plugin\API
     public function getAllWithGroups($period = null, $date = null, $segment = false, $pattern = '', $filter_limit = 0)
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new Exception('Multiple periods are not supported');
+        }
 
         $segment = $segment ?: false;
         $request = $_GET + $_POST;
