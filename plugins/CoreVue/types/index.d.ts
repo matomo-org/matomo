@@ -158,6 +158,7 @@ declare global {
     numbers: Record<string, string>;
     visitorProfileEnabled: boolean;
     languageName: string;
+    isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;

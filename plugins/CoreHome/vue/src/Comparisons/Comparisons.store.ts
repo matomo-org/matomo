@@ -292,18 +292,17 @@ export default class ComparisonsStore {
 
   private loadComparisonsDisabledFor() {
     const matomoModule: string = MatomoUrl.parsed.value.module as string;
-    const isPagesComparisonApiDisabled = Object.prototype.hasOwnProperty.call(window.piwik, 'isPagesComparisonApiDisabled');
 
     // check if body id #installation exist
     if (window.piwik.installation) {
       this.privateState.comparisonsDisabledFor = [];
       return;
     }
-    console.log(window.piwik, 'window.piwik');
+
     if (matomoModule === 'CoreUpdater'
       || matomoModule === 'Installation'
       || matomoModule === 'Overlay'
-      || isPagesComparisonApiDisabled
+      || window.piwik.isPagesComparisonApiDisabled
     ) {
       this.privateState.comparisonsDisabledFor = [];
       return;

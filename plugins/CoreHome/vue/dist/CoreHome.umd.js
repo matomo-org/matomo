@@ -4384,17 +4384,14 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     value: function loadComparisonsDisabledFor() {
       var _this3 = this;
 
-      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
-      var isPagesComparisonApiDisabled = Object.prototype.hasOwnProperty.call(window.piwik, 'isPagesComparisonApiDisabled'); // check if body id #installation exist
+      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module; // check if body id #installation exist
 
       if (window.piwik.installation) {
         this.privateState.comparisonsDisabledFor = [];
         return;
       }
 
-      console.log(window.piwik, 'window.piwik');
-
-      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation' || matomoModule === 'Overlay' || isPagesComparisonApiDisabled) {
+      if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation' || matomoModule === 'Overlay' || window.piwik.isPagesComparisonApiDisabled) {
         this.privateState.comparisonsDisabledFor = [];
         return;
       }
