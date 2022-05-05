@@ -260,14 +260,13 @@ if (typeof window.Matomo !== 'object') {
             }
 
             var i;
-            var isEmpty = true;
             for (i in property) {
                 if (Object.prototype.hasOwnProperty.call(property, i)) {
-                    isEmpty = false;
+                    return false;
                 }
             }
 
-            return isEmpty;
+            return true;
         }
 
         /**
