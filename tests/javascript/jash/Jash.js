@@ -1116,7 +1116,7 @@ Jash.Indenter = {
 				if (tagLevel === -1) {
 					level--;
 				}
-				arr = this.indentAndAdd(level,source.substr(startedAt,tagLength),arr);
+				arr = this.indentAndAdd(level,source.slice(startedAt,startedAt+tagLength),arr);
 				if (tagLevel === 1) {
 					level++;
 				}
@@ -1129,7 +1129,7 @@ Jash.Indenter = {
 					}
 					if (source.charAt(position) === '<') {
 						tagLength = position-startedAt;
-						arr = this.indentAndAdd(level,source.substr(startedAt,tagLength),arr);
+						arr = this.indentAndAdd(level,source.slice(startedAt,startedAt+tagLength),arr);
 					}
 				} else {
 					position++;
@@ -1455,7 +1455,7 @@ Jash.TabComplete = function() {
 		fragLength++;
 		matches = this.doAllStringsInArrayHaveSameCharacterAtIndex(fragLength,arr);
 	    }
-	    return arr[0].substr(0,fragLength);
+	    return arr[0].slice(0,fragLength);
 	}
 	/**
 	* Attempt to complete an element id or class name based on what is available in all
@@ -1535,7 +1535,7 @@ Jash.TabComplete = function() {
 					/* tokenize classes into array */
 					var classes = els[i].className.split(/\s/);
 					for(var ii = 0; ii < classes.length; ii++) {
-						if(classes[ii].indexOf(lastSelector.substr(1)) == 0 || lastSelector == ".") {
+						if(classes[ii].indexOf(lastSelector.slice(1)) == 0 || lastSelector == ".") {
 							/* prevent duplicate entries */
 							if(matches.join("***").indexOf(classes[ii]) == -1) {
 								matches.push("." + classes[ii]);
@@ -1547,7 +1547,7 @@ Jash.TabComplete = function() {
 		/* id */
 		} else if (lastSelector.match(/^#/)) {
 			for(var i = 0; i<els.length; i++) {
-				if(els[i].id && els[i].id.indexOf(lastSelector.substr(1)) == 0) {
+				if(els[i].id && els[i].id.indexOf(lastSelector.slice(1)) == 0) {
 					matches.push("#" + els[i].id);
 				}
 			}

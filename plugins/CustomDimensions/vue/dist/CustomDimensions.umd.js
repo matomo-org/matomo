@@ -494,7 +494,7 @@ var CustomDimensions_store_CustomDimensionsStore = /*#__PURE__*/function () {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 function utilities_ucfirst(s) {
-  return "".concat(s[0].toUpperCase()).concat(s.substr(1));
+  return "".concat(s[0].toUpperCase()).concat(s.slice(1));
 }
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts
 
