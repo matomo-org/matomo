@@ -1110,7 +1110,7 @@ class Http
     {
         $openSslEnabled = extension_loaded('openssl');
         $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
-        $forceSSL = GeneralConfig::getConfigValue('force_marketplace_ssl_request');
+        $forceSSL = GeneralConfig::getConfigValue('force_matomo_ssl_request');
 
         return $openSslEnabled && $usingMethodSupportingHttps && $forceSSL;
     }
