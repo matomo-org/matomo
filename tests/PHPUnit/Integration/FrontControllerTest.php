@@ -23,7 +23,7 @@ class FrontControllerTest extends IntegrationTestCase
     public function test_fatalErrorStackTracesReturned()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal.php?format=json';
-        $response = Http::sendHttpRequest($url, self::isTravisCI() ? 2 : 20);
+        $response = Http::sendHttpRequest($url, self::isTravisCI() ? 5 : 20);
 
         $response = json_decode($response, $isAssoc = true);
         $response['message'] = $this->cleanMessage($response['message']);
