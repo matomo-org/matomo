@@ -56,7 +56,7 @@
         "SuccessfullyActicated": "You have successfully activated <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Extend Matomo with Plugins and Themes",
         "TeaserExtendPiwikByPlugin": "Extend Matomo by %1$sinstalling plugins from the Marketplace%2$s or %3$supload a plugin in .zip format%4$s.",
-        "TeaserExtendPiwikByTheme": "Enjoy another look & feel by %1$sinstalling a new theme%2$s.",
+        "TeaserExtendPiwikByTheme": "Enjoy another look &amp; feel by %1$sinstalling a new theme%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "You may automatically install plugins from the Marketplace or %1$supload a plugin%2$s in .zip format.",
         "TagManagerNowAvailableTitle": "Matomo Tag Manager is now available",
         "TagManagerNowAvailableSubtitle": "Manage all your tags easily through one platform to get the insights you want, the opportunities are endless!",

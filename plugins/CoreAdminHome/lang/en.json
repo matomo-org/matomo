@@ -48,7 +48,7 @@
         "JSTracking_CodeNoteBeforeClosingHeadEmail": "Make sure this code is embedded within a script element on every page of your website. We recommend pasting it immediately before the closing head tag.",
         "JSTracking_CrossDomain": "By default, the visitor ID that identifies a unique visitor is stored in the browser's first party cookies which can only be accessed by pages on the same domain. Enabling cross domain linking lets you track all the actions and pageviews of a specific visitor into the same visit even when they view pages on several domains. Whenever a user clicks on a link to one of your website's alias URLs, it will append a URL parameter pk_vid forwarding the Visitor ID.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Note: To use cross domain linking, you must specify more than one domain name (URLs) for your website.",
-        "JSTracking_CustomCampaignQueryParam": "Use custom query parameter names for the campaign name & keyword",
+        "JSTracking_CustomCampaignQueryParam": "Use custom query parameter names for the campaign name &amp; keyword",
         "JSTracking_CustomCampaignQueryParamDesc": "Note: %1$sMatomo will automatically detect Google Analytics parameters.%2$s",
         "JSTracking_DisableCookies": "Disable all tracking cookies",
         "JSTracking_DisableCookiesDesc": "Disables all first party cookies. Existing Matomo cookies for this website will be deleted on the next pageview.",
