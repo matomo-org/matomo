@@ -1,4 +1,4 @@
-name: Matomo Javascript Tests
+name: Matomo Angular Tests
 
 on:
   pull_request:
@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'JavascriptTests' ]
+        tests: [ 'AngularJSTests' ]
         node: [ '12','16' ]
         exclude:
           - tests: 'JavascriptTests'
@@ -38,13 +38,6 @@ jobs:
         with:
           lfs: false
           submodules: recursive
-
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.0
-          coverage: none
 
       - name: Setup Node
         uses: actions/setup-node@v2

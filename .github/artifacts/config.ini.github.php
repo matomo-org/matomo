@@ -1,6 +1,6 @@
 ; <?php exit; ?> DO NOT REMOVE THIS LINE
 ; This configuration is used for automatic integration
-; tests on Travis-CI. Do not use this in production.
+; tests on Github Action. Do not use this in production.
 
 [database]
 host = 127.0.0.1

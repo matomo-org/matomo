@@ -93,7 +93,6 @@ jobs:
         run: |
           ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
         env:
-          TRAVIS: true
           GITHUB: true
           PHP_VERSION: ${{ matrix.php }}
           MYSQL_ADAPTER: ${{ matrix.adapter }}
