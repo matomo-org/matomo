@@ -25,12 +25,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'AngularJSTests' ]
-        node: [ '12','16' ]
-        exclude:
-          - tests: 'JavascriptTests'
-            node: '16'
-          - tests: 'AngularJSTests'
-            node: '12'
+        node: [ '16' ]
 
     steps:
       - name: Checkout code
@@ -76,10 +71,7 @@ jobs:
           sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
           tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
           tmux ls
-      - name: Javascript Tests
-        if: matrix.tests == 'JavascriptTests'
-        run: |
-          ./console tests:run-js --matomo-url='http://localhost'
+
       - name: Running angularjs && vue tests
         if: matrix.tests == 'AngularJSTests'
         working-directory: ./tests/angularjs

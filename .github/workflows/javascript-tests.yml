@@ -25,12 +25,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'JavascriptTests' ]
-        node: [ '12','16' ]
-        exclude:
-          - tests: 'JavascriptTests'
-            node: '16'
-          - tests: 'AngularJSTests'
-            node: '12'
+        node: [ '12' ]
 
     steps:
       - name: Checkout code
@@ -87,9 +82,3 @@ jobs:
         if: matrix.tests == 'JavascriptTests'
         run: |
           ./console tests:run-js --matomo-url='http://localhost'
-      - name: Running angularjs && vue tests
-        if: matrix.tests == 'AngularJSTests'
-        working-directory: ./tests/angularjs
-        run: |
-          npm install
-          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
