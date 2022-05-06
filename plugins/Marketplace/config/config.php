@@ -9,7 +9,7 @@ return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
         $domain = 'https://plugins.matomo.org';
 
-        if (!Http::isUpdatingOverHttps()) {
+        if (GeneralConfig::getConfigValue('force_marketplace_ssl_request') === 0) {
             $domain = str_replace('https://', 'http://', $domain);
         }
 
