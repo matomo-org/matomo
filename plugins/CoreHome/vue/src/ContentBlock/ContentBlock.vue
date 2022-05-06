@@ -10,7 +10,8 @@
       <h2
         v-if="contentTitle && !actualFeature && !helpUrl && !actualHelpText"
         class="card-title"
-      >{{ contentTitle }}</h2>
+        v-html="$sanitize(contentTitle)"
+      ></h2>
       <h2
         v-if="contentTitle && (actualFeature || helpUrl || actualHelpText)"
         class="card-title"
@@ -19,8 +20,8 @@
           :feature-name="actualFeature"
           :help-url="helpUrl"
           :inline-help="actualHelpText"
+          v-html="$sanitize(contentTitle)"
         >
-          {{ contentTitle }}
         </EnrichedHeadline>
       </h2>
       <div ref="content">
