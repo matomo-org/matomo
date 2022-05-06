@@ -53,7 +53,10 @@ FORMAT;
 
         //remove all the numbers
         $expectedFormat = preg_replace('/[0-9]+/', 'x', $expectedFormat);
+        $expectedFormat = preg_replace('/".*?"|\'.*?\'/', 'xxx', $expectedFormat);
+
         $actualFormat = preg_replace('/[0-9]+/', 'x', $response['message']);
+        $actualFormat = preg_replace('/".*?"|\'.*?\'/', 'xxx', $actualFormat);
 
         $this->assertStringMatchesFormat($expectedFormat, $actualFormat);
     }
