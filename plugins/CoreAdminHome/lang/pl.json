@@ -53,7 +53,7 @@
         "JSTracking_GroupPageTitlesByDomain": "Dodaj domenę do tytułu strony gdy śledzisz",
         "JSTracking_GroupPageTitlesByDomainDesc1": "Więc jeśli ktoś odwiedzi stronę 'O...' na blogu.%1$s zostanie to zapisane jako 'blog / O...'. Jest to najprostszy sposób uzyskania przeglądu ruchu względem sub-domen.",
         "JSTracking_MergeAliases": "W raporcie \"Outlinks\", ukryj kliknięcia na znane aliasy adresów URL",
-        "JSTracking_MergeAliasesDesc": "Kliknięcie na linki do adresów URL (na przykład Alias​​.%s) nie będzie liczony jako \"Outlink\".",
+        "JSTracking_MergeAliasesDesc": "Kliknięcie na linki do adresów URL (na przykład Alias.%s) nie będzie liczony jako \"Outlink\".",
         "JSTracking_MergeSubdomains": "Śledź odwiedzających we wszystkich subdomenach",
         "JSTracking_MergeSubdomainsDesc": "A więc jeśli odwiedzający odwiedza %1$s i %2$s, zostanie policzony jako unikalny odwiedzający.",
         "JSTracking_PageCustomVars": "Śledź własną zmienną dla widoku każdej ze stron",

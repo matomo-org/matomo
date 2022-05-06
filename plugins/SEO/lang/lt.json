@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "Šis įskiepis išskleidžia ir rodo SEO metriką: Alexa saityno reitingą, Google puslapių reitingą, indeksuotų puslapių skaičių ir atgalines nuorodas į šiuo metu pasirinktą svetainę.",
-        "AlexaRank": "Alexa reitingas",
         "Bing_IndexedPages": "Bing indeksuoti puslapiai",
         "DomainAge": "Adresų srities amžius",
         "Google_IndexedPages": "Google indeksuoti puslapiai",
+        "PluginDescription": "Šis įskiepis išskleidžia ir rodo SEO metriką: Alexa saityno reitingą, Google puslapių reitingą, indeksuotų puslapių skaičių ir atgalines nuorodas į šiuo metu pasirinktą svetainę.",
         "Rank": "Reitingas",
-        "SeoRankings": "SEO reitingai",
-        "SEORankingsFor": "SEO reitingai, skirti %s"
+        "SEORankingsFor": "SEO reitingai, skirti %s",
+        "SeoRankings": "SEO reitingai"
     }
 }
