@@ -3188,7 +3188,7 @@ function PiwikTest() {
         equal(tracker.getVisitorId(), visitorId, "After tracking an action and updating the ID cookie, the visitor ID is still the same.");
 
         // Visitor ID is by default set to a UUID fingerprint
-        var hashUserId = tracker.hook.test._sha1(userIdString).substr(0, 16);
+        var hashUserId = tracker.hook.test._sha1(userIdString).slice(0, 16);
         notEqual(hashUserId, tracker.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is not yet the hash of User ID " + hashUserId);
         notEqual("", tracker.getVisitorId(), "Visitor ID is not empty");
         ok( tracker.getVisitorId().length === 16, "Visitor ID is 16 chars string");
@@ -3231,7 +3231,7 @@ function PiwikTest() {
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
         equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
-            notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is not the sha1 of User ID (it used to be)");
+            notEqual(tracker.hook.test._sha1(userIdString).slice(0, 16), tracker.getVisitorId(), "Visitor ID is not the sha1 of User ID (it used to be)");
             equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID does not change");
 
             // Set the User ID and verify nothing's changed
@@ -3657,7 +3657,7 @@ if ($mysql) {
 
         var piwikUrl = location.href;
         if (piwikUrl.indexOf('?') > 0) {
-            piwikUrl = piwikUrl.substr(0, piwikUrl.indexOf('?'));
+            piwikUrl = piwikUrl.slice(0, piwikUrl.indexOf('?'));
         }
         equal(tracker.getPiwikUrl(), piwikUrl, "getPiwikUrl, relative tracker url" );
 
@@ -4968,7 +4968,7 @@ if ($mysql) {
         strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
         var rememberedConsent = tracker.getRememberedConsent();
         strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
-        strictEqual(String(rememberedConsent).substr(0, 2), '16', "getRememberedConsent, starts with correct data" );
+        strictEqual(String(rememberedConsent).slice(0, 2), '16', "getRememberedConsent, starts with correct data" );
 
         tracker.requireConsent();
         strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );

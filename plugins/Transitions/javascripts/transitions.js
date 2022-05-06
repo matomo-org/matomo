@@ -459,7 +459,7 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
             el.addClass('Transitions_Value0');
         } else {
             self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
-            var groupName = cssClass.charAt(0).toLowerCase() + cssClass.substr(1);
+            var groupName = cssClass.charAt(0).toLowerCase() + cssClass.slice(1);
             el.hover(function () {
                 self.highlightGroup(groupName, highlightCurveOnSide);
             }, function () {
@@ -792,7 +792,7 @@ Piwik_Transitions.prototype.highlightGroup = function (groupName, side) {
     this.highlightedGroup = groupName;
     this.highlightedGroupSide = side;
 
-    var cssClass = 'Transitions_' + groupName.charAt(0).toUpperCase() + groupName.substr(1);
+    var cssClass = 'Transitions_' + groupName.charAt(0).toUpperCase() + groupName.slice(1);
     this.highlightedGroupCenterEl = this.canvas.container.find('.' + cssClass);
     this.highlightedGroupCenterEl.addClass('Transitions_Highlighted');
 

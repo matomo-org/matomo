@@ -46,7 +46,7 @@
                     var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
 
                     if (-1 !== startTerm) {
-                        var word = content.substr(startTerm, searchTerm.length);
+                        var word = content.slice(startTerm, startTerm + searchTerm.length);
                         var escapedword = $sanitize(piwik.helper.htmlEntities(word));
                         content = content.replace(word, '<span class="autocompleteMatched">' + escapedword + '</span>');
                         element.html(content);
