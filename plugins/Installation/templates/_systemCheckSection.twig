@@ -15,7 +15,7 @@
 {% set informational = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_INFORMATIONAL') %}
 {%- for result in results %}
 
-#### {{ result.label }}:
+#### {{ result.label|raw }}:
 {% for item in result.items -%}
 {%- if item.status == error -%} &#9888; Error: {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% elseif item.status == warning %} &#9888; Warning: {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% elseif item.status == informational %} {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% else %} &#10004; {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% endif -%}
 {%- endfor %}
@@ -70,7 +70,7 @@
 
     {% for result in results %}
         <tr>
-            <td>{{ result.label }}</td>
+            <td>{{ result.label|raw }}</td>
             <td>
                 {% for item in result.items %}
 

@@ -42,7 +42,7 @@
                         {{ _self.humanReadableValue(configEntry.value) }}
                     </td>
                     <td class="description">
-                        {{ configEntry.description }}
+                        {{ configEntry.description|rawSafeDecoded }}
 
                         {% if (configEntry.isCustomValue or configEntry.value is null) and configEntry.defaultValue is not null %}
                             {% if configEntry.description %}<br />{% endif %}
