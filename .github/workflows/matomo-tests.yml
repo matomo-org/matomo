@@ -61,7 +61,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, zlib
           ini-values: |
             memory_limit = 256M,
             max_execution_time=10000,
@@ -71,6 +71,7 @@ jobs:
             allow_url_fopen = on,
             zend.exception_ignore_args = Off
             mysqli.allow_local_infile = On
+            zlib.output_compression = On
           tools: composer:v2
           coverage: none
 
