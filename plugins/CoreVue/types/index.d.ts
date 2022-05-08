@@ -11,7 +11,7 @@ import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
   type QueryParameterValue = string | number | null | undefined | QueryParameterValue[];
-  type QueryParameters = {[name: string]: QueryParameterValue | QueryParameters};
+  type QueryParameters = Record<string, QueryParameterValue | QueryParameters>;
 
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
