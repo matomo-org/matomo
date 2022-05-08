@@ -192,7 +192,7 @@
 
                 if (val == 1 && metric == 'nb_visits') v = _.one_visit;
 
-                if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
+                if (metric.slice(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
                     var total;
                     if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric];
                     else if (id == 'world') total = self.config.visitsSummary[metric];
@@ -761,12 +761,12 @@
 
                             function regionCode(region) {
                                 var key = UserCountryMap.keys[iso] || 'fips';
-                                return key.substr(0, 4) == "fips" ? (region[key] || "").substr(2) : region[key];  // cut first two letters from fips code (=country code)
+                                return key.slice(0, 4) == "fips" ? (region[key] || "").slice(2) : region[key];  // cut first two letters from fips code (=country code)
                             }
 
                             function regionExistsInMap(code) {
                                 var key = UserCountryMap.keys[iso] || 'fips', q = {};
-                                q[key] = key.substr(0, 4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
+                                q[key] = key.slice(0, 4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
                                 if (map.getLayer('regions').getPaths(q).length === 0) {
                                     return false;
                                 }
@@ -783,7 +783,7 @@
                                     };
 
                                     if (map.getLayer('regions').getPaths(q).length) {
-                                        region = map.getLayer('regions').getPaths(q)[0].data.fips.substr(2);
+                                        region = map.getLayer('regions').getPaths(q)[0].data.fips.slice(2);
                                     }
                                 }
 

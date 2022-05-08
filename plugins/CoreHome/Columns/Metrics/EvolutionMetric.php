@@ -60,6 +60,8 @@ class EvolutionMetric extends ProcessedMetric
      */
     private $currentData;
 
+    private $isLowerBetter = false;
+
     /**
      * The list of labels leading to the current subtable being processed. Used to get the proper subtable in
      * $pastData.
@@ -83,6 +85,7 @@ class EvolutionMetric extends ProcessedMetric
                                 ?DataTable $currentData = null)
     {
         $this->wrapped = $wrapped;
+        $this->isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
         $this->pastData = $pastData;
         $this->currentData = $currentData;
 
@@ -119,8 +122,7 @@ class EvolutionMetric extends ProcessedMetric
 
     public function getTrendValue($computedValue = 0)
     {
-        $isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
-        if ($isLowerBetter) {
+        if ($this->isLowerBetter) {
             return ($computedValue < 0 ? 1 : ($computedValue > 0 ? -1 : 0));
         }
 
