@@ -2535,7 +2535,7 @@ function createAngularJsAdapter(options) {
                 }
 
                 vm[info.vue] = newValueFinal;
-              });
+              }, info.deepWatch);
             });
 
             if (transclude && transcludeClone) {

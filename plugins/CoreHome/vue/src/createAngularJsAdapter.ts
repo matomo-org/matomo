@@ -28,6 +28,7 @@ interface SingleScopeVarInfo<InjectTypes extends unknown[]> {
     ...injected: InjectTypes
   ) => unknown;
   angularJsBind?: string;
+  deepWatch?: boolean;
 }
 
 type ScopeMapping<InjectTypes extends unknown[]> = {
@@ -276,7 +277,7 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
                 }
 
                 vm[info.vue!] = newValueFinal;
-              });
+              }, info.deepWatch);
             });
 
             if (transclude && transcludeClone) {
