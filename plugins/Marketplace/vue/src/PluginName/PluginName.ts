@@ -13,8 +13,8 @@ window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
   let activeTab = null;
 
   if (value.indexOf('!') !== -1) {
-    activeTab = value.substr(value.indexOf('!') + 1);
-    pluginName = value.substr(0, value.indexOf('!'));
+    activeTab = value.slice(value.indexOf('!') + 1);
+    pluginName = value.slice(0, value.indexOf('!'));
   }
 
   let url = `module=Marketplace&action=pluginDetails&pluginName=${encodeURIComponent(pluginName)}`;

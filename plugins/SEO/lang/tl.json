@@ -1,11 +1,10 @@
 {
     "SEO": {
-        "AlexaRank": "Ranggo sa Alexa",
         "Bing_IndexedPages": "Mga na index na pahina ng bing",
         "DomainAge": "Edad ng Domain",
         "Google_IndexedPages": "Na index ng Google ang mga pahina",
         "Rank": "Ranggo",
-        "SeoRankings": "Ranggo sa SEO",
-        "SEORankingsFor": "Ranggo ng SEO para sa %s"
+        "SEORankingsFor": "Ranggo ng SEO para sa %s",
+        "SeoRankings": "Ranggo sa SEO"
     }
 }

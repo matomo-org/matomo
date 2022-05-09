@@ -1095,6 +1095,7 @@ encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or 
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported
 host = ; Proxy host: the host name of your proxy server (mandatory)
 port = ; Proxy port: the port that the proxy server listens to. There is no standard default, but 80, 1080, 3128, and 8080 are popular
+exclude = ; Comma separated list of hosts to exclude from proxy: optional; localhost is always excluded
 username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
 

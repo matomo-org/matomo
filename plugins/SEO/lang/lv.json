@@ -1,9 +1,8 @@
 {
     "SEO": {
-        "AlexaRank": "Alexa ranks",
         "DomainAge": "Domēna vecums",
         "Rank": "ranks",
-        "SeoRankings": "SEO ranks",
-        "SEORankingsFor": "%s SEO ranks"
+        "SEORankingsFor": "%s SEO ranks",
+        "SeoRankings": "SEO ranks"
     }
 }

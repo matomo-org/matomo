@@ -1,9 +1,8 @@
 {
     "SEO": {
-        "AlexaRank": "Alexa ранг",
         "DomainAge": "Узрост дамена",
         "Rank": "Ранг",
-        "SeoRankings": "SEO рэйтынгі",
-        "SEORankingsFor": "SEO рэйтынгі для %s"
+        "SEORankingsFor": "SEO рэйтынгі для %s",
+        "SeoRankings": "SEO рэйтынгі"
     }
 }
