@@ -587,7 +587,7 @@ export default defineComponent({
     },
     isPendingUser() {
       // eslint-disable-next-line eqeqeq
-      return (this.theUser.invited_at === '' || !this.theUser.invited_at) && this.theUser.login != '';
+      return this.user && (this.theUser.invited_at === '' || !this.theUser.invited_at);
     },
     isAdd() {
       return !this.user; // purposefully checking input property not theUser state

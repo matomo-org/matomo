@@ -727,3 +727,8 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.actions-cell {
+  text-align: left!important;
+}
+</style>

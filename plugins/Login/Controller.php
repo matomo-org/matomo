@@ -528,54 +528,54 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         //if form is blank
         if (!empty($form)) {
+            $error = null;
             $password = Common::getRequestVar('password', false, 'string');
             $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
             $terms = Common::getRequestVar('terms', false, 'string');
             if (!$password) {
-                $view->AccessErrorString = Piwik::translate('Login_PasswordRequired');
+                $error = Piwik::translate('Login_PasswordRequired');
             }
 
             //not accept terms
             if (!$terms) {
-                $view->AccessErrorString = Piwik::translate('Login_TermsRequired');
+                $error = Piwik::translate('Login_TermsRequired');
             }
 
             //valid password
             if (!UsersManager::isValidPasswordString($password)) {
-                $view->AccessErrorString = Piwik::translate('UsersManager_ExceptionInvalidPassword',
+                $error = Piwik::translate('UsersManager_ExceptionInvalidPassword',
                   array(UsersManager::PASSWORD_MIN_LENGTH));
             }
             //confirm matching password
             if ($password !== $passwordConfirmation) {
-                $view->AccessErrorString = Piwik::translate('Login_PasswordsDoNotMatch');
-            }
-            $password = UsersManager::getPasswordHash($password);
-            $passwordInfo = $passwordHelper->info($password);
-
-            if (!isset($passwordInfo['algo']) || 0 >= $passwordInfo['algo']) {
-                // password may have already been fully hashed
-                $password = $passwordHelper->hash($password);
+                $error = Piwik::translate('Login_PasswordsDoNotMatch');
             }
 
-            //update pending user to active user
-            $model->updateUserFields($user['login'], ['password' => $password, 'invited_at' => null]);
-            $sessionInitializer = new SessionInitializer();
-            $auth = StaticContainer::get('Piwik\Auth');
-            $auth->setTokenAuth(null); // ensure authenticated through password
-            $auth->setLogin($user['login']);
-            $auth->setPassword($passwordConfirmation);
-            $sessionInitializer->initSession($auth);
-            $this->redirectToIndex('CoreHome', 'index');
-            return;
+            if (!$error) {
+                $password = UsersManager::getPasswordHash($password);
+                $passwordInfo = $passwordHelper->info($password);
+
+                if (!isset($passwordInfo['algo']) || 0 >= $passwordInfo['algo']) {
+                    // password may have already been fully hashed
+                    $password = $passwordHelper->hash($password);
+                }
+
+                //update pending user to active user
+                $model->updateUserFields($user['login'], ['password' => $password, 'invited_at' => null]);
+                $sessionInitializer = new SessionInitializer();
+                $auth = StaticContainer::get('Piwik\Auth');
+                $auth->setTokenAuth(null); // ensure authenticated through password
+                $auth->setLogin($user['login']);
+                $auth->setPassword($passwordConfirmation);
+                $sessionInitializer->initSession($auth);
+                $this->redirectToIndex('CoreHome', 'index');
+            }
+            $view->AccessErrorString = $error;
         }
-
-
-
         $view->user = $user;
         $view->token = $token;
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
-
         return $view->render();
     }
 
