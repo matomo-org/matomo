@@ -38,7 +38,7 @@ describe("UnprocessedSegmentTest", function () {
         await testEnvironment.callApi('SegmentEditor.delete', { idSegment: 1 });
     });
 
-    it("should show a notification for unprocessed segments", async function () {
+    it("should show a notification for unprocessed segments, caused by re archive date", async function () {
         await page.goto(url + '&segment=' + encodeURIComponent(segment));
 
         expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('unprocessed_segment');
@@ -51,4 +51,14 @@ describe("UnprocessedSegmentTest", function () {
         expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('custom_segment');
     });
 
+
+    it("should show a notification for unprocessed segments", async function () {
+        testEnvironment.configOverride.General = {
+            rearchive_reports_in_past_last_n_months: '0',
+        };
+
+        await page.goto(url + '&segment=' + encodeURIComponent(segment));
+
+        expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('unprocessed_default_segment');
+    });
 });
