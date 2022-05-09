@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,13 +9,13 @@
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
 use Piwik\NoAccessException;
 use Piwik\Period\Range;
-use Piwik\Plugin\Report;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -27,13 +28,13 @@ class Config extends \Piwik\ViewDataTable\Config
      * Holds metrics / column names that will be used to fetch data from the configured $requestConfig API.
      * Default value: array
      */
-    private $sparkline_metrics = array();
+    private $sparkline_metrics = [];
 
     /**
      * Holds the actual sparkline entries based on fetched data that will be used in the template.
      * @var array
      */
-    private $sparklines = array();
+    private $sparklines = [];
 
     /**
      * If false, will not link them with any evolution graph
@@ -46,7 +47,7 @@ class Config extends \Piwik\ViewDataTable\Config
      * to set an angular directive
      * @var string
      */
-    public $title_attributes = array();
+    public $title_attributes = [];
 
     /**
      * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
@@ -163,17 +164,19 @@ class Config extends \Piwik\ViewDataTable\Config
     {
         if (!Request::isCurrentPeriodProfilable()) {
             if (is_array($metricName)) {
-                $metricName = array_filter($metricName, function ($value) { return $value != 'nb_uniq_visitors'; });
-            } else if ($metricName == 'nb_uniq_visitors') {
+                $metricName = array_filter($metricName, function ($value) {
+                    return $value != 'nb_uniq_visitors';
+                });
+            } elseif ($metricName == 'nb_uniq_visitors') {
                 return;
             }
         }
 
-        $this->sparkline_metrics[] = array(
+        $this->sparkline_metrics[] = [
             'columns' => $metricName,
             'order'   => $order,
             'graphParams' => $graphParams,
-        );
+        ];
     }
 
     /**
@@ -186,14 +189,14 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public function addPlaceholder($order = null)
     {
-        $this->sparklines[] = array(
+        $this->sparklines[] = [
             'url' => '',
-            'metrics' => array(),
+            'metrics' => [],
             'order' => $this->getSparklineOrder($order),
 
             // adding this group ensures the sparkline will be placed between individual sparklines, and not in their own group together
             'group' => 'placeholder' . count($this->sparklines),
-        );
+        ];
     }
 
     /**
@@ -228,7 +231,7 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public function addSparkline($requestParamsForSparkline, $metricInfos, $description, $evolution = null, $order = null, $title = null, $group = '', $seriesIndices = null, $graphParams = null)
     {
-        $metrics = array();
+        $metrics = [];
 
         if ($description === null && is_array($metricInfos)) {
             $metrics = $metricInfos;
@@ -238,37 +241,41 @@ class Config extends \Piwik\ViewDataTable\Config
             if (is_array($value)) {
                 $values = $value;
             } else {
-                $values = array($value);
+                $values = [$value];
             }
 
             if (!is_array($description)) {
-                $description = array($description);
+                $description = [$description];
             }
 
             if (count($values) === count($description)) {
                 foreach ($values as $index => $value) {
-                    $metrics[] = array(
+                    $metrics[] = [
                         'value' => $value,
                         'description' => $description[$index]
-                    );
+                    ];
                 }
             } else {
                 $msg  = 'The number of values and descriptions need to be the same to add a sparkline. ';
-                $msg .= 'Values: ' . implode(', ', $values). ' Descriptions: ' . implode(', ', $description);
+                $msg .= 'Values: ' . implode(', ', $values) . ' Descriptions: ' . implode(', ', $description);
                 throw new \Exception($msg);
             }
         }
 
-        if (!empty($requestParamsForSparkline['columns'])
+        if (
+            !empty($requestParamsForSparkline['columns'])
             && is_array($requestParamsForSparkline['columns'])
-            && count($requestParamsForSparkline['columns']) === count($metrics)) {
+            && count($requestParamsForSparkline['columns']) === count($metrics)
+        ) {
             $columns = array_values($requestParamsForSparkline['columns']);
-        } elseif (!empty($requestParamsForSparkline['columns'])
+        } elseif (
+            !empty($requestParamsForSparkline['columns'])
                   && is_string($requestParamsForSparkline['columns'])
-                  && count($metrics) === 1) {
-            $columns = array($requestParamsForSparkline['columns']);
-        } else{
-            $columns = array();
+                  && count($metrics) === 1
+        ) {
+            $columns = [$requestParamsForSparkline['columns']];
+        } else {
+            $columns = [];
         }
 
         foreach ($metrics as $index => $metricInfo) {
@@ -285,7 +292,7 @@ class Config extends \Piwik\ViewDataTable\Config
             $groupedMetrics[$metricGroup][] = $metricInfo;
         }
 
-        $sparkline = array(
+        $sparkline = [
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
             'metrics' => $groupedMetrics,
             'order' => $this->getSparklineOrder($order),
@@ -293,10 +300,11 @@ class Config extends \Piwik\ViewDataTable\Config
             'group' => $group,
             'seriesIndices' => $seriesIndices,
             'graphParams' => $graphParams,
-        );
+        ];
 
         if (!empty($evolution)) {
-            if (!is_array($evolution) ||
+            if (
+                !is_array($evolution) ||
                 !array_key_exists('currentValue', $evolution) ||
                 !array_key_exists('pastValue', $evolution)
             ) {
@@ -307,12 +315,11 @@ class Config extends \Piwik\ViewDataTable\Config
 
             // do not display evolution if evolution percent is 0 and current value is 0
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
-                $sparkline['evolution'] = array(
+                $sparkline['evolution'] = [
                     'percent' => $evolutionPercent,
                     'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null
-                );
+                ];
             }
-
         }
 
         $this->sparklines[] = $sparkline;
@@ -379,7 +386,7 @@ class Config extends \Piwik\ViewDataTable\Config
      *                                should be set in result URL.
      * @return string The generated URL.
      */
-    private function getUrlSparkline($customParameters = array())
+    private function getUrlSparkline($customParameters = [])
     {
         $customParameters['viewDataTable'] = 'sparkline';
 
@@ -409,7 +416,7 @@ class Config extends \Piwik\ViewDataTable\Config
      * @throws \Piwik\NoAccessException
      * @return array
      */
-    private function getGraphParamsModified($paramsToSet = array())
+    private function getGraphParamsModified($paramsToSet = [])
     {
         if (!isset($paramsToSet['period'])) {
             $period = Common::getRequestVar('period');
@@ -445,7 +452,8 @@ class Config extends \Piwik\ViewDataTable\Config
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
 
-        if (!isset($paramsToSet['date'])
+        if (
+            !isset($paramsToSet['date'])
             || !Range::isMultiplePeriod($paramsToSet['date'], $period)
         ) {
             $paramDate = Range::getRelativeToEndDate($period, $range, $endDate, $site);
@@ -453,8 +461,7 @@ class Config extends \Piwik\ViewDataTable\Config
             $paramDate = $paramsToSet['date'];
         }
 
-        $params = array_merge($paramsToSet, array('date' => $paramDate));
+        $params = array_merge($paramsToSet, ['date' => $paramDate]);
         return $params;
     }
-
 }

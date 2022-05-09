@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,9 +7,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Widget;
 
-use Piwik\Report\ReportWidgetConfig;
+namespace Piwik\Widget;
 
 /**
  * Defines a new widget container. Widget containers are useful when you want to combine several widgets
@@ -27,7 +27,7 @@ class WidgetContainerConfig extends WidgetConfig
     /**
      * @var WidgetConfig[]
      */
-    protected $widgets = array();
+    protected $widgets = [];
     protected $layout = '';
     protected $id = '';
 
@@ -139,5 +139,4 @@ class WidgetContainerConfig extends WidgetConfig
         $params['containerId'] = $this->getId();
         return $params;
     }
-
 }
