@@ -614,37 +614,40 @@ class API extends \Piwik\Plugin\API
      * @see getKeepURLFragmentsGlobal.
      * @param string $type The website type, defaults to "website" if not set.
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
+     * @param string|null $excludedReferrers Comma separated list of hosts/urls to exclude from referrer detection
      *
      * @return int the website ID created
      */
-    public function addSite($siteName,
-                            $urls = null,
-                            $ecommerce = null,
-                            $siteSearch = null,
-                            $searchKeywordParameters = null,
-                            $searchCategoryParameters = null,
-                            $excludedIps = null,
-                            $excludedQueryParameters = null,
-                            $timezone = null,
-                            $currency = null,
-                            $group = null,
-                            $startDate = null,
-                            $excludedUserAgents = null,
-                            $keepURLFragments = null,
-                            $type = null,
-                            $settingValues = null,
-                            $excludeUnknownUrls = null)
-    {
+    public function addSite(
+        $siteName,
+        $urls = null,
+        $ecommerce = null,
+        $siteSearch = null,
+        $searchKeywordParameters = null,
+        $searchCategoryParameters = null,
+        $excludedIps = null,
+        $excludedQueryParameters = null,
+        $timezone = null,
+        $currency = null,
+        $group = null,
+        $startDate = null,
+        $excludedUserAgents = null,
+        $keepURLFragments = null,
+        $type = null,
+        $settingValues = null,
+        $excludeUnknownUrls = null,
+        $excludedReferrers = null
+    ) {
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
 
         $this->checkName($siteName);
 
         if (!isset($settingValues)) {
-            $settingValues = array();
+            $settingValues = [];
         }
 
-        $coreProperties = array();
+        $coreProperties = [];
         $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
@@ -656,6 +659,7 @@ class API extends \Piwik\Plugin\API
         $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents ?? ''), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_referrers', explode(',', $excludedReferrers ?? ''), $coreProperties, $settingValues);
 
         $timezone = trim($timezone ?? '');
         if (empty($timezone)) {
@@ -1260,31 +1264,34 @@ class API extends \Piwik\Plugin\API
      * @param string $type The Website type, default value is "website"
      * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
+     * @param string|null $excludedReferrers Comma separated list of hosts/urls to exclude from referrer detection
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
      *
      * @return bool true on success
      */
-    public function updateSite($idSite,
-                               $siteName = null,
-                               $urls = null,
-                               $ecommerce = null,
-                               $siteSearch = null,
-                               $searchKeywordParameters = null,
-                               $searchCategoryParameters = null,
-                               $excludedIps = null,
-                               $excludedQueryParameters = null,
-                               $timezone = null,
-                               $currency = null,
-                               $group = null,
-                               $startDate = null,
-                               $excludedUserAgents = null,
-                               $keepURLFragments = null,
-                               $type = null,
-                               $settingValues = null,
-                               $excludeUnknownUrls = null)
-    {
+    public function updateSite(
+        $idSite,
+        $siteName = null,
+        $urls = null,
+        $ecommerce = null,
+        $siteSearch = null,
+        $searchKeywordParameters = null,
+        $searchCategoryParameters = null,
+        $excludedIps = null,
+        $excludedQueryParameters = null,
+        $timezone = null,
+        $currency = null,
+        $group = null,
+        $startDate = null,
+        $excludedUserAgents = null,
+        $keepURLFragments = null,
+        $type = null,
+        $settingValues = null,
+        $excludeUnknownUrls = null,
+        $excludedReferrers = null
+    ) {
         Piwik::checkUserHasAdminAccess($idSite);
         SitesManager::dieIfSitesAdminIsDisabled();
 
@@ -1321,6 +1328,7 @@ class API extends \Piwik\Plugin\API
         $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents ?? ''), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_referrers', explode(',', $excludedReferrers ?? ''), $coreProperties, $settingValues);
 
         if (isset($currency)) {
             $currency = trim($currency);
