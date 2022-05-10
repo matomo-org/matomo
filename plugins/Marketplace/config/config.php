@@ -29,7 +29,4 @@ return array(
 
         return $service;
     },
-    'diagnostics.optional' => DI\add(array(
-      DI\get('Piwik\Plugins\CoreUpdater\Diagnostic\HttpsUpdateCheck'),
-    )),
 );
