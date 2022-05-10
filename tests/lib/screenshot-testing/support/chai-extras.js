@@ -237,7 +237,7 @@ function assumeFileIsImageIfNotSpecified(filename) {
 
 function endsWith(string, needle)
 {
-    return string.substr(-1 * needle.length, needle.length) === needle;
+    return needle.length === 0 || string.slice(-needle.length) === needle;
 }
 
 // other automatically run assertions

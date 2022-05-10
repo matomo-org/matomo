@@ -380,7 +380,7 @@ var Piwik_Overlay = (function () {
                 var currentHashStr = broadcast.getHash();
 
                 if (currentHashStr.charAt(0) == '?') {
-                    currentHashStr = currentHashStr.substr(1);
+                    currentHashStr = currentHashStr.slice(1);
                 }
 
                 currentHashStr = broadcast.updateParamValue('l=' + newFrameLocation, currentHashStr);

@@ -158,7 +158,7 @@
         "SecurityProceduresDesc1": "Bruk vår %1$ssikkerhetsanbefaling%2$s for å trygge din Matomo-data.",
         "SecurityProceduresDesc2": "Sjekk at du har en skriftlig kontrakt med selskapet som tilbyr deg en Matomo-tjener eller vertstjening som forsikrer at %1$shensiktsmessige beskyttelser tilbys%2$s.",
         "SecurityProceduresDesc3": "Inkluder Matomo i din %1$sdatainntrengningsprosedyre%2$s.",
-        "SecurityProceduresDesc4": "Inkluder Matomo i din %1$svurdering av inngripen i og omfang av datapersonvern (PDIA), om så er tilfelle.",
+        "SecurityProceduresDesc4": "Inkluder Matomo i din %1$svurdering av inngripen i og omfang av datapersonvern (PDIA)%2$s, om så er tilfelle.",
         "SecurityProceduresIntro": "Informer dine brukere tydelig og åpent og forsikre deg om at kollegene dine vet om dataen som samles inn og hvordan den brukes:",
         "SeeAlsoOurOfficialGuidePrivacy": "Sjekk også den offisielle veiledningen: %1$svev-analysepersonvern%2$s",
         "SelectWebsite": "Velg en nettside",
