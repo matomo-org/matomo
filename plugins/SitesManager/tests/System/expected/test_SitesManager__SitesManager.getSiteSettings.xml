@@ -125,6 +125,26 @@ https://www.example.org/</placeholder>
 				<condition />
 			</row>
 			<row>
+				<name>excluded_referrers</name>
+				<title>Excluded referrers</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<cols>20</cols>
+					<rows>4</rows>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Enter the list of hostnames and URLs you want to exclude from referrer detection.</inlineHelp>
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
 				<name>sitesearch</name>
 				<title>Site Search</title>
 				<value>1</value>
