@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Marketplace\Api;
 
 use Matomo\Cache\Lazy;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
@@ -323,6 +324,20 @@ class Client
         $downloadUrl = $latestVersion['download'];
 
         return $this->service->getDomain() . $downloadUrl . '?coreVersion=' . $this->environment->getPiwikVersion();
+    }
+
+    /**
+     * this will return the api.matomo.org through right protocols
+     * @return string
+     */
+    public static function getApiServiceUrl()
+    {
+        $url = Config::getInstance()->General['api_service_url'];
+        if (!Config\GeneralConfig::getConfigValue('force_matomo_ssl_request')) {
+            $url = str_replace('https', 'http', $url);
+        }
+
+        return $url;
     }
 
 }
