@@ -10,6 +10,31 @@ return array(
     'tests.ui.url_normalizer_blacklist.api' => array(),
     'tests.ui.url_normalizer_blacklist.controller' => array(),
 
+    'twig.cache' => function (\Psr\Container\ContainerInterface $container) {
+        $templatesPath = $container->get('path.tmp.templates');
+        return new class($templatesPath) extends \Twig\Cache\FilesystemCache {
+            public function write(string $key, string $content): void
+            {
+                $retryCount = 3;
+
+                $attempts = 0;
+                while ($attempts < $retryCount) {
+                    try {
+                        parent::write($key, $content);
+                        return;
+                    } catch (\Exception $ex) {
+                        if (!preg_match('/^Failed to write cache file/', $ex->getMessage())) {
+                            throw $ex;
+                        }
+
+                        usleep(50);
+                        ++$attempts;
+                    }
+                }
+            }
+        };
+    },
+
     'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';

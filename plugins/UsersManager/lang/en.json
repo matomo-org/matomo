@@ -182,6 +182,7 @@
         "IfThisWasYouPasswordChange": "If this was you, feel free to ignore this email. If this was not you, please contact your Matomo administrator immediately, as your account might have been compromised!",
         "PasswordChangeNotificationSubject": "Your Matomo account's password has just been changed",
         "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s).",
+        "PasswordChangeTerminatesOtherSessions": "When you change your password, any other active session of this account will be logged out.",
         "NewsletterSignupTitle": "Newsletter Signup",
         "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on %1$sMatomo's Privacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",

@@ -98,6 +98,7 @@ class Controller extends \Piwik\Plugin\Controller
         $_GET['period'] = 'day';
 
         $view = new View('@Live/getLastVisitsStart');
+        $view->isProfileEnabled = Live::isVisitorProfileEnabled();
         $view->idSite = (int) $this->idSite;
         $error = '';
         $visitors = new DataTable();

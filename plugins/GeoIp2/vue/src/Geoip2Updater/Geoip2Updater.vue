@@ -240,6 +240,7 @@ export default defineComponent({
       updatePeriod: this.geoipUpdatePeriod || 'month',
       isUpdatingGeoIpDatabase: false,
       downloadErrorMessage: null,
+      nextRunTimePrettyUpdated: undefined,
     };
   },
   methods: {

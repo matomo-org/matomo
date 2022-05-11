@@ -127,6 +127,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Not: Anonim kullanıcı olarak erişilen bir web sitesi olmadığından bu bölümdeki ayarları değiştiremezsiniz.",
         "OrManageIndividually": "Ya da her web sitesi için bu kullanıcının erişim izinlerini ayarlayın",
         "PasswordChangeNotificationSubject": "Matomo hesabınızın parolası değiştirildi",
+        "PasswordChangeTerminatesOtherSessions": "Parolanızı değiştirdiğinizde, bu hesabın tüm diğer etkin oturumları kapatılır.",
         "PasswordChangedEmail": "Parolanız değiştirildi. Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s).",
         "Permissions": "İzinler",
         "PersonalSettings": "Kişisel ayarlar",

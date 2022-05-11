@@ -134,13 +134,13 @@ class Twig
         $chainLoader = new ChainLoader($loaders);
 
         // Create new Twig Environment and set cache dir
-        $templatesCompiledPath = StaticContainer::get('path.tmp.templates');
+        $cache = StaticContainer::get('twig.cache');
 
         $this->twig = new Environment($chainLoader,
             array(
                  'debug'            => true, // to use {{ dump(var) }} in twig templates
                  'strict_variables' => true, // throw an exception if variables are invalid
-                 'cache'            => $templatesCompiledPath,
+                 'cache'            => $cache,
             )
         );
         $this->twig->addExtension(new DebugExtension());
@@ -360,6 +360,11 @@ class Twig
     protected function addFilter_safeDecodeRaw()
     {
         $rawSafeDecoded = new TwigFilter('rawSafeDecoded', function ($string) {
+
+            if ($string === null) {
+                return '';
+            }
+
             $string = str_replace('+', '%2B', $string);
             $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
 

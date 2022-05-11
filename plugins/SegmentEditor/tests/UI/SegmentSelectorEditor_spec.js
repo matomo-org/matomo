@@ -114,13 +114,15 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", async function() {
         await page.evaluate(function () {
-            $('.metricValueBlock input').each(function (index) {
-                $(this).val('value ' + index).change();
+            $('.metricValueBlock input').each(function (index, elem) {
+                $(elem).val('value ' + index).change();
             });
         });
 
         await page.type('input.edit_segment_name', 'new segment');
         await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
+
+        await page.waitForTimeout(200);
 
         await page.evaluate(function () {
             $('button.saveAndApply').click();
@@ -164,8 +166,10 @@ describe("SegmentSelectorEditorTest", function () {
             });
         });
 
+        await page.waitFor(200);
+
         await page.evaluate(function () {
-            $('button.saveAndApply').click();
+           $('button.saveAndApply').click();
         });
         await page.waitForSelector('.modal.open');
         await page.waitForTimeout(500); // animation to show confirm
@@ -289,6 +293,9 @@ describe("SegmentSelectorEditorTest", function () {
             var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
             $('.segmentRow1 .metricValueBlock input').val(complexValue).change();
         });
+
+        await page.waitFor(200);
+
         await page.evaluate(function () {
             $('button.saveAndApply').click();
         });
@@ -330,6 +337,8 @@ describe("SegmentSelectorEditorTest", function () {
         page.on('dialog', (dialog)=> {
             console.log(dialog.message());
         });
+
+        await page.waitFor(200);
 
         await page.evaluate(function () {
             $('button.saveAndApply').click();

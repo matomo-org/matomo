@@ -58,7 +58,7 @@
         "PerformanceSettingsDesc2": "Cela nécessite d'ajouter une commande Matomo comme tâche planifiée Cron, ce qui ne peut être fait automatiquement par le processus d'installation. Vous pouvez %1$slire notre FAQ pour savoir comment faire ce paramétrage%2$s",
         "PhpBinaryCheck": "Binaire PHP 64 bits",
         "PhpBinaryCheckHelp": "32 bits <p>Mettre à niveau vers un binaire PHP 64 bits au plus tard en janvier 2026 pour éviter les bogues.</p>",
-        "PiwikOrgNewsletter": "Envoyez moi des courriels pour les mises à jour importantes de Matomo",
+        "PiwikOrgNewsletter": "inscription à la newsletter pour recevoir régulièrement des informations sur Matomo.",
         "PleaseFixTheFollowingErrors": "Merci de corriger les erreurs suivantes",
         "ProfessionalServicesAdTitle": "Services et statistiques avancés",
         "ProfessionalServicesNewsletter": "envoyez-moi des informations à propos %1$sdes produits et services professionnels%2$s pour Matomo",

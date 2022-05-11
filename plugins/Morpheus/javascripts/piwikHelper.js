@@ -153,7 +153,7 @@ window.piwikHelper = {
     },
 
     // initial call for 'body' later in this file
-    compileVueEntryComponents: function (selector) {
+    compileVueEntryComponents: function (selector, extraProps) {
       function toCamelCase(arg) {
         return arg[0] + arg.substring(1)
           .replace(/-[a-z]/g, function (s) { return s[1].toUpperCase(); });
@@ -166,6 +166,10 @@ window.piwikHelper = {
 
       // process vue-entry attributes
       $('[vue-entry]', selector).add($(selector).filter('[vue-entry]')).each(function () {
+        if ($(this).closest('[vue-entry-ignore]').length) {
+          return;
+        }
+
         var entry = $(this).attr('vue-entry');
         var componentsToRegister = ($(this).attr('vue-components') || '').split(/\s+/).filter(function (s) {
           return !!s.length;
@@ -188,26 +192,34 @@ window.piwikHelper = {
           throw new Error('Unknown component in vue-entry: ' + entry);
         }
 
-        var paramsStr = '';
+        $(this).attr('ng-non-bindable', '');
 
+        var paramsStr = '';
         var componentParams = {};
-        $.each(this.attributes, function () {
-          if (this.name === 'vue-entry') {
+
+        function handleProperty(name, value) {
+          if (name === 'vue-entry') {
             return;
           }
 
           // append with underscore so reserved javascripy keywords aren't accidentally used
-          var camelName = toCamelCase(this.name) + '_';
-          paramsStr += ':' + this.name + '=' + JSON.stringify(camelName) + ' ';
+          var camelName = toCamelCase(name) + '_';
+          paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
-          var value = this.value;
           try {
-            value = JSON.parse(this.value);
+            value = JSON.parse(value);
           } catch (e) {
             // pass
           }
 
           componentParams[camelName] = value;
+        }
+
+        $.each(this.attributes, function () {
+          handleProperty(this.name, this.value);
+        });
+        Object.entries(extraProps || {}).forEach(([name, value]) => {
+          handleProperty(name, value);
         });
 
         // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
@@ -246,8 +258,11 @@ window.piwikHelper = {
     },
 
     compileVueDirectives: function (selector) {
-      $('[vue-directive]', selector).add($(selector).filter('[vue-entry]')).each(function () {
+      $('[vue-directive]', selector).add($(selector).filter('[vue-directive]')).each(function () {
         var vueDirectiveName = $(this).attr('vue-directive');
+        if (!vueDirectiveName) {
+          return;
+        }
 
         var parts = vueDirectiveName.split('.');
         if (parts.length !== 2) {
@@ -741,7 +756,11 @@ window.piwikHelper = {
         } else {
             return Math.round((dividend / divisor) * 1000) / 1000;
         }
-    }
+    },
+
+    showVisitorProfilePopup: function (visitorId, idSite) {
+      require('piwik/UI').VisitorProfileControl.showPopover(visitorId, idSite);
+    },
 };
 if (typeof String.prototype.trim !== 'function') {
     String.prototype.trim = function() {

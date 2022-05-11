@@ -372,7 +372,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_GoalIsTriggered';
         $translationKeys[] = 'Goals_WhereThe';
         $translationKeys[] = 'Goals_URL';
-        $translationKeys[] = 'General_ForExampleShort';
         $translationKeys[] = 'Goals_Contains';
         $translationKeys[] = 'Goals_IsExactly';
         $translationKeys[] = 'Goals_MatchesExpression';
@@ -402,6 +401,15 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Events_EventCategory';
         $translationKeys[] = 'Events_EventName';
         $translationKeys[] = 'Goals_YouCanEnableEcommerceReports';
+        $translationKeys[] = 'General_ForExampleShort';
+        $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_Description';
+        $translationKeys[] = 'General_ColumnRevenue';
+        $translationKeys[] = 'General_Edit';
+        $translationKeys[] = 'General_Delete';
+        $translationKeys[] = 'General_OperationGreaterThan';
+        $translationKeys[] = 'General_Yes';
+        $translationKeys[] = 'General_No';
+        $translationKeys[] = 'General_OrCancel';
     }
 }
