@@ -208,6 +208,7 @@ class SitesManager extends \Piwik\Plugin
         Access::doAsSuperUser(function () use (&$cache) {
             $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
             $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
+            $cache['global_excluded_referrers'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedReferrersGlobal());
         });
     }
 

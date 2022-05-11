@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -34,6 +35,7 @@ class ReferrerTypeTest extends IntegrationTestCase
     private $idSite3 = 3;
     private $idSite4 = 4;
     private $idSite5 = 5;
+    private $idSite6 = 6;
 
     public function setUp(): void
     {
@@ -44,11 +46,12 @@ class ReferrerTypeTest extends IntegrationTestCase
         $date = '2012-01-01 00:00:00';
         $ecommerce = false;
 
-        Fixture::createWebsite($date, $ecommerce, $name = 'test1', $url = 'http://piwik.org/foo/bar');
-        Fixture::createWebsite($date, $ecommerce, $name = 'test2', $url = 'http://piwik.org/');
-        Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.xyz/');
-        Fixture::createWebsite($date, $ecommerce, $name = 'test4', $url = 'http://google.com/subdir/', 1, null, null, null, null, $excludeUnknownUrls = 1);
-        Fixture::createWebsite($date, $ecommerce, $name = 'test5', $url = null);
+        Fixture::createWebsite($date, $ecommerce, 'test1', 'http://piwik.org/foo/bar');
+        Fixture::createWebsite($date, $ecommerce, 'test2', 'http://piwik.org/');
+        Fixture::createWebsite($date, $ecommerce, 'test3', 'http://piwik.xyz/');
+        Fixture::createWebsite($date, $ecommerce, 'test4', 'http://google.com/subdir/', 1, null, null, null, null, $excludeUnknownUrls = 1);
+        Fixture::createWebsite($date, $ecommerce, 'test5', null);
+        Fixture::createWebsite($date, $ecommerce, 'test6', 'http://matomo.org/', 1, null, null, null, null, null, null, 'paypal.com,http://payments.amazon.com/proceed');
 
         $this->referrerType = new ReferrerType();
     }
@@ -64,9 +67,9 @@ class ReferrerTypeTest extends IntegrationTestCase
     /**
      * @dataProvider getReferrerUrls
      */
-    public function test_onNewVisit_shouldDetectCorrectReferrerType($expectedType, $idSite, $url, $referrerUrl)
+    public function testOnNewVisitShouldDetectCorrectReferrerType($expectedType, $idSite, $url, $referrerUrl)
     {
-        $request = $this->getRequest(array('idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl));
+        $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl]);
         $type = $this->referrerType->onNewVisit($request, $this->getNewVisitor(), $action = null);
 
         $this->assertSame($expectedType, $type);
@@ -78,71 +81,78 @@ class ReferrerTypeTest extends IntegrationTestCase
         $referrer = 'http://piwik.org';
 
         // $expectedType,                             $idSite,        $url, $referrerUrl
-        return array(
+        return [
             // domain matches but path does not match for idsite1
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer . '/'),
-            // idSite2 matches any piwik.org path so this is a direct entry for it
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer . '/'),
-            // idSite3 has different domain so it is coming from different website
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite3, $url, $referrer),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite3, $url, $referrer . '/'),
+            [Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer . '/'],
+            // idSite2 matches any piwik.org path, so this is a direct entry for it
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer . '/'],
+            // idSite3 has different domain, so it is coming from different website
+            [Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite3, $url, $referrer],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite3, $url, $referrer . '/'],
 
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz'),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz/'),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz?x=5'),
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz/'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz?x=5'],
             // /not/xyz belongs to different website
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer . '/not/xyz'),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer . '/not/xyz'),
+            [Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer . '/not/xyz'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer . '/not/xyz'],
 
             // /foo/bar/baz belongs to different website
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite2, $url, $referrer . '/foo/bar/baz'),
+            [Common::REFERRER_TYPE_WEBSITE,      $this->idSite2, $url, $referrer . '/foo/bar/baz'],
 
             // website as it is from different domain anyway
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, $url, $referrer . '/foo/bar/baz'),
+            [Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, $url, $referrer . '/foo/bar/baz'],
 
             // should detect campaign independent of domain / path
-            array(Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite1, $url . '?pk_campaign=test', $referrer),
-            array(Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite2, $url . '?pk_campaign=test', $referrer),
-            array(Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite3, $url . '?pk_campaign=test', $referrer),
+            [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite1, $url . '?pk_campaign=test', $referrer],
+            [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite2, $url . '?pk_campaign=test', $referrer],
+            [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite3, $url . '?pk_campaign=test', $referrer],
 
-            array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite3, $url, 'http://google.com/search?q=piwik'),
+            [Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite3, $url, 'http://google.com/search?q=piwik'],
 
-            array(Common::REFERRER_TYPE_SOCIAL_NETWORK, $this->idSite3, $url, 'https://twitter.com/matomo_org'),
+            [Common::REFERRER_TYPE_SOCIAL_NETWORK, $this->idSite3, $url, 'https://twitter.com/matomo_org'],
 
             // testing case for backwards compatibility where url has same domain as urlref but the domain is not known to any website
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com/bar'),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com'),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com', 'http://example.com/bar'),
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com/bar'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com', 'http://example.com/bar'],
 
             // testing case where domain of referrer is not known to any site but neither is the URL, url != urlref
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, 'http://example.org', 'http://example.com/bar'),
+            [Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, 'http://example.org', 'http://example.com/bar'],
 
             ####### testing specific case:
             ## - ignore unknown urls is activated for idSite4
 
             // referrer comes from another subdir, but same host   => direct entry
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite4, 'http://google.com/subdir/site', 'http://google.com/base'),
+            [Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite4, 'http://google.com/subdir/site', 'http://google.com/base'],
             // referrer comes from same subdir and host   => direct entry
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/page', 'http://google.com/subdir/x'),
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/', 'http://google.com/subdir/?q=test'),
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/page', 'http://google.com/subdir/x'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/', 'http://google.com/subdir/?q=test'],
             // referrer comes from another subdir, but same host, query matches search engine definition  => search engine
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.com/search?q=test'),
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.com/search?q=test'],
             // referrer comes from search engine not matching site
-            array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.fr/search?q=test'),
+            [Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.fr/search?q=test'],
 
             // site w/o url
-            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite5, $url, $referrer . '/'),
-        );
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite5, $url, $referrer . '/'],
+
+            ####### testing referrer exclusion
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'http://www.paypal.com/subdir/site'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'https://paypal.com/subdir/site'],
+            [Common::REFERRER_TYPE_WEBSITE, $this->idSite6, 'https://matomo.org/faq', 'http://shop.paypal.com/subdir/site'],
+            [Common::REFERRER_TYPE_WEBSITE, $this->idSite6, 'https://matomo.org/faq', 'http://payments.amazon.com/'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'https://payments.amazon.com/proceed/with/payment'],
+        ];
     }
 
     /**
      * @dataProvider getTestDataForOnExistingVisit
      */
-    public function test_onExistingVisit_shouldSometimesOverwriteReferrerInfo($expectedType, $idSite, $url, $referrerUrl, $existingType)
+    public function testOnExistingVisitShouldSometimesOverwriteReferrerInfo($expectedType, $idSite, $url, $referrerUrl, $existingType)
     {
-        $request = $this->getRequest(array('idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl));
+        $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl]);
         $visitor = $this->getNewVisitor();
         $visitor->setVisitorColumn('referer_type', $existingType);
         $type = $this->referrerType->onExistingVisit($request, $visitor, $action = null);
@@ -188,5 +198,4 @@ class ReferrerTypeTest extends IntegrationTestCase
     {
         return new Visitor(new VisitProperties());
     }
-
 }

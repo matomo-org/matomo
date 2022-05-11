@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Cache;
@@ -44,10 +46,10 @@ class SiteUrls
     public function groupUrlsByHost($siteUrls)
     {
         if (empty($siteUrls)) {
-            return array();
+            return [];
         }
 
-        $allUrls = array();
+        $allUrls = [];
 
         foreach ($siteUrls as $idSite => $urls) {
             $idSite = (int) $idSite;
@@ -61,7 +63,7 @@ class SiteUrls
         return $allUrls;
     }
 
-    private function addUrlByHost(&$allUrls, $idSite, $url, $addPath = true)
+    public function addUrlByHost(&$allUrls, $idSite, $url, $addPath = true)
     {
         $urlParsed = @parse_url($url);
 
@@ -73,7 +75,7 @@ class SiteUrls
         $path = $this->getCanonicalPathFromParsedUrl($urlParsed);
 
         if (!isset($allUrls[$host])) {
-            $allUrls[$host] = array();
+            $allUrls[$host] = [];
         }
 
         if (!$addPath) {
@@ -81,7 +83,7 @@ class SiteUrls
         }
 
         if (!isset($allUrls[$host][$path])) {
-            $allUrls[$host][$path] = array();
+            $allUrls[$host][$path] = [];
         }
 
         if (!in_array($idSite, $allUrls[$host][$path])) {
@@ -92,7 +94,7 @@ class SiteUrls
     private function sortUrlsByHost(&$allUrls)
     {
         foreach ($allUrls as $host => $paths) {
-            uksort($paths, array($this, 'sortByPathDepth'));
+            uksort($paths, [$this, 'sortByPathDepth']);
             $allUrls[$host] = $paths;
         }
     }
@@ -134,7 +136,6 @@ class SiteUrls
         $urlHost = $this->toCanonicalHost($parsedUrl['host']);
         $urlPath = $this->getCanonicalPathFromParsedUrl($parsedUrl);
 
-        $matchingSites = null;
         if (isset($urlsGroupedByHost[$urlHost])) {
             $paths = $urlsGroupedByHost[$urlHost];
 
@@ -165,15 +166,15 @@ class SiteUrls
         $siteUrls = $model->getAllKnownUrlsForAllSites();
 
         if (empty($siteUrls)) {
-            return array();
+            return [];
         }
 
-        $urls = array();
+        $urls = [];
         foreach ($siteUrls as $siteUrl) {
             $siteId = (int) $siteUrl['idsite'];
 
             if (!isset($urls[$siteId])) {
-                $urls[$siteId] = array();
+                $urls[$siteId] = [];
             }
 
             $urls[$siteId][] = $siteUrl['url'];
@@ -231,5 +232,4 @@ class SiteUrls
 
         return $path;
     }
-
 }
