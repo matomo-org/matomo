@@ -45,7 +45,7 @@ class CORSHandler
 
         if (!empty($this->domains) && !in_array('*', $this->domains) && !in_array($_SERVER['HTTP_ORIGIN'],
             $this->domains, true)) {
-            Common::stripHeader('Access-Control-Allow-Origin');
+            Common::sendHeader('Access-Control-Allow-Origin: ' . $this->domains[0]);
         }
 
         if (self::isPreFlightCorsRequest()) {
