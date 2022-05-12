@@ -39,7 +39,7 @@ class TrackerDbQueryGenerator
             $referer = [
                 'name' => 'ref_'.$id,
                 'url' => 'https://domain'.$id.'.com',
-                'type' => rand(1,7),
+                'type' => array_rand([1,2,3]),
                 'keyword' => $keywords[array_rand($keywords)],
             ];
 
@@ -118,7 +118,7 @@ class TrackerDbQueryGenerator
     }
 
 
-    public function getCheckIfNewVisitorQuery(string $idvisitor): array
+    public function getCheckIfNewVisitorQuery(string $idvisitor, int $site): array
     {
 
         $timeLookback = date('Y-m-d H:i:s', time() - 1800);
@@ -128,14 +128,13 @@ class TrackerDbQueryGenerator
          location_region, location_city, location_latitude, location_longitude, referer_name, referer_keyword, referer_type, idsite, profilable,
          visit_entry_idaction_url, visit_total_actions, visit_total_interactions, visit_total_searches, referer_url, config_browser_name,
          config_client_type, config_device_brand, config_device_model, config_device_type, visit_total_events, visit_total_time, location_ip,
-         location_browser_lang, campaign_content, campaign_group, campaign_id, campaign_keyword, campaign_medium, campaign_name, campaign_placement, 
-         campaign_source,last_idlink_va, custom_dimension_1, custom_dimension_2, custom_dimension_3, custom_dimension_4, custom_dimension_5
+         location_browser_lang, last_idlink_va, custom_dimension_1, custom_dimension_2, custom_dimension_3, custom_dimension_4, custom_dimension_5
          FROM log_visit 
-         WHERE idsite = 1 AND visit_last_action_time >= :lastaction AND idvisitor = UNHEX(:idvisitor) ORDER BY visit_last_action_time DESC LIMIT 1";
+         WHERE idsite = :site AND visit_last_action_time >= :lastaction AND idvisitor = UNHEX(:idvisitor) ORDER BY visit_last_action_time DESC LIMIT 1";
 
         // Removed FORCE INDEX (index_idsite_idvisitor)
 
-        $bind = [':lastaction' => $timeLookback, ':idvisitor' => bin2hex($idvisitor)];
+        $bind = [':lastaction' => $timeLookback, ':idvisitor' => bin2hex($idvisitor), ':site' => $site];
         return ['sql' => $sql, 'bind' => $bind];
     }
 
@@ -164,7 +163,7 @@ class TrackerDbQueryGenerator
         return strtolower($a2s[array_rand($a2s)]);
     }
 
-    public function getInsertVisitorQuery(string $idvisitor, string $entryActionUrlId, int $timestamp): array
+    public function getInsertVisitorQuery(string $idvisitor, string $entryActionUrlId, int $timestamp, int $site): array
     {
 
         $sql = "
@@ -178,8 +177,7 @@ class TrackerDbQueryGenerator
                                       config_device_type, config_os, config_os_version, visit_total_events, visitor_localtime, 
                                       visitor_seconds_since_last, config_resolution, config_cookie, config_flash, config_java, 
                                       config_pdf, config_quicktime, config_realplayer, config_silverlight, config_windowsmedia, 
-                                      visit_total_time, location_country, campaign_content, campaign_group, campaign_id, campaign_keyword,
-                                      campaign_medium, campaign_name, campaign_placement, campaign_source) 
+                                      visit_total_time, location_country) 
         VALUES (:idvisitor, :config_id, :location_ip, :idsite, :profilable, :visit_first_action_time, 
                                       :visit_goal_buyer, :visit_goal_converted, :visit_last_action_time, :visitor_returning,
                                       :visitor_seconds_since_first, :visitor_seconds_since_order, :visitor_count_visits, 
@@ -190,8 +188,7 @@ class TrackerDbQueryGenerator
                                       :config_device_type, :config_os, :config_os_version, :visit_total_events, :visitor_localtime, 
                                       :visitor_seconds_since_last, :config_resolution, :config_cookie, :config_flash, :config_java, 
                                       :config_pdf, :config_quicktime, :config_realplayer, :config_silverlight, :config_windowsmedia, 
-                                      :visit_total_time, :location_country, :campaign_content, :campaign_group, :campaign_id, :campaign_keyword,
-                                      :campaign_medium, :campaign_name, :campaign_placement, :campaign_source)
+                                      :visit_total_time, :location_country)
         ";
 
         $campaign = null;
@@ -207,7 +204,7 @@ class TrackerDbQueryGenerator
         $bind = [':idvisitor' => $idvisitor,
                  ':config_id' => random_bytes(8),
                  ':location_ip' => $this->getRandomIP(),
-                 ':idsite' => 1,
+                 ':idsite' => $site,
                  ':profilable' => 1,
                  ':visit_first_action_time' => date('Y-m-d H:i:s', $timestamp),
                  ':visit_goal_buyer' => 0,
@@ -255,28 +252,20 @@ class TrackerDbQueryGenerator
                  ':config_silverlight' => rand(0,1),
                  ':config_windowsmedia' => rand(0,1),
 
-                 ':campaign_content' => ($campaign ? $campaign['content'] : null),
-                 ':campaign_group' => ($campaign ?  $campaign['group'] : null),
-                 ':campaign_id' => ($campaign ?  $campaign['id'] : null),
-                 ':campaign_keyword' => ($campaign ?  $campaign['keyword'] : null),
-                 ':campaign_medium' => ($campaign ?  $campaign['medium'] : null),
-                 ':campaign_name' => ($campaign ?  $campaign['name'] : null),
-                 ':campaign_placement' => ($campaign ?  $campaign['placement'] : null),
-                 ':campaign_source' => ($campaign ?  $campaign['source'] : null)
             ];
 
         return ['sql' => $sql, 'bind' => $bind];
 
     }
 
-    public function getUpdateVisitQuery(int $idvisit, string $firstActionTime, int $timestamp)
+    public function getUpdateVisitQuery(int $idvisit, string $firstActionTime, int $timestamp, int $site)
     {
         $sql = "
          UPDATE log_visit
          SET profilable = 1, visit_last_action_time = :lastaction, visitor_seconds_since_order = 0, visit_exit_idaction_name = null, 
              visit_exit_idaction_url = null, visit_total_actions = visit_total_actions + 1, 
              visit_total_interactions = visit_total_interactions + 1 , visit_total_time = :visittotaltime
-         WHERE idsite = 1 AND idvisit = :idvisit
+         WHERE idsite = :site AND idvisit = :idvisit
         ";
 
         $first = strtotime($firstActionTime);
@@ -287,11 +276,11 @@ class TrackerDbQueryGenerator
             $totalTime = 0;
         }
 
-        $bind = [':lastaction' => date('Y-m-d H:i:s', $timestamp), ':idvisit' => $idvisit, ':visittotaltime' => $totalTime];
+        $bind = [':lastaction' => date('Y-m-d H:i:s', $timestamp), ':idvisit' => $idvisit, ':visittotaltime' => $totalTime, ':site' => $site];
         return ['sql' => $sql, 'bind' => $bind];
     }
 
-    public function getInsertActionLinkQuery(string $idvisitor, int $idvisit, string $idaction, int $timestamp): array
+    public function getInsertActionLinkQuery(string $idvisitor, int $idvisit, string $idaction, int $timestamp, int $site): array
     {
         $sql = "
         INSERT INTO log_link_visit_action (idvisit, idsite, idvisitor, idaction_url, idaction_url_ref, idaction_name_ref,
@@ -304,7 +293,7 @@ class TrackerDbQueryGenerator
 
         $bind = [
             ':idvisit' => $idvisit,
-            ':idsite' => 1,
+            ':idsite' => $site,
             ':idvisitor' => $idvisitor,
             ':idaction_url' => $idaction,
             ':idaction_url_ref' => $idaction,
@@ -324,7 +313,7 @@ class TrackerDbQueryGenerator
     }
 
     public function getInsertConversionQuery(string $idvisitor, int $idvisit, string $idaction, string $url, int $timestamp,
-                                             int $idlink_va, int $idgoal): array
+                                             int $idlink_va, int $idgoal, int $site): array
     {
 
         $sql = "
@@ -338,7 +327,7 @@ class TrackerDbQueryGenerator
 
         $bind = [
             ':idvisit' => $idvisit,
-            ':idsite' => 1,
+            ':idsite' => $site,
             ':idvisitor' => $idvisitor,
             ':server_time' => date('Y-m-d H:i:s', $timestamp),
             ':idaction_url' => $idaction,

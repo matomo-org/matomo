@@ -28,6 +28,8 @@ Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB
     -ds         Start date in UTC for random visit/action date range, yyyy-mm-dd,hh:mm:ss
     -de         End date for random visit/action date, must be paired with -ds, if omitted then current date is used   
     --cleanup   Delete all randomly named test databases
+    -rs         Create visits for random sites starting at this siteid
+    -re         Create visits for random sites ending at this siteid
 
 USAGE;
 
@@ -49,6 +51,8 @@ $dbCreateOnly = false;
 $randomDateStart = null;
 $randomDateEnd = null;
 $conversionPercent = 0;
+$randomSiteStart = 0;
+$randomSiteEnd = 0;
 
 foreach ($argv as $arg) {
 
@@ -119,6 +123,12 @@ foreach ($argv as $arg) {
                 die("Invalid date passed to -de option: please use format yyyy-mm-dd,hh:mm:ss\n");
             }
             $randomDateEnd = strtotime(str_replace(',', ' ', $kv[1]));
+            break;
+        case '-rs':
+            $randomSiteStart = $kv[1];
+            break;
+        case '-re':
+            $randomSiteEnd = $kv[1];
             break;
     }
 }
@@ -370,6 +380,11 @@ while ($requestCount < $requests || $requests < 0) {
         $timestampUTC = time();
     }
 
+    $site = 1;
+    if ($randomSiteStart != 0 && $randomSiteEnd != 0) {
+        $site = rand($randomSiteStart, $randomSiteEnd);
+    }
+
     // Get random action, 50% chance of being new until pool is full, then always an existing action
     $actionUrl = $queryGenerator->getRandomActionURL();
 
@@ -396,7 +411,7 @@ while ($requestCount < $requests || $requests < 0) {
     }
 
     // Check if visit exists in db, create new visit if not
-    $findVisitorQuery = $queryGenerator->getCheckIfNewVisitorQuery($idvisitor);
+    $findVisitorQuery = $queryGenerator->getCheckIfNewVisitorQuery($idvisitor, $site);
     $visitorRows = query($prepareCache, $pdo, $findVisitorQuery);
 
     if (count($visitorRows) == 0) {
@@ -406,7 +421,7 @@ while ($requestCount < $requests || $requests < 0) {
         }
 
         // Insert new visit
-        $insertVisitorQuery = $queryGenerator->getInsertVisitorQuery($idvisitor, $idaction, $timestampUTC);
+        $insertVisitorQuery = $queryGenerator->getInsertVisitorQuery($idvisitor, $idaction, $timestampUTC, $site);
         $visitorRows = query($prepareCache, $pdo, $insertVisitorQuery);
         $idvisit = $pdo->lastInsertId();
 
@@ -422,7 +437,7 @@ while ($requestCount < $requests || $requests < 0) {
         }
 
         // Update visit
-        $updateVisitQuery = $queryGenerator->getUpdateVisitQuery($idvisit, $visitorRows[0]->visit_first_action_time, $timestampUTC);
+        $updateVisitQuery = $queryGenerator->getUpdateVisitQuery($idvisit, $visitorRows[0]->visit_first_action_time, $timestampUTC, $site);
         query($prepareCache, $pdo, $updateVisitQuery);
 
     }
@@ -438,7 +453,7 @@ while ($requestCount < $requests || $requests < 0) {
         if ($verbosity == 3) {
             echo "Inserting action link...\n";
         }
-        $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction, $timestampUTC);
+        $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction, $timestampUTC, $site);
         query($prepareCache, $pdo, $insertActionLinkQuery);
         $idlinkva = $pdo->lastInsertId();
     }
@@ -453,7 +468,7 @@ while ($requestCount < $requests || $requests < 0) {
         }
 
         $insertConversionQuery = $queryGenerator->getInsertConversionQuery($idvisitor, $idvisit, $idaction, $actionUrl, $timestampUTC,
-            $idlinkva, $idgoal);
+            $idlinkva, $idgoal, $site);
         query($prepareCache, $pdo, $insertConversionQuery);
 
     }
