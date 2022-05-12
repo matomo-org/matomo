@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Composer\CaBundle\CaBundle;
 use Exception;
-use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 
 /**
