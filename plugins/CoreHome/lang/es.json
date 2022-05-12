@@ -24,7 +24,7 @@
         "DataTableShowDimensions": "Dimensiones están combinadas %s Mostrarlas separadamente",
         "DateInvalid": "La combinación de fecha y periodo seleccionados es inválido. Por favor escoja una fecha válida en el selector de fechas.",
         "Default": "predeterminado",
-        "DonateCall1": "​Matomo siempre será gratis, pero eso no significa que no nos cueste nada hacerlo.",
+        "DonateCall1": "Matomo siempre será gratis, pero eso no significa que no nos cueste nada hacerlo.",
         "DonateCall2": "Matomo necesita su apoyo para crecer y prosperar.",
         "DonateCall3": "Si sientes que Matomo ha supuesto un valor añadido para tu negocio o emprendimiento, %1$spor favor, considera hacer una donación%2$s o %3$sadquirir una funcionalidad premium%4$s. Cada centavo ayudará.",
         "EndShortcut": "Fin",

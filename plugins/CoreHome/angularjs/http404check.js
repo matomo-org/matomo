@@ -42,7 +42,7 @@
                     -1 !== rejection.config.url.indexOf('plugins')) {
 
                     var posEndUrl = rejection.config.url.indexOf('.html') + 5;
-                    var url       = rejection.config.url.substr(0, posEndUrl);
+                    var url       = rejection.config.url.slice(0, posEndUrl);
 
                     var message = 'Please check your server configuration. You may want to whitelist "*.html" files from the "plugins" directory.';
                     message    += ' The HTTP status code is ' + rejection.status + ' for URL "' + url + '"';

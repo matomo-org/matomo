@@ -2,6 +2,7 @@
     "UserLanguage": {
         "BrowserLanguage": "Selaimen kieli",
         "LanguageCode": "Kielikoodi",
-        "PluginDescription": "Raportoi kävijöiden selainten kieliasetukset."
+        "PluginDescription": "Raportoi kävijöiden selainten kieliasetukset.",
+        "getLanguageDocumentation": "Tämä raportti näyttää mitä kieltä kävijän selain käyttää (esim. \"English\")"
     }
 }

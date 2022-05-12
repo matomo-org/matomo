@@ -53,7 +53,7 @@ jobs:
         run: |
           git fetch --depth=1 origin ${{ steps.vars.outputs.base }}
 
-          VUE_FILES_MODIFIED=$(git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/* | wc -l)
+          VUE_FILES_MODIFIED=$(git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/* plugins/CoreVue/types package-lock.json | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then

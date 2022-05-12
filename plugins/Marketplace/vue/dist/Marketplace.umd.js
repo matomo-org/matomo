@@ -157,8 +157,8 @@ window.broadcast.addPopoverHandler('browsePluginDetail', function (value) {
   var activeTab = null;
 
   if (value.indexOf('!') !== -1) {
-    activeTab = value.substr(value.indexOf('!') + 1);
-    pluginName = value.substr(0, value.indexOf('!'));
+    activeTab = value.slice(value.indexOf('!') + 1);
+    pluginName = value.slice(0, value.indexOf('!'));
   }
 
   var url = "module=Marketplace&action=pluginDetails&pluginName=".concat(encodeURIComponent(pluginName));
