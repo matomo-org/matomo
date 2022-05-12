@@ -60,18 +60,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -83,18 +72,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_WEBSITE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -104,16 +82,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_WEBSITE), $conversions[0]);
     }
 
     /**
@@ -144,18 +113,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -167,18 +125,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -188,16 +135,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -232,18 +170,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -255,30 +182,8 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(2, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-                'referer_url' => 'https://payment.provider.info/success'
-            ],
-            $visits[1]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
+        self::assertEquals($this->buildVisit(2, $idSite, 1, Common::REFERRER_TYPE_WEBSITE), $visits[1]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -288,16 +193,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('2', $idSite, Common::REFERRER_TYPE_WEBSITE), $conversions[0]);
     }
 
     /**
@@ -332,18 +228,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -355,30 +240,8 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(2, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-                'referer_url' => 'https://payment.provider.info/success'
-            ],
-            $visits[1]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
+        self::assertEquals($this->buildVisit(2, $idSite, 1, Common::REFERRER_TYPE_WEBSITE), $visits[1]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -388,16 +251,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('2', $idSite, Common::REFERRER_TYPE_WEBSITE), $conversions[0]);
     }
 
     /**
@@ -429,18 +283,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -452,18 +295,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -473,16 +305,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_DIRECT_ENTRY), $conversions[0]);
     }
 
     /**
@@ -514,18 +337,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -537,18 +349,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -558,16 +359,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -603,18 +395,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -626,18 +407,8 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
+
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -647,16 +418,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_DIRECT_ENTRY), $conversions[0]);
     }
 
     /**
@@ -692,18 +454,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -715,18 +466,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -736,16 +476,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -779,18 +510,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -804,18 +524,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_WEBSITE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -826,16 +535,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -870,18 +570,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -895,18 +584,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -917,16 +595,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_WEBSITE), $conversions[0]);
     }
 
     /**
@@ -966,18 +635,8 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
+
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -990,30 +649,9 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(2, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-                'referer_url' => 'https://payment.provider.info/success'
-            ],
-            $visits[1]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
+        self::assertEquals($this->buildVisit(2, $idSite, 1, Common::REFERRER_TYPE_WEBSITE), $visits[1]);
+
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -1024,16 +662,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('2', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -1073,18 +702,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -1098,30 +716,8 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(2, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                'referer_name' => 'payment.provider.info',
-                'referer_keyword' => '',
-                'referer_url' => 'https://payment.provider.info/success'
-            ],
-            $visits[1]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
+        self::assertEquals($this->buildVisit(2, $idSite, 1, Common::REFERRER_TYPE_WEBSITE), $visits[1]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -1132,16 +728,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '2',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('2', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -1178,18 +765,8 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
+
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -1203,18 +780,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -1225,16 +791,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -1271,18 +828,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -1296,18 +842,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -1318,16 +853,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -1368,18 +894,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -1392,18 +907,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'referer_name' => '',
-                'referer_keyword' => '',
-                'referer_url' => ''
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_DIRECT_ENTRY), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -1414,16 +918,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
     }
 
     /**
@@ -1464,18 +959,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 1, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Now the visitor returns from a payment provider
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
@@ -1488,18 +972,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visits = $this->getVisitReferrers();
 
         self::assertEquals(1, count($visits));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'visit_total_actions' => '2',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-                'referer_url' => 'https://www.google.com/search?q=matomo'
-            ],
-            $visits[0]
-        );
+        self::assertEquals($this->buildVisit(1, $idSite, 2, Common::REFERRER_TYPE_SEARCH_ENGINE), $visits[0]);
 
         // Track an ecommerce conversion
         $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
@@ -1510,16 +983,75 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $conversions = $this->getConversionReferrers();
 
         self::assertEquals(1, count($conversions));
-        self::assertEquals(
-            [
-                'idvisit' => '1',
-                'idsite' => '1',
-                'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'referer_name' => 'Google',
-                'referer_keyword' => 'matomo',
-            ],
-            $conversions[0]
-        );
+        self::assertEquals($this->buildConversion('1', $idSite, Common::REFERRER_TYPE_SEARCH_ENGINE), $conversions[0]);
+    }
+
+    private function buildVisit($idVisit, $idSite, $numActions, $referrerType)
+    {
+        switch ($referrerType) {
+            case Common::REFERRER_TYPE_SEARCH_ENGINE:
+                return  [
+                    'idvisit' => $idVisit,
+                    'idsite' => $idSite,
+                    'visit_total_actions' => $numActions,
+                    'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
+                    'referer_name' => 'Google',
+                    'referer_keyword' => 'matomo',
+                    'referer_url' => 'https://www.google.com/search?q=matomo'
+                ];
+            case Common::REFERRER_TYPE_WEBSITE:
+                return  [
+                    'idvisit' => $idVisit,
+                    'idsite' => $idSite,
+                    'visit_total_actions' => $numActions,
+                    'referer_type' => Common::REFERRER_TYPE_WEBSITE,
+                    'referer_name' => 'payment.provider.info',
+                    'referer_keyword' => '',
+                    'referer_url' => 'https://payment.provider.info/success'
+                ];
+            case Common::REFERRER_TYPE_DIRECT_ENTRY:
+            default:
+                return  [
+                    'idvisit' => $idVisit,
+                    'idsite' => $idSite,
+                    'visit_total_actions' => $numActions,
+                    'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
+                    'referer_name' => '',
+                    'referer_keyword' => '',
+                    'referer_url' => ''
+                ];
+        }
+    }
+
+    private function buildConversion($idVisit, $idSite, $referrerType): array
+    {
+        switch ($referrerType) {
+            case Common::REFERRER_TYPE_SEARCH_ENGINE:
+                return  [
+                    'idvisit' => $idVisit,
+                    'idsite' => $idSite,
+                    'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
+                    'referer_name' => 'Google',
+                    'referer_keyword' => 'matomo',
+                ];
+            case Common::REFERRER_TYPE_WEBSITE:
+                return  [
+                    'idvisit' => $idVisit,
+                    'idsite' => $idSite,
+                    'referer_type' => Common::REFERRER_TYPE_WEBSITE,
+                    'referer_name' => 'payment.provider.info',
+                    'referer_keyword' => '',
+                ];
+            case Common::REFERRER_TYPE_DIRECT_ENTRY:
+            default:
+                return  [
+                    'idvisit' => $idVisit,
+                    'idsite' => $idSite,
+                    'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
+                    'referer_name' => '',
+                    'referer_keyword' => '',
+                ];
+        }
     }
 
     private function getVisitReferrers()
