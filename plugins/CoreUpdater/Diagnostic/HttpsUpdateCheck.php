@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Diagnostic;
 
+use Piwik\Config\GeneralConfig;
 use Piwik\Http;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
@@ -31,8 +32,11 @@ class HttpsUpdateCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
-        if (Http::isUpdatingOverHttps()) {
+        if (Http::isUpdatingOverHttps() || GeneralConfig::getConfigValue('force_matomo_ssl_request') === 0) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+        } else {
+            // if check failed, set force_matomo_ssl_request to 0
+            GeneralConfig::setConfigValue('force_matomo_ssl_request', 0);
         }
 
         $comment = $this->translator->translate('Installation_SystemCheckUpdateHttpsNotSupported');

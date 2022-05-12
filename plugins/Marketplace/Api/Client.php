@@ -8,16 +8,16 @@
  */
 namespace Piwik\Plugins\Marketplace\Api;
 
+use Exception as PhpException;
 use Matomo\Cache\Lazy;
 use Piwik\Common;
-use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\SettingsServer;
-use Exception as PhpException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -332,8 +332,8 @@ class Client
      */
     public static function getApiServiceUrl()
     {
-        $url = Config::getInstance()->General['api_service_url'];
-        if (!Config\GeneralConfig::getConfigValue('force_matomo_ssl_request')) {
+        $url = GeneralConfig::getConfigValue('api_service_url');
+        if (!GeneralConfig::getConfigValue('force_matomo_ssl_request')) {
             $url = str_replace('https', 'http', $url);
         }
 
