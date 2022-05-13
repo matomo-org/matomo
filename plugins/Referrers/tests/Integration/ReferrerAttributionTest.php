@@ -23,10 +23,67 @@ use Piwik\Tests\Framework\TestingEnvironmentVariables;
  */
 class ReferrerAttributionTest extends IntegrationTestCase
 {
-    public static $externalService = [
+    public static $directEntryReferrer = [
+        'siteUrl' => '',
+        'referrerUrl' => '',
+        'referrerName' => '',
+        'referrerKeyword' => '',
+        'referrerType' => Common::REFERRER_TYPE_DIRECT_ENTRY,
+        'attributionCookieValues' => [],
+    ];
+
+    public static $externalServiceReferrer = [
         'siteUrl' => 'https://payment.provider.info/',
         'referrerUrl' => 'https://payment.provider.info/success',
-        'referrerName' => 'payment.provider.info'
+        'referrerName' => 'payment.provider.info',
+        'referrerKeyword' => '',
+        'referrerType' => Common::REFERRER_TYPE_WEBSITE,
+        'attributionCookieValues' => ['_ref' => 'https://payment.provider.info/success'],
+    ];
+
+    public static $websiteReferrer = [
+        'siteUrl' => 'https://de.wikipedia.org/',
+        'referrerUrl' => 'https://de.wikipedia.org/wiki/Matomo',
+        'referrerName' => 'de.wikipedia.org',
+        'referrerKeyword' => '',
+        'referrerType' => Common::REFERRER_TYPE_WEBSITE,
+        'attributionCookieValues' => ['_ref' => 'https://de.wikipedia.org/wiki/Matomo'],
+    ];
+
+    public static $searchEngineReferrer = [
+        'siteUrl' => 'https://www.google.com/',
+        'referrerUrl' => 'https://www.google.com/search?q=matomo',
+        'referrerName' => 'Google',
+        'referrerKeyword' => 'matomo',
+        'referrerType' => Common::REFERRER_TYPE_SEARCH_ENGINE,
+        'attributionCookieValues' => ['_ref' => 'https://www.google.com/search?q=matomo'],
+    ];
+
+    public static $searchEngineReferrer2 = [
+        'siteUrl' => 'https://www.bing.com/',
+        'referrerUrl' => 'https://www.bing.com/search?q=matomo',
+        'referrerName' => 'Bing',
+        'referrerKeyword' => 'matomo',
+        'referrerType' => Common::REFERRER_TYPE_SEARCH_ENGINE,
+        'attributionCookieValues' => ['_ref' => 'https://www.bing.com/search?q=matomo'],
+    ];
+
+    public static $socialNetworkReferrer = [
+        'siteUrl' => 'https://twitter.com/',
+        'referrerUrl' => 'https://twitter.com/matomo_org',
+        'referrerName' => 'Twitter',
+        'referrerKeyword' => '',
+        'referrerType' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
+        'attributionCookieValues' => ['_ref' => 'https://twitter.com/matomo_org'],
+    ];
+
+    public static $socialNetworkReferrer2 = [
+        'siteUrl' => 'https://l.instagram.com/',
+        'referrerUrl' => 'https://l.instagram.com/?u=https%3A%2F%2Fexample.com%2Fexample.com',
+        'referrerName' => 'Instagram',
+        'referrerKeyword' => '',
+        'referrerType' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
+        'attributionCookieValues' => ['_ref' => 'https://l.instagram.com/?u=https%3A%2F%2Fexample.com%2Fexample.com'],
     ];
 
     public function setUp(): void
@@ -39,27 +96,18 @@ class ReferrerAttributionTest extends IntegrationTestCase
     }
 
     /**
-     * @param       $initialReferrerUrl
-     * @param       $initialReferrerAttributionCookieValues
-     * @param       $expectedVisitsAfterFirstAction
-     * @param       $referrerAttributionCookieValuesAfterReturn
-     * @param       $expectedVisitsAfterServiceReturn
-     * @param       $expectedConversions
-     * @param       $createNewVisitWhenWebsiteReferrerChanges
-     * @param       $addSiteUrls
-     * @throws \Exception
-     *
-     * @dataProvider getVisitorReturningFromPaymentAttributedCorrectlyTestCases
+     * @dataProvider getReferrerAttributionUsingLastReferrerTestCases
      */
-    public function testVisitorReturningFromPaymentAttributedCorrectly(
-        $initialReferrerUrl,
-        $initialReferrerAttributionCookieValues,
-        $expectedVisitsAfterFirstAction,
-        $referrerAttributionCookieValuesAfterReturn,
-        $expectedVisitsAfterServiceReturn,
-        $expectedConversions,
-        $createNewVisitWhenWebsiteReferrerChanges = false,
-        $addSiteUrls = false
+    public function testReferrerAttributionUsingLastReferrer(
+        array $initialReferrer,
+        ?array $initialReferrerAttributionCookieValues,
+        array $expectedVisitsAfterFirstAction,
+        array $secondReferrer,
+        ?array $referrerAttributionCookieValuesAfterReturn,
+        array $expectedVisitsAfterServiceReturn,
+        array $expectedConversions,
+        bool $createNewVisitWhenWebsiteReferrerChanges,
+        bool $addSecondReferrerAsSiteUrl
     ) {
         $env = new TestingEnvironmentVariables();
         $env->overrideConfig('Tracker', 'create_new_visit_when_website_referrer_changes', (int) $createNewVisitWhenWebsiteReferrerChanges);
@@ -67,16 +115,18 @@ class ReferrerAttributionTest extends IntegrationTestCase
 
         $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
 
-        if (is_array($addSiteUrls)) {
-            SitesManagerAPI::getInstance()->addSiteAliasUrls($idSite, $addSiteUrls);
+        if ($addSecondReferrerAsSiteUrl) {
+            SitesManagerAPI::getInstance()->addSiteAliasUrls($idSite, $secondReferrer['siteUrl']);
         }
 
         $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
 
-        $referrerAttributionCookieValues = $initialReferrerAttributionCookieValues;
+        $referrerAttributionCookieValues = $initialReferrerAttributionCookieValues
+            ? $initialReferrerAttributionCookieValues['attributionCookieValues']
+            : [];
 
         // Visitor enters page
-        $tracker->setUrlReferrer($initialReferrerUrl);
+        $tracker->setUrlReferrer($initialReferrer['referrerUrl']);
         // attach referrer attribution cookie values if any
         $this->setReferrerAttributionCookieValuesToTracker($tracker, $referrerAttributionCookieValues);
         $tracker->setUrl('https://matomo.org/');
@@ -86,14 +136,16 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $this->assertVisitReferrers($expectedVisitsAfterFirstAction);
 
         if ($referrerAttributionCookieValuesAfterReturn) {
-            $referrerAttributionCookieValues = $referrerAttributionCookieValuesAfterReturn;
+            $referrerAttributionCookieValues = $referrerAttributionCookieValuesAfterReturn
+                ? $referrerAttributionCookieValuesAfterReturn['attributionCookieValues']
+                : [];
         }
 
-        // Now the visitor returns from a payment provider
+        // Now the visitor returns from a service
         $tracker->setForceVisitDateTime('2020-01-01 05:04:38');
         // attach referrer attribution cookie values if any
         $this->setReferrerAttributionCookieValuesToTracker($tracker, $referrerAttributionCookieValues);
-        $tracker->setUrlReferrer(self::$externalService['referrerUrl']);
+        $tracker->setUrlReferrer($secondReferrer['referrerUrl']);
         $tracker->setUrl('https://matomo.org/order/payed?paymentid=1337');
         Fixture::checkResponse($tracker->doTrackPageView('Order payed'));
 
@@ -110,426 +162,4248 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $this->assertConversionReferrers($expectedConversions);
     }
 
-    public function getVisitorReturningFromPaymentAttributedCorrectlyTestCases()
+    public function getReferrerAttributionUsingLastReferrerTestCases()
     {
         return [
             /**
              * Test Case 1:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
              * not using referrer attribution cookies
              *
              * 1. Direct entry
              *    --> visit attributed to direct entry
-             * 2. Return from external (payment) provider
-             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
-             *    --> visit now attributed to external (payment) provider
+             * 2. Another direct entry
+             *    --> visit still attributed to direct entry
              * 3. Ecommerce conversion
-             *   --> conversion attributed to external (payment) provider
+             *    --> conversion attributed to direct entry
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_WEBSITE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_WEBSITE)],
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = false
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 2:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
-             * not using referrer attribution cookies
-             *
-             * 1. Entry from a search engine
-             *    --> visit attributed to search engine
-             * 2. Return from external (payment) provider
-             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
-             *    --> visit still attributed to search engine
-             * 3. Ecommerce conversion
-             *    --> conversion attributed to search engine
-             */
-            [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = false
-            ],
-            /**
-             * Test Case 3:
-             *
-             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
              * not using referrer attribution cookies
              *
              * 1. Direct entry
              *    --> visit attributed to direct entry
-             * 2. Return from external (payment) provider
-             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
-             *    --> the new visit will be attributed to external (payment) provider
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit now attributed to external service
              * 3. Ecommerce conversion
-             *    --> conversion (of second visit) attributed to external (payment) provider
+             *   --> conversion attributed to external service
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [
-                    $this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY),
-                    $this->buildVisit(2, 1, Common::REFERRER_TYPE_WEBSITE)
-                ],
-                $expectedConversions = [$this->buildConversion(2, Common::REFERRER_TYPE_WEBSITE)],
-                $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = false
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$externalServiceReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 3:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from search engine
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit now attributed to search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 4:
              *
-             * config `create_new_visit_when_website_referrer_changes = 1`
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
              * not using referrer attribution cookies
              *
-             * 1. Entry from a search engine
-             *    --> visit attributed to search engine
-             * 2. Return from external (payment) provider
-             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
-             *    --> the new visit will be attributed to external (payment) provider
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit now attributed to social network
              * 3. Ecommerce conversion
-             *    --> conversion (of second visit) attributed to external (payment) provider
+             *   --> conversion attributed to social network
              */
             [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [
-                    $this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE),
-                    $this->buildVisit(2, 1, Common::REFERRER_TYPE_WEBSITE),
-                ],
-                $expectedConversions = [$this->buildConversion(2, Common::REFERRER_TYPE_WEBSITE)],
-                $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = false
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 5:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
              * not using referrer attribution cookies
-             * external (payment) provider added as site url
              *
-             * 1. Direct entry
-             *    --> visit attributed to direct entry
-             * 2. Return from external (payment) provider
-             *    --> no new visit and no change in referrer as it's added to site urls
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry is direct
+             *    --> visit still attributed to website
              * 3. Ecommerce conversion
-             *    --> conversion attributed to direct entry
+             *    --> conversion attributed to website
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 6:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
              * not using referrer attribution cookies
-             * external (payment) provider added as site url
              *
-             * 1. Entry from a search engine
-             *    --> visit attributed to search engine
-             * 2. Return from external (payment) provider
-             *    --> no new visit and no change in referrer as it's added to site urls
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit still attributed to website
              * 3. Ecommerce conversion
-             *    --> conversion attributed to search engine
+             *   --> conversion attributed to website
              */
             [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 7:
              *
-             * config `create_new_visit_when_website_referrer_changes = 1`
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
              * not using referrer attribution cookies
-             * external (payment) provider added as site url
              *
-             * 1. Direct entry
-             *    --> visit attributed to direct entry
-             * 2. Return from external (payment) provider
-             *    --> no new visit and no change in referrer as it's added to site urls
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit still attributed to website
              * 3. Ecommerce conversion
-             *    --> conversion attributed to direct entry
+             *   --> conversion attributed to website
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 8:
              *
-             * config `create_new_visit_when_website_referrer_changes = 1`
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
              * not using referrer attribution cookies
-             * external (payment) provider added as site url
              *
-             * 1. Entry from a search engine
-             *    --> visit attributed to search engine
-             * 2. Return from external (payment) provider
-             *    --> no new visit and no change in referrer as it's added to site urls
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit still attributed to website
              * 3. Ecommerce conversion
-             *    --> conversion attributed to search engine
+             *   --> conversion attributed to website
              */
             [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = [],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = [],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
             ],
+
+
             /**
              * Test Case 9:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
-             * with referrer attribution cookie containing a search engine from a previous visit
-             * (assuming setDomains contains the external payment provider and the attribution cookie isn't replaced)
+             * no additional site urls
+             * not using referrer attribution cookies
              *
-             * 1. Direct entry
-             *    --> visit attributed to direct entry
-             * 2. Return from external (payment) provider
-             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
-             *    --> visit now attributed to external (payment) provider
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry is direct
+             *    --> visit still attributed to search engine
              * 3. Ecommerce conversion
-             *    --> conversion attributed to search engine (due to attribution cookie)
+             *    --> conversion attributed to search engine
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_WEBSITE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = false
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 10:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
-             * with referrer attribution cookie placed when returning from payment provider (e.g. not in setDomains)
+             * no additional site urls
+             * not using referrer attribution cookies
              *
              * 1. Entry from a search engine
              *    --> visit attributed to search engine
-             *    --> attribution cookie will be set to search engine
-             * 2. Return from external (payment) provider
+             * 2. Return from external service
              *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
-             *    --> visit attribution will not be changed
-             *    --> attribution cookie will be updated to external (payment) provider (as not in setDomains)
+             *    --> visit still attributed to search engine
              * 3. Ecommerce conversion
-             *    --> conversion will be attributed to external (payment) provider
+             *   --> conversion attributed to search engine
              */
             [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://payment.provider.info/success'],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_WEBSITE)],
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = false
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 11:
              *
-             * config `create_new_visit_when_website_referrer_changes = 1`
-             * with referrer attribution cookie containing a search engine from a previous visit
-             * (assuming setDomains contains the external payment provider and the attribution cookie isn't replaced)
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * not using referrer attribution cookies
              *
-             * 1. Direct entry
-             *    --> visit attributed to direct entry
-             *    --> attribution cookie from previous visit remains
-             * 2. Return from external (payment) provider
-             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
-             *    --> the new visit will be attributed to external (payment) provider
-             *    --> attribution cookie will remain from previous visit (due to setDomains)
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit still attributed to first search engine
              * 3. Ecommerce conversion
-             *    --> conversion (of second visit) attributed to search engine (due to attribution cookie)
+             *   --> conversion attributed to first search engine
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterServiceReturn = [
-                    $this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY),
-                    $this->buildVisit(2, 1, Common::REFERRER_TYPE_WEBSITE)
-                ],
-                $expectedConversions = [$this->buildConversion(2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = false
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 12:
              *
-             * config `create_new_visit_when_website_referrer_changes = 1`
-             * with referrer attribution cookie placed on entry from search engine
-             * (assuming setDomains contains the external payment provider and the attribution cookie isn't replaced)
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * not using referrer attribution cookies
              *
              * 1. Entry from a search engine
              *    --> visit attributed to search engine
-             *    --> attribution cookie for search engine is placed
-             * 2. Return from external (payment) provider
-             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
-             *    --> the new visit will be attributed to external (payment) provider
-             *    --> attribution cookie will remain from previous visit (due to setDomains)
+             * 2. Second entry from social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit still attributed to search engine
              * 3. Ecommerce conversion
-             *    --> conversion (of second visit) attributed to search engine (due to attribution cookie)
+             *   --> conversion attributed to search engine
              */
             [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterServiceReturn = [
-                    $this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE),
-                    $this->buildVisit(2, 1, Common::REFERRER_TYPE_WEBSITE)
-                ],
-                $expectedConversions = [$this->buildConversion(2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = false
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 13:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
-             * with referrer attribution cookie containing a search engine from previous visit
-             * (assuming setDomains contains the external payment provider and the attribution cookie isn't replaced)
-             * external (payment) provider added as site url
+             * no additional site urls
+             * not using referrer attribution cookies
              *
-             * 1. Direct entry
-             *    --> visit attributed to direct entry
-             *    --> attribution cookie from previous visit remains
-             * 2. Return from external (payment) provider
-             *    --> no new visit and no change in referrer as it's added to site urls
-             *    --> attribution cookie will not be updated (as url in setDomains)
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry is direct
+             *    --> visit still attributed to social network
              * 3. Ecommerce conversion
-             *    --> conversion attributed to search engine (due to attribution cookie)
+             *    --> conversion attributed to social network
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 14:
              *
              * config `create_new_visit_when_website_referrer_changes = 0`  (default)
-             * with referrer attribution cookie containing being placed for search engine
-             * (assuming setDomains contains the external payment provider and the attribution cookie isn't replaced)
-             * external (payment) provider added as site url
+             * no additional site urls
+             * not using referrer attribution cookies
              *
-             * 1. Entry from a search engine
-             *    --> visit attributed to search engine
-             *    --> attribution cookie will be set to search engine
-             * 2. Return from external (payment) provider
-             *    --> no new visit and no change in referrer as it's added to site urls
-             *    --> attribution cookie will not be updated (as url in setDomains)
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit still attributed to social network
              * 3. Ecommerce conversion
-             *    --> conversion attributed to search engine (due to attribution cookie)
+             *   --> conversion attributed to social network
              */
             [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = false,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 15:
              *
-             * config `create_new_visit_when_website_referrer_changes = 1`
-             * with referrer attribution cookie containing a search engine from previous visit
-             * (assuming setDomains contains the external payment provider and the attribution cookie isn't replaced)
-             * external (payment) provider added as site url
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * not using referrer attribution cookies
              *
-             * 1. Direct entry
-             *    --> visit attributed to direct entry
-             *    --> attribution cookie from previous visit remains
-             * 2. Return from external (payment) provider
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from a search engine
              *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
-             *    --> visit attribution will not be changed (due to url in site urls)
-             *    --> attribution cookie will not be changed (as in setDomains)
+             *    --> visit still attributed to social network
              * 3. Ecommerce conversion
-             *    --> conversion will be attributed to search engine (due to attribution cookie)
+             *   --> conversion attributed to social network
              */
             [
-                $initialReferrerUrl = '',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_DIRECT_ENTRY)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
             ],
             /**
              * Test Case 16:
              *
-             * config `create_new_visit_when_website_referrer_changes = 1`
-             * with referrer attribution cookie placed on entry from search engine
-             * (assuming setDomains contains the external payment provider and the attribution cookie isn't replaced)
-             * external (payment) provider added as site url
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * not using referrer attribution cookies
              *
-             * 1. Entry from a search engine
-             *    --> visit attributed to search engine
-             *    --> attribution cookie for search engine is placed
-             * 2. Return from external (payment) provider
-             *    --> no new visit and no change in referrer as it's added to site urls
-             *    --> attribution cookie will not be updated (as url in setDomains)
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> visit still attributed to first social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to first social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+
+            /**
+             * Test Case 17:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Another direct entry
+             *    --> visit still attributed to direct entry
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 18:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$directEntryReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer)
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 19:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from Search Engine
+             *    --> visit now attributed to search engine
              * 3. Ecommerce conversion
              *    --> conversion attributed to search engine
              */
             [
-                $initialReferrerUrl = 'https://www.google.com/search?q=matomo',
-                $initialReferrerAttributionCookieValues = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $referrerAttributionCookieValuesAfterReturn = ['_ref' => 'https://www.google.com/search?q=matomo'],
-                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, Common::REFERRER_TYPE_SEARCH_ENGINE)],
-                $expectedConversions = [$this->buildConversion(1, Common::REFERRER_TYPE_SEARCH_ENGINE)],
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
                 $createNewVisitWhenWebsiteReferrerChanges = true,
-                $addSiteUrls = [self::$externalService['siteUrl']]
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 20:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> visit now attributed to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 21:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry is direct
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 22:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$websiteReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer)
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 23:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from Search Engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> the visit is still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 24:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> the visit is still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 25:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry is direct
+             *    --> visit still attributed to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 26:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$searchEngineReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer),
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 27:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to website
+             * 2. Second entry from another search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> the visit is still attributed to first search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to first search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 28:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from a social network
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> the visit is still attributed to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 29:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry is direct
+             *    --> visit still attributed to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 30:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$socialNetworkReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer),
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 31:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> the visit is still attributed to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 32:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> the visit is still attributed to first social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to first social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 33:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 34:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 35:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 36:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 37:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 38:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 39:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 40:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 41:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 42:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 43:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 44:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 45:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 46:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 47:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 48:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 49:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 50:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 51:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 52:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 53:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 54:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 55:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 56:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * not using referrer attribution cookies
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = null,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = null,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 57:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Another direct entry
+             *    --> visit still attributed to direct entry
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 58:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> referrer attribution cookie will be updated to external service as domain not in setDomains
+             *    --> visit now attributed to external service
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to external service
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$externalServiceReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 59:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from another search engine
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> referrer attribution cookie will be updated to second search engine as domain not in setDomains
+             *    --> visit now attributed to second search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to second search engine
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer2)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer2)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 60:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> referrer attribution cookie will be updated to social network as domain not in setDomains
+             *    --> visit now attributed to social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 61:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry is direct
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 62:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to external service
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to external service (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 63:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to search engine
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 64:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to social network
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 65:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry is direct
+             *    --> visit still attributed to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 66:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to external service
+             *    --> visit still attributed to search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to external service (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 67:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to second search engine
+             *    --> visit still attributed to first search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to second search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer2)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 68:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to social network
+             *    --> visit still attributed to search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 69:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry is direct
+             *    --> visit still attributed to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 70:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to external service
+             *    --> visit still attributed to social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to external service
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 71:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from a search engine
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to search engine
+             *    --> visit still attributed to social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 72:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> attribution cookie will be updated to second social network
+             *    --> visit still attributed to first social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to second social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer2)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+
+            /**
+             * Test Case 73:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Another direct entry
+             *    --> visit still attributed to direct entry
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 74:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> attribution cookie will be updated to external service
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$directEntryReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer)
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 75:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from another Search Engine
+             *    --> visit now attributed to second search engine
+             *    --> attribution cookie will be updated to second search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to second search engine
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer2)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer2)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 76:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> visit now attributed to social network
+             *    --> attribution cookie will be updated to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 77:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry is direct
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 78:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> attribution cookie will be updated to external service
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$websiteReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer)
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 79:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from Search Engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> attribution cookie will be updated to search engine
+             *    --> the visit is still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 80:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> attribution cookie will be updated to social network
+             *    --> the visit is still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 81:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry is direct
+             *    --> visit still attributed to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 82:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> attribution cookie will be updated to external service
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$searchEngineReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer),
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 83:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to website
+             * 2. Second entry from another search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> attribution cookie will be updated to second search engine
+             *    --> the visit is still attributed to first search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to second search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer2)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 84:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from a search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> attribution cookie will be updated to search engine
+             *    --> the visit is still attributed to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 85:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry is direct
+             *    --> visit still attributed to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$directEntryReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 86:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> attribution cookie will be updated to external service
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$socialNetworkReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer),
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 87:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> attribution cookie will be updated to search engine
+             *    --> the visit is still attributed to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 88:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> attribution cookie will be updated to second social network
+             *    --> the visit is still attributed to first social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to second social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer2)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 89:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 90:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to second search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 91:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 92:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 93:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 94:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 95:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 96:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to second search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 97:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 98:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 99:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 100:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to second social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 101:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 102:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 103:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to direct entry
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$directEntryReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 104:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 105
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 106:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 107:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 108:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to second search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 109:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 110:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to external service
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 111
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 112:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> attribution cookie will be updated to second social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) social network
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer2,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 113:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit now attributed to external service
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$externalServiceReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 114:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from another search engine
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit now attributed to second search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to second search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer2)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 115:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit now attributed to social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 116:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 117:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 118:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to website
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 119:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit will be created due to `create_new_visit_when_website_referrer_changes = 0`
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 120:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to first search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to first search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 121:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie updated on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to search engine
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 122:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 123:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from a search engine
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 124:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> visit still attributed to first social network
+             * 3. Ecommerce conversion
+             *   --> conversion attributed to first social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 125:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$directEntryReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer)
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 126:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from another Search Engine
+             *    --> visit now attributed to second search engine
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to first search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer2)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 127:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> visit now attributed to social network
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 128:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to external service (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$externalServiceReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$websiteReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer)
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$externalServiceReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 129:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from Search Engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the visit is still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 130:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the visit is still attributed to website
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 131:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$searchEngineReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer),
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 132:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to website
+             * 2. Second entry from another search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the visit is still attributed to first search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to first search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 133:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from a search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the visit is still attributed to search engine
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribtuion cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 134:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> new visit will be created due to new referrer and `create_new_visit_when_website_referrer_changes = 1`
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the new visit will be attributed to external service
+             * 3. Ecommerce conversion
+             *    --> conversion (of second visit) attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [
+                    $this->buildVisit(1, 1, self::$socialNetworkReferrer),
+                    $this->buildVisit(2, 1, self::$externalServiceReferrer),
+                ],
+                $expectedConversions = [$this->buildConversion(2, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 135:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the visit is still attributed to social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 136:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * no additional site urls
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from a social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit will be created as new referrer is no website referrer
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             *    --> the visit is still attributed to first social network
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to first social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = false
+            ],
+            /**
+             * Test Case 137:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 138:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to first search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 139:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 140:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 141:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 142:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 143:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 144:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) search engine (due to attribtuion cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 145:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 146:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 147:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 148:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 0`  (default)
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = false,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 149:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 150:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to first search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 151:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * with referrer attribution cookie containing a search engine from a previous visit
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Direct entry
+             *    --> visit attributed to direct entry
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$directEntryReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$directEntryReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$directEntryReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 152:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 153:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 154:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from website
+             *    --> visit attributed to website
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to website (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$websiteReferrer,
+                $initialReferrerAttributionCookieValues = self::$websiteReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$websiteReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$websiteReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$websiteReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$websiteReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 155:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 156:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from another search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$searchEngineReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 157:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from search engine
+             *    --> visit attributed to search engine
+             * 2. Second entry from social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to search engine (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$searchEngineReferrer,
+                $initialReferrerAttributionCookieValues = self::$searchEngineReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$searchEngineReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$searchEngineReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$searchEngineReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$searchEngineReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 158:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * external service added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Return from external service
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$externalServiceReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 159:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * search engine added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from search engine
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$searchEngineReferrer,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
+            ],
+            /**
+             * Test Case 160:
+             *
+             * config `create_new_visit_when_website_referrer_changes = 1`
+             * social network added as site url
+             * referrer attribution cookie update on changing referrer
+             * (assuming setDomains contains the second referrers host and the attribution cookie isn't replaced)
+             *
+             * 1. Entry from social network
+             *    --> visit attributed to social network
+             * 2. Second entry from another social network
+             *    --> no new visit and no change in referrer as it's added to site urls
+             *    --> referrer attribution cookie will not be updated due to setDomains
+             * 3. Ecommerce conversion
+             *    --> conversion attributed to (first) social network (due to attribution cookie)
+             */
+            [
+                $initialReferrer = self::$socialNetworkReferrer,
+                $initialReferrerAttributionCookieValues = self::$socialNetworkReferrer,
+                $expectedVisitsAfterFirstAction = [$this->buildVisit(1, 1, self::$socialNetworkReferrer)],
+                $secondReferrer = self::$socialNetworkReferrer2,
+                $referrerAttributionCookieValuesAfterReturn = self::$socialNetworkReferrer,
+                $expectedVisitsAfterServiceReturn = [$this->buildVisit(1, 2, self::$socialNetworkReferrer)],
+                $expectedConversions = [$this->buildConversion(1, self::$socialNetworkReferrer)],
+                $createNewVisitWhenWebsiteReferrerChanges = true,
+                $addSecondReferrerAsSiteUrl = true
             ],
         ];
     }
@@ -541,66 +4415,26 @@ class ReferrerAttributionTest extends IntegrationTestCase
         }
     }
 
-    private function buildVisit($idVisit, $numActions, $referrerType): array
+    private function buildVisit($idVisit, $numActions, $referrer): array
     {
-        switch ($referrerType) {
-            case Common::REFERRER_TYPE_SEARCH_ENGINE:
-                return  [
-                    'idvisit' => $idVisit,
-                    'visit_total_actions' => $numActions,
-                    'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                    'referer_name' => 'Google',
-                    'referer_keyword' => 'matomo',
-                    'referer_url' => 'https://www.google.com/search?q=matomo'
-                ];
-            case Common::REFERRER_TYPE_WEBSITE:
-                return  [
-                    'idvisit' => $idVisit,
-                    'visit_total_actions' => $numActions,
-                    'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                    'referer_name' => 'payment.provider.info',
-                    'referer_keyword' => '',
-                    'referer_url' => 'https://payment.provider.info/success'
-                ];
-            case Common::REFERRER_TYPE_DIRECT_ENTRY:
-            default:
-                return  [
-                    'idvisit' => $idVisit,
-                    'visit_total_actions' => $numActions,
-                    'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                    'referer_name' => '',
-                    'referer_keyword' => '',
-                    'referer_url' => ''
-                ];
-        }
+        return  [
+            'idvisit' => $idVisit,
+            'visit_total_actions' => $numActions,
+            'referer_type' => $referrer['referrerType'],
+            'referer_name' => $referrer['referrerName'],
+            'referer_keyword' => $referrer['referrerKeyword'],
+            'referer_url' => $referrer['referrerUrl'],
+        ];
     }
 
-    private function buildConversion($idVisit, $referrerType): array
+    private function buildConversion($idVisit, $referrer): array
     {
-        switch ($referrerType) {
-            case Common::REFERRER_TYPE_SEARCH_ENGINE:
-                return  [
-                    'idvisit' => $idVisit,
-                    'referer_type' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                    'referer_name' => 'Google',
-                    'referer_keyword' => 'matomo',
-                ];
-            case Common::REFERRER_TYPE_WEBSITE:
-                return  [
-                    'idvisit' => $idVisit,
-                    'referer_type' => Common::REFERRER_TYPE_WEBSITE,
-                    'referer_name' => 'payment.provider.info',
-                    'referer_keyword' => '',
-                ];
-            case Common::REFERRER_TYPE_DIRECT_ENTRY:
-            default:
-                return  [
-                    'idvisit' => $idVisit,
-                    'referer_type' => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                    'referer_name' => '',
-                    'referer_keyword' => '',
-                ];
-        }
+        return  [
+            'idvisit' => $idVisit,
+            'referer_type' => $referrer['referrerType'],
+            'referer_name' => $referrer['referrerName'],
+            'referer_keyword' => $referrer['referrerKeyword'],
+        ];
     }
 
     private function assertVisitReferrers($expectedVisits): void
