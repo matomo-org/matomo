@@ -32,8 +32,14 @@ class HttpsUpdateCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
-        if (Http::isUpdatingOverHttps() || GeneralConfig::getConfigValue('force_matomo_ssl_request') === 0) {
+        if (GeneralConfig::getConfigValue('force_matomo_ssl_request') === 0) {
+            $comment = 'An info message';
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment));
+        } elseif (Http::isUpdatingOverHttps()) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+        } else {
+            $comment = 'An error message';
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment));
         }
 
         $comment = $this->translator->translate('Installation_SystemCheckUpdateHttpsNotSupported');
