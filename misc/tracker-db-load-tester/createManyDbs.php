@@ -125,7 +125,7 @@ if (!$noCreate) {
     }
     echo " done!\n";
 }
-#endgregion
+#endregion
 
 #region Keepalive
 
@@ -135,11 +135,23 @@ while (true) {
 
     for ($dbc = 1; $dbc < $dbCount + 1; $dbc++) {
 
-        $pdo->query("USE create_db_test_$dbc;");
-        echo ".";
+        try {
+            $pdo->query("USE create_db_test_$dbc;");
+            echo ".";
+        } catch (exception $e) {
+            echo "\n".$e->getMessage()."\n";
+        }
 
-        for ($tc = 1; $tc < $tablesPerDbCount+1; $tc++) {
-            $pdo->query("SELECT COUNT(*) FROM table_$tc;");
+        for ($tc = 1; $tc < $tablesPerDbCount + 1; $tc++) {
+            try {
+                $pdo->query("SELECT COUNT(*) FROM table_$tc;");
+            } catch (exception $e) {
+                echo "\n".$e->getMessage()."\n";
+            }
+        }
+
+        if ($dbc % 100 === 0) {
+            echo "\n".$dbc."\n";
         }
 
     }
