@@ -18,17 +18,16 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\Email;
 
