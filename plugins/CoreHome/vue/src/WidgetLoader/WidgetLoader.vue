@@ -105,7 +105,7 @@ export default defineComponent({
       this.loadWidgetUrl(this.widgetParams as QueryParameters, this.changeCounter += 1);
     }
   },
-  unmounted() {
+  beforeUnmount() {
     this.cleanupLastWidgetContent();
   },
   methods: {
@@ -117,11 +117,12 @@ export default defineComponent({
     },
     cleanupLastWidgetContent() {
       const widgetContent = this.$refs.widgetContent as HTMLElement;
-      if (widgetContent) {
-        widgetContent.innerHTML = '';
-      }
+      Matomo.helper.destroyVueComponent(widgetContent);
       if (this.currentScope) {
         this.currentScope.$destroy();
+      }
+      if (widgetContent) {
+        widgetContent.innerHTML = '';
       }
     },
     getWidgetUrl(parameters?: QueryParameters): QueryParameters {
