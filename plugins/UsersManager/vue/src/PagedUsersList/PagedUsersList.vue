@@ -539,7 +539,7 @@ export default defineComponent({
   },
   methods: {
 
-    getInviteStatusClass(inviteAt: string|null){
+    getInviteStatusClass(inviteAt: string|null) {
       if (!inviteAt) {
         return 'active';
       }
