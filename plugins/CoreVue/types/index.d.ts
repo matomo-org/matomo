@@ -134,7 +134,11 @@ declare global {
     shouldPropagateTokenAuth: boolean;
     token_auth: string;
     idSite: string|number;
+    /**
+     * @deprecated
+     */
     siteName: string;
+    currentSiteName: string;
     period?: string;
     currentDateString?: string;
     startDateString?: string;
