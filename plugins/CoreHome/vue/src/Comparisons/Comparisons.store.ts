@@ -302,6 +302,7 @@ export default class ComparisonsStore {
     if (matomoModule === 'CoreUpdater'
       || matomoModule === 'Installation'
       || matomoModule === 'Overlay'
+      || window.piwik.isPagesComparisonApiDisabled
     ) {
       this.privateState.comparisonsDisabledFor = [];
       return;

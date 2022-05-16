@@ -35,7 +35,7 @@
         "DeleteDataDescription": "Pode configurar o Matomo para eliminar regularmente dados em bruto e/ou relatórios agregados, de forma a manter o tamanho da sua base de dados pequeno ou de forma a cumprir normas de privacidade, tais como o RGPD.",
         "DeleteDataInterval": "Eliminar dados antigos todos/todas",
         "DeleteDataSettings": "Eliminar registos e relatórios de visitantes antigos",
-        "DeleteLogDescription2": "Quando ativa a ​​eliminação automática de registos, deve garantir que todos os relatórios diários anteriores foram processados​​, de modo a que nenhuma informação seja perdida.",
+        "DeleteLogDescription2": "Quando ativa a eliminação automática de registos, deve garantir que todos os relatórios diários anteriores foram processados, de modo a que nenhuma informação seja perdida.",
         "DeleteLogsConfirm": "Está prestes a ativar a eliminação de dados em bruto. Se os dados em bruto forem removidos e se os relatórios ainda não tiverem sido criados, não poderá ver os dados analíticos mais antigos. Tem a certeza que pretende fazer isto?",
         "DeleteLogsOlderThan": "Eliminar registos mais antigos que",
         "DeleteMaxRows": "Número máximo de linhas para eliminar de cada vez:",

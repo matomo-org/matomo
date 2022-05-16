@@ -17,8 +17,8 @@ $(function () {
             },
             trigger: function (tr, e, subTableLabel) {
                 var label = this.getLabelFromTr(tr);
-                if (label && label.substr(0, 1) === '@') {
-                    label = label.substr(1);
+                if (label && label.slice(0, 1) === '@') {
+                    label = label.slice(1);
                 }
 
                 var subtable = tr.closest('table');
@@ -42,8 +42,8 @@ $(function () {
             onClick: function (actionA, tr, e) {
                 var segment;
                 var link = this.getLabelFromTr(tr);
-                if (link && link.substr(0, 1) === '@') {
-                    link = link.substr(1);
+                if (link && link.slice(0, 1) === '@') {
+                    link = link.slice(1);
                 }
 
                 link = 'http://' + unescape(link);

@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "Detta plugin framställer och visar SEO-värden: Alexa webbranking , Google Pagerank , antalet indexerade sidor och länkar för den valda webbplatsen.",
-        "AlexaRank": "Alexa Rank",
         "Bing_IndexedPages": "Bing indexerade sidor",
         "DomainAge": "Domänålder",
         "Google_IndexedPages": "Google indexerade sidor",
+        "PluginDescription": "Detta plugin framställer och visar SEO-värden: Alexa webbranking , Google Pagerank , antalet indexerade sidor och länkar för den valda webbplatsen.",
         "Rank": "Rank",
-        "SeoRankings": "SEO Ranking",
-        "SEORankingsFor": "SEO Ranking för %s"
+        "SEORankingsFor": "SEO Ranking för %s",
+        "SeoRankings": "SEO Ranking"
     }
 }

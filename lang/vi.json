@@ -149,7 +149,7 @@
         "ExceptionDirectoryToDelete": "Thư mục cần xóa: %s",
         "ExceptionFileIntegrity": "Kiểm tra tính toàn vẹn không thành công: %s",
         "ExceptionFileToDelete": "Tập tin cần xóa: %s",
-        "ExceptionFilesizeMismatch": "Kích thước tập tin không phù hợp: %1$s (​​chiều dài dự kiến: %2$s, được tìm thấy: %3$s)",
+        "ExceptionFilesizeMismatch": "Kích thước tập tin không phù hợp: %1$s (chiều dài dự kiến: %2$s, được tìm thấy: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Phiên bản client %1$s của bạn đang là %2$s nó không tương thích với phiên bản máy chủ %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Định dạng báo cáo tổng hợp '%1$s' không hợp lệ. Hãy thử các cách sau để thay thế: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Hiện nay thời gian lưu trữ để tồn tại phải có số giây lớn hơn 0",
