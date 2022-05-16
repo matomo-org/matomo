@@ -396,8 +396,8 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $users = $this->enrichUsers($users);
-        $users = $this->enrichUsersWithLastSeen($users);
+        $users = $this->userRepository->enrichUsers($users);
+        $users = $this->userRepository->enrichUsersWithLastSeen($users);
 
         foreach ($users as &$user) {
             unset($user['password']);
@@ -429,9 +429,8 @@ class API extends \Piwik\Plugin\API
 
         $users = $this->model->getUsers($logins);
         $users = $this->userFilter->filterUsers($users);
-        $users = $this->enrichUsers($users);
+        return $this->userRepository->enrichUsers($users);
 
-        return $users;
     }
 
     /**
@@ -666,9 +665,8 @@ class API extends \Piwik\Plugin\API
         $user = $this->model->getUser($userLogin, $pending);
 
         $user = $this->userFilter->filterUser($user);
-        $user = $this->enrichUser($user);
+        return $this->userRepository->enrichUser($user);
 
-        return $user;
     }
 
     /**
@@ -686,9 +684,7 @@ class API extends \Piwik\Plugin\API
         $user = $this->model->getUserByEmail($userEmail);
 
         $user = $this->userFilter->filterUser($user);
-        $user = $this->enrichUser($user);
-
-        return $user;
+        return $this->userRepository->enrichUser($user);
     }
 
     /**
@@ -788,37 +784,12 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
 
         $users = $this->model->getUsersHavingSuperUserAccess();
-        $users = $this->enrichUsers($users);
 
         // we do not filter these users by access and return them all since we need to print this information in the
         // UI and they are allowed to see this.
-
-        return $users;
+        return $this->userRepository->enrichUsers($users);
     }
 
-    private function enrichUsersWithLastSeen($users)
-    {
-        $formatter = new Formatter();
-
-        $lastSeenTimes = LastSeenTimeLogger::getLastSeenTimesForAllUsers();
-        foreach ($users as &$user) {
-            $login = $user['login'];
-            if (isset($lastSeenTimes[$login])) {
-                $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(time() - $lastSeenTimes[$login]);
-            }
-        }
-        return $users;
-    }
-
-    private function enrichUsers($users)
-    {
-        if (!empty($users)) {
-            foreach ($users as $index => $user) {
-                $users[$index] = $this->enrichUser($user);
-            }
-        }
-        return $users;
-    }
 
     private function isTwoFactorAuthPluginEnabled()
     {
@@ -828,50 +799,6 @@ class API extends \Piwik\Plugin\API
         return $this->twoFaPluginActivated;
     }
 
-    private function enrichUser($user)
-    {
-        if (empty($user)) {
-            return $user;
-        }
-
-        unset($user['token_auth']);
-        unset($user['password']);
-        unset($user['ts_password_modified']);
-        unset($user['idchange_last_viewed']);
-
-        if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
-            $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
-        }
-
-        if (Piwik::hasUserSuperUserAccess()) {
-            $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
-            unset($user['twofactor_secret']);
-            return $user;
-        }
-
-        $newUser = array('login' => $user['login']);
-
-        if ($user['login'] === Piwik::getCurrentUserLogin() || !empty($user['superuser_access'])) {
-            $newUser['email'] = $user['email'];
-        }
-
-        if (isset($user['role'])) {
-            $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
-        }
-        if (isset($user['capabilities'])) {
-            $newUser['capabilities'] = $user['capabilities'];
-        }
-
-        if (isset($user['superuser_access'])) {
-            $newUser['superuser_access'] = $user['superuser_access'];
-        }
-
-        if (isset($user['last_seen'])) {
-            $newUser['last_seen'] = $user['last_seen'];
-        }
-
-        return $newUser;
-    }
 
     /**
      * Updates a user in the database.

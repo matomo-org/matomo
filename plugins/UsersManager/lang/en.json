@@ -191,6 +191,7 @@
         "ResendInviteConfirmSingle": "Are you sure you want to resend invitation to %1$s?",
         "Status": "Status",
         "Pending": "Pending",
-        "Active": "Active"
+        "Active": "Active",
+        "Expired": "Invite Expired"
     }
 }

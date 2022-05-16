@@ -304,16 +304,14 @@
               {{ user.last_seen ? `${user.last_seen} ago` : '-' }}
             </td>
             <td id="status">
-              <span :class="[user.invited_at ? 'pending':'active']">
-              {{ user.invited_at ?
-               translate('UsersManager_Pending')
-              :translate('UsersManager_Active') }}
+              <span :class="getInviteStatusClass(user.invited_at)">
+              {{ getInviteStatus(user.invited_at) }}
                 </span>
             </td>
             <td class="center actions-cell">
               <button
                   class="resend table-action"
-                  title="Edit"
+                  title="Resend Invite"
                   @click="userToChange = user; showResendConfirm()"
                   v-if="user.invited_at"
               >
@@ -540,6 +538,27 @@ export default defineComponent({
     },
   },
   methods: {
+
+    getInviteStatusClass(inviteAt: string|null){
+      if (!inviteAt) {
+        return 'active';
+      }
+
+      if (inviteAt === 'expired') {
+        return 'expired';
+      }
+      return 'pending';
+    },
+    getInviteStatus(inviteAt: string|null) {
+      if (!inviteAt) {
+        return translate('UsersManager_Active');
+      }
+
+      if (inviteAt === 'expired') {
+        return translate('UsersManager_Expired');
+      }
+      return translate('UsersManager_Pending');
+    },
     onPermissionsForUpdate(site: SiteRef) {
       this.permissionsForSite = site;
       this.changeSearch({ idSite: this.permissionsForSite.id });

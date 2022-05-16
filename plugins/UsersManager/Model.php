@@ -352,6 +352,15 @@ class Model
         return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `date_expired` is not null and date_expired < ?", $expiredSince);
     }
 
+    public function checkUserHasUnexpiredToken($login)
+    {
+        $db = $this->getDb();
+        $expired = $this->getQueryNotExpiredToken();
+        $bind = array_merge(array($login), $expired['bind']);
+        return $db->fetchOne("SELECT idusertokenauth FROM " . $this->tokenTable . " WHERE `login` = ? and " . $expired['sql'], $bind);
+    }
+
+
     public function deleteAllTokensForUser($login)
     {
         $db = $this->getDb();

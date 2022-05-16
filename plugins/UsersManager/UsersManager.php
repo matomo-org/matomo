@@ -329,5 +329,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Status';
         $translationKeys[] = 'UsersManager_Active';
         $translationKeys[] = 'UsersManager_Pending';
+        $translationKeys[] = 'UsersManager_Expired';
+
     }
 }

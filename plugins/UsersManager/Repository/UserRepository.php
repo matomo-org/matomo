@@ -5,6 +5,7 @@ namespace Piwik\Plugins\UsersManager\Repository;
 use Piwik\Auth\Password;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\API;
@@ -42,7 +43,7 @@ class UserRepository
 
         $user = $this->model->getUser($userLogin, $pending);
 
-        $user = $this->userFilter->filterUser($user);
+        $user = $this->filter->filterUser($user);
         return $this->enrichUser($user);
     }
 
@@ -129,7 +130,7 @@ class UserRepository
         UsersManager::dieIfUsersAdminIsDisabled();
     }
 
-    private function enrichUser($user)
+    public function enrichUser($user)
     {
         if (empty($user)) {
             return $user;
@@ -147,6 +148,12 @@ class UserRepository
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
             unset($user['twofactor_secret']);
+            if (!empty($user['invited_at'])) {
+              $validToken = $this->model->checkUserHasUnexpiredToken($user['login']);
+              if(!$validToken){
+                  $user['invited_at'] = 'expired';
+              }
+            }
             return $user;
         }
 
@@ -173,6 +180,32 @@ class UserRepository
 
         return $newUser;
     }
+
+    public function enrichUsers($users)
+    {
+        if (!empty($users)) {
+            foreach ($users as $index => $user) {
+                $users[$index] = $this->enrichUser($user);
+            }
+        }
+        return $users;
+    }
+
+    public function enrichUsersWithLastSeen($users)
+    {
+        $formatter = new Formatter();
+
+        $lastSeenTimes = LastSeenTimeLogger::getLastSeenTimesForAllUsers();
+        foreach ($users as &$user) {
+            $login = $user['login'];
+            if (isset($lastSeenTimes[$login])) {
+                $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(time() - $lastSeenTimes[$login]);
+            }
+        }
+        return $users;
+    }
+
+
 
 
 }
