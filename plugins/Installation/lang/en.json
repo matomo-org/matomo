@@ -136,7 +136,7 @@
         "SystemCheckCronArchiveProcessCLI": "Managing processes via CLI",
         "SystemCheckPhpSetting": "Set up your php.ini file like this to prevent critical errors: %s",
         "SystemCheckUpdateHttps": "Update over HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo cannot use HTTPS to update, it will fall back to the insecure HTTP update. Check that CURL or allow_url_fopen is supported and that the OpenSSL PHP-extension is installed: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/.",
+        "SystemCheckUpdateHttpsNotSupported": "Matomo cannot use HTTPS to update, it will fall back to the insecure HTTP update. Check that CURL or allow_url_fopen is supported and that the OpenSSL PHP-extension is installed: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/. If you like to disable HTTPS please set force_matomo_ssl_request to 0 under general config.",
         "PhpBinaryCheck" : "64-bit PHP Binary",
         "PhpBinaryCheckHelp": "32-bit <p>Upgrade to a 64-bit PHP binary by January 2026 to prevent bugs.</p>",
         "NotSupported": "not supported",
@@ -158,6 +158,7 @@
         "CannotConnectToDbResolvingExplanation": "This may be a temporary issue, try %1$srefreshing the page%2$s. Please contact your Matomo administrator if the problem persists.",
         "EmailPrivacyNotice": "Your email address will only be used to send you the newsletter. It is shared with Mad Mimi to do so, but the third-party provider may change. We will not share your email with anyone else or use your it for any other purpose. Unsubscribe at any time. The %1$sprivacy policy%2$s has more info.",
         "PerformanceSettingsDesc1": "Your Matomo is set up and ready to track and report on your website's traffic. Set up %1$sCLI archiving%2$s if you find it to be slow. This generates reports in the background, rather than on demand.",
-        "PerformanceSettingsDesc2": "This requires adding a Matomo command to Cron which can't be done automatically by the installer. %1$sRead our FAQ to learn to set it up yourself.%2$s"
+        "PerformanceSettingsDesc2": "This requires adding a Matomo command to Cron which can't be done automatically by the installer. %1$sRead our FAQ to learn to set it up yourself.%2$s",
+        "MatomoSslRequestConfigInfo": "The force_matomo_ssl_request in the general config is turned off, we highly recommend switching it on"
     }
 }
