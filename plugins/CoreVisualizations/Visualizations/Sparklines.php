@@ -172,11 +172,11 @@ class Sparklines extends ViewDataTable
                 continue;
             }
 
-            $sparklineUrlParams = array(
+            $sparklineUrlParams = array_merge($this->config->custom_parameters, array(
                 'columns' => $column,
                 'module'  => $this->requestConfig->getApiModuleToRequest(),
                 'action'  => $this->requestConfig->getApiMethodToRequest()
-            );
+            ));
 
             if ($this->isComparing() && !empty($comparisons)) {
                 $periodObj = Factory::build($originalPeriod, $originalDate);
