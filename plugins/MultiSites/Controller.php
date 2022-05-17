@@ -39,34 +39,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->getSitesInfo($isWidgetized = true);
     }
 
-    public function getAllWithGroups()
-    {
-        Piwik::checkUserHasSomeViewAccess();
-
-        $period  = Common::getRequestVar('period', null, 'string');
-        $date    = Common::getRequestVar('date', null, 'string');
-        $segment = Common::getRequestVar('segment', false, 'string');
-        $pattern = Common::getRequestVar('pattern', '', 'string');
-        $limit   = Common::getRequestVar('filter_limit', 0, 'int');
-        $segment = $segment ?: false;
-        $request = $_GET + $_POST;
-
-        $dashboard = new Dashboard($period, $date, $segment);
-
-        if ($pattern !== '') {
-            $dashboard->search(strtolower($pattern));
-        }
-
-        $response = array(
-            'numSites' => $dashboard->getNumSites(),
-            'totals'   => $dashboard->getTotals(),
-            'lastDate' => $dashboard->getLastDate(),
-            'sites'    => $dashboard->getSites($request, $limit)
-        );
-
-        return json_encode($response);
-    }
-
     /**
      * @throws \Piwik\NoAccessException
      */

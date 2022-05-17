@@ -288,8 +288,7 @@ class DashboardStore {
     this.privateState.isLoading = true;
     this.privateState.errorLoadingSites = false;
     const params: QueryParameters = {
-      module: 'MultiSites',
-      action: 'getAllWithGroups',
+      method: 'MultiSites.getAllWithGroups',
       hideMetricsDoc: '1',
       filter_sort_order: 'asc',
       filter_limit: this.state.value.pageSize,
