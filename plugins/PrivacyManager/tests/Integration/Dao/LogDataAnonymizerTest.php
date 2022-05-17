@@ -137,7 +137,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->theFixture->trackVisits($idSite = 2, 1);
         $result1 = $this->anonymizer->anonymizeVisitInformation($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', $anonymizeIp = true, $anonimizeLocation = true, $anonymizeUserId = false);
         $result2 = $this->anonymizer->unsetLogVisitTableColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['config_os', 'config_os_version', 'location_browser_lang', 'referer_url', 'referer_name', 'referer_type']);
-        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['idaction_name', 'idaction_event_category', 'pageview_position', 'idpageview']);
+        $result3 = $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['idaction_name', 'idaction_event_category', 'pageview_position', 'idpageview', 'bandwidth']);
         $this->assertAnonymizedDb('allSitesAllDates');
         $this->assertNotEmpty($result1);
         $this->assertNotEmpty($result2);
