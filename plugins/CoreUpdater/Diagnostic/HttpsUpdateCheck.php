@@ -40,7 +40,7 @@ class HttpsUpdateCheck implements Diagnostic
             // successful using https
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         } else {
-            // failed to request through over https
+            // failed to request over https
             $comment = $this->translator->translate('Installation_SystemCheckUpdateHttpsNotSupported');
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
         }
