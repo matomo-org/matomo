@@ -105,6 +105,11 @@ class Mysqli extends Db
             $timer = $this->initProfiler();
         }
 
+        // The default error reporting of mysqli changed in PHP 8.1. To circumvent problems in our error handling we set
+        // the erroring reporting to the default that was used prior PHP 8.1
+        // See https://php.watch/versions/8.1/mysqli-error-mode for more details
+        mysqli_report(MYSQLI_REPORT_OFF);
+
         $this->connection = mysqli_init();
 
 
