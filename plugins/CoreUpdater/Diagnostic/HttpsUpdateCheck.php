@@ -33,12 +33,12 @@ class HttpsUpdateCheck implements Diagnostic
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
         if (GeneralConfig::getConfigValue('force_matomo_ssl_request') === 0) {
-            $comment = $this->translator->translate('Installation_AnInfoMessage');;
+            $comment = $this->translator->translate('Installation_MatomoSslRequestConfigInfo');;
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment));
         } elseif (Http::isUpdatingOverHttps()) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         } else {
-            $comment = $this->translator->translate('Installation_AnErrorMessage');;
+            $comment = $this->translator->translate('Installation_MatomoSslRequestError');;
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment));
         }
 
