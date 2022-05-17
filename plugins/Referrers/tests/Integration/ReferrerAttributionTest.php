@@ -32,15 +32,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
         'attributionCookieValues' => [],
     ];
 
-    public static $externalServiceReferrer = [
-        'siteUrl' => 'https://payment.provider.info/',
-        'referrerUrl' => 'https://payment.provider.info/success',
-        'referrerName' => 'payment.provider.info',
-        'referrerKeyword' => '',
-        'referrerType' => Common::REFERRER_TYPE_WEBSITE,
-        'attributionCookieValues' => ['_ref' => 'https://payment.provider.info/success'],
-    ];
-
     public static $websiteReferrer = [
         'siteUrl' => 'https://de.wikipedia.org/',
         'referrerUrl' => 'https://de.wikipedia.org/wiki/Matomo',
@@ -48,6 +39,15 @@ class ReferrerAttributionTest extends IntegrationTestCase
         'referrerKeyword' => '',
         'referrerType' => Common::REFERRER_TYPE_WEBSITE,
         'attributionCookieValues' => ['_ref' => 'https://de.wikipedia.org/wiki/Matomo'],
+    ];
+
+    public static $websiteReferrer2 = [
+        'siteUrl' => 'https://payment.provider.info/',
+        'referrerUrl' => 'https://payment.provider.info/success',
+        'referrerName' => 'payment.provider.info',
+        'referrerKeyword' => '',
+        'referrerType' => Common::REFERRER_TYPE_WEBSITE,
+        'attributionCookieValues' => ['_ref' => 'https://payment.provider.info/success'],
     ];
 
     public static $searchEngineReferrer = [
@@ -86,6 +86,32 @@ class ReferrerAttributionTest extends IntegrationTestCase
         'attributionCookieValues' => ['_ref' => 'https://l.instagram.com/?u=https%3A%2F%2Fexample.com%2Fexample.com'],
     ];
 
+    public static $campaignReferrer = [
+        'siteUrl' => 'https://some.external.page/',
+        'referrerUrl' => 'https://some.external.page/referrer',
+        'campaignParameters' => 'pk_campaign=Campaign%20Name&pk_kwd=Campaign%20Keyword',
+        'referrerName' => 'campaign name',
+        'referrerKeyword' => 'campaign keyword',
+        'referrerType' => Common::REFERRER_TYPE_CAMPAIGN,
+        'attributionCookieValues' => [
+            '_rcn' => 'Campaign Name',
+            '_rck' => 'Campaign Keyword',
+        ],
+    ];
+
+    public static $campaignReferrer2 = [
+        'siteUrl' => 'https://some.other.page/',
+        'referrerUrl' => 'https://some.other.page/path',
+        'campaignParameters' => 'pk_campaign=Another%20Name&pk_kwd=Another%20Keyword',
+        'referrerName' => 'another name',
+        'referrerKeyword' => 'another keyword',
+        'referrerType' => Common::REFERRER_TYPE_CAMPAIGN,
+        'attributionCookieValues' => [
+            '_rcn' => 'Another Name',
+            '_rck' => 'Another Keyword',
+        ],
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -104,10 +130,12 @@ class ReferrerAttributionTest extends IntegrationTestCase
         array $secondReferrer,
         ?array $referrerAttributionCookieValuesAfterReturn,
         bool $createNewVisitWhenWebsiteReferrerChanges,
-        bool $addSecondReferrerAsSiteUrl
+        bool $addSecondReferrerAsSiteUrl,
+        bool $createNewVisitWhenCampaignChanges
     ) {
         $env = new TestingEnvironmentVariables();
         $env->overrideConfig('Tracker', 'create_new_visit_when_website_referrer_changes', (int) $createNewVisitWhenWebsiteReferrerChanges);
+        $env->overrideConfig('Tracker', 'create_new_visit_when_campaign_changes', (int) $createNewVisitWhenCampaignChanges);
         $env->save();
 
         $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
@@ -126,16 +154,18 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $tracker->setUrlReferrer($initialReferrer['referrerUrl']);
         // attach referrer attribution cookie values if any
         $this->setReferrerAttributionCookieValuesToTracker($tracker, $referrerAttributionCookieValues);
-        $tracker->setUrl('https://matomo.org/');
+        $url = 'https://matomo.org/';
+        if (isset($initialReferrer['campaignParameters'])) {
+            $url .= '?' . $initialReferrer['campaignParameters'];
+        }
+        $tracker->setUrl($url);
         Fixture::checkResponse($tracker->doTrackPageView('Home'));
 
         // check that the visit is attributed correctly
         $this->assertVisitReferrers([$this->buildVisit(1, 1, $initialReferrer)]);
 
         if ($referrerAttributionCookieValuesAfterReturn) {
-            $referrerAttributionCookieValues = $referrerAttributionCookieValuesAfterReturn
-                ? $referrerAttributionCookieValuesAfterReturn['attributionCookieValues']
-                : [];
+            $referrerAttributionCookieValues = $referrerAttributionCookieValuesAfterReturn['attributionCookieValues'];
         }
 
         // Now the visitor returns from a service
@@ -143,20 +173,39 @@ class ReferrerAttributionTest extends IntegrationTestCase
         // attach referrer attribution cookie values if any
         $this->setReferrerAttributionCookieValuesToTracker($tracker, $referrerAttributionCookieValues);
         $tracker->setUrlReferrer($secondReferrer['referrerUrl']);
-        $tracker->setUrl('https://matomo.org/order/payed?paymentid=1337');
+        $url = 'https://matomo.org/order/payed?paymentid=1337';
+        if (isset($secondReferrer['campaignParameters'])) {
+            $url .= '&' . $secondReferrer['campaignParameters'];
+        }
+        $tracker->setUrl($url);
         Fixture::checkResponse($tracker->doTrackPageView('Order payed'));
 
         $shouldCreateNewVisit = false;
         $shouldUpdateReferrer = false;
 
+        // If the second referrer is detected as website and create_new_visit_when_website_referrer_changed = 1
+        // and this specific website hasn't been added to the site's urls, then we create a new visit
+        // but only if the referrer attribution cookie does not contain a campaign, as this overrules the referrer
         if (
             $createNewVisitWhenWebsiteReferrerChanges === true
             && $secondReferrer['referrerType'] === Common::REFERRER_TYPE_WEBSITE
+            && $referrerAttributionCookieValuesAfterReturn['referrerType'] !== Common::REFERRER_TYPE_CAMPAIGN
             && $addSecondReferrerAsSiteUrl === false
         ) {
             $shouldCreateNewVisit = true;
         }
 
+        // If the second referrer is detected as campaign and create_new_visit_when_campaign_changes = 1
+        // then we create a new visit
+        if (
+            $createNewVisitWhenCampaignChanges === true
+            && $secondReferrer['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN
+        ) {
+            $shouldCreateNewVisit = true;
+        }
+
+        // If the initial referrer was direct, and the second referrer's host wasn't added to the site's urls
+        // the referrer of the visit will be updated.
         if (
             $initialReferrer['referrerType'] === Common::REFERRER_TYPE_DIRECT_ENTRY
             && $addSecondReferrerAsSiteUrl === false
@@ -168,12 +217,12 @@ class ReferrerAttributionTest extends IntegrationTestCase
         if ($shouldCreateNewVisit) {
             $this->assertVisitReferrers([
                                             $this->buildVisit(1, 1, $initialReferrer),
-                                            $this->buildVisit(2, 1, $secondReferrer),
+                                            $this->buildVisit(2, 1, $currentReferrer = $secondReferrer),
                                         ]);
         } elseif ($shouldUpdateReferrer) {
-            $this->assertVisitReferrers([$this->buildVisit(1, 2, $secondReferrer)]);
+            $this->assertVisitReferrers([$this->buildVisit(1, 2, $currentReferrer = $secondReferrer)]);
         } else {
-            $this->assertVisitReferrers([$this->buildVisit(1, 2, $initialReferrer)]);
+            $this->assertVisitReferrers([$this->buildVisit(1, 2, $currentReferrer = $initialReferrer)]);
         }
 
         // Track an ecommerce conversion
@@ -183,16 +232,33 @@ class ReferrerAttributionTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackEcommerceOrder('TestingOrder', 124.5));
 
         // check that conversion is attributed correctly
-        $conversionReferrer = $initialReferrerAttributionCookieValues ?? $initialReferrer;
-
-        if ($referrerAttributionCookieValuesAfterReturn) {
+        if ($referrerAttributionCookieValuesAfterReturn['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN) {
+            // if campaign was provided through cookie this will always be used
             $conversionReferrer = $referrerAttributionCookieValuesAfterReturn;
-        } elseif ($shouldCreateNewVisit || $shouldUpdateReferrer) {
-            $conversionReferrer = $secondReferrer;
-        }
-
-        if ($conversionReferrer === $secondReferrer && $addSecondReferrerAsSiteUrl) {
-            $conversionReferrer = $initialReferrer;
+        } elseif ($currentReferrer['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN) {
+            // if campaign is referrer of current visit use this
+            $conversionReferrer = $currentReferrer;
+        } elseif (
+            $referrerAttributionCookieValuesAfterReturn
+            && !(
+                $referrerAttributionCookieValuesAfterReturn === $secondReferrer
+                && $addSecondReferrerAsSiteUrl
+            )
+        ) {
+            // The conversion will be attributed to the last value of the attribution cookie (if the host of this referrer wasn't added to the site urls)
+            $conversionReferrer = $referrerAttributionCookieValuesAfterReturn;
+        } else {
+            // If no attribution cookie was provided the value depends on some other conditions
+            if ($shouldCreateNewVisit) {
+                // If a new visit was created the conversion is attributed with that visits referrer
+                $conversionReferrer = $secondReferrer;
+            } elseif ($shouldUpdateReferrer) {
+                // if the visits referrer was updated, that new referrer will be used
+                $conversionReferrer = $secondReferrer;
+            } else {
+                // in all other cases the conversion will be attributed to the initial referrer, as it hasn't changed and isn't overwritten by cookie
+                $conversionReferrer = $initialReferrer;
+            }
         }
 
         $this->assertConversionReferrers([$this->buildConversion($shouldCreateNewVisit ? 2 : 1, $conversionReferrer)]);
@@ -205,78 +271,88 @@ class ReferrerAttributionTest extends IntegrationTestCase
             self::$websiteReferrer,
             self::$searchEngineReferrer,
             self::$socialNetworkReferrer,
-            //self::$campaignReferrer,
+            self::$campaignReferrer,
         ];
 
         $possibleSecondReferrers = [
             self::$directEntryReferrer,
-            self::$externalServiceReferrer,
+            self::$websiteReferrer2,
             self::$searchEngineReferrer2,
             self::$socialNetworkReferrer2,
-            //self::$campaignReferrer2,
+            self::$campaignReferrer2,
         ];
 
         $dataSet = 1;
 
-        foreach ([false, true] as $keepReferrerAttributionCookieOnChange) {
-            foreach ([false, true] as $useReferrerAttributionCookie) {
-                foreach ([false, true] as $addSecondReferrerAsSiteUrl) {
-                    foreach ([false, true] as $createNewVisitWhenWebsiteReferrerChanges) {
-                        foreach ($possibleFirstReferrers as $firstReferrer) {
-                            foreach ($possibleSecondReferrers as $secondReferrer) {
-                                if (
-                                    false === $useReferrerAttributionCookie
-                                    && true === $keepReferrerAttributionCookieOnChange
-                                ) {
-                                    // skip tests (updating attribution cookie doesn't make sense if they are not used)
-                                    continue;
-                                }
-
-                                if (
-                                    Common::REFERRER_TYPE_DIRECT_ENTRY === $secondReferrer['referrerType']
-                                    && (
-                                        true === $addSecondReferrerAsSiteUrl
-                                        || true === $keepReferrerAttributionCookieOnChange
-                                    )
-                                ) {
-                                    // skip tests, adding host of direct entry has no effect
-                                    continue;
-                                }
-
-                                $initialReferrerAttributionCookieValues = $referrerAttributionCookieValuesAfterReturn = null;
-
-                                if (true === $useReferrerAttributionCookie) {
-                                    $initialReferrerAttributionCookieValues = $firstReferrer;
-
-                                    // when first referrer is direct, but we are using attribution cookies we use an attribution cookie set from previous visit
-                                    if (Common::REFERRER_TYPE_DIRECT_ENTRY === $firstReferrer['referrerType']) {
-                                        $initialReferrerAttributionCookieValues = self::$searchEngineReferrer;
+        foreach ([false, true] as $createNewVisitWhenCampaignChanges) {
+            foreach ([false, true] as $keepReferrerAttributionCookieOnChange) {
+                foreach ([false, true] as $useReferrerAttributionCookie) {
+                    foreach ([false, true] as $addSecondReferrerAsSiteUrl) {
+                        foreach ([false, true] as $createNewVisitWhenWebsiteReferrerChanges) {
+                            foreach ($possibleFirstReferrers as $firstReferrer) {
+                                foreach ($possibleSecondReferrers as $secondReferrer) {
+                                    if (
+                                        false === $useReferrerAttributionCookie
+                                        && true === $keepReferrerAttributionCookieOnChange
+                                    ) {
+                                        // skip tests (updating attribution cookie doesn't make sense if they are not used)
+                                        continue;
                                     }
 
-                                    // keep attribution cookie values from first visit by default
-                                    $referrerAttributionCookieValuesAfterReturn = $initialReferrerAttributionCookieValues;
-
-                                    if (!$keepReferrerAttributionCookieOnChange) {
-                                        $referrerAttributionCookieValuesAfterReturn = $secondReferrer;
+                                    if (
+                                        (
+                                            Common::REFERRER_TYPE_DIRECT_ENTRY === $secondReferrer['referrerType']
+                                            || Common::REFERRER_TYPE_CAMPAIGN === $secondReferrer['referrerType']
+                                        )
+                                        && (
+                                            true === $addSecondReferrerAsSiteUrl
+                                            || true === $keepReferrerAttributionCookieOnChange
+                                        )
+                                    ) {
+                                        // skip tests, adding host of direct entry or campaign has no effect
+                                        continue;
                                     }
+
+                                    $initialReferrerAttributionCookieValues = $referrerAttributionCookieValuesAfterReturn = null;
+
+                                    if (true === $useReferrerAttributionCookie) {
+                                        $initialReferrerAttributionCookieValues = $firstReferrer;
+
+                                        // when first referrer is direct, but we are using attribution cookies we use an attribution cookie set from previous visit
+                                        if (Common::REFERRER_TYPE_DIRECT_ENTRY === $firstReferrer['referrerType']) {
+                                            $initialReferrerAttributionCookieValues = self::$searchEngineReferrer;
+                                        }
+
+                                        // keep attribution cookie values from first visit by default
+                                        $referrerAttributionCookieValuesAfterReturn = $initialReferrerAttributionCookieValues;
+
+                                        if (
+                                            !$keepReferrerAttributionCookieOnChange
+                                            && Common::REFERRER_TYPE_DIRECT_ENTRY !== $secondReferrer['referrerType']
+                                        ) {
+                                            $referrerAttributionCookieValuesAfterReturn = $secondReferrer;
+                                        }
+                                    }
+
+                                    yield "#$dataSet: createNewVisitWhenWebsiteReferrerChanges: " . (int)$createNewVisitWhenWebsiteReferrerChanges . " | " .
+                                        "addSecondReferrerAsSiteUrl: " . (int)$addSecondReferrerAsSiteUrl . " | " .
+                                        "useReferrerAttributionCookie: " . (int)$useReferrerAttributionCookie . " | " .
+                                        "keepReferrerAttributionCookieOnChange: " . (int)$keepReferrerAttributionCookieOnChange . " | " .
+                                        "createNewVisitWhenCampaignChanges: " . (int)$createNewVisitWhenCampaignChanges . " | " .
+                                        "firstReferrer: {$firstReferrer['referrerType']} | " .
+                                        "secondReferrer: {$secondReferrer['referrerType']} "
+                                    => [
+                                        $firstReferrer,
+                                        $initialReferrerAttributionCookieValues,
+                                        $secondReferrer,
+                                        $referrerAttributionCookieValuesAfterReturn,
+                                        $createNewVisitWhenWebsiteReferrerChanges,
+                                        $addSecondReferrerAsSiteUrl,
+                                        $createNewVisitWhenCampaignChanges
+                                    ];
+
+                                    $dataSet++;
                                 }
-
-                                yield "#$dataSet: createNewVisitWhenWebsiteReferrerChanges: " . (int) $createNewVisitWhenWebsiteReferrerChanges . " | " .
-                                    "addSecondReferrerAsSiteUrl: " . (int) $addSecondReferrerAsSiteUrl . " | " .
-                                    "useReferrerAttributionCookie: " . (int) $useReferrerAttributionCookie . " | " .
-                                    "keepReferrerAttributionCookieOnChange: " . (int) $keepReferrerAttributionCookieOnChange . " | " .
-                                    "firstReferrer: {$firstReferrer['referrerType']} | " .
-                                    "secondReferrer: {$secondReferrer['referrerType']} "
-                                => [
-                                    $firstReferrer,
-                                    $initialReferrerAttributionCookieValues,
-                                    $secondReferrer,
-                                    $referrerAttributionCookieValuesAfterReturn,
-                                    $createNewVisitWhenWebsiteReferrerChanges,
-                                    $addSecondReferrerAsSiteUrl
-                                ];
-
-                                $dataSet++;
                             }
                         }
                     }
