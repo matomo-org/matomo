@@ -2161,13 +2161,14 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       return function (params, postParams) {
         if (abortController) {
           abortController.abort();
-          abortController = null;
         }
 
         abortController = new AbortController();
         return AjaxHelper.post(Object.assign(Object.assign({}, params), {}, {
           method: method
-        }), postParams, options).finally(function () {
+        }), postParams, Object.assign(Object.assign({}, options), {}, {
+          abortController: abortController
+        })).finally(function () {
           abortController = null;
         });
       };

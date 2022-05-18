@@ -279,7 +279,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     return (params: QueryParameters, postParams?: QueryParameters) => {
       if (abortController) {
         abortController.abort();
-        abortController = null;
       }
 
       abortController = new AbortController();
@@ -289,7 +288,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           method,
         },
         postParams,
-        options,
+        {
+          ...options,
+          abortController,
+        },
       ).finally(() => {
         abortController = null;
       });
