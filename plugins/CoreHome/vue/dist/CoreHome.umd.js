@@ -2149,9 +2149,28 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     value: function post(params) {
       var postParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.fetch(params, Object.assign(Object.assign({}, options), {}, {
+      return AjaxHelper.fetch(params, Object.assign(Object.assign({}, options), {}, {
         postParams: postParams
       }));
+    } // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  }, {
+    key: "oneAtATime",
+    value: function oneAtATime(method, options) {
+      var abortController = null;
+      return function (params, postParams) {
+        if (abortController) {
+          abortController.abort();
+          abortController = null;
+        }
+
+        abortController = new AbortController();
+        return AjaxHelper.post(Object.assign(Object.assign({}, params), {}, {
+          method: method
+        }), postParams, options).finally(function () {
+          abortController = null;
+        });
+      };
     }
   }]);
 
