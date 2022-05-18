@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div class="manageGoals">
     <!-- v-show required until funnels/multiattribution are using vue and not angularjs -->
     <div v-show="!onlyShowAddNewGoal">
       <div
@@ -403,6 +403,7 @@ import {
 } from 'CorePluginsAdmin';
 import Goal from '../Goal';
 import PiwikApiMock from './PiwikApiMock';
+import ManageGoalsStore from './ManageGoals.store';
 
 interface ManageGoalsState {
   showEditGoal: boolean;
@@ -464,6 +465,12 @@ export default defineComponent({
   directives: {
     ContentTable,
     Form,
+  },
+  created() {
+    ManageGoalsStore.setIdGoalShown(this.showGoal);
+  },
+  unmounted() {
+    ManageGoalsStore.setIdGoalShown(undefined);
   },
   mounted() {
     if (this.showAddGoal) {
