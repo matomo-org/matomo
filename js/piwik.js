@@ -260,14 +260,13 @@ if (typeof window.Matomo !== 'object') {
             }
 
             var i;
-            var isEmpty = true;
             for (i in property) {
                 if (Object.prototype.hasOwnProperty.call(property, i)) {
-                    isEmpty = false;
+                    return false;
                 }
             }
 
-            return isEmpty;
+            return true;
         }
 
         /**
@@ -3565,7 +3564,7 @@ if (typeof window.Matomo !== 'object') {
                 if (performanceData.connectEnd && performanceData.fetchStart) {
 
                     if (performanceData.connectEnd < performanceData.fetchStart) {
-                        return;
+                        return request;
                     }
 
                     timings += '&pf_net=' + Math.round(performanceData.connectEnd - performanceData.fetchStart);
@@ -3574,7 +3573,7 @@ if (typeof window.Matomo !== 'object') {
                 if (performanceData.responseStart && performanceData.requestStart) {
 
                     if (performanceData.responseStart < performanceData.requestStart) {
-                        return;
+                        return request;
                     }
 
                     timings += '&pf_srv=' + Math.round(performanceData.responseStart - performanceData.requestStart);
@@ -3583,7 +3582,7 @@ if (typeof window.Matomo !== 'object') {
                 if (performanceData.responseStart && performanceData.responseEnd) {
 
                     if (performanceData.responseEnd < performanceData.responseStart) {
-                        return;
+                        return request;
                     }
 
                     timings += '&pf_tfr=' + Math.round(performanceData.responseEnd - performanceData.responseStart);
@@ -3593,7 +3592,7 @@ if (typeof window.Matomo !== 'object') {
                     if (performanceData.domInteractive && performanceData.domLoading) {
 
                         if (performanceData.domInteractive < performanceData.domLoading) {
-                            return;
+                            return request;
                         }
 
                         timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.domLoading);
@@ -3602,7 +3601,7 @@ if (typeof window.Matomo !== 'object') {
                     if (performanceData.domInteractive && performanceData.responseEnd) {
 
                         if (performanceData.domInteractive < performanceData.responseEnd) {
-                            return;
+                            return request;
                         }
 
                         timings += '&pf_dm1=' + Math.round(performanceData.domInteractive - performanceData.responseEnd);
@@ -3612,7 +3611,7 @@ if (typeof window.Matomo !== 'object') {
                 if (performanceData.domComplete && performanceData.domInteractive) {
 
                     if (performanceData.domComplete < performanceData.domInteractive) {
-                        return;
+                        return request;
                     }
 
                     timings += '&pf_dm2=' + Math.round(performanceData.domComplete - performanceData.domInteractive);
@@ -3621,7 +3620,7 @@ if (typeof window.Matomo !== 'object') {
                 if (performanceData.loadEventEnd && performanceData.loadEventStart) {
 
                     if (performanceData.loadEventEnd < performanceData.loadEventStart) {
-                        return;
+                        return request;
                     }
 
                     timings += '&pf_onl=' + Math.round(performanceData.loadEventEnd - performanceData.loadEventStart);

@@ -1,9 +1,8 @@
 {
     "SEO": {
-        "AlexaRank": "Alexa რანგი",
         "DomainAge": "დომენის ასაკი",
         "Rank": "რანგი",
-        "SeoRankings": "SEO რენგები",
-        "SEORankingsFor": "SEO რანგები %s–სთვის"
+        "SEORankingsFor": "SEO რანგები %s–სთვის",
+        "SeoRankings": "SEO რენგები"
     }
 }

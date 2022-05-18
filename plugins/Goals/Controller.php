@@ -266,10 +266,13 @@ class Controller extends \Piwik\Plugin\Controller
                 'only_summary' => 1,
             ];
 
-            \Piwik\Context::executeWithQueryParameters($params, function() use (&$content) {
+            \Piwik\Context::executeWithQueryParameters($params, function () use (&$content, $goal) {
                 //load Visualisations Sparkline
                 $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
                 $view->config->show_title = true;
+                $view->config->custom_parameters = [
+                    'idGoal' => $goal['idgoal'],
+                ];
                 $content .= $view->render();
             });
         }

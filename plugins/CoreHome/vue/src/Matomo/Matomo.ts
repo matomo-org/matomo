@@ -24,7 +24,7 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
 
   if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${piwik.siteName}${dateString}${originalTitle.substr(piwik.siteName.length)}`;
+    document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
 

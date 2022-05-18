@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "Denne programtilføjelse udtrækker og viser SEO måleværdier: Alexa webranking, Google Pagerank, antallet af indexerede sider, og linker tilbage til den nuværende webside.",
-        "AlexaRank": "Alexa-placering",
         "Bing_IndexedPages": "Bing-indekserede sider",
         "DomainAge": "Domænealder",
         "Google_IndexedPages": "Google-indekserede sider",
+        "PluginDescription": "Denne programtilføjelse udtrækker og viser SEO måleværdier: Alexa webranking, Google Pagerank, antallet af indexerede sider, og linker tilbage til den nuværende webside.",
         "Rank": "Rang",
-        "SeoRankings": "SEO - søgemaskineoptimering",
-        "SEORankingsFor": "SEO for %s"
+        "SEORankingsFor": "SEO for %s",
+        "SeoRankings": "SEO - søgemaskineoptimering"
     }
 }

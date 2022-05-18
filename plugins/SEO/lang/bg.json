@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "Този плъгин извлича и показва SEO метрики: Alexa уеб ранк, Google Pagerank, брой индексирани страници и брой обратни връзки за избраната уеб страница.",
-        "AlexaRank": "Alexa ранг",
         "Bing_IndexedPages": "Bing индексирани страници",
         "DomainAge": "Възраст на домейна",
         "Google_IndexedPages": "Google индексирани страници",
+        "PluginDescription": "Този плъгин извлича и показва SEO показатели: Google PageRank, брой индексирани страници и препратки към текущо избрания уебсайт.",
         "Rank": "Ранг",
-        "SeoRankings": "SEO ранг",
-        "SEORankingsFor": "SEO ранг за %s"
+        "SEORankingsFor": "SEO ранг за %s",
+        "SeoRankings": "SEO ранг"
     }
 }

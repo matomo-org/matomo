@@ -150,7 +150,7 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=3e4a5f7a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=4d275cce
 
 var _hoisted_1 = {
   class: "segment-generator",
@@ -294,7 +294,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
   }, null, 8, _hoisted_20)])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=3e4a5f7a
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=4d275cce
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -536,13 +536,13 @@ function findAndExplodeByMatch(metric) {
   if (minPos < metric.length) {
     // sth found - explode
     if (singleChar === true) {
-      newMetric.segment = metric.substr(0, minPos);
-      newMetric.matches = metric.substr(minPos, 1);
-      newMetric.value = decodeURIComponent(metric.substr(minPos + 1));
+      newMetric.segment = metric.slice(0, minPos);
+      newMetric.matches = metric.slice(minPos, minPos + 1);
+      newMetric.value = decodeURIComponent(metric.slice(minPos + 1));
     } else {
-      newMetric.segment = metric.substr(0, minPos);
-      newMetric.matches = metric.substr(minPos, 2);
-      newMetric.value = decodeURIComponent(metric.substr(minPos + 2));
+      newMetric.segment = metric.slice(0, minPos);
+      newMetric.matches = metric.slice(minPos, minPos + 2);
+      newMetric.value = decodeURIComponent(metric.slice(minPos + 2));
     } // if value is only '' -> change to empty string
 
 
