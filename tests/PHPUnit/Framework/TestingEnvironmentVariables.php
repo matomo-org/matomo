@@ -58,7 +58,7 @@ class TestingEnvironmentVariables
      * @param string|int|array|null $value  The value you want to set for the given config.
      * @throws \Exception if no name is set
      */
-    public function overrideConfig($group, $name, $value = null)
+    public function overrideConfig($group, $name, $value = null, $isArray = false)
     {
         if (empty($name) && !is_array($name)) {
             throw new \Exception('No name set that needs to be overwritten');
@@ -80,7 +80,12 @@ class TestingEnvironmentVariables
             $config[$group] = array();
         }
 
-        $config[$group][$name] = $value;
+        if ($isArray) {
+            $config[$group][$name][] = $value;
+        } else {
+            $config[$group][$name] = $value;
+        }
+
         $this->configOverride = $config;
     }
 
