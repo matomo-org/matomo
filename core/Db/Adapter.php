@@ -52,7 +52,9 @@ class Adapter
             try {
                 $adapter->getConnection();
 
-                Zend_Db_Table::setDefaultAdapter($adapter);
+                if (!Zend_Db_Table::getDefaultAdapter()) {
+                    Zend_Db_Table::setDefaultAdapter($adapter);
+                }
                 // we don't want the connection information to appear in the logs
                 $adapter->resetConfig();
             } catch(\Exception $e) {
