@@ -46,6 +46,10 @@ describe("UnprocessedSegmentTest", function () {
 
 
     it('should not show a notification for custom segments that are not preprocessed', async function () {
+        testEnvironment.optionsOverride = {
+            enableBrowserTriggerArchiving: '1',
+        };
+        testEnvironment.save();
         await page.goto(url + '&segment=' + encodeURIComponent(customSegment));
 
         expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('custom_segment');
@@ -56,6 +60,7 @@ describe("UnprocessedSegmentTest", function () {
         testEnvironment.configOverride.General = {
             rearchive_reports_in_past_last_n_months: '0',
         };
+        testEnvironment.save();
 
         await page.goto(url + '&segment=' + encodeURIComponent(segment));
 
