@@ -59,11 +59,7 @@ declare global {
 
   let Piwik_Popover: PiwikPopoverGlobal;
 
-  interface ModalConfirmCallbacks {
-    yes?: () => void;
-    no?: () => void;
-    validation?: () => void;
-  }
+  type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
     onCloseEnd: () => void;
