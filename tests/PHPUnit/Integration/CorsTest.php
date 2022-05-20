@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Config;
 use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -21,17 +22,7 @@ class CorsTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
-
         Fixture::createWebsite('2014-02-04');
-
-        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
-        $testingEnvironment->testCaseClass = null;
-        $testingEnvironment->addFailingScheduledTask = false;
-        $testingEnvironment->addScheduledTask = false;
-        $testingEnvironment->addScheduledTask = false;
-        $testingEnvironment->save();
-
-        SettingsPiwik::overwritePiwikUrl(self::$fixture->getRootUrl() . "tests/PHPUnit/proxy");
     }
 
     public function test_corsHandler()
@@ -54,7 +45,7 @@ class CorsTest extends IntegrationTestCase
     private function responseHeader($origin = null)
     {
 
-        $url = Fixture::getRootUrl() . "tests/PHPUnit/proxy/matomo.php??idsite=1&rec=1&url=" . urlencode('http://quellehorreur.com/movies') . "&action_name=Movies";
+        $url = Fixture::getRootUrl() . "tests/PHPUnit/proxy/matomo.php?idsite=1&rec=1&url=" . urlencode('http://quellehorreur.com/movies') . "&action_name=Movies";
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

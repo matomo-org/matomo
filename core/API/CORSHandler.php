@@ -9,6 +9,7 @@
 namespace Piwik\API;
 
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Url;
 use Psr\Log\LoggerInterface;
@@ -24,11 +25,16 @@ class CORSHandler
 
     public function __construct()
     {
-        $this->domains = Url::getCorsHostsFromConfig();
+        $this->domains = GeneralConfig::getConfigValue('cors_domains');
         $this->logger = StaticContainer::get(LoggerInterface::class);
 
     }
 
+    /**
+     * This method is set header for the request to pass browser cross domain checks.
+     * By default, it allow from all hosts
+     * @throws \Exception
+     */
     public function handle()
     {
 
@@ -43,11 +49,13 @@ class CORSHandler
             Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
         }
 
+        //check if http origin is not in the cor_domain list
         if (!empty($this->domains) && !in_array('*', $this->domains) && !in_array($_SERVER['HTTP_ORIGIN'],
             $this->domains, true)) {
             Common::sendHeader('Access-Control-Allow-Origin: ' . $this->domains[0]);
         }
 
+        //check if is preFight
         if (self::isPreFlightCorsRequest()) {
             Common::sendHeader('Access-Control-Allow-Methods: GET, POST');
             Common::sendHeader('Access-Control-Allow-Headers: *');
@@ -58,6 +66,10 @@ class CORSHandler
 
     }
 
+    /**
+     * check if is a GET request
+     * @return bool
+     */
     public static function isHttpGetRequest()
     {
         $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
@@ -75,6 +87,10 @@ class CORSHandler
     }
 
 
+    /**
+     * Check if the request is pre fight cors request
+     * @return bool
+     */
     public static function isPreFlightCorsRequest(): bool
     {
         if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
