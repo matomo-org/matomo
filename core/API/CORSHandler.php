@@ -28,7 +28,7 @@ class CORSHandler
         $this->logger = StaticContainer::get(LoggerInterface::class);
 
     }
-ß
+
     /**
      * This method is set header for the request to pass browser cross domain checks.
      * By default, it allow from all hosts
