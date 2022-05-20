@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Config;
-use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
