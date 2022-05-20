@@ -9,7 +9,6 @@
 namespace Piwik\API;
 
 use Piwik\Common;
-use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Url;
 use Psr\Log\LoggerInterface;
@@ -25,7 +24,7 @@ class CORSHandler
 
     public function __construct()
     {
-        $this->domains = GeneralConfig::getConfigValue('cors_domains');
+        $this->domains = Url::getCorsHostsFromConfig();
         $this->logger = StaticContainer::get(LoggerInterface::class);
 
     }
