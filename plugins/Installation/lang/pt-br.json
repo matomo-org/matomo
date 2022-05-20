@@ -2,8 +2,8 @@
     "Installation": {
         "CannotConnectToDb": "Não foi possível conectar com o banco de dados",
         "CannotConnectToDbResolvingExplanation": "Isso pode ser um problema temporário, tente %1$srecarregar a página%2$s. Se o problema persistir, por favor contacte o administrador do Matomo.",
-        "CollaborativeProject": "Matomo é um projeto colaborativo, construído com amor por pessoas de todo o mundo.",
-        "ConfigurationHelp": "Seu arquivo de configuração do Matomo parece estar mal configurado. Você pode remover config/config.ini.php e retomar a instalação ou corrigir as configurações de conexões do banco de dados.",
+        "CollaborativeProject": "Matomo é um projeto colaborativo, construído com amor.",
+        "ConfigurationHelp": "Corrija o arquivo de configuração do Matomo removendo config/config.ini.php e retomando a instalação ou corrigindo as configurações da conexão do banco de dados.",
         "ConfirmDeleteExistingTables": "Tem certeza que quer apagar as tabelas: %s do seu banco de dados? AVISO: DADOS DESTAS TABELAS NÃO PODERÃO SER RECUPERADOS!",
         "Congratulations": "Parabéns",
         "CongratulationsHelp": "<p>Parabéns! Sua instalação do Matomo foi finalizada.</p><p> Certifique-se de que seu código JavaScript esteja inserido em suas páginas e aguarde seus primeiros visitantes!</p>",
