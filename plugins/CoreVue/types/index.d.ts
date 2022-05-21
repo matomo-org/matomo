@@ -11,7 +11,7 @@ import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
   type QueryParameterValue = string | number | null | undefined | QueryParameterValue[];
-  type QueryParameters = {[name: string]: QueryParameterValue | QueryParameters};
+  type QueryParameters = Record<string, QueryParameterValue | QueryParameters>;
 
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
@@ -59,11 +59,7 @@ declare global {
 
   let Piwik_Popover: PiwikPopoverGlobal;
 
-  interface ModalConfirmCallbacks {
-    yes?: () => void;
-    no?: () => void;
-    validation?: () => void;
-  }
+  type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
     onCloseEnd: () => void;
@@ -134,7 +130,11 @@ declare global {
     shouldPropagateTokenAuth: boolean;
     token_auth: string;
     idSite: string|number;
+    /**
+     * @deprecated
+     */
     siteName: string;
+    currentSiteName: string;
     period?: string;
     currentDateString?: string;
     startDateString?: string;
@@ -158,6 +158,7 @@ declare global {
     numbers: Record<string, string>;
     visitorProfileEnabled: boolean;
     languageName: string;
+    isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;

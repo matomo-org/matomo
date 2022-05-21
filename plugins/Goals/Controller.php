@@ -124,6 +124,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setGoalOptions($view);
         $view->onlyShowAddNewGoal = true;
+        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
         $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
     }
@@ -142,12 +143,16 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (empty($view->onlyShowAddGoal)) {
             $beforeGoalListActionsBody = [];
-            foreach ($view->goals as $goal) {
-                $str = '';
-                Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
 
-                $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+            if ($view->goals) {
+                foreach ($view->goals as $goal) {
+                    $str = '';
+                    Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
+    
+                    $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+                }
             }
+
             $view->beforeGoalListActionsBodyEventResult = $beforeGoalListActionsBody;
 
             $str = '';
@@ -261,10 +266,13 @@ class Controller extends \Piwik\Plugin\Controller
                 'only_summary' => 1,
             ];
 
-            \Piwik\Context::executeWithQueryParameters($params, function() use (&$content) {
+            \Piwik\Context::executeWithQueryParameters($params, function () use (&$content, $goal) {
                 //load Visualisations Sparkline
                 $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
                 $view->config->show_title = true;
+                $view->config->custom_parameters = [
+                    'idGoal' => $goal['idgoal'],
+                ];
                 $content .= $view->render();
             });
         }

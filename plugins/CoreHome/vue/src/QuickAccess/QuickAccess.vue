@@ -443,7 +443,7 @@ export default defineComponent({
 
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"
-          category = category.substr(0, category.lastIndexOf('\n')).trim();
+          category = category.slice(0, category.lastIndexOf('\n')).trim();
         }
 
         window.$(element).find('li .item').each((i, subElement) => {

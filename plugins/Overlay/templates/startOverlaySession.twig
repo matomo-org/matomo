@@ -12,7 +12,7 @@
         var match = false;
         var parser = document.createElement('a');
 
-        var urlToRedirect = window.location.hash.substr(1);
+        var urlToRedirect = window.location.hash.slice(1);
         parser.href = urlToRedirect;
         var hostToRedirect = parser.hostname;
 

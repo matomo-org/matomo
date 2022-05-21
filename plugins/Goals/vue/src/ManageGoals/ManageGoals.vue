@@ -470,9 +470,9 @@ export default defineComponent({
       this.createGoal();
     } else if (this.showGoal) {
       this.editGoal(this.showGoal);
+    } else {
+      this.showListOfReports();
     }
-
-    this.showListOfReports();
 
     // this component can be used in multiple places, one where
     // Matomo.helper.compileAngularComponents() is already called, one where it's not.
@@ -701,10 +701,10 @@ export default defineComponent({
       }
     },
     lcfirst(s: string) {
-      return `${s.substr(0, 1).toLowerCase()}${s.substr(1)}`;
+      return `${s.slice(0, 1).toLowerCase()}${s.slice(1)}`;
     },
     ucfirst(s: string) {
-      return `${s.substr(0, 1).toUpperCase()}${s.substr(1)}`;
+      return `${s.slice(0, 1).toUpperCase()}${s.slice(1)}`;
     },
   },
   computed: {

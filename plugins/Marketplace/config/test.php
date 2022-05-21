@@ -1,10 +1,10 @@
 <?php
 
-use Psr\Container\ContainerInterface;
-use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
-use Piwik\Plugins\Marketplace\LicenseKey;
-use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
+use Piwik\Plugins\Marketplace\LicenseKey;
+use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
+use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;
+use Psr\Container\ContainerInterface;
 
 return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
@@ -12,9 +12,8 @@ return array(
         // it is because someone might have overwritten MarketplaceEndpoit in local config.php and we want
         // to make sure system tests of marketplace are ran against plugins.piwik.org
         $domain = 'http://plugins.piwik.org';
-        $updater = $c->get('Piwik\Plugins\CoreUpdater\Updater');
 
-        if ($updater->isUpdatingOverHttps()) {
+        if (\Piwik\Http::isUpdatingOverHttps()) {
             $domain = str_replace('http://', 'https://', $domain);
         }
 

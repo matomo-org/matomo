@@ -195,6 +195,7 @@ class Http
             throw new Exception('Too many redirects (' . $followDepth . ')');
         }
 
+
         $aUrl = preg_replace('/[\x00-\x1F\x7F]/', '', trim($aUrl));
         $parsedUrl = @parse_url($aUrl);
 
@@ -1096,7 +1097,29 @@ class Http
         $proxyPort = Config::getInstance()->proxy['port'];
         $proxyUser = Config::getInstance()->proxy['username'];
         $proxyPassword = Config::getInstance()->proxy['password'];
+        $proxyExclude = Config::getInstance()->proxy['exclude'];
+
+        if (!empty($proxyExclude)) {
+            $excludes = explode(',', $proxyExclude);
+            $excludes = array_map('trim', $excludes);
+            $excludes = array_filter($excludes);
+            if (in_array($hostname, $excludes)) {
+                return array(null, null, null, null);
+            }
+        }
 
         return array($proxyHost, $proxyPort, $proxyUser, $proxyPassword);
+    }
+
+    /**
+     * Checks the request is over SSL
+     * @return bool
+     */
+    public static function isUpdatingOverHttps()
+    {
+        $openSslEnabled = extension_loaded('openssl');
+        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
+
+        return $openSslEnabled && $usingMethodSupportingHttps;
     }
 }

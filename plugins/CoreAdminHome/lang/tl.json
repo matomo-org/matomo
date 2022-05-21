@@ -34,7 +34,7 @@
         "JSTracking_GroupPageTitlesByDomain": "I-prepend ang site domain sa pamagat ng pahina kapag nagsusubaybay.",
         "JSTracking_GroupPageTitlesByDomainDesc1": "Kung kaya't kapag may bumisita sa pahina na 'About' ng blog.%1$s ito ay itatala bilang 'blog / About'. Ito ay ang pinakamadaling paraan upang makakuha ng isang pangkalahatang ideya ng iyong trapiko sa bawat sub-domain.",
         "JSTracking_MergeAliases": "Sa \"Outlinks\" na ulat, itago ang mga pag-click sa mga kilalang alias URL ng",
-        "JSTracking_MergeAliasesDesc": "Kung kaya't ang mga click sa mga link sa Alias ​​na mga URL (hal.%s) ay hindi mabibilang bilang \"Outlink\".",
+        "JSTracking_MergeAliasesDesc": "Kung kaya't ang mga click sa mga link sa Alias na mga URL (hal.%s) ay hindi mabibilang bilang \"Outlink\".",
         "JSTracking_MergeSubdomains": "Subaybayan ang mga bisita sa lahat ng mga subdomain ng",
         "JSTracking_MergeSubdomainsDesc": "Kaya kung ang bisita ay bumisita sa %1$s at %2$s, ang mga ito ay mabibilang bilang isang unique na bisita.",
         "JSTracking_PageCustomVars": "Subaybayan ang isang custom na variable para sa bawat pagtingin sa isang pahina",

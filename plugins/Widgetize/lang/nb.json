@@ -1,9 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "&rsaquo; Direkte lenke",
+        "DisplayDashboardInIframe": "Du kan også vise hele Matomo-oversikten i programmet eller på nettsiden din med en Iframe (%1$svis eksempel%2$s). Datoparameter kan settes til en gitt kalenderdato, «today», eller «yesterday». Periodeparameteret kan også settes til «day», «week», «month», eller\n «year». Språkparemeteret kan også settes til språkkoden tilhørende en oversettelse, som f.eks language=fr. For idSite=1 og date=yesterday, kan du skrive:",
+        "DisplayDashboardInIframeAllSites": "Du kan også lage miniprogrammer av alle nettsider i oversikten i en Iframe (%1$svis eksempel%2$s)",
+        "EmbedIframe": "&rsaquo; Bygg inn iframe",
+        "Intro": "Med Matomo kan du %1$seksportere dine vev-analyserapporter%2$s til bloggen, nettsiden, eller intranettsoversikten din … med ett klikk.",
         "OpenInNewWindow": "Åpne i nytt vindu",
         "PluginDescription": "Vis alle Matomo-rapporter du vil på ditt nettsted eller i ditt program med en enkel «embed»-HTML-tagg.",
+        "Reports": "Lag miniprogrammer av rapporter",
+        "SelectAReport": "Velg en rapport, kopier og lim inn innbyggingskoden din på siden, under miniprogrammet:",
         "TooHighAccessLevel": "Denne brukeren har superbrukertilgang. Innebygging av miniprogrammer med superbruker-identitetsbekreftelse tillates ikke. %1$sSjekk O-S-S for mer info.%2$s",
         "TopLinkTooltip": "Eksporter Matomo-rapporter som miniprogrammer og bygg dem inn oversikten i programmet ditt som en iframe.",
-        "ViewAccessRequired": "Denne brukeren har ihvertfall litt skrivetilgang. Kun symboler tilhørende brukere som kun har lesetilgang kan brukes. Sjekk %1$s for mer info."
+        "ViewAccessRequired": "Denne brukeren har ihvertfall litt skrivetilgang. Kun symboler tilhørende brukere som kun har lesetilgang kan brukes. Sjekk %1$s for mer info.",
+        "ViewableAnonymously": "Hvis du ønker at miniprogrammene skal være synlige for alle, må du først sette «view»-tilgang for anonyme brukere i %1$sbrukerhåndteringsdelen%2$s.<br>Alternativt, hvis du publiserer miniprogrammer på en passordbeskyttet eller privat side, trenger du ikke å tillate «anonymous» å vise rapportene dine. I sådant fall må du legge til det hemmelige <code>token_auth</code>-parameteret i nettadressen til ditt miniprogram. Du kan håndtere dine identitetbekreftelsessymboler på din %3$ssikkerhetsside%4$s."
     }
 }

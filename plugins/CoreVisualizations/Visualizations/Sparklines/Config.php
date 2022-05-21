@@ -47,6 +47,11 @@ class Config extends \Piwik\ViewDataTable\Config
     public $title_attributes = array();
 
     /**
+     * Defines custom parameters that will be appended to the sparkline image urls
+     */
+    public $custom_parameters = [];
+
+    /**
      * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
      *
      * The function is passed an array mapping column names with column values.
