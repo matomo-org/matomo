@@ -230,9 +230,21 @@ class Sparklines extends ViewDataTable
 
                         list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change', '_trend');
 
+                        $metricsObjs = $report->getProcessedMetricsById();
                         foreach ($compareValues as $i => $value) {
+
+                            // Format metric
+                            $formatter = new MetricFormatter();
+                            $valueFormatted = $value;
+                            foreach ($metricsObjs as $metricObj) {
+                                if ((is_array($column) && in_array($metricObj->getName(), ($column)) || $metricObj->getName() == $column)) {
+                                    $valueFormatted = $metricObj->format($value, $formatter);
+                                    break;
+                                }
+                            }
+
                             $metricInfo = [
-                                'value' => $value,
+                                'value' => $valueFormatted,
                                 'description' => $compareDescriptions[$i],
                                 'group' => $periodPretty,
                             ];
