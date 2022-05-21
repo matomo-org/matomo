@@ -110,6 +110,7 @@ import {
   translate,
   AjaxHelper,
   ActivityIndicator,
+  Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import SegmentGeneratorStore from './SegmentGenerator.store';
@@ -251,7 +252,10 @@ export default defineComponent({
   props: {
     addInitialCondition: Boolean,
     visitSegmentsOnly: Boolean,
-    idsite: [String, Number],
+    idsite: {
+      type: [String, Number],
+      default: () => Matomo.idSite,
+    },
     modelValue: {
       type: String,
       default: '',
