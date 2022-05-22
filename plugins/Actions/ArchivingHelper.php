@@ -218,9 +218,9 @@ class ArchivingHelper
 
                 // Count the pages viewed before the idgoal / visit conversion
                 if (!array_key_exists($gvpKey, $goalVisitPages)) {
-                    $goalVisitPages[$gvpKey] = 1;
+                    $goalVisitPages[$gvpKey] = [$row['idaction']];
                 } else {
-                    $goalVisitPages[$gvpKey]++;
+                    $goalVisitPages[$gvpKey][] = $row['idaction'];
                 }
 
                 if (!array_key_exists($key, $data)) {
@@ -244,7 +244,7 @@ class ArchivingHelper
                         PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS =>
                             ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2) : null),
                         PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE => 0,
-                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ => 1,
+                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ => 0,
                         PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS => 1
                     ];
                 } else {
@@ -299,10 +299,17 @@ class ArchivingHelper
             }
 
             // Add the pages viewed before conversion
+            $uniquer = [];
             foreach ($data as $k => $row) {
                 $gvpKey = $row['idgoal'].'_'.$row['idvisit'];
                 if (array_key_exists($gvpKey, $goalVisitPages)) {
-                    $data[$k][PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] = $goalVisitPages[$gvpKey];
+                    $data[$k][PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] = count($goalVisitPages[$gvpKey]);
+
+                    if (in_array($row['idaction'], $goalVisitPages[$gvpKey])
+                        && (!array_key_exists($gvpKey, $uniquer) || !in_array($row['idaction'], $uniquer[$gvpKey]))) {
+                        $data[$k][PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ] = 1;
+                        $uniquer[$gvpKey][] = $row['idaction'];
+                    }
                 }
             }
 

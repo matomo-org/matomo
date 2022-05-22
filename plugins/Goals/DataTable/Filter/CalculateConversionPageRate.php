@@ -8,10 +8,12 @@
  */
 namespace Piwik\Plugins\Goals\DataTable\Filter;
 
+use Piwik\API\Request;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Site;
 
 class CalculateConversionPageRate extends BaseFilter
 {
@@ -30,20 +32,21 @@ class CalculateConversionPageRate extends BaseFilter
      */
     public function filter($table)
     {
-        $goalTotals = [];
 
-        // Find all conversions for each goal in the table and store in an array
+        // Find all goal ids used in the table and store in an array
+        $goals = [];
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             if (isset($row[Metrics::INDEX_GOALS])) {
                 foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
-                    if (isset($row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB])) {
-                        if (!isset($goalTotals[$goalIdString])) {
-                            $goalTotals[$goalIdString] = 0;
-                        }
-                        $goalTotals[$goalIdString] += $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB];
-                    }
+                    $goals[$goalIdString] = $goalIdString;
                 }
             }
+        }
+
+        // Get the total top-level conversions for the goals in the table
+        $goalTotals = $this->getGoalTotalConversions($table, $goals);
+        if (count($goalTotals) === 0) {
+            return;
         }
 
         // Walk the rows and populate the nb_conversions_page_rate with nb_conversions_page_uniq / $goalTotals[goal id]
@@ -57,10 +60,60 @@ class CalculateConversionPageRate extends BaseFilter
                                 $goalTotals[$goalIdString],
                                 3
                             );
+                        // Prevent page rates over 100% which can happen when there are subpages
+                        if ($rate > 1) {
+                            $rate = 1;
+                        }
+
                         $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = $rate;
                     }
                 }
             }
         }
     }
+
+    /**
+     * Get the conversions total for each goal in the top level datatable
+     *
+     * @param DataTable $table
+     * @param array $goalIds
+     * @return array
+     */
+    private function getGoalTotalConversions(DataTable $table, array $goalIds)
+    {
+
+        $goalTotals = [];
+
+        /** @var Site $site */
+        $site = $table->getMetadata('site');
+        if (empty($site)) {
+            return $goalTotals;
+        }
+        $idSite = $site->getId();
+
+        $period = $table->getMetadata('period');
+        $periodName = $period->getLabel();
+        $date = $period->getDateStart()->toString();
+
+        foreach ($goalIds as $idGoal => $g) {
+
+            $params = [
+                'period' => $periodName,
+                'date' => ($periodName === 'range' ? $date.','.$period->getDateEnd()->toString() : $date),
+                'idSite' => $idSite,
+                'idGoal' => $idGoal
+            ];
+
+            /** @var DataTable $data */
+            $data = Request::processRequest( 'Goals.get', $params);
+            $firstRow = $data->getFirstRow();
+
+            if (!empty($firstRow)) {
+                $goalTotals[$idGoal] = $firstRow->getColumn('nb_conversions');
+            }
+        }
+
+        return $goalTotals;
+    }
+
 }
