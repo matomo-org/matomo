@@ -192,6 +192,7 @@
         "Status": "Status",
         "Pending": "Pending",
         "Active": "Active",
-        "Expired": "Invite Expired"
+        "Expired": "Invite Expired",
+        "Decline": "Invite Declined"
     }
 }

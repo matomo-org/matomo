@@ -656,12 +656,12 @@ class API extends \Piwik\Plugin\API
      *
      * @return array the user information
      */
-    public function getUser($userLogin, $pending = false)
+    public function getUser($userLogin)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserExists($userLogin);
 
-        $user = $this->model->getUser($userLogin, $pending);
+        $user = $this->model->getUser($userLogin);
 
         $user = $this->userFilter->filterUser($user);
         return $this->userRepository->enrichUser($user);
@@ -693,12 +693,12 @@ class API extends \Piwik\Plugin\API
      * - a password that has to be valid
      * - an email that has to be in a correct format
      *
-     * @see userExists()
+     * @throws Exception in case of an invalid parameter
      * @see isValidLoginString()
      * @see isValidPasswordString()
      * @see isValidEmailString()
      *
-     * @throws Exception in case of an invalid parameter
+     * @see userExists()
      */
     public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
     {

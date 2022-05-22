@@ -53,7 +53,7 @@ class Mysql implements SchemaInterface
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                           idchange_last_viewed TIMESTAMP NULL,
-                          invited_at TIMESTAMP NULL,
+                          invite_status enum('accept','pending','decline','expired'),
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
@@ -590,7 +590,7 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
-                    `idchange_last_viewed`, `invited_at`)
+                    `idchange_last_viewed`, `invite_status`)
                     VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL, null);");
 
         $model = new Model();

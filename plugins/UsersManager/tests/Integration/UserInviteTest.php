@@ -46,7 +46,7 @@ class UserInviteTest extends IntegrationTestCase
     public function test_getInviteUser()
     {
         $user = $this->model->getUser($this->pendingUser['login']);
-        $this->assertNotEmpty($user['invited_at']);
+        $this->assertNotEmpty($user['invite_status']);
 
     }
 

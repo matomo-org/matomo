@@ -167,6 +167,9 @@
         "AcceptInvite": "Accept Invite",
         "DeclineInvite": "Decline Invite",
         "UserInviteContent": "You can accept this invitation by click the accept button below.",
-        "UserInviteNotes": "This invitation was intended for %1$s access. If you were not expecting this invitation, you can ignore this email. If %2$s is sending you too many emails, you can block them or report abuse. The invitation expire in 7 days."
+        "UserInviteNotes": "This invitation was intended for %1$s access. If you were not expecting this invitation, you can ignore this email. If %2$s is sending you too many emails, you can block them or report abuse. The invitation expire in 7 days.",
+        "SecurityNotificationUserAcceptInviteBody": "User (login: %s) accept the invitation.",
+        "SecurityNotificationUserDeclinedInviteBody": "User (login: %s) declined the invitation."
+
     }
 }

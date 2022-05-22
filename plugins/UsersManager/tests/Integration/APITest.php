@@ -1095,7 +1095,7 @@ class APITest extends IntegrationTestCase
     {
         foreach ($users as &$user) {
             unset($user['date_registered']);
-            unset($user['invited_at']);
+            unset($user['invite_status']);
         }
     }
 }

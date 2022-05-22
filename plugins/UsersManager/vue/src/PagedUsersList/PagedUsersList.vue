@@ -304,8 +304,8 @@
               {{ user.last_seen ? `${user.last_seen} ago` : '-' }}
             </td>
             <td id="status">
-              <span :class="getInviteStatusClass(user.invited_at)">
-              {{ getInviteStatus(user.invited_at) }}
+              <span :class="user.invite_status">
+              {{ getInviteStatus(user.invite_status) }}
                 </span>
             </td>
             <td class="center actions-cell">
@@ -313,7 +313,7 @@
                   class="resend table-action"
                   title="Resend Invite"
                   @click="userToChange = user; showResendConfirm()"
-                  v-if="user.invited_at"
+                  v-if="user.invite_status"
               >
                 <span class="icon-email" />
               </button>
@@ -538,26 +538,17 @@ export default defineComponent({
     },
   },
   methods: {
-
-    getInviteStatusClass(inviteAt: string|null) {
-      if (!inviteAt) {
-        return 'active';
-      }
-
-      if (inviteAt === 'expired') {
-        return 'expired';
-      }
-      return 'pending';
-    },
-    getInviteStatus(inviteAt: string|null) {
-      if (!inviteAt) {
+    getInviteStatus(inviteStatus: string|null) {
+      if (inviteStatus === 'accept') {
         return translate('UsersManager_Active');
       }
-
-      if (inviteAt === 'expired') {
+      if (inviteStatus === 'pending') {
+        return translate('UsersManager_Pending');
+      }
+      if (inviteStatus === 'expired') {
         return translate('UsersManager_Expired');
       }
-      return translate('UsersManager_Pending');
+      return translate('UsersManager_Decline');
     },
     onPermissionsForUpdate(site: SiteRef) {
       this.permissionsForSite = site;

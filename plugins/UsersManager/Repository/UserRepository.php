@@ -101,7 +101,7 @@ class UserRepository
 
         if (!empty($expired)) {
             //retrieve user details
-            $user = API::getInstance()->getUser($userLogin, true);
+            $user = API::getInstance()->getUser($userLogin);
 
             //remove all previous token
             $this->model->deleteAllTokensForUser($userLogin);
@@ -148,11 +148,11 @@ class UserRepository
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
             unset($user['twofactor_secret']);
-            if (!empty($user['invited_at'])) {
-              $validToken = $this->model->checkUserHasUnexpiredToken($user['login']);
-              if(!$validToken){
-                  $user['invited_at'] = 'expired';
-              }
+            if (!empty($user['invite_status']) && $user['invite_status'] === 'pending') {
+                $validToken = $this->model->checkUserHasUnexpiredToken($user['login']);
+                if (!$validToken) {
+                    $user['invite_status'] = 'expired';
+                }
             }
             return $user;
         }
@@ -204,8 +204,6 @@ class UserRepository
         }
         return $users;
     }
-
-
 
 
 }

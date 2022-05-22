@@ -20,7 +20,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 /**
  * Update for version 4.10.0-b1
  */
-class Updates_4_10_0_b1 extends PiwikUpdates
+class Updates_4_11_0_b1 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
@@ -39,18 +39,11 @@ class Updates_4_10_0_b1 extends PiwikUpdates
      */
     public function getMigrations(Updater $updater)
     {
-        $table        = Common::prefixTable('report');
-        $invalidCount = Db::fetchOne(
-            "SELECT COUNT(*) FROM $table WHERE reports = ? OR parameters = ?",
-            ['Array', 'Array']
-        );
-
-        if (0 === (int) $invalidCount) {
-            return [];
-        }
 
         return [
-            $this->migration->db->sql("DELETE FROM " . $table . " WHERE reports = 'Array' OR parameters = 'Array'"),
+          $this->migration->db->addColumns('user', [
+            'invite_status' => "ENUM('accept','pending','decline','expired') DEFAULT 'accept'"
+          ])
         ];
     }
 
