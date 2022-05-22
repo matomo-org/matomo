@@ -42,8 +42,8 @@ class ReportInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('Had visits in last 1 day', $this->hadVisitsInLastDays(1));
             $results[] = DiagnosticResult::informationalResult('Had visits in last 3 days', $this->hadVisitsInLastDays(3));
             $results[] = DiagnosticResult::informationalResult('Had visits in last 5 days', $this->hadVisitsInLastDays(5));
-            $results[] = DiagnosticResult::informationalResult('Archive Time Last Started', Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS));
-            $results[] = DiagnosticResult::informationalResult('Archive Time Last Finished', Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS));
+            $results[] = DiagnosticResult::informationalResult('Archive Time Last Started', date("Y-m-d H:i:s", Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS)));
+            $results[] = DiagnosticResult::informationalResult('Archive Time Last Finished', date("Y-m-d H:i:s", Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS)));
         }
 
         return $results;
