@@ -154,6 +154,9 @@ class UserRepository
                     $user['invite_status'] = 'expired';
                 }
             }
+            if (empty($user['invite_status'])) {
+                $user['invite_status'] = 'accept';
+            }
             return $user;
         }
 
