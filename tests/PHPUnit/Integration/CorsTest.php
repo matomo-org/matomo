@@ -63,9 +63,7 @@ class CorsTest extends IntegrationTestCase
         curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'OPTIONS');
         $headers = array(
-          "Access-Control-Request-Method: OPTION",
           "Access-Control-Request-Headers: content-type",
-          "x-token: tests",
           "Origin: https://example.com"
         );
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -74,7 +72,7 @@ class CorsTest extends IntegrationTestCase
 
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $heads = substr($response, 0, $header_size);
-        $this->assertStringContainsString(' 204 No Response', $heads);
+        $this->assertStringContainsString('204 No Response', $heads);
     }
 
     private function responseHeader($origin = null)
