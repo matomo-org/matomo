@@ -792,8 +792,13 @@ export default defineComponent({
 
       const componentsByIdGoal: Record<string, unknown> = {};
       Object.values(this.goals as Record<string, Goal>).forEach((g) => {
+        const template = this.beforeGoalListActionsBody![g.idgoal];
+        if (!template) {
+          return;
+        }
+
         componentsByIdGoal[g.idgoal] = {
-          template: this.beforeGoalListActionsBody![g.idgoal],
+          template,
         };
       });
       return markRaw(componentsByIdGoal);
