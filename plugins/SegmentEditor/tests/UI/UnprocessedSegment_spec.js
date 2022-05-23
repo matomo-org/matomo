@@ -55,7 +55,7 @@ describe("UnprocessedSegmentTest", function () {
 
     it("should show a notification for unprocessed segments, caused by re archive date", async function () {
         testEnvironment.configOverride.General = {
-            rearchive_reports_in_past_last_n_months: '6',
+            rearchive_reports_in_past_last_n_months: 'last1',
         };
         testEnvironment.save();
 
