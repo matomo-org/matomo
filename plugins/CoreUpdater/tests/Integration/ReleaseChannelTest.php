@@ -55,12 +55,12 @@ class ReleaseChannelTest extends IntegrationTestCase
     {
         $version = Version::VERSION;
         $phpVersion = urlencode(PHP_VERSION);
-        $mysqlVersion = urlencode(Db::get()->getServerVersion());
+        $mysqlVersion = Db::get()->getServerVersion();
         $url = urlencode(Url::getCurrentUrlWithoutQueryString());
 
-        $urlToCheck = urlencode($this->channel->getUrlToCheckForLatestAvailableVersion());
+        $urlToCheck = $this->channel->getUrlToCheckForLatestAvailableVersion();
 
-        $this->assertStringStartsWith(urlencode("http://api.matomo.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone="), $urlToCheck);
+        $this->assertStringStartsWith("https://api.matomo.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
     }
 
     public function test_doesPreferStable()

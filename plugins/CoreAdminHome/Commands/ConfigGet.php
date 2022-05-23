@@ -89,7 +89,7 @@ NOTES:
             $format = self::OUTPUT_FORMAT_DEFAULT;
         }
 
-        $argument = trim($input->getArgument('argument'));
+        $argument = trim($input->getArgument('argument') ?? '');
 
         // If there are multiple arguments, just use the last one.
         $argument = array_slice(explode(' ', $argument), -1)[0];

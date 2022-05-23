@@ -1,16 +1,16 @@
 <?php
 
-use Psr\Container\ContainerInterface;
+use Piwik\Config\GeneralConfig;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\LicenseKey;
+use Psr\Container\ContainerInterface;
 
 return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
-        $domain = 'http://plugins.matomo.org';
-        $updater = $c->get('Piwik\Plugins\CoreUpdater\Updater');
+        $domain = 'https://plugins.matomo.org';
 
-        if ($updater->isUpdatingOverHttps()) {
-            $domain = str_replace('http://', 'https://', $domain);
+        if (GeneralConfig::getConfigValue('force_matomo_ssl_request') === 0) {
+            $domain = str_replace('https://', 'http://', $domain);
         }
 
         return $domain;
@@ -28,5 +28,5 @@ return array(
         $service->authenticate($accessToken);
 
         return $service;
-    }
+    },
 );

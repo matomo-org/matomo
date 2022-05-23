@@ -48,7 +48,7 @@ function languageTranslate($label)
  */
 function languageTranslateWithCode($label)
 {
-    $ex = explode('-', $label);
+    $ex = explode('-', $label ?? '');
     $lang = languageTranslate($ex[0]);
 
     if (count($ex) == 2 && $ex[0] != $ex[1]) {
