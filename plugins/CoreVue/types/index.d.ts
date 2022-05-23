@@ -59,11 +59,7 @@ declare global {
 
   let Piwik_Popover: PiwikPopoverGlobal;
 
-  interface ModalConfirmCallbacks {
-    yes?: () => void;
-    no?: () => void;
-    validation?: () => void;
-  }
+  type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
     onCloseEnd: () => void;
@@ -224,7 +220,7 @@ declare global {
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;
 
-    _pk_translate(translationStringId: string, values: string[]): string;
+    _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;
