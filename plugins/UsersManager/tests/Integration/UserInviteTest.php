@@ -40,13 +40,13 @@ class UserInviteTest extends IntegrationTestCase
     {
         parent::setUp();
         $this->model = new Model();
-        $this->model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime,1);
+        $this->model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime, 1);
     }
 
     public function test_getInviteUser()
     {
         $user = $this->model->getUser($this->pendingUser['login']);
-        $this->assertNotEmpty($user['invite_status']);
+        $this->assertEquals('pending', $user['invite_status']);
 
     }
 
@@ -57,7 +57,8 @@ class UserInviteTest extends IntegrationTestCase
           Date::now()->getDatetime(),
           Date::now()->addDay(7)->getDatetime());
 
-        $response = Http::sendHttpRequest(Fixture::getRootUrl().'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token='.$this->token,10);
+        $response = Http::sendHttpRequest(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token=' . $this->token,
+          10);
 
         $this->assertStringContainsString('Accept Invitation', $response, 'error on accept invitation');
     }
