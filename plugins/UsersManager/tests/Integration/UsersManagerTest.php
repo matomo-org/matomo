@@ -1124,7 +1124,9 @@ class UsersManagerTest extends IntegrationTestCase
 <p>General_HelloUser</p>
 <p>CoreAdminHome_UserInviteSubject</p>
 <a target="_blank" href="$host?module=Login&action=acceptInvitation&token=thisisatoken"
->CoreAdminHome_AcceptInvite</a>
+>CoreAdminHome_AcceptInvite</a> |
+<a target="_blank" href="$host?module=Login&action=declineInvitation&token=thisisatoken"
+>CoreAdminHome_DeclineInvite</a>
 <p><b>Notes:</b>CoreAdminHome_UserInviteNotes</p>
 END;
         $this->assertEquals($content, $view->render());
