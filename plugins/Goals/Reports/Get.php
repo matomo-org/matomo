@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\API\Request;
@@ -38,11 +40,11 @@ class Get extends Base
         parent::init();
 
         $this->name = Piwik::translate('Goals_Goals');
-        $this->processedMetrics = array('conversion_rate');
+        $this->processedMetrics = ['conversion_rate'];
         $this->documentation = Piwik::translate('Goals_OverviewReportDocumentation');
         $this->order = 1;
         $this->orderGoal = 50;
-        $this->metrics = array('nb_conversions', 'nb_visits_converted', 'revenue');
+        $this->metrics = ['nb_conversions', 'nb_visits_converted', 'revenue'];
         $this->parameters = null;
     }
 
@@ -58,7 +60,6 @@ class Get extends Base
         $goals = $this->getGoals();
 
         if (!empty($goals[$goalId])) {
-
             return $goals[$goalId];
         }
     }
@@ -117,7 +118,7 @@ class Get extends Base
 
             if ($onlySummary && !empty($idGoal)) {
                 if (is_numeric($idGoal)) {
-                    $view->config->title_attributes = array('goal-page-link' => $idGoal);
+                    $view->config->title_attributes = ['goal-page-link' => $idGoal];
                 }
 
                 // in Goals overview summary we show proper title for a goal
@@ -129,57 +130,43 @@ class Get extends Base
                 $view->config->title = '';
             }
 
-            $numberFormatter = NumberFormatter::getInstance();
-            $view->config->filters[] = function (DataTable $table) use ($numberFormatter, $idSite) {
-                $firstRow = $table->getFirstRow();
-                if ($firstRow) {
-                    $revenue = $firstRow->getColumn('revenue');
-                    $firstRow->setColumn('revenue_unformatted', $revenue);
-                    $currencySymbol = Site::getCurrencySymbolFor($idSite);
-                    $revenue = $numberFormatter->formatCurrency($revenue, $currencySymbol, GoalManager::REVENUE_PRECISION);
-                    $firstRow->setColumn('revenue', $revenue);
-                }
-            };
-
-            $view->config->addTranslations(array(
+            $view->config->addTranslations([
                 'nb_visits' => Piwik::translate('VisitsSummary_NbVisitsDescription'),
                 'nb_conversions' => Piwik::translate('Goals_ConversionsDescription'),
                 'nb_visits_converted' => Piwik::translate('General_NVisits'),
                 'conversion_rate' => Piwik::translate('Goals_OverallConversionRate'),
                 'revenue' => Piwik::translate('Goals_OverallRevenue'),
-            ));
+            ]);
 
             $allowMultiple = Common::getRequestVar('allow_multiple', 0, 'int');
 
             if ($allowMultiple) {
-                $view->config->addSparklineMetric(array('nb_conversions', 'nb_visits_converted'), $order = 10);
+                $view->config->addSparklineMetric(['nb_conversions', 'nb_visits_converted'], $order = 10);
             } else {
-                $view->config->addSparklineMetric(array('nb_conversions'), $order = 10);
+                $view->config->addSparklineMetric(['nb_conversions'], $order = 10);
             }
 
-            $view->config->addSparklineMetric(array('conversion_rate'), $order = 20);
+            $view->config->addSparklineMetric(['conversion_rate'], $order = 20);
 
             if (empty($idGoal)) {
                 // goals overview sparklines below evolution graph
 
                 if ($isEcommerceEnabled) {
                     // this would be ideally done in Ecommerce plugin but then it is hard to keep same order
-                    $view->config->addSparklineMetric(array('revenue'), $order = 30);
+                    $view->config->addSparklineMetric(['revenue'], $order = 30);
                 }
-
             } else {
                 if ($onlySummary) {
                     // in Goals Overview we list an overview for each goal....
                     $view->config->addTranslation('conversion_rate', Piwik::translate('Goals_ConversionRate'));
-
                 } elseif ($isEcommerceEnabled) {
                     // in Goals detail page...
-                    $view->config->addSparklineMetric(array('revenue'), $order = 30);
+                    $view->config->addSparklineMetric(['revenue'], $order = 30);
                 }
             }
 
             // Add evolution values to sparklines
-            list($lastPeriodDate, $ignore) = Range::getLastDate();
+            [$lastPeriodDate, $ignore] = Range::getLastDate();
             if ($lastPeriodDate !== false) {
 
                 /** @var DataTable $previousData */
@@ -191,7 +178,7 @@ class Get extends Base
                 $lastPeriod = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
                 $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
 
-                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow, $idSite) {
 
                     $value = reset($columns);
                     $columnName = key($columns);
@@ -206,11 +193,17 @@ class Get extends Base
                     $currentValueFormatted = $value;
                     $pastValueFormatted = $pastValue;
                     foreach ($metrics as $metric) {
-                        if ($metric->getName() == $columnName) {
+                        if ($metric->getName() === $columnName) {
                             $pastValueFormatted = $metric->format($pastValue, $formatter);
                             $currentValueFormatted = $metric->format($value, $formatter);
                             break;
                         }
+                    }
+
+                    if (strpos($columnName, 'revenue') !== false) {
+                        $currencySymbol = Site::getCurrencySymbolFor($idSite);
+                        $pastValueFormatted = NumberFormatter::getInstance()->formatCurrency($pastValue, $currencySymbol, GoalManager::REVENUE_PRECISION);
+                        $currentValueFormatted = NumberFormatter::getInstance()->formatCurrency($value, $currencySymbol, GoalManager::REVENUE_PRECISION);
                     }
 
                     $columnTranslations = Metrics::getDefaultMetricTranslations();
@@ -222,27 +215,26 @@ class Get extends Base
                     return [
                         'currentValue' => $value,
                         'pastValue' => $pastValue,
-                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
-                            $currentValueFormatted.' '.$columnTranslation,
+                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', [
+                            $currentValueFormatted . ' ' . $columnTranslation,
                             $currentPrettyDate,
-                            $pastValueFormatted.' '.$columnTranslation,
+                            $pastValueFormatted . ' ' . $columnTranslation,
                             $lastPrettyDate,
                             CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
-                        )),
+                        ]),
                     ];
                 };
             }
-
-        } else if ($view->isViewDataTableId(Evolution::ID)) {
+        } elseif ($view->isViewDataTableId(Evolution::ID)) {
             if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite)) {
-                $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified(array(
+                $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified([
                     'module' => 'Goals',
                     'action' => 'manage',
                     'forceView' => null,
                     'viewDataTable' => null,
                     'showtitle' => null,
                     'random' => null
-                ));
+                ]);
             }
 
             $goal = $this->getGoal($idGoal);
@@ -256,7 +248,7 @@ class Get extends Base
             }
 
             if (empty($view->config->columns_to_display)) {
-                $view->config->columns_to_display = array('nb_conversions');
+                $view->config->columns_to_display = ['nb_conversions'];
             }
         }
     }

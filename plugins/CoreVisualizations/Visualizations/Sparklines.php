@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request;
@@ -14,6 +16,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter as MetricFormatter;
 use Piwik\Period\Factory;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
@@ -66,12 +69,12 @@ class Sparklines extends ViewDataTable
     {
         $view = new View('@CoreVisualizations/_dataTableViz_sparklines.twig');
 
-        $columnsList = array();
+        $columnsList = [];
         if ($this->config->hasSparklineMetrics()) {
             foreach ($this->config->getSparklineMetrics() as $cols) {
                 $columns = $cols['columns'];
                 if (!is_array($columns)) {
-                    $columns = array($columns);
+                    $columns = [$columns];
                 }
 
                 $columnsList = array_merge($columns, $columnsList);
@@ -93,7 +96,8 @@ class Sparklines extends ViewDataTable
         $this->requestConfig->request_parameters_to_modify['include_trends'] = '1';
 
         $request = $this->getRequestArray();
-        if ($this->isComparing()
+        if (
+            $this->isComparing()
             && !empty($request['comparePeriods'])
             && count($request['comparePeriods']) == 1
         ) {
@@ -124,7 +128,7 @@ class Sparklines extends ViewDataTable
      *
      * @param array $forcedParams
      *
-     * @return mixed
+     * @return DataTable
      */
     protected function loadDataTableFromAPI(array $forcedParams = [])
     {
@@ -156,6 +160,9 @@ class Sparklines extends ViewDataTable
         }
 
         $report = ReportsProvider::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
+        $processedMetrics = Report::getProcessedMetricsForTable($data, $report);
+        $metricFormatter = new MetricFormatter();
+        $idSite = $this->getRequestArray()['idSite'] ?? false;
 
         $firstRow = $data->getFirstRow();
         if ($firstRow) {
@@ -200,11 +207,25 @@ class Sparklines extends ViewDataTable
                 continue;
             }
 
-            $sparklineUrlParams = array_merge($this->config->custom_parameters, array(
+            if (!is_array($column)) {
+                $column = [$column];
+            }
+
+            $columnMetrics = [];
+            foreach ($column as $col) {
+                foreach ($processedMetrics as $metricObj) {
+                    if ($metricObj->getName() === $col) {
+                        $columnMetrics[$col] = $metricObj;
+                        break;
+                    }
+                }
+            }
+
+            $sparklineUrlParams = array_merge($this->config->custom_parameters, [
                 'columns' => $column,
                 'module'  => $this->requestConfig->getApiModuleToRequest(),
                 'action'  => $this->requestConfig->getApiMethodToRequest()
-            ));
+            ]);
 
             if ($this->isComparing() && !empty($comparisons)) {
                 $periodObj = Factory::build($originalPeriod, $originalDate);
@@ -228,23 +249,17 @@ class Sparklines extends ViewDataTable
 
                         $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period);
 
-                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change', '_trend');
+                        [$compareValues, $compareDescriptions, $evolutions] = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change', '_trend');
 
-                        $metricsObjs = $report->getProcessedMetricsById();
                         foreach ($compareValues as $i => $value) {
-
-                            // Format metric
-                            $formatter = new MetricFormatter();
-                            $valueFormatted = $value;
-                            foreach ($metricsObjs as $metricObj) {
-                                if ((is_array($column) && in_array($metricObj->getName(), ($column)) || $metricObj->getName() == $column)) {
-                                    $valueFormatted = $metricObj->format($value, $formatter);
-                                    break;
-                                }
+                            if ($columnMetrics[$columnToUse[$i]]) {
+                                $value = $columnMetrics[$columnToUse[$i]]->format($value, $metricFormatter);
+                            } elseif (strpos($columnToUse[$i], 'revenue') !== false && $idSite > 0) {
+                                $value = $metricFormatter->getPrettyMoney($value, $idSite);
                             }
 
                             $metricInfo = [
-                                'value' => $valueFormatted,
+                                'value' => $value,
                                 'description' => $compareDescriptions[$i],
                                 'group' => $periodPretty,
                             ];
@@ -270,24 +285,18 @@ class Sparklines extends ViewDataTable
                     $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $title, $sparklineMetricIndex, $seriesIndices, $graphParams);
                 }
             } else {
-                list($values, $descriptions) = $this->getValuesAndDescriptions($firstRow, $column);
+                [$values, $descriptions] = $this->getValuesAndDescriptions($firstRow, $column);
 
-                $metricsObjs = $report->getProcessedMetricsById();
                 $metrics = [];
                 foreach ($values as $i => $value) {
-
-                    // Format metric
-                    $formatter = new MetricFormatter();
-                    $valueFormatted = $value;
-                    foreach ($metricsObjs as $metricObj) {
-                        if ((is_array($column) && in_array($metricObj->getName(), ($column)) || $metricObj->getName() == $column)) {
-                            $valueFormatted = $metricObj->format($value, $formatter);
-                            break;
-                        }
+                    if ($columnMetrics[$column[$i]]) {
+                        $value = $columnMetrics[$column[$i]]->format($value, $metricFormatter);
+                    } elseif (strpos($column[$i], 'revenue') !== false && $idSite > 0) {
+                        $value = $metricFormatter->getPrettyMoney($value, $idSite);
                     }
 
                     $newMetric = [
-                        'value' => $valueFormatted,
+                        'value' => $value,
                         'description' => $descriptions[$i],
                     ];
 
@@ -298,7 +307,7 @@ class Sparklines extends ViewDataTable
 
                 $computeEvolution = $this->config->compute_evolution;
                 if ($computeEvolution) {
-                    $evolution = $computeEvolution(array_combine((is_array($column) ? $column : [$column]), $values), $metricsObjs);
+                    $evolution = $computeEvolution(array_combine((is_array($column) ? $column : [$column]), $values), $processedMetrics);
                     $newMetric['evolution'] = $evolution;
                 }
 
@@ -324,13 +333,13 @@ class Sparklines extends ViewDataTable
     private function getValuesAndDescriptions($firstRow, $columns, $evolutionColumnNameSuffix = null, $trendColumnNameSuffix = null)
     {
         if (!is_array($columns)) {
-            $columns = array($columns);
+            $columns = [$columns];
         }
 
         $translations = $this->config->translations;
 
-        $values = array();
-        $descriptions = array();
+        $values = [];
+        $descriptions = [];
         $evolutions = [];
 
         foreach ($columns as $col) {
