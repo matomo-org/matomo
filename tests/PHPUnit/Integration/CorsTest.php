@@ -43,14 +43,11 @@ class CorsTest extends IntegrationTestCase
 
     public function test_configCorsDomains()
     {
-        Config::getInstance()->General['cors_domains'] = ['https://example.com'];
-        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
-        $testingEnvironment->overrideConfig('General', 'cors_domains', ['https://example.com']);
-        $testingEnvironment->save();
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'cors_domains', ['https://example.com']);
+        self::$fixture->getTestEnvironment()->save();
         $origin = "https://exmaple2.com";
         $heads = $this->responseHeader($origin);
         $this->assertStringContainsString('https://example.com', $heads);
-
     }
 
     private function responseHeader($origin = null)

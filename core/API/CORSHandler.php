@@ -51,7 +51,10 @@ class CORSHandler
         //check if http origin is not in the cor_domain list
         if (!empty($this->domains) && !in_array('*', $this->domains) && !in_array($_SERVER['HTTP_ORIGIN'],
             $this->domains, true)) {
-            Common::sendHeader('Access-Control-Allow-Origin: ' . $this->domains[0]);
+            Common::sendHeader('Access-Control-Allow-Origin: ' . $this->domains[0], true);
+            Common::sendResponseCode(401);
+            $this->logger->debug("Tracker detected CORS request. Skipping...");
+            exit;
         }
 
         //check if is preFight
