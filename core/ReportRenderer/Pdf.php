@@ -169,7 +169,7 @@ class Pdf extends ReportRenderer
 
     public function getRenderedReport()
     {
-        return $this->TCPDF->Output(null, 'S');
+        return $this->TCPDF->Output('', 'S');
     }
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)

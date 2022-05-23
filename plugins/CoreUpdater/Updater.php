@@ -75,17 +75,6 @@ class Updater
     }
 
     /**
-     * @return bool
-     */
-    public function isUpdatingOverHttps()
-    {
-        $openSslEnabled = extension_loaded('openssl');
-        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
-
-        return $openSslEnabled && $usingMethodSupportingHttps;
-    }
-
-    /**
      * Update Piwik codebase by downloading and installing the latest version.
      *
      * @param bool $https Whether to use HTTPS if supported of not. If false, will use HTTP.
@@ -364,7 +353,7 @@ class Updater
         $channel = $this->releaseChannels->getActiveReleaseChannel();
         $url = $channel->getDownloadUrlWithoutScheme($version);
 
-        if ($this->isUpdatingOverHttps() && $https) {
+        if (Http::isUpdatingOverHttps() && $https) {
             $url = 'https' . $url;
         } else {
             $url = 'http' . $url;

@@ -125,7 +125,7 @@ class ProxyHttp
 
         $phpOutputCompressionEnabled = self::isPhpOutputCompressed();
         if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled) {
-            list($encoding, $extension) = self::getCompressionEncodingAcceptedByClient();
+            [$encoding, $extension] = self::getCompressionEncodingAcceptedByClient();
             $filegz = $compressedFileLocation . $extension;
 
             if (self::canCompressInPhp()) {
@@ -174,8 +174,23 @@ class ProxyHttp
         // it would break the gzipped response since it would have mixed regular notice/string plus gzipped content
         // and would not be able to decode the response
         $levels = ob_get_level();
-        for ( $i = 0; $i < $levels; $i++ ) {
+        for ($i = 0; $i < $levels; $i++) {
             ob_end_clean();
+        }
+
+        // clearing all output buffers combined with output compressions had bugs on certain PHP versions
+        // manually removing the Content-Encoding header fixes this
+        // See https://github.com/php/php-src/issues/8218
+        if (
+            $phpOutputCompressionEnabled
+            && (
+                version_compare(PHP_VERSION, '8.0.17', '=')
+                || version_compare(PHP_VERSION, '8.0.18', '=')
+                || version_compare(PHP_VERSION, '8.1.4', '=')
+                || version_compare(PHP_VERSION, '8.1.5', '=')
+            )
+        ) {
+            header_remove("Content-Encoding");
         }
 
         if (!_readfile($file, $byteStart, $byteEnd)) {

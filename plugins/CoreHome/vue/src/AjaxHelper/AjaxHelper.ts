@@ -266,7 +266,36 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     postParams: any = {},
     options: AjaxOptions = {},
   ): Promise<R> {
-    return this.fetch<R>(params, { ...options, postParams });
+    return AjaxHelper.fetch<R>(params, { ...options, postParams });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static oneAtATime<R = any>(
+    method: string,
+    options?: AjaxOptions,
+  ): (params: QueryParameters, postParams?: QueryParameters) => Promise<R> {
+    let abortController: AbortController|null = null;
+
+    return (params: QueryParameters, postParams?: QueryParameters) => {
+      if (abortController) {
+        abortController.abort();
+      }
+
+      abortController = new AbortController();
+      return AjaxHelper.post<R>(
+        {
+          ...params,
+          method,
+        },
+        postParams,
+        {
+          ...options,
+          abortController,
+        },
+      ).finally(() => {
+        abortController = null;
+      });
+    };
   }
 
   constructor() {
