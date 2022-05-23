@@ -281,7 +281,7 @@ class PasswordResetter
             $expiryTimestamp = $this->getDefaultExpiryTime();
         }
 
-        $expiry = strftime('%Y%m%d%H', $expiryTimestamp);
+        $expiry = date('YmdH', $expiryTimestamp);
         $token = $this->generateSecureHash(
             $expiry . $user['login'] . $user['email'] . $user['ts_password_modified'] . $keySuffix,
             $user['password']

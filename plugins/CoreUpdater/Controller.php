@@ -18,7 +18,6 @@ use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -28,10 +27,10 @@ use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
+use Piwik\Updater\Migration\Db as DbMigration;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\View\OneClickDone;
-use Piwik\Updater\Migration\Db as DbMigration;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -92,7 +91,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
-    
+
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
@@ -126,7 +125,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function newVersionAvailable()
     {
         Piwik::checkUserHasSuperUserAccess();
-        
+
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
@@ -452,11 +451,4 @@ class Controller extends \Piwik\Plugin\Controller
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
     }
 
-    public static function isUpdatingOverHttps()
-    {
-        $openSslEnabled = extension_loaded('openssl');
-        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
-
-        return $openSslEnabled && $usingMethodSupportingHttps;
-    }
 }
