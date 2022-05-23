@@ -8,7 +8,8 @@
  */
 namespace Piwik\Plugins\Goals\DataTable\Filter;
 
-use Piwik\API\Request;
+use Piwik\Plugins\Goals\Archiver as GoalsArchiver;
+use Piwik\Archive;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -97,20 +98,13 @@ class CalculateConversionPageRate extends BaseFilter
 
         foreach ($goalIds as $idGoal => $g) {
 
-            $params = [
-                'period' => $periodName,
-                'date' => ($periodName === 'range' ? $date.','.$period->getDateEnd()->toString() : $date),
-                'idSite' => $idSite,
-                'idGoal' => $idGoal
-            ];
-
-            /** @var DataTable $data */
-            $data = Request::processRequest( 'Goals.get', $params, []);
-            $firstRow = $data->getFirstRow();
-
-            if (!empty($firstRow)) {
-                $goalTotals[$idGoal] = $firstRow->getColumn('nb_conversions');
+            $date = ($periodName === 'range' ? $date.','.$period->getDateEnd()->toString() : $date);
+            $archive = Archive::build($idSite, $periodName, $date);
+            $total = $archive->getNumeric(GoalsArchiver::getRecordName('nb_conversions', $idGoal));
+            if (count($total)) {
+                $goalTotals[$idGoal] = reset($total);
             }
+
         }
 
         return $goalTotals;
