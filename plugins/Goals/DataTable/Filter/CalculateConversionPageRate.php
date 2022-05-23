@@ -79,7 +79,7 @@ class CalculateConversionPageRate extends BaseFilter
      * @param array $goalIds
      * @return array
      */
-    private function getGoalTotalConversions(DataTable $table, array $goalIds)
+    private function getGoalTotalConversions(DataTable $table, array $goalIds) : array
     {
 
         $goalTotals = [];
@@ -105,7 +105,7 @@ class CalculateConversionPageRate extends BaseFilter
             ];
 
             /** @var DataTable $data */
-            $data = Request::processRequest( 'Goals.get', $params);
+            $data = Request::processRequest( 'Goals.get', $params, []);
             $firstRow = $data->getFirstRow();
 
             if (!empty($firstRow)) {
