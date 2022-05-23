@@ -450,13 +450,7 @@ function translateOrDefault(translationStringIdOrText) {
     values[_key2 - 1] = arguments[_key2];
   }
 
-  var pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
-
-  if (values.length === 1 && values[0] && Array.isArray(values[0])) {
-    pkArgs = values[0];
-  }
-
-  return window._pk_translate(translationStringIdOrText, pkArgs); // eslint-disable-line
+  return translate.apply(void 0, [translationStringIdOrText].concat(values));
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
 /*!
