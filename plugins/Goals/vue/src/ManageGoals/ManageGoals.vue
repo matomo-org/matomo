@@ -803,8 +803,15 @@ export default defineComponent({
         return null;
       }
 
+      const endedittable = this.$refs.endedittable as HTMLElement;
       return markRaw({
         template: this.endEditTable,
+        mounted() {
+          Matomo.helper.compileVueEntryComponents(endedittable);
+        },
+        beforeUnmount() {
+          Matomo.helper.destroyVueComponent(endedittable);
+        },
       });
     },
     beforeGoalListActionsHeadComponent() {
