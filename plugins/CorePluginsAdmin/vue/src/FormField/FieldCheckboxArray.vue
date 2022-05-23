@@ -21,6 +21,7 @@
           type="checkbox"
           :id="`${name}${checkboxModel.key}`"
           :name="checkboxModel.name"
+          ref="input"
         />
         <span>{{ checkboxModel.value }}</span>
 
@@ -74,6 +75,12 @@ export default defineComponent({
         if (checkboxStates[index]) {
           newValue.push(option.key);
         }
+      });
+
+      // undo checked changes since we want the parent component to decide if it should go
+      // through
+      (this.$refs.input as HTMLInputElement[]).forEach((inp) => {
+        inp.checked = !inp.checked;
       });
 
       this.$emit('update:modelValue', newValue);
