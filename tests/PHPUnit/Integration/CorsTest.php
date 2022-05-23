@@ -45,9 +45,14 @@ class CorsTest extends IntegrationTestCase
     {
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'cors_domains', ['https://example.com']);
         self::$fixture->getTestEnvironment()->save();
-        $origin = "https://exmaple2.com";
+        $origin = 'https://exmaple2.com';
         $heads = $this->responseHeader($origin);
         $this->assertStringContainsString('https://example.com', $heads);
+
+        $origin = 'https://example.com';
+        $heads = $this->responseHeader($origin);
+        $this->assertStringContainsString('200 OK', $heads);
+
     }
 
     private function responseHeader($origin = null)
