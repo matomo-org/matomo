@@ -282,20 +282,6 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals('', $response);
     }
 
-    public function testMainShouldHandPreflightCorsRequestWithoutTracking()
-    {
-        $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
-        $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'] = 'GET';
-
-        $handler = $this->getMockBuilder(Handler::class)->getMock();
-        $handler->expects($this->never())->method('init');
-
-        $response = $this->tracker->main($handler, $this->getRequestSetWithRequests());
-        $this->assertNull($response);
-
-        $this->assertSame(0, $this->tracker->getCountOfLoggedRequests());
-    }
-
     public function testMainShouldActuallyTrackNumberOfTrackedRequests()
     {
         $this->assertSame(0, $this->tracker->getCountOfLoggedRequests());

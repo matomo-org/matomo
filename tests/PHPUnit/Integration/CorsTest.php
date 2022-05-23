@@ -54,6 +54,28 @@ class CorsTest extends IntegrationTestCase
 
     }
 
+    public function test_preFightCors()
+    {
+        $url = Fixture::getRootUrl() . "tests/PHPUnit/proxy/matomo.php?idsite=1&rec=1&url=" . urlencode('http://quellehorreur.com/movies') . "&action_name=Movies";
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'OPTIONS');
+        $headers = array(
+          "Access-Control-Request-Method: OPTION",
+          "Access-Control-Request-Headers: content-type",
+          "x-token: abcd"
+        );
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $heads = substr($response, 0, $header_size);
+        $this->assertStringContainsString(' 204 No Response', $heads);
+    }
+
     private function responseHeader($origin = null)
     {
 
