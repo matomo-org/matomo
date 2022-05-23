@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div ref="root">
     <label class="fieldRadioTitle" v-show="title">{{ title }}</label>
     <p
       v-for="(checkboxModel, $index) in availableOptions"
@@ -21,7 +21,6 @@
           type="checkbox"
           :id="`${name}${checkboxModel.key}`"
           :name="checkboxModel.name"
-          ref="input"
         />
         <span>{{ checkboxModel.value }}</span>
 
@@ -79,7 +78,7 @@ export default defineComponent({
 
       // undo checked changes since we want the parent component to decide if it should go
       // through
-      (this.$refs.input as HTMLInputElement[]).forEach((inp) => {
+      (this.$refs.root as HTMLElement).querySelectorAll('input').forEach((inp: HTMLInputElement) => {
         inp.checked = !inp.checked;
       });
 
