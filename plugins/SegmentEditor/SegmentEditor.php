@@ -290,7 +290,7 @@ class SegmentEditor extends \Piwik\Plugin
         //get the request end period
         $endDate = $period->getDateEnd();
         $canBeArchived = true;
-        if (!empty($earliestDateToRearchive)) {
+        if (!empty($earliestDateToRearchive) && !empty($endDate)) {
             //if the rearchive won't trigger
             if ($earliestDateToRearchive->isLater($endDate)) {
                 $canBeArchived = false;
