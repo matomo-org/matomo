@@ -633,7 +633,7 @@ abstract class Base extends VisitDimension
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
-        $new = mb_strtolower($information[$infoName]);
+        $new = mb_strtolower($information[$infoName] ?? '');
 
         $result = $existing != $new;
         if ($result) {

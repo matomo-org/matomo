@@ -450,13 +450,7 @@ function translateOrDefault(translationStringIdOrText) {
     values[_key2 - 1] = arguments[_key2];
   }
 
-  var pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
-
-  if (values.length === 1 && values[0] && Array.isArray(values[0])) {
-    pkArgs = values[0];
-  }
-
-  return window._pk_translate(translationStringIdOrText, pkArgs); // eslint-disable-line
+  return translate.apply(void 0, [translationStringIdOrText].concat(values));
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
 /*!
@@ -2149,9 +2143,29 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     value: function post(params) {
       var postParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.fetch(params, Object.assign(Object.assign({}, options), {}, {
+      return AjaxHelper.fetch(params, Object.assign(Object.assign({}, options), {}, {
         postParams: postParams
       }));
+    } // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  }, {
+    key: "oneAtATime",
+    value: function oneAtATime(method, options) {
+      var abortController = null;
+      return function (params, postParams) {
+        if (abortController) {
+          abortController.abort();
+        }
+
+        abortController = new AbortController();
+        return AjaxHelper.post(Object.assign(Object.assign({}, params), {}, {
+          method: method
+        }), postParams, Object.assign(Object.assign({}, options), {}, {
+          abortController: abortController
+        })).finally(function () {
+          abortController = null;
+        });
+      };
     }
   }]);
 

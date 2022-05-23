@@ -706,7 +706,7 @@ enable_trusted_host_check = 1
 ; The API server is an essential part of the Matomo infrastructure/ecosystem to
 ; provide services to Matomo installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
-api_service_url = http://api.matomo.org
+api_service_url = https://api.matomo.org
 
 ; When the ImageGraph plugin is activated, report metadata have an additional entry : 'imageGraphUrl'.
 ; This entry can be used to request a static graph for the requested report.
@@ -799,6 +799,10 @@ enable_update_communication = 1
 ; This option defines the protocols Matomo's Http class is allowed to open.
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
+
+; This option forces matomo marketplace and matomo api requests to use Https for improved security
+; If you have a problem loading the marketplace, please disable this config option
+force_matomo_ssl_request = 1
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
