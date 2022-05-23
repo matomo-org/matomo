@@ -65,7 +65,8 @@ class CorsTest extends IntegrationTestCase
         $headers = array(
           "Access-Control-Request-Method: OPTION",
           "Access-Control-Request-Headers: content-type",
-          "x-token: abcd"
+          "x-token: tests",
+          "Origin: https://example.com"
         );
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
