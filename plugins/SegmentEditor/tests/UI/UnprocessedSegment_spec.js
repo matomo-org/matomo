@@ -10,7 +10,7 @@
 describe("UnprocessedSegmentTest", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits';
 
-    var generalParams = 'idSite=1&period=day&date=2010-03-06,2010-03-08';
+    var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
     var segment = 'browserCode==ff';
     var customSegment = 'languageCode==fr';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=General_Overview';
