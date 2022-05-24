@@ -54,7 +54,7 @@ class CorsTest extends IntegrationTestCase
 
     }
 
-    public function test_preFightCors()
+    public function test_preFlightCors()
     {
         $url = Fixture::getRootUrl() . "tests/PHPUnit/proxy/matomo.php?idsite=1&rec=1&url=" . urlencode('http://quellehorreur.com/movies') . "&action_name=Movies";
 
