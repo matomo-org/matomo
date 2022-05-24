@@ -310,9 +310,6 @@ class Visualization extends ViewDataTable
         return $hasData;
     }
 
-    /**
-     * @internal
-     */
     protected function loadDataTableFromAPI()
     {
         if (!is_null($this->dataTable)) {

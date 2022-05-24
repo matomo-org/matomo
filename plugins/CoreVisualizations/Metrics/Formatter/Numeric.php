@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreVisualizations\Metrics\Formatter;
 
 use Piwik\Common;
@@ -17,6 +19,13 @@ use Piwik\Metrics\Formatter;
  */
 class Numeric extends Formatter
 {
+    /**
+     * Unit to format byte sizes with
+     *
+     * @var string
+     */
+    public static $byteSizeUnit = 'G';
+
     public function getPrettyNumber($value, $precision = 0)
     {
         return round($value, $precision);
@@ -29,7 +38,8 @@ class Numeric extends Formatter
 
     public function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
     {
-        list($size, $sizeUnit) = $this->getPrettySizeFromBytesWithUnit($size, $unit, $precision);
+        // We use a fixed unit here, so all byte metrics in an evolution chart will use the same unit
+        [$size, $sizeUnit] = $this->getPrettySizeFromBytesWithUnit($size, self::$byteSizeUnit, $precision);
         return $size;
     }
 
