@@ -54,7 +54,11 @@ class Config extends \Piwik\ViewDataTable\Config
     /**
      * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
      *
-     * The function is passed an array mapping column names with column values.
+     * The function is passed three parameters:
+     * - an array mapping column names with column values ['column' => 123]
+     * - an array of \Piwik\Plugin\Metrics objects available for the report - useful for formatting values
+     *
+     * compute_evolution(array, array)
      *
      * @var callable
      */
@@ -304,7 +308,8 @@ class Config extends \Piwik\ViewDataTable\Config
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
                 $sparkline['evolution'] = array(
                     'percent' => $evolutionPercent,
-                    'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null
+                    'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null,
+                    'trend' => $evolution['currentValue'] - $evolution['pastValue'],
                 );
             }
 
