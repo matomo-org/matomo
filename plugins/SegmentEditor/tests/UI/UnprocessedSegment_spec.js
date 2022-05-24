@@ -47,7 +47,12 @@ describe("UnprocessedSegmentTest", function () {
 
     it("should show a notification for unprocessed segments", async function () {
         testEnvironment.configOverride.General = {
+            browser_archiving_disabled_enforce: '1',
+            enable_browser_archiving_triggering: '0',
             rearchive_reports_in_past_last_n_months: '0',
+        };
+        testEnvironment.optionsOverride = {
+            enableBrowserTriggerArchiving: '0',
         };
         testEnvironment.save();
 
@@ -58,7 +63,12 @@ describe("UnprocessedSegmentTest", function () {
 
     it("should show a notification for unprocessed segments, caused by re archive date", async function () {
         testEnvironment.configOverride.General = {
+            browser_archiving_disabled_enforce: '1',
+            enable_browser_archiving_triggering: '0',
             rearchive_reports_in_past_last_n_months: '1',
+        };
+        testEnvironment.optionsOverride = {
+            enableBrowserTriggerArchiving: '0',
         };
         testEnvironment.save();
 
