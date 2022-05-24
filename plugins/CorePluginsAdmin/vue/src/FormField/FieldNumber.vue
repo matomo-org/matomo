@@ -11,7 +11,7 @@
     :type="uiControl"
     :id="name"
     :name="name"
-    :value="(modelValue || '').toString()"
+    :value="(modelValue || '0').toString()"
     @keydown="onChange($event)"
     @change="onChange($event)"
     v-bind="uiControlAttributes"
