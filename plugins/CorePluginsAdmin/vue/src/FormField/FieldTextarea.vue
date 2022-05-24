@@ -37,7 +37,13 @@ export default defineComponent({
   },
   methods: {
     onKeydown(event: Event) {
-      this.$emit('update:modelValue', (event.target as HTMLTextAreaElement).value);
+      const newValue = (event.target as HTMLTextAreaElement).value;
+
+      // change to previous value so the parent component can determine if this change should
+      // go through
+      (event.target as HTMLInputElement).value = this.modelValue || '';
+
+      this.$emit('update:modelValue', newValue);
     },
   },
   watch: {
