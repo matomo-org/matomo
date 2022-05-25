@@ -31,7 +31,7 @@ describe("TwoFactorAuthUsersManager", function () {
             width: 1250,
             height: 768
         });
-        await page.click('#manageUsersTable #row3 .edituser');
+        await page.click('#manageUsersTable #row2 .edituser');
         await page.evaluate(function () {
             $('.userEditForm .menuUserTwoFa a').click();
         });
