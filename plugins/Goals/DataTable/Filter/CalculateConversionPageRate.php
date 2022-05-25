@@ -8,13 +8,10 @@
  */
 namespace Piwik\Plugins\Goals\DataTable\Filter;
 
-use Piwik\Plugins\Goals\Archiver as GoalsArchiver;
-use Piwik\Archive;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Site;
 
 class CalculateConversionPageRate extends BaseFilter
 {
