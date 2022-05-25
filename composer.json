@@ -1,7 +1,7 @@
 {
     "name": "matomo/matomo",
-    "type": "application",
-    "description": "the leading free/libre analytics platform",
+    "type": "project",
+    "description": "Matomo is the leading Free/Libre open analytics platform",
     "keywords": [
         "piwik",
         "matomo",
