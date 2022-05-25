@@ -21,6 +21,7 @@ use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugins\Goals\Archiver as GoalsArchiver;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
@@ -103,7 +104,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = Archive::createDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable, $depth);
 
-        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_URL);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_URL, $idSite, $period, $date);
 
         if ($flat) {
             $dataTable->filter(function (DataTable $dataTable) {
@@ -206,7 +207,7 @@ class API extends \Piwik\Plugin\API
         $callBackParameters = ['Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null];
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_PAGE_URL);
         $this->addPageProcessedMetrics($dataTable);
-        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_URL);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_URL, $idSite, $period, $date);
         return $dataTable;
     }
 
@@ -216,7 +217,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = Archive::createDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
 
-        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_TITLE);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_TITLE, $idSite, $period, $date);
 
         return $dataTable;
     }
@@ -268,7 +269,7 @@ class API extends \Piwik\Plugin\API
         $callBackParameters = ['Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null];
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_PAGE_TITLE);
         $this->addPageProcessedMetrics($dataTable);
-        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_TITLE);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_TITLE, $idSite, $period, $date);
         return $dataTable;
     }
 
@@ -277,7 +278,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $dataTable = Archive::createDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
-        $this->filterActionsDataTable($dataTable, Action::TYPE_DOWNLOAD);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_DOWNLOAD, $idSite, $period, $date);
         return $dataTable;
     }
 
@@ -287,7 +288,7 @@ class API extends \Piwik\Plugin\API
 
         $callBackParameters = ['Actions_downloads', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null];
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Action::TYPE_DOWNLOAD);
-        $this->filterActionsDataTable($dataTable, Action::TYPE_DOWNLOAD);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_DOWNLOAD, $idSite, $period, $date);
         return $dataTable;
     }
 
@@ -296,7 +297,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $dataTable = Archive::createDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
-        $this->filterActionsDataTable($dataTable, Action::TYPE_OUTLINK);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_OUTLINK, $idSite, $period, $date);
         return $dataTable;
     }
 
@@ -306,7 +307,7 @@ class API extends \Piwik\Plugin\API
 
         $callBackParameters = ['Actions_outlink', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null];
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Action::TYPE_OUTLINK);
-        $this->filterActionsDataTable($dataTable, Action::TYPE_OUTLINK);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_OUTLINK, $idSite, $period, $date);
         return $dataTable;
     }
 
@@ -316,7 +317,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
         $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
-        $this->filterActionsDataTable($dataTable, Action::TYPE_SITE_SEARCH);
+        $this->filterActionsDataTable($dataTable, Action::TYPE_SITE_SEARCH, $idSite, $period, $date);
         $dataTable->filter('ReplaceColumnNames');
         $dataTable->filter('AddSegmentByLabel', ['siteSearchKeyword']);
         $this->addPagesPerSearchColumn($dataTable);
@@ -357,7 +358,7 @@ class API extends \Piwik\Plugin\API
         );
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
         $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
-        $this->filterActionsDataTable($dataTable, $isPageTitleType = false);
+        $this->filterActionsDataTable($dataTable, $isPageTitleType = false, $idSite, $period, $date);
         $dataTable->filter('AddSegmentByLabel', ['siteSearchKeyword']);
         $dataTable->filter('ReplaceColumnNames');
         $this->addPagesPerSearchColumn($dataTable);
@@ -379,7 +380,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = Archive::createDataTableFromArchive('Actions_SiteSearchCategories', $idSite, $period, $date, $segment);
 
         $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');
-        $this->filterActionsDataTable($dataTable, $isPageTitleType = false);
+        $this->filterActionsDataTable($dataTable, $isPageTitleType = false, $idSite, $period, $date);
         $dataTable->filter('ReplaceColumnNames');
         $dataTable->filter('AddSegmentValue');
         $this->addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_actions');
@@ -499,13 +500,38 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
      * @param bool $isPageTitleType Whether we are handling page title or regular URL
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
      */
-    private function filterActionsDataTable($dataTable, $isPageTitleType)
+    private function filterActionsDataTable($dataTable, $isPageTitleType, $idSite, $period, $date)
     {
+
+        // Find the goals being used in the table - we only want to query totals for goals that are in the table
+        $goalConversionTotals = [];
+        $goalIds = [];
+        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
+            if (isset($row[PiwikMetrics::INDEX_GOALS])) {
+                foreach ($row[PiwikMetrics::INDEX_GOALS] as $goalIdString => $metrics) {
+                    $goalIds[$goalIdString] = $goalIdString;
+                }
+            }
+        }
+
+        // For each goal in the table retrieve the period total conversions and add to the array
+        foreach ($goalIds as $idGoal => $g) {
+            $archive = Archive::build($idSite, $period, $date);
+            $total = $archive->getNumeric(GoalsArchiver::getRecordName('nb_conversions', $idGoal));
+            if (count($total)) {
+                $goalConversionTotals[$idGoal] = reset($total);
+            }
+        }
+
+        // Calculate the conversion page rate using the total goal conversions array
+        $dataTable->filter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate', [$goalConversionTotals]);
+
         // Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
-
-        $dataTable->filter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
         $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions', [$isPageTitleType]);
 
         return $dataTable;
