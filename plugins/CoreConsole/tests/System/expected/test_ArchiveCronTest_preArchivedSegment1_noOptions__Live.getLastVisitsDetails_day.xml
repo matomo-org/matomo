@@ -41,6 +41,9 @@
 				<goalPageId>3</goalPageId>
 				
 				<url>http://piwik.net/blog/category/community/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -174,6 +177,9 @@
 				<goalPageId>81</goalPageId>
 				
 				<url>http://www.included4.com/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -307,6 +313,9 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
