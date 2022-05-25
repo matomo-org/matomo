@@ -18,6 +18,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Changes\UserChanges;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -30,6 +31,7 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\Widget\WidgetsList;
 use Piwik\SettingsPiwik;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class Controller extends ControllerAdmin
 {
@@ -160,8 +162,8 @@ class Controller extends ControllerAdmin
             $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
             $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
 
-            if (!array_key_exists('mailPassword', $_POST)) {
-                // use old password if it wasn't set in request
+            if (!array_key_exists('mailPassword', $_POST) && Config::getInstance()->mail['host'] === $mail['host']) {
+                // use old password if it wasn't set in request (and the host wasn't changed)
                 $mail['password'] = Config::getInstance()->mail['password'];
             }
 
@@ -230,6 +232,10 @@ class Controller extends ControllerAdmin
         }
 
         $view->defaultSite = array('id' => $view->idSite, 'name' => $view->defaultReportSiteName);
+        $view->defaultSiteDecoded = [
+            'id' => $view->idSite,
+            'name' => Common::unsanitizeInputValue($view->defaultReportSiteName),
+        ];
 
         $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {
@@ -309,6 +315,25 @@ class Controller extends ControllerAdmin
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
         $view->mail = $mail;
+    }
+
+    /**
+     * Show the what is new changes list
+     */
+    public function whatIsNew()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserIsNotAnonymous();
+
+        $model = new UsersModel();
+        $user = $model->getUser(Piwik::getCurrentUserLogin());
+        if (is_array($user)) {
+            $userChanges = new UserChanges($user);
+            $changes = $userChanges->getChanges();
+            return $this->renderTemplate('whatIsNew', ['changes' => $changes]);
+        } else {
+            throw new \Exception('Unable to getUser() when attempting to show whatIsNew');
+        }
     }
 
 }

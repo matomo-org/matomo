@@ -17,7 +17,6 @@ use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
-use Piwik\SettingsPiwik;
 use Piwik\Tracker\Model;
 use Exception;
 

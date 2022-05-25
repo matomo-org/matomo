@@ -19,7 +19,6 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Events\Actions\ActionEvent;
-use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -561,8 +560,10 @@ class GoalManager
 
         foreach ($cleanedItems as $item) {
             $actionsToLookup = array();
-            list($sku, $name, $category, $price, $quantity) = $item;
+            list($sku_check, $name_check, $category, $price, $quantity) = $item;
+            $sku = is_array($sku_check) ? join(',', $sku_check) : $sku_check;
             $actionsToLookup[] = array(trim($sku), Action::TYPE_ECOMMERCE_ITEM_SKU);
+            $name = is_array($name_check) ? join(',', $name_check) : $name_check;
             $actionsToLookup[] = array(trim($name), Action::TYPE_ECOMMERCE_ITEM_NAME);
 
             // Only one category

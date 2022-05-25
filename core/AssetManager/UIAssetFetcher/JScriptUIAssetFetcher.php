@@ -9,7 +9,6 @@
 namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
-use Piwik\Development;
 use Piwik\Piwik;
 
 class JScriptUIAssetFetcher extends UIAssetFetcher
@@ -18,7 +17,6 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     protected function retrieveFileLocations()
     {
         if (!empty($this->plugins)) {
-
             /**
              * Triggered when gathering the list of all JavaScript files needed by Piwik
              * and its plugins.
@@ -44,8 +42,6 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
              * @param string[] $jsFiles The JavaScript files to load.
              */
              Piwik::postEvent('AssetManager.getJavaScriptFiles', array(&$this->fileLocations), null, $this->plugins);
-
-             $this->addUmdFilesIfDetected($this->plugins);
         }
 
         $this->addThemeFiles();
@@ -74,8 +70,10 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     {
         return array(
             'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery/dist/jquery.js',
             'node_modules/materialize-css/dist/js/materialize.min.js', // so jquery ui datepicker overrides materializecss
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
+            'node_modules/jquery-ui-dist/jquery-ui.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             "node_modules/jquery.browser/dist/jquery.browser.min.js",
             'node_modules/',
@@ -93,19 +91,5 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'plugins/',
             'tests/',
         );
-    }
-
-    private function addUmdFilesIfDetected($plugins)
-    {
-        foreach ($plugins as $plugin) {
-            $devUmd = "plugins/$plugin/vue/dist/$plugin.development.umd.js";
-            $minifiedUmd = "plugins/$plugin/vue/dist/$plugin.umd.min.js";
-
-            if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
-                $this->fileLocations[] = $devUmd;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
-                $this->fileLocations[] = $minifiedUmd;
-            }
-        }
     }
 }

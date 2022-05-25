@@ -8,20 +8,12 @@
  */
 namespace Piwik\Plugins\Referrers;
 
-use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
-use Piwik\DataTable\Map;
 use Piwik\FrontController;
-use Piwik\Metrics;
-use Piwik\NumberFormatter;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
-use Piwik\ViewDataTable;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
-use Piwik\View;
 
 /**
  *

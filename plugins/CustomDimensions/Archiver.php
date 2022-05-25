@@ -257,6 +257,10 @@ class Archiver extends \Piwik\Plugin\Archiver
 
             $this->dataArray->sumMetricsActions($label, $row);
 
+            if (empty($row['url'])) {
+                continue;
+            }
+
             // make sure we always work with normalized URL no matter how the individual action stores it
             $normalized = Tracker\PageUrl::normalizeUrl($row['url']);
             $row['url'] = $normalized['url'];

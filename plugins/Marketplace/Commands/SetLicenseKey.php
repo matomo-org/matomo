@@ -9,11 +9,10 @@
 namespace Piwik\Plugins\Marketplace\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\Marketplace\LicenseKey;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Piwik\Plugins\Marketplace\Api;
+use Piwik\Plugins\Marketplace\API;
 
 /**
  * marketplace:set-license-key console command
@@ -32,12 +31,12 @@ class SetLicenseKey extends ConsoleCommand
         $licenseKey = $input->getOption('license-key');
 
         if (empty(trim($licenseKey))) {
-            Api::getInstance()->deleteLicenseKey();
+            API::getInstance()->deleteLicenseKey();
             $output->writeln("License key removed.");
             return;
         }
 
-        Api::getInstance()->saveLicenseKey($licenseKey);
+        API::getInstance()->saveLicenseKey($licenseKey);
         $output->writeln("License key set.");
     }
 }

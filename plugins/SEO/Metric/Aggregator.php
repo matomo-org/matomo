@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,7 +10,6 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 
 /**
@@ -29,7 +29,7 @@ class Aggregator implements MetricsProvider
 
     public function getMetrics($domain)
     {
-        $metrics = array();
+        $metrics = [];
 
         foreach ($this->providers as $provider) {
             $metrics = array_merge($metrics, $provider->getMetrics($domain));
@@ -45,19 +45,18 @@ class Aggregator implements MetricsProvider
     {
         $container = StaticContainer::getContainer();
 
-        $providers = array(
+        $providers = [
             $container->get('Piwik\Plugins\SEO\Metric\Google'),
             $container->get('Piwik\Plugins\SEO\Metric\Bing'),
-            $container->get('Piwik\Plugins\SEO\Metric\Alexa'),
             $container->get('Piwik\Plugins\SEO\Metric\DomainAge'),
-        );
+        ];
 
         /**
          * Use this event to register new SEO metrics providers.
          *
          * @param array $providers Contains an array of Piwik\Plugins\SEO\Metric\MetricsProvider instances.
          */
-        Piwik::postEvent('SEO.getMetricsProviders', array(&$providers));
+        Piwik::postEvent('SEO.getMetricsProviders', [&$providers]);
 
         return $providers;
     }

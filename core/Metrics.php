@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
-use Piwik\Container\StaticContainer;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 

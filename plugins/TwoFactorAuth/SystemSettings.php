@@ -14,7 +14,6 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Url;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
-use Piwik\Container\StaticContainer;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {

@@ -9,18 +9,12 @@
 namespace Piwik\Plugins\Ecommerce;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\Site;
-use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tracker\PageUrl;
 use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
@@ -109,7 +103,9 @@ class VisitorDetails extends VisitorDetailsAbstract
             // 25.00 => 25
             foreach ($ecommerceDetail as $column => $value) {
                 if (strpos($column, 'revenue') !== false) {
-                    if ($value == round($value)) {
+                    if (!is_numeric($value)) {
+                        $ecommerceDetail[$column] = 0;
+                    } else if ($value == round($value)) {
                         $ecommerceDetail[$column] = round($value);
                     }
                 }

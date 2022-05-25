@@ -127,6 +127,9 @@
 .icon-fullscreen:before {
   content: "\e61c";
 }
+.icon-github:before {
+  content: "\eab0";
+}
 .icon-goal:before {
   content: "\e61d";
 }
@@ -393,4 +396,10 @@
 }
 .icon-heart:before{
   content: "\e9da";
+}
+.icon-notifications_on:before {
+  content: "\e903";
+}
+.icon-new_releases:before {
+  content: "\e902";
 }

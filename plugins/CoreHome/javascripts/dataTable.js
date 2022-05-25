@@ -39,8 +39,9 @@ function DataTable(element) {
 
 DataTable._footerIconHandlers = {};
 
-DataTable.initNewDataTables = function () {
-    $('div.dataTable').each(function () {
+DataTable.initNewDataTables = function (reportId) {
+    var selector = typeof reportId === 'string' ? '[data-report='+JSON.stringify(reportId)+']' : 'div.dataTable';
+    $(selector).each(function () {
         if (!$(this).attr('id')) {
             var tableType = $(this).attr('data-table-type') || 'DataTable',
                 klass = require('piwik/UI')[tableType] || require(tableType);
@@ -113,7 +114,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this._init(domElem);
         this.enableStickHead(domElem);
         this.initialized = true;
-
     },
 
     enableStickHead: function (domElem) {
@@ -376,7 +376,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleSearchBox(domElem);
         self.handleColumnDocumentation(domElem);
         self.handleRowActions(domElem);
-		self.handleCellTooltips(domElem);
+        self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
         self.handleColumnHighlighting(domElem);
@@ -425,14 +425,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $domElem.width('');
             parentDataTable.width('');
 
-            var $table = $('table.dataTable', domElem);
-            if ($table.closest('.reportsByDimensionView').length) {
-                var requiredTableWidth = $table.width() - 40; // 40 is padding on card content
-                if (domElem.width() > requiredTableWidth) {
-                    domElem.css('max-width', requiredTableWidth + 'px');
-                }
-            }
-
             var tableWidth = getTableWidth(domElem);
 
             if (tableWidth <= maxTableWidth) {
@@ -445,9 +437,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (dataTableInCard && dataTableInCard.length) {
                 // makes sure card has the same width
-                dataTableInCard.width(maxTableWidth);
+                dataTableInCard.css('max-width', maxTableWidth);
             } else {
-                $domElem.width(maxTableWidth);
+                $domElem.css('max-width', maxTableWidth);
             }
 
             if (parentDataTable && parentDataTable.length) {
@@ -455,9 +447,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // applied in getLabelWidth() since they will have the same size.
 
                 if (dataTableInCard.length) {
-                    dataTableInCard.width(maxTableWidth);
+                    dataTableInCard.css('max-width', maxTableWidth);
                 } else {
-                    parentDataTable.width(maxTableWidth);
+                    parentDataTable.css('max-width', maxTableWidth);
                 }
             }
         }
@@ -492,8 +484,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             ) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
+            var allColumns = $('tr:nth-child(1) td.label', domElem).length;
+            var firstTableColumn = $('table:first tbody>tr:first td.label', domElem).length;
+            var amount = allColumns;
+            if (allColumns > 2 * firstTableColumn) {
+                amount = 2 * firstTableColumn;
+            }
 
-            return parseInt(labelWidth / $('tr:nth-child(1) td.label', domElem).length, 10);
+            return parseInt(labelWidth / amount, 10);
         }
 
         function getLabelColumnMinWidth(domElem)
@@ -564,7 +562,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
             var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
-
             if (labelColumnMinWidth > labelColumnWidth) {
                 labelColumnWidth = labelColumnMinWidth;
             }
@@ -808,7 +805,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $.each(patternsToReplace, function (index, pattern) {
             if (0 === currentPattern.indexOf(pattern.to)) {
-                currentPattern = pattern.from + currentPattern.substr(2);
+                currentPattern = pattern.from + currentPattern.slice(2);
             }
         });
 
@@ -884,7 +881,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             $.each(patternsToReplace, function (index, pattern) {
                 if (0 === keyword.indexOf(pattern.from)) {
-                    keyword = pattern.to + keyword.substr(1);
+                    keyword = pattern.to + keyword.slice(1);
                 }
             });
 
@@ -1438,34 +1435,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleColumnHighlighting: function (domElem) {
-        var maxWidth = {};
+
         var currentNthChild = null;
         var self = this;
-
-        // give all values consistent width
-        $('td', domElem).each(function () {
-            var $this = $(this);
-            if ($this.hasClass('label')) {
-                return;
-            }
-
-            var table    = $this.closest('table');
-            var nthChild = $this.parent('tr').children().index($(this)) + 1;
-            var rows     = $('> tbody > tr', table);
-
-            if (!maxWidth[nthChild]) {
-                maxWidth[nthChild] = 0;
-                rows.find("td:nth-child(" + (nthChild) + ").column .value").add('> thead th:not(.label) .thDIV', table).each(function (index, element) {
-                    var width = $(element).width();
-                    if (width > maxWidth[nthChild]) {
-                        maxWidth[nthChild] = width;
-                    }
-                });
-                rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                    $(element).closest('td').css({width: maxWidth[nthChild]});
-                });
-            }
-        });
 
         // highlight all columns on hover
         $(domElem).on('mouseenter', 'td', function (e) {
@@ -1963,17 +1935,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     // ensure the tooltips of parent elements are hidden when the action tooltip is shown
                     // otherwise it can happen that tooltips for subtable rows are shown as well.
                     open: function() {
-                        var tooltip = $(this).parents().filter(function() {
-                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
-                        }).tooltip('instance');
+                        var tooltip = $(this).parents('.matomo-widget').tooltip('instance');
                         if (tooltip) {
                             tooltip.disable();
                         }
                     },
                     close: function() {
-                        var tooltip = $(this).parents().filter(function() {
-                            return jQuery.hasData(this) && $(this).data('ui-tooltip');
-                        }).tooltip('instance');
+                        var tooltip = $(this).parents('.matomo-widget').tooltip('instance');
                         if (tooltip) {
                             tooltip.enable();
                         }

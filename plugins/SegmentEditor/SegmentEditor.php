@@ -23,7 +23,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Diagnostics\Diagnostics;
 use Piwik\Segment;
-use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Period;
@@ -252,7 +251,7 @@ class SegmentEditor extends \Piwik\Plugin
         // check if segment archive does not exist
         $processorParams = new \Piwik\ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
         $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
-        if (!empty($archiveIdAndStats[0])) {
+        if (!empty($archiveIdAndStats[0]) || !empty($archiveIdAndStats[1])) {
             return null;
         }
 
@@ -295,15 +294,12 @@ class SegmentEditor extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
-        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator-model.js";
-        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.controller.js";
-        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
-        $stylesheets[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.less";
+        $stylesheets[] = "plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.less";
     }
 
     /**

@@ -144,7 +144,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Unknown / Java / unknown</label>
+		<label>Unknown / Apache HTTP Client / unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>

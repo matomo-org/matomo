@@ -22,17 +22,19 @@
 
 <script lang="ts">
 import { defineComponent, watch, ref } from 'vue';
-import JQuery = JQuery;
 import DatePicker from '../DatePicker/DatePicker.vue';
 import Matomo from '../Matomo/Matomo';
-import Periods from '../Periods/Periods';
+import { Periods, parseDate } from '../Periods';
 
 const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
 
 export default defineComponent({
   props: {
-    period: String,
+    period: {
+      type: String,
+      required: true,
+    },
     date: [String, Date],
   },
   components: {
@@ -40,9 +42,9 @@ export default defineComponent({
   },
   emits: ['select'],
   setup(props, context) {
-    const viewDate = ref(props.date);
-    const selectedDates = ref([null, null]);
-    const highlightedDates = ref([null, null]);
+    const viewDate = ref<string|Date|undefined|null>(props.date);
+    const selectedDates = ref<(Date|null)[]>([null, null]);
+    const highlightedDates = ref<(Date|null)[]>([null, null]);
 
     function getBoundedDateRange(date: string|Date) {
       const dates = Periods.get(props.period).parse(date).getDateRange();
@@ -83,10 +85,12 @@ export default defineComponent({
     function onChanges() {
       if (!props.period || !props.date) {
         selectedDates.value = [null, null];
+        viewDate.value = null;
         return;
       }
 
       selectedDates.value = getBoundedDateRange(props.date);
+      viewDate.value = parseDate(props.date);
     }
 
     watch(props, onChanges);

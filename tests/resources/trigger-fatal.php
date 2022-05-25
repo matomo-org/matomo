@@ -1,5 +1,6 @@
 <?php
 
+ini_set('display_errors', 0);
 define('PIWIK_PRINT_ERROR_BACKTRACE', true);
 define('PIWIK_ENABLE_DISPATCH', false);
 

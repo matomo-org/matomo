@@ -118,6 +118,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
+        $view->isInstallation = true;
 
         $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
@@ -457,7 +458,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->addForm($form);
 
         $view->showNextStep = false;
-        $view->linkToProfessionalServices = StaticContainer::get('Piwik\ProfessionalServices\Advertising')->getPromoUrlForProfessionalServices($medium = 'App_InstallationFinished');
         $output = $view->render();
 
         return $output;

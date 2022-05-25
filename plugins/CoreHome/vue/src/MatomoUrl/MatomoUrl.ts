@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { ILocationService } from 'angular';
+import { ILocationService, ITimeoutService } from 'angular';
 import { computed, ref, readonly } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import { Periods, format } from '../Periods'; // important to load all periods here
@@ -28,16 +28,16 @@ type ParsedQueryParameters = Record<string, unknown>;
  * URL store and helper functions.
  */
 class MatomoUrl {
-  private urlQuery = ref('');
+  readonly urlQuery = ref('');
 
-  private hashQuery = ref('');
+  readonly hashQuery = ref('');
 
   readonly urlParsed = computed(() => readonly(
-    broadcast.getValuesFromUrl(`?${this.urlQuery.value}`, true) as ParsedQueryParameters,
+    this.parse(this.urlQuery.value) as ParsedQueryParameters,
   ));
 
   readonly hashParsed = computed(() => readonly(
-    broadcast.getValuesFromUrl(`?${this.hashQuery.value}`, true) as ParsedQueryParameters,
+    this.parse(this.hashQuery.value) as ParsedQueryParameters,
   ));
 
   readonly parsed = computed(() => readonly({
@@ -61,11 +61,69 @@ class MatomoUrl {
     this.updatePeriodParamsFromUrl();
   }
 
+  updateHashToUrl(url: string) {
+    const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
+    $location.url(url);
+  }
+
   updateHash(params: QueryParameters|string) {
-    const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
+    const modifiedParams = this.getFinalHashParams(params);
+    const serializedParams = this.stringify(modifiedParams);
 
     const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
     $location.search(serializedParams);
+
+    const $timeout: ITimeoutService = Matomo.helper.getAngularDependency('$timeout');
+    $timeout();
+  }
+
+  updateUrl(params: QueryParameters|string, hashParams: QueryParameters|string = {}) {
+    const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
+
+    const modifiedHashParams = Object.keys(hashParams).length
+      ? this.getFinalHashParams(hashParams, params)
+      : {};
+
+    const serializedHashParams: string = this.stringify(modifiedHashParams);
+
+    let url = `?${serializedParams}`;
+    if (serializedHashParams.length) {
+      url = `${url}#?${serializedHashParams}`;
+    }
+
+    window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
+  }
+
+  private getFinalHashParams(
+    params: QueryParameters|string,
+    urlParams: QueryParameters|string = {},
+  ) {
+    const paramsObj = typeof params !== 'string'
+      ? params as QueryParameters
+      : this.parse(params as string);
+
+    const urlParamsObj = typeof params !== 'string'
+      ? urlParams as QueryParameters
+      : this.parse(urlParams as string);
+
+    return {
+      // these params must always be present in the hash
+      period: urlParamsObj.period || this.parsed.value.period,
+      date: urlParamsObj.date || this.parsed.value.date,
+      segment: urlParamsObj.segment || this.parsed.value.segment,
+
+      ...paramsObj,
+    };
+  }
+
+  // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
+  updateLocation(params: QueryParameters|string) {
+    if (Matomo.helper.isAngularRenderingThePage()) {
+      this.updateHash(params);
+      return;
+    }
+
+    this.updateUrl(params);
   }
 
   getSearchParam(paramName: string): string {
@@ -86,9 +144,21 @@ class MatomoUrl {
     return window.broadcast.getValueFromUrl(paramName, window.location.search);
   }
 
+  parse(query: string): QueryParameters {
+    return broadcast.getValuesFromUrl(`?${query}`, true);
+  }
+
   stringify(search: QueryParameters): string {
+    const searchWithoutEmpty = Object.fromEntries(
+      Object.entries(search).filter(([, value]) => value !== '' && value !== null && value !== undefined),
+    );
+
     // TODO: using $ since URLSearchParams does not handle array params the way Matomo uses them
-    return $.param(search).replace(/%5B%5D/g, '[]');
+    return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]')
+      // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
+      // entries to show up in the browser history. this has a compounding effect w/ angular.js,
+      // which when the back button is pressed to effectively abort the back navigation.
+      .replace(/%2C/g, ',');
   }
 
   updatePeriodParamsFromUrl(): void {

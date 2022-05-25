@@ -141,7 +141,7 @@ class UrlHelper
      */
     public static function isLookLikeUrl($url)
     {
-        return preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
+        return $url && preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
             && strlen($matches[3]) > 0
             && !preg_match('/^(javascript:|vbscript:|data:)/i', $matches[1])
             ;
@@ -202,7 +202,7 @@ class UrlHelper
      */
     public static function getArrayFromQueryString($urlQuery)
     {
-        if (strlen($urlQuery) == 0) {
+        if (empty($urlQuery)) {
             return array();
         }
 

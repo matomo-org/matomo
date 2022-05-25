@@ -10,7 +10,7 @@
 describe("SiteSelector", function () {
     this.timeout(0);
 
-    const selectorToCapture = '[piwik-siteselector],[piwik-siteselector] .dropdown';
+    const selectorToCapture = '.siteSelector,.siteSelector .dropdown';
     const url = "?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday";
 
     it("should load correctly", async function() {
@@ -60,6 +60,7 @@ describe("SiteSelector", function () {
         elem = await page.jQuery(".custom_select_ul_list>li:visible");
         elem.click();
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(200);
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('site_selected');
     });

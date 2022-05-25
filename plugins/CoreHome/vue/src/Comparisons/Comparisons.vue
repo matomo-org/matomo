@@ -5,7 +5,12 @@
 -->
 
 <template>
-  <div v-if="isComparing" ref="root" class="matomo-comparisons">
+  <div
+    v-if="isComparing"
+    ref="root"
+    class="matomo-comparisons"
+    v-tooltips="{ duration: 200, delay: 200, content: transformTooltipContent }"
+  >
     <h3>{{ translate('General_Comparisons') }}</h3>
     <div
       class="comparison card"
@@ -71,7 +76,8 @@ import ComparisonsStoreInstance from './Comparisons.store.instance';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import translate from '../translate';
+import { translate } from '../translate';
+import Tooltips from '../Tooltips/Tooltips';
 
 interface ProcessedReportComparison {
   compareSegmentPretty: string;
@@ -88,10 +94,17 @@ interface ProcessedReportResponse {
   reportData: ProcessedReportData;
 }
 
+interface ComparisonState {
+  comparisonTooltips: Record<string, Record<string, string>>|null;
+}
+
 export default defineComponent({
   props: {
   },
-  data() {
+  directives: {
+    Tooltips,
+  },
+  data(): ComparisonState {
     return {
       comparisonTooltips: null,
     };
@@ -103,11 +116,21 @@ export default defineComponent({
     const segmentComparisons = computed(() => ComparisonsStoreInstance.getSegmentComparisons());
     const periodComparisons = computed(() => ComparisonsStoreInstance.getPeriodComparisons());
     const getSeriesColor = ComparisonsStoreInstance.getSeriesColor.bind(ComparisonsStoreInstance);
+
+    function transformTooltipContent(this: HTMLElement) {
+      const title = window.$(this).attr('title');
+      if (!title) {
+        return title;
+      }
+      return window.vueSanitize(title.replace(/\n/g, '<br />'));
+    }
+
     return {
       isComparing,
       segmentComparisons,
       periodComparisons,
       getSeriesColor,
+      transformTooltipContent,
     };
   },
   methods: {
@@ -116,7 +139,7 @@ export default defineComponent({
     },
     removeSegmentComparison(index: number) {
       // otherwise the tooltip will be stuck on the screen
-      window.$(this.$refs.root).tooltip('destroy');
+      window.$(this.$refs.root as HTMLElement).tooltip('destroy');
       ComparisonsStoreInstance.removeSegmentComparison(index);
     },
     getComparisonPeriodType(comparison: AnyComparison) {
@@ -149,18 +172,6 @@ export default defineComponent({
       hash.segment = segment;
       return `${window.location.search}#?${MatomoUrl.stringify(hash)}`;
     },
-    setUpTooltips() {
-      const { $ } = window;
-      $(this.$refs.root).tooltip({
-        track: true,
-        content: function transformTooltipContent() {
-          const title = $(this).attr('title');
-          return window.vueSanitize(title.replace(/\n/g, '<br />'));
-        },
-        show: { delay: 200, duration: 200 },
-        hide: false,
-      });
-    },
     onComparisonsChanged() {
       this.comparisonTooltips = null;
 
@@ -182,11 +193,11 @@ export default defineComponent({
       }).then((report) => {
         this.comparisonTooltips = {};
         periodComparisons.forEach((periodComp) => {
-          this.comparisonTooltips[periodComp.index] = {};
+          this.comparisonTooltips![periodComp.index] = {};
 
           segmentComparisons.forEach((segmentComp) => {
             const tooltip = this.generateComparisonTooltip(report, periodComp, segmentComp);
-            this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;
+            this.comparisonTooltips![periodComp.index][segmentComp.index] = tooltip;
           });
         });
       });
@@ -241,24 +252,12 @@ export default defineComponent({
       return tooltip;
     },
   },
-  updated() {
-    setTimeout(() => this.setUpTooltips());
-  },
   mounted() {
     Matomo.on('piwikComparisonsChanged', () => {
       this.onComparisonsChanged();
     });
 
     this.onComparisonsChanged();
-
-    setTimeout(() => this.setUpTooltips());
-  },
-  beforeUnmount() {
-    try {
-      window.$(this.refs.root).tooltip('destroy');
-    } catch (e) {
-      // ignore
-    }
   },
 });
 </script>

@@ -5,13 +5,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/* eslint-disable max-classes-per-file */
+
+import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 
-interface AjaxOptions {
+export interface AjaxOptions {
   withTokenInUrl?: boolean;
   postParams?: QueryParameters;
+  headers?: Record<string, string>;
+  format?: string;
+  createErrorNotification?: boolean;
+  abortController?: AbortController;
+  returnResponseObject?: boolean;
+  errorElement?: HTMLElement|JQuery|JQLite|string;
+  redirectOnSuccess?: QueryParameters|boolean;
+}
+
+interface ErrorResponse {
+  result: string;
+  message: string;
 }
 
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
@@ -71,6 +86,8 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
   }
 }
 
+class ApiResponseError extends Error {}
+
 /**
  * Global ajax helper to handle requests within Matomo
  */
@@ -100,7 +117,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @deprecated use the jquery promise API
    */
-  errorCallback: AnyFunction;
+  errorCallback: AnyFunction|null;
 
   withToken = false;
 
@@ -146,24 +163,139 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   errorElement: HTMLElement|JQuery|JQLite|string = '#ajaxError';
 
   /**
+   * Extra headers to add to the request.
+   */
+  headers?: Record<string, string>;
+
+  /**
    * Handle for current request
    */
   requestHandle: JQuery.jqXHR|null = null;
 
+  abortController: AbortController|null = null;
+
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
+  resolveWithHelper = false;
+
   // helper method entry point
-  static fetch<R = any>(params: QueryParameters, options: AjaxOptions = {}): Promise<R> { // eslint-disable-line
+  static fetch<R = any>( // eslint-disable-line
+    params: QueryParameters|QueryParameters[],
+    options: AjaxOptions = {},
+  ): Promise<R> {
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
     }
-    helper.setFormat('json');
-    helper.addParams({ module: 'API', format: 'json', ...params }, 'get');
+    if (options.errorElement) {
+      helper.setErrorElement(options.errorElement);
+    }
+    if (options.redirectOnSuccess) {
+      helper.redirectOnSuccess(
+        options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined,
+      );
+    }
+    helper.setFormat(options.format || 'json');
+    if (Array.isArray(params)) {
+      helper.setBulkRequests(...(params as QueryParameters[]));
+    } else {
+      helper.addParams({
+        module: 'API',
+        format: options.format || 'json',
+        ...params,
+        // ajax helper does not encode the segment parameter assuming it is already encoded. this is
+        // probably for pre-angularjs code, so we don't want to do this now, but just treat segment
+        // as a normal query parameter input (so it will have double encoded values in input params
+        // object, then naturally triple encoded in the URL after a $.param call), however we need
+        // to support any existing uses of the old code, so instead we do a manual encode here. new
+        // code that uses .fetch() will not need to pre-encode the parameter, while old code
+        // can pre-encode it.
+        segment: params.segment ? encodeURIComponent(params.segment as string) : undefined,
+      }, 'get');
+    }
     if (options.postParams) {
       helper.addParams(options.postParams, 'post');
     }
-    return helper.send();
+    if (options.headers) {
+      helper.headers = options.headers;
+    }
+
+    let createErrorNotification = true;
+    if (typeof options.createErrorNotification !== 'undefined'
+      && !options.createErrorNotification
+    ) {
+      helper.useCallbackInCaseOfError();
+      helper.setErrorCallback(null);
+      createErrorNotification = false;
+    }
+
+    if (options.abortController) {
+      helper.abortController = options.abortController;
+    }
+
+    if (options.returnResponseObject) {
+      helper.resolveWithHelper = true;
+    }
+
+    return helper.send().then((result: R | ErrorResponse | AjaxHelper) => {
+      const data = result instanceof AjaxHelper ? result.requestHandle!.responseJSON : result;
+
+      // check for error if not using default notification behavior
+      if ((data as ErrorResponse).result === 'error') {
+        throw new ApiResponseError((data as ErrorResponse).message);
+      }
+
+      return result as R;
+    }).catch((xhr: jqXHR) => {
+      if (createErrorNotification) {
+        throw xhr;
+      }
+
+      let message = 'Something went wrong';
+      if (xhr.status === 504) {
+        message = 'Request was prossibly aborted';
+      }
+      throw new Error(message);
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static post<R = any>(
+    params: QueryParameters,
+    // eslint-disable-next-line
+    postParams: any = {},
+    options: AjaxOptions = {},
+  ): Promise<R> {
+    return AjaxHelper.fetch<R>(params, { ...options, postParams });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static oneAtATime<R = any>(
+    method: string,
+    options?: AjaxOptions,
+  ): (params: QueryParameters, postParams?: QueryParameters) => Promise<R> {
+    let abortController: AbortController|null = null;
+
+    return (params: QueryParameters, postParams?: QueryParameters) => {
+      if (abortController) {
+        abortController.abort();
+      }
+
+      abortController = new AbortController();
+      return AjaxHelper.post<R>(
+        {
+          ...params,
+          method,
+        },
+        postParams,
+        {
+          ...options,
+          abortController,
+        },
+      ).finally(() => {
+        abortController = null;
+      });
+    };
   }
 
   constructor() {
@@ -184,11 +316,15 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach((key) => {
-      const value = params[key];
+      let value = params[key];
       if (arrayParams.indexOf(key) !== -1
         && !value
       ) {
         return;
+      }
+
+      if (typeof value === 'boolean') {
+        value = value ? 1 : 0;
       }
 
       if (type.toLowerCase() === 'get') {
@@ -259,7 +395,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    * @param [params] to modify in redirect url
    * @return {void}
    */
-  redirectOnSuccess(params: QueryParameters): void {
+  redirectOnSuccess(params?: QueryParameters): void {
     this.setCallback(() => {
       piwikHelper.redirect(params);
     });
@@ -270,7 +406,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @deprecated use the jquery promise API
    */
-  setErrorCallback(callback: AnyFunction): void {
+  setErrorCallback(callback: AnyFunction|null): void {
     this.errorCallback = callback;
   }
 
@@ -346,7 +482,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Send the request
    */
-  send(): Promise<T> {
+  send(): Promise<T | ErrorResponse> {
     if ($(this.errorElement).length) {
       $(this.errorElement).hide();
     }
@@ -358,15 +494,46 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     this.requestHandle = this.buildAjaxCall();
     window.globalAjaxQueue.push(this.requestHandle);
 
-    return new Promise<T>((resolve, reject) => {
-      this.requestHandle!.then(resolve).fail((xhr: jqXHR) => {
-        if (xhr.statusText !== 'abort') {
-          console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
+    let $timeout: ITimeoutService|null = null;
+    try {
+      $timeout = Matomo.helper.getAngularDependency('$timeout');
+    } catch (e) {
+      // ignore
+    }
 
-          reject(xhr);
+    if (this.abortController) {
+      this.abortController.signal.addEventListener('abort', () => {
+        if (this.requestHandle) {
+          this.requestHandle.abort();
+        }
+      });
+    }
+
+    const result = new Promise<T | ErrorResponse>((resolve, reject) => {
+      this.requestHandle!.then((data: unknown) => {
+        if (this.resolveWithHelper) {
+          // NOTE: we can't resolve w/ the jquery xhr, because it's a promise, and will
+          // just result in following the promise chain back to 'data'
+          resolve(this as unknown as (T | ErrorResponse)); // casting hack here
+        } else {
+          resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
+        }
+      }).fail((xhr: jqXHR) => {
+        if (xhr.statusText === 'abort') {
+          return;
+        }
+
+        console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
+
+        reject(xhr);
+      }).done(() => {
+        if ($timeout) {
+          $timeout(); // trigger digest
         }
       });
     });
+
+    return result;
   }
 
   /**
@@ -408,6 +575,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       url,
       dataType: this.format || 'json',
       complete: this.completeCallback,
+      headers: this.headers ? this.headers : undefined,
       error: function errorCallback(...args: any[]) { // eslint-disable-line
         window.globalAjaxQueue.active -= 1;
 
@@ -429,7 +597,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
             type = null;
           }
 
-          if (response.message) {
+          const isLoggedIn = !document.querySelector('#login_form');
+          if (response.message && isLoggedIn) {
             const UI = window['require']('piwik/UI'); // eslint-disable-line
             const notification = new UI.Notification();
             notification.show(response.message, {
@@ -499,7 +668,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    *
    * @param   params   parameter object
    */
-  private mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
+  public mixinDefaultGetParams(originalParams: QueryParameters): QueryParameters {
     const segment = MatomoUrl.getSearchParam('segment');
 
     const defaultParams: Record<string, string> = {
@@ -532,5 +701,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     return params;
+  }
+
+  getRequestHandle(): jqXHR|null {
+    return this.requestHandle;
   }
 }

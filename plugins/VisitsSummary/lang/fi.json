@@ -17,11 +17,12 @@
         "NbUniquePageviewsDescription": "ainutkertaista sivulatausta",
         "NbUniqueVisitors": "ainutkertaista kävijää",
         "NbUsersDescription": "käyttäjää",
-        "NbVisitsDescription": "käyntiä",
         "NbVisitsBounced": "käyntiä on kimmonnut (lähtenyt sivustolta heti ensimmäisen sivun nähtyään)",
+        "NbVisitsDescription": "käyntiä",
         "PluginDescription": "Raportoi yleiset analytiikkametriikat: käynnit, uniikit kävijät, toimintojen määrän jne.",
         "VisitsSummary": "Yhteenveto käynneistä",
         "VisitsSummaryDocumentation": "Tämä on käyntien muutoksen yleiskatsaus",
+        "VisitsSummaryReportDocumentation": "Tämä raportti tarjoaa yleisnäkymän kävijöiden käyttäytymiseen.",
         "WidgetLastVisits": "Edelliset käynnit",
         "WidgetOverviewGraph": "Yleiskatsaus graafilla",
         "WidgetVisits": "Käyntien yleiskatsaus"

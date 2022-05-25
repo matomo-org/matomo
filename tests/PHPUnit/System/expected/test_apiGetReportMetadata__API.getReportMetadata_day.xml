@@ -805,11 +805,11 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Times</subcategory>
-		<name>Visits per server time</name>
+		<name>Visits per hour in the site's timezone</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<dimension>Server time - hour (Start of visit)</dimension>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
+		<dimension>Site time - hour (Start of visit)</dimension>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; site's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1005,6 +1005,11 @@
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
 		</metrics>
+		<processedMetrics>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Bandwidth_get</uniqueId>
@@ -2676,7 +2681,7 @@
 		<name>Main metrics</name>
 		<module>API</module>
 		<action>get</action>
-		<documentation>This report gives you an overview over the most important metrics across all categories and plugins.</documentation>
+		<documentation>This report gives an overview of the most important metrics across all categories and plugins.</documentation>
 		<metrics>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
@@ -2774,6 +2779,9 @@
 			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
 			<avg_time_on_load>Avg. on load time</avg_time_on_load>
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>

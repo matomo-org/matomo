@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Access;
 use Piwik\Auth\Password;
-use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -104,6 +103,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         unset($userAfter['date_registered']);
         unset($userAfter['ts_password_modified']);
+        unset($userAfter['idchange_last_viewed']);
         unset($userAfter['password']);
 
         // implicitly checks password!

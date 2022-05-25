@@ -8,5 +8,6 @@
 import './RateFeature/RateFeature.adapter';
 import './FeedbackQuestion/FeedbackQuestion.adapter';
 
+export { default as ReviewLinks } from './ReviewLinks/ReviewLinks.vue';
 export { default as RateFeature } from './RateFeature/RateFeature.vue';
 export { default as FeedbackQuestion } from './FeedbackQuestion/FeedbackQuestion.vue';

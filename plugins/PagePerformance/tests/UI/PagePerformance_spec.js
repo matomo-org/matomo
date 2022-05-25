@@ -24,6 +24,9 @@ describe("PagePerformance", function () {
 
     it("should load page performance overview", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
+        await page.waitForSelector('.piwik-graph');
+        await page.waitForNetworkIdle();
+
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('load');
     });

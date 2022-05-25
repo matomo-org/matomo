@@ -4,8 +4,7 @@
 
 {% block content %}
     <div piwik-content-block content-title="{{ 'PrivacyManager_TrackingOptOut'|translate|e('html_attr') }}">
-        <div piwik-opt-out-customizer piwikurl="{{ piwikUrl }}" language="{{ language }}">
-
+        <div vue-entry="PrivacyManager.OptOutCustomizer" piwikurl="{{ piwikUrl }}" language="{{ language }}">
         </div>
     </div>
 
@@ -23,19 +22,11 @@
                 {% endif %}
             </p>
 
-            <div piwik-form ng-controller="DoNotTrackPreferenceController as doNotTrack">
-
-                {# {{ {'module':'PrivacyManager','nonce':nonce,'action':action} | urlRewriteWithParameters }}#DNT #}
-                <div piwik-field uicontrol="radio" name="doNotTrack"
-                     ng-model="doNotTrack.enabled"
-                     options="{{ doNotTrackOptions|json_encode }}"
-                     value="{% if dntSupport %}1{% else %}0{% endif %}"
-                     inline-help="{{ 'PrivacyManager_DoNotTrack_Description'|translate|e('html_attr') }}">
-                </div>
-
-                <div piwik-save-button onconfirm="doNotTrack.save()" saving="doNotTrack.isLoading"></div>
-
-            </div>
+      <div
+        vue-entry="PrivacyManager.DoNotTrackPreference"
+        dnt-support="{{ dntSupport|default(null)|json_encode|e('html_attr') }}"
+        do-not-track-options="{{ doNotTrackOptions|default(null)|json_encode|e('html_attr') }}"
+      ></div>
 
         </div>
     {% endif %}

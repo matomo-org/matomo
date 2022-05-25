@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 

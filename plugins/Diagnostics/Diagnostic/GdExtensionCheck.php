@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Config;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 

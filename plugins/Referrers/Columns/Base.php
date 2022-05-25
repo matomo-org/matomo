@@ -477,7 +477,7 @@ abstract class Base extends VisitDimension
      */
     protected function getParameterValueFromReferrerUrl($adsenseReferrerParameter)
     {
-        $value = trim(urldecode(UrlHelper::getParameterFromQueryString($this->referrerUrlParse['query'], $adsenseReferrerParameter)));
+        $value = trim(urldecode(UrlHelper::getParameterFromQueryString($this->referrerUrlParse['query'], $adsenseReferrerParameter) ?? ''));
         return $value;
     }
 
@@ -522,7 +522,7 @@ abstract class Base extends VisitDimension
             return false;
         }
 
-        $this->keywordReferrerAnalyzed = mb_strtolower($this->keywordReferrerAnalyzed);
+        $this->keywordReferrerAnalyzed = mb_strtolower($this->keywordReferrerAnalyzed ?? '');
         $this->nameReferrerAnalyzed = mb_strtolower($this->nameReferrerAnalyzed);
         return true;
     }
@@ -633,7 +633,7 @@ abstract class Base extends VisitDimension
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
-        $new = mb_strtolower($information[$infoName]);
+        $new = mb_strtolower($information[$infoName] ?? '');
 
         $result = $existing != $new;
         if ($result) {

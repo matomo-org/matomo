@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\AbTesting\Columns\Metrics\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;

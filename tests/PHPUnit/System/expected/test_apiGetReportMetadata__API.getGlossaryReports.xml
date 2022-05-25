@@ -201,7 +201,7 @@
 	</row>
 	<row>
 		<name>Main metrics (API)</name>
-		<documentation>This report gives you an overview over the most important metrics across all categories and plugins.</documentation>
+		<documentation>This report gives an overview of the most important metrics across all categories and plugins.</documentation>
 	</row>
 	<row>
 		<name>Operating System families (Visitors)</name>
@@ -315,12 +315,12 @@
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
 	</row>
 	<row>
-		<name>Visits per local time (Visitors)</name>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
+		<name>Visits per hour in the site's timezone (Visitors)</name>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; site's time zone &lt;/strong&gt; during the visits.</documentation>
 	</row>
 	<row>
-		<name>Visits per server time (Visitors)</name>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
+		<name>Visits per local time (Visitors)</name>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
 	</row>
 	<row>
 		<name>Visits to Conversion (Goals)</name>

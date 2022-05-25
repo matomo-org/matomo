@@ -1,10 +1,22 @@
 {
     "Overlay": {
         "Clicks": "%s klikk",
+        "ClicksFromXLinks": "%1$s klikk fra én av %2$s lenker",
         "Domain": "Domene",
+        "ErrorNoSiteUrls": "Advarsel: Nettsiden har ingen side-nettadresser definert i Matomo. Dette kan forårsake at side-overlegg og andre funksjoner ikke fungerer helt eller delvis. For å fikse dette kan du legge til en nettadresse i innstillingene for denne nettsiden i delen for Matomo-administrasjon.",
+        "ErrorNotLoading": "Side-overlagsøkten kunne ikke startes enda.",
+        "ErrorNotLoadingDetails": "Kanskje siden innlastet til høyre ikke har Matomo-sporingskoden. I sådant fall kan du prøve å kjøre overlag for en annen side fra siderapporteringen.",
+        "ErrorNotLoadingDetailsSSL": "Siden du bruker Matomo over HTTPS er den mest sannsynlige årsaken at nettsiden din ikke støtter SSL. Prøv å bruke Matomo over HTTP.",
         "ErrorNotLoadingLink": "Klikk her for å få flere tips for feilsøking",
         "Link": "Lenke",
         "Location": "Sted",
-        "OneClick": "1 klikk"
+        "NoData": "Det finnes ingen data for denne siden i valgt periode.",
+        "OneClick": "1 klikk",
+        "OpenFullScreen": "Gå til fullskjermsvisning (uten sidefelt)",
+        "Overlay": "Side-overlegg",
+        "PluginDescription": "Vis din analysedata som et overlegg på nettsiden. Vis hvor mange ganger dine brukere har klikket på hver lenke. Merk: Krever at overgangsprogramtillegget er påskrudd.",
+        "RedirectUrlError": "Du prøver å åpne side-overlegg for nettadressen «%1$s». %2$s Ingen av domenene fra Matomo-innstillingene samsvarer med lenken.",
+        "RedirectUrlErrorAdmin": "Du kan legge til domenet som en ytterligere nettadresse %1$si innstillingene%2$s.",
+        "RedirectUrlErrorUser": "Spør administratoren din om å legge til domenet som en ekstra nettadresse."
     }
 }

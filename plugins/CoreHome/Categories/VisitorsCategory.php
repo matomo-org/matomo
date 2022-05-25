@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreHome\Categories;
 
 use Piwik\Category\Category;
 use Piwik\Piwik;
-use Piwik\Url;
 
 class VisitorsCategory extends Category
 {

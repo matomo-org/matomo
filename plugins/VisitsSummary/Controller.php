@@ -11,14 +11,12 @@ namespace Piwik\Plugins\VisitsSummary;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
-use Piwik\View;
 
 /**
  *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Live;
 
 use Piwik\Cache;
@@ -23,7 +25,7 @@ class Live extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        return array(
+        return [
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
@@ -33,7 +35,7 @@ class Live extends \Piwik\Plugin
             'Live.renderVisitorIcons'                => 'renderVisitorIcons',
             'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
-        );
+        ];
     }
 
     public function getPagesComparisonsDisabledFor(&$pages)
@@ -46,8 +48,8 @@ class Live extends \Piwik\Plugin
     {
         $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
         $out .= "
-        piwik.visitorLogEnabled = ".json_encode(self::isVisitorLogEnabled()).";
-        piwik.visitorProfileEnabled = ".json_encode(self::isVisitorProfileEnabled()).";
+        piwik.visitorLogEnabled = " . json_encode(self::isVisitorLogEnabled()) . ";
+        piwik.visitorProfileEnabled = " . json_encode(self::isVisitorProfileEnabled()) . ";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";
     }
@@ -77,7 +79,7 @@ class Live extends \Piwik\Plugin
                 $settings = new MeasurableSettings($idSite);
 
                 if ($settings->disableVisitorLog->getValue() === true) {
-                    throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite='.$idSite.').');
+                    throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite=' . $idSite . ').');
                 }
             }
         }
@@ -126,7 +128,7 @@ class Live extends \Piwik\Plugin
                 $settings = new MeasurableSettings($idSite);
 
                 if ($settings->disableVisitorProfile->getValue() === true) {
-                    throw new \Exception('Visitor profile is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite='.$idSite.').');
+                    throw new \Exception('Visitor profile is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite=' . $idSite . ').');
                 }
             }
         }
@@ -164,7 +166,6 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/rowaction.js";
-        $jsFiles[] = "plugins/Live/angularjs/live-widget-refresh/live-widget-refresh.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -201,11 +202,11 @@ class Live extends \Piwik\Plugin
             $detailEntries = array_merge($detailEntries, $instance->renderActionTooltip($action, $visitInfo));
         }
 
-        usort($detailEntries, function($a, $b) {
+        usort($detailEntries, function ($a, $b) {
             return version_compare($a[0], $b[0]);
         });
 
-        foreach ($detailEntries AS $detailEntry) {
+        foreach ($detailEntries as $detailEntry) {
             $tooltip .= $detailEntry[1];
         }
     }
@@ -219,11 +220,11 @@ class Live extends \Piwik\Plugin
             $detailEntries = array_merge($detailEntries, $instance->renderVisitorDetails($visitorDetails));
         }
 
-        usort($detailEntries, function($a, $b) {
+        usort($detailEntries, function ($a, $b) {
             return version_compare($a[0], $b[0]);
         });
 
-        foreach ($detailEntries AS $detailEntry) {
+        foreach ($detailEntries as $detailEntry) {
             $renderedDetails .= $detailEntry[1];
         }
     }

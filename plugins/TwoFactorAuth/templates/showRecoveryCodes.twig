@@ -20,7 +20,7 @@
     <div piwik-content-block
          content-title="{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }} - {{ 'TwoFactorAuth_RecoveryCodes'|translate }}">
 
-        {% include '@TwoFactorAuth/_showRecoveryCodes.twig' %}
+        <div vue-entry="TwoFactorAuth.ShowRecoveryCodes" codes="{{ codes|default(null)|json_encode|e('html_attr') }}"></div>
 
         <h2>{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}</h2>
         <p>{{ 'TwoFactorAuth_GenerateNewRecoveryCodesInfo'|translate }}<br /><br /></p>
@@ -38,5 +38,5 @@
             <input type="submit" class="btn" value="{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}">
         </form>
 
-        <div>
+    <div>
 {% endblock %}

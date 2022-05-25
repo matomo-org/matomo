@@ -12,7 +12,6 @@ use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIPlugins;
-use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
@@ -66,7 +65,6 @@ class MobileMessaging extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
             'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
@@ -78,24 +76,13 @@ class MobileMessaging extends \Piwik\Plugin
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
 
     public function requiresInternetConnection()
     {
         return true;
-    }
-
-    /**
-     * Get JavaScript files
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/delegate-mobile-messaging-settings.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-sms-provider.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -108,6 +95,31 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'MobileMessaging_Settings_InvalidActivationCode';
         $translationKeys[] = 'MobileMessaging_Settings_PhoneActivated';
+        $translationKeys[] = 'MobileMessaging_Settings_SMSProvider';
+        $translationKeys[] = 'MobileMessaging_Settings_PleaseSignUp';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialInvalid';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialProvided';
+        $translationKeys[] = 'MobileMessaging_Settings_UpdateOrDeleteAccount';
+        $translationKeys[] = 'MobileMessaging_UserKey';
+        $translationKeys[] = 'General_Password';
+        $translationKeys[] = 'MobileMessaging_Settings_APIKey';
+        $translationKeys[] = 'MobileMessaging_Settings_LetUsersManageAPICredential';
+        $translationKeys[] = 'MobileMessaging_Settings_SelectCountry';
+        $translationKeys[] = 'MobileMessaging_Settings_CountryCode';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumber';
+        $translationKeys[] = 'MobileMessaging_Settings_EnterActivationCode';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Add';
+        $translationKeys[] = 'MobileMessaging_Settings_DelegatedPhoneNumbersOnlyUsedByYou';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Help';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help';
+        $translationKeys[] = 'MobileMessaging_Settings_ManagePhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_Settings_VerificationCodeJustSent';
+        $translationKeys[] = 'MobileMessaging_Settings_ValidatePhoneNumber';
+        $translationKeys[] = 'MobileMessaging_MobileReport_NoPhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_MobileReport_AdditionalPhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_MobileReport_MobileMessagingSettingsLink';
+        $translationKeys[] = 'ScheduledReports_SendReportTo';
+        $translationKeys[] = 'MobileMessaging_PhoneNumbers';
     }
     
     public function validateReportParameters(&$parameters, $reportType)

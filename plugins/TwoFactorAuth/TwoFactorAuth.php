@@ -35,8 +35,34 @@ class TwoFactorAuth extends \Piwik\Plugin
             'API.UsersManager.createAppSpecificTokenAuth.end' => 'onCreateAppSpecificTokenAuth',
             'Request.dispatch.end' => array('function' => 'onRequestDispatchEnd', 'after' => true),
             'Template.userSecurity.afterPassword' => 'render2FaUserSettings',
-            'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
+            'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'TwoFactorAuth_WarningChangingConfiguredDevice';
+        $translations[] = 'TwoFactorAuth_SetupIntroFollowSteps';
+        $translations[] = 'TwoFactorAuth_StepX';
+        $translations[] = 'TwoFactorAuth_RecoveryCodes';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesExplanation';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesSecurity';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesAllUsed';
+        $translations[] = 'General_Download';
+        $translations[] = 'General_Print';
+        $translations[] = 'General_Copy';
+        $translations[] = 'TwoFactorAuth_SetupBackupRecoveryCodes';
+        $translations[] = 'General_Next';
+        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep1';
+        $translations[] = 'General_Or';
+        $translations[] = 'TwoFactorAuth_ConfirmSetup';
+        $translations[] = 'TwoFactorAuth_VerifyAuthCodeIntro';
+        $translations[] = 'TwoFactorAuth_AuthenticationCode';
+        $translations[] = 'TwoFactorAuth_VerifyAuthCodeHelp';
+        $translations[] = 'General_Confirm';
+        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2';
+        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDevice';
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -47,7 +73,6 @@ class TwoFactorAuth extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
-        $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
         $jsFiles[] = "node_modules/qrcodejs2/qrcode.min.js";
     }
 
@@ -169,6 +194,10 @@ class TwoFactorAuth extends \Piwik\Plugin
     private function requiresAuth($module, $action, $parameters)
     {
         if ($module === 'TwoFactorAuth' && $action === 'showQrCode') {
+            return false;
+        }
+
+        if ($module === 'CorePluginsAdmin' && strtolower($action) === 'safemode') {
             return false;
         }
 

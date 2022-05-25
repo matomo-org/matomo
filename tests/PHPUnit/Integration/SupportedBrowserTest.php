@@ -7,12 +7,7 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Piwik\Http;
-use Piwik\Site;
-use Piwik\Piwik;
 use Piwik\SupportedBrowser;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Plugins\SitesManager\API;
 use Piwik\Exception\NotSupportedBrowserException;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

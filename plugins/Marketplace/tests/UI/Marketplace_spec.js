@@ -25,7 +25,7 @@ describe("Marketplace", function () {
     async function loadPluginDetailPage(pluginName, isFreePlugin)
     {
         await page.goto(isFreePlugin ? pluginsUrl : paidPluginsUrl);
-        const elem = await page.waitForSelector('.card-title [piwik-plugin-name="' + pluginName + '"]');
+        const elem = await page.waitForSelector('.card-title [vue-directive="Marketplace.PluginName"][vue-directive-value*="' + pluginName + '"]');
         await elem.click();
         await page.waitForNetworkIdle();
         await page.waitForSelector('.ui-dialog .pluginDetails');
@@ -202,6 +202,7 @@ describe("Marketplace", function () {
 
         await page.goto(pluginsUrl);
         await page.type('#license_key', 'invalid');
+        await page.waitForTimeout(200);
         await page.click('.marketplace-paid-intro'); // click outside so change event is triggered
         await page.click('#submit_license_key input');
         await page.waitForNetworkIdle();
@@ -233,6 +234,7 @@ describe("Marketplace", function () {
 
         await page.goto(pluginsUrl);
         await page.type('#license_key', 'valid');
+        await page.waitForTimeout(200);
 
         setEnvironment(mode, validLicense);
         await page.click('#submit_license_key input');

@@ -55,7 +55,6 @@ const PAGE_METHODS_TO_PROXY = [
     'tap',
     'target',
     'title',
-    'type',
     'url',
     'viewport',
     'waitForFunction',
@@ -121,13 +120,18 @@ PageRenderer.prototype._reset = function () {
 PageRenderer.prototype.waitFor = function (selectorOrTimeoutOrFunction) {
     console.log('Using page.waitFor is deprecated, please use one of this instead: waitForSelector, waitForFunction, waitForTimeout');
     if (typeof selectorOrTimeoutOrFunction === 'function') {
-        this.webpage.waitForFunction(selectorOrTimeoutOrFunction)
+        return this.webpage.waitForFunction(selectorOrTimeoutOrFunction)
     } else if (typeof selectorOrTimeoutOrFunction === 'number') {
-        this.webpage.waitForTimeout(selectorOrTimeoutOrFunction)
+        return this.webpage.waitForTimeout(selectorOrTimeoutOrFunction)
     } else if (typeof selectorOrTimeoutOrFunction === 'string') {
-        this.webpage.waitForSelector(selectorOrTimeoutOrFunction)
+        return this.webpage.waitForSelector(selectorOrTimeoutOrFunction)
     }
 }
+
+PageRenderer.prototype.type = async function (...args) {
+  await this.webpage.type(...args);
+  await this.waitForTimeout(50); // puppeteer types faster than vue can update the model state
+};
 
 PageRenderer.prototype.isVisible = function (selector) {
     return this.webpage.evaluate(() => {
@@ -301,7 +305,16 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
         await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
     }
 
-    await this.waitForLazyImages()
+    await this.waitForLazyImages();
+
+    // wait for any queued vue logic
+    await this.webpage.evaluate(function () {
+        if (window.Vue) {
+          return window.Vue.nextTick(function () {
+              // wait
+          });
+        }
+    });
 };
 
 PageRenderer.prototype.waitForLazyImages = async function () {
@@ -490,7 +503,9 @@ PageRenderer.prototype._setupWebpageEvents = function () {
                 return arg.stack || arg.message;
             }
             return arg;
-        }, arg)));
+        }, arg))).catch((e) => {
+          console.log(`Could not print message: ${e.message}`);
+        });
         const message = args.join(' ');
         this._logMessage(`Log: ${message}`);
     });

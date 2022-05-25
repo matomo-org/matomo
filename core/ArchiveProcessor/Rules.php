@@ -9,17 +9,15 @@
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\ArchiveWriter;
-use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Controller;
-use Piwik\Scheduler\Task;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -58,7 +56,7 @@ class Rules
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
         if (!empty($plugin)
-            && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
+          && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
         ) {
             return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
@@ -101,7 +99,7 @@ class Rules
 
     public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin)
     {
-        return 'done' . $segment->getHash() . '.' . $plugin ;
+        return 'done' . $segment->getHash() . '.' . $plugin;
     }
 
     public static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
@@ -131,8 +129,11 @@ class Rules
     }
 
     public static function getMinTimeProcessedForInProgressArchive(
-        Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
-    {
+      Date $dateStart,
+      \Piwik\Period $period,
+      Segment $segment,
+      Site $site
+    ) {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
 
         $now = time();
@@ -142,7 +143,7 @@ class Rules
         $isArchivingDisabled = Rules::isArchivingDisabledFor($idSites, $segment, $period->getLabel());
         if ($isArchivingDisabled) {
             if ($period->getNumberOfSubperiods() == 0
-                && $dateStart->getTimestamp() <= $now
+              && $dateStart->getTimestamp() <= $now
             ) {
                 // Today: accept any recent enough archive
                 $minimumArchiveTime = false;
@@ -150,7 +151,8 @@ class Rules
                 // This week, this month, this year:
                 // accept any archive that was processed today after 00:00:01 this morning
                 $timezone = $site->getTimezone();
-                $minimumArchiveTime = Date::factory(Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+                $minimumArchiveTime = Date::factory(Date::factory('now',
+                  $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
             }
         }
         return $minimumArchiveTime;
@@ -214,7 +216,7 @@ class Rules
 
         if ($periodLabel === 'range') {
             if (isset($generalConfig['archiving_range_force_on_browser_request'])
-                && $generalConfig['archiving_range_force_on_browser_request'] == false
+              && $generalConfig['archiving_range_force_on_browser_request'] == false
             ) {
                 Log::debug("Not forcing archiving for range period.");
                 return $isArchivingEnabled;
@@ -229,8 +231,8 @@ class Rules
         }
 
         if (!$isArchivingEnabled
-            && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
-            && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
+          && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
+          && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
         ) {
             Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1 or because the segment is selected to be pre-processed.");
             return false;
@@ -315,7 +317,7 @@ class Rules
         $segmentsToProcessUrlDecoded = array_map('urldecode', $segmentsToProcess);
 
         return in_array($segment, $segmentsToProcess)
-            || in_array($segment, $segmentsToProcessUrlDecoded);
+          || in_array($segment, $segmentsToProcessUrlDecoded);
     }
 
     /**
@@ -323,8 +325,11 @@ class Rules
      *
      * @return string[]
      */
-    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null, $checkAuthorizedToArchive = true)
-    {
+    public static function getSelectableDoneFlagValues(
+      $includeInvalidated = true,
+      Parameters $params = null,
+      $checkAuthorizedToArchive = true
+    ) {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
         if ($includeInvalidated) {
@@ -355,5 +360,25 @@ class Rules
     public static function shouldProcessSegmentsWhenReArchivingReports()
     {
         return Config::getInstance()->General['rearchive_reports_in_past_exclude_segments'] != 1;
+    }
+
+    public static function isSegmentPluginArchivingDisabled($pluginName, $siteId = null)
+    {
+        $pluginArchivingSetting = GeneralConfig::getConfigValue('disable_archiving_segment_for_plugins', $siteId);
+
+        if (empty($pluginArchivingSetting)) {
+            return false;
+        }
+
+        if (is_string($pluginArchivingSetting)) {
+            $pluginArchivingSetting = explode(",", $pluginArchivingSetting);
+            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function($plugin){
+                return Manager::getInstance()->isValidPluginName($plugin);
+            });
+        }
+
+        $pluginArchivingSetting = array_map('strtolower', $pluginArchivingSetting);
+
+        return in_array(strtolower($pluginName), $pluginArchivingSetting);
     }
 }

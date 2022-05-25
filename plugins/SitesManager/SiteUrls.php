@@ -11,7 +11,6 @@ namespace Piwik\Plugins\SitesManager;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
 
 class SiteUrls
 {

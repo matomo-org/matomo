@@ -5,66 +5,80 @@
 -->
 
 <template>
-  <div id="calendarRangeFrom">
-    <h6>
-      {{ translate('General_DateRangeFrom') }}
-      <input
-        type="text"
-        id="inputCalendarFrom"
-        name="inputCalendarFrom"
-        class="browser-default"
-        v-model="startDateText"
-        v-on:change="onRangeInputChanged('from', $event)"
-        v-on:keyup="handleEnterPress($event)"
-      />
-    </h6>
-    <DatePicker
-      id="calendarFrom"
-      :view-date="startDate"
-      :selected-date-start="fromPickerSelectedDates[0]"
-      :selected-date-end="fromPickerSelectedDates[1]"
-      :highlighted-date-start="fromPickerHighlightedDates[0]"
-      :highlighted-date-end="fromPickerHighlightedDates[1]"
-      @date-select="setStartRangeDate($event.date)"
-      @cell-hover="fromPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
-      @cell-hover-leave="fromPickerHighlightedDates = [null, null]"
-    >
-    </DatePicker>
-  </div>
-  <div id="calendarRangeTo">
-    <h6>
-      {{ translate('General_DateRangeTo') }}
-      <input
-        type="text"
-        id="inputCalendarTo"
-        name="inputCalendarTo"
-        class="browser-default"
-        v-model="endDateText"
-        v-on:change="onRangeInputChanged('to', $event)"
-        v-on:keyup="handleEnterPress($event)"
-      />
-    </h6>
-    <DatePicker
-      id="calendarTo"
-      :view-date="endDate"
-      :selected-date-start="toPickerSelectedDates[0]"
-      :selected-date-end="toPickerSelectedDates[1]"
-      :highlighted-date-start="toPickerHighlightedDates[0]"
-      :highlighted-date-end="toPickerHighlightedDates[1]"
-      @date-select="setEndRangeDate($event.date)"
-      @cell-hover="toPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
-      @cell-hover-leave="toPickerHighlightedDates = [null, null]"
-    >
-    </DatePicker>
+  <div>
+    <div id="calendarRangeFrom">
+      <h6>
+        {{ translate('General_DateRangeFrom') }}
+        <input
+          type="text"
+          id="inputCalendarFrom"
+          name="inputCalendarFrom"
+          class="browser-default"
+          v-model="startDateText"
+          @keydown="onRangeInputChanged('from', $event)"
+          @keyup="handleEnterPress($event)"
+        />
+      </h6>
+      <DatePicker
+        id="calendarFrom"
+        :view-date="startDate"
+        :selected-date-start="fromPickerSelectedDates[0]"
+        :selected-date-end="fromPickerSelectedDates[1]"
+        :highlighted-date-start="fromPickerHighlightedDates[0]"
+        :highlighted-date-end="fromPickerHighlightedDates[1]"
+        @date-select="setStartRangeDate($event.date)"
+        @cell-hover="fromPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
+        @cell-hover-leave="fromPickerHighlightedDates = [null, null]"
+      >
+      </DatePicker>
+    </div>
+    <div id="calendarRangeTo">
+      <h6>
+        {{ translate('General_DateRangeTo') }}
+        <input
+          type="text"
+          id="inputCalendarTo"
+          name="inputCalendarTo"
+          class="browser-default"
+          v-model="endDateText"
+          @keydown="onRangeInputChanged('to', $event)"
+          @keyup="handleEnterPress($event)"
+        />
+      </h6>
+      <DatePicker
+        id="calendarTo"
+        :view-date="endDate"
+        :selected-date-start="toPickerSelectedDates[0]"
+        :selected-date-end="toPickerSelectedDates[1]"
+        :highlighted-date-start="toPickerHighlightedDates[0]"
+        :highlighted-date-end="toPickerHighlightedDates[1]"
+        @date-select="setEndRangeDate($event.date)"
+        @cell-hover="toPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
+        @cell-hover-leave="toPickerHighlightedDates = [null, null]"
+      >
+      </DatePicker>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import JQuery = JQuery;
 import DatePicker from '../DatePicker/DatePicker.vue';
 import { parseDate, format } from '../Periods/utilities';
 import ChangeEvent = JQuery.ChangeEvent;
+
+const DATE_FORMAT = 'YYYY-MM-DD';
+
+interface DateRangePickerState {
+  fromPickerSelectedDates: (Date|null)[];
+  toPickerSelectedDates: (Date|null)[];
+  fromPickerHighlightedDates: (Date|null)[];
+  toPickerHighlightedDates: (Date|null)[];
+  startDateText?: string;
+  endDateText?: string;
+  startDateInvalid: boolean;
+  endDateInvalid: boolean;
+}
 
 export default defineComponent({
   props: {
@@ -74,17 +88,21 @@ export default defineComponent({
   components: {
     DatePicker,
   },
-  data() {
+  data(): DateRangePickerState {
     let startDate = null;
     try {
-      startDate = parseDate(this.startDate);
+      if (this.startDate) {
+        startDate = parseDate(this.startDate);
+      }
     } catch (e) {
       // ignore
     }
 
     let endDate = null;
     try {
-      endDate = parseDate(this.endDate);
+      if (this.endDate) {
+        endDate = parseDate(this.endDate);
+      }
     } catch (e) {
       // ignore
     }
@@ -96,6 +114,8 @@ export default defineComponent({
       toPickerHighlightedDates: [null, null],
       startDateText: this.startDate,
       endDateText: this.endDate,
+      startDateInvalid: false,
+      endDateInvalid: false,
     };
   },
   emits: ['rangeChange', 'submit'],
@@ -124,11 +144,13 @@ export default defineComponent({
       this.rangeChanged();
     },
     onRangeInputChanged(source: string, event: ChangeEvent) {
-      if (source === 'from') {
-        this.setStartRangeDateFromStr(event.target.value);
-      } else {
-        this.setEndRangeDateFromStr(event.target.value);
-      }
+      setTimeout(() => {
+        if (source === 'from') {
+          this.setStartRangeDateFromStr(event.target.value);
+        } else {
+          this.setEndRangeDateFromStr(event.target.value);
+        }
+      });
     },
     getNewHighlightedDates(date: Date, $cell: JQuery) {
       if ($cell.hasClass('ui-datepicker-unselectable')) {
@@ -147,38 +169,48 @@ export default defineComponent({
         end: this.endDate,
       });
     },
-    setStartRangeDateFromStr(dateStr: string) {
-      let startDateParsed: Date;
+    setStartRangeDateFromStr(dateStr?: string) {
+      this.startDateInvalid = true;
+
+      let startDateParsed: Date|null = null;
       try {
-        startDateParsed = parseDate(dateStr);
+        if (dateStr && dateStr.length === DATE_FORMAT.length) {
+          startDateParsed = parseDate(dateStr);
+        }
       } catch (e) {
-        this.startDateText = this.startDate;
+        // ignore
       }
 
       if (startDateParsed) {
         this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
-      }
+        this.startDateInvalid = false;
 
-      this.rangeChanged();
+        this.rangeChanged();
+      }
     },
-    setEndRangeDateFromStr(dateStr: string) {
-      let endDateParsed: Date;
+    setEndRangeDateFromStr(dateStr?: string) {
+      this.endDateInvalid = true;
+
+      let endDateParsed: Date|null = null;
       try {
-        endDateParsed = parseDate(dateStr);
+        if (dateStr && dateStr.length === DATE_FORMAT.length) {
+          endDateParsed = parseDate(dateStr);
+        }
       } catch (e) {
-        this.endDateText = this.endDate;
+        // ignore
       }
 
       if (endDateParsed) {
         this.toPickerSelectedDates = [endDateParsed, endDateParsed];
-      }
+        this.endDateInvalid = false;
 
-      this.rangeChanged();
+        this.rangeChanged();
+      }
     },
     rangeChanged() {
       this.$emit('rangeChange', {
-        start: format(this.fromPickerSelectedDates[0]),
-        end: format(this.toPickerSelectedDates[0]),
+        start: this.fromPickerSelectedDates[0] ? format(this.fromPickerSelectedDates[0]) : null,
+        end: this.toPickerSelectedDates[0] ? format(this.toPickerSelectedDates[0]) : null,
       });
     },
   },

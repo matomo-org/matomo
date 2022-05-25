@@ -39,10 +39,10 @@
         "matomo/cache": "~2.0",
         "matomo/decompress": "~2.0",
         "matomo/device-detector": "^5.0",
-        "matomo/ini": "~2.0",
+        "matomo/ini": "~3.0",
         "matomo/matomo-php-tracker": "^3.0",
         "matomo/network": "~2.0",
-        "matomo/referrer-spam-list": "~4.0.0",
+        "matomo/referrer-spam-list": "dev-master",
         "matomo/searchengine-and-social-list": "~3.0",
         "monolog/monolog": "~1.11",
         "mustangostang/spyc": "~0.6.0",
@@ -63,7 +63,7 @@
         "lox/xhprof": "dev-master"
     },
     "require-dev": {
-        "mayflower/mo4-coding-standard": "~6.0",
+        "mayflower/mo4-coding-standard": "~8.0",
         "phpunit/phpunit": "~8.5",
         "squizlabs/php_codesniffer": "^3.5",
         "symfony/var-dumper": "~2.6.0",

@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Manager;
 use Piwik\Exception\AuthenticationFailedException;
@@ -396,6 +397,11 @@ class FrontController extends Singleton
 
         $loggedIn = false;
 
+        //move this up unsupported Browser do not create session
+        if ($this->isSupportedBrowserCheckNeeded()) {
+            SupportedBrowser::checkIfBrowserSupported();
+        }
+
         // don't use sessionauth in cli mode
         // try authenticating w/ session first...
         $sessionAuth = $this->makeSessionAuthenticator();
@@ -423,9 +429,7 @@ class FrontController extends Singleton
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
-        if ($this->isSupportedBrowserCheckNeeded()) {
-            SupportedBrowser::checkIfBrowserSupported();
-        }
+
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
@@ -457,6 +461,10 @@ class FrontController extends Singleton
 
         if (is_null($action)) {
             $action = Common::getRequestVar('action', false);
+            if ($action !== false) {
+                // If a value was provided, check it has the correct type.
+                $action = Common::getRequestVar('action', null, 'string');
+            }
         }
 
         if (Session::isSessionStarted()) {
@@ -486,10 +494,14 @@ class FrontController extends Singleton
 
     protected function handleMaintenanceMode()
     {
-        if ((Config::getInstance()->General['maintenance_mode'] != 1) || Common::isPhpCliMode()) {
+        if ((GeneralConfig::getConfigValue('maintenance_mode') != 1) || Common::isPhpCliMode() ) {
             return;
         }
-        Common::sendResponseCode(503);
+
+        // as request matomo behind load balancer should not return 503. https://github.com/matomo-org/matomo/issues/18054
+        if (GeneralConfig::getConfigValue('multi_server_environment') != 1) {
+            Common::sendResponseCode(503);
+        }
 
         $logoUrl = 'plugins/Morpheus/images/logo.svg';
         $faviconUrl = 'plugins/CoreHome/images/favicon.png';

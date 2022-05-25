@@ -9,10 +9,10 @@
 namespace Piwik\Plugins\Feedback\tests\Unit;
 
 
-use CpChart\Chart\Data;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\Feedback\API;
 use Piwik\Plugins\Feedback\Feedback;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -37,10 +37,10 @@ class FeedbackTest extends IntegrationTestCase
 
         $this->userModel = new Model();
         $this->userModel->addUser(
-            'user1',
-            'a98732d98732',
-            'user1@example.com',
-            '2019-03-03'
+          'user1',
+          'a98732d98732',
+          'user1@example.com',
+          '2019-03-03'
         );
 
         $this->userModel->addUser(
@@ -72,7 +72,7 @@ class FeedbackTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess()
         );
     }
 
@@ -117,4 +117,28 @@ class FeedbackTest extends IntegrationTestCase
         FakeAccess::$identity = 'user2';
         $this->assertFalse($this->feedback->showQuestionBanner());
     }
+
+    public function test_shouldSendFeedbackForFeature()
+    {
+        $api = API::getInstance();
+
+        //test failed without message
+        $result = $api->sendFeedbackForFeature('test');
+        $this->assertEquals(Piwik::translate("Feedback_FormNotEnoughFeedbackText"), $result);
+
+        //test pass with like is string 0
+        $result = $api->sendFeedbackForFeature('test', "0", null, "dislike this test");
+        $this->assertEquals("success", $result);
+
+        //test pass with like is a string 1
+        $result = $api->sendFeedbackForFeature('test', "1", null, "like this test");
+        $this->assertEquals("success", $result);
+
+        //test pass with like is null
+        $result = $api->sendFeedbackForFeature('test', null, null, "dislike this test");
+        $this->assertEquals("success", $result);
+
+    }
+
+
 }

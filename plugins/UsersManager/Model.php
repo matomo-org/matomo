@@ -10,16 +10,13 @@ namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 use Piwik\SettingsPiwik;
-use Piwik\SettingsServer;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
@@ -210,7 +207,7 @@ class Model
 
         $access = $db->fetchAll($sql, $bind);
         foreach ($access as &$entry) {
-            $entry['access'] = explode('|', $entry['access']);
+            $entry['access'] = explode('|', $entry['access'] ?? '');
         }
 
         $count = $db->fetchOne("SELECT FOUND_ROWS()");
@@ -456,6 +453,7 @@ class Model
             'date_registered'  => $dateRegistered,
             'superuser_access' => 0,
             'ts_password_modified' => Date::now()->getDatetime(),
+            'idchange_last_viewed' => null
         );
 
         $db = $this->getDb();
@@ -661,7 +659,7 @@ class Model
 
         $users = $db->fetchAll($sql, $bind);
         foreach ($users as &$user) {
-            $user['access'] = explode('|', $user['access']);
+            $user['access'] = explode('|', $user['access'] ?? '');
         }
 
         $count = $db->fetchOne("SELECT FOUND_ROWS()");

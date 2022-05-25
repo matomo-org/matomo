@@ -10,7 +10,6 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
@@ -18,7 +17,6 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;
@@ -45,6 +43,8 @@ class Request
     private $isEmptyRequest = false;
 
     protected $tokenAuth;
+
+
 
     /**
      * Stores plugin specific tracking request metadata. RequestProcessors can store
@@ -73,6 +73,7 @@ class Request
         $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
         $this->isEmptyRequest = empty($params);
+
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
@@ -923,4 +924,5 @@ class Request
         }
         return false;
     }
+
 }

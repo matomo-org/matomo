@@ -223,7 +223,7 @@ describe("TwoFactorAuth", function () {
         await page.click('.setupTwoFactorAuthentication .goToStep2');
         await page.waitForNetworkIdle();
         await page.evaluate(function () {
-            $('#qrcode').hide();
+            $('#qrcode').parent().hide();
         });
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step2');
@@ -256,7 +256,7 @@ describe("TwoFactorAuth", function () {
 
     it('should force user to setup 2fa when not set up yet but enforced', async function () {
         requireTwoFa();
-        await loginUser('no2FA', false);
+        await loginUser('no2FA', false, true);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step1');
     });
 

@@ -14,6 +14,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\API\Request as ApiRequest;
 use Piwik\API\ResponseBuilder;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -156,7 +157,6 @@ class Visualization extends ViewDataTable
 
     private $templateVars = array();
     private $reportLastUpdatedMessage = null;
-    private $metadata = null;
     protected $metricsFormatter = null;
 
     /**
@@ -232,6 +232,7 @@ class Visualization extends ViewDataTable
             // if it's likely that the report data for this data table has been purged,
             // set whether we should display a message to that effect.
             $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
+            $view->showPluginArchiveDisabled = $this->hasReportSegmentDisabled();
             $view->deleteReportsOlderThan         = Option::get('delete_reports_older_than');
         }
 
@@ -309,9 +310,6 @@ class Visualization extends ViewDataTable
         return $hasData;
     }
 
-    /**
-     * @internal
-     */
     protected function loadDataTableFromAPI()
     {
         if (!is_null($this->dataTable)) {
@@ -456,12 +454,33 @@ class Visualization extends ViewDataTable
         }
 
         // deal w/ table metadata
+        $metadata = null;
         if ($this->dataTable instanceof DataTable) {
-            $this->metadata = $this->dataTable->getAllTableMetadata();
-
-            if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText();
+            $metadata = $this->dataTable->getAllTableMetadata();
+        } else {
+            // if the dataTable is Map
+            if ($this->dataTable instanceof DataTable\Map) {
+                // load all the data
+                $dataTable = $this->dataTable->getDataTables();
+                // find the latest key
+                foreach ($dataTable as $item) {
+                    $itemMetaData = $item->getAllTableMetadata();
+                    // initial metadata and update metadata if current is more recent
+                    if (!empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])
+                        && (
+                            empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]) 
+                            || strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
+                        )
+                    ) {
+                        $metadata = $itemMetaData;
+                    }
+               }
             }
+        }
+
+        // if metadata set display report date
+        if (!empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+            $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]);
         }
 
         $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
@@ -556,14 +575,16 @@ class Visualization extends ViewDataTable
         }
     }
 
+
     /**
      * Returns prettified and translated text that describes when a report was last updated.
      *
+     * @param $dateText
      * @return string
+     * @throws \Exception
      */
-    private function makePrettyArchivedOnText()
+    private function makePrettyArchivedOnText($dateText)
     {
-        $dateText = $this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
         $date     = Date::factory($dateText);
         $today    = mktime(0, 0, 0);
         $metricsFormatter = new HtmlFormatter();
@@ -598,6 +619,22 @@ class Visualization extends ViewDataTable
         }
 
         return PrivacyManager::hasReportBeenPurged($this->dataTable);
+    }
+
+    /**
+     * Return true if the config for the plug is disabled
+     * @return bool
+     */
+
+    private function hasReportSegmentDisabled()
+    {
+        $module = $this->requestConfig->getApiModuleToRequest();
+        $rawSegment = \Piwik\API\Request::getRawSegmentFromRequest();
+
+        if (!empty($rawSegment) && Rules::isSegmentPluginArchivingDisabled($module)) {
+            return true;
+        }
+        return false;
     }
 
     /**

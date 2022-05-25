@@ -8,9 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\UsersManager\Model;
 use ReflectionClass;

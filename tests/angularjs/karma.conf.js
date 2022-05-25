@@ -23,8 +23,8 @@ module.exports = function(config) {
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/jquery-ui-dist/jquery-ui.min.js",
         "node_modules/sprintf-js/dist/sprintf.min.js",
-        "plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js",
         "node_modules/vue/dist/vue.global.prod.js",
+        "plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js",
         "plugins/CoreHome/javascripts/require.js",
         "plugins/Morpheus/javascripts/piwikHelper.js",
         "plugins/Morpheus/javascripts/ajaxHelper.js",
@@ -37,7 +37,7 @@ module.exports = function(config) {
         'piwik.js',
         'plugins/AnonymousPiwikUsageMeasurement/javascripts/url.js',
         'plugins/AnonymousPiwikUsageMeasurement/javascripts/tracking.js',
-        'plugins/*/vue/dist/*.js',
+        'plugins/CoreHome/vue/dist/CoreHome.umd.js',
         'plugins/*/**/*.spec.js'
     ],
 

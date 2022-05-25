@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import translate from '../translate';
+import { translate } from '../translate';
 import Periods from './Periods';
 import {
   parseDate,
@@ -175,6 +175,11 @@ export default class RangePeriod {
 
   containsToday(): boolean {
     return todayIsInRange(this.getDateRange());
+  }
+
+  getDayCount(): number {
+    return (Math.ceil((this.endDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24))
+            + 1);
   }
 }
 

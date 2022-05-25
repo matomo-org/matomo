@@ -18,8 +18,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\IP;
-use Piwik\Mail;
 use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
@@ -27,10 +25,9 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\SettingsPiwik;
+use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\View;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 
 /**
@@ -712,7 +709,7 @@ class API extends \Piwik\Plugin\API
      * @see isValidPasswordString()
      * @see isValidEmailString()
      *
-     * @exception in case of an invalid parameter
+     * @throws Exception in case of an invalid parameter
      */
     public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
     {
@@ -878,6 +875,7 @@ class API extends \Piwik\Plugin\API
         unset($user['token_auth']);
         unset($user['password']);
         unset($user['ts_password_modified']);
+        unset($user['idchange_last_viewed']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
@@ -1409,6 +1407,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             if (empty($user)) {
                 /**
@@ -1510,23 +1509,10 @@ class API extends \Piwik\Plugin\API
     {
         $deviceDescription = $this->getDeviceDescription();
 
-        $view = new View('@UsersManager/_userInfoChangedEmail.twig');
-        $view->type = $type;
-        $view->accountName = Common::sanitizeInputValue($user['login']);
-        $view->newEmail = Common::sanitizeInputValue($newValue);
-        $view->ipAddress = IP::getIpFromHeader();
-        $view->deviceDescription = $deviceDescription;
-
-        $mail = new Mail();
+        $mail = new UserInfoChangedEmail($type, $newValue, $deviceDescription, $user['login']);
 
         $mail->addTo($emailTo, $user['login']);
         $mail->setSubject(Piwik::translate($subject));
-        $mail->setDefaultFromPiwik();
-        $mail->setWrappedHtmlBody($view);
-
-        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
-        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         $mail->send();
     }

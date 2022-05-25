@@ -14,6 +14,7 @@ function piwikUrl() {
   return model;
 }
 
-piwikUrl.$inject = [];
+window.angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
 
-angular.module('piwikApp.service').service('piwikUrl', piwikUrl);
+// make sure $location is initialized early
+window.angular.module('piwikApp.service').run(['$location', () => null]);

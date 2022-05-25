@@ -5,10 +5,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { IDirective } from 'angular';
+import { IDirective, ITimeoutService } from 'angular';
 import DropdownMenu from './DropdownMenu';
 
-function piwikDropdownMenu($timeout): IDirective {
+function piwikDropdownMenu($timeout: ITimeoutService): IDirective {
   return {
     restrict: 'A',
     link: function piwikDropdownMenuLink(scope, element, attrs) {
@@ -31,4 +31,4 @@ function piwikDropdownMenu($timeout): IDirective {
 
 piwikDropdownMenu.$inject = ['$timeout'];
 
-angular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);
+window.angular.module('piwikApp').directive('piwikDropdownMenu', piwikDropdownMenu);

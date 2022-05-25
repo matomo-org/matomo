@@ -6,7 +6,7 @@
         "ClickHereToDeleteTheCookie": "Kattints ide a szűrés érdekében lementett süti törléséhez, hogy a továbbiakban a Matomo regisztrálja látogatásaid.",
         "ClickHereToSetTheCookieOnDomain": "Kattints ide egy, a %s weboldalon történő látogatásaid kiszűréséhez szükséges süti böngésződben történő elmentéséhez.",
         "DeleteConfirm": "Biztosan törölni akarod a következő felhasználót: %s?",
-        "Email": "E-mail cím",
+        "Email": "E-mail-cím",
         "ExceptionDeleteDoesNotExist": "'%s' felhasználó nem létezik, ezért nem törölhető!",
         "ExceptionEditAnonymous": "'Névtelen' felhasználó nem szerkeszthető vagy törölhető. Ezt a Matomo használja a be nem lépett felhasználók azonosítására. Nyilvánossá teheted például statisztikáidat, ha 'megtekintési' jogosultságot adsz a 'névtelen' felhasználók számára.",
         "ExceptionEmailExists": "'%s' e-mail címmel már létezik felhasználó.",
@@ -17,8 +17,8 @@
         "ForAnonymousUsersReportDateToLoadByDefault": "A névtelen felhasználók számára alkalmazott alapértelmezett időintervallum",
         "ManageAccess": "Hozzáférési jogosultságok kezelése",
         "MenuAnonymousUserSettings": "Névtelen felhasználók beállításai",
-        "MenuUsers": "Felhasználók",
         "MenuUserSettings": "Felhasználói beállítások",
+        "MenuUsers": "Felhasználók",
         "PrivAdmin": "Adminisztráció",
         "PrivNone": "Nincs hozzáférés",
         "PrivView": "Megtekintés",
@@ -27,12 +27,11 @@
         "TheLoginScreen": "Belépési képernyő",
         "TypeYourPasswordAgain": "Add meg az új jelszót még egyszer.",
         "User": "Felhasználó",
+        "Username": "Felhasználónév",
         "UsersManagement": "Felhasználókezelés",
         "UsersManagementMainDescription": "Új felhasználó hozzáadása, vagy a meglévők beállítása. Feljebb beállíthatod a jogosultságaikat.",
         "YourUsernameCannotBeChanged": "Felhasználói nevedet nem lehet megváltoztatni",
         "YourVisitsAreIgnoredOnDomain": "%1$sLátogatásaidat nem veszi figyelembe a Matomo itt: %2$s %3$s (a Matomo megfelelő sütijét megtaláltuk a böngésződben lementve).",
-        "YourVisitsAreNotIgnored": "%1$sLátogatásaid nem kerültek ignorálásra a Matomo által%2$s (Az ehhez szükséges süti nem volt megtalálható a böngésződben.)",
-        "ShowAll": "Összes mutatása",
-        "Username": "Felhasználónév"
+        "YourVisitsAreNotIgnored": "%1$sLátogatásaid nem kerültek ignorálásra a Matomo által%2$s (Az ehhez szükséges süti nem volt megtalálható a böngésződben.)"
     }
 }

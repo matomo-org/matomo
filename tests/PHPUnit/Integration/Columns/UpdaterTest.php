@@ -15,7 +15,6 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Updater;
 use Piwik\Updater\Migration;
 
 // NOTE: we can't use PHPUnit mock framework since we have to set columnName/columnType. reflection will set it, but

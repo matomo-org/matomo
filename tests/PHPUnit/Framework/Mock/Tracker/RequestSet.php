@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Framework\Mock\Tracker;
 
 use Exception;
-use Piwik\Tracker;
 
 class RequestSet extends \Piwik\Tracker\RequestSet
 {

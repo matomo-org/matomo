@@ -476,25 +476,14 @@ abstract class Controller
      */
     protected function getGraphParamsModified($paramsToSet = array())
     {
-        if (!isset($paramsToSet['period'])) {
-            $period = Common::getRequestVar('period');
-        } else {
-            $period = $paramsToSet['period'];
-        }
+        $period = $paramsToSet['period'] ?? Piwik::getPeriod();
+
         if ($period === 'range') {
             return $paramsToSet;
         }
-        if (!isset($paramsToSet['range'])) {
-            $range = 'last30';
-        } else {
-            $range = $paramsToSet['range'];
-        }
 
-        if (!isset($paramsToSet['date'])) {
-            $endDate = $this->strDate;
-        } else {
-            $endDate = $paramsToSet['date'];
-        }
+        $range = isset($paramsToSet['range']) ? $paramsToSet['range'] : 'last30';
+        $endDate = isset($paramsToSet['date']) ? $paramsToSet['date'] : $this->strDate;
 
         if (is_null($this->site)) {
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
@@ -640,10 +629,10 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate = Common::getRequestVar('date');
+        $rawDate = Piwik::getDate();
         Period::checkDateFormat($rawDate);
 
-        $periodStr = Common::getRequestVar('period');
+        $periodStr = Piwik::getPeriod();
 
         if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
@@ -923,13 +912,14 @@ abstract class Controller
 
         $periodValidator = new PeriodValidator();
 
-        $currentPeriod = Common::getRequestVar('period');
-        $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
+        $currentPeriod = Piwik::getPeriod();
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
             throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
+
+        $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
 
         $found = array_search($currentPeriod, $availablePeriods);
         unset($availablePeriods[$found]);

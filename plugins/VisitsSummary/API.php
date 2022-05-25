@@ -11,7 +11,6 @@ namespace Piwik\Plugins\VisitsSummary;
 use Piwik\Archive;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\SettingsPiwik;
 

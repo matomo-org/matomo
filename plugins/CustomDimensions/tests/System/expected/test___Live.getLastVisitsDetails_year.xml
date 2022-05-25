@@ -16,6 +16,8 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Fourth page view</title>
 				<subtitle>http://example.com/sub_en/page?param=en_US</subtitle>
@@ -157,6 +159,8 @@
 				
 				<pageId>6</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Sixth page view</title>
 				<subtitle>http://example.com/sub_en/page?param=en_US</subtitle>
@@ -298,6 +302,8 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Fifth page view</title>
 				<subtitle>http://example.com/sub_en/page?param=en_US</subtitle>
@@ -498,6 +504,8 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Third page view</title>
 				<subtitle>http://example.com/sub_en/page?param=en_US</subtitle>
@@ -622,6 +630,8 @@
 				
 				<pageId>9</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Viewing homepage</title>
 				<subtitle>http://example.com/sub_en/page</subtitle>

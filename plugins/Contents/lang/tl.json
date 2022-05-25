@@ -1,10 +1,11 @@
 {
     "Contents": {
-        "Impressions": "Mga Impresyon",
-        "InteractionRate": "Rate ng Pakikipag-ugnayan",
         "ContentName": "Pangalan ng Nilalaman",
         "ContentPiece": "Piraso ng Nilalaman",
         "ContentTarget": "Target ng Nilalaman",
-        "Contents": "Mga Nilalaman"
+        "Contents": "Mga Nilalaman",
+        "Impressions": "Mga Impresyon",
+        "InteractionRate": "Rate ng Pakikipag-ugnayan",
+        "PluginDescription": "Maaring sukatin ang pagganap (mga view, pag-click, CTR) ng anumang piraso ng nilalaman sa iyong mga pahina (Banner ad, imahe, anumang item) sa pagsubaybay sa contento at banner."
     }
 }

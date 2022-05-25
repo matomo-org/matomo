@@ -28,12 +28,14 @@ function createDashboard() {
         ajaxRequest.setCallback(
             function (response) {
                 var id = response.value;
-                angular.element(document).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
-                    dashboardsModel.reloadAllDashboards().then(function () {
-
-                        $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
-                        $('#dashboardWidgetsArea').dashboard('rebuildMenu');
-                    });
+                angular.element(document).injector().invoke(function ($location, reportingMenuModel) {
+                  Promise.all([
+                    Dashboard.DashboardStore.reloadAllDashboards(),
+                    reportingMenuModel.reloadMenuItems(),
+                  ]).then(function () {
+                    $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
+                    $('#dashboardWidgetsArea').dashboard('rebuildMenu');
+                  });
                 });
             }
         );
@@ -84,7 +86,9 @@ function showChangeDashboardLayoutDialog() {
 function showEmptyDashboardNotification() {
     piwikHelper.modalConfirm(makeSelectorLastId('dashboardEmptyNotification'), {
         resetDashboard: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); },
-        addWidget: function () { $('.dashboardSettings > a').trigger('click'); }
+        addWidget: function () {
+          $('.dashboardSettings > a').trigger('click');
+        }
     });
 }
 
@@ -165,6 +169,8 @@ function copyDashboardToUser() {
     var DashboardSettingsControlBase = function (element) {
         UIControl.call(this, element);
 
+        window.CoreHome.Matomo.postEvent('Dashboard.DashboardSettings.mounted', $(element)[0]);
+
         // on menu item click, trigger action event on this
         var self = this;
         this.$element.on('click', 'ul.submenu li[data-action]', function (e) {
@@ -218,6 +224,8 @@ function copyDashboardToUser() {
 
     $.extend(DashboardSettingsControlBase.prototype, UIControl.prototype, {
         _destroy: function () {
+            window.CoreHome.Matomo.postEvent('Dashboard.DashboardSettings.unmounted', this.$element[0]);
+
             UIControl.prototype._destroy.call(this);
 
             $('body').off('mouseup', null, this.onBodyMouseUp);

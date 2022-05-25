@@ -9,7 +9,6 @@
 
 namespace Piwik;
 
-use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Container\StaticContainer;
 use Piwik\DeviceDetector\DeviceDetectorFactory;

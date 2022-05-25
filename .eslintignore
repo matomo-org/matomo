@@ -4,3 +4,6 @@ plugins/*/javascripts/
 plugins/*/angularjs/
 plugins/*/tests/UI/
 plugins/*/vue/dist/**/*.js
+js/*.js
+piwik.js
+matomo.js

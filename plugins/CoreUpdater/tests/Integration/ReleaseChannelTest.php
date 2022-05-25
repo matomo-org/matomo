@@ -8,10 +8,8 @@
 
 namespace Piwik\Plugins\CoreUpdater\tests\ReleaseChannel;
 
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
-use Piwik\UpdateCheck;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Url;
 use Piwik\Version;
@@ -62,7 +60,7 @@ class ReleaseChannelTest extends IntegrationTestCase
 
         $urlToCheck = $this->channel->getUrlToCheckForLatestAvailableVersion();
 
-        $this->assertStringStartsWith("http://api.matomo.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
+        $this->assertStringStartsWith("https://api.matomo.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
     }
 
     public function test_doesPreferStable()

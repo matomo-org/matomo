@@ -385,6 +385,11 @@ archiving_custom_ranges[] =
 ; This feature will not work with the MYSQLI extension.
 archiving_query_max_execution_time = 7200
 
+
+; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
+; Here you can specify the comma separated list eg: "plugin1,plugin2"
+disable_archiving_segment_for_plugins = ""
+
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
@@ -634,6 +639,7 @@ assume_secure_protocol = 0
 ; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
 ; installed on one server or a config one change would be only made on one server instead of all servers.
 ; This flag doesn't need to be enabled when the config file is on a shared filesystem such as NFS or EFS.
+; When enabled, Matomo will return the response code 200 instead of 503 in maintenance mode.
 multi_server_environment = 0
 
 ; List of proxy headers for client IP addresses
@@ -676,7 +682,8 @@ proxy_ip_read_last_in_list = 0
 enable_trusted_host_check = 1
 
 ; List of trusted hosts (eg domain or subdomain names) when generating absolute URLs.
-;
+; This only needs to be set for any hostnames that the Matomo UI will be accessed from. It is not necessary to set this
+; for other additional hostnames (For example tracking, API, etc.)
 ; Examples:
 ;trusted_hosts[] = example.com
 ;trusted_hosts[] = stats.example.com
@@ -699,7 +706,7 @@ enable_trusted_host_check = 1
 ; The API server is an essential part of the Matomo infrastructure/ecosystem to
 ; provide services to Matomo installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
-api_service_url = http://api.matomo.org
+api_service_url = https://api.matomo.org
 
 ; When the ImageGraph plugin is activated, report metadata have an additional entry : 'imageGraphUrl'.
 ; This entry can be used to request a static graph for the requested report.
@@ -792,6 +799,10 @@ enable_update_communication = 1
 ; This option defines the protocols Matomo's Http class is allowed to open.
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
+
+; This option forces matomo marketplace and matomo api requests to use Https for improved security
+; If you have a problem loading the marketplace, please disable this config option
+force_matomo_ssl_request = 1
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
@@ -921,6 +932,11 @@ default_time_one_page_visit = 0
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
 url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+
+; If set to 1, Matomo will use the default provider if no other provider is configured.
+; In addition the default provider will be used as a fallback when the configure provider does not return any results.
+; If set to 0, the default provider will be unavailable. Instead the "disabled" provider will be used as default and fallback instead.
+enable_default_location_provider = 1
 
 ; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.
@@ -1083,6 +1099,7 @@ encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or 
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported
 host = ; Proxy host: the host name of your proxy server (mandatory)
 port = ; Proxy port: the port that the proxy server listens to. There is no standard default, but 80, 1080, 3128, and 8080 are popular
+exclude = ; Comma separated list of hosts to exclude from proxy: optional; localhost is always excluded
 username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
 

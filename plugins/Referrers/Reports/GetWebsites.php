@@ -13,8 +13,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Referrers\Columns\Website;
-use Piwik\Report\ReportWidgetFactory;
-use Piwik\Widget\WidgetsList;
 
 class GetWebsites extends Base
 {

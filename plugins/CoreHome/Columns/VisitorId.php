@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -10,12 +11,11 @@ namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Live\Live;
 use Piwik\Segment\SegmentsList;
-use Piwik\Plugins\Live\SystemSettings;
 use Piwik\Columns\DimensionSegmentFactory;
 
 /**
@@ -31,7 +31,7 @@ class VisitorId extends VisitDimension
     protected $segmentName = 'visitorId';
     protected $acceptValues = '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()';
     protected $allowAnonymous = false;
-    protected $sqlFilterValue = array('Piwik\Common', 'convertVisitorIdToBin');
+    protected $sqlFilterValue = ['Piwik\Common', 'convertVisitorIdToBin'];
     protected $type = self::TYPE_BINARY;
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
@@ -45,9 +45,7 @@ class VisitorId extends VisitDimension
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         try {
-            $systemSettings        = new SystemSettings();
-            $visitorProfileEnabled = $systemSettings->disableVisitorProfile->getValue() === false
-                && $systemSettings->disableVisitorLog->getValue() === false;
+            $visitorProfileEnabled = Live::isVisitorProfileEnabled();
         } catch (\Zend_Db_Exception $e) {
             // when running tests the db might not yet be set up when fetching available segments
             if (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE) {

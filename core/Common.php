@@ -13,7 +13,6 @@ use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Cache as TrackerCache;
 
 /**
@@ -298,7 +297,7 @@ class Common
     {
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;
@@ -577,6 +576,38 @@ class Common
         return $value;
     }
 
+    /**
+     * Replaces lbrace with an encoded entity to prevent angular from parsing the content
+     *
+     * @deprecated Will be removed, once the vue js migration is done
+     *
+     * @param $string
+     * @return array|string|string[]|null
+     */
+    public static function fixLbrace($string)
+    {
+        $chars = array('{', '&#x7B;', '&#123;', '&lcub;', '&lbrace;', '&#x0007B;');
+
+        static $search;
+        static $replace;
+
+        if (!isset($search)) {
+            $search = array_map(function ($val) { return $val . $val; }, $chars);
+        }
+        if (!isset($replace)) {
+            $replace = array_map(function ($val) { return $val . '&#8291;' . $val; }, $chars);
+        }
+
+        $replacedString = is_null($string) ? $string : str_replace($search, $replace, $string);
+
+        // try to replace characters until there are no changes
+        if ($string !== $replacedString) {
+            return self::fixLbrace($replacedString);
+        }
+
+        return $string;
+    }
+
     /*
      * Generating unique strings
      */
@@ -743,8 +774,12 @@ class Common
 
     public static function stringEndsWith($haystack, $needle)
     {
-        if ('' === $needle) {
+        if (strlen(strval($needle)) === 0) {
             return true;
+        }
+
+        if (strlen(strval($haystack)) === 0) {
+            return false;
         }
 
         $lastCharacters = substr($haystack, -strlen($needle));
@@ -1102,6 +1137,7 @@ class Common
             401 => 'Unauthorized',
             403 => 'Forbidden',
             404 => 'Not Found',
+            429 => 'Too Many Requests',
             500 => 'Internal Server Error',
             503 => 'Service Unavailable',
         );
@@ -1135,7 +1171,7 @@ class Common
     {
         $cache = TrackerCache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
-            ? DefaultProvider::ID
+            ? Plugins\UserCountry\LocationProvider::getDefaultProviderId()
             : $cache['currentLocationProviderId'];
     }
 

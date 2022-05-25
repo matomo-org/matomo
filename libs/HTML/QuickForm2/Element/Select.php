@@ -48,6 +48,30 @@
  */
 // require_once 'HTML/QuickForm2/Element.php';
 
+/**
+ * Implements a recursive iterator for options arrays
+ *
+ * @category   HTML
+ * @package    HTML_QuickForm2
+ * @author     Alexey Borzov <avb@php.net>
+ * @author     Bertrand Mansion <golgote@mamasam.com>
+ * @version    Release: @package_version@
+ */
+class HTML_QuickForm2_Element_Select_OptionIterator extends RecursiveArrayIterator
+    implements RecursiveIterator
+{
+    public function hasChildren(): bool
+    {
+        return $this->current() instanceof HTML_QuickForm2_Element_Select_OptionContainer;
+    }
+
+    public function getChildren(): HTML_QuickForm2_Element_Select_OptionIterator
+    {
+        return new HTML_QuickForm2_Element_Select_OptionIterator(
+            $this->current()->getOptions()
+        );
+    }
+}
 
 /**
  * Collection of <option>s and <optgroup>s
@@ -187,7 +211,7 @@ class HTML_QuickForm2_Element_Select_OptionContainer extends HTML_Common2
     *
     * @return   HTML_QuickForm2_Element_Select_OptionIterator
     */
-    public function getIterator()
+    public function getIterator(): HTML_QuickForm2_Element_Select_OptionIterator
     {
         return new HTML_QuickForm2_Element_Select_OptionIterator($this->options);
     }
@@ -197,7 +221,7 @@ class HTML_QuickForm2_Element_Select_OptionContainer extends HTML_Common2
     *
     * @return   RecursiveIteratorIterator
     */
-    public function getRecursiveIterator()
+    public function getRecursiveIterator(): RecursiveIteratorIterator
     {
         return new RecursiveIteratorIterator(
             new HTML_QuickForm2_Element_Select_OptionIterator($this->options),
@@ -210,7 +234,7 @@ class HTML_QuickForm2_Element_Select_OptionContainer extends HTML_Common2
     *
     * @return   int
     */
-    public function count()
+    public function count(): int
     {
         return count($this->options);
     }
@@ -254,31 +278,6 @@ class HTML_QuickForm2_Element_Select_Optgroup
         $linebreak = self::getOption('linebreak');
         return $indent . '<optgroup' . $this->getAttributes(true) . '>' .
                $linebreak . parent::__toString() . $indent . '</optgroup>' . $linebreak;
-    }
-}
-
-/**
- * Implements a recursive iterator for options arrays
- *
- * @category   HTML
- * @package    HTML_QuickForm2
- * @author     Alexey Borzov <avb@php.net>
- * @author     Bertrand Mansion <golgote@mamasam.com>
- * @version    Release: @package_version@
- */
-class HTML_QuickForm2_Element_Select_OptionIterator extends RecursiveArrayIterator
-    implements RecursiveIterator
-{
-    public function hasChildren()
-    {
-        return $this->current() instanceof HTML_QuickForm2_Element_Select_OptionContainer;
-    }
-
-    public function getChildren()
-    {
-        return new HTML_QuickForm2_Element_Select_OptionIterator(
-            $this->current()->getOptions()
-        );
     }
 }
 

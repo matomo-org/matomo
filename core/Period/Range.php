@@ -263,7 +263,7 @@ class Range extends Period
             if (strpos($strDateEnd, '-') === false) {
                 $timezone = $this->timezone;
             }
-            $endDate = Date::factory($strDateEnd, $timezone);
+            $endDate = Date::factory($strDateEnd, $timezone)->setTime("00:00:00");
         } else {
             throw new Exception($this->translator->translate('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
         }
@@ -498,6 +498,16 @@ class Range extends Period
         return array($strLastDate, $lastPeriod);
     }
 
+    /**
+     * Return the number of days contained in this range
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function getDayCount()
+    {
+         return (self::getNumDaysDifference($this->getDateStart(), $this->getDateEnd()) + 1);
+    }
 
     private static function getNumDaysDifference(Date $date1, Date $date2)
     {

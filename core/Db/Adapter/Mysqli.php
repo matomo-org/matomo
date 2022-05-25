@@ -25,6 +25,10 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      *
      * @param array|Zend_Config $config database configuration
      */
+
+    // this is used for indicate TransactionLevel Cache
+    public $supportsUncommitted;
+
     public function __construct($config)
     {
         // Enable LOAD DATA INFILE
@@ -77,6 +81,11 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         if ($this->_connection) {
             return;
         }
+
+        // The default error reporting of mysqli changed in PHP 8.1. To circumvent problems in our error handling we set
+        // the erroring reporting to the default that was used prior PHP 8.1
+        // See https://php.watch/versions/8.1/mysqli-error-mode for more details
+        mysqli_report(MYSQLI_REPORT_OFF);
 
         parent::_connect();
 

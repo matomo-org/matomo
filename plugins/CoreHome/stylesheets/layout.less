@@ -365,6 +365,9 @@ nav {
       .item .icon-arrow-right:before {
         content: "\e63b";
       }
+      .menu-icon {
+        padding-right: 13px;
+      }
     }
 
     .collapsible {
@@ -419,12 +422,16 @@ nav {
       input {
         height: 33px;
         font-size: 11px;
-        padding: 10px 12px 10px 10px;
+        padding: 10px 12px 10px 30px;
         border: 0;
         margin: 0;
         box-sizing: border-box;
         border-radius: 2px !important;
         box-shadow: none!important;
+      }
+
+      input::placeholder {
+        color: #a9a9a9;
       }
     }
 

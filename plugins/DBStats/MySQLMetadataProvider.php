@@ -11,7 +11,6 @@ namespace Piwik\Plugins\DBStats;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
 

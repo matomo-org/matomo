@@ -12,7 +12,6 @@ use Psr\Container\ContainerInterface;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
-use Piwik\Url;
 
 /**
  * @group Core
@@ -129,7 +128,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $this->assertEquals('+', $config->General['action_url_category_delimiter']);
         $this->assertEquals(array('www.trustedhost.com', 'www.trustedhost2.com'), $config->General['trusted_hosts']);
         $this->assertEquals(array('abc', 'def'), $config->MySection['array_value']);
-        $this->assertEquals(array('def'), $config->MySection['object_value']);
+        $this->assertEquals(array('abc' => 'def'), $config->MySection['object_value']);
         $this->assertArrayNotHasKey('other_array_value', $config->MySection);
 
         self::assertStringContainsString("done.", $this->applicationTester->getDisplay());

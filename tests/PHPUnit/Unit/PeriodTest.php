@@ -14,7 +14,6 @@ use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
-use Piwik\Translation\Translator;
 
 /**
  * @group Core

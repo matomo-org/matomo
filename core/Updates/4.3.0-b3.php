@@ -11,10 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
-use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Piwik\Db;
-use Piwik\Common;
 
 /**
  * Update for version 4.3.0-b3.

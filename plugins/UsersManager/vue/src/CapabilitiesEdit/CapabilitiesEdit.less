@@ -1,0 +1,76 @@
+.capabilitiesEdit {
+  display: inline-block;
+  margin-bottom: -8px;
+
+  div.chip {
+    margin-right: 8px;
+    display: inline-block;
+    margin-bottom: 8px;
+
+    span.capability-name {
+      padding-right: .4rem;
+    }
+
+    span.icon-close {
+      font-size: .6rem;
+      float: right;
+      margin-top: 1.4em;
+      cursor: pointer;
+    }
+  }
+
+  .addCapability {
+    display: inline-block;
+    margin-bottom: 8px;
+    vertical-align: bottom;
+
+    .input-field {
+      margin-top: 0;
+      .caret {
+        right: -25px;
+        top: 16px;
+        z-index: 9;
+        cursor: pointer;
+      }
+      .select-dropdown {
+        margin-top: 8px;
+        margin-bottom: 0;
+        border: 0;
+        background: #e4e4e4;
+        display: inline-block;
+        height: 32px;
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(0,0,0,0.6);
+        line-height: 32px;
+        border-radius: 3em;
+        padding-left: 12px;
+        padding-right: 30px;
+      }
+    }
+
+    .select-wrapper {
+      transform: scale(.89) translate(-.6rem);
+      margin-top: -0.55rem;
+      max-width: 160px;
+
+      input {
+        margin-bottom: 0;
+        height: 2rem;
+        line-height: 2rem;
+      }
+    }
+  }
+
+  &.busy {
+    opacity: 0.5;
+  }
+
+  .confirmCapabilityToggle {
+    .modal-no {
+      margin-left: 1em;
+      margin-right: 1em;
+      margin-top: 1em;
+    }
+  }
+}

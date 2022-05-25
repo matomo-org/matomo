@@ -13,7 +13,6 @@ use Piwik\Plugins\BulkTracking\BulkTracking;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker\Requests;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tracker\Handler as DefaultHandler;
 use Piwik\Tracker\RequestSet;
 
 /**

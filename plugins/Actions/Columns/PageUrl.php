@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 

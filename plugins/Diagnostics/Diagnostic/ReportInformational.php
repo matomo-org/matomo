@@ -8,15 +8,11 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Access;
-use Piwik\Archive\ArchiveInvalidator;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Development;
 use Piwik\Option;
-use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;

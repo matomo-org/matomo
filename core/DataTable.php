@@ -11,7 +11,6 @@ namespace Piwik;
 
 use Closure;
 use Exception;
-use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
@@ -999,6 +998,31 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $metadataValues[] = $row->getMetadata($name);
         }
         return $metadataValues;
+    }
+
+    /**
+     * Delete row metadata by name in every row.
+     *
+     * @param       $name
+     * @param bool $deleteRecursiveInSubtables
+     */
+    public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false)
+    {
+        foreach ($this->rows as $row) {
+            $row->deleteMetadata($name);
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $subTable->deleteRowsMetadata($name, $deleteRecursiveInSubtables);
+            }
+        }
+        if (!is_null($this->summaryRow)) {
+            $this->summaryRow->deleteMetadata($name);
+        }
+        if (!is_null($this->totalsRow)) {
+            $this->totalsRow->deleteMetadata($name);
+        }
+
     }
 
     /**

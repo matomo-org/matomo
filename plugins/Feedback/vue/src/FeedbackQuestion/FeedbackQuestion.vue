@@ -24,8 +24,8 @@
         >
           <h2>{{ translate(`Feedback_Question${question}`) }}</h2>
           <p
-            v-html="translate('Feedback_FeedbackSubtitle',
-            `<i class='icon-heart red-text'></i>`)"></p>
+            v-html="$sanitize(translate('Feedback_FeedbackSubtitle',
+            `<i class='icon-heart red-text'></i>`))"></p>
           <br/>
           <div class="messageContainer">
             <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
@@ -33,7 +33,7 @@
           </div>
           <br/>
           <p
-            v-html="translate('Feedback_Policy',`<a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>`,'</a>')"></p>
+            v-html="$sanitize(feedbackPolicy)"></p>
           <input
             type="button"
             role="validation"
@@ -51,8 +51,8 @@
           class="ui-confirm ratefeatureDialog"
         >
           <h2>{{ translate(`Feedback_ThankYou`) }}</h2>
-          <p v-html="translate('Feedback_ThankYourForFeedback',
-        `<i class='icon-heart red-text'></i>`)">
+          <p v-html="$sanitize(translate('Feedback_ThankYourForFeedback',
+        `<i class='icon-heart red-text'></i>`))">
           </p>
           <input
             type="button"
@@ -73,9 +73,23 @@ import {
 
 const { $ } = window;
 
+interface FeedbackQuestionState {
+  questionText: string;
+  question: number;
+  hide: null|boolean;
+  feedbackDone: boolean;
+  expanded: boolean;
+  showFeedbackForm: boolean;
+  feedbackMessage: string|null;
+  errorMessage: string|null;
+}
+
+interface SendFeedbackForSurveyResponse {
+  value: string;
+}
+
 const cookieName = 'feedback-question';
 export default defineComponent({
-
   props: {
     showQuestionBanner: String,
   },
@@ -89,8 +103,15 @@ export default defineComponent({
       }
       return !!this.hide;
     },
+    feedbackPolicy() {
+      return translate(
+        'Feedback_Policy',
+        '<a rel="nofollow" href="https://matomo.org/privacy-policy/" target="_blank">',
+        '</a>',
+      );
+    },
   },
-  data() {
+  data(): FeedbackQuestionState {
     return {
       questionText: '',
       question: 0,
@@ -124,14 +145,14 @@ export default defineComponent({
         this.question = this.getRandomIntBetween(0, 4);
       } else {
         // eslint-disable-next-line radix
-        this.question = parseInt(getCookie(cookieName));
+        this.question = parseInt(getCookie(cookieName)!);
       }
 
       const nextQuestion = (this.question + 1) % 4;
       const sevenDays = 7 * 60 * 60 * 24 * 1000;
-      setCookie(cookieName, nextQuestion, sevenDays);
+      setCookie(cookieName, `${nextQuestion}`, sevenDays);
     },
-    getRandomIntBetween(min, max) {
+    getRandomIntBetween(min: number, max: number) {
       // eslint-disable-next-line no-param-reassign
       min = Math.ceil(min);
       // eslint-disable-next-line no-param-reassign
@@ -148,21 +169,21 @@ export default defineComponent({
       });
       this.hide = true;
     },
-    async sendFeedback() {
+    sendFeedback() {
       this.errorMessage = null;
-      const res = await AjaxHelper.fetch({
+      AjaxHelper.fetch({
         method: 'Feedback.sendFeedbackForSurvey',
         question: this.questionText,
         message: this.feedbackMessage,
+      }).then((res: SendFeedbackForSurveyResponse) => {
+        if (res.value === 'success') {
+          $('.modal').modal('close');
+          this.feedbackDone = true;
+          this.hide = true;
+        } else {
+          this.errorMessage = res.value;
+        }
       });
-
-      if (res.value === 'success') {
-        $('.modal').modal('close');
-        this.feedbackDone = true;
-        this.hide = true;
-      } else {
-        this.errorMessage = res.value;
-      }
     },
   },
 });

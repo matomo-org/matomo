@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;
 use Piwik\View;
@@ -98,6 +98,7 @@ class Controller extends \Piwik\Plugin\Controller
         $_GET['period'] = 'day';
 
         $view = new View('@Live/getLastVisitsStart');
+        $view->isProfileEnabled = Live::isVisitorProfileEnabled();
         $view->idSite = (int) $this->idSite;
         $error = '';
         $visitors = new DataTable();
@@ -116,20 +117,40 @@ class Controller extends \Piwik\Plugin\Controller
     private function setCounters($view)
     {
         $segment = Request::getRawSegmentFromRequest();
-        $last30min = Request::processRequest('Live.getCounters', [
-            'idSite' => $this->idSite,
-            'lastMinutes' => 30,
-            'segment' => $segment,
-            'showColumns' => 'visits,actions',
-        ], $default = []);
-        $last30min = $last30min[0];
-        $today = Request::processRequest('Live.getCounters', [
-            'idSite' => $this->idSite,
-            'lastMinutes' => 24 * 60,
-            'segment' => $segment,
-            'showColumns' => 'visits,actions',
-        ], $default = []);
-        $today = $today[0];
+        $executeTodayQuery = true;
+        $view->countErrorToday = '';
+        $view->countErrorHalfHour = '';
+        try {
+            $last30min = Request::processRequest('Live.getCounters', [
+                'idSite' => $this->idSite,
+                'lastMinutes' => 30,
+                'segment' => $segment,
+                'showColumns' => 'visits,actions',
+            ], $default = []);
+            $last30min = $last30min[0];
+        } catch (MaxExecutionTimeExceededException $e) {
+            $last30min = ['visits' => '-', 'actions' => '-'];
+            $today = ['visits' => '-', 'actions' => '-'];
+            $view->countErrorToday = $e->getMessage();
+            $view->countErrorHalfHour = $e->getMessage();
+            $executeTodayQuery = false; // if query for last 30 min failed, we also expect the 24 hour query to fail
+        }
+
+        try {
+            if ($executeTodayQuery) {
+                $today = Request::processRequest('Live.getCounters', [
+                    'idSite' => $this->idSite,
+                    'lastMinutes' => 24 * 60,
+                    'segment' => $segment,
+                    'showColumns' => 'visits,actions',
+                ], $default = []);
+                $today = $today[0];
+            }
+        } catch (MaxExecutionTimeExceededException $e) {
+            $today = ['visits' => '-', 'actions' => '-'];
+            $view->countErrorToday = $e->getMessage();
+        }
+
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];
         $view->pisHalfhour = $last30min['actions'];

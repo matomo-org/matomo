@@ -17,8 +17,8 @@
         "ForAnonymousUsersReportDateToLoadByDefault": "สำหรับผู้ใช้ที่ไม่ระบุชื่อ รายงานวันที่โหลด โดยค่าเริ่มต้น",
         "ManageAccess": "จัดการการเข้าถึง",
         "MenuAnonymousUserSettings": "การตั้งค่าผู้ใช้ที่ไม่ระบุชื่อ",
-        "MenuUsers": "ผู้ใช้",
         "MenuUserSettings": "ตั้งค่าผู้ใช้",
+        "MenuUsers": "ผู้ใช้",
         "PrivAdmin": "จัดการ",
         "PrivNone": "ไม่เข้าใช้งาน",
         "PrivView": "มุมมอง",
@@ -27,12 +27,11 @@
         "TheLoginScreen": "หน้าจอการเข้าสู่ระบบ",
         "TypeYourPasswordAgain": "พิมพ์รหัสผ่านของคุณใหม่อีกครั้ง",
         "User": "ผู้ใช้",
+        "Username": "ชื่อผู้ใช้",
         "UsersManagement": "การจัดการผู้ใช้",
         "UsersManagementMainDescription": "สร้างผู้ใช้ใหม่หรืออัพเดตผู้ใช้ที่มีอยู่ จากนั้นคุณสามารถกำหนดสิทธิ์ของพวกเขาได้",
         "YourUsernameCannotBeChanged": "ชื่อผู้ใช้ของคุณไม่สามารถเปลี่ยนแปลงได้",
         "YourVisitsAreIgnoredOnDomain": "%1$s ผู้เข้าชมของคุณจะถูกละเว้น โดย Matomo บน %2$s %3$s (Matomo ละเว้นการที่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
-        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Matomo %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
-        "ShowAll": "แสดงทั้งหมด",
-        "Username": "ชื่อผู้ใช้"
+        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Matomo %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)"
     }
 }

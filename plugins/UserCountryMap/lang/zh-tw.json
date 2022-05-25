@@ -2,7 +2,7 @@
     "UserCountryMap": {
         "AndNOthers": "和其他 %s 人",
         "Cities": "城市",
-        "Countries": "國家",
+        "Countries": "國家與地區",
         "DaysAgo": "%s 天前",
         "GoalConversions": "%s 個目標轉換",
         "HoursAgo": "%s 小時前",
@@ -17,7 +17,7 @@
         "Searches": "%s 個搜尋次數",
         "SecondsAgo": "%s 秒前",
         "ShowingVisits": "訪客地理位置從過去的",
-        "Unlocated": "<b>%1$s</b> %2$p 的访问来自 %3$c 无法定位地理位置。",
+        "Unlocated": "<b>%1$s</b> %2$s 的访问来自 %3$s 无法定位地理位置。",
         "VisitorMap": "訪客分佈地圖",
         "WithUnknownCity": "%s 個未知城市",
         "WithUnknownRegion": "%s 個未知地區",

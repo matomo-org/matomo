@@ -36,7 +36,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['subtitle'] .= ', ' . Piwik::translate('General_Value') . ': "' . $action['eventValue'] . '"';
             }
 
-            if (strlen($action['pageTitle']) > 0) {
+            if (strlen(strval($action['pageTitle'])) > 0) {
                 $action['eventName'] = $action['pageTitle'];
             }
 

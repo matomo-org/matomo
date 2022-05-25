@@ -12,12 +12,10 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
 use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
 use Piwik\Plugins\Login\Model;
 use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Updater;
-use Piwik\Version;
 use Psr\Log\LoggerInterface;
 
 class BruteForceDetection {

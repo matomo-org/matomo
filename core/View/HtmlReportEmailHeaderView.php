@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Mail\EmailStyles;
 use Piwik\Plugin\ThemeStyles;
-use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;

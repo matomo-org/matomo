@@ -10,10 +10,8 @@ namespace Piwik\Plugins\Referrers\DataTable\Filter;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Period\Range;
-use Piwik\Plugins\Referrers\API;
 
 /**
  * Utility function that sets the subtables for the getReferrerType report.
