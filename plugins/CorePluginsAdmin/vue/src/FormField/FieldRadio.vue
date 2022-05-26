@@ -53,6 +53,8 @@ export default defineComponent({
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {
+      // change to previous value so the parent component can determine if this change should
+      // go through
       (this.$refs.root as HTMLElement).querySelectorAll('input').forEach((inp, i) => {
         if (!this.availableOptions?.[i]) {
           return;
