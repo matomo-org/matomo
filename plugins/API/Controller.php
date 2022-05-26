@@ -77,7 +77,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
-        $view->list_api_methods_with_links = $ApiDocumentation->getApiDocumentationAsString();
+        $view->list_api_methods_with_links = str_replace('href=\'#', 'href=\'#/', $ApiDocumentation->getApiDocumentationAsString());
         return $view->render();
     }
 
