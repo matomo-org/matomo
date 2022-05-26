@@ -18,6 +18,8 @@ use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Plugins\UsersManager\Validators\Login;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\IdSite;
+use Piwik\Plugin;
+
 
 class UserRepository
 {
@@ -206,6 +208,15 @@ class UserRepository
             }
         }
         return $users;
+    }
+
+
+    private function isTwoFactorAuthPluginEnabled()
+    {
+        if (!isset($this->twoFaPluginActivated)) {
+            $this->twoFaPluginActivated = Plugin\Manager::getInstance()->isPluginActivated('TwoFactorAuth');
+        }
+        return $this->twoFaPluginActivated;
     }
 
 

@@ -21,7 +21,6 @@ use Piwik\Date;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
@@ -790,13 +789,6 @@ class API extends \Piwik\Plugin\API
     }
 
 
-    private function isTwoFactorAuthPluginEnabled()
-    {
-        if (!isset($this->twoFaPluginActivated)) {
-            $this->twoFaPluginActivated = Plugin\Manager::getInstance()->isPluginActivated('TwoFactorAuth');
-        }
-        return $this->twoFaPluginActivated;
-    }
 
 
     /**
