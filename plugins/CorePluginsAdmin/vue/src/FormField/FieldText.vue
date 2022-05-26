@@ -65,6 +65,10 @@ export default defineComponent({
     onKeydown(event: Event) {
       const newValue = (event.target as HTMLInputElement).value;
       if (this.modelValue !== newValue) {
+        // change to previous value so the parent component can determine if this change should
+        // go through
+        (event.target as HTMLInputElement).value = this.modelValueText;
+
         this.$emit('update:modelValue', newValue);
       }
     },
