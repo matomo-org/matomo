@@ -12,7 +12,9 @@ require_once './trackerDbQueryGenerator.php';
 $usage = <<<USAGE
 Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB PASSWORD] {-r=[REQUEST LIMIT {-P=[DB PORT]} {-v=[VERBOSITY]}
     Example: php trackerDbLoadTester.php -d=mydb -h=127.0.0.1 -u=root -p=123 -P=3306
-    -d          Database name, if 'random' then a randomly named database will automatically be created and used    
+    -d          Database name, if 'random' then a randomly named database will automatically be created and used,
+                if 'sequential' then use randomly choose sequentially named databases for each hit in the format
+                matomo_test_db_xxx use with -smin and -smax options   
     -t          Database type, 'mysql' or 'tidb', used to adjust schema created with -d=random, defaults to 'mysql'
     -h          Database hostname, defaults to 'localhost', multiple hosts can be specified and will be chosen randomly
     -u          Database username, defaults to 'root''
@@ -30,6 +32,11 @@ Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB
     --cleanup   Delete all randomly named test databases
     -rs         Create visits for random sites starting at this siteid
     -re         Create visits for random sites ending at this siteid
+    -smin       If using sequential database names then use this as the minimum sequential value, eg. -smin=1
+    -smax       If using sequential database names then use this as the minimum sequential value, eg. -smax=100
+    -nc         Start a new PDO connection for every request
+    -rtq        For every tracking request also query x random application tables, eg. -rtq=2
+    
 
 USAGE;
 
@@ -53,6 +60,36 @@ $randomDateEnd = null;
 $conversionPercent = 0;
 $randomSiteStart = 0;
 $randomSiteEnd = 0;
+$newConnection = false;
+$sequentialMin = 1;
+$sequentialMax = 5000;
+$randomTableQuery = 0;
+$randomDb = false;
+$usePrepareCache = true;
+
+// List of tables to read from if randomTableQueery is used
+$tables = [
+'access', 'archive_invalidations', 'brute_force_log', 'changes', 'custom_dimensions', 'goal', 'locks', 'log_conversion_item',
+'log_profiling', 'logger_message', 'option', 'plugin_setting', 'privacy_logdata_anonymizations', 'report', 'report_subscriptions',
+'segment', 'sequence', 'session', 'site', 'site_setting', 'site_url', 'tracking_failure', 'twofactor_recovery_code', 'user',
+'user_dashboard', 'user_language', 'user_token_auth', 'archive_blob_2019_05', 'archive_blob_2019_08', 'archive_blob_2019_09',
+'archive_blob_2019_10', 'archive_blob_2019_09', 'archive_blob_2019_10', 'archive_blob_2019_11', 'archive_blob_2019_12',
+'archive_blob_2020_01', 'archive_blob_2020_02', 'archive_blob_2020_03', 'archive_blob_2020_04', 'archive_blob_2020_05',
+'archive_blob_2020_06', 'archive_blob_2020_07', 'archive_blob_2020_08', 'archive_blob_2020_09', 'archive_blob_2020_10',
+'archive_blob_2020_11', 'archive_blob_2020_12', 'archive_blob_2021_01', 'archive_blob_2021_02', 'archive_blob_2021_03',
+'archive_blob_2021_04', 'archive_blob_2021_05', 'archive_blob_2021_06', 'archive_blob_2021_07', 'archive_blob_2021_08',
+'archive_blob_2021_09', 'archive_blob_2021_10', 'archive_blob_2021_11', 'archive_blob_2021_12', 'archive_blob_2022_01',
+'archive_blob_2022_02', 'archive_blob_2022_03', 'archive_blob_2022_04', 'archive_blob_2022_05', 'archive_numeric_2019_05',
+'archive_numeric_2019_06', 'archive_numeric_2019_07', 'archive_numeric_2019_08', 'archive_numeric_2019_09',
+'archive_numeric_2019_10', 'archive_numeric_2019_11', 'archive_numeric_2019_12', 'archive_numeric_2020_01',
+'archive_numeric_2020_02', 'archive_numeric_2020_03', 'archive_numeric_2020_04', 'archive_numeric_2020_05',
+'archive_numeric_2020_06', 'archive_numeric_2020_07', 'archive_numeric_2020_08', 'archive_numeric_2020_09',
+'archive_numeric_2020_10', 'archive_numeric_2020_11', 'archive_numeric_2020_12', 'archive_numeric_2021_01',
+'archive_numeric_2021_02', 'archive_numeric_2021_03', 'archive_numeric_2021_04', 'archive_numeric_2021_05',
+'archive_numeric_2021_06', 'archive_numeric_2021_07', 'archive_numeric_2021_08', 'archive_numeric_2021_09',
+'archive_numeric_2021_10', 'archive_numeric_2021_11', 'archive_numeric_2021_12', 'archive_numeric_2022_01',
+'archive_numeric_2022_02', 'archive_numeric_2022_03', 'archive_numeric_2022_04', 'archive_numeric_2022_05'
+];
 
 foreach ($argv as $arg) {
 
@@ -66,6 +103,11 @@ foreach ($argv as $arg) {
         continue;
     }
 
+    if ($arg == '-nc') {
+        $newConnection = true;
+        continue;
+    }
+
     $kv = explode('=', $arg);
     if (count($kv) != 2) {
         continue;
@@ -75,6 +117,7 @@ foreach ($argv as $arg) {
             if ($kv[1] === 'random') {
                 $dbName = "tracker_db_test_".bin2hex(random_bytes(10));
                 $dbCreate = true;
+                $randomDb = true;
             } else {
                 $dbName = $kv[1];
             }
@@ -130,6 +173,15 @@ foreach ($argv as $arg) {
         case '-re':
             $randomSiteEnd = $kv[1];
             break;
+        case '-smin':
+            $sequentialMin = $kv[1];
+            break;
+        case '-smax':
+            $sequentialMax = $kv[1];
+            break;
+        case '-rtq':
+            $randomTableQuery = $kv[1];
+            break;
     }
 }
 
@@ -148,6 +200,11 @@ if ($randomDateStart && !$randomDateEnd) {
 if ($multipleProcesses) {
 
     $argString = "";
+    $paramSmin = null;
+    $paramSmax = null;
+    $divideSequential = false;
+    $dbSeqPerThread = 0;
+
     foreach ($argv as $arg) {
         if ($arg == 'trackerDbLoadTester.php') {
             continue;
@@ -156,15 +213,46 @@ if ($multipleProcesses) {
         if (count($kv) == 2 && $kv[0] == '-m') {
             continue;
         }
+        if (count($kv) == 2 && $kv[0] == '-smin') {
+            $paramSmin = $kv[1];
+            continue;
+        }
+        if (count($kv) == 2 && $kv[0] == '-smax') {
+            $paramSmax = $kv[1];
+            continue;
+        }
+        if (count($kv) == 2 && $kv[0] == '-d' && $kv[1] == 'sequential') {
+            $divideSequential= true;
+        }
         $argString .= ' '.$arg;
+    }
+
+    // Divide out the sequential database range between threads
+    if ($paramSmin && $paramSmax) {
+        $dbCount = ($paramSmax - ($paramSmin == 1 ? 0 : $paramSmin));
+        $dbSeqPerThread = ceil($dbCount / $multipleProcesses);
+        echo $dbSeqPerThread;
     }
 
     $cmd = "/usr/bin/php ".__FILE__."".$argString;
     echo "Spawning ".$multipleProcesses." test processes with command:\n\n";
     echo $cmd."\n\n";
 
+
     for ($i = 0; $i < $multipleProcesses; $i++) {
-        exec("nohup ".$cmd." > /dev/null 2>&1 & echo $!");
+        $tcmd = $cmd;
+        if ($divideSequential && $dbSeqPerThread) {
+
+            $divideMin = ($sequentialMin + ($dbSeqPerThread * $i));
+            $divideMax = (($divideMin + $dbSeqPerThread) - 1);
+            if ($i === ($multipleProcesses - 1) && $divideMax < $sequentialMax) {
+                $divideMax = $sequentialMax;
+            }
+
+            $tcmd .= ' -smin='.$divideMin.' -smax='.$divideMax;
+        }
+        //echo $tcmd."\n";
+        exec("nohup ".$tcmd." > /dev/null 2>&1 & echo $!");
         usleep(500000);
         echo ".";
     }
@@ -298,52 +386,56 @@ if ($basicTest) {
 }
 #endregion
 
-#region Setup schema for tracker data test
-if (!$dbCreate) {
-    $dsn .= ";dbname=$dbName";
-    try {
-        $pdo = new PDO($dsn, $dbUser, $dbPass, [PDO::ATTR_PERSISTENT => true]);
-        if ($verbosity > 0) {
-            echo "Connected to the $dbName database...\n";
+#region Setup schema for tracker data test when using 'random'
+if ($dbName !== 'sequential') {
+    if (!$dbCreate) {
+        try {
+            $pdo = new PDO($dsn.";dbname=$dbName", $dbUser, $dbPass, [PDO::ATTR_PERSISTENT => true]);
+            if ($verbosity > 0) {
+                echo "Connected to the $dbName database...\n";
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage()."\n";
+            die();
         }
-    } catch (PDOException $e) {
-        echo $e->getMessage()."\n";
-        die();
-    }
-} else {
+    } else {
 
-    try {
-        $pdo = new PDO($dsn, $dbUser, $dbPass, [PDO::ATTR_PERSISTENT => true]);
-        if ($verbosity > 0) {
-            echo "Connected to the database server...\n";
-        }
-        $pdo->query("CREATE DATABASE `$dbName`;                
+        try {
+            $pdo = new PDO($dsn, $dbUser, $dbPass, [PDO::ATTR_PERSISTENT => true]);
+            if ($verbosity > 0) {
+                echo "Connected to the database server...\n";
+            }
+            $pdo->query("CREATE DATABASE `$dbName`;                
                 GRANT ALL ON `$dbName`.* TO '$dbUser'@'localhost';
                 FLUSH PRIVILEGES;");
-        if ($verbosity > 0) {
-            echo "Created new database '$dbName'...\n";
-        }
-        $pdo->query("USE $dbName");
-        if ($verbosity > 1) {
-            echo "Using database '$dbName'...\n";
-        }
-        $schemaSql = file_get_contents('./schema.sql');
-        if ($dbType !== 'tidb') {
-            $schemaSql = str_replace('bigint PRIMARY KEY AUTO_RANDOM(3)', 'int UNSIGNED AUTO_INCREMENT PRIMARY KEY', $schemaSql);
+            if ($verbosity > 0) {
+                echo "Created new database '$dbName'...\n";
+            }
+            $pdo->query("USE $dbName");
+            if ($verbosity > 1) {
+                echo "Using database '$dbName'...\n";
+            }
+            $schemaSql = file_get_contents('./schema.sql');
+            if ($dbType !== 'tidb') {
+                $schemaSql = str_replace('bigint PRIMARY KEY AUTO_RANDOM(3)', 'int UNSIGNED AUTO_INCREMENT PRIMARY KEY', $schemaSql);
+            }
+
+            $pdo->exec($schemaSql);
+            if ($verbosity > 1) {
+                echo "Created schema.\n";
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
 
-        $pdo->exec($schemaSql);
-        if ($verbosity > 1) {
-            echo "Created schema.\n";
+        if ($dbCreateOnly) {
+            die("Create database only option is set, exiting now\n");
         }
-    } catch (PDOException $e) {
-        echo $e->getMessage();
+
     }
-
-    if ($dbCreateOnly) {
-        die("Create database only option is set, exiting now\n");
-    }
-
+} else {
+    $usePrepareCache = false;
+    $pdo = new PDO($dsn.";dbname=matomo_test_db_".rand($sequentialMin, $sequentialMax), $dbUser, $dbPass);
 }
 
 if (!isset($pdo)) {
@@ -372,7 +464,29 @@ if ($throttle > 0) {
 }
 $throttleIntervalCount = 0;
 $throttleLastTimeSample = microtime(true);
+$seqNo = 1;
 while ($requestCount < $requests || $requests < 0) {
+
+    // Create a new connection if option set, and/or choose random db for sequential mode
+    if ($dbName === 'sequential') {
+        $seqNo = rand($sequentialMin, $sequentialMax);
+        $seqDbName = 'matomo_test_db_'.$seqNo;
+        if ($verbosity == 3) {
+            echo "-------------------\n";
+            echo "Chose sequential database ".$seqDbName."\n";
+        }
+        if ($newConnection) {
+            $pdo = new PDO($dsn.";dbname=$seqDbName", $dbUser, $dbPass);
+        } else {
+            $pdo->query("USE $seqDbName");
+        }
+    } else {
+        if ($newConnection) {
+            $pdo->query('KILL CONNECTION_ID()');
+            $pdo = null;
+            $pdo = new PDO($dsn.";dbname=$dbName", $dbUser, $dbPass);
+        }
+    }
 
     if ($randomDateStart) {
         $timestampUTC = rand($randomDateStart, $randomDateEnd);
@@ -390,7 +504,7 @@ while ($requestCount < $requests || $requests < 0) {
 
     // Check if the action exists in the db, create new action if not
     $findActionQuery = $queryGenerator->getCheckActionExistsQuery($actionUrl);
-    $actionRows = query($prepareCache, $pdo, $findActionQuery);
+    $actionRows = query($prepareCache, $pdo, $findActionQuery, true, $usePrepareCache);
     if (count($actionRows) === 0) {
         if ($verbosity === 3) {
             echo "New action, doing insert...\n";
@@ -398,7 +512,7 @@ while ($requestCount < $requests || $requests < 0) {
 
         // Insert new action
         $insertActionQuery = $queryGenerator->getInsertActionQuery($actionUrl);
-        $visitorRows = query($prepareCache, $pdo, $insertActionQuery);
+        $visitorRows = query($prepareCache, $pdo, $insertActionQuery, false, $usePrepareCache);
         $idaction = $pdo->lastInsertId();
     } else {
         $idaction = $actionRows[0]->idaction;
@@ -412,19 +526,21 @@ while ($requestCount < $requests || $requests < 0) {
 
     // Check if visit exists in db, create new visit if not
     $findVisitorQuery = $queryGenerator->getCheckIfNewVisitorQuery($idvisitor, $site);
-    $visitorRows = query($prepareCache, $pdo, $findVisitorQuery);
+    $visitorRows = query($prepareCache, $pdo, $findVisitorQuery, true, $usePrepareCache);
 
     if (count($visitorRows) == 0) {
 
         if ($verbosity == 3) {
-            echo "New visitor, doing insert...\n";
+            echo "New visitor, doing insert...";
         }
 
         // Insert new visit
         $insertVisitorQuery = $queryGenerator->getInsertVisitorQuery($idvisitor, $idaction, $timestampUTC, $site);
-        $visitorRows = query($prepareCache, $pdo, $insertVisitorQuery);
+        $visitorRows = query($prepareCache, $pdo, $insertVisitorQuery, false, $usePrepareCache);
         $idvisit = $pdo->lastInsertId();
-
+        if ($verbosity == 3) {
+            echo $idvisit."\n";
+        }
     } else {
         $idvisit = $visitorRows[0]->idvisit;
 
@@ -438,7 +554,7 @@ while ($requestCount < $requests || $requests < 0) {
 
         // Update visit
         $updateVisitQuery = $queryGenerator->getUpdateVisitQuery($idvisit, $visitorRows[0]->visit_first_action_time, $timestampUTC, $site);
-        query($prepareCache, $pdo, $updateVisitQuery);
+        query($prepareCache, $pdo, $updateVisitQuery, false, $usePrepareCache);
 
     }
 
@@ -454,7 +570,7 @@ while ($requestCount < $requests || $requests < 0) {
             echo "Inserting action link...\n";
         }
         $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction, $timestampUTC, $site);
-        query($prepareCache, $pdo, $insertActionLinkQuery);
+        query($prepareCache, $pdo, $insertActionLinkQuery, false, $usePrepareCache);
         $idlinkva = $pdo->lastInsertId();
     }
 
@@ -469,8 +585,19 @@ while ($requestCount < $requests || $requests < 0) {
 
         $insertConversionQuery = $queryGenerator->getInsertConversionQuery($idvisitor, $idvisit, $idaction, $actionUrl, $timestampUTC,
             $idlinkva, $idgoal, $site);
-        query($prepareCache, $pdo, $insertConversionQuery);
+        query($prepareCache, $pdo, $insertConversionQuery, false, $usePrepareCache);
 
+    }
+
+    // Optionally do a random table query
+    if ($randomTableQuery) {
+        for ($i = 0; $i < $randomTableQuery; $i++) {
+            $table = $tables[array_rand($tables)];
+            if ($verbosity == 3) {
+               echo "Doing random table query on table '$table'...\n";
+            }
+            query($prepareCache, $pdo, ['sql' => 'SELECT COUNT(*) FROM '.$table, 'bind' => []],true, $usePrepareCache);
+        }
     }
 
     $requestCount++;
@@ -489,15 +616,17 @@ while ($requestCount < $requests || $requests < 0) {
         $throttleIntervalCount = 0;
     }
 
-    if ((microtime(true) - $lastTimeSample) > 1) {
-        $lastTimeSample = microtime(true);
-        echo "\033[70D";
-        echo str_pad($lastCount, 10, ' ', STR_PAD_LEFT) . " ";
-        echo " Requests per second  ";
-        echo str_pad(number_format($requestCount,0), 20, ' ', STR_PAD_LEFT) . " ";
-        echo " Total requests ";
+    if ($verbosity < 3) {
+        if ((microtime(true) - $lastTimeSample) > 1) {
+            $lastTimeSample = microtime(true);
+            echo "\033[70D";
+            echo str_pad($lastCount, 10, ' ', STR_PAD_LEFT)." ";
+            echo " Requests per second  ";
+            echo str_pad(number_format($requestCount, 0), 20, ' ', STR_PAD_LEFT)." ";
+            echo " Total requests ";
 
-        $lastCount = 0;
+            $lastCount = 0;
+        }
     }
 
 }
@@ -507,9 +636,10 @@ echo "\ndone\n";
 #endregion
 
 #region Query wrapper to cache prepares
-function query(&$prepareCache, $pdo, $q)
+function query(&$prepareCache, $pdo, $q, $result = false, $usePrepareCache = true)
 {
-    if (isset($prepareCache[$q['sql']])) {
+
+    if ($usePrepareCache && isset($prepareCache[$q['sql']])) {
         if (!is_array($q['bind'])) {
             $q['bind'] = array($q['bind']);
         }
@@ -520,6 +650,9 @@ function query(&$prepareCache, $pdo, $q)
     }
 
     $stmt->execute($q['bind']);
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
+    if ($result) {
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
 }
 #endregion

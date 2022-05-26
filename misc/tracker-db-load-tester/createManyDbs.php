@@ -1,19 +1,18 @@
 <?php
 
-// Create x schemas with y simple tables in each, then issue select queries against each table in turn (keep alive)
-// This is to test the ability of the database server to keep a large number of active tables in memory
+// Create x sequentially named schemas using a schema definition sql file
 
 $usage = <<<USAGE
-Usage: php createManyDbs.php -h=[DB HOST] -u=[DB USER] -p=[DB PASSWORD] {-r=[REQUEST LIMIT {-P=[DB PORT]} {-v=[VERBOSITY]}
-    Example: php trackerDbLoadTester.php -d=mydb -h=127.0.0.1 -u=root -p=123 -P=3306
+Usage: php createManyDbsTidb.php -f=schema.sql -h=[DB HOST] -u=[DB USER] -p=[DB PASSWORD] {-P=[DB PORT]}
+    Example: php createManyDbsTidb.php -h=127.0.0.1 -u=root -p=123 -P=4000
     -h          Database hostname
     -u          Database username, defaults to 'root'
     -p          Database password, defaults to none
-    -P          Database port, defaults to 3306   
-    -c          Number of databases to create
-    -t          Number of tables to create for each database
-    --cleanup   Delete all randomly named test databases
-    --no-create Don't create any database or tables, just do the keep alive
+    -P          Database port, defaults to 4000
+    -f          Schema file   
+    -c          Number of schemas to create
+    -r          Resume from sequential schema -r=200
+    --cleanup   Drop all test schemata
 
 USAGE;
 
@@ -21,21 +20,16 @@ USAGE;
 $dbHost = null;
 $dbUser = 'root';
 $dbPass = '';
-$dbPort = 3306;
+$dbPort = 4000;
 $dbCount = 5000;
-$tablesPerDbCount = 100;
+$resume = 0;
+$schemaFile = null;
 $cleanUp = false;
-$noCreate = false;
 
 foreach ($argv as $arg) {
 
     if ($arg == '--cleanup') {
         $cleanUp = true;
-        continue;
-    }
-
-    if ($arg == '--no-create') {
-        $noCreate = true;
         continue;
     }
 
@@ -57,18 +51,18 @@ foreach ($argv as $arg) {
             $dbPort = $kv[1];
             break;
         case '-r':
-            $requests = $kv[1];
+            $resume = $kv[1];
             break;
         case '-c':
             $dbCount = $kv[1];
             break;
-        case '-t':
-            $tablesPerDbCount = $kv[1];
+        case '-f':
+            $schemaFile = $kv[1];
             break;
     }
 }
 
-if ($dbHost === null || $dbUser === null || $dbPass === null || $dbPort === null) {
+if ($dbHost === null || $dbUser === null || $dbPass === null || $dbPort === null || $schemaFile === null) {
     die($usage);
 }
 
@@ -79,12 +73,12 @@ $pdo = new PDO($dsn, $dbUser, $dbPass);
 #region Do clean-up action and die
 if ($cleanUp) {
     try {
+        $pdo = new PDO($dsn, $dbUser, $dbPass);
         echo "Cleaning up test databases...\n";
 
-        $stmt = $pdo->prepare("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME LIKE 'create_db_test_%'");
+        $stmt = $pdo->prepare("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME LIKE 'matomo_test_db_%'");
         $stmt->execute([]);
         $dbs = $stmt->fetchAll(PDO::FETCH_OBJ);
-
         $dropped = 0;
         foreach ($dbs as $db) {
             echo "Dropping database ".$db->SCHEMA_NAME."\n";
@@ -101,60 +95,28 @@ if ($cleanUp) {
 #endregion
 
 #region Create schemas
-if (!$noCreate) {
 
+echo "Creating databases";
+for ($dbc = 1; $dbc < ($dbCount + 1 + $resume); $dbc++) {
 
-    echo "Creating databases";
-    for ($dbc = 1; $dbc < $dbCount + 1; $dbc++) {
+    $dbName = 'matomo_test_db_'.$dbc;
 
-        $dbName = 'create_db_test_'.$dbc;
+    $pdo->query("CREATE DATABASE `$dbName`;");
+    $pdo->query("USE $dbName");
 
-        $pdo->query("CREATE DATABASE `$dbName`;");
-        $pdo->query("USE $dbName");
-        echo ".";
+    try {
 
-        for ($tc = 1; $tc < $tablesPerDbCount + 1; $tc++) {
-
-            $pdo->query("
-        CREATE TABLE table_$tc (
-            name VARCHAR(255),
-            val VARCHAR(255)
-        );");
-
-        }
+        $schemaSql = file_get_contents($schemaFile);
+        $pdo->exec($schemaSql);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
     }
-    echo " done!\n";
-}
-#endregion
-
-#region Keepalive
-
-$keepAlives = 1;
-while (true) {
-    echo "\nKeep Alive run ".$keepAlives."\n";
-
-    for ($dbc = 1; $dbc < $dbCount + 1; $dbc++) {
-
-        try {
-            $pdo->query("USE create_db_test_$dbc;");
-            echo ".";
-        } catch (exception $e) {
-            echo "\n".$e->getMessage()."\n";
-        }
-
-        for ($tc = 1; $tc < $tablesPerDbCount + 1; $tc++) {
-            try {
-                $pdo->query("SELECT COUNT(*) FROM table_$tc;");
-            } catch (exception $e) {
-                echo "\n".$e->getMessage()."\n";
-            }
-        }
-
-        if ($dbc % 100 === 0) {
-            echo "\n".$dbc."\n";
-        }
-
+    echo ".";
+    if ($dbc % 100 === 0) {
+        echo $dbc."\n";
     }
-    $keepAlives++;
+
 }
+echo " done!\n";
+
 #endregion

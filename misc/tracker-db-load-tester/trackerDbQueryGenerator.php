@@ -275,6 +275,9 @@ class TrackerDbQueryGenerator
         } else {
             $totalTime = 0;
         }
+        if ($totalTime < 0) {
+            $totalTime = 1;
+        }
 
         $bind = [':lastaction' => date('Y-m-d H:i:s', $timestamp), ':idvisit' => $idvisit, ':visittotaltime' => $totalTime, ':site' => $site];
         return ['sql' => $sql, 'bind' => $bind];
