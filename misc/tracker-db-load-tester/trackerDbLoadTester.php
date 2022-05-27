@@ -66,6 +66,7 @@ $sequentialMax = 5000;
 $randomTableQuery = 0;
 $randomDb = false;
 $usePrepareCache = true;
+$tmpHack = false;
 
 // List of tables to read from if randomTableQueery is used
 $tables = [
@@ -105,6 +106,11 @@ foreach ($argv as $arg) {
 
     if ($arg == '-nc') {
         $newConnection = true;
+        continue;
+    }
+
+    if ($arg == '-tmphack') {
+        $tmpHack = true;
         continue;
     }
 
@@ -251,10 +257,10 @@ if ($multipleProcesses) {
 
             $tcmd .= ' -smin='.$divideMin.' -smax='.$divideMax;
         }
-        //echo $tcmd."\n";
+        echo $tcmd."\n";
         exec("nohup ".$tcmd." > /dev/null 2>&1 & echo $!");
         usleep(500000);
-        echo ".";
+        //echo ".";
     }
 
     echo "Done:\n";
@@ -464,11 +470,13 @@ if ($throttle > 0) {
 }
 $throttleIntervalCount = 0;
 $throttleLastTimeSample = microtime(true);
-$seqNo = 1;
+$seqNo = 0;
+$oldSeqNo = 0;
 while ($requestCount < $requests || $requests < 0) {
 
     // Create a new connection if option set, and/or choose random db for sequential mode
     if ($dbName === 'sequential') {
+        $oldSeqNo = $seqNo;
         $seqNo = rand($sequentialMin, $sequentialMax);
         $seqDbName = 'matomo_test_db_'.$seqNo;
         if ($verbosity == 3) {
@@ -478,12 +486,14 @@ while ($requestCount < $requests || $requests < 0) {
         if ($newConnection) {
             $pdo = new PDO($dsn.";dbname=$seqDbName", $dbUser, $dbPass);
         } else {
-            $pdo->query("USE $seqDbName");
+            if ($seqNo != $oldSeqNo) {
+                $pdo->query("USE $seqDbName");
+            }
         }
     } else {
         if ($newConnection) {
-            $pdo->query('KILL CONNECTION_ID()');
-            $pdo = null;
+            //$pdo->query('KILL CONNECTION_ID()');
+            //$pdo = null;
             $pdo = new PDO($dsn.";dbname=$dbName", $dbUser, $dbPass);
         }
     }
@@ -516,6 +526,11 @@ while ($requestCount < $requests || $requests < 0) {
         $idaction = $pdo->lastInsertId();
     } else {
         $idaction = $actionRows[0]->idaction;
+    }
+
+    // Hacky workaround for int(11) idaction foreign keys on TiDB cloud test
+    if ($tmpHack && $dbName === 'sequential' && $seqNo > 250) {
+        $idaction = rand(1,1000000);
     }
 
     // Get random visitor id (10% chance of a returning visitor id)
@@ -596,7 +611,7 @@ while ($requestCount < $requests || $requests < 0) {
             if ($verbosity == 3) {
                echo "Doing random table query on table '$table'...\n";
             }
-            query($prepareCache, $pdo, ['sql' => 'SELECT COUNT(*) FROM '.$table, 'bind' => []],true, $usePrepareCache);
+            query($prepareCache, $pdo, ['sql' => 'SELECT COUNT(*) FROM `'.$table.'`', 'bind' => []],true, $usePrepareCache);
         }
     }
 
