@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 $(function () {
-  var iconRefresh = $('.top_controls .icon-refresh');
+  var iconRefresh = $('.top_controls .icon-reload');
 
   function refresh() {
     var Matomo = window.CoreHome.Matomo;
