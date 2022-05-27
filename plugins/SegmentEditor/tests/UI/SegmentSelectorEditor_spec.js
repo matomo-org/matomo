@@ -113,11 +113,12 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", async function() {
-        await page.evaluate(function () {
-            $('.metricValueBlock input').each(function (index, elem) {
-                $(elem).val('value ' + index).change();
-            });
-        });
+        for (let i = 0; i < 3; i += 1) {
+          await page.evaluate(function (i) {
+            $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
+          }, i);
+          await page.waitFor(200);
+        }
 
         await page.type('input.edit_segment_name', 'new segment');
         await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
