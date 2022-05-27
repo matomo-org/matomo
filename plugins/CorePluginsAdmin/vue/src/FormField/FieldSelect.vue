@@ -244,15 +244,11 @@ export default defineComponent({
         newValue = handleOldAngularJsValues(newValue);
       }
 
-      this.$emit('update:modelValue', newValue);
+      // change to previous value so the parent component can determine if this change should
+      // go through
+      this.onModelValueChange(this.modelValue);
 
-      // if modelValue does not change, select will still have the changed value, but we
-      // want it to have the value determined by modelValue. so we force an update.
-      nextTick(() => {
-        if (this.modelValue !== newValue) {
-          this.onModelValueChange(this.modelValue);
-        }
-      });
+      this.$emit('update:modelValue', newValue);
     },
     onModelValueChange(newVal: string|number|string[]) {
       window.$(this.$refs.select as HTMLSelectElement).val(newVal);

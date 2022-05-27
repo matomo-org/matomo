@@ -36,8 +36,13 @@ export default defineComponent({
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {
-      if (this.modelValue !== (event.target as HTMLInputElement).checked) {
-        this.$emit('update:modelValue', (event.target as HTMLInputElement).checked);
+      const newValue = (event.target as HTMLInputElement).checked;
+      if (this.modelValue !== newValue) {
+        // undo checked change since we want the parent component to decide if it should go
+        // through
+        (event.target as HTMLInputElement).checked = !newValue;
+
+        this.$emit('update:modelValue', newValue);
       }
     },
   },

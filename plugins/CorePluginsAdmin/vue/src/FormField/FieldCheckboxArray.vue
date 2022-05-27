@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div ref="root">
     <label class="fieldRadioTitle" v-show="title">{{ title }}</label>
     <p
       v-for="(checkboxModel, $index) in availableOptions"
@@ -74,6 +74,12 @@ export default defineComponent({
         if (checkboxStates[index]) {
           newValue.push(option.key);
         }
+      });
+
+      // undo checked changes since we want the parent component to decide if it should go
+      // through
+      (this.$refs.root as HTMLElement).querySelectorAll('input').forEach((inp: HTMLInputElement) => {
+        inp.checked = !inp.checked;
       });
 
       this.$emit('update:modelValue', newValue);
