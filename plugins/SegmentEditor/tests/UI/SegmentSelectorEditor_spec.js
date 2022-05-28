@@ -161,11 +161,12 @@ describe("SegmentSelectorEditorTest", function () {
         await selectFieldValue('.segmentRow0 .segment-row:last .metricMatchBlock', 'Is not');
         await selectFieldValue('.segmentRow1 .segment-row .metricMatchBlock', 'Is not');
 
-        await page.evaluate(function () {
-            $('.metricValueBlock input').each(function (index) {
-                $(this).val('new value ' + index).change();
-            });
-        });
+        for (let i = 0; i < 3; i += 1) {
+          await page.evaluate(function (i) {
+            $(`.metricValueBlock input:eq(${i})`).val('new value ' + i).change();
+          }, i);
+          await page.waitFor(200);
+        }
 
         await page.waitFor(200);
 
