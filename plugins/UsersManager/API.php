@@ -789,8 +789,6 @@ class API extends \Piwik\Plugin\API
     }
 
 
-
-
     /**
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
@@ -1460,7 +1458,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->model->updateUserFields($userLogin, ['invite_status' => 'pending']);
-        $this->userRepository->sendNewUserEmails($userLogin, $expired);
+        $this->userRepository->sendNewUserEmails($userLogin, $expired, false);
         Cache::deleteTrackerCache();
     }
 

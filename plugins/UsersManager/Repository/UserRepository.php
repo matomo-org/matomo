@@ -89,16 +89,18 @@ class UserRepository
         }
     }
 
-    public function sendNewUserEmails($userLogin, $expired = 7)
+    public function sendNewUserEmails($userLogin, $expired = 7, $newUser = true)
     {
 
         //send Admin Email
-        $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
-          'login'        => Piwik::getCurrentUserLogin(),
-          'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin'    => $userLogin,
-        ));
-        $mail->safeSend();
+        if ($newUser) {
+            $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
+              'login'        => Piwik::getCurrentUserLogin(),
+              'emailAddress' => Piwik::getCurrentUserEmail(),
+              'userLogin'    => $userLogin,
+            ));
+            $mail->safeSend();
+        }
 
 
         if (!empty($expired)) {
