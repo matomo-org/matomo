@@ -358,11 +358,13 @@ class Controller extends \Piwik\Plugin\Controller
         return $topDimensions;
     }
 
-    protected function getMetricsForGoal($idGoal)
+    protected function getMetricsForGoal($idGoal, $dataRow = null)
     {
-        $request = new Request("method=Goals.get&format=original&idGoal=$idGoal");
-        $datatable = $request->process();
-        $dataRow = $datatable->getFirstRow();
+        if (!$dataRow) {
+            $request = new Request("method=Goals.get&format=original&idGoal=$idGoal");
+            $datatable = $request->process();
+            $dataRow = $datatable->getFirstRow();
+        }
         $nbConversions = $dataRow->getColumn('nb_conversions');
         $nbVisitsConverted = $dataRow->getColumn('nb_visits_converted');
         // Backward compatibility before 1.3, this value was not processed

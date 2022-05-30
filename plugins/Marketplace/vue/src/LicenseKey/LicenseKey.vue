@@ -215,6 +215,7 @@ export default defineComponent({
     subscriptionOverviewLink() {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
+        module: 'Marketplace',
         action: 'subscriptionOverview',
       })}`;
     },
@@ -235,6 +236,7 @@ export default defineComponent({
     installAllPaidPluginsLink() {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
+        module: 'Marketplace',
         action: 'installAllPaidPlugins',
         nonce: this.installNonce,
       })}`;
