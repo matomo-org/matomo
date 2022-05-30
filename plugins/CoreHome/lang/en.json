@@ -63,6 +63,7 @@
         "ShortcutWebsiteSelector": "to open Website selector",
         "ShortcutCalendar": "to open calendar (d stands for Date)",
         "ShortcutSearch": "to open the search (f stands for Find)",
+        "ShortcutRefresh": "to refresh the current view",
         "ShortcutHelp": "to show this help",
         "ShowJSCode": "Show the JavaScript code to insert",
         "SkipToContent": "Skip to content",
@@ -127,6 +128,7 @@
         "EngagementSubcategoryHelp2": "This can help you to optimise for frequency and high-interaction visits in addition to maximising your reach.",
         "PeriodHasOnlyRawData": "It looks like reports for this period have not been processed yet. Do you want to see what's happening now? Check out the %1$sVisits log%2$s or choose a different date period until the reports are generated.",
         "StartDate": "Start Date",
-        "EndDate": "End Date"
+        "EndDate": "End Date",
+        "Refresh": "Refresh"
     }
 }
