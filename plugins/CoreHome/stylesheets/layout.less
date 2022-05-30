@@ -123,8 +123,8 @@ nav {
   }
 
   &>.top_controls {
-    .icon-arrowup:before, .icon-arrowdown:before {
-      padding: 17px 0 0 0px;
+    &> .icon-arrowup:before, &> .icon-arrowdown:before, &> .icon-reload:before {
+      padding: 17px 0 0 0;
       display: inline-block;
       cursor: pointer;
 
@@ -132,17 +132,10 @@ nav {
         display: none;
       }
     }
-    .icon-reload {
-      cursor: pointer;
 
-      &:before {
-        padding-right: 10px;
-        font-weight: lighter;
-
-        @media screen and (max-width: 600px) {
-          display: none;
-        }
-      }
+    &> .icon-reload:before {
+      padding-right: 10px;
+      font-weight: lighter;
     }
   }
 
