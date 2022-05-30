@@ -20,7 +20,7 @@ $(function () {
   }
 
   if (isCoreHomeModuleActive()) {
-    iconRefresh.show();
+    iconRefresh.removeClass('hidden');
 
     iconRefresh.on('click', function (e) {
       e.preventDefault();
