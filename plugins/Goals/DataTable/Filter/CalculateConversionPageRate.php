@@ -96,9 +96,9 @@ class CalculateConversionPageRate extends BaseFilter
         $date = $period->getDateStart()->toString();
         $date = ($periodName === 'range' ? $date . ',' . $period->getDateEnd()->toString() : $date);
         $segment = $table->getMetadata('segment');
+        $archive = Archive::build($idSite, $periodName, $date, $segment);
 
         foreach ($goalIds as $idGoal => $g) {
-            $archive = Archive::build($idSite, $periodName, $date, $segment);
             $total = $archive->getNumeric(GoalsArchiver::getRecordName('nb_conversions', $idGoal));
             if (count($total)) {
                 $goalTotals[$idGoal] = reset($total);
