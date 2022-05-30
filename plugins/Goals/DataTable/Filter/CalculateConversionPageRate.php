@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -55,12 +56,11 @@ class CalculateConversionPageRate extends BaseFilter
             if (isset($row[Metrics::INDEX_GOALS])) {
                 foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
                     if (isset($row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ])) {
-
                         $rate = Piwik::getQuotientSafe(
-                                $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ],
-                                $goalTotals[$goalIdString],
-                                3
-                            );
+                            $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ],
+                            $goalTotals[$goalIdString],
+                            3
+                        );
                         // Prevent page rates over 100% which can happen when there are subpages
                         if ($rate > 1) {
                             $rate = 1;
@@ -80,9 +80,8 @@ class CalculateConversionPageRate extends BaseFilter
      * @param array $goalIds
      * @return array
      */
-    private function getGoalTotalConversions(DataTable $table, array $goalIds) : array
+    private function getGoalTotalConversions(DataTable $table, array $goalIds): array
     {
-
         $goalTotals = [];
 
         /** @var Site $site */
@@ -95,19 +94,17 @@ class CalculateConversionPageRate extends BaseFilter
         $period = $table->getMetadata('period');
         $periodName = $period->getLabel();
         $date = $period->getDateStart()->toString();
+        $date = ($periodName === 'range' ? $date . ',' . $period->getDateEnd()->toString() : $date);
         $segment = $table->getMetadata('segment');
-        foreach ($goalIds as $idGoal => $g) {
 
-            $date = ($periodName === 'range' ? $date.','.$period->getDateEnd()->toString() : $date);
+        foreach ($goalIds as $idGoal => $g) {
             $archive = Archive::build($idSite, $periodName, $date, $segment);
             $total = $archive->getNumeric(GoalsArchiver::getRecordName('nb_conversions', $idGoal));
             if (count($total)) {
                 $goalTotals[$idGoal] = reset($total);
             }
-
         }
 
         return $goalTotals;
     }
-
 }
