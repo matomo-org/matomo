@@ -113,11 +113,12 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", async function() {
-        await page.evaluate(function () {
-            $('.metricValueBlock input').each(function (index, elem) {
-                $(elem).val('value ' + index).change();
-            });
-        });
+        for (let i = 0; i < 3; i += 1) {
+          await page.evaluate(function (i) {
+            $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
+          }, i);
+          await page.waitForTimeout(200);
+        }
 
         await page.type('input.edit_segment_name', 'new segment');
         await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
@@ -160,13 +161,14 @@ describe("SegmentSelectorEditorTest", function () {
         await selectFieldValue('.segmentRow0 .segment-row:last .metricMatchBlock', 'Is not');
         await selectFieldValue('.segmentRow1 .segment-row .metricMatchBlock', 'Is not');
 
-        await page.evaluate(function () {
-            $('.metricValueBlock input').each(function (index) {
-                $(this).val('new value ' + index).change();
-            });
-        });
+        for (let i = 0; i < 3; i += 1) {
+          await page.evaluate(function (i) {
+            $(`.metricValueBlock input:eq(${i})`).val('new value ' + i).change();
+          }, i);
+          await page.waitForTimeout(200);
+        }
 
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
 
         await page.evaluate(function () {
            $('button.saveAndApply').click();
@@ -294,7 +296,7 @@ describe("SegmentSelectorEditorTest", function () {
             $('.segmentRow1 .metricValueBlock input').val(complexValue).change();
         });
 
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
 
         await page.evaluate(function () {
             $('button.saveAndApply').click();
@@ -338,7 +340,7 @@ describe("SegmentSelectorEditorTest", function () {
             console.log(dialog.message());
         });
 
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
 
         await page.evaluate(function () {
             $('button.saveAndApply').click();

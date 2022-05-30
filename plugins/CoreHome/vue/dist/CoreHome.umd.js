@@ -1970,7 +1970,7 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       }
 
       Object.keys(defaultParams).forEach(function (key) {
-        if (_this4.useGETDefaultParameter(key) && !params[key] && !_this4.postParams[key] && defaultParams[key]) {
+        if (_this4.useGETDefaultParameter(key) && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') && (_this4.postParams[key] === null || typeof _this4.postParams[key] === 'undefined' || _this4.postParams[key] === '') && defaultParams[key]) {
           params[key] = defaultParams[key];
         }
       }); // handle default date & period if not already set
@@ -11505,15 +11505,15 @@ function piwikReportExport($timeout) {
 }
 piwikReportExport.$inject = ['$timeout'];
 window.angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=693cd955
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=25e2c9f0
 
-var Sparklinevue_type_template_id_693cd955_hoisted_1 = ["src"];
-function Sparklinevue_type_template_id_693cd955_render(_ctx, _cache, $props, $setup, $data, $options) {
+var Sparklinevue_type_template_id_25e2c9f0_hoisted_1 = ["src"];
+function Sparklinevue_type_template_id_25e2c9f0_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     src: _ctx.sparklineUrl
-  }, null, 8, Sparklinevue_type_template_id_693cd955_hoisted_1);
+  }, null, 8, Sparklinevue_type_template_id_25e2c9f0_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=693cd955
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=25e2c9f0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -11555,7 +11555,11 @@ function Sparklinevue_type_template_id_693cd955_render(_ctx, _cache, $props, $se
         showtitle: '1',
         colors: colors,
         random: Date.now(),
-        date: this.defaultDate
+        date: this.defaultDate,
+        // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
+        // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
+        // ourselves here.
+        segment: src_MatomoUrl_MatomoUrl.parsed.value.segment
       };
       var helper = new AjaxHelper_AjaxHelper();
       var urlParams = helper.mixinDefaultGetParams(Object.assign(Object.assign({}, defaultParams), params)); // Append the token_auth to the URL if it was set (eg. embed dashboard)
@@ -11592,7 +11596,7 @@ function Sparklinevue_type_template_id_693cd955_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_693cd955_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_25e2c9f0_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.adapter.ts

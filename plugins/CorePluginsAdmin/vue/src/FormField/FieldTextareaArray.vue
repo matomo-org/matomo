@@ -54,6 +54,10 @@ export default defineComponent({
     onKeydown(event: KeyboardEvent) {
       const value = (event.target as HTMLTextAreaElement).value.split(SEPARATOR);
       if (value.join(SEPARATOR) !== this.concattedValue) {
+        // change to previous value so the parent component can determine if this change should
+        // go through
+        (event.target as HTMLInputElement).value = this.concattedValue;
+
         this.$emit('update:modelValue', value);
       }
     },

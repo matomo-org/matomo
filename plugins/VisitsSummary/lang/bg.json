@@ -5,7 +5,7 @@
         "GenerateQueries": "%s заявки са изпълнени",
         "GenerateTime": "%s секунди за генериране на страницата",
         "MaxNbActions": "максимален брой действия при едно посещение",
-        "NbActionsDescription": "%s действия (показвания, изтегляния и outlinks)",
+        "NbActionsDescription": "%s действия (показвания, изтегляния и външни препратки)",
         "NbActionsPerVisit": "действия (преглеждания на страници, изтегляния, препратки и вътрешни търсения в сайта) на посещение",
         "NbDownloadsDescription": "изтегляния",
         "NbKeywordsDescription": "уникални ключови думи",

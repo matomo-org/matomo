@@ -11,7 +11,7 @@
     :type="uiControl"
     :id="name"
     :name="name"
-    :value="(modelValue || '').toString()"
+    :value="(modelValue || '0').toString()"
     @keydown="onChange($event)"
     @change="onChange($event)"
     v-bind="uiControlAttributes"
@@ -39,6 +39,11 @@ export default defineComponent({
   methods: {
     onChange(event: Event) {
       const value = parseFloat((event.target as HTMLInputElement).value);
+
+      // change to previous value so the parent component can determine if this change should
+      // go through
+      (event.target as HTMLInputElement).value = (this.modelValue || '').toString();
+
       this.$emit('update:modelValue', value);
     },
   },

@@ -223,7 +223,7 @@
         "ExceptionUnexpectedFilePleaseDelete": "Sorun çıkmasını önlemek için lütfen bu dosyaları silin.",
         "ExceptionUnreadableFileDisabledMethod": "Yapılandırma dosyası {%1$s} okunamadı. Site barındırma hizmeti sağlayıcınız %2$s özelliğini devre dışı bırakmış olabilir.",
         "ExceptionWidgetNotEnabled": "İstenilen pano bileşeni etkinleştirilmemiş. Bu durum pano bileşenini oluşturan uygulama ekinin devre dışı bırakılmış olması ya da bu pano bileşenine erişme izninizin olmamasından kaynaklanıyor olabilir.",
-        "ExceptionWidgetNotFound": "İstenen pano bileşeni bulunamadı.",
+        "ExceptionWidgetNotFound": "İstenilen pano bileşeni bulunamadı.",
         "ExpandDataTableFooter": "Raporun görünümünü ya da yapılandırmasını değiştirin",
         "Export": "Dışa aktar",
         "ExportAsImage": "Görsel olarak dışa aktar",
