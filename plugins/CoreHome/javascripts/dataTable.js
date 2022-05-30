@@ -1599,7 +1599,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // headline
                 top = top + thPosTop;
 
-                if ($(window).scrollTop() >= distance || scroller.css('overflow-x')==='scroll') {
+                if ($(window).scrollTop() >= distance - 100 || scroller.css('overflow-x')==='scroll') {
                       top = tooltip.parent().outerHeight()
                 }
 
