@@ -127,6 +127,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Catatan: Anda tidak dapat mengubah pengaturan ini, sebab Anda tidak memiliki situs web apa pun yang dapat diakses oleh pengguna anonim.",
         "OrManageIndividually": "Atau kelola akses pengguna ini ke setiap situs web satu per satu",
         "PasswordChangeNotificationSubject": "Kata sandi akun Matomo Anda baru saja diubah",
+        "PasswordChangeTerminatesOtherSessions": "Saat Anda mengubah kata sandi, sesi aktif lainnya dari akun ini akan dikeluarkan.",
         "PasswordChangedEmail": "Kata sandi Anda baru saja diubah. Perubahan dimulai dari perangkat berikut: %1$s (alamat IP = %2$s).",
         "Permissions": "Izin",
         "PersonalSettings": "Pengaturan pribadi",

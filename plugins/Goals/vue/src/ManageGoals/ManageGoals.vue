@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div class="manageGoals">
     <!-- v-show required until funnels/multiattribution are using vue and not angularjs -->
     <div v-show="!onlyShowAddNewGoal">
       <div
@@ -403,6 +403,7 @@ import {
 } from 'CorePluginsAdmin';
 import Goal from '../Goal';
 import PiwikApiMock from './PiwikApiMock';
+import ManageGoalsStore from './ManageGoals.store';
 
 interface ManageGoalsState {
   showEditGoal: boolean;
@@ -464,6 +465,12 @@ export default defineComponent({
   directives: {
     ContentTable,
     Form,
+  },
+  created() {
+    ManageGoalsStore.setIdGoalShown(this.showGoal);
+  },
+  unmounted() {
+    ManageGoalsStore.setIdGoalShown(undefined);
   },
   mounted() {
     if (this.showAddGoal) {
@@ -785,8 +792,13 @@ export default defineComponent({
 
       const componentsByIdGoal: Record<string, unknown> = {};
       Object.values(this.goals as Record<string, Goal>).forEach((g) => {
+        const template = this.beforeGoalListActionsBody![g.idgoal];
+        if (!template) {
+          return;
+        }
+
         componentsByIdGoal[g.idgoal] = {
-          template: this.beforeGoalListActionsBody![g.idgoal],
+          template,
         };
       });
       return markRaw(componentsByIdGoal);
@@ -796,8 +808,15 @@ export default defineComponent({
         return null;
       }
 
+      const endedittable = this.$refs.endedittable as HTMLElement;
       return markRaw({
         template: this.endEditTable,
+        mounted() {
+          Matomo.helper.compileVueEntryComponents(endedittable);
+        },
+        beforeUnmount() {
+          Matomo.helper.destroyVueComponent(endedittable);
+        },
       });
     },
     beforeGoalListActionsHeadComponent() {

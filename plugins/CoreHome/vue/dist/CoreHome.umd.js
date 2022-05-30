@@ -1970,7 +1970,7 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       }
 
       Object.keys(defaultParams).forEach(function (key) {
-        if (_this4.useGETDefaultParameter(key) && !params[key] && !_this4.postParams[key] && defaultParams[key]) {
+        if (_this4.useGETDefaultParameter(key) && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') && (_this4.postParams[key] === null || typeof _this4.postParams[key] === 'undefined' || _this4.postParams[key] === '') && defaultParams[key]) {
           params[key] = defaultParams[key];
         }
       }); // handle default date & period if not already set

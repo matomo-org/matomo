@@ -687,8 +687,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     Object.keys(defaultParams).forEach((key) => {
       if (this.useGETDefaultParameter(key)
-        && !params[key]
-        && !this.postParams[key]
+        && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '')
+        && (this.postParams[key] === null
+          || typeof this.postParams[key] === 'undefined'
+          || this.postParams[key] === '')
         && defaultParams[key]
       ) {
         params[key] = defaultParams[key];
