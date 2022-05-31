@@ -71,7 +71,7 @@ describe("GoalsPages", function () {
   });
 
   it('should update the evolution chart if a sparkline is clicked', async function () {
-    elem = await page.jQuery('.sparkline.linked:contains(%)');
+    elem = await page.jQuery('.sparkline.linked:contains(conversion rate)');
     await elem.click();
     await page.waitForNetworkIdle();
     await page.mouse.move(-10, -10);
