@@ -175,7 +175,8 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique entry page URL, for
      * the specified site, period & segment.
      */
-    public function getEntryPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
+    public function getEntryPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
+                                     $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -188,7 +189,8 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique exit page URL, for
      * the specified site, period & segment.
      */
-    public function getExitPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
+    public function getExitPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
+                                    $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -502,8 +504,8 @@ class API extends \Piwik\Plugin\API
     {
         // Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
-
         $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions', [$isPageTitleType]);
+        $dataTable->filter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
 
         return $dataTable;
     }

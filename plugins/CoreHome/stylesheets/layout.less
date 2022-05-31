@@ -123,9 +123,8 @@ nav {
   }
 
   &>.top_controls {
-    .icon-arrowup:before, .icon-arrowdown:before,
-    .icon-reload:before {
-      padding: 17px 0 0 0px;
+    &> .icon-arrowup:before, &> .icon-arrowdown:before, &> .icon-reload:before {
+      padding: 17px 0 0 0;
       display: inline-block;
       cursor: pointer;
 
@@ -133,14 +132,10 @@ nav {
         display: none;
       }
     }
-    .icon-reload {
-      display: none;
-      margin-right: 10px;
 
-      &:before {
-        margin-right: 17px;
-        font-weight: lighter;
-      }
+    &> .icon-reload:before {
+      padding-right: 10px;
+      font-weight: lighter;
     }
   }
 

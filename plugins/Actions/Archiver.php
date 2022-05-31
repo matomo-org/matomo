@@ -65,6 +65,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->archiveDayEntryActions($rankingQueryLimit);
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);
+        $this->archiveDayActionsGoals($rankingQueryLimit);
 
         $this->insertDayReports();
 
@@ -455,6 +456,61 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::METRIC_HITS_TIMED_RECORD_NAME     => array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION))
         );
         $this->getProcessor()->insertNumericRecords($records);
+    }
+
+    /**
+     * Add goals data for each combination of url / title and pageviews / entries
+     *
+     * @param int   $rankingQueryLimit
+     *
+     * @return void
+     */
+    protected function archiveDayActionsGoals(int $rankingQueryLimit): void
+    {
+        $this->archiveDayActionsGoalsPages($rankingQueryLimit,true);
+        $this->archiveDayActionsGoalsPages($rankingQueryLimit,false);
+        $this->archiveDayActionsGoalsPagesEntry($rankingQueryLimit, true);
+        $this->archiveDayActionsGoalsPagesEntry($rankingQueryLimit, false);
+    }
+
+    /**
+     * Query goal page view data and update actions data table
+     *
+     * @param int   $rankingQueryLimit
+     * @param bool  $isUrl              If true then query goal data by url, else by name
+     *
+     * @return int|null Count of records processed
+     * @throws \Exception
+     */
+    protected function archiveDayActionsGoalsPages(int $rankingQueryLimit, bool $isUrl): ?int
+    {
+        $linkField = ($isUrl ? 'idaction_url' : 'idaction_name');
+        $resultSet = $this->getLogAggregator()->queryConversionsByPageView($linkField, $rankingQueryLimit);
+        if (!$resultSet) {
+            return null;
+        }
+
+        return ArchivingHelper::updateActionsTableWithGoals($resultSet, true);
+    }
+
+    /**
+     * Query goal entry page data and update actions data table
+     *
+     * @param int   $rankingQueryLimit
+     * @param bool  $isUrl              If true then query goal data by url, else by name
+     *
+     * @return int|null Count of records processed
+     * @throws \Exception
+     */
+    protected function archiveDayActionsGoalsPagesEntry(int $rankingQueryLimit, bool $isUrl): ?int
+    {
+        $linkField = ($isUrl ? 'visit_entry_idaction_url' : 'visit_entry_idaction_name');
+        $resultSet = $this->getLogAggregator()->queryConversionsByEntryPageView($linkField, $rankingQueryLimit);
+        if (!$resultSet) {
+            return null;
+        }
+
+        return ArchivingHelper::updateActionsTableWithGoals($resultSet, false);
     }
 
     /**
