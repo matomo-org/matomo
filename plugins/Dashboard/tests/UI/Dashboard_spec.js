@@ -301,12 +301,13 @@ describe("Dashboard", function () {
     });
 
     it("should load widgets on smaller screen", async function(){
-        page.webpage.setViewport({ width: 815, height: 512 });
+        const generalParams = 'idSite=1&period=day&date=2012-01-01';
+        const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=5';
         await page.goto(url);
+        page.webpage.setViewport({ width: 815, height: 512 });
         expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
-
     });
-    
+
     it("should load segmented dashboard", async function() {
         await removeAllExtraDashboards();
         await page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"));
