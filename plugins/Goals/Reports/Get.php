@@ -23,6 +23,7 @@ use Piwik\Piwik;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Goals\Goals;
@@ -40,7 +41,9 @@ class Get extends Base
         parent::init();
 
         $this->name = Piwik::translate('Goals_Goals');
-        $this->processedMetrics = ['conversion_rate'];
+        $this->processedMetrics = [
+            new ConversionRate()
+        ];
         $this->documentation = Piwik::translate('Goals_OverviewReportDocumentation');
         $this->order = 1;
         $this->orderGoal = 50;
