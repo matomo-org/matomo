@@ -326,4 +326,11 @@ describe("Dashboard", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token_auth');
     });
 
+    it("should load widgets on smaller screen", async function(){
+        page.webpage.setViewport({ width: 815, height: 512 });
+        await page.goto(url);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
+
+    });
+
 });
