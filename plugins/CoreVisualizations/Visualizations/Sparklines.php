@@ -289,7 +289,10 @@ class Sparklines extends ViewDataTable
 
                 $metrics = [];
                 foreach ($values as $i => $value) {
-                    if ($columnMetrics[$column[$i]]) {
+                    if (!isset($column[$i])) {
+                        continue;
+                    }
+                    if (isset($columnMetrics[$column[$i]]) && $columnMetrics[$column[$i]]) {
                         $value = $columnMetrics[$column[$i]]->format($value, $metricFormatter);
                     } elseif (strpos($column[$i], 'revenue') !== false && $idSite > 0) {
                         $value = $metricFormatter->getPrettyMoney($value, $idSite);
