@@ -1249,7 +1249,9 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]') // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
       // entries to show up in the browser history. this has a compounding effect w/ angular.js,
       // which when the back button is pressed to effectively abort the back navigation.
-      .replace(/%2C/g, ',');
+      .replace(/%2C/g, ',') // jquery seems to encode space characters as '+', but certain parts of matomo won't
+      // decode it correctly, so we make sure to use %20 instead
+      .replace(/\+/g, '%20');
     }
   }, {
     key: "updatePeriodParamsFromUrl",
