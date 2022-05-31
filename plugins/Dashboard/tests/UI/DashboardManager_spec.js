@@ -102,6 +102,7 @@ describe("DashboardManager", function () {
 
     it("should load widgets on smaller screen", async function(){
         await page.webpage.setViewport({ width: 815, height: 512 });
+        await page.waitForTimeout(250);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
     });
 
