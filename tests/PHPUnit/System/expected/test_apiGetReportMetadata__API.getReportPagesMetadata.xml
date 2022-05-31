@@ -1832,7 +1832,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>301</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1863,7 +1863,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>302</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1894,7 +1894,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>303</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1925,7 +1925,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>304</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1956,7 +1956,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
-						<order>205</order>
+						<order>305</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1987,7 +1987,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
-						<order>206</order>
+						<order>306</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2018,7 +2018,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
-						<order>207</order>
+						<order>307</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2049,7 +2049,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
-						<order>208</order>
+						<order>308</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2080,7 +2080,7 @@
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
-						<order>301</order>
+						<order>401</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2111,7 +2111,7 @@
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
-						<order>302</order>
+						<order>402</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2121,6 +2121,130 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page URLs</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageUrls</action>
+						<order>101</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry pages</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageUrls</action>
+						<order>102</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageTitles</action>
+						<order>103</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageTitles</action>
+						<order>104</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -2297,7 +2421,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
-						<order>101</order>
+						<order>201</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -2328,7 +2452,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
-						<order>102</order>
+						<order>202</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -2510,7 +2634,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>301</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2541,7 +2665,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>302</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2572,7 +2696,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>303</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2603,7 +2727,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>304</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2634,7 +2758,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
-						<order>205</order>
+						<order>305</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2665,7 +2789,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
-						<order>206</order>
+						<order>306</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2696,7 +2820,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
-						<order>207</order>
+						<order>307</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2727,7 +2851,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
-						<order>208</order>
+						<order>308</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2758,7 +2882,7 @@
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
-						<order>301</order>
+						<order>401</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2789,7 +2913,7 @@
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
-						<order>302</order>
+						<order>402</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2799,6 +2923,130 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page URLs</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageUrls</action>
+						<order>101</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry pages</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageUrls</action>
+						<order>102</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageTitles</action>
+						<order>103</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageTitles</action>
+						<order>104</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -2975,7 +3223,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
-						<order>101</order>
+						<order>201</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -3006,7 +3254,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
-						<order>102</order>
+						<order>202</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -3188,7 +3436,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>301</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3219,7 +3467,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>302</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3250,7 +3498,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>303</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3281,7 +3529,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>304</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3312,7 +3560,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
-						<order>205</order>
+						<order>305</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3343,7 +3591,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
-						<order>206</order>
+						<order>306</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3374,7 +3622,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
-						<order>207</order>
+						<order>307</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3405,7 +3653,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
-						<order>208</order>
+						<order>308</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3436,7 +3684,7 @@
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
-						<order>301</order>
+						<order>401</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3467,7 +3715,7 @@
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
-						<order>302</order>
+						<order>402</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3477,6 +3725,130 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page URLs</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageUrls</action>
+						<order>101</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry pages</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageUrls</action>
+						<order>102</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageTitles</action>
+						<order>103</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageTitles</action>
+						<order>104</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -3653,7 +4025,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
-						<order>101</order>
+						<order>201</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -3684,7 +4056,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
-						<order>102</order>
+						<order>202</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -3856,7 +4228,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>301</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3887,7 +4259,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>302</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3918,7 +4290,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>303</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3949,7 +4321,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>304</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3980,7 +4352,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
-						<order>205</order>
+						<order>305</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4011,7 +4383,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
-						<order>206</order>
+						<order>306</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4042,7 +4414,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
-						<order>207</order>
+						<order>307</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4073,7 +4445,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
-						<order>208</order>
+						<order>308</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4104,7 +4476,7 @@
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
-						<order>301</order>
+						<order>401</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4135,7 +4507,7 @@
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
-						<order>302</order>
+						<order>402</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4145,6 +4517,130 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page URLs</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageUrls</action>
+						<order>101</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry pages</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageUrls</action>
+						<order>102</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageTitles</action>
+						<order>103</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page titles</name>
+						<category>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Goals by Pages</id>
+							<name>Goals by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageTitles</action>
+						<order>104</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -4321,7 +4817,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
-						<order>101</order>
+						<order>201</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -4352,7 +4848,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
-						<order>102</order>
+						<order>202</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -4723,7 +5219,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>301</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4755,7 +5251,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>302</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4787,7 +5283,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>303</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4819,7 +5315,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>304</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4851,7 +5347,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getType</action>
-						<order>205</order>
+						<order>305</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4883,7 +5379,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getModel</action>
-						<order>206</order>
+						<order>306</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4915,7 +5411,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrand</action>
-						<order>207</order>
+						<order>307</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4947,7 +5443,7 @@
 						</subcategory>
 						<module>DevicesDetection</module>
 						<action>getBrowsers</action>
-						<order>208</order>
+						<order>308</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4979,7 +5475,7 @@
 						</subcategory>
 						<module>VisitTime</module>
 						<action>getVisitInformationPerServerTime</action>
-						<order>301</order>
+						<order>401</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -5011,7 +5507,7 @@
 						</subcategory>
 						<module>CustomVariables</module>
 						<action>getCustomVariables</action>
-						<order>302</order>
+						<order>402</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -5022,6 +5518,134 @@
 							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page URLs</name>
+						<category>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageUrls</action>
+						<order>101</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry pages</name>
+						<category>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageUrls</action>
+						<order>102</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageUrls</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageUrlsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Entry page titles</name>
+						<category>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getEntryPageTitles</action>
+						<order>103</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getEntryPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetActionsgetEntryPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Page titles</name>
+						<category>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<icon />
+							<help />
+						</category>
+						<subcategory>
+							<id>Sales by Pages</id>
+							<name>Sales by Pages</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Actions</module>
+						<action>getPageTitles</action>
+						<order>104</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Actions</module>
+							<action>getPageTitles</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -5203,7 +5827,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getVisitsUntilConversion</action>
-						<order>101</order>
+						<order>201</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
@@ -5235,7 +5859,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getDaysToConversion</action>
-						<order>102</order>
+						<order>202</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>table</viewDataTable>
