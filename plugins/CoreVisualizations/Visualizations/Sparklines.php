@@ -252,7 +252,10 @@ class Sparklines extends ViewDataTable
                         [$compareValues, $compareDescriptions, $evolutions] = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change', '_trend');
 
                         foreach ($compareValues as $i => $value) {
-                            if ($columnMetrics[$columnToUse[$i]]) {
+                            if (!isset($column[$i])) {
+                                continue;
+                            }
+                            if (isset($columnMetrics[$column[$i]]) && $columnMetrics[$column[$i]]) {
                                 $value = $columnMetrics[$columnToUse[$i]]->format($value, $metricFormatter);
                             } elseif (strpos($columnToUse[$i], 'revenue') !== false && $idSite > 0) {
                                 $value = $metricFormatter->getPrettyMoney($value, $idSite);
@@ -289,7 +292,10 @@ class Sparklines extends ViewDataTable
 
                 $metrics = [];
                 foreach ($values as $i => $value) {
-                    if ($columnMetrics[$column[$i]]) {
+                    if (!isset($column[$i])) {
+                        continue;
+                    }
+                    if (isset($columnMetrics[$column[$i]]) && $columnMetrics[$column[$i]]) {
                         $value = $columnMetrics[$column[$i]]->format($value, $metricFormatter);
                     } elseif (strpos($column[$i], 'revenue') !== false && $idSite > 0) {
                         $value = $metricFormatter->getPrettyMoney($value, $idSite);
