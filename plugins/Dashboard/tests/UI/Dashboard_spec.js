@@ -300,12 +300,6 @@ describe("Dashboard", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });
 
-    it("should load widgets on smaller screen", async function(){
-        await page.goto('?module=CoreHome&action=index&idSite=1&period=day&date=2012-01-01#?period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1');
-        // page.webpage.setViewport({ width: 815, height: 512 });
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
-    });
-
     it("should load segmented dashboard", async function() {
         await removeAllExtraDashboards();
         await page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"));

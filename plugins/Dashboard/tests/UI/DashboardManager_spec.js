@@ -99,6 +99,13 @@ describe("DashboardManager", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });
 
+
+    it("should load widgets on smaller screen", async function(){
+        await page.webpage.setViewport({ width: 815, height: 512 });
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
+    });
+
+
     it("should remove dashboard when remove dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="removeDashboard"]');
