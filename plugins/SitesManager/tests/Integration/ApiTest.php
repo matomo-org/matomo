@@ -110,7 +110,7 @@ class ApiTest extends IntegrationTestCase
         $expectedExcludedQueryParameters = 'p1,P2,P33333';
         $excludedUserAgents = " p1,P2, \nP3333 ";
         $expectedExcludedUserAgents = "p1,P2,P3333";
-        $excludedReferrers = 'www.paypal.com,amazon.com';
+        $excludedReferrers = 'http://www.paypal.com,https://amazon.com';
         $keepUrlFragment = 1;
         $idsite = API::getInstance()->addSite(
             "name",
