@@ -51,7 +51,7 @@ class ReferrerTypeTest extends IntegrationTestCase
         Fixture::createWebsite($date, $ecommerce, 'test3', 'http://piwik.xyz/');
         Fixture::createWebsite($date, $ecommerce, 'test4', 'http://google.com/subdir/', 1, null, null, null, null, $excludeUnknownUrls = 1);
         Fixture::createWebsite($date, $ecommerce, 'test5', null);
-        Fixture::createWebsite($date, $ecommerce, 'test6', 'http://matomo.org/', 1, null, null, null, null, null, null, 'paypal.com,http://payments.amazon.com/proceed');
+        Fixture::createWebsite($date, $ecommerce, 'test6', 'http://matomo.org/', 1, null, null, null, null, null, null, 'http://paypal.com,http://payments.amazon.com/proceed/');
 
         $this->referrerType = new ReferrerType();
     }
@@ -138,7 +138,7 @@ class ReferrerTypeTest extends IntegrationTestCase
             // site w/o url
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite5, $url, $referrer . '/'],
 
-            ####### testing referrer exclusion
+            ##### testing referrer exclusion
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'http://www.paypal.com/subdir/site'],
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'https://paypal.com/subdir/site'],
             [Common::REFERRER_TYPE_WEBSITE, $this->idSite6, 'https://matomo.org/faq', 'http://shop.paypal.com/subdir/site'],
