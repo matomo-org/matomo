@@ -5,7 +5,7 @@
         "MobileReport_AdditionalPhoneNumbers": "Anda dapat menambahkan lebih banyak nomor telepon dengan mengakses",
         "MobileReport_MobileMessagingSettingsLink": "halaman pengaturan Pesan Seluler",
         "MobileReport_NoPhoneNumbers": "Silakan aktifkan setidaknya satu nomor telepon dengan mengakses",
-        "MultiSites_Must_Be_Activated": "Untuk menghasilkan teks SMS dari statistik situs web Anda, harap aktifkan plugin MultiSites di Matomo.",
+        "MultiSites_Must_Be_Activated": "Untuk menghasilkan teks SMS dari statistik situs web Anda, harap aktifkan pengaya MultiSites di Matomo.",
         "PhoneNumbers": "Nomor Telepon",
         "PluginDescription": "Buat dan unduh laporan SMS khusus dan kirimkan ke ponsel Anda setiap hari, mingguan, atau bulanan.",
         "SMS_Content_Too_Long": "[terlalu panjang]",
