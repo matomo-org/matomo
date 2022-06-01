@@ -72,17 +72,22 @@ abstract class Base extends VisitDimension
     {
         $this->idsite = $idSite;
 
-        // default values for the referer_* fields
         $referrerUrl = Common::unsanitizeInputValue($referrerUrl);
+
+        // Ignore referrer url if it doesn't look like a URL or is excluded in settings
         if (
             !empty($referrerUrl)
-            && !UrlHelper::isLookLikeUrl($referrerUrl)
+            && (
+                !UrlHelper::isLookLikeUrl($referrerUrl)
+                || $this->isReferrerExcluded($referrerUrl)
+            )
         ) {
             $referrerUrl = '';
         }
 
         $currentUrl = PageUrl::cleanupUrl($currentUrl);
 
+        // default values for the referer_* fields
         $this->referrerUrl = $referrerUrl;
         $this->referrerUrlParse = @parse_url($this->referrerUrl);
         $this->currentUrlParse = @parse_url($currentUrl);
@@ -142,7 +147,7 @@ abstract class Base extends VisitDimension
         return $referrerInformation;
     }
 
-    private function getExcludedReferrers($idSite): array
+    protected function getExcludedReferrers($idSite): array
     {
         try {
             $attributes = Cache::getCacheWebsiteAttributes($idSite);
@@ -158,6 +163,26 @@ abstract class Base extends VisitDimension
         }
 
         return [];
+    }
+
+    protected function isReferrerExcluded(string $referrerUrl): bool
+    {
+        $urlsByHost = [];
+        $parsedReferrer = @parse_url($referrerUrl);
+
+        $excludedUrls = new SiteUrls();
+        $excludedReferrers = $this->getExcludedReferrers($this->idsite);
+        foreach ($excludedReferrers as $excludedReferrer) {
+            $excludedUrls->addUrlByHost($urlsByHost, $this->idsite, $excludedReferrer);
+        }
+
+        $matchingSites = $excludedUrls->getIdSitesMatchingUrl($parsedReferrer, $urlsByHost);
+
+        if (is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function excludeQueryParamsFromReferrerUrl()
@@ -428,13 +453,6 @@ abstract class Base extends VisitDimension
 
         $directEntry   = new SiteUrls();
         $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
-
-        // To exclude the configured referrers we add them to the list of known site urls
-        // That way they are handled as direct entry instead
-        $excludedReferrers = $this->getExcludedReferrers($this->idsite);
-        foreach ($excludedReferrers as $excludedReferrer) {
-            $directEntry->addUrlByHost($urlsByHost, $this->idsite, $excludedReferrer);
-        }
 
         $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $urlsByHost);
 
