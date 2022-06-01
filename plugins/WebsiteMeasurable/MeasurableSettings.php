@@ -20,6 +20,7 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
+use Piwik\UrlHelper;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.
@@ -266,6 +267,19 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->inlineHelp = Piwik::translate('SitesManager_ExcludedReferrersHelp');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->uiControlAttributes = ['cols' => '20', 'rows' => '4'];
+            $field->validate = function ($value) {
+                if (!empty($value)) {
+                    $urls = array_map('trim', $value);
+                    $urls = array_filter($urls, 'strlen');
+
+                    foreach ($urls as $url) {
+                        $parsedUrl = @parse_url($url);
+                        if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($url)) {
+                            throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
+                        }
+                    }
+                }
+            };
             $field->transform = function ($value) use ($self) {
                 return $self->checkAndReturnCommaSeparatedStringList($value);
             };

@@ -1115,9 +1115,17 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
+        $excludedUrls = $this->checkAndReturnCommaSeparatedStringList($excludedReferrers);
+
+        foreach (explode(',', $excludedUrls) ?: [] as $url) {
+            $parsedUrl = @parse_url($url);
+            if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($url)) {
+                throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
+            }
+        }
+
         // update option
-        $excludedUserAgents = $this->checkAndReturnCommaSeparatedStringList($excludedReferrers);
-        Option::set(self::OPTION_EXCLUDED_REFERRERS_GLOBAL, $excludedUserAgents);
+        Option::set(self::OPTION_EXCLUDED_REFERRERS_GLOBAL, $excludedUrls);
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
