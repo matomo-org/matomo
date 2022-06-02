@@ -158,7 +158,10 @@ const { $ } = window;
 
 export default defineComponent({
   props: {
-    hasExtraPlugin: Boolean,
+    hasExtraPlugin: {
+      type: Boolean,
+      default: true,
+    },
   },
   components: {
     Field,

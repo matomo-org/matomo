@@ -250,7 +250,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {
             await page.click('#secondNavBar ul li.active li.active a.item');
             await page.waitForNetworkIdle();
-            await page.waitFor('.piwik-graph');
+            await page.waitForSelector('.piwik-graph');
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
@@ -544,7 +544,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             // manipulate the styles a bit, as it's otherwise not visible on screenshot
             await page.evaluate(function () {
                 var style = document.createElement('style');
-                style.innerHTML = '.permadocs { display: block !important;z-index:150!important; } .dataTable thead{ z-index:150 !important; }';
+                style.innerHTML = '.permadocs { display: block !important;z-index:150!important;margin-top:0!important; } .dataTable thead{ z-index:150 !important; }';
                 $('body').append(style);
 
                 //add index not overlap others

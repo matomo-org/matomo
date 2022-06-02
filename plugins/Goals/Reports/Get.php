@@ -23,6 +23,7 @@ use Piwik\Piwik;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Goals\Goals;
@@ -137,6 +138,17 @@ class Get extends Base
                 'conversion_rate' => Piwik::translate('Goals_OverallConversionRate'),
                 'revenue' => Piwik::translate('Goals_OverallRevenue'),
             ]);
+
+            // Adding conversion rate as extra processed metrics ensures it will be formatted
+            $view->config->filters[] = function (DataTable $t) {
+                $extraProcessedMetrics = $t->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+
+                if (empty($extraProcessedMetrics)) {
+                    $extraProcessedMetrics = [];
+                }
+                $extraProcessedMetrics[] = new ConversionRate();
+                $t->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            };
 
             $allowMultiple = Common::getRequestVar('allow_multiple', 0, 'int');
 
