@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div ref="root">
     <label class="fieldRadioTitle" v-show="title">{{ title }}</label>
 
     <p
@@ -53,6 +53,17 @@ export default defineComponent({
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {
+      // change to previous value so the parent component can determine if this change should
+      // go through
+      (this.$refs.root as HTMLElement).querySelectorAll('input').forEach((inp, i) => {
+        if (!this.availableOptions?.[i]) {
+          return;
+        }
+
+        const { key } = (this.availableOptions as { key: string }[])[i];
+        (inp as HTMLInputElement).checked = this.modelValue === key || `${this.modelValue}` === key;
+      });
+
       this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
     },
   },

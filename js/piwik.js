@@ -54,6 +54,7 @@
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
     pdf, qt, realp, wma, fla, java, ag, showModalDialog,
+    _rcn, _rck, _refts, _ref,
     maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -3629,12 +3630,7 @@ if (typeof window.Matomo !== 'object') {
                 return request + timings;
             }
 
-            /**
-             * Returns the URL to call matomo.php,
-             * with the standard parameters (plugins, resolution, url, referrer, etc.).
-             * Sends the pageview and browser settings with every request in case of race conditions.
-             */
-            function getRequest(request, customData, pluginMethod) {
+            function detectReferrerAttribution() {
                 var i,
                     now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
@@ -3643,34 +3639,14 @@ if (typeof window.Matomo !== 'object') {
                     referralUrlMaxLength = 1024,
                     currentReferrerHostName,
                     originalReferrerHostName,
-                    customVariablesCopy = customVariables,
                     cookieSessionName = getCookieName('ses'),
                     cookieReferrerName = getCookieName('ref'),
-                    cookieCustomVariablesName = getCookieName('cvar'),
                     cookieSessionValue = getCookie(cookieSessionName),
                     attributionCookie = loadReferrerAttributionCookie(),
                     currentUrl = configCustomUrl || locationHrefAlias,
                     campaignNameDetected,
-                    campaignKeywordDetected;
-
-                if (configCookiesDisabled) {
-                    deleteCookies();
-                }
-
-                if (configDoNotTrack) {
-                    return '';
-                }
-
-                var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
-
-                // send charset if document charset is not utf-8. sometimes encoding
-                // of urls will be the same as this and not utf-8, which will cause problems
-                // do not send charset if it is utf8 since it's assumed by default in Matomo
-                var charSet = documentAlias.characterSet || documentAlias.charset;
-
-                if (!charSet || charSet.toLowerCase() === 'utf-8') {
-                    charSet = null;
-                }
+                    campaignKeywordDetected,
+                    attributionValues = {};
 
                 campaignNameDetected = attributionCookie[0];
                 campaignKeywordDetected = attributionCookie[1];
@@ -3679,7 +3655,6 @@ if (typeof window.Matomo !== 'object') {
 
                 if (!cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
-
 
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set
@@ -3716,8 +3691,9 @@ if (typeof window.Matomo !== 'object') {
                     if (currentReferrerHostName.length && // there is a referrer
                         !isSiteHostName(currentReferrerHostName) && // domain is not the current domain
                         (!configConversionAttributionFirstReferrer || // attribute to last known referrer
-                            !originalReferrerHostName.length || // previously empty
-                            isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
+                        !originalReferrerHostName.length || // previously empty
+                        isSiteHostName(originalReferrerHostName))
+                    ) { // previously set but in current domain
                         referralUrl = configReferrerUrl;
                     }
 
@@ -3736,6 +3712,55 @@ if (typeof window.Matomo !== 'object') {
                     }
                 }
 
+                if (campaignNameDetected.length) {
+                    attributionValues._rcn = encodeWrapper(campaignNameDetected);
+                }
+
+                if (campaignKeywordDetected.length) {
+                    attributionValues._rck = encodeWrapper(campaignKeywordDetected);
+                }
+
+                attributionValues._refts = referralTs;
+
+                if (String(referralUrl).length) {
+                    attributionValues._ref = encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength)));
+                }
+
+
+                return attributionValues;
+            }
+
+            /**
+             * Returns the URL to call matomo.php,
+             * with the standard parameters (plugins, resolution, url, referrer, etc.).
+             * Sends the pageview and browser settings with every request in case of race conditions.
+             */
+            function getRequest(request, customData, pluginMethod) {
+                var i,
+                    now = new Date(),
+                    customVariablesCopy = customVariables,
+                    cookieCustomVariablesName = getCookieName('cvar'),
+                    currentUrl = configCustomUrl || locationHrefAlias;
+
+                if (configCookiesDisabled) {
+                    deleteCookies();
+                }
+
+                if (configDoNotTrack) {
+                    return '';
+                }
+
+                var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
+
+                // send charset if document charset is not utf-8. sometimes encoding
+                // of urls will be the same as this and not utf-8, which will cause problems
+                // do not send charset if it is utf8 since it's assumed by default in Matomo
+                var charSet = documentAlias.characterSet || documentAlias.charset;
+
+                if (!charSet || charSet.toLowerCase() === 'utf-8') {
+                    charSet = null;
+                }
+
                 // build out the rest of the request
                 request += '&idsite=' + configTrackerSiteId +
                     '&rec=1' +
@@ -3745,22 +3770,25 @@ if (typeof window.Matomo !== 'object') {
                     (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + cookieVisitorIdValues.uuid +
-
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
-                    (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
-                    (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
-                    '&_refts=' + referralTs +
-                    (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
-                    var browserFeatures = detectBrowserFeatures();
-                    // browser features
-                    for (i in browserFeatures) {
-                        if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
-                            request += '&' + i + '=' + browserFeatures[i];
-                        }
+                var referrerAttribution = detectReferrerAttribution();
+                // referrer attribution
+                for (i in referrerAttribution) {
+                    if (Object.prototype.hasOwnProperty.call(referrerAttribution, i)) {
+                        request += '&' + i + '=' + referrerAttribution[i];
                     }
+                }
+
+                var browserFeatures = detectBrowserFeatures();
+                // browser features
+                for (i in browserFeatures) {
+                    if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
+                        request += '&' + i + '=' + browserFeatures[i];
+                    }
+                }
 
                 var customDimensionIdsAlreadyHandled = [];
                 if (customData) {
@@ -7078,6 +7106,8 @@ if (typeof window.Matomo !== 'object') {
                 unload: function () {
                     if (!hasSentTrackingRequestYet) {
                         setVisitorIdCookie();
+                        // this will set the referrer attribution cookie
+                        detectReferrerAttribution();
                     }
                 }
             });
