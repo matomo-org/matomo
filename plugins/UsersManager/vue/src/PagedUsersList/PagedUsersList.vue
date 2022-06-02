@@ -313,7 +313,7 @@
                   class="resend table-action"
                   title="Resend Invite"
                   @click="userToChange = user; showResendConfirm()"
-                  v-if="user.invite_status"
+                  v-if="user.invite_status!=='accept'"
               >
                 <span class="icon-email" />
               </button>
