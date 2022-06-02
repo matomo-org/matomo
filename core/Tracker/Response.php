@@ -14,6 +14,7 @@ use Exception;
 use Piwik\API\CORSHandler;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Http;
 use Piwik\Profiler;
 use Piwik\Timer;
 use Piwik\Tracker;
@@ -80,7 +81,7 @@ class Response
             $this->outputApiResponse($tracker);
             Common::printDebug("Logging disabled, display transparent logo");
         } elseif (!$tracker->hasLoggedRequests()) {
-            if (!CORSHandler::isHttpGetRequest() || !empty($_GET) || !empty($_POST)) {
+            if (!Http::isHttpGetRequest() || !empty($_GET) || !empty($_POST)) {
                 Common::sendResponseCode(400);
             }
             Common::printDebug("Empty request => Matomo page");
@@ -131,7 +132,7 @@ class Response
 
         $request = $_GET + $_POST;
 
-        if (CORSHandler::isHttpGetRequest()) {
+        if (Http::isHttpGetRequest()) {
             Common::sendHeader('Cache-Control: no-store');
         }
 

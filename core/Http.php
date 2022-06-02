@@ -1122,4 +1122,15 @@ class Http
 
         return $openSslEnabled && $usingMethodSupportingHttps;
     }
+
+    /**
+     * check if is a GET request
+     * @return bool
+     */
+    public static function isHttpGetRequest()
+    {
+        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+
+        return strtoupper($requestMethod) === 'GET';
+    }
 }

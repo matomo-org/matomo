@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Http;
 use Piwik\Url;
 use Psr\Log\LoggerInterface;
 
@@ -32,6 +33,7 @@ class CORSHandler
     /**
      * This method is set header for the request to pass browser cross domain checks.
      * By default, it allow from all hosts
+     * For preFlight request this method will exit
      * @throws \Exception
      */
     public function handle()
@@ -53,7 +55,7 @@ class CORSHandler
             if (!in_array('*', $this->domains) && !in_array($_SERVER['HTTP_ORIGIN'], $this->domains, true)) {
                 Common::sendHeader('Access-Control-Allow-Origin: ' . $this->domains[0], true);
                 Common::sendResponseCode(401);
-                $this->logger->debug("Tracker detected CORS request. Skipping...");
+                $this->logger->debug("Detected CORS request. Skipping...");
                 exit;
             }
         }
@@ -69,20 +71,9 @@ class CORSHandler
 
     }
 
-    /**
-     * check if is a GET request
-     * @return bool
-     */
-    public static function isHttpGetRequest()
-    {
-        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-
-        return strtoupper($requestMethod) === 'GET';
-    }
-
     public static function outputAccessControlHeaders()
     {
-        if (!self::isHttpGetRequest()) {
+        if (Http::isHttpGetRequest()) {
             $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
             Common::sendHeader('Access-Control-Allow-Origin: ' . $origin);
             Common::sendHeader('Access-Control-Allow-Credentials: true');
