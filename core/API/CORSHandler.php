@@ -31,8 +31,9 @@ class CORSHandler
     }
 
     /**
-     * This method is set header for the request to pass browser cross domain checks.
-     * By default, it allow from all hosts
+     * This method implement the same-origin policy.
+     * By default, it allows from all URL.
+     * To limit the request URL, please read FAQ https://matomo.org/faq/how-to/faq_18694/
      * For preFlight request this method will exit
      * @throws \Exception
      */
