@@ -102,7 +102,7 @@ class CalculateConversionPageRate extends BaseFilter
             $total = $archive->getNumeric(GoalsArchiver::getRecordName('nb_conversions', $idGoal));
             if (is_array($total) && count($total)) {
                 $goalTotals[$idGoal] = reset($total);
-            } else if(is_numeric($total)) {
+            } else if (is_numeric($total)) {
                 $goalTotals[$idGoal] = $total;
             }
         }
