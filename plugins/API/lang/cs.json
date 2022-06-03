@@ -1,6 +1,6 @@
 {
     "API": {
-        "ChangeTokenHint": "Pokud chcete tento token změnit, %1$spřejdtě na svou stránku s osobními nastaveními%2$s",
+        "ChangeTokenHint": "Pokud chcete tento token změnit, %1$snavštivte na stránku s osobními nastaveními%2$s.",
         "EvolutionMetricName": "%s Vývoj",
         "Glossary": "Glosář",
         "KeepTokenSecret": "Tento token_auth je tajný jako vaše uživatelské jméno a heslo, %1$s neříkejte jej nikomu jinému %2$s!",

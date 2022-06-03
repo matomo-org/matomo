@@ -2,7 +2,7 @@
     "Installation": {
         "CannotConnectToDb": "Nelze se připojit k databázi",
         "CannotConnectToDbResolvingExplanation": "To může být dočasný problém, zkuste %1$sobnovit stránku%2$s. Pokud problém přetrvá, kontaktujte svého administrátora Matomou.",
-        "CollaborativeProject": "Matomo je společný projekt tvořený s láskou lidmi z celého světa.",
+        "CollaborativeProject": "Matomo je společný projekt tvořený s láskou.",
         "ConfigurationHelp": "Zdá se, že konfigurační soubor Matomo je chybně nakonfigurován. Můžete buď odstranit config / config.ini.php a pokračovat v instalaci, nebo opravit nastavení připojení k databázi.",
         "ConfirmDeleteExistingTables": "Jste si jistí, že chcete vymazat tabulky: %s z vaší databáze? UPOZORNĚNÍ: DATA Z TĚCHTO TABULEK NEPŮJDOU OBNOVIT!",
         "Congratulations": "Gratulujeme",
