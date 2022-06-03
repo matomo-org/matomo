@@ -112,15 +112,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
         ],
     ];
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $env = new TestingEnvironmentVariables();
-        $env->overrideConfig('Tracker', 'create_new_visit_when_website_referrer_changes', 0); // set to default
-        $env->save();
-    }
-
     /**
      * @dataProvider getReferrerAttributionUsingLastReferrerTestCases
      */
@@ -181,48 +172,65 @@ class ReferrerAttributionTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackPageView('Order payed'));
 
         $shouldCreateNewVisit = false;
-        $shouldUpdateReferrer = false;
 
-        // If the second referrer is detected as website and create_new_visit_when_website_referrer_changed = 1
-        // and this specific website hasn't been added to the site's urls, then we create a new visit
-        // but only if the referrer attribution cookie does not contain a campaign, as this overrules the referrer
+        $visitReferrer = $initialReferrer;
+
         if (
-            $createNewVisitWhenWebsiteReferrerChanges === true
-            && $secondReferrer['referrerType'] === Common::REFERRER_TYPE_WEBSITE
-            && $referrerAttributionCookieValuesAfterReturn['referrerType'] !== Common::REFERRER_TYPE_CAMPAIGN
+            (
+                $initialReferrer['referrerType'] === Common::REFERRER_TYPE_DIRECT_ENTRY
+                || $initialReferrer === $referrerAttributionCookieValuesAfterReturn
+            )
+            && $referrerAttributionCookieValuesAfterReturn !== null
+            && $referrerAttributionCookieValuesAfterReturn['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN
+        ) {
+            $visitReferrer = $referrerAttributionCookieValuesAfterReturn;
+
+            /*
+             * @todo Due to a bug in Matomo dimensions handling, when updating a referrer the referrer_url is currently
+             * not updated and stays empty. This "fix" should be removed and fixed in the code
+             * See discussion on https://github.com/matomo-org/matomo/pull/19250
+             */
+            if ($initialReferrer['referrerType'] === Common::REFERRER_TYPE_DIRECT_ENTRY) {
+                $visitReferrer['referrerUrl'] = null;
+            }
+            // end of fix
+        } elseif (
+            $secondReferrer['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN
+            && $createNewVisitWhenCampaignChanges === true
+            && $initialReferrer['referrerType'] !== Common::REFERRER_TYPE_DIRECT_ENTRY
+        ) {
+            $visitReferrer = $secondReferrer;
+            $shouldCreateNewVisit = true;
+        } elseif (
+            $secondReferrer['referrerType'] === Common::REFERRER_TYPE_WEBSITE
+            && $createNewVisitWhenWebsiteReferrerChanges === true
             && $addSecondReferrerAsSiteUrl === false
         ) {
             $shouldCreateNewVisit = true;
-        }
-
-        // If the second referrer is detected as campaign and create_new_visit_when_campaign_changes = 1
-        // then we create a new visit
-        if (
-            $createNewVisitWhenCampaignChanges === true
-            && $secondReferrer['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN
-        ) {
-            $shouldCreateNewVisit = true;
-        }
-
-        // If the initial referrer was direct, and the second referrer's host wasn't added to the site's urls
-        // the referrer of the visit will be updated.
-        if (
+            $visitReferrer = $secondReferrer;
+        } elseif (
             $initialReferrer['referrerType'] === Common::REFERRER_TYPE_DIRECT_ENTRY
             && $addSecondReferrerAsSiteUrl === false
         ) {
-            $shouldUpdateReferrer = true;
+            $visitReferrer = $secondReferrer;
+
+            /*
+             * @todo Due to a bug in Matomo dimensions handling, when updating a referrer the referrer_url is currently
+             * not updated and stays empty. This "fix" should be removed and fixed in the code
+             * See discussion on https://github.com/matomo-org/matomo/pull/19250
+             */
+            $visitReferrer['referrerUrl'] = null;
+            // end of fix
         }
 
         // check visits and referrers are attributed correctly
         if ($shouldCreateNewVisit) {
             $this->assertVisitReferrers([
                                             $this->buildVisit(1, 1, $initialReferrer),
-                                            $this->buildVisit(2, 1, $currentReferrer = $secondReferrer),
+                                            $this->buildVisit(2, 1, $visitReferrer),
                                         ]);
-        } elseif ($shouldUpdateReferrer) {
-            $this->assertVisitReferrers([$this->buildVisit(1, 2, $currentReferrer = $secondReferrer)]);
         } else {
-            $this->assertVisitReferrers([$this->buildVisit(1, 2, $currentReferrer = $initialReferrer)]);
+            $this->assertVisitReferrers([$this->buildVisit(1, 2, $visitReferrer)]);
         }
 
         // Track an ecommerce conversion
@@ -232,14 +240,17 @@ class ReferrerAttributionTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackEcommerceOrder('TestingOrder', 124.5));
 
         // check that conversion is attributed correctly
-        if ($referrerAttributionCookieValuesAfterReturn['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN) {
+        if (
+            $referrerAttributionCookieValuesAfterReturn !== null
+            && $referrerAttributionCookieValuesAfterReturn['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN
+        ) {
             // if campaign was provided through cookie this will always be used
             $conversionReferrer = $referrerAttributionCookieValuesAfterReturn;
-        } elseif ($currentReferrer['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN) {
+        } elseif ($visitReferrer['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN) {
             // if campaign is referrer of current visit use this
-            $conversionReferrer = $currentReferrer;
+            $conversionReferrer = $visitReferrer;
         } elseif (
-            $referrerAttributionCookieValuesAfterReturn
+            $referrerAttributionCookieValuesAfterReturn !== null
             && !(
                 $referrerAttributionCookieValuesAfterReturn === $secondReferrer
                 && $addSecondReferrerAsSiteUrl
@@ -248,17 +259,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
             // The conversion will be attributed to the last value of the attribution cookie (if the host of this referrer wasn't added to the site urls)
             $conversionReferrer = $referrerAttributionCookieValuesAfterReturn;
         } else {
-            // If no attribution cookie was provided the value depends on some other conditions
-            if ($shouldCreateNewVisit) {
-                // If a new visit was created the conversion is attributed with that visits referrer
-                $conversionReferrer = $secondReferrer;
-            } elseif ($shouldUpdateReferrer) {
-                // if the visits referrer was updated, that new referrer will be used
-                $conversionReferrer = $secondReferrer;
-            } else {
-                // in all other cases the conversion will be attributed to the initial referrer, as it hasn't changed and isn't overwritten by cookie
-                $conversionReferrer = $initialReferrer;
-            }
+            $conversionReferrer = $visitReferrer;
         }
 
         $this->assertConversionReferrers([$this->buildConversion($shouldCreateNewVisit ? 2 : 1, $conversionReferrer)]);
