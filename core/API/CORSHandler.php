@@ -55,7 +55,11 @@ class CORSHandler
         if (!empty($this->domains) && !empty($_SERVER['HTTP_ORIGIN'])) {
             if (!in_array('*', $this->domains) && !in_array($_SERVER['HTTP_ORIGIN'], $this->domains, true)) {
                 Common::sendHeader('Access-Control-Allow-Origin: ' . $this->domains[0], true);
-                Common::sendResponseCode(401);
+                if (self::isPreFlightCorsRequest()) {
+                    Common::sendResponseCode(403);
+                } else {
+                    Common::sendResponseCode(401);
+                }
                 $this->logger->debug("Detected CORS request. Skipping...");
                 exit;
             }
