@@ -1127,7 +1127,7 @@ class Http
      * check if is a GET request
      * @return bool
      */
-    public static function isHttpGetRequest()
+    public static function isHttpGetRequest(): bool
     {
         $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
 

@@ -11,7 +11,6 @@
 namespace Piwik\Tracker;
 
 use Exception;
-use Piwik\API\CORSHandler;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Http;
@@ -40,8 +39,6 @@ class Response
 
     public function getOutput()
     {
-        CORSHandler::outputAccessControlHeaders();
-
         if (is_null($this->content) && ob_get_level() > 0) {
             $this->content = ob_get_clean();
         }
