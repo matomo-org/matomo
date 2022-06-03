@@ -82,7 +82,7 @@
         "GoalX": "%s Goal",
         "HelpOneConversionPerVisit": "If a Page matching this goal is refreshed or viewed more than once during a visit, the goal will only be tracked the first time the page was loaded during the visit.",
         "IsExactly": "is exactly %s",
-        "LearnMoreAboutGoalTrackingDocumentation": "Learn more about tracking %1$s goals in Matomo%2$s in the user documentation.",
+        "LearnMoreAboutGoalTrackingDocumentation": "Learn more about %1$stracking goals%2$s in Matomo in the user documentation.",
         "LeftInCart": "%s left in the cart",
         "Manually": "manually",
         "ManuallyTriggeredUsingJavascriptFunction": "A goal is manually triggered using the JavaScript API trackGoal()",
