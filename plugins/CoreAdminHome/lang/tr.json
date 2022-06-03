@@ -69,7 +69,7 @@
         "JSTracking_VisitorCustomVarsDesc": "Örneğin \"Tür\" değişken adı ve \"Müşteri\" değeriyle.",
         "JavaScriptTracking": "JavaScript ile izleme",
         "JsTrackingCodeMissingEmail1": "Bir kaç gün önce Matomo istatistiklerine '%s' web sitesini eklemişsiniz. Matomo kayıtlarına bakıldığında bu web sitesi için herhangi bir trafik kaydı olmadığı görüldü.",
-        "JsTrackingCodeMissingEmail2": "Verileri toplamaya başlamak ve kullanıcılarınız hakkında bilgi edinmek için web sitesi ya da mobil uygulama için izleme kurulumunu yapmanız gerekir. Web siteleri için bu işlem izleme kodununun %s etiketinden önce eklenmesi ile kolayca yapılabilir.",
+        "JsTrackingCodeMissingEmail2": "Verileri toplamaya başlamak ve kullanıcılarınız hakkında içgörü elde etmek için web sitesi ya da mobil uygulama için izleme kurulumunu yapmanız gerekir. Web siteleri için bu işlem, izleme kodununun %s etiketinden önce eklenmesi ile kolayca yapılabilir.",
         "JsTrackingCodeMissingEmail3": "İzleme kodunuzu bulmak ve özelleştirmek için %1$sburaya tıklayın%2$s (ya da %3$sJavaScript izleme istemcisi rehberi%4$s bölümüne bakın).",
         "LearnMore": "Ayrıntılı bilgi alın",
         "LogoNotWriteableInstruction": "Varsayılan Matomo logosu yerine özel bir logo görseli kullanmak için şu klasöre yazma izni vermelisiniz: %1$s Matomo uygulamasının %2$s dosyalarındaki logolara yazma izni olmalıdır.",

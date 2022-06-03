@@ -61,7 +61,7 @@
         "SuccessfullyActicated": "<strong>%s</strong> etkinleştirildi.",
         "TagManagerEmailSuperUserToActivate": "Süper kullanıcılara bu yeni özelliği etkinleştirmeleri için bildirim gönder",
         "TagManagerLearnMoreInUserGuide": "Ayrıntılı bilgi almak için etiket yöneticisi kullanım rehberine bakabilirsiniz",
-        "TagManagerNowAvailableSubtitle": "Tüm etiketlerinizi tek noktadan yöneterek istediğiniz bilgileri alabilirsiniz. Olanaklar sınırsız!",
+        "TagManagerNowAvailableSubtitle": "Tüm etiketlerinizi tek noktadan yöneterek istediğiniz içgörüleri elde edebilirsiniz. Olanaklar sınırsız!",
         "TagManagerNowAvailableTitle": "Matomo etiket yöneticisi yayınlandı",
         "TagManagerTeaserEmailSuperUserBody": "Merhaba,%1$sYeni eklenen Matomo etiket yöneticisi özelliğini beğendim. Sen de bir süper kullanıcı olduğundan bu özelliği üst menüdeki etiket yönetimi bölümünden etkinleştirebilir misin?%2$s Matomo adresi %3$s.%4$sTeşekkürler",
         "TagManagerTeaserHideNonSuperUser": "İlgilenmiyorum, bu sayfa yeniden görüntülenmesin",

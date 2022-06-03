@@ -3,7 +3,7 @@
         "Bing_IndexedPages": "Páginas indexadas no Bing",
         "DomainAge": "Idade do domínio",
         "Google_IndexedPages": "Páginas indexadas no Google",
-        "PluginDescription": "Este plugin extrai e exibe métricas SEO: ranking web Alexa, Google PageRank, número de páginas indexadas e backlinks do site selecionado.",
+        "PluginDescription": "Este Plugin extrai e exibe métricas de SEO: Google Pagerank, número de páginas indexadas e backlinks do site atualmente selecionado.",
         "Rank": "Classificação",
         "SEORankingsFor": "Rankings SEO para %s",
         "SeoRankings": "Rankings SEO"

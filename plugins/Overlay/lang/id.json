@@ -14,7 +14,7 @@
         "OneClick": "1 kilik",
         "OpenFullScreen": "Menuju halaman penuh (tanpa batang sisi)",
         "Overlay": "Penghampar Halaman",
-        "PluginDescription": "Lihat data analisis Anda sebagai Hamparan di situs web Anda yang sebenarnya. Lihat berapa kali pengguna Anda mengeklik setiap tautan. Catatan: Membutuhkan plugin Transitions yang diaktifkan.",
+        "PluginDescription": "Lihat data analisis Anda sebagai Hamparan di situs web Anda yang sebenarnya. Lihat berapa kali pengguna Anda mengeklik setiap tautan. Catatan: Membutuhkan pengaya Transitions yang diaktifkan.",
         "RedirectUrlError": "Anda mencoba membuka Hamparan Halaman untuk URL \"%1$s\". %2$s Tidak ada domain dari pengaturan Matomo yang cocok dengan tautan.",
         "RedirectUrlErrorAdmin": "Anda dapat menambah ranah sebagai URL tambahan di %1$spengaturan%2$s.",
         "RedirectUrlErrorUser": "Silakan bertanya kepada pengelola Anda untuk menambah ranah sebagai URL tambahan."
