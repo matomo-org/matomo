@@ -50,7 +50,7 @@ class Updates_4_10_0_b1 extends PiwikUpdates
         }
 
         return [
-            $this->migration->db->sql("DELETE FROM " . $table . " WHERE reports = 'Array' OR parameters = 'Array'")
+            $this->migration->db->sql("DELETE FROM " . $table . " WHERE reports = 'Array' OR parameters = 'Array'"),
         ];
     }
 

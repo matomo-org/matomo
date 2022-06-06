@@ -63,11 +63,11 @@ class Model
     public function getUsers(array $userLogins)
     {
         $where = '';
-        $bind  = array();
+        $bind = array();
 
         if (!empty($userLogins)) {
             $where = 'WHERE login IN (' . Common::getSqlStringFieldsArray($userLogins) . ')';
-            $bind  = $userLogins;
+            $bind = $userLogins;
         }
 
         $db = $this->getDb();
@@ -100,7 +100,7 @@ class Model
     {
         $db = $this->getDb();
         $users = $db->fetchAll("SELECT login,idsite FROM " . Common::prefixTable("access")
-                                . " WHERE access = ?
+          . " WHERE access = ?
                                     ORDER BY login, idsite", $access);
 
         $return = array();
@@ -115,7 +115,7 @@ class Model
     {
         $db = $this->getDb();
         $users = $db->fetchAll("SELECT login,access FROM " . Common::prefixTable("access")
-                             . " WHERE idsite = ?", $idSite);
+          . " WHERE idsite = ?", $idSite);
 
         $return = array();
         foreach ($users as $user) {
@@ -129,7 +129,7 @@ class Model
     {
         $db = $this->getDb();
         $users = $db->fetchAll("SELECT login FROM " . Common::prefixTable("access")
-                               . " WHERE idsite = ? AND access = ?", array($idSite, $access));
+          . " WHERE idsite = ? AND access = ?", array($idSite, $access));
 
         $logins = array();
         foreach ($users as $user) {
@@ -170,15 +170,21 @@ class Model
         $return = array();
         foreach ($users as $user) {
             $return[] = array(
-                'site'   => $user['idsite'],
-                'access' => $user['access'],
+              'site'   => $user['idsite'],
+              'access' => $user['access'],
             );
         }
         return $return;
     }
 
-    public function getSitesAccessFromUserWithFilters($userLogin, $limit = null, $offset = 0, $pattern = null, $access = null, $idSites = null)
-    {
+    public function getSitesAccessFromUserWithFilters(
+      $userLogin,
+      $limit = null,
+      $offset = 0,
+      $pattern = null,
+      $access = null,
+      $idSites = null
+    ) {
         $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access, $idSites);
 
         list($joins, $bind) = $siteAccessFilter->getJoins('a');
@@ -237,6 +243,7 @@ class Model
     {
         $db = $this->getDb();
 
+
         $matchedUsers = $db->fetchAll("SELECT * FROM {$this->userTable} WHERE login = ?", $userLogin);
 
         // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
@@ -278,29 +285,38 @@ class Model
 
     private function generateTokenAuth()
     {
-        return md5(Common::getRandomString(32, 'abcdef1234567890') . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
+        return md5(Common::getRandomString(32,
+            'abcdef1234567890') . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
-    public function addTokenAuth($login, $tokenAuth, $description, $dateCreated, $dateExpired = null, $isSystemToken = false)
-    {
+    public function addTokenAuth(
+      $login,
+      $tokenAuth,
+      $description,
+      $dateCreated,
+      $dateExpired = null,
+      $isSystemToken = false
+    ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
         }
 
-        BaseValidator::check('Description', $description, [new NotEmpty(), new CharacterLength(1, self::MAX_LENGTH_TOKEN_DESCRIPTION)]);
+        BaseValidator::check('Description', $description,
+          [new NotEmpty(), new CharacterLength(1, self::MAX_LENGTH_TOKEN_DESCRIPTION)]);
 
         if (empty($dateExpired)) {
             $dateExpired = null;
         }
 
-        $isSystemToken = (int) $isSystemToken;
+        $isSystemToken = (int)$isSystemToken;
 
         $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
         $db = $this->getDb();
-        $db->query($insertSql, [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO]);
+        $db->query($insertSql,
+          [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO]);
 
         return $db->lastInsertId();
     }
@@ -317,7 +333,8 @@ class Model
     {
         $db = $this->getDb();
 
-        $token = $db->fetchRow("SELECT description FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ? LIMIT 1", array($idTokenAuth, $login));
+        $token = $db->fetchRow("SELECT description FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ? LIMIT 1",
+          array($idTokenAuth, $login));
 
         return $token ? $token['description'] : '';
     }
@@ -325,8 +342,8 @@ class Model
     private function getQueryNotExpiredToken()
     {
         return array(
-            'sql' => ' (date_expired is null or date_expired > ?)',
-            'bind' => array(Date::now()->getDatetime())
+          'sql'  => ' (date_expired is null or date_expired > ?)',
+          'bind' => array(Date::now()->getDatetime())
         );
     }
 
@@ -338,7 +355,8 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge(array($tokenAuth), $expired['bind']);
 
-        $token = $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? and " . $expired['sql'], $bind);
+        $token = $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? and " . $expired['sql'],
+          $bind);
 
         return $token;
     }
@@ -347,8 +365,19 @@ class Model
     {
         $db = $this->getDb();
 
-        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `date_expired` is not null and date_expired < ?", $expiredSince);
+        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `date_expired` is not null and date_expired < ?",
+          $expiredSince);
     }
+
+    public function checkUserHasUnexpiredToken($login)
+    {
+        $db = $this->getDb();
+        $expired = $this->getQueryNotExpiredToken();
+        $bind = array_merge(array($login), $expired['bind']);
+        return $db->fetchOne("SELECT idusertokenauth FROM " . $this->tokenTable . " WHERE `login` = ? and " . $expired['sql'],
+          $bind);
+    }
+
 
     public function deleteAllTokensForUser($login)
     {
@@ -365,7 +394,8 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge(array($login), $expired['bind']);
 
-        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0 and " . $expired['sql'] . ' order by idusertokenauth ASC', $bind);
+        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0 and " . $expired['sql'] . ' order by idusertokenauth ASC',
+          $bind);
     }
 
     public function getAllHashedTokensForLogins($logins)
@@ -380,7 +410,8 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge($logins, $expired['bind']);
 
-        $tokens = $db->fetchAll("SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (".$placeholder.") and " . $expired['sql'], $bind);
+        $tokens = $db->fetchAll("SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (" . $placeholder . ") and " . $expired['sql'],
+          $bind);
         return array_column($tokens, 'password');
     }
 
@@ -388,7 +419,8 @@ class Model
     {
         $db = $this->getDb();
 
-        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ?", array($idTokenAuth, $login));
+        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ?",
+          array($idTokenAuth, $login));
     }
 
     public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
@@ -406,23 +438,25 @@ class Model
             }
 
             $this->updateTokenAuthTable($token['idusertokenauth'], array(
-                'last_used' => $dateLastUsed
+              'last_used' => $dateLastUsed
             ));
         }
     }
 
-    private function updateTokenAuthTable($idTokenAuth, $fields) {
-        $set  = array();
+    private function updateTokenAuthTable($idTokenAuth, $fields)
+    {
+        $set = array();
         $bind = array();
         foreach ($fields as $key => $val) {
-            $set[]  = "`$key` = ?";
+            $set[] = "`$key` = ?";
             $bind[] = $val;
         }
 
         $bind[] = $idTokenAuth;
 
         $db = $this->getDb();
-        $db->query(sprintf('UPDATE `%s` SET %s WHERE `idusertokenauth` = ?', $this->tokenTable, implode(', ', $set)), $bind);
+        $db->query(sprintf('UPDATE `%s` SET %s WHERE `idusertokenauth` = ?', $this->tokenTable, implode(', ', $set)),
+          $bind);
     }
 
     public function getUserByEmail($userEmail)
@@ -444,36 +478,42 @@ class Model
         }
     }
 
-    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered, $inviteStatus = null)
     {
         $user = array(
-            'login'            => $userLogin,
-            'password'         => $hashedPassword,
-            'email'            => $email,
-            'date_registered'  => $dateRegistered,
-            'superuser_access' => 0,
-            'ts_password_modified' => Date::now()->getDatetime(),
-            'idchange_last_viewed' => null
+          'login'                => $userLogin,
+          'password'             => $hashedPassword,
+          'email'                => $email,
+          'date_registered'      => $dateRegistered,
+          'superuser_access'     => 0,
+          'ts_password_modified' => Date::now()->getDatetime(),
+          'idchange_last_viewed' => null
         );
+
+
+        if ($inviteStatus) {
+            $user['invite_status'] = 'pending';
+        }
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
+        return $user;
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
         $this->updateUserFields($userLogin, array(
-            'superuser_access' => $hasSuperUserAccess ? 1 : 0
+          'superuser_access' => $hasSuperUserAccess ? 1 : 0
         ));
     }
 
     public function updateUserFields($userLogin, $fields)
     {
-        $set  = array();
+        $set = array();
         $bind = array();
 
         foreach ($fields as $key => $val) {
-            $set[]  = "`$key` = ?";
+            $set[] = "`$key` = ?";
             $bind[] = $val;
         }
 
@@ -507,7 +547,7 @@ class Model
     public function updateUser($userLogin, $hashedPassword, $email)
     {
         $fields = array(
-            'email' => $email,
+          'email' => $email,
         );
         if (!empty($hashedPassword)) {
             $fields['password'] = $hashedPassword;
@@ -589,7 +629,8 @@ class Model
             $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE login = ?", $userLogin);
         } else {
             foreach ($idSites as $idsite) {
-                $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login = ?", [$idsite, $userLogin]);
+                $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login = ?",
+                  [$idsite, $userLogin]);
             }
         }
     }
@@ -628,8 +669,14 @@ class Model
      * @param string[]|null $logins the logins to limit the search to (if any)
      * @return array
      */
-    public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null, $logins = null)
-    {
+    public function getUsersWithRole(
+      $idSite,
+      $limit = null,
+      $offset = null,
+      $pattern = null,
+      $access = null,
+      $logins = null
+    ) {
         $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
 
         list($joins, $bind) = $filter->getJoins('u');
@@ -681,11 +728,19 @@ class Model
         $idSites = array_map('intval', $idSites);
 
         $loginSql = 'SELECT DISTINCT ia.login FROM ' . Common::prefixTable('access') . ' ia WHERE ia.idsite IN ('
-            . implode(',', $idSites) . ')';
+          . implode(',', $idSites) . ')';
 
         $logins = \Piwik\Db::fetchAll($loginSql);
         $logins = array_column($logins, 'login');
         return $logins;
+    }
+
+    public function getPendingUser($userLogin)
+    {
+        $db = $this->getDb();
+        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_status not like ?";
+        $bind = [$userLogin, 'accept'];
+        return $db->fetchOne($sql, $bind);
     }
 
 }

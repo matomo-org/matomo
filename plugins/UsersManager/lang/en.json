@@ -5,11 +5,10 @@
         "TwoFactorAuthentication": "Two-factor authentication",
         "ResetTwoFactorAuthentication": "Reset two-factor authentication",
         "ResetTwoFactorAuthenticationInfo": "If the user can no longer log in due to lost recovery codes or a lost authentication device, you can reset two-factor authentication for the user, so they can log in again.",
-        "AddUser": "Add a new user",
         "AddExistingUser": "Add an existing user",
-        "AddNewUser": "Add new user",
+        "InviteNewUser": "Invite a new user",
         "EditUser": "Edit user",
-        "CreateUser": "Create user",
+        "InviteUser": "Invite user",
         "SaveBasicInfo": "Save Basic Info",
         "AllWebsites": "All websites",
         "LastUsed": "Last used",
@@ -187,6 +186,13 @@
         "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on %1$sMatomo's Privacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
-        "FirstWebsitePermission": "First website permission"
+        "FirstWebsitePermission": "First website permission",
+        "InviteSuccessNotification": "The invited User will receive an email to accept the invite, the invite valid for %1$s days, you can also resend and delete the invite in the user management page.",
+        "ResendInviteConfirmSingle": "Are you sure you want to resend invitation to %1$s?",
+        "Status": "Status",
+        "Pending": "Pending",
+        "Active": "Active",
+        "Expired": "Invite Expired",
+        "Decline": "Invite Declined"
     }
 }

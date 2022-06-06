@@ -245,7 +245,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_ManageUsersAdminDesc";
         $translationKeys[] = 'Mobile_NavigationBack';
         $translationKeys[] = 'UsersManager_AddExistingUser';
-        $translationKeys[] = 'UsersManager_AddUser';
         $translationKeys[] = 'UsersManager_EnterUsernameOrEmail';
         $translationKeys[] = 'UsersManager_NoAccessWarning';
         $translationKeys[] = 'UsersManager_BulkActions';
@@ -289,9 +288,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ResetTwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_ResetTwoFactorAuthenticationInfo';
         $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
-        $translationKeys[] = 'UsersManager_AddNewUser';
+        $translationKeys[] = 'UsersManager_InviteNewUser';
         $translationKeys[] = 'UsersManager_EditUser';
-        $translationKeys[] = 'UsersManager_CreateUser';
+        $translationKeys[] = 'UsersManager_InviteUser';
         $translationKeys[] = 'UsersManager_SaveBasicInfo';
         $translationKeys[] = 'UsersManager_Email';
         $translationKeys[] = 'UsersManager_LastSeen';
@@ -325,5 +324,13 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_NewsletterSignupMessage';
         $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
         $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
+        $translationKeys[] = 'UsersManager_InviteSuccessNotification';
+        $translationKeys[] = 'UsersManager_ResendInviteConfirmSingle';
+        $translationKeys[] = 'UsersManager_Status';
+        $translationKeys[] = 'UsersManager_Active';
+        $translationKeys[] = 'UsersManager_Pending';
+        $translationKeys[] = 'UsersManager_Expired';
+        $translationKeys[] = 'UsersManager_Decline';
+
     }
 }

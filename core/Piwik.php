@@ -708,6 +708,7 @@ class Piwik
      */
 
     /**
+     * TODO: consider deprecated it, move to validator
      * Returns `true` if supplied the email address is a valid.
      *
      * @param string $emailAddress
@@ -720,6 +721,7 @@ class Piwik
     }
 
     /**
+     * TODO: consider deprecated it, move to validator
      * Returns `true` if the login is valid.
      *
      * _Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well._
@@ -917,4 +919,5 @@ class Piwik
     {
         return Common::getRequestVar('date', $default, 'string');
     }
+
 }
