@@ -35,7 +35,7 @@
   }
 
   table.entityTable tbody tr td.actions-cell {
-    width: 130px;
+    width: 140px;
     padding: 0;
     text-align: center;
   }
@@ -156,7 +156,7 @@
     }
   }
 
-  .delete-user-confirm-modal,.change-user-role-confirm-modal {
+  .delete-user-confirm-modal,.change-user-role-confirm-modal,.resend-invite-confirm-modal {
     .modal-no {
       margin-left: 1em;
       margin-right: 1em;
@@ -164,6 +164,19 @@
     }
   }
 
+  #status {
+    .accept {
+      color: green;
+    }
+
+    .expired, .decline {
+      color: red;
+    }
+
+    .pending{
+      color: orange;
+    }
+  }
 
   &.loading {
     table {

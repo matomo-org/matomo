@@ -54,6 +54,15 @@
         "SuspiciousLoginAttemptsInLastHourEmail3": "Ensure your password is a secure, random password of an appropriate length (for example, at least 30 characters).",
         "SuspiciousLoginAttemptsInLastHourEmail4": "Setup two-factor auth so attackers will need more information than just your password in order to login.",
         "SuspiciousLoginAttemptsInLastHourEmail5": "Additionally, if your Matomo has a limited set of users or IPs through which users will access it, it may be beneficial to setup a IP address allowlist. %1$sRead our docs for more information.%2$s",
-        "LoginNotAllowedBecauseUserLoginBlocked": "Login functionality is temporarily disabled since we've a suspicious amount of failed login attempts in the last hour."
+        "LoginNotAllowedBecauseUserLoginBlocked": "Login functionality is temporarily disabled since we've a suspicious amount of failed login attempts in the last hour.",
+        "InvitationTitle": "Accept Invitation",
+        "InvitationDeclineTitle": "Decline Invitation",
+        "InvitationDeclineBody": "Are you sure you want to decline this Invitation?",
+        "InvitationHints": "(to cancel this action, just leave the page)",
+        "Accept": "Accept",
+        "Yes": "Yes",
+        "TermsRequired": "Please Accept the terms and conditions",
+        "PasswordRequired": "Please enter password to continue",
+        "declineInvitationInfo": "Your invitation has been decline."
     }
 }

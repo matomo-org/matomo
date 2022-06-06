@@ -27,6 +27,10 @@ export default createAngularJsAdapter({
       angularJsBind: '&',
       vue: 'searchChange',
     },
+    onResendInvite: {
+      angularJsBind: '&',
+      vue: 'resendInvite',
+    },
     initialSiteId: {
       angularJsBind: '<',
     },

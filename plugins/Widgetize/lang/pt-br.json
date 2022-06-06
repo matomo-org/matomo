@@ -1,9 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "&rsaquo; Link Direto",
+        "DisplayDashboardInIframe": "Você também pode exibir o painel completo do Matomo em seu aplicativo ou site em um IFRAME (%1$sveja exemplo%2$s). O parâmetro de data pode ser definido para uma data de calendário específica, \"hoje\" ou \"ontem\". O parâmetro de período pode ser definido como\n \"dia\", \"semana\", \"mês\" ou \"ano\". O parâmetro language pode ser definido para o código de idioma de uma tradução, como language=fr. Por exemplo, para idSite=1 e date=ontem, você pode escrever:",
+        "DisplayDashboardInIframeAllSites": "Você também pode criar widgets no painel de todos os sites em um IFRAME (%1$sveja exemplo%2$s)",
+        "EmbedIframe": "&rsaquo; Incorporar Iframe",
+        "Intro": "Com o Matomo, você pode %1$sexportar seus relatórios do Web Analytics%2$s em seu blog, site ou painel de intranet… com um clique.",
         "OpenInNewWindow": "Abrir em uma nova janela",
         "PluginDescription": "Exiba qualquer relatório Matomo no seu site ou aplicativo com uma simples tag HTML \"incorporada\".",
+        "Reports": "Relatórios de widgets",
+        "SelectAReport": "Selecione um relatório e copie e cole em sua página o código de incorporação abaixo do widget:",
         "TooHighAccessLevel": "Este usuário tem acesso de superusuário. A incorporação de widgets com autenticação de token de superusuário não é permitida. %1$sVerifique as Perguntas Frequentes para obter mais informações.%2$s",
         "TopLinkTooltip": "Exporte relatórios Matomo como widgets e incorpore o painel em seu aplicativo como um iframe.",
-        "ViewAccessRequired": "Este usuário tem pelo menos algum acesso de gravação. Apenas tokens de usuários que têm apenas acesso de visualização podem ser usados. Veja %1$s para mais informações."
+        "ViewAccessRequired": "Este usuário tem pelo menos algum acesso de gravação. Apenas tokens de usuários que têm apenas acesso de visualização podem ser usados. Veja %1$s para mais informações.",
+        "ViewableAnonymously": "Se você deseja que seus widgets sejam visualizados por todos, primeiro você precisa definir as permissões de 'visualização' para o usuário anônimo na seção %1$sGerenciamento de usuários%2$s. br / Alternativamente, se você estiver publicando widgets em uma página privada ou protegida por senha, você não precisa necessariamente permitir que 'anônimo' visualize seus relatórios. Nesse caso, você pode adicionar o parâmetro token_auth /code do código secreto na URL do widget. Você pode gerenciar seus tokens de autenticação em sua %3$spágina de segurança%4$s."
     }
 }

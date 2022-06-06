@@ -8,20 +8,23 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\UserUpdater;
+use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Exception;
+use Piwik\View;
 
 
 /**
@@ -105,6 +108,8 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['ts_password_modified']);
         unset($userAfter['idchange_last_viewed']);
         unset($userAfter['password']);
+        unset($userAfter['invite_status']);
+
 
         // implicitly checks password!
         $user['email']            = $newEmail;
@@ -112,7 +117,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user['twofactor_secret'] = '';
 
         unset($user['password']);
-
+        unset($user['invite_status']);
         $this->assertEquals($user, $userAfter);
     }
 
@@ -469,6 +474,7 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['token_auth']);
             unset($user['date_registered']);
             unset($user['ts_password_modified']);
+            unset($user['invite_status']);
         }
         return $users;
     }
@@ -1083,6 +1089,50 @@ class UsersManagerTest extends IntegrationTestCase
             )
         ), $this->api->getAvailableCapabilities());
     }
+
+    public function testInviteUser()
+    {
+        $this->addSites(1);
+        $user = array(
+          'login' => "login",
+          'email' => "test@test.com"
+        );
+
+        $this->api->inviteUser($user['login'], $user['email'], 1);
+        $user = $this->api->getUser($user['login']);
+
+        $this->assertNotEmpty($user['invite_status']);
+    }
+
+    public function testInviteUserEmail()
+    {
+        $view = new View('@UsersManager/_userInviteEmail.twig');
+        $view->login = "test";
+        $view->emailAddress =  "test@test.com";;
+        $view->idSite = 1;
+        $view->siteName = 'test';
+        $view->token = "thisisatoken";
+
+        // content line for email body
+        $view->content =Piwik::translate('CoreAdminHome_UserInviteSubject',
+          ["<strong>test</strong>", "<strong>test</strong>"]);
+
+        //notes for email footer
+        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', ['test','test']);
+        $host = SettingsPiwik::getPiwikUrl();
+        $content = <<<END
+<p>General_HelloUser</p>
+<p>CoreAdminHome_UserInviteSubject</p>
+<a target="_blank" href="$host?module=Login&action=acceptInvitation&token=thisisatoken"
+>CoreAdminHome_AcceptInvite</a> |
+<a target="_blank" href="$host?module=Login&action=declineInvitation&token=thisisatoken"
+>CoreAdminHome_DeclineInvite</a>
+<p><b>Notes:</b>CoreAdminHome_UserInviteNotes</p>
+END;
+        $this->assertEquals($content, $view->render());
+
+    }
+
 
     private function addSites($numberOfSites)
     {
