@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Tambahkan pengguna yang sudah ada",
-        "AddNewUser": "Tambahkan pengguna baru",
         "AddSuperuserAccessConfirm": "Memberikan akses pengguna super kepada pengguna akan memungkinkan pengguna untuk memiliki kontrol penuh atas Matomo dan harus dilakukan dengan hemat. Masukkan kata sandi Anda untuk melanjutkan.",
-        "AddUser": "Tambah pengguna baru",
         "AddUserNoInitialAccessError": "Pengguna baru harus diberikan akses ke situs web, harap setel parameter 'initialIdSite'.",
         "AllUsersAreSelected": "Semua pengguna %1$s dipilih.",
         "AllWebsites": "Seluruh situs web",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "Saya mengonfirmasi bahwa saya menyalin token dan memahami bahwa saya tidak boleh membagikan token ini kepada orang lain.",
         "ConfirmWithPassword": "Silakan masukkan kata sandi Anda untuk mengonfirmasi perubahan ini.",
         "CreateNewToken": "Buat token baru",
-        "CreateUser": "Buat pengguna",
         "CurrentPasswordNotCorrect": "Kata sandi saat ini yang Anda masukkan tidak benar.",
         "DeleteAllTokens": "Hapus semua token",
         "DeleteConfirm": "Apakah Anda yakin menghapus %s?",

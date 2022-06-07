@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "2FA (to-faktor autentisering)",
         "AddExistingUser": "Legg til en eksisterende bruker",
-        "AddNewUser": "Legg til ny bruker",
         "AddSuperuserAccessConfirm": "Å innvilge en bruker superbrukertilgang tillater den full kontroll over Matomo, så begrens det så langt det er mulig. Skriv inn passordet ditt for å fortsette.",
-        "AddUser": "Legg til ny bruker",
         "AddUserNoInitialAccessError": "Nye brukere må gis tilgang til nettsiden. Sett «initialIdSit»-parameteret.",
         "AllUsersAreSelected": "Alle %1$s brukere er valgt.",
         "AllWebsites": "Alle nettsteder",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "Jeg bekrefter at jeg har kopiert symbolet og forstår at jeg ikke skal dele det med andre.",
         "ConfirmWithPassword": "Skriv inn passordet ditt for å bekrefte denne endringen.",
         "CreateNewToken": "Opprett nytt symbol",
-        "CreateUser": "Opprett bruker",
         "CurrentPasswordNotCorrect": "Passordet du skrev inn er ikke riktig.",
         "DeleteAllTokens": "Slett alle symboler",
         "DeleteConfirm": "Er du sikker på at du vil slette brukeren %s?",

@@ -2,8 +2,6 @@
     "UsersManager": {
         "2FA": "2SA",
         "AddExistingUser": "Dodaj istniejącego użytkownika",
-        "AddNewUser": "Dodaj nowego użytkownika",
-        "AddUser": "Dodaj nowego użytkownika",
         "AllWebsites": "Wszystkie strony",
         "AnonymousAccessConfirmation": "Zamierzasz przyznać anonimowemu użytkownikowi dostęp 'podgląd' do tego serwisu. To oznacza, że raporty analityczne i informacje o odwiedzających będą publicznie dostępne dla każdego nawet bez loginu. Czy na pewno chcesz kontynuować?",
         "AnonymousUser": "Użytkownik anonimowy",
@@ -19,7 +17,6 @@
         "ConfirmProhibitMySuperUserAccess": "%s, czy na pewno chcesz usunąć przypisane do Twojego konta uprawnienia Super Użytkownika? Stracisz wszystkie uprawnienia i dostęp do wszystkich serwisów i zostaniesz wylogowany\\/a z Matomo'a.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Czy na pewno chcesz usunąć uprawnienia Super Użytkownika '%s'? Użytkownik ten straci wszystkie uprawnienia i dostęp do wszystkich serwisów. Upewnij się, że przydzielisz mu później dostęp do wybranych serwisów jeśli to konieczne.",
         "CreateNewToken": "Utwórz nowy token",
-        "CreateUser": "Utwórz użytkownika",
         "DeleteAllTokens": "Usuń wszystkie tokeny",
         "DeleteConfirm": "Czy na pewno chcesz skasować konto użytkownika %s?",
         "EditUser": "Edytuj użytkownika",

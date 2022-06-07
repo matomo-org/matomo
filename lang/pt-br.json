@@ -85,6 +85,7 @@
         "ColumnUniqueExits": "Saídas únicas",
         "ColumnUniquePageviews": "Exibições únicas de páginas",
         "ColumnUniquePageviewsDocumentation": "O número de visitas que incluiu esta página. Se uma página foi vista várias vezes durante uma visita, só é contada uma vez.",
+        "ColumnValuePerEntry": "Receita por entrada",
         "ColumnValuePerVisit": "Receita por visita",
         "ColumnViewedAfterSearch": "Clicado em resultados de pesquisa",
         "ColumnViewedAfterSearchDocumentation": "O número de vezes que esta página foi visitada depois que um visitante fez uma pesquisa em seu site, e clicou nesta página nos resultados de pesquisa.",

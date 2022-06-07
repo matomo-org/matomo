@@ -2,8 +2,6 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Tilføj en eksisterende bruger",
-        "AddNewUser": "Tilføj ny bruger",
-        "AddUser": "Opret ny bruger",
         "AllWebsites": "Alle hjemmesider",
         "AnonymousUser": "Anonym bruger",
         "AnonymousUserHasViewAccess": "Bemærk: %1$s bruger har %2$s adgang til hjemmesiden.",
@@ -16,7 +14,6 @@
         "ConfirmProhibitMySuperUserAccess": "%s, vil du virkelig fjerne din egen superbruger adgang? Du mister alle tilladelser og adgang til alle hjemmesider og vil blive logget ud af Matomo.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Vil du virkelig fjerne superbrugeradgang fra '%s'? Brugeren vil miste alle retigheder og adgang til alle hjemmesider. Sørg om nødvendigt for at give adgang til relevante hjemmesider efterfølgende.",
         "ConfirmWithPassword": "Indtast din adgangskode for at bekræfte denne ændring.",
-        "CreateUser": "Opret bruger",
         "DeleteConfirm": "Bekræft sletning af bruger %s?",
         "EditUser": "Rediger bruger",
         "Email": "E-mail",

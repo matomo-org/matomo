@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "새 사용자 추가",
         "AllWebsites": "모든 웹사이트",
         "AnonymousUser": "익명 사용자",
         "AnonymousUserHasViewAccess": "참고: %1$s 사용자는 이 웹사이트의 %2$s 접근을 가집니다.",

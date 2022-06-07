@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Afegeix un usuari existent",
-        "AddNewUser": "Afegeix un usuari nou",
         "AddSuperuserAccessConfirm": "Donar accés de superusuari a un usuari permetrà que l'usuari tingui un control total sobre Matomo i s'hauria de fer amb moderació. Introduïu la vostra contrasenya per continuar.",
-        "AddUser": "Afegeix un usuari nou",
         "AddUserNoInitialAccessError": "Els usuaris nous han de tenir accés a un lloc web; si us plau, configureu el paràmetre 'initialIdSite'.",
         "AllUsersAreSelected": "Tots els %1$s usuaris estan seleccionats.",
         "AllWebsites": "Tots els llocs web",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "Confirmo que he copiat el testimoni i entenc que no hauria de compartir aquest testimoni amb ningú més.",
         "ConfirmWithPassword": "Introduïu la vostra contrasenya per confirmar aquest canvi.",
         "CreateNewToken": "Crea un testimoni nou",
-        "CreateUser": "Crear usuari",
         "CurrentPasswordNotCorrect": "La contrasenya actual que heu introduït no és correcta.",
         "DeleteAllTokens": "Suprimeix tots els testimonis",
         "DeleteConfirm": "Esteu segur que voleu suprimir l'usuari %s?",

@@ -1,7 +1,6 @@
 {
     "UsersManager": {
         "2FA": "2FA",
-        "AddUser": "Magdagdag ng bagong user",
         "AllWebsites": "Ang lahat ng mga website",
         "AnonymousUserHasViewAccess": "Tandaan: ang %1$s user ay may %2$s na access sa website na ito",
         "AnonymousUserHasViewAccess2": "Ang iyong ulat na pang analytics at ang mga impormasyon ng iyong mga bisita ay makikita ng publiko.",

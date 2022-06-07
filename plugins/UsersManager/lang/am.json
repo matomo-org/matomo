@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "አዲስ ተጤቃሚ ጨምር",
         "AllWebsites": "ሁሉንም ድር ጣቢያዎች",
         "ApplyToAllWebsites": "በሁሉም ድር ጣቢያዎች ላይ ተግብር",
         "DeleteConfirm": "እርግጠኛ ነህ ተጠቃሚዎቹን መሰረዝ ትፈልጋለህ %s?",

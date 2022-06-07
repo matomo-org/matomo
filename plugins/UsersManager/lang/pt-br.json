@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "A2F",
         "AddExistingUser": "Adicionar um usuário existente",
-        "AddNewUser": "Adicionar novo usuário",
         "AddSuperuserAccessConfirm": "Dar a um usuário acesso de super usuário irá permitir ao usuário ter controle total sobre o Matomo e deve ser feito com cautela. Digite sua senha para continuar.",
-        "AddUser": "Adicionar novo usuário",
         "AddUserNoInitialAccessError": "Novos usuários devem ter acesso a um site, por favor defina o parâmetro 'initialIdSite'.",
         "AllUsersAreSelected": "Todos os %1$s usuários estão selecionados.",
         "AllWebsites": "Todos os sites",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "Confirmo que copiei o token e entendo que não devo compartilhar esse token com mais ninguém.",
         "ConfirmWithPassword": "Por favor digite sua senha para confirmar esta alteração.",
         "CreateNewToken": "Criar novo token",
-        "CreateUser": "Criar usuário",
         "CurrentPasswordNotCorrect": "A senha atual informada não está correta.",
         "DeleteAllTokens": "Excluir todos os tokens",
         "DeleteConfirm": "Tem certeza que deseja excluir o usuário %s?",
