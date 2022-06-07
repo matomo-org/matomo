@@ -192,15 +192,6 @@ class Csv extends Renderer
 
         $csv = $this->makeArrayFromDataTable($table, $allColumns);
 
-        // now we make sure that all the rows in the CSV array have all the columns
-        foreach ($csv as &$row) {
-            foreach ($allColumns as $columnName => $true) {
-                if (!isset($row[$columnName])) {
-                    $row[$columnName] = '';
-                }
-            }
-        }
-
         $str = $this->buildCsvString($allColumns, $csv);
         return $str;
     }
@@ -390,7 +381,7 @@ class Csv extends Renderer
         foreach ($csv as $theRow) {
             $rowStr = '';
             foreach ($allColumns as $columnName => $true) {
-                $rowStr .= $this->formatValue($theRow[$columnName]) . $this->separator;
+                $rowStr .= $this->formatValue($theRow[$columnName] ?? '') . $this->separator;
             }
             // remove the last separator
             $rowStr = substr_replace($rowStr, "", -strlen($this->separator));
