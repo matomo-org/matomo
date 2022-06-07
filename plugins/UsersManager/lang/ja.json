@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "既存のユーザーを追加",
-        "AddNewUser": "新しいユーザーを追加",
         "AddSuperuserAccessConfirm": "ユーザーにスーパーユーザーアクセス権を与えると、ユーザーは Matomo を完全に制御できるようになるため、慎重に行う必要があります。 続行するにはパスワードを入力してください。",
-        "AddUser": "新しいユーザーの追加",
         "AddUserNoInitialAccessError": "新しいユーザーにはウェブサイトへのアクセスを許可する必要があります。 'initialIdSite' パラメータを設定してください。",
         "AllUsersAreSelected": "すべての %1$s ユーザが選択されます。",
         "AllWebsites": "全ウェブサイト",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "トークンをコピーしたことを確認し、このトークンを他の人と共有してはならないことを理解しています。",
         "ConfirmWithPassword": "この変更を確認するには、パスワードを入力してください。",
         "CreateNewToken": "新しいトークンを作成する",
-        "CreateUser": "ユーザーを作成する",
         "CurrentPasswordNotCorrect": "入力した現在のパスワードが正しくありません。",
         "DeleteAllTokens": "すべてのトークンを削除します",
         "DeleteConfirm": "本当にユーザー %s を削除しますか？",

@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "Thêm một người dùng mới",
         "AllWebsites": "Tất cả các website",
         "AnonymousUser": "Người dùng ẩn danh",
         "AnonymousUserHasViewAccess": "Lưu ý: Người dùng %1$s có truy cập %2$s đến website này.",

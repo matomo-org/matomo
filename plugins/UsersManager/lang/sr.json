@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "Dodavanje novog korisnika",
         "AllWebsites": "Svi sajtovi",
         "AnonymousUser": "Anonimni korisnik",
         "AnonymousUserHasViewAccess": "Pažnja: korisnik %1$s ima %2$s nivo pristupa ovom sajtu.",

@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "二次认证",
         "AddExistingUser": "添加现有用户",
-        "AddNewUser": "添加新用户",
         "AddSuperuserAccessConfirm": "授予用户超级用户访问权限将允许用户完全控制Matomo，因此应谨慎执行。 输入密码以继续。",
-        "AddUser": "添加用户",
         "AddUserNoInitialAccessError": "必须授予新用户访问网站的权限，请设置“ initialIdSite”参数。",
         "AllUsersAreSelected": "所有%1$s个用户都被选中。",
         "AllWebsites": "所有网站",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "我确认我复制了令牌，并了解我不应该与其他任何人共享此令牌。",
         "ConfirmWithPassword": "请输入密码以确认此更改。",
         "CreateNewToken": "创建新令牌",
-        "CreateUser": "创建用户",
         "CurrentPasswordNotCorrect": "您输入的当前密码不正确。",
         "DeleteAllTokens": "删除所有令牌",
         "DeleteConfirm": "您确定要删除 %s 用户吗？",

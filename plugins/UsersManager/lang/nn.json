@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "Legg til ein ny brukar",
         "AllWebsites": "Alle nettstader",
         "ApplyToAllWebsites": "Gjer gjeldande for alle nettstader",
         "ClickHereToDeleteTheCookie": "Klikk her for å sletta informasjonskapselen slik at Matomo loggar dine vitjingar",

@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "एक नया उपयोगकर्ता जोड़ें",
         "AllWebsites": "सभी वेबसाइटों",
         "AnonymousUser": "बेनामी उपयोगकर्ता",
         "AnonymousUserHasViewAccess2": "आपकी Analytics रिपोर्ट और अपने दर्शकों के बारे में जानकारी सार्वजनिक रूप से देखा जा सकता है।",
