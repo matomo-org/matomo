@@ -1,17 +1,23 @@
 {% set visitorLogLinkHtml %}<a href="{{ visitorLogLink }}" target="_blank">{% endset %}
-{% if isSegmentToPreprocess %}
-<p>
-    {{ 'SegmentEditor_UnprocessedSegmentNoData1'|translate('<strong>(' ~ segmentName ~ ')</strong>')|raw }}
-    {{ 'SegmentEditor_UnprocessedSegmentNoData2'|translate }}
-</p>
-{% else %}
-<p>
-    {{ 'SegmentEditor_CustomUnprocessedSegmentApiError1'|translate }}
-    {{ 'SegmentEditor_CustomUnprocessedSegmentNoData'|translate }}
-</p>
-{% endif %}
-<p>
-    {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog1'|translate(visitorLogLinkHtml, '</a>')|raw }}
-    {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog2'|translate }}
-    {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog3'|translate }}
-</p>
+    {% if isSegmentToPreprocess %}
+        {% if not canBeArchived %}
+            <p>
+                {{ 'SegmentEditor_UnprocessedSegmentNoData3'|translate('<strong>(' ~ segmentName ~ ')</strong>', '<a href="https://matomo.org/faq/troubleshooting/faq_141/" rel="noreferrer noopener">', '</a>')|raw }}
+            </p>
+        {% else %}
+            <p>
+                {{ 'SegmentEditor_UnprocessedSegmentNoData1'|translate('<strong>(' ~ segmentName ~ ')</strong>')|raw }}
+                {{ 'SegmentEditor_UnprocessedSegmentNoData2'|translate }}
+            </p>
+        {% endif %}
+    {% else %}
+        <p>
+            {{ 'SegmentEditor_CustomUnprocessedSegmentApiError1'|translate }}
+            {{ 'SegmentEditor_CustomUnprocessedSegmentNoData'|translate }}
+        </p>
+    {% endif %}
+    <p>
+        {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog1'|translate(visitorLogLinkHtml, '</a>')|raw }}
+        {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog2'|translate }}
+        {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog3'|translate }}
+    </p>

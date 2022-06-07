@@ -39,6 +39,7 @@
         "SegmentOperatorIsNotNullNorEmpty": "is not null nor empty",
         "UnprocessedSegmentNoData1": "These reports have no data, because the Segment you requested %1$s has not yet been processed by the system.",
         "UnprocessedSegmentNoData2": "Data for this Segment should become available in a few hours when processing completes. (If it does not, there may be a problem.)",
+        "UnprocessedSegmentNoData3": "Matomo is unable to display data for the segment %1$s, as the configuration prevents a rearchiving for this period. Please contact your administrator or check %2$sthis FAQ%3$s how to solve this problem.",
         "UnprocessedSegmentInVisitorLog1": "%1$sMeanwhile you can use the Visitor Log%2$s to test whether your segment will match your users correctly by applying it there.",
         "UnprocessedSegmentInVisitorLog2": "When applied, you can see immediately which visits and actions were matched by your segment.",
         "UnprocessedSegmentInVisitorLog3": "This can help you confirm your Segment matches the users and actions you expect it to.",
