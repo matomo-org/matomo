@@ -386,6 +386,14 @@ class Model
         return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
     }
 
+    public function deleteInviteTokensForUser($login)
+    {
+        $db = $this->getDb();
+
+        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `description` like ?  and `login` = ?",
+          ['Invite Token', $login]);
+    }
+
     public function getAllNonSystemTokensForLogin($login)
     {
         $db = $this->getDb();

@@ -332,7 +332,7 @@ const DEFAULT_USER: User = {
   uses_2fa: false,
   password: '',
   email: '',
-  invited_at: '',
+  invite_status: '',
 };
 
 interface UserEditFormState {
