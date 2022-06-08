@@ -468,5 +468,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
         $translationKeys[] = "SitesManager_ExcludedReferrers";
         $translationKeys[] = "SitesManager_ExcludedReferrersHelp";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpDetails";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
     }
 }

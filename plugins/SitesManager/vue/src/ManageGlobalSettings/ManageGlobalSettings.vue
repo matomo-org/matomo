@@ -58,6 +58,17 @@
       <div id="excludedReferrersGlobalHelp" class="inline-help-node">
         <div>
           {{ translate('SitesManager_ExcludedReferrersHelp') }}
+          <br/><br/>
+          {{ translate('SitesManager_ExcludedReferrersHelpDetails') }}
+          <br/>
+          {{ translate(
+              'SitesManager_ExcludedReferrersHelpExamples',
+              'https://www.example.org/',
+              'http://example.org/mypath',
+              'https://www.example.org/?param=1',
+              'https://sub.example.org/'
+          ) }}
+
         </div>
       </div>
 

@@ -131,7 +131,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $this->excludedIps = $this->makeExcludeIps();
         $this->excludedParameters = $this->makeExcludedParameters();
         $this->excludedUserAgents = $this->makeExcludedUserAgents();
-        $this->excludedReferrers = $this->makeExcludedReferrers();
+        $this->excludedReferrers = $this->makeExcludedReferrers($this->sitesManagerApi);
 
         /**
          * SiteSearch
@@ -259,12 +259,30 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         });
     }
 
-    private function makeExcludedReferrers(): MeasurableProperty
+    private function makeExcludedReferrers(SitesManager\API $sitesManagerApi): MeasurableProperty
     {
         $self = $this;
-        return $this->makeProperty('excluded_referrers', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($self) {
+        return $this->makeProperty('excluded_referrers', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($sitesManagerApi, $self) {
             $field->title = Piwik::translate('SitesManager_ExcludedReferrers');
-            $field->inlineHelp = Piwik::translate('SitesManager_ExcludedReferrersHelp');
+
+            $referrersGlobal = $sitesManagerApi->getExcludedReferrersGlobal();
+
+            $field->inlineHelp = Piwik::translate('SitesManager_ExcludedReferrersHelp')
+                . '<br /><br />'
+                . Piwik::translate('SitesManager_ExcludedReferrersHelpDetails')
+                . '<br />'
+                . Piwik::translate('SitesManager_ExcludedReferrersHelpExamples', [
+                    'https://www.example.org/',
+                    'http://example.org/mypath',
+                    'https://www.example.org/?param=1',
+                    'https://sub.example.org/'
+                ]);
+
+            if (!empty($referrersGlobal)) {
+                $field->inlineHelp .= '<br /><br />'
+                    . '<strong>' . Piwik::translate('SitesManager_GlobalListExcludedReferrers') . '</strong><br />'
+                    . $referrersGlobal;
+            }
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->uiControlAttributes = ['cols' => '20', 'rows' => '4'];
             $field->validate = function ($value) {
@@ -273,8 +291,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                     $urls = array_filter($urls, 'strlen');
 
                     foreach ($urls as $url) {
-                        $parsedUrl = @parse_url($url);
-                        if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($url)) {
+                        $prefixedUrl = 'https://' . preg_replace('/^https?:\/\//', '', $url);
+                        $parsedUrl = @parse_url($prefixedUrl);
+                        if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
                             throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
                         }
                     }

@@ -1145,8 +1145,9 @@ class API extends \Piwik\Plugin\API
         $excludedUrls = $this->checkAndReturnCommaSeparatedStringList($excludedReferrers);
 
         foreach (explode(',', $excludedUrls) ?: [] as $url) {
-            $parsedUrl = @parse_url($url);
-            if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($url)) {
+            $prefixedUrl = 'https://' . preg_replace('/^https?:\/\//', '', $url);
+            $parsedUrl = @parse_url($prefixedUrl);
+            if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
                 throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
             }
         }

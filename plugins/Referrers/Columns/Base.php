@@ -173,6 +173,8 @@ abstract class Base extends VisitDimension
         $excludedUrls = new SiteUrls();
         $excludedReferrers = $this->getExcludedReferrers($this->idsite);
         foreach ($excludedReferrers as $excludedReferrer) {
+            // ensure referrer is prefixed with protocol, so a parse_url works
+            $excludedReferrer = 'https://' . preg_replace('/^https?:\/\//', '', $excludedReferrer);
             $excludedUrls->addUrlByHost($urlsByHost, $this->idsite, $excludedReferrer);
         }
 
