@@ -40,27 +40,34 @@ class UserInviteTest extends IntegrationTestCase
     {
         parent::setUp();
         $this->model = new Model();
-        $this->model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime, 1);
+        $this->model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime);
+
+        $this->model->attachInviteToken($this->pendingUser['login'], $this->token);
     }
 
     public function test_getInviteUser()
     {
         $user = $this->model->getUser($this->pendingUser['login']);
-        $this->assertEquals('pending', $user['invite_status']);
+        $this->assertNotNull($user['invite_token']);
 
     }
 
 
     public function test_addInviteUserToken()
     {
-        $this->model->addTokenAuth($this->pendingUser['login'], $this->token, "Invite Token",
-          Date::now()->getDatetime(),
-          Date::now()->addDay(7)->getDatetime());
-
         $response = Http::sendHttpRequest(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token=' . $this->token,
           10);
 
         $this->assertStringContainsString('Accept Invitation', $response, 'error on accept invitation');
+    }
+
+
+    public function test_declineInviteUserToken()
+    {
+        $response = Http::sendHttpRequest(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=declineInvitation&token=' . $this->token,
+          10);
+
+        $this->assertStringContainsString('Decline Invitation', $response, 'error on accept invitation');
     }
 
 }

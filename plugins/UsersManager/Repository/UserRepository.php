@@ -75,7 +75,7 @@ class UserRepository
         }
 
         //insert user into database.
-        $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime(), empty($password));
+        $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime());
 
         /**
          * Triggered after a new user is invited.
@@ -107,16 +107,11 @@ class UserRepository
             //retrieve user details
             $user = API::getInstance()->getUser($userLogin);
 
-            //remove all previous token
-            $this->model->deleteAllTokensForUser($userLogin);
-
             //generate Token
             $generatedToken = $this->model->generateRandomTokenAuth();
 
             //attach token to user
-            $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),
-              Date::now()->addDay($expired)->getDatetime());
-
+            $this->model->attachInviteToken($userLogin, $generatedToken, $expired);
 
             // send email
             $email = StaticContainer::getContainer()->make(UserInviteEmail::class, array(
@@ -152,14 +147,16 @@ class UserRepository
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
             unset($user['twofactor_secret']);
-            if (!empty($user['invite_status']) && $user['invite_status'] === 'pending') {
-                $validToken = $this->model->checkUserHasUnexpiredToken($user['login']);
-                if (!$validToken) {
-                    $user['invite_status'] = 'expired';
-                }
+
+            $user['invite_status'] = 'accept';
+            if (!empty($user['invite_declined_at'])) {
+                $user['invite_status'] = 'declined';
             }
-            if (empty($user['invite_status'])) {
-                $user['invite_status'] = 'accept';
+            if (!empty($user['invite_expired_at']) && Date::now()->isLater(Date::factory($user['invite_expired_at']))) {
+                $user['invite_status'] = 'expired';
+            }
+            if (!empty($user['invite_expired_at']) && Date::now()->isEarlier(Date::factory($user['invite_expired_at']))) {
+                $user['invite_status'] = 'pending';
             }
             return $user;
         }

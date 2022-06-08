@@ -1457,7 +1457,6 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
         }
 
-        $this->model->updateUserFields($userLogin, ['invite_status' => 'pending']);
         $this->userRepository->sendNewUserEmails($userLogin, $expired, false);
         Cache::deleteTrackerCache();
     }
