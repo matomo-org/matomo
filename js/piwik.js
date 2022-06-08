@@ -2728,7 +2728,7 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /**
-             * Whether the specified referrer url matches one of the configured ignored referrers.
+             * Whether the specified referrer url matches one of the configured excluded referrers.
              *
              * @param string referrerUrl
              * @returns {boolean}

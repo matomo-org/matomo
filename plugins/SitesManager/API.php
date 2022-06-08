@@ -16,6 +16,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
 use Matomo\Network\IPUtils;
 use Piwik\Option;
@@ -109,6 +110,7 @@ class API extends \Piwik\Plugin\API
      * @param bool   $crossDomain
      * @param bool   $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @param bool   $excludedQueryParams
+     * @param mixed  $excludedReferrers array or comma separated string of ignored referrers. Defaults to configured ignored referrers
      *
      * @return string The Javascript tag ready to be included on the HTML pages
      * @throws Exception
@@ -128,7 +130,8 @@ class API extends \Piwik\Plugin\API
         $trackNoScript = false,
         $crossDomain = false,
         $forceMatomoEndpoint = false,
-        $excludedQueryParams = false
+        $excludedQueryParams = false,
+        $excludedReferrers = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -168,7 +171,8 @@ class API extends \Piwik\Plugin\API
             $disableCookies,
             $trackNoScript,
             $crossDomain,
-            $excludedQueryParams
+            $excludedQueryParams,
+            $excludedReferrers
         );
 
         return str_replace(['<br>', '<br />', '<br/>'], '', $code);
@@ -1088,6 +1092,29 @@ class API extends \Piwik\Plugin\API
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
+    }
+
+    /**
+     * Returns the list of urls/hosts that should be ignored when detecting referrers for the given site.
+     *
+     * @return array list of urls/hosts
+     */
+    public function getExcludedReferrers($idSite)
+    {
+        try {
+            $attributes = Cache::getCacheWebsiteAttributes($idSite);
+
+            if (isset($attributes['excluded_referrers'])) {
+                return $attributes['excluded_referrers'];
+            }
+        } catch (UnexpectedWebsiteFoundException $e) {
+            $cached = Cache::getCacheGeneral();
+            if (isset($cached['global_excluded_referrers'])) {
+                return $cached['global_excluded_referrers'];
+            }
+        }
+
+        return [];
     }
 
     /**

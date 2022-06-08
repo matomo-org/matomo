@@ -304,9 +304,11 @@ interface JsTrackingCodeGeneratorState {
   isLoading: boolean;
   siteUrls: Record<string, string[]>;
   siteExcludedQueryParams: Record<string, string[]>,
+  siteExcludedReferrers: Record<string, string[]>,
   crossDomain: boolean;
   groupByDomain: boolean;
   trackAllAliases: boolean;
+  excludeReferrers: boolean;
   trackNoScript: boolean;
   trackCustomVars: boolean;
   customVars: CustomVar[];
@@ -356,9 +358,11 @@ export default defineComponent({
       isLoading: false,
       siteUrls: {},
       siteExcludedQueryParams: {},
+      siteExcludedReferrers: {},
       crossDomain: false,
       groupByDomain: false,
       trackAllAliases: false,
+      excludeReferrers: true,
       trackNoScript: false,
       trackCustomVars: false,
       customVars: [],
@@ -431,6 +435,24 @@ export default defineComponent({
         );
       }
 
+      if (!this.siteExcludedReferrers[idSite]) {
+        this.isLoading = true;
+
+        promises.push(
+          AjaxHelper.fetch({
+            module: 'API',
+            method: 'SitesManager.getExcludedReferrers',
+            idSite,
+            filter_limit: '-1',
+          }).then((data) => {
+            this.siteExcludedReferrers[idSite] = [];
+            (data || []).forEach((referrer: string) => {
+              this.siteExcludedReferrers[idSite].push(referrer.replace(/^https?:\/\//, ''));
+            });
+          }),
+        );
+      }
+
       Promise.all(promises).then(() => {
         this.isLoading = false;
         this.updateCurrentSiteInfo();
@@ -479,6 +501,10 @@ export default defineComponent({
 
       if (this.siteExcludedQueryParams[site.id]) {
         params.excludedQueryParams = this.siteExcludedQueryParams[site.id];
+      }
+
+      if (this.siteExcludedReferrers[site.id]) {
+        params.excludedReferrers = this.siteExcludedReferrers[site.id];
       }
 
       if (this.useCustomCampaignParams) {
