@@ -484,7 +484,7 @@ export default defineComponent({
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
-        this.theUser.invited_at = 'xx';
+        this.theUser.invite_status = 'pending';
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
@@ -587,7 +587,7 @@ export default defineComponent({
     },
     isPendingUser() {
       // eslint-disable-next-line eqeqeq
-      return this.user && (this.theUser.invited_at === '' || !this.theUser.invited_at);
+      return this.user && (this.theUser.invite_status !== 'accept' || !this.theUser.invited_at);
     },
     isAdd() {
       return !this.user; // purposefully checking input property not theUser state
