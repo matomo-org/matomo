@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
-use Piwik\Date;
 use Piwik\Http;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
