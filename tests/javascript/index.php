@@ -3652,11 +3652,13 @@ if ($mysql) {
     });
 
     test("referrer ignore list", function() {
-        expect(19);
+        expect(23);
 
         var testCases = [
             ['no exclusion', 'https://www.google.fr/?query=test', '', false],
             ['host exclusion matches', 'https://www.google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://www.google.fr/?query=test', 'google.fr', true],
             ['host exclusion not matching', 'https://www.google.de/?query=test', 'www.google.fr', false],
             ['wildcard subdomain exclusion matches', 'https://www.google.fr/?query=test', '*.google.fr', true],
             ['host with path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/', true],

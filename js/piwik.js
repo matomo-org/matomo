@@ -2748,9 +2748,19 @@ if (typeof window.Matomo !== 'object') {
                 host = getHostName(referrerUrl);
                 path = getPathName(referrerUrl);
 
+                // ignore www subdomain
+                if (host.indexOf('www.') === 0) {
+                    host = host.substr(4);
+                }
+
                 for (i = 0; i < configExcludedReferrers.length; i++) {
                     aliasHost = domainFixup(configExcludedReferrers[i]);
                     aliasPath = getPathName(configExcludedReferrers[i]);
+
+                    // ignore www subdomain
+                    if (aliasHost.indexOf('www.') === 0) {
+                        aliasHost = aliasHost.substr(4);
+                    }
 
                     if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
                         return true;
