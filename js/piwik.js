@@ -65,7 +65,7 @@
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs, setPagePerformanceTiming,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
-    setIgnoredReferrers, getIgnoredReferrers,
+    setExcludedReferrers, getExcludedReferrers,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -2248,8 +2248,8 @@ if (typeof window.Matomo !== 'object') {
                 // HTML anchor element classes to not track
                 configIgnoreClasses = [],
 
-                // Referrer URLs that should be ignored
-                configIgnoredReferrers = [],
+                // Referrer URLs that should be excluded
+                configExcludedReferrers = [],
 
                 // Query parameters to be excluded
                 configExcludedQueryParams = [],
@@ -2733,7 +2733,7 @@ if (typeof window.Matomo !== 'object') {
              * @param string referrerUrl
              * @returns {boolean}
              */
-            function isReferrerIgnored(referrerUrl)
+            function isReferrerExcluded(referrerUrl)
             {
                 var i,
                     host,
@@ -2741,16 +2741,16 @@ if (typeof window.Matomo !== 'object') {
                     aliasHost,
                     aliasPath;
 
-                if (!referrerUrl.length || !configIgnoredReferrers.length) {
+                if (!referrerUrl.length || !configExcludedReferrers.length) {
                     return false;
                 }
 
                 host = getHostName(referrerUrl);
                 path = getPathName(referrerUrl);
 
-                for (i = 0; i < configIgnoredReferrers.length; i++) {
-                    aliasHost = domainFixup(configIgnoredReferrers[i]);
-                    aliasPath = getPathName(configIgnoredReferrers[i]);
+                for (i = 0; i < configExcludedReferrers.length; i++) {
+                    aliasHost = domainFixup(configExcludedReferrers[i]);
+                    aliasPath = getPathName(configExcludedReferrers[i]);
 
                     if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
                         return true;
@@ -3727,12 +3727,12 @@ if (typeof window.Matomo !== 'object') {
 
                     if (currentReferrerHostName.length // there is a referrer
                         && !isSiteHostName(currentReferrerHostName) // domain is not the current domain
-                        && !isReferrerIgnored(configReferrerUrl) // referrer is excluded
+                        && !isReferrerExcluded(configReferrerUrl) // referrer is excluded
                         && (
                             !configConversionAttributionFirstReferrer // attribute to last known referrer
                             || !originalReferrerHostName.length // previously empty
                             || isSiteHostName(originalReferrerHostName) // previously set but in current domain
-                            || isReferrerIgnored(referralUrl) // previously set but excluded
+                            || isReferrerExcluded(referralUrl) // previously set but excluded
                         )
                     ) {
                         referralUrl = configReferrerUrl;
@@ -3808,7 +3808,7 @@ if (typeof window.Matomo !== 'object') {
                     '&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
-                    (configReferrerUrl.length && !isReferrerIgnored(configReferrerUrl) ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    (configReferrerUrl.length && !isReferrerExcluded(configReferrerUrl) ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + cookieVisitorIdValues.uuid +
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
@@ -5011,8 +5011,8 @@ if (typeof window.Matomo !== 'object') {
             this.getDomains = function () {
                 return configHostsAlias;
             };
-            this.getIgnoredReferrers = function () {
-                return configIgnoredReferrers;
+            this.getExcludedReferrers = function () {
+                return configExcludedReferrers;
             };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
@@ -5609,19 +5609,19 @@ if (typeof window.Matomo !== 'object') {
             };
 
           /**
-           * Set array of domains to be ignored as referrer. Also supports path, eg '.matomo.org/subsite1'. In this
+           * Set array of domains to be excluded as referrer. Also supports path, eg '.matomo.org/subsite1'. In this
            * case all referrers that don't match '*.matomo.org/subsite1/ *' would still be used as referrer.
            * For example 'matomo.org/' or 'matomo.org/subsite2' would both be used as referrer.
            *
            * Also supports page wildcard, eg 'matomo.org/index*'. In this case all referrers
            * that don't match matomo.org/index* would still be treated as referrer.
            *
-           * Domains added with setDomains will automatically be ignore as referrers.
+           * Domains added with setDomains will automatically be excluded as referrers.
            *
-           * @param string|array ignoredReferrers
+           * @param string|array excludedReferrers
            */
-            this.setIgnoredReferrers = function(ignoredReferrers) {
-                configIgnoredReferrers = isString(ignoredReferrers) ? [ignoredReferrers] : ignoredReferrers;
+            this.setExcludedReferrers = function(excludedReferrers) {
+                configExcludedReferrers = isString(excludedReferrers) ? [excludedReferrers] : excludedReferrers;
             };
 
             /**
@@ -7223,7 +7223,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setIgnoredReferrers'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

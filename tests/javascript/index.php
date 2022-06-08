@@ -2156,8 +2156,8 @@ function PiwikTest() {
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
         equal( typeof tracker.setGenerationTimeMs, 'function', 'setGenerationTimeMs' );
         equal( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
-        equal( typeof tracker.setIgnoredReferrers, 'function', 'setIgnoredReferrers' );
-        equal( typeof tracker.getIgnoredReferrers, 'function', 'getIgnoredReferrers' );
+        equal( typeof tracker.setExcludedReferrers, 'function', 'setExcludedReferrers' );
+        equal( typeof tracker.getExcludedReferrers, 'function', 'getExcludedReferrers' );
         equal( typeof tracker.setCustomUrl, 'function', 'setCustomUrl' );
         equal( typeof tracker.setDocumentTitle, 'function', 'setDocumentTitle' );
         equal( typeof tracker.setDownloadClasses, 'function', 'setDownloadClasses' );
@@ -3668,20 +3668,20 @@ if ($mysql) {
         for (var i=0; i < testCases.length; i++) {
             var testName = testCases[i][0];
             var referrerUrl = testCases[i][1];
-            var ignoredReferrer = testCases[i][2];
+            var excludedReferrer = testCases[i][2];
             var result = testCases[i][3];
-            var expectedIgnoredReferrer = [];
+            var expectedExcludedReferrer = [];
 
             var tracker = Piwik.getTracker();
             tracker.setTrackerUrl("matomo.php");
             tracker.setSiteId(1);
             tracker.setReferrerUrl(referrerUrl);
-            if (ignoredReferrer) {
-                tracker.setIgnoredReferrers(ignoredReferrer);
-                expectedIgnoredReferrer = tracker.hook.test._isString(ignoredReferrer) ? [ignoredReferrer] : ignoredReferrer;
+            if (excludedReferrer) {
+                tracker.setExcludedReferrers(excludedReferrer);
+                expectedExcludedReferrer = tracker.hook.test._isString(excludedReferrer) ? [excludedReferrer] : excludedReferrer;
             }
-            deepEqual(tracker.getIgnoredReferrers(), expectedIgnoredReferrer, testName + " - check getIgnoredReferrers()");
-            deepEqual(tracker.hook.test._isReferrerIgnored(referrerUrl), result, testName + " - check isReferrerIgnored()");
+            deepEqual(tracker.getExcludedReferrers(), expectedExcludedReferrer, testName + " - check getExcludedReferrers()");
+            deepEqual(tracker.hook.test._isReferrerExcluded(referrerUrl), result, testName + " - check isReferrerExcluded()");
         }
     });
 
@@ -3828,7 +3828,7 @@ if ($mysql) {
 
         strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
-        tracker.setIgnoredReferrers('ignored.referrer.url')
+        tracker.setExcludedReferrers('ignored.referrer.url')
         tracker.setReferrerUrl('http://ignored.referrer.url/path/page?query=string');
         tracker.trackPageView();
 
