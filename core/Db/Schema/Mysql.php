@@ -53,7 +53,10 @@ class Mysql implements SchemaInterface
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                           idchange_last_viewed TIMESTAMP NULL,
-                          invite_status enum('accept','pending','decline','expired') DEFAULT 'accept',
+                          invite_token VARCHAR(191) NULL,
+                          invite_expired_at TIMESTAMP NULL,
+                          invite_accept_at TIMESTAMP NULL,
+                          invite_declined_at TIMESTAMP NULL,
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",

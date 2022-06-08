@@ -13,6 +13,7 @@ use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -528,14 +529,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $settings = new SystemSettings();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
         //check token is valid
-        $user = $model->getUserByTokenAuth($token);
+        $user = $model->getInviteUserByToken($token);
 
         //if user not match the invite user
         if (!$user) {
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
-        if ($user['invite_status'] !== 'pending') {
+        if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
@@ -574,7 +575,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
 
                 //update pending user to active user
-                $model->updateUserFields($user['login'], ['password' => $password, 'invite_status' => 'accept']);
+                $model->updateUserFields($user['login'],
+                  [
+                    'password'           => $password,
+                    'invite_token'       => null,
+                    'invite_accept_at'   => Date::now()->getTimestamp(),
+                    'invite_expired_at'  => null,
+                    'invite_declined_at' => null
+                  ]);
                 $sessionInitializer = new SessionInitializer();
                 $auth = StaticContainer::get('Piwik\Auth');
                 $auth->setTokenAuth(null); // ensure authenticated through password
@@ -589,7 +597,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                   'userLogin'    => $user['login'],
                 ));
                 $mail->safeSend();
-                $model->deleteInviteTokensForUser($user['login']);
                 $this->redirectToIndex('CoreHome', 'index');
             }
             $view->AccessErrorString = $error;
@@ -611,18 +618,34 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $token = Common::getRequestVar('token', null, 'string');
         $form = Common::getRequestVar('invitation_form', false, 'string');
 
-        $user = $model->getUserByTokenAuth($token);
-        if ($user['invite_status'] !== 'pending') {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
-        }
+        $user = $model->getInviteUserByToken($token);
+
         //if user not match the invite user
         if (!$user) {
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
+        if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+        }
+
+
         if ($form) {
-            $model->deleteAllTokensForUser($user['login']);
-            $model->updateUserFields($user['login'], ['invite_status' => 'decline']);
+            $model->updateUserFields($user['login'],
+              [
+                'invite_token'       => null,
+                'invite_accept_at'   => null,
+                'invite_expired_at'  => null,
+                'invite_declined_at' => Date::now()->getTimestamp()
+              ]);
+
+            //send Admin Email
+            $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, array(
+              'login'        => $user['login'],
+              'emailAddress' => $user['email'],
+              'userLogin'    => $user['login'],
+            ));
+            $mail->safeSend();
             $this->redirectToIndex('Login', 'index');
 
         }
@@ -631,15 +654,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->declined = true;
         $view->token = $token;
 
-        //send Admin Email
-        $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, array(
-          'login'        => $user['login'],
-          'emailAddress' => $user['email'],
-          'userLogin'    => $user['login'],
-        ));
-        $mail->safeSend();
-
-        $model->deleteInviteTokensForUser($user['login']);
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
