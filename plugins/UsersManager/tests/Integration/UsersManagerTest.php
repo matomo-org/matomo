@@ -478,6 +478,12 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['date_registered']);
             unset($user['ts_password_modified']);
             unset($user['invite_status']);
+            unset($user['invite_expired_at']);
+            unset($user['invite_token']);
+            unset($user['invite_declined_at']);
+            unset($user['invite_accept_at']);
+
+
         }
         return $users;
     }

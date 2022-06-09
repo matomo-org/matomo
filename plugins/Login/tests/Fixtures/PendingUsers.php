@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\Login\tests\Fixtures;
 
-use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 
@@ -46,8 +45,6 @@ class PendingUsers extends Fixture
         $model = new Model();
         $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime, 1);
         $model->attachInviteToken($this->pendingUser['login'], $this->token, 7);
-
-
 
     }
 }
