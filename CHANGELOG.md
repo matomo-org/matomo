@@ -4,6 +4,14 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.12.0
+
+### JavaScript Tracker
+
+#### New APIs
+
+* The methods `setExcludedReferrers` and `getExcludedReferrers` have been added to the JavaScript tracker. They allow setting and receiving the referrers the JavaScript tracker should ignore. If a referrer matches an entry on that list, it will not be passed with the tracking requests and the attribution cookie will stay unchanged.
+
 ## Matomo 4.10.0
 
 ### Breaking Changes
