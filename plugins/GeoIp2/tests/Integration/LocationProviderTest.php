@@ -58,6 +58,26 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
         ], $result);
     }
 
+    public function testGeoIP2CityWithIncorrectlyPrefixedRegionIsoCode()
+    {
+        // The IP 88.88.88.88 will return a region code that is prefixed with the country code, e.g. US-NJ instead of NJ
+        $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-City.mmdb'], 'isp' => []]);
+        $result = $locationProvider->getLocation(['ip' => '88.88.88.88']);
+
+        $this->assertEquals([
+            'continent_name' => 'North America',
+            'continent_code' => 'NA',
+            'country_code' => 'US',
+            'country_name' => 'United States',
+            'city_name' => 'Englewood Cliffs',
+            'lat' => 40.892,
+            'long' => -73.947,
+            'postal_code' => null,
+            'region_code' => 'NJ',
+            'region_name' => 'New Jersey',
+        ], $result);
+    }
+
     public function testGeoIP2Country()
     {
         $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-Country.mmdb'], 'isp' => []]);
