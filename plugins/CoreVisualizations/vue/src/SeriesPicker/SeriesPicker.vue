@@ -177,6 +177,8 @@ export default defineComponent({
         columns: getSelected(this.columnStates),
         rows: getSelected(this.rowStates),
       });
+
+      $('.top_controls .icon-reload').click();
     },
     optionsChanged() {
       return !arrayEqual(
