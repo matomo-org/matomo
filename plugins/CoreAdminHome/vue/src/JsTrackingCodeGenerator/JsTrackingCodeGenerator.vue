@@ -308,7 +308,6 @@ interface JsTrackingCodeGeneratorState {
   crossDomain: boolean;
   groupByDomain: boolean;
   trackAllAliases: boolean;
-  excludeReferrers: boolean;
   trackNoScript: boolean;
   trackCustomVars: boolean;
   customVars: CustomVar[];
@@ -362,7 +361,6 @@ export default defineComponent({
       crossDomain: false,
       groupByDomain: false,
       trackAllAliases: false,
-      excludeReferrers: true,
       trackNoScript: false,
       trackCustomVars: false,
       customVars: [],
