@@ -684,12 +684,6 @@ if (!function_exists('gzopen')
     }
 }
 
-if (!function_exists('dump')) {
-    function dump () {
-
-    }
-}
-
 /**
  * Need to catch that PHP7 error object on php5
  */
