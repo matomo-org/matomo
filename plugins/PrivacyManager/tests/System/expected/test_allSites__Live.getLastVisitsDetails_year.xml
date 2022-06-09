@@ -16,6 +16,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -370,6 +373,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -537,6 +543,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -725,6 +734,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -890,6 +902,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1228,6 +1243,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1412,6 +1430,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1579,6 +1600,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1933,6 +1957,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2100,6 +2127,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2288,6 +2318,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2453,6 +2486,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2791,6 +2827,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2975,6 +3014,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3142,6 +3184,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3496,6 +3541,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3663,6 +3711,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3851,6 +3902,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4016,6 +4070,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4354,6 +4411,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4538,6 +4598,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4705,6 +4768,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4851,6 +4917,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5372,6 +5441,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5634,6 +5706,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5780,6 +5855,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6301,6 +6379,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6563,6 +6644,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6709,6 +6793,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7230,6 +7317,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -15435,6 +15525,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -15602,6 +15695,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -15769,6 +15865,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -16109,6 +16208,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -16449,6 +16551,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -16789,6 +16894,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -18522,6 +18630,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -18876,6 +18987,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19043,6 +19157,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19231,6 +19348,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19396,6 +19516,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19734,6 +19857,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19918,6 +20044,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -20085,6 +20214,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -20231,6 +20363,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -20752,6 +20887,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -23623,6 +23761,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -23963,6 +24104,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -24652,6 +24796,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25006,6 +25153,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25173,6 +25323,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25361,6 +25514,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25526,6 +25682,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25864,6 +26023,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26048,6 +26210,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26215,6 +26380,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26569,6 +26737,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26736,6 +26907,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26924,6 +27098,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27089,6 +27266,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27427,6 +27607,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27611,6 +27794,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27778,6 +27964,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27924,6 +28113,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -28445,6 +28637,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -28707,6 +28902,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -28853,6 +29051,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -29374,6 +29575,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -34854,6 +35058,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -35021,6 +35228,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -35361,6 +35571,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -35701,6 +35914,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -36912,6 +37128,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37266,6 +37485,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37433,6 +37655,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37621,6 +37846,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37786,6 +38014,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38124,6 +38355,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38308,6 +38542,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38475,6 +38712,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38621,6 +38861,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -39142,6 +39385,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -42071,6 +42317,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -42411,6 +42660,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
