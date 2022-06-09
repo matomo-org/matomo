@@ -1603,6 +1603,9 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/webradio</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1661,6 +1664,9 @@
 				<goalPageId>9</goalPageId>
 				
 				<url />
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1720,6 +1726,9 @@
 				<goalPageId>10</goalPageId>
 				
 				<url />
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1779,6 +1788,9 @@
 				<goalPageId>11</goalPageId>
 				
 				<url />
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>

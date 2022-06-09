@@ -45,6 +45,9 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -199,6 +202,9 @@
 				<goalPageId>51</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -353,6 +359,9 @@
 				<goalPageId>62</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -507,6 +516,9 @@
 				<goalPageId>84</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -651,6 +663,9 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -685,6 +700,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -883,6 +901,9 @@
 				<goalPageId>52</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -917,6 +938,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1115,6 +1139,9 @@
 				<goalPageId>63</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1149,6 +1176,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
