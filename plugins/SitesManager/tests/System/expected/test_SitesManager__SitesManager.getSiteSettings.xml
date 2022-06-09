@@ -139,7 +139,7 @@ https://www.example.org/</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Enter the list of hostnames and URLs you want to exclude from referrer detection.</inlineHelp>
+				<inlineHelp>Enter the list of hostnames and URLs, one per line, you want to exclude from referrer detection.&lt;br /&gt;&lt;br /&gt;Each entry needs to contain the hostname and may contain a path. If a path is provided a referrer will only be excluded if the path matches as well. URLs with and without 'www' are treated the same. Provided protocols will be ignored.&lt;br /&gt;e.g. www.example.org would match http://example.org/mypath and https://www.example.org/?param=1 but not https://sub.example.org/</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />

@@ -63,7 +63,7 @@
           <br/>
           {{ translate(
               'SitesManager_ExcludedReferrersHelpExamples',
-              'https://www.example.org/',
+              'www.example.org',
               'http://example.org/mypath',
               'https://www.example.org/?param=1',
               'https://sub.example.org/'
