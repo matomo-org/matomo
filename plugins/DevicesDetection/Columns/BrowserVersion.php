@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use Piwik\Tracker\Request;
@@ -36,8 +38,7 @@ class BrowserVersion extends Base
         $aBrowserInfo = $parser->getClient();
 
         if (!empty($aBrowserInfo['version'])) {
-
-            return $aBrowserInfo['version'];
+            return substr($aBrowserInfo['version'], 0, 20);
         }
 
         return '';
