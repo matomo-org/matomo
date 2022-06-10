@@ -2,7 +2,7 @@
     "Login": {
         "BruteForceLog": "Brute Force Log",
         "ConfirmationLinkSent": "Open the confirmation link sent to your e-mail inbox to confirm changing your password.",
-        "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Matomo admin.",
+        "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Matomo administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "A user with superuser access cannot be authenticated using the '%s' mechanism.",
         "ExceptionPasswordMD5HashExpected": "The password parameter is expected to be a MD5 hash of the password.",
         "InvalidNonceToken": "The form security failed because of a token mismatch. Please reload the form and check that your cookies are on.",
@@ -24,7 +24,7 @@
         "SettingBruteForceMaxFailedLoginsHelp": "Blocks the IP if more than this number of failed logins are recorded within the time frame set below.",
         "SettingBruteForceTimeRange": "Count login retries within this time range in minutes",
         "SettingBruteForceTimeRangeHelp": "Enter a number of minutes.",
-        "ConfirmPasswordReset": "Confirm resetting your password",
+        "ConfirmPasswordReset": "Reset password",
         "ConfirmPasswordResetIntro": "Please type your new password to confirm you really requested having your password changed.",
         "ConfirmPasswordResetWrongPassword": "The entered password does not match your newly made one. Reset your password again if you don't remember it. Don't do anything to keep your password if you didn't request changing it.",
         "LoginNotAllowedBecauseBlocked": "Too many failed logins. Please wait and try logging again later.",
