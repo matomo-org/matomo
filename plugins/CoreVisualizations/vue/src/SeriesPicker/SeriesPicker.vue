@@ -177,7 +177,6 @@ export default defineComponent({
         columns: getSelected(this.columnStates),
         rows: getSelected(this.rowStates),
       });
-
     },
     optionsChanged() {
       return !arrayEqual(
