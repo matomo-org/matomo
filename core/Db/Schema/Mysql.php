@@ -593,8 +593,8 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
-                    `idchange_last_viewed`, `invite_token`)
-                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL, NULL);");
+                    `idchange_last_viewed`)
+                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL);");
 
         $model = new Model();
         $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);
