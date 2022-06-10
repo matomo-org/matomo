@@ -143,7 +143,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=5bc2a2ce
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=bd202f38
 
 var _hoisted_1 = {
   key: 0,
@@ -160,7 +160,7 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = ["onClick"];
 var _hoisted_7 = ["type", "checked"];
-function SeriesPickervue_type_template_id_5bc2a2ce_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SeriesPickervue_type_template_id_bd202f38_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["jqplot-seriespicker", {
       open: _ctx.isPopupVisible
@@ -200,7 +200,7 @@ function SeriesPickervue_type_template_id_5bc2a2ce_render(_ctx, _cache, $props, 
     }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)])], 8, _hoisted_6);
   }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 34);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=5bc2a2ce
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=bd202f38
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
 
@@ -302,7 +302,6 @@ function getSelected(optionStates) {
         columns: getSelected(this.columnStates),
         rows: getSelected(this.rowStates)
       });
-      $('.top_controls .icon-reload').click();
     },
     optionsChanged: function optionsChanged() {
       return !arrayEqual(getSelected(this.columnStates), this.selectedColumns) || !arrayEqual(getSelected(this.rowStates), this.selectedRows);
@@ -315,7 +314,7 @@ function getSelected(optionStates) {
 
 
 
-SeriesPickervue_type_script_lang_ts.render = SeriesPickervue_type_template_id_5bc2a2ce_render
+SeriesPickervue_type_script_lang_ts.render = SeriesPickervue_type_template_id_bd202f38_render
 
 /* harmony default export */ var SeriesPicker = (SeriesPickervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.adapter.ts
@@ -414,7 +413,7 @@ function getPastPeriodStr() {
 }
 
 var _window = window,
-    SingleMetricViewvue_type_script_lang_ts_$ = _window.$;
+    $ = _window.$;
 /* harmony default export */ var SingleMetricViewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     metric: {
@@ -573,7 +572,7 @@ var _window = window,
         title = "".concat(goalName, " - ").concat(title);
       }
 
-      SingleMetricViewvue_type_script_lang_ts_$(root.value).closest('div.widget').find('.widgetTop > .widgetName > span').text(title);
+      $(root.value).closest('div.widget').find('.widgetTop > .widgetName > span').text(title);
     }
 
     function getLastPeriodDate() {
@@ -634,7 +633,7 @@ var _window = window,
       actualMetric.value = newMetric;
       fetchData().then(setWidgetTitle); // notify widget of parameter change so it is replaced
 
-      SingleMetricViewvue_type_script_lang_ts_$(root.value).closest('[widgetId]').trigger('setParameters', {
+      $(root.value).closest('[widgetId]').trigger('setParameters', {
         column: actualMetric.value,
         idGoal: actualIdGoal.value
       });
@@ -661,9 +660,9 @@ var _window = window,
     }
 
     function createSeriesPicker() {
-      var element = SingleMetricViewvue_type_script_lang_ts_$(root.value);
+      var element = $(root.value);
       var $widgetName = element.closest('div.widget').find('.widgetTop > .widgetName');
-      var $seriesPickerElem = SingleMetricViewvue_type_script_lang_ts_$('<div class="single-metric-view-picker"><div></div></div>');
+      var $seriesPickerElem = $('<div class="single-metric-view-picker"><div></div></div>');
       var app = Object(external_CoreHome_["createVueApp"])({
         render: function render() {
           return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(SeriesPicker, {
@@ -689,8 +688,8 @@ var _window = window,
       seriesPickerApp = createSeriesPicker();
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(function () {
-      SingleMetricViewvue_type_script_lang_ts_$(root.value).closest('.widgetContent').off('widget:destroy').off('widget:reload');
-      SingleMetricViewvue_type_script_lang_ts_$(root.value).closest('div.widget').find('.single-metric-view-picker').remove();
+      $(root.value).closest('.widgetContent').off('widget:destroy').off('widget:reload');
+      $(root.value).closest('div.widget').find('.single-metric-view-picker').remove();
       seriesPickerApp.unmount();
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
