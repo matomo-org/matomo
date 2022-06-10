@@ -551,10 +551,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         setMaxTableWidthIfNeeded(domElem, 1200);
 
-        var isTableVisualization = this.jsViewDataTable
-            && typeof this.jsViewDataTable === 'string'
-            && typeof this.jsViewDataTable.indexOf === 'function'
-            && this.jsViewDataTable.indexOf('table') !== -1;
+        var isTableVisualization = this.param.viewDataTable
+            && typeof this.param.viewDataTable === 'string'
+            && typeof this.param.viewDataTable.indexOf === 'function'
+            && this.param.viewDataTable.indexOf('table') !== -1;
         if (isTableVisualization) {
             // we do this only for html tables
 
@@ -571,6 +571,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (labelColumnWidth) {
                 $('td.label', domElem).each(function() {
+                    if ($(this).closest('.subDataTableContainer').length && $('table:not(.subDataTable)', domElem).length) {
+                        var subTableColumns = $(this).closest('.subDataTableContainer').find('thead th').length;
+                        var baseTableColumns = $('table:not(.subDataTable):eq(0)>thead th', domElem).length;
+
+                        if (subTableColumns !== baseTableColumns) {
+                            return; // skip elements in a subtable if the column count doesn't match
+                        }
+                    }
                     $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
                 });
             }
