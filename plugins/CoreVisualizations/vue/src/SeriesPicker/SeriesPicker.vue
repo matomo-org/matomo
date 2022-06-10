@@ -178,7 +178,6 @@ export default defineComponent({
         rows: getSelected(this.rowStates),
       });
 
-      $('.top_controls .icon-reload').click();
     },
     optionsChanged() {
       return !arrayEqual(
