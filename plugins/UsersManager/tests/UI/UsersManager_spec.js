@@ -41,8 +41,13 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
     });
 
-    it('should change the results page when next is clicked', async function () {
+    it('should show resend success message', async function() {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
+
+    });
+
+    it('should change the results page when next is clicked', async function () {
         await page.click('.usersListPagination .btn.next');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();

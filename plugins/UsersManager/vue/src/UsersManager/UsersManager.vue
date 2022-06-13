@@ -116,6 +116,8 @@ import {
   Matomo,
   MatomoUrl,
   AjaxHelper,
+  translate,
+  NotificationsStore,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import PagedUsersList from '../PagedUsersList/PagedUsersList.vue';
@@ -264,14 +266,20 @@ export default defineComponent({
       }).then(() => this.fetchUsers());
     },
     onResendInvite(user: User) {
-      console.log(user);
       AjaxHelper.fetch<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
           userLogin: user.login,
         },
-      ).then((res) => {
-        console.log(res);
+      ).then(() => {
+        this.fetchUsers();
+        const id = NotificationsStore.show({
+          message: translate('UsersManager_ResendInviteSuccess', user.login),
+          id: 'resendinvite',
+          context: 'success',
+          type: 'transient',
+        });
+        NotificationsStore.scrollToNotification(id);
       });
     },
     fetchUsers() {

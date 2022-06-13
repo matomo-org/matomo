@@ -1,85 +1,93 @@
 {% extends '@Login/inviteLayout.twig' %}
 
 {% block loginContent %}
-    {% if not declined %}
+    {% if decline_success %}
         <div class="contentForm invitationForm">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-title">
-                        {{ "Login_InvitationTitle"|translate }}
-                    </div>
-
-                    {% if AccessErrorString is defined %}
-                        <div piwik-notification
-                             noclear="true"
-                             context="error">
-                            <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+        <div class="card">
+            <div class="notification system notification-success">
+                <p> {{ "Login_DeclineInvitationInfo"|translate }}</p>
+            </div>
+        </div>
+    {% else %}
+        {% if not declined %}
+            <div class="contentForm invitationForm">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">
+                            {{ "Login_InvitationTitle"|translate }}
                         </div>
-                    {% endif %}
-                    {% block content %}
-                        <form method="post" action="?module=Login&action=acceptInvitation">
-                            <input type="hidden" name="token" value="{{ token }}"/>
-                            <div class="row">
-                                <div class="col s12 input-field">
-                                    <input type="text" name="login" value="{{ user.login }}" size="20" readonly
-                                           tabindex="0"/>
-                                    <label><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
-                                </div>
-                                <div class="col s12 input-field">
-                                    <input type="password" placeholder="" name="password" id="password" class="input" value="" size="20"
-                                           autocorrect="off" autocapitalize="none"
-                                           tabindex="1" required/>
-                                    <label for="password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
-                                </div>
-                                <div class="col s12 input-field">
-                                    <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm" class="input" value="" size="20"
-                                           autocorrect="off" autocapitalize="none"
-                                           tabindex="2"/>
-                                    <label for="password_confirm"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
-                                </div>
+
+                        {% if AccessErrorString is defined %}
+                            <div piwik-notification
+                                 noclear="true"
+                                 context="error">
+                                <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
                             </div>
+                        {% endif %}
+                        {% block content %}
+                            <form method="post" action="?module=Login&action=acceptInvitation">
+                                <input type="hidden" name="token" value="{{ token }}"/>
+                                <div class="row">
+                                    <div class="col s12 input-field">
+                                        <input type="text" name="login" value="{{ user.login }}" size="20" readonly
+                                               tabindex="0"/>
+                                        <label><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
+                                    </div>
+                                    <div class="col s12 input-field">
+                                        <input type="password" placeholder="" name="password" id="password" class="input" value="" size="20"
+                                               autocorrect="off" autocapitalize="none"
+                                               tabindex="1" required/>
+                                        <label for="password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
+                                    </div>
+                                    <div class="col s12 input-field">
+                                        <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm" class="input" value="" size="20"
+                                               autocorrect="off" autocapitalize="none"
+                                               tabindex="2"/>
+                                        <label for="password_confirm"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
+                                    </div>
+                                </div>
+                                <div class="row actions">
+                                    <div class="col s12">
+                                        <label>
+                                            {% if termsAndCondition|default('') is not empty %}
+                                                <input name="terms" type="checkbox" id="terms" value="1" tabindex="90"/>
+                                                <span><a target="_blank" rel="noreferrer noopener" href="{{ termsAndCondition|safelink|e('html_attr') }}">{{ 'PrivacyManager_TermsAndConditions'|translate }}</a></span>
+                                            {% endif %}
+                                        </label>
+                                        <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Accept'|translate }}"
+                                               tabindex="100"/>
+                                    </div>
+                                </div>
+                            </form>
+                            {% if isCustomLogo %}
+                                <p id="piwik">
+                                    <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
+                                </p>
+                            {% endif %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="contentForm invitationForm">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">
+                        </div>
+                        <p> {{ "Login_InvitationDeclineBody"|translate }}</p>
+                        <p class="hints"> {{ "Login_InvitationHints"|translate }}</p>
+                        <form method="post" action="?module=Login&action=declineInvitation">
+                            <input type="hidden" name="token" value="{{ token }}"/>
                             <div class="row actions">
                                 <div class="col s12">
-                                    <label>
-                                        {% if termsAndCondition|default('') is not empty %}
-                                            <input name="terms" type="checkbox" id="terms" value="1" tabindex="90"/>
-                                            <span><a target="_blank" rel="noreferrer noopener" href="{{ termsAndCondition|safelink|e('html_attr') }}">{{ 'PrivacyManager_TermsAndConditions'|translate }}</a></span>
-                                        {% endif %}
-                                    </label>
-                                    <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Accept'|translate }}"
+                                    <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Yes'|translate }}"
                                            tabindex="100"/>
                                 </div>
                             </div>
                         </form>
-                        {% if isCustomLogo %}
-                            <p id="piwik">
-                                <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
-                            </p>
-                        {% endif %}
-                    {% endblock %}
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <div class="contentForm invitationForm">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-title">
-                        {{ "Login_InvitationDeclineTitle"|translate }}
                     </div>
-                    <p> {{ "Login_InvitationDeclineBody"|translate }}</p>
-                    <p class="hints"> {{ "Login_InvitationHints"|translate }}</p>
-                    <form method="post" action="?module=Login&action=declineInvitation">
-                        <input type="hidden" name="token" value="{{ token }}"/>
-                        <div class="row actions">
-                            <div class="col s12">
-                                <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Yes'|translate }}"
-                                       tabindex="100"/>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

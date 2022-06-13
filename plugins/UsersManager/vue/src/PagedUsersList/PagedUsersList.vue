@@ -313,7 +313,7 @@
                   class="resend table-action"
                   title="Resend Invite"
                   @click="userToChange = user; showResendConfirm()"
-                  v-if="user.invite_status!=='accept'"
+                  v-if="user.invite_status!=='accept' && user.invite_status!=='declined'"
               >
                 <span class="icon-email" />
               </button>
@@ -322,7 +322,7 @@
                 class="edituser table-action"
                 title="Edit"
                 @click="$emit('editUser', { user: user })"
-                v-if="user.login !== 'anonymous'"
+                v-if="user.login !== 'anonymous' && user.invite_status!=='declined'"
               >
                 <span class="icon-edit" />
               </button>

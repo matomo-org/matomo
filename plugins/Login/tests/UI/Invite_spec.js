@@ -35,4 +35,13 @@ describe('Invite', function () {
 
   });
 
+  it('it should login success', async function () {
+    await page.type('#password', 'abcd1234');
+    await page.type('#password_confirm', 'abcd1234');
+    await page.evaluate(function(){
+      $('#login_form_submit').click();
+    });
+    expect(await page.screenshot({ fullPage: true })).to.matchImage('success');
+  });
+
 });

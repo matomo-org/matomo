@@ -16,6 +16,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
+use Piwik\Notification;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserAcceptInvitationEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeclinedInvitationEmail;
@@ -613,6 +615,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function declineInvitation()
     {
+
         $model = new UsersModel();
 
         $token = Common::getRequestVar('token', null, 'string');
@@ -628,7 +631,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
-
+        $view = new View('@Login/invitation');
+        $view->decline_success = false;
 
         if ($form) {
             $model->updateUserFields($user['login'],
@@ -638,7 +642,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'invite_expired_at'  => null,
                 'invite_declined_at' => Date::now()->getTimestamp()
               ]);
-
+//
             //send Admin Email
             $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, array(
               'login'        => $user['login'],
@@ -646,11 +650,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
               'userLogin'    => $user['login'],
             ));
             $mail->safeSend();
-            $this->redirectToIndex('Login', 'index');
+            $view->decline_success = true;
+
 
         }
 
-        $view = new View('@Login/invitation');
         $view->declined = true;
         $view->token = $token;
 

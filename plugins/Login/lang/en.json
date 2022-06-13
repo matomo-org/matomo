@@ -63,6 +63,6 @@
         "Yes": "Yes",
         "TermsRequired": "Please Accept the terms and conditions",
         "PasswordRequired": "Please enter password to continue",
-        "declineInvitationInfo": "Your invitation has been decline."
+        "DeclineInvitationInfo": "Your invitation has been successful declined."
     }
 }

@@ -331,6 +331,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
+        $translationKeys[] = 'UsersManager_ResendInviteSuccess';
 
     }
 }
