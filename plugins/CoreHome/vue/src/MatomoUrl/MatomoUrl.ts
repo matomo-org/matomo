@@ -28,9 +28,15 @@ type ParsedQueryParameters = Record<string, unknown>;
  * URL store and helper functions.
  */
 class MatomoUrl {
-  readonly urlQuery = ref('');
+  readonly url = ref<URL|null>(null);
 
-  readonly hashQuery = ref('');
+  readonly urlQuery = computed(
+    () => (this.url.value ? this.url.value.search.replace(/^\?/, '') : ''),
+  );
+
+  readonly hashQuery = computed(
+    () => (this.url.value ? this.url.value.hash.replace(/^[#/?]+/, '') : ''),
+  );
 
   readonly urlParsed = computed(() => readonly(
     this.parse(this.urlQuery.value) as ParsedQueryParameters,
@@ -46,16 +52,13 @@ class MatomoUrl {
   } as ParsedQueryParameters));
 
   constructor() {
-    this.setUrlQuery(window.location.search);
-    this.setHashQuery(window.location.hash);
+    this.url.value = new URL(window.location.href);
 
     // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
     // have to hook into this method if we want our event handlers to execute before other angularjs
     // handlers (like the reporting page one)
     Matomo.on('$locationChangeSuccess', (absUrl: string) => {
-      const url = new URL(absUrl);
-      this.setUrlQuery(url.search.replace(/^\?/, ''));
-      this.setHashQuery(url.hash.replace(/^#/, ''));
+      this.url.value = new URL(absUrl);
     });
 
     this.updatePeriodParamsFromUrl();
@@ -192,14 +195,6 @@ class MatomoUrl {
     }
 
     piwik.currentDateString = date;
-  }
-
-  private setUrlQuery(search: string) {
-    this.urlQuery.value = search.replace(/^\?/, '');
-  }
-
-  private setHashQuery(hash: string) {
-    this.hashQuery.value = hash.replace(/^[#/?]+/, '');
   }
 }
 
