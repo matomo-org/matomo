@@ -1701,7 +1701,7 @@ var DeleteOldLogsvue_type_template_id_2d91a21d_hoisted_3 = {
   }
 };
 var DeleteOldLogsvue_type_template_id_2d91a21d_hoisted_4 = {
-  href: "https://matomo.org/faq/general/#faq_125",
+  href: "https://matomo.org/faq/general/faq_125",
   rel: "noreferrer noopener",
   target: "_blank"
 };
