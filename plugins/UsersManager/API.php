@@ -19,7 +19,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\NoAccessException;
-use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
