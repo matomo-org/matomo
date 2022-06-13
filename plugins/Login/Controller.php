@@ -642,7 +642,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'invite_expired_at'  => null,
                 'invite_declined_at' => Date::now()->getTimestamp()
               ]);
-//
+
             //send Admin Email
             $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, array(
               'login'        => $user['login'],
