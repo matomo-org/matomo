@@ -127,7 +127,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         bool $writeErrorLog = true
     ) {
         if ($writeErrorLog) {
-            error_log(sprintf("${errorLogPrefix}Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
+            error_log(sprintf("{$errorLogPrefix}Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
         }
 
         if (!headers_sent()) {
