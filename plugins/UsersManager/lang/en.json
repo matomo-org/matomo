@@ -193,6 +193,7 @@
         "Pending": "Pending",
         "Active": "Active",
         "Expired": "Invite Expired",
-        "Decline": "Invite Declined"
+        "Decline": "Invite Declined",
+        "ResendInviteSuccess": "Success! The invited has been resend to user %s"
     }
 }

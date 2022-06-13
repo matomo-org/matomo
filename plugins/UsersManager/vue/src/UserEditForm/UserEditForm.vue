@@ -94,7 +94,7 @@
           </div>
           <div>
             <Field
-               v-if="!isPendingUser"
+               v-if="!isPending"
                :model-value="theUser.password"
                :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
@@ -585,12 +585,17 @@ export default defineComponent({
         ? translate('UsersManager_InviteUser')
         : translate('UsersManager_SaveBasicInfo');
     },
-    isPendingUser() {
-      // eslint-disable-next-line eqeqeq
-      return this.user && this.theUser.invite_status !== 'accept';
+    isPending() {
+      if (!this.user) {
+        return true;
+      }
+      if (this.user.invite_status === 'pending') {
+        return true;
+      }
+      return false;
     },
     isAdd() {
-      return !this.user; // purposefully checking input property not theUser state
+      return !this.user;
     },
     changePasswordTitle() {
       return translate(

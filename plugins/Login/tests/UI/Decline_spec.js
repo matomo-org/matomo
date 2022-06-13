@@ -20,6 +20,11 @@ describe('Decline', function () {
     expect(await page.screenshot({ fullPage: true })).to.matchImage('default');
   });
 
-
+  it('should display decline success page', async function () {
+    await page.evaluate(function(){
+      $('#login_form_submit').click();
+    });
+    expect(await page.screenshot({ fullPage: true })).to.matchImage('success');
+  });
 
 });
