@@ -5795,7 +5795,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set array of campaign name parameters
              *
-             * @see https://matomo.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/faq_120
              * @param string|array campaignNames
              */
             this.setCampaignNameKey = function (campaignNames) {
@@ -5805,7 +5805,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set array of campaign keyword parameters
              *
-             * @see https://matomo.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/faq_120
              * @param string|array campaignKeywords
              */
             this.setCampaignKeywordKey = function (campaignKeywords) {

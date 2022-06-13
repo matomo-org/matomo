@@ -1684,7 +1684,7 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
       return Object(external_CoreHome_["translate"])('General_LearnMore', " (<a href=\"".concat(subdomainsLink, "\" rel=\"noreferrer noopener\" target=\"_blank\">"), '</a>)');
     },
     jsTrackCampaignParamsInlineHelp: function jsTrackCampaignParamsInlineHelp() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc', '<a href="https://matomo.org/faq/general/#faq_119" rel="noreferrer noopener" target="_blank">', '</a>');
+      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc', '<a href="https://matomo.org/faq/general/faq_119" rel="noreferrer noopener" target="_blank">', '</a>');
     }
   }
 }));

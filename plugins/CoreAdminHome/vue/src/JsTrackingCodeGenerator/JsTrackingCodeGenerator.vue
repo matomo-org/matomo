@@ -612,7 +612,7 @@ export default defineComponent({
     jsTrackCampaignParamsInlineHelp() {
       return translate(
         'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc',
-        '<a href="https://matomo.org/faq/general/#faq_119" rel="noreferrer noopener" target="_blank">',
+        '<a href="https://matomo.org/faq/general/faq_119" rel="noreferrer noopener" target="_blank">',
         '</a>',
       );
     },
