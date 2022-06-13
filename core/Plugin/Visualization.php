@@ -312,12 +312,12 @@ class Visualization extends ViewDataTable
 
     protected function loadDataTableFromAPI()
     {
-        
-//        if (!is_null($this->dataTable)) {
-//            // data table is already there
-//            // this happens when setDataTable has been used
-//            return $this->dataTable;
-//        }
+
+        if (!$this->reload && !is_null($this->dataTable)) {
+            // data table is already there
+            // this happens when setDataTable has been used
+            return $this->dataTable;
+        }
 
         // we build the request (URL) to call the API
         $request = $this->buildApiRequestArray();

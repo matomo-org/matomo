@@ -27,6 +27,7 @@ class Evolution extends JqplotGraph
 {
     const ID = 'graphEvolution';
     const SERIES_COLOR_COUNT = 8;
+    public $reload;
 
     public static function getDefaultConfig()
     {
@@ -117,7 +118,15 @@ class Evolution extends JqplotGraph
         $timezone = Site::getTimezoneFor($idSite);
 
         $lastNParamName = self::getLastNParamName($period);
-        $defaultLastN = $this->config->custom_parameters[$lastNParamName] ?? self::getDefaultLastN($period);
+
+        if ($this->config->custom_parameters[$lastNParamName]) {
+            $defaultLastN = $this->config->custom_parameters[$lastNParamName];
+            $this->reload = true;
+        } else {
+            $defaultLastN = self::getDefaultLastN($period);
+            $this->reload = false;
+        }
+//        $defaultLastN = $this->config->custom_parameters[$lastNParamName] ?? self::getDefaultLastN($period);
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ('range' != $period) { // show evolution limit if the period is not a range
@@ -127,7 +136,7 @@ class Evolution extends JqplotGraph
 
                 // overwrite last_n param using the date range
                 $oPeriod = new Range($period, $originalDate, $timezone);
-                $lastN   = count($oPeriod->getSubperiods());
+                $lastN = count($oPeriod->getSubperiods());
 
             } else {
                 // if not a multiple period
@@ -245,6 +254,6 @@ class Evolution extends JqplotGraph
         $columnsToDisplay = $this->config->columns_to_display;
 
         // Use a sensible default if the columns_to_display is empty
-        $this->config->columns_to_display = $columnsToDisplay ? : array('nb_visits');
+        $this->config->columns_to_display = $columnsToDisplay ?: array('nb_visits');
     }
 }
