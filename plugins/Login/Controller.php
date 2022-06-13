@@ -16,8 +16,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
-use Piwik\Notification;
-use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserAcceptInvitationEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeclinedInvitationEmail;
@@ -651,7 +649,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ));
             $mail->safeSend();
             $view->decline_success = true;
-
 
         }
 
