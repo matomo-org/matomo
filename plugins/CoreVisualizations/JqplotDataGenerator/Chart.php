@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\NumberFormatter;
 use Piwik\ProxyHttp;
 
 /**
@@ -103,6 +105,20 @@ class Chart
         foreach ($axesIds as $unit => $axisId) {
             if ($unit === '$' || $unit === '£') {
                 $this->axes[$axisId]['tickOptions']['formatString'] = $unit . '%s';
+            } else {
+                $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;
+            }
+        }
+
+        $currencies = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider')->getCurrencyList();
+        $currencies = array_column($currencies, 0);
+
+        // generate jqplot axes config
+        foreach ($axesIds as $unit => $axisId) {
+            if ($unit === '%') {
+                $this->axes[$axisId]['tickOptions']['formatString'] = str_replace('0', '%s', NumberFormatter::getInstance()->formatPercent(0, 0, 0));
+            } else if (in_array($unit, $currencies)) {
+                $this->axes[$axisId]['tickOptions']['formatString'] = str_replace('0', '%s', NumberFormatter::getInstance()->formatCurrency(0, $unit, 0));
             } else {
                 $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;
             }
