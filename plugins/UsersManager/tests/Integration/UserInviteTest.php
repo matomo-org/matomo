@@ -51,21 +51,30 @@ class UserInviteTest extends IntegrationTestCase
     }
 
 
+    /**
+     * @throws \Exception
+     */
     public function test_addInviteUserToken()
     {
-        $response = Http::sendHttpRequest(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token=' . $this->token,
-          10);
+        $response = Http::sendHttpRequest(
+          Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token=' . $this->token,
+          10
+        );
 
         $this->assertStringContainsString('Accept Invitation', $response, 'error on accept invitation');
     }
 
 
+    /**
+     * @throws \Exception
+     */
     public function test_declineInviteUserToken()
     {
-        $response = Http::sendHttpRequest(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=declineInvitation&token=' . $this->token,
-          10);
+        $response = Http::sendHttpRequest(
+          Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=declineInvitation&token=' . $this->token,
+          10
+        );
 
         $this->assertStringContainsString('decline this Invitation', $response, 'error on accept invitation');
     }
-
 }
