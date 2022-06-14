@@ -606,6 +606,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->termsAndCondition = $termsAndConditionUrl;
         $view->token = $token;
         $view->declined = false;
+        $view->decline_success = false;
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();

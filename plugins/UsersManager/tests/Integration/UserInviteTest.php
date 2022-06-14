@@ -48,7 +48,6 @@ class UserInviteTest extends IntegrationTestCase
     {
         $user = $this->model->getUser($this->pendingUser['login']);
         $this->assertNotNull($user['invite_token']);
-
     }
 
 
@@ -66,7 +65,7 @@ class UserInviteTest extends IntegrationTestCase
         $response = Http::sendHttpRequest(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=declineInvitation&token=' . $this->token,
           10);
 
-        $this->assertStringContainsString('Decline Invitation', $response, 'error on accept invitation');
+        $this->assertStringContainsString('decline this Invitation', $response, 'error on accept invitation');
     }
 
 }
