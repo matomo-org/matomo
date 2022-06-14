@@ -121,7 +121,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
                 '<br/><strong>%s:</strong> %s<br/>%s',
                 $this->translator->translate('General_Error'),
                 $errorMessage,
-                'Troubleshooting: <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/troubleshooting/#faq_194">FAQ on matomo.org</a>'
+                'Troubleshooting: <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/troubleshooting/faq_194">FAQ on matomo.org</a>'
             );
         }
 
