@@ -656,6 +656,9 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>

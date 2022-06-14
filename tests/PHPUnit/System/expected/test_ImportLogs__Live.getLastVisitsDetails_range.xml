@@ -43,6 +43,9 @@
 				<goalPageId>49</goalPageId>
 				
 				<url>http://piwik.org/</url>
+				<referrerType>website</referrerType>
+				<referrerName>blog.comperiosearch.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -199,6 +202,9 @@
 				<goalPageId>40</goalPageId>
 				
 				<url>http://piwik.org/changelog/</url>
+				<referrerType>website</referrerType>
+				<referrerName>trends.builtwith.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -363,6 +369,9 @@
 				<goalPageId>47</goalPageId>
 				
 				<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -531,6 +540,9 @@
 				<goalPageId>44</goalPageId>
 				
 				<url>http://piwik.org/</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -859,6 +871,9 @@
 				<goalPageId>43</goalPageId>
 				
 				<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1027,6 +1042,9 @@
 				<goalPageId>42</goalPageId>
 				
 				<url>https://piwik.org/log-analytics/</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1185,6 +1203,9 @@
 				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
+				<referrerType>website</referrerType>
+				<referrerName>berndjung.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1335,6 +1356,9 @@
 				<goalPageId>39</goalPageId>
 				
 				<url>http://piwik.org/log-analytics/</url>
+				<referrerType>website</referrerType>
+				<referrerName>forum.golem.de</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1503,6 +1527,9 @@
 				<goalPageId>35</goalPageId>
 				
 				<url>http://piwik.org/</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1705,6 +1732,9 @@
 				<goalPageId>36</goalPageId>
 				
 				<url>http://piwik.org/docs/installation/</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1867,6 +1897,9 @@
 				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.org/</url>
+				<referrerType>website</referrerType>
+				<referrerName>musicforeveryoneradio.be</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2027,6 +2060,9 @@
 				<goalPageId>70</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2387,6 +2423,9 @@
 				<goalPageId>86</goalPageId>
 				
 				<url>http://d111111abcdef8.cloudfront.net/view/my/file.html</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2522,6 +2561,9 @@
 				<goalPageId>99</goalPageId>
 				
 				<url>http://www.notdatefiltered.com/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2657,6 +2699,9 @@
 				<goalPageId>84</goalPageId>
 				
 				<url>http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2850,6 +2895,9 @@
 				<goalPageId>83</goalPageId>
 				
 				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3022,6 +3070,9 @@
 				<goalPageId>80</goalPageId>
 				
 				<url>http://xzy.example.com/Products/theProduct</url>
+				<referrerType>website</referrerType>
+				<referrerName>example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3219,6 +3270,9 @@
 				<goalPageId>82</goalPageId>
 				
 				<url>http://hello.example.com/hello/world/6,681965</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3362,6 +3416,9 @@
 				<goalPageId>92</goalPageId>
 				
 				<url>http://example.hello.com/Topic/hw43061</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3506,6 +3563,9 @@
 				<goalPageId>30</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
+				<referrerType>website</referrerType>
+				<referrerName>piwik.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3658,6 +3718,9 @@
 				<goalPageId>31</goalPageId>
 				
 				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
+				<referrerType>website</referrerType>
+				<referrerName>sn110w.snt110.mail.live.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3818,6 +3881,9 @@
 				<goalPageId>89</goalPageId>
 				
 				<url>http://piwik.net/</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.test.nl</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3953,6 +4019,9 @@
 				<goalPageId>90</goalPageId>
 				
 				<url>http://piwik.net/api/fútbol-user-agent</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4327,6 +4396,9 @@
 				<goalPageId>28</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4466,6 +4538,9 @@
 				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4605,6 +4680,9 @@
 				<goalPageId>26</goalPageId>
 				
 				<url>http://piwik.net/moved-permanently</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4937,6 +5015,9 @@
 				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5076,6 +5157,9 @@
 				<goalPageId>21</goalPageId>
 				
 				<url>http://piwik.net/to-an-error</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5337,6 +5421,9 @@
 				<goalPageId>20</goalPageId>
 				
 				<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5476,6 +5563,9 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5615,6 +5705,9 @@
 				<goalPageId>17</goalPageId>
 				
 				<url>http://piwik.net/hosting/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5750,6 +5843,9 @@
 				<goalPageId>16</goalPageId>
 				
 				<url>http://piwik.net/faq/how-to-install/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5885,6 +5981,9 @@
 				<goalPageId>15</goalPageId>
 				
 				<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6020,6 +6119,9 @@
 				<goalPageId>14</goalPageId>
 				
 				<url>http://piwik.net/intranet-analytics/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6155,6 +6257,9 @@
 				<goalPageId>13</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-websites/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6290,6 +6395,9 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/faq/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6425,6 +6533,9 @@
 				<goalPageId>11</goalPageId>
 				
 				<url>http://piwik.net/faq/how-to/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6560,6 +6671,9 @@
 				<goalPageId>10</goalPageId>
 				
 				<url>http://piwik.net/newsletter/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6695,6 +6809,9 @@
 				<goalPageId>95</goalPageId>
 				
 				<url>http://included3.com/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6830,6 +6947,9 @@
 				<goalPageId>97</goalPageId>
 				
 				<url>http://included1.com/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6965,6 +7085,9 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-users/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7100,6 +7223,9 @@
 				<goalPageId>8</goalPageId>
 				
 				<url>http://piwik.net/docs/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7235,6 +7361,9 @@
 				<goalPageId>7</goalPageId>
 				
 				<url>http://piwik.net/translations/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7370,6 +7499,9 @@
 				<goalPageId>6</goalPageId>
 				
 				<url>http://piwik.net/download/counter/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7505,6 +7637,9 @@
 				<goalPageId>5</goalPageId>
 				
 				<url>http://piwik.net/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7640,6 +7775,9 @@
 				<goalPageId>4</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-websites/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7775,6 +7913,9 @@
 				<goalPageId>3</goalPageId>
 				
 				<url>http://piwik.net/blog/category/community/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7910,6 +8051,9 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/faq/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -8045,6 +8189,9 @@
 				<goalPageId>96</goalPageId>
 				
 				<url>http://www.included4.com/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -8180,6 +8327,9 @@
 				<goalPageId>98</goalPageId>
 				
 				<url>http://www.included2.com/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -8315,6 +8465,9 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>

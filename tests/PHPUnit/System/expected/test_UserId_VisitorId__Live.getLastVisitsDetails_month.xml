@@ -248,6 +248,9 @@
 				<goalPageId />
 				<serverTimePretty>Mar 6, 2010 16:34:33</serverTimePretty>
 				<url>http://example.org/home</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>

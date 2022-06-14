@@ -242,7 +242,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      * Form-less login
-     * @see how to use it on http://piwik.org/faq/how-to/#faq_30
+     * @see how to use it on http://piwik.org/faq/how-to/faq_30
      * @throws Exception
      * @return void
      */

@@ -1129,9 +1129,15 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
 
     MatomoUrl_classCallCheck(this, MatomoUrl);
 
-    MatomoUrl_defineProperty(this, "urlQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
+    MatomoUrl_defineProperty(this, "url", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null));
 
-    MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
+    MatomoUrl_defineProperty(this, "urlQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.url.value ? _this.url.value.search.replace(/^\?/, '') : '';
+    }));
+
+    MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.url.value ? _this.url.value.hash.replace(/^[#/?]+/, '') : '';
+    }));
 
     MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.parse(_this.urlQuery.value));
@@ -1145,17 +1151,12 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(Object.assign(Object.assign({}, _this.urlParsed.value), _this.hashParsed.value));
     }));
 
-    this.setUrlQuery(window.location.search);
-    this.setHashQuery(window.location.hash); // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
+    this.url.value = new URL(window.location.href); // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
     // have to hook into this method if we want our event handlers to execute before other angularjs
     // handlers (like the reporting page one)
 
     Matomo_Matomo.on('$locationChangeSuccess', function (absUrl) {
-      var url = new URL(absUrl);
-
-      _this.setUrlQuery(url.search.replace(/^\?/, ''));
-
-      _this.setHashQuery(url.hash.replace(/^#/, ''));
+      _this.url.value = new URL(absUrl);
     });
     this.updatePeriodParamsFromUrl();
   }
@@ -1281,16 +1282,6 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       }
 
       MatomoUrl_piwik.currentDateString = date;
-    }
-  }, {
-    key: "setUrlQuery",
-    value: function setUrlQuery(search) {
-      this.urlQuery.value = search.replace(/^\?/, '');
-    }
-  }, {
-    key: "setHashQuery",
-    value: function setHashQuery(hash) {
-      this.hashQuery.value = hash.replace(/^[#/?]+/, '');
     }
   }]);
 
