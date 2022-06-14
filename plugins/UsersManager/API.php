@@ -711,6 +711,9 @@ class API extends \Piwik\Plugin\API
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function inviteUser($userLogin, $email, $initialIdSite = null, $expired = 7)
     {
         //create User

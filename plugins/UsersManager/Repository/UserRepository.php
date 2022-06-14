@@ -20,10 +20,8 @@ use Piwik\Validators\BaseValidator;
 use Piwik\Validators\IdSite;
 use Piwik\Plugin;
 
-
 class UserRepository
 {
-
     protected $model;
 
     protected $filter;
@@ -217,6 +215,4 @@ class UserRepository
         }
         return $this->twoFaPluginActivated;
     }
-
-
 }
