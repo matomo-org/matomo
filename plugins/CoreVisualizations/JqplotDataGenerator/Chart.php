@@ -52,7 +52,7 @@ class Chart
         $this->axes['xaxis']['onclick'] = & $onClick;
     }
 
-    public function setAxisYValues(&$values, $seriesMetadata = null)
+    public function setAxisYValues(&$values, $seriesMetadata = null, ?array $seriesUnits = null)
     {
         foreach ($values as $label => &$data) {
             $seriesInfo = array(
@@ -65,9 +65,13 @@ class Chart
             }
 
             $this->series[] = $seriesInfo;
+            $unit = (isset($seriesUnits[$label]) ? $seriesUnits[$label] : null);
 
-            array_walk($data, function (&$v) {
+            array_walk($data, function (&$v) use ($unit) {
                 $v = (float) Common::forceDotAsSeparatorForDecimalPoint($v);
+                if ($unit === '%') {
+                    $v = $v * 100;
+                }
             });
             $this->data[] = & $data;
         }
@@ -90,7 +94,12 @@ class Chart
 
         // generate jqplot axes config
         foreach ($axesIds as $unit => $axisId) {
-            $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;
+            if ($unit === '%') {
+                $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;
+            } else {
+                $this->axes[$axisId]['tickOptions']['formatString'] = $unit . '%s';
+            }
+
         }
 
         // map each series to appropriate yaxis

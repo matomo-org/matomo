@@ -245,7 +245,8 @@ class Get extends Base
                     'forceView' => null,
                     'viewDataTable' => null,
                     'showtitle' => null,
-                    'random' => null
+                    'random' => null,
+                    'format_metrics' => 0
                 ]);
             }
 

@@ -89,7 +89,7 @@ class Evolution extends JqplotDataGenerator
         $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
-        $visualization->setAxisYValues($allSeriesData, $seriesMetadata);
+        $visualization->setAxisYValues($allSeriesData, $seriesMetadata, $seriesUnits);
         $visualization->setAxisYUnits($seriesUnits);
 
         $xLabelStrs = [];
