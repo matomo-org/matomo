@@ -94,12 +94,11 @@ class Chart
 
         // generate jqplot axes config
         foreach ($axesIds as $unit => $axisId) {
-            if ($unit === '%') {
-                $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;
-            } else {
+            if ($unit === '$' || $unit === '£') {
                 $this->axes[$axisId]['tickOptions']['formatString'] = $unit . '%s';
+            } else {
+                $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;
             }
-
         }
 
         // map each series to appropriate yaxis
