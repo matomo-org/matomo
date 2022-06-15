@@ -21,6 +21,7 @@ use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 use Piwik\Url;
 use Piwik\ViewDataTable\Factory;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 /**
  * ROW EVOLUTION
@@ -111,8 +112,12 @@ class RowEvolution
 
         if ($this->period != 'range') {
             // handle day, week, month and year: display last X periods
+            //handle cache if exist
+            $cache = ViewDataTableManager::getViewDataTableParameters(Piwik::getCurrentUserLogin(),
+              'CoreHome.getRowEvolutionGraph');
+            $lastDay = (isset($cache['evolution_' . $this->period . '_last_n']) ? $cache['evolution_' . $this->period . '_last_n'] : null);
             $end = $date->toString();
-            list($this->date, $lastN) = EvolutionViz::getDateRangeAndLastN($this->period, $end);
+            list($this->date, $lastN) = EvolutionViz::getDateRangeAndLastN($this->period, $end, $lastDay);
         }
         $this->segment = \Piwik\API\Request::getRawSegmentFromRequest();
 
