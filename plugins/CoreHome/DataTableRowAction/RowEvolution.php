@@ -115,7 +115,7 @@ class RowEvolution
             //handle cache if exist
             $cache = ViewDataTableManager::getViewDataTableParameters(Piwik::getCurrentUserLogin(),
               'CoreHome.getRowEvolutionGraph');
-            $lastDay = !empty($cache) ? $cache['evolution_' . $this->period . '_last_n'] : null;
+            $lastDay = (isset($cache['evolution_' . $this->period . '_last_n']) ? $cache['evolution_' . $this->period . '_last_n'] : null);
             $end = $date->toString();
             list($this->date, $lastN) = EvolutionViz::getDateRangeAndLastN($this->period, $end, $lastDay);
         }
