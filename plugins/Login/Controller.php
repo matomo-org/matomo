@@ -597,6 +597,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                   'userLogin'    => $user['login'],
                 ));
                 $mail->safeSend();
+                Piwik::postEvent('Login.inviteUser.acceptInvitation', array($user['login']));
                 $this->redirectToIndex('CoreHome', 'index');
             }
             $view->AccessErrorString = $error;
@@ -650,6 +651,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ));
             $mail->safeSend();
             $view->decline_success = true;
+            Piwik::postEvent('Login.inviteUser.declineInvitation', array($user['login']));
 
         }
 

@@ -701,6 +701,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
     {
+
         $password = Common::unsanitizeInputValue($password);
         UsersManager::checkPassword($password);
         //create User
@@ -716,6 +717,7 @@ class API extends \Piwik\Plugin\API
      */
     public function inviteUser($userLogin, $email, $initialIdSite = null, $expired = 7)
     {
+        Piwik::checkUserHasSuperUserAccess();
         //create User
         $this->userRepository->create($userLogin, $email, $initialIdSite);
 
@@ -1451,16 +1453,15 @@ class API extends \Piwik\Plugin\API
      */
     public function resendInvite($userLogin, $expired = 7)
     {
-        Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSuperUserAccess();
-
-        $this->checkUserIsNotAnonymous($userLogin);
 
         if (!$this->model->getPendingUser($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
         }
 
         $this->userRepository->sendNewUserEmails($userLogin, $expired, false);
+        Piwik::postEvent('UsersManager.inviteUser.resendInviteEmail', array($userLogin, Piwik::getCurrentUserLogin()));
+
         Cache::deleteTrackerCache();
 
     }
