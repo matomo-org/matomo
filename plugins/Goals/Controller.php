@@ -22,6 +22,7 @@ use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
+use Piwik\Plugins\CoreVisualizations\Visualizations\jqplotGraph\Evolution;
 
 /**
  *
@@ -203,7 +204,7 @@ class Controller extends \Piwik\Plugin\Controller
         if (empty($idGoal)) {
             $idGoal = Common::getRequestVar('idGoal', '', 'string');
         }
-        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
+        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get', ['format_metrics' => 0]);
         $view->requestConfig->request_parameters_to_modify['idGoal'] = $idGoal;
         $view->requestConfig->request_parameters_to_modify['showAllGoalSpecificMetrics'] = 1;
 
@@ -250,6 +251,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
         $view->config->documentation = $this->translator->translate($langString, '<br />');
+
+        if ($view instanceof Evolution) {
+            $view->requestConfig->request_parameters_to_modify['format_metrics'] = 0;
+        }
 
         return $this->renderView($view);
     }
