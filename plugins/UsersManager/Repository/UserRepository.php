@@ -80,7 +80,7 @@ class UserRepository
          *
          * @param string $userLogin The new user's details handle.
          */
-        Piwik::postEvent('UsersManager.inviteUser.end', array($userLogin, $email));
+        Piwik::postEvent('UsersManager.inviteUser.end', array($userLogin, $email, Piwik::getCurrentUserLogin()));
 
         if ($initialIdSite) {
             API::getInstance()->setUserAccess($userLogin, 'view', $initialIdSite);
@@ -118,6 +118,8 @@ class UserRepository
               'token'       => $generatedToken
             ));
             $email->safeSend();
+
+
         }
     }
 
@@ -142,20 +144,27 @@ class UserRepository
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
         }
 
+        $user['invite_status'] = 'accept';
+        if (!empty($user['invite_declined_at'])) {
+            $user['invite_status'] = 'declined';
+        }
+
+        if (!empty($user['invite_expired_at'])) {
+            $inviteExpireAt = Date::factory($user['invite_expired_at']);
+            // if token expired
+            if (Date::now()->isLater($inviteExpireAt)) {
+                $user['invite_status'] = 'expired';
+            }
+            // if token not expired
+            if (Date::now()->isEarlier($inviteExpireAt)) {
+                $dayLeft = floor(Date::secondsToDays($inviteExpireAt->getTimestamp() - Date::now()->getTimestamp()));
+                $user['invite_status'] = $dayLeft;
+            }
+        }
+
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
             unset($user['twofactor_secret']);
-
-            $user['invite_status'] = 'accept';
-            if (!empty($user['invite_declined_at'])) {
-                $user['invite_status'] = 'declined';
-            }
-            if (!empty($user['invite_expired_at']) && Date::now()->isLater(Date::factory($user['invite_expired_at']))) {
-                $user['invite_status'] = 'expired';
-            }
-            if (!empty($user['invite_expired_at']) && Date::now()->isEarlier(Date::factory($user['invite_expired_at']))) {
-                $user['invite_status'] = 'pending';
-            }
             return $user;
         }
 
@@ -179,6 +188,7 @@ class UserRepository
         if (isset($user['last_seen'])) {
             $newUser['last_seen'] = $user['last_seen'];
         }
+        $newUser['invite_status'] = $user['invite_status'];
 
         return $newUser;
     }
