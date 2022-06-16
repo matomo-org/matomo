@@ -386,6 +386,14 @@ class Model
         return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
     }
 
+    public function deleteInviteTokensForUser($login)
+    {
+        $db = $this->getDb();
+
+        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `description` like ?  and `login` = ?",
+          ['Invite Token', $login]);
+    }
+
     public function getAllNonSystemTokensForLogin($login)
     {
         $db = $this->getDb();
@@ -465,6 +473,16 @@ class Model
         return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE email = ?", $userEmail);
     }
 
+
+    public function getInviteUserByToken($tokenAuth)
+    {
+        $token = $this->hashTokenAuth($tokenAuth);
+        if (!empty($token)) {
+            $db = $this->getDb();
+            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ?", $token);
+        }
+    }
+
     public function getUserByTokenAuth($tokenAuth)
     {
         if ($tokenAuth === 'anonymous') {
@@ -478,7 +496,7 @@ class Model
         }
     }
 
-    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered, $inviteStatus = null)
+    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
     {
         $user = array(
           'login'                => $userLogin,
@@ -490,14 +508,17 @@ class Model
           'idchange_last_viewed' => null
         );
 
-
-        if ($inviteStatus) {
-            $user['invite_status'] = 'pending';
-        }
-
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
         return $user;
+    }
+
+    public function attachInviteToken($userLogin, $token, $expired = 7)
+    {
+        $this->updateUserFields($userLogin, [
+          'invite_token'      => $this->hashTokenAuth($token),
+          'invite_expired_at' => Date::now()->addDay($expired)->getDatetime()
+        ]);
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
@@ -738,8 +759,8 @@ class Model
     public function getPendingUser($userLogin)
     {
         $db = $this->getDb();
-        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_status not like ?";
-        $bind = [$userLogin, 'accept'];
+        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_token is not null";
+        $bind = [$userLogin];
         return $db->fetchOne($sql, $bind);
     }
 

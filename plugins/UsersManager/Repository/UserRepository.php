@@ -20,10 +20,8 @@ use Piwik\Validators\BaseValidator;
 use Piwik\Validators\IdSite;
 use Piwik\Plugin;
 
-
 class UserRepository
 {
-
     protected $model;
 
     protected $filter;
@@ -75,14 +73,14 @@ class UserRepository
         }
 
         //insert user into database.
-        $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime(), empty($password));
+        $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime());
 
         /**
          * Triggered after a new user is invited.
          *
          * @param string $userLogin The new user's details handle.
          */
-        Piwik::postEvent('UsersManager.inviteUser.end', array($userLogin, $email));
+        Piwik::postEvent('UsersManager.inviteUser.end', array($userLogin, $email, Piwik::getCurrentUserLogin()));
 
         if ($initialIdSite) {
             API::getInstance()->setUserAccess($userLogin, 'view', $initialIdSite);
@@ -107,16 +105,11 @@ class UserRepository
             //retrieve user details
             $user = API::getInstance()->getUser($userLogin);
 
-            //remove all previous token
-            $this->model->deleteAllTokensForUser($userLogin);
-
             //generate Token
             $generatedToken = $this->model->generateRandomTokenAuth();
 
             //attach token to user
-            $this->model->addTokenAuth($userLogin, $generatedToken, "Invite Token", Date::now()->getDatetime(),
-              Date::now()->addDay($expired)->getDatetime());
-
+            $this->model->attachInviteToken($userLogin, $generatedToken, $expired);
 
             // send email
             $email = StaticContainer::getContainer()->make(UserInviteEmail::class, array(
@@ -125,6 +118,8 @@ class UserRepository
               'token'       => $generatedToken
             ));
             $email->safeSend();
+
+
         }
     }
 
@@ -149,18 +144,27 @@ class UserRepository
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
         }
 
+        $user['invite_status'] = 'accept';
+        if (!empty($user['invite_declined_at'])) {
+            $user['invite_status'] = 'declined';
+        }
+
+        if (!empty($user['invite_expired_at'])) {
+            $inviteExpireAt = Date::factory($user['invite_expired_at']);
+            // if token expired
+            if (Date::now()->isLater($inviteExpireAt)) {
+                $user['invite_status'] = 'expired';
+            }
+            // if token not expired
+            if (Date::now()->isEarlier($inviteExpireAt)) {
+                $dayLeft = floor(Date::secondsToDays($inviteExpireAt->getTimestamp() - Date::now()->getTimestamp()));
+                $user['invite_status'] = $dayLeft;
+            }
+        }
+
         if (Piwik::hasUserSuperUserAccess()) {
             $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
             unset($user['twofactor_secret']);
-            if (!empty($user['invite_status']) && $user['invite_status'] === 'pending') {
-                $validToken = $this->model->checkUserHasUnexpiredToken($user['login']);
-                if (!$validToken) {
-                    $user['invite_status'] = 'expired';
-                }
-            }
-            if (empty($user['invite_status'])) {
-                $user['invite_status'] = 'accept';
-            }
             return $user;
         }
 
@@ -184,6 +188,7 @@ class UserRepository
         if (isset($user['last_seen'])) {
             $newUser['last_seen'] = $user['last_seen'];
         }
+        $newUser['invite_status'] = $user['invite_status'];
 
         return $newUser;
     }
@@ -220,6 +225,4 @@ class UserRepository
         }
         return $this->twoFaPluginActivated;
     }
-
-
 }

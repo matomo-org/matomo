@@ -94,7 +94,7 @@
           </div>
           <div>
             <Field
-               v-if="isPendingUser"
+               v-if="!isPending"
                :model-value="theUser.password"
                :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
@@ -332,7 +332,7 @@ const DEFAULT_USER: User = {
   uses_2fa: false,
   password: '',
   email: '',
-  invited_at: '',
+  invite_status: '',
 };
 
 interface UserEditFormState {
@@ -484,7 +484,7 @@ export default defineComponent({
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
-        this.theUser.invited_at = 'xx';
+        this.theUser.invite_status = 'pending';
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
@@ -585,12 +585,17 @@ export default defineComponent({
         ? translate('UsersManager_InviteUser')
         : translate('UsersManager_SaveBasicInfo');
     },
-    isPendingUser() {
-      // eslint-disable-next-line eqeqeq
-      return this.user && (this.theUser.invited_at === '' || !this.theUser.invited_at);
+    isPending() {
+      if (!this.user) {
+        return true;
+      }
+      if (this.user.invite_status === 'pending') {
+        return true;
+      }
+      return false;
     },
     isAdd() {
-      return !this.user; // purposefully checking input property not theUser state
+      return !this.user;
     },
     changePasswordTitle() {
       return translate(

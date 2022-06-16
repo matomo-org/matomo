@@ -6,41 +6,41 @@
 
 <template>
   <div
-    class="pagedUsersList"
-    :class="{loading: isLoadingUsers}"
+      class="pagedUsersList"
+      :class="{loading: isLoadingUsers}"
   >
     <div class="userListFilters row">
       <div class="col s12 m12 l6">
         <div class="input-field col s12 m4 l4">
           <a
-            class="dropdown-trigger btn bulk-actions"
-            href=""
-            data-target="user-list-bulk-actions"
-            :class="{ disabled: isBulkActionsDisabled }"
-            v-dropdown-menu
+              class="dropdown-trigger btn bulk-actions"
+              href=""
+              data-target="user-list-bulk-actions"
+              :class="{ disabled: isBulkActionsDisabled }"
+              v-dropdown-menu
           >
             {{ translate('UsersManager_BulkActions') }}
           </a>
           <ul
-            id="user-list-bulk-actions"
-            class="dropdown-content"
+              id="user-list-bulk-actions"
+              class="dropdown-content"
           >
             <li>
               <a
-                class="dropdown-trigger"
-                data-target="bulk-set-access"
-                v-dropdown-menu
+                  class="dropdown-trigger"
+                  data-target="bulk-set-access"
+                  v-dropdown-menu
               >
                 {{ translate('UsersManager_SetPermission') }}
               </a>
               <ul
-                id="bulk-set-access"
-                class="dropdown-content"
+                  id="bulk-set-access"
+                  class="dropdown-content"
               >
                 <li v-for="access in bulkActionAccessLevels" :key="access.key">
                   <a
-                    href=""
-                    @click.prevent="
+                      href=""
+                      @click.prevent="
                       userToChange = null; roleToChangeTo = access.key; showAccessChangeConfirm();
                     "
                   >
@@ -51,8 +51,8 @@
             </li>
             <li>
               <a
-                href=""
-                @click.prevent="
+                  href=""
+                  @click.prevent="
                   userToChange = null; roleToChangeTo = 'noaccess'; showAccessChangeConfirm();
                 "
               >
@@ -61,74 +61,74 @@
             </li>
             <li v-if="currentUserRole === 'superuser'">
               <a
-                href=""
-                @click.prevent="showDeleteConfirm()"
+                  href=""
+                  @click.prevent="showDeleteConfirm()"
               >{{ translate('UsersManager_DeleteUsers') }}</a>
             </li>
           </ul>
         </div>
         <div class="input-field col s12 m4 l4">
           <div
-            class="permissions-for-selector"
+              class="permissions-for-selector"
           >
             <Field
-              :model-value="userTextFilter"
-              @update:model-value="onUserTextFilterChange($event)"
-              name="user-text-filter"
-              uicontrol="text"
-              :full-width="true"
-              :placeholder="translate('UsersManager_UserSearch')"
+                :model-value="userTextFilter"
+                @update:model-value="onUserTextFilterChange($event)"
+                name="user-text-filter"
+                uicontrol="text"
+                :full-width="true"
+                :placeholder="translate('UsersManager_UserSearch')"
             />
           </div>
         </div>
         <div class="input-field col s12 m4 l4">
           <div>
             <Field
-              :model-value="accessLevelFilter"
-              @update:model-value="accessLevelFilter = $event; changeSearch({
+                :model-value="accessLevelFilter"
+                @update:model-value="accessLevelFilter = $event; changeSearch({
                 filter_access: accessLevelFilter,
                 offset: 0,
               })"
-              name="access-level-filter"
-              uicontrol="select"
-              :options="filterAccessLevels"
-              :full-width="true"
-              :placeholder="translate('UsersManager_FilterByAccess')"
+                name="access-level-filter"
+                uicontrol="select"
+                :options="filterAccessLevels"
+                :full-width="true"
+                :placeholder="translate('UsersManager_FilterByAccess')"
             />
           </div>
         </div>
       </div>
       <div
-        class="input-field col s12 m12 l6 users-list-pagination-container"
-        v-if="totalEntries > searchParams.limit"
+          class="input-field col s12 m12 l6 users-list-pagination-container"
+          v-if="totalEntries > searchParams.limit"
       >
         <div class="usersListPagination">
           <a
-            class="btn prev"
-            :class="{ disabled: searchParams.offset <= 0 }"
-            @click.prevent="gotoPreviousPage()"
+              class="btn prev"
+              :class="{ disabled: searchParams.offset <= 0 }"
+              @click.prevent="gotoPreviousPage()"
           >
             <span class="pointer">&#xAB; {{ translate('General_Previous') }}</span>
           </a>
           <div class="counter">
             <span
-              :class="{ visibility: isLoadingUsers ? 'hidden' : 'visible' }"
+                :class="{ visibility: isLoadingUsers ? 'hidden' : 'visible' }"
             >
               {{ translate(
-                  'General_Pagination',
-                  paginationLowerBound,
-                  paginationUpperBound,
-                  totalEntries
-                ) }}
+                'General_Pagination',
+                paginationLowerBound,
+                paginationUpperBound,
+                totalEntries
+            ) }}
             </span>
             <ActivityIndicator
-              :loading="isLoadingUsers"
+                :loading="isLoadingUsers"
             />
           </div>
           <a
-            class="btn next"
-            :class="{ disabled: searchParams.offset + searchParams.limit >= totalEntries }"
-            @click.prevent="gotoNextPage()"
+              class="btn next"
+              :class="{ disabled: searchParams.offset + searchParams.limit >= totalEntries }"
+              @click.prevent="gotoNextPage()"
           >
             <span class="pointer">{{ translate('General_Next') }} &#xBB;</span>
           </a>
@@ -136,52 +136,52 @@
       </div>
     </div>
     <div
-      class="roles-help-notification"
-      v-if="isRoleHelpToggled"
+        class="roles-help-notification"
+        v-if="isRoleHelpToggled"
     >
       <Notification
-        context="info"
-        type="persistent"
-        :noclear="true"
+          context="info"
+          type="persistent"
+          :noclear="true"
       >
         <span v-html="$sanitize(rolesHelpText)"></span>
       </Notification>
     </div>
     <ContentBlock>
       <table
-        id="manageUsersTable"
-        :class="{ loading: isLoadingUsers }"
-        v-content-table
+          id="manageUsersTable"
+          :class="{ loading: isLoadingUsers }"
+          v-content-table
       >
         <thead>
-          <tr>
-            <th class="select-cell">
+        <tr>
+          <th class="select-cell">
               <span class="checkbox-container">
                 <label>
                   <input
-                    type="checkbox"
-                    id="paged_users_select_all"
-                    checked="checked"
-                    v-model="isAllCheckboxSelected"
-                    @change="onAllCheckboxChange()"
+                      type="checkbox"
+                      id="paged_users_select_all"
+                      checked="checked"
+                      v-model="isAllCheckboxSelected"
+                      @change="onAllCheckboxChange()"
                   />
-                  <span />
+                  <span/>
                 </label>
               </span>
-            </th>
-            <th class="first">{{ translate('UsersManager_Username') }}</th>
-            <th class="role_header">
-              <span style="margin-right: 3.5px">{{ translate('UsersManager_RoleFor') }}</span>
-              <a
+          </th>
+          <th class="first">{{ translate('UsersManager_Username') }}</th>
+          <th class="role_header">
+            <span style="margin-right: 3.5px">{{ translate('UsersManager_RoleFor') }}</span>
+            <a
                 href=""
                 class="helpIcon"
                 @click.prevent="isRoleHelpToggled = !isRoleHelpToggled"
                 :class="{ sticky: isRoleHelpToggled }"
-              >
-                <span class="icon-help" />
-              </a>
-              <div>
-                <Field
+            >
+              <span class="icon-help"/>
+            </a>
+            <div>
+              <Field
                   class="permissions-for-selector"
                   :model-value="permissionsForSite"
                   @update:model-value="onPermissionsForUpdate($event);"
@@ -189,36 +189,37 @@
                   :ui-control-attributes="{
                     onlySitesWithAdminAccess: currentUserRole !== 'superuser',
                   }"
-                />
-              </div>
-            </th>
-            <th v-if="currentUserRole === 'superuser'">{{ translate('UsersManager_Email') }}</th>
-            <th
+              />
+            </div>
+          </th>
+          <th v-if="currentUserRole === 'superuser'">{{ translate('UsersManager_Email') }}</th>
+          <th
               v-if="currentUserRole === 'superuser'"
               :title="translate('UsersManager_UsesTwoFactorAuthentication')"
-            >{{ translate('UsersManager_2FA') }}</th>
-            <th v-if="currentUserRole === 'superuser'">{{ translate('UsersManager_LastSeen') }}</th>
-            <th>{{ translate('UsersManager_Status') }}</th>
-            <th class="actions-cell-header">
-              <div>{{ translate('General_Actions') }}</div>
-            </th>
-          </tr>
+          >{{ translate('UsersManager_2FA') }}
+          </th>
+          <th v-if="currentUserRole === 'superuser'">{{ translate('UsersManager_LastSeen') }}</th>
+          <th>{{ translate('UsersManager_Status') }}</th>
+          <th class="actions-cell-header">
+            <div>{{ translate('General_Actions') }}</div>
+          </th>
+        </tr>
         </thead>
         <tbody>
-          <tr
+        <tr
             class="select-all-row"
             v-if="isAllCheckboxSelected && users.length && users.length < totalEntries"
-          >
-            <td colspan="8">
-              <div v-if="!areAllResultsSelected">
+        >
+          <td colspan="8">
+            <div v-if="!areAllResultsSelected">
                 <span
-                  v-html="$sanitize(translate(
+                    v-html="$sanitize(translate(
                     'UsersManager_TheDisplayedUsersAreSelected',
                     `<strong>${users.length}</strong>`,
                   ))"
-                  style="margin-right:3.5px"
+                    style="margin-right:3.5px"
                 ></span>
-                <a
+              <a
                   class="toggle-select-all-in-search"
                   href="#"
                   @click.prevent="areAllResultsSelected = !areAllResultsSelected"
@@ -226,16 +227,16 @@
                     'UsersManager_ClickToSelectAll',
                     `<strong>${totalEntries}</strong>`,
                   ))"
-                ></a>
-              </div>
-              <div v-if="areAllResultsSelected">
+              ></a>
+            </div>
+            <div v-if="areAllResultsSelected">
                 <span v-html="$sanitize(translate(
                     'UsersManager_AllUsersAreSelected',
                     `<strong>${totalEntries}</strong>`,
                   ))"
-                  style="margin-right:3.5px"
+                      style="margin-right:3.5px"
                 ></span>
-                <a
+              <a
                   class="toggle-select-all-in-search"
                   href="#"
                   @click.prevent="areAllResultsSelected = !areAllResultsSelected"
@@ -243,32 +244,32 @@
                     'UsersManager_ClickToSelectDisplayedUsers',
                     `<strong>${users.length}</strong>`,
                   ))"
-                ></a>
-              </div>
-            </td>
-          </tr>
-          <tr
+              ></a>
+            </div>
+          </td>
+        </tr>
+        <tr
             v-for="(user, index) in users"
             :id="`row${index}`"
             :key="user.login"
-          >
-            <td class="select-cell">
+        >
+          <td class="select-cell">
               <span class="checkbox-container">
                 <label>
                   <input
-                    type="checkbox"
-                    :id="`paged_users_select_row${index}`"
-                    v-model="selectedRows[index]"
-                    @click="onRowSelected()"
+                      type="checkbox"
+                      :id="`paged_users_select_row${index}`"
+                      v-model="selectedRows[index]"
+                      @click="onRowSelected()"
                   />
-                  <span />
+                  <span/>
                 </label>
               </span>
-            </td>
-            <td id="userLogin">{{ user.login }}</td>
-            <td class="access-cell">
-              <div>
-                <Field
+          </td>
+          <td id="userLogin">{{ user.login }}</td>
+          <td class="access-cell">
+            <div>
+              <Field
                   :model-value="user.role"
                   @update:model-value="
                     userToChange = user;
@@ -277,80 +278,81 @@
                   :disabled="user.role === 'superuser'"
                   uicontrol="select"
                   :options="user.login !== 'anonymous' ? accessLevels : anonymousAccessLevels"
-                />
-              </div>
-            </td>
-            <td
+              />
+            </div>
+          </td>
+          <td
               id="email"
               v-if="currentUserRole === 'superuser'"
-            >{{ user.email }}</td>
-            <td
+          >{{ user.email }}
+          </td>
+          <td
               id="twofa"
               v-if="currentUserRole === 'superuser'"
-            >
+          >
               <span
-                class="icon-ok"
-                v-if="user.uses_2fa"
+                  class="icon-ok"
+                  v-if="user.uses_2fa"
               />
-              <span
+            <span
                 class="icon-close"
                 v-if="!user.uses_2fa"
-              />
-            </td>
-            <td
+            />
+          </td>
+          <td
               id="last_seen"
               v-if="currentUserRole === 'superuser'"
-            >
-              {{ user.last_seen ? `${user.last_seen} ago` : '-' }}
-            </td>
-            <td id="status">
-              <span :class="user.invite_status">
+          >
+            {{ user.last_seen ? `${user.last_seen} ago`:'-' }}
+          </td>
+          <td id="status">
+              <span :class="Number.isInteger(user.invite_status)? 'pending':user.invite_status">
               {{ getInviteStatus(user.invite_status) }}
                 </span>
-            </td>
-            <td class="center actions-cell">
-              <button
-                  class="resend table-action"
-                  title="Resend Invite"
-                  @click="userToChange = user; showResendConfirm()"
-                  v-if="user.invite_status!=='accept'"
-              >
-                <span class="icon-email" />
-              </button>
+          </td>
+          <td class="center actions-cell">
+            <button
+                class="resend table-action"
+                title="Resend Invite"
+                @click="userToChange = user; showResendConfirm()"
+                v-if="user.invite_status!=='accept' && user.invite_status!=='declined'"
+            >
+              <span class="icon-email"/>
+            </button>
 
-              <button
+            <button
                 class="edituser table-action"
                 title="Edit"
                 @click="$emit('editUser', { user: user })"
-                v-if="user.login !== 'anonymous'"
-              >
-                <span class="icon-edit" />
-              </button>
-              <button
+                v-if="user.login !== 'anonymous' && user.invite_status!=='declined'"
+            >
+              <span class="icon-edit"/>
+            </button>
+            <button
                 class="deleteuser table-action"
                 title="Delete"
                 @click="userToChange = user; showDeleteConfirm()"
                 v-if="currentUserRole === 'superuser' && user.login !== 'anonymous'"
-              >
-                <span class="icon-delete" />
-              </button>
-            </td>
-          </tr>
+            >
+              <span class="icon-delete"/>
+            </button>
+          </td>
+        </tr>
         </tbody>
       </table>
     </ContentBlock>
     <div class="delete-user-confirm-modal modal" ref="deleteUserConfirmModal">
       <div class="modal-content">
         <h3
-          v-if="userToChange"
-          v-html="$sanitize(translate(
+            v-if="userToChange"
+            v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmSingle',
             `<strong>${userToChange.login}</strong>`,
           ))"
         ></h3>
         <p
-          v-if="!userToChange"
-          v-html="$sanitize(translate(
+            v-if="!userToChange"
+            v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmMultiple',
             `<strong>${affectedUsersCount}</strong>`,
           ))"
@@ -358,23 +360,23 @@
       </div>
       <div class="modal-footer">
         <a
-          href=""
-          class="modal-action modal-close btn"
-          @click.prevent="deleteRequestedUsers()"
-          style="margin-right:3.5px"
+            href=""
+            class="modal-action modal-close btn"
+            @click.prevent="deleteRequestedUsers()"
+            style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
-          href=""
-          class="modal-action modal-close modal-no"
-          @click.prevent="userToChange = null; roleToChangeTo = null;"
+            href=""
+            class="modal-action modal-close modal-no"
+            @click.prevent="userToChange = null; roleToChangeTo = null;"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
       <div class="modal-content">
         <h3
-          v-if="userToChange"
-          v-html="$sanitize(deleteUserPermConfirmSingleText)"
+            v-if="userToChange"
+            v-html="$sanitize(deleteUserPermConfirmSingleText)"
         ></h3>
         <h3 v-if="userToChange && userToChange.login === 'anonymous' && roleToChangeTo === 'view'">
           <em>{{ translate('General_Note') }}:
@@ -387,21 +389,21 @@
           </em>
         </h3>
         <p
-          v-if="!userToChange"
-          v-html="$sanitize(deleteUserPermConfirmMultipleText)"
+            v-if="!userToChange"
+            v-html="$sanitize(deleteUserPermConfirmMultipleText)"
         ></p>
       </div>
       <div class="modal-footer">
         <a
-          href=""
-          class="modal-action modal-close btn"
-          @click.prevent="changeUserRole()"
-          style="margin-right:3.5px"
+            href=""
+            class="modal-action modal-close btn"
+            @click.prevent="changeUserRole()"
+            style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
-          href=""
-          class="modal-action modal-close modal-no"
-          @click.prevent="
+            href=""
+            class="modal-action modal-close modal-no"
+            @click.prevent="
             userToChange = null;
             roleToChangeTo = null;"
         >{{ translate('General_No') }}</a>
@@ -461,9 +463,9 @@ interface PagedUsersListState {
   selectedRows: Record<string, boolean>;
   isAllCheckboxSelected: boolean;
   isBulkActionsDisabled: boolean;
-  userToChange: User|null;
-  roleToChangeTo: string|null;
-  accessLevelFilter: string|null;
+  userToChange: User | null;
+  roleToChangeTo: string | null;
+  accessLevelFilter: string | null;
   isRoleHelpToggled: boolean;
   userTextFilter: string;
   permissionsForSite: SiteRef;
@@ -538,7 +540,14 @@ export default defineComponent({
     },
   },
   methods: {
-    getInviteStatus(inviteStatus: string|null) {
+    getInviteStatus(inviteStatus: any) {
+      if (Number.isInteger(inviteStatus)) {
+        if (inviteStatus > 3) {
+          return translate('UsersManager_Pending');
+        }
+        return translate('UsersManager_InviteDayLeft', inviteStatus);
+      }
+
       if (inviteStatus === 'accept') {
         return translate('UsersManager_Active');
       }
@@ -596,21 +605,27 @@ export default defineComponent({
       });
     },
     showDeleteConfirm() {
-      $(this.$refs.deleteUserConfirmModal as HTMLElement).modal({
-        dismissible: false,
-      }).modal('open');
+      $(this.$refs.deleteUserConfirmModal as HTMLElement)
+        .modal({
+          dismissible: false,
+        })
+        .modal('open');
     },
     showResendConfirm() {
-      $(this.$refs.resendInviteConfirmModal as HTMLElement).modal({
-        dismissible: false,
-      }).modal('open');
+      $(this.$refs.resendInviteConfirmModal as HTMLElement)
+        .modal({
+          dismissible: false,
+        })
+        .modal('open');
     },
     showAccessChangeConfirm() {
-      $(this.$refs.changeUserRoleConfirmModal as HTMLElement).modal({
-        dismissible: false,
-      }).modal('open');
+      $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
+        .modal({
+          dismissible: false,
+        })
+        .modal('open');
     },
-    getRoleDisplay(role: string|null) {
+    getRoleDisplay(role: string | null) {
       let result = null;
       (this.accessLevels as AccessLevel[]).forEach((entry) => {
         if (entry.key === role) {
@@ -640,7 +655,10 @@ export default defineComponent({
     },
     onUserTextFilterChange(filter: string) {
       this.userTextFilter = filter;
-      this.changeSearch({ filter_search: filter, offset: 0 });
+      this.changeSearch({
+        filter_search: filter,
+        offset: 0,
+      });
     },
   },
   computed: {
@@ -671,14 +689,15 @@ export default defineComponent({
       const users = this.users as User[];
 
       const result: User[] = [];
-      Object.keys(this.selectedRows).forEach((index) => {
-        const indexN = parseInt(index, 10);
-        if (this.selectedRows[index]
-          && users[indexN] // sanity check
-        ) {
-          result.push(users[indexN]);
-        }
-      });
+      Object.keys(this.selectedRows)
+        .forEach((index) => {
+          const indexN = parseInt(index, 10);
+          if (this.selectedRows[index]
+                && users[indexN] // sanity check
+          ) {
+            result.push(users[indexN]);
+          }
+        });
       return result;
     },
     rolesHelpText() {
@@ -701,11 +720,12 @@ export default defineComponent({
     },
     selectedCount() {
       let selectedRowKeyCount = 0;
-      Object.keys(this.selectedRows).forEach((key) => {
-        if (this.selectedRows[key]) {
-          selectedRowKeyCount += 1;
-        }
-      });
+      Object.keys(this.selectedRows)
+        .forEach((key) => {
+          if (this.selectedRows[key]) {
+            selectedRowKeyCount += 1;
+          }
+        });
       return selectedRowKeyCount;
     },
     deleteUserPermConfirmSingleText() {
@@ -737,8 +757,3 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped>
-.actions-cell {
-  text-align: left!important;
-}
-</style>

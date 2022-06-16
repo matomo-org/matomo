@@ -13,12 +13,14 @@ use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserAcceptInvitationEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeclinedInvitationEmail;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
+use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
@@ -240,7 +242,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      * Form-less login
-     * @see how to use it on http://piwik.org/faq/how-to/#faq_30
+     * @see how to use it on http://piwik.org/faq/how-to/faq_30
      * @throws Exception
      * @return void
      */
@@ -524,15 +526,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $token = Common::getRequestVar('token', null, 'string');
         $form = Common::getRequestVar('invitation_form', false, 'string');
 
+        $settings = new SystemSettings();
+        $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
         //check token is valid
-        $user = $model->getUserByTokenAuth($token);
-        if ($user['invite_status'] !== 'pending') {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
-        }
+        $user = $model->getInviteUserByToken($token);
 
         //if user not match the invite user
         if (!$user) {
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
+        }
+
+        if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
         //if form is blank
@@ -546,7 +551,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             //not accept terms
-            if (!$terms) {
+            if ($termsAndConditionUrl && !$terms) {
                 $error = Piwik::translate('Login_TermsRequired');
             }
 
@@ -570,7 +575,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
 
                 //update pending user to active user
-                $model->updateUserFields($user['login'], ['password' => $password, 'invite_status' => 'accept']);
+                $model->updateUserFields($user['login'],
+                  [
+                    'password'           => $password,
+                    'invite_token'       => null,
+                    'invite_accept_at'   => Date::now()->getTimestamp(),
+                    'invite_expired_at'  => null,
+                    'invite_declined_at' => null
+                  ]);
                 $sessionInitializer = new SessionInitializer();
                 $auth = StaticContainer::get('Piwik\Auth');
                 $auth->setTokenAuth(null); // ensure authenticated through password
@@ -579,24 +591,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $sessionInitializer->initSession($auth);
 
                 //send Admin Email
-                try {
-                    $mail = StaticContainer::getContainer()->make(UserAcceptInvitationEmail::class, array(
-                      'login'        => $user['login'],
-                      'emailAddress' => $user['email'],
-                      'userLogin'    => $user['login'],
-                    ));
-                    $mail->safeSend();
-                } catch (\Exception $e) {
-
-                }
-
+                $mail = StaticContainer::getContainer()->make(UserAcceptInvitationEmail::class, array(
+                  'login'        => $user['login'],
+                  'emailAddress' => $user['email'],
+                  'userLogin'    => $user['login'],
+                ));
+                $mail->safeSend();
+                Piwik::postEvent('Login.inviteUser.acceptInvitation', array($user['login']));
                 $this->redirectToIndex('CoreHome', 'index');
             }
             $view->AccessErrorString = $error;
         }
         $view->user = $user;
+
+        $view->termsAndCondition = $termsAndConditionUrl;
         $view->token = $token;
         $view->declined = false;
+        $view->decline_success = false;
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
@@ -604,42 +615,49 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function declineInvitation()
     {
+
         $model = new UsersModel();
 
         $token = Common::getRequestVar('token', null, 'string');
         $form = Common::getRequestVar('invitation_form', false, 'string');
 
-        $user = $model->getUserByTokenAuth($token);
-        if ($user['invite_status'] !== 'pending') {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
-        }
+        $user = $model->getInviteUserByToken($token);
+
         //if user not match the invite user
         if (!$user) {
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
-        if ($form) {
-            $model->deleteAllTokensForUser($user['login']);
-            $model->updateUserFields($user['login'], ['invite_status' => 'decline']);
-            $this->redirectToIndex('Login', 'index');
-
+        if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
-
         $view = new View('@Login/invitation');
-        $view->declined = true;
-        $view->token = $token;
+        $view->decline_success = false;
 
-        //send Admin Email
-        try {
+        if ($form) {
+            $model->updateUserFields($user['login'],
+              [
+                'invite_token'       => null,
+                'invite_accept_at'   => null,
+                'invite_expired_at'  => null,
+                'invite_declined_at' => Date::now()->getTimestamp()
+              ]);
+
+            //send Admin Email
             $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, array(
               'login'        => $user['login'],
               'emailAddress' => $user['email'],
               'userLogin'    => $user['login'],
             ));
             $mail->safeSend();
-        } catch (\Exception $e) {
+            $view->decline_success = true;
+            Piwik::postEvent('Login.inviteUser.declineInvitation', array($user['login']));
 
         }
+
+        $view->declined = true;
+        $view->token = $token;
+
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
