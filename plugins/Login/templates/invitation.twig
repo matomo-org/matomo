@@ -81,6 +81,13 @@
                             <div class="row actions">
                                 <div class="col s12">
                                     <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Yes'|translate }}"
+                                    <label>
+                                        {% if termsAndCondition|default('') is not empty %}
+                                            <input name="terms" type="checkbox" id="terms" value="1" tabindex="90"/>
+                                            <span><a target="_blank" rel="noreferrer noopener" href="{{ termsAndCondition|safelink|e('html_attr') }}">{{ 'PrivacyManager_TermsAndConditions'|translate }}</a></span>
+                                        {% endif %}
+                                    </label>
+                                    <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Accept'|translate }}"
                                            tabindex="100"/>
                                 </div>
                             </div>
