@@ -278,7 +278,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $result = self::getPluginDirectory($plugin);
 
         $matomoPath = rtrim(PIWIK_INCLUDE_PATH, '/') . '/';
-        $webroots = array_merge(Manager::getAlternativeWebRootDirectories(), [$matomoPath]);
+        $webroots = array_merge(
+            array_keys(Manager::getAlternativeWebRootDirectories()),
+            [$matomoPath]
+        );
 
         foreach ($webroots as $webroot) {
             if (strpos($result, $webroot) === 0) {
