@@ -285,9 +285,12 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
         foreach ($webroots as $webrootAbsolute => $webrootRelative) {
             if (strpos($result, $webrootAbsolute) === 0) {
-                return str_replace($webrootAbsolute, $webrootRelative, $result);
+                $result = str_replace($webrootAbsolute, $webrootRelative, $result);
+                break;
             }
         }
+
+        $result = ltrim($result, '/');
 
         return $result;
     }
