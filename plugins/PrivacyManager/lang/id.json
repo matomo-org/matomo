@@ -179,7 +179,7 @@
         "UseAnonymizeTrackingData": "Menganonimkan Data Pelacakan",
         "UseAnonymizeUserId": "Menganonimkan ID Pengguna",
         "UseAnonymizedIpForVisitEnrichment": "Juga gunakan alamat IP Anonim saat memperkaya kunjungan.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Plugin seperti Geolokasi melalui IP dan Penyedia meningkatkan metadata pengunjung. Secara asali, plugin ini menggunakan alamat IP anonim. Jika Anda memilih 'Tidak', alamat IP lengkap yang tidak dianonimkan akan digunakan sebagai gantinya, sehingga privasi akan berkurang namun akurasi data menjadi lebih baik.",
+        "UseAnonymizedIpForVisitEnrichmentNote": "Pengaya seperti Geolokasi melalui IP dan Penyedia meningkatkan metadata pengunjung. Secara asali, pengaya ini menggunakan alamat IP anonim. Jika Anda memilih 'Tidak', alamat IP lengkap yang tidak dianonimkan akan digunakan sebagai gantinya, sehingga privasi akan berkurang namun akurasi data menjadi lebih baik.",
         "UseDeleteLog": "Hapus data mentah lama secara teratur dari basis data",
         "UseDeleteReports": "Hapus laporan lama dari basis data secara teratur",
         "UsersOptOut": "Pengguna memilih untuk keluar",

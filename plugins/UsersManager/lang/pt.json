@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Adicionar um utilizador existente",
-        "AddNewUser": "Adicionar um novo utilizador",
         "AddSuperuserAccessConfirm": "Atribuir a um utilizador o acesso de super-utilizador confere-lhe um controlo absoluto do Matomo, algo que deve ser feito com moderação. Introduza a sua palavra-passe para continuar.",
-        "AddUser": "Adicionar um novo utilizador",
         "AddUserNoInitialAccessError": "Deve ser dado acesso a um site aos novos utilizadores. Por favor, defina o parâmetro 'initialIdSite'.",
         "AllUsersAreSelected": "Estão selecionados todos os %1$s utilizadores.",
         "AllWebsites": "Todos os sites",
@@ -42,7 +40,6 @@
         "ConfirmProhibitOtherUsersSuperUserAccess": "Quer mesmo remover o acesso de super-utilizador de '%s'? O utilizador irá perder todas as permissões e o acesso a todos os sites. Confirme que depois dá acesso aos sites necessários, caso seja pertinente.",
         "ConfirmWithPassword": "Por favor, introduza a sua palavra-passe para confirmar esta alteração.",
         "CreateNewToken": "Criar novo código",
-        "CreateUser": "Criar utilizador",
         "CurrentPasswordNotCorrect": "A palavra-passe atual que introduziu não está correta.",
         "DeleteAllTokens": "Eliminar todos os códigos",
         "DeleteConfirm": "Tem a certeza que deseja eliminar o utilizador %s?",

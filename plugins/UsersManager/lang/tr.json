@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "İki aşamalı kimlik doğrulama",
         "AddExistingUser": "Var olan bir kullanıcı ekle",
-        "AddNewUser": "Yeni kullanıcı ekle",
         "AddSuperuserAccessConfirm": "Bir kullanıcıya süper kullanıcı izinleri verildiğinde, bu kullanıcının Matomo üzerinde tam denetime sahip olmasını sağlar. Bu yüzden tedbirli davranılması önerilir. Devam etmek için parolanızı yazın.",
-        "AddUser": "Yeni kullanıcı ekle",
         "AddUserNoInitialAccessError": "Yeni kullanıcılara bir web sitesine erişme izni verilmelidir, lütfen 'initialIdSite' parametresini ayarlayın.",
         "AllUsersAreSelected": "%1$s kullanıcının tümü seçildi.",
         "AllWebsites": "Tüm web siteleri",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "Kodu kopyaladığımı ve başka kimse ile paylaşmamam gerektiğini anladığımı onaylıyorum.",
         "ConfirmWithPassword": "Bu değişikliği onaylamak için parolanızı yazın.",
         "CreateNewToken": "Yeni kod seç",
-        "CreateUser": "Kullanıcı ekle",
         "CurrentPasswordNotCorrect": "Yazdığınız geçerli parola doğru değil.",
         "DeleteAllTokens": "Tüm kodları sil",
         "DeleteConfirm": "%s kullanıcısını silmek istediğinize emin misiniz?",

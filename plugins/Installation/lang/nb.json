@@ -44,6 +44,7 @@
         "Legend": "Forklaring",
         "LoadDataInfileRecommended": "Hvis din Matomo-tjener sporer nettsider med høy trafikk (f.eks. &gt; 100000 sider per måned), anbefales det at du fikser dette problemet.",
         "LoadDataInfileUnavailableHelp": "Å bruke %1$s vil gjøre arkiveringsprosessen til Matomo mye raskere. For å gjøre det tilgjengelig, prøv å oppdatere PHP og MySQL og forsikre deg om at databasebrukeren har rettigheten %2$s.",
+        "MatomoSslRequestConfigInfo": "«force_matomo_ssl_request» i det generelle oppsettet er avskrudd. Det anbefales sterkt å skru det på.",
         "NfsFilesystemWarning": "Din tjeneren bruker et NFS-filsystem.",
         "NfsFilesystemWarningSuffixAdmin": "Dette betyr Matomo vil være svært treg når du bruker filbaserte økter.",
         "NfsFilesystemWarningSuffixInstall": "Å bruke filbaserte sesjoner på NFS er ekstremt tregt, så Matomo vil bruke databasesesjoner. Hvis det er mange som ser på kontrollpanelene samtidig, kan det tenkes at du må øke maks antall klienttilkoblinger som er tillatt på databaseserveren.",

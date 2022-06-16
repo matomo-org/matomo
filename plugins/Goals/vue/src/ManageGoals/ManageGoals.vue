@@ -319,7 +319,7 @@
             <Field
               uicontrol="radio"
               name="allow_multiple"
-              :model-value="goal.allow_multiple ? 1 : 0"
+              :model-value="!!goal.allow_multiple && goal.allow_multiple !== '0' ? 1 : 0"
               @update:model-value="goal.allow_multiple = $event"
               v-if="goal.match_attribute !== 'visit_duration'"
               :options="allowMultipleOptions"
@@ -416,6 +416,10 @@ interface ManageGoalsState {
   submitText: string;
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
+}
+
+function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
+  return !!n && n !== '0' ? 1 : 0;
 }
 
 export default defineComponent({
@@ -646,11 +650,11 @@ export default defineComponent({
 
         parameters.patternType = this.goal.pattern_type;
         parameters.pattern = this.goal.pattern;
-        parameters.caseSensitive = this.goal.case_sensitive ? 1 : 0;
+        parameters.caseSensitive = ambiguousBoolToInt(this.goal.case_sensitive);
       }
       parameters.revenue = this.goal.revenue || 0;
-      parameters.allowMultipleConversionsPerVisit = this.goal.allow_multiple ? 1 : 0;
-      parameters.useEventValueAsRevenue = this.goal.event_value_as_revenue ? 1 : 0;
+      parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);
+      parameters.useEventValueAsRevenue = ambiguousBoolToInt(this.goal.event_value_as_revenue);
 
       parameters.idGoal = this.goal.idgoal;
       parameters.method = this.apiMethod;

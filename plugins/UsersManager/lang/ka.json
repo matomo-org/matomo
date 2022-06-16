@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "ახალი მომხმარებლის დამატება",
         "AllWebsites": "ყველა ვებ საიტი",
         "ApplyToAllWebsites": "ყველა ვებ საიტზე გამოყენება",
         "ClickHereToDeleteTheCookie": "დააწკაპუნეთ აქ, რომ წაშალოთ ქუქი და თქვენი ვიზიტების ტრეკირების საშუალება მისცეთ Matomo–ს",
@@ -17,8 +16,8 @@
         "ForAnonymousUsersReportDateToLoadByDefault": "ანონიმური მომხმარებლებისთვის, ნაგულისხმევად ჩასატვირთი რეპორტის თარიღი",
         "ManageAccess": "წვდომის მართვა",
         "MenuAnonymousUserSettings": "ანონიმური მომხმარებლის პარამეტრები",
-        "MenuUsers": "მომხმარებლები",
         "MenuUserSettings": "მომხმარებლის პარამეტრები",
+        "MenuUsers": "მომხმარებლები",
         "PrivAdmin": "ადმინისტრატორი",
         "PrivNone": "წვდომის გარეშე",
         "PrivView": "დათვალიერება",
@@ -27,11 +26,11 @@
         "TheLoginScreen": "სისტემაში შესვლის ეკრანი",
         "TypeYourPasswordAgain": "აკრიფეთ ახალი პაროლი კიდევ ერთხელ.",
         "User": "მომხმარებელი",
+        "Username": "მომხმარებლის სახელი",
         "UsersManagement": "მომხმარებელთა მენეჯმენტი",
         "UsersManagementMainDescription": "შექმენით ახალი მომხმარებელები ან განაახლეთ არსებული მომხმარებლები. შემდეგ ზემოთ შეგიძლიათ დაუნიშნოთ მათ უფლებები.",
         "YourUsernameCannotBeChanged": "თქვენი მომხმარებლის სახელის შეცვლა არ შეიძლება.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Matomo–ის მიერ იგნორირებულია თქვენი ვიზიტები %2$s %3$s (თქვენს ბრაუზერში ნაპოვნია Matomo იგნორირების ქუქი).",
-        "YourVisitsAreNotIgnored": "%1$sთქვენი ვიზიტები არ არის იგნორირებული Matomo–ის მიერ%2$s (Matomo იგნორირების ქუქი არ იქნა ნაპოვნი თქვენს ბრაუზერში).",
-        "Username": "მომხმარებლის სახელი"
+        "YourVisitsAreNotIgnored": "%1$sთქვენი ვიზიტები არ არის იგნორირებული Matomo–ის მიერ%2$s (Matomo იგნორირების ქუქი არ იქნა ნაპოვნი თქვენს ბრაუზერში)."
     }
 }

@@ -2,8 +2,6 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Lisää olemassa oleva käyttäjä",
-        "AddNewUser": "Lisää uusi käyttäjä",
-        "AddUser": "Lisää uusi käyttäjä",
         "AllUsersAreSelected": "Kaikki %1$s käyttäjää on valittu.",
         "AllWebsites": "Kaikki sivut",
         "AllWebsitesAreSelected": "Kaikki %1$s sivustoa on valittu.",
@@ -30,7 +28,6 @@
         "ConfirmProhibitMySuperUserAccess": "%s, haluatko varmasti poistaa omat pääkäyttäjäoikeutesi? Menetät kaikki oikeudet ja pääsyn kaikille sivustoille sekä kirjaudut ulos Matomosta.",
         "ConfirmWithPassword": "Kirjoita salasanasi vahvistaaksesi muutoksen.",
         "CreateNewToken": "Luo uusi poletti",
-        "CreateUser": "Luo käyttäjä",
         "CurrentPasswordNotCorrect": "Kirjoittamasi nykyinen salasana ei ole oikein.",
         "DeleteAllTokens": "Poista kaikki poletit",
         "DeleteConfirm": "Haluatko varmasti poistaa käyttäjän %s?",

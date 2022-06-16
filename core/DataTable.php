@@ -1702,6 +1702,25 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Deletes a metadata property by name.
+     *
+     * @param bool|string $name The metadata name (omit to delete all metadata)
+     * @return bool True if the requested metadata was deleted
+     */
+    public function deleteMetadata($name = false) : bool
+    {
+        if ($name === false) {
+            $this->metadata = [];
+            return true;
+        }
+        if (!isset($this->metadata[$name])) {
+            return false;
+        }
+        unset($this->metadata[$name]);
+        return true;
+    }
+
+    /**
      * Returns all table metadata.
      *
      * @return array

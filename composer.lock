@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f6dbec89d3c3357d4208cdf4be7ce74",
+    "content-hash": "f7f3caa46d358cadcbf0094f477b2cea",
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b"
+                "reference": "fd5dd441932a7e10ca6e5b490e272d34c8430640"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b",
-                "reference": "4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/fd5dd441932a7e10ca6e5b490e272d34c8430640",
+                "reference": "fd5dd441932a7e10ca6e5b490e272d34c8430640",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.3.1"
+                "source": "https://github.com/composer/ca-bundle/tree/1.3.2"
             },
             "funding": [
                 {
@@ -80,7 +80,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-28T20:44:15+00:00"
+            "time": "2022-05-24T11:56:16+00:00"
         },
         {
             "name": "composer/semver",
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "8fa9f130795fcb78f678b4e1be88ce5e962181d5"
+                "reference": "1b95be6420017e2cc66a85e2b956c8ec67e03d8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/8fa9f130795fcb78f678b4e1be88ce5e962181d5",
-                "reference": "8fa9f130795fcb78f678b4e1be88ce5e962181d5",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/1b95be6420017e2cc66a85e2b956c8ec67e03d8f",
+                "reference": "1b95be6420017e2cc66a85e2b956c8ec67e03d8f",
                 "shasum": ""
             },
             "replace": {
@@ -722,7 +722,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2022-05-10T23:56:58+00:00"
+            "time": "2022-05-27T03:13:58+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -871,16 +871,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.27.0",
+            "version": "1.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "52ebd235c1f7e0d5e1b16464b695a28335f8e44a"
+                "reference": "904713c5929655dc9b97288b69cfeedad610c9a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/52ebd235c1f7e0d5e1b16464b695a28335f8e44a",
-                "reference": "52ebd235c1f7e0d5e1b16464b695a28335f8e44a",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/904713c5929655dc9b97288b69cfeedad610c9a1",
+                "reference": "904713c5929655dc9b97288b69cfeedad610c9a1",
                 "shasum": ""
             },
             "require": {
@@ -941,7 +941,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/1.27.0"
+                "source": "https://github.com/Seldaek/monolog/tree/1.27.1"
             },
             "funding": [
                 {
@@ -953,7 +953,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-13T20:29:46+00:00"
+            "time": "2022-06-09T08:53:42+00:00"
         },
         {
             "name": "mustangostang/spyc",
@@ -1475,16 +1475,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.0",
+            "version": "v6.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "e43bac82edc26ca04b36143a48bde1c051cfd5b1"
+                "reference": "b52ed06864fdda81b82ec8bf564cf15d45ed4f95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e43bac82edc26ca04b36143a48bde1c051cfd5b1",
-                "reference": "e43bac82edc26ca04b36143a48bde1c051cfd5b1",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/b52ed06864fdda81b82ec8bf564cf15d45ed4f95",
+                "reference": "b52ed06864fdda81b82ec8bf564cf15d45ed4f95",
                 "shasum": ""
             },
             "require": {
@@ -1496,8 +1496,8 @@
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "doctrine/annotations": "^1.2",
-                "php-parallel-lint/php-console-highlighter": "^0.5.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3.1",
+                "php-parallel-lint/php-console-highlighter": "^1.0.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3.2",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
                 "squizlabs/php_codesniffer": "^3.6.2",
@@ -1541,7 +1541,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.2"
             },
             "funding": [
                 {
@@ -1549,7 +1549,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-28T15:31:21+00:00"
+            "time": "2022-06-14T09:27:21+00:00"
         },
         {
             "name": "psr/container",
@@ -1836,16 +1836,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.25.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "30885182c981ab175d4d034db0f6f469898070ab"
+                "reference": "6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/30885182c981ab175d4d034db0f6f469898070ab",
-                "reference": "30885182c981ab175d4d034db0f6f469898070ab",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4",
+                "reference": "6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4",
                 "shasum": ""
             },
             "require": {
@@ -1860,7 +1860,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.23-dev"
+                    "dev-main": "1.26-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -1898,7 +1898,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.25.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.26.0"
             },
             "funding": [
                 {
@@ -1914,20 +1914,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-20T20:35:02+00:00"
+            "time": "2022-05-24T11:49:31+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
-            "version": "v1.25.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-iconv.git",
-                "reference": "f1aed619e28cb077fc83fac8c4c0383578356e40"
+                "reference": "143f1881e655bebca1312722af8068de235ae5dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/f1aed619e28cb077fc83fac8c4c0383578356e40",
-                "reference": "f1aed619e28cb077fc83fac8c4c0383578356e40",
+                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/143f1881e655bebca1312722af8068de235ae5dc",
+                "reference": "143f1881e655bebca1312722af8068de235ae5dc",
                 "shasum": ""
             },
             "require": {
@@ -1942,7 +1942,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.23-dev"
+                    "dev-main": "1.26-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -1981,7 +1981,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-iconv/tree/v1.25.0"
+                "source": "https://github.com/symfony/polyfill-iconv/tree/v1.26.0"
             },
             "funding": [
                 {
@@ -1997,20 +1997,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-04T09:04:05+00:00"
+            "time": "2022-05-24T11:49:31+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.25.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "0abb51d2f102e00a4eefcf46ba7fec406d245825"
+                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/0abb51d2f102e00a4eefcf46ba7fec406d245825",
-                "reference": "0abb51d2f102e00a4eefcf46ba7fec406d245825",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
+                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
                 "shasum": ""
             },
             "require": {
@@ -2025,7 +2025,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.23-dev"
+                    "dev-main": "1.26-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -2064,7 +2064,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.25.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.26.0"
             },
             "funding": [
                 {
@@ -2080,25 +2080,25 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-30T18:21:41+00:00"
+            "time": "2022-05-24T11:49:31+00:00"
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v3.0.12",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
-                "reference": "6e06f3f764210956d9372c787d8ffff0b83706d5"
+                "reference": "0cecbea0317227817030b2edc79ecbe870224215"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/6e06f3f764210956d9372c787d8ffff0b83706d5",
-                "reference": "6e06f3f764210956d9372c787d8ffff0b83706d5",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/0cecbea0317227817030b2edc79ecbe870224215",
+                "reference": "0cecbea0317227817030b2edc79ecbe870224215",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
-                "php": "^5.4|^7.0|8.0.*"
+                "php": "^5.4|^7.0|^8.0"
             },
             "require-dev": {
                 "codeception/codeception": "^4.1.22",
@@ -2149,9 +2149,9 @@
             ],
             "support": {
                 "issues": "https://github.com/szymach/c-pchart/issues",
-                "source": "https://github.com/szymach/c-pchart/tree/v3.0.12"
+                "source": "https://github.com/szymach/c-pchart/tree/v3.1.0"
             },
-            "time": "2021-12-01T18:49:19+00:00"
+            "time": "2022-06-05T10:54:17+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -2572,118 +2572,6 @@
                 }
             ],
             "time": "2022-03-03T08:28:38+00:00"
-        },
-        {
-            "name": "escapestudios/symfony2-coding-standard",
-            "version": "3.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/djoos/Symfony-coding-standard.git",
-                "reference": "1524e573f5061555af3c363f0948c444d8522499"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/djoos/Symfony-coding-standard/zipball/1524e573f5061555af3c363f0948c444d8522499",
-                "reference": "1524e573f5061555af3c363f0948c444d8522499",
-                "shasum": ""
-            },
-            "require": {
-                "squizlabs/php_codesniffer": "^3.3.1"
-            },
-            "conflict": {
-                "squizlabs/php_codesniffer": "<3 || >=4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.0 || ^6.0 || ^7.0"
-            },
-            "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David Joos",
-                    "email": "iam@davidjoos.com"
-                },
-                {
-                    "name": "Community contributors",
-                    "homepage": "https://github.com/djoos/Symfony-coding-standard/graphs/contributors"
-                }
-            ],
-            "description": "CodeSniffer ruleset for the Symfony 2+ coding standard",
-            "homepage": "https://github.com/djoos/Symfony-coding-standard",
-            "keywords": [
-                "Coding Standard",
-                "Symfony2",
-                "phpcs",
-                "symfony"
-            ],
-            "support": {
-                "issues": "https://github.com/djoos/Symfony-coding-standard/issues",
-                "source": "https://github.com/djoos/Symfony-coding-standard"
-            },
-            "time": "2021-01-18T12:40:14+00:00"
-        },
-        {
-            "name": "mayflower/mo4-coding-standard",
-            "version": "v8.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mayflower/mo4-coding-standard.git",
-                "reference": "9261d3c3cdb08d3c5bf09afd3f0a35452c557dff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mayflower/mo4-coding-standard/zipball/9261d3c3cdb08d3c5bf09afd3f0a35452c557dff",
-                "reference": "9261d3c3cdb08d3c5bf09afd3f0a35452c557dff",
-                "shasum": ""
-            },
-            "require": {
-                "dealerdirect/phpcodesniffer-composer-installer": "~0.7",
-                "escapestudios/symfony2-coding-standard": "^3.10.0",
-                "php": "~7.2 || ~8.0",
-                "slevomat/coding-standard": "^7.0.1",
-                "squizlabs/php_codesniffer": "^3.6.0"
-            },
-            "require-dev": {
-                "phan/phan": "^5.1.0",
-                "phpstan/phpstan": "^0.12.58",
-                "phpstan/phpstan-strict-rules": "^0.12.4",
-                "phpunit/phpunit": "^7.0",
-                "psalm/plugin-phpunit": "^0.16.1",
-                "vimeo/psalm": "^4.5.2"
-            },
-            "type": "phpcodesniffer-standard",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Xaver Loppenstedt",
-                    "email": "xaver@loppenstedt.de"
-                }
-            ],
-            "description": "PHP CodeSniffer ruleset implementing the MO4 coding standards extending the Symfony coding standards.",
-            "homepage": "https://github.com/mayflower/mo4-coding-standard",
-            "keywords": [
-                "mo4",
-                "phpcs",
-                "psr",
-                "standards",
-                "symfony"
-            ],
-            "support": {
-                "issues": "https://github.com/mayflower/mo4-coding-standard/issues",
-                "source": "https://github.com/mayflower/mo4-coding-standard"
-            },
-            "time": "2021-08-31T09:16:34+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -4251,16 +4139,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "7.2.0",
+            "version": "7.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "b4f96a8beea515d2d89141b7b9ad72f526d84071"
+                "reference": "aff06ae7a84e4534bf6f821dc982a93a5d477c90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/b4f96a8beea515d2d89141b7b9ad72f526d84071",
-                "reference": "b4f96a8beea515d2d89141b7b9ad72f526d84071",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/aff06ae7a84e4534bf6f821dc982a93a5d477c90",
+                "reference": "aff06ae7a84e4534bf6f821dc982a93a5d477c90",
                 "shasum": ""
             },
             "require": {
@@ -4272,7 +4160,7 @@
             "require-dev": {
                 "phing/phing": "2.17.3",
                 "php-parallel-lint/php-parallel-lint": "1.3.2",
-                "phpstan/phpstan": "1.4.10|1.6.7",
+                "phpstan/phpstan": "1.4.10|1.7.1",
                 "phpstan/phpstan-deprecation-rules": "1.0.0",
                 "phpstan/phpstan-phpunit": "1.0.0|1.1.1",
                 "phpstan/phpstan-strict-rules": "1.2.3",
@@ -4296,7 +4184,7 @@
             "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
             "support": {
                 "issues": "https://github.com/slevomat/coding-standard/issues",
-                "source": "https://github.com/slevomat/coding-standard/tree/7.2.0"
+                "source": "https://github.com/slevomat/coding-standard/tree/7.2.1"
             },
             "funding": [
                 {
@@ -4308,20 +4196,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-06T10:58:42+00:00"
+            "time": "2022-05-25T10:58:12+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.6.2",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "5e4e71592f69da17871dba6e80dd51bce74a351a"
+                "reference": "a2cd51b45bcaef9c1f2a4bda48f2dd2fa2b95563"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5e4e71592f69da17871dba6e80dd51bce74a351a",
-                "reference": "5e4e71592f69da17871dba6e80dd51bce74a351a",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/a2cd51b45bcaef9c1f2a4bda48f2dd2fa2b95563",
+                "reference": "a2cd51b45bcaef9c1f2a4bda48f2dd2fa2b95563",
                 "shasum": ""
             },
             "require": {
@@ -4364,7 +4252,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2021-12-12T21:44:58+00:00"
+            "time": "2022-06-13T06:31:38+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -4534,21 +4422,21 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "6964c76c7804814a842473e0c8fd15bab0f18e25"
+                "reference": "11cb2199493b2f8a3b53e7f19068fc6aac760991"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/6964c76c7804814a842473e0c8fd15bab0f18e25",
-                "reference": "6964c76c7804814a842473e0c8fd15bab0f18e25",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/11cb2199493b2f8a3b53e7f19068fc6aac760991",
+                "reference": "11cb2199493b2f8a3b53e7f19068fc6aac760991",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2 || ^8.0",
-                "symfony/polyfill-ctype": "^1.8"
+                "ext-ctype": "*",
+                "php": "^7.2 || ^8.0"
             },
             "conflict": {
                 "phpstan/phpstan": "<0.12.20",
@@ -4586,16 +4474,16 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.10.0"
+                "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
-            "time": "2021-03-09T10:59:23+00:00"
+            "time": "2022-06-03T18:03:27+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "matomo/referrer-spam-list": 20,
-        "lox/xhprof": 20
+        "lox/xhprof": 20,
+        "matomo/referrer-spam-list": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -4606,5 +4494,5 @@
     "platform-overrides": {
         "php": "7.2.9"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

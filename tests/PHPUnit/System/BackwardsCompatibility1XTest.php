@@ -142,7 +142,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'disableArchiving' => true,
             'otherRequestParameters' => [
                 // when changing this, might also need to change the same line in OneVisitorTwoVisitsTest.php
-                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
+                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth'
             ],
             'xmlFieldsToRemove' => array_merge([
                 'entry_sum_visit_length',
@@ -175,6 +175,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'Actions.getPageUrls',
             'Actions.getDownloads',
             'Actions.getDownload',
+
+            'Actions.getEntryPageUrls',
+            'Actions.getExitPageUrls',
+            'Actions.getPageTitle',
 
             // new flag dimensions
             'UserCountry.getCountry',
@@ -231,6 +235,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'VisitsSummary.getSumVisitsLengthPretty',
 
             // did not exist before Matomo 4
+
             'PagePerformance.get',
 
             // Did not exist before Matomo 4.11.

@@ -29,7 +29,7 @@
                 class="btn add-new-user"
                 @click="onAddNewUser()"
               >
-                {{ translate('UsersManager_AddUser') }}
+                {{ translate('UsersManager_InviteNewUser') }}
               </a>
             </div>
             <div
@@ -50,6 +50,7 @@
           @change-user-role="onChangeUserRole($event.users, $event.role)"
           @delete-user="onDeleteUser($event.users)"
           @search-change="searchParams = $event.params; fetchUsers()"
+          @resend-invite="onResendInvite($event.user)"
           :initial-site-id="initialSiteId"
           :initial-site-name="initialSiteName"
           :is-loading-users="isLoadingUsers"
@@ -261,6 +262,17 @@ export default defineComponent({
       }).catch(() => {
         // ignore (errors will still be displayed to the user)
       }).then(() => this.fetchUsers());
+    },
+    onResendInvite(user: User) {
+      console.log(user);
+      AjaxHelper.fetch<AjaxHelper>(
+        {
+          method: 'UsersManager.resendInvite',
+          userLogin: user.login,
+        },
+      ).then((res) => {
+        console.log(res);
+      });
     },
     fetchUsers() {
       this.isLoadingUsers = true;

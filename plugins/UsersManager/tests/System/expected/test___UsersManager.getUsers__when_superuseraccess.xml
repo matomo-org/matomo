@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<login>000pendingUser1</login>
+		<email>pendinguser1light@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+		<invite_status>today-date-removed-in-tests</invite_status>
+		<uses_2fa>0</uses_2fa>
+	</row>
+	<row>
 		<login>login1</login>
 		<email>login1@example.com</email>
 		<superuser_access>1</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -12,6 +21,7 @@
 		<email>login10@example.com</email>
 		<superuser_access>1</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -19,6 +29,7 @@
 		<email>login2@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -26,6 +37,7 @@
 		<email>login3@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -33,6 +45,7 @@
 		<email>login4@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -40,6 +53,7 @@
 		<email>login5@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -47,6 +61,7 @@
 		<email>login6@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -54,6 +69,7 @@
 		<email>login7@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -61,6 +77,7 @@
 		<email>login8@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -68,6 +85,7 @@
 		<email>login9@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -75,6 +93,7 @@
 		<email>hello@example.org</email>
 		<superuser_access>1</superuser_access>
 		
+		<invite_status />
 		<uses_2fa>0</uses_2fa>
 	</row>
 </result>

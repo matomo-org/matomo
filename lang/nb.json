@@ -231,7 +231,7 @@
         "Faq": "FAQ",
         "FileIntegrityWarning": "Kontrollen av filintegritet mislyktes og rapporterte noen feil. Du bør fikse dette problemet og så gjenoppfriske denne siden til den ikke viser feil.",
         "FileIntegrityWarningReupload": "Feilene nedenfor kan delvis være på grunn av mislykket opplasting av Matomo-filer.",
-        "FileIntegrityWarningReuploadBis": "Prøv å laste opp alle Matomo-filene i BINÆR-modus",
+        "FileIntegrityWarningReuploadBis": "Prøv å laste opp alle Matomo-filene i BINÆR-modus.",
         "First": "Først",
         "Flatten": "Gjør flat",
         "ForExampleShort": "f.eks.",

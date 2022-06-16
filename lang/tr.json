@@ -85,6 +85,7 @@
         "ColumnUniqueExits": "Tekil çıkışlar",
         "ColumnUniquePageviews": "Tekil sayfa gösterimleri",
         "ColumnUniquePageviewsDocumentation": "Bu sayfayı kapsayan ziyaretlerin sayısı. Bir sayfa bir ziyaret süresince birden çok kez görüntülenmiş ise, yalnız bir kez sayılır.",
+        "ColumnValuePerEntry": "Giriş Başına Gelir",
         "ColumnValuePerVisit": "Ziyaret başına düşen gelir",
         "ColumnViewedAfterSearch": "Arama sonuçlarından tıklanan",
         "ColumnViewedAfterSearchDocumentation": "Bir ziyaretçinin sitenizde bir arama yapmasından sonra bu sayfayı ziyaret etme ve arama sonuçlarından bu sayfaya tıklanma sayısı.",

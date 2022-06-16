@@ -387,7 +387,7 @@ class Php extends GeoIp2
                 array('<strong>', '</strong>'));
         }
 
-        $installDocs = '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_163">'
+        $installDocs = '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/faq_163">'
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a>';
 

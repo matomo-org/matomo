@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "เพิ่มผู้ใช้ใหม่",
         "AllWebsites": "เว็บไซต์ทั้งหมด",
         "ApplyToAllWebsites": "กระทำกับเว็บไซต์ทั้งหมด",
         "ClickHereToDeleteTheCookie": "คลิกที่นี่เพื่อลบคุกกี้ และมี Matomo ติดตามเข้าชมของคุณ",

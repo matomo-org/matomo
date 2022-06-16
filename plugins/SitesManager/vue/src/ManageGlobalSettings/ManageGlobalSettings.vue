@@ -297,6 +297,8 @@ export default defineComponent({
         searchCategoryParameters: this.searchCategoryParametersGlobal.join(','),
       }).then(() => {
         Matomo.helper.redirect({ showaddsite: false });
+      }).finally(() => {
+        this.isSaving = false;
       });
     },
   },

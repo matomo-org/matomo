@@ -135,7 +135,7 @@
         "WhatIsNewTitle": "Tässä Matomon uutuuksia",
         "WhatIsNewTooltip": "Katso mitä uutta Matomo sisältää",
         "WithOptionalRevenue": "valinnaisten tuottojen kanssa",
-        "YouAreNotOptedOut": "Et ole kieltänyt seurantaa",
+        "YouAreNotOptedOut": "Et ole kieltänyt seurantaa.",
         "YouAreOptedOut": "Et ole mukana seurannassa.",
         "YouMayOptOut": "Jos haluat, voit estää yksilöllisen tunnisteen tallentamisen tietokoneellesi, ja samalla estää tämän sivun analytiikan osaltasi.",
         "YouMayOptOut2": "Voit päättää, ettet halua sinua ja tekemiäsi seurattavan tällä sivustolla.",

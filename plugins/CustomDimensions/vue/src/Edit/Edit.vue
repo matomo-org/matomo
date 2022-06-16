@@ -272,7 +272,6 @@ export default defineComponent({
         'CustomDimensions.configureNewCustomDimension',
       ).then(() => {
         this.showNotification(translate('CustomDimensions_DimensionCreated'), 'success');
-        console.log('before reload');
         CustomDimensionsStore.reload();
         MatomoUrl.updateHashToUrl('/list');
       }).finally(() => {

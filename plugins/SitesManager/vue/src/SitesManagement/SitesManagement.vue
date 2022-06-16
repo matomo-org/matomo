@@ -448,8 +448,6 @@ export default defineComponent({
         this.totalNumberOfSites += 1;
       }
 
-      console.log('here?');
-
       this.isSiteBeingEdited = false;
     },
   },

@@ -1084,6 +1084,122 @@ class LogAggregator
     }
 
     /**
+     * Similar to queryConversionsByDimension and will return data in the same format, but takes into account pageviews
+     * leading up to a conversion, not just the final page that triggered the conversion
+     *
+     * @param string $linkField
+     * @param int $rankingQueryLimit
+     *
+     * @return \Zend_Db_Statement|array
+     */
+    public function queryConversionsByPageView(string $linkField, $rankingQueryLimit = 0)
+    {
+
+        $query = $this->generateQuery(
+        // SELECT ...
+            implode(
+                ', ',
+                array(
+                    'log_conversion.idgoal AS idgoal',
+                    sprintf('log_link_visit_action.%s AS idaction', $linkField),
+                    'log_action.type',
+                    'log_conversion.idvisit',
+                    sprintf('log_conversion.idvisit AS `%d`', Metrics::INDEX_GOAL_NB_VISITS_CONVERTED),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_subtotal'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_tax'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_shipping'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_discount'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
+                    sprintf('log_conversion.items AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
+                    sprintf('1 AS `%s`', Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ),
+                )
+            ),
+            // FROM...
+            array(
+                self::LOG_CONVERSION_TABLE,
+                array(
+                    "table" => "log_link_visit_action",
+                    "joinOn" => "log_link_visit_action.idvisit = log_conversion.idvisit AND log_link_visit_action.server_time <= log_conversion.server_time AND log_link_visit_action.".$linkField." IS NOT NULL"
+                ),
+                array(
+                    "table" => "log_action",
+                    "joinOn" => "log_action.idaction = log_link_visit_action.".$linkField." AND ".($linkField == 'idaction_url' ? 'log_action.type = 1' : 'log_action.type = 4')
+                )
+            ),
+            // WHERE ... AND ...
+            implode(
+                ' AND ',
+                array(
+                    'log_conversion.server_time >= ?',
+                    'log_conversion.server_time <= ?',
+                    'log_conversion.idsite IN ('.Common::getSqlStringFieldsArray($this->sites).')',
+                    'log_conversion.idgoal >= 0'
+                )
+            ),
+
+            // GROUP BY ...
+            false,
+
+            // ORDER ...
+            'NULL'
+        );
+
+        return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
+     * Query conversions by entry page
+     *
+     * @param string $linkField
+     * @param int $rankingQueryLimit
+     *
+     * @return \Zend_Db_Statement|array
+     */
+    public function queryConversionsByEntryPageView(string $linkField, int $rankingQueryLimit = 0)
+    {
+        $tableName  = self::LOG_CONVERSION_TABLE;
+
+        $select = implode(
+                ', ',
+                array(
+                    'log_conversion.idgoal AS idgoal',
+                    sprintf('log_visit.%s AS idaction', $linkField),
+                    'log_action.type',
+                    sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS),
+                    sprintf('COUNT(distinct log_conversion.idvisit) AS `%d`', Metrics::INDEX_GOAL_NB_VISITS_CONVERTED),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), Metrics::INDEX_GOAL_REVENUE_ENTRY),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_tax)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
+                    sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
+                    sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
+                    sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY)
+                )
+            );
+
+        $from = array(
+            $tableName,
+                array(
+                    "table"  => "log_visit",
+                    "joinOn" => "log_visit.idvisit = log_conversion.idvisit"
+                ),
+                array(
+                    "table" => "log_action",
+                    "joinOn" => "log_action.idaction = log_visit.".$linkField
+                )
+        );
+
+        $where   = $linkField.' IS NOT NULL AND log_conversion.idgoal >= 0';
+        $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
+        $groupBy = 'log_visit.'.$linkField.', log_conversion.idgoal';
+        $orderBy = false;
+
+        $query   = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+
+        return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
      * Creates and returns an array of SQL `SELECT` expressions that will each count how
      * many rows have a column whose value is within a certain range.
      *

@@ -498,22 +498,22 @@ var Marketplacevue_type_script_lang_ts_window = window,
 Marketplacevue_type_script_lang_ts.render = render
 
 /* harmony default export */ var Marketplace = (Marketplacevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/LicenseKey/LicenseKey.vue?vue&type=template&id=9372136c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/LicenseKey/LicenseKey.vue?vue&type=template&id=6a23f4d2
 
-var LicenseKeyvue_type_template_id_9372136c_hoisted_1 = {
+var LicenseKeyvue_type_template_id_6a23f4d2_hoisted_1 = {
   class: "marketplace-max-width"
 };
-var LicenseKeyvue_type_template_id_9372136c_hoisted_2 = {
+var LicenseKeyvue_type_template_id_6a23f4d2_hoisted_2 = {
   class: "marketplace-paid-intro"
 };
-var LicenseKeyvue_type_template_id_9372136c_hoisted_3 = {
+var LicenseKeyvue_type_template_id_6a23f4d2_hoisted_3 = {
   key: 0
 };
-var LicenseKeyvue_type_template_id_9372136c_hoisted_4 = {
+var LicenseKeyvue_type_template_id_6a23f4d2_hoisted_4 = {
   key: 0
 };
 
-var LicenseKeyvue_type_template_id_9372136c_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var LicenseKeyvue_type_template_id_6a23f4d2_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
 var _hoisted_6 = {
   class: "licenseToolbar valign-wrapper"
@@ -558,14 +558,14 @@ var _hoisted_21 = {
 };
 var _hoisted_22 = ["value"];
 var _hoisted_23 = ["value"];
-function LicenseKeyvue_type_template_id_9372136c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function LicenseKeyvue_type_template_id_6a23f4d2_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DefaultLicenseKeyFields = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DefaultLicenseKeyFields");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
 
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LicenseKeyvue_type_template_id_9372136c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LicenseKeyvue_type_template_id_9372136c_hoisted_2, [_ctx.isValidConsumer ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LicenseKeyvue_type_template_id_9372136c_hoisted_3, [_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LicenseKeyvue_type_template_id_9372136c_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_PaidPluginsWithLicenseKeyIntro', '')) + " ", 1), LicenseKeyvue_type_template_id_9372136c_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DefaultLicenseKeyFields, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LicenseKeyvue_type_template_id_6a23f4d2_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LicenseKeyvue_type_template_id_6a23f4d2_hoisted_2, [_ctx.isValidConsumer ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LicenseKeyvue_type_template_id_6a23f4d2_hoisted_3, [_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LicenseKeyvue_type_template_id_6a23f4d2_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_PaidPluginsWithLicenseKeyIntro', '')) + " ", 1), LicenseKeyvue_type_template_id_6a23f4d2_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DefaultLicenseKeyFields, {
     "model-value": _ctx.licenseKey,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       _ctx.licenseKey = $event;
@@ -638,7 +638,7 @@ function LicenseKeyvue_type_template_id_9372136c_render(_ctx, _cache, $props, $s
     value: _ctx.translate('General_No')
   }, null, 8, _hoisted_23)], 512)]);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/LicenseKey/LicenseKey.vue?vue&type=template&id=9372136c
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/LicenseKey/LicenseKey.vue?vue&type=template&id=6a23f4d2
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/LicenseKey/DefaultLicenseKeyFields.vue?vue&type=template&id=26188382
 
@@ -792,6 +792,7 @@ DefaultLicenseKeyFieldsvue_type_script_lang_ts.render = DefaultLicenseKeyFieldsv
   computed: {
     subscriptionOverviewLink: function subscriptionOverviewLink() {
       return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+        module: 'Marketplace',
         action: 'subscriptionOverview'
       })));
     },
@@ -803,6 +804,7 @@ DefaultLicenseKeyFieldsvue_type_script_lang_ts.render = DefaultLicenseKeyFieldsv
     },
     installAllPaidPluginsLink: function installAllPaidPluginsLink() {
       return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+        module: 'Marketplace',
         action: 'installAllPaidPlugins',
         nonce: this.installNonce
       })));
@@ -818,7 +820,7 @@ DefaultLicenseKeyFieldsvue_type_script_lang_ts.render = DefaultLicenseKeyFieldsv
 
 
 
-LicenseKeyvue_type_script_lang_ts.render = LicenseKeyvue_type_template_id_9372136c_render
+LicenseKeyvue_type_script_lang_ts.render = LicenseKeyvue_type_template_id_6a23f4d2_render
 
 /* harmony default export */ var LicenseKey = (LicenseKeyvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Marketplace/vue/src/index.ts

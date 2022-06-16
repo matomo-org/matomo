@@ -30,7 +30,7 @@
         "OnClickPause": "%s dimulai. Klik untuk menjeda.",
         "OnClickStart": "%s dihentikan. Klik untuk memulai.",
         "PageRefreshed": "Frekuensi halaman ini dilihat/disegarkan secara berturut-turut.",
-        "PluginDescription": "Menyediakan Log Pengunjung langsung dan memungkinkan Anda untuk melihat pengunjung Anda secara langsung di widget dasbor dalam waktu nyata. Plugin ini juga memungkinkan Anda untuk melihat profil Pengunjung untuk pengguna tertentu.",
+        "PluginDescription": "Menyediakan Log Pengunjung langsung dan memungkinkan Anda untuk melihat pengunjung Anda secara langsung di widget dasbor dalam waktu nyata. Pengaya ini juga memungkinkan Anda untuk melihat profil Pengunjung untuk pengguna tertentu.",
         "PreviousVisitor": "Pengunjung sebelumnya",
         "QueryMaxExecutionTimeExceeded": "Kueri membutuhkan waktu terlalu lama untuk dieksekusi.",
         "QueryMaxExecutionTimeExceededReasonDateRange": "Ini dapat terjadi jika rentang tanggal yang dipilih terlalu besar. Coba pilih rentang tanggal yang lebih kecil.",

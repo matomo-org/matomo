@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Ajouter un utilisateur existant",
-        "AddNewUser": "Ajouter un nouvel utilisateur",
         "AddSuperuserAccessConfirm": "Accorder un accès super utilisateur donnera à l'utilisateur un contrôle total de Matomo et devrait être utilisé avec parcimonie. Saisissez votre mot de passe pour continuer.",
-        "AddUser": "Ajouter un nouvel utilisateur",
         "AddUserNoInitialAccessError": "Les nouveaux utilisateurs doivent recevoir un accès à un site web, veuillez définir le paramètre 'initialIdSite'.",
         "AllUsersAreSelected": "Tous les %1$s utilisateurs sont sélectionnés.",
         "AllWebsites": "Tous les sites Internet",
@@ -43,7 +41,6 @@
         "ConfirmTokenCopied": "Je confirme avoir copié le jeton et je comprends que je ne dois partager ce jeton avec personne d'autre.",
         "ConfirmWithPassword": "Veuillez entrer votre mot de passe actuel pour confirmer le changement.",
         "CreateNewToken": "Créer un nouveau jeton",
-        "CreateUser": "Créer l'utilisateur",
         "CurrentPasswordNotCorrect": "Le mot de passe que vous avez saisi est incorrect.",
         "DeleteAllTokens": "Supprimer tous les jetons",
         "DeleteConfirm": "Êtes-vous sûr(e) de vouloir supprimer l'utilisateur %s ?",

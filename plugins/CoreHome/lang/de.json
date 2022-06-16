@@ -90,6 +90,7 @@
         "ShortcutCalendar": "um den Kalender zu öffnen (d steht für Datum)",
         "ShortcutHelp": "um diese Hilfe anzuzeigen",
         "ShortcutSearch": "um diese Suche zu öffnen (f steht für Find)",
+        "ShortcutRefresh": "um die aktuelle Ansicht zu aktualisieren",
         "ShortcutSegmentSelector": "um den Segment Selektor zu öffnen",
         "ShortcutWebsiteSelector": "um den Webseiten Selektor zu öffnen",
         "ShortcutZenMode": "für Zen Modus",
@@ -127,6 +128,7 @@
         "VisitorsOverviewHelp": "Die Besucherübersicht hilft Ihnen, die Popularität Ihrer Website zu verstehen. Dazu stellt sie Diagramme bereit, die zeigen, wie viele Besuche Ihre Website über einen ausgewählten Zeitraum erhält und wie hoch das durchschnittliche Engagement für wichtige Funktionen wie Suchen und Downloads ist.",
         "WebAnalyticsReports": "Webanalytik-Berichte",
         "YouAreUsingTheLatestVersion": "Sie verwenden die aktuelle Version von Matomo!",
-        "YourDonationWillHelp": "Ihre Spende wird direkt dafür eingesetzt, neue Features und Erweiterungen für diese Open-Source Analyse-Plattform zu finanzieren. Das bedeutet, die Community wird immer von einem Tool profitieren, welches Privatsphäre beschützt und Ihnen erlaubt, die Kontrolle Ihrer Daten zu bewahren."
+        "YourDonationWillHelp": "Ihre Spende wird direkt dafür eingesetzt, neue Features und Erweiterungen für diese Open-Source Analyse-Plattform zu finanzieren. Das bedeutet, die Community wird immer von einem Tool profitieren, welches Privatsphäre beschützt und Ihnen erlaubt, die Kontrolle Ihrer Daten zu bewahren.",
+        "Refresh": "Aktualisieren"
     }
 }

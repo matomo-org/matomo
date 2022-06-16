@@ -2,9 +2,7 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Agregar un usuario existente",
-        "AddNewUser": "Agregar nuevo usuario",
         "AddSuperuserAccessConfirm": "Dar acceso de súperusuario a un usuario estándar permitirá que tenga control total sobre Matomo y debería hacerse con moderación. Ingresá tu contraseña para continuar.",
-        "AddUser": "Agregar un nuevo usuario",
         "AddUserNoInitialAccessError": "Los nuevos usuarios tienen que darle acceso a tu sitio web. Por favor, establecé el parámetro \"initialIdSite\".",
         "AllUsersAreSelected": "Están seleccionados todos los %1$s usuarios.",
         "AllWebsites": "Todos los sitios web",
@@ -39,7 +37,6 @@
         "ConfirmProhibitMySuperUserAccess": "%s, ¿estás seguro que querés quitar tu propio acceso de súperusuario? Vas a perder todos tus permisos y accesos a todos los sitios web y cerrarás tu sesión de Matomo.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "¿Estás seguro que querés quitar el acceso de súperusuario de \"%s\"? El usuario va a perder todos sus permisos y accesos a todos los sitios web. Si es necesario, luego asegurate de darle acceso a todos los sitios web necesarios.",
         "ConfirmWithPassword": "Por favor, ingresá tu contraseña para confirmar este cambio.",
-        "CreateUser": "Crear usuario",
         "CurrentPasswordNotCorrect": "La contraseña actual que ingresaste no es correcta.",
         "DeleteConfirm": "¿Estás seguro que querés eliminar al usuario %s?",
         "DeletePermConfirmMultiple": "¿Estás seguro que querés quitarle a %1$s el acceso a los %2$s sitios web seleccionados?",

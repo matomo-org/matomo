@@ -11,7 +11,7 @@
         "NoVisitsInfo": "Tidak ada kunjungan yang ditampilkan untuk saat ini, karena tidak ada kunjungan untuk periode saat ini yang memiliki informasi geolokasi yang benar (lintang &amp; bujur).",
         "NoVisitsInfo2": "Untuk mengatasi masalah ini, pastikan Anda menggunakan penyedia geolokasi GeoIP dengan basis data kota GeoIP. Jika ini tidak menyelesaikan masalah Anda, maka mungkin (meskipun tidak mungkin) kunjungan Anda memiliki alamat IP yang tidak dapat diidentifikasi.",
         "None": "Tidak Ada",
-        "PluginDescription": "Plugin ini menyediakan widget Peta Pengunjung dan Peta Waktu Nyata. Catatan: Membutuhkan plugin UserCountry yang diaktifkan.",
+        "PluginDescription": "Pengaya ini menyediakan widget Peta Pengunjung dan Peta Waktu Nyata. Catatan: Membutuhkan pengaya UserCountry yang diaktifkan.",
         "RealTimeMap": "Peta Waktu Nyata",
         "RealTimeMapHelp": "Peta Waktu Nyata menunjukkan lokasi pengunjung di situs Anda selama 30 menit terakhir. Gelembung oranye besar menunjukkan kunjungan yang terbaru, sedangkan gelembung abu-abu yang lebih kecil menunjukkan kunjungan lama. Data ini diperbarui setiap lima detik dan pengunjung baru ditandai dengan efek berkedip.",
         "Regions": "Wilayah",

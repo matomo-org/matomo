@@ -56,11 +56,17 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 </IfModule>
 </Files>";
 
+        $allowManifestFile =
+            "# Allow to serve manifest.json\n" .
+            "<Files \"manifest.json\">\n" .
+            $allow . "\n" .
+            "</Files>\n";
+
         $directoriesToProtect = array(
             '/js'           => $allowAny . $noCachePreview,
             '/libs'         => $denyAll . $allowStaticAssets,
             '/vendor'       => $denyAll . $allowStaticAssets,
-            '/plugins'      => $denyAll . $allowStaticAssets,
+            '/plugins'      => $denyAll . $allowStaticAssets . $allowManifestFile,
             '/misc/user'    => $denyAll . $allowStaticAssets,
             '/node_modules' => $denyAll . $allowStaticAssets,
         );

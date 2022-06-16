@@ -51,6 +51,10 @@ export default defineComponent({
         colors,
         random: Date.now(),
         date: this.defaultDate,
+        // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
+        // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
+        // ourselves here.
+        segment: MatomoUrl.parsed.value.segment as string,
       };
 
       const helper = new AjaxHelper();

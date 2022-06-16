@@ -276,6 +276,7 @@ class Pages
             }
 
             foreach ($reports as $report) {
+
                 $order++;
 
                 if (empty($report['viewDataTable'])
@@ -324,6 +325,7 @@ class Pages
         if (is_null($order)) {
             $order = array(
                 'Referrers_Referrers',
+                'General_Actions',
                 'General_Visit',
                 'General_Visitors',
                 'VisitsSummary_VisitsSummary',

@@ -3630,6 +3630,24 @@ if ($mysql) {
         }, 6000);
     });
 
+    test("referrer attribution without tracking", function() {
+        expect(6);
+
+        // Check visitor referrer attribution cookie is set on unload without a tracking request
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setReferrerUrl('http://www.google.fr/?query=test');
+        equal( tracker.getAttributionReferrerUrl(), "", "getAttributionReferrerUrl() is empty on load")
+        tracker.hook.test._beforeUnloadHandler();
+        equal( tracker.getAttributionReferrerUrl(), 'http://www.google.fr/?query=test', "getAttributionReferrerUrl() is set after unload")
+
+        var tracker2 = Piwik.getTracker();
+        tracker2.setTrackerUrl("matomo.php");
+        tracker2.setSiteId(1);
+        tracker2.setReferrerUrl('');
+        equal( tracker2.getAttributionReferrerUrl(), 'http://www.google.fr/?query=test', "getAttributionReferrerUrl() should be read from cookie in new tracker")
+    });
 
     test("tracking", function() {
         expect(178);

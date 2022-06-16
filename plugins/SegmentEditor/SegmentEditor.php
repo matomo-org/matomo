@@ -18,18 +18,18 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\Date;
 use Piwik\Notification;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Diagnostics\Diagnostics;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Piwik\Period;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\Plugins\UsersManager\API as UsersManagerApi;
-use Piwik\Date;
 
 /**
  */
@@ -194,7 +194,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+        list($segment, $storedSegment, $isSegmentToPreprocess, $canBeArchived) = $segmentInfo;
 
         if (!$isSegmentToPreprocess) {
             return; // do not display the notification for custom segments
@@ -205,6 +205,7 @@ class SegmentEditor extends \Piwik\Plugin
         $view = new View('@SegmentEditor/_unprocessedSegmentMessage.twig');
         $view->isSegmentToPreprocess = $isSegmentToPreprocess;
         $view->segmentName = $segmentDisplayName;
+        $view->canBeArchived = $canBeArchived;
         $view->visitorLogLink = '#' . Url::getCurrentQueryStringWithParametersModified([
             'category' => 'General_Visitors',
             'subcategory' => 'Live_VisitorLog',
@@ -283,7 +284,20 @@ class SegmentEditor extends \Piwik\Plugin
             $storedSegment = null;
         }
 
-        return [$segment, $storedSegment, $isSegmentToPreprocess];
+        // get the earliest date to rearchive
+        $earliestDateToRearchive =  Piwik::getEarliestDateToRearchive();
+
+        //get the request end period
+        $endDate = $period->getDateEnd();
+        $canBeArchived = true;
+        if (!empty($earliestDateToRearchive) && !empty($endDate)) {
+            //if the rearchive won't trigger
+            if ($earliestDateToRearchive->isLater($endDate)) {
+                $canBeArchived = false;
+            }
+        }
+
+        return [$segment, $storedSegment, $isSegmentToPreprocess, $canBeArchived];
     }
 
     public function install()

@@ -94,8 +94,9 @@
           </div>
           <div>
             <Field
-              :model-value="theUser.password"
-              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
+               v-if="isPendingUser"
+               :model-value="theUser.password"
+               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
               @update:model-value="theUser.password = $event; isPasswordModified = true"
               uicontrol="password"
@@ -128,13 +129,25 @@
             />
           </div>
           <div>
-            <SaveButton
-              v-if="currentUserRole === 'superuser' || isAdd"
-              :value="saveButtonLabel"
-              :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
-              :saving="isSavingUserInfo"
-              @confirm="saveUserInfo()"
-            />
+            <div class="form-group row" style="position: relative">
+              <div class="col s12 m6">
+                <SaveButton
+                    style="position: absolute;bottom: 0"
+                    v-if="currentUserRole === 'superuser' || isAdd"
+                    :value="saveButtonLabel"
+                    :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
+                    :saving="isSavingUserInfo"
+                    @confirm="saveUserInfo()"
+                />
+              </div>
+              <div class="col s12 m6">
+                <div v-if="isAdd" class="form-help">
+                     <span class="inline-help"
+                      v-html="$sanitize(
+                          translate('UsersManager_InviteSuccessNotification', [7]))"></span>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="entityCancel"
@@ -319,6 +332,7 @@ const DEFAULT_USER: User = {
   uses_2fa: false,
   password: '',
   email: '',
+  invited_at: '',
 };
 
 interface UserEditFormState {
@@ -456,11 +470,10 @@ export default defineComponent({
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
-          method: 'UsersManager.addUser',
+          method: 'UsersManager.inviteUser',
         },
         {
           userLogin: this.theUser.login,
-          password: this.theUser.password,
           email: this.theUser.email,
           initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
         },
@@ -471,6 +484,7 @@ export default defineComponent({
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
+        this.theUser.invited_at = 'xx';
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
@@ -564,12 +578,16 @@ export default defineComponent({
   },
   computed: {
     formTitle() {
-      return this.isAdd ? translate('UsersManager_AddNewUser') : translate('UsersManager_EditUser');
+      return this.isAdd ? translate('UsersManager_InviteNewUser') : translate('UsersManager_EditUser');
     },
     saveButtonLabel() {
       return this.isAdd
-        ? translate('UsersManager_CreateUser')
+        ? translate('UsersManager_InviteUser')
         : translate('UsersManager_SaveBasicInfo');
+    },
+    isPendingUser() {
+      // eslint-disable-next-line eqeqeq
+      return this.user && (this.theUser.invited_at === '' || !this.theUser.invited_at);
     },
     isAdd() {
       return !this.user; // purposefully checking input property not theUser state

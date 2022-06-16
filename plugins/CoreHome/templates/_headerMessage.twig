@@ -10,7 +10,9 @@
     </span>
 {% endset %}
 
-{% if (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
+{% set showVersionInfo = (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
+
+{% if showVersionInfo %}
 <div piwik-expand-on-hover
      id="header_message"
      class="piwikSelector borderedControl {% if not latest_version_available %}header_info{% else %}{% endif %} piwikTopControl {% if latest_version_available %}update_available{% endif %}"
@@ -58,8 +60,11 @@
     </div>
 </div>
 
+{% endif %}
+
+<span class="icon icon-reload hidden" title="{{ 'CoreHome_Refresh'|translate }}"></span>
 <span class="icon icon-arrowup"></span>
+
+{% if showVersionInfo %}
 <div style="clear:right"></div>
-{% else %}
-<span class="icon icon-arrowup"></span>
 {% endif %}

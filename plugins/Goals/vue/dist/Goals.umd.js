@@ -236,7 +236,7 @@ window.angular.module('piwikApp').directive('piwikGoalPageLink', piwikGoalPageLi
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=6e40977d
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=1317ed06
 
 var _hoisted_1 = {
   class: "manageGoals"
@@ -600,7 +600,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         uicontrol: "radio",
         name: "allow_multiple",
-        "model-value": _ctx.goal.allow_multiple ? 1 : 0,
+        "model-value": !!_ctx.goal.allow_multiple && _ctx.goal.allow_multiple !== '0' ? 1 : 0,
         "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
           return _ctx.goal.allow_multiple = $event;
         }),
@@ -644,7 +644,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_65]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=6e40977d
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=1317ed06
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -759,6 +759,11 @@ var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
 
 
 
+
+
+function ambiguousBoolToInt(n) {
+  return !!n && n !== '0' ? 1 : 0;
+}
 
 /* harmony default export */ var ManageGoalsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   inheritAttrs: false,
@@ -953,12 +958,12 @@ var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
 
         parameters.patternType = this.goal.pattern_type;
         parameters.pattern = this.goal.pattern;
-        parameters.caseSensitive = this.goal.case_sensitive ? 1 : 0;
+        parameters.caseSensitive = ambiguousBoolToInt(this.goal.case_sensitive);
       }
 
       parameters.revenue = this.goal.revenue || 0;
-      parameters.allowMultipleConversionsPerVisit = this.goal.allow_multiple ? 1 : 0;
-      parameters.useEventValueAsRevenue = this.goal.event_value_as_revenue ? 1 : 0;
+      parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);
+      parameters.useEventValueAsRevenue = ambiguousBoolToInt(this.goal.event_value_as_revenue);
       parameters.idGoal = this.goal.idgoal;
       parameters.method = this.apiMethod;
       var isCreate = parameters.method === 'Goals.addGoal';

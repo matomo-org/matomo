@@ -85,6 +85,7 @@
         "ColumnUniqueExits": "Sortides úniques",
         "ColumnUniquePageviews": "Visualitzacions de pàgina úniques",
         "ColumnUniquePageviewsDocumentation": "El nombre de visites que incloïen aquesta pàgina. Si una pàgina s'ha vist múltiples vegades durant una visita, només es compta un cop.",
+        "ColumnValuePerEntry": "Ingressos per entrada",
         "ColumnValuePerVisit": "Valor per visita",
         "ColumnViewedAfterSearch": "Clicat als resultats de cerca",
         "ColumnViewedAfterSearchDocumentation": "El nombre de vegades que aquesta pàgina s'ha visitat després que el visitant hagi fet una cerca al vostre lloc web i hagi clicat en aquesta pàgina als resultats.",

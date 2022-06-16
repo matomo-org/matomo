@@ -36,7 +36,13 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('load');
     });
 
+    it('should show resend confirm when resend clicked', async function () {
+        await (await page.jQuery('.resend')).click();
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+    });
+
     it('should change the results page when next is clicked', async function () {
+        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.click('.usersListPagination .btn.next');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
@@ -166,6 +172,12 @@ describe("UsersManager", function () {
     });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
+
+        await page.evaluate(function () {
+            $('select[name=access-level-filter]').val('string:view').change();
+            $('#user-text-filter').val('ight').change();
+        });
+
         await (await page.jQuery('.deleteuser:eq(0)')).click();
         await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
@@ -199,7 +211,6 @@ describe("UsersManager", function () {
 
     it('should create a user and show the edit user form when the create user button is clicked', async function () {
         await page.type('#user_login', '000newuser');
-        await page.type('#user_password', 'thepassword');
         await page.type('#user_email', 'theuser@email.com');
 
         await page.click('.userEditForm .siteSelector a.title');
@@ -490,7 +501,7 @@ describe("UsersManager", function () {
         await page.evaluate(function () {
             $('.userEditForm #user_email').val('testlogin3@example.com').change();
         });
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
 
         var btnSave = await page.jQuery('.userEditForm .basic-info-tab .matomo-save-button .btn', { waitFor: true });
         await btnSave.click();
@@ -553,7 +564,7 @@ describe("UsersManager", function () {
 
         it('should not allow editing basic info for admin users', async function () {
             await page.click('.userEditForm .entityCancelLink');
-            await (await page.jQuery('button.edituser:eq(0)')).click();
+            await (await page.jQuery('button.edituser:eq(1)')).click();
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('edit_user_basic_info');

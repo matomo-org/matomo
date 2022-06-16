@@ -1129,9 +1129,15 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
 
     MatomoUrl_classCallCheck(this, MatomoUrl);
 
-    MatomoUrl_defineProperty(this, "urlQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
+    MatomoUrl_defineProperty(this, "url", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null));
 
-    MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(''));
+    MatomoUrl_defineProperty(this, "urlQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.url.value ? _this.url.value.search.replace(/^\?/, '') : '';
+    }));
+
+    MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.url.value ? _this.url.value.hash.replace(/^[#/?]+/, '') : '';
+    }));
 
     MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.parse(_this.urlQuery.value));
@@ -1145,17 +1151,12 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(Object.assign(Object.assign({}, _this.urlParsed.value), _this.hashParsed.value));
     }));
 
-    this.setUrlQuery(window.location.search);
-    this.setHashQuery(window.location.hash); // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
+    this.url.value = new URL(window.location.href); // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
     // have to hook into this method if we want our event handlers to execute before other angularjs
     // handlers (like the reporting page one)
 
     Matomo_Matomo.on('$locationChangeSuccess', function (absUrl) {
-      var url = new URL(absUrl);
-
-      _this.setUrlQuery(url.search.replace(/^\?/, ''));
-
-      _this.setHashQuery(url.hash.replace(/^#/, ''));
+      _this.url.value = new URL(absUrl);
     });
     this.updatePeriodParamsFromUrl();
   }
@@ -1249,7 +1250,9 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]') // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
       // entries to show up in the browser history. this has a compounding effect w/ angular.js,
       // which when the back button is pressed to effectively abort the back navigation.
-      .replace(/%2C/g, ',');
+      .replace(/%2C/g, ',') // jquery seems to encode space characters as '+', but certain parts of matomo won't
+      // decode it correctly, so we make sure to use %20 instead
+      .replace(/\+/g, '%20');
     }
   }, {
     key: "updatePeriodParamsFromUrl",
@@ -1279,16 +1282,6 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       }
 
       MatomoUrl_piwik.currentDateString = date;
-    }
-  }, {
-    key: "setUrlQuery",
-    value: function setUrlQuery(search) {
-      this.urlQuery.value = search.replace(/^\?/, '');
-    }
-  }, {
-    key: "setHashQuery",
-    value: function setHashQuery(hash) {
-      this.hashQuery.value = hash.replace(/^[#/?]+/, '');
     }
   }]);
 
@@ -11505,15 +11498,15 @@ function piwikReportExport($timeout) {
 }
 piwikReportExport.$inject = ['$timeout'];
 window.angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=693cd955
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=25e2c9f0
 
-var Sparklinevue_type_template_id_693cd955_hoisted_1 = ["src"];
-function Sparklinevue_type_template_id_693cd955_render(_ctx, _cache, $props, $setup, $data, $options) {
+var Sparklinevue_type_template_id_25e2c9f0_hoisted_1 = ["src"];
+function Sparklinevue_type_template_id_25e2c9f0_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     src: _ctx.sparklineUrl
-  }, null, 8, Sparklinevue_type_template_id_693cd955_hoisted_1);
+  }, null, 8, Sparklinevue_type_template_id_25e2c9f0_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=693cd955
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=25e2c9f0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -11555,7 +11548,11 @@ function Sparklinevue_type_template_id_693cd955_render(_ctx, _cache, $props, $se
         showtitle: '1',
         colors: colors,
         random: Date.now(),
-        date: this.defaultDate
+        date: this.defaultDate,
+        // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
+        // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
+        // ourselves here.
+        segment: src_MatomoUrl_MatomoUrl.parsed.value.segment
       };
       var helper = new AjaxHelper_AjaxHelper();
       var urlParams = helper.mixinDefaultGetParams(Object.assign(Object.assign({}, defaultParams), params)); // Append the token_auth to the URL if it was set (eg. embed dashboard)
@@ -11592,7 +11589,7 @@ function Sparklinevue_type_template_id_693cd955_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_693cd955_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_25e2c9f0_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.adapter.ts

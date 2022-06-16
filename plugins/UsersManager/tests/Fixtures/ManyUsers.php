@@ -43,6 +43,11 @@ class ManyUsers extends Fixture
         'login10' => array('superuser' => 1)
     );
 
+    public $pendingUser = array(
+      'login'=>'000pendingUser1',
+      'email'=>'pendinguser1light@example.com'
+    );
+
     public $baseSites = [
         'sleep',
         'escapesequence',
@@ -98,6 +103,10 @@ class ManyUsers extends Fixture
 
         $model = new Model();
         $api = API::getInstance();
+
+        // add a pending invite user
+        $api->inviteUser($this->pendingUser['login'],  $this->pendingUser['email'],1);
+
         for ($i = 0; $i != $this->userCopyCount; ++$i) {
             $addToEmail = $i % 2 == 0;
 

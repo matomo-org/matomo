@@ -299,6 +299,7 @@ describe("Dashboard", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });
+
     it("should load segmented dashboard", async function() {
         await removeAllExtraDashboards();
         await page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"));
@@ -325,5 +326,6 @@ describe("Dashboard", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token_auth');
     });
+
 
 });
