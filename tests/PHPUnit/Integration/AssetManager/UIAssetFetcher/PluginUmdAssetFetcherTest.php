@@ -345,6 +345,6 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
     {
         $relativeRoot = str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR);
         $relativeRoot = ltrim($relativeRoot, '/');
-        return $relativeRoot . '/' . $pluginName . '/vue/dist/' . $pluginName . '.umd.min.js';
+        return '/' . $relativeRoot . '/' . $pluginName . '/vue/dist/' . $pluginName . '.umd.min.js';
     }
 }
