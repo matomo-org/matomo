@@ -191,6 +191,20 @@ class FieldConfig
     public $inlineHelp = null;
 
     /**
+     * A closure that prepares the setting value. If supplied, this closure will be executed before
+     * the setting has been validated.
+     *
+     * **Example**
+     *
+     *     $setting->prepare = function ($value, Setting $setting) {
+     *         return mb_strtolower($value);
+     *     }
+     *
+     * @var null|\Closure
+     */
+    public $prepare = null;
+
+    /**
      * A closure that does some custom validation on the setting before the setting is persisted.
      *
      * The closure should take two arguments: the setting value and the {@link Setting} instance being
