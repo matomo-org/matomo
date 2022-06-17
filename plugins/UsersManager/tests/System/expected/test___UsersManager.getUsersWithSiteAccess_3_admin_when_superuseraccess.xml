@@ -9,8 +9,8 @@
 		
 		
 		
-		<uses_2fa>0</uses_2fa>
 		<invite_status>accept</invite_status>
+		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
 		<login>login6</login>
@@ -21,7 +21,7 @@
 		
 		
 		
-		<uses_2fa>0</uses_2fa>
 		<invite_status>accept</invite_status>
+		<uses_2fa>0</uses_2fa>
 	</row>
 </result>

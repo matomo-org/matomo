@@ -589,7 +589,7 @@ export default defineComponent({
       if (!this.user) {
         return true;
       }
-      if (this.user.invite_status === 'pending') {
+      if (this.user.invite_status === 'pending' || Number.isInteger(this.user.invite_status)) {
         return true;
       }
       return false;

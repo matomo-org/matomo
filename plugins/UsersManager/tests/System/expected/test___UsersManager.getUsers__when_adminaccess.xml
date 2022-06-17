@@ -3,30 +3,37 @@
 	<row>
 		<login>000pendingUser1</login>
 		<superuser_access>0</superuser_access>
+		<invite_status>6</invite_status>
 	</row>
 	<row>
 		<login>login2</login>
 		<email>login2@example.com</email>
 		<superuser_access>0</superuser_access>
+		<invite_status>accept</invite_status>
 	</row>
 	<row>
 		<login>login4</login>
 		<superuser_access>0</superuser_access>
+		<invite_status>accept</invite_status>
 	</row>
 	<row>
 		<login>login6</login>
 		<superuser_access>0</superuser_access>
+		<invite_status>accept</invite_status>
 	</row>
 	<row>
 		<login>login7</login>
 		<superuser_access>0</superuser_access>
+		<invite_status>accept</invite_status>
 	</row>
 	<row>
 		<login>login8</login>
 		<superuser_access>0</superuser_access>
+		<invite_status>accept</invite_status>
 	</row>
 	<row>
 		<login>login9</login>
 		<superuser_access>0</superuser_access>
+		<invite_status>accept</invite_status>
 	</row>
 </result>
