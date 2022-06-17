@@ -540,7 +540,7 @@ export default defineComponent({
     },
   },
   methods: {
-    getInviteStatus(inviteStatus: string | null) {
+    getInviteStatus(inviteStatus: string | number) {
       if (Number.isInteger(inviteStatus)) {
         if (inviteStatus > 3) {
           return translate('UsersManager_Pending');
