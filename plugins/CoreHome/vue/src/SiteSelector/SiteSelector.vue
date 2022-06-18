@@ -143,19 +143,7 @@ interface SiteSelectorState {
 
 export default defineComponent({
   props: {
-    modelValue: {
-      type: Object,
-      default: (props: { modelValue?: SiteRef }): SiteRef|undefined => {
-        if (props.modelValue) {
-          return props.modelValue;
-        }
-
-        return (Matomo.idSite ? {
-          id: Matomo.idSite,
-          name: Matomo.helper.htmlDecode(Matomo.siteName),
-        } : undefined);
-      },
-    },
+    modelValue: Object,
     showSelectedSite: {
       type: Boolean,
       default: false,
@@ -211,12 +199,19 @@ export default defineComponent({
   },
   created() {
     this.searchSite = debounce(this.searchSite);
+
+    if (!this.modelValue && Matomo.idSite) {
+      this.$emit('update:modelValue', {
+        id: Matomo.idSite,
+        name: Matomo.helper.htmlDecode(Matomo.siteName),
+      });
+    }
   },
   mounted() {
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.modelValue || !this.modelValue.id) && !this.hasMultipleSites && this.sites[0]) {
+      if ((!this.modelValue || !this.modelValue.id) && this.sites[0]) {
         this.$emit('update:modelValue', { id: this.sites[0].idsite, name: this.sites[0].name });
       }
     });
