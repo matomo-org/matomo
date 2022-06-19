@@ -173,6 +173,7 @@ export default defineComponent({
       default: 'bottom',
     },
     placeholder: String,
+    defaultToFirstSite: Boolean,
   },
   emits: ['update:modelValue', 'blur'],
   components: {
@@ -211,7 +212,10 @@ export default defineComponent({
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.modelValue || !this.modelValue.id) && this.sites[0]) {
+      if ((!this.modelValue || !this.modelValue.id)
+        && (!this.hasMultipleSites || this.defaultToFirstSite)
+        && this.sites[0]
+      ) {
         this.$emit('update:modelValue', { id: this.sites[0].idsite, name: this.sites[0].name });
       }
     });
