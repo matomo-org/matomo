@@ -517,8 +517,10 @@ describe("UsersManager", function () {
         await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
 
         //clean the popup
-        await page.jQuery('.notification system notification-success .close').click();
-        
+        var cleanPopup = await page.jQuery('.notification system notification-success .close', { waitFor: true });
+        await cleanPopup.click();
+
+
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
 
