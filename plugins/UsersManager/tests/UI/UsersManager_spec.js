@@ -36,15 +36,6 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('load');
     });
 
-    it('should show resend confirm when resend clicked', async function () {
-        await (await page.jQuery('.resend')).click();
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
-    });
-
-    it('should show resend success message', async function() {
-        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
-    });
 
     it('should change the results page when next is clicked', async function () {
         await page.click('.usersListPagination .btn.next');
@@ -523,12 +514,21 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector('#notificationContainer .notification');
 
-        //clean the popup
-        var cleanPopup = await page.jQuery('#notificationContainer .notification .notification-success .close');
-        await cleanPopup.click();
 
         expect(await page.screenshotSelector('.admin#content,#notificationContainer')).to.matchImage('edit_user_basic_confirmed_wrong_password');
     });
+
+    it('should show resend confirm when resend clicked', async function () {
+        await page.goto(url);
+        await (await page.jQuery('.resend')).click();
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+    });
+
+    it('should show resend success message', async function() {
+        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
+    });
+
 
     // admin user tests
     describe('UsersManager_admin_view', function () {
