@@ -516,16 +516,16 @@ describe("UsersManager", function () {
     it('should show error when wrong password entered', async function () {
         await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
 
-        //clean the popup
-        var cleanPopup = await page.jQuery('.notification .system .notification-success .close');
-        await cleanPopup.click();
-
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
 
         await page.waitForTimeout(500); // animation
         await page.waitForNetworkIdle();
         await page.waitForSelector('#notificationContainer .notification');
+
+        //clean the popup
+        var cleanPopup = await page.jQuery('#notificationContainer .notification .notification-success .close');
+        await cleanPopup.click();
 
         expect(await page.screenshotSelector('.admin#content,#notificationContainer')).to.matchImage('edit_user_basic_confirmed_wrong_password');
     });
