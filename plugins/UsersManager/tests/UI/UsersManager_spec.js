@@ -44,7 +44,6 @@ describe("UsersManager", function () {
     it('should show resend success message', async function() {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
-
     });
 
     it('should change the results page when next is clicked', async function () {
@@ -517,6 +516,9 @@ describe("UsersManager", function () {
     it('should show error when wrong password entered', async function () {
         await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
 
+        //clean the popup
+        await page.jQuery('.notification system notification-success .close').click();
+        
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
 
