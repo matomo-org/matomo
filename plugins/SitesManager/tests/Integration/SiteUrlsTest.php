@@ -214,6 +214,12 @@ class SiteUrlsTest extends IntegrationTestCase
             'example.com' => [
                 '/' => [3]
             ],
+            'my.site.com' => [
+                '/path/' => [2]
+            ],
+            '.site.com' => [
+                '/' => [3]
+            ]
         ];
         $matchedSites = $this->siteUrls->getIdSitesMatchingUrl($parsedUrl, $urlsGroupedByHost);
 
@@ -242,6 +248,9 @@ class SiteUrlsTest extends IntegrationTestCase
             [[3], ['host' => 'example.com']],
             [null, ['host' => 'example.pro']],
             [null, ['host' => 'example.pro', 'path' => '/any']],
+            [[2], ['host' => 'my.site.com', 'path' => '/path/sub']],
+            [[3], ['host' => 'my.site.com', 'path' => '/other/path']],
+            [[3], ['host' => 'any.site.com', 'path' => '/']],
         ];
     }
 

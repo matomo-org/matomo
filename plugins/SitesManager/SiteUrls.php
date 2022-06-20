@@ -108,23 +108,38 @@ class SiteUrls
         $urlHost = $this->toCanonicalHost($parsedUrl['host']);
         $urlPath = $this->getCanonicalPathFromParsedUrl($parsedUrl);
 
-        $matchingSites = null;
-        if (isset($urlsGroupedByHost[$urlHost])) {
-            $paths = $urlsGroupedByHost[$urlHost];
+        // As wildcard subdomain might be allowed, for e.g. my.sub.example.org we need to check e.g.
+        // - my.sub.example.org
+        // - .my.sub.example.org
+        // - .sub.example.org
+        // - .example.org
+        $hostsToCheck = [
+            $urlHost,
+            '.' . $urlHost,
+        ];
 
-            foreach ($paths as $path => $idSites) {
-                if (0 === strpos($urlPath, $path)) {
-                    $matchingSites = $idSites;
-                    break;
+        while (substr_count($urlHost, '.') >= 2) {
+            $urlHost = substr($urlHost, strpos($urlHost, '.') + 1);
+            $hostsToCheck[] = '.' . $urlHost;
+        }
+
+        foreach ($hostsToCheck as $host) {
+            if (isset($urlsGroupedByHost[$host])) {
+                $paths = $urlsGroupedByHost[$host];
+
+                foreach ($paths as $path => $idSites) {
+                    if (0 === strpos($urlPath, $path)) {
+                        return $idSites;
+                    }
                 }
-            }
 
-            if (!isset($matchingSites) && isset($paths['/'])) {
-                $matchingSites = $paths['/'];
+                if (isset($paths['/'])) {
+                    return $paths['/'];
+                }
             }
         }
 
-        return $matchingSites;
+        return null;
     }
 
     public function getPathMatchingUrl($parsedUrl, $urlsGroupedByHost)

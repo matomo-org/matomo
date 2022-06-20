@@ -68,7 +68,13 @@
               'https://www.example.org/?param=1',
               'https://sub.example.org/'
           ) }}
-
+          <br/><br/>
+          {{ translate(
+            'SitesManager_ExcludedReferrersHelpSubDomains',
+            '.sub.example.org',
+            'http://sub.example.org/mypath',
+            'https://new.sub.example.org/'
+          ) }}
         </div>
       </div>
 

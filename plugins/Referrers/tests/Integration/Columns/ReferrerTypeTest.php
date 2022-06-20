@@ -43,6 +43,11 @@ class ReferrerTypeTest extends IntegrationTestCase
 
         Cache::clearCacheGeneral();
 
+        $this->referrerType = new ReferrerType();
+    }
+
+    protected static function beforeTableDataCached()
+    {
         $date = '2012-01-01 00:00:00';
         $ecommerce = false;
 
@@ -51,9 +56,7 @@ class ReferrerTypeTest extends IntegrationTestCase
         Fixture::createWebsite($date, $ecommerce, 'test3', 'http://piwik.xyz/');
         Fixture::createWebsite($date, $ecommerce, 'test4', 'http://google.com/subdir/', 1, null, null, null, null, $excludeUnknownUrls = 1);
         Fixture::createWebsite($date, $ecommerce, 'test5', null);
-        Fixture::createWebsite($date, $ecommerce, 'test6', 'http://matomo.org/', 1, null, null, null, null, null, null, 'http://paypal.com,http://payments.amazon.com/proceed/');
-
-        $this->referrerType = new ReferrerType();
+        Fixture::createWebsite($date, $ecommerce, 'test6', 'http://matomo.org/', 1, null, null, null, null, null, null, 'http://paypal.com,http://payments.amazon.com/proceed/,.payment.provider');
     }
 
     public function tearDown(): void
@@ -141,6 +144,8 @@ class ReferrerTypeTest extends IntegrationTestCase
             ##### testing referrer exclusion
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'http://www.paypal.com/subdir/site'],
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'https://paypal.com/subdir/site'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'https://payment.provider/subdir/site'],
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'https://custom.payment.provider/'],
             [Common::REFERRER_TYPE_WEBSITE, $this->idSite6, 'https://matomo.org/faq', 'http://shop.paypal.com/subdir/site'],
             [Common::REFERRER_TYPE_WEBSITE, $this->idSite6, 'https://matomo.org/faq', 'http://payments.amazon.com/'],
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite6, 'https://matomo.org/faq', 'https://payments.amazon.com/proceed/with/payment'],

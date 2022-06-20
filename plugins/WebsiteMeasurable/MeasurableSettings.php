@@ -276,7 +276,14 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                     'http://example.org/mypath',
                     'https://www.example.org/?param=1',
                     'https://sub.example.org/'
-                ]);
+                ])
+                . '<br /><br />'
+                . Piwik::translate('SitesManager_ExcludedReferrersHelpSubDomains', [
+                    '.sub.example.org',
+                    'http://sub.example.org/mypath',
+                    'https://new.sub.example.org/'
+                ])
+            ;
 
             if (!empty($referrersGlobal)) {
                 $field->inlineHelp .= '<br /><br />'
@@ -291,7 +298,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                     $urls = array_filter($urls, 'strlen');
 
                     foreach ($urls as $url) {
-                        $prefixedUrl = 'https://' . preg_replace('/^https?:\/\//', '', $url);
+                        // We allow urls to be provided:
+                        // - fully qualified like http://example.url/path
+                        // - without protocol like example.url/path
+                        // - with subdomain wildcard like .example.url/path
+                        $prefixedUrl = 'https://' . ltrim(preg_replace('/^https?:\/\//', '', $url), '.');
                         $parsedUrl = @parse_url($prefixedUrl);
                         if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
                             throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
