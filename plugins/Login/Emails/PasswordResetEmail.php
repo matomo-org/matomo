@@ -78,8 +78,12 @@ class PasswordResetEmail extends Mail
     {
         return '<p>' . str_replace(
             "\n\n",
-            "</p><p style='word-break: break-all'>",
-            $this->getDefaultBodyText()
+            "</p><p>",
+            Piwik::translate('Login_MailPasswordChangeBody2',
+                [Common::sanitizeInputValue($this->login),
+                 Common::sanitizeInputValue($this->ip),
+                '<p style="word-break: break-all"><a href="'.Common::sanitizeInputValue($this->resetUrl).'">'.
+                Common::sanitizeInputValue($this->resetUrl).'</a></p>'])
         ) . "</p>";
     }
 }
