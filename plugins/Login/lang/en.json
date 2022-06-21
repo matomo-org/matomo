@@ -62,6 +62,7 @@
         "Accept": "Accept",
         "Yes": "Yes",
         "TermsRequired": "Please Accept the terms and conditions",
+        "PrivacyPolicyRequired": "Please Accept the privacy policy",
         "PasswordRequired": "Please enter password to continue",
         "DeclineInvitationInfo": "Your invitation has been successful declined."
     }

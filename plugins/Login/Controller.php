@@ -528,6 +528,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $settings = new SystemSettings();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
+        $privacyPolicyUrl = $settings->privacyPolicyUrl->getValue();
         //check token is valid
         $user = $model->getInviteUserByToken($token);
 
@@ -546,13 +547,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $password = Common::getRequestVar('password', false, 'string');
             $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
             $terms = Common::getRequestVar('terms', false, 'string');
+            $privacy = Common::getRequestVar('privacy', false, 'string');
+
             if (!$password) {
                 $error = Piwik::translate('Login_PasswordRequired');
             }
 
-            //not accept terms
+            //check if terms accepted
             if ($termsAndConditionUrl && !$terms) {
                 $error = Piwik::translate('Login_TermsRequired');
+            }
+
+            //check if privacy accepted
+            if ($privacyPolicyUrl && !$privacy) {
+                $error = Piwik::translate('Login_PrivacyPolicyRequired');
             }
 
             //valid password
@@ -605,6 +613,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->user = $user;
 
         $view->termsAndCondition = $termsAndConditionUrl;
+        $view->privacyPolicyUrl = $privacyPolicyUrl;
         $view->token = $token;
         $view->declined = false;
         $view->decline_success = false;
@@ -631,33 +640,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
-        $view = new View('@Login/invitation');
-        $view->decline_success = false;
+        $view = new View('@Login/invitationDecline');
 
         if ($form) {
-            $model->updateUserFields($user['login'],
-              [
-                'invite_token'       => null,
-                'invite_accept_at'   => null,
-                'invite_expired_at'  => null,
-                'invite_declined_at' => Date::now()->getTimestamp()
-              ]);
-
+            //remove user
+            $model->deleteUserOnly($user['login']);
             //send Admin Email
             $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, array(
               'login'        => $user['login'],
               'emailAddress' => $user['email'],
               'userLogin'    => $user['login'],
             ));
+            $view = new View('@Login/invitationDeclineSuccess');
             $mail->safeSend();
-            $view->decline_success = true;
             Piwik::postEvent('Login.inviteUser.declineInvitation', array($user['login']));
-
         }
-
-        $view->declined = true;
         $view->token = $token;
-
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
