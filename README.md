@@ -4,12 +4,12 @@
 [![Latest Unstable Version](https://poser.pugx.org/matomo/matomo/v/unstable)](https://builds.matomo.org/)
 [![License](https://poser.pugx.org/piwik/piwik/license)](https://matomo.org/free-software/)
 
-## Code Status
+## Code Status 
 
 [![Build Status](https://travis-ci.com/matomo-org/matomo.svg?branch=4.x-dev)](https://app.travis-ci.com/matomo-org/matomo/branches)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/matomo-org/matomo.svg)](http://isitmaintained.com/project/matomo-org/matomo "Percentage of issues still open")
 
-## Description
+## Description (описание)
 
 Matomo is the leading Free/Libre open analytics platform.
 
