@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\DeviceDetector;
 
 use DeviceDetector\ClientHints;
@@ -14,16 +16,16 @@ use Piwik\Container\StaticContainer;
 
 class DeviceDetectorFactory
 {
-    protected static $deviceDetectorInstances = array();
+    protected static $deviceDetectorInstances = [];
 
     /**
      * Returns an instance of DeviceDetector for the given user agent. Uses template method pattern
      * and calls getDeviceDetectionInfo() when it doesn't find a matching instance in the cache.
      * @param string $userAgent
      * @param array $clientHints
-     * @return DeviceDetector|mixed
+     * @return DeviceDetector
      */
-    public function makeInstance($userAgent, $clientHints = [])
+    public function makeInstance($userAgent, array $clientHints = [])
     {
         $cacheKey = self::getNormalizedUserAgent($userAgent, $clientHints);
 
@@ -38,10 +40,10 @@ class DeviceDetectorFactory
         return $deviceDetector;
     }
 
-    public static function getNormalizedUserAgent($userAgent, $clientHints = [])
+    public static function getNormalizedUserAgent($userAgent, array $clientHints = [])
     {
         $normalizedClientHints = '';
-        if ($clientHints) {
+        if (is_array($clientHints)) {
             $hints  = ClientHints::factory($clientHints);
             $brands = $hints->getBrandList();
             ksort($brands);
@@ -61,7 +63,7 @@ class DeviceDetectorFactory
      * @param array $clientHints
      * @return DeviceDetector
      */
-    protected function getDeviceDetectionInfo($userAgent, $clientHints = [])
+    protected function getDeviceDetectionInfo($userAgent, array $clientHints = [])
     {
         $deviceDetector = new DeviceDetector($userAgent, ClientHints::factory($clientHints));
         $deviceDetector->discardBotInformation();
@@ -72,6 +74,6 @@ class DeviceDetectorFactory
 
     public static function clearInstancesCache()
     {
-        self::$deviceDetectorInstances = array();
+        self::$deviceDetectorInstances = [];
     }
 }
