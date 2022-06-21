@@ -331,6 +331,34 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
-
+        $translationKeys[] = 'UsersManager_AuthTokens';
+        $translationKeys[] = 'UsersManager_TokenAuthIntro';
+        $translationKeys[] = 'General_Description';
+        $translationKeys[] = 'General_ValidatorErrorEmptyValue';
+        $translationKeys[] = 'UsersManager_AuthTokenPurpose';
+        $translationKeys[] = 'UsersManager_CreateNewToken';
+        $translationKeys[] = 'UsersManager_TokenSuccessfullyGenerated';
+        $translationKeys[] = 'UsersManager_PleaseStoreToken';
+        $translationKeys[] = 'UsersManager_DoNotStoreToken';
+        $translationKeys[] = 'UsersManager_ConfirmTokenCopied';
+        $translationKeys[] = 'UsersManager_GoBackSecurityPage';
+        $translationKeys[] = 'General_ChangePassword';
+        $translationKeys[] = 'Login_NewPassword';
+        $translationKeys[] = 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne';
+        $translationKeys[] = 'Login_NewPasswordRepeat';
+        $translationKeys[] = 'UsersManager_TypeYourPasswordAgain';
+        $translationKeys[] = 'UsersManager_TypeYourCurrentPassword';
+        $translationKeys[] = 'UsersManager_PasswordChangeTerminatesOtherSessions';
+        $translationKeys[] = 'UsersManager_InjectedHostCannotChangePwd';
+        $translationKeys[] = 'UsersManager_EmailYourAdministrator';
+        $translationKeys[] = 'UsersManager_ExpiredTokensDeleteAutomatically';
+        $translationKeys[] = 'General_CreationDate';
+        $translationKeys[] = 'UsersManager_LastUsed';
+        $translationKeys[] = 'UsersManager_TokensWithExpireDateCreationBySystem';
+        $translationKeys[] = 'UsersManager_ExpireDate';
+        $translationKeys[] = 'UsersManager_NoTokenCreatedYetCreateNow';
+        $translationKeys[] = 'General_Never';
+        $translationKeys[] = 'General_Delete';
+        $translationKeys[] = 'UsersManager_DeleteAllTokens';
     }
 }
