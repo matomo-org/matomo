@@ -112,7 +112,6 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['invite_token']);
         unset($userAfter['invite_expired_at']);
         unset($userAfter['invite_accept_at']);
-        unset($userAfter['invite_declined_at']);
 
         // implicitly checks password!
         $user['email']            = $newEmail;
@@ -480,7 +479,6 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['invite_status']);
             unset($user['invite_expired_at']);
             unset($user['invite_token']);
-            unset($user['invite_declined_at']);
             unset($user['invite_accept_at']);
 
 

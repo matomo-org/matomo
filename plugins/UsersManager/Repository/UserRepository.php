@@ -145,9 +145,6 @@ class UserRepository
         }
 
         $user['invite_status'] = 'accept';
-        if (!empty($user['invite_declined_at'])) {
-            $user['invite_status'] = 'declined';
-        }
 
         if (!empty($user['invite_expired_at'])) {
             $inviteExpireAt = Date::factory($user['invite_expired_at']);

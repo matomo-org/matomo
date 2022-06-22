@@ -56,7 +56,6 @@ class Mysql implements SchemaInterface
                           invite_token VARCHAR(191) NULL,
                           invite_expired_at TIMESTAMP NULL,
                           invite_accept_at TIMESTAMP NULL,
-                          invite_declined_at TIMESTAMP NULL,
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",

@@ -589,7 +589,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     'invite_token'       => null,
                     'invite_accept_at'   => Date::now()->getTimestamp(),
                     'invite_expired_at'  => null,
-                    'invite_declined_at' => null
                   ]);
                 $sessionInitializer = new SessionInitializer();
                 $auth = StaticContainer::get('Piwik\Auth');

@@ -43,7 +43,6 @@ class Updates_4_12_0_b1 extends PiwikUpdates
           $this->migration->db->addColumns('user', 'invite_token', 'VARCHAR( 191 ) DEFAULT null'),
           $this->migration->db->addColumns('user', 'invite_expired_at', 'TIMESTAMP DEFAULT null'),
           $this->migration->db->addColumns('user', 'invite_accept_at', 'TIMESTAMP DEFAULT null'),
-          $this->migration->db->addColumns('user', 'invite_declined_at', 'TIMESTAMP DEFAULT null'),
 
         ];
     }

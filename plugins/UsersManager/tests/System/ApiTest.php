@@ -66,7 +66,6 @@ class ApiTest extends SystemTestCase
               'invite_token',
               'invite_accept_at',
               'invite_expired_at',
-              'invite_declined_at',
               'last_seen',
               'password',
               'token_auth',
