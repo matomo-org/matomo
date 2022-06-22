@@ -135,7 +135,7 @@ class UserTableFilter
                 $sql = "u.superuser_access = 1";
                 break;
             default:
-                $sql = "a.access = ?";
+                $sql = "u.login IN (SELECT login from " . Common::prefixTable('access') . " WHERE access = ?)";
                 $bind[] = $this->filterByRole;
                 break;
         }
