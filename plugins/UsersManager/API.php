@@ -1149,21 +1149,20 @@ class API extends \Piwik\Plugin\API
 
         [$sitesIdWithRole, $sitesIdWithCapability] = $this->getRolesAndCapabilitiesForLogin($userLogin);
 
+        foreach ($idSites as $idSite) {
+            if (!array_key_exists($idSite, $sitesIdWithRole)) {
+                throw new Exception(Piwik::translate('UsersManager_ExceptionNoCapabilitiesWithoutRole', [$userLogin, $idSite]));
+            }
+        }
+
         foreach ($capabilities as $entry) {
             $cap = $this->capabilityProvider->getCapability($entry);
 
             foreach ($idSites as $idSite) {
-                $hasRole = array_key_exists($idSite, $sitesIdWithRole);
-                $hasCapabilityAlready = array_key_exists($idSite, $sitesIdWithCapability) && in_array(
-                    $entry,
-                    $sitesIdWithCapability[$idSite],
-                    true
-                );
+                $hasCapabilityAlready = array_key_exists($idSite, $sitesIdWithCapability)
+                    && in_array($entry, $sitesIdWithCapability[$idSite], true);
 
-                // so far we are adding the capability only to people that also have a role...
-                // to be defined how to handle this... eg we are not throwing an exception currently
-                // as it might be used as part of bulk action etc.
-                if ($hasRole && !$hasCapabilityAlready) {
+                if (!$hasCapabilityAlready) {
                     $theRole = $sitesIdWithRole[$idSite];
                     if ($cap->hasRoleCapability($theRole)) {
                         // todo this behaviour needs to be defined...
