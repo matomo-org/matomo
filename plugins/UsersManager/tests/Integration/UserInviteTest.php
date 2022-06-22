@@ -10,8 +10,6 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Http;
-use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
