@@ -90,8 +90,8 @@ class UserRepository
     public function sendNewUserEmails($userLogin, $expired = 7, $newUser = true)
     {
 
-        //send Admin Email
         if ($newUser) {
+            //send Admin Email
             $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
               'login'        => Piwik::getCurrentUserLogin(),
               'emailAddress' => Piwik::getCurrentUserEmail(),
@@ -195,6 +195,13 @@ class UserRepository
         if (!empty($users)) {
             foreach ($users as $index => $user) {
                 $users[$index] = $this->enrichUser($user);
+
+                // remove user if not invited by
+                if (!Piwik::hasUserSuperUserAccess()) {
+                    if ($users[$index]['invite_status'] !== 'accept' && $users[$index]['invited_by'] !== Piwik::getCurrentUserLogin()) {
+                        unset($users[$index]);
+                    }
+                }
             }
         }
         return $users;

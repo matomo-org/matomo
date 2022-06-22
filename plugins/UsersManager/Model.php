@@ -505,7 +505,8 @@ class Model
           'date_registered'      => $dateRegistered,
           'superuser_access'     => 0,
           'ts_password_modified' => Date::now()->getDatetime(),
-          'idchange_last_viewed' => null
+          'idchange_last_viewed' => null,
+          'invited_by'           => Piwik::getCurrentUserLogin(),
         );
 
         $db = $this->getDb();
