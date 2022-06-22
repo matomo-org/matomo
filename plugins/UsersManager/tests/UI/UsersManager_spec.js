@@ -62,6 +62,7 @@ describe("UsersManager", function () {
         // remove access filter
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:').change();
+            $('select[name=status-level-filter]').val('string:').change();
         });
 
         await page.evaluate(() => $('th.role_header .siteSelector a.title').click());
