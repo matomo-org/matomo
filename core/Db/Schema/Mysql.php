@@ -54,7 +54,6 @@ class Mysql implements SchemaInterface
                           ts_password_modified TIMESTAMP NULL,
                           idchange_last_viewed TIMESTAMP NULL,
                           invite_token VARCHAR(191) NULL,
-                          invited_by VARCHAR(100) NULL,
                           invite_expired_at TIMESTAMP NULL,
                           invite_accept_at TIMESTAMP NULL,
                             PRIMARY KEY(login)

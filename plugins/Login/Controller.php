@@ -585,10 +585,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 //update pending user to active user
                 $model->updateUserFields($user['login'],
                   [
-                    'password'          => $password,
-                    'invite_token'      => null,
-                    'invite_accept_at'  => Date::now()->getTimestamp(),
-                    'invite_expired_at' => null,
+                    'password'           => $password,
+                    'invite_token'       => null,
+                    'invite_accept_at'   => Date::now()->getTimestamp(),
+                    'invite_expired_at'  => null,
                   ]);
                 $sessionInitializer = new SessionInitializer();
                 $auth = StaticContainer::get('Piwik\Auth');
@@ -603,22 +603,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                   'emailAddress' => $user['email'],
                   'userLogin'    => $user['login'],
                 ));
-
-
-                //send Email back to invited from
-                if (!empty($user['invited_by'])) {
-                    $invitedBy = $model->getUser($user['invited_by']);
-                    if ($invitedBy) {
-                        $mail = StaticContainer::getContainer()->make(UserAcceptInvitationEmail::class, array(
-                          'login'        => $user['login'],
-                          'emailAddress' => $invitedBy['email'],
-                          'userLogin'    => $user['login'],
-                        ));
-                        $mail->safeSend();
-
-                    }
-                }
-
                 $mail->safeSend();
                 Piwik::postEvent('Login.inviteUser.acceptInvitation', array($user['login']));
                 $this->redirectToIndex('CoreHome', 'index');
@@ -666,25 +650,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
               'emailAddress' => $user['email'],
               'userLogin'    => $user['login'],
             ));
-            $mail->safeSend();
-
-
-            //send Email back to invited from
-            if (!empty($user['invited_by'])) {
-                $invitedBy = $model->getUser($user['invited_by']);
-                if ($invitedBy) {
-                    $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, array(
-                      'login'        => $user['login'],
-                      'emailAddress' => $invitedBy['email'],
-                      'userLogin'    => $user['login'],
-                    ));
-                    $mail->safeSend();
-
-                }
-            }
-
-
             $view = new View('@Login/invitationDeclineSuccess');
+            $mail->safeSend();
             Piwik::postEvent('Login.inviteUser.declineInvitation', array($user['login']));
         }
         $view->token = $token;
