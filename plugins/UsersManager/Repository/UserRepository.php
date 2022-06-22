@@ -195,6 +195,11 @@ class UserRepository
         if (!empty($users)) {
             foreach ($users as $index => $user) {
                 $users[$index] = $this->enrichUser($user);
+
+                // remove pending user view if not super admin
+                if (!Piwik::hasUserSuperUserAccess() && $users[$index]['invite_status'] !== 'accept') {
+                    unset($users[$index]);
+                }
             }
         }
         return $users;
