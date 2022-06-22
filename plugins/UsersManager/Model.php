@@ -369,6 +369,14 @@ class Model
           $expiredSince);
     }
 
+    public function deleteExpiredInvites($expiredSince)
+    {
+        $db = $this->getDb();
+
+        return $db->query("DELETE FROM " . $this->userTable . " WHERE `date_expired` is not null and date_expired < ?",
+          $expiredSince);
+    }
+
     public function checkUserHasUnexpiredToken($login)
     {
         $db = $this->getDb();

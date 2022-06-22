@@ -1043,6 +1043,10 @@ exclude_requests = ""
 ; For both image files and base64 encoded strings supported image types are gif, jpg and png
 custom_image =
 
+; Allow you to set the default invite user token expires in days
+; For example default_invite_user_token_expired_in = 7
+default_invite_user_token_expired_in = 7
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data

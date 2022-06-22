@@ -32,10 +32,18 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $this->daily("cleanupExpiredTokens");
         $this->daily("setUserDefaultReportPreference");
+        $this->daily("cleanUpExpiredInvites");
     }
 
-    public function cleanupExpiredTokens() {
+    public function cleanupExpiredTokens()
+    {
         $this->usersModel->deleteExpiredTokens(Date::now()->getDatetime());
+    }
+
+    public function cleanUpExpiredInvites()
+    {
+        $this->usersModel->deleteExpiredInvites(Date::now()->getDatetime());
+
     }
 
     public function setUserDefaultReportPreference()

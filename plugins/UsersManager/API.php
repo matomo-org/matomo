@@ -715,8 +715,13 @@ class API extends \Piwik\Plugin\API
     /**
      * @throws Exception
      */
-    public function inviteUser($userLogin, $email, $initialIdSite = null, $expired = 7)
+    public function inviteUser($userLogin, $email, $initialIdSite = null, $expired = null)
     {
+
+        if (!$expired) {
+            $expired = Config::getInstance()->General['default_invite_user_token_expired_in'];
+        }
+
         Piwik::checkUserHasSuperUserAccess();
         //create User
         $this->userRepository->create($userLogin, $email, $initialIdSite);
