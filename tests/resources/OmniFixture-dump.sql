@@ -1257,6 +1257,7 @@ CREATE TABLE `user` (
   `superuser_access` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `date_registered` timestamp NULL DEFAULT NULL,
   `ts_password_modified` timestamp NULL DEFAULT NULL,
+  `idchange_last_viewed` timestamp NULL DEFAULT NULL,
   `invited_by` VARCHAR(100) NULL,
   `invite_token` VARCHAR(191) NULL,
   `invite_expired_at` TIMESTAMP NULL,
@@ -1271,7 +1272,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('superUserLogin','$2y$10$mbMrIm8ZN82gFoNsV76Z3.avOWosOlT.D/6Pz4EZzhmxbedUeOyzm','hello@example.org','',1,'2020-04-15 14:02:31','2020-04-15 14:02:31',null);
+INSERT INTO `user` VALUES ('superUserLogin','$2y$10$mbMrIm8ZN82gFoNsV76Z3.avOWosOlT.D/6Pz4EZzhmxbedUeOyzm','hello@example.org','',1,'2020-04-15 14:02:31','2020-04-15 14:02:31','2020-04-15 14:02:31',null,null,null,null);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
