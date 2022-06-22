@@ -5,141 +5,157 @@
 -->
 
 <template>
-  <div class="setupTwoFactorAuthentication" ref="root">
-    <div class="alert alert-warning" v-if="isAlreadyUsing2fa">
-      {{ translate('TwoFactorAuth_WarningChangingConfiguredDevice') }}
-    </div>
-    <p>
-      {{ translate('TwoFactorAuth_SetupIntroFollowSteps') }}
-    </p>
-    <h2>
-      {{ translate('TwoFactorAuth_StepX', 1) }} - {{ translate('TwoFactorAuth_RecoveryCodes') }}
-    </h2>
-
-    <ShowRecoveryCodes
-      :codes="codes"
-      @downloaded="this.hasDownloadedRecoveryCode = true"
-    />
-
-    <div
-      class="alert alert-info backupRecoveryCodesAlert"
-      v-show="step === 1"
-    >
-      {{ translate('TwoFactorAuth_SetupBackupRecoveryCodes') }}
-    </div>
-    <p>
-      <button
-        class="btn goToStep2"
-        v-show="step === 1"
-        @click="nextStep()"
-        :disabled="!hasDownloadedRecoveryCode"
-      >{{ translate('General_Next') }}</button>
-    </p>
-    <a
-      name="twoFactorStep2"
-      id="twoFactorStep2"
-      style="opacity: 0"
-    />
-    <div v-show="step >= 2">
+  <ContentBlock
+    :content-title="standalone
+      ? translate('TwoFactorAuth_RequiredToSetUpTwoFactorAuthentication')
+      : translate('TwoFactorAuth_SetUpTwoFactorAuthentication')"
+  >
+    <div class="setupTwoFactorAuthentication" ref="root">
+      <div class="alert alert-warning" v-if="isAlreadyUsing2fa">
+        {{ translate('TwoFactorAuth_WarningChangingConfiguredDevice') }}
+      </div>
+      <p>
+        {{ translate('TwoFactorAuth_SetupIntroFollowSteps') }}
+      </p>
       <h2>
-        {{ translate('TwoFactorAuth_StepX', 2) }} -
-        {{ translate('TwoFactorAuth_SetupAuthenticatorOnDevice') }}
+        {{ translate('TwoFactorAuth_StepX', 1) }} - {{ translate('TwoFactorAuth_RecoveryCodes') }}
       </h2>
-      <p>{{ translate('TwoFactorAuth_SetupAuthenticatorOnDeviceStep1') }} <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href="https://github.com/andOTP/andOTP#downloads"
-        >andOTP</a>, <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href="https://authy.com/guides/github/"
-        >Authy</a>, <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href="https://support.1password.com/one-time-passwords/"
-        >1Password</a>, <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href="https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/"
-        >LastPass Authenticator</a>, {{ translate('General_Or') }} <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href="https://support.google.com/accounts/answer/1066447"
-        >Google Authenticator</a>.
-      </p>
-      <p><span v-html="$sanitize(setupAuthenticatorOnDeviceStep2)"></span></p>
+
+      <ShowRecoveryCodes
+        :codes="codes"
+        @downloaded="this.hasDownloadedRecoveryCode = true"
+      />
+
+      <div
+        class="alert alert-info backupRecoveryCodesAlert"
+        v-show="step === 1"
+      >
+        {{ translate('TwoFactorAuth_SetupBackupRecoveryCodes') }}
+      </div>
       <p>
-        <br />
-        <span
-          id="qrcode"
-          ref="qrcode"
-          title
-        />
-      </p>
-      <p>
-        <br />
         <button
-          class="btn goToStep3"
-          v-show="step === 2"
+          class="btn goToStep2"
+          v-show="step === 1"
           @click="nextStep()"
+          :disabled="!hasDownloadedRecoveryCode"
         >{{ translate('General_Next') }}</button>
       </p>
-    </div>
-    <a
-      name="twoFactorStep3"
-      id="twoFactorStep3"
-      style="opacity: 0"
-    />
-    <div v-show="step >= 3">
-      <h2>{{ translate('TwoFactorAuth_StepX', 3) }} - {{ translate('TwoFactorAuth_ConfirmSetup') }}
-      </h2>
-      <p>{{ translate('TwoFactorAuth_VerifyAuthCodeIntro') }}</p>
-      <div class="message_container" v-if="accessErrorString">
-        <div>
-          <Notification
-            :noclear="true"
-            context="error"
-          >
-            <strong>
-              {{ translate('General_Error') }}
-            </strong>: <span v-html="$sanitize(accessErrorString)"/><br />
-          </Notification>
-        </div>
+      <a
+        name="twoFactorStep2"
+        id="twoFactorStep2"
+        style="opacity: 0"
+      />
+      <div v-show="step >= 2">
+        <h2>
+          {{ translate('TwoFactorAuth_StepX', 2) }} -
+          {{ translate('TwoFactorAuth_SetupAuthenticatorOnDevice') }}
+        </h2>
+        <p>{{ translate('TwoFactorAuth_SetupAuthenticatorOnDeviceStep1') }} <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://github.com/andOTP/andOTP#downloads"
+          >andOTP</a>, <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://authy.com/guides/github/"
+          >Authy</a>, <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://support.1password.com/one-time-passwords/"
+          >1Password</a>, <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/"
+          >LastPass Authenticator</a>, {{ translate('General_Or') }} <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://support.google.com/accounts/answer/1066447"
+          >Google Authenticator</a>.
+        </p>
+        <p><span v-html="$sanitize(setupAuthenticatorOnDeviceStep2)"></span></p>
+        <p>
+          <br />
+          <span
+            id="qrcode"
+            ref="qrcode"
+            title
+          />
+        </p>
+        <p>
+          <br />
+          <button
+            class="btn goToStep3"
+            v-show="step === 2"
+            @click="nextStep()"
+          >{{ translate('General_Next') }}</button>
+        </p>
       </div>
-      <form
-        method="post"
-        class="setupConfirmAuthCodeForm"
-        autocorrect="off"
-        autocapitalize="none"
-        autocomplete="off"
-        :action="linkTo({'module': 'TwoFactorAuth', 'action': submitAction})"
-      >
-        <div>
-          <Field
-            uicontrol="text"
-            name="authCode"
-            :title="translate('TwoFactorAuth_AuthenticationCode')"
-            v-model="authCode"
-            :maxlength="6"
-            :placeholder="'123456'"
-            :inline-help="translate('TwoFactorAuth_VerifyAuthCodeHelp')"
-          >
-          </Field>
+      <a
+        name="twoFactorStep3"
+        id="twoFactorStep3"
+        style="opacity: 0"
+      />
+      <div v-show="step >= 3">
+        <h2>
+          {{ translate('TwoFactorAuth_StepX', 3) }} - {{ translate('TwoFactorAuth_ConfirmSetup') }}
+        </h2>
+        <p>{{ translate('TwoFactorAuth_VerifyAuthCodeIntro') }}</p>
+        <div class="message_container" v-if="accessErrorString">
+          <div>
+            <Notification
+              :noclear="true"
+              context="error"
+            >
+              <strong>
+                {{ translate('General_Error') }}
+              </strong>: <span v-html="$sanitize(accessErrorString)"/><br />
+            </Notification>
+          </div>
         </div>
-        <input
-          type="hidden"
-          name="authCodeNonce"
-          :value="authCodeNonce"
-        />
-        <input
-          type="submit"
-          class="btn confirmAuthCode"
-          :disabled="authCode.length !== 6"
-          :value="translate('General_Confirm')"
-        />
-      </form>
+        <form
+          method="post"
+          class="setupConfirmAuthCodeForm"
+          autocorrect="off"
+          autocapitalize="none"
+          autocomplete="off"
+          :action="linkTo({'module': 'TwoFactorAuth', 'action': submitAction})"
+        >
+          <div>
+            <Field
+              uicontrol="text"
+              name="authCode"
+              :title="translate('TwoFactorAuth_AuthenticationCode')"
+              v-model="authCode"
+              :maxlength="6"
+              :placeholder="'123456'"
+              :inline-help="translate('TwoFactorAuth_VerifyAuthCodeHelp')"
+            >
+            </Field>
+          </div>
+          <input
+            type="hidden"
+            name="authCodeNonce"
+            :value="authCodeNonce"
+          />
+          <input
+            type="submit"
+            class="btn confirmAuthCode"
+            :disabled="authCode.length !== 6"
+            :value="translate('General_Confirm')"
+          />
+        </form>
+      </div>
+
+      <div id="setupTwoFAsecretConfirm" class="ui-confirm">
+        <h2>{{ translate('TwoFactorAuth_Your2FaAuthSecret') }}</h2>
+        <p style="text-align: center;"><code
+          v-select-on-focus
+          style="font-size: 30px;"
+        >{{ newSecret }}</code></p>
+        <input role="ok" type="button" :value="translate('General_Ok')"/>
+      </div>
     </div>
-  </div>
+  </ContentBlock>
 </template>
 
 <script lang="ts">
@@ -150,6 +166,7 @@ import {
   Notification,
   SelectOnFocus,
   MatomoUrl,
+  ContentBlock,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import '../types';
@@ -176,11 +193,17 @@ export default defineComponent({
       required: true,
     },
     codes: Array,
+    twoFaBarCodeSetupUrl: {
+      type: String,
+      required: true,
+    },
+    standalone: Boolean,
   },
   components: {
     ShowRecoveryCodes,
     Notification,
     Field,
+    ContentBlock,
   },
   directives: {
     SelectOnFocus,
@@ -198,7 +221,7 @@ export default defineComponent({
 
       // eslint-disable-next-line no-new
       new QRCode(qrcode, {
-        text: window.twoFaBarCodeSetupUrl,
+        text: this.twoFaBarCodeSetupUrl,
       });
 
       $(qrcode).attr('title', ''); // do not show secret on hover
