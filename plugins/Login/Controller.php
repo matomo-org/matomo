@@ -546,23 +546,26 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $error = null;
             $password = Common::getRequestVar('password', false, 'string');
             $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
-            $terms = Common::getRequestVar('terms', false, 'string');
-            $privacy = Common::getRequestVar('privacy', false, 'string');
+            $conditionCheck = Common::getRequestVar('conditionCheck', false, 'string');
 
             if (!$password) {
                 $error = Piwik::translate('Login_PasswordRequired');
             }
 
-            //check if terms accepted
-            if ($termsAndConditionUrl && !$terms) {
-                $error = Piwik::translate('Login_TermsRequired');
+            //check if terms accepted and privacy
+            if (!$conditionCheck && ($privacyPolicyUrl || $termsAndConditionUrl)) {
+                $message = "";
+                if ($privacyPolicyUrl) {
+                    $message = Piwik::translate('PrivacyManager_PrivacyPolicy');
+                }
+                if ($privacyPolicyUrl && $termsAndConditionUrl) {
+                    $message = $message . ' ' . Piwik::translate('General_And') . ' ';
+                }
+                if ($termsAndConditionUrl) {
+                    $message = $message . Piwik::translate('PrivacyManager_TermsAndConditions');
+                }
+                $error = Piwik::translate('Login_ConditionRequired', $message);
             }
-
-            //check if privacy accepted
-            if ($privacyPolicyUrl && !$privacy) {
-                $error = Piwik::translate('Login_PrivacyPolicyRequired');
-            }
-
             //valid password
             if (!UsersManager::isValidPasswordString($password)) {
                 $error = Piwik::translate('UsersManager_ExceptionInvalidPassword',
@@ -585,10 +588,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 //update pending user to active user
                 $model->updateUserFields($user['login'],
                   [
-                    'password'           => $password,
-                    'invite_token'       => null,
-                    'invite_accept_at'   => Date::now()->getTimestamp(),
-                    'invite_expired_at'  => null,
+                    'password'          => $password,
+                    'invite_token'      => null,
+                    'invite_accept_at'  => Date::now()->getTimestamp(),
+                    'invite_expired_at' => null,
                   ]);
                 $sessionInitializer = new SessionInitializer();
                 $auth = StaticContainer::get('Piwik\Auth');

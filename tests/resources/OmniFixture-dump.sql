@@ -1,3 +1,4 @@
+
 -- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: matomo_tests
@@ -1256,7 +1257,10 @@ CREATE TABLE `user` (
   `superuser_access` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `date_registered` timestamp NULL DEFAULT NULL,
   `ts_password_modified` timestamp NULL DEFAULT NULL,
-  `invite_status`  enum('accept','pending','decline','expired'),
+  `invited_by` VARCHAR(100) NULL,
+  `invite_token` VARCHAR(191) NULL,
+  `invite_expired_at` TIMESTAMP NULL,
+  `invite_accept_at` TIMESTAMP NULL,
   PRIMARY KEY (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

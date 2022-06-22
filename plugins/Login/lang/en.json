@@ -61,9 +61,9 @@
         "InvitationHints": "(to cancel this action, just leave the page)",
         "Accept": "Accept",
         "Yes": "Yes",
-        "TermsRequired": "Please Accept the terms and conditions",
-        "PrivacyPolicyRequired": "Please Accept the privacy policy",
+        "ConditionRequired": "Please Accept the %s.",
         "PasswordRequired": "Please enter password to continue",
-        "DeclineInvitationInfo": "Your invitation has been successful declined."
+        "DeclineInvitationInfo": "Your invitation has been successful declined.",
+        "BySigningUp": "By signing up, I accept the"
     }
 }

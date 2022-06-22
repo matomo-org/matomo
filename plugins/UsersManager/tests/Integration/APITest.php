@@ -841,7 +841,6 @@ class APITest extends IntegrationTestCase
             'role'             => 'noaccess',
             'capabilities'     => [],
             'uses_2fa'         => false,
-            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin2',
@@ -850,7 +849,6 @@ class APITest extends IntegrationTestCase
             'role'             => 'view',
             'capabilities'     => [],
             'uses_2fa'         => false,
-            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -1330,6 +1328,7 @@ class APITest extends IntegrationTestCase
             unset($user['invite_accept_at']);
             unset($user['invite_token']);
             unset($user['invite_status']);
+            unset($user['invited_by']);
         }
     }
 }
