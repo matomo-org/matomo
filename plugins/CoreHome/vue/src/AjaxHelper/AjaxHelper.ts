@@ -241,8 +241,11 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       const data = result instanceof AjaxHelper ? result.requestHandle!.responseJSON : result;
 
       // check for error if not using default notification behavior
-      if ((data as ErrorResponse).result === 'error') {
-        throw new ApiResponseError((data as ErrorResponse).message);
+      const results = helper.postParams.method === 'API.getBulkRequest' && Array.isArray(data) ? data : [data];
+      const errors = results.filter((r) => r.result === 'error').map((r) => r.message as string);
+
+      if (errors.length) {
+        throw new ApiResponseError(errors.filter((e) => e.length).join('\n'));
       }
 
       return result as R;
@@ -597,20 +600,24 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           $(this.loadingElement).hide();
         }
 
-        if (response && response.result === 'error' && !this.useRegularCallbackInCaseOfError) {
+        const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
+        const errors = results.filter((r) => r.result === 'error').map((r) => r.message as string);
+
+        if (errors && errors.length && !this.useRegularCallbackInCaseOfError) {
+          const errorMessage = errors.filter((e) => e.length).join('<br />');
           let placeAt = null;
           let type: string|null = 'toast';
-          if ($(this.errorElement).length && response.message) {
+          if ($(this.errorElement).length && errorMessage.length) {
             $(this.errorElement).show();
             placeAt = this.errorElement;
             type = null;
           }
 
           const isLoggedIn = !document.querySelector('#login_form');
-          if (response.message && isLoggedIn) {
+          if (errorMessage && isLoggedIn) {
             const UI = window['require']('piwik/UI'); // eslint-disable-line
             const notification = new UI.Notification();
-            notification.show(response.message, {
+            notification.show(errorMessage, {
               placeat: placeAt,
               context: 'error',
               type,
