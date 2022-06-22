@@ -12,6 +12,7 @@ use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Auth\Password;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -781,12 +782,12 @@ class APITest extends IntegrationTestCase
         $this->cleanUsers($users);
         $expected = [
           [
-            'login'              => 'userLogin',
-            'email'              => 'userlogin@password.de',
-            'superuser_access'   => false,
-            'role'               => 'noaccess',
-            'capabilities'       => [],
-            'uses_2fa'           => false,
+            'login'            => 'userLogin',
+            'email'            => 'userlogin@password.de',
+            'superuser_access' => false,
+            'role'             => 'noaccess',
+            'capabilities'     => [],
+            'uses_2fa'         => false,
           ],
           [
             'login'            => 'userLogin2',
@@ -1181,6 +1182,24 @@ class APITest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
         $this->api->setSuperUserAccess($this->login, true, 'asldfkjds');
+    }
+
+    public function test_inviteUser()
+    {
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org');
+        $user = $this->model->getPendingUser('pendingLoginTest');
+        $this->assertTrue($user);
+    }
+
+    public function test_inviteUserExpiredInGiveDays()
+    {
+        $expiredDays = 10;
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', null, $expiredDays);
+        $user = $this->model->getUser('pendingLoginTest');
+        $expired = Date::factory($user['invite_expired_at'])->getTimestamp();
+        $now = Date::now()->getTimestamp();
+        $diff = $expired - $now;
+        $this->assertEquals($expiredDays, $diff / 3600 / 24);
     }
 
     private function getAccessInSite($login, $idSite)

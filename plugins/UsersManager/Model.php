@@ -770,7 +770,7 @@ class Model
         $db = $this->getDb();
         $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_token is not null";
         $bind = [$userLogin];
-        return $db->fetchOne($sql, $bind);
+        return  (boolean)$db->fetchOne($sql, $bind);
     }
 
 }

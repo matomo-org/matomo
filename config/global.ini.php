@@ -277,6 +277,10 @@ browser_archiving_disabled_enforce = 0
 ; Add custom currencies to Sites Manager.
 currencies[BTC] = Bitcoin
 
+; Allow you to set the default invite user token expires in days
+; For example default_invite_user_token_expired_in = 7
+default_invite_user_token_expired_in = 7
+
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
 ; This can be useful if you want to prevent users from adding much load on the server.
@@ -1043,9 +1047,7 @@ exclude_requests = ""
 ; For both image files and base64 encoded strings supported image types are gif, jpg and png
 custom_image =
 
-; Allow you to set the default invite user token expires in days
-; For example default_invite_user_token_expired_in = 7
-default_invite_user_token_expired_in = 7
+
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
