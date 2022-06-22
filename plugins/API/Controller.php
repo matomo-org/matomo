@@ -193,7 +193,7 @@ class Controller extends \Piwik\Plugin\Controller
         foreach ($glossaryItems as &$item) {
             $item['letters'] = array();
             foreach ($item['entries'] as &$entry) {
-                $cleanEntryName = mb_ereg_replace('/["\']/', '', $entry['name']);
+                $cleanEntryName = mb_ereg_replace('["\']', '', $entry['name']);
                 $letter = mb_strtoupper(mb_substr($cleanEntryName, 0, 1));
                 $entry['letter'] = $letter;
                 $item['letters'][$letter] = $letter;
