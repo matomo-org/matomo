@@ -5,11 +5,11 @@
 		<email>login6@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invited_by>superUserLogin</invited_by>
 		
 		
 		
-		
-		<invite_status>accept</invite_status>
+		<invite_status>active</invite_status>
 		<uses_2fa>0</uses_2fa>
 	</row>
 </result>

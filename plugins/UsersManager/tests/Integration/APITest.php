@@ -485,7 +485,8 @@ class APITest extends IntegrationTestCase
             'role'             => 'view',
             'capabilities'     => [],
             'email'            => 'userLogin2@password.de',
-            'superuser_access' => '0'
+            'superuser_access' => '0',
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -504,7 +505,8 @@ class APITest extends IntegrationTestCase
             'role'             => 'view',
             'capabilities'     => [],
             'email'            => 'userLogin2@password.de',
-            'superuser_access' => '0'
+            'superuser_access' => '0',
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -524,7 +526,8 @@ class APITest extends IntegrationTestCase
             'role'             => 'view',
             'capabilities'     => [],
             'email'            => 'userLogin2@password.de',
-            'superuser_access' => '0'
+            'superuser_access' => '0',
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -546,10 +549,23 @@ class APITest extends IntegrationTestCase
             'role'             => 'admin',
             'capabilities'     => [],
             'email'            => 'userLogin2@password.de',
-            'superuser_access' => false
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
           ],
-          ['login' => 'userLogin3', 'role' => 'view', 'capabilities' => [], 'superuser_access' => false],
-          ['login' => 'userLogin4', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
+          [
+            'login'            => 'userLogin3',
+            'role'             => 'view',
+            'capabilities'     => [],
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
+          ],
+          [
+            'login'            => 'userLogin4',
+            'role'             => 'admin',
+            'capabilities'     => [],
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
+          ],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -572,11 +588,30 @@ class APITest extends IntegrationTestCase
             'role'             => 'admin',
             'capabilities'     => [],
             'email'            => 'userLogin2@password.de',
-            'superuser_access' => false
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
           ],
-          ['login' => 'userLogin3', 'role' => 'view', 'capabilities' => [], 'superuser_access' => false],
-          ['login' => 'userLogin4', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
-          ['login' => 'userLogin5', 'role' => 'noaccess', 'capabilities' => [], 'superuser_access' => false],
+          [
+            'login'            => 'userLogin3',
+            'role'             => 'view',
+            'capabilities'     => [],
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
+          ],
+          [
+            'login'            => 'userLogin4',
+            'role'             => 'admin',
+            'capabilities'     => [],
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
+          ],
+          [
+            'login'            => 'userLogin5',
+            'role'             => 'noaccess',
+            'capabilities'     => [],
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
+          ],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -598,7 +633,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => false,
             'role'             => 'noaccess',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin2',
@@ -606,7 +642,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => true,
             'role'             => 'superuser',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin3',
@@ -614,7 +651,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => false,
             'role'             => 'view',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin4',
@@ -622,7 +660,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => true,
             'role'             => 'superuser',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin5',
@@ -630,7 +669,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => false,
             'role'             => 'noaccess',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -653,9 +693,15 @@ class APITest extends IntegrationTestCase
             'role'             => 'admin',
             'capabilities'     => [],
             'email'            => 'userLogin2@password.de',
-            'superuser_access' => false
+            'superuser_access' => false,
+            'invited_by'       => 'superUserLogin'
           ],
-          ['login' => 'userLogin5', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
+          ['login'            => 'userLogin5',
+           'role'             => 'admin',
+           'capabilities'     => [],
+           'superuser_access' => false,
+           'invited_by'       => 'superUserLogin'
+          ],
         ];
         $this->assertEquals($expected, $users);
 
@@ -684,7 +730,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => false,
             'email'            => 'userlogin@password.de',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin2',
@@ -692,7 +739,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => false,
             'email'            => 'userLogin2@password.de',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin5',
@@ -700,7 +748,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => false,
             'email'            => 'userLogin5@password.de',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -725,7 +774,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => true,
             'role'             => 'superuser',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin4',
@@ -733,7 +783,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => true,
             'role'             => 'superuser',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -756,7 +807,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => true,
             'role'             => 'superuser',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin2',
@@ -764,7 +816,8 @@ class APITest extends IntegrationTestCase
             'superuser_access' => false,
             'role'             => 'view',
             'capabilities'     => [],
-            'uses_2fa'         => false
+            'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);
@@ -788,6 +841,7 @@ class APITest extends IntegrationTestCase
             'role'             => 'noaccess',
             'capabilities'     => [],
             'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
           [
             'login'            => 'userLogin2',
@@ -796,6 +850,7 @@ class APITest extends IntegrationTestCase
             'role'             => 'view',
             'capabilities'     => [],
             'uses_2fa'         => false,
+            'invited_by'       => 'superUserLogin'
           ],
         ];
         $this->assertEquals($expected, $users);

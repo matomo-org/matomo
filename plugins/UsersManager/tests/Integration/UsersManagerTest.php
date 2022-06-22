@@ -112,6 +112,7 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['invite_token']);
         unset($userAfter['invite_expired_at']);
         unset($userAfter['invite_accept_at']);
+        unset($userAfter['invited_by']);
 
         // implicitly checks password!
         $user['email']            = $newEmail;
@@ -134,7 +135,8 @@ class UsersManagerTest extends IntegrationTestCase
         $login = "login";
         $user  = array('login'    => $login,
                        'password' => "geqgeagae",
-                       'email'    => "test@test.com");
+                       'email'    => "test@test.com",
+                      );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
