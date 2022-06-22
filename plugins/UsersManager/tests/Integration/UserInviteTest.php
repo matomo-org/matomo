@@ -8,7 +8,11 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Http;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
+use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -50,6 +54,25 @@ class UserInviteTest extends IntegrationTestCase
         $this->assertNotNull($user['invite_token']);
     }
 
+
+    public function test_inviteUserEmail()
+    {
+        $token = $this->token;
+        $user = $this->model->getUser($this->pendingUser['login']);
+        $email = StaticContainer::getContainer()->make(UserInviteEmail::class, array(
+          'currentUser' => 'admin',
+          'user'        => $user,
+          'token'       => $token
+        ));
+
+        $content = $email->getBodyHtml();
+
+        $this->assertStringContainsString('?module=Login&action=acceptInvitation&token=' . $token, $content,
+          'error on email');
+
+        $this->assertStringContainsString('?module=Login&action=declineInvitation&token=' . $token, $content,
+          'error on email');
+    }
 
     /**
      * @throws \Exception
