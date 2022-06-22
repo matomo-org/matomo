@@ -103,7 +103,7 @@ class UserRepository
 
         if (!empty($expired)) {
             //retrieve user details
-            $user = API::getInstance()->getUser($userLogin);
+            $user = $this->model->getUser($userLogin);
 
             //generate Token
             $generatedToken = $this->model->generateRandomTokenAuth();
@@ -144,7 +144,7 @@ class UserRepository
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
         }
 
-        $user['invite_status'] = 'accept';
+        $user['invite_status'] = 'active';
 
         if (!empty($user['invite_expired_at'])) {
             $inviteExpireAt = Date::factory($user['invite_expired_at']);
@@ -186,19 +186,40 @@ class UserRepository
             $newUser['last_seen'] = $user['last_seen'];
         }
         $newUser['invite_status'] = $user['invite_status'];
+        if (isset($user['invited_by'])) {
+            $newUser['invited_by'] = $user['invited_by'];
+        }
 
         return $newUser;
     }
 
-    public function enrichUsers($users)
+    public function enrichUsers($users, $filterStatus = null)
     {
         if (!empty($users)) {
             foreach ($users as $index => $user) {
                 $users[$index] = $this->enrichUser($user);
 
                 // remove pending user view if not super admin
-                if (!Piwik::hasUserSuperUserAccess() && $users[$index]['invite_status'] !== 'accept') {
-                    unset($users[$index]);
+                if ($users[$index]['invite_status'] !== 'active') {
+                    if (isset($users[$index]['invited_by']) && !Piwik::hasUserSuperUserAccess()
+                      && $users[$index]['invited_by'] !== Piwik::getCurrentUserLogin()) {
+                        unset($users[$index]);
+                    }
+                }
+
+                if ($filterStatus) {
+                    $actualStatus = $users[$index]['invite_status'];
+
+                    if ($filterStatus === 'pending') {
+                        if (!is_float($actualStatus)) {
+                            unset($users[$index]);
+                        }
+                    } else {
+                        if ($actualStatus !== $filterStatus) {
+                            unset($users[$index]);
+                        }
+                    }
+
                 }
             }
         }

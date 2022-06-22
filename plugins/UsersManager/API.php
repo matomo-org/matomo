@@ -339,7 +339,7 @@ class API extends \Piwik\Plugin\API
      *                                   Filtering by 'superuser' is only allowed for other superusers.
      * @return array
      */
-    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null, $filter_status = null)
     {
         if (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
@@ -394,8 +394,9 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $users = $this->userRepository->enrichUsers($users);
+        $users = $this->userRepository->enrichUsers($users, $filter_status);
         $users = $this->userRepository->enrichUsersWithLastSeen($users);
+
 
         foreach ($users as &$user) {
             unset($user['password']);
@@ -715,16 +716,14 @@ class API extends \Piwik\Plugin\API
     /**
      * @throws Exception
      */
-    public function inviteUser($userLogin, $email, $initialIdSite = null, $expired = null)
+    public function inviteUser($userLogin, $email, $idSite = null, $expired = null)
     {
-
         if (!$expired) {
             $expired = Config::getInstance()->General['default_invite_user_token_expired_in'];
         }
 
-        Piwik::checkUserHasSuperUserAccess();
         //create User
-        $this->userRepository->create($userLogin, $email, $initialIdSite);
+        $this->userRepository->create($userLogin, $email, $idSite);
 
         // send invited user an email
         $this->userRepository->sendNewUserEmails($userLogin, $expired);

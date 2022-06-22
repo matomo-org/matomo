@@ -10,8 +10,8 @@
       :class="{loading: isLoadingUsers}"
   >
     <div class="userListFilters row">
-      <div class="col s12 m12 l6">
-        <div class="input-field col s12 m4 l4">
+      <div class="col s12 m12 l12">
+        <div class="input-field col s12 m2 l2">
           <a
               class="dropdown-trigger btn bulk-actions"
               href=""
@@ -67,7 +67,7 @@
             </li>
           </ul>
         </div>
-        <div class="input-field col s12 m4 l4">
+        <div class="input-field col s12 m3 l3">
           <div
               class="permissions-for-selector"
           >
@@ -81,7 +81,7 @@
             />
           </div>
         </div>
-        <div class="input-field col s12 m4 l4">
+        <div class="input-field col s12 m3 l3">
           <div>
             <Field
                 :model-value="accessLevelFilter"
@@ -94,6 +94,22 @@
                 :options="filterAccessLevels"
                 :full-width="true"
                 :placeholder="translate('UsersManager_FilterByAccess')"
+            />
+          </div>
+        </div>
+        <div class="input-field col s12 m3 l3">
+          <div>
+            <Field
+                :model-value="statusLevelFilter"
+                @update:model-value="statusLevelFilter = $event; changeSearch({
+                filter_status: statusLevelFilter,
+                offset: 0,
+              })"
+                name="status-level-filter"
+                uicontrol="select"
+                :options="filterStatusLevels"
+                :full-width="true"
+                :placeholder="translate('UsersManager_FilterByStatus')"
             />
           </div>
         </div>
@@ -466,6 +482,7 @@ interface PagedUsersListState {
   userToChange: User | null;
   roleToChangeTo: string | null;
   accessLevelFilter: string | null;
+  statusLevelFilter: string | null;
   isRoleHelpToggled: boolean;
   userTextFilter: string;
   permissionsForSite: SiteRef;
@@ -490,6 +507,10 @@ export default defineComponent({
       required: true,
     },
     filterAccessLevels: {
+      type: Array,
+      required: true,
+    },
+    filterStatusLevels: {
       type: Array,
       required: true,
     },
@@ -522,6 +543,7 @@ export default defineComponent({
       userToChange: null,
       roleToChangeTo: null,
       accessLevelFilter: null,
+      statusLevelFilter: null,
       isRoleHelpToggled: false,
       userTextFilter: '',
       permissionsForSite: {
@@ -542,22 +564,12 @@ export default defineComponent({
   methods: {
     getInviteStatus(inviteStatus: string | number) {
       if (Number.isInteger(inviteStatus)) {
-        if (inviteStatus > 3) {
-          return translate('UsersManager_Pending');
-        }
         return translate('UsersManager_InviteDayLeft', inviteStatus);
-      }
-
-      if (inviteStatus === 'accept') {
-        return translate('UsersManager_Active');
-      }
-      if (inviteStatus === 'pending') {
-        return translate('UsersManager_Pending');
       }
       if (inviteStatus === 'expired') {
         return translate('UsersManager_Expired');
       }
-      return translate('UsersManager_Decline');
+      return translate('UsersManager_Active');
     },
     onPermissionsForUpdate(site: SiteRef) {
       this.permissionsForSite = site;
