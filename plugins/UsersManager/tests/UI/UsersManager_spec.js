@@ -49,6 +49,8 @@ describe("UsersManager", function () {
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:view').change();
             $('#user-text-filter').val('ight').change();
+            $('select[name=status-level-filter]').val('string:pending').change();
+
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(1000); // wait for rendering
