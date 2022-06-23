@@ -5,8 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import {ComparisonsStore} from "../../CoreHome/vue/src";
-
 Segmentation = (function($) {
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
