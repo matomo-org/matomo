@@ -25,33 +25,15 @@
     </script>
 
     <div class="site-without-data">
-        <div piwik-content-block content-title="{{ 'SitesManager_SiteWithoutDataTitle'|translate|e('html_attr') }} 🚀">
+        {% set afterIntroEventContent %}{{ postEvent('Template.siteWithoutData.afterIntro') }}{% endset %}
+        {% set afterTrackingHelpEventContent %}{{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}{% endset %}
 
-            <p>&nbsp;</p>
-            <p>{{ 'SitesManager_SiteWithoutDataDescription'|translate('<a href="mailto:?subject=' ~ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') ~ '&body=' ~ emailBody|url_encode|e('html_attr') ~ '">', '</a>')|raw }}</p>
-            <p>{{ 'SitesManager_SiteWithoutDataMessageDisappears'|translate }}</p>
-
-            <h3>{{ 'SitesManager_SiteWithoutDataChoosePreferredWay'|translate }}</h3>
-
-            <div piwik-widget-loader='{"module":"SitesManager","action":"siteWithoutDataTabs"}' loading-message="{{ 'SitesManager_DetectingYourSite'|translate|e('html_attr') }}..."></div>
-
-            <hr>
-
-            <a class="btn" id="emailTrackingCodeBtn"
-                href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}"
-            >{{ 'SitesManager_EmailInstructionsButton'|translate }}</a>
-
-            {{ postEvent('Template.siteWithoutData.afterIntro') }}
-            <br />
-            <br />
-            <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
-               class="btn ignoreSitesWithoutData"
-            >
-                {{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}
-            </a>
-        </div>
-
-        {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
+        <div
+            vue-entry="SitesManager.SiteWithoutData"
+            email-body="{{ emailBody|json_encode|e('html_attr') }}"
+            after-intro-event-content="{{ afterIntroEventContent|json_encode|e('html_attr') }}"
+            after-tracking-help-event-content="{{ afterTrackingHelpEventContent|json_encode|e('html_attr') }}"
+        ></div>
     </div>
 
 {% endblock %}

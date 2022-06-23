@@ -147,11 +147,11 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteTypesStore/SiteTypesStore.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -259,7 +259,15 @@ var SiteTypesStore_SiteTypesStore = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var src_SiteTypesStore_SiteTypesStore = (new SiteTypesStore_SiteTypesStore());
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteTypesStore/SiteTypesStore.adapter.ts
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/CurrencyStore/CurrencyStore.ts
+function CurrencyStore_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function CurrencyStore_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function CurrencyStore_createClass(Constructor, protoProps, staticProps) { if (protoProps) CurrencyStore_defineProperties(Constructor.prototype, protoProps); if (staticProps) CurrencyStore_defineProperties(Constructor, staticProps); return Constructor; }
+
+function CurrencyStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -269,35 +277,178 @@ var SiteTypesStore_SiteTypesStore = /*#__PURE__*/function () {
 
 
 
-function sitesManagerTypeModelAdapter() {
-  return {
-    get typesById() {
-      return Object(external_CoreHome_["clone"])(src_SiteTypesStore_SiteTypesStore.typesById.value);
-    },
+var CurrencyStore_CurrencyStore = /*#__PURE__*/function () {
+  function CurrencyStore() {
+    var _this = this;
 
-    fetchTypeById: function fetchTypeById(typeId) {
-      var _this = this;
+    CurrencyStore_classCallCheck(this, CurrencyStore);
 
-      return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function () {
-        return Object(external_CoreHome_["cloneThenApply"])(_this.typesById[typeId]);
-      });
-    },
-    fetchAvailableTypes: function fetchAvailableTypes() {
-      return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function (types) {
-        return Object(external_CoreHome_["cloneThenApply"])(types);
-      });
-    },
-    hasMultipleTypes: function hasMultipleTypes() {
-      return src_SiteTypesStore_SiteTypesStore.fetchAvailableTypes().then(function (types) {
-        return types && Object.keys(types).length > 1;
-      });
-    },
-    removeEditSiteIdParameterFromHash: src_SiteTypesStore_SiteTypesStore.removeEditSiteIdParameterFromHash.bind(src_SiteTypesStore_SiteTypesStore),
-    getEditSiteIdParameter: src_SiteTypesStore_SiteTypesStore.getEditSiteIdParameter.bind(src_SiteTypesStore_SiteTypesStore)
-  };
-}
+    CurrencyStore_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      isLoading: false,
+      currencies: {}
+    }));
 
-window.angular.module('piwikApp.service').factory('sitesManagerTypeModel', sitesManagerTypeModelAdapter);
+    CurrencyStore_defineProperty(this, "currencies", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState).currencies;
+    }));
+
+    CurrencyStore_defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState).isLoading;
+    }));
+
+    CurrencyStore_defineProperty(this, "initializePromise", null);
+  }
+
+  CurrencyStore_createClass(CurrencyStore, [{
+    key: "init",
+    value: function init() {
+      if (!this.initializePromise) {
+        this.initializePromise = this.fetchCurrencies();
+      }
+
+      return this.initializePromise;
+    }
+  }, {
+    key: "fetchCurrencies",
+    value: function fetchCurrencies() {
+      var _this2 = this;
+
+      this.privateState.isLoading = true;
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'SitesManager.getCurrencyList'
+      }).then(function (currencies) {
+        _this2.privateState.currencies = currencies;
+      }).finally(function () {
+        _this2.privateState.isLoading = false;
+      });
+    }
+  }]);
+
+  return CurrencyStore;
+}();
+
+/* harmony default export */ var src_CurrencyStore_CurrencyStore = (new CurrencyStore_CurrencyStore());
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/TimezoneStore/TimezoneStore.ts
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function TimezoneStore_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function TimezoneStore_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function TimezoneStore_createClass(Constructor, protoProps, staticProps) { if (protoProps) TimezoneStore_defineProperties(Constructor.prototype, protoProps); if (staticProps) TimezoneStore_defineProperties(Constructor, staticProps); return Constructor; }
+
+function TimezoneStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+var TimezoneStore_TimezoneStore = /*#__PURE__*/function () {
+  function TimezoneStore() {
+    var _this = this;
+
+    TimezoneStore_classCallCheck(this, TimezoneStore);
+
+    TimezoneStore_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      isLoading: false,
+      timezones: [],
+      timezoneSupportEnabled: false
+    }));
+
+    TimezoneStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
+    }));
+
+    TimezoneStore_defineProperty(this, "timezones", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.timezones;
+    }));
+
+    TimezoneStore_defineProperty(this, "timezoneSupportEnabled", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.timezoneSupportEnabled;
+    }));
+
+    TimezoneStore_defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.isLoading;
+    }));
+
+    TimezoneStore_defineProperty(this, "initializePromise", null);
+  }
+
+  TimezoneStore_createClass(TimezoneStore, [{
+    key: "init",
+    value: function init() {
+      var _this2 = this;
+
+      if (!this.initializePromise) {
+        this.privateState.isLoading = true;
+        this.initializePromise = Promise.all([this.checkTimezoneSupportEnabled(), this.fetchTimezones()]).finally(function () {
+          _this2.privateState.isLoading = false;
+        });
+      }
+
+      return this.initializePromise;
+    }
+  }, {
+    key: "fetchTimezones",
+    value: function fetchTimezones() {
+      var _this3 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'SitesManager.getTimezonesList'
+      }).then(function (grouped) {
+        var flattened = [];
+        Object.entries(grouped).forEach(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 2),
+              group = _ref2[0],
+              timezonesGroup = _ref2[1];
+
+          Object.entries(timezonesGroup).forEach(function (_ref3) {
+            var _ref4 = _slicedToArray(_ref3, 2),
+                label = _ref4[0],
+                code = _ref4[1];
+
+            flattened.push({
+              group: group,
+              label: label,
+              code: code
+            });
+          });
+        });
+        _this3.privateState.timezones = flattened;
+      });
+    }
+  }, {
+    key: "checkTimezoneSupportEnabled",
+    value: function checkTimezoneSupportEnabled() {
+      var _this4 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'SitesManager.isTimezoneSupportEnabled'
+      }).then(function (response) {
+        _this4.privateState.timezoneSupportEnabled = response.value;
+      });
+    }
+  }]);
+
+  return TimezoneStore;
+}();
+
+/* harmony default export */ var src_TimezoneStore_TimezoneStore = (new TimezoneStore_TimezoneStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=template&id=469792ff
 
 var _hoisted_1 = {
@@ -887,196 +1038,6 @@ function SiteFieldsvue_type_template_id_648e955b_render(_ctx, _cache, $props, $s
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/TimezoneStore/TimezoneStore.ts
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function TimezoneStore_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function TimezoneStore_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function TimezoneStore_createClass(Constructor, protoProps, staticProps) { if (protoProps) TimezoneStore_defineProperties(Constructor.prototype, protoProps); if (staticProps) TimezoneStore_defineProperties(Constructor, staticProps); return Constructor; }
-
-function TimezoneStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-var TimezoneStore_TimezoneStore = /*#__PURE__*/function () {
-  function TimezoneStore() {
-    var _this = this;
-
-    TimezoneStore_classCallCheck(this, TimezoneStore);
-
-    TimezoneStore_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      isLoading: false,
-      timezones: [],
-      timezoneSupportEnabled: false
-    }));
-
-    TimezoneStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    TimezoneStore_defineProperty(this, "timezones", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.timezones;
-    }));
-
-    TimezoneStore_defineProperty(this, "timezoneSupportEnabled", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.timezoneSupportEnabled;
-    }));
-
-    TimezoneStore_defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.isLoading;
-    }));
-
-    TimezoneStore_defineProperty(this, "initializePromise", null);
-  }
-
-  TimezoneStore_createClass(TimezoneStore, [{
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      if (!this.initializePromise) {
-        this.privateState.isLoading = true;
-        this.initializePromise = Promise.all([this.checkTimezoneSupportEnabled(), this.fetchTimezones()]).finally(function () {
-          _this2.privateState.isLoading = false;
-        });
-      }
-
-      return this.initializePromise;
-    }
-  }, {
-    key: "fetchTimezones",
-    value: function fetchTimezones() {
-      var _this3 = this;
-
-      return external_CoreHome_["AjaxHelper"].fetch({
-        method: 'SitesManager.getTimezonesList'
-      }).then(function (grouped) {
-        var flattened = [];
-        Object.entries(grouped).forEach(function (_ref) {
-          var _ref2 = _slicedToArray(_ref, 2),
-              group = _ref2[0],
-              timezonesGroup = _ref2[1];
-
-          Object.entries(timezonesGroup).forEach(function (_ref3) {
-            var _ref4 = _slicedToArray(_ref3, 2),
-                label = _ref4[0],
-                code = _ref4[1];
-
-            flattened.push({
-              group: group,
-              label: label,
-              code: code
-            });
-          });
-        });
-        _this3.privateState.timezones = flattened;
-      });
-    }
-  }, {
-    key: "checkTimezoneSupportEnabled",
-    value: function checkTimezoneSupportEnabled() {
-      var _this4 = this;
-
-      return external_CoreHome_["AjaxHelper"].fetch({
-        method: 'SitesManager.isTimezoneSupportEnabled'
-      }).then(function (response) {
-        _this4.privateState.timezoneSupportEnabled = response.value;
-      });
-    }
-  }]);
-
-  return TimezoneStore;
-}();
-
-/* harmony default export */ var src_TimezoneStore_TimezoneStore = (new TimezoneStore_TimezoneStore());
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/CurrencyStore/CurrencyStore.ts
-function CurrencyStore_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function CurrencyStore_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function CurrencyStore_createClass(Constructor, protoProps, staticProps) { if (protoProps) CurrencyStore_defineProperties(Constructor.prototype, protoProps); if (staticProps) CurrencyStore_defineProperties(Constructor, staticProps); return Constructor; }
-
-function CurrencyStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-var CurrencyStore_CurrencyStore = /*#__PURE__*/function () {
-  function CurrencyStore() {
-    var _this = this;
-
-    CurrencyStore_classCallCheck(this, CurrencyStore);
-
-    CurrencyStore_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      isLoading: false,
-      currencies: {}
-    }));
-
-    CurrencyStore_defineProperty(this, "currencies", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState).currencies;
-    }));
-
-    CurrencyStore_defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState).isLoading;
-    }));
-
-    CurrencyStore_defineProperty(this, "initializePromise", null);
-  }
-
-  CurrencyStore_createClass(CurrencyStore, [{
-    key: "init",
-    value: function init() {
-      if (!this.initializePromise) {
-        this.initializePromise = this.fetchCurrencies();
-      }
-
-      return this.initializePromise;
-    }
-  }, {
-    key: "fetchCurrencies",
-    value: function fetchCurrencies() {
-      var _this2 = this;
-
-      this.privateState.isLoading = true;
-      return external_CoreHome_["AjaxHelper"].fetch({
-        method: 'SitesManager.getCurrencyList'
-      }).then(function (currencies) {
-        _this2.privateState.currencies = currencies;
-      }).finally(function () {
-        _this2.privateState.isLoading = false;
-      });
-    }
-  }]);
-
-  return CurrencyStore;
-}();
-
-/* harmony default export */ var src_CurrencyStore_CurrencyStore = (new CurrencyStore_CurrencyStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=script&lang=ts
 function SiteFieldsvue_type_script_lang_ts_slicedToArray(arr, i) { return SiteFieldsvue_type_script_lang_ts_arrayWithHoles(arr) || SiteFieldsvue_type_script_lang_ts_iterableToArrayLimit(arr, i) || SiteFieldsvue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || SiteFieldsvue_type_script_lang_ts_nonIterableRest(); }
 
@@ -1787,25 +1748,6 @@ var GlobalSettingsStore_GlobalSettingsStore = /*#__PURE__*/function () {
 SitesManagementvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var SitesManagement = (SitesManagementvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SitesManagement_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SitesManagement,
-  scope: {},
-  directiveName: 'matomoSitesManagement'
-})); // sitesManagerAPI no longer exists, but it is still referenced by a premium feature. the feature
-// doesn't actually use it though so we can just create an empty object for an adapter.
-
-window.angular.module('piwikApp').factory('sitesManagerAPI', function () {
-  return {};
-});
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/ManageGlobalSettings/ManageGlobalSettings.vue?vue&type=template&id=213acaec
 
 var ManageGlobalSettingsvue_type_template_id_213acaec_hoisted_1 = {
@@ -2129,20 +2071,6 @@ function ManageGlobalSettingsvue_type_template_id_213acaec_render(_ctx, _cache, 
 ManageGlobalSettingsvue_type_script_lang_ts.render = ManageGlobalSettingsvue_type_template_id_213acaec_render
 
 /* harmony default export */ var ManageGlobalSettings = (ManageGlobalSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/ManageGlobalSettings/ManageGlobalSettings.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var ManageGlobalSettings_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: ManageGlobalSettings,
-  scope: {},
-  directiveName: 'matomoGlobalSettings'
-}));
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2150,9 +2078,6 @@ ManageGlobalSettingsvue_type_script_lang_ts.render = ManageGlobalSettingsvue_typ
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-
-
 
 
 
