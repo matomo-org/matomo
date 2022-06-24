@@ -1,0 +1,210 @@
+<!--
+  Matomo - free/libre analytics platform
+  @link https://matomo.org
+  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div v-content-intro>
+    <h2>
+      <EnrichedHeadline help-url="https://matomo.org/docs/privacy/">
+        {{ translate('PrivacyManager_AnonymizeData') }}
+      </EnrichedHeadline>
+    </h2>
+
+    <p>
+      <span v-html="$sanitize(teaserHeader)"></span>
+      <span v-html="$sanitize(seeAlsoOurOfficialGuide)"></span>
+    </p>
+  </div>
+
+  <ContentBlock
+     id="anonymizeIPAnchor"
+     :content-title="translate('PrivacyManager_UseAnonymizeTrackingData')"
+  >
+    <AnonymizeIp
+      :anonymize-ip-enabled="anonymizeIpEnabled"
+      :anonymize-user-id="anonymizeUserId"
+      :mask-length="maskLength"
+      :use-anonymized-ip-for-visit-enrichment="useAnonymizedIpForVisitEnrichment"
+      :anonymize-order-id="anonymizeOrderId"
+      :force-cookieless-tracking="forceCookielessTracking"
+      :anonymize-referrer="anonymizeReferrer"
+      :mask-length-options="maskLengthOptions"
+      :use-anonymized-ip-for-visit-enrichment-options="useAnonymizedIpForVisitEnrichmentOptions"
+      :tracker-file-name="trackerFileName"
+      :tracker-writable="trackerWritable"
+      :referrer-anonymization-options="referrerAnonymizationOptions"
+    />
+  </ContentBlock>
+
+  <div v-if="isDataPurgeSettingsEnabled">
+    <ContentBlock
+      id="deleteLogsAnchor"
+      :content-title="translate('PrivacyManager_DeleteOldRawData')"
+    >
+      <div class="ui-confirm" id="confirmDeleteSettings">
+        <h2 id="deleteLogsConfirm">{{ translate('PrivacyManager_DeleteLogsConfirm') }}</h2>
+
+        <h2 id="deleteReportsConfirm">{{ translate('PrivacyManager_DeleteReportsConfirm') }}</h2>
+
+        <h2 id="deleteBothConfirm">{{ translate('PrivacyManager_DeleteBothConfirm') }}</h2>
+        <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
+        <input role="no" type="button" value="{{ translate('General_No') }}"/>
+      </div>
+      <div class="ui-confirm" id="saveSettingsBeforePurge">
+        <h2>{{ translate('PrivacyManager_SaveSettingsBeforePurge') }}</h2>
+        <input role="yes" type="button" value="{{ translate('General_Ok') }}"/>
+      </div>
+      <div class="ui-confirm" id="confirmPurgeNow">
+        <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
+        <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
+        <input role="no" type="button" value="{{ translate('General_No') }}"/>
+      </div>
+
+      <p>{{ translate('PrivacyManager_DeleteDataDescription') }}</p>
+
+      <DeleteOldLogs
+        :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
+        :delete-data="deleteData"
+        :schedule-deletion-options="scheduleDeletionOptions"
+      />
+    </ContentBlock>
+
+    <ContentBlock
+      id="deleteReportsAnchor"
+      :content-title="translate('PrivacyManager_DeleteOldAggregatedReports')"
+    >
+      <DeleteOldReports
+        :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
+        :delete-data="deleteData"
+        :schedule-deletion-options="scheduleDeletionOptions"
+      ></DeleteOldReports>
+
+    </ContentBlock>
+
+    <ScheduleReportDeletion
+      :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
+      :delete-data="deleteData"
+      :schedule-deletion-options="scheduleDeletionOptions"
+    ></ScheduleReportDeletion>
+  </div>
+
+  <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
+
+  <ContentBlock
+    content-title="Anonymize previously tracked raw data"
+    class="logDataAnonymizer"
+  >
+    <p>
+      If you have tracked personal data such as the full visitor IP, you may want to anonymize
+      this data now in case you do not have consent for this data or no longer a legitimate
+      interest.
+    </p>
+
+    <AnonymizeLogData v-if="isSuperUser"></AnonymizeLogData>
+    <p v-else>Only a user with Super User access can anonymize previously tracked raw data.</p>
+
+    <br />
+    <PreviousAnonymizations
+      :anonymizations="anonymizations"
+    />
+  </ContentBlock>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import {
+  ContentBlock,
+  ContentIntro,
+  EnrichedHeadline,
+  translate,
+} from 'CoreHome';
+import AnonymizeIp from '../AnonymizeIp/AnonymizeIp.vue';
+import DeleteOldLogs from '../DeleteOldLogs/DeleteOldLogs.vue';
+import DeleteOldReports from '../DeleteOldReports/DeleteOldReports.vue';
+import ScheduleReportDeletion from '../ScheduleReportDeletion/ScheduleReportDeletion.vue';
+import AnonymizeLogData from '../AnonymizeLogData/AnonymizeLogData.vue';
+import PreviousAnonymizations from '../AnonymizeLogData/PreviousAnonymizations.vue';
+
+export default defineComponent({
+  props: {
+    anonymizeIpEnabled: Boolean,
+    anonymizeUserId: Boolean,
+    maskLength: {
+      type: Number,
+      required: true,
+    },
+    useAnonymizedIpForVisitEnrichment: [Boolean, String, Number],
+    anonymizeOrderId: Boolean,
+    forceCookielessTracking: Boolean,
+    anonymizeReferrer: String,
+    maskLengthOptions: {
+      type: Array,
+      required: true,
+    },
+    useAnonymizedIpForVisitEnrichmentOptions: {
+      type: Array,
+      required: true,
+    },
+    trackerFileName: {
+      type: String,
+      required: true,
+    },
+    trackerWritable: {
+      type: Boolean,
+      required: true,
+    },
+    referrerAnonymizationOptions: {
+      type: Object,
+      required: true,
+    },
+    isDataPurgeSettingsEnabled: Boolean,
+    deleteData: {
+      type: Object,
+      required: true,
+    },
+    scheduleDeletionOptions: {
+      type: Object,
+      required: true,
+    },
+    anonymizations: {
+      type: Array,
+      required: true,
+    },
+  },
+  components: {
+    AnonymizeIp,
+    EnrichedHeadline,
+    ContentBlock,
+    DeleteOldLogs,
+    DeleteOldReports,
+    ScheduleReportDeletion,
+    AnonymizeLogData,
+    PreviousAnonymizations,
+  },
+  directives: {
+    ContentIntro,
+  },
+  computed: {
+    teaserHeader() {
+      return translate(
+        'PrivacyManager_TeaserHeader',
+        '<a href="#anonymizeIPAnchor">',
+        '</a>',
+        '<a href="#deleteLogsAnchor">',
+        '</a>',
+        '<a href="#anonymizeHistoricalData">',
+        '</a>',
+      );
+    },
+    seeAlsoOurOfficialGuide() {
+      return translate(
+        'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy',
+        '<a href="https://matomo.org/docs/privacy/" rel="noreferrer noopener" target="_blank">',
+        '</a>',
+      );
+    },
+  },
+});
+</script>
