@@ -210,23 +210,24 @@ class UITestFixture extends SqlDump
             array('page-6.html', 'page-3.html', ''),
         );
 
-        $ips = array( // ip's chosen for geolocation data
-            "72.44.32.12",
-            "50.112.3.5",
-            "70.117.169.113",
-            "73.77.55.45",
-            "206.190.75.8",
-            "108.211.181.12",
-            "174.97.139.63",
-            "24.125.31.147",
-            "67.51.31.21",
-            "156.5.3.1",
-            "194.57.91.215",
-            "137.82.130.1",
-            "113.62.1.1",
-            "151.100.101.92",
-            "72.44.32.10",
-            "95.81.66.139",
+        // ip's chosen for geolocation data
+        $ips = array(
+            "72.44.32.12", // Ashburn, Virginia, United States
+            "50.112.3.5", // San Jose, California, United States
+            "70.117.169.113", // El Paso, Texas, United States
+            "73.77.55.45", // Mount Laurel, New Jersey, United States
+            "206.190.75.8", // Lake Forest, California, United States
+            "108.211.181.12", // San Francisco, California, United States
+            "174.97.139.63", // Raleigh, North Carolina, United States
+            "24.125.31.147", // Mechanicsville, Virginia, United States
+            "67.51.31.21", // Ogden, Utah, United States
+            "156.5.3.1", // Englewood Cliffs, New Jersey, United States
+            "194.57.91.215", // Besançon, Bourgogne-Franche-Comte, France
+            "137.82.130.1", // Vancouver, British Columbia, Canada
+            "113.62.1.1", // Lhasa, Tibet, China
+            "151.100.101.92", // Rome, Latium, Italy
+            "72.44.32.10", // Ashburn, Virginia, United States
+            "95.81.66.139", // Tabriz, East Azerbaijan, Iran
         );
 
         $userAgents = [

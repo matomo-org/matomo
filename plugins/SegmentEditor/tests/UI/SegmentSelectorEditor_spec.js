@@ -161,10 +161,10 @@ describe("SegmentSelectorEditorTest", function () {
           await page.evaluate(function (i) {
             $(`.metricValueBlock input:eq(${i})`).val('new value ' + i).change();
           }, i);
-          await page.waitForTimeout(200);
+          await page.waitForTimeout(250);
         }
 
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(100);
 
         await page.evaluate(function () {
            $('button.saveAndApply').click();
