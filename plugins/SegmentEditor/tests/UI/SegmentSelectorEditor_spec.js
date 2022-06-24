@@ -158,13 +158,13 @@ describe("SegmentSelectorEditorTest", function () {
         await selectFieldValue('.segmentRow1 .segment-row .metricMatchBlock', 'Is not');
 
         for (let i = 0; i < 3; i += 1) {
+          await page.waitForTimeout(200);
           await page.evaluate(function (i) {
             $(`.metricValueBlock input:eq(${i})`).val('new value ' + i).change();
           }, i);
-          await page.waitForTimeout(250);
         }
 
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(200);
 
         await page.evaluate(function () {
            $('button.saveAndApply').click();
