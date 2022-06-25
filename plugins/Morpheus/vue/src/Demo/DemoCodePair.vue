@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div :style="{'margin-top': snippet.noMargin ? '-16px' : undefined}">
     <h2 v-if="snippet.title">{{ snippet.title }}</h2>
     <div class="demo" v-if="snippet.vue_embed">
       <component :is="vueEmbedComponent" />
@@ -30,6 +30,7 @@ interface Snippet {
   data?: unknown;
   components?: { plugin: string, component: string }[];
   directives?: { plugin: string, directive: string }[];
+  noMargin?: boolean;
 }
 
 export default defineComponent({

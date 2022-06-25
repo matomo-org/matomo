@@ -118,7 +118,7 @@ export default defineComponent({
     placeholder="Some text here"
     v-model="username"
   />
-</div>');
+</div>', [], false);
         $snippets[] = $this->formSnippet('withInlineHelp', 'email', "''", '', '<div v-form>
   <Field
     uicontrol="email"
@@ -184,7 +184,7 @@ export default defineComponent({
   <Field
     uicontrol="text"
     name="fullWidthText"
-    title="Form fields can be made full witdth"
+    title="Form fields can be made full width"
     :full-width="true"
     placeholder="Some text here..."
     v-model="text"
@@ -757,7 +757,7 @@ export default defineComponent({
         ]);
     }
 
-    private function formSnippet($id, $dataName, $dataValueCode, $dataValue, $demoCode, $extraComponents = [])
+    private function formSnippet($id, $dataName, $dataValueCode, $dataValue, $demoCode, $extraComponents = [], $noMargin = true)
     {
         if (is_array($dataName)) {
             $dataCode = "";
@@ -808,6 +808,7 @@ $dataCode    };
                 ['plugin' => 'CorePluginsAdmin', 'directive' => 'Form'],
             ],
             'data' => $data,
+            'noMargin' => $noMargin,
         ];
     }
 }
