@@ -23,6 +23,15 @@
 import { defineComponent, markRaw, Directive } from 'vue';
 import { useExternalPluginComponent } from 'CoreHome';
 
+interface Snippet {
+  id: string;
+  vue_embed?: string;
+  code?: string;
+  data?: unknown;
+  components?: { plugin: string, component: string }[];
+  directives?: { plugin: string, directive: string }[];
+}
+
 export default defineComponent({
   props: {
     snippet: {
@@ -32,14 +41,17 @@ export default defineComponent({
   },
   computed: {
     vueEmbedComponent() {
+      const snippet = this.snippet as Snippet;
+
       const components: Record<string, ReturnType<typeof useExternalPluginComponent>> = {};
-      (this.snippet.components || []).forEach((info) => {
+      (snippet.components || []).forEach((info) => {
         components[info.component] = useExternalPluginComponent(info.plugin, info.component);
       });
 
       const directives: Record<string, Directive> = {};
-      (this.snippet.directives || []).forEach((info) => {
-        directives[info.directive] = window[info.plugin][info.directive];
+      (snippet.directives || []).forEach((info) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        directives[info.directive] = (window as any)[info.plugin][info.directive];
       });
 
       const dataToUse: Record<string, unknown> = this.snippet.data || {};
@@ -55,7 +67,9 @@ export default defineComponent({
     },
     processedSnippetCode() {
       const { snippet } = this;
-      const spaces = '  ';
+      const vueEmbedIndex = snippet.code.indexOf('%vue_embed%');
+      const lastNewline = snippet.code.lastIndexOf('\n', vueEmbedIndex);
+      const spaces = snippet.code.substring(lastNewline + 1, vueEmbedIndex);
       return snippet.code.replaceAll('%vue_embed%', snippet.vue_embed.replaceAll('\n', `\n${spaces}`));
     },
   },

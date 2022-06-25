@@ -429,25 +429,335 @@ export default defineComponent({
   />
 </div>');
 
-        /*
+        $snippets[] = $this->formSnippet('currentsite', ['site', 'isDisabled', 'saveCount', 'isLoading'], ['null', 'false', '0', 'false'], [null, false, 0, false], '<div v-form>
+  <Field
+    uicontrol="site"
+    name="currentsite"
+    introduction="Matomo specific form fields"
+    title="Select a website"
+    v-model="site"
+  />
+  <SaveButton @confirm="isDisabled = !isDisabled" style="margin-right: 3.5px" />
+  <SaveButton
+    @confirm="saveCount += 1"
+    :disabled="isDisabled"
+    value="Changed button text"
+    :saving="isLoading"
+  />
+  <p>The second save button was clicked <span v-text="saveCount"></span> times.</p>
+</div>', [['plugin' => 'CorePluginsAdmin', 'component' => 'SaveButton']]);
 
         $snippets[] = [
-            'title' => '',
-            'code' => '',
-            'vue_embed' => '',
-            'desc' => '',
-            'components' => [
+            'id' => 'inlinecode',
+            'title' => 'Inline Code',
+            'code' => '<template>
+  %vue_embed%
+</template>
 
+<script lang="ts">
+import { defineComponent } from \'vue\';
+import { SelectOnFocus } from \'CoreHome\';
+
+export default defineComponent({
+  directives: {
+    SelectOnFocus,
+  },
+});
+</script>',
+            'vue_embed' => '<p>
+  You can put code in a text using the <code v-select-on-focus="{}">code</code> tag.
+</p>',
+            'directives' => [
+                ['plugin' => 'CoreHome', 'directive' => 'SelectOnFocus'],
             ],
         ];
-        */
+
+        $snippets[] = [
+            'id' => 'blockcode',
+            'title' => 'Block Code',
+            'code' => '<template>
+  %vue_embed%
+</template>
+
+<script lang="ts">
+import { defineComponent } from \'vue\';
+import { SelectOnFocus } from \'CoreHome\';
+
+export default defineComponent({
+  directives: {
+    SelectOnFocus,
+  },
+});
+</script>',
+            'vue_embed' => '<p>Or you can display a code block:</p>
+<pre v-select-on-focus="{}">&lt;!-- Matomo --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;/script&gt;
+&lt;!-- End Matomo Code --&gt;</pre>',
+            'directives' => [
+                ['plugin' => 'CoreHome', 'directive' => 'SelectOnFocus'],
+            ],
+        ];
+
+        $snippets[] = [
+            'id' => 'tables',
+            'title' => 'Tables',
+            'code' => '%vue_embed%',
+            'vue_embed' => '<table>
+<thead>
+<tr>
+  <th>First Name</th>
+  <th>Last Name</th>
+  <th>Username</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Mark</td>
+  <td>Otto</td>
+  <td>@mdo</td>
+</tr>
+<tr>
+  <td>Jacob</td>
+  <td>Thornton</td>
+  <td>@fat</td>
+</tr>
+<tr>
+  <td>Larry</td>
+  <td>the Bird</td>
+  <td>@twitter</td>
+</tr>
+</tbody>
+</table>',
+        ];
+
+        $snippets[] = [
+            'id' => 'contentintro',
+            'title' => 'Content intro',
+            'code' => '<template>
+  %vue_embed%
+</template>
+
+<script lang="ts">
+import { defineComponent } from \'vue\';
+import { ContentIntro } from \'CoreHome\';
+
+export default defineComponent({
+  directives: {
+    ContentIntro,
+  },
+});
+</script>',
+            'vue_embed' => '<div v-content-intro>
+  <h2>My headline</h2>
+  <p>My text goes is in here</p>
+</div>',
+            'directives' => [['plugin' => 'CoreHome', 'directive' => 'ContentIntro']],
+            'desc' => 'A content intro can be used as an introduction to the following content and is usually used as the first part of a page followed by one or multiple content blocks.',
+        ];
+
+        $snippets[] = [
+            'id' => 'contentblock',
+            'title' => 'Content blocks',
+            'code' => '<template>
+  %vue_embed%
+</template>
+
+<script lang="ts">
+import { defineComponent } from \'vue\';
+import { ContentBlock } from \'CoreHome\';
+
+export default defineComponent({
+  components: {
+    ContentBlock,
+  },
+});
+</script>',
+            'components' => [['plugin' => 'CoreHome', 'component' => 'ContentBlock']],
+            'vue_embed' => '<ContentBlock content-title="My title" help-url="https://matomo.org">
+  <p>My text goes is in here</p>
+</ContentBlock>',
+        ];
+
+        $snippets[] = [
+            'id' => 'contenttable',
+            'title' => 'Content table',
+            'code' => '<template>
+  %vue_embed%
+</template>
+
+<script lang="ts">
+import { defineComponent } from \'vue\';
+import { ContentBlock, ContentTable } from \'CoreHome\';
+
+export default defineComponent({
+  components: {
+    ContentBlock,
+  },
+  directives: {
+      ContentTable,
+  },
+});
+</script>',
+            'vue_embed' => '<ContentBlock content-title="My title" help-url="https://matomo.org">
+  <p>My intro text is here</p>
+  <table v-content-table>
+    <thead>
+      <tr><th>Column 1</th><th>Column 2</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Value 1</td><td>Value 2</td></tr>
+      <tr><td>Value 1</td><td>Value 2</td></tr>
+    </tbody>
+  </table>
+</ContentBlock>',
+            'components' => [['plugin' => 'CoreHome', 'component' => 'ContentBlock']],
+            'directives' => [['plugin' => 'CoreHome', 'directive' => 'ContentTable']],
+        ];
+
+        $icons = [
+            'Manage' => [
+                'add',
+                'edit',
+                'delete',
+                'plus',
+                'minus',
+                'archive'
+            ],
+            'Alerts' => [
+                'error',
+                'warning',
+                'info',
+                'info2',
+                'success',
+                'help',
+                'help-alt',
+                'ok'
+            ],
+            'Navigation' => [
+                'arrow-left',
+                'arrow-right',
+                'arrow-top',
+                'arrow-bottom',
+                'arrow-collapsed',
+                'zoom-in',
+                'zoom-out',
+                'show',
+                'hide',
+                'search',
+                'menu-hamburger',
+                'more-horiz',
+                'more-verti',
+                'arrowup',
+                'arrowdown'
+            ],
+            'Window-Widget' => [
+                'minimise',
+                'fullscreen',
+                'close',
+                'maximise',
+                'newtab',
+                'refresh',
+                'reload'
+            ],
+            'Reports' => [
+                'table',
+                'table-more',
+                'chart-bar',
+                'chart-pie',
+                'chart-line',
+                'chart-line-details',
+                'evolution',
+                'funnel',
+                'form',
+                'transition',
+                'overlay',
+                'lab',
+                'clock'
+            ],
+            'Users' => [
+                'user',
+                'user-add',
+                'users',
+                'alien'
+            ],
+            'Date-picker' => [
+                'calendar'
+            ],
+            'Annotations' => [
+                'annotation'
+            ],
+            'E-commerce' => [
+                'ecommerce-order',
+                'ecommerce-abandoned-cart'
+            ],
+            'Goals' => [
+                'goal'
+            ],
+            'Insights' => [
+                'insights'
+            ],
+            'Segments' => [
+                'segment'
+            ],
+            'Visitors' => [
+                'visitor-profile',
+                'segmented-visits-log'
+            ],
+            'Lock' => [
+                'locked',
+                'locked-2',
+                'locked-3',
+                'locked-4'
+            ],
+            'Other' => [
+                'configure',
+                'document',
+                'email',
+                'export',
+                'feed',
+                'download',
+                'image',
+                'code',
+                'star',
+                'drop',
+                'business',
+                'finance',
+                'folder',
+                'folder-charts',
+                'github',
+                'open-source',
+                'puzzle',
+                'server',
+                'server-alt',
+                'tag-cloud',
+                'audio',
+                'play',
+                'pause',
+                'replay',
+                'stop',
+                'fast-forward',
+                'fast-rewind',
+                'skip-next',
+                'skip-previous',
+                'sign-in',
+                'sign-out',
+                'settings',
+                'rocket',
+                'bug',
+                'upload',
+                'embed',
+                'heart'
+            ],
+        ];
 
         return $this->renderTemplate('demo', [
             'snippets' => $snippets,
+            'icons' => $icons,
         ]);
     }
 
-    private function formSnippet($id, $dataName, $dataValueCode, $dataValue, $demoCode)
+    private function formSnippet($id, $dataName, $dataValueCode, $dataValue, $demoCode, $extraComponents = [])
     {
         if (is_array($dataName)) {
             $dataCode = "";
@@ -491,9 +801,9 @@ $dataCode    };
 });
 </script>",
             'vue_embed' => $demoCode,
-            'components' => [
+            'components' => array_merge([
                 ['plugin' => 'CorePluginsAdmin', 'component' => 'Field'],
-            ],
+            ], $extraComponents),
             'directives' => [
                 ['plugin' => 'CorePluginsAdmin', 'directive' => 'Form'],
             ],
