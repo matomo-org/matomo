@@ -81,7 +81,7 @@ Segmentation = (function($) {
         };
 
         segmentation.prototype.markComparedSegments = function() {
-            var comparisonService = window.CoreHome.ComparisonsStore;
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
@@ -165,7 +165,7 @@ Segmentation = (function($) {
                 + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span>';
-            var comparisonService = window.CoreHome.ComparisonsStore;
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparisonEnabled()
                 || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
             ) {
@@ -407,7 +407,7 @@ Segmentation = (function($) {
                 e.stopPropagation();
                 e.preventDefault();
 
-                var comparisonService = window.CoreHome.ComparisonsStore;
+                var comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
                 });
