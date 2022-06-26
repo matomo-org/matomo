@@ -5,44 +5,27 @@
 {% block content %}
 
     <div class="marketplace">
-
-        <div piwik-content-intro>
-            <h2 piwik-enriched-headline feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}"
-            >{{ title|e('html_attr') }}</h2>
-
-            <p>
-                {% if not isSuperUser %}
-                    {% if showThemes %}
-                        {{ 'Marketplace_NotAllowedToBrowseMarketplaceThemes'|translate }}
-                    {% else %}
-                        {{ 'Marketplace_NotAllowedToBrowseMarketplacePlugins'|translate }}
-                    {% endif %}
-                {% elseif showThemes %}
-                    {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
-                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('CorePluginsAdmin_Themes'|translate), '<a href="#" class="uploadPlugin">', ('CorePluginsAdmin_Theme'|translate), '</a>')|raw }}
-                {% else %}
-                    {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
-                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('General_Plugins'|translate), '<a href="#" class="uploadPlugin">', ('General_Plugin'|translate), '</a>')|raw }}
-                {% endif %}
-                {% if isSuperUser and inReportingMenu %}
-                    {{ 'Marketplace_NoticeRemoveMarketplaceFromReportingMenu'|translate('<a href="#" piwik-plugin-name="WhiteLabel">', '</a>')|raw }}
-                {% endif %}
-            </p>
-            {% include '@Marketplace/licenseform.twig' %}
-
-            {% include '@Marketplace/uploadPluginDialog.twig' %}
-
-            <div
-                    vue-entry="Marketplace.Marketplace"
-                    plugin-type="{{ pluginType|default(null)|json_encode|e('html_attr') }}"
-                    plugin-type-options="{{ pluginTypeOptions|default(null)|json_encode|e('html_attr') }}"
-                    sort="{{ sort|default(null)|json_encode|e('html_attr') }}"
-                    plugin-sort-options="{{ pluginSortOptions|default(null)|json_encode|e('html_attr') }}"
-                    plugins-to-show="{{ pluginsToShow|default(null)|json_encode|e('html_attr') }}"
-                    query="{{ query|default(null)|json_encode|e('html_attr') }}"
-                    num-available-plugins="{{ numAvailablePlugins|default(null)|json_encode|e('html_attr') }}"
-            ></div>
-        </div>
+        <div
+            vue-entry="Marketplace.OverviewIntro"
+            show-themes="{{ showThemes|default(false)|json_encode|e('html_attr') }}"
+            in-reporting-menu="{{ inReportingMenu|default(false)|json_encode|e('html_attr') }}"
+            is-valid-consumer="{{ isValidConsumer|default(false)|json_encode|e('html_attr') }}"
+            is-super-user="{{ isSuperUser|default(false)|json_encode|e('html_attr') }}"
+            is-auto-update-possible="{{ isAutoUpdatePossible|default(false)|json_encode|e('html_attr') }}"
+            is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(false)|json_encode|e('html_attr') }}"
+            has-license-key="{{ hasLicenseKey|default(false)|json_encode|e('html_attr') }}"
+            paid-plugins-to-install-at-once="{{ paidPluginsToInstallAtOnce|default([])|json_encode|e('html_attr') }}"
+            install-nonce="{{ installNonce|default(null)|json_encode|e('html_attr') }}"
+            is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode|e('html_attr') }}"
+            upload-limit="{{ uploadLimit|default(null)|json_encode|e('html_attr') }}"
+            plugin-type="{{ pluginType|default(null)|json_encode|e('html_attr') }}"
+            plugin-type-options="{{ pluginTypeOptions|default(null)|json_encode|e('html_attr') }}"
+            sort="{{ sort|default(null)|json_encode|e('html_attr') }}"
+            plugin-sort-options="{{ pluginSortOptions|default(null)|json_encode|e('html_attr') }}"
+            plugins-to-show="{{ pluginsToShow|default(null)|json_encode|e('html_attr') }}"
+            query="{{ query|default(null)|json_encode|e('html_attr') }}"
+            num-available-plugins="{{ numAvailablePlugins|default(null)|json_encode|e('html_attr') }}"
+        ></div>
 
         {% include '@Marketplace/plugin-list.twig' %}
 
