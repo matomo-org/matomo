@@ -278,7 +278,7 @@ browser_archiving_disabled_enforce = 0
 currencies[BTC] = Bitcoin
 
 ; Allow you to set the default invite user token expires in days
-; For example default_invite_user_token_expiry_days = 7
+; For example default_invite_user_token_expiry_days = 10
 default_invite_user_token_expiry_days = 7
 
 ; By default, users can create Segments which are to be processed in Real-time.

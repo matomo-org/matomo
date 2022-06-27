@@ -115,7 +115,7 @@
         </div>
       </div>
       <div
-          class="input-field col s12 m12 l6 users-list-pagination-container"
+          class="input-field col s12 m12 l12 users-list-pagination-container"
           v-if="totalEntries > searchParams.limit"
       >
         <div class="usersListPagination">

@@ -1459,7 +1459,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        if (!$this->model->getPendingUser($userLogin)) {
+        if (!$this->model->isPendingUser($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
         }
 

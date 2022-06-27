@@ -41,7 +41,8 @@ describe('Invite', function () {
     await page.evaluate(function(){
       $('#login_form_submit').click();
     });
-    expect(await page.screenshot({ fullPage: true })).to.matchImage('success');
+    await page.waitForSelector('#dashboard');
+    await page.waitForNetworkIdle();
   });
 
 });

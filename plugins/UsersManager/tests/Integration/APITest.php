@@ -1216,7 +1216,7 @@ class APITest extends IntegrationTestCase
     public function test_inviteUser()
     {
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org');
-        $user = $this->model->getPendingUser('pendingLoginTest');
+        $user = $this->model->isPendingUser('pendingLoginTest');
         $this->assertTrue($user);
     }
 

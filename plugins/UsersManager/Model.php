@@ -386,20 +386,11 @@ class Model
           $bind);
     }
 
-
     public function deleteAllTokensForUser($login)
     {
         $db = $this->getDb();
 
         return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
-    }
-
-    public function deleteInviteTokensForUser($login)
-    {
-        $db = $this->getDb();
-
-        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `description` like ?  and `login` = ?",
-          ['Invite Token', $login]);
     }
 
     public function getAllNonSystemTokensForLogin($login)
@@ -514,7 +505,7 @@ class Model
           'superuser_access'     => 0,
           'ts_password_modified' => Date::now()->getDatetime(),
           'idchange_last_viewed' => null,
-          'invited_by'           => Piwik::getCurrentUserLogin(),
+          'invited_by'           => null,
         );
 
         $db = $this->getDb();
@@ -765,7 +756,7 @@ class Model
         return $logins;
     }
 
-    public function getPendingUser($userLogin)
+    public function isPendingUser($userLogin)
     {
         $db = $this->getDb();
         $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_token is not null";

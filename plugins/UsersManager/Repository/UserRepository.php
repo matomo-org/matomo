@@ -92,6 +92,8 @@ class UserRepository
 
         //send Admin Email
         if ($newUser) {
+            // add invited_by
+            $this->model->updateUserFields($userLogin, ['invited_by' => Piwik::getCurrentUserLogin()]);
             $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, array(
               'login'        => Piwik::getCurrentUserLogin(),
               'emailAddress' => Piwik::getCurrentUserEmail(),
@@ -116,7 +118,7 @@ class UserRepository
               'currentUser' => Piwik::getCurrentUserLogin(),
               'user'        => $user,
               'token'       => $generatedToken,
-              'expired'      => $expired
+              'expireDate'  => $expired
             ));
             $email->safeSend();
 
@@ -199,32 +201,35 @@ class UserRepository
         if (!empty($users)) {
             foreach ($users as $index => $user) {
                 $users[$index] = $this->enrichUser($user);
-
-                // remove pending user view if not super admin
-                if ($users[$index]['invite_status'] !== 'active') {
-                    if (isset($users[$index]['invited_by']) && !Piwik::hasUserSuperUserAccess()
-                      && $users[$index]['invited_by'] !== Piwik::getCurrentUserLogin()) {
-                        unset($users[$index]);
-                    }
-                }
-
-                if ($filterStatus) {
-                    $actualStatus = $users[$index]['invite_status'];
-
-                    if ($filterStatus === 'pending') {
-                        if (!is_float($actualStatus)) {
-                            unset($users[$index]);
-                        }
-                    } else {
-                        if ($actualStatus !== $filterStatus) {
-                            unset($users[$index]);
-                        }
-                    }
-
-                }
             }
         }
         return $users;
+    }
+
+    public function filterByStatus($user, $filterStatus = null)
+    {
+        // remove pending user view if not super admin
+        if ($user['invite_status'] !== 'active') {
+            if (isset($user['invited_by']) && !Piwik::hasUserSuperUserAccess()
+              && $user['invited_by'] !== Piwik::getCurrentUserLogin()) {
+                unset($user);
+            }
+        }
+
+        if ($filterStatus) {
+            $actualStatus = $user['invite_status'];
+
+            if ($filterStatus === 'pending') {
+                if (!is_float($actualStatus)) {
+                    unset($users[$index]);
+                }
+            } else {
+                if ($actualStatus !== $filterStatus) {
+                    unset($users[$index]);
+                }
+            }
+
+        }
     }
 
     public function enrichUsersWithLastSeen($users)

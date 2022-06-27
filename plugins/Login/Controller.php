@@ -537,7 +537,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
-        if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+        if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
@@ -559,10 +559,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $message = Piwik::translate('PrivacyManager_PrivacyPolicy');
                 }
                 if ($privacyPolicyUrl && $termsAndConditionUrl) {
-                    $message = $message . ' ' . Piwik::translate('General_And') . ' ';
+                    $message .= ' ' . Piwik::translate('General_And') . ' ';
                 }
                 if ($termsAndConditionUrl) {
-                    $message = $message . Piwik::translate('PrivacyManager_TermsAndConditions');
+                    $message .= Piwik::translate('PrivacyManager_TermsAndConditions');
                 }
                 $error = Piwik::translate('Login_ConditionRequired', $message);
             }
@@ -645,14 +645,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
-        if (Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+        if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
         $view = new View('@Login/invitationDecline');
 
         if ($form) {
             //remove user
-            $model->deleteUserOnly($user['login']);
+            \Piwik\Plugins\UsersManager\API::getInstance()->deleteUser($user['login']);
             //send Email back to invited from
             if (!empty($user['invited_by'])) {
                 $invitedBy = $model->getUser($user['invited_by']);

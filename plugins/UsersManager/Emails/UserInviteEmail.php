@@ -32,22 +32,22 @@ class UserInviteEmail extends Mail
     /**
      * @var int
      */
-    private $expired;
+    private $expireDate;
 
     /**
      * @param string $currentUser
      * @param array $user
      * @param string $idSite
      * @param string $token
-     * @param int $expired
+     * @param int $expireDate
      */
-    public function __construct($currentUser, $user, $token, $expired)
+    public function __construct($currentUser, $user, $token, $expireDate)
     {
         parent::__construct();
         $this->currentUser = $currentUser;
         $this->user = $user;
         $this->token = $token;
-        $this->expired = $expired;
+        $this->expireDate = $expireDate;
         $this->setUpEmail();
     }
 
