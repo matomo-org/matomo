@@ -60,7 +60,6 @@
         "InvitationDeclineBody": "Are you sure you want to decline this Invitation?",
         "InvitationHints": "(to cancel this action, just leave the page)",
         "Accept": "Accept",
-        "Yes": "Yes",
         "ConditionRequired": "Please Accept the %s.",
         "PasswordRequired": "Please enter password to continue",
         "DeclineInvitationInfo": "Your invitation has been successful declined.",
