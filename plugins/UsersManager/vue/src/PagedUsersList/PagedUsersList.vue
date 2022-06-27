@@ -10,7 +10,7 @@
       :class="{loading: isLoadingUsers}"
   >
     <div class="userListFilters row">
-      <div class="col s12 m12 l12">
+      <div class="col s12 m12 l8">
         <div class="input-field col s12 m2 l2">
           <a
               class="dropdown-trigger btn bulk-actions"
@@ -115,7 +115,7 @@
         </div>
       </div>
       <div
-          class="input-field col s12 m12 l12 users-list-pagination-container"
+          class="input-field col s12 m12 l4 users-list-pagination-container"
           v-if="totalEntries > searchParams.limit"
       >
         <div class="usersListPagination">
