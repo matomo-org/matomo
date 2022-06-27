@@ -719,7 +719,7 @@ class API extends \Piwik\Plugin\API
     public function inviteUser($userLogin, $email, $idSite = null, $expired = null)
     {
         if (!$expired) {
-            $expired = Config::getInstance()->General['default_invite_user_token_expired_in'];
+            $expired = Config::getInstance()->General['default_invite_user_token_expiry_days'];
         }
 
         //create User
