@@ -37,4 +37,10 @@
 		<invite_status>active</invite_status>
 		<invited_by>superUserLogin</invited_by>
 	</row>
+	<row>
+		<login>zzzpendingUser2</login>
+		<superuser_access>0</superuser_access>
+		<invite_status>6</invite_status>
+		<invited_by>login2</invited_by>
+	</row>
 </result>

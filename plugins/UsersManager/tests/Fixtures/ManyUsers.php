@@ -31,45 +31,59 @@ class ManyUsers extends Fixture
     public $users = array();
 
     public $baseUsers = array(
-        'login1' => array('superuser' => 1),
-        'login2' => array('view' => array(3,5),   'admin' => array(1,2,6)),
-        'login3' => array('view' => array(),        'admin' => array()), // no access to any site
-        'login4' => array('view' => array(6),       'admin' => array()), // only access to one with view
-        'login5' => array('view' => array(),        'admin' => array(3)), // only access to one with admin
-        'login6' => array('view' => array(),        'admin' => array(6,3)), // access to a couple of sites with admin
-        'login7' => array('view' => array(2,1,6,3), 'admin' => array()), // access to a couple of sites with view
-        'login8' => array('view' => array(4,7),     'admin' => array(2,5)), // access to a couple of sites with admin and view
-        'login9' => array('view' => array(5,6),     'admin' => array(8,9)),
-        'login10' => array('superuser' => 1)
+      'login1' => array('superuser' => 1),
+      'login2' => array('view' => array(3, 5), 'admin' => array(1, 2, 6)),
+      'login3' => array('view' => array(), 'admin' => array()),
+      // no access to any site
+      'login4' => array('view' => array(6), 'admin' => array()),
+      // only access to one with view
+      'login5' => array('view' => array(), 'admin' => array(3)),
+      // only access to one with admin
+      'login6' => array('view' => array(), 'admin' => array(6, 3)),
+      // access to a couple of sites with admin
+      'login7' => array('view' => array(2, 1, 6, 3), 'admin' => array()),
+      // access to a couple of sites with view
+      'login8' => array('view' => array(4, 7), 'admin' => array(2, 5)),
+      // access to a couple of sites with admin and view
+      'login9' => array('view' => array(5, 6), 'admin' => array(8, 9)),
+      'login10' => array('superuser' => 1)
     );
 
     public $pendingUser = array(
-      'login'=>'000pendingUser1',
-      'email'=>'pendinguser1light@example.com'
+      'login' => '000pendingUser1',
+      'email' => 'pendinguser1light@example.com'
+    );
+
+    public $pendingUser2 = array(
+      'login' => 'zzzpendingUser2',
+      'email' => 'zpendinguser2light@example.com'
     );
 
     public $baseSites = [
-        'sleep',
-        'escapesequence',
-        'hunter',
-        'transistor',
-        'wicket',
-        'relentless',
-        'scarecrow',
-        'nova',
-        'resilience',
-        'tricks',
+      'sleep',
+      'escapesequence',
+      'hunter',
+      'transistor',
+      'wicket',
+      'relentless',
+      'scarecrow',
+      'nova',
+      'resilience',
+      'tricks',
     ];
 
     public $textAdditions = [
-        'life',
-        'light',
-        'flight',
-        'conchords',
+      'life',
+      'light',
+      'flight',
+      'conchords',
     ];
 
-    public function __construct($userCopyCount = self::USER_COUNT, $siteCopyCount = self::SITE_COUNT, $addTextSuffixes = true)
-    {
+    public function __construct(
+      $userCopyCount = self::USER_COUNT,
+      $siteCopyCount = self::SITE_COUNT,
+      $addTextSuffixes = true
+    ) {
         $this->userCopyCount = $userCopyCount;
         $this->siteCopyCount = $siteCopyCount;
         $this->addTextSuffixes = $addTextSuffixes;
@@ -105,7 +119,7 @@ class ManyUsers extends Fixture
         $api = API::getInstance();
 
         // add a pending invite user
-        $api->inviteUser($this->pendingUser['login'],  $this->pendingUser['email'],1);
+        $api->inviteUser($this->pendingUser['login'], $this->pendingUser['email'], 1);
 
         for ($i = 0; $i != $this->userCopyCount; ++$i) {
             $addToEmail = $i % 2 == 0;
@@ -121,7 +135,7 @@ class ManyUsers extends Fixture
                 }
 
                 $email = $login . '@example.com';
-                if ($this->addTextSuffixes &&$addToEmail) {
+                if ($this->addTextSuffixes && $addToEmail) {
                     $email = $login . $textAddition . '@example.com';
                 }
 
@@ -147,5 +161,10 @@ class ManyUsers extends Fixture
                 $this->users[$login]['token'] = $tokenAuth;
             }
         }
+
+        //add admin view pending user
+        $api->inviteUser($this->pendingUser2['login'], $this->pendingUser2['email'], 1);
+        $model->updateUserFields($this->pendingUser2['login'], ['invited_by' => 'login2']);
+
     }
 }

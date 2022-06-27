@@ -221,14 +221,22 @@ class UserRepository
      */
     public function enrichUsers($users, $filterStatus = null)
     {
+        $currentUser = Piwik::getCurrentUserLogin();
+        $isSuperAdmin = Piwik::hasUserSuperUserAccess();
+
         if (!empty($users)) {
             foreach ($users as $index => $user) {
                 $users[$index] = $this->enrichUser($user);
+
+                // filter user by access
+                if (!empty($user['invite_token']) && !$isSuperAdmin && $user['invited_by'] !== $currentUser) {
+                    unset($users[$index]);
+                }
             }
         }
         return $users;
     }
-    
+
 
     /**
      * @param $users
