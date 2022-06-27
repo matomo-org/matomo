@@ -66,7 +66,7 @@ class UsersManagerTest extends IntegrationTestCase
         FakeAccess::$superUserLogin = 'superusertest';
         $this->backupIdentity = FakeAccess::$identity;
 
-        $this->api   = API::getInstance();
+        $this->api = API::getInstance();
         $this->model = new Model();
     }
 
@@ -115,7 +115,7 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['invited_by']);
 
         // implicitly checks password!
-        $user['email']            = $newEmail;
+        $user['email'] = $newEmail;
         $user['superuser_access'] = 0;
         $user['twofactor_secret'] = '';
 
@@ -133,10 +133,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionInvalidPassword');
 
         $login = "login";
-        $user  = array('login'    => $login,
-                       'password' => "geqgeagae",
-                       'email'    => "test@test.com",
-                      );
+        $user = array(
+          'login'    => $login,
+          'password' => "geqgeagae",
+          'email'    => "test@test.com",
+        );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
@@ -154,10 +155,10 @@ class UsersManagerTest extends IntegrationTestCase
     public function getAddUserInvalidLoginData()
     {
         return array(
-            array(9, "password", "email@email.com"), // wrong login / integer => exception
-            array("gegag'ggea'", "password", "email@email.com"), // wrong login / too short => exception
-            array("gegag11gge&", "password", "email@email.com"), // wrong login / too long => exception
-            array("geg'ag11gge@", "password", "email@email.com"), // wrong login / bad characters => exception
+          array(9, "password", "email@email.com"), // wrong login / integer => exception
+          array("gegag'ggea'", "password", "email@email.com"), // wrong login / too short => exception
+          array("gegag11gge&", "password", "email@email.com"), // wrong login / too long => exception
+          array("geg'ag11gge@", "password", "email@email.com"), // wrong login / bad characters => exception
         );
     }
 
@@ -199,8 +200,8 @@ class UsersManagerTest extends IntegrationTestCase
     public function getWrongPasswordTestData()
     {
         return array(
-            array("geggeqgeqag", "pas", "email@email.com"), // too short -> exception
-            array("geggeqgeqag", "", "email@email.com"), // empty -> exception
+          array("geggeqgeqag", "pas", "email@email.com"), // too short -> exception
+          array("geggeqgeqag", "", "email@email.com"), // empty -> exception
         );
     }
 
@@ -229,7 +230,9 @@ class UsersManagerTest extends IntegrationTestCase
     public function testAddUserLongPassword()
     {
         $login = "geggeqgeqag";
-        $this->api->addUser($login, "geqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaeg", "mgeagi@geq.com");
+        $this->api->addUser($login,
+          "geqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaeg",
+          "mgeagi@geq.com");
         $user = $this->api->getUser($login);
         $this->assertEquals($login, $user['login']);
     }
@@ -249,7 +252,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         // check that the date registered is correct
         $this->assertTrue($time <= strtotime($user['date_registered']) && strtotime($user['date_registered']) <= time(),
-            "the date_registered " . strtotime($user['date_registered']) . " is different from the time() " . time());
+          "the date_registered " . strtotime($user['date_registered']) . " is different from the time() " . time());
 
         // check that password and token are properly set
         $this->assertEquals(60, strlen($user['password']));
@@ -284,7 +287,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessFromUser($login);
         $this->assertEquals([
-            ['site' => 1, 'access' => 'view'],
+          ['site' => 1, 'access' => 'view'],
         ], $access);
     }
 
@@ -299,7 +302,8 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com');
     }
 
-    public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo()
+    public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo(
+    )
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasAdminAccess Fake exception');
@@ -444,17 +448,32 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com");
         $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        Option::set('UsersManager.lastSeen.gegg4564eqgeqag',$now = time());
+        Option::set('UsersManager.lastSeen.gegg4564eqgeqag', $now = time());
 
         $users = $this->api->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
-        $user1 = array('login' => "gegg4564eqgeqag", 'email' => "tegst@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false, 'last_seen' => Date::getDatetimeFromTimestamp($now));
-        $user2 = array('login' => "geggeqge632ge56a4qag", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
-        $user3 = array('login' => "geggeqgeqagqegg", 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
+        $user1 = array('login'            => "gegg4564eqgeqag",
+                       'email'            => "tegst@tesgt.com",
+                       'superuser_access' => 0,
+                       'uses_2fa'         => false,
+                       'last_seen'        => Date::getDatetimeFromTimestamp($now)
+        );
+        $user2 = array('login'            => "geggeqge632ge56a4qag",
+                       'email'            => "tesggt@tesgt.com",
+                       'superuser_access' => 0,
+                       'uses_2fa'         => false
+        );
+        $user3 = array('login'            => "geggeqgeqagqegg",
+                       'email'            => "tesgggt@tesgt.com",
+                       'superuser_access' => 0,
+                       'uses_2fa'         => false
+        );
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
-        $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag')));
-        $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
+        $this->assertEquals(array($user1),
+          $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag')));
+        $this->assertEquals(array($user1, $user2),
+          $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
     }
 
     public function testGetUsers_withViewAccess_shouldThrowAnException()
@@ -526,7 +545,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess Fake exception');
 
-        FakeAccess::clearAccess($superUser = false, $admin =array(), $view = array(1));
+        FakeAccess::clearAccess($superUser = false, $admin = array(), $view = array(1));
         $this->api->getUserLoginFromUserEmail('tegst@tesgt.com');
     }
 
@@ -535,7 +554,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
 
-        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
+        FakeAccess::clearAccess($superUser = false, $admin = array(1), $view = array());
         $this->api->setUserAccess("nologin", "view", 1);
     }
 
@@ -545,7 +564,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
 
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com");
-        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
+        FakeAccess::clearAccess($superUser = false, $admin = array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
     }
 
@@ -555,7 +574,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
 
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com");
-        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
+        FakeAccess::clearAccess($superUser = false, $admin = array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "superuser", 1);
     }
 
@@ -564,7 +583,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
 
-        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
+        FakeAccess::clearAccess($superUser = false, $admin = array(1), $view = array());
         $this->api->setUserAccess('superusertest', 'view', 1);
     }
 
@@ -777,7 +796,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $pwd = $this->createCurrentUser();
 
-        FakeAccess::$superUser= false;
+        FakeAccess::$superUser = false;
         $this->api->setSuperUserAccess('nologin', false, $pwd);
     }
 
@@ -909,9 +928,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
 
         $login = "login";
-        $user  = array('login'    => $login,
-                       'password' => "geqgeagae",
-                       'email'    => "test@test.com");
+        $user = array(
+          'login'    => $login,
+          'password' => "geqgeagae",
+          'email'    => "test@test.com"
+        );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
@@ -925,9 +946,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
         $login = "login";
-        $user  = array('login'    => $login,
-                       'password' => "geqgeagae",
-                       'email'    => "test@test.com");
+        $user = array(
+          'login'    => $login,
+          'password' => "geqgeagae",
+          'email'    => "test@test.com"
+        );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
@@ -941,9 +964,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
         $login = "login";
-        $user  = array('login'    => $login,
-                       'password' => "geqgeagae",
-                       'email'    => "test@test.com");
+        $user = array(
+          'login'    => $login,
+          'password' => "geqgeagae",
+          'email'    => "test@test.com"
+        );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
         // currently logged in is a super user and not "login". therefore the password of "login" won't work
@@ -956,9 +981,11 @@ class UsersManagerTest extends IntegrationTestCase
     public function testUpdateUserNoEmail()
     {
         $login = "login";
-        $user  = array('login'    => $login,
-                       'password' => "geqgeagae",
-                       'email'    => "test@test.com");
+        $user = array(
+          'login'    => $login,
+          'password' => "geqgeagae",
+          'email'    => "test@test.com"
+        );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
@@ -998,9 +1025,11 @@ class UsersManagerTest extends IntegrationTestCase
     public function testUpdateUser()
     {
         $login = "login";
-        $user  = array('login'    => $login,
-                       'password' => "geqgeagae",
-                       'email'    => "test@test.com");
+        $user = array(
+          'login'    => $login,
+          'password' => "geqgeagae",
+          'email'    => "test@test.com"
+        );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
@@ -1019,9 +1048,11 @@ class UsersManagerTest extends IntegrationTestCase
 
     public function testGetUserByEmail()
     {
-        $user = array('login'    => "login",
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com");
+        $user = array(
+          'login'    => "login",
+          'password' => "geqgeagae",
+          'email'    => "test@test.com"
+        );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
 
@@ -1046,23 +1077,24 @@ class UsersManagerTest extends IntegrationTestCase
         $this->addSites(1);
         $roles = $this->api->getAvailableRoles();
         $expected = array(
-            array (
-                'id' => 'view',
-                'name' => 'UsersManager_PrivView',
-                'description' => 'UsersManager_PrivViewDescription',
-                'helpUrl' => 'https://matomo.org/faq/general/faq_70/'
-            ), array (
-                'id' => 'write',
-                'name' => 'UsersManager_PrivWrite',
-                'description' => 'UsersManager_PrivWriteDescription',
-                'helpUrl' => 'https://matomo.org/faq/general/faq_26910'
-             ),
-            array (
-                'id' => 'admin',
-                'name' => 'UsersManager_PrivAdmin',
-                'description' => 'UsersManager_PrivAdminDescription',
-                'helpUrl' => 'https://matomo.org/faq/general/faq_69/',
-             )
+          array(
+            'id'          => 'view',
+            'name'        => 'UsersManager_PrivView',
+            'description' => 'UsersManager_PrivViewDescription',
+            'helpUrl'     => 'https://matomo.org/faq/general/faq_70/'
+          ),
+          array(
+            'id'          => 'write',
+            'name'        => 'UsersManager_PrivWrite',
+            'description' => 'UsersManager_PrivWriteDescription',
+            'helpUrl'     => 'https://matomo.org/faq/general/faq_26910'
+          ),
+          array(
+            'id'          => 'admin',
+            'name'        => 'UsersManager_PrivAdmin',
+            'description' => 'UsersManager_PrivAdminDescription',
+            'helpUrl'     => 'https://matomo.org/faq/general/faq_69/',
+          )
         );
         $this->assertEquals($expected, $roles);
     }
@@ -1071,30 +1103,30 @@ class UsersManagerTest extends IntegrationTestCase
     {
         $this->addSites(1);
         $this->assertSame(array(
-            0 => array(
-                'id' => 'tagmanager_write',
-                'name' => 'UsersManager_PrivWrite',
-                'description' => 'TagManager_CapabilityWriteDescription',
-                'helpUrl' => '',
-                'includedInRoles' => array ('write', 'admin'),
-                'category' => 'TagManager_TagManager',
-            ),
-            1 => array (
-                'id' => 'tagmanager_publish_live_container',
-                 'name' => 'TagManager_CapabilityPublishLiveContainer',
-                'description' => 'TagManager_CapabilityPublishLiveContainerDescription',
-                'helpUrl' => '',
-                'includedInRoles' => array ('admin'),
-                'category' => 'TagManager_TagManager',
-            ),
-            2 => array (
-                'id' => 'tagmanager_use_custom_templates',
-                'name' => 'TagManager_CapabilityUseCustomTemplates',
-                'description' => 'TagManager_CapabilityUseCustomTemplateDescription',
-                'helpUrl' => '',
-                'includedInRoles' => array ('admin'),
-                'category' => 'TagManager_TagManager',
-            )
+          0 => array(
+            'id'              => 'tagmanager_write',
+            'name'            => 'UsersManager_PrivWrite',
+            'description'     => 'TagManager_CapabilityWriteDescription',
+            'helpUrl'         => '',
+            'includedInRoles' => array('write', 'admin'),
+            'category'        => 'TagManager_TagManager',
+          ),
+          1 => array(
+            'id'              => 'tagmanager_publish_live_container',
+            'name'            => 'TagManager_CapabilityPublishLiveContainer',
+            'description'     => 'TagManager_CapabilityPublishLiveContainerDescription',
+            'helpUrl'         => '',
+            'includedInRoles' => array('admin'),
+            'category'        => 'TagManager_TagManager',
+          ),
+          2 => array(
+            'id'              => 'tagmanager_use_custom_templates',
+            'name'            => 'TagManager_CapabilityUseCustomTemplates',
+            'description'     => 'TagManager_CapabilityUseCustomTemplateDescription',
+            'helpUrl'         => '',
+            'includedInRoles' => array('admin'),
+            'category'        => 'TagManager_TagManager',
+          )
         ), $this->api->getAvailableCapabilities());
     }
 
@@ -1116,17 +1148,17 @@ class UsersManagerTest extends IntegrationTestCase
     {
         $view = new View('@UsersManager/_userInviteEmail.twig');
         $view->login = "test";
-        $view->emailAddress =  "test@test.com";;
+        $view->emailAddress = "test@test.com";;
         $view->idSite = 1;
         $view->siteName = 'test';
         $view->token = "thisisatoken";
 
         // content line for email body
-        $view->content =Piwik::translate('CoreAdminHome_UserInviteSubject',
+        $view->content = Piwik::translate('CoreAdminHome_UserInviteSubject',
           ["<strong>test</strong>", "<strong>test</strong>"]);
 
         //notes for email footer
-        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', ['test','test']);
+        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', ['test', 'test', 7]);
         $host = SettingsPiwik::getPiwikUrl();
         $content = <<<END
 <p>General_HelloUser</p>
@@ -1147,8 +1179,9 @@ END;
         $idSites = array();
 
         for ($index = 0; $index < $numberOfSites; $index++) {
-            $name      = "test" . ($index + 1);
-            $idSites[] = APISitesManager::getInstance()->addSite($name, array("http://piwik.net", "http://piwik.com/test/"));
+            $name = "test" . ($index + 1);
+            $idSites[] = APISitesManager::getInstance()->addSite($name,
+              array("http://piwik.net", "http://piwik.com/test/"));
         }
 
         return $idSites;
@@ -1157,7 +1190,7 @@ END;
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess()
         );
     }
 

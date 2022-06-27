@@ -29,19 +29,25 @@ class UserInviteEmail extends Mail
      * @var string
      */
     private $token;
+    /**
+     * @var int
+     */
+    private $expired;
 
     /**
      * @param string $currentUser
      * @param array $user
      * @param string $idSite
      * @param string $token
+     * @param int $expired
      */
-    public function __construct($currentUser, $user, $token)
+    public function __construct($currentUser, $user, $token, $expired)
     {
         parent::__construct();
         $this->currentUser = $currentUser;
         $this->user = $user;
         $this->token = $token;
+        $this->expired = $expired;
         $this->setUpEmail();
     }
 
@@ -78,7 +84,7 @@ class UserInviteEmail extends Mail
         $view->content = $this->getDefaultSubjectWithStyle();
 
         //notes for email footer
-        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->user['login'], $this->currentUser]);
+        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->user['login'], $this->currentUser,  $this->expired]);
         return $view;
     }
 }
