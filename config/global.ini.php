@@ -278,8 +278,8 @@ browser_archiving_disabled_enforce = 0
 currencies[BTC] = Bitcoin
 
 ; Allow you to set the default invite user token expires in days
-; For example default_invite_user_token_expired_in = 7
-default_invite_user_token_expired_in = 7
+; For example default_invite_user_token_expiry_days = 7
+default_invite_user_token_expiry_days = 7
 
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
