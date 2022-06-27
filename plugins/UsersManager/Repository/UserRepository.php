@@ -85,7 +85,7 @@ class UserRepository
          *
          * @param string $userLogin The new user's details handle.
          */
-        Piwik::postEvent('UsersManager.inviteUser.end', array($userLogin, $email, Piwik::getCurrentUserLogin()));
+        Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, Piwik::getCurrentUserLogin()));
 
         if ($initialIdSite) {
             API::getInstance()->setUserAccess($userLogin, 'view', $initialIdSite);
@@ -228,35 +228,7 @@ class UserRepository
         }
         return $users;
     }
-
-//    /**
-//     * @param $user
-//     * @param null $filterStatus
-//     */
-//    public function filterByStatus($users, $filterStatus = null)
-//    {
-//        // remove pending user view if not super admin
-//        if ($user['invite_status'] !== 'active') {
-//            if (isset($user['invited_by']) && !Piwik::hasUserSuperUserAccess()
-//              && $user['invited_by'] !== Piwik::getCurrentUserLogin()) {
-//                unset($user);
-//            }
-//        }
-//
-//        if ($filterStatus) {
-//            $actualStatus = $user['invite_status'];
-//
-//            if ($filterStatus === 'pending') {
-//                if (!is_float($actualStatus)) {
-//                    unset($users[$index]);
-//                }
-//            } else {
-//                if ($actualStatus !== $filterStatus) {
-//                    unset($users[$index]);
-//                }
-//            }
-//        }
-//    }
+    
 
     /**
      * @param $users

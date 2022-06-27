@@ -1144,36 +1144,6 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertNotEmpty($user['invite_status']);
     }
 
-    public function testInviteUserEmail()
-    {
-        $view = new View('@UsersManager/_userInviteEmail.twig');
-        $view->login = "test";
-        $view->emailAddress = "test@test.com";;
-        $view->idSite = 1;
-        $view->siteName = 'test';
-        $view->token = "thisisatoken";
-
-        // content line for email body
-        $view->content = Piwik::translate('CoreAdminHome_UserInviteSubject',
-          ["<strong>test</strong>", "<strong>test</strong>"]);
-
-        //notes for email footer
-        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', ['test', 'test', 7]);
-        $host = SettingsPiwik::getPiwikUrl();
-        $content = <<<END
-<p>General_HelloUser</p>
-<p>CoreAdminHome_UserInviteSubject</p>
-<a target="_blank" href="$host?module=Login&action=acceptInvitation&token=thisisatoken"
->CoreAdminHome_AcceptInvite</a> |
-<a target="_blank" href="$host?module=Login&action=declineInvitation&token=thisisatoken"
->CoreAdminHome_DeclineInvite</a>
-<p><b>Notes:</b>CoreAdminHome_UserInviteNotes</p>
-END;
-        $this->assertEquals($content, $view->render());
-
-    }
-
-
     private function addSites($numberOfSites)
     {
         $idSites = array();

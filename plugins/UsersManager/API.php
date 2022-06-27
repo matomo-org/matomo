@@ -1466,7 +1466,6 @@ class API extends \Piwik\Plugin\API
         $this->userRepository->sendNewUserEmails($userLogin, $expired, false);
         Piwik::postEvent('UsersManager.inviteUser.resendInviteEmail', array($userLogin, Piwik::getCurrentUserLogin()));
 
-        Cache::deleteTrackerCache();
 
     }
 
