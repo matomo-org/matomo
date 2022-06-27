@@ -61,7 +61,7 @@ class UserInviteTest extends IntegrationTestCase
           'currentUser' => 'admin',
           'user'        => $user,
           'token'       => $token,
-          'expire'      => 7
+          'expired'      => 7
         ));
 
         $content = $email->getBodyHtml();

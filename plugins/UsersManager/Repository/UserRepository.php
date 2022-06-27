@@ -116,7 +116,7 @@ class UserRepository
               'currentUser' => Piwik::getCurrentUserLogin(),
               'user'        => $user,
               'token'       => $generatedToken,
-              'expire'      => $expired
+              'expired'      => $expired
             ));
             $email->safeSend();
 
