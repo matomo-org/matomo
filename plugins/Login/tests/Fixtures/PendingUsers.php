@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Login\tests\Fixtures;
 
+use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 
@@ -33,6 +34,7 @@ class PendingUsers extends Fixture
     public function setUp(): void
     {
         $this->setUpUser();
+        $this->setUpTermsAndPrivacy();
     }
 
     public function tearDown(): void
@@ -45,6 +47,14 @@ class PendingUsers extends Fixture
         $model = new Model();
         $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime, 1);
         $model->attachInviteToken($this->pendingUser['login'], $this->token, 7);
+    }
+
+    private function setUpTermsAndPrivacy()
+    {
+        $settings = new SystemSettings();
+        $settings->termsAndConditionUrl->setValue('matomo.org');
+        $settings->privacyPolicyUrl->setValue('matomo.org');
+        $settings->save();
 
     }
 }
