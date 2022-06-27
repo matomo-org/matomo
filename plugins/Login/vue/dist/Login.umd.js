@@ -119,6 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "FormErrors", function() { return /* reexport */ FormErrors; });
+__webpack_require__.d(__webpack_exports__, "BruteForceLog", function() { return /* reexport */ BruteForceLog; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -195,6 +196,113 @@ var external_CoreHome_ = __webpack_require__("19dc");
 FormErrorsvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var FormErrors = (FormErrorsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Login/vue/src/BruteForceLog/BruteForceLog.vue?vue&type=template&id=4e87a650
+
+var BruteForceLogvue_type_template_id_4e87a650_hoisted_1 = {
+  key: 0
+};
+var BruteForceLogvue_type_template_id_4e87a650_hoisted_2 = {
+  key: 1,
+  style: {
+    "margin-left": "20px"
+  }
+};
+var BruteForceLogvue_type_template_id_4e87a650_hoisted_3 = {
+  key: 2
+};
+
+var _hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_5 = ["value"];
+var _hoisted_6 = {
+  id: "confirmUnblockAllIps",
+  class: "ui-confirm"
+};
+var _hoisted_7 = ["value"];
+var _hoisted_8 = ["value"];
+var _hoisted_9 = {
+  key: 3
+};
+var _hoisted_10 = {
+  style: {
+    "margin-left": "20px"
+  }
+};
+function BruteForceLogvue_type_template_id_4e87a650_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('Login_CurrentlyBlockedIPs')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [!_ctx.blockedIps.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", BruteForceLogvue_type_template_id_4e87a650_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_None')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", BruteForceLogvue_type_template_id_4e87a650_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.blockedIps, function (blockedIp, index) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+          style: {
+            "list-style": "disc"
+          },
+          key: index
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(blockedIp), 1);
+      }), 128))])), _ctx.blockedIps.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BruteForceLogvue_type_template_id_4e87a650_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_CurrentlyBlockedIPsUnblockInfo')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "button",
+        class: "btn",
+        value: _ctx.translate('Login_UnblockAllIPs'),
+        onClick: _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.unblockAllIps();
+        })
+      }, null, 8, _hoisted_5)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_CurrentlyBlockedIPsUnblockConfirm')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        role: "yes",
+        type: "button",
+        value: _ctx.translate('General_Yes')
+      }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        role: "no",
+        type: "button",
+        value: _ctx.translate('General_No')
+      }, null, 8, _hoisted_8)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.disallowedIps.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_IPsAlwaysBlocked')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_10, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.disallowedIps, function (ip, index) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+          style: {
+            "list-style": "disc"
+          },
+          key: index
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(ip), 1);
+      }), 128))])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+    }),
+    _: 1
+  }, 8, ["content-title"]);
+}
+// CONCATENATED MODULE: ./plugins/Login/vue/src/BruteForceLog/BruteForceLog.vue?vue&type=template&id=4e87a650
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Login/vue/src/BruteForceLog/BruteForceLog.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var BruteForceLogvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    blockedIps: {
+      type: Array,
+      required: true
+    },
+    disallowedIps: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"]
+  },
+  methods: {
+    unblockAllIps: function unblockAllIps() {
+      window.bruteForceLog.unblockAllIps();
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Login/vue/src/BruteForceLog/BruteForceLog.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Login/vue/src/BruteForceLog/BruteForceLog.vue
+
+
+
+BruteForceLogvue_type_script_lang_ts.render = BruteForceLogvue_type_template_id_4e87a650_render
+
+/* harmony default export */ var BruteForceLog = (BruteForceLogvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Login/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -202,6 +310,7 @@ FormErrorsvue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
