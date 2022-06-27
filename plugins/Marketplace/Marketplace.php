@@ -120,6 +120,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_NoSubscriptionsFound';
         $translationKeys[] = 'Marketplace_BrowseMarketplace';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingLicense';
+        $translationKeys[] = 'CorePluginsAdmin_MissingRequirementsNotice';
     }
 
     /**

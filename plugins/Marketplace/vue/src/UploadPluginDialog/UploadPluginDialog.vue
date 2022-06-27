@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentBlock, MatomoUrl } from 'CoreHome';
+import { MatomoUrl } from 'CoreHome';
 import { Field, PluginUpload } from 'CorePluginsAdmin';
 
 interface UploadPluginDialogState {
@@ -62,7 +62,6 @@ export default defineComponent({
     installNonce: String,
   },
   components: {
-    ContentBlock,
     Field,
   },
   directives: {

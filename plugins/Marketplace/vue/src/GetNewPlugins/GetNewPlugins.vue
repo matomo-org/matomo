@@ -38,7 +38,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
-import PluginName from '../PluginName/PluginName';
+import { PluginName } from 'CorePluginsAdmin';
 
 export default defineComponent({
   props: {

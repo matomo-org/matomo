@@ -9,6 +9,7 @@
     <div
       class="row"
       v-for="(rowOfPlugins, index) in pluginRows"
+      :key="index"
     >
       <div class="col s12 m12" v-if="index === 0">
         <h3 style="font-weight: bold;color: #5bb75b" v-html="$sanitize(trialHintsText)"></h3>
@@ -51,7 +52,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoUrl, translate } from 'CoreHome';
-import PluginName from '../PluginName/PluginName';
+import { PluginName } from 'CorePluginsAdmin';
 
 export default defineComponent({
   props: {
@@ -75,9 +76,9 @@ export default defineComponent({
     },
     pluginRows() {
       // divide plugins array into rows of 3
-      const result: unknown[][];
+      const result: unknown[][] = [];
       this.plugins.forEach((plugin, index) => {
-        const row = Math.floor(index / 3)
+        const row = Math.floor(index / 3);
         result[row] = result[row] || [];
         result[row].push(plugin);
       });

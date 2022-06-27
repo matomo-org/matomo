@@ -29,6 +29,7 @@
         <span v-html="$sanitize(installingNewPluginText)"></span>
       </span>
       <span
+        ref="noticeRemoveMarketplaceFromMenu"
         v-if="isSuperUser && inReportingMenu"
         v-html="$sanitize(noticeRemoveMarketplaceFromMenuText)"
       ></span>
@@ -64,10 +65,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ContentIntro, EnrichedHeadline, translate } from 'CoreHome';
+import { PluginName } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 import LicenseKey from '../LicenseKey/LicenseKey.vue';
 import UploadPluginDialog from '../UploadPluginDialog/UploadPluginDialog.vue';
-import PluginName from '../PluginName/PluginName';
 
 export default defineComponent({
   props: {
@@ -127,9 +128,38 @@ export default defineComponent({
     ContentIntro,
     PluginName,
   },
+  mounted() {
+    if (this.$refs.noticeRemoveMarketplaceFromMenu) {
+      const pluginLink = (this.$refs.noticeRemoveMarketplaceFromMenu as HTMLElement)
+        .querySelector('[matomo-plugin-name]') as HTMLElement;
+      PluginName.mounted(pluginLink, {
+        dir: undefined,
+        instance: undefined,
+        modifiers: undefined,
+        oldValue: undefined,
+        value: {
+          pluginName: 'WhiteLabel',
+        },
+      });
+    }
+  },
+  beforeUnmount() {
+    if (this.$refs.noticeRemoveMarketplaceFromMenu) {
+      const pluginLink = (this.$refs.noticeRemoveMarketplaceFromMenu as HTMLElement)
+        .querySelector('[matomo-plugin-name]') as HTMLElement;
+      PluginName.unmounted(pluginLink, {
+        dir: undefined,
+        instance: undefined,
+        modifiers: undefined,
+        oldValue: undefined,
+        value: {
+          pluginName: 'WhiteLabel',
+        },
+      });
+    }
+  },
   computed: {
     installingNewThemeText() {
-      // TODO: handle links
       return translate(
         'Marketplace_InstallingNewPluginViaMarketplaceOrUpload',
         translate('CorePluginsAdmin_Themes'),
@@ -150,7 +180,7 @@ export default defineComponent({
     noticeRemoveMarketplaceFromMenuText() {
       return translate(
         'Marketplace_NoticeRemoveMarketplaceFromReportingMenu',
-        '<a href="#" piwik-plugin-name="WhiteLabel">',
+        '<a href="#" matomo-plugin-name="WhiteLabel">',
         '</a>',
       );
     },

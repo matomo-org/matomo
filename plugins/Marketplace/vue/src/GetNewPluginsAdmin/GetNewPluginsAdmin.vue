@@ -47,7 +47,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
-import PluginName from '../PluginName/PluginName';
+import { PluginName } from 'CorePluginsAdmin';
 import IDotDotDotOptions = JQueryDotDotDot.IDotDotDotOptions;
 
 const { $ } = window;
