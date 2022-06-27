@@ -374,7 +374,7 @@ class API extends \Piwik\Plugin\API
 
             } else {
                 [$users, $totalResults] = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search,
-                  $filter_access, $loginsToLimit);
+                  $filter_access, $filter_status, $loginsToLimit);
 
                 foreach ($users as &$user) {
                     $user['superuser_access'] = $user['superuser_access'] == 1;

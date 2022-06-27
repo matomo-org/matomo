@@ -577,12 +577,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             if (!$error) {
+                $password = UsersManager::getPasswordHash($password);
+                $password = $passwordHelper->hash($password);
+
                 //update pending user to active user
                 $model->updateUserFields($user['login'],
                   [
-                    'password'          => $passwordHelper->hash($password),
+                    'password'          => $password,
                     'invite_token'      => null,
-                    'invite_accept_at'  => Date::now()->getTimestamp(),
+                    'invite_accept_at'  => Date::now()->getDatetime(),
                     'invite_expired_at' => null,
                   ]);
                 $sessionInitializer = new SessionInitializer();

@@ -668,23 +668,6 @@ class Model
         return Db::get();
     }
 
-    public function getUserLoginsMatching($idSite = null, $pattern = null, $access = null, $logins = null)
-    {
-        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
-
-        list($joins, $bind) = $filter->getJoins('u');
-        list($where, $whereBind) = $filter->getWhere();
-
-        $bind = array_merge($bind, $whereBind);
-
-        $sql = 'SELECT u.login FROM ' . $this->userTable . " u $joins $where";
-
-        $db = $this->getDb();
-
-        $result = $db->fetchAll($sql, $bind);
-        $result = array_column($result, 'login');
-        return $result;
-    }
 
     /**
      * Returns all users and their access to `$idSite`.
@@ -703,9 +686,10 @@ class Model
       $offset = null,
       $pattern = null,
       $access = null,
+      $status = null,
       $logins = null
     ) {
-        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
+        $filter = new UserTableFilter($access, $idSite, $pattern, $status, $logins);
 
         list($joins, $bind) = $filter->getJoins('u');
         list($where, $whereBind) = $filter->getWhere();
