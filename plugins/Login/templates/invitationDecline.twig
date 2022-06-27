@@ -12,7 +12,7 @@
                     <input type="hidden" name="token" value="{{ token }}"/>
                     <div class="row actions">
                         <div class="col s12">
-                            <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Yes'|translate }}"
+                            <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'General_Yes'|translate }}"
                             {% if privacyPolicyUrl|default('') is not empty %}
                                 <input name="privacy" type="checkbox" id="privacy" value="1" tabindex="90"/>
                                 <a target="_blank" rel="noreferrer noopener" href="{{ privacyPolicyUrl|safelink|e('html_attr') }}">{{ 'PrivacyManager_PrivacyPolicy'|translate }}</a>
