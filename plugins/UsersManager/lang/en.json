@@ -194,8 +194,8 @@
         "Active": "Active",
         "Expired": "Invite Expired",
         "Decline": "Invite Declined",
-        "ResendInviteSuccess": "Success! The invited has been resend to user %s",
-        "InviteDayLeft": "Expire in %s days",
+        "ResendInviteSuccess": "Success! The invite has been resent to user %s",
+        "InviteDayLeft": "Expires in %s days",
         "FilterByStatus": "Filter by status"
     }
 }
