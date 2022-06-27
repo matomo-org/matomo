@@ -33,6 +33,7 @@ class PendingUsers extends Fixture
 
     public function setUp(): void
     {
+        $this->setUpWebsite();
         $this->setUpUser();
         $this->setUpTermsAndPrivacy();
     }
@@ -47,6 +48,15 @@ class PendingUsers extends Fixture
         $model = new Model();
         $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime, 1);
         $model->attachInviteToken($this->pendingUser['login'], $this->token, 7);
+    }
+
+
+    private function setUpWebsite()
+    {
+        if (!self::siteCreated($this->idSite)) {
+            $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+            $this->assertSame($this->idSite, $idSite);
+        }
     }
 
     private function setUpTermsAndPrivacy()
