@@ -54,12 +54,6 @@ class Controller extends \Piwik\Plugin\Controller
             $response = var_export($response, true);
         }
 
-        // load rate limit page if status code 429
-        if (http_response_code() === 429) {
-            $view = new view('@API/rateLimit');
-            return $view->render();
-        }
-
         return $response;
     }
 

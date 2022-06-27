@@ -522,6 +522,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
         }
       }).fail((xhr: jqXHR) => {
+        if (xhr.status === 429) {
+          console.log(`Warning: the ${$.param(this.getParams)} rate limit!`);
+          reject(xhr);
+          return;
+        }
+
         if (xhr.statusText === 'abort') {
           return;
         }
