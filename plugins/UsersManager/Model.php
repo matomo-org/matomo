@@ -495,6 +495,13 @@ class Model
         }
     }
 
+    /**
+     * @param $userLogin
+     * @param $hashedPassword
+     * @param $email
+     * @param $dateRegistered
+     * @return array
+     */
     public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
     {
         $user = array(

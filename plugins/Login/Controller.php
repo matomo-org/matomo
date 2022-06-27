@@ -577,18 +577,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             if (!$error) {
-                $password = UsersManager::getPasswordHash($password);
-                $passwordInfo = $passwordHelper->info($password);
-
-                if (!isset($passwordInfo['algo']) || 0 >= $passwordInfo['algo']) {
-                    // password may have already been fully hashed
-                    $password = $passwordHelper->hash($password);
-                }
-
                 //update pending user to active user
                 $model->updateUserFields($user['login'],
                   [
-                    'password'          => $password,
+                    'password'          => $passwordHelper->hash($password),
                     'invite_token'      => null,
                     'invite_accept_at'  => Date::now()->getTimestamp(),
                     'invite_expired_at' => null,

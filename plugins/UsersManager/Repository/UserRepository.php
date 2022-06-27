@@ -22,10 +22,19 @@ use Piwik\Plugin;
 
 class UserRepository
 {
+    /**
+     * @var Model
+     */
     protected $model;
 
+    /**
+     * @var UserAccessFilter
+     */
     protected $filter;
 
+    /**
+     * @var Password
+     */
     protected $password;
 
     public function __construct(Model $model, UserAccessFilter $filter, Password $password)
@@ -35,18 +44,14 @@ class UserRepository
         $this->password = $password;
     }
 
-
-    public function index($userLogin, $pending)
-    {
-        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
-        $this->checkUserExists($userLogin);
-
-        $user = $this->model->getUser($userLogin, $pending);
-
-        $user = $this->filter->filterUser($user);
-        return $this->enrichUser($user);
-    }
-
+    /**
+     * @param string $userLogin
+     * @param string $email
+     * @param int $initialIdSite
+     * @param string $password
+     * @param false $_isPasswordHashed
+     * @throws \Exception
+     */
     public function create($userLogin, $email, $initialIdSite, $password = '', $_isPasswordHashed = false)
     {
         $this->validateAccess();
@@ -87,6 +92,13 @@ class UserRepository
         }
     }
 
+    /**
+     * @param string $userLogin
+     * @param int $expired
+     * @param bool $newUser
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
     public function sendNewUserEmails($userLogin, $expired = 7, $newUser = true)
     {
 
@@ -118,7 +130,7 @@ class UserRepository
               'currentUser' => Piwik::getCurrentUserLogin(),
               'user'        => $user,
               'token'       => $generatedToken,
-              'expireDate'  => $expired
+              'expireDays'  => $expired
             ));
             $email->safeSend();
 
@@ -132,6 +144,11 @@ class UserRepository
         UsersManager::dieIfUsersAdminIsDisabled();
     }
 
+    /**
+     * @param $user
+     * @return array|mixed
+     * @throws \Exception
+     */
     public function enrichUser($user)
     {
         if (empty($user)) {
@@ -196,6 +213,12 @@ class UserRepository
         return $newUser;
     }
 
+    /**
+     * @param $users
+     * @param null $filterStatus
+     * @return mixed
+     * @throws \Exception
+     */
     public function enrichUsers($users, $filterStatus = null)
     {
         if (!empty($users)) {
@@ -206,32 +229,39 @@ class UserRepository
         return $users;
     }
 
-    public function filterByStatus($user, $filterStatus = null)
-    {
-        // remove pending user view if not super admin
-        if ($user['invite_status'] !== 'active') {
-            if (isset($user['invited_by']) && !Piwik::hasUserSuperUserAccess()
-              && $user['invited_by'] !== Piwik::getCurrentUserLogin()) {
-                unset($user);
-            }
-        }
+//    /**
+//     * @param $user
+//     * @param null $filterStatus
+//     */
+//    public function filterByStatus($users, $filterStatus = null)
+//    {
+//        // remove pending user view if not super admin
+//        if ($user['invite_status'] !== 'active') {
+//            if (isset($user['invited_by']) && !Piwik::hasUserSuperUserAccess()
+//              && $user['invited_by'] !== Piwik::getCurrentUserLogin()) {
+//                unset($user);
+//            }
+//        }
+//
+//        if ($filterStatus) {
+//            $actualStatus = $user['invite_status'];
+//
+//            if ($filterStatus === 'pending') {
+//                if (!is_float($actualStatus)) {
+//                    unset($users[$index]);
+//                }
+//            } else {
+//                if ($actualStatus !== $filterStatus) {
+//                    unset($users[$index]);
+//                }
+//            }
+//        }
+//    }
 
-        if ($filterStatus) {
-            $actualStatus = $user['invite_status'];
-
-            if ($filterStatus === 'pending') {
-                if (!is_float($actualStatus)) {
-                    unset($users[$index]);
-                }
-            } else {
-                if ($actualStatus !== $filterStatus) {
-                    unset($users[$index]);
-                }
-            }
-
-        }
-    }
-
+    /**
+     * @param $users
+     * @return mixed
+     */
     public function enrichUsersWithLastSeen($users)
     {
         $formatter = new Formatter();

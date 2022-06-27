@@ -1272,7 +1272,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('superUserLogin','$2y$10$mbMrIm8ZN82gFoNsV76Z3.avOWosOlT.D/6Pz4EZzhmxbedUeOyzm','hello@example.org','',1,'2020-04-15 14:02:31','2020-04-15 14:02:31','2020-04-15 14:02:31',null,null,null,null);
+INSERT INTO `user` VALUES ('superUserLogin',
+                           '$2y$10$mbMrIm8ZN82gFoNsV76Z3.avOWosOlT.D/6Pz4EZzhmxbedUeOyzm','hello@example.org','',1,'2020-04-15 14:02:31','2020-04-15 14:02:31','2020-04-15 14:02:31',null,null,null,null);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 

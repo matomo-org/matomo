@@ -47,7 +47,7 @@ class Email extends BaseValidator
     private function isUnique($email)
     {
         if (APIUsersManager::getInstance()->userExists($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $email));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExistsAsEmail', $email));
         }
 
         if (APIUsersManager::getInstance()->userEmailExists($email)) {

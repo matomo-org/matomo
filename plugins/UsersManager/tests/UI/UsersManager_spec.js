@@ -524,7 +524,7 @@ describe("UsersManager", function () {
     it('should show resend confirm when resend clicked', async function () {
         await page.goto(url);
         await (await page.jQuery('.resend')).click();
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+        expect(await page.screenshotSelector('.resend-invite-confirm-modal')).to.matchImage('resend_popup');
     });
 
     it('should show resend success message', async function() {
