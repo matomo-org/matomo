@@ -39,6 +39,7 @@ describe('Invite', function () {
     await page.type('#password', 'abcd1234');
     await page.type('#password_confirm', 'abcd1234');
     await page.evaluate(function(){
+      $('#conditionCheck').click();
       $('#login_form_submit').click();
     });
     await page.waitForSelector('#dashboard');
