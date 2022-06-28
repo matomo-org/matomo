@@ -16,6 +16,7 @@ use Piwik\Plugins\UsersManager\UserAccessFilter;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Plugins\UsersManager\Validators\Login;
+use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\IdSite;
 use Piwik\Plugin;
@@ -95,13 +96,22 @@ class UserRepository
     /**
      * @param string $userLogin
      * @param int $expired
+     * @param int $initialIdSite
      * @param bool $newUser
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
      */
     public function sendNewUserEmails($userLogin, $expired = 7, $newUser = true)
     {
 
+        $site = $this->model->getSitesAccessFromUser($userLogin);
+        if (isset($site[0])) {
+            $site = new Site($site[0]['site']);
+            $siteName = $site->getName();
+        } else {
+            $siteName = "Default Site";
+        }
         //send Admin Email
         if ($newUser) {
             // add invited_by
@@ -129,6 +139,7 @@ class UserRepository
             $email = StaticContainer::getContainer()->make(UserInviteEmail::class, array(
               'currentUser' => Piwik::getCurrentUserLogin(),
               'user'        => $user,
+              'siteName'    => $siteName,
               'token'       => $generatedToken,
               'expireDays'  => $expired
             ));

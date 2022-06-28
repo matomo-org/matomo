@@ -34,19 +34,23 @@ class UserInviteEmail extends Mail
      */
     private $expireDays;
 
+    private $siteName;
+
     /**
      * @param string $currentUser
      * @param array $user
+     * @param string $siteName
      * @param string $token
      * @param int $expireDays
      */
-    public function __construct($currentUser, $user, $token, $expireDays)
+    public function __construct($currentUser, $user, $siteName, $token, $expireDays)
     {
         parent::__construct();
         $this->currentUser = $currentUser;
         $this->user = $user;
         $this->token = $token;
         $this->expireDays = $expireDays;
+        $this->siteName = $siteName;
         $this->setUpEmail();
     }
 
@@ -63,7 +67,7 @@ class UserInviteEmail extends Mail
     protected function getDefaultSubject()
     {
         return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          [$this->currentUser, $this->user['login']]);
+          [$this->currentUser, $this->siteName]);
     }
 
     private function getDefaultSubjectWithStyle()

@@ -60,8 +60,9 @@ class UserInviteTest extends IntegrationTestCase
         $email = StaticContainer::getContainer()->make(UserInviteEmail::class, array(
           'currentUser' => 'admin',
           'user'        => $user,
+          'siteName'    => 'test site',
           'token'       => $token,
-          'expireDays'      => 7
+          'expireDays'  => 7
         ));
 
         $content = $email->getBodyHtml();
