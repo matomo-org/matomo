@@ -70,7 +70,8 @@ class ApiTest extends SystemTestCase
               'password',
               'token_auth',
               'ts_password_modified',
-              'idchange_last_viewed'
+              'idchange_last_viewed',
+              'invite_status'
             );
 
             $this->runAnyApiTest($api, $apiId . '_' . $appendix, $params, array('xmlFieldsToRemove' => $xmlFieldsToRemove));

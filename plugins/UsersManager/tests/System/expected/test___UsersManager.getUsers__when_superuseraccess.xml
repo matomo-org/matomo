@@ -9,7 +9,7 @@
 		
 		
 		
-		<invite_status>6</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -21,7 +21,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -33,7 +33,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -45,7 +45,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -57,7 +57,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -69,7 +69,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -81,7 +81,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -93,7 +93,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -105,7 +105,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -117,7 +117,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -129,7 +129,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -141,7 +141,7 @@
 		
 		
 		
-		<invite_status>active</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -153,7 +153,7 @@
 		
 		
 		
-		<invite_status>6</invite_status>
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 </result>
