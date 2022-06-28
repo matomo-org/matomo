@@ -750,8 +750,8 @@ class Model
     public function isPendingUser($userLogin)
     {
         $db = $this->getDb();
-        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE (login = ? or email = ?) and invite_token is not null";
-        $bind = [$userLogin, $userLogin];
+        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_token is not null";
+        $bind = [$userLogin];
         return  (boolean)$db->fetchOne($sql, $bind);
     }
 
