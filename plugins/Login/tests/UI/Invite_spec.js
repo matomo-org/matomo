@@ -39,11 +39,12 @@ describe('Invite', function () {
     await page.type('#password', 'abcd1234');
     await page.type('#password_confirm', 'abcd1234');
     await page.evaluate(function(){
-      $('#conditionCheck').prop('checked');
+      $('#conditionCheck').prop('checked', true);
       $('#login_form_submit').click();
     });
-    await page.waitForSelector('#dashboard');
-    await page.waitForNetworkIdle();
+    // await page.waitForSelector('#dashboard');
+    // await page.waitForNetworkIdle();
+    expect(await page.screenshot({ fullPage: true })).to.matchImage('success');
   });
 
 });
