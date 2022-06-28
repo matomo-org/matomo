@@ -179,6 +179,25 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser("test", "password2", "em2ail@email.com");
     }
 
+    public function testAddUserExistingEmail()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionLoginExists');
+
+        $this->api->addUser("test", "password", "email@email.com");
+        $this->api->addUser("test2", "password2", "email@email.com");
+    }
+
+
+    public function testAddUserExistingEmailAsUserName()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionLoginExists');
+
+        $this->api->addUser("email@email.com", "password", "email2@email.com");
+        $this->api->addUser("test2", "password2", "email@email.com");
+    }
+
     /**
      * @see https://github.com/piwik/piwik/issues/8548
      */
