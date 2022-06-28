@@ -524,13 +524,14 @@ describe("UsersManager", function () {
     it('should show resend confirm when resend clicked', async function () {
         await page.goto(url);
         await (await page.jQuery('.resend')).click();
-        await page.waitForTimeout(250); // animation
+        await page.waitForTimeout(500); // animation
         await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
-        expect(await page.screenshotSelector('.resend-invite-confirm-modal')).to.matchImage('resend_popup');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
     });
 
     it('should show resend success message', async function() {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForSelector('#notificationContainer .notification');
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
     });
 
