@@ -139,6 +139,7 @@ __webpack_require__.d(__webpack_exports__, "transformAngularJsIntAttr", function
 __webpack_require__.d(__webpack_exports__, "removeAngularJsSpecificProperties", function() { return /* reexport */ removeAngularJsSpecificProperties; });
 __webpack_require__.d(__webpack_exports__, "clone", function() { return /* reexport */ clone; });
 __webpack_require__.d(__webpack_exports__, "cloneThenApply", function() { return /* reexport */ cloneThenApply; });
+__webpack_require__.d(__webpack_exports__, "VueEntryContainer", function() { return /* reexport */ VueEntryContainer; });
 __webpack_require__.d(__webpack_exports__, "activityIndicatorAdapter", function() { return /* reexport */ ActivityIndicator_adapter; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
@@ -12096,6 +12097,52 @@ function getFormattedEvolution(currentValue, pastValue) {
   var evolution = calculateEvolution(currentValue, pastValue);
   return formatEvolution(evolution);
 }
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue?vue&type=template&id=54e7e876
+
+var VueEntryContainervue_type_template_id_54e7e876_hoisted_1 = {
+  ref: "root"
+};
+function VueEntryContainervue_type_template_id_54e7e876_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", VueEntryContainervue_type_template_id_54e7e876_hoisted_1, [_ctx.componentWrapper ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.componentWrapper), {
+    key: 0
+  })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue?vue&type=template&id=54e7e876
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var VueEntryContainervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    html: String
+  },
+  mounted: function mounted() {
+    Matomo_Matomo.helper.compileVueEntryComponents(this.$refs.root);
+  },
+  beforeUnmount: function beforeUnmount() {
+    Matomo_Matomo.helper.destroyVueComponent(this.$refs.root);
+  },
+  computed: {
+    componentWrapper: function componentWrapper() {
+      if (!this.html) {
+        return null;
+      }
+
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])({
+        template: this.html
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue
+
+
+
+VueEntryContainervue_type_script_lang_ts.render = VueEntryContainervue_type_template_id_54e7e876_render
+
+/* harmony default export */ var VueEntryContainer = (VueEntryContainervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ActivityIndicator/ActivityIndicator.adapter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -12175,6 +12222,7 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
