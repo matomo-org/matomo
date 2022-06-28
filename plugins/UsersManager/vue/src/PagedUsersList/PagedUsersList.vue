@@ -348,7 +348,8 @@
                 class="deleteuser table-action"
                 title="Delete"
                 @click="userToChange = user; showDeleteConfirm()"
-                v-if="currentUserRole === 'superuser' && user.login !== 'anonymous'"
+                v-if="(currentUserRole === 'superuser' || currentUserRole=== 'admin')
+                && user.login !== 'anonymous'"
             >
               <span class="icon-delete"/>
             </button>
