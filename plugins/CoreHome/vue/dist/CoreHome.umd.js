@@ -9006,7 +9006,6 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
     ReportingMenu_store_classCallCheck(this, ReportingMenuStore);
 
     ReportingMenu_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      activeCategoryId: null,
       activeSubcategoryId: null,
       activeSubsubcategoryId: null
     }));
@@ -9016,7 +9015,7 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
     }));
 
     ReportingMenu_store_defineProperty(this, "activeCategory", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.activeCategoryId || src_MatomoUrl_MatomoUrl.parsed.value.category;
+      return typeof _this.state.value.activeCategoryId !== 'undefined' ? _this.state.value.activeCategoryId : src_MatomoUrl_MatomoUrl.parsed.value.category;
     }));
 
     ReportingMenu_store_defineProperty(this, "activeSubcategory", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
@@ -9166,7 +9165,7 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
       this.privateState.activeSubcategoryId = null;
       this.privateState.activeSubsubcategoryId = null;
 
-      if (this.privateState.activeCategoryId === category.id) {
+      if (this.activeCategory.value === category.id) {
         this.privateState.activeCategoryId = null;
         return false;
       }
