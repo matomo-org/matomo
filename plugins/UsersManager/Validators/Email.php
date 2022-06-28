@@ -51,7 +51,7 @@ class Email extends BaseValidator
         }
 
         if (APIUsersManager::getInstance()->userEmailExists($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExistsAsEmail', $email));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
         }
     }
 

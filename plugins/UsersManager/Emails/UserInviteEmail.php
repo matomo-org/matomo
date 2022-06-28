@@ -83,7 +83,7 @@ class UserInviteEmail extends Mail
         $view->content = $this->getDefaultSubjectWithStyle();
 
         //notes for email footer
-        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->user['login'], $this->currentUser,  $this->expireDays]);
+        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->currentUser,  $this->expireDays]);
         return $view;
     }
 }
