@@ -50,6 +50,8 @@ class LanguagesManager extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translations)
     {
+        $translations[] = 'LanguagesManager_TranslationSearch';
+        $translations[] = 'LanguagesManager_AboutPiwikTranslations';
     }
 
     /**
