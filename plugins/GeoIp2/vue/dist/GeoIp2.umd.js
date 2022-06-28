@@ -143,9 +143,6 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -342,6 +339,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8, ["content-title"]);
 }
 // CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=23b5cb60
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -583,64 +583,6 @@ var _window = window,
 Geoip2Updatervue_type_script_lang_ts.render = render
 
 /* harmony default export */ var Geoip2Updater = (Geoip2Updatervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Geoip2Updater_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: Geoip2Updater,
-  scope: {
-    geoIpDatabasesInstalled: {
-      angularJsBind: '<'
-    },
-    showGeoIpUpdateSection: {
-      angularJsBind: '<'
-    },
-    dbipLiteUrl: {
-      angularJsBind: '<'
-    },
-    dbipLiteFilename: {
-      angularJsBind: '<'
-    },
-    geoipLocUrl: {
-      angularJsBind: '<'
-    },
-    isProviderPluginActive: {
-      angularJsBind: '<'
-    },
-    geoipIspUrl: {
-      angularJsBind: '<'
-    },
-    lastTimeUpdaterRun: {
-      angularJsBind: '<'
-    },
-    geoipUpdatePeriod: {
-      angularJsBind: '<'
-    },
-    updatePeriodOptions: {
-      angularJsBind: '<'
-    },
-    geoipDatabaseStartedInstalled: {
-      angularJsBind: '<'
-    },
-    showGeoipUpdateSection: {
-      angularJsBind: '<'
-    },
-    nextRunTime: {
-      angularJsBind: '<'
-    },
-    nextRunTimePretty: {
-      angularJsBind: '<'
-    }
-  },
-  directiveName: 'piwikGeoip2Updater',
-  transclude: true
-}));
 // CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -648,7 +590,6 @@ Geoip2Updatervue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
