@@ -69,6 +69,7 @@ export {
   clone,
   cloneThenApply,
 } from './createAngularJsAdapter';
+export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export * from './translate';
@@ -126,3 +127,4 @@ export { default as Progressbar } from './Progressbar/Progressbar.vue';
 export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';
 export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';
+export { default as Passthrough } from './Passthrough/Passthrough.vue';

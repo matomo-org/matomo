@@ -448,6 +448,11 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
-
+        $translationKeys[] = 'SitesManager_SiteWithoutDataTitle';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataDescription';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataMessageDisappears';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataChoosePreferredWay';
+        $translationKeys[] = 'SitesManager_DetectingYourSite';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataIgnoreMessage';
     }
 }

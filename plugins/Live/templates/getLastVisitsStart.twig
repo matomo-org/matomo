@@ -2,7 +2,7 @@
 {% set maxPagesDisplayedByVisitor=100 %}
 
 {% if error is not empty %}
-<div piwik-alert="danger">{{ error }}</div>
+<div vue-entry="CoreHome.Alert" severity="danger">{{ error }}</div>
 {% else %}
 <ul id="visitsLive">
     {% for visitor in visitors.getRows() %}
