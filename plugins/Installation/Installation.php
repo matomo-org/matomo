@@ -53,6 +53,12 @@ class Installation extends \Piwik\Plugin
         $translations[] = 'Installation_DownloadSystemCheck';
         $translations[] = 'Installation_Optional';
         $translations[] = 'Installation_InformationalResults';
+        $translations[] = 'Installation_SystemCheck';
+        $translations[] = 'Installation_Requirements';
+        $translations[] = 'Installation_SystemCheckSummaryThereWereErrors';
+        $translations[] = 'Installation_SeeBelowForMoreInfo';
+        $translations[] = 'Installation_SystemCheckSummaryThereWereWarnings';
+        $translations[] = 'Installation_SystemCheckSummaryNoProblems';
     }
 
     public function displayDbConnectionMessage($exception = null)

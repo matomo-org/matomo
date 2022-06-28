@@ -27,27 +27,55 @@
       :value="systemCheckInfo"
     ></textarea>
 
-    <table class="entityTable system-check" id="systemCheckRequired" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
-      {{ local.diagnosticTable(diagnosticReport.getMandatoryDiagnosticResults()) }}
+    <table
+      class="entityTable system-check"
+      id="systemCheckRequired"
+      v-content-table="{off: !isInstallation}"
+    >
+      <DiagnosticTable
+        :results="mandatoryResults"
+        :informational-type="informationalType"
+        :warning-type="warningType"
+        :error-type="errorType"
+      />
     </table>
 
     <h3>{{ translate('Installation_Optional') }}</h3>
 
-    <table class="entityTable system-check" id="systemCheckOptional" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
-      {{ local.diagnosticTable(diagnosticReport.getOptionalDiagnosticResults()) }}
+    <table
+      class="entityTable system-check"
+      id="systemCheckOptional"
+      v-content-table="{off: !isInstallation}"
+    >
+      <DiagnosticTable
+        :results="optionalResults"
+        :informational-type="informationalType"
+        :warning-type="warningType"
+        :error-type="errorType"
+      />
     </table>
 
     <h3>{{ translate('Installation_InformationalResults') }}</h3>
 
-    <table class="entityTable system-check" id="systemCheckInformational" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
-      {{ local.diagnosticTable(diagnosticReport.getInformationalResults()) }}
+    <table
+      class="entityTable system-check"
+      id="systemCheckInformational"
+      v-content-table="{off: !isInstallation}"
+    >
+      <DiagnosticTable
+        :results="informationalResults"
+        :informational-type="informationalType"
+        :warning-type="warningType"
+        :error-type="errorType"
+      />
     </table>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentBlock, Matomo } from 'CoreHome';
+import { Matomo, ContentTable } from 'CoreHome';
+import DiagnosticTable from './DiagnosticTable.vue';
 
 const { $ } = window;
 
@@ -69,10 +97,25 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    // TODO
+    mandatoryResults: {
+      type: Array,
+      required: true,
+    },
+    optionalResults: {
+      type: Array,
+      required: true,
+    },
+    informationalResults: {
+      type: Array,
+      required: true,
+    },
+    isInstallation: Boolean,
   },
   components: {
-    ContentBlock,
+    DiagnosticTable,
+  },
+  directives: {
+    ContentTable,
   },
   methods: {
     copyInfo() {

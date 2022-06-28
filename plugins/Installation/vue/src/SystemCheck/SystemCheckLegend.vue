@@ -29,7 +29,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentBlock } from 'CoreHome';
 
 export default defineComponent({
   props: {
@@ -37,9 +36,6 @@ export default defineComponent({
       type: String,
       required: true,
     },
-  },
-  components: {
-    ContentBlock,
   },
 });
 </script>
