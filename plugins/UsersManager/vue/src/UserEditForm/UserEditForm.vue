@@ -487,7 +487,7 @@ export default defineComponent({
         this.theUser.invite_status = 'pending';
 
         this.resetPasswordVar();
-        this.showUserSavedNotification();
+        this.showUserCreatedNotification();
       });
     },
     resetPasswordVar() {
@@ -519,6 +519,13 @@ export default defineComponent({
     showUserSavedNotification() {
       NotificationsStore.show({
         message: translate('General_YourChangesHaveBeenSaved'),
+        context: 'success',
+        type: 'toast',
+      });
+    },
+    showUserCreatedNotification() {
+      NotificationsStore.show({
+        message: translate('UserManager_InviteSuccess'),
         context: 'success',
         type: 'toast',
       });
