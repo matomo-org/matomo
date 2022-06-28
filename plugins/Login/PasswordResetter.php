@@ -163,7 +163,7 @@ class PasswordResetter
 
         // get the user's login
         $user = $this->getUserInformation($loginOrEmail);
-        if ($user === null) {
+        if ($user === null || !empty($user['invite_token'])) {
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
@@ -187,7 +187,7 @@ class PasswordResetter
     {
         // get password reset info & user info
         $user = self::getUserInformation($login);
-        if ($user === null) {
+        if ($user === null || !empty($user['invite_token'])) {
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
@@ -388,9 +388,6 @@ class PasswordResetter
     {
         $userModel = new Model();
 
-        if ($userModel->isPendingUser($loginOrMail)) {
-            return null;
-        }
 
         $user = null;
         if ($userModel->userExists($loginOrMail)) {

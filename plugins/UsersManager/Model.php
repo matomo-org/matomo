@@ -752,7 +752,8 @@ class Model
         $db = $this->getDb();
         $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE (login like ? or email like ?) and invite_token is not null";
         $bind = [$userLogin, $userLogin];
-        return (boolean)$db->fetchOne($sql, $bind);
+        $count = $db->fetchOne($sql, $bind);
+        return $count != 0;
     }
 
 }
