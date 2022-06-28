@@ -3794,7 +3794,7 @@ if (typeof window.Matomo !== 'object') {
                 referralTs = attributionCookie[2];
                 referralUrl = attributionCookie[3];
 
-                if (hasIgnoreReferrerParameter(currentUrl) || !cookieSessionValue) {
+                if (!hasIgnoreReferrerParameter(currentUrl) && !cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
 
                     // Detect the campaign information from the current URL

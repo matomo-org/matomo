@@ -33,7 +33,7 @@ try {
 use \Piwik\Plugins\CustomJsTracker\TrackerUpdater;
 use \Piwik\Plugins\CustomJsTracker\TrackingCode\JsTestPluginTrackerFiles;
 
-$targetFileName = '/tests/resources/matomo.test.js';
+$targetFileName = '/tests/resources/matomo2.test.js';
 $sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
 $targetFile = PIWIK_DOCUMENT_ROOT . $targetFileName;
 
@@ -3839,8 +3839,12 @@ if ($mysql) {
 
         strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
-        tracker.setReferrerUrl('http://another.refeerrer.url/path/page?ignore_referrer=1');
+        tracker.setReferrerUrl('http://another.referrer.url/path/page');
+        tracker.setCustomUrl(customUrl  + '&ignore_referrer=1');
         tracker.trackPageView();
+
+        tracker.setReferrerUrl(referrerUrl);
+        tracker.setCustomUrl(customUrl);
 
         strictEqual(3, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
@@ -4247,7 +4251,7 @@ if ($mysql) {
             ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
             ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
             ok( ! /ignored.referrer.url/.test( results ), "ignored referrer url isn't sent with request" );
-            ok( ! /another.refeerrer.url/.test( results ), "referrer ignored with url parameter isn't sent with request" );
+            ok( ! /another.referrer.url/.test( results ), "referrer ignored with url parameter isn't sent with request" );
             ok( /cookiename/.test( results ) && /cookievalue/.test( results ), "tracking request contains custom variable" );
             ok( /DeleteCustomVariableCookie/.test( results ), "tracking request deleting custom variable" );
             ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
