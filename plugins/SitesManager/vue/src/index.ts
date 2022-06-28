@@ -11,3 +11,4 @@ export { default as CurrencyStore } from './CurrencyStore/CurrencyStore';
 export { default as TimezoneStore } from './TimezoneStore/TimezoneStore';
 export { default as SitesManagement } from './SitesManagement/SitesManagement.vue';
 export { default as ManageGlobalSettings } from './ManageGlobalSettings/ManageGlobalSettings.vue';
+export { default as SiteWithoutData } from './SiteWithoutData/SiteWithoutData.vue';
