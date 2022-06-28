@@ -14,7 +14,7 @@
 </script>
 
 <div
-    piwik-manage-goals
+    vue-entry="Goals.ManageGoals"
     user-can-edit-goals="{{ userCanEditGoals|json_encode|e('html_attr') }}"
     only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode|e('html_attr') }}"
     ecommerce-enabled="{{ ecommerceEnabled|json_encode|e('html_attr') }}"
