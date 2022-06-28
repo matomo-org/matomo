@@ -31,6 +31,7 @@ class Installation extends \Piwik\Plugin
     public function registerEvents()
     {
         $hooks = array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Config.NoConfigurationFile'      => 'dispatch',
             'Config.badConfigurationFile'     => 'dispatch',
             'Db.cannotConnectToDb'            => 'displayDbConnectionMessage',
@@ -38,6 +39,20 @@ class Installation extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
         return $hooks;
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'Installation_Legend';
+        $translations[] = 'General_Ok';
+        $translations[] = 'Installation_SystemCheckWarning';
+        $translations[] = 'Installation_SystemCheckError';
+        $translations[] = 'General_RefreshPage';
+        $translations[] = 'Installation_CopyBelowInfoForSupport';
+        $translations[] = 'Installation_CopySystemCheck';
+        $translations[] = 'Installation_DownloadSystemCheck';
+        $translations[] = 'Installation_Optional';
+        $translations[] = 'Installation_InformationalResults';
     }
 
     public function displayDbConnectionMessage($exception = null)

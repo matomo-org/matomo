@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
+    <div piwik-content-block content-title="{{ 'Installation_SystemCheck'|translate|e('html_attr') }}" feature="true">
 
         {% if diagnosticReport.hasErrors() %}
             <div class="alert alert-danger">
