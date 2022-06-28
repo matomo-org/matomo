@@ -42,9 +42,8 @@ describe('Invite', function () {
       $('#conditionCheck').prop('checked', true);
       $('#login_form_submit').click();
     });
-    // await page.waitForSelector('#dashboard');
-    // await page.waitForNetworkIdle();
-    expect(await page.screenshot({ fullPage: true })).to.matchImage('success');
+    await page.waitForSelector('.home');
+    await page.waitForNetworkIdle();
   });
 
 });
