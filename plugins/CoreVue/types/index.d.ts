@@ -205,6 +205,10 @@ declare global {
     new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
   }
 
+  interface SegmentedVisitorLogService {
+    show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -220,6 +224,7 @@ declare global {
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;
+    SegmentedVisitorLog: SegmentedVisitorLogService;
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;
