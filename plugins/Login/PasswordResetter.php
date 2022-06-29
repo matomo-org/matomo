@@ -390,7 +390,7 @@ class PasswordResetter
     {
         $userModel = new Model();
 
-        if ($userModel->isPendingUser()) {
+        if ($userModel->isPendingUser($loginOrMail)) {
             return null;
         }
 
