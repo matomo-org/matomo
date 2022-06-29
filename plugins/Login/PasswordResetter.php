@@ -379,6 +379,8 @@ class PasswordResetter
     /**
      * Returns user information based on a login or email.
      *
+     * If user is pending, return null
+     *
      * Derived classes can override this method to provide custom user querying logic.
      *
      * @param string $loginMail user login or email address
@@ -388,8 +390,12 @@ class PasswordResetter
     {
         $userModel = new Model();
 
+        if ($userModel->isPendingUser()) {
+            return null;
+        }
 
         $user = null;
+
         if ($userModel->userExists($loginOrMail)) {
             $user = $userModel->getUser($loginOrMail);
         } else if ($userModel->userEmailExists($loginOrMail)) {
