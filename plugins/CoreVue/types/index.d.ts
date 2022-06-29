@@ -160,7 +160,8 @@ declare global {
     visitorProfileEnabled: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
-    userLogin: string;
+    userLogin?: string;
+    userHasSomeAdminAccess: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
