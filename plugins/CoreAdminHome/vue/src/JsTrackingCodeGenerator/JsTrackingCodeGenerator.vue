@@ -444,8 +444,8 @@ export default defineComponent({
             filter_limit: '-1',
           }).then((data) => {
             this.siteExcludedReferrers[idSite] = [];
-            (data || []).forEach((referrer: string) => {
-              this.siteExcludedReferrers[idSite].push(referrer.replace(/^https?:\/\//, ''));
+            Object.values(data || []).forEach((referrer: unknown) => {
+              this.siteExcludedReferrers[idSite].push((referrer as string).replace(/^https?:\/\//, ''));
             });
           }),
         );
