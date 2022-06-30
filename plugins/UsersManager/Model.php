@@ -264,6 +264,25 @@ class Model
         return hash(self::TOKEN_HASH_ALGO, $tokenAuth . $salt);
     }
 
+    public function generateRandomInviteToken()
+    {
+        $count = 0;
+
+        do {
+            $token = $this->generateTokenAuth();
+
+            $count++;
+            if ($count > 20) {
+                // something seems wrong as the odds of that happening is basically 0. Only catching it to prevent
+                // endless loop in case there is some bug somewhere
+                throw new \Exception('Failed to generate token');
+            }
+
+        } while ($this->getUserByInviteToken($token));
+
+        return $token;
+    }
+
     public function generateRandomTokenAuth()
     {
         $count = 0;
@@ -369,11 +388,11 @@ class Model
           $expiredSince);
     }
 
-    public function deleteExpiredInvites($expiredSince)
+    public function getExpiredInvites($expiredSince)
     {
         $db = $this->getDb();
 
-        return $db->query("DELETE FROM " . $this->userTable . " WHERE `date_expired` is not null and date_expired < ?",
+        return $db->fetchAll("SELECT * FROM " . $this->userTable . " WHERE `invite_expired_at` is not null and invite_expired_at < ?",
           $expiredSince);
     }
 
@@ -473,7 +492,7 @@ class Model
     }
 
 
-    public function getInviteUserByToken($tokenAuth)
+    public function getUserByInviteToken($tokenAuth)
     {
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
@@ -500,7 +519,6 @@ class Model
      * @param $hashedPassword
      * @param $email
      * @param $dateRegistered
-     * @return array
      */
     public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
     {
@@ -517,14 +535,13 @@ class Model
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
-        return $user;
     }
 
-    public function attachInviteToken($userLogin, $token, $expired = 7)
+    public function attachInviteToken($userLogin, $token, $expiryInDays = 7)
     {
         $this->updateUserFields($userLogin, [
           'invite_token'      => $this->hashTokenAuth($token),
-          'invite_expired_at' => Date::now()->addDay($expired)->getDatetime()
+          'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime()
         ]);
     }
 
@@ -619,6 +636,13 @@ class Model
         foreach ($idSites as $idsite) {
             $db->query($insertSql, [$idsite, $userLogin, $access]);
         }
+    }
+
+    public function deleteUser($userLogin): void
+    {
+        $this->deleteUserOnly($userLogin);
+        $this->deleteUserOptions($userLogin);
+        $this->deleteUserAccess($userLogin);
     }
 
     /**
@@ -747,13 +771,12 @@ class Model
         return $logins;
     }
 
-    public function isPendingUser($userLogin)
+    public function isPendingUser(string $userLogin): bool
     {
         $db = $this->getDb();
-        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE (login like ? or email like ?) and invite_token is not null";
+        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE (login = ? or email = ?) and invite_token is not null";
         $bind = [$userLogin, $userLogin];
-        $count = $db->fetchOne($sql, $bind);
-        return $count != 0;
+        $count = (int) $db->fetchOne($sql, $bind);
+        return $count > 0;
     }
-
 }

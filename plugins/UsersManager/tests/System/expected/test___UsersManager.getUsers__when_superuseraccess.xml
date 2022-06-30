@@ -17,7 +17,7 @@
 		<email>login1@example.com</email>
 		<superuser_access>1</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -29,7 +29,7 @@
 		<email>login10@example.com</email>
 		<superuser_access>1</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -41,7 +41,7 @@
 		<email>login2@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -53,7 +53,7 @@
 		<email>login3@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -65,7 +65,7 @@
 		<email>login4@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -77,7 +77,7 @@
 		<email>login5@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -89,7 +89,7 @@
 		<email>login6@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -101,7 +101,7 @@
 		<email>login7@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -113,7 +113,7 @@
 		<email>login8@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		
@@ -125,7 +125,7 @@
 		<email>login9@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invited_by>superUserLogin</invited_by>
+		<invited_by />
 		
 		
 		

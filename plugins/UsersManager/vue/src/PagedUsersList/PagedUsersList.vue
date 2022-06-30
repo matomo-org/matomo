@@ -11,7 +11,7 @@
   >
     <div class="userListFilters row">
       <div class="col s12 m12 l8">
-        <div class="input-field col s12 m2 l2">
+        <div class="input-field col s12 m3 l3">
           <a
               class="dropdown-trigger btn bulk-actions"
               href=""
@@ -322,16 +322,21 @@
             {{ user.last_seen ? `${user.last_seen} ago`:'-' }}
           </td>
           <td id="status">
-              <span :class="Number.isInteger(user.invite_status)? 'pending':user.invite_status">
-              {{ getInviteStatus(user.invite_status) }}
-                </span>
+              <span :class="Number.isInteger(user.invite_status)? 'pending':user.invite_status"
+                    :title="user.invite_status === 'expired' ?
+                            translate('UsersManager_ExpiredInviteAutomaticallyRemoved', '3') :
+                            ''"
+              >{{ getInviteStatus(user.invite_status) }}</span>
           </td>
           <td class="center actions-cell">
             <button
                 class="resend table-action"
                 title="Resend Invite"
                 @click="userToChange = user; showResendConfirm()"
-                v-if="user.invite_status!=='active' && user.invite_status!=='declined'"
+                v-if="(
+                  currentUserRole === 'superuser'
+                  || (currentUserRole === 'admin' && user.invited_by === currentUserLogin)
+                ) && user.invite_status!=='active'"
             >
               <span class="icon-email"/>
             </button>
@@ -340,7 +345,7 @@
                 class="edituser table-action"
                 title="Edit"
                 @click="$emit('editUser', { user: user })"
-                v-if="user.login !== 'anonymous' && user.invite_status!=='declined'"
+                v-if="user.login !== 'anonymous'"
             >
               <span class="icon-edit"/>
             </button>
@@ -348,8 +353,10 @@
                 class="deleteuser table-action"
                 title="Delete"
                 @click="userToChange = user; showDeleteConfirm()"
-                v-if="(currentUserRole === 'superuser' || currentUserRole=== 'admin')
-                && user.login !== 'anonymous'"
+                v-if="(
+                  currentUserRole === 'superuser'
+                  || (currentUserRole === 'admin' && user.invited_by === currentUserLogin)
+                ) && user.login !== 'anonymous'"
             >
               <span class="icon-delete"/>
             </button>
@@ -675,6 +682,9 @@ export default defineComponent({
     },
   },
   computed: {
+    currentUserLogin() {
+      return Matomo.userLogin;
+    },
     paginationLowerBound() {
       return this.searchParams.offset + 1;
     },

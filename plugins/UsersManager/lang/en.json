@@ -187,16 +187,18 @@
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
         "FirstWebsitePermission": "First website permission",
-        "InviteSuccessNotification": "The invited User will receive an email to accept the invite, the invite valid for %1$s days, you can also resend and delete the invite in the user management page.",
+        "InviteSuccessNotification": "The invited user will receive an email to accept the invite. This invite is valid for %1$s days. You can also resend and delete the invite on the user management page.",
         "ResendInviteConfirmSingle": "Are you sure you want to resend invitation to %1$s?",
         "Status": "Status",
         "Pending": "Pending",
         "Active": "Active",
-        "Expired": "Invite Expired",
-        "Decline": "Invite Declined",
+        "Expired": "Invite expired",
+        "Decline": "Invite declined",
         "ResendInviteSuccess": "Success! The invite has been resent to user %s",
         "InviteSuccess": "Success! The invite has been sent.",
         "InviteDayLeft": "Expires in %s days",
-        "FilterByStatus": "Filter by status"
+        "FilterByStatus": "Filter by status",
+        "ExceptionResendInviteDenied": "Resending an invite is only allowed to the user who invited %s or any super user.",
+        "ExpiredInviteAutomaticallyRemoved": "Expired invites will be automatically deleted after %1$s days."
     }
 }

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager\tests\Fixtures;
 
 use Piwik\Date;
@@ -28,36 +30,30 @@ class ManyUsers extends Fixture
     public $siteCopyCount;
     public $userCopyCount;
     public $addTextSuffixes;
-    public $users = array();
+    public $users = [];
 
-    public $baseUsers = array(
-      'login1' => array('superuser' => 1),
-      'login2' => array('view' => array(3, 5), 'admin' => array(1, 2, 6)),
-      'login3' => array('view' => array(), 'admin' => array()),
-      // no access to any site
-      'login4' => array('view' => array(6), 'admin' => array()),
-      // only access to one with view
-      'login5' => array('view' => array(), 'admin' => array(3)),
-      // only access to one with admin
-      'login6' => array('view' => array(), 'admin' => array(6, 3)),
-      // access to a couple of sites with admin
-      'login7' => array('view' => array(2, 1, 6, 3), 'admin' => array()),
-      // access to a couple of sites with view
-      'login8' => array('view' => array(4, 7), 'admin' => array(2, 5)),
-      // access to a couple of sites with admin and view
-      'login9' => array('view' => array(5, 6), 'admin' => array(8, 9)),
-      'login10' => array('superuser' => 1)
-    );
+    public $baseUsers = [
+        'login1' => ['superuser' => 1],
+        'login2' => ['view' => [3, 5], 'admin' => [1, 2, 6]],
+        'login3' => ['view' => [], 'admin' => []], // no access to any site
+        'login4' => ['view' => [6], 'admin' => []], // only access to one with view
+        'login5' => ['view' => [], 'admin' => [3]], // only access to one with admin
+        'login6' => ['view' => [], 'admin' => [6, 3]], // access to a couple of sites with admin
+        'login7' => ['view' => [2, 1, 6, 3], 'admin' => []], // access to a couple of sites with view
+        'login8' => ['view' => [4, 7], 'admin' => [2, 5]], // access to a couple of sites with admin and view
+        'login9' => ['view' => [5, 6], 'admin' => [8, 9]],
+        'login10' => ['superuser' => 1]
+    ];
 
-    public $pendingUser = array(
+    public $pendingUser = [
       'login' => '000pendingUser1',
       'email' => 'pendinguser1light@example.com'
-    );
+    ];
 
-    public $pendingUser2 = array(
+    public $pendingUser2 = [
       'login' => 'zzzpendingUser2',
       'email' => 'zpendinguser2light@example.com'
-    );
+    ];
 
     public $baseSites = [
       'sleep',
@@ -80,9 +76,9 @@ class ManyUsers extends Fixture
     ];
 
     public function __construct(
-      $userCopyCount = self::USER_COUNT,
-      $siteCopyCount = self::SITE_COUNT,
-      $addTextSuffixes = true
+        $userCopyCount = self::USER_COUNT,
+        $siteCopyCount = self::SITE_COUNT,
+        $addTextSuffixes = true
     ) {
         $this->userCopyCount = $userCopyCount;
         $this->siteCopyCount = $siteCopyCount;
@@ -165,6 +161,5 @@ class ManyUsers extends Fixture
         //add admin view pending user
         $api->inviteUser($this->pendingUser2['login'], $this->pendingUser2['email'], 1);
         $model->updateUserFields($this->pendingUser2['login'], ['invited_by' => 'login2']);
-
     }
 }

@@ -525,7 +525,7 @@ export default defineComponent({
     },
     showUserCreatedNotification() {
       NotificationsStore.show({
-        message: translate('UserManager_InviteSuccess'),
+        message: translate('UsersManager_InviteSuccess'),
         context: 'success',
         type: 'toast',
       });

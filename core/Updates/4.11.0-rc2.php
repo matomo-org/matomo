@@ -49,17 +49,21 @@ class Updates_4_11_0_rc2 extends PiwikUpdates
      */
     public function getMigrations(Updater $updater)
     {
-        $this->pendingUsers = Db::fetchAll(
-          "SELECT * FROM $this->userTable WHERE invite_status = ? ",
-          ['pending']
-        );
+        try {
+            $this->pendingUsers = Db::fetchAll(
+                "SELECT * FROM $this->userTable WHERE invite_status = ? ",
+                ['pending']
+            );
+        } catch (\Exception $e) {
+            // ignore any errors. The column might not exist when updating from an older version,
+            // so there wouldn't be anything to update anyway
+        }
         return [
           $this->migration->db->dropColumn('user', 'invite_status'),
           $this->migration->db->addColumns('user', ['invite_token' => 'VARCHAR(191) DEFAULT null']),
           $this->migration->db->addColumns('user', ['invited_by' => 'VARCHAR(100) DEFAULT null']),
           $this->migration->db->addColumns('user', ['invite_expired_at' => 'TIMESTAMP null DEFAULT null']),
           $this->migration->db->addColumns('user', ['invite_accept_at' => 'TIMESTAMP null DEFAULT null']),
-
         ];
     }
 
@@ -72,7 +76,7 @@ class Updates_4_11_0_rc2 extends PiwikUpdates
             foreach ($this->pendingUsers as $user) {
                 $model->deleteAllTokensForUser($user['login']);
 
-                $site = $this->model->getSitesAccessFromUser($user['login']);
+                $site = $model->getSitesAccessFromUser($user['login']);
                 if (isset($site[0])) {
                     $site = new Site($site[0]['site']);
                     $siteName = $site->getName();
@@ -80,19 +84,19 @@ class Updates_4_11_0_rc2 extends PiwikUpdates
                     $siteName = "Default Site";
                 }
                 //generate Token
-                $generatedToken = $this->model->generateRandomTokenAuth();
+                $generatedToken = $model->generateRandomTokenAuth();
 
                 //attach token to user
-                $this->model->attachInviteToken($user['login'], $generatedToken, 7);
+                $model->attachInviteToken($user['login'], $generatedToken, 7);
 
                 // send email
-                $email = StaticContainer::getContainer()->make(UserInviteEmail::class, array(
-                  'currentUser' => Piwik::getCurrentUserLogin(),
-                  'user'        => $user,
-                  'siteName'    => $siteName,
-                  'token'       => $generatedToken,
-                  'expireDays'  => 7
-                ));
+                $email = StaticContainer::getContainer()->make(UserInviteEmail::class, [
+                  'currentUser'  => Piwik::getCurrentUserLogin(),
+                  'invitedUser'  => $user,
+                  'siteName'     => $siteName,
+                  'token'        => $generatedToken,
+                  'expiryInDays' => 7
+                ]);
                 $email->safeSend();
             }
         }

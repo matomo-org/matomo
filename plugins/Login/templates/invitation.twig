@@ -33,7 +33,7 @@
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm" class="input" value="" size="20"
                                        autocorrect="off" autocapitalize="none"
-                                       tabindex="2"/>
+                                       tabindex="2" required/>
                                 <label for="password_confirm"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
                             </div>
                         </div>
@@ -43,15 +43,23 @@
                                     <label>
                                         <input name="conditionCheck" type="checkbox" id="conditionCheck" value="1" tabindex="89"/>
                                         <span>
-                                            {{ 'Login_BySigningUp'|translate }}
-                                            {% if privacyPolicyUrl|default('') is not empty %}
-                                                <a target="_blank" rel="noreferrer noopener" href="{{ privacyPolicyUrl|safelink|e('html_attr') }}"> {{ 'PrivacyManager_PrivacyPolicy'|translate }}</a>
-                                            {% endif %}
-                                            {% if privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is not empty %}
-                                                {{ 'General_And'|translate }}
-                                            {% endif %}
-                                            {% if termsAndCondition|default('') is not empty %}
-                                                <a target="_blank" rel="noreferrer noopener" href="{{ termsAndCondition|safelink|e('html_attr') }}">{{ 'PrivacyManager_TermsAndConditions'|translate }}</a>
+                                            {% if privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is empty %}
+                                                {{ 'Login_BySigningUpPrivacyPolicy'|translate(
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ privacyPolicyUrl|safelink|e('html_attr') ~ '">',
+                                                    '</a>'
+                                                )|raw }}
+                                            {% elseif privacyPolicyUrl|default('') is empty and termsAndCondition|default('') is not empty %}
+                                                {{ 'Login_BySigningUpTermsAndCondition'|translate(
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ termsAndCondition|safelink|e('html_attr') ~ '">',
+                                                    '</a>'
+                                                )|raw }}
+                                            {% elseif privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is not empty %}
+                                                {{ 'Login_BySigningUpPrivacyPolicyAndTermsAndCondition'|translate(
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ privacyPolicyUrl|safelink|e('html_attr') ~ '">',
+                                                    '</a>',
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ termsAndCondition|safelink|e('html_attr') ~ '">',
+                                                    '</a>'
+                                                )|raw }}
                                             {% endif %}
                                     </span>
                                     </label>

@@ -277,8 +277,7 @@ browser_archiving_disabled_enforce = 0
 ; Add custom currencies to Sites Manager.
 currencies[BTC] = Bitcoin
 
-; Allow you to set the default invite user token expires in days
-; For example default_invite_user_token_expiry_days = 10
+; default expiry time in days for invite user tokens
 default_invite_user_token_expiry_days = 7
 
 ; By default, users can create Segments which are to be processed in Real-time.
@@ -1046,8 +1045,6 @@ exclude_requests = ""
 ; This should either be the full path to the image file or a base64 encoded image string wrapped in quotes
 ; For both image files and base64 encoded strings supported image types are gif, jpg and png
 custom_image =
-
-
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.

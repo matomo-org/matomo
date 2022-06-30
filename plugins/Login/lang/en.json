@@ -55,14 +55,18 @@
         "SuspiciousLoginAttemptsInLastHourEmail4": "Setup two-factor auth so attackers will need more information than just your password in order to login.",
         "SuspiciousLoginAttemptsInLastHourEmail5": "Additionally, if your Matomo has a limited set of users or IPs through which users will access it, it may be beneficial to setup a IP address allowlist. %1$sRead our docs for more information.%2$s",
         "LoginNotAllowedBecauseUserLoginBlocked": "Login functionality is temporarily disabled since we've a suspicious amount of failed login attempts in the last hour.",
-        "InvitationTitle": "Accept Invitation",
-        "InvitationDeclineTitle": "Decline Invitation",
-        "InvitationDeclineBody": "Are you sure you want to decline this Invitation?",
+        "InvitationTitle": "Accept invitation",
+        "InvitationDeclineTitle": "Decline invitation",
+        "InvitationDeclineBody": "Are you sure you want to decline this invitation?",
         "InvitationHints": "(to cancel this action, just leave the page)",
         "Accept": "Accept",
-        "ConditionRequired": "Please Accept the %s.",
         "PasswordRequired": "Please enter password to continue",
-        "DeclineInvitationInfo": "Your invitation has been successful declined.",
-        "BySigningUp": "By signing up, I accept the"
+        "DeclineInvitationInfo": "Your invitation was successfully declined.",
+        "BySigningUpPrivacyPolicy": "By signing up, I accept the %1$sprivacy policy%2$s",
+        "BySigningUpTermsAndCondition": "By signing up, I accept the %1$sterms &amp; conditions%2$s",
+        "BySigningUpPrivacyPolicyAndTermsAndCondition": "By signing up, I accept the %1$sprivacy policy%2$s and the %3$sterms &amp; conditions%4$s",
+        "AcceptPrivacyPolicy": "You need to accept the privacy policy.",
+        "AcceptTermsAndCondition": "You need to accept the terms &amp; conditions.",
+        "AcceptPrivacyPolicyAndTermsAndCondition": "You need to accept the privacy policy and the terms &amp; conditions."
     }
 }

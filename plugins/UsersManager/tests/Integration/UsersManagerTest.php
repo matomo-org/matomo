@@ -192,7 +192,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function testAddUserExistingEmailAsUserName()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ExceptionLoginExists');
+        $this->expectExceptionMessage('UsersManager_ExceptionEmailExistsAsLogin');
 
         $this->api->addUser("email@email.com", "password", "email2@email.com");
         $this->api->addUser("test2", "password2", "email@email.com");

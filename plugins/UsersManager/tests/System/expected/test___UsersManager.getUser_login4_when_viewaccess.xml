@@ -4,7 +4,6 @@
 		<login>login4</login>
 		<email>login4@example.com</email>
 		<superuser_access>0</superuser_access>
-		<invite_status>active</invite_status>
-		<invited_by>superUserLogin</invited_by>
+		
 	</row>
 </result>

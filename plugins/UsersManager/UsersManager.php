@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
@@ -32,14 +34,14 @@ class UsersManager extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        return array(
+        return [
           'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
           'SitesManager.deleteSite.end'            => 'deleteSite',
           'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
           'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
           'Platform.initialized'                   => 'onPlatformInitialized',
           'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-        );
+        ];
     }
 
     public static function isUsersAdminEnabled()
@@ -334,9 +336,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
         $translationKeys[] = 'UsersManager_ResendInviteSuccess';
-        $translationKeys[] = 'UserManager_InviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteSuccess';
         $translationKeys[] = 'UsersManager_InviteDayLeft';
         $translationKeys[] = 'UsersManager_FilterByStatus';
-
+        $translationKeys[] = 'UsersManager_ExpiredInviteAutomaticallyRemoved';
     }
 }
