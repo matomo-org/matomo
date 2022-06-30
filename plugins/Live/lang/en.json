@@ -25,7 +25,7 @@
         "PluginDescription": "Provides the live visitor log and lets you watch your visitors live in the real-time dashboard widget. A visitor profile can be browsed for any given user.",
         "PreviousVisitor": "Previous visitor",
         "RealTimeVisitors": "Real-time Visits",
-        "RealTimeVisitorCount": "Real-time Visitor Count",
+        "RealTimeVisitorCount": "Real-time visitor count",
         "Referrer_URL": "Referrer URL",
         "ShowMap": "show map",
         "ActionsAndDuration": "%1$s actions in %2$s",
