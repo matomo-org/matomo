@@ -10,7 +10,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 #### New APIs
 
-* The methods `setExcludedReferrers` and `getExcludedReferrers` have been added to the JavaScript tracker. They allow setting and receiving the referrers the JavaScript tracker should ignore. If a referrer matches an entry on that list, it will not be passed with the tracking requests and the attribution cookie will stay unchanged. This can for example be used if you need to forward your users to an external service like SSO or payment and don't any visits or conversions being attributed to those services.
+* The methods `setExcludedReferrers` and `getExcludedReferrers` have been added to the JavaScript tracker. They allow setting and receiving the referrers the JavaScript tracker should ignore. If a referrer matches an entry on that list, it will not be passed with the tracking requests and the attribution cookie will stay unchanged. This can for example be used if you need to forward your users to an external service like SSO or payment and don't want any visits or conversions being attributed to those services.
 
 ## Matomo 4.10.0
 
