@@ -15,6 +15,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -37,6 +38,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -59,6 +61,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -81,6 +84,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -103,6 +107,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -125,6 +130,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -147,6 +153,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -169,6 +176,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -191,6 +199,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -213,6 +222,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
@@ -235,6 +245,7 @@
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
+		<excluded_referrers />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
