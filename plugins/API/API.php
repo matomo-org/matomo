@@ -77,6 +77,12 @@ class API extends \Piwik\Plugin\API
         $this->processedReport = $processedReport;
     }
 
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'API_Glossary';
+        $translations[] = 'API_LearnAboutCommonlyUsedTerms2';
+    }
+
     /**
      * Get Matomo version
      * @return string
@@ -829,6 +835,7 @@ class Plugin extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Platform.initialized' => 'detectIsApiRequest'
         );
