@@ -16,7 +16,7 @@
     is-super-user="{{ isSuperUser|default(null)|json_encode|e('html_attr') }}"
     invalid-host="{{ invalidHost|default(null)|json_encode|e('html_attr') }}"
     after-password-event-content="{{ afterPasswordEventContent|default(null)|json_encode|e('html_attr') }}"
-    invalid-host-mail-link-start="{{ invalidHostMailLinkStart|json_encode|e('html_attr') }}"
+    invalid-host-mail-link-start="{{ invalidHostMailLinkStart|default(null)|json_encode|e('html_attr') }}"
 ></div>
 
 {% endblock %}

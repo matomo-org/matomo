@@ -5,156 +5,158 @@
 -->
 
 <template>
-  <ContentBlock
-    v-if="isUsersAdminEnabled"
-    :content-title="translate('General_ChangePassword')"
-    feature="true"
-  >
-    <form
-      id="userSettingsTable"
-      method="post"
-      :action="recordPasswordChangeAction"
+  <div>
+    <ContentBlock
+      v-if="isUsersAdminEnabled"
+      :content-title="translate('General_ChangePassword')"
+      feature="true"
     >
-      <input type="hidden" :value="changePasswordNonce" name="nonce"/>
-
-      <div v-if="isValidHost">
-        <Field
-          uicontrol="password"
-          name="password"
-          :autocomplete="false"
-          v-model="password"
-          :title="translate('Login_NewPassword')"
-          :inline-help="translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')"
-        />
-
-        <Field
-          uicontrol="password"
-          name="passwordBis"
-          :autocomplete="false"
-          v-model="passwordBis"
-          :title="translate('Login_NewPasswordRepeat')"
-          :inline-help="translate('UsersManager_TypeYourPasswordAgain')"
-        />
-
-        <Field
-          uicontrol="password"
-          name="passwordConfirmation"
-          :autocomplete="false"
-          v-model="passwordConfirmation"
-          :title="translate('UsersManager_YourCurrentPassword')"
-          :inline-help="translate('UsersManager_TypeYourCurrentPassword')"
-        />
-
-        <div class="alert alert-info">
-          {{ translate('UsersManager_PasswordChangeTerminatesOtherSessions') }}
-        </div>
-
-        <input
-          type="submit"
-          :value="translate('General_Save')"
-          class="btn"
-        />
-      </div>
-
-      <div v-if="!isValidHost">
-        <div class="alert alert-danger">
-          {{ translate('UsersManager_InjectedHostCannotChangePwd', invalidHost) }}
-          <span v-if="!isSuperUser" v-html="emailYourAdminText"></span>
-        </div>
-      </div>
-    </form>
-  </ContentBlock>
-
-  <div ref="afterPassword">
-    <component
-      v-if="isUsersAdminEnabled && afterPasswordComponent"
-      :is="afterPasswordComponent"
-    />
-  </div>
-
-  <a name="authtokens" id="authtokens"></a>
-  <ContentBlock :content-title="translate('UsersManager_AuthTokens')">
-    <p>
-      {{ translate('UsersManager_TokenAuthIntro') }}
-      <span v-if="hasTokensWithExpireDate">
-        {{ translate('UsersManager_ExpiredTokensDeleteAutomatically') }}
-      </span>
-    </p>
-    <table v-content-table class="listAuthTokens">
-      <thead>
-      <tr>
-        <th>{{ translate('General_CreationDate') }}</th>
-        <th>{{ translate('General_Description') }}</th>
-        <th>{{ translate('UsersManager_LastUsed') }}</th>
-        <th
-          v-if="hasTokensWithExpireDate"
-          :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"
-        >
-          {{ translate('UsersManager_ExpireDate') }}
-        </th>
-        <th>{{ translate('General_Actions') }}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-if="!tokens?.length">
-        <td
-          :colspan="hasTokensWithExpireDate ? 5 : 4"
-          v-html="$sanitize(noTokenCreatedYetText)"
-        ></td>
-      </tr>
-      <tr v-for="theToken in (tokens || [])" :key="theToken.idusertokenauth">
-        <td><span class="creationDate">{{ theToken.date_created }}</span></td>
-        <td>{{ theToken.description }}</td>
-        <td>
-          {{ theToken.last_used ? theToken.last_used : translate('General_Never') }}
-        </td>
-        <td
-          v-if="hasTokensWithExpireDate"
-          :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"
-        >
-          {{ theToken.date_expired ? theToken.date_expired : translate('General_Never') }}
-        </td>
-        <td>
-          <form
-            method="post"
-            :action="deleteTokenAction"
-            style="display: inline"
-          >
-            <input name="nonce" type="hidden" :value="deleteTokenNonce"/>
-            <input name="idtokenauth" type="hidden" :value="theToken.idusertokenauth"/>
-            <button
-              type="submit"
-              class="table-action"
-              :title="translate('General_Delete')"
-            >
-              <span class="icon-delete"></span>
-            </button>
-          </form>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
-    <div class="tableActionBar">
-      <a :href="addNewTokenLink" class="addNewToken">
-        <span class="icon-add"></span>
-        {{ translate('UsersManager_CreateNewToken') }}
-      </a>
-
       <form
-        v-if="tokens?.length"
+        id="userSettingsTable"
         method="post"
-        :action="deleteTokenAction"
-        style="display: inline"
+        :action="recordPasswordChangeAction"
       >
-        <input name="nonce" type="hidden" :value="deleteTokenNonce">
-        <input name="idtokenauth" type="hidden" value="all">
-        <button type="submit" class="table-action">
-          <span class="icon-delete"></span> {{ translate('UsersManager_DeleteAllTokens') }}
-        </button>
+        <input type="hidden" :value="changePasswordNonce" name="nonce"/>
+
+        <div v-if="isValidHost">
+          <Field
+            uicontrol="password"
+            name="password"
+            :autocomplete="false"
+            v-model="password"
+            :title="translate('Login_NewPassword')"
+            :inline-help="translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')"
+          />
+
+          <Field
+            uicontrol="password"
+            name="passwordBis"
+            :autocomplete="false"
+            v-model="passwordBis"
+            :title="translate('Login_NewPasswordRepeat')"
+            :inline-help="translate('UsersManager_TypeYourPasswordAgain')"
+          />
+
+          <Field
+            uicontrol="password"
+            name="passwordConfirmation"
+            :autocomplete="false"
+            v-model="passwordConfirmation"
+            :title="translate('UsersManager_YourCurrentPassword')"
+            :inline-help="translate('UsersManager_TypeYourCurrentPassword')"
+          />
+
+          <div class="alert alert-info">
+            {{ translate('UsersManager_PasswordChangeTerminatesOtherSessions') }}
+          </div>
+
+          <input
+            type="submit"
+            :value="translate('General_Save')"
+            class="btn"
+          />
+        </div>
+
+        <div v-if="!isValidHost">
+          <div class="alert alert-danger">
+            {{ translate('UsersManager_InjectedHostCannotChangePwd', invalidHost) }}
+            <span v-if="!isSuperUser" v-html="emailYourAdminText"></span>
+          </div>
+        </div>
       </form>
+    </ContentBlock>
+
+    <div ref="afterPassword">
+      <component
+        v-if="isUsersAdminEnabled && afterPasswordComponent"
+        :is="afterPasswordComponent"
+      />
     </div>
-  </ContentBlock>
+
+    <a name="authtokens" id="authtokens"></a>
+    <ContentBlock :content-title="translate('UsersManager_AuthTokens')">
+      <p>
+        {{ translate('UsersManager_TokenAuthIntro') }}
+        <span v-if="hasTokensWithExpireDate">
+          {{ translate('UsersManager_ExpiredTokensDeleteAutomatically') }}
+        </span>
+      </p>
+      <table v-content-table class="listAuthTokens">
+        <thead>
+        <tr>
+          <th>{{ translate('General_CreationDate') }}</th>
+          <th>{{ translate('General_Description') }}</th>
+          <th>{{ translate('UsersManager_LastUsed') }}</th>
+          <th
+            v-if="hasTokensWithExpireDate"
+            :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"
+          >
+            {{ translate('UsersManager_ExpireDate') }}
+          </th>
+          <th>{{ translate('General_Actions') }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="!tokens?.length">
+          <td
+            :colspan="hasTokensWithExpireDate ? 5 : 4"
+            v-html="$sanitize(noTokenCreatedYetText)"
+          ></td>
+        </tr>
+        <tr v-for="theToken in (tokens || [])" :key="theToken.idusertokenauth">
+          <td><span class="creationDate">{{ theToken.date_created }}</span></td>
+          <td>{{ theToken.description }}</td>
+          <td>
+            {{ theToken.last_used ? theToken.last_used : translate('General_Never') }}
+          </td>
+          <td
+            v-if="hasTokensWithExpireDate"
+            :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"
+          >
+            {{ theToken.date_expired ? theToken.date_expired : translate('General_Never') }}
+          </td>
+          <td>
+            <form
+              method="post"
+              :action="deleteTokenAction"
+              style="display: inline"
+            >
+              <input name="nonce" type="hidden" :value="deleteTokenNonce"/>
+              <input name="idtokenauth" type="hidden" :value="theToken.idusertokenauth"/>
+              <button
+                type="submit"
+                class="table-action"
+                :title="translate('General_Delete')"
+              >
+                <span class="icon-delete"></span>
+              </button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="tableActionBar">
+        <a :href="addNewTokenLink" class="addNewToken">
+          <span class="icon-add"></span>
+          {{ translate('UsersManager_CreateNewToken') }}
+        </a>
+
+        <form
+          v-if="tokens?.length"
+          method="post"
+          :action="deleteTokenAction"
+          style="display: inline"
+        >
+          <input name="nonce" type="hidden" :value="deleteTokenNonce">
+          <input name="idtokenauth" type="hidden" value="all">
+          <button type="submit" class="table-action">
+            <span class="icon-delete"></span> {{ translate('UsersManager_DeleteAllTokens') }}
+          </button>
+        </form>
+      </div>
+    </ContentBlock>
+  </div>
 </template>
 
 <script lang="ts">
@@ -184,10 +186,7 @@ export default defineComponent({
     isSuperUser: Boolean,
     invalidHost: String,
     afterPasswordEventContent: String,
-    invalidHostMailLinkStart: {
-      type: String,
-      required: true,
-    },
+    invalidHostMailLinkStart: String,
   },
   components: {
     ContentBlock,
@@ -218,7 +217,7 @@ export default defineComponent({
     emailYourAdminText() {
       return translate(
         'UsersManager_EmailYourAdministrator',
-        this.invalidHostMailLinkStart,
+        this.invalidHostMailLinkStart || '',
         '</a>',
       );
     },
