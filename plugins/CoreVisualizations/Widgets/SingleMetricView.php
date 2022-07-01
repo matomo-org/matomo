@@ -66,17 +66,13 @@ class SingleMetricView extends \Piwik\Widget\Widget
             $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         }
 
-        $view = new View("@CoreHome/_angularComponent.twig");
-        $view->componentName = 'piwik-single-metric-view';
-        $view->componentParameters = [
-            'metric' => json_encode($column),
-            'id-goal' => $idGoal === false ? 'undefined' : $idGoal,
-            'goal-metrics' => json_encode($goalMetrics),
-            'goals' => json_encode($goals),
-            'metric-translations' => json_encode($metricTranslations),
-            'metric-documentations' => json_encode($metricDocumentations),
-        ];
-
-        return $view->render();
+        return '<div vue-entry="CoreVisualizations.SingleMetricView"
+            metric="' . json_encode($column) . '"
+            id-goal="' . json_encode($idGoal === false ? 'undefined' : $idGoal) . '"
+            goal-metrics="' . json_encode($goalMetrics) . '"
+            goals="' . json_encode($goals) . '"
+            metric-translations="' . json_encode($metricTranslations) . '"
+            metric-documentations="' . json_encode($metricDocumentations) . '"
+        ></div>';
     }
 }
