@@ -28,14 +28,15 @@ class SitesTable implements BackendInterface
         'sitesearch_category_parameters',
         'excluded_user_agents',
         'excluded_parameters',
-        'excluded_ips'
+        'excluded_ips',
+        'excluded_referrers'
     );
 
     // these fields are standard fields of a site and cannot be adjusted via a setting
     private $allowedNames = array(
         'ecommerce', 'sitesearch', 'sitesearch_keyword_parameters',
         'sitesearch_category_parameters', 'exclude_unknown_urls',
-        'excluded_ips', 'excluded_parameters',
+        'excluded_ips', 'excluded_parameters', 'excluded_referrers',
         'excluded_user_agents', 'keep_url_fragment', 'urls'
     );
 

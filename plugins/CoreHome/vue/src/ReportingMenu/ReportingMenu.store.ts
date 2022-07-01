@@ -14,7 +14,7 @@ import { Category, CategoryContainer, getCategoryChildren } from './Category';
 import { getSubcategoryChildren, Subcategory, SubcategoryContainer } from './Subcategory';
 
 interface ReportingMenuStoreState {
-  activeCategoryId: string|null;
+  activeCategoryId?: string|null;
   activeSubcategoryId: string|null;
   activeSubsubcategoryId: string|null;
 }
@@ -32,18 +32,21 @@ function isNumeric(text: string) {
 
 export class ReportingMenuStore {
   private privateState = reactive<ReportingMenuStoreState>({
-    activeCategoryId: null,
     activeSubcategoryId: null,
     activeSubsubcategoryId: null,
   });
 
   private state = computed(() => readonly(this.privateState));
 
-  readonly activeCategory = computed(() => this.state.value.activeCategoryId
-    || MatomoUrl.parsed.value.category as string);
+  readonly activeCategory = computed(
+    () => (typeof this.state.value.activeCategoryId !== 'undefined'
+      ? this.state.value.activeCategoryId
+      : MatomoUrl.parsed.value.category as string),
+  );
 
-  readonly activeSubcategory = computed(() => this.state.value.activeSubcategoryId
-    || MatomoUrl.parsed.value.subcategory as string);
+  readonly activeSubcategory = computed(
+    () => this.state.value.activeSubcategoryId || MatomoUrl.parsed.value.subcategory as string,
+  );
 
   readonly activeSubsubcategory = computed(() => {
     const manuallySetId = this.state.value.activeSubsubcategoryId;
@@ -76,7 +79,7 @@ export class ReportingMenuStore {
     return ReportingPagesStoreInstance.reloadAllPages().then(() => this.menu.value);
   }
 
-  findSubcategory(categoryId: string, subcategoryId: string): SubcategoryFindResult {
+  findSubcategory(categoryId: string|null, subcategoryId: string): SubcategoryFindResult {
     let foundCategory: Category|undefined = undefined;
     let foundSubcategory: Subcategory|undefined = undefined;
     let foundSubSubcategory: Subcategory|undefined = undefined;
@@ -188,7 +191,7 @@ export class ReportingMenuStore {
     this.privateState.activeSubcategoryId = null;
     this.privateState.activeSubsubcategoryId = null;
 
-    if (this.privateState.activeCategoryId === category.id) {
+    if (this.activeCategory.value === category.id) {
       this.privateState.activeCategoryId = null;
       return false;
     }
