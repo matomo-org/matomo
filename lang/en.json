@@ -173,7 +173,7 @@
         "EncryptedSmtpTransport": "Enter the transport layer encryption required by your SMTP server.",
         "Error": "Error",
         "ErrorRequest": "Oops… there was a problem during the request. Maybe the server had a temporary issue, or maybe you requested a report with too much data. Please try again. If this error occurs repeatedly please %1$scontact your Matomo administrator%2$s for assistance.",
-        "ErrorRateLimit": "Oops… to many requests. This happens when you exceed the number of allowed requests to our API for a certain time period. See rate-limiting section in our API documentation. If the error continues, please contact our %1$s support team %2$s.",
+        "ErrorRateLimit": "Oops… to many requests. This happens when you exceed the number of allowed requests to API for a certain time period. See rate-limiting section in API documentation.",
         "ErrorRequestFaqLink": "See the steps to resolve this issue in the FAQ.",
         "Errors": "Errors",
         "ErrorTryAgain": "Error. Please try again later.",

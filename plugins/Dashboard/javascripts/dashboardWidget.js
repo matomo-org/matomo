@@ -179,7 +179,7 @@
 
 
                 if (deferred.status === 429) {
-                    errorMessage = `<div class="alert alert-danger">${_pk_translate('General_ErrorRateLimit', ['<a href="mailto:support@matomo.cloud?subject=500 error on Matomo Cloud">',
+                    errorMessage = `<div class="alert alert-danger">${_pk_translate('General_ErrorRateLimit')}>',
                         '</a>'])}</div>`;
 
                     if($('#loadingRateLimitError').html()) {

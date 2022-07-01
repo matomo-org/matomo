@@ -24,7 +24,7 @@
         </a>
       </div>
       <div v-else class="notification system notification-error">
-        {{ translate('General_ErrorRateLimit','','') }}
+        {{ translate('General_ErrorRateLimit') }}
       </div>
     </div>
     <div class="theWidgetContent" ref="widgetContent" />
