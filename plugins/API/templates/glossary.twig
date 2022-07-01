@@ -28,7 +28,7 @@
                     <div class="card-content">
                         <div style="background:#fff;width:100%" class="pushpin">
                         <h2 class="card-title">{{ item.title }}</h2>
-                        <ul class="pagination table-of-contents">
+                        <ul class="pagination">
                             {% for letter in item.letters %}
                                 <li class="waves-effect"><a href="#{{ keyword }}{{ letter }}">{{ letter }}</a></li>
                             {% endfor %}
@@ -39,7 +39,7 @@
                             {% if not lastLetter or lastLetter != entry.letter %}
                                 {% if lastLetter %}</div>{% endif %}
                                 {% set lastLetter = entry.letter %}
-                                <div class="section scrollspy" id="{{ keyword }}{{ lastLetter }}">
+                                <div class="scrollspy" id="{{ keyword }}{{ lastLetter }}">
                             {% endif %}
                                 <h3 style="color:#4183C4;font-weight: bold;">{{ entry.name }}</h3>
                                 {% if entry.subtitle|default is not empty %}<p style="color:#999;text-transform:uppercase;font-weight:normal;margin-top:-16px;">{{ entry.subtitle|translate }}</p>{% endif %}
