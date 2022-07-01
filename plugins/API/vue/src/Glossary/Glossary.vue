@@ -99,7 +99,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    // TODO
   },
   directives: {
     ContentIntro,
