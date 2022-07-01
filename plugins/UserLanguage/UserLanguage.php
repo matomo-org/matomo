@@ -23,7 +23,7 @@ class UserLanguage extends \Piwik\Plugin
 
     public static function footerUserCountry(&$out)
     {
-        $out .= '<h2 piwik-enriched-headline>' . Piwik::translate('UserLanguage_BrowserLanguage') . '</h2>';
+        $out .= '<h2 vue-entry="CoreHome.EnrichedHeadline">' . Piwik::translate('UserLanguage_BrowserLanguage') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('UserLanguage', 'getLanguage');
     }
 }
