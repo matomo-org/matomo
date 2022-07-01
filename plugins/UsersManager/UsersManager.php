@@ -360,5 +360,13 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Never';
         $translationKeys[] = 'General_Delete';
         $translationKeys[] = 'UsersManager_DeleteAllTokens';
+        $translationKeys[] = 'UsersManager_ExcludeVisitsViaCookie';
+        $translationKeys[] = 'UsersManager_ClickHereToDeleteTheCookie';
+        $translationKeys[] = 'UsersManager_ClickHereToSetTheCookieOnDomain';
+        $translationKeys[] = 'UsersManager_YourVisitsAreIgnoredOnDomain';
+        $translationKeys[] = 'UsersManager_YourVisitsAreNotIgnored';
+        $translationKeys[] = 'General_AllWebsitesDashboard';
+        $translationKeys[] = 'General_Ok';
+        $translationKeys[] = 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2';
     }
 }
