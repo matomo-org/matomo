@@ -1,7 +1,8 @@
 {# This graphId must be unique for this report #}
-<h2 piwik-enriched-headline
+<h2
+    vue-entry="CoreHome.EnrichedHeadline"
     data-graph-id="VisitsSummary.getIndexGraph"
-        >{{ 'General_EvolutionOverPeriod'|translate }}</h2>
+>{{ 'General_EvolutionOverPeriod'|translate }}</h2>
 
 {{ graphEvolutionVisitsSummary|raw }}
 
