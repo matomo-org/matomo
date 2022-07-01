@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -20,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class TrackingTest extends IntegrationTestCase
 {
-    public function test_TrackingOldVisits_ResetsSiteCreatedTime_SoDataCanBeViewedInUI()
+    public function testTrackingOldVisitsResetsSiteCreatedTimeSoDataCanBeViewedInUI()
     {
         Fixture::createWebsite('2015-01-01 00:00:00');
 
@@ -35,7 +36,7 @@ class TrackingTest extends IntegrationTestCase
         $this->assertEquals('2014-05-04 00:00:00', $createdTime);
     }
 
-    public function test_TrackingOldVisit_ThatIsExcluded_DoesNotResetCreatedTime()
+    public function testTrackingOldVisitThatIsExcludedDoesNotResetCreatedTime()
     {
         Fixture::createWebsite('2015-01-01 00:00:00');
 
@@ -53,7 +54,7 @@ class TrackingTest extends IntegrationTestCase
         $this->assertEquals('2014-12-31 00:00:00', $createdTime);
     }
 
-    public function test_TrackingOldVisit_ForSiteWithNoTsCreatedTime_DoesNotResetCreatedTime()
+    public function testTrackingOldVisitForSiteWithNoTsCreatedTimeDoesNotResetCreatedTime()
     {
         Fixture::createWebsite('2015-01-01 00:00:00');
 
@@ -77,12 +78,12 @@ class TrackingTest extends IntegrationTestCase
 
     private function getSiteCreatedTime($idSite)
     {
-        return Db::fetchOne("SELECT ts_created FROM " . Common::prefixTable('site') . " WHERE idsite = ?", array($idSite));
+        return Db::fetchOne("SELECT ts_created FROM " . Common::prefixTable('site') . " WHERE idsite = ?", [$idSite]);
     }
 
     private function unsetCreatedTime($idSite)
     {
-        Db::query("UPDATE " . Common::prefixTable('site') . " SET ts_created = NULL WHERE idsite = ?", array($idSite));
+        Db::query("UPDATE " . Common::prefixTable('site') . " SET ts_created = NULL WHERE idsite = ?", [$idSite]);
     }
 
     protected static function configureFixture($fixture)
