@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -16,7 +17,7 @@ use Piwik\Plugins\SitesManager\SitesManager;
  * @group GtmSiteTypeGuesserTest
  * @group Plugins
  */
-class GtmSiteTypeGuesserTest extends \PHPUnit\Framework\TestCase
+class GuessSiteTypeAndGtmTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var GtmSiteTypeGuesser
@@ -30,17 +31,17 @@ class GtmSiteTypeGuesserTest extends \PHPUnit\Framework\TestCase
         $this->guesser = new GtmSiteTypeGuesser();
     }
 
-    public function test_site_type_unknown_if_response_false()
+    public function testSiteTypeUnknownIfResponseFalse()
     {
         $this->assertEquals(SitesManager::SITE_TYPE_UNKNOWN, $this->guesser->guessSiteTypeFromResponse(false));
     }
 
-    public function test_gtm_is_false_if_response_false()
+    public function testGtmIsFalseIfResponseFalse()
     {
         $this->assertFalse($this->guesser->guessGtmFromResponse(false));
     }
 
-    public function test_gtm_is_true()
+    public function testGtmIsTrue()
     {
         $response = [
             'status' => 200,
@@ -54,7 +55,7 @@ class GtmSiteTypeGuesserTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider responseProvider
      */
-    public function test_site_types_by_response($expected, $response)
+    public function testSiteTypesByResponse($expected, $response)
     {
         $this->assertEquals($expected, $this->guesser->guessSiteTypeFromResponse($response));
     }
