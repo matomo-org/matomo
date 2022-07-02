@@ -23,7 +23,9 @@
       v-for="scope in availableScopes"
       :key="scope.value"
     >
-      <ContentBlock :content-title="`${scope.name} Dimensions`">
+      <ContentBlock
+        :content-title="translate(`CustomDimensions_ScopeTitle${ucfirst(scope.value)}`)"
+      >
         <p>
           {{ translate(`CustomDimensions_ScopeDescription${ucfirst(scope.value)}`) }}
           {{ translate(`CustomDimensions_ScopeDescription${ucfirst(scope.value)}MoreInfo`) }}
