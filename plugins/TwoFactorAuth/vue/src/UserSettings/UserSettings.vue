@@ -25,12 +25,14 @@
         <a
           class="btn btn-link enable2FaLink"
           :href="setupTwoFactorAuthLink"
+          style="margin-right:3.5px"
         >{{ translate('TwoFactorAuth_ConfigureDifferentDevice') }}</a>
       </span>
       <span v-else>
         <a
           class="btn btn-link enable2FaLink"
           :href="setupTwoFactorAuthLink"
+          style="margin-right:3.5px"
         >{{ translate('TwoFactorAuth_ConfigureDifferentDevice') }}</a>
         <a :href="disableTwoFactorAuthLink" style="display:none;" id="disable2fa">disable2fa</a>
         <input
@@ -38,6 +40,7 @@
           class="btn btn-link disable2FaLink"
           @click="onDisable2FaLinkClick()"
           :value="translate('TwoFactorAuth_DisableTwoFA')"
+          style="margin-right:3.5px"
         />
       </span>
 

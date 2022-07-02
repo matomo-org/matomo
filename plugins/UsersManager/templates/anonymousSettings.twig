@@ -5,7 +5,7 @@
 {% block content %}
 {% if isSuperUser %}
 <div
-    matomo-anonymous-settings
+    vue-entry="UsersManager.AnonymousSettings"
     title="{{ title|json_encode|e('html_attr') }}"
     anonymous-sites="{{ anonymousSites|json_encode|e('html_attr') }}"
     anonymous-default-report="{{ anonymousDefaultReport|json_encode|e('html_attr') }}"
