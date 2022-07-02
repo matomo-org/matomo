@@ -115,6 +115,12 @@ export default defineComponent({
         disableNonce: this.disableNonce,
       })}`;
     },
+    showRecoveryCodesLink() {
+      return `?${MatomoUrl.stringify({
+        module: 'TwoFactorAuth',
+        action: 'showRecoveryCodes',
+      })}`;
+    },
   },
   methods: {
     onDisable2FaLinkClick() {
@@ -128,12 +134,6 @@ export default defineComponent({
           });
         },
       });
-    },
-    showRecoveryCodesLink() {
-      return `?${MatomoUrl.stringify({
-        module: 'TwoFactorAuth',
-        action: 'showRecoveryCodes',
-      })}`;
     },
   },
 });
