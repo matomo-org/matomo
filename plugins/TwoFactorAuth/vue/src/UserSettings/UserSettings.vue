@@ -104,12 +104,14 @@ export default defineComponent({
     },
     setupTwoFactorAuthLink() {
       return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
         module: 'TwoFactorAuth',
         action: 'setupTwoFactorAuth',
       })}`;
     },
     disableTwoFactorAuthLink() {
       return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
         module: 'TwoFactorAuth',
         action: 'disableTwoFactorAuth',
         disableNonce: this.disableNonce,
@@ -117,6 +119,7 @@ export default defineComponent({
     },
     showRecoveryCodesLink() {
       return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
         module: 'TwoFactorAuth',
         action: 'showRecoveryCodes',
       })}`;

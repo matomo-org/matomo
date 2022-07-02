@@ -164,7 +164,7 @@ export default defineComponent({
     },
     formDataAttributes() {
       // convert html attribute string (ie 'a="b" d="f"') to JS object {a: "b", d: "f"}
-      const result = Object.fromEntries(
+      return Object.fromEntries(
         (this.formData as FormData).attributes
           .split(/\s+/g)
           .filter((s) => s)
@@ -174,8 +174,6 @@ export default defineComponent({
             Matomo.helper.htmlDecode(value.substr(1, value.length - 2)),
           ]),
       );
-      console.log(result);
-      return result;
     },
   },
 });

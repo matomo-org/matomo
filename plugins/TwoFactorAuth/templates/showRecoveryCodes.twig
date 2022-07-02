@@ -3,7 +3,7 @@
 {% block content %}
     <div
         vue-entry="TwoFactorAuth.ShowRecoveryCodesPage"
-        codes="{{ |default(null)|json_encode|e('html_attr') }}"
+        codes="{{ codes|default(null)|json_encode|e('html_attr') }}"
         regenerate-success="{{ regenerateSuccess|default(null)|json_encode|e('html_attr') }}"
         regenerate-error="{{ regenerateError|default(null)|json_encode|e('html_attr') }}"
         regenerate-nonce="{{ regenerateNonce|json_encode|e('html_attr') }}"
