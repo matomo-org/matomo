@@ -4,14 +4,6 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-import './CapabilitiesEdit/CapabilitiesEdit.adapter';
-import './UserPermissionsEdit/UserPermissionsEdit.adapter';
-import './UserEditForm/UserEditForm.adapter';
-import './PagedUsersList/PagedUsersList.adapter';
-import './UsersManager/UsersManager.adapter';
-import './AnonymousSettings/AnonymousSettings.adapter';
-import './NewsletterSettings/NewsletterSettings.adapter';
-import './PersonalSettings/PersonalSettings.adapter';
 
 export { default as CapabilitiesEdit } from './CapabilitiesEdit/CapabilitiesEdit.vue';
 export { default as Capability } from './CapabilitiesStore/Capability';
@@ -22,3 +14,7 @@ export { default as UsersManager } from './UsersManager/UsersManager.vue';
 export { default as NewsletterSettings } from './AnonymousSettings/AnonymousSettings.vue';
 export { default as AnonymousSettings } from './NewsletterSettings/NewsletterSettings.vue';
 export { default as PersonalSettings } from './PersonalSettings/PersonalSettings.vue';
+export { default as AddNewToken } from './AddNewToken/AddNewToken.vue';
+export { default as AddNewTokenSuccess } from './AddNewToken/AddNewTokenSuccess.vue';
+export { default as UserSecurity } from './UserSecurity/UserSecurity.vue';
+export { default as UserSettings } from './UserSettings/UserSettings.vue';
