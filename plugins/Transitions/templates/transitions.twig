@@ -1,4 +1,4 @@
 <div
     vue-entry="Transitions.TransitionsPage"
-    is-widget="{{ isWidget|default(null)|json_encode|e('html_attr') }}"
+    is-widget="{{ (isWidget == 1)|default(null)|json_encode|e('html_attr') }}"
 ></div>
