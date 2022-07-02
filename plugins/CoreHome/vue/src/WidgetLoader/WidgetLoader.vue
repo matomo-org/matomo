@@ -202,7 +202,6 @@ export default defineComponent({
         const widgetContent = this.$refs.widgetContent as HTMLElement;
         window.$(widgetContent).html(response);
         const $content = window.$(widgetContent).children();
-        console.log($content);
 
         if (this.widgetName) {
           // we need to respect the widget title, which overwrites a possibly set report title
