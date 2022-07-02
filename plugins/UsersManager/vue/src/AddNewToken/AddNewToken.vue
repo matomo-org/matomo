@@ -27,6 +27,7 @@
         :maxlength="100"
         :required="true"
         :inline-help="translate('UsersManager_AuthTokenPurpose')"
+        v-model="tokenDescription"
       />
 
       <input type="hidden" :value="formNonce" name="nonce">
@@ -35,6 +36,7 @@
         type="submit"
         :value="translate('UsersManager_CreateNewToken')"
         class="btn"
+        style="margin-right:3.5px"
       />
 
       <span v-html="$sanitize(cancelLink)"></span>
@@ -47,6 +49,10 @@ import { defineComponent } from 'vue';
 import { translate, ContentBlock, MatomoUrl } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
+interface AddNewTokenState {
+  tokenDescription: string;
+}
+
 export default defineComponent({
   props: {
     noDescription: Boolean,
@@ -55,6 +61,11 @@ export default defineComponent({
   components: {
     ContentBlock,
     Field,
+  },
+  data(): AddNewTokenState {
+    return {
+      tokenDescription: '',
+    };
   },
   computed: {
     addNewTokenFormUrl() {
