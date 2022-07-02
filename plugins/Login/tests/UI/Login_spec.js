@@ -135,7 +135,7 @@ describe("Login", function () {
         await page.type("#reset_form_password", "superUserPass2");
         await page.click("#reset_form_submit");
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.notification');
+        await page.waitForSelector('.notification', { timeout: 60000 });
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_error');
     });
