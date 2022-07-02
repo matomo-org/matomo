@@ -149,7 +149,7 @@
       <div id="setupTwoFAsecretConfirm" class="ui-confirm">
         <h2>{{ translate('TwoFactorAuth_Your2FaAuthSecret') }}</h2>
         <p style="text-align: center;"><code
-          v-select-on-focus
+          v-select-on-focus="{}"
           style="font-size: 30px;"
         >{{ newSecret }}</code></p>
         <input role="ok" type="button" :value="translate('General_Ok')"/>
