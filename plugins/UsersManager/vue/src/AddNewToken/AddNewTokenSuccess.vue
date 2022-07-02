@@ -13,7 +13,7 @@
       <br>
       {{ translate('UsersManager_DoNotStoreToken') }}
     </p>
-    <pre v-select-on-focus
+    <pre v-select-on-focus="{}"
          style="font-size: 40px;"
          class="generatedTokenAuth"
     ><code>{{ generatedToken }}</code></pre>
