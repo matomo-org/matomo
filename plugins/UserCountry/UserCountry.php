@@ -43,6 +43,22 @@ class UserCountry extends \Piwik\Plugin
         $translations[] = 'UserCountry_CannotLocalizeLocalIP';
         $translations[] = 'UserCountry_NoProviders';
         $translations[] = 'General_Disabled';
+        $translations[] = 'UserCountry_GeolocationPageDesc';
+        $translations[] = 'UserCountry_LocationProvider';
+        $translations[] = 'UserCountry_Geolocation';
+        $translations[] = 'UserCountry_DistinctCountries';
+        $translations[] = 'UserCountry_DistinctCountries';
+        $translations[] = 'General_InfoFor';
+        $translations[] = 'General_NotInstalled';
+        $translations[] = 'General_Installed';
+        $translations[] = 'General_Broken';
+        $translations[] = 'UserCountry_CurrentLocationIntro';
+        $translations[] = 'General_Refresh';
+        $translations[] = 'UserCountry_CannotLocalizeLocalIP';
+        $translations[] = 'UserCountry_NoProviders';
+        $translations[] = 'UserCountry_Geolocation';
+        $translations[] = 'UserCountry_GeolocationPageDesc';
+        $translations[] = 'UserCountry_LocationProvider';
     }
 
     public function addReportToInsightsOverview(&$reports)

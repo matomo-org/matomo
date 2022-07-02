@@ -1,9 +1,5 @@
-<div piwik-content-block>
-    <div class="sparkline">
-        {{ sparkline(urlSparklineCountries) }}
-	<div>
-        {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries|number~"</strong>")|raw }}
-	</div>
-    </div>
-    <br style="clear:left"/>
-</div>
+<div
+    vue-entry="UserCountry.GetDistinctCountries"
+    url-sparkline-countries="{{ urlSparklineCountries|json_encode|e('html_attr') }}"
+    number-distinct-countries="{{ numberDistinctCountries|number|json_encode|e('html_attr') }}"
+></div>
