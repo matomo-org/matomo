@@ -98,7 +98,6 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
         $jsFiles[] = "node_modules/qrcodejs2/qrcode.min.js";
     }
 
