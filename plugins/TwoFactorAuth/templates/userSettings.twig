@@ -1,6 +1,6 @@
 <div
     vue-entry="TwoFactorAuth.UserSettings"
     is-enabled="{{ isEnabled|default(null)|json_encode|e('html_attr') }}"
-    is-forced="{{ isEnabled|default(null)|json_encode|e('html_attr') }}"
+    is-forced="{{ isForced|default(null)|json_encode|e('html_attr') }}"
     disable-nonce="{{ disableNonce|json_encode|e('html_attr') }}"
 ></div>

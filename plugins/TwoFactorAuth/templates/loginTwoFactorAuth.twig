@@ -5,9 +5,9 @@
 {% block loginContent %}
     <div
         vue-entry="TwoFactorAuth.LoginTwoFactorAuth"
-        form-data="{{ formData|json_encode|e('html_attr') }}"
-        access-error-string="{{ accessErrorString|default(null)|json_encode|e('html_attr') }}"
-        form-nonce="{{ formNonce|json_encode|e('html_attr') }}"
+        form-data="{{ form_data|json_encode|e('html_attr') }}"
+        access-error-string="{{ AccessErrorString|default(null)|json_encode|e('html_attr') }}"
+        form-nonce="{{ nonce|json_encode|e('html_attr') }}"
         login-module="{{ loginModule|json_encode|e('html_attr') }}"
         piwik-url="{{ piwikUrl|default(null)|json_encode|e('html_attr') }}"
         user-login="{{ userLogin|json_encode|e('html_attr') }}"
