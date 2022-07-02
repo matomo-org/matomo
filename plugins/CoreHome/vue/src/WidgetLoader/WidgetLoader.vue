@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div class="widgetLoader">
     <ActivityIndicator
       :loading-message="loadingMessage"
       :loading="loading"
