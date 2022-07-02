@@ -3791,20 +3791,20 @@ var PersonalSettingsvue_type_script_lang_ts_window = window,
 PersonalSettingsvue_type_script_lang_ts.render = PersonalSettingsvue_type_template_id_94ecac48_render
 
 /* harmony default export */ var PersonalSettings = (PersonalSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=287f7164
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=8fb66880
 
-var AddNewTokenvue_type_template_id_287f7164_hoisted_1 = {
+var AddNewTokenvue_type_template_id_8fb66880_hoisted_1 = {
   key: 0
 };
-var AddNewTokenvue_type_template_id_287f7164_hoisted_2 = {
+var AddNewTokenvue_type_template_id_8fb66880_hoisted_2 = {
   key: 1,
   class: "alert alert-danger"
 };
-var AddNewTokenvue_type_template_id_287f7164_hoisted_3 = ["action"];
-var AddNewTokenvue_type_template_id_287f7164_hoisted_4 = ["value"];
-var AddNewTokenvue_type_template_id_287f7164_hoisted_5 = ["value"];
-var AddNewTokenvue_type_template_id_287f7164_hoisted_6 = ["innerHTML"];
-function AddNewTokenvue_type_template_id_287f7164_render(_ctx, _cache, $props, $setup, $data, $options) {
+var AddNewTokenvue_type_template_id_8fb66880_hoisted_3 = ["action"];
+var AddNewTokenvue_type_template_id_8fb66880_hoisted_4 = ["value"];
+var AddNewTokenvue_type_template_id_8fb66880_hoisted_5 = ["value"];
+var AddNewTokenvue_type_template_id_8fb66880_hoisted_6 = ["innerHTML"];
+function AddNewTokenvue_type_template_id_8fb66880_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
@@ -3813,7 +3813,7 @@ function AddNewTokenvue_type_template_id_287f7164_render(_ctx, _cache, $props, $
     "content-title": _ctx.translate('UsersManager_AuthTokens')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TokenAuthIntro')), 1), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("br", AddNewTokenvue_type_template_id_287f7164_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddNewTokenvue_type_template_id_287f7164_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ValidatorErrorEmptyValue')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TokenAuthIntro')), 1), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("br", AddNewTokenvue_type_template_id_8fb66880_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddNewTokenvue_type_template_id_8fb66880_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ValidatorErrorEmptyValue')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
         action: _ctx.addNewTokenFormUrl,
         method: "post",
         class: "addTokenForm"
@@ -3823,23 +3823,30 @@ function AddNewTokenvue_type_template_id_287f7164_render(_ctx, _cache, $props, $
         title: _ctx.translate('General_Description'),
         maxlength: 100,
         required: true,
-        "inline-help": _ctx.translate('UsersManager_AuthTokenPurpose')
-      }, null, 8, ["title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        "inline-help": _ctx.translate('UsersManager_AuthTokenPurpose'),
+        modelValue: _ctx.tokenDescription,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.tokenDescription = $event;
+        })
+      }, null, 8, ["title", "inline-help", "modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "hidden",
         value: _ctx.formNonce,
         name: "nonce"
-      }, null, 8, AddNewTokenvue_type_template_id_287f7164_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      }, null, 8, AddNewTokenvue_type_template_id_8fb66880_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "submit",
         value: _ctx.translate('UsersManager_CreateNewToken'),
-        class: "btn"
-      }, null, 8, AddNewTokenvue_type_template_id_287f7164_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        class: "btn",
+        style: {
+          "margin-right": "3.5px"
+        }
+      }, null, 8, AddNewTokenvue_type_template_id_8fb66880_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
         innerHTML: _ctx.$sanitize(_ctx.cancelLink)
-      }, null, 8, AddNewTokenvue_type_template_id_287f7164_hoisted_6)], 8, AddNewTokenvue_type_template_id_287f7164_hoisted_3)];
+      }, null, 8, AddNewTokenvue_type_template_id_8fb66880_hoisted_6)], 8, AddNewTokenvue_type_template_id_8fb66880_hoisted_3)];
     }),
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=287f7164
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=8fb66880
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=script&lang=ts
 
@@ -3853,6 +3860,11 @@ function AddNewTokenvue_type_template_id_287f7164_render(_ctx, _cache, $props, $
   components: {
     ContentBlock: external_CoreHome_["ContentBlock"],
     Field: external_CorePluginsAdmin_["Field"]
+  },
+  data: function data() {
+    return {
+      tokenDescription: ''
+    };
   },
   computed: {
     addNewTokenFormUrl: function addNewTokenFormUrl() {
@@ -3876,7 +3888,7 @@ function AddNewTokenvue_type_template_id_287f7164_render(_ctx, _cache, $props, $
 
 
 
-AddNewTokenvue_type_script_lang_ts.render = AddNewTokenvue_type_template_id_287f7164_render
+AddNewTokenvue_type_script_lang_ts.render = AddNewTokenvue_type_template_id_8fb66880_render
 
 /* harmony default export */ var AddNewToken = (AddNewTokenvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewTokenSuccess.vue?vue&type=template&id=e121fcb8
