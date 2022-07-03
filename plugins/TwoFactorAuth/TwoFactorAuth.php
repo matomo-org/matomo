@@ -63,6 +63,96 @@ class TwoFactorAuth extends \Piwik\Plugin
         $translations[] = 'General_Confirm';
         $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2';
         $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDevice';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
+        $translations[] = 'General_Error';
+        $translations[] = 'TwoFactorAuth_VerifyIdentifyExplanation';
+        $translations[] = 'TwoFactorAuth_DontHaveYourMobileDevice';
+        $translations[] = 'TwoFactorAuth_EnterRecoveryCodeInstead';
+        $translations[] = 'TwoFactorAuth_NotPossibleToLogIn';
+        $translations[] = 'TwoFactorAuth_LostAuthenticationDevice';
+        $translations[] = 'TwoFactorAuth_AskSuperUserResetAuthenticationCode';
+        $translations[] = 'General_Logout';
+        $translations[] = 'TwoFactorAuth_Your2FaAuthSecret';
+        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodesInfo';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesRegenerated';
+        $translations[] = 'General_ExceptionNonceMismatch';
+        $translations[] = 'TwoFactorAuth_TwoFAShort';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIntro';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationRequired';
+        $translations[] = 'TwoFactorAuth_ConfigureDifferentDevice';
+        $translations[] = 'TwoFactorAuth_DisableTwoFA';
+        $translations[] = 'TwoFactorAuth_ShowRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled';
+        $translations[] = 'TwoFactorAuth_EnableTwoFA';
+        $translations[] = 'TwoFactorAuth_ConfirmDisableTwoFA';
+        $translations[] = 'General_Yes';
+        $translations[] = 'General_No';
+        $translations[] = 'TwoFactorAuth_RequiredToSetUpTwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_SetUpTwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_WarningChangingConfiguredDevice';
+        $translations[] = 'TwoFactorAuth_SetupIntroFollowSteps';
+        $translations[] = 'TwoFactorAuth_StepX';
+        $translations[] = 'TwoFactorAuth_RecoveryCodes';
+        $translations[] = 'TwoFactorAuth_SetupBackupRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDevice';
+        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep1';
+        $translations[] = 'General_Or';
+        $translations[] = 'TwoFactorAuth_ConfirmSetup';
+        $translations[] = 'TwoFactorAuth_VerifyAuthCodeIntro';
+        $translations[] = 'TwoFactorAuth_AuthenticationCode';
+        $translations[] = 'TwoFactorAuth_VerifyAuthCodeHelp';
+        $translations[] = 'General_Confirm';
+        $translations[] = 'TwoFactorAuth_Your2FaAuthSecret';
+        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2';
+        $translations[] = 'TwoFactorAuth_SetupFinishedTitle';
+        $translations[] = 'TwoFactorAuth_SetupFinishedSubtitle';
+        $translations[] = 'General_Continue';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_AuthenticationCode';
+        $translations[] = 'TwoFactorAuth_Verify';
+        $translations[] = 'TwoFactorAuth_VerifyIdentifyExplanation';
+        $translations[] = 'TwoFactorAuth_DontHaveYourMobileDevice';
+        $translations[] = 'TwoFactorAuth_EnterRecoveryCodeInstead';
+        $translations[] = 'TwoFactorAuth_AskSuperUserResetAuthenticationCode';
+        $translations[] = 'General_Logout';
+        $translations[] = 'TwoFactorAuth_NotPossibleToLogIn';
+        $translations[] = 'TwoFactorAuth_LostAuthenticationDevice';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesExplanation';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesSecurity';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesAllUsed';
+        $translations[] = 'General_Download';
+        $translations[] = 'General_Print';
+        $translations[] = 'General_Copy';
+        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodesInfo';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesRegenerated';
+        $translations[] = 'General_ExceptionNonceMismatch';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_RecoveryCodes';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationRequired';
+        $translations[] = 'TwoFactorAuth_ConfigureDifferentDevice';
+        $translations[] = 'TwoFactorAuth_DisableTwoFA';
+        $translations[] = 'TwoFactorAuth_ShowRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled';
+        $translations[] = 'TwoFactorAuth_EnableTwoFA';
+        $translations[] = 'TwoFactorAuth_ConfirmDisableTwoFA';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_TwoFAShort';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIntro';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationRequired';
+        $translations[] = 'TwoFactorAuth_ConfigureDifferentDevice';
+        $translations[] = 'TwoFactorAuth_DisableTwoFA';
+        $translations[] = 'TwoFactorAuth_ShowRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled';
+        $translations[] = 'TwoFactorAuth_EnableTwoFA';
+        $translations[] = 'TwoFactorAuth_ConfirmDisableTwoFA';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_TwoFAShort';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIntro';
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -72,7 +162,6 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
         $jsFiles[] = "node_modules/qrcodejs2/qrcode.min.js";
     }
 

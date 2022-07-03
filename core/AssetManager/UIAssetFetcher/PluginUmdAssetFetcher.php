@@ -34,6 +34,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     public function __construct($plugins, $theme, $chunk, $loadIndividually = null, $chunkCount = null)
     {
+        // Login must always be loaded, even if there's another login plugin being used
+        $plugins[] = 'Login';
+        $plugins = array_unique($plugins);
+
         parent::__construct($plugins, $theme);
 
         if ($loadIndividually === null) {
