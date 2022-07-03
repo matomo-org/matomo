@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\SitesManager\tests\Fixtures;
 
 use Piwik\Plugins\MobileAppMeasurable;
@@ -32,12 +34,18 @@ class ManySites extends Fixture
                     $type = MobileAppMeasurable\Type::ID;
                 }
 
-                self::createWebsite($this->dateTime, $ecommerce = 0, $siteName,
-                                    $siteUrl = false,
-                                    $siteSearch = 1, $searchKeywordParameters = null,
-                                    $searchCategoryParameters = null, $timezone = null, $type);
+                self::createWebsite(
+                    $this->dateTime,
+                    $ecommerce = 0,
+                    $siteName,
+                    $siteUrl = false,
+                    $siteSearch = 1,
+                    $searchKeywordParameters = null,
+                    $searchCategoryParameters = null,
+                    $timezone = null,
+                    $type
+                );
             }
         }
     }
-
 }
