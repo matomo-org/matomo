@@ -29,7 +29,6 @@
       <VueEntryContainer :html="afterIntroEventContent"/>
 
       <br />
-      <br />
       <a :href="ignoreSitesWithoutDataLink"
          class="btn ignoreSitesWithoutData"
       >
@@ -81,6 +80,7 @@ export default defineComponent({
     },
     ignoreSitesWithoutDataLink() {
       return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
         module: 'SitesManager',
         action: 'ignoreNoDataMessage',
       })}`;
