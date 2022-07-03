@@ -239,7 +239,6 @@ export default defineComponent({
           });
         });
       }).catch((response) => {
-        console.log(response);
         if (thisChangeId !== this.changeCounter) {
           // another widget was requested meanwhile, ignore this response
           return;
