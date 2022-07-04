@@ -141,6 +141,11 @@ __webpack_require__.d(__webpack_exports__, "ReportDeletionSettings", function() 
 __webpack_require__.d(__webpack_exports__, "DeleteOldLogs", function() { return /* reexport */ DeleteOldLogs; });
 __webpack_require__.d(__webpack_exports__, "DeleteOldReports", function() { return /* reexport */ DeleteOldReports; });
 __webpack_require__.d(__webpack_exports__, "ScheduleReportDeletion", function() { return /* reexport */ ScheduleReportDeletion; });
+__webpack_require__.d(__webpack_exports__, "AskingForConsent", function() { return /* reexport */ AskingForConsent; });
+__webpack_require__.d(__webpack_exports__, "GdprOverview", function() { return /* reexport */ GdprOverview; });
+__webpack_require__.d(__webpack_exports__, "PreviousAnonymizations", function() { return /* reexport */ PreviousAnonymizations; });
+__webpack_require__.d(__webpack_exports__, "PrivacySettings", function() { return /* reexport */ PrivacySettings; });
+__webpack_require__.d(__webpack_exports__, "UsersOptOut", function() { return /* reexport */ UsersOptOut; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -2315,6 +2320,708 @@ function ScheduleReportDeletionvue_type_template_id_22bfc8d0_render(_ctx, _cache
 ScheduleReportDeletionvue_type_script_lang_ts.render = ScheduleReportDeletionvue_type_template_id_22bfc8d0_render
 
 /* harmony default export */ var ScheduleReportDeletion = (ScheduleReportDeletionvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AskingForConsent/AskingForConsent.vue?vue&type=template&id=bf32ae64
+
+var AskingForConsentvue_type_template_id_bf32ae64_hoisted_1 = ["innerHTML"];
+
+var AskingForConsentvue_type_template_id_bf32ae64_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var AskingForConsentvue_type_template_id_bf32ae64_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var AskingForConsentvue_type_template_id_bf32ae64_hoisted_4 = ["innerHTML"];
+var AskingForConsentvue_type_template_id_bf32ae64_hoisted_5 = ["innerHTML"];
+function AskingForConsentvue_type_template_id_bf32ae64_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AskingForConsent')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ConsentExplanation')), 1)], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_WhenDoINeedConsent'),
+    class: "privacyAskingForConsent"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        innerHTML: _ctx.$sanitize(_ctx.whenConsentIsNeeded1)
+      }, null, 8, AskingForConsentvue_type_template_id_bf32ae64_hoisted_1), AskingForConsentvue_type_template_id_bf32ae64_hoisted_2, AskingForConsentvue_type_template_id_bf32ae64_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        innerHTML: _ctx.$sanitize(_ctx.whenConsentIsNeeded2)
+      }, null, 8, AskingForConsentvue_type_template_id_bf32ae64_hoisted_4)])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_HowDoIAskForConsent'),
+    class: "privacyAskingForConsent"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.$sanitize(_ctx.howDoIAskForConsentIntroduction)
+      }, null, 8, AskingForConsentvue_type_template_id_bf32ae64_hoisted_5)];
+    }),
+    _: 1
+  }, 8, ["content-title"])]);
+}
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AskingForConsent/AskingForConsent.vue?vue&type=template&id=bf32ae64
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AskingForConsent/AskingForConsent.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var AskingForConsentvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"]
+  },
+  directives: {
+    ContentIntro: external_CoreHome_["ContentIntro"]
+  },
+  computed: {
+    whenConsentIsNeeded1: function whenConsentIsNeeded1() {
+      var blogLink = 'https://matomo.org/blog/2018/04/lawful-basis-for-processing-personal-data-under-gdpr-with-matomo/';
+      return Object(external_CoreHome_["translate"])('PrivacyManager_WhenConsentIsNeeded1', '<a href="https://matomo.org/docs/gdpr/" target="_blank" rel="noreferrer noopener">', '</a>', "<a href=\"".concat(blogLink, "\" target=\"_blank\" rel=\"noreferrer noopener\">"), '</a>');
+    },
+    whenConsentIsNeeded2: function whenConsentIsNeeded2() {
+      var link = "?".concat(external_CoreHome_["MatomoUrl"].stringify({
+        module: 'PrivacyManager',
+        action: 'privacySettings'
+      }));
+      return Object(external_CoreHome_["translate"])('PrivacyManager_WhenConsentIsNeeded2', "<a href=\"".concat(link, "\">"), '</a>.');
+    },
+    howDoIAskForConsentIntroduction: function howDoIAskForConsentIntroduction() {
+      var link = 'https://developer.matomo.org/guides/tracking-consent';
+      return Object(external_CoreHome_["translate"])('PrivacyManager_HowDoIAskForConsentIntroduction', "<a href=\"".concat(link, "\" target=\"_blank\" rel=\"noreferrer noopener\">"), '</a>');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AskingForConsent/AskingForConsent.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AskingForConsent/AskingForConsent.vue
+
+
+
+AskingForConsentvue_type_script_lang_ts.render = AskingForConsentvue_type_template_id_bf32ae64_render
+
+/* harmony default export */ var AskingForConsent = (AskingForConsentvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=template&id=28e9dcba
+
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_1 = {
+  class: "gdprOverview"
+};
+
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_6 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_7 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_8 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_9 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_10 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_11 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_12 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_13 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_14 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_15 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_16 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_17 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_18 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_19 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_20 = ["innerHTML"];
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_21 = ["innerHTML"];
+
+var GdprOverviewvue_type_template_id_28e9dcba_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+function GdprOverviewvue_type_template_id_28e9dcba_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", GdprOverviewvue_type_template_id_28e9dcba_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverview')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro1')) + " ", 1), GdprOverviewvue_type_template_id_28e9dcba_hoisted_2, GdprOverviewvue_type_template_id_28e9dcba_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro2')), 1)])], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_VueEntryContainer, {
+    html: _ctx.afterGDPROverviewIntroContent
+  }, null, 8, ["html"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_GdprChecklists')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprChecklistDesc1')) + " ", 1), GdprOverviewvue_type_template_id_28e9dcba_hoisted_4, GdprOverviewvue_type_template_id_28e9dcba_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        innerHTML: _ctx.$sanitize(_ctx.gdprChecklistDesc2)
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_6)])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_IndividualsRights')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_IndividualsRightsIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ol", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_IndividualsRightsInform')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsAccess'))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsErasure'))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_8), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsRectification'))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsPortability'))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsObject', 'usersOptOut'))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_11), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_IndividualsRightsChildren')), 1)])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_AwarenessDocumentation')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AwarenessDocumentationIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ol", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AwarenessDocumentationDesc1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AwarenessDocumentationDesc2')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.awarenessDocumentationDesc3)
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_12), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.awarenessDocumentationDesc4)
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_13)])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_SecurityProcedures')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_SecurityProceduresIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ol", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc1)
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_14), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc2)
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_15), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc3)
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_16), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+        innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc4)
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_17)])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_DataRetention')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataRetentionInMatomo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [_ctx.deleteLogsEnable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+        key: 0,
+        innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_RawDataRemovedAfter', "<strong>".concat(_ctx.rawDataRetention, "</strong>")))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_18)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+        key: 1,
+        innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_RawDataNeverRemoved'))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_19)), _ctx.deleteReportsEnable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+        key: 2,
+        innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_ReportsRemovedAfter', "<strong>".concat(_ctx.reportRetention, "</strong>")))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_20)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+        key: 3,
+        innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_ReportsNeverRemoved'))
+      }, null, 8, GdprOverviewvue_type_template_id_28e9dcba_hoisted_21))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [GdprOverviewvue_type_template_id_28e9dcba_hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataRetentionOverall')), 1)])];
+    }),
+    _: 1
+  }, 8, ["content-title"])]);
+}
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=template&id=28e9dcba
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=script&lang=ts
+
+
+
+function externalLinkTranslate(tokenSuffix, url) {
+  return Object(external_CoreHome_["translate"])("PrivacyManager_".concat(tokenSuffix), "<a rel=\"noreferrer noopener\" target=\"_blank\" href=\"".concat(url, "\">"), '</a>');
+}
+
+/* harmony default export */ var GdprOverviewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    afterGDPROverviewIntroContent: String,
+    deleteLogsEnable: Boolean,
+    deleteReportsEnable: Boolean,
+    rawDataRetention: null,
+    reportRetention: null
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    VueEntryContainer: external_CoreHome_["VueEntryContainer"]
+  },
+  directives: {
+    ContentIntro: external_CoreHome_["ContentIntro"]
+  },
+  methods: {
+    rightsLinkText: function rightsLinkText(tokenSuffix) {
+      var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'gdprTools';
+      var link = "?".concat(external_CoreHome_["MatomoUrl"].stringify({
+        module: 'PrivacyManager',
+        action: action
+      }));
+      return Object(external_CoreHome_["translate"])("PrivacyManager_".concat(tokenSuffix), "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"".concat(link, "\">"), '</a>');
+    }
+  },
+  computed: {
+    gdprChecklistDesc2: function gdprChecklistDesc2() {
+      return externalLinkTranslate('GdprChecklistDesc2', 'https://matomo.org/docs/gdpr');
+    },
+    awarenessDocumentationDesc3: function awarenessDocumentationDesc3() {
+      return externalLinkTranslate('AwarenessDocumentationDesc3', 'https://matomo.org/faq/general/faq_18254/');
+    },
+    awarenessDocumentationDesc4: function awarenessDocumentationDesc4() {
+      return externalLinkTranslate('AwarenessDocumentationDesc4', 'https://matomo.org/blog/2018/04/gdpr-how-to-fill-in-the-information-asset-register-when-using-matomo/');
+    },
+    securityProceduresDesc1: function securityProceduresDesc1() {
+      return externalLinkTranslate('SecurityProceduresDesc1', 'https://matomo.org/docs/security/');
+    },
+    securityProceduresDesc2: function securityProceduresDesc2() {
+      return externalLinkTranslate('SecurityProceduresDesc2', 'https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/international-transfers/');
+    },
+    securityProceduresDesc3: function securityProceduresDesc3() {
+      return externalLinkTranslate('SecurityProceduresDesc3', 'https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/');
+    },
+    securityProceduresDesc4: function securityProceduresDesc4() {
+      return externalLinkTranslate('SecurityProceduresDesc4', 'https://www.cnil.fr/en/guidelines-dpia');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue
+
+
+
+GdprOverviewvue_type_script_lang_ts.render = GdprOverviewvue_type_template_id_28e9dcba_render
+
+/* harmony default export */ var GdprOverview = (GdprOverviewvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeLogData/PreviousAnonymizations.vue?vue&type=template&id=1fd63b08
+
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, "Previous raw data anonymizations", -1);
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Requester"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Affected ID Sites"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Affected date"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Anonymize"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Visit Columns"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Link Visit Action Columns"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Status")])], -1);
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_3 = {
+  key: 0
+};
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("IP address");
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_6 = [PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_4, PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_5];
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_7 = {
+  key: 1
+};
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("Location");
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_10 = [PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_8, PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_9];
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_11 = {
+  key: 2
+};
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_12 = {
+  key: 3
+};
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_13 = {
+  key: 0
+};
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_14 = ["title"];
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" Scheduled ");
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_16 = {
+  key: 1
+};
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_17 = ["title"];
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" In progress ");
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_19 = {
+  key: 2
+};
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_20 = ["title"];
+
+var PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" Done ");
+
+function PreviousAnonymizationsvue_type_template_id_1fd63b08_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", null, [PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.anonymizations, function (entry, index) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
+      key: index
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.requester), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.sites.join(', ')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.date_start) + " - " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.date_end), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [entry.anonymize_ip ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_3, PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_6)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), entry.anonymize_location ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_7, PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_10)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), entry.anonymize_userid ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_11, "User ID")) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !entry.anonymize_ip && !entry.anonymize_location && !entry.anonymize_userid ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_12, "-")) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.unset_visit_columns.join(', ')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.unset_link_visit_action_columns.join(', ')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [!entry.job_start_date ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: "icon-info",
+      style: {
+        "cursor": "help"
+      },
+      title: "Scheduled date: ".concat(entry.scheduled_date || '', ".")
+    }, null, 8, PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_14), PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_15])) : entry.job_start_date && !entry.job_finish_date ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: "icon-info",
+      style: {
+        "cursor": "help"
+      },
+      title: "Scheduled date: ".concat(entry.scheduled_date || '', ". Job Start Date:") + " ".concat(entry.job_start_date, ". Current Output: ").concat(entry.output)
+    }, null, 8, PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_17), PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_18])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: "icon-info",
+      style: {
+        "cursor": "help"
+      },
+      title: "Scheduled date: ".concat(entry.scheduled_date || '', ". Job Start Date:") + " ".concat(entry.job_start_date, ". Job Finish Date: ").concat(entry.job_finish_date, ". ") + "Output: ".concat(entry.output)
+    }, null, 8, PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_20), PreviousAnonymizationsvue_type_template_id_1fd63b08_hoisted_21]))])]);
+  }), 128))])], 512), [[_directive_content_table]])]);
+}
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeLogData/PreviousAnonymizations.vue?vue&type=template&id=1fd63b08
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeLogData/PreviousAnonymizations.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var PreviousAnonymizationsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    anonymizations: {
+      type: Array,
+      required: true
+    }
+  },
+  directives: {
+    ContentTable: external_CoreHome_["ContentTable"]
+  }
+}));
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeLogData/PreviousAnonymizations.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeLogData/PreviousAnonymizations.vue
+
+
+
+PreviousAnonymizationsvue_type_script_lang_ts.render = PreviousAnonymizationsvue_type_template_id_1fd63b08_render
+
+/* harmony default export */ var PreviousAnonymizations = (PreviousAnonymizationsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=template&id=f116e400
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_1 = ["innerHTML"];
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_2 = ["innerHTML"];
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_3 = {
+  key: 0
+};
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_4 = {
+  class: "ui-confirm",
+  id: "confirmDeleteSettings"
+};
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_5 = {
+  id: "deleteLogsConfirm"
+};
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_6 = {
+  id: "deleteReportsConfirm"
+};
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_7 = {
+  id: "deleteBothConfirm"
+};
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  role: "yes",
+  type: "button",
+  value: "{{ translate('General_Yes') }}"
+}, null, -1);
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  role: "no",
+  type: "button",
+  value: "{{ translate('General_No') }}"
+}, null, -1);
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_10 = {
+  class: "ui-confirm",
+  id: "saveSettingsBeforePurge"
+};
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  role: "yes",
+  type: "button",
+  value: "{{ translate('General_Ok') }}"
+}, null, -1);
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_12 = {
+  class: "ui-confirm",
+  id: "confirmPurgeNow"
+};
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  role: "yes",
+  type: "button",
+  value: "{{ translate('General_Yes') }}"
+}, null, -1);
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  role: "no",
+  type: "button",
+  value: "{{ translate('General_No') }}"
+}, null, -1);
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  name: "anonymizeHistoricalData",
+  id: "anonymizeHistoricalData"
+}, null, -1);
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, " If you have tracked personal data such as the full visitor IP, you may want to anonymize this data now in case you do not have consent for this data or no longer a legitimate interest. ", -1);
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_17 = {
+  key: 1
+};
+
+var PrivacySettingsvue_type_template_id_f116e400_hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+function PrivacySettingsvue_type_template_id_f116e400_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+
+  var _component_AnonymizeIp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AnonymizeIp");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _component_DeleteOldLogs = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DeleteOldLogs");
+
+  var _component_DeleteOldReports = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DeleteOldReports");
+
+  var _component_ScheduleReportDeletion = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ScheduleReportDeletion");
+
+  var _component_AnonymizeLogData = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AnonymizeLogData");
+
+  var _component_PreviousAnonymizations = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PreviousAnonymizations");
+
+  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
+    "help-url": "https://matomo.org/docs/privacy/"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AnonymizeData')), 1)];
+    }),
+    _: 1
+  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    innerHTML: _ctx.$sanitize(_ctx.teaserHeader),
+    style: {
+      "margin-right": "3.5px"
+    }
+  }, null, 8, PrivacySettingsvue_type_template_id_f116e400_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    innerHTML: _ctx.$sanitize(_ctx.seeAlsoOurOfficialGuide)
+  }, null, 8, PrivacySettingsvue_type_template_id_f116e400_hoisted_2)])], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    id: "anonymizeIPAnchor",
+    "content-title": _ctx.translate('PrivacyManager_UseAnonymizeTrackingData')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_AnonymizeIp, {
+        "anonymize-ip-enabled": _ctx.anonymizeIpEnabled,
+        "anonymize-user-id": _ctx.anonymizeUserId,
+        "mask-length": _ctx.maskLength,
+        "use-anonymized-ip-for-visit-enrichment": _ctx.useAnonymizedIpForVisitEnrichment,
+        "anonymize-order-id": _ctx.anonymizeOrderId,
+        "force-cookieless-tracking": _ctx.forceCookielessTracking,
+        "anonymize-referrer": _ctx.anonymizeReferrer,
+        "mask-length-options": _ctx.maskLengthOptions,
+        "use-anonymized-ip-for-visit-enrichment-options": _ctx.useAnonymizedIpForVisitEnrichmentOptions,
+        "tracker-file-name": _ctx.trackerFileName,
+        "tracker-writable": _ctx.trackerWritable,
+        "referrer-anonymization-options": _ctx.referrerAnonymizationOptions
+      }, null, 8, ["anonymize-ip-enabled", "anonymize-user-id", "mask-length", "use-anonymized-ip-for-visit-enrichment", "anonymize-order-id", "force-cookieless-tracking", "anonymize-referrer", "mask-length-options", "use-anonymized-ip-for-visit-enrichment-options", "tracker-file-name", "tracker-writable", "referrer-anonymization-options"])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), _ctx.isDataPurgeSettingsEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PrivacySettingsvue_type_template_id_f116e400_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    id: "deleteLogsAnchor",
+    "content-title": _ctx.translate('PrivacyManager_DeleteOldRawData')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PrivacySettingsvue_type_template_id_f116e400_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", PrivacySettingsvue_type_template_id_f116e400_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteLogsConfirm')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", PrivacySettingsvue_type_template_id_f116e400_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteReportsConfirm')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", PrivacySettingsvue_type_template_id_f116e400_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteBothConfirm')), 1), PrivacySettingsvue_type_template_id_f116e400_hoisted_8, PrivacySettingsvue_type_template_id_f116e400_hoisted_9]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PrivacySettingsvue_type_template_id_f116e400_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_SaveSettingsBeforePurge')), 1), PrivacySettingsvue_type_template_id_f116e400_hoisted_11]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PrivacySettingsvue_type_template_id_f116e400_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_PurgeNowConfirm')), 1), PrivacySettingsvue_type_template_id_f116e400_hoisted_13, PrivacySettingsvue_type_template_id_f116e400_hoisted_14]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteDataDescription')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DeleteOldLogs, {
+        "is-data-purge-settings-enabled": _ctx.isDataPurgeSettingsEnabled,
+        "delete-data": _ctx.deleteData,
+        "schedule-deletion-options": _ctx.scheduleDeletionOptions
+      }, null, 8, ["is-data-purge-settings-enabled", "delete-data", "schedule-deletion-options"])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    id: "deleteReportsAnchor",
+    "content-title": _ctx.translate('PrivacyManager_DeleteOldAggregatedReports')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DeleteOldReports, {
+        "is-data-purge-settings-enabled": _ctx.isDataPurgeSettingsEnabled,
+        "delete-data": _ctx.deleteData,
+        "schedule-deletion-options": _ctx.scheduleDeletionOptions
+      }, null, 8, ["is-data-purge-settings-enabled", "delete-data", "schedule-deletion-options"])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ScheduleReportDeletion, {
+    "is-data-purge-settings-enabled": _ctx.isDataPurgeSettingsEnabled,
+    "delete-data": _ctx.deleteData,
+    "schedule-deletion-options": _ctx.scheduleDeletionOptions
+  }, null, 8, ["is-data-purge-settings-enabled", "delete-data", "schedule-deletion-options"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), PrivacySettingsvue_type_template_id_f116e400_hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": "Anonymize previously tracked raw data",
+    class: "logDataAnonymizer"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [PrivacySettingsvue_type_template_id_f116e400_hoisted_16, _ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_AnonymizeLogData, {
+        key: 0
+      })) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", PrivacySettingsvue_type_template_id_f116e400_hoisted_17, "Only a user with Super User access can anonymize previously tracked raw data.")), PrivacySettingsvue_type_template_id_f116e400_hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PreviousAnonymizations, {
+        anonymizations: _ctx.anonymizations
+      }, null, 8, ["anonymizations"])];
+    }),
+    _: 1
+  })]);
+}
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=template&id=f116e400
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=script&lang=ts
+
+
+
+
+
+
+
+
+/* harmony default export */ var PrivacySettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    anonymizeIpEnabled: Boolean,
+    anonymizeUserId: Boolean,
+    maskLength: {
+      type: Number,
+      required: true
+    },
+    useAnonymizedIpForVisitEnrichment: [Boolean, String, Number],
+    anonymizeOrderId: Boolean,
+    forceCookielessTracking: Boolean,
+    anonymizeReferrer: String,
+    maskLengthOptions: {
+      type: Array,
+      required: true
+    },
+    useAnonymizedIpForVisitEnrichmentOptions: {
+      type: Array,
+      required: true
+    },
+    trackerFileName: {
+      type: String,
+      required: true
+    },
+    trackerWritable: {
+      type: Boolean,
+      required: true
+    },
+    referrerAnonymizationOptions: {
+      type: Object,
+      required: true
+    },
+    isDataPurgeSettingsEnabled: Boolean,
+    deleteData: {
+      type: Object,
+      required: true
+    },
+    scheduleDeletionOptions: {
+      type: Object,
+      required: true
+    },
+    anonymizations: {
+      type: Array,
+      required: true
+    },
+    isSuperUser: Boolean
+  },
+  components: {
+    AnonymizeIp: AnonymizeIp,
+    EnrichedHeadline: external_CoreHome_["EnrichedHeadline"],
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    DeleteOldLogs: DeleteOldLogs,
+    DeleteOldReports: DeleteOldReports,
+    ScheduleReportDeletion: ScheduleReportDeletion,
+    AnonymizeLogData: AnonymizeLogData,
+    PreviousAnonymizations: PreviousAnonymizations
+  },
+  directives: {
+    ContentIntro: external_CoreHome_["ContentIntro"]
+  },
+  computed: {
+    teaserHeader: function teaserHeader() {
+      return Object(external_CoreHome_["translate"])('PrivacyManager_TeaserHeader', '<a href="#anonymizeIPAnchor">', '</a>', '<a href="#deleteLogsAnchor">', '</a>', '<a href="#anonymizeHistoricalData">', '</a>');
+    },
+    seeAlsoOurOfficialGuide: function seeAlsoOurOfficialGuide() {
+      return Object(external_CoreHome_["translate"])('PrivacyManager_SeeAlsoOurOfficialGuidePrivacy', '<a href="https://matomo.org/docs/privacy/" rel="noreferrer noopener" target="_blank">', '</a>');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue
+
+
+
+PrivacySettingsvue_type_script_lang_ts.render = PrivacySettingsvue_type_template_id_f116e400_render
+
+/* harmony default export */ var PrivacySettings = (PrivacySettingsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/UsersOptOut/UsersOptOut.vue?vue&type=template&id=4d4b1550
+
+var UsersOptOutvue_type_template_id_4d4b1550_hoisted_1 = {
+  key: 0
+};
+
+var UsersOptOutvue_type_template_id_4d4b1550_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var UsersOptOutvue_type_template_id_4d4b1550_hoisted_3 = {
+  key: 1
+};
+function UsersOptOutvue_type_template_id_4d4b1550_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_OptOutCustomizer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("OptOutCustomizer");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _component_DoNotTrackPreference = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DoNotTrackPreference");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_TrackingOptOut')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_OptOutCustomizer, {
+        piwikurl: _ctx.piwikurl,
+        language: _ctx.language
+      }, null, 8, ["piwikurl", "language"])];
+    }),
+    _: 1
+  }, 8, ["content-title"]), _ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    key: 0,
+    id: "DNT",
+    "content-title": _ctx.translate('PrivacyManager_DoNotTrack_SupportDNTPreference')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [_ctx.dntSupport ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", UsersOptOutvue_type_template_id_4d4b1550_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DoNotTrack_Enabled')), 1), UsersOptOutvue_type_template_id_4d4b1550_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DoNotTrack_EnabledMoreInfo')), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", UsersOptOutvue_type_template_id_4d4b1550_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DoNotTrack_Disabled')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DoNotTrack_DisabledMoreInfo')), 1))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DoNotTrackPreference, {
+        "dnt-support": _ctx.dntSupport,
+        "do-not-track-options": _ctx.doNotTrackOptions
+      }, null, 8, ["dnt-support", "do-not-track-options"])];
+    }),
+    _: 1
+  }, 8, ["content-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+}
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/UsersOptOut/UsersOptOut.vue?vue&type=template&id=4d4b1550
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/UsersOptOut/UsersOptOut.vue?vue&type=script&lang=ts
+
+
+
+
+/* harmony default export */ var UsersOptOutvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    language: {
+      type: String,
+      required: true
+    },
+    piwikurl: String,
+    isSuperUser: Boolean,
+    dntSupport: Boolean,
+    doNotTrackOptions: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    DoNotTrackPreference: DoNotTrackPreference,
+    OptOutCustomizer: OptOutCustomizer
+  }
+}));
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/UsersOptOut/UsersOptOut.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/UsersOptOut/UsersOptOut.vue
+
+
+
+UsersOptOutvue_type_script_lang_ts.render = UsersOptOutvue_type_template_id_4d4b1550_render
+
+/* harmony default export */ var UsersOptOut = (UsersOptOutvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2322,6 +3029,11 @@ ScheduleReportDeletionvue_type_script_lang_ts.render = ScheduleReportDeletionvue
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
+
 
 
 
