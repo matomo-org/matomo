@@ -23,14 +23,19 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        image: 'bitnami/redis:latest'
+          environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+          networks:
+            - app-tier
+        redis-sentinel:
+          image: 'bitnami/redis-sentinel:latest'
+          environment:
+            - REDIS_MASTER_HOST=redis
+          ports:
+            - '26379:26379'
+          networks:
+            - app-tier
       mysql:
         image: mysql:5.7
         ports:
@@ -75,11 +80,11 @@ jobs:
           coverage: none
 
       - name: set up google woff
-        if:  matrix.tests == 'IntegrationTestsCore'
+        if: matrix.tests == 'IntegrationTestsCore'
         run: |
-           git clone --recursive https://github.com/google/woff2.git ../travis_woff2
-           cd ../travis_woff2
-           make clean all
+          git clone --recursive https://github.com/google/woff2.git ../travis_woff2
+          cd ../travis_woff2
+          make clean all
 
       - name: prepare setup
         shell: bash
