@@ -382,7 +382,7 @@ export default defineComponent({
       const reportParametersElement = reportParameters.value as HTMLElement;
       reportParametersElement.querySelectorAll('[vue-entry]').forEach((node) => {
         // eslint-disable-next-line no-underscore-dangle
-        $(node).data('vueAppInstance')._report = newValue;
+        $(node).data('vueAppInstance').report = newValue;
       });
     });
 
