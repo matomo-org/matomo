@@ -183,6 +183,7 @@ class SitesManager extends \Piwik\Plugin
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
         $array['excluded_user_agents'] = self::getExcludedUserAgents($website);
+        $array['excluded_referrers'] = self::getExcludedReferrers($website);
         $array['keep_url_fragment'] = self::shouldKeepURLFragmentsFor($website);
         $array['sitesearch'] = $website['sitesearch'];
         $array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
@@ -207,6 +208,7 @@ class SitesManager extends \Piwik\Plugin
         Access::doAsSuperUser(function () use (&$cache) {
             $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
             $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
+            $cache['global_excluded_referrers'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedReferrersGlobal());
         });
     }
 
@@ -293,6 +295,20 @@ class SitesManager extends \Piwik\Plugin
         $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
         $excludedUserAgents .= ',' . $website['excluded_user_agents'];
         return self::filterBlankFromCommaSepList($excludedUserAgents);
+    }
+
+    /**
+     * Returns the array of excluded referrers. Filters out
+     * any garbage data & trims each entry.
+     *
+     * @param array $website The full set of information for a site.
+     * @return array
+     */
+    private static function getExcludedReferrers($website)
+    {
+        $excludedReferrers = API::getInstance()->getExcludedReferrersGlobal();
+        $excludedReferrers .= ',' . $website['excluded_referrers'];
+        return self::filterBlankFromCommaSepList($excludedReferrers);
     }
 
     /**
@@ -448,6 +464,12 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
-
+        $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
+        $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
+        $translationKeys[] = "SitesManager_ExcludedReferrers";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelp";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpDetails";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpSubDomains";
     }
 }

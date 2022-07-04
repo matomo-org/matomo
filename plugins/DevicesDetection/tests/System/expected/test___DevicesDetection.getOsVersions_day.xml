@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Unknown</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>3</nb_visits>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>operatingSystemCode==UNK;operatingSystemVersion==UNK</segment>
+		<logo>plugins/Morpheus/icons/dist/os/UNK.png</logo>
+	</row>
+	<row>
+		<label>Android 4.2</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>3</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>721</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>operatingSystemCode==AND;operatingSystemVersion==4.2</segment>
+		<logo>plugins/Morpheus/icons/dist/os/AND.png</logo>
+	</row>
+	<row>
+		<label>iOS 6.0</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>operatingSystemCode==IOS;operatingSystemVersion==6.0</segment>
+		<logo>plugins/Morpheus/icons/dist/os/IOS.png</logo>
+	</row>
+	<row>
+		<label>iOS 7.1</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>operatingSystemCode==IOS;operatingSystemVersion==7.1</segment>
+		<logo>plugins/Morpheus/icons/dist/os/IOS.png</logo>
+	</row>
+	<row>
+		<label>Android 2.3</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1084</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>operatingSystemCode==AND;operatingSystemVersion==2.3</segment>
+		<logo>plugins/Morpheus/icons/dist/os/AND.png</logo>
+	</row>
+	<row>
+		<label>Java ME</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>724</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>operatingSystemCode==JME;operatingSystemVersion==</segment>
+		<logo>plugins/Morpheus/icons/dist/os/UNK.png</logo>
+	</row>
+	<row>
+		<label>Windows 11</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1084</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>operatingSystemCode==WIN;operatingSystemVersion==11</segment>
+		<logo>plugins/Morpheus/icons/dist/os/WIN.png</logo>
+	</row>
+</result>
