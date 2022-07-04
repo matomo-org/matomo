@@ -25,6 +25,7 @@ interface SaveGlobalSettingsParams {
   excludedIps: string;
   excludedQueryParameters: string;
   excludedUserAgents: string;
+  excludedReferrers: string;
   searchKeywordParameters: string;
   searchCategoryParameters: string;
 }
@@ -39,6 +40,7 @@ class GlobalSettingsStore {
       excludedIpsGlobal: '',
       excludedQueryParametersGlobal: '',
       excludedUserAgentsGlobal: '',
+      excludedReferrersGlobal: '',
       searchKeywordParametersGlobal: '',
       searchCategoryParametersGlobal: '',
     },
@@ -82,6 +84,7 @@ class GlobalSettingsStore {
         excludedIpsGlobal: response.excludedIpsGlobal || '',
         excludedQueryParametersGlobal: response.excludedQueryParametersGlobal || '',
         excludedUserAgentsGlobal: response.excludedUserAgentsGlobal || '',
+        excludedReferrersGlobal: response.excludedReferrersGlobal || '',
         searchKeywordParametersGlobal: response.searchKeywordParametersGlobal || '',
         searchCategoryParametersGlobal: response.searchCategoryParametersGlobal || '',
       };
