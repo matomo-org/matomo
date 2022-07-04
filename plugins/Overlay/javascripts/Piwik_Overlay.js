@@ -5,8 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import {watchEffect} from "vue";
-
 var Piwik_Overlay = (function () {
 
     var DOMAIN_PARSE_REGEX = /^http(s)?:\/\/(www\.)?([^\/]*)/i;
