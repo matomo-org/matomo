@@ -43,7 +43,7 @@ class DeviceDetectorFactory
     public static function getNormalizedUserAgent($userAgent, array $clientHints = [])
     {
         $normalizedClientHints = '';
-        if (is_array($clientHints)) {
+        if (is_array($clientHints) && count($clientHints)) {
             $hints  = ClientHints::factory($clientHints);
             $brands = $hints->getBrandList();
             ksort($brands);
