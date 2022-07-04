@@ -31,6 +31,7 @@ describe('Invite', function () {
     await page.evaluate(function(){
       $('#login_form_submit').click();
     });
+    await page.waitForNetworkIdle();
     expect(await page.screenshot({ fullPage: true })).to.matchImage('wrong_password');
 
   });
