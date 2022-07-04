@@ -202,7 +202,7 @@ window.piwikHelper = {
             return;
           }
 
-          // append with underscore so reserved javascripy keywords aren't accidentally used
+          // append '_' to avoid accidentally using javascript keywords
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -246,9 +246,12 @@ window.piwikHelper = {
           app.component(toKebabCase(componentName), component);
         });
 
-        app.mount(this);
+        var appInstance = app.mount(this);
+        $(this).data('vueAppInstance', appInstance);
 
+        var self = this;
         this.addEventListener('matomoVueDestroy', function () {
+          $(self).data('vueAppInstance', null);
           app.unmount();
         });
       });
