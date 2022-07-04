@@ -39,7 +39,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
         $userAgent = $request->getUserAgent();
 
-        $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent);
+        $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent, $request->getClientHints());
         $aBrowserInfo   = $deviceDetector->getClient();
 
         if (empty($aBrowserInfo['type']) || 'browser' !== $aBrowserInfo['type']) {

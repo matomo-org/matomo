@@ -6,3 +6,4 @@
  */
 
 export { default as FormErrors } from './FormErrors/FormErrors.vue';
+export { default as BruteForceLog } from './BruteForceLog/BruteForceLog.vue';
