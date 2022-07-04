@@ -298,7 +298,7 @@ var Piwik_Overlay = (function () {
             var watchEffect = window.Vue.watchEffect;
             var MatomoUrl = window.CoreHome.MatomoUrl;
             watchEffect(function () {
-              hashChangeCallback(MatomoUrl.url.value.hash);
+              hashChangeCallback(MatomoUrl.url.value.hash.replace(/^[#/?]+/g, ''));
             });
 
             if (window.location.href.split('#').length == 1) {
@@ -374,7 +374,7 @@ var Piwik_Overlay = (function () {
                 updateComesFromInsideFrame = true;
 
                 // available in global scope
-                var currentHashStr = window.CoreHome.MatomoUrl.url.value.hash;
+                var currentHashStr = window.CoreHome.MatomoUrl.url.value.hash.replace(/^[#/?]+/g, '');
 
                 if (currentHashStr.charAt(0) == '?') {
                     currentHashStr = currentHashStr.slice(1);
@@ -387,7 +387,7 @@ var Piwik_Overlay = (function () {
                 window.location.replace(newLocation);
 
                 // manually trigger hashchange since it doesn't seem to get pick it up anymore
-                hashChangeCallback(window.CoreHome.MatomoUrl.url.value.hash);
+                hashChangeCallback(window.CoreHome.MatomoUrl.url.value.hash.replace(/^[#/?]+/g, ''));
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
                 setIframeOrigin(currentUrl);
