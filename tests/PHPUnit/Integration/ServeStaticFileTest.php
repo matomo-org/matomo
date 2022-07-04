@@ -380,6 +380,8 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
         curl_exec($curlHandle);
         curl_close($curlHandle);
+        sleep(1);
+        $this->assertTrue(file_exists($deflateFileLocation));
 
         $firstAccessModificationTime = filemtime($deflateFileLocation);
 
