@@ -23,19 +23,18 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       redis:
-        image: 'bitnami/redis:latest'
-          environment:
-            - ALLOW_EMPTY_PASSWORD=yes
-          networks:
-            - app-tier
-        redis-sentinel:
-          image: 'bitnami/redis-sentinel:latest'
-          environment:
-            - REDIS_MASTER_HOST=redis
-          ports:
-            - '26379:26379'
-          networks:
-            - app-tier
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis-sentinel:
+        image: 'bitnami/redis-sentinel:latest'
+        ports:
+          - 26379:26379
       mysql:
         image: mysql:5.7
         ports:
