@@ -3286,6 +3286,7 @@ function PiwikTest() {
         expect(5);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token": '---' });
@@ -3594,6 +3595,7 @@ if ($mysql) {
         expect(11);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token" : getAlwaysUseSendBeaconToken() });
@@ -3706,6 +3708,7 @@ if ($mysql) {
             };
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
 
@@ -4992,6 +4995,7 @@ if ($mysql) {
 
         var queue;
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setCustomData('token', getConsentToken() + '1');
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
         strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
@@ -5257,6 +5261,7 @@ if ($mysql) {
         expect(8);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
 
         ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
         equal( typeof tracker, typeof _paq, "async tracker proxy" );
