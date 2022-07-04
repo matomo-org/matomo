@@ -47,7 +47,6 @@ var Piwik_Overlay = (function () {
             params.segment = segment;
         }
 
-        globalAjaxQueue.abort();
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams(params, 'get');
         ajaxRequest.withTokenInUrl(); // needed because it is calling a controller and not the API
