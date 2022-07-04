@@ -6,11 +6,11 @@
 
 <template>
   <Notification
-    v-if="formErrors?.length"
+    v-if="Object.keys(formErrors || {}).length"
     :noclear="true"
     context="error"
   >
-    <span v-for="(data, index) in formErrors" :key="index">
+    <span v-for="(data, key) in formErrors" :key="key">
       <strong>{{ translate('General_Error') }}</strong>: <span v-html="$sanitize(data)"/>
       <br/>
     </span>
@@ -23,7 +23,7 @@ import { Notification } from 'CoreHome';
 
 export default defineComponent({
   props: {
-    formErrors: Array,
+    formErrors: [Array, Object],
   },
   components: {
     Notification,

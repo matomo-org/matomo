@@ -22,7 +22,7 @@
       </Notification>
     </div>
 
-    <form v-bind="formData.attributes" class="loginTwoFaForm">
+    <form v-bind="formDataAttributes" class="loginTwoFaForm">
       <div class="row">
         <div class="col s12 input-field">
           <input
@@ -95,8 +95,13 @@ import {
   Notification,
   translate,
   MatomoUrl,
+  Matomo,
 } from 'CoreHome';
 import { FormErrors } from 'Login';
+
+interface FormData {
+  attributes: string;
+}
 
 export default defineComponent({
   props: {
@@ -156,6 +161,19 @@ export default defineComponent({
         module: this.loginModule,
         action: 'logout',
       })}`;
+    },
+    formDataAttributes() {
+      // convert html attribute string (ie 'a="b" d="f"') to JS object {a: "b", d: "f"}
+      return Object.fromEntries(
+        (this.formData as FormData).attributes
+          .split(/\s+/g)
+          .filter((s) => s)
+          .map((pair) => pair.split('='))
+          .map(([name, value]) => [
+            name,
+            Matomo.helper.htmlDecode(value.substr(1, value.length - 2)),
+          ]),
+      );
     },
   },
 });
