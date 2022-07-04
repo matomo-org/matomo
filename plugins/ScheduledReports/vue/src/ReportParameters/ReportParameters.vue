@@ -13,7 +13,7 @@
         :introduction="translate('ScheduledReports_SendReportTo')"
         v-show="report.type === 'email'"
         :model-value="report.emailMe"
-        @update:model-value="$emit('change', 'emailMe', $event)"
+        @update:model-value="$emit('change', 'email_me', $event)"
         :title="`${translate('ScheduledReports_SentToMe')} (${currentUserEmail})`"
       />
     </div>

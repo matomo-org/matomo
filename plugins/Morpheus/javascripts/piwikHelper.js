@@ -249,9 +249,12 @@ window.piwikHelper = {
           app.component(toKebabCase(componentName), component);
         });
 
-        app.mount(this);
+        var appInstance = app.mount(this);
+        $(this).data('vueAppInstance', appInstance);
 
+        var self = this;
         this.addEventListener('matomoVueDestroy', function () {
+          $(self).data('vueAppInstance', null);
           app.unmount();
         });
       });
