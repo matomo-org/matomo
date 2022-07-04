@@ -11,7 +11,7 @@
     :type="uiControl"
     :id="name"
     :name="name"
-    :value="(modelValue || '0').toString()"
+    :value="modelValueFormatted"
     @keydown="onChange($event)"
     @change="onChange($event)"
     v-bind="uiControlAttributes"
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import { debounce } from 'CoreHome';
 
 export default defineComponent({
@@ -40,11 +40,15 @@ export default defineComponent({
     onChange(event: Event) {
       const value = parseFloat((event.target as HTMLInputElement).value);
 
-      // change to previous value so the parent component can determine if this change should
-      // go through
-      (event.target as HTMLInputElement).value = (this.modelValue || '').toString();
-
       this.$emit('update:modelValue', value);
+
+      nextTick(() => {
+        if ((event.target as HTMLInputElement).value !== this.modelValueFormatted) {
+          // change to previous value if the parent component did not update the model value
+          // (done manually because Vue will not notice if a value does NOT change)
+          (event.target as HTMLInputElement).value = this.modelValueFormatted;
+        }
+      });
     },
   },
   mounted() {
@@ -55,6 +59,11 @@ export default defineComponent({
       setTimeout(() => {
         window.Materialize.updateTextFields();
       });
+    },
+  },
+  computed: {
+    modelValueFormatted() {
+      return (this.modelValue || '').toString();
     },
   },
 });

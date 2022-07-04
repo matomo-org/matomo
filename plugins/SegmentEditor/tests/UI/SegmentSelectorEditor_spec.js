@@ -17,12 +17,8 @@ describe("SegmentSelectorEditorTest", function () {
 
     async function selectFieldValue(fieldName, textToSelect)
     {
-        await page.webpage.evaluate((fieldName) => {
-            $(fieldName + ' input.select-dropdown').click();
-        }, fieldName);
-        await page.webpage.evaluate((fieldName, textToSelect) => {
-            $(fieldName + ' .dropdown-content.active li:contains("' + textToSelect + '"):first').click();
-        }, fieldName, textToSelect);
+        await (await page.jQuery(fieldName + ' input.select-dropdown', { waitFor: true })).click();
+        await (await page.jQuery(fieldName + ' .dropdown-content li:contains("' + textToSelect + '"):first', { waitFor: true })).click();
         await page.mouse.move(-10, -10);
     }
 
@@ -117,7 +113,7 @@ describe("SegmentSelectorEditorTest", function () {
           await page.evaluate(function (i) {
             $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
           }, i);
-          await page.waitForTimeout(200);
+          await page.waitForTimeout(250);
         }
 
         await page.type('input.edit_segment_name', 'new segment');
@@ -162,10 +158,10 @@ describe("SegmentSelectorEditorTest", function () {
         await selectFieldValue('.segmentRow1 .segment-row .metricMatchBlock', 'Is not');
 
         for (let i = 0; i < 3; i += 1) {
+          await page.waitForTimeout(200);
           await page.evaluate(function (i) {
             $(`.metricValueBlock input:eq(${i})`).val('new value ' + i).change();
           }, i);
-          await page.waitForTimeout(200);
         }
 
         await page.waitForTimeout(200);
@@ -267,10 +263,9 @@ describe("SegmentSelectorEditorTest", function () {
         await selectDimension('.segmentRow0', 'Visitors', 'Browser');
         await selectFieldValue('.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
 
-        await page.evaluate(function () {
-            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-            $('.segmentRow0 .segment-row:first .metricValueBlock input').val(complexValue).change();
-        });
+        var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+        await (await page.jQuery('.segmentRow0 .segment-row:first .metricValueBlock input')).type(complexValue);
+        await page.waitForTimeout(200);
 
         await page.click('.segment-add-or');
         await page.waitForFunction(() => !! $('.segmentRow0 .segment-row:eq(1)').length);
@@ -279,10 +274,8 @@ describe("SegmentSelectorEditorTest", function () {
         await selectDimension('.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
         await selectFieldValue('.segmentRow0 .segment-row:eq(1) .metricMatchBlock', 'Is');
 
-        await page.evaluate(function () {
-            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-            $('.segmentRow0 .segment-row:eq(1) .metricValueBlock input').val(complexValue).change();
-        });
+        await (await page.jQuery('.segmentRow0 .segment-row:eq(1) .metricValueBlock input')).type(complexValue);
+        await page.waitForTimeout(200);
 
         await page.click('.segment-add-row');
         await page.waitForSelector('.segmentRow1 .segment-row');
@@ -291,11 +284,7 @@ describe("SegmentSelectorEditorTest", function () {
         await selectDimension('.segmentRow1', 'Visitors', 'Browser');
         await selectFieldValue('.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
 
-        await page.evaluate(function () {
-            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-            $('.segmentRow1 .metricValueBlock input').val(complexValue).change();
-        });
-
+        await (await page.jQuery('.segmentRow1 .metricValueBlock input')).type(complexValue);
         await page.waitForTimeout(200);
 
         await page.evaluate(function () {

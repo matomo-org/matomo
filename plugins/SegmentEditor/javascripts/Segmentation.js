@@ -81,7 +81,7 @@ Segmentation = (function($) {
         };
 
         segmentation.prototype.markComparedSegments = function() {
-            var comparisonService = window.CoreHome.ComparisonsStore;
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
@@ -165,7 +165,7 @@ Segmentation = (function($) {
                 + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span>';
-            var comparisonService = window.CoreHome.ComparisonsStore;
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparisonEnabled()
                 || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
             ) {
@@ -286,16 +286,13 @@ Segmentation = (function($) {
             return segment;
         };
 
-        var segmentDefiniton = null;
+        var segmentDefinition = undefined;
 
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
             $(html).find(".segment-content > h3")
-              .after('<div class="segment-generator-container" vue-entry="SegmentEditor.SegmentGenerator" @update:model-value add-initial-condition="true"></div>')
+              .after('<div class="segment-generator-container"></div>')
               .show();
-            $('.segment-generator-container')[0].addEventListener('vue:@update:model-value', function (event) {
-              segmentDefiniton = event.detail;
-            });
             return html;
         };
 
@@ -407,7 +404,7 @@ Segmentation = (function($) {
                 e.stopPropagation();
                 e.preventDefault();
 
-                var comparisonService = window.CoreHome.ComparisonsStore;
+                var comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
                 });
@@ -653,17 +650,48 @@ Segmentation = (function($) {
 
             self.target.closest('.segmentEditorPanel').addClass('editing');
 
-            piwikHelper.compileVueEntryComponents(self.target);
+            var segmentGeneratorContainer = $('.segment-generator-container', self.form)[0];
+
+            var createVueApp = window.CoreHome.createVueApp;
+            var SegmentGenerator = window.SegmentEditor.SegmentGenerator;
+
+            var app = createVueApp({
+              template: '<root :add-initial-condition="true" v-model="value" />',
+              components: {
+                root: SegmentGenerator,
+              },
+              watch: {
+                value: function () {
+                  segmentDefinition = this.value;
+                },
+              },
+              data() {
+                return {
+                  value: segmentDefinition,
+                };
+              },
+            });
+            app.mount(segmentGeneratorContainer);
+
+            this.addEventListener('matomoVueDestroy', function () {
+              app.unmount();
+            });
         };
 
         var closeForm = function () {
+            $(self.form).find('.segment-generator-container')[0].dispatchEvent(
+              new CustomEvent('matomoVueDestroy'),
+            );
+
+            segmentDefinition = undefined;
+
             $(self.form).unbind().remove();
             self.target.closest('.segmentEditorPanel').removeClass('editing');
         };
 
         var parseFormAndSave = function(){
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
-            var segmentStr = segmentDefiniton;
+            var segmentStr = segmentDefinition;
             var segmentId = $(self.form).find(".available_segments_select").val() || "";
             var user = $(self.form).find(".enable_all_users_select option:selected").val();
             // if create realtime segments is disabled, the select field is not available, but we need to use autoArchive = 1
@@ -732,7 +760,7 @@ Segmentation = (function($) {
         };
 
         var testSegment = function() {
-            var segmentStr = segmentDefiniton;
+            var segmentStr = segmentDefinition;
             var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
 
             var url = window.location.href;

@@ -521,20 +521,20 @@ class Fixture extends \PHPUnit\Framework\Assert
      * Creates a website, then sets its creation date to a day earlier than specified dateTime
      * Useful to create a website now, but force data to be archived back in the past.
      *
-     * @param string $dateTime eg '2010-01-01 12:34:56'
-     * @param int $ecommerce
-     * @param string $siteName
-     *
+     * @param string      $dateTime eg '2010-01-01 12:34:56'
+     * @param int         $ecommerce
+     * @param bool        $siteName
      * @param bool|string $siteUrl
-     * @param int $siteSearch
+     * @param int         $siteSearch
      * @param null|string $searchKeywordParameters
      * @param null|string $searchCategoryParameters
      * @param null|string $timezone
-     * @param null|string $type eg 'website' or 'mobileapp'
-     * @param null|string $settings eg 'website' or 'mobileapp'
-     * @param int $excludeUnknownUrls
+     * @param null|string $type     eg 'website' or 'mobileapp'
+     * @param int         $excludeUnknownUrls
      * @param null|string $excludedParameters
+     * @param null        $excludedReferrers
      * @return int    idSite of website created
+     * @throws Exception
      */
     public static function createWebsite(
         $dateTime,
@@ -547,7 +547,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $timezone = null,
         $type = null,
         $excludeUnknownUrls = 0,
-        $excludedParameters = null
+        $excludedParameters = null,
+        $excludedReferrers = null
     ) {
         if ($siteName === false) {
             $siteName = self::DEFAULT_SITE_NAME;
@@ -560,7 +561,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $searchKeywordParameters,
             $searchCategoryParameters,
             $ips = null,
-            $excludedQueryParameters = $excludedParameters,
+            $excludedParameters,
             $timezone,
             $currency = null,
             $group = null,
@@ -569,7 +570,8 @@ class Fixture extends \PHPUnit\Framework\Assert
             $keepURLFragments = null,
             $type,
             $settings = null,
-            $excludeUnknownUrls
+            $excludeUnknownUrls,
+            $excludedReferrers
         );
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
