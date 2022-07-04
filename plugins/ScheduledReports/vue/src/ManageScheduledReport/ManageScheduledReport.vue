@@ -328,20 +328,18 @@ export default defineComponent({
       }
     },
     createReport() {
-      this.showReportsList = false;
-
       // in nextTick so global report function records get manipulated before individual
       // entries are used
       nextTick(() => {
+        this.showReportsList = false;
         this.formSetEditReport(0);
       });
     },
     editReport(reportId: number) {
-      this.showReportsList = false;
-
       // in nextTick so global report function records get manipulated before individual
       // entries are used
       nextTick(() => {
+        this.showReportsList = false;
         this.formSetEditReport(reportId);
       });
     },
