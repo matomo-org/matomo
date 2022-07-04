@@ -138,9 +138,6 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -279,6 +276,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.vue?vue&type=template&id=72fd34d8
 
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
+
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.vue?vue&type=script&lang=ts
 
 
@@ -359,7 +359,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 MultisitesSitevue_type_script_lang_ts.render = render
 
 /* harmony default export */ var MultisitesSite = (MultisitesSitevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.adapter.ts
+// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/Dashboard/Dashboard.store.ts
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -368,30 +376,266 @@ MultisitesSitevue_type_script_lang_ts.render = render
  */
 
 
-/* harmony default export */ var MultisitesSite_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: MultisitesSite,
-  scope: {
-    website: {
-      angularJsBind: '='
-    },
-    evolutionMetric: {
-      angularJsBind: '='
-    },
-    showSparklines: {
-      angularJsBind: '='
-    },
-    dateSparkline: {
-      angularJsBind: '='
-    },
-    displayRevenueColumn: {
-      angularJsBind: '='
-    },
-    metric: {
-      angularJsBind: '='
+var _window = window,
+    NumberFormatter = _window.NumberFormatter;
+
+var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
+  function DashboardStore() {
+    var _this = this;
+
+    _classCallCheck(this, DashboardStore);
+
+    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      sites: [],
+      isLoading: false,
+      pageSize: 25,
+      currentPage: 0,
+      totalVisits: '?',
+      totalPageviews: '?',
+      totalActions: '?',
+      totalRevenue: '?',
+      searchTerm: '',
+      lastVisits: '?',
+      lastVisitsDate: '?',
+      numberOfSites: 0,
+      loadingMessage: Object(external_CoreHome_["translate"])('MultiSites_LoadingWebsites'),
+      reverse: true,
+      sortColumn: 'nb_visits',
+      refreshInterval: 0,
+      errorLoadingSites: false
+    }));
+
+    _defineProperty(this, "refreshTimeout", null);
+
+    _defineProperty(this, "fetchAbort", null);
+
+    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
+    }));
+
+    _defineProperty(this, "numberOfFilteredSites", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.numberOfSites;
+    }));
+
+    _defineProperty(this, "numberOfPages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Math.ceil(_this.numberOfFilteredSites.value / _this.state.value.pageSize - 1);
+    }));
+
+    _defineProperty(this, "currentPagingOffset", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Math.ceil(_this.state.value.currentPage * _this.state.value.pageSize);
+    }));
+
+    _defineProperty(this, "paginationLowerBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.currentPagingOffset.value + 1;
+    }));
+
+    _defineProperty(this, "paginationUpperBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      var end = _this.currentPagingOffset.value + _this.state.value.pageSize;
+      var max = _this.numberOfFilteredSites.value;
+
+      if (end > max) {
+        end = max;
+      }
+
+      return end;
+    }));
+  }
+
+  _createClass(DashboardStore, [{
+    key: "cancelRefereshInterval",
+    value: function cancelRefereshInterval() {
+      if (this.refreshTimeout) {
+        clearTimeout(this.refreshTimeout);
+        this.refreshTimeout = null;
+      }
     }
-  },
-  directiveName: 'piwikMultisitesSite'
-}));
+  }, {
+    key: "updateWebsitesList",
+    value: function updateWebsitesList(report) {
+      var _this2 = this;
+
+      if (!report) {
+        this.onError();
+        return;
+      }
+
+      var allSites = report.sites;
+      allSites.forEach(function (site) {
+        if (site.ratio !== 1 && site.ratio !== '1') {
+          var percent = NumberFormatter.formatPercent(Math.round(parseInt(site.ratio, 10) * 100));
+          var metricName = null;
+          var previousTotal = '0';
+          var currentTotal = '0';
+          var evolution = '0';
+          var previousTotalAdjusted = '0';
+
+          if (_this2.state.value.sortColumn === 'nb_visits' || _this2.state.value.sortColumn === 'visits_evolution') {
+            previousTotal = NumberFormatter.formatNumber(site.previous_nb_visits);
+            currentTotal = NumberFormatter.formatNumber(site.nb_visits);
+            evolution = NumberFormatter.formatPercent(site.visits_evolution);
+            metricName = Object(external_CoreHome_["translate"])('General_ColumnNbVisits');
+            previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_nb_visits, 10) * parseInt(site.ratio, 10)));
+          }
+
+          if (_this2.state.value.sortColumn === 'pageviews_evolution') {
+            previousTotal = "".concat(site.previous_Actions_nb_pageviews);
+            currentTotal = "".concat(site.nb_pageviews);
+            evolution = NumberFormatter.formatPercent(site.pageviews_evolution);
+            metricName = Object(external_CoreHome_["translate"])('General_ColumnPageviews');
+            previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_Actions_nb_pageviews, 10) * parseInt(site.ratio, 10)));
+          }
+
+          if (_this2.state.value.sortColumn === 'revenue_evolution') {
+            previousTotal = NumberFormatter.formatCurrency(site.previous_Goal_revenue, site.currencySymbol);
+            currentTotal = NumberFormatter.formatCurrency(site.revenue, site.currencySymbol);
+            evolution = NumberFormatter.formatPercent(site.revenue_evolution);
+            metricName = Object(external_CoreHome_["translate"])('General_ColumnRevenue');
+            previousTotalAdjusted = NumberFormatter.formatCurrency(Math.round(parseInt(site.previous_Goal_revenue, 10) * parseInt(site.ratio, 10)), site.currencySymbol);
+          }
+
+          if (metricName) {
+            site.tooltip = "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonIncomplete', [percent]), "\n");
+            site.tooltip += "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonProportional', [percent, "".concat(previousTotalAdjusted), metricName, "".concat(previousTotal)]), "\n");
+
+            switch (site.periodName) {
+              case 'day':
+                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonDay', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
+                break;
+
+              case 'week':
+                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonWeek', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
+                break;
+
+              case 'month':
+                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonMonth', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
+                break;
+
+              case 'year':
+                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonYear', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
+                break;
+
+              default:
+                break;
+            }
+          }
+        }
+      });
+      this.privateState.totalVisits = report.totals.nb_visits;
+      this.privateState.totalPageviews = report.totals.nb_pageviews;
+      this.privateState.totalActions = report.totals.nb_actions;
+      this.privateState.totalRevenue = report.totals.revenue;
+      this.privateState.lastVisits = report.totals.nb_visits_lastdate;
+      this.privateState.sites = allSites;
+      this.privateState.numberOfSites = report.numSites;
+      this.privateState.lastVisitsDate = report.lastDate;
+    }
+  }, {
+    key: "sortBy",
+    value: function sortBy(metric) {
+      if (this.state.value.sortColumn === metric) {
+        this.privateState.reverse = !this.state.value.reverse;
+      }
+
+      this.privateState.sortColumn = metric;
+      this.fetchAllSites();
+    }
+  }, {
+    key: "previousPage",
+    value: function previousPage() {
+      this.privateState.currentPage = this.state.value.currentPage - 1;
+      this.fetchAllSites();
+    }
+  }, {
+    key: "nextPage",
+    value: function nextPage() {
+      this.privateState.currentPage = this.state.value.currentPage + 1;
+      this.fetchAllSites();
+    }
+  }, {
+    key: "searchSite",
+    value: function searchSite(term) {
+      this.privateState.searchTerm = term;
+      this.privateState.currentPage = 0;
+      this.fetchAllSites();
+    }
+  }, {
+    key: "fetchAllSites",
+    value: function fetchAllSites() {
+      var _this3 = this;
+
+      if (this.fetchAbort) {
+        this.fetchAbort.abort();
+        this.fetchAbort = null;
+        this.cancelRefereshInterval();
+      }
+
+      this.privateState.isLoading = true;
+      this.privateState.errorLoadingSites = false;
+      var params = {
+        method: 'MultiSites.getAllWithGroups',
+        hideMetricsDoc: '1',
+        filter_sort_order: 'asc',
+        filter_limit: this.state.value.pageSize,
+        filter_offset: this.currentPagingOffset.value,
+        showColumns: ['label', 'nb_visits', 'nb_pageviews', 'visits_evolution', 'visits_evolution_trend', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue_evolution', 'revenue_evolution_trend', 'nb_actions,revenue'].join(',')
+      };
+
+      if (this.privateState.searchTerm) {
+        params.pattern = this.privateState.searchTerm;
+      }
+
+      if (this.privateState.sortColumn) {
+        params.filter_sort_column = this.privateState.sortColumn;
+      }
+
+      if (this.privateState.reverse) {
+        params.filter_sort_order = 'desc';
+      }
+
+      this.fetchAbort = new AbortController();
+      return external_CoreHome_["AjaxHelper"].fetch(params, {
+        abortController: this.fetchAbort
+      }).then(function (response) {
+        _this3.updateWebsitesList(response);
+      }).catch(function () {
+        _this3.onError();
+      }).finally(function () {
+        _this3.privateState.isLoading = false;
+        _this3.fetchAbort = null;
+
+        if (_this3.state.value.refreshInterval && _this3.state.value.refreshInterval > 0) {
+          _this3.cancelRefereshInterval();
+
+          _this3.refreshTimeout = setTimeout(function () {
+            _this3.refreshTimeout = null;
+
+            _this3.fetchAllSites();
+          }, _this3.state.value.refreshInterval * 1000);
+        }
+      });
+    }
+  }, {
+    key: "onError",
+    value: function onError() {
+      this.privateState.errorLoadingSites = true;
+      this.privateState.sites = [];
+    }
+  }, {
+    key: "setRefreshInterval",
+    value: function setRefreshInterval(interval) {
+      this.privateState.refreshInterval = interval;
+    }
+  }, {
+    key: "setPageSize",
+    value: function setPageSize(pageSize) {
+      this.privateState.pageSize = pageSize;
+    }
+  }]);
+
+  return DashboardStore;
+}();
+
+/* harmony default export */ var Dashboard_store = (new Dashboard_store_DashboardStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=template&id=2f07c1b1
 
 var Dashboardvue_type_template_id_2f07c1b1_hoisted_1 = {
@@ -695,283 +939,6 @@ function Dashboardvue_type_template_id_2f07c1b1_render(_ctx, _cache, $props, $se
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=template&id=2f07c1b1
 
-// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/Dashboard/Dashboard.store.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-var _window = window,
-    NumberFormatter = _window.NumberFormatter;
-
-var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
-  function DashboardStore() {
-    var _this = this;
-
-    _classCallCheck(this, DashboardStore);
-
-    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      sites: [],
-      isLoading: false,
-      pageSize: 25,
-      currentPage: 0,
-      totalVisits: '?',
-      totalPageviews: '?',
-      totalActions: '?',
-      totalRevenue: '?',
-      searchTerm: '',
-      lastVisits: '?',
-      lastVisitsDate: '?',
-      numberOfSites: 0,
-      loadingMessage: Object(external_CoreHome_["translate"])('MultiSites_LoadingWebsites'),
-      reverse: true,
-      sortColumn: 'nb_visits',
-      refreshInterval: 0,
-      errorLoadingSites: false
-    }));
-
-    _defineProperty(this, "refreshTimeout", null);
-
-    _defineProperty(this, "fetchAbort", null);
-
-    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    _defineProperty(this, "numberOfFilteredSites", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.numberOfSites;
-    }));
-
-    _defineProperty(this, "numberOfPages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Math.ceil(_this.numberOfFilteredSites.value / _this.state.value.pageSize - 1);
-    }));
-
-    _defineProperty(this, "currentPagingOffset", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Math.ceil(_this.state.value.currentPage * _this.state.value.pageSize);
-    }));
-
-    _defineProperty(this, "paginationLowerBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.currentPagingOffset.value + 1;
-    }));
-
-    _defineProperty(this, "paginationUpperBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var end = _this.currentPagingOffset.value + _this.state.value.pageSize;
-      var max = _this.numberOfFilteredSites.value;
-
-      if (end > max) {
-        end = max;
-      }
-
-      return end;
-    }));
-  }
-
-  _createClass(DashboardStore, [{
-    key: "cancelRefereshInterval",
-    value: function cancelRefereshInterval() {
-      if (this.refreshTimeout) {
-        clearTimeout(this.refreshTimeout);
-        this.refreshTimeout = null;
-      }
-    }
-  }, {
-    key: "updateWebsitesList",
-    value: function updateWebsitesList(report) {
-      var _this2 = this;
-
-      if (!report) {
-        this.onError();
-        return;
-      }
-
-      var allSites = report.sites;
-      allSites.forEach(function (site) {
-        if (site.ratio !== 1 && site.ratio !== '1') {
-          var percent = NumberFormatter.formatPercent(Math.round(parseInt(site.ratio, 10) * 100));
-          var metricName = null;
-          var previousTotal = '0';
-          var currentTotal = '0';
-          var evolution = '0';
-          var previousTotalAdjusted = '0';
-
-          if (_this2.state.value.sortColumn === 'nb_visits' || _this2.state.value.sortColumn === 'visits_evolution') {
-            previousTotal = NumberFormatter.formatNumber(site.previous_nb_visits);
-            currentTotal = NumberFormatter.formatNumber(site.nb_visits);
-            evolution = NumberFormatter.formatPercent(site.visits_evolution);
-            metricName = Object(external_CoreHome_["translate"])('General_ColumnNbVisits');
-            previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_nb_visits, 10) * parseInt(site.ratio, 10)));
-          }
-
-          if (_this2.state.value.sortColumn === 'pageviews_evolution') {
-            previousTotal = "".concat(site.previous_Actions_nb_pageviews);
-            currentTotal = "".concat(site.nb_pageviews);
-            evolution = NumberFormatter.formatPercent(site.pageviews_evolution);
-            metricName = Object(external_CoreHome_["translate"])('General_ColumnPageviews');
-            previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_Actions_nb_pageviews, 10) * parseInt(site.ratio, 10)));
-          }
-
-          if (_this2.state.value.sortColumn === 'revenue_evolution') {
-            previousTotal = NumberFormatter.formatCurrency(site.previous_Goal_revenue, site.currencySymbol);
-            currentTotal = NumberFormatter.formatCurrency(site.revenue, site.currencySymbol);
-            evolution = NumberFormatter.formatPercent(site.revenue_evolution);
-            metricName = Object(external_CoreHome_["translate"])('General_ColumnRevenue');
-            previousTotalAdjusted = NumberFormatter.formatCurrency(Math.round(parseInt(site.previous_Goal_revenue, 10) * parseInt(site.ratio, 10)), site.currencySymbol);
-          }
-
-          if (metricName) {
-            site.tooltip = "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonIncomplete', [percent]), "\n");
-            site.tooltip += "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonProportional', [percent, "".concat(previousTotalAdjusted), metricName, "".concat(previousTotal)]), "\n");
-
-            switch (site.periodName) {
-              case 'day':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonDay', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              case 'week':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonWeek', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              case 'month':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonMonth', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              case 'year':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonYear', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              default:
-                break;
-            }
-          }
-        }
-      });
-      this.privateState.totalVisits = report.totals.nb_visits;
-      this.privateState.totalPageviews = report.totals.nb_pageviews;
-      this.privateState.totalActions = report.totals.nb_actions;
-      this.privateState.totalRevenue = report.totals.revenue;
-      this.privateState.lastVisits = report.totals.nb_visits_lastdate;
-      this.privateState.sites = allSites;
-      this.privateState.numberOfSites = report.numSites;
-      this.privateState.lastVisitsDate = report.lastDate;
-    }
-  }, {
-    key: "sortBy",
-    value: function sortBy(metric) {
-      if (this.state.value.sortColumn === metric) {
-        this.privateState.reverse = !this.state.value.reverse;
-      }
-
-      this.privateState.sortColumn = metric;
-      this.fetchAllSites();
-    }
-  }, {
-    key: "previousPage",
-    value: function previousPage() {
-      this.privateState.currentPage = this.state.value.currentPage - 1;
-      this.fetchAllSites();
-    }
-  }, {
-    key: "nextPage",
-    value: function nextPage() {
-      this.privateState.currentPage = this.state.value.currentPage + 1;
-      this.fetchAllSites();
-    }
-  }, {
-    key: "searchSite",
-    value: function searchSite(term) {
-      this.privateState.searchTerm = term;
-      this.privateState.currentPage = 0;
-      this.fetchAllSites();
-    }
-  }, {
-    key: "fetchAllSites",
-    value: function fetchAllSites() {
-      var _this3 = this;
-
-      if (this.fetchAbort) {
-        this.fetchAbort.abort();
-        this.fetchAbort = null;
-        this.cancelRefereshInterval();
-      }
-
-      this.privateState.isLoading = true;
-      this.privateState.errorLoadingSites = false;
-      var params = {
-        method: 'MultiSites.getAllWithGroups',
-        hideMetricsDoc: '1',
-        filter_sort_order: 'asc',
-        filter_limit: this.state.value.pageSize,
-        filter_offset: this.currentPagingOffset.value,
-        showColumns: ['label', 'nb_visits', 'nb_pageviews', 'visits_evolution', 'visits_evolution_trend', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue_evolution', 'revenue_evolution_trend', 'nb_actions,revenue'].join(',')
-      };
-
-      if (this.privateState.searchTerm) {
-        params.pattern = this.privateState.searchTerm;
-      }
-
-      if (this.privateState.sortColumn) {
-        params.filter_sort_column = this.privateState.sortColumn;
-      }
-
-      if (this.privateState.reverse) {
-        params.filter_sort_order = 'desc';
-      }
-
-      this.fetchAbort = new AbortController();
-      return external_CoreHome_["AjaxHelper"].fetch(params, {
-        abortController: this.fetchAbort
-      }).then(function (response) {
-        _this3.updateWebsitesList(response);
-      }).catch(function () {
-        _this3.onError();
-      }).finally(function () {
-        _this3.privateState.isLoading = false;
-        _this3.fetchAbort = null;
-
-        if (_this3.state.value.refreshInterval && _this3.state.value.refreshInterval > 0) {
-          _this3.cancelRefereshInterval();
-
-          _this3.refreshTimeout = setTimeout(function () {
-            _this3.refreshTimeout = null;
-
-            _this3.fetchAllSites();
-          }, _this3.state.value.refreshInterval * 1000);
-        }
-      });
-    }
-  }, {
-    key: "onError",
-    value: function onError() {
-      this.privateState.errorLoadingSites = true;
-      this.privateState.sites = [];
-    }
-  }, {
-    key: "setRefreshInterval",
-    value: function setRefreshInterval(interval) {
-      this.privateState.refreshInterval = interval;
-    }
-  }, {
-    key: "setPageSize",
-    value: function setPageSize(pageSize) {
-      this.privateState.pageSize = pageSize;
-    }
-  }]);
-
-  return DashboardStore;
-}();
-
-/* harmony default export */ var Dashboard_store = (new Dashboard_store_DashboardStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=script&lang=ts
 
 
@@ -1098,40 +1065,6 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
 Dashboardvue_type_script_lang_ts.render = Dashboardvue_type_template_id_2f07c1b1_render
 
 /* harmony default export */ var Dashboard = (Dashboardvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/Dashboard/Dashboard.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Dashboard_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: Dashboard,
-  scope: {
-    displayRevenueColumn: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    showSparklines: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    dateSparkline: {
-      angularJsBind: '@'
-    },
-    pageSize: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    },
-    autoRefreshTodayReport: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    }
-  },
-  directiveName: 'piwikMultisitesDashboard'
-}));
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1139,8 +1072,6 @@ Dashboardvue_type_script_lang_ts.render = Dashboardvue_type_template_id_2f07c1b1
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-
 
 
 
