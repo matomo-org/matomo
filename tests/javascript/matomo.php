@@ -74,7 +74,10 @@ function logRequest($db, $uri, $data) {
 
     $id = getNextRequestId($db, $token);
 
-    $query = $db->query("INSERT INTO requests (requestid, token, ip, ts, uri, referer, ua) VALUES (\"$id\", \"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referrer\", \"$ua\")");
+    $query = $db->query(
+        "INSERT INTO requests (requestid, token, ip, ts, uri, referer, ua) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [$id, $token, $ip, $ts, $uri, $referrer, $ua]
+    );
 
     return $query;
 }
