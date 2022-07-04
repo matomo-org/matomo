@@ -1,0 +1,108 @@
+<!--
+  Matomo - free/libre analytics platform
+  @link https://matomo.org
+  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <component
+    :is="!isWidgetized ? 'ContentBlock' : 'Passthrough'"
+    :content-title="translate('Live_VisitorsInRealTime')"
+  >
+    <div v-live-widget-refresh="{liveRefreshAfterMs: liveRefreshAfterMs}">
+      <TotalVisitors
+        :count-error-half-hour="countErrorHalfHour"
+        :count-error-today="countErrorToday"
+        :pis-halfhour="pisHalfhour"
+        :pis-today="pisToday"
+        :visitors-count-half-hour="visitorsCountHalfHour"
+        :visitors-count-today="visitorsCountToday"
+      />
+
+      <VueEntryContainer :html="visitors"/>
+    </div>
+
+    <div class="visitsLiveFooter">
+      <a
+        :title="translate('Live_OnClickPause', translate('Live_VisitorsInRealTime'))"
+        @click.prevent="onClickPause()"
+      >
+        <img id="pauseImage" border="0" src="plugins/Live/images/pause.png" />
+      </a>
+      <a
+        :title="translate('Live_OnClickStart', translate('Live_VisitorsInRealTime'))"
+        @click="onClickPlay();"
+      >
+        <img id="playImage" style="display: none;" border="0" src="plugins/Live/images/play.png" />
+      </a>
+      <span v-if="!disableLink">
+      &nbsp;
+      <a
+        class="rightLink"
+        href="#"
+        @click.prevent="gotoVisitorLog()"
+      >
+        {{ translate('Live_LinkVisitorLog') }}
+      </a>
+      </span>
+    </div>
+  </component>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import {
+  ContentBlock,
+  Passthrough,
+  MatomoUrl,
+  VueEntryContainer,
+} from 'CoreHome';
+import LiveWidgetRefresh from '../LiveWidget/LiveWidgetRefresh';
+import TotalVisitors from '../TotalVisitors/TotalVisitors.vue';
+
+declare global {
+  interface Window {
+    onClickPause(): void;
+    onClickPlay(): void;
+  }
+}
+
+export default defineComponent({
+  props: {
+    countErrorToday: Number,
+    visitorsCountToday: Number,
+    pisToday: Number,
+    countErrorHalfHour: Number,
+    visitorsCountHalfHour: Number,
+    pisHalfhour: Number,
+    disableLink: Boolean,
+    visitors: String,
+    liveRefreshAfterMs: Number,
+    isWidgetized: Boolean,
+  },
+  components: {
+    TotalVisitors,
+    VueEntryContainer,
+    ContentBlock,
+    Passthrough,
+  },
+  directives: {
+    LiveWidgetRefresh,
+  },
+  methods: {
+    onClickPause() {
+      window.onClickPause();
+    },
+    onClickPlay() {
+      window.onClickPlay();
+    },
+    gotoVisitorLog() {
+      MatomoUrl.updateHash({
+        ...MatomoUrl.hashParsed.value,
+        category: 'General_Visitors',
+        subcategory: 'Live_VisitorLog',
+      });
+    },
+  },
+});
+</script>
