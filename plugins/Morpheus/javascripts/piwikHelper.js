@@ -202,7 +202,8 @@ window.piwikHelper = {
             return;
           }
 
-          // append with underscore so reserved javascripy keywords aren't accidentally used
+          // property binding
+          // append with underscore so reserved javascript keywords aren't accidentally used
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -222,6 +223,8 @@ window.piwikHelper = {
           handleProperty(name, value);
         });
 
+        var element = this;
+
         // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
         // slots to be in the vue-entry element this way. So instead, we create a quick
         // template that references the root component and wraps the vue-entry component's html.
@@ -230,7 +233,7 @@ window.piwikHelper = {
           template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
           data: function () {
             return componentParams;
-          }
+          },
         });
         app.component('root', component);
 
@@ -373,10 +376,21 @@ window.piwikHelper = {
      * via angular as soon as it detects a $locationChange
      *
      * @returns {number|jQuery}
+     * @deprecated
      */
     isAngularRenderingThePage: function ()
     {
-        return $('[piwik-reporting-page]').length;
+        return piwikHelper.isReportingPage();
+    },
+
+    /**
+     * Detects whether the current page is a reporting page or not.
+     *
+     * @returns {number|jQuery|*}
+     */
+    isReportingPage: function ()
+    {
+        return $('.reporting-page').length;
     },
 
     /**

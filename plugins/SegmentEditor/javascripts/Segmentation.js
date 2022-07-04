@@ -81,7 +81,7 @@ Segmentation = (function($) {
         };
 
         segmentation.prototype.markComparedSegments = function() {
-            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
@@ -102,7 +102,7 @@ Segmentation = (function($) {
             if( current != "")
             {
                 // this code is mad, and may drive you mad.
-                // the whole segmentation editor needs to be rewritten in AngularJS with clean code
+                // the whole segmentation editor needs to be rewritten in Vue with clean code
                 var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
                 var foundItems = $(selector, this.target);
 
@@ -165,9 +165,9 @@ Segmentation = (function($) {
                 + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span>';
-            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparisonEnabled()
-                || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of angular
+                || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
             ) {
                 listHtml += '<span class="compareSegment allVisitsCompareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
             }
@@ -218,7 +218,7 @@ Segmentation = (function($) {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
                     if (comparisonService.isComparisonEnabled()
-                        || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of angular
+                        || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
                     ) {
                         listHtml += '<span class="compareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
                     }
@@ -286,9 +286,13 @@ Segmentation = (function($) {
             return segment;
         };
 
+        var segmentDefinition = undefined;
+
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
-            $(html).find(".segment-content > h3").after('<div piwik-segment-generator add-initial-condition="true"></div>').show();
+            $(html).find(".segment-content > h3")
+              .after('<div class="segment-generator-container"></div>')
+              .show();
             return html;
         };
 
@@ -324,8 +328,7 @@ Segmentation = (function($) {
 
         function showAddNewSegmentForm(segment) {
             var parameters = {isAllowed: true};
-            var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-            $rootScope.$emit('Segmentation.initAddSegment', parameters);
+            window.CoreHome.Matomo.postEvent('Segmentation.initAddSegment', parameters);
             if (parameters && !parameters.isAllowed) {
                 return;
             }
@@ -401,7 +404,7 @@ Segmentation = (function($) {
                 e.stopPropagation();
                 e.preventDefault();
 
-                var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+                var comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
                 });
@@ -416,7 +419,7 @@ Segmentation = (function($) {
                     var idsegment = $(this).attr("data-idsegment");
                     segmentDefinition = $(this).data("definition");
 
-                    if (!piwikHelper.isAngularRenderingThePage()) {
+                    if (!piwikHelper.isReportingPage()) {
                         // we update segment on location change success
                         self.setSegment(segmentDefinition);
                     }
@@ -623,7 +626,8 @@ Segmentation = (function($) {
             }
 
             if (segment !== undefined && segment.definition != ""){
-                self.form.find('[piwik-segment-generator]').attr('segment-definition', segment.definition);
+                segmentDefinition = segment.definition;
+                self.form.find('.segment-generator-container').attr('model-value', JSON.stringify(segment.definition));
             }
 
             makeDropList(".enable_all_users" , ".enable_all_users_select");
@@ -646,22 +650,48 @@ Segmentation = (function($) {
 
             self.target.closest('.segmentEditorPanel').addClass('editing');
 
-            piwikHelper.compileAngularComponents(self.target);
+            var segmentGeneratorContainer = $('.segment-generator-container', self.form)[0];
+
+            var createVueApp = window.CoreHome.createVueApp;
+            var SegmentGenerator = window.SegmentEditor.SegmentGenerator;
+
+            var app = createVueApp({
+              template: '<root :add-initial-condition="true" v-model="value" />',
+              components: {
+                root: SegmentGenerator,
+              },
+              watch: {
+                value: function () {
+                  segmentDefinition = this.value;
+                },
+              },
+              data() {
+                return {
+                  value: segmentDefinition,
+                };
+              },
+            });
+            app.mount(segmentGeneratorContainer);
+
+            this.addEventListener('matomoVueDestroy', function () {
+              app.unmount();
+            });
         };
 
         var closeForm = function () {
+            $(self.form).find('.segment-generator-container')[0].dispatchEvent(
+              new CustomEvent('matomoVueDestroy'),
+            );
+
+            segmentDefinition = undefined;
+
             $(self.form).unbind().remove();
             self.target.closest('.segmentEditorPanel').removeClass('editing');
         };
 
-        function getSegmentGeneratorController()
-        {
-            return angular.element(self.form.find('.segment-generator')).scope().segmentGenerator;
-        }
-
         var parseFormAndSave = function(){
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
-            var segmentStr = getSegmentGeneratorController().getSegmentString();
+            var segmentStr = segmentDefinition;
             var segmentId = $(self.form).find(".available_segments_select").val() || "";
             var user = $(self.form).find(".enable_all_users_select option:selected").val();
             // if create realtime segments is disabled, the select field is not available, but we need to use autoArchive = 1
@@ -730,7 +760,7 @@ Segmentation = (function($) {
         };
 
         var testSegment = function() {
-            var segmentStr = getSegmentGeneratorController().getSegmentString();
+            var segmentStr = segmentDefinition;
             var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
 
             var url = window.location.href;
@@ -832,26 +862,26 @@ Segmentation = (function($) {
             toggleLoadingMessage(segmentIsSet);
         };
 
-        if (piwikHelper.isAngularRenderingThePage()) {
-            angular.element(document).injector().invoke(function ($rootScope, $location) {
-                $rootScope.$on('$locationChangeSuccess', function () {
-                    var $search = $location.search();
+        if (piwikHelper.isReportingPage()) {
+          var watch = window.Vue.watch;
+          var MatomoUrl = window.CoreHome.MatomoUrl;
+          watch(
+            function () {
+              return MatomoUrl.url;
+            },
+            function () {
+              var segment = MatomoUrl.hashParsed.value.segment || '';
 
-                    var segment = '';
-                    if ('undefined' !== typeof $search.segment && null !== $search.segment) {
-                        segment = $search.segment
-                    }
-
-                    if (self.getSegment() != segment) {
-                        self.setSegment(segment);
-                        self.initHtml();
-                    } else {
-                        setTimeout(function () {
-                            self.markComparedSegments();
-                        });
-                    }
+              if (self.getSegment() != segment) {
+                self.setSegment(segment);
+                self.initHtml();
+              } else {
+                setTimeout(function () {
+                  self.markComparedSegments();
                 });
-            });
+              }
+            }
+          );
         }
 
         this.initHtml();
@@ -893,22 +923,16 @@ $(document).ready(function() {
         };
 
         this.changeSegment = function(segmentDefinition) {
-            if (piwikHelper.isAngularRenderingThePage()) {
-                angular.element(document).injector().invoke(function ($location, $rootScope) {
-                    var $search = $location.search();
-
-                    if (segmentDefinition !== $search.segment) {
-                        // eg when using back button the date might be actually already changed in the URL and we do not
-                        // want to change the URL again
-                        $search.segment = segmentDefinition.replace(/%$/, '%25').replace(/%([^\d].)/g, "%25$1");
-                        $location.search($search);
-                        setTimeout(function () {
-                            try {
-                                $rootScope.$apply();
-                            } catch (e) {}
-                        }, 1);
-                    }
-                });
+            if (piwikHelper.isReportingPage()) {
+                var MatomoUrl = window.CoreHome.MatomoUrl;
+                var segment = MatomoUrl.hashParsed.value.segment;
+                if (segmentDefinition !== segment) {
+                  // eg when using back button the date might be actually already changed in the URL and we do not
+                  // want to change the URL again
+                  MatomoUrl.updateHash(Object.assign({}, MatomoUrl.hashParsed.value, {
+                    segment: segmentDefinition.replace(/%$/, '%25').replace(/%([^\d].)/g, "%25$1"),
+                  }));
+                }
                 return false;
             } else {
                 return this.forceSegmentReload(segmentDefinition);
@@ -918,7 +942,7 @@ $(document).ready(function() {
         this.forceSegmentReload = function (segmentDefinition) {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
 
-            if (piwikHelper.isAngularRenderingThePage()) {
+            if (piwikHelper.isReportingPage()) {
                 return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods', 'compareDates']);
             } else {
                 // eg in case of exported dashboard
@@ -1107,7 +1131,7 @@ $(document).ready(function() {
 
         initTopControls();
 
-        piwikHelper.getAngularDependency('$rootScope').$emit('piwikSegmentationInited');
+        window.CoreHome.Matomo.postEvent('piwikSegmentationInited');
     };
 
     /**
