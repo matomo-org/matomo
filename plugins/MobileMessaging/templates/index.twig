@@ -18,5 +18,6 @@
     countries="{{ countries|default(null)|json_encode|e('html_attr') }}"
     str-help-add-phone="{{ strHelpAddPhone|default(null)|json_encode|e('html_attr') }}"
     phone-numbers="{{ phoneNumbers|default(null)|json_encode|e('html_attr') }}"
+    account-managed-by-current-user="{{ accountManagedByCurrentUser|json_encode|e('html_attr') }}"
 ></div>
 {% endblock %}
