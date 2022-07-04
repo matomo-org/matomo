@@ -286,7 +286,7 @@ Segmentation = (function($) {
             return segment;
         };
 
-        var segmentDefinition = null;
+        var segmentDefinition = undefined;
 
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
@@ -683,7 +683,7 @@ Segmentation = (function($) {
               new CustomEvent('matomoVueDestroy'),
             );
 
-            segmentDefinition = null;
+            segmentDefinition = undefined;
 
             $(self.form).unbind().remove();
             self.target.closest('.segmentEditorPanel').removeClass('editing');
