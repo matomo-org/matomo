@@ -32,7 +32,7 @@
     vue-entry="CorePluginsAdmin.PluginsTable"
     title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|json_encode|e('html_attr') }}"
     is-theme="true"
-    display-admin-links="{{ displayAdminLinks|json_encode|e('html_attr') }}"
+    display-admin-links="{{ isPluginsAdminEnabled|json_encode|e('html_attr') }}"
     plugins-info="{{ pluginsInfo|default({})|json_encode|e('html_attr') }}"
     uninstall-nonce="{{ uninstallNonce|json_encode|e('html_attr') }}"
     deactivate-nonce="{{ deactivateNonce|json_encode|e('html_attr') }}"

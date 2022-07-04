@@ -8,11 +8,11 @@
   <ContentBlock
     :content-title="title"
     class="pluginsManagement"
-    v-plugin-management
+    v-plugin-management="{}"
   >
     <p class="row pluginsFilter" v-plugin-filter>
         <span class="origin">
-            <strong>{{ translate('CorePluginsAdmin_Origin') }}</strong>
+            <strong style="margin-right: 3.5px">{{ translate('CorePluginsAdmin_Origin') }}</strong>
             <a data-filter-origin="all" href="#" class="active">
               {{ translate('General_All') }}<span class="counter"></span>
             </a> |
@@ -28,7 +28,7 @@
         </span>
 
       <span class="status">
-            <strong>{{ translate('CorePluginsAdmin_Status') }}</strong>
+            <strong style="margin-right: 3.5px">{{ translate('CorePluginsAdmin_Status') }}</strong>
             <a data-filter-status="all" href="#" class="active">
               {{ translate('General_All') }}<span class="counter"></span>
             </a> |
@@ -380,14 +380,14 @@ export default defineComponent({
   },
   computed: {
     pluginsToDisplay() {
-      if (this.isTheme) {
-        return {};
-      }
-
       const pluginsInfo = this.pluginsInfo as Record<string, PluginInfo>;
 
       return Object.fromEntries(
         Object.entries(pluginsInfo).filter(([, info]) => {
+          if (this.isTheme) {
+            return true;
+          }
+
           const { alwaysActivated } = info;
           return typeof alwaysActivated !== 'undefined'
             && alwaysActivated !== null

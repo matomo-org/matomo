@@ -175,7 +175,9 @@ export default defineComponent({
   },
   computed: {
     isUpdateLinkDisabled() {
-      return this.isUpdating || Object.values(this.pluginsSelected).some((s) => !!s);
+      return this.isUpdating
+        || !Object.keys(this.pluginsSelected).length
+        || Object.values(this.pluginsSelected).some((s) => !!s);
     },
   },
   methods: {

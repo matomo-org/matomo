@@ -133,10 +133,10 @@ export default defineComponent({
       const pluginLink = (this.$refs.noticeRemoveMarketplaceFromMenu as HTMLElement)
         .querySelector('[matomo-plugin-name]') as HTMLElement;
       PluginName.mounted(pluginLink, {
-        dir: undefined,
-        instance: undefined,
-        modifiers: undefined,
-        oldValue: undefined,
+        dir: {},
+        instance: null,
+        modifiers: {},
+        oldValue: null,
         value: {
           pluginName: 'WhiteLabel',
         },
@@ -148,10 +148,10 @@ export default defineComponent({
       const pluginLink = (this.$refs.noticeRemoveMarketplaceFromMenu as HTMLElement)
         .querySelector('[matomo-plugin-name]') as HTMLElement;
       PluginName.unmounted(pluginLink, {
-        dir: undefined,
-        instance: undefined,
-        modifiers: undefined,
-        oldValue: undefined,
+        dir: {},
+        instance: null,
+        modifiers: {},
+        oldValue: null,
         value: {
           pluginName: 'WhiteLabel',
         },
