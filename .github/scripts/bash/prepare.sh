@@ -93,6 +93,6 @@ sudo gpasswd -a "$USER" www-data
 sudo chown -R "$USER":www-data /home/runner/work/matomo/matomo/
 sudo chmod o+w /home/runner/work/matomo/matomo/
 sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp
-sudo chmod -R 777 /tmp
+sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/assets
 sudo chmod -R 777 /home/runner/work/matomo/matomo/tmp/templates_c
 sudo chmod -R 777 /home/runner/work/matomo/matomo/tests/UI
