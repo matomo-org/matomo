@@ -202,8 +202,8 @@ window.piwikHelper = {
             return;
           }
 
-          // append with underscore so reserved javascripy keywords aren't accidentally used
-          var camelName = toCamelCase(name) + '_';
+          // append with underscore so reserved javascript keywords aren't accidentally used
+          var camelName = '_' + toCamelCase(name);
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
           try {
@@ -246,9 +246,12 @@ window.piwikHelper = {
           app.component(toKebabCase(componentName), component);
         });
 
-        app.mount(this);
+        var appInstance = app.mount(this);
+        $(this).data('vueAppInstance', appInstance);
 
+        var self = this;
         this.addEventListener('matomoVueDestroy', function () {
+          $(self).data('vueAppInstance', null);
           app.unmount();
         });
       });

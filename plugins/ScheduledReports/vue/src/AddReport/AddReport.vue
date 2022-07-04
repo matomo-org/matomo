@@ -282,7 +282,6 @@
 import {
   defineComponent,
   onMounted,
-  reactive,
   ref,
   watch,
 } from 'vue';
@@ -299,6 +298,8 @@ interface Option {
   key: string;
   value: string;
 }
+
+const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -376,6 +377,14 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const reportParameters = ref<HTMLElement|null>(null);
+
+    watch(() => props.report, (newValue) => {
+      const reportParametersElement = reportParameters.value as HTMLElement;
+      reportParametersElement.querySelectorAll('[vue-entry]').forEach((node) => {
+        // eslint-disable-next-line no-underscore-dangle
+        $(node).data('vueAppInstance')._report = newValue;
+      });
+    });
 
     onMounted(() => {
       const reportParametersElement = reportParameters.value as HTMLElement;
