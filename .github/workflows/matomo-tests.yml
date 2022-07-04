@@ -71,7 +71,6 @@ jobs:
             allow_url_fopen = on,
             zend.exception_ignore_args = Off
             mysqli.allow_local_infile = On
-            zlib.output_compression = On
           tools: composer:v2
           coverage: none
 
