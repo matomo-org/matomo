@@ -202,7 +202,8 @@ window.piwikHelper = {
             return;
           }
 
-          var camelName = toCamelCase(name);
+          // append '_' to avoid accidentally using javascript keywords
+          var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
           try {
