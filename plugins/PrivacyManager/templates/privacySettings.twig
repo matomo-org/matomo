@@ -6,7 +6,7 @@
 {% import 'macros.twig' as piwik %}
 
 <div
-    vue-entry="PrivacySettings.PrivacySettings"
+    vue-entry="PrivacyManager.PrivacySettings"
     anonymize-ip-enabled="{{ anonymizeIP.enabled|default(null)|json_encode|e('html_attr') }}"
     anonymize-user-id="{{ anonymizeIP.anonymizeUserId|default(null)|json_encode|e('html_attr') }}"
     mask-length="{{ anonymizeIP.maskLength|default(null)|json_encode|e('html_attr') }}"

@@ -6,8 +6,8 @@
 <div
     vue-entry="PrivacyManager.GdprOverview"
     after-g-d-p-r-overview-intro-content="{{ afterGDPROverviewIntroContent|default(null)|json_encode|e('html_attr') }}"
-    delete-logs-enable="{{ deleteLogsEnable|default(null)|json_encode|e('html_attr') }}"
-    delete-reports-enable="{{ deleteReportsEnable|default(null)|json_encode|e('html_attr') }}"
+    delete-logs-enable="{{ (deleteLogsEnable == 1)|default(null)|json_encode|e('html_attr') }}"
+    delete-reports-enable="{{ (deleteReportsEnable == 1)|default(null)|json_encode|e('html_attr') }}"
     raw-data-retention="{{ rawDataRetention|default(null)|json_encode|e('html_attr') }}"
     report-retention="{{ reportRetention|default(null)|json_encode|e('html_attr') }}"
 ></div>

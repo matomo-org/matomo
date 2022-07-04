@@ -5,111 +5,113 @@
 -->
 
 <template>
-  <div v-content-intro>
-    <h2>
-      <EnrichedHeadline help-url="https://matomo.org/docs/privacy/">
-        {{ translate('PrivacyManager_AnonymizeData') }}
-      </EnrichedHeadline>
-    </h2>
+  <div>
+    <div v-content-intro>
+      <h2>
+        <EnrichedHeadline help-url="https://matomo.org/docs/privacy/">
+          {{ translate('PrivacyManager_AnonymizeData') }}
+        </EnrichedHeadline>
+      </h2>
 
-    <p>
-      <span v-html="$sanitize(teaserHeader)"></span>
-      <span v-html="$sanitize(seeAlsoOurOfficialGuide)"></span>
-    </p>
-  </div>
+      <p>
+        <span v-html="$sanitize(teaserHeader)" style="margin-right:3.5px"></span>
+        <span v-html="$sanitize(seeAlsoOurOfficialGuide)"></span>
+      </p>
+    </div>
 
-  <ContentBlock
-     id="anonymizeIPAnchor"
-     :content-title="translate('PrivacyManager_UseAnonymizeTrackingData')"
-  >
-    <AnonymizeIp
-      :anonymize-ip-enabled="anonymizeIpEnabled"
-      :anonymize-user-id="anonymizeUserId"
-      :mask-length="maskLength"
-      :use-anonymized-ip-for-visit-enrichment="useAnonymizedIpForVisitEnrichment"
-      :anonymize-order-id="anonymizeOrderId"
-      :force-cookieless-tracking="forceCookielessTracking"
-      :anonymize-referrer="anonymizeReferrer"
-      :mask-length-options="maskLengthOptions"
-      :use-anonymized-ip-for-visit-enrichment-options="useAnonymizedIpForVisitEnrichmentOptions"
-      :tracker-file-name="trackerFileName"
-      :tracker-writable="trackerWritable"
-      :referrer-anonymization-options="referrerAnonymizationOptions"
-    />
-  </ContentBlock>
-
-  <div v-if="isDataPurgeSettingsEnabled">
     <ContentBlock
-      id="deleteLogsAnchor"
-      :content-title="translate('PrivacyManager_DeleteOldRawData')"
+       id="anonymizeIPAnchor"
+       :content-title="translate('PrivacyManager_UseAnonymizeTrackingData')"
     >
-      <div class="ui-confirm" id="confirmDeleteSettings">
-        <h2 id="deleteLogsConfirm">{{ translate('PrivacyManager_DeleteLogsConfirm') }}</h2>
-
-        <h2 id="deleteReportsConfirm">{{ translate('PrivacyManager_DeleteReportsConfirm') }}</h2>
-
-        <h2 id="deleteBothConfirm">{{ translate('PrivacyManager_DeleteBothConfirm') }}</h2>
-        <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
-        <input role="no" type="button" value="{{ translate('General_No') }}"/>
-      </div>
-      <div class="ui-confirm" id="saveSettingsBeforePurge">
-        <h2>{{ translate('PrivacyManager_SaveSettingsBeforePurge') }}</h2>
-        <input role="yes" type="button" value="{{ translate('General_Ok') }}"/>
-      </div>
-      <div class="ui-confirm" id="confirmPurgeNow">
-        <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
-        <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
-        <input role="no" type="button" value="{{ translate('General_No') }}"/>
-      </div>
-
-      <p>{{ translate('PrivacyManager_DeleteDataDescription') }}</p>
-
-      <DeleteOldLogs
-        :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
-        :delete-data="deleteData"
-        :schedule-deletion-options="scheduleDeletionOptions"
+      <AnonymizeIp
+        :anonymize-ip-enabled="anonymizeIpEnabled"
+        :anonymize-user-id="anonymizeUserId"
+        :mask-length="maskLength"
+        :use-anonymized-ip-for-visit-enrichment="useAnonymizedIpForVisitEnrichment"
+        :anonymize-order-id="anonymizeOrderId"
+        :force-cookieless-tracking="forceCookielessTracking"
+        :anonymize-referrer="anonymizeReferrer"
+        :mask-length-options="maskLengthOptions"
+        :use-anonymized-ip-for-visit-enrichment-options="useAnonymizedIpForVisitEnrichmentOptions"
+        :tracker-file-name="trackerFileName"
+        :tracker-writable="trackerWritable"
+        :referrer-anonymization-options="referrerAnonymizationOptions"
       />
     </ContentBlock>
 
-    <ContentBlock
-      id="deleteReportsAnchor"
-      :content-title="translate('PrivacyManager_DeleteOldAggregatedReports')"
-    >
-      <DeleteOldReports
+    <div v-if="isDataPurgeSettingsEnabled">
+      <ContentBlock
+        id="deleteLogsAnchor"
+        :content-title="translate('PrivacyManager_DeleteOldRawData')"
+      >
+        <div class="ui-confirm" id="confirmDeleteSettings">
+          <h2 id="deleteLogsConfirm">{{ translate('PrivacyManager_DeleteLogsConfirm') }}</h2>
+
+          <h2 id="deleteReportsConfirm">{{ translate('PrivacyManager_DeleteReportsConfirm') }}</h2>
+
+          <h2 id="deleteBothConfirm">{{ translate('PrivacyManager_DeleteBothConfirm') }}</h2>
+          <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
+          <input role="no" type="button" value="{{ translate('General_No') }}"/>
+        </div>
+        <div class="ui-confirm" id="saveSettingsBeforePurge">
+          <h2>{{ translate('PrivacyManager_SaveSettingsBeforePurge') }}</h2>
+          <input role="yes" type="button" value="{{ translate('General_Ok') }}"/>
+        </div>
+        <div class="ui-confirm" id="confirmPurgeNow">
+          <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
+          <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
+          <input role="no" type="button" value="{{ translate('General_No') }}"/>
+        </div>
+
+        <p>{{ translate('PrivacyManager_DeleteDataDescription') }}</p>
+
+        <DeleteOldLogs
+          :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
+          :delete-data="deleteData"
+          :schedule-deletion-options="scheduleDeletionOptions"
+        />
+      </ContentBlock>
+
+      <ContentBlock
+        id="deleteReportsAnchor"
+        :content-title="translate('PrivacyManager_DeleteOldAggregatedReports')"
+      >
+        <DeleteOldReports
+          :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
+          :delete-data="deleteData"
+          :schedule-deletion-options="scheduleDeletionOptions"
+        ></DeleteOldReports>
+
+      </ContentBlock>
+
+      <ScheduleReportDeletion
         :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
         :delete-data="deleteData"
         :schedule-deletion-options="scheduleDeletionOptions"
-      ></DeleteOldReports>
+      ></ScheduleReportDeletion>
+    </div>
 
+    <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
+
+    <ContentBlock
+      content-title="Anonymize previously tracked raw data"
+      class="logDataAnonymizer"
+    >
+      <p>
+        If you have tracked personal data such as the full visitor IP, you may want to anonymize
+        this data now in case you do not have consent for this data or no longer a legitimate
+        interest.
+      </p>
+
+      <AnonymizeLogData v-if="isSuperUser"></AnonymizeLogData>
+      <p v-else>Only a user with Super User access can anonymize previously tracked raw data.</p>
+
+      <br />
+      <PreviousAnonymizations
+        :anonymizations="anonymizations"
+      />
     </ContentBlock>
-
-    <ScheduleReportDeletion
-      :is-data-purge-settings-enabled="isDataPurgeSettingsEnabled"
-      :delete-data="deleteData"
-      :schedule-deletion-options="scheduleDeletionOptions"
-    ></ScheduleReportDeletion>
   </div>
-
-  <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
-
-  <ContentBlock
-    content-title="Anonymize previously tracked raw data"
-    class="logDataAnonymizer"
-  >
-    <p>
-      If you have tracked personal data such as the full visitor IP, you may want to anonymize
-      this data now in case you do not have consent for this data or no longer a legitimate
-      interest.
-    </p>
-
-    <AnonymizeLogData v-if="isSuperUser"></AnonymizeLogData>
-    <p v-else>Only a user with Super User access can anonymize previously tracked raw data.</p>
-
-    <br />
-    <PreviousAnonymizations
-      :anonymizations="anonymizations"
-    />
-  </ContentBlock>
 </template>
 
 <script lang="ts">
@@ -172,6 +174,7 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    isSuperUser: Boolean,
   },
   components: {
     AnonymizeIp,
