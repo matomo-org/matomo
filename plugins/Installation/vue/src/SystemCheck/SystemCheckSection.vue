@@ -11,6 +11,7 @@
     <a href=""
        @click.prevent="copyInfo()"
        class='btn'
+       style="margin-right:3.5px"
     >{{ translate('Installation_CopySystemCheck') }}</a>
     <a href=""
        @click.prevent="downloadInfo()"
