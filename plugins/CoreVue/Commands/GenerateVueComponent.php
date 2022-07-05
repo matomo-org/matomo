@@ -9,12 +9,12 @@
 namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\CoreConsole\Commands\GenerateAngularConstructBase;
+use Piwik\Plugins\CoreConsole\Commands\GenerateVueConstructBase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateVueComponent extends GenerateAngularConstructBase
+class GenerateVueComponent extends GenerateVueConstructBase
 {
     protected function configure()
     {
