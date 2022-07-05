@@ -12,6 +12,7 @@ interface GlobalSettings {
   excludedIpsGlobal?: string;
   excludedQueryParametersGlobal?: string;
   excludedUserAgentsGlobal?: string;
+  excludedReferrersGlobal?: string;
   searchKeywordParametersGlobal?: string;
   searchCategoryParametersGlobal?: string;
 }

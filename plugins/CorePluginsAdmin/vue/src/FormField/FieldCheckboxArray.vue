@@ -78,9 +78,8 @@ export default defineComponent({
 
       // undo checked changes since we want the parent component to decide if it should go
       // through
-      (this.$refs.root as HTMLElement).querySelectorAll('input').forEach((inp: HTMLInputElement) => {
-        inp.checked = !inp.checked;
-      });
+      const item = (this.$refs.root as HTMLElement).querySelectorAll('input').item(changedIndex);
+      item.checked = !item.checked;
 
       this.$emit('update:modelValue', newValue);
     },
