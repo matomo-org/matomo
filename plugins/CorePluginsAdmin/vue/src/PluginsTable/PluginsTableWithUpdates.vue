@@ -101,7 +101,7 @@
           </span>
           <a
             v-else-if="isMultiServerEnvironment"
-            v-show="isPluginDownloadLinkClicked"
+            v-show="!isPluginDownloadLinkClicked"
             @click="isPluginDownloadLinkClicked = true"
             :href="downloadPluginLink(plugin)"
           >
