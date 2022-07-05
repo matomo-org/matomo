@@ -3,7 +3,7 @@
 	<row>
 		<id>website</id>
 		<name>Website</name>
-		<description>A website consists of web pages typically served from a single web domain.</description>
+		<description>A website consists of webpages, typically served from a single domain on the web.</description>
 		<howToSetupUrl>?module=CoreAdminHome&amp;action=trackingCodeGenerator</howToSetupUrl>
 		<settings>
 			<row>

@@ -34,7 +34,7 @@
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
-		<name>Local time - minute (Start of visit)</name>
+		<name>Local time — minute (start of visit)</name>
 		<segment>visitLocalMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 67, 57, 58, 59</acceptedValues>
 	</row>
@@ -151,7 +151,7 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Local time - hour (Start of visit)</name>
+		<name>Local time — hour (start of visit)</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
 	</row>
@@ -193,91 +193,91 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Site time - hour (Start of visit)</name>
+		<name>Site time — hour (start of visit)</name>
 		<segment>visitStartServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Site time - hour (Time of last action)</name>
+		<name>Site time — hour (time of last action)</name>
 		<segment>visitServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - date (Time of last action)</name>
+		<name>Time in UTC — date (time of last action)</name>
 		<segment>visitEndServerDate</segment>
 		<acceptedValues>2018-12-31, 2018-03-20, ...</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - day of month (Time of last action)</name>
+		<name>Time in UTC — day of month (time of last action)</name>
 		<segment>visitEndServerDayOfMonth</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 29, 30, 31</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - day of week (Time of last action)</name>
+		<name>Time in UTC — day of week (time of last action)</name>
 		<segment>visitEndServerDayOfWeek</segment>
 		<acceptedValues>1, 2, 3, 4, 5, 6, 7</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - day of year (Time of last action)</name>
+		<name>Time in UTC — day of year (time of last action)</name>
 		<segment>visitEndServerDayOfYear</segment>
 		<acceptedValues>1, 2, 3, 4, ..., 365, 366</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - minute (Start of visit)</name>
+		<name>Time in UTC — minute (start of visit)</name>
 		<segment>visitStartServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - minute (Time of last action)</name>
+		<name>Time in UTC — minute (time of last action)</name>
 		<segment>visitEndServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - month (Time of last action)</name>
+		<name>Time in UTC — month (time of last action)</name>
 		<segment>visitEndServerMonth</segment>
 		<acceptedValues>1, 2, 3, ..., 11, 12</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - quarter (Time of last action)</name>
+		<name>Time in UTC — quarter (time of last action)</name>
 		<segment>visitEndServerQuarter</segment>
 		<acceptedValues>1, 2, 3, 4</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - second (Time of last action)</name>
+		<name>Time in UTC — second (Time of last action)</name>
 		<segment>visitEndServerSecond</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 58, 59</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - week of year (Time of last action)</name>
+		<name>Time in UTC — week of year (time of last action)</name>
 		<segment>visitEndServerWeekOfYear</segment>
 		<acceptedValues>1, 2, 3, 4, ..., 51, 52, 53</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
-		<name>Time in UTC - year (Time of last action)</name>
+		<name>Time in UTC — year (time of last action)</name>
 		<segment>visitEndServerYear</segment>
 		<acceptedValues>2016, 2017, 2018, ..., 9998, 9999</acceptedValues>
 	</row>
@@ -684,13 +684,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
-		<name>Site time - hour</name>
+		<name>Site time — hour</name>
 		<segment>actionServerHour</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Behaviour</category>
-		<name>Time in UTC - minute</name>
+		<name>Time in UTC — minute</name>
 		<segment>actionServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
 	</row>
