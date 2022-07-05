@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import { debounce } from 'CoreHome';
 
 const SEPARATOR = '\n';
@@ -54,11 +54,15 @@ export default defineComponent({
     onKeydown(event: KeyboardEvent) {
       const value = (event.target as HTMLTextAreaElement).value.split(SEPARATOR);
       if (value.join(SEPARATOR) !== this.concattedValue) {
-        // change to previous value so the parent component can determine if this change should
-        // go through
-        (event.target as HTMLInputElement).value = this.concattedValue;
-
         this.$emit('update:modelValue', value);
+
+        nextTick(() => {
+          if ((event.target as HTMLInputElement).value !== this.concattedValue) {
+            // change to previous value if the parent component did not update the model value
+            // (done manually because Vue will not notice if a value does NOT change)
+            (event.target as HTMLInputElement).value = this.concattedValue;
+          }
+        });
       }
     },
   },
