@@ -17,6 +17,7 @@
       <span
         v-if="isMarketplaceEnabled || isPluginUploadEnabled"
         v-html="$sanitize(teaserExtendPiwikByPluginText)"
+        style="margin-right:3.5px"
       ></span>
 
       <span v-if="!isPluginsAdminEnabled" style="margin-right:3.5px">
