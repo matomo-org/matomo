@@ -573,12 +573,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
         $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
 
+        $installationUmd = Development::isEnabled() ? 'Installation.umd.js' : 'Installation.umd.min.js';
+        $files[] = "plugins/Installation/vue/dist/$installationUmd";
+
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
             $files[] = 'tests/resources/screenshot-override/override.js';
         }
 
-        return AssetManager::compileCustomJs($files);
+        $result = StaticContainer::get('Piwik\Translation\Translator')->getJavascriptTranslations() . "\n";
+        $result .= AssetManager::compileCustomJs($files);
+        return $result;
     }
 
     private function getParam($name)

@@ -140,7 +140,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=4d770a86
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=b24bc244
 
 var _hoisted_1 = {
   key: 0,
@@ -181,21 +181,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=4d770a86
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=b24bc244
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=4ba7a0fa
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=5d6873c0
 
 
-var SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
 
-var SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_4 = ["value"];
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_4 = ["innerHTML"];
 var _hoisted_5 = {
   class: "entityTable system-check",
   id: "systemCheckRequired"
@@ -208,17 +208,20 @@ var _hoisted_7 = {
   class: "entityTable system-check",
   id: "systemCheckInformational"
 };
-function SystemCheckSectionvue_type_template_id_4ba7a0fa_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SystemCheckSectionvue_type_template_id_5d6873c0_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DiagnosticTable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DiagnosticTable");
 
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_CopyBelowInfoForSupport')) + " ", 1), SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_1, SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_2, SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_CopyBelowInfoForSupport')) + " ", 1), SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_1, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_2, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
       return _ctx.copyInfo();
     }, ["prevent"])),
-    class: "btn"
+    class: "btn",
+    style: {
+      "margin-right": "3.5px"
+    }
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_CopySystemCheck')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
@@ -233,67 +236,58 @@ function SystemCheckSectionvue_type_template_id_4ba7a0fa_render(_ctx, _cache, $p
     readonly: "",
     id: "matomo_system_check_info",
     ref: "systemCheckInfo",
-    value: _ctx.systemCheckInfo
-  }, null, 8, SystemCheckSectionvue_type_template_id_4ba7a0fa_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
+    innerHTML: _ctx.$sanitize(_ctx.systemCheckInfo)
+  }, null, 8, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
     results: _ctx.mandatoryResults,
     "informational-type": _ctx.informationalType,
     "warning-type": _ctx.warningType,
     "error-type": _ctx.errorType
-  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])], 512), [[_directive_content_table, {
-    off: !_ctx.isInstallation
-  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_Optional')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
+  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])])], 512), [[_directive_content_table, {
+    off: _ctx.isInstallation
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_Optional')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
     results: _ctx.optionalResults,
     "informational-type": _ctx.informationalType,
     "warning-type": _ctx.warningType,
     "error-type": _ctx.errorType
-  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])], 512), [[_directive_content_table, {
-    off: !_ctx.isInstallation
-  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_InformationalResults')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
+  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])])], 512), [[_directive_content_table, {
+    off: _ctx.isInstallation
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_InformationalResults')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
     results: _ctx.informationalResults,
     "informational-type": _ctx.informationalType,
     "warning-type": _ctx.warningType,
     "error-type": _ctx.errorType
-  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])], 512), [[_directive_content_table, {
-    off: !_ctx.isInstallation
+  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])])], 512), [[_directive_content_table, {
+    off: _ctx.isInstallation
   }]])])], 64);
 }
-// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=4ba7a0fa
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=5d6873c0
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=5a0a4d1a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=913754cc
 
-var DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_1 = {
+var DiagnosticTablevue_type_template_id_913754cc_hoisted_1 = {
   key: 0
 };
 
-var DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-error",
-  style: {
-    "margin-right": "3.5px"
-  }
+var DiagnosticTablevue_type_template_id_913754cc_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-error"
 }, null, -1);
 
-var DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_3 = ["innerHTML"];
-var DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_4 = {
+var DiagnosticTablevue_type_template_id_913754cc_hoisted_3 = ["innerHTML"];
+var DiagnosticTablevue_type_template_id_913754cc_hoisted_4 = {
   key: 1
 };
 
-var DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-warning",
-  style: {
-    "margin-right": "3.5px"
-  }
+var DiagnosticTablevue_type_template_id_913754cc_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-warning"
 }, null, -1);
 
-var DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_6 = ["innerHTML"];
-var DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_7 = {
+var DiagnosticTablevue_type_template_id_913754cc_hoisted_6 = ["innerHTML"];
+var DiagnosticTablevue_type_template_id_913754cc_hoisted_7 = {
   key: 2
 };
 
 var _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-info2",
-  style: {
-    "margin-right": "3.5px"
-  }
+  class: "icon-info2"
 }, null, -1);
 
 var _hoisted_9 = ["innerHTML"];
@@ -302,10 +296,7 @@ var _hoisted_10 = {
 };
 
 var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-ok",
-  style: {
-    "margin-right": "3.5px"
-  }
+  class: "icon-ok"
 }, null, -1);
 
 var _hoisted_12 = ["innerHTML"];
@@ -316,7 +307,7 @@ var _hoisted_14 = {
   key: 0
 };
 var _hoisted_15 = ["innerHTML"];
-function DiagnosticTablevue_type_template_id_5a0a4d1a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function DiagnosticTablevue_type_template_id_913754cc_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Passthrough = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Passthrough");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.results, function (result, index) {
@@ -327,15 +318,15 @@ function DiagnosticTablevue_type_template_id_5a0a4d1a_render(_ctx, _cache, $prop
         return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(result.label), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(result.items, function (item, index) {
           return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
             key: index
-          }, [item.status === 'error' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_1, [DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+          }, [item.status === 'error' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_913754cc_hoisted_1, [DiagnosticTablevue_type_template_id_913754cc_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
             class: "err",
-            innerHTML: _ctx.$sanitize(item.comment)
-          }, null, 8, DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_3)])) : item.status === 'warning' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_4, [DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-            innerHTML: _ctx.$sanitize(item.comment)
-          }, null, 8, DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_6)])) : item.status === 'informational' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_5a0a4d1a_hoisted_7, [_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-            innerHTML: _ctx.$sanitize(item.comment)
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
+          }, null, 8, DiagnosticTablevue_type_template_id_913754cc_hoisted_3)])) : item.status === 'warning' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_913754cc_hoisted_4, [DiagnosticTablevue_type_template_id_913754cc_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
+          }, null, 8, DiagnosticTablevue_type_template_id_913754cc_hoisted_6)])) : item.status === 'informational' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_913754cc_hoisted_7, [_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
           }, null, 8, _hoisted_9)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_10, [_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-            innerHTML: _ctx.$sanitize(item.comment)
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
           }, null, 8, _hoisted_12)])), _hoisted_13]);
         }), 128))])]), result.longErrorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", {
           colspan: "2",
@@ -350,7 +341,7 @@ function DiagnosticTablevue_type_template_id_5a0a4d1a_render(_ctx, _cache, $prop
     }, 1024);
   }), 128);
 }
-// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=5a0a4d1a
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=913754cc
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts
 
@@ -358,15 +349,15 @@ function DiagnosticTablevue_type_template_id_5a0a4d1a_render(_ctx, _cache, $prop
 /* harmony default export */ var DiagnosticTablevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     errorType: {
-      type: Number,
+      type: String,
       required: true
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true
     },
     results: {
@@ -384,7 +375,7 @@ function DiagnosticTablevue_type_template_id_5a0a4d1a_render(_ctx, _cache, $prop
 
 
 
-DiagnosticTablevue_type_script_lang_ts.render = DiagnosticTablevue_type_template_id_5a0a4d1a_render
+DiagnosticTablevue_type_script_lang_ts.render = DiagnosticTablevue_type_template_id_913754cc_render
 
 /* harmony default export */ var DiagnosticTable = (DiagnosticTablevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts
@@ -396,15 +387,15 @@ var _window = window,
 /* harmony default export */ var SystemCheckSectionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     errorType: {
-      type: Number,
+      type: String,
       required: true
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true
     },
     systemCheckInfo: {
@@ -450,7 +441,7 @@ var _window = window,
 
 
 
-SystemCheckSectionvue_type_script_lang_ts.render = SystemCheckSectionvue_type_template_id_4ba7a0fa_render
+SystemCheckSectionvue_type_script_lang_ts.render = SystemCheckSectionvue_type_template_id_5d6873c0_render
 
 /* harmony default export */ var SystemCheckSection = (SystemCheckSectionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts
@@ -460,15 +451,15 @@ SystemCheckSectionvue_type_script_lang_ts.render = SystemCheckSectionvue_type_te
 /* harmony default export */ var SystemCheckPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     errorType: {
-      type: Number,
+      type: String,
       required: true
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true
     },
     systemCheckInfo: {
@@ -510,42 +501,42 @@ SystemCheckSectionvue_type_script_lang_ts.render = SystemCheckSectionvue_type_te
 SystemCheckPagevue_type_script_lang_ts.render = render
 
 /* harmony default export */ var SystemCheckPage = (SystemCheckPagevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=76fe5674
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=c2677c5a
 
-var SystemCheckvue_type_template_id_76fe5674_hoisted_1 = {
+var SystemCheckvue_type_template_id_c2677c5a_hoisted_1 = {
   key: 0
 };
 
-var SystemCheckvue_type_template_id_76fe5674_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
+var SystemCheckvue_type_template_id_c2677c5a_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
   style: {
     "clear": "both"
   }
 }, null, -1);
 
-var SystemCheckvue_type_template_id_76fe5674_hoisted_3 = {
+var SystemCheckvue_type_template_id_c2677c5a_hoisted_3 = {
   key: 1
 };
-var SystemCheckvue_type_template_id_76fe5674_hoisted_4 = {
+var SystemCheckvue_type_template_id_c2677c5a_hoisted_4 = {
   key: 0
 };
 
-var SystemCheckvue_type_template_id_76fe5674_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+var SystemCheckvue_type_template_id_c2677c5a_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
 
-var SystemCheckvue_type_template_id_76fe5674_hoisted_6 = {
+var SystemCheckvue_type_template_id_c2677c5a_hoisted_6 = {
   target: "_blank",
   rel: "noreferrer noopener",
   href: "https://matomo.org/docs/requirements/"
 };
-function SystemCheckvue_type_template_id_76fe5674_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SystemCheckvue_type_template_id_c2677c5a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SystemCheckLegend = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckLegend");
 
   var _component_SystemCheckSection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckSection");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [!_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SystemCheckvue_type_template_id_76fe5674_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckLegend, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [!_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SystemCheckvue_type_template_id_c2677c5a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckLegend, {
     url: _ctx.systemCheckLegendUrl
-  }, null, 8, ["url"]), SystemCheckvue_type_template_id_76fe5674_hoisted_2])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheck')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckSection, {
+  }, null, 8, ["url"]), SystemCheckvue_type_template_id_c2677c5a_hoisted_2])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheck')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckSection, {
     "error-type": _ctx.errorType,
     "warning-type": _ctx.warningType,
     "informational-type": _ctx.informationalType,
@@ -554,11 +545,11 @@ function SystemCheckvue_type_template_id_76fe5674_render(_ctx, _cache, $props, $
     "optional-results": _ctx.optionalResults,
     "informational-results": _ctx.informationalResults,
     "is-installation": _ctx.isInstallation
-  }, null, 8, ["error-type", "warning-type", "informational-type", "system-check-info", "mandatory-results", "optional-results", "informational-results", "is-installation"]), !_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SystemCheckvue_type_template_id_76fe5674_hoisted_3, [!_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", SystemCheckvue_type_template_id_76fe5674_hoisted_4, [SystemCheckvue_type_template_id_76fe5674_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", SystemCheckvue_type_template_id_76fe5674_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_Requirements')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckLegend, {
+  }, null, 8, ["error-type", "warning-type", "informational-type", "system-check-info", "mandatory-results", "optional-results", "informational-results", "is-installation"]), !_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SystemCheckvue_type_template_id_c2677c5a_hoisted_3, [!_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", SystemCheckvue_type_template_id_c2677c5a_hoisted_4, [SystemCheckvue_type_template_id_c2677c5a_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", SystemCheckvue_type_template_id_c2677c5a_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_Requirements')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckLegend, {
     url: _ctx.systemCheckLegendUrl
-  }, null, 8, ["url"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
+  }, null, 8, ["url"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=76fe5674
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=c2677c5a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=77aad6d6
 
@@ -622,15 +613,15 @@ var SystemCheckvue_type_script_lang_ts_window = window,
       required: true
     },
     errorType: {
-      type: Number,
+      type: String,
       required: true
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true
     },
     systemCheckInfo: {
@@ -669,7 +660,7 @@ var SystemCheckvue_type_script_lang_ts_window = window,
 
 
 
-SystemCheckvue_type_script_lang_ts.render = SystemCheckvue_type_template_id_76fe5674_render
+SystemCheckvue_type_script_lang_ts.render = SystemCheckvue_type_template_id_c2677c5a_render
 
 /* harmony default export */ var SystemCheck = (SystemCheckvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Installation/vue/src/index.ts
