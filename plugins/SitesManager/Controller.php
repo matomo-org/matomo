@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\SitesManager;
 
 use Exception;
@@ -32,7 +34,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /** @var Lazy */
     private $cache;
 
-    public function __construct(Lazy $cache) {
+    public function __construct(Lazy $cache)
+    {
         $this->cache = $cache;
 
         parent::__construct();
@@ -62,7 +65,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $response = new ResponseBuilder(Common::getRequestVar('format'));
 
-        $globalSettings = array();
+        $globalSettings = [];
         $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
         $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
         $globalSettings['searchKeywordParametersGlobal'] = API::getInstance()->getSearchKeywordParametersGlobal();
@@ -71,6 +74,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $globalSettings['excludedIpsGlobal'] = API::getInstance()->getExcludedIpsGlobal();
         $globalSettings['excludedQueryParametersGlobal'] = API::getInstance()->getExcludedQueryParametersGlobal();
         $globalSettings['excludedUserAgentsGlobal'] = API::getInstance()->getExcludedUserAgentsGlobal();
+        $globalSettings['excludedReferrersGlobal'] = API::getInstance()->getExcludedReferrersGlobal();
 
         return $response->getResponse($globalSettings);
     }
@@ -88,6 +92,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $excludedIps = Common::getRequestVar('excludedIps', false);
             $excludedQueryParameters = Common::getRequestVar('excludedQueryParameters', false);
             $excludedUserAgents = Common::getRequestVar('excludedUserAgents', false);
+            $excludedReferrers = Common::getRequestVar('excludedReferrers', false);
             $currency = Common::getRequestVar('currency', false);
             $searchKeywordParameters = Common::getRequestVar('searchKeywordParameters', $default = "");
             $searchCategoryParameters = Common::getRequestVar('searchCategoryParameters', $default = "");
@@ -99,6 +104,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $api->setGlobalExcludedQueryParameters($excludedQueryParameters);
             $api->setGlobalExcludedIps($excludedIps);
             $api->setGlobalExcludedUserAgents($excludedUserAgents);
+            $api->setGlobalExcludedReferrers($excludedReferrers);
             $api->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
             $api->setKeepURLFragmentsGlobal($keepURLFragments);
 
@@ -159,7 +165,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ), $viewType = 'basic');
     }
 
-    public function siteWithoutDataTabs() {
+    public function siteWithoutDataTabs()
+    {
         $this->checkSitePermission();
 
         $mainUrl = $this->site->getMainUrl();
