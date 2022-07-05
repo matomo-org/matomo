@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -47,18 +48,18 @@ class APITest extends \PHPUnit\Framework\TestCase
 
     public function getTimezoneNameTestData()
     {
-        return array(
-            array('Europe/Rome', 'en', 'Italy'),
-            array('Europe/Rome', 'it', 'Italia'),
-            array('America/New_York', 'en', 'United States - New York'),
-            array('America/New_York', 'ru', 'Соединенные Штаты - Нью-Йорк'),
-            array('Asia/Foo_Bar', 'en', 'Foo Bar'),
-            array('Etc/UTC', 'en', 'UTC'),
-            array('UTC', 'en', 'UTC'),
-            array('UTC+1', 'en', 'UTC+1'),
-            array('UTC+1.5', 'en', 'UTC+1:30'),
-            array('UTC-1.5', 'en', 'UTC-1:30'),
-        );
+        return [
+            ['Europe/Rome', 'en', 'Italy'],
+            ['Europe/Rome', 'it', 'Italia'],
+            ['America/New_York', 'en', 'United States - New York'],
+            ['America/New_York', 'ru', 'Соединенные Штаты - Нью-Йорк'],
+            ['Asia/Foo_Bar', 'en', 'Foo Bar'],
+            ['Etc/UTC', 'en', 'UTC'],
+            ['UTC', 'en', 'UTC'],
+            ['UTC+1', 'en', 'UTC+1'],
+            ['UTC+1.5', 'en', 'UTC+1:30'],
+            ['UTC-1.5', 'en', 'UTC-1:30'],
+        ];
     }
 
     /**
