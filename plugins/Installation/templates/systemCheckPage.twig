@@ -12,7 +12,7 @@
     mandatory-results="{{ diagnosticReport.getMandatoryDiagnosticResults()|json_encode|e('html_attr') }}"
     optional-results="{{ diagnosticReport.getOptionalDiagnosticResults()|json_encode|e('html_attr') }}"
     informational-results="{{ diagnosticReport.getInformationalResults()|json_encode|e('html_attr') }}"
-    is-installation="{{ isInstallation|default(null)|json_encode|e('html_attr') }}"
+    is-installation="{{ isInstallation|default(false)|json_encode|e('html_attr') }}"
     has-errors="{{ diagnosticReport.hasErrors()|default(null)|json_encode|e('html_attr') }}"
     has-warnings="{{ diagnosticReport.hasWarnings()|default(null)|json_encode|e('html_attr') }}"
 ></div>

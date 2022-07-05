@@ -11,20 +11,23 @@
       <td>
         <span v-for="(item, index) in result.items" :key="index">
           <span v-if="item.status === 'error'">
-            <span class="icon-error" style="margin-right:3.5px"></span>
-            <span class="err" v-html="$sanitize(item.comment)"></span>
+            <span class="icon-error"></span>
+            <span
+              class="err"
+              v-html="$sanitize(typeof item.comment !== 'string' ? '' : item.comment)"
+            ></span>
           </span>
           <span v-else-if="item.status === 'warning'">
-            <span class="icon-warning" style="margin-right:3.5px"></span>
-            <span v-html="$sanitize(item.comment)"></span>
+            <span class="icon-warning"></span>
+            <span v-html="$sanitize(typeof item.comment !== 'string' ? '' : item.comment)"></span>
           </span>
           <span v-else-if="item.status === 'informational'">
-            <span class="icon-info2" style="margin-right:3.5px"></span>
-            <span v-html="$sanitize(item.comment)"></span>
+            <span class="icon-info2"></span>
+            <span v-html="$sanitize(typeof item.comment !== 'string' ? '' : item.comment)"></span>
           </span>
           <span v-else>
-            <span class="icon-ok" style="margin-right:3.5px"></span>
-            <span v-html="$sanitize(item.comment)"></span>
+            <span class="icon-ok"></span>
+            <span v-html="$sanitize(typeof item.comment !== 'string' ? '' : item.comment)"></span>
           </span>
           <br/>
         </span>
@@ -48,15 +51,15 @@ import { Passthrough } from 'CoreHome';
 export default defineComponent({
   props: {
     errorType: {
-      type: Number,
+      type: String,
       required: true,
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true,
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true,
     },
     results: {

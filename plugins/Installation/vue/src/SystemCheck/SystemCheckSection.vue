@@ -28,17 +28,20 @@
       :value="systemCheckInfo"
     ></textarea>
 
+    {{ isInstallation }}
     <table
       class="entityTable system-check"
       id="systemCheckRequired"
       v-content-table="{off: !isInstallation}"
     >
-      <DiagnosticTable
-        :results="mandatoryResults"
-        :informational-type="informationalType"
-        :warning-type="warningType"
-        :error-type="errorType"
-      />
+      <tbody>
+        <DiagnosticTable
+          :results="mandatoryResults"
+          :informational-type="informationalType"
+          :warning-type="warningType"
+          :error-type="errorType"
+        />
+      </tbody>
     </table>
 
     <h3>{{ translate('Installation_Optional') }}</h3>
@@ -48,12 +51,14 @@
       id="systemCheckOptional"
       v-content-table="{off: !isInstallation}"
     >
-      <DiagnosticTable
-        :results="optionalResults"
-        :informational-type="informationalType"
-        :warning-type="warningType"
-        :error-type="errorType"
-      />
+      <tbody>
+        <DiagnosticTable
+          :results="optionalResults"
+          :informational-type="informationalType"
+          :warning-type="warningType"
+          :error-type="errorType"
+        />
+      </tbody>
     </table>
 
     <h3>{{ translate('Installation_InformationalResults') }}</h3>
@@ -63,12 +68,14 @@
       id="systemCheckInformational"
       v-content-table="{off: !isInstallation}"
     >
-      <DiagnosticTable
-        :results="informationalResults"
-        :informational-type="informationalType"
-        :warning-type="warningType"
-        :error-type="errorType"
-      />
+      <tbody>
+        <DiagnosticTable
+          :results="informationalResults"
+          :informational-type="informationalType"
+          :warning-type="warningType"
+          :error-type="errorType"
+        />
+      </tbody>
     </table>
   </div>
 </template>
@@ -83,15 +90,15 @@ const { $ } = window;
 export default defineComponent({
   props: {
     errorType: {
-      type: Number,
+      type: String,
       required: true,
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true,
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true,
     },
     systemCheckInfo: {

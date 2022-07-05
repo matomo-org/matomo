@@ -5,38 +5,40 @@
 -->
 
 <template>
-  <div v-if="!showNextStep">
-    <SystemCheckLegend
-      :url="systemCheckLegendUrl"
+  <div>
+    <div v-if="!showNextStep">
+      <SystemCheckLegend
+        :url="systemCheckLegendUrl"
+      />
+
+      <br style="clear:both;"/>
+    </div>
+
+    <h2>{{ translate('Installation_SystemCheck') }}</h2>
+
+    <SystemCheckSection
+      :error-type="errorType"
+      :warning-type="warningType"
+      :informational-type="informationalType"
+      :system-check-info="systemCheckInfo"
+      :mandatory-results="mandatoryResults"
+      :optional-results="optionalResults"
+      :informational-results="informationalResults"
+      :is-installation="isInstallation"
     />
 
-    <br style="clear:both;"/>
-  </div>
+    <div v-if="!showNextStep">
+      <p v-if="!showNextStep">
+        <span class="icon-export"></span>
+        <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/requirements/">
+          {{ translate('Installation_Requirements') }}
+        </a>
+      </p>
 
-  <h2>{{ translate('Installation_SystemCheck') }}</h2>
-
-  <SystemCheckSection
-    :error-type="errorType"
-    :warning-type="warningType"
-    :informational-type="informationalType"
-    :system-check-info="systemCheckInfo"
-    :mandatory-results="mandatoryResults"
-    :optional-results="optionalResults"
-    :informational-results="informationalResults"
-    :is-installation="isInstallation"
-  />
-
-  <div v-if="!showNextStep">
-    <p v-if="!showNextStep">
-      <span class="icon-export"></span>
-      <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/requirements/">
-        {{ translate('Installation_Requirements') }}
-      </a>
-    </p>
-
-    <SystemCheckLegend
-      :url="systemCheckLegendUrl"
-    />
+      <SystemCheckLegend
+        :url="systemCheckLegendUrl"
+      />
+    </div>
   </div>
 </template>
 
@@ -55,15 +57,15 @@ export default defineComponent({
       required: true,
     },
     errorType: {
-      type: Number,
+      type: String,
       required: true,
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true,
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true,
     },
     systemCheckInfo: {

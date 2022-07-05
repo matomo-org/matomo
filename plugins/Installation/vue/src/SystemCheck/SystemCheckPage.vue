@@ -39,15 +39,15 @@ import SystemCheckSection from './SystemCheckSection.vue';
 export default defineComponent({
   props: {
     errorType: {
-      type: Number,
+      type: String,
       required: true,
     },
     warningType: {
-      type: Number,
+      type: String,
       required: true,
     },
     informationalType: {
-      type: Number,
+      type: String,
       required: true,
     },
     systemCheckInfo: {
