@@ -3,7 +3,7 @@
 {% set title %}{{ 'DBStats_DatabaseUsage'|translate }}{% endset %}
 
 {% block content %}
-<div vue-entry="DBStats.DBStatsIntro" totals-space-used="{{ totalSpaceUsed|json_encode|e('html_attr') }}"></div>
+<div vue-entry="DBStats.DBStatsIntro" total-space-used="{{ totalSpaceUsed|json_encode|e('html_attr') }}"></div>
 
 <div class="row">
     <div class="col s12 m6">
