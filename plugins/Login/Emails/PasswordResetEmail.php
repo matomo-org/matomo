@@ -49,7 +49,8 @@ class PasswordResetEmail extends Mail
 
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($replytoEmailAddress, $replytoEmailName);
-        $this->setWrappedHtmlBody($this->getDefaultBodyText());
+        $this->setWrappedHtmlBody($this->getHTMLBody());
+        $this->setBodyText($this->getDefaultBodyText());
     }
 
     private function getDefaultSubject()
@@ -57,12 +58,32 @@ class PasswordResetEmail extends Mail
         return Piwik::translate('Login_MailTopicPasswordChange');
     }
 
-    private function getDefaultBodyText()
+    /**
+     * Get the translated plain text email body with the reset link
+     *
+     * @return string
+     */
+    private function getDefaultBodyText() : string
+    {
+        return Piwik::translate('Login_MailPasswordChangeBody2',
+            [Common::sanitizeInputValue($this->login), Common::sanitizeInputValue($this->ip), Common::sanitizeInputValue($this->resetUrl)]);
+    }
+
+    /**
+     * Create the HTML email body from the plain text body
+     *
+     * @return string
+     */
+    private function getHTMLBody() : string
     {
         return '<p>' . str_replace(
             "\n\n",
             "</p><p>",
-            Piwik::translate('Login_MailPasswordChangeBody2', [Common::sanitizeInputValue($this->login), Common::sanitizeInputValue($this->ip), Common::sanitizeInputValue($this->resetUrl)])
+            Piwik::translate('Login_MailPasswordChangeBody2',
+                [Common::sanitizeInputValue($this->login),
+                 Common::sanitizeInputValue($this->ip),
+                '<p style="word-break: break-all"><a href="'.Common::sanitizeInputValue($this->resetUrl).'">'.
+                Common::sanitizeInputValue($this->resetUrl).'</a></p>'])
         ) . "</p>";
     }
 }

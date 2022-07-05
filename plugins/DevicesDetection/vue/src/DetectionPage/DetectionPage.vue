@@ -7,11 +7,38 @@
 <template>
   <div class="detectionPage">
     <ContentBlock :content-title="translate('DevicesDetection_DeviceDetection')">
-      <h3>{{ translate('DevicesDetection_UserAgent') }}</h3>
-
       <form action="" method="POST">
-        <textarea name="ua" :value="userAgent"></textarea>
+
+        <h3>{{ translate('DevicesDetection_UserAgent') }}</h3>
+
+        <textarea name="ua" v-model="userAgentText"></textarea>
         <br />
+
+        <h3>{{ translate('DevicesDetection_ClientHints') }}</h3>
+
+        <span class="checkbox-container usech" v-if="isClientHintsSupported">
+            <label>
+                <input
+                  type="checkbox"
+                  id="usech"
+                  v-model="considerClientHints"
+                  @change="toggleClientHints()"
+                />
+                <span>{{ translate('DevicesDetection_ConsiderClientHints') }}</span>
+            </label>
+        </span>
+
+        <textarea
+          name="clienthints" style="margin-top: 2em;"
+          v-if="isClientHintsSupported && considerClientHints"
+          v-model="clientHintsText"
+        ></textarea>
+
+        <span id="noclienthints" class="alert alert-warning" v-show="!isClientHintsSupported">
+          {{ translate('DevicesDetection_ClientHintsNotSupported') }}
+        </span>
+
+        <br /><br />
         <input type="submit" :value="translate('General_Refresh')" class="btn" />
       </form>
 
@@ -140,6 +167,14 @@ import {
 
 interface DetectionPageState {
   itemListHtml: string;
+  considerClientHints: boolean;
+  clientHintsText: string;
+  userAgentText: string;
+}
+
+function isClientHintsSupported() {
+  const nav = navigator as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  return nav.userAgentData && typeof nav.userAgentData.getHighEntropyValues === 'function';
 }
 
 export default defineComponent({
@@ -164,6 +199,7 @@ export default defineComponent({
     device_brand_logo: String,
     device_brand: String,
     device_model: String,
+    clientHints: null,
   },
   components: {
     ContentBlock,
@@ -174,6 +210,9 @@ export default defineComponent({
   data(): DetectionPageState {
     return {
       itemListHtml: '',
+      considerClientHints: !!this.clientHints,
+      clientHintsText: this.clientHints ? JSON.stringify(this.clientHints) : '',
+      userAgentText: this.userAgent,
     };
   },
   methods: {
@@ -195,6 +234,18 @@ export default defineComponent({
           { fixedFooter: true },
         );
       });
+    },
+    toggleClientHints() {
+      if (this.considerClientHints) {
+        this.clientHintsText = this.clientHintsText || JSON.stringify(this.clientHints);
+      } else {
+        this.clientHintsText = '';
+      }
+    },
+  },
+  computed: {
+    isClientHintsSupported() {
+      return isClientHintsSupported();
     },
   },
 });

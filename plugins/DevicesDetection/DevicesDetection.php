@@ -38,6 +38,9 @@ class DevicesDetection extends \Piwik\Plugin
         $translations[] = 'DevicesDetection_dataTableLabelModels';
         $translations[] = 'General_Close';
         $translations[] = 'DevicesDetection_DeviceDetection';
+        $translations[] = 'DevicesDetection_ClientHints';
+        $translations[] = 'DevicesDetection_ConsiderClientHints';
+        $translations[] = 'DevicesDetection_ClientHintsNotSupported';
     }
 
     public function getStylesheetFiles(&$files)

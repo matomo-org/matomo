@@ -22,7 +22,8 @@
     device_type="{{ device_type|default(null)|json_encode|e('html_attr') }}"
     device_brand_logo="{{ device_brand_logo|default(null)|json_encode|e('html_attr') }}"
     device_brand="{{ device_brand|default(null)|json_encode|e('html_attr') }}"
-    device_model="{{ |default(null)|json_encode|e('html_attr') }}"
+    device_model="{{ device_model|default(null)|json_encode|e('html_attr') }}"
+    client-hints="{{ clientHints|json_encode|e('html_attr') }}"
 ></div>
 
 {% endblock %}
