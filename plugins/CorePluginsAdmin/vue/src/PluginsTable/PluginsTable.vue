@@ -10,7 +10,6 @@
     class="pluginsManagement"
     v-plugin-management="{}"
   >
-    <p/>
     <p class="row pluginsFilter" v-plugin-filter>
         <span class="origin">
             <strong style="margin-right: 3.5px">{{ translate('CorePluginsAdmin_Origin') }}</strong>
