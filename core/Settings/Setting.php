@@ -221,6 +221,10 @@ class Setting
 
         $config = $this->configureField();
 
+        if ($config->prepare && $config->prepare instanceof \Closure) {
+            $value = call_user_func($config->prepare, $value, $this);
+        }
+
         $this->validateValue($value);
 
         if ($config->transform && $config->transform instanceof \Closure) {
