@@ -10,7 +10,7 @@
     feature="true"
   >
     <p>
-      <span v-html="$sanitize(configFileIntro)"></span>
+      <span v-html="$sanitize(configFileIntro)" style="margin-right:3.5px"></span>
       <span
         v-html="$sanitize(translate('Diagnostics_HideUnchanged', '<a>', '</a>'))"
         @click="onHideUnchanged($event)"
@@ -18,11 +18,11 @@
     </p>
 
     <h3>{{ translate('Diagnostics_Sections') }}</h3>
-    <p>
-      <span v-for="(values, category) in allConfigValues" :key="category">
-        <a :href="`#${category}`">{{ category }}</a><br />
-      </span>
-    </p>
+    <Passthrough v-for="(values, category) in allConfigValues" :key="category">
+      <a :href="`#${category}`">{{ category }}</a><br />
+    </Passthrough>
+
+    <p/>
 
     <table class="diagnostics configfile" v-content-table>
       <tbody>
@@ -41,8 +41,10 @@
         v-show="configEntry.isCustomValue || !hideGlobalConfigValues"
       >
         <td class="name">
-          {{ `${key}${configEntry.value instanceof Array || typeof configEntry.value === 'object'
-            ? '[]' : ''}` }}
+          {{ `${key}${configEntry.value !== null
+            && (configEntry.value instanceof Array
+              || typeof configEntry.value === 'object'
+            ) ? '[]' : ''}` }}
         </td>
         <td class="value" v-html="$sanitize(humanReadableValue(configEntry.value))"></td>
         <td class="description">
@@ -110,15 +112,11 @@ export default defineComponent({
       }
 
       if (value === null) {
-        return 'null';
+        return '';
       }
 
       if (value === '') {
         return '\'\'';
-      }
-
-      if (Array.isArray(value)) {
-        return (value as unknown[]).join(', ');
       }
 
       if (typeof value === 'object'
@@ -130,7 +128,7 @@ export default defineComponent({
       if (typeof value === 'object'
         && Object.keys(value as Record<string, unknown>).length > 0
       ) {
-        return `<pre>${JSON.stringify(value, null, 4)}</pre>`;
+        return `<div class="pre">${JSON.stringify(value, null, 4)}</div>`;
       }
 
       return `${value}`;
