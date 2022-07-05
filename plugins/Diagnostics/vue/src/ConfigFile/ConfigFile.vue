@@ -26,7 +26,6 @@
 
     <table class="diagnostics configfile" v-content-table>
       <tbody>
-      {% for category, configValues in allConfigValues %}
       <Passthrough v-for="(configValues, category) in allConfigValues" :key="category">
 
       <tr>
@@ -118,6 +117,10 @@ export default defineComponent({
         return '\'\'';
       }
 
+      if (Array.isArray(value)) {
+        return (value as unknown[]).join(', ');
+      }
+
       if (typeof value === 'object'
         && Object.keys(value as Record<string, unknown>).length === 0
       ) {
@@ -130,7 +133,7 @@ export default defineComponent({
         return `<pre>${JSON.stringify(value, null, 4)}</pre>`;
       }
 
-      return (value as unknown[]).join(', ');
+      return `${value}`;
     },
     onHideUnchanged(event: Event) {
       if ((event.target as HTMLElement).tagName !== 'A') {
