@@ -199,7 +199,10 @@
                 target="_blank"
               >{{ author.name }}</a>
               <span v-else>{{ author.name }}</span>
-              <span>{{ plugin.info.authors.length - 1 > index ? ',' : '' }}</span>
+              <span
+                v-if="plugin.info.authors.length - 1 > index"
+                style="margin-right:3.5px"
+              >,</span>
             </span>.
           </div>
         </td>
