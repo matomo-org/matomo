@@ -49,7 +49,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
-import { Field, PluginUpload } from 'CorePluginsAdmin';
+import Field from '../Field/Field.vue';
+import PluginUpload from '../Plugins/PluginUpload';
 
 interface UploadPluginDialogState {
   confirmPassword: string;

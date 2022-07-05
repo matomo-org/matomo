@@ -65,10 +65,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ContentIntro, EnrichedHeadline, translate } from 'CoreHome';
-import { PluginName } from 'CorePluginsAdmin';
+import { PluginName, UploadPluginDialog } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 import LicenseKey from '../LicenseKey/LicenseKey.vue';
-import UploadPluginDialog from '../UploadPluginDialog/UploadPluginDialog.vue';
 
 export default defineComponent({
   props: {

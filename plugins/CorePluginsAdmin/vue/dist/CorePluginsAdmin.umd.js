@@ -131,6 +131,7 @@ __webpack_require__.d(__webpack_exports__, "PluginsIntro", function() { return /
 __webpack_require__.d(__webpack_exports__, "PluginName", function() { return /* reexport */ PluginName; });
 __webpack_require__.d(__webpack_exports__, "PluginsTable", function() { return /* reexport */ PluginsTable; });
 __webpack_require__.d(__webpack_exports__, "PluginsTableWithUpdates", function() { return /* reexport */ PluginsTableWithUpdates; });
+__webpack_require__.d(__webpack_exports__, "UploadPluginDialog", function() { return /* reexport */ UploadPluginDialog; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -4429,6 +4430,111 @@ var MissingReqsNotice = Object(external_CoreHome_["useExternalPluginComponent"])
 PluginsTableWithUpdatesvue_type_script_lang_ts.render = PluginsTableWithUpdatesvue_type_template_id_000b485c_render
 
 /* harmony default export */ var PluginsTableWithUpdates = (PluginsTableWithUpdatesvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/UploadPluginDialog/UploadPluginDialog.vue?vue&type=template&id=0edc603e
+
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_1 = {
+  class: "ui-confirm",
+  id: "installPluginByUpload"
+};
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_2 = {
+  key: 0
+};
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_3 = {
+  class: "description"
+};
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_4 = ["action"];
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_5 = ["data-max-size"];
+
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_7 = ["value"];
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_8 = {
+  key: 1
+};
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_9 = ["innerHTML"];
+
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, "[General]\n  enable_plugin_upload = 1", -1);
+
+var UploadPluginDialogvue_type_template_id_0edc603e_hoisted_11 = ["value"];
+function UploadPluginDialogvue_type_template_id_0edc603e_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _directive_plugin_upload = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("plugin-upload");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UploadPluginDialogvue_type_template_id_0edc603e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TeaserExtendPiwikByUpload')), 1), _ctx.isPluginUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UploadPluginDialogvue_type_template_id_0edc603e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", UploadPluginDialogvue_type_template_id_0edc603e_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_AllowedUploadFormats')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+    enctype: "multipart/form-data",
+    method: "post",
+    id: "uploadPluginForm",
+    action: _ctx.uploadPluginAction
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "file",
+    name: "pluginZip",
+    "data-max-size": _ctx.uploadLimit
+  }, null, 8, UploadPluginDialogvue_type_template_id_0edc603e_hoisted_5), UploadPluginDialogvue_type_template_id_0edc603e_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    uicontrol: "password",
+    name: "confirmPassword",
+    autocomplete: "off",
+    title: _ctx.translate('Login_ConfirmPasswordToContinue'),
+    modelValue: _ctx.confirmPassword,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.confirmPassword = $event;
+    })
+  }, null, 8, ["title", "modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    class: "startUpload btn",
+    type: "submit",
+    value: _ctx.translate('Marketplace_UploadZipFile')
+  }, null, 8, UploadPluginDialogvue_type_template_id_0edc603e_hoisted_7)], 8, UploadPluginDialogvue_type_template_id_0edc603e_hoisted_4)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UploadPluginDialogvue_type_template_id_0edc603e_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    class: "description",
+    innerHTML: _ctx.$sanitize(_ctx.translate('Marketplace_PluginUploadDisabled'))
+  }, null, 8, UploadPluginDialogvue_type_template_id_0edc603e_hoisted_9), UploadPluginDialogvue_type_template_id_0edc603e_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    role: "yes",
+    type: "button",
+    value: _ctx.translate('General_Ok')
+  }, null, 8, UploadPluginDialogvue_type_template_id_0edc603e_hoisted_11)]))], 512)), [[_directive_plugin_upload]]);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/UploadPluginDialog/UploadPluginDialog.vue?vue&type=template&id=0edc603e
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/UploadPluginDialog/UploadPluginDialog.vue?vue&type=script&lang=ts
+
+
+
+
+/* harmony default export */ var UploadPluginDialogvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    isPluginUploadEnabled: Boolean,
+    uploadLimit: [String, Number],
+    installNonce: String
+  },
+  components: {
+    Field: Field
+  },
+  directives: {
+    PluginUpload: PluginUpload
+  },
+  data: function data() {
+    return {
+      confirmPassword: ''
+    };
+  },
+  computed: {
+    uploadPluginAction: function uploadPluginAction() {
+      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+        module: 'CorePluginsAdmin',
+        action: 'uploadPlugin',
+        nonce: this.installNonce
+      })));
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/UploadPluginDialog/UploadPluginDialog.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/UploadPluginDialog/UploadPluginDialog.vue
+
+
+
+UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_template_id_0edc603e_render
+
+/* harmony default export */ var UploadPluginDialog = (UploadPluginDialogvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -4436,6 +4542,7 @@ PluginsTableWithUpdatesvue_type_script_lang_ts.render = PluginsTableWithUpdatesv
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 
 
 

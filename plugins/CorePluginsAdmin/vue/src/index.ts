@@ -28,3 +28,4 @@ export { default as PluginsIntro } from './PluginsIntro/PluginsIntro.vue';
 export { default as PluginName } from './Plugins/PluginName';
 export { default as PluginsTable } from './PluginsTable/PluginsTable.vue';
 export { default as PluginsTableWithUpdates } from './PluginsTable/PluginsTableWithUpdates.vue';
+export { default as UploadPluginDialog } from './UploadPluginDialog/UploadPluginDialog.vue';
