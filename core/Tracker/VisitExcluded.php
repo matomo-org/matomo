@@ -190,7 +190,7 @@ class VisitExcluded
     {
         $allowBots = $this->request->getParam('bots');
 
-        $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($this->userAgent );
+        $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($this->userAgent, $this->request->getClientHints());
 
         return !$allowBots
             && ($deviceDetector->isBot() || $this->isIpInRange());
