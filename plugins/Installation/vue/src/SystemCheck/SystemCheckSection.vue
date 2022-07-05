@@ -25,14 +25,13 @@
       readonly
       id="matomo_system_check_info"
       ref="systemCheckInfo"
-      :value="systemCheckInfo"
+      v-html="$sanitize(systemCheckInfo)"
     ></textarea>
 
-    {{ isInstallation }}
     <table
       class="entityTable system-check"
       id="systemCheckRequired"
-      v-content-table="{off: !isInstallation}"
+      v-content-table="{off: isInstallation}"
     >
       <tbody>
         <DiagnosticTable
@@ -49,7 +48,7 @@
     <table
       class="entityTable system-check"
       id="systemCheckOptional"
-      v-content-table="{off: !isInstallation}"
+      v-content-table="{off: isInstallation}"
     >
       <tbody>
         <DiagnosticTable
@@ -66,7 +65,7 @@
     <table
       class="entityTable system-check"
       id="systemCheckInformational"
-      v-content-table="{off: !isInstallation}"
+      v-content-table="{off: isInstallation}"
     >
       <tbody>
         <DiagnosticTable
