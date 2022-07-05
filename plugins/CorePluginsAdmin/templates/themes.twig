@@ -28,14 +28,17 @@
     </p>
 </div>
 
-<div piwik-content-block content-title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|e('html_attr') }}"
-     piwik-plugin-management>
+<div
+    vue-entry="CorePluginsAdmin.PluginsTable"
+    title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|json_encode|e('html_attr') }}"
+    is-theme="true"
+    display-admin-links="{{ isPluginsAdminEnabled|json_encode|e('html_attr') }}"
+    plugins-info="{{ pluginsInfo|default({})|json_encode|e('html_attr') }}"
+    uninstall-nonce="{{ uninstallNonce|json_encode|e('html_attr') }}"
+    deactivate-nonce="{{ deactivateNonce|json_encode|e('html_attr') }}"
+    activate-nonce="{{ activateNonce|json_encode|e('html_attr') }}"
+    marketplace-plugin-names="{{ marketplacePluginNames|default([])|json_encode|e('html_attr') }}"
+    plugin-names-having-settings="{{ pluginNamesHavingSettings|default([])|json_encode|e('html_attr') }}"
+></div>
 
-    <p>
-    </p>
-
-    {{ plugins.pluginsFilter() }}
-
-    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames, isPluginsAdminEnabled ) }}
-</div>
 {% endblock %}
