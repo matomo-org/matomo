@@ -153,7 +153,7 @@ class ReportsProvider
              *     public function filterReports(&$reports)
              *     {
              *         foreach ($reports as $index => $report) {
-             *              if ($report->getCategory() === 'Actions') {}
+             *              if ($report->getCategoryId() === 'General_Actions') {
              *                  unset($reports[$index]); // remove all reports having this action
              *              }
              *         }
