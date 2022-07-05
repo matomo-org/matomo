@@ -30,8 +30,7 @@ class OsVersion extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $userAgent = $request->getUserAgent();
-        $parser    = $this->getUAParser($userAgent);
+        $parser    = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
 
         return $parser->getOs('version');
     }

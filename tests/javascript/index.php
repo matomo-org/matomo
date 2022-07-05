@@ -2096,7 +2096,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(121);
+        expect(123);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2156,6 +2156,8 @@ function PiwikTest() {
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
         equal( typeof tracker.setGenerationTimeMs, 'function', 'setGenerationTimeMs' );
         equal( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
+        equal( typeof tracker.setExcludedReferrers, 'function', 'setExcludedReferrers' );
+        equal( typeof tracker.getExcludedReferrers, 'function', 'getExcludedReferrers' );
         equal( typeof tracker.setCustomUrl, 'function', 'setCustomUrl' );
         equal( typeof tracker.setDocumentTitle, 'function', 'setDocumentTitle' );
         equal( typeof tracker.setDownloadClasses, 'function', 'setDownloadClasses' );
@@ -3284,6 +3286,7 @@ function PiwikTest() {
         expect(5);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token": '---' });
@@ -3592,6 +3595,7 @@ if ($mysql) {
         expect(11);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token" : getAlwaysUseSendBeaconToken() });
@@ -3649,8 +3653,44 @@ if ($mysql) {
         equal( tracker2.getAttributionReferrerUrl(), 'http://www.google.fr/?query=test', "getAttributionReferrerUrl() should be read from cookie in new tracker")
     });
 
+    test("referrer ignore list", function() {
+        expect(23);
+
+        var testCases = [
+            ['no exclusion', 'https://www.google.fr/?query=test', '', false],
+            ['host exclusion matches', 'https://www.google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://www.google.fr/?query=test', 'google.fr', true],
+            ['host exclusion not matching', 'https://www.google.de/?query=test', 'www.google.fr', false],
+            ['wildcard subdomain exclusion matches', 'https://www.google.fr/?query=test', '*.google.fr', true],
+            ['host with path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/', true],
+            ['host with path exclusion not matching', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/shipping', false],
+            ['host with wild card path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed*', true],
+            ['host with wild card path exclusion matches again', 'https://www.paypal.com/proceed-my-payment/', 'www.paypal.com/proceed*', true],
+        ];
+
+        for (var i=0; i < testCases.length; i++) {
+            var testName = testCases[i][0];
+            var referrerUrl = testCases[i][1];
+            var excludedReferrer = testCases[i][2];
+            var result = testCases[i][3];
+            var expectedExcludedReferrer = [];
+
+            var tracker = Piwik.getTracker();
+            tracker.setTrackerUrl("matomo.php");
+            tracker.setSiteId(1);
+            tracker.setReferrerUrl(referrerUrl);
+            if (excludedReferrer) {
+                tracker.setExcludedReferrers(excludedReferrer);
+                expectedExcludedReferrer = tracker.hook.test._isString(excludedReferrer) ? [excludedReferrer] : excludedReferrer;
+            }
+            deepEqual(tracker.getExcludedReferrers(), expectedExcludedReferrer, testName + " - check getExcludedReferrers()");
+            deepEqual(tracker.hook.test._isReferrerExcluded(referrerUrl), result, testName + " - check isReferrerExcluded()");
+        }
+    });
+
     test("tracking", function() {
-        expect(178);
+        expect(180);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3668,6 +3708,7 @@ if ($mysql) {
             };
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
 
@@ -3792,6 +3833,12 @@ if ($mysql) {
 
         strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
+        tracker.setExcludedReferrers('ignored.referrer.url')
+        tracker.setReferrerUrl('http://ignored.referrer.url/path/page?query=string');
+        tracker.trackPageView();
+
+        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
 
@@ -3799,7 +3846,7 @@ if ($mysql) {
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
-        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+        strictEqual(3, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageviewCustomTitle = tracker.getConfigIdPageView();
         ok(idPageviewCustomTitle != idPageview, 'trackPageview, should generate a new random pageview id whenever it is called');
@@ -3888,14 +3935,14 @@ if ($mysql) {
         attributionInfo2 = tracker.getAttributionInfo();
         ok( attributionInfo1 && attributionInfo2 && attributionInfo1.length == attributionInfo2.length, "getAttributionInfo()" );
         referrer2 = tracker.getAttributionReferrerUrl();
-        ok( referrer2 == referrerUrl, "getAttributionReferrerUrl()" );
-        ok( referrer1 == referrerUrl, "async getAttributionReferrerUrl()" );
+        equal( referrer2, referrerUrl, "getAttributionReferrerUrl()" );
+        equal( referrer1, referrerUrl, "async getAttributionReferrerUrl()" );
         referrerTimestamp2 = tracker.getAttributionReferrerTimestamp();
-        ok( referrerTimestamp2 == referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
+        equal( referrerTimestamp2, referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
         campaignName2 = tracker.getAttributionCampaignName();
         campaignKeyword2 = tracker.getAttributionCampaignKeyword();
-        ok( campaignName2 == "YEAH", "getAttributionCampaignName()");
-        ok( campaignKeyword2 == "RIGHT!", "getAttributionCampaignKeyword()");
+        equal( campaignName2, "YEAH", "getAttributionCampaignName()");
+        equal( campaignKeyword2, "RIGHT!", "getAttributionCampaignKeyword()");
 
         // Test visitor ID at the start is the same at the end
         var visitorIdEnd = tracker.getVisitorId();
@@ -4162,7 +4209,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "54", "count tracking events" );
+                equal( countTrackingEvents[1], "55", "count tracking events" );
             }
 
             // firing callback
@@ -4194,6 +4241,7 @@ if ($mysql) {
             ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
             ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
             ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
+            ok( ! /ignored.referrer.url/.test( results ), "ignored referrer url isn't sent with request" );
             ok( /cookiename/.test( results ) && /cookievalue/.test( results ), "tracking request contains custom variable" );
             ok( /DeleteCustomVariableCookie/.test( results ), "tracking request deleting custom variable" );
             ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
@@ -4947,6 +4995,7 @@ if ($mysql) {
 
         var queue;
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setCustomData('token', getConsentToken() + '1');
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
         strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
@@ -5212,6 +5261,7 @@ if ($mysql) {
         expect(8);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
 
         ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
         equal( typeof tracker, typeof _paq, "async tracker proxy" );
@@ -5226,7 +5276,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 530, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 530 ' );
+        ok( msSinceStarted < 540, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 540 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
