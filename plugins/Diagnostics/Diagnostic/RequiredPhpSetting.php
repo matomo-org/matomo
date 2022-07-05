@@ -2,7 +2,9 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-class RequiredPhpSetting
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class RequiredPhpSetting implements \JsonSerializable
 {
     
     /** @var string */
@@ -100,5 +102,9 @@ class RequiredPhpSetting
         
         return $this->setting . ' ' . implode(' OR ', $checks);
     }
-    
+
+    public function jsonSerialize()
+    {
+        return $this->__toString();
+    }
 }

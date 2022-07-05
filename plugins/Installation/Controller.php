@@ -23,6 +23,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVue\CoreVue;
+use Piwik\Plugins\Diagnostics\DiagnosticReport;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -119,6 +120,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
         $view->isInstallation = true;
+        $view->systemCheckInfo = $this->getSystemCheckTextareaValue($view->diagnosticReport);
 
         $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
@@ -495,6 +497,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
+        $view->systemCheckInfo = $this->getSystemCheckTextareaValue($view->diagnosticReport);
         return $view->render();
     }
 
@@ -570,12 +573,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
         $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
 
+        $installationUmd = Development::isEnabled() ? 'Installation.umd.js' : 'Installation.umd.min.js';
+        $files[] = "plugins/Installation/vue/dist/$installationUmd";
+
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
             $files[] = 'tests/resources/screenshot-override/override.js';
         }
 
-        return AssetManager::compileCustomJs($files);
+        $result = StaticContainer::get('Piwik\Translation\Translator')->getJavascriptTranslations() . "\n";
+        $result .= AssetManager::compileCustomJs($files);
+        return $result;
     }
 
     private function getParam($name)
@@ -771,4 +779,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         });
     }
 
+    private function getSystemCheckTextareaValue(DiagnosticReport $diagnosticReport)
+    {
+        $view = new \Piwik\View('@Installation/_systemCheckSection');
+        $view->diagnosticReport = $diagnosticReport;
+        return $view->render();
+    }
 }

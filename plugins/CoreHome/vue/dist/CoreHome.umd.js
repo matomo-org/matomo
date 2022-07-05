@@ -11758,13 +11758,25 @@ window.angular.module('piwikApp').directive('piwikContentIntro', piwikContentInt
  */
 
 /* harmony default export */ var ContentTable = ({
-  mounted: function mounted(el) {
+  mounted: function mounted(el, binding) {
+    var _binding$value;
+
+    if (binding !== null && binding !== void 0 && (_binding$value = binding.value) !== null && _binding$value !== void 0 && _binding$value.off) {
+      return;
+    }
+
     el.classList.add('card', 'card-table', 'entityTable');
   },
-  updated: function updated(el) {
-    // classes can be overwritten when elements bind to :class, nextTick + using
+  updated: function updated(el, binding) {
+    var _binding$value2;
+
+    if (binding !== null && binding !== void 0 && (_binding$value2 = binding.value) !== null && _binding$value2 !== void 0 && _binding$value2.off) {
+      return;
+    } // classes can be overwritten when elements bind to :class, nextTick + using
     // updated avoids this problem (and doing in both mounted and updated avoids a temporary
     // state where the classes aren't added)
+
+
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
       el.classList.add('card', 'card-table', 'entityTable');
     });
