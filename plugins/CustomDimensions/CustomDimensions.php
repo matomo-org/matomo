@@ -281,8 +281,10 @@ class CustomDimensions extends Plugin
         $translationKeys[] = 'CustomDimensions_CustomDimensions';
         $translationKeys[] = 'CustomDimensions_CustomDimensionsIntro';
         $translationKeys[] = 'CustomDimensions_CustomDimensionsIntroNext';
+        $translationKeys[] = 'CustomDimensions_ScopeTitleVisit';
         $translationKeys[] = 'CustomDimensions_ScopeDescriptionVisit';
         $translationKeys[] = 'CustomDimensions_ScopeDescriptionVisitMoreInfo';
+        $translationKeys[] = 'CustomDimensions_ScopeTitleAction';
         $translationKeys[] = 'CustomDimensions_ScopeDescriptionAction';
         $translationKeys[] = 'CustomDimensions_ScopeDescriptionActionMoreInfo';
         $translationKeys[] = 'CustomDimensions_IncreaseAvailableCustomDimensionsTitle';

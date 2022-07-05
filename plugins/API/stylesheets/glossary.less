@@ -1,5 +1,5 @@
 
-.glossary .table-of-contents a {
+.glossary .pagination a {
   box-sizing: content-box;
   padding: 0 10px 5px;
   &:hover, &.active {
@@ -8,4 +8,14 @@
     border-left: none;
     border-bottom: 2px solid @color-blue-piwik;
   }
+}
+
+.glossary .pagination li {
+  // a {line-height: 30px + padding: 5px}
+  // vs standard .pagination li {height: 30px}
+  height: 35px;
+}
+
+.glossary .scrollspy {
+  padding-top: 2rem;
 }
