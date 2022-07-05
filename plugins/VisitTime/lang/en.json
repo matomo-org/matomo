@@ -48,6 +48,6 @@
         "WidgetServerTime": "Visits by server time",
         "WidgetServerTimeDocumentation": "This graph shows what time it was in the %1$s server's time zone %2$s during the visits.",
         "WidgetSiteTimeDocumentation": "This graph shows what time it was in the %1$s site's time zone %2$s during the visits.",
-        "TimesSubcategoryHelp": "The \"Times\" section shows when people visit your site. Popular local times helps you cater your site to their lives. The most popular server times reveals techincal demand."
+        "TimesSubcategoryHelp": "The \"Times\" section shows when people visit your site. Popular local times helps you cater your site to their lives. The most popular server times reveals technical demand."
     }
 }
