@@ -19,7 +19,7 @@
         v-html="$sanitize(teaserExtendPiwikByPluginText)"
       ></span>
 
-      <span v-if="!isPluginsAdminEnabled">
+      <span v-if="!isPluginsAdminEnabled" style="margin-right:3.5px">
         <br/>{{ translate('CorePluginsAdmin_DoMoreContactPiwikAdmins') }}
       </span>
 
