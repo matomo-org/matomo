@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\SitesManager;
 
 use DateTimeZone;
@@ -14,6 +16,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
 use Matomo\Network\IPUtils;
 use Piwik\Option;
@@ -61,6 +64,7 @@ class API extends \Piwik\Plugin\API
     const OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchKeywordParameters';
     const OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchCategoryParameters';
     const OPTION_EXCLUDED_USER_AGENTS_GLOBAL = 'SitesManager_ExcludedUserAgentsGlobal';
+    const OPTION_EXCLUDED_REFERRERS_GLOBAL = 'SitesManager_ExcludedReferrersGlobal';
     const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
 
     /**
@@ -106,16 +110,29 @@ class API extends \Piwik\Plugin\API
      * @param bool   $crossDomain
      * @param bool   $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @param bool   $excludedQueryParams
+     * @param mixed  $excludedReferrers array or comma separated string of ignored referrers. Defaults to configured ignored referrers
      *
      * @return string The Javascript tag ready to be included on the HTML pages
      * @throws Exception
      */
-    public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
-                                     $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
-                                     $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                                     $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
-                                     $crossDomain = false, $forceMatomoEndpoint = false, $excludedQueryParams = false)
-    {
+    public function getJavascriptTag(
+        $idSite,
+        $piwikUrl = '',
+        $mergeSubdomains = false,
+        $groupPageTitlesByDomain = false,
+        $mergeAliasUrls = false,
+        $visitorCustomVariables = false,
+        $pageCustomVariables = false,
+        $customCampaignNameQueryParam = false,
+        $customCampaignKeywordParam = false,
+        $doNotTrack = false,
+        $disableCookies = false,
+        $trackNoScript = false,
+        $crossDomain = false,
+        $forceMatomoEndpoint = false,
+        $excludedQueryParams = false,
+        $excludedReferrers = false
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         if (empty($piwikUrl)) {
@@ -140,13 +157,25 @@ class API extends \Piwik\Plugin\API
             $generator->forceMatomoEndpoint();
         }
 
-        $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
-                                     $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
-                                     $customCampaignNameQueryParam, $customCampaignKeywordParam,
-                                     $doNotTrack, $disableCookies, $trackNoScript, $crossDomain,
-                                     $excludedQueryParams);
-        $code = str_replace(array('<br>', '<br />', '<br/>'), '', $code);
-        return $code;
+        $code = $generator->generate(
+            $idSite,
+            $piwikUrl,
+            $mergeSubdomains,
+            $groupPageTitlesByDomain,
+            $mergeAliasUrls,
+            $visitorCustomVariables,
+            $pageCustomVariables,
+            $customCampaignNameQueryParam,
+            $customCampaignKeywordParam,
+            $doNotTrack,
+            $disableCookies,
+            $trackNoScript,
+            $crossDomain,
+            $excludedQueryParams,
+            $excludedReferrers
+        );
+
+        return str_replace(['<br>', '<br />', '<br/>'], '', $code);
     }
 
     /**
@@ -159,9 +188,15 @@ class API extends \Piwik\Plugin\API
      * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The HTML tracking code.
      */
-    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false, $forceMatomoEndpoint = false)
-    {
-        $urlParams = array('idsite' => $idSite, 'rec' => 1);
+    public function getImageTrackingCode(
+        $idSite,
+        $piwikUrl = '',
+        $actionName = false,
+        $idGoal = false,
+        $revenue = false,
+        $forceMatomoEndpoint = false
+    ) {
+        $urlParams = ['idsite' => $idSite, 'rec' => 1];
 
         if ($actionName !== false) {
             $urlParams['action_name'] = urlencode(Common::unsanitizeInputValue($actionName));
@@ -184,7 +219,7 @@ class API extends \Piwik\Plugin\API
          * @param array &$urlParams The query parameters used in the <img> element's src
          *                          URL. See Matomo's image tracking docs for more info.
          */
-        Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
+        Piwik::postEvent('SitesManager.getImageTrackingCode', [&$piwikUrl, &$urlParams]);
 
         $trackerCodeGenerator = new TrackerCodeGenerator();
         if ($forceMatomoEndpoint) {
@@ -192,7 +227,7 @@ class API extends \Piwik\Plugin\API
         }
         $matomoPhp = $trackerCodeGenerator->getPhpTrackerEndpoint();
 
-        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/'.$matomoPhp.'?' . Url::getQueryStringFromParameters($urlParams);
+        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/' . $matomoPhp . '?' . Url::getQueryStringFromParameters($urlParams);
         $html = "<!-- Matomo Image Tracker-->
 <img referrerpolicy=\"no-referrer-when-downgrade\" src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
@@ -290,7 +325,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $sites  = $this->getModel()->getAllSites();
-        $return = array();
+        $return = [];
         foreach ($sites as $site) {
             $this->enrichSite($site);
             $return[$site['idsite']] = $site;
@@ -314,7 +349,7 @@ class API extends \Piwik\Plugin\API
             return $this->getSitesId();
         } catch (Exception $e) {
             // can be called before Matomo tables are created so return empty
-            return array();
+            return [];
         }
     }
 
@@ -428,20 +463,20 @@ class API extends \Piwik\Plugin\API
             return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
 
-        if (!empty($_restrictSitesToLogin)
+        if (
+            !empty($_restrictSitesToLogin)
             // Only Super User or logged in user can see viewable sites for a specific login,
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
             && (Piwik::hasUserSuperUserAccessOrIsTheUser($_restrictSitesToLogin)
                 || $scheduler->isRunningTask())
         ) {
-
             if (Piwik::hasTheUserSuperUserAccess($_restrictSitesToLogin)) {
                 return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
             }
 
             $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
-            $sitesId   = array();
+            $sitesId   = [];
 
             foreach ($accessRaw as $access) {
                 $sitesId[] = $access['idsite'];
@@ -482,13 +517,13 @@ class API extends \Piwik\Plugin\API
         $hostname = str_replace('https://', '', $hostname);
 
         // return all variations of the URL
-        return array(
+        return [
             $url,
             "http://" . $hostname,
             "http://www." . $hostname,
             "https://" . $hostname,
             "https://www." . $hostname
-        );
+        ];
     }
 
     /**
@@ -528,7 +563,7 @@ class API extends \Piwik\Plugin\API
 
         $ids = $this->getModel()->getSitesFromTimezones($timezones);
 
-        $return = array();
+        $return = [];
         foreach ($ids as $id) {
             $return[] = $id['idsite'];
         }
@@ -583,37 +618,40 @@ class API extends \Piwik\Plugin\API
      * @see getKeepURLFragmentsGlobal.
      * @param string $type The website type, defaults to "website" if not set.
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
+     * @param string|null $excludedReferrers Comma separated list of hosts/urls to exclude from referrer detection
      *
      * @return int the website ID created
      */
-    public function addSite($siteName,
-                            $urls = null,
-                            $ecommerce = null,
-                            $siteSearch = null,
-                            $searchKeywordParameters = null,
-                            $searchCategoryParameters = null,
-                            $excludedIps = null,
-                            $excludedQueryParameters = null,
-                            $timezone = null,
-                            $currency = null,
-                            $group = null,
-                            $startDate = null,
-                            $excludedUserAgents = null,
-                            $keepURLFragments = null,
-                            $type = null,
-                            $settingValues = null,
-                            $excludeUnknownUrls = null)
-    {
+    public function addSite(
+        $siteName,
+        $urls = null,
+        $ecommerce = null,
+        $siteSearch = null,
+        $searchKeywordParameters = null,
+        $searchCategoryParameters = null,
+        $excludedIps = null,
+        $excludedQueryParameters = null,
+        $timezone = null,
+        $currency = null,
+        $group = null,
+        $startDate = null,
+        $excludedUserAgents = null,
+        $keepURLFragments = null,
+        $type = null,
+        $settingValues = null,
+        $excludeUnknownUrls = null,
+        $excludedReferrers = null
+    ) {
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
 
         $this->checkName($siteName);
 
         if (!isset($settingValues)) {
-            $settingValues = array();
+            $settingValues = [];
         }
 
-        $coreProperties = array();
+        $coreProperties = [];
         $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
@@ -625,6 +663,7 @@ class API extends \Piwik\Plugin\API
         $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents ?? ''), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_referrers', explode(',', $excludedReferrers ?? ''), $coreProperties, $settingValues);
 
         $timezone = trim($timezone ?? '');
         if (empty($timezone)) {
@@ -637,7 +676,7 @@ class API extends \Piwik\Plugin\API
         }
         $this->checkValidCurrency($currency);
 
-        $bind = array('name' => $siteName);
+        $bind = ['name' => $siteName];
         $bind['timezone']   = $timezone;
         $bind['currency']   = $currency;
         $bind['main_url']   = '';
@@ -700,7 +739,7 @@ class API extends \Piwik\Plugin\API
          *
          * @param int $idSite The ID of the site that was added.
          */
-        Piwik::postEvent('SitesManager.addSite.end', array($idSite));
+        Piwik::postEvent('SitesManager.addSite.end', [$idSite]);
 
         return (int) $idSite;
     }
@@ -710,23 +749,20 @@ class API extends \Piwik\Plugin\API
         $pluginName = 'WebsiteMeasurable';
 
         if (isset($value)) {
-
             if (empty($coreProperties[$pluginName])) {
-                $coreProperties[$pluginName] = array();
+                $coreProperties[$pluginName] = [];
             }
 
-            $coreProperties[$pluginName][] = array('name' => $fieldName, 'value' => $value);
-
+            $coreProperties[$pluginName][] = ['name' => $fieldName, 'value' => $value];
         } elseif (!empty($settingValues[$pluginName])) {
             // we check if the value is defined in the setting values instead
             foreach ($settingValues[$pluginName] as $key => $setting) {
                 if ($setting['name'] === $fieldName) {
-
                     if (empty($coreProperties[$pluginName])) {
-                        $coreProperties[$pluginName] = array();
+                        $coreProperties[$pluginName] = [];
                     }
 
-                    $coreProperties[$pluginName][] = array('name' => $fieldName, 'value' => $setting['value']);
+                    $coreProperties[$pluginName][] = ['name' => $fieldName, 'value' => $setting['value']];
                     return $coreProperties;
                 }
             }
@@ -811,7 +847,7 @@ class API extends \Piwik\Plugin\API
          *
          * @param int $idSite The ID of the site being deleted.
          */
-        Piwik::postEvent('SitesManager.deleteSite.end', array($idSite));
+        Piwik::postEvent('SitesManager.deleteSite.end', [$idSite]);
     }
 
     private function checkValidTimezone($timezone)
@@ -824,13 +860,13 @@ class API extends \Piwik\Plugin\API
                 }
             }
         }
-        throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', array($timezone)));
+        throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', [$timezone]));
     }
 
     private function checkValidCurrency($currency)
     {
         if (!in_array($currency, array_keys($this->getCurrencyList()))) {
-            throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
+            throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidCurrency', [$currency, "USD, EUR, etc."]));
         }
     }
 
@@ -853,7 +889,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $excludedIps Comma separated list of IP addresses
      * @throws Exception
-     * @return array of IPs
+     * @return string Comma separated list of IP addresses
      */
     private function checkAndReturnExcludedIps($excludedIps)
     {
@@ -867,12 +903,16 @@ class API extends \Piwik\Plugin\API
 
         foreach ($ips as $ip) {
             if (!$this->isValidIp($ip)) {
-                throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
+                throw new Exception(
+                    $this->translator->translate(
+                        'SitesManager_ExceptionInvalidIPFormat',
+                        [$ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5"]
+                    )
+                );
             }
         }
 
-        $ips = implode(',', $ips);
-        return $ips;
+        return implode(',', $ips);
     }
 
     /**
@@ -894,7 +934,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!is_array($urls)) {
-            $urls = array($urls);
+            $urls = [$urls];
         }
 
         $urlsInit = $this->getSiteUrlsFromId($idSite);
@@ -919,7 +959,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return int the number of inserted URLs
      */
-    public function setSiteAliasUrls($idSite, $urls = array())
+    public function setSiteAliasUrls($idSite, $urls = [])
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -950,7 +990,7 @@ class API extends \Piwik\Plugin\API
             return false;
         }
 
-        return array(IPUtils::binaryToStringIP($range[0]), IPUtils::binaryToStringIP($range[1]));
+        return [IPUtils::binaryToStringIP($range[0]), IPUtils::binaryToStringIP($range[1])];
     }
 
     /**
@@ -1049,6 +1089,75 @@ class API extends \Piwik\Plugin\API
         // update option
         $excludedUserAgents = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
         Option::set(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $excludedUserAgents);
+
+        // make sure tracker cache will reflect change
+        Cache::deleteTrackerCache();
+    }
+
+    /**
+     * Returns the list of urls/hosts that should be ignored when detecting referrers for the given site.
+     *
+     * @return array list of urls/hosts
+     */
+    public function getExcludedReferrers($idSite)
+    {
+        try {
+            $attributes = Cache::getCacheWebsiteAttributes($idSite);
+
+            if (isset($attributes['excluded_referrers'])) {
+                return $attributes['excluded_referrers'];
+            }
+        } catch (UnexpectedWebsiteFoundException $e) {
+            $cached = Cache::getCacheGeneral();
+            if (isset($cached['global_excluded_referrers'])) {
+                return $cached['global_excluded_referrers'];
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * Returns the global list of urls/hosts that should be ignored when detecting referrers.
+     * If a visitor is coming from a site on this list, it will be treated as direct entry
+     *
+     * @return string Comma separated list of strings
+     */
+    public function getExcludedReferrersGlobal(): string
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+        $exclusion = Option::get(self::OPTION_EXCLUDED_REFERRERS_GLOBAL);
+
+        return is_string($exclusion) ? $exclusion : '';
+    }
+
+    /**
+     * Sets list of urls/hosts that should be ignored when detecting referrers. For more info,
+     * @see getExcludedReferrersGlobal.
+     *
+     * @param string $excludedReferrers Comma separated list of strings. Each element is trimmed,
+     *                                   and empty strings are removed.
+     */
+    public function setGlobalExcludedReferrers(string $excludedReferrers): void
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $excludedUrls = $this->checkAndReturnCommaSeparatedStringList($excludedReferrers);
+
+        foreach (explode(',', $excludedUrls) ?: [] as $url) {
+            // We allow urls to be provided:
+            // - fully qualified like http://example.url/path
+            // - without protocol like example.url/path
+            // - with subdomain wildcard like .example.url/path
+            $prefixedUrl = 'https://' . ltrim(preg_replace('/^https?:\/\//', '', $url), '.');
+            $parsedUrl = @parse_url($prefixedUrl);
+            if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
+                throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
+            }
+        }
+
+        // update option
+        Option::set(self::OPTION_EXCLUDED_REFERRERS_GLOBAL, $excludedUrls);
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
@@ -1195,31 +1304,34 @@ class API extends \Piwik\Plugin\API
      * @param string $type The Website type, default value is "website"
      * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
+     * @param string|null $excludedReferrers Comma separated list of hosts/urls to exclude from referrer detection
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
      *
      * @return bool true on success
      */
-    public function updateSite($idSite,
-                               $siteName = null,
-                               $urls = null,
-                               $ecommerce = null,
-                               $siteSearch = null,
-                               $searchKeywordParameters = null,
-                               $searchCategoryParameters = null,
-                               $excludedIps = null,
-                               $excludedQueryParameters = null,
-                               $timezone = null,
-                               $currency = null,
-                               $group = null,
-                               $startDate = null,
-                               $excludedUserAgents = null,
-                               $keepURLFragments = null,
-                               $type = null,
-                               $settingValues = null,
-                               $excludeUnknownUrls = null)
-    {
+    public function updateSite(
+        $idSite,
+        $siteName = null,
+        $urls = null,
+        $ecommerce = null,
+        $siteSearch = null,
+        $searchKeywordParameters = null,
+        $searchCategoryParameters = null,
+        $excludedIps = null,
+        $excludedQueryParameters = null,
+        $timezone = null,
+        $currency = null,
+        $group = null,
+        $startDate = null,
+        $excludedUserAgents = null,
+        $keepURLFragments = null,
+        $type = null,
+        $settingValues = null,
+        $excludeUnknownUrls = null,
+        $excludedReferrers = null
+    ) {
         Piwik::checkUserHasAdminAccess($idSite);
         SitesManager::dieIfSitesAdminIsDisabled();
 
@@ -1230,7 +1342,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // Build the SQL UPDATE based on specified updates to perform
-        $bind = array();
+        $bind = [];
 
         if (!is_null($siteName)) {
             $this->checkName($siteName);
@@ -1238,11 +1350,11 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!isset($settingValues)) {
-            $settingValues = array();
+            $settingValues = [];
         }
 
         if (empty($coreProperties)) {
-            $coreProperties = array();
+            $coreProperties = [];
         }
 
         $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
@@ -1256,6 +1368,7 @@ class API extends \Piwik\Plugin\API
         $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents ?? ''), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_referrers', explode(',', $excludedReferrers ?? ''), $coreProperties, $settingValues);
 
         if (isset($currency)) {
             $currency = trim($currency);
@@ -1267,7 +1380,8 @@ class API extends \Piwik\Plugin\API
             $this->checkValidTimezone($timezone);
             $bind['timezone'] = $timezone;
         }
-        if (isset($group)
+        if (
+            isset($group)
             && Piwik::hasUserSuperUserAccess()
         ) {
             $bind['group'] = trim($group);
@@ -1346,7 +1460,7 @@ class API extends \Piwik\Plugin\API
         $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
         $currency = $dataProvider->getCurrencyList();
 
-        $return = array();
+        $return = [];
         foreach (array_keys($currency) as $currencyCode) {
             $return[$currencyCode] = $this->translator->translate('Intl_Currency_' . $currencyCode) .
               ' (' . $this->translator->translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
@@ -1393,13 +1507,13 @@ class API extends \Piwik\Plugin\API
     public function getTimezonesList()
     {
         if (!SettingsServer::isTimezoneSupportEnabled()) {
-            return array('UTC' => $this->getTimezonesListUTCOffsets());
+            return ['UTC' => $this->getTimezonesListUTCOffsets()];
         }
 
         $countries = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider')->getCountryList();
 
-        $return = array();
-        $continents = array();
+        $return = [];
+        $continents = [];
         foreach ($countries as $countryCode => $continentCode) {
             $countryCode = strtoupper($countryCode);
             $timezones = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
@@ -1436,7 +1550,7 @@ class API extends \Piwik\Plugin\API
     public function getTimezoneName($timezone, $countryCode = null, $multipleTimezonesInCountry = null)
     {
         if (substr($timezone, 0, 3) === 'UTC') {
-            return $this->translator->translate('SitesManager_Format_Utc', str_replace(array('.25', '.5', '.75'), array(':15', ':30', ':45'), substr($timezone, 3)));
+            return $this->translator->translate('SitesManager_Format_Utc', str_replace(['.25', '.5', '.75'], [':15', ':30', ':45'], substr($timezone, 3)));
         }
 
         if (!isset($countryCode)) {
@@ -1463,7 +1577,7 @@ class API extends \Piwik\Plugin\API
         $return = $this->translator->translate('Intl_Country_' . $countryCode);
 
         if ($multipleTimezonesInCountry) {
-            $translationId = 'Intl_Timezone_' . str_replace(array('_', '/'), array('', '_'), $timezone);
+            $translationId = 'Intl_Timezone_' . str_replace(['_', '/'], ['', '_'], $timezone);
             $city = $this->translator->translate($translationId);
 
             // Fall back to English identifier, if translation is missing due to differences in tzdata in different PHP versions.
@@ -1481,10 +1595,10 @@ class API extends \Piwik\Plugin\API
     private function getTimezonesListUTCOffsets()
     {
         // manually add the UTC offsets
-        $GmtOffsets = array(-12, -11.5, -11, -10.5, -10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5,
-                            0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 5.75, 6, 6.5, 7, 7.5, 8, 8.5, 8.75, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.75, 13, 13.75, 14);
+        $GmtOffsets = [-12, -11.5, -11, -10.5, -10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5,
+                            0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 5.75, 6, 6.5, 7, 7.5, 8, 8.5, 8.75, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.75, 13, 13.75, 14];
 
-        $return = array();
+        $return = [];
         foreach ($GmtOffsets as $offset) {
             $offset = Common::forceDotAsSeparatorForDecimalPoint($offset);
 
@@ -1520,7 +1634,8 @@ class API extends \Piwik\Plugin\API
     private function removeTrailingSlash($url)
     {
         // if there is a final slash, we take the URL without this slash (expected URL format)
-        if (strlen($url) > 5
+        if (
+            strlen($url) > 5
             && $url[strlen($url) - 1] == '/'
         ) {
             $url = substr($url, 0, strlen($url) - 1);
@@ -1576,18 +1691,20 @@ class API extends \Piwik\Plugin\API
         $sitesHavingOldGroup = $this->getSitesFromGroup($oldGroupName);
 
         foreach ($sitesHavingOldGroup as $site) {
-            $this->updateSite($site['idsite'],
-                              $siteName = null,
-                              $urls = null,
-                              $ecommerce = null,
-                              $siteSearch = null,
-                              $searchKeywordParameters = null,
-                              $searchCategoryParameters = null,
-                              $excludedIps = null,
-                              $excludedQueryParameters = null,
-                              $timezone = null,
-                              $currency = null,
-                              $newGroupName);
+            $this->updateSite(
+                $site['idsite'],
+                $siteName = null,
+                $urls = null,
+                $ecommerce = null,
+                $siteSearch = null,
+                $searchKeywordParameters = null,
+                $searchCategoryParameters = null,
+                $excludedIps = null,
+                $excludedQueryParameters = null,
+                $timezone = null,
+                $currency = null,
+                $newGroupName
+            );
         }
 
         return true;
@@ -1608,7 +1725,7 @@ class API extends \Piwik\Plugin\API
     {
         $ids = $this->getSitesIdWithAtLeastViewAccess();
         if (empty($ids)) {
-            return array();
+            return [];
         }
 
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
@@ -1637,5 +1754,4 @@ class API extends \Piwik\Plugin\API
 
         return SettingsPiwik::getWebsitesCountToDisplay();
     }
-
 }
