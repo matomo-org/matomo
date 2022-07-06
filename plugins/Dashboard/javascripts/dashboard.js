@@ -31,9 +31,9 @@ function createDashboard() {
                 Promise.all([
                   window.Dashboard.DashboardStore.reloadAllDashboards(),
                   window.CoreHome.ReportingMenuStore.reloadMenuItems(),
+                  $('#dashboardWidgetsArea').dashboard('rebuildMenu'),
                 ]).then(function () {
                   $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
-                  $('#dashboardWidgetsArea').dashboard('rebuildMenu');
                 });
             }
         );
