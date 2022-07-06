@@ -7,7 +7,7 @@
 <template>
   <div
     ref="root"
-    class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
+    class="dashboard-manager piwikSelector"
     v-expand-on-click="{expander: 'expander', onClosed: onClose}"
     v-tooltips="{show: false}"
     @click="onOpen()"
@@ -28,6 +28,7 @@
         </li>
         <li>
           <div class="manageDashboard">{{ translate('Dashboard_ManageDashboard') }}</div>
+          {{dashboardActions}}
 
           <ul>
             <li
@@ -112,7 +113,7 @@ export default defineComponent({
     Matomo.postEvent('Dashboard.DashboardSettings.mounted', this.$refs.root);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ((this.$refs.root as HTMLElement) as any).widgetPreview({
+    $((this.$refs.root as HTMLElement) as any).widgetPreview({
       isWidgetAvailable,
       onSelect: (widgetUniqueId: string) => {
         window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, (widget) => {

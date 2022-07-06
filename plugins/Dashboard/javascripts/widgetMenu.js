@@ -481,6 +481,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 this.widgetAjaxRequest = null;
 
                 $(this).addClass('widgetpreview-base');
+                console.log('here?', this);
 
                 this.settings = jQuery.extend({}, defaultSettings, userSettings);
 
