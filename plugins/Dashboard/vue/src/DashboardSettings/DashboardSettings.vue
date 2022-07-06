@@ -7,7 +7,7 @@
 <template>
   <div
     ref="root"
-    class="dashboard-manager piwikSelector"
+    class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
     v-expand-on-click="{expander: 'expander', onClosed: onClose}"
     v-tooltips="{show: false}"
     @click="onOpen()"
@@ -28,7 +28,6 @@
         </li>
         <li>
           <div class="manageDashboard">{{ translate('Dashboard_ManageDashboard') }}</div>
-          {{dashboardActions}}
 
           <ul>
             <li
@@ -60,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import {
   Matomo,
   ExpandOnClick,
@@ -109,21 +108,35 @@ export default defineComponent({
       actionTooltips: {} as Record<keyof Window, string>,
     };
   },
-  mounted() {
-    Matomo.postEvent('Dashboard.DashboardSettings.mounted', this.$refs.root);
-
+  setup() {
+    // $.widgetMenu will modify the jquery object it's given, so we have to save it and reuse
+    // it to call functions.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    $((this.$refs.root as HTMLElement) as any).widgetPreview({
-      isWidgetAvailable,
-      onSelect: (widgetUniqueId: string) => {
-        window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, (widget) => {
-          (this.$refs.root as HTMLElement).click(); // close selector
+    const rootJQuery = ref<any>(null);
 
-          widgetSelected(widget as WidgetType);
-        });
-      },
-      resetOnSelect: true,
+    const root = ref<HTMLElement|null>(null);
+
+    onMounted(() => {
+      Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
+
+      rootJQuery.value = $(root.value!);
+      rootJQuery.value.widgetPreview({
+        isWidgetAvailable,
+        onSelect: (widgetUniqueId: string) => {
+          window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, (widget) => {
+            (root.value as HTMLElement).click(); // close selector
+
+            widgetSelected(widget as WidgetType);
+          });
+        },
+        resetOnSelect: true,
+      });
     });
+
+    return {
+      root,
+      rootJQuery,
+    };
   },
   computed: {
     isUserNotAnonymous(): boolean {
@@ -185,8 +198,7 @@ export default defineComponent({
       }
     },
     onClose() {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ($(this.$refs.root as HTMLElement) as any).widgetPreview('reset');
+      this.rootJQuery.widgetPreview('reset');
     },
   },
 });

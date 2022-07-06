@@ -360,7 +360,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=f5d9271e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=59842631
 
 var _hoisted_1 = ["title"];
 
@@ -438,7 +438,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     show: false
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=f5d9271e
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=59842631
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=script&lang=ts
 
@@ -466,23 +466,31 @@ function widgetSelected(widget) {
       actionTooltips: {}
     };
   },
-  mounted: function mounted() {
-    var _this = this;
+  setup: function setup() {
+    // $.widgetMenu will modify the jquery object it's given, so we have to save it and reuse
+    // it to call functions.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var rootJQuery = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
+      external_CoreHome_["Matomo"].postEvent('Dashboard.DashboardSettings.mounted', root.value);
+      rootJQuery.value = DashboardSettingsvue_type_script_lang_ts_$(root.value);
+      rootJQuery.value.widgetPreview({
+        isWidgetAvailable: isWidgetAvailable,
+        onSelect: function onSelect(widgetUniqueId) {
+          window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {
+            root.value.click(); // close selector
 
-    external_CoreHome_["Matomo"].postEvent('Dashboard.DashboardSettings.mounted', this.$refs.root); // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
-    this.$refs.root.widgetPreview({
-      isWidgetAvailable: isWidgetAvailable,
-      onSelect: function onSelect(widgetUniqueId) {
-        window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {
-          _this.$refs.root.click(); // close selector
-
-
-          widgetSelected(widget);
-        });
-      },
-      resetOnSelect: true
+            widgetSelected(widget);
+          });
+        },
+        resetOnSelect: true
+      });
     });
+    return {
+      root: root,
+      rootJQuery: rootJQuery
+    };
   },
   computed: {
     isUserNotAnonymous: function isUserNotAnonymous() {
@@ -544,8 +552,7 @@ function widgetSelected(widget) {
       }
     },
     onClose: function onClose() {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      DashboardSettingsvue_type_script_lang_ts_$(this.$refs.root).widgetPreview('reset');
+      this.rootJQuery.widgetPreview('reset');
     }
   }
 }));
