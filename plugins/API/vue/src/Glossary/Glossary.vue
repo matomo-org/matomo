@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div ref="root">
+  <div ref="root" class="glossaryPage">
     <div class="row">
       <div class="col s12">
         <div v-content-intro>
@@ -46,6 +46,7 @@
                   v-for="(letter, index) in item.letters"
                   :key="index"
                   class="waves-effect"
+                  style="margin-right:3.5px"
                 >
                   <a :href="`#${keyword}${letter}`">{{ letter }}</a>
                 </li>
