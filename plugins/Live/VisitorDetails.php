@@ -97,7 +97,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $sitesModel = new \Piwik\Plugins\SitesManager\Model();
 
-        if (isset($action['type']) && $action['type'] == 'outlink' && isset($action['url'])) {
+        if (isset($action['type']) && in_array($action['type'] ,['outlink', 'download']) && isset($action['url'])) {
             $action['url'] = html_entity_decode($action['url'], ENT_QUOTES, "UTF-8");
         }
 

@@ -123,11 +123,18 @@ function rowEvolutionGetMetricNameFromRow(tr)
                             formatString: '%s',
                             formatter: $.jqplot.NumberFormatter
                         }
-                    }
+                    },
                 }
             };
 
             this.jqplotParams = $.extend(true, {}, defaultParams, params);
+
+            for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
+                this.jqplotParams.axes['y' + i + 'axis'].tickOptions = $.extend(true, {}, {
+                  formatString: '%s',
+                  formatter: $.jqplot.NumberFormatter
+                }, this.jqplotParams.axes['y' + i + 'axis'].tickOptions);
+            }
 
             this._setColors();
         },

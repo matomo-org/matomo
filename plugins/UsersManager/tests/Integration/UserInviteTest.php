@@ -60,7 +60,7 @@ class UserInviteTest extends IntegrationTestCase
         $response = Http::sendHttpRequest(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token=' . $this->token,
           10);
 
-        $this->assertStringContainsString('Accept Invitation', $response, 'error on accept invitation');
+        $this->assertStringContainsString('Accept invitation', $response, 'error on accept invitation');
     }
 
 }
