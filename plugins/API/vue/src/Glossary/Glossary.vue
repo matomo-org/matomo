@@ -53,7 +53,7 @@
             </div>
 
             <div
-              v-for="([entries, letter]) in entriesByLetter(item.entries)"
+              v-for="([letter, entries]) in entriesByLetter(item.entries)"
               :key="letter"
               class="scrollspy"
               :id="`${keyword}${letter}`"
