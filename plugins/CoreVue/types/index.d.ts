@@ -62,7 +62,8 @@ declare global {
   type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
-    onCloseEnd: () => void;
+    onCloseEnd?: () => void;
+    fixedFooter?: boolean;
   }
 
   interface CompileAngularComponentsOptions {
