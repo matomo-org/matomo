@@ -36,6 +36,7 @@
               @click="onClickAction($event, actionName)"
               :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
               :title="actionTooltips[actionName] || undefined"
+              :data-action="actionName"
             >
               {{ translate(title) }}
             </li>
@@ -48,6 +49,7 @@
           class="generalAction"
           :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
           :title="actionTooltips[actionName] || undefined"
+          :data-action="actionName"
         >
           {{ translate(title) }}
         </li>
