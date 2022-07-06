@@ -202,13 +202,6 @@ window.piwikHelper = {
             return;
           }
 
-          // event to bind (no code is supplied like in vue, since we don't want to eval JS,
-          // instead we dispatch an event on the vue-entry element)
-          if (name[0] === '@') {
-            paramsStr += name + '=' + "\"onEvent('" + name.substr(1) + "', $event)\" "
-            return;
-          }
-
           // property binding
           // append with underscore so reserved javascript keywords aren't accidentally used
           var camelName = toCamelCase(name) + '_';
@@ -241,11 +234,6 @@ window.piwikHelper = {
           data: function () {
             return componentParams;
           },
-          methods: {
-            onEvent: function (eventName, event) {
-              element.dispatchEvent(new CustomEvent('vue:' + eventName, { detail: event }))
-            }
-          }
         });
         app.component('root', component);
 
