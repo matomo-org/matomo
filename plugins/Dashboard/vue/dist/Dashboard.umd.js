@@ -294,13 +294,13 @@ function renderDashboard(dashboardId, dashboard, layout) {
 }
 
 function fetchDashboard(dashboardId) {
-  window.globalAjaxQueue.abort();
   return new Promise(function (resolve) {
     return setTimeout(resolve);
   }).then(function () {
     return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall);
   }).then(function () {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    window.globalAjaxQueue.abort(); // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     var dashboardElement = $('#dashboardWidgetsArea');
     dashboardElement.dashboard('destroyWidgets');
     dashboardElement.empty();

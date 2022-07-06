@@ -63,11 +63,11 @@ function renderDashboard(
 }
 
 function fetchDashboard(dashboardId: string|number) {
-  window.globalAjaxQueue.abort();
-
   return new Promise((resolve) => setTimeout(resolve)).then(
     () => Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall),
   ).then(() => {
+    window.globalAjaxQueue.abort();
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dashboardElement = $('#dashboardWidgetsArea') as any;
     dashboardElement.dashboard('destroyWidgets');

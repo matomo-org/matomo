@@ -136,6 +136,7 @@
                 if (currentWidget.parents('body').length) {
                     // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
                     // removed from DOM
+                    piwikHelper.compileAngularComponents($widgetContent);
                     piwikHelper.compileVueEntryComponents($widgetContent);
                 }
                 $widgetContent.removeClass('loading');
