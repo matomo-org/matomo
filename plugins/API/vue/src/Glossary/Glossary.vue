@@ -41,7 +41,7 @@
           <div class="card-content">
             <div style="background:#fff;width:100%" class="pushpin">
               <h2 class="card-title">{{ item.title }}</h2>
-              <ul class="pagination table-of-contents">
+              <ul class="pagination">
                 <li
                   v-for="(letter, index) in item.letters"
                   :key="index"
@@ -55,7 +55,7 @@
             <div
               v-for="([entries, letter]) in entriesByLetter(item.entries)"
               :key="letter"
-              class="section scrollspy"
+              class="scrollspy"
               :id="`${keyword}${letter}`"
             >
               <div v-for="(entry, index) in entries" :key="index">
