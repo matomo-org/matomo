@@ -15,7 +15,7 @@ var sparklineDisplayWidth = 100;
 piwik.getSparklineColors = function () {
     var colors = piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
 
-    var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+    var comparisonService = window.CoreHome.ComparisonsStoreInstance;
     if (comparisonService.isComparing()) {
         var comparisons = comparisonService.getAllComparisonSeries();
         colors.lineColor = comparisons.map(function (comp) { return comp.color; });

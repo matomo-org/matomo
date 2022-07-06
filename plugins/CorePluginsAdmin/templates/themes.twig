@@ -6,27 +6,13 @@
 
 {% block content %}
 
-<div piwik-content-intro>
-    <h2 piwik-enriched-headline>
-        {{ title|e('html_attr') }}
-    </h2>
-
-    <p>
-        {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
-
-        {% if isMarketplaceEnabled %}
-            {{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate('<a href="' ~ linkTo({'module': 'Marketplace','action':'overview', 'sort': '', 'show': 'themes'}) ~ '">', '</a>')|raw }}
-        {% endif %}
-
-        {% if otherUsersCount > 0 %}
-            <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
-        {% endif %}
-        {% if not isPluginsAdminEnabled %}
-            <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
-        {% endif %}
-
-    </p>
-</div>
+<div
+    vue-entry="CorePluginsAdmin.ThemesIntro"
+    is-marketplace-enabled="{{ isMarketplaceEnabled|json_encode }}"
+    other-users-count="{{ otherUsersCount|default(null)|json_encode }}"
+    theme-enabled="{{ themeEnabled|json_encode }}"
+    is-plugins-admin-enabled="{{ isPluginsAdminEnabled|json_encode }}"
+></div>
 
 <div
     vue-entry="CorePluginsAdmin.PluginsTable"

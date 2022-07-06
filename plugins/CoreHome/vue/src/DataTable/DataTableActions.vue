@@ -1,0 +1,182 @@
+<!--
+  Matomo - free/libre analytics platform
+  @link https://matomo.org
+  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div>
+    {% if properties.show_footer and properties.show_footer_icons %}
+    <a class='dropdown-button dropdownConfigureIcon dataTableAction'
+       href='javascript:;'
+       data-target='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
+
+    {% set activeFooterIcon = '' %}
+    {% set numIcons = 0 %}
+    {% set visualizationIcons %}
+    <ul id='dropdownVisualizations{{ randomIdForDropdown }}' class='dropdown-content dataTableFooterIcons'>
+      {% for footerIconGroup in footerIcons %}
+      {% for footerIcon in footerIconGroup.buttons|filter(footerIcon => footerIcon.icon) %}
+      <li>
+        {% set numIcons = numIcons + 1 %}
+        {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
+        ((footerIcon.id == 'ecommerceOrder' and clientSideParameters.abandonedCarts == 0) or
+        (footerIcon.id == 'ecommerceAbandonedCart' and clientSideParameters.abandonedCarts == 1)) %}
+        <a class="{{ footerIconGroup.class }} tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id or isActiveEcommerceView %}activeIcon{% set activeFooterIcon = footerIcon.icon %}{% endif %}"
+           data-footer-icon-id="{{ footerIcon.id }}">
+          {% if footerIcon.icon starts with 'icon-' %}
+          <span title="{{ footerIcon.title }}" class="{{ footerIcon.icon }}"></span>
+          {% else %}
+          <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
+          {% endif %}
+          {% if footerIcon.title is defined %}<span>{{ footerIcon.title }}</span>{% endif %}
+        </a>
+      </li>
+      {% endfor %}
+      <li class="divider"></li>
+      {% endfor %}
+    </ul>
+    {% endset %}
+
+    {% if activeFooterIcon and numIcons > 1 %}
+    <a class="dropdown-button dataTableAction activateVisualizationSelection"
+       href="javascript:;"
+       data-target="dropdownVisualizations{{ randomIdForDropdown }}">
+      {% if activeFooterIcon starts with 'icon-' %}
+      <span title="{{ translate('CoreHome_ChangeVisualization') }}" class="{{ activeFooterIcon }}"></span>
+      {% else %}
+      <img title="{{ translate('CoreHome_ChangeVisualization') }}" width="16" height="16" src="{{ activeFooterIcon }}"/>
+      {% endif %}
+    </a>
+    {{ visualizationIcons|raw }}
+    {% endif %}
+
+    {% if properties.show_export %}
+    {% set requestParams = properties.request_parameters_to_modify|json_encode %}
+
+    {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","HTML":"HTML"} %}
+    {% if properties.show_export_as_rss_feed %}
+    {% set formats = formats|merge({"RSS": "RSS"}) %}
+    {% endif %}
+
+    <a class="dataTableAction activateExportSelection" piwik-report-export
+       report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
+       api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
+       href='javascript:;' title="{{ translate('General_ExportThisReport') }}"
+       max-filter-limit="{{ properties.max_export_filter_limit|e('html_attr') }}"
+    ><span class="icon-export"></span></a>
+    {% endif %}
+
+    {% if properties.show_export_as_image_icon %}
+    <a class="dataTableAction tableIcon" href="javascript:;" id="dataTableFooterExportAsImageIcon"
+       onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;"
+       title="{{ translate('General_ExportAsImage') }}">
+      <span class="icon-image"></span>
+    </a>
+    {% endif %}
+
+    {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
+    <a class='dataTableAction annotationView'
+       href='javascript:;' title="{{ translate('Annotations_Annotations') }}"
+    ><span class="icon-annotation"></span></a>
+    {% endif %}
+
+    {% if properties.show_search %}
+    <a class='dropdown-button dataTableAction searchAction'
+       href='javascript:;' title="{{ translate('General_Search') }}"
+    ><span class="icon-search"></span>
+      <span class="icon-close" title="{{ translate('CoreHome_CloseSearch') }}"></span>
+      <input id="widgetSearch_{{ properties.report_id }}"
+             title="{{ translate('CoreHome_DataTableHowToSearch') }}"
+             type="text"
+             class="dataTableSearchInput" />
+    </a>
+    {% endif %}
+
+    {% if properties.datatable_actions|default is not empty %}
+    {% for action in properties.datatable_actions %}
+    <a class='dataTableAction {{ action.id|e('html_attr') }}'
+    href='javascript:;' title="{{ action.title|e('html_attr') }}"
+    >
+    {% if action.icon starts with 'icon-' %}
+    <span class="{{ action.icon }}"></span>
+    {% else %}
+    <img width="16" height="16" title="{{ action.title }}" src="{{ action.icon }}"/>
+    {% endif %}
+    </a>
+    {% endfor %}
+    {% endif %}
+
+    <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
+      {% if properties.show_flatten_table %}
+      <li>
+        <div class="configItem dataTableFlatten"></div>
+      </li>
+      {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
+      {% if hasMultipleDimensions|default %}
+      <li>
+        <div class="configItem dataTableShowDimensions"></div>
+      </li>
+      {% endif %}
+      <li>
+        <div class="configItem dataTableIncludeAggregateRows"></div>
+      </li>
+      {% endif %}
+      {% endif %}
+      {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
+      <li>
+        <div class="configItem dataTableShowTotalsRow"></div>
+      </li>
+      {% endif %}
+      {% if properties.show_exclude_low_population %}
+      <li>
+        <div class="configItem dataTableExcludeLowPopulation"></div>
+      </li>
+      {% endif %}
+      {% if properties.show_pivot_by_subtable|default is not empty and not isComparing|default(false) %}
+      <li>
+        <div class="configItem dataTablePivotBySubtable"></div>
+      </li>
+      {% endif %}
+    </ul>
+
+    {% if properties.show_periods %}
+    <a class="dropdown-button dataTableAction activatePeriodsSelection"
+       href="javascript:;"
+       title="{{ translate('CoreHome_ChangePeriod') }}"
+       data-target="dropdownPeriods{{ randomIdForDropdown }}"
+    >
+      <div><span class="icon-calendar"></span><span class="periodName">{{ properties.translations[clientSideParameters.period]|default(clientSideParameters.period) }}</span></div>
+    </a>
+    <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
+      {% for selectablePeriod in properties.selectable_periods %}
+      <li>
+        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
+          <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endif %}
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { ContentBlock } from 'CoreHome';
+
+export default defineComponent({
+  props: {
+    // TODO
+  },
+  components: {
+    ContentBlock,
+  },
+  computed: {
+    randomIdForDropdown() {
+      return Math.floor(Math.random() * 999999);
+    },
+  },
+});
+</script>

@@ -412,5 +412,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_EndDate';
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
         $translationKeys[] = 'CoreHome_ShortcutRefresh';
+        $translationKeys[] = 'CoreHome_ChangeVisualization';
+        $translationKeys[] = 'General_ExportThisReport';
+        $translationKeys[] = 'Annotations_Annotations';
+        $translationKeys[] = 'CoreHome_CloseSearch';
+        $translationKeys[] = 'CoreHome_DataTableHowToSearch';
+        $translationKeys[] = 'CoreHome_ChangePeriod';
     }
 }

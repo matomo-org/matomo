@@ -102,8 +102,7 @@ class Controller extends \Piwik\Plugin\Controller
                 return $content;
             }
 
-            if (strpos($content, 'piwik-content-block') === false
-                && strpos($content, '<!-- has-content-block -->') === false
+            if (strpos($content, '<!-- has-content-block -->') === false
                 && strpos($content, 'class="card"') === false
                 && strpos($content, "class='card'") === false
                 && strpos($content, 'class="card-content"') === false
