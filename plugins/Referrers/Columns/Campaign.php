@@ -46,7 +46,7 @@ class Campaign extends Base
         // we just update the existing referrer information instead of creating a visit.
         if ($information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
             && $this->isReferrerInformationNew($visitor, $information)
-            && !$this->isCurrentReferrerDirectEntry($visitor)
+            && !$this->shallReferrerDetailsBeUpdated($visitor)
         ) {
             Common::printDebug("Existing visit detected, but creating new visit because campaign information is different than last action.");
 

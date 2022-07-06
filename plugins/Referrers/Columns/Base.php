@@ -670,7 +670,7 @@ abstract class Base extends VisitDimension
         }
     }
 
-    protected function isReferrerInformationNew(Visitor $visitor, $information)
+    protected function isReferrerInformationNew(Visitor $visitor, $information): bool
     {
         foreach (['referer_keyword', 'referer_name', 'referer_type'] as $infoName) {
             if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
@@ -680,7 +680,7 @@ abstract class Base extends VisitDimension
         return false;
     }
 
-    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
+    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName): bool
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName] ?? '');
@@ -693,29 +693,32 @@ abstract class Base extends VisitDimension
         return $result;
     }
 
-    protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
+    protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType): bool
     {
         return $visitor->getVisitorColumn('referer_type') == $referrerType;
     }
 
-    protected function getReferrerCampaignQueryParam(Request $request, $paramName)
+    protected function getReferrerCampaignQueryParam(Request $request, $paramName): string
     {
         return trim(urldecode($request->getParam($paramName)));
     }
 
-    private function truncateReferrerName($name)
+    private function truncateReferrerName($name): string
     {
         return mb_substr($name, 0, 255);
     }
 
-    private function truncateReferrerKeyword($refererKeyword)
+    private function truncateReferrerKeyword($refererKeyword): string
     {
         return mb_substr($refererKeyword, 0, 255);
     }
 
-    protected function isCurrentReferrerDirectEntry(Visitor $visitor)
+    protected function shallReferrerDetailsBeUpdated(Visitor $visitor): bool
     {
         $referrerType = $visitor->getVisitorColumn('referer_type');
-        return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
+        $actionCount = $visitor->getVisitorColumn('visit_total_actions');
+
+        // only update a referrer if it wasn't set previously and there hadn't been more than 2 actions tracked
+        return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY && $actionCount < 3;
     }
 }
