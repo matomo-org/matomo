@@ -343,7 +343,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             piwikHelper.lazyScrollTo(content[0], 400);
         }
 
-        piwikHelper.compileAngularComponents(content);
+        piwikHelper.compileVueEntryComponents(content);
 
         return content;
     },
@@ -728,7 +728,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
-            var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+            var piwikPeriods = window.CoreHome.Periods;
             var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
             endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
@@ -1695,11 +1695,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         // hackish solution to get binded html of p tag within the help node
                         // at this point the ng-bind-html is not yet converted into html when report is not
                         // initially loaded. Using $compile doesn't work. So get and set it manually
-                        var helpParagraph = $('p[ng-bind-html]', $doc);
+                        var helpParagraph = $doc.attr('data-content');
 
                         if (helpParagraph.length) {
-                            var $parse = angular.element(document).injector().get('$parse');
-                            helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
+                            helpParagraph.html(window.vueSanitize(helpParagraph));
                         }
 
                         scope.inlineHelp = $.trim($doc.html());

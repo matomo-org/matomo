@@ -90,30 +90,30 @@ interface EnrichedHeadlineData {
 /**
  * Usage:
  *
- * <h2 piwik-enriched-headline>All Websites Dashboard</h2>
+ * <h2><EnrichedHeadline>All Websites Dashboard</EnrichedHeadline></h2>
  * -> uses "All Websites Dashboard" as featurename
  *
- * <h2 piwik-enriched-headline feature-name="All Websites Dashboard">All Websites Dashboard (Total:
- * 309 Visits)</h2>
+ * <h2><EnrichedHeadline feature-name="All Websites Dashboard">All Websites Dashboard (Total:
+ * 309 Visits)</EnrichedHeadline></h2>
  * -> custom featurename
  *
- * <h2 piwik-enriched-headline help-url="http://piwik.org/guide">All Websites Dashboard</h2>
+ * <h2><EnrichedHeadline help-url="http://piwik.org/guide">All Websites Dashboard</EnrichedHeadline></h2>
  * -> shows help icon and links to external url
  *
- * <h2 piwik-enriched-headline edit-url="index.php?module=Foo&action=bar&id=4">All Websites
- * Dashboard</h2>
+ * <h2><EnrichedHeadline edit-url="index.php?module=Foo&action=bar&id=4">All Websites
+ * Dashboard</EnrichedHeadline></h2>
  * -> makes the headline clickable linking to the specified url
  *
- * <h2 piwik-enriched-headline inline-help="inlineHelp">Pages report</h2>
+ * <h2><EnrichedHeadline inline-help="inlineHelp">Pages report</EnrichedHeadline></h2>
  * -> inlineHelp specified via a attribute shows help icon on headline hover
  *
- * <h2 piwik-enriched-headline>All Websites Dashboard
+ * <h2><EnrichedHeadline>All Websites Dashboard
  *     <div class="inlineHelp">My <strong>inline help</strong></div>
- * </h2>
+ * </EnrichedHeadline></h2>
  * -> alternative definition for inline help
  * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
  *
- * * <h2 piwik-enriched-headline report-generated="generated time">Pages report</h2>
+ * * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
  * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which
  * activated by hover
  * -> the tooltip shows the value of the attribute

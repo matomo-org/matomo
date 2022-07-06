@@ -1,19 +1,18 @@
 <div>
-    <div piwik-widget
-         containerid="{{ containerId|e('html_attr') }}"
-         widgetized="{% if isWidgetized %}true{% else %}false{% endif %}"></div>
+    <div
+        vue-entry="CoreHome.Widget"
+        containerid="{{ containerId|json_encode }}"
+        widgetized="{% if isWidgetized %}true{% else %}false{% endif %}"
+    ></div>
 
     <script type="text/javascript">
         $(function () {
 
-            var piwikWidget = $('[piwik-widget][containerid={{ containerId|e('js') }}]');
+            var piwikWidget = $('[vue-entry="CoreHome.Widget"][containerid={{ containerId|e('js') }}]');
             var isExportedAsWidget = $('body > .widget').length;
 
             if (!isExportedAsWidget) {
-                angular.element(document).injector().invoke(function($compile) {
-                    var scope = angular.element(piwikWidget).scope();
-                    $compile(piwikWidget)(scope.$new());
-                });
+                piwikHelper.compileVueEntryComponents(piwikWidget);
             }
 
         });

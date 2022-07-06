@@ -418,5 +418,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_CloseSearch';
         $translationKeys[] = 'CoreHome_DataTableHowToSearch';
         $translationKeys[] = 'CoreHome_ChangePeriod';
+        $translationKeys[] = 'General_NewUpdatePiwikX';
+        $translationKeys[] = 'CoreHome_SeeAvailableVersions';
+        $translationKeys[] = 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment';
+        $translationKeys[] = 'General_PiwikXIsAvailablePleaseUpdateNow';
+        $translationKeys[] = 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin';
+        $translationKeys[] = 'General_YouAreCurrentlyUsing';
     }
 }

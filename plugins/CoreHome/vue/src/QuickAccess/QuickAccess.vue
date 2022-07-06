@@ -219,7 +219,7 @@ export default defineComponent({
   },
   computed: {
     hasSitesSelector() {
-      return !!document.querySelector('.top_controls [piwik-siteselector]');
+      return !!document.querySelector('.top_controls .siteSelector');
     },
     quickAccessTitle() {
       let searchAreasTitle = '';
