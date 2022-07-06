@@ -170,11 +170,49 @@ interface DetectionPageState {
   considerClientHints: boolean;
   clientHintsText: string;
   userAgentText: string;
+  defaultClientHints: Record<string, string>|null;
 }
 
 function isClientHintsSupported() {
   const nav = navigator as any; // eslint-disable-line @typescript-eslint/no-explicit-any
   return nav.userAgentData && typeof nav.userAgentData.getHighEntropyValues === 'function';
+}
+
+let clientHints: Record<string, string>|null = null;
+
+function getDefaultClientHints(): Promise<Record<string, string>|null> {
+  const nav = navigator as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  if (!isClientHintsSupported()) {
+    return Promise.resolve(null);
+  }
+
+  if (clientHints) {
+    return Promise.resolve(clientHints!);
+  }
+
+  // Initialize with low entropy values that are always available
+  clientHints = {
+    brands: nav.userAgentData.brands,
+    platform: nav.userAgentData.platform,
+  };
+
+  // try to gather high entropy values
+  // currently this methods simply returns the requested values through a Promise
+  // In later versions it might require a user permission
+  return nav.userAgentData.getHighEntropyValues(
+    ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList'],
+  ).then((ua: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    clientHints = { ...ua };
+
+    if (clientHints!.fullVersionList) {
+      // if fullVersionList is available, brands and uaFullVersion isn't needed
+      delete clientHints!.brands;
+      delete clientHints!.uaFullVersion;
+    }
+
+    return clientHints!;
+  });
 }
 
 export default defineComponent({
@@ -199,7 +237,7 @@ export default defineComponent({
     device_brand_logo: String,
     device_brand: String,
     device_model: String,
-    clientHints: null,
+    clientHintsChecked: Boolean,
   },
   components: {
     ContentBlock,
@@ -207,12 +245,19 @@ export default defineComponent({
   directives: {
     ContentTable,
   },
+  created() {
+    getDefaultClientHints().then((hints) => {
+      this.defaultClientHints = hints;
+      this.toggleClientHints();
+    });
+  },
   data(): DetectionPageState {
     return {
       itemListHtml: '',
-      considerClientHints: !!this.clientHints,
-      clientHintsText: this.clientHints ? JSON.stringify(this.clientHints) : '',
+      considerClientHints: !!this.clientHintsChecked,
+      clientHintsText: '',
       userAgentText: this.userAgent,
+      defaultClientHints: null,
     };
   },
   methods: {
@@ -236,8 +281,8 @@ export default defineComponent({
       });
     },
     toggleClientHints() {
-      if (this.considerClientHints) {
-        this.clientHintsText = this.clientHintsText || JSON.stringify(this.clientHints);
+      if (this.considerClientHints && this.defaultClientHints !== null) {
+        this.clientHintsText = this.clientHintsText || JSON.stringify(this.defaultClientHints);
       } else {
         this.clientHintsText = '';
       }

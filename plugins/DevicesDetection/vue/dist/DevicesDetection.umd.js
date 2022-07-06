@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.vue?vue&type=template&id=69427e1a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.vue?vue&type=template&id=aed60308
 
 var _hoisted_1 = {
   class: "detectionPage"
@@ -324,7 +324,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: _ctx.translate('General_Close')
   }, null, 8, _hoisted_33)], 512)]);
 }
-// CONCATENATED MODULE: ./plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.vue?vue&type=template&id=69427e1a
+// CONCATENATED MODULE: ./plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.vue?vue&type=template&id=aed60308
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -337,6 +337,40 @@ function _isClientHintsSupported() {
   var nav = navigator; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   return nav.userAgentData && typeof nav.userAgentData.getHighEntropyValues === 'function';
+}
+
+var clientHints = null;
+
+function getDefaultClientHints() {
+  var nav = navigator; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  if (!_isClientHintsSupported()) {
+    return Promise.resolve(null);
+  }
+
+  if (clientHints) {
+    return Promise.resolve(clientHints);
+  } // Initialize with low entropy values that are always available
+
+
+  clientHints = {
+    brands: nav.userAgentData.brands,
+    platform: nav.userAgentData.platform
+  }; // try to gather high entropy values
+  // currently this methods simply returns the requested values through a Promise
+  // In later versions it might require a user permission
+
+  return nav.userAgentData.getHighEntropyValues(['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']).then(function (ua) {
+    clientHints = Object.assign({}, ua);
+
+    if (clientHints.fullVersionList) {
+      // if fullVersionList is available, brands and uaFullVersion isn't needed
+      delete clientHints.brands;
+      delete clientHints.uaFullVersion;
+    }
+
+    return clientHints;
+  });
 }
 
 /* harmony default export */ var DetectionPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -361,7 +395,7 @@ function _isClientHintsSupported() {
     device_brand_logo: String,
     device_brand: String,
     device_model: String,
-    clientHints: null
+    clientHintsChecked: Boolean
   },
   components: {
     ContentBlock: external_CoreHome_["ContentBlock"]
@@ -369,17 +403,27 @@ function _isClientHintsSupported() {
   directives: {
     ContentTable: external_CoreHome_["ContentTable"]
   },
+  created: function created() {
+    var _this = this;
+
+    getDefaultClientHints().then(function (hints) {
+      _this.defaultClientHints = hints;
+
+      _this.toggleClientHints();
+    });
+  },
   data: function data() {
     return {
       itemListHtml: '',
-      considerClientHints: !!this.clientHints,
-      clientHintsText: this.clientHints ? JSON.stringify(this.clientHints) : '',
-      userAgentText: this.userAgent
+      considerClientHints: !!this.clientHintsChecked,
+      clientHintsText: '',
+      userAgentText: this.userAgent,
+      defaultClientHints: null
     };
   },
   methods: {
     showList: function showList(type) {
-      var _this = this;
+      var _this2 = this;
 
       external_CoreHome_["AjaxHelper"].fetch({
         module: 'DevicesDetection',
@@ -388,15 +432,15 @@ function _isClientHintsSupported() {
       }, {
         format: 'html'
       }).then(function (response) {
-        _this.itemListHtml = response;
-        external_CoreHome_["Matomo"].helper.modalConfirm(_this.$refs.deviceDetectionItemList, undefined, {
+        _this2.itemListHtml = response;
+        external_CoreHome_["Matomo"].helper.modalConfirm(_this2.$refs.deviceDetectionItemList, undefined, {
           fixedFooter: true
         });
       });
     },
     toggleClientHints: function toggleClientHints() {
-      if (this.considerClientHints) {
-        this.clientHintsText = this.clientHintsText || JSON.stringify(this.clientHints);
+      if (this.considerClientHints && this.defaultClientHints !== null) {
+        this.clientHintsText = this.clientHintsText || JSON.stringify(this.defaultClientHints);
       } else {
         this.clientHintsText = '';
       }
