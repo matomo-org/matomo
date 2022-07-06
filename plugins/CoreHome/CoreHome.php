@@ -221,8 +221,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 

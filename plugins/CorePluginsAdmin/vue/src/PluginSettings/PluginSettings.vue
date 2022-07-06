@@ -74,6 +74,7 @@ import {
   AjaxHelper,
   NotificationsStore,
   translate,
+  scrollToAnchorInUrl,
 } from 'CoreHome';
 import KeyPressEvent = JQuery.KeyPressEvent;
 import Field from '../Field/Field.vue';
@@ -124,7 +125,7 @@ export default defineComponent({
         });
       });
 
-      window.anchorLinkFix.scrollToAnchorInUrl();
+      scrollToAnchorInUrl();
 
       this.addSectionsToTableOfContents();
     }).catch(() => {

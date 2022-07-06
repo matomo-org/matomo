@@ -91,3 +91,4 @@ export {
   default as VersionInfoHeaderMessage,
 } from './VersionInfoHeaderMessage/VersionInfoHeaderMessage.vue';
 export { default as MobileLeftMenu } from './MobileLeftMenu/MobileLeftMenu.vue';
+export { default as scrollToAnchorInUrl } from './scrollToAnchorInUrl';
