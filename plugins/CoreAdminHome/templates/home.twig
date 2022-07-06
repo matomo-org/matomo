@@ -43,10 +43,10 @@
     {% endif %}
 
     {% if hasPremiumFeatures and isMarketplaceEnabled and isInternetEnabled %}
-        <div vue-entry="CoreHome.WidgetParams" widget-params="{&quot;module&quot;:&quot;Marketplace&quot;,&quot;action&quot;:&quot;getPremiumFeatures&quot;}"></div>
+        <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;Marketplace&quot;,&quot;action&quot;:&quot;getPremiumFeatures&quot;}"></div>
     {% endif %}
     {% if hasNewPlugins and isMarketplaceEnabled and isInternetEnabled %}
-        <div vue-entry="CoreHome.WidgetParams" widget-params="{&quot;module&quot;:&quot;Marketplace&quot;,&quot;action&quot;:&quot;getNewPlugins&quot;,&quot;isAdminPage&quot;: &quot;1&quot;}"></div>
+        <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;Marketplace&quot;,&quot;action&quot;:&quot;getNewPlugins&quot;,&quot;isAdminPage&quot;: &quot;1&quot;}"></div>
     {% endif %}
 
     {{ postEvent('Template.adminHome') }}
@@ -66,12 +66,12 @@
         <div class="row">
             {% if hasDonateForm %}
                 <div class="col s12 {% if hasPiwikBlog %}m6{% endif %}">
-                    <div vue-entry="CoreHome.WidgetParams" widget-params="{&quot;module&quot;:&quot;CoreHome&quot;,&quot;action&quot;:&quot;getDonateForm&quot;,&quot;widget&quot;: &quot;0&quot;}"></div>
+                    <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;CoreHome&quot;,&quot;action&quot;:&quot;getDonateForm&quot;,&quot;widget&quot;: &quot;0&quot;}"></div>
                 </div>
             {% endif %}
             {% if hasPiwikBlog and isInternetEnabled %}
                 <div class="col s12 {% if hasDonateForm %}m6{% endif %}">
-                    <div vue-entry="CoreHome.WidgetParams" widget-params="{&quot;module&quot;:&quot;RssWidget&quot;,&quot;action&quot;:&quot;rssPiwik&quot;}"></div>
+                    <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;RssWidget&quot;,&quot;action&quot;:&quot;rssPiwik&quot;}"></div>
                 </div>
             {% endif %}
         </div>
