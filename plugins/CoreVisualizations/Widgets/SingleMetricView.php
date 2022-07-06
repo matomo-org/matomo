@@ -67,12 +67,20 @@ class SingleMetricView extends \Piwik\Widget\Widget
         }
 
         return '<div vue-entry="CoreVisualizations.SingleMetricView"
-            metric="' . json_encode($column) . '"
-            id-goal="' . json_encode($idGoal === false ? 'undefined' : $idGoal) . '"
-            goal-metrics="' . json_encode($goalMetrics) . '"
-            goals="' . json_encode($goals) . '"
-            metric-translations="' . json_encode($metricTranslations) . '"
-            metric-documentations="' . json_encode($metricDocumentations) . '"
+            metric="' . $this->getVueEntryValue($column) . '"
+            id-goal="' . $this->getVueEntryValue($idGoal === false ? null : $idGoal) . '"
+            goal-metrics="' . $this->getVueEntryValue($goalMetrics) . '"
+            goals="' . $this->getVueEntryValue($goals) . '"
+            metric-translations="' . $this->getVueEntryValue($metricTranslations) . '"
+            metric-documentations="' . $this->getVueEntryValue($metricDocumentations) . '"
         ></div>';
+    }
+
+    private function getVueEntryValue($value)
+    {
+        $result = json_encode($value);
+        $result = Common::sanitizeInputValue($result);
+        $result = Common::fixLbrace($result);
+        return $result;
     }
 }
