@@ -77,12 +77,6 @@ class API extends \Piwik\Plugin\API
         $this->processedReport = $processedReport;
     }
 
-    public function getClientSideTranslationKeys(&$translations)
-    {
-        $translations[] = 'API_Glossary';
-        $translations[] = 'API_LearnAboutCommonlyUsedTerms2';
-    }
-
     /**
      * Get Matomo version
      * @return string
@@ -850,5 +844,11 @@ class Plugin extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
         $stylesheets[] = "plugins/API/stylesheets/glossary.less";
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'API_Glossary';
+        $translations[] = 'API_LearnAboutCommonlyUsedTerms2';
     }
 }
