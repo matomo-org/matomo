@@ -146,12 +146,176 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
+
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+var CustomDimensions_store_CustomDimensionsStore = /*#__PURE__*/function () {
+  function CustomDimensionsStore() {
+    var _this = this;
+
+    _classCallCheck(this, CustomDimensionsStore);
+
+    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      customDimensions: [],
+      availableScopes: [],
+      extractionDimensions: [],
+      isLoading: false,
+      isUpdating: false
+    }));
+
+    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
+    }));
+
+    _defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.isLoading;
+    }));
+
+    _defineProperty(this, "isUpdating", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.isUpdating;
+    }));
+
+    _defineProperty(this, "extractionDimensions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.extractionDimensions;
+    }));
+
+    _defineProperty(this, "extractionDimensionsOptions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.extractionDimensions.value.map(function (e) {
+        return {
+          key: e.value,
+          value: e.name
+        };
+      });
+    }));
+
+    _defineProperty(this, "availableScopes", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.availableScopes;
+    }));
+
+    _defineProperty(this, "customDimensions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.customDimensions;
+    }));
+
+    _defineProperty(this, "customDimensionsById", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      var dimensionsById = {};
+
+      _this.customDimensions.value.forEach(function (c) {
+        dimensionsById["".concat(c.idcustomdimension)] = c;
+      });
+
+      return dimensionsById;
+    }));
+
+    _defineProperty(this, "reloadPromise", null);
+  }
+
+  _createClass(CustomDimensionsStore, [{
+    key: "reload",
+    value: function reload() {
+      this.privateState.customDimensions = [];
+      this.privateState.availableScopes = [];
+      this.privateState.extractionDimensions = [];
+      this.reloadPromise = null;
+      return this.fetch();
+    }
+  }, {
+    key: "fetch",
+    value: function fetch() {
+      var _this2 = this;
+
+      if (this.reloadPromise) {
+        return this.reloadPromise;
+      }
+
+      this.privateState.isLoading = true;
+      this.reloadPromise = Promise.all([this.fetchConfiguredCustomDimensions(), this.fetchAvailableExtractionDimensions(), this.fetchAvailableScopes()]).finally(function () {
+        _this2.privateState.isLoading = false;
+      });
+      return this.reloadPromise;
+    }
+  }, {
+    key: "fetchConfiguredCustomDimensions",
+    value: function fetchConfiguredCustomDimensions() {
+      var _this3 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'CustomDimensions.getConfiguredCustomDimensions',
+        filter_limit: '-1'
+      }).then(function (r) {
+        _this3.privateState.customDimensions = r;
+      });
+    }
+  }, {
+    key: "fetchAvailableExtractionDimensions",
+    value: function fetchAvailableExtractionDimensions() {
+      var _this4 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'CustomDimensions.getAvailableExtractionDimensions',
+        filter_limit: '-1'
+      }).then(function (r) {
+        _this4.privateState.extractionDimensions = r;
+      });
+    }
+  }, {
+    key: "fetchAvailableScopes",
+    value: function fetchAvailableScopes() {
+      var _this5 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'CustomDimensions.getAvailableScopes',
+        filter_limit: '-1'
+      }).then(function (r) {
+        _this5.privateState.availableScopes = r;
+      });
+    }
+  }, {
+    key: "createOrUpdateDimension",
+    value: function createOrUpdateDimension(dimension, method) {
+      var _this6 = this;
+
+      this.privateState.isUpdating = true;
+      return external_CoreHome_["AjaxHelper"].post({
+        method: method,
+        scope: dimension.scope,
+        idDimension: dimension.idcustomdimension,
+        idSite: dimension.idsite,
+        name: dimension.name,
+        active: dimension.active ? '1' : '0',
+        caseSensitive: dimension.case_sensitive ? '1' : '0'
+      }, {
+        extractions: dimension.extractions
+      }).finally(function () {
+        _this6.privateState.isUpdating = false;
+      });
+    }
+  }]);
+
+  return CustomDimensionsStore;
+}();
+
+/* harmony default export */ var CustomDimensions_store = (new CustomDimensions_store_CustomDimensionsStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=593105ce
 
 var _hoisted_1 = {
@@ -322,170 +486,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-var CustomDimensions_store_CustomDimensionsStore = /*#__PURE__*/function () {
-  function CustomDimensionsStore() {
-    var _this = this;
-
-    _classCallCheck(this, CustomDimensionsStore);
-
-    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      customDimensions: [],
-      availableScopes: [],
-      extractionDimensions: [],
-      isLoading: false,
-      isUpdating: false
-    }));
-
-    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    _defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.isLoading;
-    }));
-
-    _defineProperty(this, "isUpdating", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.isUpdating;
-    }));
-
-    _defineProperty(this, "extractionDimensions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.extractionDimensions;
-    }));
-
-    _defineProperty(this, "extractionDimensionsOptions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.extractionDimensions.value.map(function (e) {
-        return {
-          key: e.value,
-          value: e.name
-        };
-      });
-    }));
-
-    _defineProperty(this, "availableScopes", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.availableScopes;
-    }));
-
-    _defineProperty(this, "customDimensions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.customDimensions;
-    }));
-
-    _defineProperty(this, "customDimensionsById", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var dimensionsById = {};
-
-      _this.customDimensions.value.forEach(function (c) {
-        dimensionsById["".concat(c.idcustomdimension)] = c;
-      });
-
-      return dimensionsById;
-    }));
-
-    _defineProperty(this, "reloadPromise", null);
-  }
-
-  _createClass(CustomDimensionsStore, [{
-    key: "reload",
-    value: function reload() {
-      this.privateState.customDimensions = [];
-      this.privateState.availableScopes = [];
-      this.privateState.extractionDimensions = [];
-      this.reloadPromise = null;
-      return this.fetch();
-    }
-  }, {
-    key: "fetch",
-    value: function fetch() {
-      var _this2 = this;
-
-      if (this.reloadPromise) {
-        return this.reloadPromise;
-      }
-
-      this.privateState.isLoading = true;
-      this.reloadPromise = Promise.all([this.fetchConfiguredCustomDimensions(), this.fetchAvailableExtractionDimensions(), this.fetchAvailableScopes()]).finally(function () {
-        _this2.privateState.isLoading = false;
-      });
-      return this.reloadPromise;
-    }
-  }, {
-    key: "fetchConfiguredCustomDimensions",
-    value: function fetchConfiguredCustomDimensions() {
-      var _this3 = this;
-
-      return external_CoreHome_["AjaxHelper"].fetch({
-        method: 'CustomDimensions.getConfiguredCustomDimensions',
-        filter_limit: '-1'
-      }).then(function (r) {
-        _this3.privateState.customDimensions = r;
-      });
-    }
-  }, {
-    key: "fetchAvailableExtractionDimensions",
-    value: function fetchAvailableExtractionDimensions() {
-      var _this4 = this;
-
-      return external_CoreHome_["AjaxHelper"].fetch({
-        method: 'CustomDimensions.getAvailableExtractionDimensions',
-        filter_limit: '-1'
-      }).then(function (r) {
-        _this4.privateState.extractionDimensions = r;
-      });
-    }
-  }, {
-    key: "fetchAvailableScopes",
-    value: function fetchAvailableScopes() {
-      var _this5 = this;
-
-      return external_CoreHome_["AjaxHelper"].fetch({
-        method: 'CustomDimensions.getAvailableScopes',
-        filter_limit: '-1'
-      }).then(function (r) {
-        _this5.privateState.availableScopes = r;
-      });
-    }
-  }, {
-    key: "createOrUpdateDimension",
-    value: function createOrUpdateDimension(dimension, method) {
-      var _this6 = this;
-
-      this.privateState.isUpdating = true;
-      return external_CoreHome_["AjaxHelper"].post({
-        method: method,
-        scope: dimension.scope,
-        idDimension: dimension.idcustomdimension,
-        idSite: dimension.idsite,
-        name: dimension.name,
-        active: dimension.active ? '1' : '0',
-        caseSensitive: dimension.case_sensitive ? '1' : '0'
-      }, {
-        extractions: dimension.extractions
-      }).finally(function () {
-        _this6.privateState.isUpdating = false;
-      });
-    }
-  }]);
-
-  return CustomDimensionsStore;
-}();
-
-/* harmony default export */ var CustomDimensions_store = (new CustomDimensions_store_CustomDimensionsStore());
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/utilities.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -676,28 +676,6 @@ var notificationId = 'customdimensions';
 Editvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var Edit = (Editvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Edit/Edit.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Edit_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: Edit,
-  scope: {
-    dimensionId: {
-      angularJsBind: '=',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    },
-    dimensionScope: {
-      angularJsBind: '='
-    }
-  },
-  directiveName: 'piwikCustomDimensionsEdit'
-}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=0c3a05ca
 
 var Listvue_type_template_id_0c3a05ca_hoisted_1 = ["innerHTML"];
@@ -895,42 +873,29 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 Listvue_type_script_lang_ts.render = Listvue_type_template_id_0c3a05ca_render
 
 /* harmony default export */ var List = (Listvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/List/List.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=67305cda
 
-
-/* harmony default export */ var List_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: List,
-  directiveName: 'piwikCustomDimensionsList'
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=7763a178
-
-var Managevue_type_template_id_7763a178_hoisted_1 = {
+var Managevue_type_template_id_67305cda_hoisted_1 = {
   class: "manageCustomDimensions"
 };
-var Managevue_type_template_id_7763a178_hoisted_2 = {
+var Managevue_type_template_id_67305cda_hoisted_2 = {
   key: 0
 };
 
-var Managevue_type_template_id_7763a178_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var Managevue_type_template_id_67305cda_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var Managevue_type_template_id_7763a178_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var Managevue_type_template_id_67305cda_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var Managevue_type_template_id_7763a178_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var Managevue_type_template_id_67305cda_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var Managevue_type_template_id_7763a178_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var Managevue_type_template_id_67305cda_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var Managevue_type_template_id_7763a178_hoisted_7 = ["textContent"];
-var Managevue_type_template_id_7763a178_hoisted_8 = ["textContent"];
-var Managevue_type_template_id_7763a178_hoisted_9 = {
+var Managevue_type_template_id_67305cda_hoisted_7 = ["textContent"];
+var Managevue_type_template_id_67305cda_hoisted_8 = ["textContent"];
+var Managevue_type_template_id_67305cda_hoisted_9 = {
   key: 1
 };
-function Managevue_type_template_id_7763a178_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Managevue_type_template_id_67305cda_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_CustomDimensionsList = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CustomDimensionsList");
 
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
@@ -939,24 +904,24 @@ function Managevue_type_template_id_7763a178_render(_ctx, _cache, $props, $setup
 
   var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_7763a178_hoisted_1, [!_ctx.editMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_7763a178_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CustomDimensionsList)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_67305cda_hoisted_1, [!_ctx.editMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_67305cda_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CustomDimensionsList)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     id: "customDimensionsCreateMoreDimensions",
     "content-title": _ctx.translate('CustomDimensions_IncreaseAvailableCustomDimensionsTitle')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_IncreaseAvailableCustomDimensionsTakesLong')) + " ", 1), Managevue_type_template_id_7763a178_hoisted_3, Managevue_type_template_id_7763a178_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToCreateCustomDimension')) + " ", 1), Managevue_type_template_id_7763a178_hoisted_5, Managevue_type_template_id_7763a178_hoisted_6]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_IncreaseAvailableCustomDimensionsTakesLong')) + " ", 1), Managevue_type_template_id_67305cda_hoisted_3, Managevue_type_template_id_67305cda_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToCreateCustomDimension')) + " ", 1), Managevue_type_template_id_67305cda_hoisted_5, Managevue_type_template_id_67305cda_hoisted_6]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
         textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.addCustomDimCode)
-      }, null, 8, Managevue_type_template_id_7763a178_hoisted_7)], 512), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToManyCreateCustomDimensions')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_ExampleCreateCustomDimensions', 5)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
+      }, null, 8, Managevue_type_template_id_67305cda_hoisted_7)], 512), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToManyCreateCustomDimensions')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_ExampleCreateCustomDimensions', 5)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
         textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.addMultipleCustomDimCode)
-      }, null, 8, Managevue_type_template_id_7763a178_hoisted_8)], 512), [[_directive_select_on_focus, {}]])];
+      }, null, 8, Managevue_type_template_id_67305cda_hoisted_8)], 512), [[_directive_select_on_focus, {}]])];
     }),
     _: 1
-  }, 8, ["content-title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_7763a178_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CustomDimensionsEdit, {
+  }, 8, ["content-title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_67305cda_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CustomDimensionsEdit, {
     "dimension-id": _ctx.dimensionId,
     "dimension-scope": _ctx.dimensionScope
   }, null, 8, ["dimension-id", "dimension-scope"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=7763a178
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=67305cda
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts
 
@@ -998,7 +963,6 @@ function Managevue_type_template_id_7763a178_render(_ctx, _cache, $props, $setup
       return '';
     },
     initState: function initState() {
-      // as we're not using angular router we have to handle it manually here
       var idDimension = external_CoreHome_["MatomoUrl"].hashParsed.value.idDimension;
 
       if (idDimension) {
@@ -1046,22 +1010,9 @@ function Managevue_type_template_id_7763a178_render(_ctx, _cache, $props, $setup
 
 
 
-Managevue_type_script_lang_ts.render = Managevue_type_template_id_7763a178_render
+Managevue_type_script_lang_ts.render = Managevue_type_template_id_67305cda_render
 
 /* harmony default export */ var Manage = (Managevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Manage_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: Manage,
-  directiveName: 'piwikCustomDimensionsManage'
-}));
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1069,9 +1020,6 @@ Managevue_type_script_lang_ts.render = Managevue_type_template_id_7763a178_rende
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-
-
 
 
 
