@@ -94,6 +94,12 @@ function isWidgetAvailable(widgetUniqueId: string) {
 }
 
 function widgetSelected(widget: WidgetType) {
+  // for UI tests (see DashboardManager_spec.js)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if ((window as any).MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
+    return;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ($('#dashboardWidgetsArea') as any)
     .dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
