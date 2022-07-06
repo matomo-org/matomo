@@ -31,7 +31,7 @@
 
 {% if isGeneralSettingsAdminEnabled %}
     <div
-        matomo-archiving-settings
+        vue-entry="CoreAdminHome.ArchivingSettings"
         enable-browser-trigger-archiving="{{ (enableBrowserTriggerArchiving==1)|json_encode|e('html_attr') }}"
         show-segment-archive-trigger-info="{{ (not not showSegmentArchiveTriggerInfo)|json_encode|e('html_attr') }}"
         is-general-settings-admin-enabled="{{ (not not isGeneralSettingsAdminEnabled)|json_encode|e('html_attr') }}"
@@ -42,7 +42,7 @@
 
     {% if not isMultiServerEnvironment %}
         <div
-            matomo-smtp-settings
+            vue-entry="CoreAdminHome.SmtpSettings"
             mail="{{ mail|json_encode|e('html_attr') }}"
             mail-types="{{ mailTypes|json_encode|e('html_attr') }}"
             mail-encryptions="{{ mailEncryptions|json_encode|e('html_attr') }}"
@@ -52,7 +52,7 @@
 
 {% if customLogoEnabled %}
 <div
-    matomo-branding-settings
+    vue-entry="CoreAdminHome.BrandingSettings"
     file-upload-enabled="{{ fileUploadEnabled|json_encode|e('html_attr') }}"
     logos-writeable="{{ logosWriteable|json_encode|e('html_attr') }}"
     use-custom-logo="{{ branding.use_custom_logo|json_encode|e('html_attr') }}"
@@ -68,7 +68,7 @@
 {% endif %}
 
 {% if isDataPurgeSettingsEnabled %}
-    <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}"
+    <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}"
          anchor="deleteDataSettings">
         <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
         <p>
@@ -79,6 +79,6 @@
     </div>
 {% endif %}
 
-<div piwik-plugin-settings mode="admin"></div>
+<div vue-entry="CorePluginsAdmin.PluginSettings" mode="admin"></div>
 
 {% endblock %}
