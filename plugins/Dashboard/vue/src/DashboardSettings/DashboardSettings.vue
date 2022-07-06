@@ -133,6 +133,8 @@ export default defineComponent({
         },
         resetOnSelect: true,
       });
+
+      rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
     });
 
     return {
