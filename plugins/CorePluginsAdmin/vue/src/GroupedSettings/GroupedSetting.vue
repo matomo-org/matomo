@@ -16,12 +16,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IScope } from 'angular';
-import { Matomo } from 'CoreHome';
 import FormField from '../FormField/FormField.vue';
-
-// TODO: have to use angularjs here until there's an expression evaluating alternative
-let conditionScope: IScope;
+import expressions from '../expressions';
 
 export default defineComponent({
   props: {
@@ -41,17 +37,23 @@ export default defineComponent({
   emits: ['update:modelValue'],
   computed: {
     showField() {
-      const condition = this.setting.condition as string;
+      let condition = this.setting.condition as string;
       if (!condition) {
         return true;
       }
 
-      if (!conditionScope) {
-        const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
-        conditionScope = $rootScope.$new(true);
-      }
+      // math.js does not currently support &&/||/! (https://github.com/josdejong/mathjs/issues/844)
+      condition = condition.replace(/&&/g, ' and ');
+      condition = condition.replace(/\|\|/g, ' or ');
+      condition = condition.replace(/!/g, ' not ');
 
-      return conditionScope.$eval(condition, this.conditionValues);
+      try {
+        return expressions.evaluate(condition, this.conditionValues);
+      } catch (e) {
+        console.log(`failed to parse setting condition '${condition}': ${e.message}`);
+        console.log(this.conditionValues);
+        return false;
+      }
     },
   },
   methods: {

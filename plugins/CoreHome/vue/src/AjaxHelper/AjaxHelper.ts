@@ -7,7 +7,6 @@
 
 /* eslint-disable max-classes-per-file */
 
-import { ITimeoutService } from 'angular';
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';

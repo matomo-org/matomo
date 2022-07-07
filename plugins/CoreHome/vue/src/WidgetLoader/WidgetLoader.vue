@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-import { IRootScopeService, IScope } from 'angular';
 import { defineComponent } from 'vue';
 import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
 import { translate } from '../translate';
