@@ -63,8 +63,11 @@ var broadcast = {
         }
         broadcast._isInit = true;
 
-        angular.element(document).injector().invoke(function (historyService) {
-            historyService.init();
+        var MatomoUrl = window.CoreHome.MatomoUrl;
+        var watchEffect = window.Vue.watchEffect;
+
+        watchEffect(() => {
+          broadcast.pageload(MatomoUrl.stringify(MatomoUrl.hashParsed.value));
         });
 
         if(noLoadingMessage != true) {
@@ -246,17 +249,14 @@ var broadcast = {
         }
 
         if (disableHistory) {
-            var $window = piwikHelper.getAngularDependency('$window');
-            var newLocation = $window.location.href.split('#')[0] + '#?' + currentHashStr;
+            var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
             // window.location.replace changes the current url without pushing it on the browser's history stack
-            $window.location.replace(newLocation);
+            window.location.replace(newLocation);
         }
         else {
             // Let history know about this new Hash and load it.
             broadcast.forceReload = true;
-            angular.element(document).injector().invoke(function (historyService) {
-                historyService.load(currentHashStr);
-            });
+            window.CoreHome.MatomoUrl.updateHash(currentHashStr.replace(/^[#\/?]+/, ''));
         }
     },
 
