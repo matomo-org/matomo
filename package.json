@@ -45,6 +45,7 @@
     "jquery.dotdotdot": "^3.2.3",
     "jquery.scrollto": "^2.1.2",
     "materialize-css": "^1.0.0",
+    "mathjs": "^10.6.4",
     "mousetrap": "^1.6.5",
     "ng-dialog": "^1.4.0",
     "qrcodejs2": "0.0.2",

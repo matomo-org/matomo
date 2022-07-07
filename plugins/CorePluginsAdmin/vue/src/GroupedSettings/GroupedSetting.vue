@@ -16,13 +16,24 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IScope } from 'angular';
-import { Matomo } from 'CoreHome';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { create as createMathJs, all as mathJsAll } from 'mathjs/lib/esm/number';
 import FormField from '../FormField/FormField.vue';
 import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
 
-// TODO: have to use angularjs here until there's an expression evaluating alternative
-let conditionScope: IScope;
+const math = createMathJs(mathJsAll);
+
+// support natural equal for strings (or any variable)
+math.import(
+  {
+    // eslint-disable-next-line eqeqeq
+    equal: (a: unknown, b: unknown) => a == b,
+  },
+  {
+    override: true,
+  },
+);
 
 export default defineComponent({
   props: {
@@ -58,12 +69,7 @@ export default defineComponent({
         return true;
       }
 
-      if (!conditionScope) {
-        const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
-        conditionScope = $rootScope.$new(true);
-      }
-
-      return conditionScope.$eval(condition, this.conditionValues);
+      return math.evaluate(condition, this.conditionValues);
     },
   },
   methods: {
