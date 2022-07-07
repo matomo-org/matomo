@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import useExternalPluginComponent from '../useExternalPluginComponent';
@@ -154,51 +154,48 @@ export default defineComponent({
   mounted() {
     const root = this.$refs.root as HTMLElement;
 
-    // timeout used since angularjs does not fill out the transclude at this point
-    setTimeout(() => {
-      if (!this.actualInlineHelp) {
-        let helpNode = root.querySelector('.title .inlineHelp');
-        if (!helpNode && root.parentElement?.nextElementSibling) {
-          // hack for reports :(
-          helpNode = (root.parentElement.nextElementSibling as HTMLElement)
-            .querySelector('.reportDocumentation');
-        }
-
-        if (helpNode) {
-          // hackish solution to get binded html of p tag within the help node
-          // at this point the ng-bind-html is not yet converted into html when report is not
-          // initially loaded. Using $compile doesn't work. So get and set it manually
-          const helpDocs = helpNode.getAttribute('data-content')?.trim();
-          if (helpDocs && helpDocs.length) {
-            this.actualInlineHelp = `<p>${helpDocs}</p>`;
-            setTimeout(() => helpNode!.remove(), 0);
-          }
-        }
+    if (!this.actualInlineHelp) {
+      let helpNode = root.querySelector('.title .inlineHelp');
+      if (!helpNode && root.parentElement?.nextElementSibling) {
+        // hack for reports :(
+        helpNode = (root.parentElement.nextElementSibling as HTMLElement)
+          .querySelector('.reportDocumentation');
       }
 
-      if (!this.actualFeatureName) {
-        this.actualFeatureName = root.querySelector('.title')?.textContent;
-      }
-
-      if (Matomo.period && Matomo.currentDateString) {
-        const currentPeriod = Periods.parse(
-          Matomo.period as string,
-          Matomo.currentDateString as string,
-        );
-
-        if (this.reportGenerated
-          && currentPeriod.containsToday()
-        ) {
-          window.$(root.querySelector('.report-generated')!).tooltip({
-            track: true,
-            content: this.reportGenerated,
-            items: 'div',
-            show: false,
-            hide: false,
-          });
+      if (helpNode) {
+        // hackish solution to get binded html of p tag within the help node
+        // at this point the ng-bind-html is not yet converted into html when report is not
+        // initially loaded. Using $compile doesn't work. So get and set it manually
+        const helpDocs = helpNode.getAttribute('data-content')?.trim();
+        if (helpDocs && helpDocs.length) {
+          this.actualInlineHelp = `<p>${helpDocs}</p>`;
+          setTimeout(() => helpNode!.remove(), 0);
         }
       }
-    });
+    }
+
+    if (!this.actualFeatureName) {
+      this.actualFeatureName = root.querySelector('.title')?.textContent;
+    }
+
+    if (Matomo.period && Matomo.currentDateString) {
+      const currentPeriod = Periods.parse(
+        Matomo.period as string,
+        Matomo.currentDateString as string,
+      );
+
+      if (this.reportGenerated
+        && currentPeriod.containsToday()
+      ) {
+        window.$(root.querySelector('.report-generated')!).tooltip({
+          track: true,
+          content: this.reportGenerated,
+          items: 'div',
+          show: false,
+          hide: false,
+        });
+      }
+    }
   },
 });
 </script>

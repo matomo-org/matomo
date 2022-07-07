@@ -171,8 +171,7 @@ export default defineComponent({
   mounted() {
     const root = this.$refs.root as HTMLElement;
 
-    // TODO: temporary, remove after angularjs is removed.
-    // this is currently needed since angularjs will render a div, then vue will render a div
+    // this is currently needed since vue-entry code will render a div, then vue will render a div
     // within it, but the top controls and CSS expect to have certain CSS classes in the root
     // element.
     // same applies to above watch for searchActive()

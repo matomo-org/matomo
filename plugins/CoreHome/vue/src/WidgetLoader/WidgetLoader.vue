@@ -220,9 +220,6 @@ export default defineComponent({
         const scope = $rootScope.$new();
         this.currentScope = scope;
 
-        // compile angularjs first since it will modify all dom nodes, breaking vue bindings
-        // if they are present
-        Matomo.helper.compileAngularComponents($content, { scope });
         Matomo.helper.compileVueEntryComponents($content);
 
         NotificationsStore.parseNotificationDivs();

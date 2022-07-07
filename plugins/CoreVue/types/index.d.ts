@@ -189,10 +189,6 @@ declare global {
 
   let widgetsHelper: WidgetsHelper;
 
-  interface AnchorLinkFix {
-    scrollToAnchorInUrl(): void;
-  }
-
   interface NumberFormatter {
     formatNumber(value?: number|string): string;
     formatPercent(value?: number|string): string;
@@ -222,7 +218,6 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
-    anchorLinkFix: AnchorLinkFix;
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;

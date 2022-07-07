@@ -194,20 +194,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/refresh-button.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/attributes.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/field-condition.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
-
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
-        // any angular JS file is loaded etc.
+        // any Vue UMD file is loaded etc.
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js";
     }
