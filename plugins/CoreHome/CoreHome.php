@@ -194,22 +194,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/refresh-button.js";
 
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/startfrom.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/length.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/escape.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/htmldecode.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/urldecode.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/ucfirst.js";
-
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/attributes.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/field-condition.js";
