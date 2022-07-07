@@ -16,19 +16,54 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { create as createMathJs, all as mathJsAll } from 'mathjs/lib/esm/number';
+import {
+  create as createMathJs,
+  addDependencies,
+  subtractDependencies,
+  multiplyDependencies,
+  divideDependencies,
+  equalDependencies,
+  notDependencies,
+  andDependencies,
+  orDependencies,
+  nullDependencies,
+  numberDependencies,
+  evaluateDependencies,
+  largerDependencies,
+  largerEqDependencies,
+  smallerEqDependencies,
+  smallerDependencies,
+  unequalDependencies,
+} from 'mathjs';
 import FormField from '../FormField/FormField.vue';
 import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
 
-const math = createMathJs(mathJsAll);
+const math = createMathJs({
+  addDependencies,
+  subtractDependencies,
+  multiplyDependencies,
+  divideDependencies,
+  equalDependencies,
+  notDependencies,
+  andDependencies,
+  orDependencies,
+  nullDependencies,
+  numberDependencies,
+  evaluateDependencies,
+  largerDependencies,
+  largerEqDependencies,
+  smallerEqDependencies,
+  smallerDependencies,
+  unequalDependencies,
+});
 
 // support natural equal for strings (or any variable)
 math.import(
   {
     // eslint-disable-next-line eqeqeq
     equal: (a: unknown, b: unknown) => a == b,
+    // eslint-disable-next-line eqeqeq
+    unequal: (a: unknown, b: unknown) => a != b,
   },
   {
     override: true,
