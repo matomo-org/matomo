@@ -16,59 +16,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {
-  create as createMathJs,
-  addDependencies,
-  subtractDependencies,
-  multiplyDependencies,
-  divideDependencies,
-  equalDependencies,
-  notDependencies,
-  andDependencies,
-  orDependencies,
-  nullDependencies,
-  numberDependencies,
-  evaluateDependencies,
-  largerDependencies,
-  largerEqDependencies,
-  smallerEqDependencies,
-  smallerDependencies,
-  unequalDependencies,
-} from 'mathjs';
 import FormField from '../FormField/FormField.vue';
 import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
-
-const math = createMathJs({
-  addDependencies,
-  subtractDependencies,
-  multiplyDependencies,
-  divideDependencies,
-  equalDependencies,
-  notDependencies,
-  andDependencies,
-  orDependencies,
-  nullDependencies,
-  numberDependencies,
-  evaluateDependencies,
-  largerDependencies,
-  largerEqDependencies,
-  smallerEqDependencies,
-  smallerDependencies,
-  unequalDependencies,
-});
-
-// support natural equal for strings (or any variable)
-math.import(
-  {
-    // eslint-disable-next-line eqeqeq
-    equal: (a: unknown, b: unknown) => a == b,
-    // eslint-disable-next-line eqeqeq
-    unequal: (a: unknown, b: unknown) => a != b,
-  },
-  {
-    override: true,
-  },
-);
+import expressions from '../expressions';
 
 export default defineComponent({
   props: {
@@ -110,7 +60,7 @@ export default defineComponent({
       condition = condition.replace(/!/g, ' not ');
 
       try {
-        return math.evaluate(condition, this.conditionValues);
+        return expressions.evaluate(condition, this.conditionValues);
       } catch (e) {
         console.log(`failed to parse setting condition '${condition}': ${e.message}`);
         console.log(this.conditionValues);
