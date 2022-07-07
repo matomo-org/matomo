@@ -116,9 +116,7 @@ window.piwikHelper = {
      */
     escape: function (value)
     {
-        var escape = angular.element(document).injector().get('$sanitize');
-
-        return escape(value);
+        return window.vueSanitize(value);
     },
 
 	/**
@@ -147,10 +145,6 @@ window.piwikHelper = {
 		url = url.replace(/\|\|\|/g, '<wbr />&#8203;'); // &#8203; is for internet explorer
 		return url;
 	},
-
-    getAngularDependency: function (dependency) {
-        return angular.element(document).injector().get(dependency);
-    },
 
     // initial call for 'body' later in this file
     compileVueEntryComponents: function (selector, extraProps) {
@@ -315,75 +309,8 @@ window.piwikHelper = {
       });
     },
 
-    /**
-     * As we still have a lot of old jQuery code and copy html from node to node we sometimes have to trigger the
-     * compiling of angular components manually.
-     *
-     * @param selector
-     * @param {object} options
-     * @param {object} options.scope if supplied, the given scope will be used when compiling the template. Shouldn't
-     *                               be a plain object but an actual angular scope.
-     * @param {object} options.params if supplied, the properties in this object are
-     *                               added to the new scope.
-     */
-    compileAngularComponents: function (selector, options) {
-        options = options || {};
-
-        var $element = $(selector);
-
-        if (!$element.length) {
-            return;
-        }
-
-        angular.element(document).injector().invoke(function($compile, $rootScope) {
-            var scope = null;
-            if (options.scope) {
-                scope = options.scope;
-            } else if (!options.forceNewScope) { // TODO: docs
-                scope = angular.element($element).scope();
-            }
-            if (!scope) {
-                scope = $rootScope.$new(true);
-            }
-
-            if (options.params) {
-                $.extend(scope, options.params);
-            }
-
-            $compile($element)(scope);
-
-            setTimeout(function () {
-                piwikHelper.processDynamicHtml($element);
-            });
-        });
-    },
-
     processDynamicHtml: function ($element) {
         piwik.postEvent('Matomo.processDynamicHtml', $element);
-    },
-
-    /**
-     * Detection works currently only for directives defining an isolated scope. Functionality might need to be
-     * extended if needed. Under circumstances you might call this method before calling compileAngularComponents()
-     * to avoid compiling the same element twice.
-     * @param selector
-     */
-    isAlreadyCompiledAngularComponent: function (selector) {
-        var $element = $(selector);
-
-        return ($element.length && $element.hasClass('ng-isolate-scope'));
-    },
-
-    /**
-     * Detects whether angular is rendering the page. If so, the page will be reloaded automatically
-     * via angular as soon as it detects a $locationChange
-     *
-     * @returns {number|jQuery}
-     * @deprecated
-     */
-    isAngularRenderingThePage: function ()
-    {
-        return piwikHelper.isReportingPage();
     },
 
     /**

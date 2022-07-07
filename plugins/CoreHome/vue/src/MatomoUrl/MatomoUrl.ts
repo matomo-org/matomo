@@ -121,7 +121,7 @@ class MatomoUrl {
 
   // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
   updateLocation(params: QueryParameters|string) {
-    if (Matomo.helper.isAngularRenderingThePage()) {
+    if (Matomo.helper.isReportingPage()) {
       this.updateHash(params);
       return;
     }

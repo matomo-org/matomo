@@ -43,7 +43,6 @@ interface WidgetLoaderState {
   loading: boolean;
   loadingFailed: boolean;
   changeCounter: number;
-  currentScope: null|IScope;
   lastWidgetAbortController: null|AbortController;
 }
 
@@ -72,7 +71,6 @@ export default defineComponent({
       loading: false,
       loadingFailed: false,
       changeCounter: 0,
-      currentScope: null,
       lastWidgetAbortController: null,
     };
   },
@@ -118,9 +116,6 @@ export default defineComponent({
     cleanupLastWidgetContent() {
       const widgetContent = this.$refs.widgetContent as HTMLElement;
       Matomo.helper.destroyVueComponent(widgetContent);
-      if (this.currentScope) {
-        this.currentScope.$destroy();
-      }
       if (widgetContent) {
         widgetContent.innerHTML = '';
       }
@@ -215,10 +210,6 @@ export default defineComponent({
             $title.html(Matomo.helper.htmlEntities(this.widgetName));
           }
         }
-
-        const $rootScope: IRootScopeService = Matomo.helper.getAngularDependency('$rootScope');
-        const scope = $rootScope.$new();
-        this.currentScope = scope;
 
         Matomo.helper.compileVueEntryComponents($content);
 

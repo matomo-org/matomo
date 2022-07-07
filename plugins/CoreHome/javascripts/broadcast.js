@@ -326,10 +326,8 @@ var broadcast = {
 
         var params_vals = str.split("&");
 
-        var $window = piwikHelper.getAngularDependency('$window');
-
         // available in global scope
-        var currentSearchStr = $window.location.search;
+        var currentSearchStr = window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
 
         if (!currentSearchStr) {
@@ -398,20 +396,11 @@ var broadcast = {
           newUrl = wholeNewUrl;
         }
 
-        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-        if ($rootScope) {
-            $rootScope.$on('$locationChangeStart', function (event) {
-                if (event) {
-                    event.preventDefault();
-                }
-            });
-        }
-
         if (oldUrl == newUrl) {
-            $window.location.reload();
+            window.location.reload();
         } else {
             this.forceReload = true;
-            $window.location.href = newUrl;
+            window.location.href = newUrl;
         }
         return false;
 
@@ -608,7 +597,7 @@ var broadcast = {
                 piwikHelper.hideAjaxLoading();
                 broadcast.lastUrlRequested = null;
 
-                piwikHelper.compileAngularComponents('#content');
+                piwikHelper.compileVueDirectives('#content');
             }
 
             initTopControls();

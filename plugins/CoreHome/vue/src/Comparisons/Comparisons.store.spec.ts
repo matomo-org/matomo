@@ -54,7 +54,7 @@ describe('CoreHome/Comparisons.store', () => {
       .reply(200, JSON.stringify(DISABLED_PAGES));
   });
   beforeAll(() => {
-    // so piwikHelper.isAngularRenderingThePage will return true
+    // so piwikHelper.isReportingPage will return true
     document.body.innerHTML = document.body.innerHTML + '<div class="reporting-page" />';
   });
   beforeAll(async () => {

@@ -8,7 +8,8 @@
   <div
     v-expand-on-hover="{expander: 'expander'}"
     id="header_message"
-    class="piwikSelector borderedControl {% if not latest_version_available %}header_info{% else %}{% endif %} piwikTopControl {% if latest_version_available %}update_available{% endif %}"
+    class="piwikSelector borderedControl piwikTopControl"
+    :class="{header_info: !latestVersionAvailable, update_available: latestVersionAvailable}"
   >
     <span v-if="latestVersionAvailable && !isPiwikDemo">
       <span
@@ -83,7 +84,7 @@ export default defineComponent({
   },
   computed: {
     updateNowText() {
-      let text: string = '';
+      let text = '';
 
       if (this.isMultiServerEnvironment) {
         const link = `https://builds.matomo.org/piwik-${this.latestVersionAvailable}.zip`;
@@ -94,7 +95,7 @@ export default defineComponent({
       } else {
         text = translate(
           'General_PiwikXIsAvailablePleaseUpdateNow',
-          this.latestVersionAvailable,
+          this.latestVersionAvailable || '',
           '<br /><a href="index.php?module=CoreUpdater&amp;action=newVersionAvailable">',
           '</a>',
           '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/changelog/">',
@@ -105,9 +106,12 @@ export default defineComponent({
       return `${text}<br/>`;
     },
     updateAvailableText() {
-      const updateSubject = translate('General_NewUpdatePiwikX', this.latestVersionAvailable);
-      const matomoLink = `<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/">Matomo</a>`;
-      const changelogLinkStart = `<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/changelog/'>`;
+      const updateSubject = translate(
+        'General_NewUpdatePiwikX',
+        this.latestVersionAvailable || '',
+      );
+      const matomoLink = '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/">Matomo</a>';
+      const changelogLinkStart = '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/changelog/">';
 
       const text = translate(
         'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin',

@@ -16,7 +16,7 @@
 
           <div class="collapsible-body">
             <ul>
-              <li v-for="(name, urlParameters) in level2">
+              <li v-for="(urlParameters, name) in level2" :key="name">
                 <a
                   :title="urlParameters._tooltip ? translate(urlParameters._tooltip) : ''"
                   target="_self"
@@ -39,7 +39,8 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import SideNav from '../SideNav/SideNav';
 
 interface UrlParamsInfo {
-
+  _tooltip: string;
+  _url: QueryParameters;
 }
 
 type Menu = Record<string, Record<string, UrlParamsInfo>>;

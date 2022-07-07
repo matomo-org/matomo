@@ -128,6 +128,7 @@ __webpack_require__.d(__webpack_exports__, "SaveButton", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "Form", function() { return /* reexport */ Form; });
 __webpack_require__.d(__webpack_exports__, "GroupedSettings", function() { return /* reexport */ GroupedSettings; });
 __webpack_require__.d(__webpack_exports__, "PluginsIntro", function() { return /* reexport */ PluginsIntro; });
+__webpack_require__.d(__webpack_exports__, "ThemesIntro", function() { return /* reexport */ ThemesIntro; });
 __webpack_require__.d(__webpack_exports__, "PluginName", function() { return /* reexport */ PluginName; });
 __webpack_require__.d(__webpack_exports__, "PluginsTable", function() { return /* reexport */ PluginsTable; });
 __webpack_require__.d(__webpack_exports__, "PluginsTableWithUpdates", function() { return /* reexport */ PluginsTableWithUpdates; });
@@ -149,13 +150,10 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=b3ece69c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=db9a7f70
 
 var _hoisted_1 = {
   class: "form-group row matomo-form-field"
@@ -202,7 +200,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 0
   }, _ctx.inlineHelpBind)), null, 16)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "inline-help")], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Default')) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.defaultValuePrettyTruncated), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showDefaultValue]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showField]]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=b3ece69c
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=db9a7f70
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldCheckbox.vue?vue&type=template&id=d35fa436
 
@@ -1767,106 +1768,8 @@ function processCheckboxAndRadioAvailableValues(availableValues, type) {
   });
   return flatValues;
 }
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=3f63d972
-
-var FieldAngularJsTemplatevue_type_template_id_3f63d972_hoisted_1 = {
-  ref: "root"
-};
-function FieldAngularJsTemplatevue_type_template_id_3f63d972_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldAngularJsTemplatevue_type_template_id_3f63d972_hoisted_1, null, 512);
-}
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=template&id=3f63d972
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=script&lang=ts
-
-
-
-function clone(obj) {
-  if (typeof obj === 'undefined') {
-    return undefined;
-  }
-
-  return JSON.parse(JSON.stringify(obj));
-}
-
-/* harmony default export */ var FieldAngularJsTemplatevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    modelValue: null,
-    formField: {
-      type: null,
-      required: true
-    },
-    templateFile: {
-      type: String,
-      required: true
-    }
-  },
-  emits: ['update:modelValue'],
-  inheritAttrs: false,
-  setup: function setup(props, context) {
-    var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    var $element = window.$("<div ng-include=\"'".concat(props.templateFile, "?cb=").concat(external_CoreHome_["Matomo"].cacheBuster, "'\"></div>"));
-    var $timeout = external_CoreHome_["Matomo"].helper.getAngularDependency('$timeout');
-    var $rootScope = external_CoreHome_["Matomo"].helper.getAngularDependency('$rootScope');
-    var scope = $rootScope.$new();
-    scope.formField = Object.assign(Object.assign({}, clone(props.formField)), {}, {
-      value: clone(props.modelValue)
-    });
-    scope.$watch('formField.value', function (newValue, oldValue) {
-      if (newValue !== oldValue && JSON.stringify(newValue) !== JSON.stringify(props.modelValue)) {
-        context.emit('update:modelValue', clone(newValue));
-      }
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return props.modelValue;
-    }, function (newValue) {
-      if (JSON.stringify(newValue) !== JSON.stringify(scope.formField.value)) {
-        $timeout(function () {
-          scope.formField.value = newValue;
-        });
-      }
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return props.formField;
-    }, function (newValue) {
-      $timeout(function () {
-        var currentValue = scope.formField.value;
-        scope.formField = Object.assign(Object.assign({}, clone(newValue)), {}, {
-          value: currentValue
-        });
-      });
-    }, {
-      deep: true
-    }); // append on mount
-
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
-      window.$(root.value).append($element);
-      external_CoreHome_["Matomo"].helper.compileAngularComponents($element, {
-        scope: scope,
-        params: {
-          formField: Object.assign(Object.assign({}, clone(props.formField)), {}, {
-            value: props.modelValue
-          })
-        }
-      });
-    });
-    return {
-      root: root
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldAngularJsTemplate.vue
-
-
-
-FieldAngularJsTemplatevue_type_script_lang_ts.render = FieldAngularJsTemplatevue_type_template_id_3f63d972_render
-
-/* harmony default export */ var FieldAngularJsTemplate = (FieldAngularJsTemplatevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=script&lang=ts
 function FormFieldvue_type_script_lang_ts_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { FormFieldvue_type_script_lang_ts_typeof = function _typeof(obj) { return typeof obj; }; } else { FormFieldvue_type_script_lang_ts_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return FormFieldvue_type_script_lang_ts_typeof(obj); }
-
 
 
 
@@ -1994,18 +1897,13 @@ var CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
               name = _formField$component.name;
 
           if (!plugin || !name) {
-            throw new Error('Invalid component property given to piwik-field directive, must be ' + '{plugin: \'...\',name: \'...\'}');
+            throw new Error('Invalid component property given to FormField directive, must be ' + '{plugin: \'...\',name: \'...\'}');
           }
 
           component = Object(external_CoreHome_["useExternalPluginComponent"])(plugin, name);
         }
 
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(component);
-      } // backwards compatibility w/ settings that use templateFile property
-
-
-      if (formField.templateFile) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(FieldAngularJsTemplate);
       }
 
       var uiControl = formField.uiControl;
@@ -2159,132 +2057,6 @@ var CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
 FormFieldvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var FormField = (FormFieldvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-function transformVueComponentRef(value) {
-  if (!value) {
-    return undefined;
-  }
-
-  var plugin = value.plugin,
-      name = value.name;
-
-  if (!plugin || !name) {
-    throw new Error('Invalid component property given to piwik-field directive, must be ' + '{plugin: \'...\',name: \'...\'}');
-  }
-
-  return Object(external_CoreHome_["useExternalPluginComponent"])(plugin, name);
-} // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
-
-function conditionFn(scope, condition) {
-  var values = {};
-  Object.values(scope.allSettings || {}).forEach(function (setting) {
-    if (setting.value === '0') {
-      values[setting.name] = 0;
-    } else {
-      values[setting.name] = setting.value;
-    }
-  });
-  return scope.$eval(condition, values);
-}
-
-/* harmony default export */ var FormField_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: FormField,
-  scope: {
-    modelValue: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      default: function _default(scope) {
-        var field = scope.piwikFormField; // vue components expect object data as input, so we parse JSON data
-        // for angularjs directives that use JSON.
-
-        if (typeof field.value === 'string' && field.value && (field.type === 'array' || field.uiControl === 'multituple' || field.uiControl === 'field-array' || field.uiControl === 'multiselect' || field.uiControl === 'site')) {
-          field.value = JSON.parse(field.value);
-        }
-
-        if (field.uiControl === 'checkbox') {
-          return Object(external_CoreHome_["transformAngularJsBoolAttr"])(field.value);
-        }
-
-        return field.value;
-      }
-    },
-    piwikFormField: {
-      vue: 'formField',
-      angularJsBind: '=',
-      transform: function transform(v, vm, scope) {
-        var value = v;
-
-        function getComponent() {
-          if (value.templateFile) {
-            return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(FieldAngularJsTemplate);
-          }
-
-          var comp = transformVueComponentRef(value.component);
-
-          if (!comp) {
-            return undefined;
-          }
-
-          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(comp);
-        }
-
-        return Object.assign(Object.assign({}, value), {}, {
-          condition: value.condition ? conditionFn.bind(null, scope, value.condition) : value.condition,
-          disabled: Object(external_CoreHome_["transformAngularJsBoolAttr"])(value.disabled),
-          autocomplete: Object(external_CoreHome_["transformAngularJsBoolAttr"])(value.autocomplete),
-          autofocus: Object(external_CoreHome_["transformAngularJsBoolAttr"])(value.autofocus),
-          tabindex: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.tabindex),
-          fullWidth: Object(external_CoreHome_["transformAngularJsBoolAttr"])(value.fullWidth),
-          maxlength: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.maxlength),
-          required: Object(external_CoreHome_["transformAngularJsBoolAttr"])(value.required),
-          rows: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.rows),
-          min: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.min),
-          max: Object(external_CoreHome_["transformAngularJsIntAttr"])(value.max),
-          component: getComponent()
-        });
-      }
-    },
-    allSettings: {
-      angularJsBind: '='
-    }
-  },
-  directiveName: 'piwikFormField',
-  events: {
-    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, controller, $timeout) {
-      if (newValue !== scope.piwikFormField.value) {
-        $timeout(function () {
-          scope.piwikFormField.value = newValue;
-        });
-      }
-    }
-  },
-  $inject: ['$timeout'],
-  postCreate: function postCreate(vm, scope) {
-    scope.$watch('piwikFormField.value', function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        vm.modelValue = newVal;
-      }
-    }); // deep watch for all settings, on change trigger change in formfield property
-    // so condition is re-applied
-
-    scope.$watch('allSettings', function () {
-      vm.formField = Object.assign(Object.assign({}, vm.formField), {}, {
-        condition: scope.piwikFormField.condition ? conditionFn.bind(null, scope, scope.piwikFormField.condition) : scope.piwikFormField.condition
-      });
-    }, true);
-  }
-}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/Field/Field.vue?vue&type=template&id=91065bf4
 
 function Fieldvue_type_template_id_91065bf4_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2418,245 +2190,29 @@ var UI_CONTROLS_TO_TYPE = {
 Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_91065bf4_render
 
 /* harmony default export */ var Field = (Fieldvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Field/Field.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=130f7d35
 
-
-
-
-
-function handleJsonValue(value, varType, uiControl) {
-  if (typeof value === 'string' && value && (varType === 'array' || uiControl === 'multituple' || uiControl === 'field-array' || uiControl === 'multiselect' || uiControl === 'site')) {
-    var result = JSON.parse(value); // the angularjs site field supplied siteid/sitename properties which initializes the
-    // siteselector value. the sitename is assumed to be encoded, and is decoded once.
-    // so the value for 'site' Field's in angularjs is assumed to be encoded.
-
-    if (uiControl === 'site') {
-      result.name = external_CoreHome_["Matomo"].helper.htmlDecode(result.name);
-    }
-
-    return result;
-  }
-
-  if (uiControl === 'checkbox' && varType !== 'array') {
-    return Object(external_CoreHome_["transformAngularJsBoolAttr"])(value);
-  }
-
-  return value;
-}
-
-/* harmony default export */ var Field_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: Field,
-  require: '?ngModel',
-  scope: {
-    uicontrol: {
-      angularJsBind: '@'
-    },
-    name: {
-      angularJsBind: '@'
-    },
-    value: {
-      vue: 'modelValue',
-      angularJsBind: '@',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transform: function transform(value, vm, scope) {
-        // vue components expect object data as input, so we parse JSON data
-        // for angularjs directives that use JSON.
-        return handleJsonValue(value, scope.varType, scope.uicontrol);
-      }
-    },
-    default: {
-      vue: 'defaultValue',
-      angularJsBind: '@'
-    },
-    options: {
-      angularJsBind: '='
-    },
-    description: {
-      angularJsBind: '@'
-    },
-    introduction: {
-      angularJsBind: '@'
-    },
-    title: {
-      angularJsBind: '@'
-    },
-    inlineHelp: {
-      angularJsBind: '@'
-    },
-    disabled: {
-      angularJsBind: '=',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    uiControlAttributes: {
-      angularJsBind: '='
-    },
-    uiControlOptions: {
-      angularJsBind: '='
-    },
-    autocomplete: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    condition: {
-      angularJsBind: '@',
-      transform: function transform(value, vm, scope) {
-        if (!value) {
-          return undefined;
-        }
-
-        return function (values) {
-          return scope.$eval(value, values);
-        };
-      }
-    },
-    varType: {
-      angularJsBind: '@'
-    },
-    autofocus: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    tabindex: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    },
-    fullWidth: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    maxlength: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    },
-    required: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    placeholder: {
-      angularJsBind: '@'
-    },
-    rows: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    },
-    min: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    },
-    max: {
-      angularJsBind: '@',
-      transform: external_CoreHome_["transformAngularJsIntAttr"]
-    },
-    component: {
-      angularJsBind: '<',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transform: function transform(value, vm, scope) {
-        if (!value) {
-          return undefined;
-        }
-
-        if (scope.templateFile) {
-          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(FieldAngularJsTemplate);
-        }
-
-        var plugin = value.plugin,
-            name = value.name;
-
-        if (!plugin || !name) {
-          throw new Error('Invalid component property given to piwik-field directive, must ' + 'be {plugin: \'...\',name: \'...\'}');
-        }
-
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["shallowRef"])(Object(external_CoreHome_["useExternalPluginComponent"])(plugin, name));
-      }
-    }
-  },
-  directiveName: 'piwikField',
-  $inject: ['$timeout'],
-  events: {
-    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel, $timeout) {
-      var currentValue = ngModel ? ngModel.$viewValue : scope.value;
-
-      if (newValue !== currentValue) {
-        $timeout(function () {
-          if (!ngModel) {
-            scope.value = newValue;
-            return;
-          } // ngModel being used
-
-
-          ngModel.$setViewValue(newValue);
-          ngModel.$render(); // not detected by the watch for some reason
-        });
-      }
-    }
-  },
-  postCreate: function postCreate(vm, scope, element, attrs, controller) {
-    var ngModel = controller;
-
-    if (!ngModel) {
-      scope.$watch('value', function (newVal) {
-        if (newVal !== vm.modelValue) {
-          var transformed = handleJsonValue(newVal, scope.varType, scope.uicontrol);
-          Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-            vm.modelValue = transformed;
-          });
-        }
-      });
-      return;
-    } // ngModel being used
-
-
-    ngModel.$render = function () {
-      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-        vm.modelValue = Object(external_CoreHome_["removeAngularJsSpecificProperties"])(ngModel.$viewValue);
-      });
-    };
-
-    if (typeof scope.value !== 'undefined') {
-      var transformed = handleJsonValue(scope.value, scope.varType, scope.uicontrol);
-      ngModel.$setViewValue(transformed);
-    } else {
-      ngModel.$setViewValue(vm.modelValue);
-    } // to provide same behavior in angularjs/<4.6.0, we trigger a model update to the same
-    // value, but only for 'site' uicontrols. this only happened for site selectors, no others.
-
-
-    if (scope.uicontrol === 'site' && ngModel.$viewValue) {
-      setTimeout(function () {
-        ngModel.$setViewValue(Object.assign({}, ngModel.$viewValue));
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=a4ce6500
-
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_1 = {
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_1 = {
   class: "pluginSettings",
   ref: "root"
 };
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_2 = ["id"];
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_3 = {
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_2 = ["id"];
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_3 = {
   class: "card-content"
 };
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_4 = ["id"];
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_5 = ["onClick", "disabled", "value"];
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_6 = {
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_4 = ["id"];
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_5 = ["onClick", "disabled", "value"];
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_6 = {
   class: "confirm-password-modal modal"
 };
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_7 = {
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_7 = {
   class: "modal-content"
 };
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_8 = {
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_8 = {
   class: "modal-footer"
 };
-var PluginSettingsvue_type_template_id_a4ce6500_hoisted_9 = ["disabled"];
-function PluginSettingsvue_type_template_id_a4ce6500_render(_ctx, _cache, $props, $setup, $data, $options) {
+var PluginSettingsvue_type_template_id_130f7d35_hoisted_9 = ["disabled"];
+function PluginSettingsvue_type_template_id_130f7d35_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
   var _component_GroupedSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("GroupedSettings");
@@ -2665,15 +2221,15 @@ function PluginSettingsvue_type_template_id_a4ce6500_render(_ctx, _cache, $props
 
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PluginSettingsvue_type_template_id_a4ce6500_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.settingsPerPlugin, function (settings) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PluginSettingsvue_type_template_id_130f7d35_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.settingsPerPlugin, function (settings) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "card",
       id: "".concat(settings.pluginName, "PluginSettings"),
       key: "".concat(settings.pluginName, "PluginSettings")
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_a4ce6500_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_130f7d35_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
       class: "card-title",
       id: settings.pluginName
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(settings.title), 9, PluginSettingsvue_type_template_id_a4ce6500_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_GroupedSettings, {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(settings.title), 9, PluginSettingsvue_type_template_id_130f7d35_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_GroupedSettings, {
       "group-name": settings.pluginName,
       settings: settings.settings,
       "all-setting-values": _ctx.settingValues,
@@ -2688,10 +2244,10 @@ function PluginSettingsvue_type_template_id_a4ce6500_render(_ctx, _cache, $props
       disabled: _ctx.isLoading,
       class: "pluginsSettingsSubmit btn",
       value: _ctx.translate('General_Save')
-    }, null, 8, PluginSettingsvue_type_template_id_a4ce6500_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    }, null, 8, PluginSettingsvue_type_template_id_130f7d35_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
       loading: _ctx.isLoading || _ctx.isSaving[settings.pluginName]
-    }, null, 8, ["loading"])])], 8, PluginSettingsvue_type_template_id_a4ce6500_hoisted_2);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_a4ce6500_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_a4ce6500_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, null, 8, ["loading"])])], 8, PluginSettingsvue_type_template_id_130f7d35_hoisted_2);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_130f7d35_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_130f7d35_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.passwordConfirmation,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return _ctx.passwordConfirmation = $event;
@@ -2701,7 +2257,7 @@ function PluginSettingsvue_type_template_id_a4ce6500_render(_ctx, _cache, $props
     autocomplete: false,
     "full-width": true,
     title: _ctx.translate('UsersManager_YourCurrentPassword')
-  }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_a4ce6500_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginSettingsvue_type_template_id_130f7d35_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
     disabled: !_ctx.passwordConfirmation ? 'disabled' : undefined,
@@ -2710,7 +2266,7 @@ function PluginSettingsvue_type_template_id_a4ce6500_render(_ctx, _cache, $props
 
       _ctx.save(_this.settingsToSave);
     })
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 9, PluginSettingsvue_type_template_id_a4ce6500_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 9, PluginSettingsvue_type_template_id_130f7d35_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
     onClick: _cache[2] || (_cache[2] = function ($event) {
@@ -2718,7 +2274,7 @@ function PluginSettingsvue_type_template_id_a4ce6500_render(_ctx, _cache, $props
     })
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=a4ce6500
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=130f7d35
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=template&id=566a93cc
 
@@ -2743,9 +2299,9 @@ function GroupedSettingsvue_type_template_id_566a93cc_render(_ctx, _cache, $prop
 }
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=template&id=566a93cc
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=17c12cc8
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=916027be
 
-function GroupedSettingvue_type_template_id_17c12cc8_render(_ctx, _cache, $props, $setup, $data, $options) {
+function GroupedSettingvue_type_template_id_916027be_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_FormField = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FormField");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_FormField, {
@@ -2753,13 +2309,12 @@ function GroupedSettingvue_type_template_id_17c12cc8_render(_ctx, _cache, $props
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return _ctx.changeValue($event);
     }),
-    "form-field": _ctx.settingWithComponent
+    "form-field": _ctx.setting
   }, null, 8, ["model-value", "form-field"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showField]]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=17c12cc8
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=916027be
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=script&lang=ts
-
 
 
  // TODO: have to use angularjs here until there's an expression evaluating alternative
@@ -2782,16 +2337,6 @@ var conditionScope;
   },
   emits: ['update:modelValue'],
   computed: {
-    // bc for angularjs field that uses templateFile
-    settingWithComponent: function settingWithComponent() {
-      if (this.setting.templateFile) {
-        return Object.assign(Object.assign({}, this.setting), {}, {
-          component: FieldAngularJsTemplate
-        });
-      }
-
-      return this.setting;
-    },
     showField: function showField() {
       var condition = this.setting.condition;
 
@@ -2819,7 +2364,7 @@ var conditionScope;
 
 
 
-GroupedSettingvue_type_script_lang_ts.render = GroupedSettingvue_type_template_id_17c12cc8_render
+GroupedSettingvue_type_script_lang_ts.render = GroupedSettingvue_type_template_id_916027be_render
 
 /* harmony default export */ var GroupedSetting = (GroupedSettingvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=script&lang=ts
@@ -2950,7 +2495,7 @@ var _window = window,
           _this.settingValues["".concat(settings.pluginName, ".").concat(setting.name)] = setting.value;
         });
       });
-      window.anchorLinkFix.scrollToAnchorInUrl();
+      Object(external_CoreHome_["scrollToAnchorInUrl"])();
 
       _this.addSectionsToTableOfContents();
     }).catch(function () {
@@ -3096,155 +2641,9 @@ var _window = window,
 
 
 
-PluginSettingsvue_type_script_lang_ts.render = PluginSettingsvue_type_template_id_a4ce6500_render
+PluginSettingsvue_type_script_lang_ts.render = PluginSettingsvue_type_template_id_130f7d35_render
 
 /* harmony default export */ var PluginSettings = (PluginSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var PluginSettings_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: PluginSettings,
-  scope: {
-    mode: {
-      angularJsBind: '@'
-    }
-  },
-  directiveName: 'piwikPluginSettings'
-}));
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginManagement.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-var PluginManagement_window = window,
-    PluginManagement_$ = PluginManagement_window.$;
-
-function onClickUninstall(binding, event) {
-  event.preventDefault();
-  var link = PluginManagement_$(event.target).attr('href');
-  var pluginName = PluginManagement_$(event.target).attr('data-plugin-name');
-
-  if (!link || !pluginName) {
-    return;
-  }
-
-  if (!binding.value.uninstallConfirmMessage) {
-    binding.value.uninstallConfirmMessage = PluginManagement_$('#uninstallPluginConfirm').text();
-  }
-
-  var messageToDisplay = (binding.value.uninstallConfirmMessage || '').replace('%s', pluginName);
-  PluginManagement_$('#uninstallPluginConfirm').text(messageToDisplay);
-  external_CoreHome_["Matomo"].helper.modalConfirm('#confirmUninstallPlugin', {
-    yes: function yes() {
-      window.location.href = link;
-    }
-  });
-}
-
-function onDonateLinkClick(event) {
-  event.preventDefault();
-  var overlayId = PluginManagement_$(event.target).data('overlay-id');
-  external_CoreHome_["Matomo"].helper.modalConfirm("#".concat(overlayId), {});
-}
-
-/* harmony default export */ var PluginManagement = ({
-  mounted: function mounted(el, binding) {
-    setTimeout(function () {
-      binding.value.uninstallConfirmMessage = '';
-      PluginManagement_$(el).find('.uninstall').click(onClickUninstall.bind(null, binding));
-      PluginManagement_$(el).find('.plugin-donation-link').click(onDonateLinkClick);
-    });
-  }
-});
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginManagement.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikPluginManagement() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {},
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      PluginManagement.mounted(element[0], binding);
-    }
-  };
-}
-window.angular.module('piwikApp').directive('piwikPluginManagement', piwikPluginManagement);
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginUpload.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-var PluginUpload_window = window,
-    PluginUpload_$ = PluginUpload_window.$;
-
-function onUploadPlugin(event) {
-  event.preventDefault();
-  external_CoreHome_["Matomo"].helper.modalConfirm('#installPluginByUpload', {});
-}
-
-function onSubmitPlugin(event) {
-  var $zipFile = PluginUpload_$('[name=pluginZip]');
-  var fileName = $zipFile.val();
-
-  if (!fileName || fileName.slice(-4) !== '.zip') {
-    event.preventDefault(); // eslint-disable-next-line no-alert
-
-    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_NoZipFileSelected'));
-  } else if ($zipFile.data('maxSize') > 0 && $zipFile[0].files[0].size > $zipFile.data('maxSize') * 1048576) {
-    event.preventDefault(); // eslint-disable-next-line no-alert
-
-    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_FileExceedsUploadLimit'));
-  }
-}
-
-/* harmony default export */ var PluginUpload = ({
-  mounted: function mounted() {
-    setTimeout(function () {
-      PluginUpload_$('.uploadPlugin').click(onUploadPlugin);
-      PluginUpload_$('#uploadPluginForm').submit(onSubmitPlugin);
-    });
-  }
-});
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginUpload.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikPluginUpload() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink() {
-      PluginUpload.mounted();
-    }
-  };
-}
-window.angular.module('piwikApp').directive('piwikPluginUpload', piwikPluginUpload);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3331,7 +2730,7 @@ function onClickOrigin(element, event) {
     });
   }
 });
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginFilter.adapter.ts
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginManagement.ts
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -3339,15 +2738,85 @@ function onClickOrigin(element, event) {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function piwikPluginFilter() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink(scope, element) {
-      PluginFilter.mounted(element[0]);
+var PluginManagement_window = window,
+    PluginManagement_$ = PluginManagement_window.$;
+
+function onClickUninstall(binding, event) {
+  event.preventDefault();
+  var link = PluginManagement_$(event.target).attr('href');
+  var pluginName = PluginManagement_$(event.target).attr('data-plugin-name');
+
+  if (!link || !pluginName) {
+    return;
+  }
+
+  if (!binding.value.uninstallConfirmMessage) {
+    binding.value.uninstallConfirmMessage = PluginManagement_$('#uninstallPluginConfirm').text();
+  }
+
+  var messageToDisplay = (binding.value.uninstallConfirmMessage || '').replace('%s', pluginName);
+  PluginManagement_$('#uninstallPluginConfirm').text(messageToDisplay);
+  external_CoreHome_["Matomo"].helper.modalConfirm('#confirmUninstallPlugin', {
+    yes: function yes() {
+      window.location.href = link;
     }
-  };
+  });
 }
-window.angular.module('piwikApp').directive('piwikPluginFilter', piwikPluginFilter);
+
+function onDonateLinkClick(event) {
+  event.preventDefault();
+  var overlayId = PluginManagement_$(event.target).data('overlay-id');
+  external_CoreHome_["Matomo"].helper.modalConfirm("#".concat(overlayId), {});
+}
+
+/* harmony default export */ var PluginManagement = ({
+  mounted: function mounted(el, binding) {
+    setTimeout(function () {
+      binding.value.uninstallConfirmMessage = '';
+      PluginManagement_$(el).find('.uninstall').click(onClickUninstall.bind(null, binding));
+      PluginManagement_$(el).find('.plugin-donation-link').click(onDonateLinkClick);
+    });
+  }
+});
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginUpload.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var PluginUpload_window = window,
+    PluginUpload_$ = PluginUpload_window.$;
+
+function onUploadPlugin(event) {
+  event.preventDefault();
+  external_CoreHome_["Matomo"].helper.modalConfirm('#installPluginByUpload', {});
+}
+
+function onSubmitPlugin(event) {
+  var $zipFile = PluginUpload_$('[name=pluginZip]');
+  var fileName = $zipFile.val();
+
+  if (!fileName || fileName.slice(-4) !== '.zip') {
+    event.preventDefault(); // eslint-disable-next-line no-alert
+
+    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_NoZipFileSelected'));
+  } else if ($zipFile.data('maxSize') > 0 && $zipFile[0].files[0].size > $zipFile.data('maxSize') * 1048576) {
+    event.preventDefault(); // eslint-disable-next-line no-alert
+
+    alert(Object(external_CoreHome_["translate"])('CorePluginsAdmin_FileExceedsUploadLimit'));
+  }
+}
+
+/* harmony default export */ var PluginUpload = ({
+  mounted: function mounted() {
+    setTimeout(function () {
+      PluginUpload_$('.uploadPlugin').click(onUploadPlugin);
+      PluginUpload_$('#uploadPluginForm').submit(onSubmitPlugin);
+    });
+  }
+});
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.vue?vue&type=template&id=1e391ba1
 
 var SaveButtonvue_type_template_id_1e391ba1_hoisted_1 = {
@@ -3402,43 +2871,6 @@ function SaveButtonvue_type_template_id_1e391ba1_render(_ctx, _cache, $props, $s
 SaveButtonvue_type_script_lang_ts.render = SaveButtonvue_type_template_id_1e391ba1_render
 
 /* harmony default export */ var SaveButton = (SaveButtonvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/SaveButton/SaveButton.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SaveButton_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SaveButton,
-  scope: {
-    saving: {
-      angularJsBind: '=?'
-    },
-    value: {
-      angularJsBind: '@?'
-    },
-    disabled: {
-      angularJsBind: '=?'
-    },
-    onconfirm: {
-      angularJsBind: '&?',
-      vue: 'confirm'
-    }
-  },
-  events: {
-    confirm: function confirm($event, vm, scope, element, attrs, controller, $timeout) {
-      element[0].click(); // this directive can be used on input's with ng-click specified
-
-      $timeout();
-    }
-  },
-  replace: true,
-  directiveName: 'piwikSaveButton',
-  $inject: ['$timeout']
-}));
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3461,23 +2893,6 @@ var Form_window = window,
     });
   }
 });
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Form/Form.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikForm() {
-  return {
-    restrict: 'A',
-    link: function expandOnClickLink(scope, element) {
-      Form.mounted(element[0]);
-    }
-  };
-}
-window.angular.module('piwikApp').directive('piwikForm', piwikForm);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginsIntro/PluginsIntro.vue?vue&type=template&id=aef10a44
 
 var PluginsIntrovue_type_template_id_aef10a44_hoisted_1 = ["innerHTML"];
@@ -3556,6 +2971,75 @@ function PluginsIntrovue_type_template_id_aef10a44_render(_ctx, _cache, $props, 
 PluginsIntrovue_type_script_lang_ts.render = PluginsIntrovue_type_template_id_aef10a44_render
 
 /* harmony default export */ var PluginsIntro = (PluginsIntrovue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/ThemesIntro/ThemesIntro.vue?vue&type=template&id=ad7726de
+
+var ThemesIntrovue_type_template_id_ad7726de_hoisted_1 = ["innerHTML"];
+var ThemesIntrovue_type_template_id_ad7726de_hoisted_2 = {
+  key: 1
+};
+
+var ThemesIntrovue_type_template_id_ad7726de_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var ThemesIntrovue_type_template_id_ad7726de_hoisted_4 = {
+  key: 2
+};
+
+var ThemesIntrovue_type_template_id_ad7726de_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+function ThemesIntrovue_type_template_id_ad7726de_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+
+  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, null, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_ThemesManagement')), 1)];
+    }),
+    _: 1
+  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_ThemesDescription')) + " ", 1), _ctx.isMarketplaceEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+    key: 0,
+    innerHTML: _ctx.$sanitize(_ctx.teaserExtendByThemeText)
+  }, null, 8, ThemesIntrovue_type_template_id_ad7726de_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.otherUsersCount > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ThemesIntrovue_type_template_id_ad7726de_hoisted_2, [ThemesIntrovue_type_template_id_ad7726de_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell', _ctx.otherUsersCount, _ctx.themeEnabled)), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isPluginsAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", ThemesIntrovue_type_template_id_ad7726de_hoisted_4, [ThemesIntrovue_type_template_id_ad7726de_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_DoMoreContactPiwikAdmins')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 512)), [[_directive_content_intro]]);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/ThemesIntro/ThemesIntro.vue?vue&type=template&id=ad7726de
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/ThemesIntro/ThemesIntro.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var ThemesIntrovue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    isMarketplaceEnabled: Boolean,
+    otherUsersCount: Number,
+    themeEnabled: Boolean,
+    isPluginsAdminEnabled: Boolean
+  },
+  components: {
+    EnrichedHeadline: external_CoreHome_["EnrichedHeadline"]
+  },
+  directives: {
+    ContentIntro: external_CoreHome_["ContentIntro"]
+  },
+  computed: {
+    teaserExtendByThemeText: function teaserExtendByThemeText() {
+      var link = "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+        module: 'Marketplace',
+        action: 'overview',
+        sort: '',
+        show: 'themes'
+      })));
+      return Object(external_CoreHome_["translate"])('CorePluginsAdmin_TeaserExtendPiwikByTheme', "<a href=\"".concat(link, "\">"), '</a>');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/ThemesIntro/ThemesIntro.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/ThemesIntro/ThemesIntro.vue
+
+
+
+ThemesIntrovue_type_script_lang_ts.render = ThemesIntrovue_type_template_id_ad7726de_render
+
+/* harmony default export */ var ThemesIntro = (ThemesIntrovue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginName.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -4548,13 +4032,6 @@ UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_te
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
-
-
-
-
-
-
-
 
 
 

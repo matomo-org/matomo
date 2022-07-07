@@ -15,7 +15,7 @@
       <span class="icon-configure"></span>
     </a>
 
-    <a v-if="showFooterIcons"
+    <a v-if="hasFooterIconsToShow"
       class="dropdown-button dataTableAction activateVisualizationSelection"
       href=""
       :data-target="`dropdownVisualizations${randomIdForDropdown}`"
@@ -192,7 +192,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ContentBlock from '../ContentBlock/ContentBlock.vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import ReportExport from '../ReportExport/ReportExport';
@@ -264,7 +263,6 @@ export default defineComponent({
     },
   },
   components: {
-    ContentBlock,
     Passthrough,
   },
   directives: {
@@ -280,16 +278,16 @@ export default defineComponent({
     },
   },
   computed: {
-    randomIdForDropdown() {
+    randomIdForDropdown(): number {
       return Math.floor(Math.random() * 999999);
     },
-    allFooterIcons() {
-      return (this.footerIcons as FooterIconGroup[]).reduce((ids, footerIcon) => {
-        ids.push(...footerIcon.buttons);
-        return ids;
-      }, []);
+    allFooterIcons(): FooterIcon[] {
+      return (this.footerIcons as FooterIconGroup[]).reduce((icons, footerIcon) => {
+        icons.push(...footerIcon.buttons);
+        return icons;
+      }, [] as FooterIcon[]);
     },
-    activeFooterIcons() {
+    activeFooterIcons(): FooterIcon[] {
       const result = [this.viewDataTable];
 
       if (this.abandonedCarts === 0) {
@@ -300,21 +298,21 @@ export default defineComponent({
 
       return result
         .map((id) => this.allFooterIcons.find((button) => button.id === id))
-        .filter((icon) => !!icon);
+        .filter((icon) => !!icon) as FooterIcon[];
     },
-    activeFooterIcon() {
+    activeFooterIcon(): string|undefined {
       return this.activeFooterIcons[0]?.icon;
     },
-    activeFooterIconIds() {
+    activeFooterIconIds(): string[] {
       return this.activeFooterIcons.map((icon) => icon.id);
     },
-    numIcons() {
+    numIcons(): number {
       return this.allFooterIcons.length;
     },
-    showFooterIcons() {
-      return this.activeFooterIcons.length && this.numIcons > 1;
+    hasFooterIconsToShow(): boolean {
+      return !!this.activeFooterIcons.length && this.numIcons > 1;
     },
-    reportFormats() {
+    reportFormats(): Record<string, string> {
       const formats: Record<string, string> = {
         CSV: 'CSV',
         TSV: 'TSV (Excel)',

@@ -429,7 +429,7 @@ export default defineComponent({
       const compareParams = this.selectedComparisonParams;
 
       let baseParams: Record<string, unknown>;
-      if (Matomo.helper.isAngularRenderingThePage()) {
+      if (Matomo.helper.isReportingPage()) {
         this.closePeriodSelector();
         baseParams = MatomoUrl.hashParsed.value;
       } else {

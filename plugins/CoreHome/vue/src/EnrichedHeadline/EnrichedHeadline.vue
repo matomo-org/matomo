@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import useExternalPluginComponent from '../useExternalPluginComponent';

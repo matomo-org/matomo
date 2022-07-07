@@ -494,13 +494,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     this.requestHandle = this.buildAjaxCall();
     window.globalAjaxQueue.push(this.requestHandle);
 
-    let $timeout: ITimeoutService|null = null;
-    try {
-      $timeout = Matomo.helper.getAngularDependency('$timeout');
-    } catch (e) {
-      // ignore
-    }
-
     if (this.abortController) {
       this.abortController.signal.addEventListener('abort', () => {
         if (this.requestHandle) {
@@ -526,10 +519,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
 
         reject(xhr);
-      }).done(() => {
-        if ($timeout) {
-          $timeout(); // trigger digest
-        }
       });
     });
 

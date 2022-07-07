@@ -18,14 +18,7 @@ export { default as useExternalPluginComponent } from './useExternalPluginCompon
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as getFormattedEvolution } from './getFormattedEvolution';
-export {
-  default as createAngularJsAdapter,
-  transformAngularJsBoolAttr,
-  transformAngularJsIntAttr,
-  removeAngularJsSpecificProperties,
-  clone,
-  cloneThenApply,
-} from './createAngularJsAdapter';
+export { default as clone } from './clone';
 export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export * from './translate';

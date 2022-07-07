@@ -9,7 +9,7 @@
     <FormField
       :model-value="modelValue"
       @update:model-value="changeValue($event)"
-      :form-field="settingWithComponent"
+      :form-field="setting"
     />
   </div>
 </template>
@@ -19,7 +19,6 @@ import { defineComponent } from 'vue';
 import { IScope } from 'angular';
 import { Matomo } from 'CoreHome';
 import FormField from '../FormField/FormField.vue';
-import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
 
 // TODO: have to use angularjs here until there's an expression evaluating alternative
 let conditionScope: IScope;
@@ -41,17 +40,6 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   computed: {
-    // bc for angularjs field that uses templateFile
-    settingWithComponent() {
-      if (this.setting.templateFile) {
-        return {
-          ...this.setting,
-          component: FieldAngularJsTemplate,
-        };
-      }
-
-      return this.setting;
-    },
     showField() {
       const condition = this.setting.condition as string;
       if (!condition) {
