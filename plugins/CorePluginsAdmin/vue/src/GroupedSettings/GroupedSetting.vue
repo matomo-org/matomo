@@ -64,12 +64,23 @@ export default defineComponent({
       return this.setting;
     },
     showField() {
-      const condition = this.setting.condition as string;
+      let condition = this.setting.condition as string;
       if (!condition) {
         return true;
       }
 
-      return math.evaluate(condition, this.conditionValues);
+      // math.js does not currently support &&/||/! (https://github.com/josdejong/mathjs/issues/844)
+      condition = condition.replace(/&&/g, ' and ');
+      condition = condition.replace(/\|\|/g, ' or ');
+      condition = condition.replace(/!/g, ' not ');
+
+      try {
+        return math.evaluate(condition, this.conditionValues);
+      } catch (e) {
+        console.log(`failed to parse setting condition '${condition}': ${e.message}`);
+        console.log(this.conditionValues);
+        return false;
+      }
     },
   },
   methods: {

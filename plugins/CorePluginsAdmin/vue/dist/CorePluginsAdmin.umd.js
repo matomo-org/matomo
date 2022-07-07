@@ -10591,9 +10591,9 @@ function GroupedSettingsvue_type_template_id_566a93cc_render(_ctx, _cache, $prop
 }
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=template&id=566a93cc
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=4da2715e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=efb52e02
 
-function GroupedSettingvue_type_template_id_4da2715e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function GroupedSettingvue_type_template_id_efb52e02_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_FormField = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FormField");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_FormField, {
@@ -10604,7 +10604,7 @@ function GroupedSettingvue_type_template_id_4da2715e_render(_ctx, _cache, $props
     "form-field": _ctx.settingWithComponent
   }, null, 8, ["model-value", "form-field"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showField]]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=4da2715e
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSetting.vue?vue&type=template&id=efb52e02
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__("a559");
@@ -39539,9 +39539,20 @@ GroupedSettingvue_type_script_lang_ts_math.import({
 
       if (!condition) {
         return true;
-      }
+      } // math.js does not currently support &&/||/! (https://github.com/josdejong/mathjs/issues/844)
 
-      return GroupedSettingvue_type_script_lang_ts_math.evaluate(condition, this.conditionValues);
+
+      condition = condition.replace(/&&/g, ' and ');
+      condition = condition.replace(/\|\|/g, ' or ');
+      condition = condition.replace(/!/g, ' not ');
+
+      try {
+        return GroupedSettingvue_type_script_lang_ts_math.evaluate(condition, this.conditionValues);
+      } catch (e) {
+        console.log("failed to parse setting condition '".concat(condition, "': ").concat(e.message));
+        console.log(this.conditionValues);
+        return false;
+      }
     }
   },
   methods: {
@@ -39556,7 +39567,7 @@ GroupedSettingvue_type_script_lang_ts_math.import({
 
 
 
-GroupedSettingvue_type_script_lang_ts.render = GroupedSettingvue_type_template_id_4da2715e_render
+GroupedSettingvue_type_script_lang_ts.render = GroupedSettingvue_type_template_id_efb52e02_render
 
 /* harmony default export */ var GroupedSetting = (GroupedSettingvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/GroupedSettings/GroupedSettings.vue?vue&type=script&lang=ts
