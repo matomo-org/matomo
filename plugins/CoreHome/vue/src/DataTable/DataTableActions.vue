@@ -111,7 +111,7 @@
       <span class="icon-search"></span>
       <span class="icon-close" :title="translate('CoreHome_CloseSearch')"></span>
       <input
-        :id="`widgetSearch_${properties.report_id}`"
+        :id="`widgetSearch_${reportId}`"
         :title="translate('CoreHome_DataTableHowToSearch')"
         type="text"
         class="dataTableSearchInput"

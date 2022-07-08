@@ -4,7 +4,7 @@
     show-footer-icons="{{ properties.show_footer_icons|json_encode }}"
     footer-icons="{{ footerIcons|json_encode }}"
     report-title="{{ properties.title|json_encode }}"
-    request-params="{{ properties.request_params_to_modify|json_encode }}"
+    request-params="{{ properties.request_params_to_modify|default({})|json_encode }}"
     api-method-to-request-data-table="{{ properties.apiMethodToRequestDataTable|json_encode }}"
     max-filter-limit="{{ properties.max_export_filter_limit|json_encode }}"
     show-export="{{ properties.show_export|json_encode }}"
@@ -15,12 +15,12 @@
     data-table-actions="{{ properties.datatable_actions|default([])|json_encode }}"
     show-flatten-table="{{ properties.show_flatten_table|json_encode }}"
     client-side-parameters="{{ clientSideParameters|json_encode }}"
-    has-multiple-dimensions="{{ hasMultipleDimensions|json_encode }}"
+    has-multiple-dimensions="{{ hasMultipleDimensions|default(false)|json_encode }}"
     is-data-table-empty="{{ isDataTableEmpty|json_encode }}"
     show-totals-row="{{ properties.show_totals_row|default(false)|json_encode }}"
     show-exclude-low-population="{{ properties.show_exclude_low_population|json_encode }}"
-    properties.show_pivot_by_subtable|default is not empty and not isComparing|default(false)
     show-pivot-by-subtable="{{ (properties.show_pivot_by_subtable|default(false) and not isComparing|default(false))|json_encode }}"
     show-periods="{{ properties.show_periods|json_encode }}"
     translations="{{ properties.translations|json_encode }}"
+    view-data-table="{{ clientSideParameters.viewDataTable|json_encode }}"
 ></div>
