@@ -13,6 +13,7 @@ import './Periods/Year';
 import './Periods/Range';
 import './PopoverHandler/PopoverHandler';
 import './AjaxHelper/AjaxHelper.adapter';
+import './zenMode';
 
 export { default as createVueApp } from './createVueApp';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';

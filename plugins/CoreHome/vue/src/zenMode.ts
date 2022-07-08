@@ -12,12 +12,8 @@ import { setCookie, getCookie } from './CookieHelper/CookieHelper';
 const { $ } = window;
 
 function handleZenMode() {
-  let zenMode = !!parseInt(getCookie('zenMode'), 10);
+  let zenMode = !!parseInt(getCookie('zenMode')!, 10);
   const iconSwitcher = $('.top_controls .icon-arrowup');
-
-  iconSwitcher.click(() => {
-    window.Mousetrap.trigger('z');
-  });
 
   function updateZenMode() {
     if (zenMode) {
@@ -41,7 +37,13 @@ function handleZenMode() {
     updateZenMode();
   });
 
+  iconSwitcher.click(() => {
+    window.Mousetrap.trigger('z');
+  });
+
   updateZenMode();
 }
 
-handleZenMode();
+Matomo.on('Matomo.topControlsRendered', () => {
+  handleZenMode();
+});

@@ -2163,6 +2163,97 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
 
 window.ajaxHelper = AjaxHelper_AjaxHelper;
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
+/*
+ * General utils for managing cookies in Typescript.
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function setCookie(name, val, seconds) {
+  var date = new Date(); // set default day to 3 days
+
+  if (!seconds) {
+    // eslint-disable-next-line no-param-reassign
+    seconds = 3 * 24 * 60 * 1000;
+  } // Set it expire in n days
+
+
+  date.setTime(date.getTime() + seconds); // Set it
+
+  document.cookie = "".concat(name, "=").concat(val, "; expires=").concat(date.toUTCString(), "; path=/");
+} // eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
+
+function getCookie(name) {
+  var value = "; ".concat(document.cookie);
+  var parts = value.split("; ".concat(name, "=")); // if cookie not exist return null
+  // eslint-disable-next-line eqeqeq
+
+  if (parts.length == 2) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    var data = parts.pop().split(';').shift();
+
+    if (typeof data !== 'undefined') {
+      return data;
+    }
+  }
+
+  return null;
+} // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
+function deleteCookie(name) {
+  var date = new Date(); // Set it expire in -1 days
+
+  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000); // Set it
+
+  document.cookie = "".concat(name, "=; expires=").concat(date.toUTCString(), "; path=/");
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/zenMode.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+var zenMode_window = window,
+    zenMode_$ = zenMode_window.$;
+
+function handleZenMode() {
+  var zenMode = !!parseInt(getCookie('zenMode'), 10);
+  var iconSwitcher = zenMode_$('.top_controls .icon-arrowup');
+
+  function updateZenMode() {
+    if (zenMode) {
+      zenMode_$('body').addClass('zenMode');
+      iconSwitcher.addClass('icon-arrowdown').removeClass('icon-arrowup');
+      iconSwitcher.prop('title', translate('CoreHome_ExitZenMode'));
+    } else {
+      zenMode_$('body').removeClass('zenMode');
+      iconSwitcher.removeClass('icon-arrowdown').addClass('icon-arrowup');
+      iconSwitcher.prop('title', translate('CoreHome_EnterZenMode'));
+    }
+  }
+
+  Matomo_Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), function (event) {
+    if (event.altKey) {
+      return;
+    }
+
+    zenMode = !zenMode;
+    setCookie('zenMode', zenMode ? '1' : '0');
+    updateZenMode();
+  });
+  iconSwitcher.click(function () {
+    window.Mousetrap.trigger('z');
+  });
+  updateZenMode();
+}
+
+Matomo_Matomo.on('Matomo.topControlsRendered', function () {
+  handleZenMode();
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createVueApp.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2407,50 +2498,6 @@ function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup,
 Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
 
 /* harmony default export */ var Alert = (Alertvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
-/*
- * General utils for managing cookies in Typescript.
- */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function setCookie(name, val, seconds) {
-  var date = new Date(); // set default day to 3 days
-
-  if (!seconds) {
-    // eslint-disable-next-line no-param-reassign
-    seconds = 3 * 24 * 60 * 1000;
-  } // Set it expire in n days
-
-
-  date.setTime(date.getTime() + seconds); // Set it
-
-  document.cookie = "".concat(name, "=").concat(val, "; expires=").concat(date.toUTCString(), "; path=/");
-} // eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
-
-function getCookie(name) {
-  var value = "; ".concat(document.cookie);
-  var parts = value.split("; ".concat(name, "=")); // if cookie not exist return null
-  // eslint-disable-next-line eqeqeq
-
-  if (parts.length == 2) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    var data = parts.pop().split(';').shift();
-
-    if (typeof data !== 'undefined') {
-      return data;
-    }
-  }
-
-  return null;
-} // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-
-function deleteCookie(name) {
-  var date = new Date(); // Set it expire in -1 days
-
-  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000); // Set it
-
-  document.cookie = "".concat(name, "=; expires=").concat(date.toUTCString(), "; path=/");
-}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -11141,6 +11188,7 @@ function scrollToAnchorInUrl() {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
