@@ -2463,7 +2463,7 @@ if (typeof window.Matomo !== 'object') {
              * Get cookie value
              */
             function getCookie(cookieName) {
-                if (configCookiesDisabled) {
+                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return 0;
                 }
 
