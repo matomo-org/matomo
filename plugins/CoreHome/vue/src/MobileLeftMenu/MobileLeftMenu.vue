@@ -4,11 +4,10 @@
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<!-- TODO: add translations client side -->
 <template>
   <ul id="mobile-left-menu" class="sidenav hide-on-large-only">
     <li class="no-padding" v-for="(level2, level1) in menuWithSubmenuItems" :key="level1">
-      <ul class="collapsible collapsible-accordion" v-side-nav="{expander: activateLeftMenu}">
+      <ul class="collapsible collapsible-accordion" v-side-nav="{activator: activateLeftMenu}">
         <li>
           <a class="collapsible-header">
             {{ translate(level1) }}<i :class="level2._icon || 'icon-arrow-down'"></i>
@@ -16,11 +15,14 @@
 
           <div class="collapsible-body">
             <ul>
-              <li v-for="(urlParameters, name) in level2" :key="name">
+              <li
+                v-for="([name, params]) in Object.entries(level2).filter(([n]) => n[0] !== '_')"
+                :key="name"
+              >
                 <a
-                  :title="urlParameters._tooltip ? translate(urlParameters._tooltip) : ''"
+                  :title="params._tooltip ? translate(params._tooltip) : ''"
                   target="_self"
-                  :href="getMenuUrl(urlParameters._url)"
+                  :href="getMenuUrl(params._url)"
                 >
                   {{ translate(name) }}
                 </a>
@@ -70,13 +72,12 @@ export default defineComponent({
       const menu = this.menu as Menu;
       return Object.fromEntries(
         Object.entries(menu)
-          // remove submenu items that start with '_'
-          .map(([level1, level2]) => [
-            level1,
-            Object.fromEntries(Object.entries(level2).filter(([name]) => name[0] === '_')),
-          ])
-          // remove submenus that no longer have items
-          .filter(([, level2]) => Object.keys(level2).length),
+          // remove submenus that have no items that do not start w/ '_'
+          .filter(([, level2]) => {
+            const itemsWithoutUnderscore = Object.entries(level2)
+              .filter(([name]) => name[0] !== '_');
+            return Object.keys(itemsWithoutUnderscore).length;
+          }),
       );
     },
     activateLeftMenu() {

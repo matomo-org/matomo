@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Development;
 use Piwik\IP;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
@@ -391,5 +392,16 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PiwikXIsAvailablePleaseUpdateNow';
         $translationKeys[] = 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin';
         $translationKeys[] = 'General_YouAreCurrentlyUsing';
+
+        // add admin menu translations
+        $menu = MenuAdmin::getInstance()->getMenu();
+        foreach ($menu as $level1 => $level2) {
+            $translationKeys[] = $level1;
+            foreach ($level2 as $name => $params) {
+                if (strpos($name, '_') !== 0) {
+                    $translationKeys[] = $name;
+                }
+            }
+        }
     }
 }
