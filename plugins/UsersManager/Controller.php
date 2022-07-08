@@ -110,6 +110,13 @@ class Controller extends ControllerAdmin
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
         ];
 
+        $view->statusAccessLevels = [
+          ['key' => '', 'value' => ''], // show all
+          ['key' => 'pending', 'value' => Piwik::translate('UsersManager_Pending')],
+          ['key' => 'active', 'value' => Piwik::translate('UsersManager_Active')],
+          ['key' => 'expired', 'value' => Piwik::translate('UsersManager_Expired')],
+        ];
+
         $capabilities = Request::processRequest('UsersManager.getAvailableCapabilities', [], []);
         foreach ($capabilities as $capability) {
             $capabilityEntry = [

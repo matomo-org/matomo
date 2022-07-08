@@ -53,7 +53,10 @@ class Mysql implements SchemaInterface
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                           idchange_last_viewed TIMESTAMP NULL,
-                          invite_status enum('accept','pending','decline','expired') DEFAULT 'accept',
+                          invited_by VARCHAR(100) NULL,
+                          invite_token VARCHAR(191) NULL,
+                          invite_expired_at TIMESTAMP NULL,
+                          invite_accept_at TIMESTAMP NULL,
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
@@ -590,8 +593,8 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
-                    `idchange_last_viewed`, `invite_status`)
-                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL, 'accept');");
+                    `idchange_last_viewed`)
+                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL);");
 
         $model = new Model();
         $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);

@@ -36,13 +36,8 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('load');
     });
 
-    it('should show resend confirm when resend clicked', async function () {
-        await (await page.jQuery('.resend')).click();
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
-    });
 
     it('should change the results page when next is clicked', async function () {
-        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.click('.usersListPagination .btn.next');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
@@ -54,6 +49,8 @@ describe("UsersManager", function () {
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:view').change();
             $('#user-text-filter').val('ight').change();
+            $('select[name=status-level-filter]').val('string:pending').change();
+
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(1000); // wait for rendering
@@ -65,6 +62,7 @@ describe("UsersManager", function () {
         // remove access filter
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:').change();
+            $('select[name=status-level-filter]').val('string:').change();
         });
 
         await page.evaluate(() => $('th.role_header .siteSelector a.title').click());
@@ -172,11 +170,6 @@ describe("UsersManager", function () {
     });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
-
-        await page.evaluate(function () {
-            $('select[name=access-level-filter]').val('string:view').change();
-            $('#user-text-filter').val('ight').change();
-        });
 
         await (await page.jQuery('.deleteuser:eq(0)')).click();
         await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
@@ -440,6 +433,7 @@ describe("UsersManager", function () {
     it('should display the superuser access tab when the superuser tab is clicked', async function () {
         await page.click('.userEditForm .menuSuperuser');
         await page.mouse.move(0, 0);
+        await page.waitForTimeout(100);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab');
     });
@@ -490,7 +484,7 @@ describe("UsersManager", function () {
     });
 
     it('should show the edit user form when the edit icon in a row is clicked', async function () {
-        await (await page.jQuery('button.edituser:eq(1)', { waitFor: true })).click();
+        await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
         await page.waitForTimeout(250);
         await page.waitForNetworkIdle();
 
@@ -524,8 +518,24 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector('#notificationContainer .notification');
 
+
         expect(await page.screenshotSelector('.admin#content,#notificationContainer')).to.matchImage('edit_user_basic_confirmed_wrong_password');
     });
+
+    it('should show resend confirm when resend clicked', async function () {
+        await page.goto(url);
+        await (await page.jQuery('.resend')).click();
+        await page.waitForTimeout(500); // animation
+        await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+    });
+
+    it('should show resend success message', async function() {
+        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForSelector('#notificationContainer .notification');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
+    });
+
 
     // admin user tests
     describe('UsersManager_admin_view', function () {
