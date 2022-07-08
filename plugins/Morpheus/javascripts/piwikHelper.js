@@ -192,7 +192,7 @@ window.piwikHelper = {
         var componentParams = {};
 
         function handleProperty(name, value) {
-          if (name === 'vue-entry' || name === 'class' || name === 'style') {
+          if (name === 'vue-entry' || name === 'class' || name === 'style' || name === 'id') {
             return;
           }
 
