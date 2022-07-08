@@ -8,11 +8,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 
-* The user management UI no longer allows to directly create new users (with a password). Instead it is possible to send an invitation to a user. Directly creating new user is still possible using the API though.
+* The user management UI no longer allows direct creation of a new user (with a password). Instead an invitation can be sent via email. Directly creating a new user is still possible using the API.
 
 #### New PHP events
 
-* Added new event `UsersManager.inviteUser.end`, which is triggered after a new users has been invited
+* Added new event `UsersManager.inviteUser.end`, which is triggered after a new user has been invited
 * Added new event `UsersManager.inviteUser.resendInvite`, which is triggered after the invitation to a user has been resent
 * Added new event `UsersManager.inviteUser.accepted`, which is triggered after an invitation has been accepted
 * Added new event `UsersManager.inviteUser.declined`, which is triggered after an invitation has been declined
