@@ -6,7 +6,6 @@
 
 <template>
   <div v-if="showFooter && showFooterIcons">
-
     <a
       v-dropdown-button
       class="dropdown-button dropdownConfigureIcon dataTableAction"
