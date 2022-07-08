@@ -12,6 +12,7 @@ import './Periods/Month';
 import './Periods/Year';
 import './Periods/Range';
 import './PopoverHandler/PopoverHandler';
+import './AjaxHelper/AjaxHelper.adapter';
 
 export { default as createVueApp } from './createVueApp';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';
