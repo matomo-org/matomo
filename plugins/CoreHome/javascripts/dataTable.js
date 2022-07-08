@@ -1212,18 +1212,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         var ul = $('ul.tableConfiguration', domElem);
-        function hideConfigurationIcon() {
-            // hide the icon when there are no actions available or we're not in a table view
-            $('.dropdownConfigureIcon', domElem).remove();
-        }
-
         if (!ul.find('li').length) {
-            hideConfigurationIcon();
             return;
         }
-
-        var icon = $('a.dropdownConfigureIcon', domElem);
-        var iconHighlighted = false;
 
         var generateClickCallback = function (paramName, callbackAfterToggle, setParamCallback) {
             return function () {
@@ -1242,70 +1233,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         };
 
-        var getText = function (text, addDefault, replacement) {
-            if (/(%(.\$)?s+)/g.test(_pk_translate(text))) {
-                var values = ['<br /><span class="action">'];
-                if(replacement) {
-                    values.push(replacement);
-                }
-                text = _pk_translate(text, values);
-                if (addDefault) text += ' (' + _pk_translate('CoreHome_Default') + ')';
-                text += '</span>';
-                return text;
-            }
-            return _pk_translate(text);
-        };
-
-        var setText = function (el, paramName, textA, textB) {
-            if (typeof self.param[paramName] != 'undefined' && self.param[paramName] == 1) {
-                $(el).html(getText(textA, true));
-                iconHighlighted = true;
-            }
-            else {
-                self.param[paramName] = 0;
-                $(el).html(getText(textB));
-            }
-        };
-
         // handle low population
         $('.dataTableExcludeLowPopulation', domElem)
-            .each(function () {
-                // Set the text, either "Exclude low pop" or "Include all"
-                if (typeof self.param.enable_filter_excludelowpop == 'undefined') {
-                    self.param.enable_filter_excludelowpop = 0;
-                }
-                if (Number(self.param.enable_filter_excludelowpop) != 0) {
-                    var string = getText('CoreHome_IncludeRowsWithLowPopulation', true);
-                    self.param.enable_filter_excludelowpop = 1;
-                    iconHighlighted = true;
-                }
-                else {
-                    var string = getText('CoreHome_ExcludeRowsWithLowPopulation');
-                    self.param.enable_filter_excludelowpop = 0;
-                }
-                $(this).html(string);
-            })
             .click(generateClickCallback('enable_filter_excludelowpop'));
 
         // handle flatten
         $('.dataTableFlatten', domElem)
-            .each(function () {
-                setText(this, 'flat', 'CoreHome_UnFlattenDataTable', 'CoreHome_FlattenDataTable');
-            })
             .click(generateClickCallback('flat'));
 
         // handle flatten
         $('.dataTableShowTotalsRow', domElem)
-            .each(function () {
-                setText(this, 'keep_totals_row', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
-            })
             .click(generateClickCallback('keep_totals_row'));
 
         $('.dataTableIncludeAggregateRows', domElem)
-            .each(function () {
-                setText(this, 'include_aggregate_rows', 'CoreHome_DataTableExcludeAggregateRows',
-                    'CoreHome_DataTableIncludeAggregateRows');
-            })
             .click(generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
                     // when including aggregate rows is enabled, we remove the sorting
@@ -1316,25 +1256,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }));
 
         $('.dataTableShowDimensions', domElem)
-            .each(function () {
-                setText(this, 'show_dimensions', 'CoreHome_DataTableCombineDimensions',
-                    'CoreHome_DataTableShowDimensions');
-            })
             .click(generateClickCallback('show_dimensions'));
 
         // handle pivot by
         $('.dataTablePivotBySubtable', domElem)
-            .each(function () {
-                if (self.param.pivotBy
-                    && self.param.pivotBy != '0'
-                ) {
-                    $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
-                    iconHighlighted = true;
-                } else {
-                    var optionLabelText = getText('CoreHome_PivotBySubtable', false, self.props.pivot_dimension_name);
-                    $(this).html(optionLabelText);
-                }
-            })
             .click(generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy
                     && self.param.pivotBy != '0'
@@ -1352,19 +1277,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 self.param.filter_sort_column = '';
                 return {filter_sort_column: ''};
             }));
-
-        // handle highlighted icon
-        if (iconHighlighted) {
-            icon.addClass('highlighted');
-        }
-
-        if (!iconHighlighted
-            && !(self.param.viewDataTable == 'table'
-            || self.param.viewDataTable == 'tableAllColumns'
-            || self.param.viewDataTable == 'tableGoals')) {
-            hideConfigurationIcon();
-            return;
-        }
     },
 
     notifyWidgetParametersChange: function (domWidget, parameters) {

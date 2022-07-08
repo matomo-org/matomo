@@ -23,4 +23,5 @@
     show-periods="{{ properties.show_periods|json_encode }}"
     translations="{{ properties.translations|json_encode }}"
     view-data-table="{{ clientSideParameters.viewDataTable|json_encode }}"
+    pivot-dimension-name="{{ properties.pivot_dimension_name|default(null)|json_encode }}"
 ></div>

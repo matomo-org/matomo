@@ -9,16 +9,13 @@ $(document).ready(function () {
     updateSystemCheck();
 
     if (window.piwikHelper) {
-        var $timeout = piwikHelper.getAngularDependency('$timeout');
-        if ($timeout){
-            $timeout(function () {
-                // because of angular rendering replacing the content potentially...
+        setTimeout(function () {
+            // because of angular rendering replacing the content potentially...
+            updateSystemCheck();
+            setTimeout(function () {
                 updateSystemCheck();
-                $timeout(function () {
-                    updateSystemCheck();
-                }, 100);
-            });
-        }
+            }, 100);
+        });
     }
 
     $('.ui-inline-help:contains(UTC time is)').hide();

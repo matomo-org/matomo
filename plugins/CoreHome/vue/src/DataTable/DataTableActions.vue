@@ -6,11 +6,15 @@
 
 <template>
   <div v-if="showFooter && showFooterIcons">
+
     <a
       v-dropdown-button
       class="dropdown-button dropdownConfigureIcon dataTableAction"
+      :class="{highlighted: isAnyConfigureIconHighlighted}"
       href=""
       :data-target="`dropdownConfigure${randomIdForDropdown}`"
+      style="margin-right:3.5px"
+      v-if="hasConfigItems && isAnyConfigureIconHighlighted && isTableView"
     >
       <span class="icon-configure"></span>
     </a>
@@ -19,6 +23,7 @@
       class="dropdown-button dataTableAction activateVisualizationSelection"
       href=""
       :data-target="`dropdownVisualizations${randomIdForDropdown}`"
+      style="margin-right:3.5px"
     >
       <span
         v-if="/^icon-/.test(activeFooterIcon || '')"
@@ -81,6 +86,7 @@
       }"
       :title="translate('General_ExportThisReport')"
       href=""
+      style="margin-right:3.5px"
     ><span class="icon-export"></span></a>
 
     <a
@@ -90,6 +96,7 @@
       id="dataTableFooterExportAsImageIcon"
       @click.prevent="showExportImage($event)"
       :title="translate('General_ExportAsImage')"
+      style="margin-right:3.5px"
     >
       <span class="icon-image"></span>
     </a>
@@ -100,6 +107,7 @@
       href
       :title="translate('Annotations_Annotations')"
       @click.prevent
+      style="margin-right:3.5px"
     ><span class="icon-annotation"></span></a>
 
     <a
@@ -107,6 +115,7 @@
       class="dropdown-button dataTableAction searchAction"
       href
       :title="translate('General_Search')"
+      style="margin-right:3.5px"
     >
       <span class="icon-search"></span>
       <span class="icon-close" :title="translate('CoreHome_CloseSearch')"></span>
@@ -125,6 +134,7 @@
       href
       @click.prevent
       :title="action.title"
+      style="margin-right:3.5px"
     >
       <span v-if="/^icon-/.test(action.icon || '')" :class="action.icon"></span>
       <img v-else width="16" height="16" :title="action.title" :src="action.icon"/>
@@ -135,18 +145,30 @@
       class="dropdown-content tableConfiguration"
     >
       <li v-if="showFlattenTable">
-        <div class="configItem dataTableFlatten"></div>
+        <div
+          class="configItem dataTableFlatten"
+          v-html="$sanitize(flattenItemText)"
+        ></div>
       </li>
       <li
-        v-if="showFlattenTable && `${clientSideParameters.flat}` === '1' && hasMultipleDimensions"
+        v-if="showDimensionsConfigItem"
       >
-        <div class="configItem dataTableShowDimensions"></div>
+        <div
+          class="configItem dataTableShowDimensions"
+          v-html="$sanitize(showDimensionsText)"
+        ></div>
       </li>
-      <li v-if="showFlattenTable && `${clientSideParameters.flat}` === '1'">
-        <div class="configItem dataTableIncludeAggregateRows"></div>
+      <li v-if="showFlatConfigItem">
+        <div
+          class="configItem dataTableIncludeAggregateRows"
+          v-html="$sanitize(includeAggregateRowsText)"
+        ></div>
       </li>
-      <li v-if="!isDataTableEmpty && showTotalsRow">
-        <div class="configItem dataTableShowTotalsRow"></div>
+      <li v-if="showTotalsConfigItem">
+        <div
+          class="configItem dataTableShowTotalsRow"
+          v-html="$sanitize(keepTotalsRowText)"
+        ></div>
       </li>
       <li v-if="showExcludeLowPopulation">
         <div class="configItem dataTableExcludeLowPopulation"></div>
@@ -195,6 +217,7 @@ import { defineComponent } from 'vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import ReportExport from '../ReportExport/ReportExport';
+import { translate } from '../translate';
 
 interface FooterIcon {
   id: string;
@@ -206,6 +229,35 @@ interface FooterIconGroup {
 }
 
 const { $ } = window;
+
+function getSingleStateIconText(text: string, addDefault?: boolean, replacement?: string) {
+  if (/(%(.\$)?s+)/g.test(translate(text))) {
+    const values = ['<br /><span class="action">'];
+    if (replacement) {
+      values.push(replacement);
+    }
+    let result = translate(text, ...values);
+    if (addDefault) {
+      result += ` (${translate('CoreHome_Default')})`;
+    }
+    result += '</span>';
+    return result;
+  }
+
+  return translate(text);
+}
+
+function getToggledIconText(toggled: boolean, textToggled: string, textUntoggled: string) {
+  if (toggled) {
+    return getSingleStateIconText(textToggled, true);
+  }
+
+  return getSingleStateIconText(textUntoggled);
+}
+
+function isBooleanLikeSet(value: number|string|boolean) {
+  return !!value && value !== '0';
+}
 
 export default defineComponent({
   props: {
@@ -261,6 +313,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    pivotDimensionName: String,
   },
   components: {
     Passthrough,
@@ -322,6 +375,88 @@ export default defineComponent({
       };
       formats.RSS = 'RSS';
       return formats;
+    },
+    showDimensionsConfigItem() {
+      return this.showFlattenTable
+        && `${this.clientSideParameters.flat}` === '1'
+        && this.hasMultipleDimensions;
+    },
+    showFlatConfigItem() {
+      return this.showFlattenTable && `${this.clientSideParameters.flat}` === '1';
+    },
+    showTotalsConfigItem() {
+      return !this.isDataTableEmpty && this.showTotalsRow;
+    },
+    hasConfigItems() {
+      return this.showFlattenTable
+        || this.showDimensionsConfigItem
+        || this.showFlatConfigItem
+        || this.showTotalsConfigItem
+        || this.showExcludeLowPopulation
+        || this.showPivotBySubtable;
+    },
+    flattenItemText() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return getToggledIconText(
+        isBooleanLikeSet(params.flat),
+        'CoreHome_UnFlattenDataTable',
+        'CoreHome_FlattenDataTable',
+      );
+    },
+    keepTotalsRowText() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return getToggledIconText(
+        isBooleanLikeSet(params.keep_totals_row),
+        'CoreHome_RemoveTotalsRowDataTable',
+        'CoreHome_AddTotalsRowDataTable',
+      );
+    },
+    includeAggregateRowsText() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return getToggledIconText(
+        isBooleanLikeSet(params.include_aggregate_rows),
+        'CoreHome_DataTableExcludeAggregateRows',
+        'CoreHome_DataTableIncludeAggregateRows',
+      );
+    },
+    showDimensionsText() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return getToggledIconText(
+        isBooleanLikeSet(params.show_dimensions),
+        'CoreHome_DataTableCombineDimensions',
+        'CoreHome_DataTableShowDimensions',
+      );
+    },
+    pivotByText() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      if (isBooleanLikeSet(params.pivotBy)) {
+        return getSingleStateIconText('CoreHome_UndoPivotBySubtable', true);
+      }
+
+      return getSingleStateIconText('CoreHome_PivotBySubtable', false, this.pivotDimensionName);
+    },
+    excludeLowPopText() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return getToggledIconText(
+        isBooleanLikeSet(params.enable_filter_excludelowpop),
+        'CoreHome_IncludeRowsWithLowPopulation',
+        'CoreHome_ExcludeRowsWithLowPopulation',
+      );
+    },
+    isAnyConfigureIconHighlighted() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return isBooleanLikeSet(params.flat)
+        || isBooleanLikeSet(params.keep_totals_row)
+        || isBooleanLikeSet(params.include_aggregate_rows)
+        || isBooleanLikeSet(params.show_dimensions)
+        || isBooleanLikeSet(params.pivotBy)
+        || isBooleanLikeSet(params.enable_filter_excludelowpop)
+        || isBooleanLikeSet(params.enable_filter_excludelowpop);
+    },
+    isTableView() {
+      return this.viewDataTable === 'table'
+        || this.viewDataTable === 'tableAllColumns'
+        || this.viewDataTable === 'tableGoals';
     },
   },
 });
