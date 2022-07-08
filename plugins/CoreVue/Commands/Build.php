@@ -29,6 +29,7 @@ class Build extends ConsoleCommand
         $this->setName('vue:build');
         $this->setDescription('Builds vue modules for one or more plugins.');
         $this->addArgument('plugins', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Plugins whose vue modules to build. Defaults to all plugins.', []);
+        $this->addOption('bail', null, InputOption::VALUE_NONE, 'If supplied, will exit immediately.');
         $this->addOption('watch', null, InputOption::VALUE_NONE, 'If supplied, will watch for changes and automatically rebuild.');
         $this->addOption('clear-webpack-cache', null, InputOption::VALUE_NONE);
         $this->addOption('print-build-command', null, InputOption::VALUE_NONE);
@@ -55,6 +56,8 @@ class Build extends ConsoleCommand
         $plugins = $input->getArgument('plugins');
         if (empty($plugins)) {
             $plugins = $this->getAllPluginsWithVueLibrary();
+            $output->writeln("<info>Going to build all plugins with Vue libraries: "
+                . implode(', ', $plugins));
         } else {
             $plugins = $this->filterPluginsWithoutVueLibrary($plugins);
             if (empty($plugins)) {
@@ -69,7 +72,9 @@ class Build extends ConsoleCommand
         // remove webpack cache since it can result in strange builds if present
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);
 
-        $failed = $this->build($output, $plugins, $printBuildCommand, $watch);
+        $bail = $input->getOption('bail');
+
+        $failed = $this->build($output, $plugins, $printBuildCommand, $watch, $bail);
         return $failed;
     }
 
@@ -93,7 +98,7 @@ class Build extends ConsoleCommand
         return is_file($typeDirectory);
     }
 
-    private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false)
+    private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false, $bail = false)
     {
         if ($watch) {
             $this->watch($plugins, $printBuildCommand, $output);
@@ -103,7 +108,13 @@ class Build extends ConsoleCommand
         $failed = 0;
 
         foreach ($plugins as $plugin) {
-            $failed += (int) $this->buildFiles($output, $plugin, $printBuildCommand);
+            $buildFailed = (int) $this->buildFiles($output, $plugin, $printBuildCommand);
+            if ($buildFailed && $bail) {
+                $output->writeln("<error>Build failed, bailing.</error>");
+                return $failed;
+            }
+
+            $failed += $buildFailed;
         }
 
         return $failed;

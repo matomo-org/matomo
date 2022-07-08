@@ -190,7 +190,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/refresh-button.js";
 
