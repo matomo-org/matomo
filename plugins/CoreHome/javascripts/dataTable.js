@@ -110,10 +110,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
-        this.bindEventsAndApplyStyle(domElem);
-        this._init(domElem);
-        this.enableStickHead(domElem);
-        this.initialized = true;
+        window.Vue.nextTick().then(() => {
+          this.bindEventsAndApplyStyle(domElem);
+          this._init(domElem);
+          this.enableStickHead(domElem);
+          this.initialized = true;
+        });
     },
 
     enableStickHead: function (domElem) {
@@ -1210,8 +1212,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
         ) {
             // if there are no subtables, remove the flatten action
-            $('[vue-entry="CoreHome.DataTableActions"]', domElem)
-              .data('vueAppInstance').showFlattenTable_ = false;
+            const dataTableActionsVueApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).data('vueAppInstance');
+            if (dataTableActionsVueApp) {
+              dataTableActionsVueApp.showFlattenTable_ = false;
+            }
         }
 
         var ul = $('ul.tableConfiguration', domElem);
