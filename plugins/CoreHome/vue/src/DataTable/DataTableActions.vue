@@ -10,7 +10,8 @@
       v-dropdown-button
       class="dropdown-button dropdownConfigureIcon dataTableAction"
       :class="{highlighted: isAnyConfigureIconHighlighted}"
-      href=""
+      href
+      @click.prevent
       :data-target="`dropdownConfigure${randomIdForDropdown}`"
       style="margin-right:3.5px"
       v-if="hasConfigItems && (isAnyConfigureIconHighlighted || isTableView)"
@@ -20,9 +21,10 @@
 
     <a v-if="hasFooterIconsToShow"
       class="dropdown-button dataTableAction activateVisualizationSelection"
-      href=""
+      href
       :data-target="`dropdownVisualizations${randomIdForDropdown}`"
       style="margin-right:3.5px"
+       @click.prevent
     >
       <span
         v-if="/^icon-/.test(activeFooterIcon || '')"
@@ -86,6 +88,7 @@
       :title="translate('General_ExportThisReport')"
       href=""
       style="margin-right:3.5px"
+      @click.prevent
     ><span class="icon-export"></span></a>
 
     <a
@@ -115,6 +118,7 @@
       href
       :title="translate('General_Search')"
       style="margin-right:3.5px"
+      @click.prevent
     >
       <span class="icon-search"></span>
       <span class="icon-close" :title="translate('CoreHome_CloseSearch')"></span>
@@ -170,10 +174,16 @@
         ></div>
       </li>
       <li v-if="showExcludeLowPopulation">
-        <div class="configItem dataTableExcludeLowPopulation"></div>
+        <div
+          class="configItem dataTableExcludeLowPopulation"
+          v-html="$sanitize(excludeLowPopText)"
+        ></div>
       </li>
       <li v-if="showPivotBySubtable">
-        <div class="configItem dataTablePivotBySubtable"></div>
+        <div
+          class="configItem dataTablePivotBySubtable"
+          v-html="$sanitize(pivotByText)"
+        ></div>
       </li>
     </ul>
 
@@ -273,7 +283,6 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    abandonedCarts: Number,
     reportTitle: String,
     requestParams: {
       type: Object,
@@ -340,11 +349,12 @@ export default defineComponent({
       }, [] as FooterIcon[]);
     },
     activeFooterIcons(): FooterIcon[] {
-      const result = [this.viewDataTable];
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
 
-      if (this.abandonedCarts === 0) {
+      const result = [this.viewDataTable];
+      if (params.abandonedCarts === 0 || params.abandonedCarts === '0') {
         result.push('ecommerceOrder');
-      } else if (this.abandonedCarts === 1) {
+      } else if (params.abandonedCarts === 1 || params.abandonedCarts === '1') {
         result.push('ecommerceAbandonedCart');
       }
 
@@ -449,7 +459,6 @@ export default defineComponent({
         || isBooleanLikeSet(params.include_aggregate_rows)
         || isBooleanLikeSet(params.show_dimensions)
         || isBooleanLikeSet(params.pivotBy)
-        || isBooleanLikeSet(params.enable_filter_excludelowpop)
         || isBooleanLikeSet(params.enable_filter_excludelowpop);
     },
     isTableView() {

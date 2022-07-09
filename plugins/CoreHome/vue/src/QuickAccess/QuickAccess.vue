@@ -218,7 +218,9 @@ export default defineComponent({
   },
   computed: {
     hasSitesSelector() {
-      return !!document.querySelector('.top_controls .siteSelector');
+      return !!document.querySelector(
+        '.top_controls .siteSelector,.top_controls [vue-entry="CoreHome.SiteSelector"]',
+      );
     },
     quickAccessTitle() {
       let searchAreasTitle = '';

@@ -18,7 +18,7 @@
     has-multiple-dimensions="{{ hasMultipleDimensions|default(false)|json_encode }}"
     is-data-table-empty="{{ isDataTableEmpty|json_encode }}"
     show-totals-row="{{ properties.show_totals_row|default(false)|json_encode }}"
-    show-exclude-low-population="{{ properties.show_exclude_low_population|json_encode }}"
+    show-exclude-low-population="{{ properties.show_exclude_low_population|default(false)|json_encode }}"
     show-pivot-by-subtable="{{ (properties.show_pivot_by_subtable|default(false) and not isComparing|default(false))|json_encode }}"
     show-periods="{{ properties.show_periods|json_encode }}"
     translations="{{ properties.translations|json_encode }}"

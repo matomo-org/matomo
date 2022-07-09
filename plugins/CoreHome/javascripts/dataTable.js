@@ -1222,7 +1222,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (setParamCallback) {
                     var data = setParamCallback();
                 } else {
-                    self.param[paramName] = (1 - self.param[paramName]) + '';
+                    self.param[paramName] = (1 - (self.param[paramName] || 0)) + '';
                     var data = {};
                 }
                 self.param.filter_offset = 0;
