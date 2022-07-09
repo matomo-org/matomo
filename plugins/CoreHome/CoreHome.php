@@ -395,7 +395,9 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_YouAreCurrentlyUsing';
 
         // add admin menu translations
-        if (SettingsPiwik::isMatomoInstalled()) {
+        if (SettingsPiwik::isMatomoInstalled()
+            && Common::getRequestVar('module', '') != 'CoreUpdater'
+        ) {
             $menu = MenuAdmin::getInstance()->getMenu();
             foreach ($menu as $level1 => $level2) {
                 $translationKeys[] = $level1;
