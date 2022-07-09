@@ -21,10 +21,11 @@
 
     <a v-if="hasFooterIconsToShow"
       class="dropdown-button dataTableAction activateVisualizationSelection"
+      v-dropdown-button
       href
       :data-target="`dropdownVisualizations${randomIdForDropdown}`"
       style="margin-right:3.5px"
-       @click.prevent
+      @click.prevent
     >
       <span
         v-if="/^icon-/.test(activeFooterIcon || '')"
@@ -59,6 +60,7 @@
               v-if="/^icon-/.test(footerIcon.icon || '')"
               :title="footerIcon.title"
               :class="footerIcon.icon"
+              style="margin-right:5.5px"
             ></span>
             <img
               v-else
@@ -66,6 +68,7 @@
               height="16"
               :title="footerIcon.title"
               :src="footerIcon.icon"
+              style="margin-right:5.5px"
             />
             <span v-if="footerIcon.title">{{ footerIcon.title }}</span>
           </a>
