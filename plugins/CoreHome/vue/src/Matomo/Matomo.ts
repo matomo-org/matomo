@@ -29,7 +29,7 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
 };
 
 piwik.hasUserCapability = function hasUserCapability(capability: string) {
-  return window.angular.isArray(piwik.userCapabilities)
+  return Array.isArray(piwik.userCapabilities)
     && piwik.userCapabilities.indexOf(capability) !== -1;
 };
 

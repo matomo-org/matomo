@@ -19,7 +19,7 @@ export interface AjaxOptions {
   createErrorNotification?: boolean;
   abortController?: AbortController;
   returnResponseObject?: boolean;
-  errorElement?: HTMLElement|JQuery|JQLite|string;
+  errorElement?: HTMLElement|JQuery|string;
   redirectOnSuccess?: QueryParameters|boolean;
 }
 
@@ -27,6 +27,8 @@ interface ErrorResponse {
   result: string;
   message: string;
 }
+
+const { $ } = window;
 
 window.globalAjaxQueue = [] as unknown as GlobalAjaxQueue;
 window.globalAjaxQueue.active = 0;
@@ -154,12 +156,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Element to be displayed while loading
    */
-  loadingElement: HTMLElement|null|JQuery|JQLite|string = null;
+  loadingElement: HTMLElement|null|JQuery|string = null;
 
   /**
    * Element to be displayed on error
    */
-  errorElement: HTMLElement|JQuery|JQLite|string = '#ajaxError';
+  errorElement: HTMLElement|JQuery|string = '#ajaxError';
 
   /**
    * Extra headers to add to the request.

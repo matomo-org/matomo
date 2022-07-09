@@ -57,7 +57,7 @@ export default {
       track: true,
     });
 
-    $(clickElement).one('click', onClickHandler);
+    $(clickElement).on('click', onClickHandler);
     $(clickElement).css({
       cursor: 'pointer',
     });
