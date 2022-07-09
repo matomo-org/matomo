@@ -13,7 +13,7 @@
       href=""
       :data-target="`dropdownConfigure${randomIdForDropdown}`"
       style="margin-right:3.5px"
-      v-if="hasConfigItems && isAnyConfigureIconHighlighted && isTableView"
+      v-if="hasConfigItems && (isAnyConfigureIconHighlighted || isTableView)"
     >
       <span class="icon-configure"></span>
     </a>

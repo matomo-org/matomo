@@ -11,7 +11,7 @@
     class="piwikSelector borderedControl piwikTopControl"
     :class="{header_info: !latestVersionAvailable, update_available: latestVersionAvailable}"
   >
-    <span v-if="latestVersionAvailable && !isPiwikDemo">
+    <Passthrough v-if="latestVersionAvailable && !isPiwikDemo">
       <span
         v-if="isMultiServerEnvironment"
         class="title"
@@ -30,8 +30,8 @@
         {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
         <span class="icon-warning"></span>
       </a>
-    </span>
-    <span v-else-if="isSuperUser && isAdminArea">
+    </Passthrough>
+    <Passthrough v-else-if="isSuperUser && isAdminArea">
       <a v-if="isInternetEnabled" class="title" v-html="$sanitize(updateCheck)"></a>
       <a
         v-else
@@ -44,7 +44,7 @@
             {{ translate('CoreHome_SeeAvailableVersions') }}
         </span>
       </a>
-    </span>
+    </Passthrough>
 
     <div class="dropdown positionInViewport">
       <span v-if="latestVersionAvailable && isSuperUser" v-html="$sanitize(updateNowText)"></span>
@@ -62,6 +62,7 @@
 import { defineComponent } from 'vue';
 import { translate } from '../translate';
 import ExpandOnHover from '../ExpandOnHover/ExpandOnHover';
+import Passthrough from '../Passthrough/Passthrough.vue';
 
 export default defineComponent({
   props: {
@@ -78,6 +79,7 @@ export default defineComponent({
     piwikVersion: String,
   },
   components: {
+    Passthrough,
   },
   directives: {
     ExpandOnHover,

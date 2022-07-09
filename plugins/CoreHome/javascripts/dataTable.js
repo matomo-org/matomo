@@ -729,9 +729,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var piwikPeriods = window.CoreHome.Periods;
+            var formatDate = window.CoreHome.format;
             var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
-            endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
+            endDateOfPeriod = formatDate(endDateOfPeriod);
 
             var newPeriod = piwikPeriods.get(period);
             $('.periodName', domElem).html(newPeriod.getDisplayText());
