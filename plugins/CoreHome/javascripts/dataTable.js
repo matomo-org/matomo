@@ -1207,9 +1207,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
-            && (typeof self.param.flat == 'undefined' || self.param.flat != 1)) {
+            && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
+        ) {
             // if there are no subtables, remove the flatten action
-            $('.dataTableFlatten', domElem).parent().remove();
+            $('[vue-entry="CoreHome.DataTableActions"]', domElem)
+              .data('vueAppInstance').showFlattenTable_ = false;
         }
 
         var ul = $('ul.tableConfiguration', domElem);
