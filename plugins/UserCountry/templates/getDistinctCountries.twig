@@ -1,5 +1,5 @@
 <div
     vue-entry="UserCountry.GetDistinctCountries"
     url-sparkline-countries="{{ urlSparklineCountries|json_encode|e('html_attr') }}"
-    number-distinct-countries="{{ numberDistinctCountries|number|json_encode|e('html_attr') }}"
+    number-distinct-countries="{{ (0 + numberDistinctCountries)|json_encode|e('html_attr') }}"
 ></div>
