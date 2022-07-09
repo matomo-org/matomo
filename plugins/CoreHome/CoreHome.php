@@ -21,6 +21,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\Model as TrackerModel;
 
@@ -394,12 +395,14 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_YouAreCurrentlyUsing';
 
         // add admin menu translations
-        $menu = MenuAdmin::getInstance()->getMenu();
-        foreach ($menu as $level1 => $level2) {
-            $translationKeys[] = $level1;
-            foreach ($level2 as $name => $params) {
-                if (strpos($name, '_') !== 0) {
-                    $translationKeys[] = $name;
+        if (SettingsPiwik::isMatomoInstalled()) {
+            $menu = MenuAdmin::getInstance()->getMenu();
+            foreach ($menu as $level1 => $level2) {
+                $translationKeys[] = $level1;
+                foreach ($level2 as $name => $params) {
+                    if (strpos($name, '_') !== 0) {
+                        $translationKeys[] = $name;
+                    }
                 }
             }
         }
