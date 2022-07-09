@@ -62,6 +62,7 @@ describe("TagManagerTeaser", function () {
         await page.type('#login_form_password', 'superUserPass');
         await page.click('#login_form_submit');
 
+        await page.waitForSelector('.tagManagerGettingStarted');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
 
