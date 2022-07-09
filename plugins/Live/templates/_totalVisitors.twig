@@ -1,9 +1,9 @@
 <div
     vue-entry="Live.TotalVisitors"
     count-error-today="{{ countErrorToday|default(null)|json_encode|e('html_attr') }}"
-    visitors-count-today="{{ visitorsCountToday|default(null)|json_encode|e('html_attr') }}"
+    visitors-count-today="{{ (visitorsCountToday + 0)|default(null)|json_encode|e('html_attr') }}"
     pis-today="{{ pisToday|default(null)|json_encode|e('html_attr') }}"
     count-error-half-hour="{{ countErrorHalfHour|default(null)|json_encode|e('html_attr') }}"
-    visitors-count-half-hour="{{ visitorsCountHalfHour|default(null)|json_encode|e('html_attr') }}"
+    visitors-count-half-hour="{{ (visitorsCountHalfHour + 0)|default(null)|json_encode|e('html_attr') }}"
     pis-halfhour="{{ pisHalfhour|default(null)|json_encode|e('html_attr') }}"
 ></div>
