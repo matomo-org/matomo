@@ -4,7 +4,7 @@
 {% if error is not empty %}
 <div vue-entry="CoreHome.Alert" severity="danger">{{ error }}</div>
 {% else %}
-<ul id="visitsLive">
+<ul id="visitsLive" vue-directive="Live.LastVisits">
     {% for visitor in visitors.getRows() %}
         <li id="{{ visitor.getColumn('idVisit') }}" class="visit">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
@@ -114,21 +114,4 @@
         </li>
     {% endfor %}
 </ul>
-<script type="text/javascript">
-$(function () {
-    $('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
-        e.preventDefault();
-        broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
-        return false;
-    }).tooltip({
-        track: true,
-        content: function() {
-            var title = $(this).attr('title');
-            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
-        },
-        show: {delay: 100, duration: 0},
-        hide: false
-    });
-});
-</script>
 {% endif %}
