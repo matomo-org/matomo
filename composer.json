@@ -28,7 +28,10 @@
             "php": "7.2.9"
         },
         "prepend-autoloader": false,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "require": {
         "php": ">=7.2.5",
