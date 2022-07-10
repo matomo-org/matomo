@@ -5,8 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-window.addEventListener('DOMContentLoaded', function () {
-
+(function () {
   Segmentation = (function ($) {
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
@@ -1160,5 +1159,4 @@ window.addEventListener('DOMContentLoaded', function () {
   });
 
   exports.SegmentSelectorControl = SegmentSelectorControl;
-
-});
+})();

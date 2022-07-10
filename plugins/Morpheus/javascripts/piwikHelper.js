@@ -762,5 +762,7 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 window.addEventListener('DOMContentLoaded', function () {
-  piwikHelper.compileVueEntryComponents('body');
+  $(function () {
+    piwikHelper.compileVueEntryComponents('body');
+  });
 });
