@@ -9,6 +9,7 @@
     class="sparklineImg"
     loading="lazy"
     alt=""
+    :data-src="sparklineUrl"
     :src="sparklineUrl"
     :width="width"
     :height="height"

@@ -10,6 +10,13 @@ import { DirectiveBinding } from 'vue';
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<string>): void {
     const [jsNamespace, jsClass] = binding.value.split('.');
-    window.require(jsNamespace)[jsClass].initElements();
+
+    let legacyModule = window.require(jsNamespace);
+    if (!legacyModule) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      legacyModule = (window as any)[jsNamespace];
+    }
+
+    legacyModule[jsClass].initElements();
   },
 };
