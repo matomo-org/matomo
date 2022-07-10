@@ -72,6 +72,26 @@ abstract class Base extends VisitDimension
     {
         $this->idsite = $idSite;
 
+        $currentUrl = PageUrl::cleanupUrl($currentUrl);
+        $this->currentUrlParse = @parse_url($currentUrl);
+
+        // skip any referrer detection if parameter to exclude the referrer is found
+        if (
+            !empty($this->currentUrlParse['query'])
+            && (
+                UrlHelper::getParameterFromQueryString($this->currentUrlParse['query'], 'ignore_referrer') === '1'
+                || UrlHelper::getParameterFromQueryString($this->currentUrlParse['query'], 'ignore_referer') === '1'
+            )
+        ) {
+            return [
+                'referer_type'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
+                'referer_name'    => '',
+                'referer_keyword' => '',
+                'referer_url'     => '',
+            ];
+        }
+
+
         $referrerUrl = Common::unsanitizeInputValue($referrerUrl);
 
         // Ignore referrer url if it doesn't look like a URL or is excluded in settings
@@ -85,12 +105,10 @@ abstract class Base extends VisitDimension
             $referrerUrl = '';
         }
 
-        $currentUrl = PageUrl::cleanupUrl($currentUrl);
 
         // default values for the referer_* fields
         $this->referrerUrl = $referrerUrl;
         $this->referrerUrlParse = @parse_url($this->referrerUrl);
-        $this->currentUrlParse = @parse_url($currentUrl);
         $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
         $this->nameReferrerAnalyzed = '';
         $this->keywordReferrerAnalyzed = '';
