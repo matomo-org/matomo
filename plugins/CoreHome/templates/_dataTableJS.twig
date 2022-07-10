@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    window.addEventListener('DOMContentLoaded', function () {
+    $(function () {
         window.Vue.nextTick(function () {
             require('piwik/UI/DataTable').initNewDataTables({{ reportId|json_encode|raw }});
         });

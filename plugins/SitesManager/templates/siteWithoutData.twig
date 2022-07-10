@@ -10,16 +10,18 @@
 
     <script type="text/javascript" charset="utf-8">
         window.addEventListener('DOMContentLoaded', function () {
-            $('<div />').insertAfter('.site-without-data').liveWidget({
-                interval: 1000,
-                onUpdate: function () {
-                    // reload page as soon as a visit was detected
-                    broadcast.propagateNewPage('date=today');
-                },
-                dataUrlParams: {
-                    module: 'Live',
-                    action: 'getLastVisitsStart'
-                }
+            $(function () {
+                $('<div />').insertAfter('.site-without-data').liveWidget({
+                    interval: 1000,
+                    onUpdate: function () {
+                        // reload page as soon as a visit was detected
+                        broadcast.propagateNewPage('date=today');
+                    },
+                    dataUrlParams: {
+                        module: 'Live',
+                        action: 'getLastVisitsStart'
+                    }
+                });
             });
         });
     </script>

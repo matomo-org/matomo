@@ -8,6 +8,8 @@
 </div>
 <script>
     window.addEventListener('DOMContentLoaded', function () {
-        require('{{ jsNamespace }}').{{ jsClass }}.initElements();
+        $(function () {
+            require('{{ jsNamespace }}').{{ jsClass }}.initElements();
+        });
     });
 </script>
