@@ -274,7 +274,7 @@
             </div>
 
             <script type="text/javascript">
-                window.addEventListener('DOMContentLoaded', function () {
+                $(function () {
                     var active = 0;
                     {% if activeTab %}
                     var $activeTab = $('#tabs-{{ activeTab|e('js') }}');

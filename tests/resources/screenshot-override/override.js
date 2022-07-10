@@ -6,35 +6,39 @@ $(document).ready(function () {
         $('.system-check tr:contains(Version) td:nth-child(2)').text('Not showing in tests');
         $('.system-check tr:contains(User Agent) td:nth-child(2)').text('Not showing in tests');
     }
-    updateSystemCheck();
 
-    if (window.piwikHelper) {
-        setTimeout(function () {
-            // because of angular rendering replacing the content potentially...
-            updateSystemCheck();
-            setTimeout(function () {
+    var nextTick = window.Vue.nextTick;
+    nextTick(function () {
+        updateSystemCheck();
+
+        if (window.piwikHelper) {
+            nextTick(function () {
+                // because of angular rendering replacing the content potentially...
                 updateSystemCheck();
-            }, 100);
-        });
-    }
+                nextTick(function () {
+                    updateSystemCheck();
+                });
+            });
+        }
 
-    $('.ui-inline-help:contains(UTC time is)').hide();
+        $('.ui-inline-help:contains(UTC time is)').hide();
 
-    $('[notification-id=ControllerAdmin_HttpIsUsed]').hide();
+        $('[notification-id=ControllerAdmin_HttpIsUsed]').hide();
 
-    $.fx.off = true;
+        $.fx.off = true;
 
-    // disable materialize animations (Materialize version > 1)
-    if (typeof M !== 'undefined' && M.anime) {
-        var oldAnime = M.anime;
-        M.anime = function (params) {
-            if (!params) {
-                params = {};
-            }
-            params.duration = 0;
-            return oldAnime(params);
-        };
-    } else if ($.Velocity) {
-        $.Velocity.mock = true;
-    }
+        // disable materialize animations (Materialize version > 1)
+        if (typeof M !== 'undefined' && M.anime) {
+            var oldAnime = M.anime;
+            M.anime = function (params) {
+                if (!params) {
+                    params = {};
+                }
+                params.duration = 0;
+                return oldAnime(params);
+            };
+        } else if ($.Velocity) {
+            $.Velocity.mock = true;
+        }
+    });
 });
