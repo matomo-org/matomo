@@ -310,7 +310,7 @@
             {% endif %}
 
             <script type="text/javascript">
-                window.addEventListener('DOMContentLoaded', function () {
+                $(function () {
                     var $variationPicker = $('.pluginDetails .variationPicker select');
                     if ($variationPicker.val()) {
                         $('.addToCartLink').attr('href', $variationPicker.val());
