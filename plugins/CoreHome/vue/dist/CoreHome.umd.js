@@ -201,6 +201,7 @@ __webpack_require__.d(__webpack_exports__, "ContentIntro", function() { return /
 __webpack_require__.d(__webpack_exports__, "ContentTable", function() { return /* reexport */ ContentTable; });
 __webpack_require__.d(__webpack_exports__, "AjaxForm", function() { return /* reexport */ AjaxForm; });
 __webpack_require__.d(__webpack_exports__, "Passthrough", function() { return /* reexport */ Passthrough; });
+__webpack_require__.d(__webpack_exports__, "LegacyUIControl", function() { return /* reexport */ LegacyUIControl; });
 __webpack_require__.d(__webpack_exports__, "DataTable", function() { return /* reexport */ DataTable; });
 __webpack_require__.d(__webpack_exports__, "DataTableActions", function() { return /* reexport */ DataTableActions; });
 __webpack_require__.d(__webpack_exports__, "VersionInfoHeaderMessage", function() { return /* reexport */ VersionInfoHeaderMessage; });
@@ -5447,8 +5448,8 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
 var Notifications_store_instance = new Notifications_store_NotificationsStore();
 /* harmony default export */ var Notifications_store = (Notifications_store_instance); // parse notifications on dom load
 
-Notifications_store_$(function () {
-  return Notifications_store_instance.parseNotificationDivs();
+window.addEventListener('DOMContentLoaded', function () {
+  Notifications_store_instance.parseNotificationDivs();
 });
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Notification/NotificationGroup.vue?vue&type=script&lang=ts
 
@@ -10415,6 +10416,35 @@ function Passthroughvue_type_template_id_6f9e3dd3_render(_ctx, _cache, $props, $
 Passthroughvue_type_script_lang_ts.render = Passthroughvue_type_template_id_6f9e3dd3_render
 
 /* harmony default export */ var Passthrough = (Passthroughvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/LegacyUIControl/LegacyUIControl.ts
+function LegacyUIControl_slicedToArray(arr, i) { return LegacyUIControl_arrayWithHoles(arr) || LegacyUIControl_iterableToArrayLimit(arr, i) || LegacyUIControl_unsupportedIterableToArray(arr, i) || LegacyUIControl_nonIterableRest(); }
+
+function LegacyUIControl_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function LegacyUIControl_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return LegacyUIControl_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return LegacyUIControl_arrayLikeToArray(o, minLen); }
+
+function LegacyUIControl_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function LegacyUIControl_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function LegacyUIControl_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+*/
+/* harmony default export */ var LegacyUIControl = ({
+  mounted: function mounted(el, binding) {
+    var _binding$value$split = binding.value.split('.'),
+        _binding$value$split2 = LegacyUIControl_slicedToArray(_binding$value$split, 2),
+        jsNamespace = _binding$value$split2[0],
+        jsClass = _binding$value$split2[1];
+
+    window.require(jsNamespace)[jsClass].initElements();
+  }
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DataTable/DataTable.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -11342,6 +11372,7 @@ function scrollToAnchorInUrl() {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

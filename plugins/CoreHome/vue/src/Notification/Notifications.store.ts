@@ -210,4 +210,6 @@ const instance = new NotificationsStore();
 export default instance;
 
 // parse notifications on dom load
-$(() => instance.parseNotificationDivs());
+window.addEventListener('DOMContentLoaded', () => {
+  instance.parseNotificationDivs();
+});
