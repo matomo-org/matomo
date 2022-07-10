@@ -264,17 +264,17 @@ window.piwikHelper = {
 
         var parts = vueDirectiveName.split('.');
         if (parts.length !== 2) {
-          throw new Error('Expects vue-entry to have format Plugin.Component, where Component is exported Vue component. Got: ' + vueDirectiveName);
+          throw new Error('Expects vue-directive to have format Plugin.Component, where Component is exported Vue component. Got: ' + vueDirectiveName);
         }
 
         var plugin = window[parts[0]];
         if (!plugin) {
-          throw new Error('Unknown plugin in vue-entry: ' + vueDirectiveName);
+          throw new Error('Unknown plugin in vue-directive: ' + vueDirectiveName);
         }
 
         var directive = plugin[parts[1]];
         if (!directive) {
-          throw new Error('Unknown component in vue-entry: ' + vueDirectiveName);
+          throw new Error('Unknown component in vue-directive: ' + vueDirectiveName);
         }
 
         var directiveArgument = $(this).attr('vue-directive-value');

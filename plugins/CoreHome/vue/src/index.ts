@@ -81,6 +81,7 @@ export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';
 export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';
 export { default as Passthrough } from './Passthrough/Passthrough.vue';
+export { default as DataTable } from './DataTable/DataTable';
 export { default as DataTableActions } from './DataTable/DataTableActions.vue';
 export {
   default as VersionInfoHeaderMessage,
