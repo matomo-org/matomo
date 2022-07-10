@@ -4,6 +4,11 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.0
+
+* AngularJS is no longer included or used in Matomo.
+* All scripts are loaded via defer, which means any inline scripts plugins output must use the DOMContentLoaded event. 
+
 ## Matomo 4.12.0
 
 ### JavaScript Tracker

@@ -44,8 +44,7 @@ class AssetManager extends Singleton
     const MERGED_NON_CORE_JS_FILE = "asset_manager_non_core_js.js";
 
     const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
-    const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
-    const JS_DEFER_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\" defer></script>\n";
+    const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\" defer></script>\n";
     const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
     const GET_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getCoreJs";
     const GET_NON_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getNonCoreJs";
@@ -168,7 +167,7 @@ class AssetManager extends Singleton
         $result = '';
         foreach ($chunks as $chunk) {
             $src = self::GET_JS_UMD_MODULE_ACTION . urlencode($chunk->getChunkName());
-            $result .= sprintf(self::JS_DEFER_IMPORT_DIRECTIVE, $src);
+            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, $src);
         }
         return $result;
     }
