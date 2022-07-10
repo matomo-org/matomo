@@ -1,0 +1,29 @@
+{
+    "name": "GetLocalSiteTimeDate",
+    "description": "Displays in a widget the local time and date, and if differs, the local time and date of the site.",
+    "version": "0.1.0",
+    "theme": false,
+    "require": {
+        "matomo": ">=4.12.0-b1,<5.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "",
+            "homepage": ""
+        }
+    ],
+    "support": {
+        "email": "",
+        "issues": "",
+        "forum": "",
+        "irc": "",
+        "wiki": "",
+        "source": "",
+        "docs": "",
+        "rss": ""
+    },
+    "homepage": "",
+    "license": "GPL v3+",
+    "keywords": []
+}
