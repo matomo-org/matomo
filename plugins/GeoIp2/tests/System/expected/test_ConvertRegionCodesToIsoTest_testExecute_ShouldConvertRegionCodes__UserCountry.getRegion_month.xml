@@ -16,7 +16,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
-		<label>Anatoliki Makedonia kai Thraki, Greece</label>
+		<label>Anatolikí Makedonía kai Thráki, Greece</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
@@ -28,27 +28,11 @@
 		<region>A</region>
 		<country>gr</country>
 		<country_name>Greece</country_name>
-		<region_name>Anatoliki Makedonia kai Thraki</region_name>
+		<region_name>Anatolikí Makedonía kai Thráki</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/gr.png</logo>
 	</row>
 	<row>
-		<label>Chahār Mahāll va Bakhtīārī, Iran</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>regionCode==08;countryCode==ir</segment>
-		<region>08</region>
-		<country>ir</country>
-		<country_name>Iran</country_name>
-		<region_name>Chahār Mahāll va Bakhtīārī</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
-	</row>
-	<row>
-		<label>Khūzestān, Iran</label>
+		<label>Eşfahān, Iran</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
@@ -60,7 +44,39 @@
 		<region>10</region>
 		<country>ir</country>
 		<country_name>Iran</country_name>
-		<region_name>Khūzestān</region_name>
+		<region_name>Eşfahān</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
+	</row>
+	<row>
+		<label>Kermān, Iran</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==08;countryCode==ir</segment>
+		<region>08</region>
+		<country>ir</country>
+		<country_name>Iran</country_name>
+		<region_name>Kermān</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
+	</row>
+	<row>
+		<label>Kermānshāh, Iran</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==05;countryCode==ir</segment>
+		<region>05</region>
+		<country>ir</country>
+		<country_name>Iran</country_name>
+		<region_name>Kermānshāh</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
 	</row>
 	<row>
@@ -126,21 +142,5 @@
 		<country_name>China</country_name>
 		<region_name>Xizang Zizhiqu</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
-	</row>
-	<row>
-		<label>Īlām, Iran</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>regionCode==05;countryCode==ir</segment>
-		<region>05</region>
-		<country>ir</country>
-		<country_name>Iran</country_name>
-		<region_name>Īlām</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
 	</row>
 </result>
