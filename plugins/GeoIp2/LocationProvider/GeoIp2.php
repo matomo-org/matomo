@@ -178,6 +178,24 @@ abstract class GeoIp2 extends LocationProvider
      */
     public static function getRegionNames()
     {
+        $regionsByCountry = self::getRegions();
+
+        foreach ($regionsByCountry as $countryCode => &$regions) {
+            foreach ($regions as $regionCode => &$regionData) {
+                $regionData = $regionData['name'];
+            }
+        }
+
+        return $regionsByCountry;
+    }
+
+    /**
+     * Returns an array of region names mapped by country code & region code.
+     *
+     * @return array
+     */
+    public static function getRegions()
+    {
         if (is_null(self::$regionNames)) {
             self::$regionNames = require_once __DIR__ . '/../data/isoRegionNames.php';
         }

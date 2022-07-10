@@ -284,15 +284,22 @@ class Php extends GeoIp2
      */
     protected function determineRegionIsoCodeByNameAndCountryCode($regionName, $countryCode)
     {
-        $regionNames = self::getRegionNames();
+        $regionNames = self::getRegions();
 
         if (empty($regionNames[$countryCode])) {
             return '';
         }
 
-        foreach ($regionNames[$countryCode] as $isoCode => $name) {
-            if (mb_strtolower($name) === mb_strtolower($regionName)) {
+        foreach ($regionNames[$countryCode] as $isoCode => $regionData) {
+            if (mb_strtolower($regionData['name']) === mb_strtolower($regionName)) {
                 return $isoCode;
+            }
+            if (isset($regionData['altNames']) && count($regionData['altNames'])) {
+                foreach ($regionData['altNames'] as $altName) {
+                    if (mb_strtolower($altName) === mb_strtolower($regionName)) {
+                        return $isoCode;
+                    }
+                }
             }
         }
 
