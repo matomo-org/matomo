@@ -68,7 +68,7 @@
 
     <script type="text/javascript">
         broadcast._isInit = true;
-        $(function () {
+        window.addEventListener('DOMContentLoaded', function () {
             Piwik_Overlay.siteUrls = {{ siteUrls|json_encode|raw }};
 
             var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';

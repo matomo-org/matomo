@@ -9,7 +9,7 @@
 {% block content %}
 
     <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
+        window.addEventListener('DOMContentLoaded', function () {
             $('<div />').insertAfter('.site-without-data').liveWidget({
                 interval: 1000,
                 onUpdate: function () {

@@ -6,7 +6,7 @@
     ></div>
 
     <script type="text/javascript">
-        $(function () {
+        window.addEventListener('DOMContentLoaded', function () {
 
             var piwikWidget = $('[vue-entry="CoreHome.Widget"][containerid={{ containerId|e('js') }}]');
             var isExportedAsWidget = $('body > .widget').length;

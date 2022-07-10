@@ -61,7 +61,7 @@
 </div>
 
 <script type="text/javascript">
-    (function ($) {
+    window.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function () {
             $('.ajaxLoad').each(function () {
                 var self = this;
@@ -84,7 +84,7 @@
                 ajaxRequest.send();
             });
         });
-    })(jQuery);
+    });
 </script>
 {% endblock %}
 

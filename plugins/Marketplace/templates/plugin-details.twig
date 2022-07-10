@@ -274,8 +274,7 @@
             </div>
 
             <script type="text/javascript">
-                $(function() {
-
+                window.addEventListener('DOMContentLoaded', function () {
                     var active = 0;
                     {% if activeTab %}
                     var $activeTab = $('#tabs-{{ activeTab|e('js') }}');
@@ -301,7 +300,7 @@
 
             {% if plugin.shop is defined and plugin.shop and plugin.shop.reviews and plugin.shop.reviews.embedUrl is defined and plugin.shop.reviews.embedUrl %}
                 <script type="text/javascript">
-                    $(function() {
+                    window.addEventListener('DOMContentLoaded', function () {
                         var $iFrames = $('.pluginDetails iframe.reviewIframe');
                         for (var i = 0; i < $iFrames.length; i++) {
                             iFrameResize({checkOrigin: ['{{ plugin.shop.reviews.embedUrl|domainOnly }}']}, $iFrames[i]);
@@ -311,7 +310,7 @@
             {% endif %}
 
             <script type="text/javascript">
-                $(function() {
+                window.addEventListener('DOMContentLoaded', function () {
                     var $variationPicker = $('.pluginDetails .variationPicker select');
                     if ($variationPicker.val()) {
                         $('.addToCartLink').attr('href', $variationPicker.val());

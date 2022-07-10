@@ -81,31 +81,32 @@
 {% if not noData %}
 <!-- configure some piwik vars -->
 <script type="text/javascript">
-    var visitorMap,
-    config = JSON.parse('{{ config|e('js') }}');
-    config._ = JSON.parse('{{ localeJSON|e('js') }}');
-    config.reqParams = JSON.parse('{{ reqParamsJSON|e('js') }}');
-    config.countryNames = JSON.parse('{{ countriesByIso|json_encode|e('js') }}');
+    window.addEventListener('DOMContentLoaded', function () {
+        var visitorMap,
+        config = JSON.parse('{{ config|e('js') }}');
+        config._ = JSON.parse('{{ localeJSON|e('js') }}');
+        config.reqParams = JSON.parse('{{ reqParamsJSON|e('js') }}');
+        config.countryNames = JSON.parse('{{ countriesByIso|json_encode|e('js') }}');
 
-    $('.UserCountryMap').addClass('dataTable');
+        $('.UserCountryMap').addClass('dataTable');
 
-    if ($('#dashboardWidgetsArea').length) {
-        // dashboard mode
-        var $widgetContent = $('.UserCountryMap').parents('.widgetContent').first();
+        if ($('#dashboardWidgetsArea').length) {
+            // dashboard mode
+            var $widgetContent = $('.UserCountryMap').parents('.widgetContent').first();
 
-        $widgetContent.on('widget:create',function (evt, widget) {
-            visitorMap = new UserCountryMap.VisitorMap(config, widget);
-        }).on('widget:maximise',function (evt) {
-                    visitorMap.resize();
-                }).on('widget:minimise',function (evt) {
-                    visitorMap.resize();
-                }).on('widget:destroy', function (evt) {
-                    visitorMap.destroy();
-                });
-    } else {
-        // stand-alone mode
-        visitorMap = new UserCountryMap.VisitorMap(config);
-    }
-
+            $widgetContent.on('widget:create',function (evt, widget) {
+                visitorMap = new UserCountryMap.VisitorMap(config, widget);
+            }).on('widget:maximise',function (evt) {
+                        visitorMap.resize();
+                    }).on('widget:minimise',function (evt) {
+                        visitorMap.resize();
+                    }).on('widget:destroy', function (evt) {
+                        visitorMap.destroy();
+                    });
+        } else {
+            // stand-alone mode
+            visitorMap = new UserCountryMap.VisitorMap(config);
+        }
+    });
 </script>
 {% endif %}
