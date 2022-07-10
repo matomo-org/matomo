@@ -11,6 +11,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\PasswordReset\PasswordResetHandler;
 use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -311,15 +312,7 @@ class PasswordResetter
      */
     protected function generateSecureHash($hashIdentifier, $data)
     {
-        // mitigate rainbow table attack
-        $halfDataLen = strlen($data) / 2;
-
-        $stringToHash = $hashIdentifier
-                      . substr($data, 0, $halfDataLen)
-                      . $this->getSalt()
-                      . substr($data, $halfDataLen)
-                      ;
-
+	$stringToHash = $hashIdentifier.$data;
         return $this->hashData($stringToHash);
     }
 
@@ -346,7 +339,7 @@ class PasswordResetter
      */
     protected function hashData($data)
     {
-        return Common::hash($data);
+	return PasswordResetHandler::hash($data);
     }
 
     /**
