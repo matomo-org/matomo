@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    $('#showSql').click(function (e) {
+window.addEventListener('DOMContentLoaded', function () {
+  $('#showSql').click(function (e) {
         e.preventDefault();
         $('.sqlQueries').toggle();
     });

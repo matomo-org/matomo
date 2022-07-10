@@ -42,7 +42,7 @@
     {% endif %}
 
     <script>
-        $(document).ready(function () {
+        window.addEventListener('DOMContentLoaded', function () {
             var strConfirmEraseTables = "{{ 'Installation_ConfirmDeleteExistingTables'|translate("["~tablesInstalled~"]") }} ";
 
             $("#eraseAllTables").click(function () {

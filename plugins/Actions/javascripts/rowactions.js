@@ -1,5 +1,4 @@
-$(function () {
-
+window.addEventListener('DOMContentLoaded', function () {
     function isActionsModule(params)
     {
         return params.module == 'Actions';

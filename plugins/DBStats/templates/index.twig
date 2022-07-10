@@ -62,27 +62,25 @@
 
 <script type="text/javascript">
     window.addEventListener('DOMContentLoaded', function () {
-        $(document).ready(function () {
-            $('.ajaxLoad').each(function () {
-                var self = this;
-                var action = $(this).attr('action');
+        $('.ajaxLoad').each(function () {
+            var self = this;
+            var action = $(this).attr('action');
 
-                // build & execute AJAX request
-                var ajaxRequest = new ajaxHelper();
-                ajaxRequest.addParams({
-                    module: 'DBStats',
-                    action: action,
-                    viewDataTable: 'table',
-                    showtitle: '1'
-                }, 'get');
-                ajaxRequest.setCallback(function (data) {
-                    $('.loadingPiwik', self).remove();
-                    $(self).html(data);
-                    piwikHelper.compileVueEntryComponents(self);
-                });
-                ajaxRequest.setFormat('html');
-                ajaxRequest.send();
+            // build & execute AJAX request
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams({
+                module: 'DBStats',
+                action: action,
+                viewDataTable: 'table',
+                showtitle: '1'
+            }, 'get');
+            ajaxRequest.setCallback(function (data) {
+                $('.loadingPiwik', self).remove();
+                $(self).html(data);
+                piwikHelper.compileVueEntryComponents(self);
             });
+            ajaxRequest.setFormat('html');
+            ajaxRequest.send();
         });
     });
 </script>

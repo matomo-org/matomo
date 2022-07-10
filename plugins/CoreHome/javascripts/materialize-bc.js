@@ -4,7 +4,7 @@
  * @link http://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-(function () {
+window.addEventListener('DOMContentLoaded', function () {
     jQuery.htmlPrefilter = function( html ) {
         return html;
     };
@@ -19,4 +19,4 @@
         M.initializeJqueryWrapper(M.Tabs, 'tabs', 'M_Tabs');
         M.initializeJqueryWrapper(M.Modal, 'modal', 'M_Modal');
     });
-})();
+});

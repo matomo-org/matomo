@@ -5,24 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 function initTopControls() {
-    function getOverlap(element1, element2)
-    {
-        if (!element1 || !element1.getBoundingClientRect || !element2 || !element2.getBoundingClientRect) {
-            return 0;
-        }
-
-        var rect1 = element1.getBoundingClientRect();
-        var rect2 = element2.getBoundingClientRect();
-
-        var doOverlap = !(rect1.right < rect2.left || rect1.left > rect2.right);
-
-        if (doOverlap) {
-            return rect1.left - rect2.right;
-        }
-
-        return 0;
-    }
-
     var $topControlsContainer = $('.top_controls');
 
     var allRendered = true;
@@ -58,7 +40,7 @@ function initTopControls() {
 }
 
 //Keyboard controls for Top Controls Calendar through tab and enter.
-$( document ).ready(function() {
+window.addEventListener('DOMContentLoaded', function () {
     $('.periodSelector').keydown(function(e){
         toggleCalendar(e);
     })
@@ -74,7 +56,7 @@ $( document ).ready(function() {
 });
 
 //Keyboard controls for Top Controls Calendar through tab and enter.
-$( document ).ready(function() {
+window.addEventListener('DOMContentLoaded', function () {
     $('.periodSelector').keydown(function(e){
         toggleCalendar(e);
     })

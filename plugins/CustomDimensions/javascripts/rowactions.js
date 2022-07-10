@@ -1,6 +1,5 @@
-$(function () {
-
-    function isActionCustomDimensionReport(params) {
+window.addEventListener('DOMContentLoaded', function () {
+  function isActionCustomDimensionReport(params) {
         return params.module == 'CustomDimensions'
             && params.action == 'getCustomDimension'
             && params.scopeOfDimension
@@ -61,6 +60,4 @@ $(function () {
             }
         });
     }
-
-
 });

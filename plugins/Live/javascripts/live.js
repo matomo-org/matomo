@@ -9,7 +9,7 @@
  * jQueryUI widget for Live visitors widget
  */
 
-(function ($) {
+window.addEventListener('DOMContentLoaded', function () {
     $.widget('piwik.liveWidget', {
 
         /**
@@ -238,9 +238,9 @@
             this.currentInterval = interval;
         }
     });
-})(jQuery);
+});
 
-$(function() {
+window.addEventListener('DOMContentLoaded', function () {
     var refreshWidget = function (element, refreshAfterXSecs) {
         // if the widget has been removed from the DOM, abort
         if (!element.length || !$.contains(document, element[0])) {
@@ -330,7 +330,7 @@ function onClickPlay() {
     return $('#visitsLive').liveWidget('start');
 }
 
-(function () {
+window.addEventListener('DOMContentLoaded', function () {
     if (!Visibility.isSupported()) {
         return;
     }
@@ -363,4 +363,4 @@ function onClickPlay() {
             onTabFocus();
         }
     });
-})();
+});

@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-$(function () {
+window.addEventListener('DOMContentLoaded', function () {
     function adjustSize(content)
     {
         var width = $('body').width() - content.offset().left - 16;

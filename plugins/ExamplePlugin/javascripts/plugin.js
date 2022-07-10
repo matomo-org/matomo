@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
     /**
      * Please note that this JavaScript file will be loaded only if you
      * enable the following setting in your config:

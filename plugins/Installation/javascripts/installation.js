@@ -1,5 +1,5 @@
-$(function () {
-    $('input:first').focus();
+window.addEventListener('DOMContentLoaded', function () {
+  $('input:first').focus();
     $('code').click(function () {
         $(this).select();
     });
@@ -10,7 +10,7 @@ $(function () {
     $('select').material_select();
 });
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function () {
     $('.form-help').each(function (index, help) {
         var $help = $(help);
         var $row = $help.parents('.row').first();

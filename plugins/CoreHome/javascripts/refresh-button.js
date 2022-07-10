@@ -4,7 +4,7 @@
  * @link http://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-$(function () {
+window.addEventListener('DOMContentLoaded', function () {
   var iconRefresh = $('.top_controls .icon-reload');
 
   function refresh() {

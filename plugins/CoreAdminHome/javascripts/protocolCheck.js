@@ -5,8 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-$(document).ready(function () {
-
+window.addEventListener('DOMContentLoaded', function () {
     if (!piwik || !location.protocol) {
         return;
     }
