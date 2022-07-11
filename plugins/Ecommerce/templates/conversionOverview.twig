@@ -1,10 +1,10 @@
 <div
     vue-entry="Ecommerce.ConversionOverview"
-    id-goal="{{ idGoal|default(null)|json_encode|e('html_attr') }}"
-    visitor-log-enabled="{{ visitorLogEnabled|default(null)|json_encode|e('html_attr') }}"
-    revenue="{{ revenue is not empty ? revenue|money(idSite)|json_encode|e('html_attr') : 'null' }}"
-    revenue_subtotal="{{ revenue_subtotal is not empty ? revenue_subtotal|money(idSite)|json_encode|e('html_attr') : 'null' }}"
-    revenue_tax="{{ revenue_tax is not empty ? revenue_tax|money(idSite)|json_encode|e('html_attr') : 'null' }}"
-    revenue_shipping="{{ revenue_shipping is not empty ? revenue_shipping|money(idSite)|json_encode|e('html_attr') : 'null' }}"
-    revenue_discount="{{ revenue_discount is not empty ? revenue_discount|money(idSite)|json_encode|e('html_attr') : 'null' }}"
+    id-goal="{{ idGoal|default(null)|json_encode }}"
+    visitor-log-enabled="{{ visitorLogEnabled|default(null)|json_encode }}"
+    revenue="{{ revenue is not empty ? revenue|money(idSite)|json_encode : 'null' }}"
+    revenue_subtotal="{{ revenue_subtotal is not empty ? revenue_subtotal|money(idSite)|json_encode : 'null' }}"
+    revenue_tax="{{ revenue_tax is not empty ? revenue_tax|money(idSite)|json_encode : 'null' }}"
+    revenue_shipping="{{ revenue_shipping is not empty ? revenue_shipping|money(idSite)|json_encode : 'null' }}"
+    revenue_discount="{{ revenue_discount is not empty ? revenue_discount|money(idSite)|json_encode : 'null' }}"
 ></div>
