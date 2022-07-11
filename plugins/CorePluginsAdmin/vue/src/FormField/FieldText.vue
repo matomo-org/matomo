@@ -72,23 +72,18 @@ export default defineComponent({
           return;
         }
 
-        let aborted = false;
         const emitEventData = {
           value: newValue,
-          abort() {
-            aborted = true;
+          abort: () => {
+            // change to previous value if the parent component did not update the model value
+            // (done manually because Vue will not notice if a value does NOT change)
+            if ((event.target as HTMLInputElement).value !== this.modelValueText) {
+              (event.target as HTMLInputElement).value = this.modelValueText;
+            }
           },
         };
 
         this.$emit('update:modelValue', emitEventData);
-
-        // change to previous value if the parent component did not update the model value
-        // (done manually because Vue will not notice if a value does NOT change)
-        if (aborted
-          && (event.target as HTMLInputElement).value !== this.modelValueText
-        ) {
-          (event.target as HTMLInputElement).value = this.modelValueText;
-        }
       }
     },
   },

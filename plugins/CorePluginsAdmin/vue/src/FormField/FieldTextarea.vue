@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
 import { debounce } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
 
@@ -40,28 +40,22 @@ export default defineComponent({
   methods: {
     onKeydown(event: Event) {
       const newValue = (event.target as HTMLTextAreaElement).value;
+      if (newValue !== this.modelValue) {
+        if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+          this.$emit('update:modelValue', newValue);
+          return;
+        }
 
-      if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
-        this.$emit('update:modelValue', newValue);
-        return;
-      }
+        const emitEventData = {
+          value: newValue,
+          abort: () => {
+            if ((event.target as HTMLInputElement).value !== this.modelValue) {
+              (event.target as HTMLInputElement).value = this.modelValueText;
+            }
+          },
+        };
 
-      let aborted = false;
-      const emitEventData = {
-        value: newValue,
-        abort() {
-          aborted = true;
-        },
-      };
-
-      this.$emit('update:modelValue', emitEventData);
-
-      if (aborted
-        && (event.target as HTMLInputElement).value !== this.modelValue
-      ) {
-        // change to previous value if the parent component did not update the model value
-        // (done manually because Vue will not notice if a value does NOT change)
-        (event.target as HTMLInputElement).value = this.modelValueText;
+        this.$emit('update:modelValue', emitEventData);
       }
     },
   },
