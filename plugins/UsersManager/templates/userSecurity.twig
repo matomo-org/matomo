@@ -7,16 +7,16 @@
 
 <div
     vue-entry="UsersManager.UserSecurity"
-    delete-token-nonce="{{ deleteTokenNonce|default(null)|json_encode|e('html_attr') }}"
-    tokens="{{ tokens|default(null)|json_encode|e('html_attr') }}"
-    has-tokens-with-expire-date="{{ hasTokensWithExpireDate|default(null)|json_encode|e('html_attr') }}"
-    is-users-admin-enabled="{{ isUsersAdminEnabled|default(null)|json_encode|e('html_attr') }}"
-    change-password-nonce="{{ changePasswordNonce|default(null)|json_encode|e('html_attr') }}"
-    is-valid-host="{{ isValidHost|default(null)|json_encode|e('html_attr') }}"
-    is-super-user="{{ isSuperUser|default(null)|json_encode|e('html_attr') }}"
-    invalid-host="{{ invalidHost|default(null)|json_encode|e('html_attr') }}"
-    after-password-event-content="{{ afterPasswordEventContent|default(null)|json_encode|e('html_attr') }}"
-    invalid-host-mail-link-start="{{ invalidHostMailLinkStart|default(null)|json_encode|e('html_attr') }}"
+    delete-token-nonce="{{ deleteTokenNonce|default(null)|json_encode }}"
+    tokens="{{ tokens|default(null)|json_encode }}"
+    has-tokens-with-expire-date="{{ hasTokensWithExpireDate|default(null)|json_encode }}"
+    is-users-admin-enabled="{{ isUsersAdminEnabled|default(null)|json_encode }}"
+    change-password-nonce="{{ changePasswordNonce|default(null)|json_encode }}"
+    is-valid-host="{{ isValidHost|default(null)|json_encode }}"
+    is-super-user="{{ isSuperUser|default(null)|json_encode }}"
+    invalid-host="{{ invalidHost|default(null)|json_encode }}"
+    after-password-event-content="{{ afterPasswordEventContent|default(null)|json_encode }}"
+    invalid-host-mail-link-start="{{ invalidHostMailLinkStart|default(null)|json_encode }}"
 ></div>
 
 {% endblock %}
