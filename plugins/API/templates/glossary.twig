@@ -3,7 +3,7 @@
 {% set theContent %}
     <div
         vue-entry="API.Glossary"
-        glossary-items="{{ glossaryItems|json_encode|e('html_attr') }}"
+        glossary-items="{{ glossaryItems|json_encode }}"
     ></div>
 {% endset %}
 
