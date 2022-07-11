@@ -6,6 +6,7 @@
  */
 
 import { watch } from 'vue';
+import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 const { $ } = window;
@@ -26,10 +27,8 @@ class PopoverHandler {
   // don't initiate the handler until the page had a chance to render,
   // since some rowactions depend on what's been loaded.
   private onPopoverParamChangedInitial() {
-    $(() => {
-      setTimeout(() => {
-        this.openOrClose();
-      });
+    Matomo.on('Matomo.afterInitialVueEntryProcess', () => {
+      this.openOrClose();
     });
   }
 
@@ -74,6 +73,7 @@ class PopoverHandler {
     if (typeof window.broadcast.popoverHandlers[handlerName] !== 'undefined'
       && !window.broadcast.isLoginPage()
     ) {
+      // nextTick used to give the page some time to load
       window.broadcast.popoverHandlers[handlerName](param);
     }
   }

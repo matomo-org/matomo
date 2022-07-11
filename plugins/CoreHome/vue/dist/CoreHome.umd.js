@@ -1271,6 +1271,7 @@ function PopoverHandler_createClass(Constructor, protoProps, staticProps) { if (
  */
 
 
+
 var PopoverHandler_window = window,
     PopoverHandler_$ = PopoverHandler_window.$;
 
@@ -1303,10 +1304,8 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
     value: function onPopoverParamChangedInitial() {
       var _this2 = this;
 
-      PopoverHandler_$(function () {
-        setTimeout(function () {
-          _this2.openOrClose();
-        });
+      Matomo_Matomo.on('Matomo.afterInitialVueEntryProcess', function () {
+        _this2.openOrClose();
       });
     }
   }, {
@@ -1353,6 +1352,7 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
       var param = popoverParamParts.join(':');
 
       if (typeof window.broadcast.popoverHandlers[handlerName] !== 'undefined' && !window.broadcast.isLoginPage()) {
+        // nextTick used to give the page some time to load
         window.broadcast.popoverHandlers[handlerName](param);
       }
     }
