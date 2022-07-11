@@ -7,6 +7,6 @@
 {% block content %}
 <div
     vue-entry="Diagnostics.ConfigFile"
-    all-config-values="{{ allConfigValues|json_encode|e('html_attr') }}"
+    all-config-values="{{ allConfigValues|json_encode }}"
 ></div>
 {% endblock %}

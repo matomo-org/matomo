@@ -30,7 +30,7 @@
                     {% include "@Referrers/_visitorDetails.twig" with {'visitInfo': visitor} %}
                  </span>
             </div>
-            <div id="{{ visitor.getColumn('idVisit')|e('html_attr') }}_actions" class="settings">
+            <div id="{{ visitor.getColumn('idVisit') }}_actions" class="settings">
                 <span class="pagesTitle"
                       title="{{ visitor.getColumn('actionDetails')|length }} {{ 'General_Actions'|translate }}"
                       >{{ 'General_Actions'|translate }}:</span>&nbsp;
@@ -73,7 +73,7 @@
                         {% else %}
 
                             {% if action.url is defined and action.url is not empty %}
-                            <a href="{{ action.url|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">
+                            <a href="{{ action.url|safelink }}" target="_blank" rel="noreferrer noopener">
                             {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
@@ -85,7 +85,7 @@
 <span class="tooltip-action-server-time">{{ action.serverTimePretty }}</span>
     {% if action.timeSpentPretty is defined %}<span class='tooltip-time-on-page'>{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}</span>{% endif %}
 {%- endset %}
-                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title|e('html_attr') -}}"/>
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>

@@ -14,7 +14,7 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                <li title="{{ checkItemMessages|default(thisResult.getLongErrorMessage)|default(thisResult.getItems()[0].getComment())|preg_replace('/<br.*?>/', "\n")|striptags|e('html_attr') }}" class="system-check-widget-error"><span class="icon-error"></span> {{ thisResult.getLabel }}</li>
+                <li title="{{ checkItemMessages|default(thisResult.getLongErrorMessage)|default(thisResult.getItems()[0].getComment())|preg_replace('/<br.*?>/', "\n")|striptags }}" class="system-check-widget-error"><span class="icon-error"></span> {{ thisResult.getLabel }}</li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -30,7 +30,7 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                <li title="{{ checkItemMessages|default(thisResult.getLongErrorMessage)|default(thisResult.getItems()[0].getComment())|preg_replace('/<br.*?>/', "\n")|striptags|e('html_attr') }}" class="system-check-widget-warning"><span class="icon-warning"></span> {{ thisResult.getLabel }}</li>
+                <li title="{{ checkItemMessages|default(thisResult.getLongErrorMessage)|default(thisResult.getItems()[0].getComment())|preg_replace('/<br.*?>/', "\n")|striptags }}" class="system-check-widget-warning"><span class="icon-warning"></span> {{ thisResult.getLabel }}</li>
             {% endfor %}
         </ul>
     {% endif %}
