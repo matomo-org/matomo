@@ -1,8 +1,8 @@
 <div
     vue-entry="LanguagesManager.LanguagesDropdown"
-    token-auth="{{ token_auth|default(null)|json_encode|e('html_attr') }}"
-    nonce="{{ nonce|json_encode|e('html_attr') }}"
-    languages="{{ languages|json_encode|e('html_attr') }}"
-    current-language-code="{{ currentLanguageCode|json_encode|e('html_attr') }}"
-    current-language-name="{{ currentLanguageName|json_encode|e('html_attr') }}"
+    token-auth="{{ token_auth|default(null)|json_encode }}"
+    nonce="{{ nonce|json_encode }}"
+    languages="{{ languages|json_encode }}"
+    current-language-code="{{ currentLanguageCode|json_encode }}"
+    current-language-name="{{ currentLanguageName|json_encode }}"
 ></div>
