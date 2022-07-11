@@ -46,5 +46,8 @@ export default {
       // stand-alone mode
       visitorMap = new VisitorMap(config);
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).visitorMap = visitorMap;
   },
 };
