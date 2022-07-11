@@ -6,6 +6,7 @@
 
 <template>
   <img
+    ref="root"
     class="sparklineImg"
     loading="lazy"
     alt=""
@@ -24,6 +25,8 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import RangePeriod from '../Periods/Range';
 import { format } from '../Periods';
 
+const { $ } = window;
+
 export default defineComponent({
   props: {
     seriesIndices: Array,
@@ -41,9 +44,23 @@ export default defineComponent({
   },
   computed: {
     sparklineUrl() {
-      const { seriesIndices, params } = this;
+      const { params } = this;
+      let { seriesIndices } = this;
+
+      if (!seriesIndices) {
+        seriesIndices = $(this.$refs.root as HTMLElement)
+          .closest('.sparkline')
+          .data('series-indices');
+      }
 
       const sparklineColors = Matomo.getSparklineColors();
+
+      if (seriesIndices && sparklineColors.lineColor instanceof Array) {
+        sparklineColors.lineColor = sparklineColors.lineColor.filter(
+          (c, index) => seriesIndices.indexOf(index) !== -1,
+        );
+        console.log(sparklineColors.lineColor);
+      }
 
       if (seriesIndices) {
         sparklineColors.lineColor = sparklineColors.lineColor.filter(

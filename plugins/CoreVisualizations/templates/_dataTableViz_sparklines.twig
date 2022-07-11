@@ -59,10 +59,6 @@
     </div>
     {% endif %}
 
-    {%  if areSparklinesLinkable %}
-        {% include "_sparklineFooter.twig" %}
-    {% endif %}
-
     {% if footerMessage is not empty %}
         <div class='datatableFooterMessage'>{{ footerMessage | raw }}</div>
     {% endif %}
