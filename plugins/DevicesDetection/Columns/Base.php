@@ -14,8 +14,8 @@ use Piwik\Plugin\Dimension\VisitDimension;
 
 abstract class Base extends VisitDimension
 {
-    protected function getUAParser($userAgent)
+    protected function getUAParser($userAgent, $clientHints)
     {
-        return StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent);
+        return StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent, $clientHints);
     }
 }
