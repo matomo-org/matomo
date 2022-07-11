@@ -27,6 +27,11 @@ import { format } from '../Periods';
 
 const { $ } = window;
 
+interface SparklineState {
+  isWidget: boolean;
+  actualSeriesIndices: number[];
+}
+
 export default defineComponent({
   props: {
     seriesIndices: Array,
@@ -34,37 +39,30 @@ export default defineComponent({
     width: Number,
     height: Number,
   },
-  data() {
+  data(): SparklineState {
     return {
       isWidget: false,
+      actualSeriesIndices: this.seriesIndices as number[],
     };
   },
   mounted() {
     this.isWidget = !!this.$el.closest('[widgetId]');
+
+    if (!this.actualSeriesIndices) {
+      this.actualSeriesIndices = $(this.$refs.root as HTMLElement)
+        .closest('.sparkline')
+        .data('series-indices');
+    }
   },
   computed: {
     sparklineUrl() {
-      const { params } = this;
-      let { seriesIndices } = this;
-
-      if (!seriesIndices) {
-        seriesIndices = $(this.$refs.root as HTMLElement)
-          .closest('.sparkline')
-          .data('series-indices');
-      }
+      const { params, actualSeriesIndices } = this;
 
       const sparklineColors = Matomo.getSparklineColors();
 
-      if (seriesIndices && sparklineColors.lineColor instanceof Array) {
+      if (actualSeriesIndices && sparklineColors.lineColor instanceof Array) {
         sparklineColors.lineColor = sparklineColors.lineColor.filter(
-          (c, index) => seriesIndices.indexOf(index) !== -1,
-        );
-        console.log(sparklineColors.lineColor);
-      }
-
-      if (seriesIndices) {
-        sparklineColors.lineColor = sparklineColors.lineColor.filter(
-          (c, index) => seriesIndices.indexOf(index) !== -1,
+          (c, index) => actualSeriesIndices.indexOf(index) !== -1,
         );
       }
 
