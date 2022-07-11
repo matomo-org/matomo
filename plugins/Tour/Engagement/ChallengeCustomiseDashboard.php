@@ -54,7 +54,7 @@ class ChallengeCustomiseDashboard extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/piwik-tour/#dashboard-widgets';
+        return 'https://matomo.org/faq/dashboards/create-dashboards-and-customise-widgets-and-layout/';
     }
 
 
