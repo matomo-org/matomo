@@ -252,9 +252,9 @@ class Get extends Base
 
             $goal = $this->getGoal($idGoal);
             if (!empty($goal['name'])) {
-                $view->config->title = Piwik::translate('Goals_GoalX', "'" . Common::unsanitizeInputValue($goal['name']) . "'");
+                $view->config->title = Piwik::translate('Goals_GoalX', "'" . $goal['name'] . "'");
                 if (!empty($goal['description'])) {
-                    $view->config->description = Common::unsanitizeInputValue($goal['description']);
+                    $view->config->description = $goal['description'];
                 }
             } else {
                 $view->config->title = Piwik::translate('General_EvolutionOverPeriod');
