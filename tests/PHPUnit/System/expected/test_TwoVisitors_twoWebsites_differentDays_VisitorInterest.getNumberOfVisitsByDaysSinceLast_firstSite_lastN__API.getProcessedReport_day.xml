@@ -9,7 +9,7 @@
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
 		<dimension>Days since last visit</dimension>
-		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
+		<documentation>How many visits were from returning visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
