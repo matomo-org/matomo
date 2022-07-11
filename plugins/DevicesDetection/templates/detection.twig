@@ -6,6 +6,36 @@
 
     <script type="text/javascript">
 
+        var clientHints = {};
+
+        $(document).ready(function() {
+            if (!navigator.userAgentData || typeof navigator.userAgentData.getHighEntropyValues !== 'function') {
+                $('#noclienthints').css({display: 'inline-block'});
+                $('[name=clienthints],.usech').hide();
+            } else {
+                // Initialize with low entropy values that are always available
+                clientHints = {
+                    brands: navigator.userAgentData.brands,
+                    platform: navigator.userAgentData.platform
+                };
+
+                // try to gather high entropy values
+                // currently this methods simply returns the requested values through a Promise
+                // In later versions it might require a user permission
+                navigator.userAgentData.getHighEntropyValues(
+                    ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']
+                ).then(function (ua) {
+                    if (ua.fullVersionList) {
+                        // if fullVersionList is available, brands and uaFullVersion isn't needed
+                        delete ua.brands;
+                        delete ua.uaFullVersion;
+                    }
+
+                    clientHints = ua;
+                });
+            }
+        });
+
         function showList(type) {
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams({
@@ -20,6 +50,15 @@
                 piwikHelper.modalConfirm($list, [], {fixedFooter: true});
             });
             ajaxHandler.send();
+        }
+
+        function toggleClientHints() {
+            $('[name=clienthints]').toggle();
+            if ($('[name=clienthints]:visible').length) {
+                $('[name=clienthints]').text().length || $('[name=clienthints]').text(JSON.stringify(clientHints));
+            } else {
+                $('[name=clienthints]').text('');
+            }
         }
 
     </script>
@@ -42,11 +81,26 @@
     </style>
 
     <div piwik-content-block content-title="{{ title|e('html_attr') }}">
-        <h3>{{ 'DevicesDetection_UserAgent'|translate|e('html_attr') }}</h3>
-
         <form action="{{ linkTo({}) }}" method="POST">
+
+            <h3>{{ 'DevicesDetection_UserAgent'|translate }}</h3>
+
             <textarea name="ua">{{ userAgent }}</textarea>
-            <br />
+
+            <h3>{{ 'DevicesDetection_ClientHints'|translate }}</h3>
+
+            <span class="checkbox-container usech">
+                <label>
+                    <input type="checkbox" id="usech" {% if clientHints %}checked{% endif %} onchange="toggleClientHints()"/>
+                    <span>{{ 'DevicesDetection_ConsiderClientHints'|translate }}</span>
+                </label>
+            </span>
+
+            <textarea name="clienthints" style="margin-top: 2em; {% if not clientHints %}display: none{% endif %}">{% if clientHints %}{{ clientHints|json_encode }}{% endif %}</textarea>
+
+            <span id="noclienthints" class="alert alert-warning" style="display: none">{{ 'DevicesDetection_ClientHintsNotSupported'|translate }}</span>
+
+            <br /><br />
             <input type="submit" value="{{ 'General_Refresh'|translate }}" class="btn" />
         </form>
 
