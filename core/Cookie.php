@@ -456,7 +456,7 @@ class Cookie
             } else {
                 $userAgent = Http::getUserAgent();
                 $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
-                $deviceDetector = $ddFactory->makeInstance($userAgent);
+                $deviceDetector = $ddFactory->makeInstance($userAgent, Http::getClientHintsFromServerVariables());
                 $deviceDetector->parse();
 
                 $browserFamily = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($deviceDetector->getClient('short_name'));
