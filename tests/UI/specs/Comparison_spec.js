@@ -94,6 +94,7 @@ describe("Comparison", function () {
         await (await page.jQuery('.sparkline:contains(pageviews):eq(0)')).click();
         await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
+        await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
 

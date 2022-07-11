@@ -65,7 +65,7 @@
         {% endfor %}
         "": ""
     };
-    window.addEventListener('DOMContentLoaded', function () {
+    $(function () {
         var tea = $('#transition-export-actions');
         if (!tea.parent().hasClass('popoverContainer'))
             tea.show();

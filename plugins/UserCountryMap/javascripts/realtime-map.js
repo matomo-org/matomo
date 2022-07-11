@@ -10,9 +10,12 @@
 
 (function () {
 
+    window.UserCountryMapLegacyModule = window.UserCountryMapLegacyModule || {};
+    var UserCountryMap = window.UserCountryMapLegacyModule;
+
     var UIControl = require('piwik/UI').UIControl;
 
-    var RealtimeMap = window.UserCountryMap.RealtimeMap = function (element) {
+    var RealtimeMap = UserCountryMap.RealtimeMap = function (element) {
         UIControl.call(this, element);
         this._init();
         this.run();

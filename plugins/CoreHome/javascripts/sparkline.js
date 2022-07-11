@@ -106,6 +106,7 @@ window.initializeSparklines = function () {
             // on click, reload the graph with the new url
             $this.off('click.sparkline');
             $this.on('click.sparkline', function () {
+              console.log('click sparkline: ' + JSON.stringify(params));
               var reportId = graph.attr('data-report'),
                 dataTable = graph;
 
@@ -122,6 +123,7 @@ window.initializeSparklines = function () {
               }
 
               // reload the datatable w/ a new column & scroll to the graph
+              console.log('reload triggered');
               dataTable.trigger('reload', params);
             });
           }

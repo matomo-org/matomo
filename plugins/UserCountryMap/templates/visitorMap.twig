@@ -1,5 +1,7 @@
 <section class="card">
-<div class="UserCountryMap card-content" style="position:relative; overflow:hidden;">
+<div class="UserCountryMap card-content" style="position:relative; overflow:hidden;"
+     {% if not noData %}vue-directive="UserCountryMap.VisitorMap" vue-directive-value="{&quot;config&quot;: {{ config }}, &quot;locale&quot;: {{ localeJSON }}, &quot;reqParams&quot;: {{ reqParamsJSON }}, &quot;countryNames&quot;: {{ countriesByIso|json_encode }}}"{% endif %}>
+
     <div class="UserCountryMap_container">
         <div class="UserCountryMap_map" style="overflow:hidden;"></div>
         <div class="UserCountryMap-overlay UserCountryMap-title">
@@ -77,36 +79,3 @@
     {% endif %}
 </div>
 </section>
-
-{% if not noData %}
-<!-- configure some piwik vars -->
-<script type="text/javascript">
-    window.addEventListener('DOMContentLoaded', function () {
-        var visitorMap,
-        config = JSON.parse('{{ config|e('js') }}');
-        config._ = JSON.parse('{{ localeJSON|e('js') }}');
-        config.reqParams = JSON.parse('{{ reqParamsJSON|e('js') }}');
-        config.countryNames = JSON.parse('{{ countriesByIso|json_encode|e('js') }}');
-
-        $('.UserCountryMap').addClass('dataTable');
-
-        if ($('#dashboardWidgetsArea').length) {
-            // dashboard mode
-            var $widgetContent = $('.UserCountryMap').parents('.widgetContent').first();
-
-            $widgetContent.on('widget:create',function (evt, widget) {
-                visitorMap = new UserCountryMap.VisitorMap(config, widget);
-            }).on('widget:maximise',function (evt) {
-                        visitorMap.resize();
-                    }).on('widget:minimise',function (evt) {
-                        visitorMap.resize();
-                    }).on('widget:destroy', function (evt) {
-                        visitorMap.destroy();
-                    });
-        } else {
-            // stand-alone mode
-            visitorMap = new UserCountryMap.VisitorMap(config);
-        }
-    });
-</script>
-{% endif %}
