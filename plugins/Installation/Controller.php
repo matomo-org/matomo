@@ -570,11 +570,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         CoreVue::addJsFilesTo($files);
 
-        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
-        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
-
-        $installationUmd = Development::isEnabled() ? 'Installation.umd.js' : 'Installation.umd.min.js';
-        $files[] = "plugins/Installation/vue/dist/$installationUmd";
+        $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('CoreHome');
+        $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('Installation');
 
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
