@@ -29,7 +29,7 @@ class ChallengeSelectDateRange extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/piwik-tour/#select-a-date-range';
+        return 'https://matomo.org/faq/reports/data-selectors-in-matomo/';
     }
 
 

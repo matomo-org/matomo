@@ -537,7 +537,7 @@ function Dashboardvue_type_template_id_2f07c1b1_render(_ctx, _cache, $props, $se
   var _component_MultisitesSite = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MultisitesSite");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Dashboardvue_type_template_id_2f07c1b1_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", Dashboardvue_type_template_id_2f07c1b1_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
-    "help-url": "https://matomo.org/docs/manage-websites/#all-websites-dashboard",
+    "help-url": "https://matomo.org/faq/new-to-piwik/all-websites-dashboard/",
     "feature-name": _ctx.translate('General_AllWebsitesDashboard')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
