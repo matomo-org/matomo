@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>0-10s</label>
+		<label>0–10s</label>
 		<nb_visits>13</nb_visits>
 		<segment>visitDuration&gt;=0;visitDuration&lt;=10</segment>
 	</row>
 	<row>
-		<label>11-30s</label>
+		<label>11–30s</label>
 		<nb_visits>0</nb_visits>
 		<segment>visitDuration&gt;=11;visitDuration&lt;=30</segment>
 	</row>
 	<row>
-		<label>31-60s</label>
+		<label>31–60s</label>
 		<nb_visits>1</nb_visits>
 		<segment>visitDuration&gt;=31;visitDuration&lt;=60</segment>
 	</row>
