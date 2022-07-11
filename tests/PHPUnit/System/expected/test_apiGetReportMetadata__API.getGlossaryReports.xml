@@ -196,8 +196,8 @@
 		<documentation>This report shows which exact language code the visitor's browsers is set to. (e.g. &quot;German - Austria (de-at)&quot;)</documentation>
 	</row>
 	<row>
-		<name>Length of Visits (Actions)</name>
-		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<name>Length of visits (Actions)</name>
+		<documentation>How many visits had a certain total duration. Initially, the report is shown as a tag cloud, wherein more common durations have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
 		<name>Main metrics (API)</name>
@@ -234,8 +234,8 @@
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Pages per Visit (Actions)</name>
-		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<name>Pages per visit (Actions)</name>
+		<documentation>How many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, wherein more common numbers of pages have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
 		<name>Performance overview (Actions)</name>
@@ -303,16 +303,16 @@
 		<documentation>This report provides a very general overview of how your visitors behave.</documentation>
 	</row>
 	<row>
-		<name>Visits by Day of Week (Visitors)</name>
+		<name>Visits by day of the week (Visitors)</name>
 		<documentation>This graph shows the number of visits your website received on each day of the week.</documentation>
 	</row>
 	<row>
-		<name>Visits by Visit Number (Actions)</name>
-		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<name>Visits by days since last visit (Actions)</name>
+		<documentation>How many visits were from returning visitors whose last visit was a certain number of days ago.</documentation>
 	</row>
 	<row>
-		<name>Visits by days since last visit (Actions)</name>
-		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
+		<name>Visits by visit number (Actions)</name>
+		<documentation>The number of visitors reaching their Nth visit. I.e. the total amount of visitors visiting your website a given amount of times or more.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
 		<name>Visits per hour in the site's timezone (Visitors)</name>
