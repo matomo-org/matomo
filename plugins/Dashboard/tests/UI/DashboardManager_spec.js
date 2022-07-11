@@ -21,6 +21,7 @@ describe("DashboardManager", function () {
 
     it("should expand when clicked", async function() {
         await page.click('.dashboard-manager .title');
+        await page.mouse.move(0, 0);
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('expanded');
     });
