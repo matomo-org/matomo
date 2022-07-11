@@ -6,13 +6,15 @@
 
     <script type="text/javascript">
 
+        var clientHints = {};
+
         $(document).ready(function() {
             if (!navigator.userAgentData || typeof navigator.userAgentData.getHighEntropyValues !== 'function') {
                 $('#noclienthints').css({display: 'inline-block'});
                 $('[name=clienthints],.usech').hide();
             } else {
                 // Initialize with low entropy values that are always available
-                var clientHints = {
+                clientHints = {
                     brands: navigator.userAgentData.brands,
                     platform: navigator.userAgentData.platform
                 };
