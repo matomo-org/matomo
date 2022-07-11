@@ -111,7 +111,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Visits by Visit Number</name>
+				<name>Visits by visit number</name>
 				<module>VisitorInterest</module>
 				<action>getNumberOfVisitsByVisitCount</action>
 				<order>125</order>
@@ -125,7 +125,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Visits by Days Since Last Visit</name>
+				<name>Visits by days since last visit</name>
 				<module>VisitorInterest</module>
 				<action>getNumberOfVisitsByDaysSinceLast</action>
 				<order>130</order>
@@ -1325,7 +1325,7 @@
 			<id>VisitTime_SubmenuTimes</id>
 			<name>Times</name>
 			<order>35</order>
-			<help>&lt;p&gt;The Times section shows you when people are visiting your site. You can see the most popular local times your users visit at, so you can understand where your site fits into their life. Additionally, it shows the most popular server times, which can reveal demands on your technology stack.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Times&quot; section shows when people visit your site. Popular local times helps you cater your site to their lives. The most popular server times reveals technical demand.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1357,7 +1357,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Visits by Day of Week</name>
+				<name>Visits by day of the week</name>
 				<module>VisitTime</module>
 				<action>getByDayOfWeek</action>
 				<order>125</order>
