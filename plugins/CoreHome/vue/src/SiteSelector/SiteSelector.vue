@@ -80,7 +80,7 @@
         >
           <li
             @click="switchSite({ ...site, id: site.idsite }, $event)"
-            v-show="!(!showSelectedSite && activeSiteId === site.idsite)"
+            v-show="!(!showSelectedSite && `${activeSiteId}` === `${site.idsite}`)"
             v-for="(site, index) in sites"
             :key="index"
           >
