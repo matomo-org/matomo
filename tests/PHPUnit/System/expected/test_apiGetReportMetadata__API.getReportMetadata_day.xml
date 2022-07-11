@@ -767,7 +767,7 @@
 		<name>Visits per local time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
-		<dimension>Local time - hour (Start of visit)</dimension>
+		<dimension>Local time — hour (start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -794,7 +794,7 @@
 		<constantRowsCount>1</constantRowsCount>
 		<relatedReports>
 			<row>
-				<name>Visits by Day of Week</name>
+				<name>Visits by day of the week</name>
 				<module>VisitTime</module>
 				<action>getByDayOfWeek</action>
 			</row>
@@ -808,7 +808,7 @@
 		<name>Visits per hour in the site's timezone</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<dimension>Site time - hour (Start of visit)</dimension>
+		<dimension>Site time — hour (start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; site's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -845,7 +845,7 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Times</subcategory>
-		<name>Visits by Day of Week</name>
+		<name>Visits by day of the week</name>
 		<module>VisitTime</module>
 		<action>getByDayOfWeek</action>
 		<dimension>Day of the week</dimension>
@@ -1580,11 +1580,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Length of Visits</name>
+		<name>Length of visits</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerVisitDuration</action>
 		<dimension>Visit duration</dimension>
-		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<documentation>How many visits had a certain total duration. Initially, the report is shown as a tag cloud, wherein more common durations have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1598,11 +1598,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Pages per Visit</name>
+		<name>Pages per visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerPage</action>
 		<dimension>Pages per visit</dimension>
-		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<documentation>How many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, wherein more common numbers of pages have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1616,11 +1616,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Visits by Visit Number</name>
+		<name>Visits by visit number</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByVisitCount</action>
-		<dimension>Visits by Visit Number</dimension>
-		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<dimension>Visits by visit number</dimension>
+		<documentation>The number of visitors reaching their Nth visit. I.e. the total amount of visitors visiting your website a given amount of times or more.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1641,7 +1641,7 @@
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
 		<dimension>Days since last visit</dimension>
-		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
+		<documentation>How many visits were from returning visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>

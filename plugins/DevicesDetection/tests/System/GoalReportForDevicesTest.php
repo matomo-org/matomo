@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\DevicesDetection\tests\System;
 
 use Piwik\Plugins\DevicesDetection\tests\Fixtures\MultiDeviceGoalConversions;
@@ -34,11 +36,12 @@ class GoalReportForDevicesTest extends SystemTestCase
         $idSite   = self::$fixture->idSite;
         $dateTime = self::$fixture->dateTime;
 
-        return array(
-            array('DevicesDetection.getType', array('idSite'  => $idSite, 'date' => $dateTime)),
-            array('DevicesDetection.getBrand', array('idSite' => $idSite, 'date' => $dateTime)),
-            array('DevicesDetection.getModel', array('idSite' => $idSite, 'date' => $dateTime)),
-        );
+        return [
+            ['DevicesDetection.getType', ['idSite'  => $idSite, 'date' => $dateTime]],
+            ['DevicesDetection.getOsVersions', ['idSite'  => $idSite, 'date' => $dateTime]],
+            ['DevicesDetection.getBrand', ['idSite' => $idSite, 'date' => $dateTime]],
+            ['DevicesDetection.getModel', ['idSite' => $idSite, 'date' => $dateTime]],
+        ];
     }
 
     /**
