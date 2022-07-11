@@ -1,6 +1,6 @@
 <div
     vue-entry="CorePluginsAdmin.UploadPluginDialog"
-    is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode|e('html_attr') }}"
-    upload-limit="{{ uploadLimit|default(null)|json_encode|e('html_attr') }}"
-    install-nonce="{{ installNonce|default(null)|json_encode|e('html_attr') }}"
+    is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode }}"
+    upload-limit="{{ uploadLimit|default(null)|json_encode }}"
+    install-nonce="{{ installNonce|default(null)|json_encode }}"
 ></div>
