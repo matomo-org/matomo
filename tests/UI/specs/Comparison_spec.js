@@ -92,6 +92,7 @@ describe("Comparison", function () {
 
     it('should change the evolution series when the sparkline is clicked', async () => {
         await (await page.jQuery('.sparkline:contains(pageviews):eq(0)')).click();
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);

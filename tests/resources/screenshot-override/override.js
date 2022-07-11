@@ -1,4 +1,4 @@
-$(document).ready(function () {
+window.addEventListener('load', function () {
 
     function updateSystemCheck() {
         $('.system-check tr:contains(Time) td:nth-child(2)').text('Not showing in tests');

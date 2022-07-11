@@ -5,7 +5,10 @@
          data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}"
          data-next-visitor="{{ visitorData.nextVisitorId }}"
          data-prev-visitor="{{ visitorData.previousVisitorId }}"
-         tabindex="0">
+         tabindex="0"
+         vue-directive="CoreHome.LegacyUIControl"
+         vue-directive-value="&quot;piwik/UI.VisitorProfileControl&quot;"
+    >
         <div class="visitor-profile-options">
             <a href class="visitor-profile-close" title="{{ 'General_Close'|translate }} "></a>
             <a href="https://matomo.org/docs/user-profile/" class="visitor-profile-help" rel="noreferrer"
@@ -86,9 +89,4 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        window.addEventListener('DOMContentLoaded', function () {
-            require('piwik/UI').VisitorProfileControl.initElements();
-        });
-    </script>
 {% endif %}

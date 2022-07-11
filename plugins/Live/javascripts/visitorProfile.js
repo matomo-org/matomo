@@ -198,7 +198,9 @@
             var ajax = new ajaxHelper();
             ajax.setUrl($map.attr('data-href'));
             ajax.setCallback(function (response) {
+               piwikHelper.destroyVueComponent($map);
                $map.html(response);
+               piwikHelper.compileVueEntryComponents($map);
                self.toggleMap();
             });
             ajax.setFormat('html');
