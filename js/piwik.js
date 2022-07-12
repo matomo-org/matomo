@@ -2442,6 +2442,11 @@ if (typeof window.Matomo !== 'object') {
 
                 configBrowserFeatureDetection = true;
 
+            // exclude paypal.com as referrer
+            if (/^https?:\/\/([a-z0-9\.\-]+\.)?paypal\.com(\/|$)/.test(configReferrerUrl)) {
+                configReferrerUrl = '';
+            }
+
             // Document title
             try {
                 configTitle = documentAlias.title;
