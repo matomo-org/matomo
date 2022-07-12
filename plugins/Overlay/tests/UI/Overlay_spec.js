@@ -60,6 +60,7 @@ describe("Overlay", function () {
                 await page.goto(getUrl(useTokenAuth));
 
                 await removeOptOutIframe(page);
+                await page.waitForNetworkIdle();
                 expect(await page.screenshot({fullPage: true})).to.matchImage('loaded');
             });
 
@@ -88,6 +89,7 @@ describe("Overlay", function () {
                 await page.waitForTimeout(2000);
 
                 await removeOptOutIframe(page);
+                await page.waitForNetworkIdle();
                 expect(await page.screenshot({fullPage: true})).to.matchImage('page_new_links');
             });
 

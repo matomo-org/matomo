@@ -67,23 +67,26 @@
     </div>
 
     <script type="text/javascript">
-        broadcast._isInit = true;
-        window.addEventListener('DOMContentLoaded', function () {
-            Piwik_Overlay.siteUrls = {{ siteUrls|json_encode|raw }};
+        window.Piwik_Overlay_Translations = {
+            domain: "{{ 'Overlay_Domain'|translate }}"
+        };
 
-            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
-            if (piwik.shouldPropagateTokenAuth) {
-                if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
-                    iframeSrc += '&force_api_session=1';
+        window.addEventListener('load', function () {
+            $(function () {
+                broadcast._isInit = true;
+
+                Piwik_Overlay.siteUrls = {{ siteUrls|json_encode|raw }};
+
+                var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
+                if (piwik.shouldPropagateTokenAuth) {
+                    if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                        iframeSrc += '&force_api_session=1';
+                    }
+                    iframeSrc += '&token_auth=' + piwik.token_auth;
                 }
-                iframeSrc += '&token_auth=' + piwik.token_auth;
-            }
 
-            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');
-
-            window.Piwik_Overlay_Translations = {
-                domain: "{{ 'Overlay_Domain'|translate }}"
-            };
+                Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');
+            });
         });
     </script>
 {% endblock %}
