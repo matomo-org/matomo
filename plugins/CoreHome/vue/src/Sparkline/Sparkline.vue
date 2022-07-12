@@ -53,6 +53,8 @@ export default defineComponent({
         .closest('.sparkline')
         .data('series-indices');
     }
+
+    window.initializeSparklines();
   },
   computed: {
     sparklineUrl() {

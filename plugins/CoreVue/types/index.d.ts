@@ -225,6 +225,7 @@ declare global {
     initTopControls(): void;
     vueSanitize(content: string): string;
     showEmptyDashboardNotification(): void;
+    initializeSparklines(): void;
   }
 }
 
