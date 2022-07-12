@@ -2250,7 +2250,7 @@ if (typeof window.Matomo !== 'object') {
                 configIgnoreClasses = [],
 
                 // Referrer URLs that should be excluded
-                configExcludedReferrers = [],
+                configExcludedReferrers = ['.paypal.com'],
 
                 // Query parameters to be excluded
                 configExcludedQueryParams = [],
