@@ -7,7 +7,9 @@
 <template>
   <div class="confirm-password-modal modal" ref="root">
     <div class="modal-content">
-      <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
+      <div class="modal-text">
+        <slot></slot>
+      </div>
       <div>
         <Field
           v-model="passwordConfirmation"
@@ -25,7 +27,9 @@
         href=""
         class="modal-action modal-close btn"
         :disabled="!passwordConfirmation ? 'disabled' : undefined"
-        @click="$event.preventDefault(); $emit('confirmed', passwordConfirmation)"
+        @click="$event.preventDefault();
+                $emit('confirmed', passwordConfirmation);
+                passwordConfirmation = ''"
       >{{ translate('General_Yes') }}</a>
       <a
         href=""
@@ -96,12 +100,9 @@ export default defineComponent({
     },
   },
   watch: {
-    modelValue(newValue, oldValue) {
+    modelValue(newValue) {
       if (newValue) {
         this.showPasswordConfirmModal();
-      } else if (newValue === false && oldValue === true) {
-        // the user closed the dialog, e.g. by pressing Esc or clicking away from it
-        this.$emit('aborted');
       }
     },
   },
