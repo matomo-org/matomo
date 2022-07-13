@@ -523,7 +523,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       }).fail((xhr: jqXHR) => {
         if (xhr.status === 429) {
-          console.log(`Warning: the ${$.param(this.getParams)} rate limit!`);
+          console.log(`Warning: the '${$.param(this.getParams)}' request was rate limited!`);
           reject(xhr);
           return;
         }
