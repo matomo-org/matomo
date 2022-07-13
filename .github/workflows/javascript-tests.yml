@@ -37,7 +37,17 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.2
+          php-version: 7.4
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, zlib
+          ini-values: |
+            memory_limit = 256M,
+            max_execution_time=10000,
+            always_populate_raw_post_data=-1,
+            error_reporting=E_ALL,
+            log_errors=on, display_errors=on,
+            allow_url_fopen = on,
+            zend.exception_ignore_args = Off
+            mysqli.allow_local_infile = On
           tools: composer:v2
           coverage: none
 
@@ -65,8 +75,6 @@ jobs:
           mkdir -p ./tmp/tcpdf
           mkdir -p ./tmp/climulti
           chmod a+rw ./tests/lib/geoip-files || true
-          chmod a+rw ./plugins/*/tests/System/processed || true
-          chmod a+rw ./plugins/*/tests/Integration/processed || true
           sudo chmod -R 755 ./tmp
 
       - name: Install dependencies
