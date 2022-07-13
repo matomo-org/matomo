@@ -34,11 +34,11 @@ jobs:
           lfs: false
           submodules: recursive
 
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.2
+          tools: composer:v2
           coverage: none
 
       - name: Setup Node
