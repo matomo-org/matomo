@@ -1784,7 +1784,7 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           }
         }).fail(function (xhr) {
           if (xhr.status === 429) {
-            console.log("Warning: the ".concat($.param(_this2.getParams), " rate limit!"));
+            console.log("Warning: the '".concat($.param(_this2.getParams), "' request was rate limited!"));
             reject(xhr);
             return;
           }
