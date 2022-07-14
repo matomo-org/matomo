@@ -159,7 +159,7 @@
         "EmailPrivacyNotice": "Your email address will only be used to send you the newsletter. It is shared with Mad Mimi to do so, but the third-party provider may change. We will not share your email with anyone else or use your it for any other purpose. Unsubscribe at any time. The %1$sprivacy policy%2$s has more info.",
         "PerformanceSettingsDesc1": "Your Matomo is set up and ready to track and report on your website's traffic. Set up %1$sCLI archiving%2$s if you find it to be slow. This generates reports in the background, rather than on demand.",
         "PerformanceSettingsDesc2": "This requires adding a Matomo command to Cron which can't be done automatically by the installer. %1$sRead our FAQ to learn to set it up yourself.%2$s",
-        "MatomoSslRequestWarning": "",
-        "MatomoSslRequestConfigInfo": "The force_matomo_ssl_request in the general config is turned off, we highly recommend switching it on"
+        "MatomoHttpRequestConfigInfo": "The force_matomo_http_request in the general config is turned on, we highly recommend switching it off for security reason. For more details please read our %1$sFAQ%2$s",
+        "MatomoHttpsNotSupportWarning": "We will soon switch to HTTPS by default. Please make sure the HTTPS works at your environment, otherwise it could cause Matomo patch failure in the future. For more details please read our %1$sFAQ%2$s."
     }
 }

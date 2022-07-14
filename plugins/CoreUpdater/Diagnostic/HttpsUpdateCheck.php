@@ -30,15 +30,19 @@ class HttpsUpdateCheck implements Diagnostic
 
     public function execute()
     {
+        $faqLinks = [
+          '<a href="https://matomo.org/faq/faq-how-to-disab…omo-org-requests" rel="noreferrer noopener" target="_blank">',
+          '</a>'
+        ];
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
         if (GeneralConfig::getConfigValue('force_matomo_http_request') === 1) {
             //if config is on, show info
-            $comment = $this->translator->translate('Installation_MatomoSslRequestConfigInfo');;
+            $comment = $this->translator->translate('Installation_MatomoHttpRequestConfigInfo', $faqLinks);
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment));
         } elseif (!Http::isUpdatingOverHttps()) {
             // failed to request over https
-            $comment = $this->translator->translate('Installation_SystemCheckUpdateHttpsNotSupported');
+            $comment = $this->translator->translate('Installation_MatomoHttpsNotSupportWarning', $faqLinks);
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
         } else {
 
