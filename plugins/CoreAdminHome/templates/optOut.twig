@@ -50,9 +50,11 @@
 
         {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
         </p>
+        {% if showIntro %}
         <p id="textOptOut" {% if not trackVisits %}style="display:none"{% endif %}>
             {{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}
         </p>
+        {%  endif %}
 
         <p id="textError_cookies" style="display:none; color: red; font-weight: bold;" %}>
             {{ 'CoreAdminHome_OptOutErrorNoCookies'|translate }}

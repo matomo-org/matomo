@@ -255,11 +255,23 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * Shows the "Track Visits" checkbox.
+     * Shows the "Track Visits" checkbox - iFrame (deprecated)
      */
     public function optOut()
     {
-        return $this->optOutManager->getOptOutView()->render();
+        return $this->optOutManager->getOptOutViewIframe()->render();
+    }
+
+    /**
+     * Shows the Javascript opt out
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function optOutJS(): string
+    {
+        // TODO
+        return $this->optOutManager->getOptOutViewIframe()->render();
     }
 
     public function uploadCustomLogo()

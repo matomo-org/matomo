@@ -93,7 +93,7 @@
         "OptOutErrorNotHttps": "The tracking opt-out feature may not work because this site was not loaded over HTTPS. Please reload the page to check if your opt out status changed.",
         "OptOutErrorWindowOpen": "The tracking Opt-out feature may not work because it looks like the opt out popup was blocked. Please reload the page to check if your opt out status changed.",
         "OptOutExplanation": "Matomo is dedicated to providing privacy on the Internet. To provide your visitors with the choice of opting-out of Matomo Web Analytics, you can add the following HTML code on one of your website page, for example in a Privacy Policy page.",
-        "OptOutExplanationIntro": "This code will display an iFrame containing a link for your visitors to opt-out of Matomo by setting an opt-out cookie in their web browsers. See below (or %1$sclick here%2$s) to view the content that will be displayed by the iFrame.",
+        "OptOutExplanationIntro": "This code will display a div containing a link for your visitors to opt-out of Matomo by setting an opt-out cookie in their web browsers. See below (or %1$sclick here%2$s) to view the content that will be displayed by the div.",
         "OptOutForYourVisitors": "Matomo opt-out for your visitors",
         "OptingYouOut": "Opting you out, please wait…",
         "PersonalPluginSettings": "Personal Plugin Settings",

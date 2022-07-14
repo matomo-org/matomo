@@ -326,6 +326,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_OptOutCustomize';
         $translationKeys[] = 'PrivacyManager_OptOutHtmlCode';
         $translationKeys[] = 'PrivacyManager_OptOutPreview';
+        $translationKeys[] = 'PrivacyManager_OptOutUseTracker';
+        $translationKeys[] = 'PrivacyManager_OptOutUseStandalone';
+        $translationKeys[] = 'PrivacyManager_OptOutCodeTypeExplanation';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserId';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote2';
@@ -335,6 +338,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ResultTruncated';
         $translationKeys[] = 'PrivacyManager_SearchForDataSubject';
         $translationKeys[] = 'PrivacyManager_SelectWebsite';
+        $translationKeys[] = 'PrivacyManager_ShowIntro';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumns';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumnsHelp';
         $translationKeys[] = 'PrivacyManager_UnsetVisitColumns';
