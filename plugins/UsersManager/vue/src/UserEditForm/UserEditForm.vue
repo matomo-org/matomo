@@ -199,40 +199,19 @@
               :title="translate('UsersManager_HasSuperUserAccess')"
             />
           </div>
-          <div class="superuser-confirm-modal modal" ref="superUserConfirmModal">
-            <div class="modal-content">
-              <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
-              <p v-if="theUser.superuser_access">
-                {{ translate('UsersManager_RemoveSuperuserAccessConfirm') }}
-              </p>
-              <p v-if="!theUser.superuser_access">
-                {{ translate('UsersManager_AddSuperuserAccessConfirm') }}
-              </p>
-              <div>
-                <Field
-                  v-model="passwordConfirmationForSuperUser"
-                  uicontrol="password"
-                  name="currentUserPasswordForSuperUser"
-                  :autocomplete="false"
-                  :full-width="true"
-                  :title="translate('UsersManager_YourCurrentPassword')"
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <a
-                href=""
-                class="modal-action modal-close btn"
-                @click.prevent="toggleSuperuserAccess()"
-                style="margin-right:3.5px"
-              >{{ translate('General_Yes') }}</a>
-              <a
-                href=""
-                class="modal-action modal-close modal-no"
-                @click.prevent="setSuperUserAccessChecked(); passwordConfirmationForSuperUser = ''"
-              >{{ translate('General_No') }}</a>
-            </div>
-          </div>
+          <PasswordConfirmation
+            v-model="showPasswordConfirmationForSuperUser"
+            @confirmed="toggleSuperuserAccess"
+            @aborted="setSuperUserAccessChecked()"
+          >
+            <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
+            <p v-if="theUser.superuser_access">
+              {{ translate('UsersManager_RemoveSuperuserAccessConfirm') }}
+            </p>
+            <p v-if="!theUser.superuser_access">
+              {{ translate('UsersManager_AddSuperuserAccessConfirm') }}
+            </p>
+          </PasswordConfirmation>
         </div>
         <div
           v-show="activeTab === '2fa'"
@@ -321,7 +300,12 @@ import {
   AjaxHelper,
   NotificationsStore,
 } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import {
+  PasswordConfirmation,
+  Form,
+  Field,
+  SaveButton,
+} from 'CorePluginsAdmin';
 import UserPermissionsEdit from '../UserPermissionsEdit/UserPermissionsEdit.vue';
 import User from '../User';
 import KeyPressEvent = JQuery.KeyPressEvent;
@@ -346,7 +330,7 @@ interface UserEditFormState {
   passwordConfirmation: string;
   isPasswordModified: boolean;
   superUserAccessChecked: boolean|null;
-  passwordConfirmationForSuperUser: string;
+  showPasswordConfirmationForSuperUser: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
 }
@@ -382,6 +366,7 @@ export default defineComponent({
     Field,
     SaveButton,
     UserPermissionsEdit,
+    PasswordConfirmation,
   },
   directives: {
     Form,
@@ -401,7 +386,7 @@ export default defineComponent({
       passwordConfirmation: '',
       isPasswordModified: false,
       superUserAccessChecked: null,
-      passwordConfirmationForSuperUser: '',
+      showPasswordConfirmationForSuperUser: false,
       isResetting2FA: false,
       isShowingPasswordConfirm: false,
     };
@@ -426,14 +411,12 @@ export default defineComponent({
       this.setSuperUserAccessChecked();
     },
     confirmSuperUserChange() {
-      $(this.$refs.superUserConfirmModal as HTMLElement).modal({
-        dismissible: false,
-      }).modal('open');
+      this.showPasswordConfirmationForSuperUser = true;
     },
     confirmReset2FA() {
       $(this.$refs.twofaConfirmModal as HTMLElement).modal({ dismissible: false }).modal('open');
     },
-    toggleSuperuserAccess() {
+    toggleSuperuserAccess(password: string) {
       this.isSavingUserInfo = true;
       AjaxHelper.post(
         {
@@ -442,7 +425,7 @@ export default defineComponent({
         {
           userLogin: this.theUser.login,
           hasSuperUserAccess: this.theUser.superuser_access ? '0' : '1',
-          passwordConfirmation: this.passwordConfirmationForSuperUser!,
+          passwordConfirmation: password,
         },
       ).then(() => {
         this.theUser.superuser_access = !this.theUser.superuser_access;
@@ -451,7 +434,6 @@ export default defineComponent({
       }).then(() => { // eslint-disable-line
         this.isSavingUserInfo = false;
         this.isUserModified = true;
-        this.passwordConfirmationForSuperUser = '';
         this.setSuperUserAccessChecked();
       });
     },

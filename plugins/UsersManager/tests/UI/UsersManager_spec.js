@@ -439,15 +439,15 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForSelector('.superuser-confirm-modal');
+        await page.waitForSelector('.modal.open');
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('.superuser-confirm-modal')).to.matchImage('superuser_confirm');
+        expect(await page.screenshotSelector('.modal.open')).to.matchImage('superuser_confirm');
     });
 
     it('should fail to set superuser access if password is wrong', async function () {
         await page.type('input#currentUserPasswordForSuperUser', 'wrongpassword');
-        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.waitForSelector('.notification-error', { visible: true });
@@ -461,7 +461,7 @@ describe("UsersManager", function () {
         await page.waitForTimeout(500);
 
         await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
-        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
