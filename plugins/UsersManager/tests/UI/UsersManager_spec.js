@@ -446,7 +446,7 @@ describe("UsersManager", function () {
     });
 
     it('should fail to set superuser access if password is wrong', async function () {
-        await page.type('input#currentUserPasswordForSuperUser', 'wrongpassword');
+        await page.type('.modal.open #currentUserPassword', 'wrongpassword');
         await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
@@ -460,7 +460,7 @@ describe("UsersManager", function () {
         await page.click('.userEditForm #superuser_access+span');
         await page.waitForTimeout(500);
 
-        await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
         await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -508,9 +508,9 @@ describe("UsersManager", function () {
     });
 
     it('should show error when wrong password entered', async function () {
-        await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
+        await page.type('.modal.open #currentUserPassword', 'test123456');
 
-        var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
+        var btnNo = await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
 
         await page.waitForTimeout(500); // animation
