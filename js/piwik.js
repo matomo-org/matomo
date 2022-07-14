@@ -7223,11 +7223,15 @@ if (typeof window.Matomo !== 'object') {
              * consent will be enforced. You may call this method if the user removes consent manually, or if you
              * want to re-ask for consent after a specific time period.
              */
-            this.forgetConsentGiven = function () {
-                var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
+            this.forgetConsentGiven = function (hoursToExpire) {
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                } else {
+                    hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
+                }
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
                 this.requireConsent();
             };
