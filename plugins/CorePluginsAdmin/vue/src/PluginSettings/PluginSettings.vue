@@ -38,7 +38,6 @@
     <PasswordConfirmation
       v-model="showPasswordConfirmModal"
       @confirmed="confirmPassword"
-      @aborted="passwordConfirmation = ''"
     >
       <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
     </PasswordConfirmation>
@@ -63,7 +62,6 @@ const { $ } = window;
 interface PluginSettingsState {
   isLoading: boolean;
   isSaving: Record<string, boolean>;
-  passwordConfirmation: string;
   showPasswordConfirmModal: boolean;
   settingsToSave: null|string; // name of plugin whose settings to save
   settingsPerPlugin: SettingsForSinglePlugin[];
@@ -83,7 +81,6 @@ export default defineComponent({
     return {
       isLoading: true,
       isSaving: {},
-      passwordConfirmation: '',
       showPasswordConfirmModal: false,
       settingsToSave: null,
       settingsPerPlugin: [],
@@ -147,8 +144,7 @@ export default defineComponent({
     },
     confirmPassword(password: string) {
       this.showPasswordConfirmModal = false;
-      this.passwordConfirmation = password;
-      this.save(this.settingsToSave as string);
+      this.save(this.settingsToSave as string, password);
     },
     saveSetting(requestedPlugin: string) {
       if (this.mode === 'admin') {
@@ -158,7 +154,7 @@ export default defineComponent({
         this.save(requestedPlugin);
       }
     },
-    save(requestedPlugin: string) {
+    save(requestedPlugin: string, password?: string) {
       const { saveApiMethod } = this;
 
       this.isSaving[requestedPlugin] = true;
@@ -167,7 +163,7 @@ export default defineComponent({
 
       AjaxHelper.post(
         { method: saveApiMethod },
-        { settingValues: settingValuesPayload, passwordConfirmation: this.passwordConfirmation },
+        { settingValues: settingValuesPayload, passwordConfirmation: password },
       ).then(() => {
         this.isSaving[requestedPlugin] = false;
 
@@ -182,7 +178,6 @@ export default defineComponent({
         this.isSaving[requestedPlugin] = false;
       });
 
-      this.passwordConfirmation = '';
       this.settingsToSave = null;
     },
     getValuesForPlugin(requestedPlugin: string) {

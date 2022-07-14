@@ -282,7 +282,6 @@ interface UserEditFormState {
   userHasAccess: boolean;
   firstSiteAccess: SiteRef|null;
   isUserModified: boolean;
-  passwordConfirmation: string;
   isPasswordModified: boolean;
   superUserAccessChecked: boolean|null;
   showPasswordConfirmationForSuperUser: boolean;
@@ -337,7 +336,6 @@ export default defineComponent({
         name: this.initialSiteName,
       },
       isUserModified: false,
-      passwordConfirmation: '',
       isPasswordModified: false,
       superUserAccessChecked: null,
       showPasswordConfirmationForSuperUser: false,
