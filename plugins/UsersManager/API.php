@@ -86,8 +86,6 @@ class API extends \Piwik\Plugin\API
      */
     private $passwordVerifier;
 
-    private $twoFaPluginActivated;
-
     private $userRepository;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';

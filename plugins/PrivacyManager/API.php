@@ -10,18 +10,15 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
-use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
-use Exception;
 
 /**
  * API for plugin PrivacyManager
@@ -50,30 +47,23 @@ class API extends \Piwik\Plugin\API
      */
     private $referrerAnonymizer;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerifier;
-
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
         LogDataAnonymizer $logDataAnonymizer,
-        ReferrerAnonymizer $referrerAnonymizer,
-        PasswordVerifier $passwordVerifier
+        ReferrerAnonymizer $referrerAnonymizer
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
         $this->referrerAnonymizer = $referrerAnonymizer;
-        $this->passwordVerifier = $passwordVerifier;
     }
 
     private function checkDataSubjectVisits($visits)
     {
         BaseValidator::check('visits', $visits, [new VisitsDataSubject()]);
 
-        $idSites = array();
+        $idSites = [];
         foreach ($visits as $index => $visit) {
             $idSites[] = $visit['idsite'];
         }
