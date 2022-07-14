@@ -134,20 +134,6 @@ class API extends \Piwik\Plugin\API
         return $this->settingsMetadata->formatSettings($userSettings);
     }
 
-    private function confirmCurrentUserPassword($passwordConfirmation)
-    {
-        if (empty($passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
-        }
-
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
-        $loginCurrentUser = Piwik::getCurrentUserLogin();
-        if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
-        }
-    }
-
     private function sendNotificationEmails($sendSettingsChangedNotificationEmailPlugins)
     {
         $pluginNames = [];

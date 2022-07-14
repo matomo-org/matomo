@@ -391,18 +391,4 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("Configuring deleting raw data and report data has been disabled by Matomo admins.");
         }
     }
-
-    private function confirmCurrentUserPassword($passwordConfirmation)
-    {
-        if (empty($passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
-        }
-
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
-        $loginCurrentUser = Piwik::getCurrentUserLogin();
-        if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
-        }
-    }
 }
