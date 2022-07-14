@@ -13,6 +13,7 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Psr\Log\LoggerInterface;
 use Exception;
 
@@ -118,14 +119,19 @@ abstract class API
      */
     protected function confirmCurrentUserPassword($passwordConfirmation)
     {
+        $loginCurrentUser = Piwik::getCurrentUserLogin();
+
+        if (!Piwik::doesUserRequirePasswordConfirmation($loginCurrentUser)) {
+            return; // password confirmation disabled for user
+        }
+
         if (empty($passwordConfirmation)) {
             throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
         }
 
         $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
 
-        $loginCurrentUser = Piwik::getCurrentUserLogin();
-        if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
+        if (!StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
     }

@@ -14,6 +14,7 @@
         <Field
           v-model="passwordConfirmation"
           :uicontrol="'password'"
+          :disabled="!requiresPasswordConfirmation ? 'disabled' : undefined"
           :name="'currentUserPassword'"
           :autocomplete="false"
           :full-width="true"
@@ -26,7 +27,7 @@
       <a
         href=""
         class="modal-action modal-close btn"
-        :disabled="!passwordConfirmation ? 'disabled' : undefined"
+        :disabled="requiresPasswordConfirmation && !passwordConfirmation ? 'disabled' : undefined"
         @click="$event.preventDefault();
                 $emit('confirmed', passwordConfirmation);
                 passwordConfirmation = ''"
@@ -42,6 +43,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { Matomo } from 'CoreHome';
 import Field from '../Field/Field.vue';
 import KeyPressEvent = JQuery.KeyPressEvent;
 
@@ -97,6 +99,11 @@ export default defineComponent({
           this.$emit('update:modelValue', false);
         },
       }).modal('open');
+    },
+  },
+  computed: {
+    requiresPasswordConfirmation() {
+      return !!Matomo.requiresPasswordConfirmation;
     },
   },
   watch: {

@@ -6,6 +6,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 4.12.0
 
+### New PHP events
+
+* Added new event `Login.userRequiresPasswordConfirmation`, which can be used in login plugins to circumvent the password confirmation in UI and for certain API methods
+
 ### JavaScript Tracker
 
 #### New APIs
