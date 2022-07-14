@@ -132,7 +132,6 @@
             <div class="form-group row" style="position: relative">
               <div class="col s12 m6">
                 <SaveButton
-                    style="position: absolute;top: -35px;"
                     v-if="currentUserRole === 'superuser' || isAdd"
                     :value="saveButtonLabel"
                     :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
