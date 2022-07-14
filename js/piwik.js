@@ -7427,7 +7427,7 @@ if (typeof window.Matomo !== 'object') {
 
                     if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
                         var jsonMessage = JSON.stringify(postMessage);
-                        iframe.contentWindow.postMessage(jsonMessage, originHost);
+                        iframe.contentWindow.postMessage(jsonMessage, e.origin);
                     }
                 }
             }
@@ -7465,7 +7465,8 @@ if (typeof window.Matomo !== 'object') {
                     maq_optout_by_default: tracker.isConsentRequired()
                 });
             }
-        }, false);
+        }, fal
+        se);
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
