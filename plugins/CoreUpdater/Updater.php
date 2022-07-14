@@ -12,6 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -353,7 +354,7 @@ class Updater
         $channel = $this->releaseChannels->getActiveReleaseChannel();
         $url = $channel->getDownloadUrlWithoutScheme($version);
 
-        if (Http::isUpdatingOverHttps() && $https) {
+        if (Http::isUpdatingOverHttps() && $https && GeneralConfig::getConfigValue('force_matomo_http_request') === 0) {
             $url = 'https' . $url;
         } else {
             $url = 'http' . $url;

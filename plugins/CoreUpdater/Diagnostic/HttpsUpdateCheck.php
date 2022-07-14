@@ -32,11 +32,13 @@ class HttpsUpdateCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
-        if (GeneralConfig::getConfigValue('force_matomo_ssl_request') === 0) {
+        if (Http::isUpdatingOverHttps()) {
             //if config is off, show info
             $comment = $this->translator->translate('Installation_MatomoSslRequestConfigInfo');;
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment));
-        } elseif (Http::isUpdatingOverHttps()) {
+            if (GeneralConfig::getConfigValue('force_matomo_http_request') === 1) {
+                return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment));
+            }
+
             // successful using https
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         } else {
@@ -44,6 +46,5 @@ class HttpsUpdateCheck implements Diagnostic
             $comment = $this->translator->translate('Installation_SystemCheckUpdateHttpsNotSupported');
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
         }
-
     }
 }

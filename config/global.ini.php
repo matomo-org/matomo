@@ -803,9 +803,9 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
-; This option forces matomo marketplace and matomo api requests to use Https for improved security
-; If you have a problem loading the marketplace, please disable this config option
-force_matomo_ssl_request = 1
+; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improved security
+; If you have a problem loading the marketplace, please enable this config option
+force_matomo_http_request = 0
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
