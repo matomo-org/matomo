@@ -215,7 +215,7 @@
         <div
           v-show="activeTab === '2fa'"
           v-if="currentUserRole === 'superuser' && !isAdd"
-          class="twofa-reset"
+          class="twofa-reset form-group"
         >
           <p>{{ translate('UsersManager_ResetTwoFactorAuthenticationInfo') }}</p>
           <div
