@@ -26,6 +26,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>exclude_unknown_urls</name>
@@ -42,6 +43,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>keep_url_fragment</name>
@@ -62,6 +64,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>excluded_ips</name>
@@ -83,6 +86,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>excluded_parameters</name>
@@ -103,6 +107,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>excluded_user_agents</name>
@@ -123,6 +128,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>excluded_referrers</name>
@@ -143,6 +149,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>sitesearch</name>
@@ -162,6 +169,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>use_default_site_search_params</name>
@@ -178,6 +186,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>1 &amp;&amp; sitesearch</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>sitesearch_keyword_parameters</name>
@@ -197,6 +206,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>sitesearch_category_parameters</name>
@@ -216,6 +226,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>ecommerce</name>
@@ -235,6 +246,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>
@@ -257,6 +269,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>disable_visitor_profile</name>
@@ -273,6 +286,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>disable_visitor_log==0</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>
@@ -297,6 +311,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>
