@@ -7465,8 +7465,7 @@ if (typeof window.Matomo !== 'object') {
                     maq_optout_by_default: tracker.isConsentRequired()
                 });
             }
-        }, fal
-        se);
+        }, false);
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
