@@ -29,7 +29,7 @@ class ChallengeFlattenActions extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/piwik-tour/#flattening-reports';
+        return 'https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/#flattening-reports';
     }
 
 

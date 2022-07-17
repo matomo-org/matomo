@@ -156,6 +156,9 @@
 				<goalPageId />
 				
 				<url>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Conversion de l'objectif</title>

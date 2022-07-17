@@ -80,7 +80,7 @@
         >
           <li
             @click="switchSite({ ...site, id: site.idsite }, $event)"
-            v-show="!(!showSelectedSite && activeSiteId === site.idsite)"
+            v-show="!(!showSelectedSite && `${activeSiteId}` === `${site.idsite}`)"
             v-for="(site, index) in sites"
             :key="index"
           >
@@ -143,19 +143,7 @@ interface SiteSelectorState {
 
 export default defineComponent({
   props: {
-    modelValue: {
-      type: Object,
-      default: (props: { modelValue?: SiteRef }): SiteRef|undefined => {
-        if (props.modelValue) {
-          return props.modelValue;
-        }
-
-        return (Matomo.idSite ? {
-          id: Matomo.idSite,
-          name: Matomo.helper.htmlDecode(Matomo.siteName),
-        } : undefined);
-      },
-    },
+    modelValue: Object,
     showSelectedSite: {
       type: Boolean,
       default: false,
@@ -185,6 +173,7 @@ export default defineComponent({
       default: 'bottom',
     },
     placeholder: String,
+    defaultToFirstSite: Boolean,
   },
   emits: ['update:modelValue', 'blur'],
   components: {
@@ -211,12 +200,22 @@ export default defineComponent({
   },
   created() {
     this.searchSite = debounce(this.searchSite);
+
+    if (!this.modelValue && Matomo.idSite) {
+      this.$emit('update:modelValue', {
+        id: Matomo.idSite,
+        name: Matomo.helper.htmlDecode(Matomo.siteName),
+      });
+    }
   },
   mounted() {
     window.initTopControls();
 
     this.loadInitialSites().then(() => {
-      if ((!this.modelValue || !this.modelValue.id) && !this.hasMultipleSites && this.sites[0]) {
+      if ((!this.modelValue || !this.modelValue.id)
+        && (!this.hasMultipleSites || this.defaultToFirstSite)
+        && this.sites[0]
+      ) {
         this.$emit('update:modelValue', { id: this.sites[0].idsite, name: this.sites[0].name });
       }
     });

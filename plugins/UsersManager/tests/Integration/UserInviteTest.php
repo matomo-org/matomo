@@ -78,7 +78,7 @@ class UserInviteTest extends IntegrationTestCase
             10
         );
 
-        $this->assertStringContainsString('decline this invitation', $response, 'error on decline invite page');
+        $this->assertStringContainsString('Decline this invitation', $response, 'error on decline invite page');
 
         // move date after expire time, but before deletion time
         Date::$now = Date::today()->addDay(8)->getTimestamp();

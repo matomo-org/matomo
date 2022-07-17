@@ -20,7 +20,7 @@ Region
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,5,16,"$13,361.11",3.2,00:22:49,20%
 
-Browser language
+Web-browser language
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Polish,4,12,75%,3,00:25:32,25%
 French,1,4,100%,4,00:12:01,0%
@@ -139,7 +139,7 @@ label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_
 22,0,0,$0,0,00:00:00,0%
 23,0,0,$0,0,00:00:00,0%
 
-Visits by Day of Week
+Visits by day of the week
 label,nb_visits,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_actions
 Monday,0,0%,0,00:00:00,0%,0
 Tuesday,3,66.67%,4.3,00:30:01,0%,13
@@ -236,11 +236,11 @@ No data available
 Content Piece
 No data available
 
-Length of Visits
+Length of visits
 label,nb_visits
-0-10s,0
-11-30s,0
-31-60s,0
+0–10s,0
+11–30s,0
+31–60s,0
 1-2 min,0
 2-4 min,0
 4-7 min,1
@@ -249,7 +249,7 @@ label,nb_visits
 15-30 min,1
 30+ min,1
 
-Pages per Visit
+Pages per visit
 label,nb_visits
 1 page,0
 2 pages,0
@@ -262,7 +262,7 @@ label,nb_visits
 15-20 pages,0
 21+ pages,0
 
-Visits by Visit Number
+Visits by visit number
 label,nb_visits,nb_visits_percentage
 1 visit,1,20%
 2 visits,1,20%

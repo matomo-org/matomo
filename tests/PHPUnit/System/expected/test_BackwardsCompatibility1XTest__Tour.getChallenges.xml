@@ -46,7 +46,7 @@
 		<description>Go to Behaviour =&gt; Pages and click in the bottom of the report on the cog icon to flatten the report. A flattened report changes the hierarchy from a grouped report to a list.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#flattening-reports</url>
+		<url>https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/#flattening-reports</url>
 	</row>
 	<row>
 		<id>change_visualisations</id>
@@ -54,7 +54,7 @@
 		<description>View a report and select the visualisation icon at the bottom of a report to view the same report in a different visualisation.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#a-look-at-a-piwik-report</url>
+		<url>https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/</url>
 	</row>
 	<row>
 		<id>add_scheduled_report</id>
@@ -70,7 +70,7 @@
 		<description>You can add new widgets to your Dashboard, to ensure it reports on all of your most important metrics.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#dashboard-widgets</url>
+		<url>https://matomo.org/faq/dashboards/create-dashboards-and-customise-widgets-and-layout/</url>
 	</row>
 	<row>
 		<id>add_segment</id>
@@ -118,7 +118,7 @@
 		<description>Select a date range in the calendar.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#select-a-date-range</url>
+		<url>https://matomo.org/faq/reports/data-selectors-in-matomo/</url>
 	</row>
 	<row>
 		<id>view_visits_log</id>
@@ -126,7 +126,7 @@
 		<description>The visits Log shows you all the individual visits and actions each visitor took on your site.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/real-time/#visits-log</url>
+		<url>https://matomo.org/faq/reports/the-visits-log-report/</url>
 	</row>
 	<row>
 		<id>view_visitor_profile</id>
