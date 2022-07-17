@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
@@ -166,7 +165,7 @@ class Pages
         $widgets = array();
 
         $idGoal = (int) $goal['idgoal'];
-        $name   = Common::sanitizeInputValue($goal['name']);
+        $name   = $goal['name'];
         $params = array('idGoal' => $idGoal);
 
         $config = $this->factory->createWidget();

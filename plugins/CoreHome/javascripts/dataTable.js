@@ -729,7 +729,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
-            var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
+            if (self.param['dateUsedInGraph']) {
+                // this parameter is passed along when switching between periods. So we perfer using
+                // it, to avoid a change in the end date shown in the graph
+                var currentPeriod = piwikPeriods.parse('range', self.param['dateUsedInGraph']);
+            } else {
+                var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
+            }
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
             endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
 

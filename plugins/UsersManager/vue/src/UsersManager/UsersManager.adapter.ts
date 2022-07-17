@@ -26,6 +26,9 @@ export default createAngularJsAdapter({
     filterAccessLevels: {
       angularJsBind: '<',
     },
+    filterStatusLevels: {
+      angularJsBind: '<',
+    },
   },
   directiveName: 'piwikUsersManager',
   restrict: 'E',
