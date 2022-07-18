@@ -53,7 +53,7 @@
         "VisitsFrom": "%1$s%2$s visits%3$s from",
         "VisitSummary": "Spent a total of %1$s%2$s on the website%3$s, and viewed %4$s pages%5$s in %6$s visits%7$s.",
         "VisitSummaryWithActionDetails": "Spent a total of %1$s%2$s on the website%3$s, and performed %4$s actions%5$s (%6$s) in %7$s visits%8$s.",
-        "RowActionTooltipDefault": "Show the visits log for each segment of this row",
+        "RowActionTooltipDefault": "Show the visits log segmented by this row",
         "RowActionTooltipWithDimension": "Show the visits log segmented by this %s",
         "RowActionTooltipTitle": "Open the segmented visits log",
         "SegmentedVisitorLogTitle": "Visits log showing visits where %1$s is \"%2$s\"",
