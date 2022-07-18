@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: '7.2'
+        php: [ '7.2' ]
         tests: [ 'JavascriptTests' ]
         node: [ '12' ]
 
@@ -89,7 +89,7 @@ jobs:
         env:
           PHP_VERSION: ${{ matrix.php }}
           MATOMO_TEST_TARGET: 'PHP'
-          MYSQL_ADAPTER: ${{ matrix.adapter }}
+          MYSQL_ADAPTER: 'PDO_MYSQL'
 
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests'
