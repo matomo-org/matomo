@@ -84,12 +84,12 @@ jobs:
           composer install --ignore-platform-reqs
 
       - name: prepare setup
-          shell: bash
-          run: ./.github/scripts/bash/prepare.sh
-          env:
-            PHP_VERSION: ${{ matrix.php }}
-            MATOMO_TEST_TARGET: 'PHP'
-            MYSQL_ADAPTER: ${{ matrix.adapter }}
+        shell: bash
+        run: ./.github/scripts/bash/prepare.sh
+        env:
+          PHP_VERSION: ${{ matrix.php }}
+          MATOMO_TEST_TARGET: 'PHP'
+          MYSQL_ADAPTER: ${{ matrix.adapter }}
 
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests'
