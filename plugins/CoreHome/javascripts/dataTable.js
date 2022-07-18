@@ -544,6 +544,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var paddingRight = elem.css('paddingRight');
             paddingRight     = paddingRight ? Math.round(parseFloat(paddingRight)) : 0;
 
+            if (elem.find('.prefix-numeral').length) {
+                labelWidth -= Math.round(parseFloat(elem.find('.prefix-numeral').outerWidth()));
+            }
+
             return labelWidth - paddingLeft - paddingRight;
         }
 
@@ -572,10 +576,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var tableColumns = $('table:eq(0)>thead th', domElem).length;
                 var parentTableColumns = $('>thead th', parentTable).length;
                 var labelColumn = $('>tbody td.label:eq(0)', parentTable);
-                var labelWidthParentTable = labelColumn.innerWidth();
+                var labelWidthParentTable = labelColumn.outerWidth();
 
                 if (parentTableColumns === tableColumns) {
-                    labelColumnWidth = labelWidthParentTable;
+                    labelColumnWidth = Math.min(labelColumnWidth, labelWidthParentTable);
+
+                    // rearrange base table labels, so the tables are displayed aligned
+                    $('>tbody>tr:not(.subDataTableContainer)>td.label', parentTable).each(function() {
+                        $(this).css({
+                            width: removePaddingFromWidth($(this), labelColumnWidth) + 'px'
+                        });
+                    });
+
+                    // rearrange all subtables having the same column count
+                    $('>tbody>tr.subDataTableContainer', parentTable).each(function() {
+                        if ($('table:eq(0)>thead th', this).length === parentTableColumns) {
+                            $(this).css({
+                                width: removePaddingFromWidth($(this), labelColumnWidth) + 'px'
+                            });
+                        }
+                    });
                 }
             }
 
@@ -598,13 +618,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var windowWidth = 0;
             var resizeDataTable = function() {
 
-                var currentWindowWidth = $(window).width();
-
-                if (windowWidth === currentWindowWidth) {
+                if (windowWidth === $(window).width()) {
                     return; // only resize a data table if the width changes
                 }
-
-                windowWidth = currentWindowWidth;
 
                 if (timeout) {
                     clearTimeout(timeout);
@@ -619,6 +635,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                             $('td.label', domElem).width('');
                         }
                         self.setFixWidthToMakeEllipsisWork(domElem);
+                        windowWidth = $(window).width();
                     } else {
                         $(window).off('resize', resizeDataTable);
                     }
