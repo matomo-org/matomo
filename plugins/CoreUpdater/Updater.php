@@ -354,7 +354,7 @@ class Updater
         $channel = $this->releaseChannels->getActiveReleaseChannel();
         $url = $channel->getDownloadUrlWithoutScheme($version);
 
-        if (Http::isUpdatingOverHttps() && $https && GeneralConfig::getConfigValue('force_matomo_http_request') === 0) {
+        if (Http::isUpdatingOverHttps() && $https && GeneralConfig::getConfigValue('force_matomo_http_request') == 0) {
             $url = 'https' . $url;
         } else {
             $url = 'http' . $url;
