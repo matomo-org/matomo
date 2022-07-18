@@ -24,6 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        php: '7.2'
         tests: [ 'JavascriptTests' ]
         node: [ '12' ]
 
@@ -81,11 +82,15 @@ jobs:
         run: |
           composer clear-cache
           composer install --ignore-platform-reqs
-      - name: Run PHP on 80
-        run: |
-          sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
-          tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
-          tmux ls
+
+      - name: prepare setup
+          shell: bash
+          run: ./.github/scripts/bash/prepare.sh
+          env:
+            PHP_VERSION: ${{ matrix.php }}
+            MATOMO_TEST_TARGET: 'PHP'
+            MYSQL_ADAPTER: ${{ matrix.adapter }}
+
       - name: Javascript Tests
         if: matrix.tests == 'JavascriptTests'
         run: |
