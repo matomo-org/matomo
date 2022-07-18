@@ -168,10 +168,7 @@ class Client
             $pluginName = $plugin->getPluginName();
             if (!$this->pluginManager->isPluginBundledWithCore($pluginName)) {
                 $isActivated = $this->pluginManager->isPluginActivated($pluginName);
-                $params[] = array('name'      => $plugin->getPluginName(),
-                                  'version'   => $plugin->getVersion(),
-                                  'activated' => (int)$isActivated
-                );
+                $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion(), 'activated' => (int) $isActivated);
             }
         }
 
@@ -192,7 +189,7 @@ class Client
     }
 
     /**
-     * @param \Piwik\Plugin[] $plugins
+     * @param  \Piwik\Plugin[] $plugins
      * @return array
      */
     public function getInfoOfPluginsHavingUpdate($plugins)
@@ -225,8 +222,7 @@ class Client
 
     public function searchForPlugins($keywords, $query, $sort, $purchaseType)
     {
-        $response = $this->fetch('plugins',
-          array('keywords' => $keywords, 'query' => $query, 'sort' => $sort, 'purchase_type' => $purchaseType));
+        $response = $this->fetch('plugins', array('keywords' => $keywords, 'query' => $query, 'sort' => $sort, 'purchase_type' => $purchaseType));
 
         if (!empty($response['plugins'])) {
             return $this->removeNotNeededPluginsFromResponse($response);
@@ -253,8 +249,7 @@ class Client
 
     public function searchForThemes($keywords, $query, $sort, $purchaseType)
     {
-        $response = $this->fetch('themes',
-          array('keywords' => $keywords, 'query' => $query, 'sort' => $sort, 'purchase_type' => $purchaseType));
+        $response = $this->fetch('themes', array('keywords' => $keywords, 'query' => $query, 'sort' => $sort, 'purchase_type' => $purchaseType));
 
         if (!empty($response['plugins'])) {
             return $this->removeNotNeededPluginsFromResponse($response);
@@ -273,7 +268,7 @@ class Client
             $params['release_channel'] = $releaseChannel;
         }
 
-        $params['prefer_stable'] = (int)$this->environment->doesPreferStable();
+        $params['prefer_stable'] = (int) $this->environment->doesPreferStable();
         $params['piwik'] = $this->environment->getPiwikVersion();
         $params['php'] = $this->environment->getPhpVersion();
         $params['mysql'] = $this->environment->getMySQLVersion();
@@ -314,8 +309,8 @@ class Client
 
     /**
      * @param  $pluginOrThemeName
-     * @return string
      * @throws Exception
+     * @return string
      */
     public function getDownloadUrl($pluginOrThemeName)
     {
@@ -338,7 +333,7 @@ class Client
     public static function getApiServiceUrl()
     {
         $url = GeneralConfig::getConfigValue('api_service_url');
-        if (!Http::isUpdatingOverHttps() || GeneralConfig::getConfigValue('force_matomo_http_request')) {
+        if (!GeneralConfig::getConfigValue('force_matomo_ssl_request')) {
             $url = str_replace('https', 'http', $url);
         }
 
