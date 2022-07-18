@@ -542,11 +542,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var paddingLeft  = elem.css('paddingLeft');
             paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
             var paddingRight = elem.css('paddingRight');
-            paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
+            paddingRight     = paddingRight ? Math.round(parseFloat(paddingRight)) : 0;
 
-            labelWidth = labelWidth - paddingLeft - paddingRight;
-
-            return labelWidth;
+            return labelWidth - paddingLeft - paddingRight;
         }
 
         setMaxTableWidthIfNeeded(domElem, 1200);
@@ -569,17 +567,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelColumnWidth = labelColumnMaxWidth;
             }
 
+            if ($(domElem).closest('.subDataTableContainer').length) {
+                var parentTable = $(domElem).closest('table.dataTable');
+                var tableColumns = $('table:eq(0)>thead th', domElem).length;
+                var parentTableColumns = $('>thead th', parentTable).length;
+                var labelColumn = $('>tbody td.label:eq(0)', parentTable);
+                var labelWidthParentTable = labelColumn.innerWidth();
+
+                if (parentTableColumns === tableColumns) {
+                    labelColumnWidth = labelWidthParentTable;
+                }
+            }
+
             if (labelColumnWidth) {
                 $('td.label', domElem).each(function() {
-                    if ($(this).closest('.subDataTableContainer').length && $('table:not(.subDataTable)', domElem).length) {
-                        var subTableColumns = $(this).closest('.subDataTableContainer').find('thead th').length;
-                        var baseTableColumns = $('table:not(.subDataTable):eq(0)>thead th', domElem).length;
-
-                        if (subTableColumns !== baseTableColumns) {
-                            return; // skip elements in a subtable if the column count doesn't match
-                        }
-                    }
-                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
+                    $(this).css({
+                        width: removePaddingFromWidth($(this), labelColumnWidth) + 'px'
+                    });
                 });
             }
 
@@ -591,7 +595,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             // on resize of the window we re-calculate everything.
             var timeout = null;
+            var windowWidth = 0;
             var resizeDataTable = function() {
+
+                var currentWindowWidth = $(window).width();
+
+                if (windowWidth === currentWindowWidth) {
+                    return; // only resize a data table if the width changes
+                }
+
+                windowWidth = currentWindowWidth;
 
                 if (timeout) {
                     clearTimeout(timeout);
@@ -1454,7 +1467,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var self = this;
 
         // highlight all columns on hover
-        $(domElem).on('mouseenter', 'td', function (e) {
+        $(domElem).on('mouseenter', 'td:not(.cellSubDataTable)', function (e) {
             e.stopPropagation();
             var $this = $(e.target);
             if ($this.hasClass('label')) {
