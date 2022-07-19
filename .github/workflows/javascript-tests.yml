@@ -21,6 +21,16 @@ permissions:
 jobs:
   Javascript:
     runs-on: ubuntu-20.04
+    services:
+
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: matomo_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw
     strategy:
       fail-fast: false
       matrix:
@@ -57,6 +67,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: installing node/puppeteer
+        working-directory: ./tests/lib/screenshot-testing
+        run: npm install
 
       - name: Install dependencies
         run: |
