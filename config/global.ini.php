@@ -803,7 +803,7 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
-; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improved security
+; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
 ; If you have a problem loading the marketplace, please enable this config option
 force_matomo_http_request = 0
 
