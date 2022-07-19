@@ -31,7 +31,7 @@ class HttpsUpdateCheck implements Diagnostic
     public function execute()
     {
         $faqLinks = [
-          '<a href="https://matomo.org/faq/faq-how-to-disab…omo-org-requests" rel="noreferrer noopener" target="_blank">',
+          '<a href="https://matomo.org/faq/faq-how-to-disable-https-for-matomo-org-and-api-matomo-org-requests" rel="noreferrer noopener" target="_blank">',
           '</a>'
         ];
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
