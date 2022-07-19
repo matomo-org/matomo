@@ -35,6 +35,7 @@
         "ExceptionNoUrl": "Você precisa especificar no mínimo uma URL para o site.",
         "ExcludedIps": "IPs excluídos",
         "ExcludedParameters": "Parâmetros Excluídos",
+        "ExcludedReferrers": "Referenciadores excluídos",
         "ExcludedUserAgents": "User Agents excluídos",
         "ExtraInformationNeeded": "Para configurar o Matomo em seu sistema, você pode precisar da seguinte informação:",
         "Format_Utc": "UTC%s",

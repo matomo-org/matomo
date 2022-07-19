@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -15,7 +16,6 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\Exception;
 
-
 class Login extends BaseValidator
 {
     const loginMinimumLength = 2;
@@ -30,19 +30,23 @@ class Login extends BaseValidator
 
     public function validate($value)
     {
-        if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
-          && !empty($value)
+        if (
+            !SettingsPiwik::isUserCredentialsSanityCheckEnabled()
+            && !empty($value)
         ) {
             return;
         }
 
         $l = strlen($value);
-        if (!($l >= self::loginMinimumLength
-          && $l <= self::loginMaximumLength
-          && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $value) > 0))
+        if (
+            !($l >= self::loginMinimumLength
+            && $l <= self::loginMaximumLength
+            && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $value) > 0))
         ) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidLoginFormat',
-              array(self::loginMinimumLength, self::loginMaximumLength)));
+            throw new Exception(Piwik::translate(
+                'UsersManager_ExceptionInvalidLoginFormat',
+                [self::loginMinimumLength, self::loginMaximumLength]
+            ));
         }
 
         if ($this->checkUnique) {

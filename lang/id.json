@@ -85,6 +85,7 @@
         "ColumnUniqueExits": "Keluar Unik",
         "ColumnUniquePageviews": "Tampilan Halaman Unik",
         "ColumnUniquePageviewsDocumentation": "Jumlah kunjungan ke halaman ini. Bila sebuah halaman ditampilkan beberapa kali selama satu kali kenjungan, ini hanya terhitung sekali.",
+        "ColumnValuePerEntry": "Pendapatan per Entri",
         "ColumnValuePerVisit": "Pendapatan per Kunjungan",
         "ColumnViewedAfterSearch": "Diklik dalam hasil pencarian",
         "ColumnViewedAfterSearchDocumentation": "Jumlah kali Halaman ini dikunjungi setelah pengnjung melakukan pencarian dalam Situs Anda, dan mengekik Halaman ini di hasil pencarian.",

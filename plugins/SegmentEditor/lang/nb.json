@@ -51,6 +51,7 @@
         "UnprocessedSegmentInVisitorLog3": "Dette kan hjelpe deg å bekrefte at ditt segment samsvarer med brukerne og de foretagende du forventer.",
         "UnprocessedSegmentNoData1": "Disse rapportene har ingen data, fordi %1$s-segmentet du forespurte ikke har blitt behandlet av systemet enda.",
         "UnprocessedSegmentNoData2": "Data for dette segmentet bør bli tilgjengelig om et par timer når behandlingen fullføres. (Hvis ikke kan det ha oppstått et problem.)",
+        "UnprocessedSegmentNoData3": "Matomo kan ikke vise data for %1$s-segmentet. Dette er fordi oppsettet forhindrer re-arkivering for denne perioden. Kontakt administratoren din eller sjekk %2$sO-S-S%3$s for å løse problemet.",
         "VisibleToAllUsers": "alle brukere",
         "VisibleToMe": "meg",
         "VisibleToSuperUser": "Synlig for deg siden du har superbrukertilgang",
