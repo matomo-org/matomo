@@ -323,6 +323,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_MatchingDataSubjects';
         $translationKeys[] = 'PrivacyManager_NextDelete';
         $translationKeys[] = 'PrivacyManager_NoDataSubjectsFound';
+        $translationKeys[] = 'PrivacyManager_OptOutAppearance';
         $translationKeys[] = 'PrivacyManager_OptOutCustomize';
         $translationKeys[] = 'PrivacyManager_OptOutHtmlCode';
         $translationKeys[] = 'PrivacyManager_OptOutPreview';

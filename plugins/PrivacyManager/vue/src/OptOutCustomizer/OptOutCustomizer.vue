@@ -12,7 +12,7 @@
         v-html="$sanitize(readThisToLearnMore)"
       />
     </p>
-    <h3>{{ translate('PrivacyManager_OptOutCustomize') }}</h3>
+    <h3>{{ translate('PrivacyManager_OptOutAppearance') }}</h3>
     <div>
       <p>
         <span>
