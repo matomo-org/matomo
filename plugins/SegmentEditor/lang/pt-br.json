@@ -51,6 +51,7 @@
         "UnprocessedSegmentInVisitorLog3": "Isto pode te ajudar a confirmar que seu Segmento coincide com os usuários e ações que você espera.",
         "UnprocessedSegmentNoData1": "Estes relatórios não possuem dados pois o Segmento que você solicitou %1$s ainda não foi processado pelo sistema.",
         "UnprocessedSegmentNoData2": "Dados para este Segmento devem estar disponíveis em algumas horas quando o processamento terminar. (Se não ficarem disponíveis, pode haver um problema.)",
+        "UnprocessedSegmentNoData3": "O Matomo não consegue exibir dados para o segmento %1$s, pois a configuração impede um novo arquivamento para este período. Por favor contacte o seu administrador ou verifique %2$sesta FAQ%3$s de como resolver este problema.",
         "VisibleToAllUsers": "todos os usuários",
         "VisibleToMe": "eu",
         "VisibleToSuperUser": "Visível pra você porque você tem acesso Super Usuário",
