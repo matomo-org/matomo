@@ -57,26 +57,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: installing node/puppeteer
-        working-directory: ./tests/lib/screenshot-testing
-        run: npm install
-
-      - name: installing config.ini.php && Adjusting phpunit.xml && tmp/ sub-directories
-        run: |
-          cp .github/artifacts/config.ini.github.php  config/config.ini.php
-          sed -i 's/3000/\//g' ./config/config.ini.php
-          cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
-          mkdir -p ./tmp/assets
-          mkdir -p ./tmp/cache
-          mkdir -p ./tmp/latest
-          mkdir -p ./tmp/logs
-          mkdir -p ./tmp/sessions
-          mkdir -p ./tmp/templates_c
-          mkdir -p ./tmp/templates_c/d2
-          mkdir -p ./tmp/tcpdf
-          mkdir -p ./tmp/climulti
-          chmod a+rw ./tests/lib/geoip-files || true
-          sudo chmod -R 755 ./tmp
 
       - name: Install dependencies
         run: |
@@ -92,6 +72,5 @@ jobs:
           MYSQL_ADAPTER: 'PDO_MYSQL'
 
       - name: Javascript Tests
-        if: matrix.tests == 'JavascriptTests'
         run: |
           ./console tests:run-js --matomo-url='http://localhost'
