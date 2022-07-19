@@ -10,7 +10,7 @@
         "NumberOfItems": "Antall artikler i handlekurv",
         "Order": "Bestilling",
         "OrderId": "Ordre-ID",
-        "OrderRevenue": "Bestillingsomestning",
+        "OrderRevenue": "Bestillingsomsetning",
         "OrderValue": "Bestillingsverdi",
         "Orders": "Bestillinger",
         "PluginDescription": "Med netthandel kan du spore når brukere legger til produkter i handlekurver, og når de konverterer til en netthandel. Spor også visninger av produkter og produktkategorier og forlatte handlekurver.",
