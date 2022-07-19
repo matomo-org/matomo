@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da1fc0afe262e854dd151a9a470d6777",
+    "content-hash": "347f5480050f7094eed62ede97378192",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2084,16 +2084,16 @@
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v3.0.14",
+            "version": "v3.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
-                "reference": "9b903cbfb1d7e490aa489923ebe1e48c9029fba9"
+                "reference": "0cecbea0317227817030b2edc79ecbe870224215"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/9b903cbfb1d7e490aa489923ebe1e48c9029fba9",
-                "reference": "9b903cbfb1d7e490aa489923ebe1e48c9029fba9",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/0cecbea0317227817030b2edc79ecbe870224215",
+                "reference": "0cecbea0317227817030b2edc79ecbe870224215",
                 "shasum": ""
             },
             "require": {
@@ -2149,9 +2149,9 @@
             ],
             "support": {
                 "issues": "https://github.com/szymach/c-pchart/issues",
-                "source": "https://github.com/szymach/c-pchart/tree/v3.0.14"
+                "source": "https://github.com/szymach/c-pchart/tree/v3.1.0"
             },
-            "time": "2022-06-27T18:23:14+00:00"
+            "time": "2022-06-05T10:54:17+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
