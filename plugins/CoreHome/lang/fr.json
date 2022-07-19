@@ -74,6 +74,7 @@
         "QuickAccessTitle": "Recherche pour %s. Utilisez les flèches de navigation pour parcourir les résultats de recherche. Raccourci : appuyez sur 'f' pour rechercher.",
         "QuickLinks": "Liens rapides",
         "ReadMoreOnlineGuide": "Lisez plus sur ce sujet dans le guide en ligne.",
+        "Refresh": "Rafraîchir",
         "RemoveTotalsRowDataTable": "Le rapport la ligne des totaux %s Supprimer la ligne des totaux",
         "ReportGeneratedOn": "Rapport généré le %s",
         "ReportGeneratedXAgo": "Rapport généré il y a %s",
@@ -89,6 +90,7 @@
         "ShareThis": "Partager ceci",
         "ShortcutCalendar": "pour ouvrir le calendrier (d signifie Date)",
         "ShortcutHelp": "pour afficher cette aide",
+        "ShortcutRefresh": "pour rafraîchir la vue actuelle",
         "ShortcutSearch": "pour ouvrir la recherche (f signifie Rechercher)",
         "ShortcutSegmentSelector": "pour ouvrir le sélecteur de segment",
         "ShortcutWebsiteSelector": "pour ouvrir le sélecteur de Site Web",
@@ -125,7 +127,7 @@
         "VisitorsCategoryHelp1": "Les pages \"Visiteurs\" vous donnent des renseignements sur les visiteurs. Elles vous indiquent par exemple d'où viennent vos visiteurs, quels appareils et navigateurs ils utilisent et quand ils visitent généralement votre site web. Comprenez, dans l'ensemble, qui est votre public et recherchez les cas particuliers pour voir comment votre public pourrait augmenter.",
         "VisitorsCategoryHelp2": "En complément des informations générales à propos de vos visiteurs, vous pouvez utiliser le %1$sJournal des Visites%2$s pour voir ce qui s'est passé lors de chaque visite individuelle.",
         "VisitorsOverviewHelp": "Le \"Récapitulatif des visites\" vous aide à comprendre la popularité de votre site. Cela est possible grâce aux graphiques qui montrent combien de visites votre site reçoit durant une période et le niveau moyen d'engagement sur des indicateurs clés tels que les recherches ou les téléchargements.",
-        "WebAnalyticsReports": "Rapports des statistiques web.",
+        "WebAnalyticsReports": "Rapports des statistiques web",
         "YouAreUsingTheLatestVersion": "Vous utilisez la dernière version de Matomo !",
         "YourDonationWillHelp": "Votre don participera au financement des nouvelles fonctionnalités et des améliorations de cette plateforme open-source de statistiques. Ainsi, la communauté bénéficiera toujours d'un outil qui protège la vie privée et vous permet de garder le contrôle de vos données."
     }
