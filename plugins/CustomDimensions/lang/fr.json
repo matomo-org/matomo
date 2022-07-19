@@ -39,6 +39,9 @@
         "ScopeDescriptionActionMoreInfo": "Des extractions peuvent être définies de manière à ce que la valeur soit extraite depuis l'URL, le titre ou des paramètres d'URL de la page.",
         "ScopeDescriptionVisit": "Les dimensions personnalisées dans la portée « Visite » peuvent être envoyées avec toute demande de suivi et sont stockées dans la visite.",
         "ScopeDescriptionVisitMoreInfo": "Si vous définissez différentes valeurs pour une dimension donnée lors d'une visite, la dernière valeur définie sera utilisée.",
+        "ScopeTitleAction": "Dimensions de l'action",
+        "ScopeTitleVisit": "Dimensions de la visite",
+        "UrlQueryStringParameter": "paramètre de la chaîne de requête url",
         "XofYLeft": "%1$s de %2$s dimensions restantes"
     }
 }
