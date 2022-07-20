@@ -332,12 +332,7 @@ class Client
      */
     public static function getApiServiceUrl()
     {
-        $url = GeneralConfig::getConfigValue('api_service_url');
-        if (Http::isUpdatingOverHttps() && GeneralConfig::getConfigValue('force_matomo_http_request') != 1) {
-            $url = str_replace('http', 'https', $url);
-        }
-
-        return $url;
+        return GeneralConfig::getConfigValue('api_service_url');
     }
 
 }
