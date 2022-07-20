@@ -10,7 +10,7 @@ return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
         $domain = 'https://plugins.matomo.org';
 
-        if (!Http::isUpdatingOverHttps() || GeneralConfig::getConfigValue('force_matomo_http_request') === 1) {
+        if (!Http::isUpdatingOverHttps() || GeneralConfig::getConfigValue('force_matomo_http_request') == 1) {
             $domain = str_replace('https://', 'http://', $domain);
         }
 
