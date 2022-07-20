@@ -571,6 +571,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelColumnWidth = labelColumnMaxWidth;
             }
 
+            // special handling if the loaded datatable is a subtable
             if ($(domElem).closest('.subDataTableContainer').length) {
                 var parentTable = $(domElem).closest('table.dataTable');
                 var tableColumns = $('table:eq(0)>thead th', domElem).length;
@@ -578,6 +579,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var labelColumn = $('>tbody td.label:eq(0)', parentTable);
                 var labelWidthParentTable = labelColumn.outerWidth();
 
+                // if the subtable has the same column count as the main table, we rearrange all tables
                 if (parentTableColumns === tableColumns) {
                     labelColumnWidth = Math.min(labelColumnWidth, labelWidthParentTable);
 
