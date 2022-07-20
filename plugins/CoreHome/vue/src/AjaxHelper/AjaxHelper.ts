@@ -253,7 +253,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
       let message = 'Something went wrong';
       if (xhr.status === 504) {
-        message = 'Request was prossibly aborted';
+        message = 'Request was possibly aborted';
+      }
+      if (xhr.status === 429) {
+        message = 'Rate Limit was exceed';
       }
       throw new Error(message);
     });
@@ -519,6 +522,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           resolve(data as (T | ErrorResponse)); // ignoring textStatus/jqXHR
         }
       }).fail((xhr: jqXHR) => {
+        if (xhr.status === 429) {
+          console.log(`Warning: the '${$.param(this.getParams)}' request was rate limited!`);
+          reject(xhr);
+          return;
+        }
+
         if (xhr.statusText === 'abort') {
           return;
         }
