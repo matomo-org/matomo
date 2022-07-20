@@ -111,31 +111,19 @@ function blockPropegation(){
 
 //refresh page short cut 'r'
 $(function () {
-  function refresh() {
+  piwikHelper.registerShortcut('r', _pk_translate('CoreHome_ShortcutRefresh'), function (event) {
+    if (event.altKey) {
+      return;
+    }
+    if (event.preventDefault) {
+      event.preventDefault();
+    } else {
+      event.returnValue = false; // IE
+    }
+
     var Matomo = window.CoreHome.Matomo;
     var hashParsed = window.CoreHome.MatomoUrl.hashParsed.value;
 
     Matomo.postEvent('loadPage', hashParsed.category, hashParsed.subcategory);
-  };
-
-  function isCoreHomeModuleActive() {
-    var search = window.CoreHome.MatomoUrl.parse(window.location.search.slice(1));
-    return search.module === 'CoreHome';
-  }
-
-  if (isCoreHomeModuleActive()) {
-
-    piwikHelper.registerShortcut('r', _pk_translate('CoreHome_ShortcutRefresh'), function (event) {
-      if (event.altKey) {
-        return;
-      }
-      if (event.preventDefault) {
-        event.preventDefault();
-      } else {
-        event.returnValue = false; // IE
-      }
-
-      refresh();
-    });
-  }
+  });
 });
