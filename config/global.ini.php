@@ -277,6 +277,9 @@ browser_archiving_disabled_enforce = 0
 ; Add custom currencies to Sites Manager.
 currencies[BTC] = Bitcoin
 
+; default expiry time in days for invite user tokens
+default_invite_user_token_expiry_days = 7
+
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
 ; This can be useful if you want to prevent users from adding much load on the server.

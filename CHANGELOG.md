@@ -12,6 +12,21 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The methods `setExcludedReferrers` and `getExcludedReferrers` have been added to the JavaScript tracker. They allow setting and receiving the referrers the JavaScript tracker should ignore. If a referrer matches an entry on that list, it will not be passed with the tracking requests and the attribution cookie will stay unchanged. This can for example be used if you need to forward your users to an external service like SSO or payment and don't want any visits or conversions being attributed to those services.
 
+## Matomo 4.11.0
+
+### Breaking Changes
+
+* The user management UI no longer allows direct creation of a new user (with a password). Instead an invitation can be sent via email. Directly creating a new user is still possible using the API.
+
+#### New PHP events
+
+* Added new event `UsersManager.inviteUser.end`, which is triggered after a new user has been invited
+* Added new event `UsersManager.inviteUser.resendInvite`, which is triggered after the invitation to a user has been resent
+* Added new event `UsersManager.inviteUser.accepted`, which is triggered after an invitation has been accepted
+* Added new event `UsersManager.inviteUser.declined`, which is triggered after an invitation has been declined
+
+* The existing event `UsersManager.addUser.end` will only be triggered when a user is added using the API.
+
 ## Matomo 4.10.0
 
 ### Breaking Changes

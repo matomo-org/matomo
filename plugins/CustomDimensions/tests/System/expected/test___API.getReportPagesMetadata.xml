@@ -111,7 +111,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Visits by Visit Number</name>
+				<name>Visits by visit number</name>
 				<module>VisitorInterest</module>
 				<action>getNumberOfVisitsByVisitCount</action>
 				<order>125</order>
@@ -125,7 +125,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Visits by Days Since Last Visit</name>
+				<name>Visits by days since last visit</name>
 				<module>VisitorInterest</module>
 				<action>getNumberOfVisitsByDaysSinceLast</action>
 				<order>130</order>
@@ -1269,7 +1269,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Browser language</name>
+				<name>Web-browser language</name>
 				<module>UserLanguage</module>
 				<action>getLanguage</action>
 				<order>108</order>
@@ -1325,7 +1325,7 @@
 			<id>VisitTime_SubmenuTimes</id>
 			<name>Times</name>
 			<order>35</order>
-			<help>&lt;p&gt;The Times section shows you when people are visiting your site. You can see the most popular local times your users visit at, so you can understand where your site fits into their life. Additionally, it shows the most popular server times, which can reveal demands on your technology stack.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Times&quot; section shows when people visit your site. Popular local times helps you cater your site to their lives. The most popular server times reveals technical demand.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1357,7 +1357,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Visits by Day of Week</name>
+				<name>Visits by day of the week</name>
 				<module>VisitTime</module>
 				<action>getByDayOfWeek</action>
 				<order>125</order>
@@ -1385,7 +1385,7 @@
 			<id>UserCountryMap_RealTimeMap</id>
 			<name>Real-time Map</name>
 			<order>9</order>
-			<help>&lt;p&gt;The Real-time Map shows the location of visitors on your site within the last 30 minutes. Large orange bubbles represent more recent visits, while smaller grey bubbles represent older visits. This data refreshes every five seconds, and new visitors appear with a flashing effect.&lt;/p&gt;</help>
+			<help>&lt;p&gt;Shows the location of website visitors the last 30 minutes, and flashes for new ones. Recent visits are shown as large orange bubbles, and older ones as smaller gray ones. It refreshes every five seconds.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1480,7 +1480,7 @@
 			<id>UserId_UserReportTitle</id>
 			<name>User IDs</name>
 			<order>40</order>
-			<help>&lt;p&gt;The User IDs report shows visits associated with all of your registered and logged in users. You can use this section to understand website usage by specific users and identify who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>

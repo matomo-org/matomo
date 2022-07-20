@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -15,12 +16,13 @@ use Piwik\Validators\Exception;
 
 class Email extends BaseValidator
 {
-
     private $checkUnique;
+    private $userLogin;
 
-    public function __construct($checkUnique = false)
+    public function __construct($checkUnique = false, $userLogin = null)
     {
         $this->checkUnique = $checkUnique;
+        $this->userLogin = $userLogin;
     }
 
     public function validate($value)
@@ -30,13 +32,12 @@ class Email extends BaseValidator
         }
 
         if (!Piwik::isValidEmailString($value)) {
-            throw new Exception(Piwik::translate('General_ValidatorErrorNotEmailLike', array($value)));
+            throw new Exception(Piwik::translate('General_ValidatorErrorNotEmailLike', [$value]));
         }
 
         if ($this->checkUnique) {
             $this->isUnique($value);
         }
-
     }
 
     /**
@@ -46,13 +47,20 @@ class Email extends BaseValidator
      */
     private function isUnique($email)
     {
-        if (APIUsersManager::getInstance()->userExists($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $email));
+        if (APIUsersManager::getInstance()->userEmailExists($email)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
         }
 
-        if (APIUsersManager::getInstance()->userEmailExists($email)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExistsAsEmail', $email));
+        if ($this->userLogin && mb_strtolower($this->userLogin) !== mb_strtolower($email) && APIUsersManager::getInstance()->userExists($email)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
+        }
+
+        if (!$this->userLogin && APIUsersManager::getInstance()->userExists($email)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExistsAsLogin', $email));
+        }
+
+        if (!Piwik::isValidEmailString($email)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail'));
         }
     }
-
 }

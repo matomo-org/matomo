@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7f3caa46d358cadcbf0094f477b2cea",
+    "content-hash": "347f5480050f7094eed62ede97378192",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -398,16 +398,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "5.0.5",
+            "version": "6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "cd1283126b4cf5081fdc0381b5b5e7849333cfa4"
+                "reference": "c01910dde14c95708019513ea0ee36c5a174fd4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/cd1283126b4cf5081fdc0381b5b5e7849333cfa4",
-                "reference": "cd1283126b4cf5081fdc0381b5b5e7849333cfa4",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/c01910dde14c95708019513ea0ee36c5a174fd4c",
+                "reference": "c01910dde14c95708019513ea0ee36c5a174fd4c",
                 "shasum": ""
             },
             "require": {
@@ -463,7 +463,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2022-03-08T09:22:55+00:00"
+            "time": "2022-07-12T07:49:25+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -603,16 +603,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.0.4",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "441d377411296e04558f88c27706545c9524ac2e"
+                "reference": "0001560e0f8986d117099a5ae5b534b924a5466f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/441d377411296e04558f88c27706545c9524ac2e",
-                "reference": "441d377411296e04558f88c27706545c9524ac2e",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/0001560e0f8986d117099a5ae5b534b924a5466f",
+                "reference": "0001560e0f8986d117099a5ae5b534b924a5466f",
                 "shasum": ""
             },
             "require": {
@@ -655,7 +655,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2021-11-15T18:55:52+00:00"
+            "time": "2022-07-04T15:15:27+00:00"
         },
         {
             "name": "matomo/network",
@@ -1475,16 +1475,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.2",
+            "version": "v6.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "b52ed06864fdda81b82ec8bf564cf15d45ed4f95"
+                "reference": "9400f305a898f194caff5521f64e5dfa926626f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/b52ed06864fdda81b82ec8bf564cf15d45ed4f95",
-                "reference": "b52ed06864fdda81b82ec8bf564cf15d45ed4f95",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9400f305a898f194caff5521f64e5dfa926626f3",
+                "reference": "9400f305a898f194caff5521f64e5dfa926626f3",
                 "shasum": ""
             },
             "require": {
@@ -1541,7 +1541,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.2"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.3"
             },
             "funding": [
                 {
@@ -1549,7 +1549,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-14T09:27:21+00:00"
+            "time": "2022-06-20T09:21:02+00:00"
         },
         {
             "name": "psr/container",
@@ -2084,7 +2084,7 @@
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v3.1.0",
+            "version": "v3.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
@@ -3313,16 +3313,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.26",
+            "version": "8.5.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ef117c59fc4c54a979021b26d08a3373e386606d"
+                "reference": "df70070f2711b8fe8dcca0797c1239ede8c94be6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ef117c59fc4c54a979021b26d08a3373e386606d",
-                "reference": "ef117c59fc4c54a979021b26d08a3373e386606d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/df70070f2711b8fe8dcca0797c1239ede8c94be6",
+                "reference": "df70070f2711b8fe8dcca0797c1239ede8c94be6",
                 "shasum": ""
             },
             "require": {
@@ -3351,9 +3351,6 @@
                 "sebastian/resource-operations": "^2.0.1",
                 "sebastian/type": "^1.1.3",
                 "sebastian/version": "^2.0.1"
-            },
-            "require-dev": {
-                "ext-pdo": "*"
             },
             "suggest": {
                 "ext-soap": "*",
@@ -3394,7 +3391,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.26"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.27"
             },
             "funding": [
                 {
@@ -3406,7 +3403,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-01T12:34:39+00:00"
+            "time": "2022-06-19T12:11:16+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4200,16 +4197,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "a2cd51b45bcaef9c1f2a4bda48f2dd2fa2b95563"
+                "reference": "1359e176e9307e906dc3d890bcc9603ff6d90619"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/a2cd51b45bcaef9c1f2a4bda48f2dd2fa2b95563",
-                "reference": "a2cd51b45bcaef9c1f2a4bda48f2dd2fa2b95563",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/1359e176e9307e906dc3d890bcc9603ff6d90619",
+                "reference": "1359e176e9307e906dc3d890bcc9603ff6d90619",
                 "shasum": ""
             },
             "require": {
@@ -4252,7 +4249,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2022-06-13T06:31:38+00:00"
+            "time": "2022-06-18T07:21:10+00:00"
         },
         {
             "name": "symfony/var-dumper",

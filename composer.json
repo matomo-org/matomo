@@ -28,7 +28,10 @@
             "php": "7.2.9"
         },
         "prepend-autoloader": false,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "require": {
         "php": ">=7.2.5",
@@ -39,9 +42,9 @@
         "lox/xhprof": "dev-master",
         "matomo/cache": "~2.0",
         "matomo/decompress": "~2.0",
-        "matomo/device-detector": "^5.0",
+        "matomo/device-detector": "~6.0.0",
         "matomo/ini": "~3.0",
-        "matomo/matomo-php-tracker": "^3.0",
+        "matomo/matomo-php-tracker": "~3.1.0",
         "matomo/network": "~2.0",
         "matomo/referrer-spam-list": "dev-master",
         "matomo/searchengine-and-social-list": "~3.0",
@@ -56,7 +59,7 @@
         "symfony/monolog-bridge": "~2.6.0",
         "symfony/polyfill-iconv": "^1.20",
         "symfony/polyfill-mbstring": "^1.20",
-        "szymach/c-pchart": "^3.0",
+        "szymach/c-pchart": "3.0.13",
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "~v1.4.0",
         "twig/twig": "^3.0",

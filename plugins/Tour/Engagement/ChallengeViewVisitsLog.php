@@ -29,7 +29,7 @@ class ChallengeViewVisitsLog extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/real-time/#visits-log';
+        return 'https://matomo.org/faq/reports/the-visits-log-report/';
     }
 
 
