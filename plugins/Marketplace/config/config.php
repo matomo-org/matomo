@@ -1,7 +1,5 @@
 <?php
 
-use Piwik\Config\GeneralConfig;
-use Piwik\Http;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Psr\Container\ContainerInterface;
