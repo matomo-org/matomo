@@ -1868,11 +1868,21 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             $(_this3.loadingElement).hide();
           }
 
-          if (response && response.result === 'error' && !_this3.useRegularCallbackInCaseOfError) {
+          var results = _this3.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
+          var errors = results.filter(function (r) {
+            return r.result === 'error';
+          }).map(function (r) {
+            return r.message;
+          });
+
+          if (errors && errors.length && !_this3.useRegularCallbackInCaseOfError) {
+            var errorMessage = errors.filter(function (e) {
+              return e.length;
+            }).join('<br />');
             var placeAt = null;
             var type = 'toast';
 
-            if ($(_this3.errorElement).length && response.message) {
+            if ($(_this3.errorElement).length && errorMessage.length) {
               $(_this3.errorElement).show();
               placeAt = _this3.errorElement;
               type = null;
@@ -1880,11 +1890,11 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
 
             var isLoggedIn = !document.querySelector('#login_form');
 
-            if (response.message && isLoggedIn) {
+            if (errorMessage && isLoggedIn) {
               var UI = window['require']('piwik/UI'); // eslint-disable-line
 
               var notification = new UI.Notification();
-              notification.show(response.message, {
+              notification.show(errorMessage, {
                 placeat: placeAt,
                 context: 'error',
                 type: type,
@@ -2117,8 +2127,17 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       return helper.send().then(function (result) {
         var data = result instanceof AjaxHelper ? result.requestHandle.responseJSON : result; // check for error if not using default notification behavior
 
-        if (data.result === 'error') {
-          throw new ApiResponseError(data.message);
+        var results = helper.postParams.method === 'API.getBulkRequest' && Array.isArray(data) ? data : [data];
+        var errors = results.filter(function (r) {
+          return r.result === 'error';
+        }).map(function (r) {
+          return r.message;
+        });
+
+        if (errors.length) {
+          throw new ApiResponseError(errors.filter(function (e) {
+            return e.length;
+          }).join('\n'));
         }
 
         return result;
