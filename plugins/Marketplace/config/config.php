@@ -8,10 +8,10 @@ use Psr\Container\ContainerInterface;
 
 return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
-        $domain = 'http://plugins.matomo.org';
+        $domain = 'https://plugins.matomo.org';
 
-        if (Http::isUpdatingOverHttps() && GeneralConfig::getConfigValue('force_matomo_http_request') != 1) {
-            $domain = str_replace('http://', 'https://', $domain);
+        if (!Http::isUpdatingOverHttps() || GeneralConfig::getConfigValue('force_matomo_http_request') === 1) {
+            $domain = str_replace('https://', 'http://', $domain);
         }
 
         return $domain;

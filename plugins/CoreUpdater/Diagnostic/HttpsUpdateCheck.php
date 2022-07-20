@@ -36,7 +36,7 @@ class HttpsUpdateCheck implements Diagnostic
         ];
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
-        if (GeneralConfig::getConfigValue('force_matomo_http_request') == 1) {
+        if (GeneralConfig::getConfigValue('force_matomo_http_request') === 1) {
             //if config is on, show info
             $comment = $this->translator->translate('Installation_MatomoHttpRequestConfigInfo', $faqLinks);
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment));
