@@ -15,7 +15,7 @@ permissions:
   security-events: none
   statuses: none
 concurrency:
-  group: js-${{ github.head_ref }}
+  group: angular-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
