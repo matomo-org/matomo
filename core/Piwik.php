@@ -298,6 +298,8 @@ class Piwik
          * This event can be used in custom login plugins to skip the password confirmation checks for certain users,
          * where e.g. no password would be available.
          *
+         * Attention: Use this event wisely. Disabling password confirmation decreases the security.
+         *
          * @param bool $requiresPasswordConfirmation Indicates if the password should be checked or not
          * @param string $login Login of a user the password should be confirmed for
          */
