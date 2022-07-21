@@ -14,9 +14,9 @@ permissions:
   repository-projects: none
   security-events: none
   statuses: none
-#concurrency:
-#  group: js-${{ github.head_ref }}
-#  cancel-in-progress: true
+concurrency:
+  group: js-${{ github.head_ref }}
+  cancel-in-progress: true
 
 jobs:
   Javascript:
