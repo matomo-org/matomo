@@ -5,6 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import Matomo from '../../CoreHome/vue/src/Matomo/Matomo';
+
 function _pk_translate(translationStringId, values) {
     if (typeof(piwik_translations) !== 'undefined'
         && typeof(piwik_translations[translationStringId]) != 'undefined'
@@ -149,7 +151,12 @@ window.piwikHelper = {
 	},
 
     getAngularDependency: function (dependency) {
+      try {
         return angular.element(document).injector().get(dependency);
+      } catch (e) {
+        // ignore
+        return null;
+      }
     },
 
     // initial call for 'body' later in this file
