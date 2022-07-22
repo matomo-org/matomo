@@ -13,6 +13,7 @@ import './Plugins/PluginFilter.adapter';
 import './SaveButton/SaveButton.adapter';
 import './Form/Form.adapter';
 
+export { default as AbortableEvent } from './FormField/AbortableEvent';
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
 export { default as Setting } from './PluginSettings/Setting';

@@ -41,6 +41,7 @@
         uicontrol="expandable-select"
         name="add_capability"
         :full-width="true"
+        v-if="userRole !== 'noaccess'"
         :options="availableCapabilitiesGrouped"
       >
       </Field>
