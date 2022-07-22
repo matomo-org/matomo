@@ -140,6 +140,9 @@
     <p
       v-html="$sanitize(optOutExplanationIntro)">
     </p>
+    <p
+      v-html="$sanitize(optOutCustomOptOutLink)">
+    </p>
 
   </div>
 </template>
@@ -316,6 +319,14 @@ export default defineComponent({
       return translate(
         'CoreAdminHome_OptOutExplanationIntro',
         `<a href="${this.iframeUrl}" rel="noreferrer noopener" target="_blank">`,
+        '</a>',
+      );
+    },
+    optOutCustomOptOutLink() {
+      const link = 'https://developer.matomo.org/guides/tracking-javascript-guide#optional-creating-a-custom-opt-out-form';
+      return translate(
+        'CoreAdminHome_OptOutCustomOptOutLink',
+        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
         '</a>',
       );
     },

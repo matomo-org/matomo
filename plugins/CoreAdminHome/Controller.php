@@ -270,8 +270,7 @@ class Controller extends ControllerAdmin
      */
     public function optOutJS(): string
     {
-        // TODO
-        return $this->optOutManager->getOptOutViewIframe()->render();
+        return $this->optOutManager->getOptOutJS();
     }
 
     public function uploadCustomLogo()

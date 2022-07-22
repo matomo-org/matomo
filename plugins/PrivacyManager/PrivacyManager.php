@@ -241,6 +241,7 @@ class PrivacyManager extends Plugin
     {
         $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
+        $translationKeys[] = 'CoreAdminHome_OptOutCustomOptOutLink';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'General_Action';
         $translationKeys[] = 'General_ClickHere';
