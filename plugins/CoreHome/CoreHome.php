@@ -378,7 +378,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ShortcutWebsiteSelector';
         $translationKeys[] = 'CoreHome_ShortcutCalendar';
         $translationKeys[] = 'CoreHome_ShortcutSearch';
-        $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_ShortcutSearch';
+        $translationKeys[] = 'CoreHome_ShortcutRefresh';
         $translationKeys[] = 'CoreHome_StandardReport';
         $translationKeys[] = 'CoreHome_ReportWithMetadata';
         $translationKeys[] = 'CoreHome_ReportType';

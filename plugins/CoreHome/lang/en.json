@@ -63,6 +63,7 @@
         "ShortcutWebsiteSelector": "to open Website selector",
         "ShortcutCalendar": "to open calendar (d stands for Date)",
         "ShortcutSearch": "to open the search (f stands for Find)",
+        "ShortcutRefresh": "to refresh the content",
         "ShortcutHelp": "to show this help",
         "ShowJSCode": "Show the JavaScript code to insert",
         "SkipToContent": "Skip to content",
