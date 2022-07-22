@@ -136,7 +136,6 @@
         "SystemCheckCronArchiveProcessCLI": "Managing processes via CLI",
         "SystemCheckPhpSetting": "Set up your php.ini file like this to prevent critical errors: %s",
         "SystemCheckUpdateHttps": "Update over HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo cannot use HTTPS to update, it will fall back to the insecure HTTP update. Check that CURL or allow_url_fopen is supported and that the OpenSSL PHP-extension is installed: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/. If you like to disable HTTPS please set force_matomo_ssl_request to 0 under general config.",
         "PhpBinaryCheck" : "64-bit PHP Binary",
         "PhpBinaryCheckHelp": "32-bit <p>Upgrade to a 64-bit PHP binary by January 2026 to prevent bugs.</p>",
         "NotSupported": "not supported",
@@ -160,6 +159,5 @@
         "PerformanceSettingsDesc1": "Your Matomo is set up and ready to track and report on your website's traffic. Set up %1$sCLI archiving%2$s if you find it to be slow. This generates reports in the background, rather than on demand.",
         "PerformanceSettingsDesc2": "This requires adding a Matomo command to Cron which can't be done automatically by the installer. %1$sRead our FAQ to learn to set it up yourself.%2$s",
         "MatomoHttpRequestConfigInfo": "The force_matomo_http_request in the general config is turned on, we highly recommend switching it off for security reasons. For more details please read our %1$sFAQ%2$s",
-        "MatomoHttpsNotSupportWarning": "We will soon switch to HTTPS by default. Please make sure that HTTPS works on your environment or turn on `force_matomo_http_request`, otherwise it could cause Matomo updates to fail in the future. For more details please read our %1$sFAQ%2$s."
     }
 }
