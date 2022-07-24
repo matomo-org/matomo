@@ -358,7 +358,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getOptOutJSEmbedCode(string $backgroundColor, string $fontColor,
                                          string $fontSize, string $fontFamily, bool $showIntro,
-                                         string $piwikUrl, string $language, ): string
+                                         string $piwikUrl, string $language): string
     {
 
         return $this->optOutManager->getOptOutJSEmbedCode($piwikUrl, $language, $backgroundColor, $fontColor, $fontSize, $fontFamily, $showIntro);
