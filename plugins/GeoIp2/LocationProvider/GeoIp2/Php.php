@@ -291,12 +291,12 @@ class Php extends GeoIp2
         }
 
         foreach ($regionNames[$countryCode] as $isoCode => $regionData) {
-            if (mb_strtolower($regionData['name']) === mb_strtolower($regionName)) {
+            if ($this->fuzzyMatch($regionData['name'], $regionName)) {
                 return $isoCode;
             }
             if (isset($regionData['altNames']) && count($regionData['altNames'])) {
                 foreach ($regionData['altNames'] as $altName) {
-                    if (mb_strtolower($altName) === mb_strtolower($regionName)) {
+                    if ($this->fuzzyMatch($altName, $regionName)) {
                         return $isoCode;
                     }
                 }
@@ -304,6 +304,21 @@ class Php extends GeoIp2
         }
 
         return '';
+    }
+
+    private function fuzzyMatch(string $str1, string $str2): bool
+    {
+        if (strtolower($str1) === strtolower($str2)) {
+            return true;
+        }
+
+        // try converting umlauts to closted ascii char if iconv is available
+        if (function_exists('iconv')) {
+            $str1 = iconv('UTF-8', 'ASCII//TRANSLIT', $str1);
+            $str2 = iconv('UTF-8', 'ASCII//TRANSLIT', $str2);
+        }
+
+        return strtolower($str1) === strtolower($str2);
     }
 
     protected function determinSubdivision($subdivisions, $countryCode)
