@@ -86,8 +86,6 @@ class API extends \Piwik\Plugin\API
      */
     private $passwordVerifier;
 
-    private $twoFaPluginActivated;
-
     private $userRepository;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
@@ -1432,20 +1430,6 @@ class API extends \Piwik\Plugin\API
             }
         }
         return [$roles, $capabilities];
-    }
-
-    private function confirmCurrentUserPassword($passwordConfirmation)
-    {
-        if (empty($passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
-        }
-
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
-        $loginCurrentUser = Piwik::getCurrentUserLogin();
-        if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
-        }
     }
 
     private function sendEmailChangedEmail($user, $newEmail)

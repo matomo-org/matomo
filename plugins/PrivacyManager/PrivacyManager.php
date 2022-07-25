@@ -247,6 +247,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'General_ClickHere';
         $translationKeys[] = 'General_DailyReports';
         $translationKeys[] = 'General_Details';
+        $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_MonthlyReports';
         $translationKeys[] = 'General_RangeReports';
         $translationKeys[] = 'General_Recommended';
@@ -283,10 +284,14 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_AnonymizeUserId';
         $translationKeys[] = 'PrivacyManager_AnonymizeUserIdHelp';
         $translationKeys[] = 'PrivacyManager_BackgroundColor';
+        $translationKeys[] = 'PrivacyManager_DBPurged';
         $translationKeys[] = 'PrivacyManager_DeleteAggregateReportsDetailedInfo';
+        $translationKeys[] = 'PrivacyManager_DeleteBothConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteDataInterval';
+        $translationKeys[] = 'PrivacyManager_DeleteLogsConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteLogsOlderThan';
         $translationKeys[] = 'PrivacyManager_DeleteRawDataInfo';
+        $translationKeys[] = 'PrivacyManager_DeleteReportsConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteReportsInfo2';
         $translationKeys[] = 'PrivacyManager_DeleteReportsInfo3';
         $translationKeys[] = 'PrivacyManager_DeleteReportsOlderThan';
@@ -298,6 +303,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
         $translationKeys[] = 'PrivacyManager_ExportingNote';
         $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';
+        $translationKeys[] = 'PrivacyManager_FindMatchingDataSubjects';
         $translationKeys[] = 'PrivacyManager_FontColor';
         $translationKeys[] = 'PrivacyManager_FontFamily';
         $translationKeys[] = 'PrivacyManager_FontSize';
@@ -334,10 +340,13 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserId';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote2';
+        $translationKeys[] = 'PrivacyManager_PurgingData';
         $translationKeys[] = 'PrivacyManager_PurgeNow';
+        $translationKeys[] = 'PrivacyManager_PurgeNowConfirm';
         $translationKeys[] = 'PrivacyManager_ReportsDataSavedEstimate';
         $translationKeys[] = 'PrivacyManager_ResultIncludesAllVisits';
         $translationKeys[] = 'PrivacyManager_ResultTruncated';
+        $translationKeys[] = 'PrivacyManager_SaveSettingsBeforePurge';
         $translationKeys[] = 'PrivacyManager_SearchForDataSubject';
         $translationKeys[] = 'PrivacyManager_SelectWebsite';
         $translationKeys[] = 'PrivacyManager_ShowIntro';
@@ -355,8 +364,6 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyDeleted';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyExported';
         $translationKeys[] = 'UsersManager_AllWebsites';
-        $translationKeys[] = 'General_Id';
-        $translationKeys[] = 'PrivacyManager_FindMatchingDataSubjects';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
