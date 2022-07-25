@@ -52,15 +52,6 @@ class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
         $this->axes['xaxis']['onclick'] = & $onClick;
     }
 
-    public function setAxisYValues(&$values, $seriesLabels = null)
-    {
-        $this->series = $seriesLabels;
-        array_walk_recursive($values, function (&$v) {
-            $v = (float) Common::forceDotAsSeparatorForDecimalPoint($v);
-        });
-        $this->data = &$values;
-    }
-
     public function setAxisYUnits($yUnits)
     {
         $yUnits = array_values(array_map('strval', $yUnits));
