@@ -11,7 +11,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The user management UI no longer allows direct creation of a new user (with a password). Instead an invitation can be sent via email. Directly creating a new user is still possible using the API.
 
 ### New config.ini.php settings
-* A config setting `force_matomo_http_request`, if set to 1, forces matomo marketplace and matomo api requests to over HTTP instead of HTTPS
+* A general config setting `force_matomo_http_request` defaulting to 0. If the Matomo instance can't make requests to matomo.org via HTTPS this can be set to 1 to force matomo marketplace and matomo api requests to use HTTP instead of HTTPS.
 
 #### New PHP events
 
