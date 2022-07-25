@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,9 +7,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\PagePerformance\JqplotDataGenerator;
 
-use Piwik\Common;
 use Piwik\ProxyHttp;
 
 /**
@@ -18,9 +19,9 @@ class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
 {
     // the data kept here conforms to the jqplot data layout
     // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
-    protected $series = array();
-    protected $data = array();
-    protected $axes = array();
+    protected $series = [];
+    protected $data = [];
+    protected $axes = [];
 
     // temporary
     public $properties;
@@ -57,7 +58,7 @@ class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
         $yUnits = array_values(array_map('strval', $yUnits));
 
         // generate axis IDs for each unique y unit
-        $axesIds = array();
+        $axesIds = [];
         foreach ($yUnits as $idx => $unit) {
             if (!isset($axesIds[$unit])) {
                 // handle axes ids: first y[]axis, then y[2]axis, y[3]axis...
@@ -93,13 +94,13 @@ class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
         ProxyHttp::overrideCacheControlHeaders();
 
         // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
-        $data = array(
-            'params' => array(
+        $data = [
+            'params' => [
                 'axes'   => &$this->axes,
                 'series' => &$this->series
-            ),
+            ],
             'data'   => &$this->data
-        );
+        ];
 
         return $data;
     }
@@ -113,8 +114,8 @@ class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
         foreach ($seriesToXAxis as $seriesIndex => $xAxisIndex) {
             $axisName = $this->getXAxis($xAxisIndex);
 
-            // don't actually set xaxis otherwise jqplot will show too many axes. however, we need the xaxis labels, so we add them
-            // to the jqplot config
+            // don't actually set xaxis otherwise jqplot will show too many axes. however, we need the xaxis labels,
+            // so we add them to the jqplot config
             $this->series[$seriesIndex]['_xaxis'] = $axisName;
         }
     }
