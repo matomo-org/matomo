@@ -76,6 +76,7 @@
         "ExceptionLoginExists": "El nom d'usuari '%s' ja existeix.",
         "ExceptionLoginExistsAsEmail": "El nom d'usuari '%s' ja s'utilitza com a correu electrònic.",
         "ExceptionMultipleRoleSet": "Només es pot establir un rol, però se n'han establert diversos. Utilitzeu només un de: %s",
+        "ExceptionNoCapabilitiesWithoutRole": "No es pot concedir cap permís a l'usuari %1$s per a idSite %2$s. L'usuari necessita almenys accés a la visualització.",
         "ExceptionNoRoleSet": "No s'ha definit cap rol, però cal definir un d'aquests: %s",
         "ExceptionNoValueForUsernameOrEmail": "Introduïu un nom d'usuari o una adreça de correu electrònic.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth espera una contrasenya amb hash MD5 (cadena de 32 caràcters). Si us plau crideu la funció md5() de la contrasenya abans d'invocar aquest mètode.",

@@ -173,6 +173,7 @@
         "Edit": "Modifier",
         "EncryptedSmtpTransport": "Indiquez le protocole de chiffrement requis par votre serveur SMTP.",
         "Error": "Erreur",
+        "ErrorRateLimit": "Oups... trop de requêtes. Cela se produit lorsque vous dépassez le nombre de requêtes autorisées par l'API pour une certaine période de temps.",
         "ErrorRequest": "Oups… Il y a eu un problème pendant le traitement de la requête. Peut-être que le serveur a eu un souci temporaire, ou peut-être que vous avez demandé un rapport avec trop de données. Veuillez réessayer. Si cette erreur se répète veuillez %1$scontacter votre administrateur Matomo%2$s pour obtenir de l'aide.",
         "ErrorRequestFaqLink": "Voir les étapes dans la FAQ pour résoudre ce problème.",
         "ErrorTryAgain": "Erreur. Veuillez réessayer plus tard.",
