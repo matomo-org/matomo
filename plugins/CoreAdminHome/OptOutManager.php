@@ -266,16 +266,12 @@ HTML;
     public function getOptOutJS() : string
     {
 
-        /**
-
-         */
-
         $language = Common::getRequestVar('language', 'auto', 'string');
-        $showIntro = Common::getRequestVar('showIntro', '1', 'int');
+        $showIntro = Common::getRequestVar('showIntro', 1, 'int');
         $divId = Common::getRequestVar('divId', 'matomo-opt-out', 'string');
-        $useCookiesIfNoTracker = Common::getRequestVar('useCookiesIfNoTracker', '1', 'int');
-        $useCookiesTimeout = Common::getRequestVar('useCookiesTimeout', '10', 'int');
-        $useSecureCookies = Common::getRequestVar('useSecureCookies', '1', 'int');
+        $useCookiesIfNoTracker = Common::getRequestVar('useCookiesIfNoTracker', 1, 'int');
+        $useCookiesTimeout = Common::getRequestVar('useCookiesTimeout', 10, 'int');
+        $useSecureCookies = Common::getRequestVar('useSecureCookies', 1, 'int');
 
         // If the language parameter is 'auto' then use the browser language
         if ($language === 'auto') {
@@ -562,7 +558,7 @@ CODE;
         $this->view->trackVisits = $trackVisits;
         $this->view->nonce = $nonce;
         $this->view->language = $lang;
-        $this->view->showIntro = Common::getRequestVar('showIntro', '');
+        $this->view->showIntro = Common::getRequestVar('showIntro', 1, 'int');
         $this->view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $this->view->reloadUrl = $reloadUrl;
         $this->view->javascripts = $this->getJavaScripts();
