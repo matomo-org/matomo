@@ -192,7 +192,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/refresh-button.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
@@ -380,6 +379,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ShortcutCalendar';
         $translationKeys[] = 'CoreHome_ShortcutSearch';
         $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_ShortcutRefresh';
         $translationKeys[] = 'CoreHome_StandardReport';
         $translationKeys[] = 'CoreHome_ReportWithMetadata';
         $translationKeys[] = 'CoreHome_ReportType';
@@ -411,6 +411,5 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_StartDate';
         $translationKeys[] = 'CoreHome_EndDate';
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
-        $translationKeys[] = 'CoreHome_ShortcutRefresh';
     }
 }
