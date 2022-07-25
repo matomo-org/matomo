@@ -20,6 +20,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
+use Piwik\SettingsServer;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
@@ -375,7 +376,7 @@ class SitesManager extends \Piwik\Plugin
             self::SITE_TYPE_SHOPIFY => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store',
             self::SITE_TYPE_SQUARESPACE => 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website',
             self::SITE_TYPE_WIX => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix',
-            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/#wpmatomo',
+            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/',
             self::SITE_TYPE_DRUPAL => 'https://matomo.org/faq/new-to-piwik/how-to-integrate-with-drupal/',
             self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
         ];
@@ -389,11 +390,11 @@ class SitesManager extends \Piwik\Plugin
             return '';
         }
 
-        if ($siteType === self::SITE_TYPE_WORDPRESS) {
+        if ($siteType === self::SITE_TYPE_WORDPRESS && !SettingsServer::isMatomoForWordPress()) {
             return sprintf(
                 '%s<br /><br />%s<br /><br />',
                 Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress', [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '">',
+                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '#wpmatomo">',
                     '</a>',
                     '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">',
                     '</a>',
