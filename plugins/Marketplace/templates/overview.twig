@@ -19,10 +19,10 @@
                     {% endif %}
                 {% elseif showThemes %}
                     {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
-                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('CorePluginsAdmin_Themes'|translate), '<a href="#" class="uploadPlugin">', ('CorePluginsAdmin_Theme'|translate), '</a>')|raw }}
+                    {{ 'Marketplace_InstallingNewThemesViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">', '</a>')|raw }}
                 {% else %}
                     {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
-                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('General_Plugins'|translate), '<a href="#" class="uploadPlugin">', ('General_Plugin'|translate), '</a>')|raw }}
+                    {{ 'Marketplace_InstallingNewPluginsViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">', '</a>')|raw }}
                 {% endif %}
                 {% if isSuperUser and inReportingMenu %}
                     {{ 'Marketplace_NoticeRemoveMarketplaceFromReportingMenu'|translate('<a href="#" piwik-plugin-name="WhiteLabel">', '</a>')|raw }}
