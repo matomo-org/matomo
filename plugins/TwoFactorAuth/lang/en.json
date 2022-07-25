@@ -2,7 +2,7 @@
     "TwoFactorAuth": {
         "TwoFactorAuthentication": "Two-factor authentication",
         "TwoFAShort": "2FA",
-        "TwoFactorAuthenticationIntro": "%1$sTwo-factor authentication%2$s increase your account security by asking for an additional authentication token generated on for example a mobile device when logging in.",
+        "TwoFactorAuthenticationIntro": "%1$sTwo-factor authentication%2$s increases account security by asking you for something generated on for example a mobile device (in addition to your password) to log in.",
         "TwoFactorAuthenticationIsEnabled": "Two-factor authentication on.",
         "TwoFactorAuthenticationIsDisabled": "Two-factor authentication off.",
         "TwoFactorAuthenticationRequired": "Two-factor authentication is required for everyone, you cannot turn it off.",
@@ -21,15 +21,15 @@
         "AskSuperUserResetAuthenticationCode": "Ask a superuser to reset your authentication code",
         "SetupIntroFollowSteps": "Please follow these steps to set up two-factor authentication:",
         "SetupFinishedTitle": "Your account is now more secure.",
-        "SetupFinishedSubtitle": "You have now set up two-factor authentication. From now on you nee to enter an authentication code to log in. Make sure you have your mobile device or your backup codes with you.",
-        "WarningChangingConfiguredDevice": "You are about to change the configured two-factor authentication device. This will invalidate any previously configured devices.",
+        "SetupFinishedSubtitle": "You have now set up two-factor authentication. From now on you need to enter an authentication code to log in. Make sure you have your mobile device or your backup codes with you.",
+        "WarningChangingConfiguredDevice": "You are about to change the configured two-factor authentication device, invalidating the one you had before.",
         "ShowRecoveryCodes": "Show recovery codes",
         "ConfirmSetup": "Confirm setup",
-        "NotPossibleToLogIn": "Cannot log in",
+        "NotPossibleToLogIn": "Cannot log in to Matomo Analytics",
         "LostAuthenticationDevice": "Hi,%1$sI have two-factor authentication and lost my authentication device. Could you please reset the two-factor authentication for my username \"%5$s\"? Instructions here: %6$s.%2$sThe Matomo URL is %3$s.%4$sThanks",
         "WrongAuthCodeTryAgain": "Wrong authentication code. Please try again.",
-        "DisableTwoFA": "Turn on two-factor authentication",
-        "EnableTwoFA": "Turn off two-factor authentication",
+        "DisableTwoFA": "Turn off two-factor authentication",
+        "EnableTwoFA": "Turn on two-factor authentication",
         "ConfirmDisableTwoFA": "Turn off two-factor authentication for your account? This will lower your account security.",
         "VerifyAuthCodeIntro": "Please enter the six-digit code from your OTP app below to confirm you have set up on your device.",
         "VerifyAuthCodeHelp": "Please enter the six-digit code generated on your mobile device after scanning the barcode.",
@@ -46,6 +46,6 @@
         "GenerateNewRecoveryCodes": "Generate new recovery codes",
         "GenerateNewRecoveryCodesInfo": "When you generate new recovery codes, your old ones won't work anymore. Make sure you download or print out your new codes.",
         "RequireTwoFAForAll": "Require two-factor authentication for everyone",
-        "RequireTwoFAForAllInformation": "Requires two-factor authentication for all users. Enforcing 2FA means all users need access to a device where they can install an OTP app. Having set up two-factor authentication for yourself first is required."
+        "RequireTwoFAForAllInformation": "Requires other users also log in with 2FA using a device with an OTP app on it."
     }
 }
