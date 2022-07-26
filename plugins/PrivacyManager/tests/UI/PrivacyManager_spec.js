@@ -55,6 +55,13 @@ describe("PrivacyManager", function () {
         await page.waitForNetworkIdle();
     }
 
+    async function typeUserPassword()
+    {
+        var elem = await page.jQuery('.modal.open #currentUserPassword');
+        await elem.type('superUserPass');
+        await page.waitForTimeout(100);
+    }
+
     async function findDataSubjects()
     {
         await page.click('.findDataSubjects .btn');
@@ -184,6 +191,7 @@ describe("PrivacyManager", function () {
 
     it('should be able to confirm anonymization of past data', async function() {
         await anonymizePastData();
+        await typeUserPassword();
         await selectModalButton('Yes');
         await setAnonymizeStartEndDate();
 
@@ -203,6 +211,7 @@ describe("PrivacyManager", function () {
 
     it('should confirm anonymize location and action column', async function() {
         await anonymizePastData();
+        await typeUserPassword();
         await selectModalButton('Yes');
         await page.waitForTimeout(1000);
         await setAnonymizeStartEndDate();
@@ -230,6 +239,7 @@ describe("PrivacyManager", function () {
 
     it('should anonymize only one site and different date confirmed', async function() {
         await anonymizePastData();
+        await typeUserPassword();
         await selectModalButton('Yes');
         await page.waitForTimeout(1000);
         await setAnonymizeStartEndDate();

@@ -173,6 +173,7 @@
         "Edit": "Edita",
         "EncryptedSmtpTransport": "Entreu el xifrat de la capa de transport requerit per el vostre servidor SMTP.",
         "Error": "Error",
+        "ErrorRateLimit": "Vaja... massa sol·licituds. Això passa quan supereu el nombre de sol·licituds permeses a l'API durant un període de temps determinat.",
         "ErrorRequest": "Vaja... hi ha hagut un problema durant la sol·licitud. Potser el servidor ha tingut un problema temporal, o potser heu sol·licitat un informe amb massa dades. Siusplau torna-ho a provar. Si aquest error es produeix repetidament, %1$scontacteu amb el vostre administrador de Matomo%2$s per obtenir ajuda.",
         "ErrorRequestFaqLink": "Consulteu els passos per resoldre aquest problema a les FAQ.",
         "ErrorTryAgain": "Error. Siusplau, intenta-ho més tard.",
