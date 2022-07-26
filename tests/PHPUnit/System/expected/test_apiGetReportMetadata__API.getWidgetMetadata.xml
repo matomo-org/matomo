@@ -272,7 +272,7 @@
 			<id>UserCountryMap_RealTimeMap</id>
 			<name>Real-time Map</name>
 			<order>9</order>
-			<help>&lt;p&gt;The Real-time Map shows the location of visitors on your site within the last 30 minutes. Large orange bubbles represent more recent visits, while smaller grey bubbles represent older visits. This data refreshes every five seconds, and new visitors appear with a flashing effect.&lt;/p&gt;</help>
+			<help>&lt;p&gt;Shows the location of website visitors the last 30 minutes, and flashes for new ones. Recent visits are shown as large orange bubbles, and older ones as smaller gray ones. It refreshes every five seconds.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserCountryMap</module>
 		<action>realtimeMap</action>
@@ -418,7 +418,7 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Browser language</name>
+		<name>Web-browser language</name>
 		<category>
 			<id>General_Visitors</id>
 			<name>Visitors</name>
@@ -862,7 +862,7 @@
 			<id>UserId_UserReportTitle</id>
 			<name>User IDs</name>
 			<order>40</order>
-			<help>&lt;p&gt;The User IDs report shows visits associated with all of your registered and logged in users. You can use this section to understand website usage by specific users and identify who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserId</module>
 		<action>getUsers</action>

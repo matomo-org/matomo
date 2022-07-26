@@ -57,8 +57,7 @@
         },
 
         _initStandaloneMap: function () {
-            var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-            $rootScope.$emit('hidePeriodSelector');
+            window.CoreHome.Matomo.postEvent('hidePeriodSelector');
 
             $('.realTimeMap_overlay').css('top', '0px');
             $('.realTimeMap_datetime').css('top', '20px');

@@ -3,7 +3,7 @@
         "BrowserLanguage": "Langage du navigateur",
         "LanguageCode": "Code langue",
         "PluginDescription": "Affiche la langue configurée au sein du navigateur de vos visiteurs.",
-        "getLanguageCodeDocumentation": "Ce rapport indique le code de langue exact sur lequel le navigateur du visiteur est défini. (par exemple \"Allemand - Autriche (de-at)\")",
-        "getLanguageDocumentation": "Ce rapport indique la langue utilisée par les navigateurs du visiteur. (par exemple, \"Anglais\")"
+        "getLanguageCodeDocumentation": "Indique le code de langue exact sur lequel le navigateur du visiteur est défini. (par exemple \"Allemand - Autriche (de-at)\")",
+        "getLanguageDocumentation": "Indique la langue du navigateur des visiteurs. (par exemple, \"Anglais\")"
     }
 }

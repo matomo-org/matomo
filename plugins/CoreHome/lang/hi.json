@@ -1,10 +1,10 @@
 {
     "CoreHome": {
-        "CategoryNoData": "इस श्रेणी में कोई डेटा नहीं. \"सभी लोगों को शामिल\" करने का प्रयास करें.",
+        "CategoryNoData": "इस श्रेणी में कोई डेटा नहीं । \"सभी लोगों को शामिल\" करने का प्रयास करें।",
         "ChangePeriod": "अवधि बदलें",
         "ChangeVisualization": "विज़ुअलाइज़ेशन बदलें",
         "CheckForUpdates": "अद्यतन देखें",
-        "CheckPiwikOut": "Matomo जाँच करें!",
+        "CheckPiwikOut": "Matomo की जाँच करें!",
         "ChooseX": "%1$s चुनें",
         "ClickToEditX": "%s को संपादित करने के लिए क्लिक करें",
         "ClickToSeeFullInformation": "पूरी जानकारी देखने के लिए क्लिक करें",

@@ -71,6 +71,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { FocusAnywhereButHere, FocusIf } from 'CoreHome';
+import AbortableModifiers from './AbortableModifiers';
 
 interface SelectValueInfo {
   key: unknown;
@@ -133,6 +134,7 @@ export function getAvailableOptions(
 export default defineComponent({
   props: {
     modelValue: [Number, String],
+    modelModifiers: Object,
     availableOptions: Array,
     title: String,
   },
@@ -182,8 +184,22 @@ export default defineComponent({
       }
     },
     onValueClicked(selectedValue: SelectValueInfo) {
-      this.$emit('update:modelValue', selectedValue.key);
       this.showSelect = false;
+
+      if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+        this.$emit('update:modelValue', selectedValue.key);
+        return;
+      }
+
+      const emitEventData = {
+        value: selectedValue.key,
+        abort() {
+          // empty (not necessary to reset anything since the DOM will not change for this UI
+          // element until modelValue does)
+        },
+      };
+
+      this.$emit('update:modelValue', emitEventData);
     },
   },
 });

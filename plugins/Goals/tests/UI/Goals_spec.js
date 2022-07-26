@@ -93,4 +93,22 @@ describe("Goals", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('action_goals_visualization_page_urls_subtable');
     });
 
+    it("should load row evolution", async function() {
+        const row = await page.waitForSelector('.dataTable tbody tr:first-child');
+        await row.hover();
+
+        const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
+        await icon.click();
+
+        await page.waitForSelector('.ui-dialog');
+        await page.waitForNetworkIdle();
+
+        const series = await page.waitForSelector('[data-name="series3"]');
+        await series.click();
+
+        await page.waitForTimeout(250); // rendering
+
+        const dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('action_goals_row_evolution');
+    });
 });
