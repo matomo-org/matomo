@@ -39,6 +39,8 @@
         "ScopeDescriptionActionMoreInfo": "As extrações podem ser definidas para que o valor da dimensão personalizada seja extraído do URL da página, Título da página ou um parâmetro de consulta do URL da página.",
         "ScopeDescriptionVisit": "As Dimensões Personalizadas no escopo 'Visita' podem ser enviadas junto com qualquer solicitação de rastreamento e são armazenadas na visita.",
         "ScopeDescriptionVisitMoreInfo": "Se você definir valores diferentes para uma determinada dimensão durante a vida útil de uma visita, o último valor definido será usado.",
+        "ScopeTitleAction": "Dimensões da ação",
+        "ScopeTitleVisit": "Dimensões da visita",
         "UrlQueryStringParameter": "parâmetro de string de consulta de URL",
         "XofYLeft": "%1$s de %2$s dimensões restantes"
     }

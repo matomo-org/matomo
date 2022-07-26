@@ -236,7 +236,7 @@ export default defineComponent({
         this.showSubcategoryHelpOnLoad = null;
       }
 
-      window.$('#loadingError').hide();
+      window.$('#loadingError,#loadingRateLimitError').hide();
 
       this.initialLoad = false;
     });
