@@ -92,34 +92,12 @@
 
       <SaveButton @confirm="save()" :saving="loading"/>
 
-      <div class="modal" id="confirmChangesWithPassword" ref="confirmChangesWithPasswordModal">
-        <div class="modal-content">
-          <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
-
-          <div>
-            <Field
-              uicontrol="password"
-              name="currentPassword"
-              :autocomplete="false"
-              v-model="passwordCurrent"
-              :full-width="true"
-              :title="translate('UsersManager_YourCurrentPassword')"
-            />
-          </div>
-        </div>
-        <div class="modal-footer">
-          <a href="" class="modal-action btn" @click.prevent="save()" style="margin-right:3.5px">
-            {{ translate('General_Ok') }}
-          </a>
-          <a
-            href=""
-            class="modal-action modal-close modal-no"
-            @click.prevent="passwordCurrent = ''"
-          >
-            {{ translate('General_Cancel') }}
-          </a>
-        </div>
-      </div>
+      <PasswordConfirmation
+        v-model="showPasswordConfirmation"
+        @confirmed="doSave"
+      >
+        <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
+      </PasswordConfirmation>
     </form>
   </ContentBlock>
 </template>
@@ -139,6 +117,7 @@ import {
   SaveButton,
   Field,
   Form,
+  PasswordConfirmation,
 } from 'CorePluginsAdmin';
 
 interface PersonalSettingsState {
@@ -151,10 +130,8 @@ interface PersonalSettingsState {
   site: SiteRef;
   theDefaultDate: string;
   loading: boolean;
-  passwordCurrent: string;
+  showPasswordConfirmation: boolean;
 }
-
-const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -220,6 +197,7 @@ export default defineComponent({
     SaveButton,
     Field,
     SiteSelector,
+    PasswordConfirmation,
   },
   directives: {
     Form,
@@ -238,28 +216,19 @@ export default defineComponent({
       },
       theDefaultDate: this.defaultDate,
       loading: false,
-      passwordCurrent: '',
+      showPasswordConfirmation: false,
     };
   },
   methods: {
     save() {
-      if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        $(this.$refs.confirmChangesWithPasswordModal! as HTMLElement).modal({
-          dismissible: false,
-          ready: () => {
-            $('.modal.open #currentPassword').focus();
-          },
-        }).modal('open');
+      if (this.doesRequirePasswordConfirmation) {
+        this.showPasswordConfirmation = true;
         return;
       }
 
-      const modal = M.Modal.getInstance(this.$refs.confirmChangesWithPasswordModal! as HTMLElement);
-      if (modal) {
-        modal.close();
-      }
-
+      this.doSave();
+    },
+    doSave(password?: string) {
       const postParams: QueryParameters = {
         email: this.email,
         defaultReport: this.theDefaultReport === 'MultiSites'
@@ -270,8 +239,8 @@ export default defineComponent({
         timeformat: this.timeformat,
       };
 
-      if (this.passwordCurrent) {
-        postParams.passwordConfirmation = this.passwordCurrent;
+      if (password) {
+        postParams.passwordConfirmation = password;
       }
 
       this.loading = true;
@@ -296,11 +265,9 @@ export default defineComponent({
         NotificationsStore.scrollToNotification(id);
 
         this.doesRequirePasswordConfirmation = false;
-        this.passwordCurrent = '';
         this.loading = false;
       }).catch(() => {
         this.loading = false;
-        this.passwordCurrent = '';
       });
     },
   },

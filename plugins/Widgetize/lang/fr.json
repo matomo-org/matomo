@@ -1,9 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "&rsaquo; Lien direct",
+        "DisplayDashboardInIframe": "Vous pouvez aussi afficher le tableau de bord Matomo entier dans votre application ou site Web via une IFRAME (%1$svoir l'exemple%2$s). Le paramètre \"date\" peut être configuré comme une date calendaire particulière, \"aujourd'hui\", ou \"hier\". Le paramètre \"période\" peut être configuré comme \"jour\", \"semaine\", \"mois\" ou\n\"année\". Le paramètre \"langue\" peut être défini par le code langue d'une traduction, comme language=fr. Par exemple, pour idSite=1 et date=\"hier\", vous pouvez écrire :",
+        "DisplayDashboardInIframeAllSites": "Vous pouvez aussi widgetizer tous les tableaux de bord du site web dans une IFRAME (%1$svoir l'exemple%2$s)",
+        "EmbedIframe": "&rsaquo; Iframe intégrée",
+        "Intro": "Avec Matomo, vous pouvez %1$sexporter vos rapports statistiques%2$s sur votre blog, site web, tableau de bord intranet... en un clic.",
         "OpenInNewWindow": "Ouvrir dans une nouvelle fenêtre",
         "PluginDescription": "Affichez n'importe quel rapport Matomo sur votre site web ou votre application avec une simple balise HTML \"incorporé\".",
+        "Reports": "Widgetizer les rapports",
+        "SelectAReport": "Sélectionnez un rapport puis copiez collez le code suivant dans le widget de votre page :",
         "TooHighAccessLevel": "Cet utilisateur a un accès de super-utilisateur. L'intégration de widgets avec une authentification par jeton de super-utilisateur n'est pas autorisée. %1$sVérifiez la FAQ pour plus d'informations.%2$s",
         "TopLinkTooltip": "Exporter les rapports Matomo en tant que gadgets et incorporer le tableau de bord dans votre application en tant qu'iframe.",
-        "ViewAccessRequired": "Cet utilisateur a au moins un accès en écriture. Seuls les jetons des utilisateurs qui n'ont qu'un accès en vue peuvent être utilisés. Vérifiez%1$s pour plus d'informations."
+        "ViewAccessRequired": "Cet utilisateur a au moins un accès en écriture. Seuls les jetons des utilisateurs qui n'ont qu'un accès en vue peuvent être utilisés. Vérifiez%1$s pour plus d'informations.",
+        "ViewableAnonymously": "Si vous voulez que vos widgets soit visibles par tout le monde, vous devez d'abord configurer les permissions de 'vues' pour les utilisateurs anonymes dans la %1$ssection de management des utilisateurs%2$s. <br>Autrement, si vous publiez des widgets sur une page privée ou protégée par un mot de passe, vous n'avez pas besoin d'autoriser 'anonyme' à voir vos rapports. Dans ce cas, vous pouvez ajouter le paramètre secret <code>token_auth</code> dans l'URL du widget. Vous pouvez gérer vos jetons d'authentifications sur votre %3$spage de Sécurité%4$s."
     }
 }

@@ -1,7 +1,8 @@
 {
     "UserId": {
+        "PluginDescription": "顯示使用者報表",
         "UserId": "使用者 ID",
-        "UserReportTitle": "使用者 ID",
-        "PluginDescription": "顯示使用者報表"
+        "UserReportDocumentation": "此報表顯示每個獨立使用者 ID 的訪問與其他一般計量。",
+        "UserReportTitle": "使用者 ID"
     }
 }

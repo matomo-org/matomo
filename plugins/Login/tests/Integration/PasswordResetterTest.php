@@ -11,10 +11,12 @@ namespace Piwik\Plugins\Login\tests\Integration;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Access;
+use Piwik\API\Request;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Tests\Framework\Fixture;
@@ -157,6 +159,27 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
 
         $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $oldCapturedToken);
+    }
+
+    public function testPasswordResetShouldNotWorkForPendingUser()
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Invalid username or e-mail address.');
+
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => 'pendingUser',
+                'email' => 'pending@user.io',
+                'idSite' => 1,
+                'expiryInDays' => 7
+            ]
+        );
+
+        $model = new Model();
+        self::assertTrue($model->isPendingUser('pendingUser'));
+
+        $this->passwordResetter->initiatePasswordResetProcess('pendingUser', self::NEWPASSWORD);
     }
 
     /**

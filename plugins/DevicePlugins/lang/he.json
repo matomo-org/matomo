@@ -1,1 +1,5 @@
-{}
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s ללא תוספים פעילים"
+    }
+}

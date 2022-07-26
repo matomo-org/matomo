@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
@@ -177,7 +178,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+        [$segment, $storedSegment, $isSegmentToPreprocess] = $segmentInfo;
 
         throw new UnprocessedSegmentException($segment, $isSegmentToPreprocess, $storedSegment);
     }
@@ -194,7 +195,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        list($segment, $storedSegment, $isSegmentToPreprocess, $canBeArchived) = $segmentInfo;
+        [$segment, $storedSegment, $isSegmentToPreprocess, $canBeArchived] = $segmentInfo;
 
         if (!$isSegmentToPreprocess) {
             return; // do not display the notification for custom segments
@@ -389,30 +390,33 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function transferAllUserSegmentsToSuperUser($userLogin)
     {
-        $model = new Model();
-        $updatedAt = Date::factory('now')->toString('Y-m-d H:i:s');
+        // We need to do that as super user, as the event triggering this method might be initiated without a session
+        Access::doAsSuperUser(function () use ($userLogin) {
+            $model = new Model();
+            $updatedAt = Date::factory('now')->toString('Y-m-d H:i:s');
 
-        $superUsers = UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess();
-        $superUserLogin = false;
+            $superUsers = UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess();
+            $superUserLogin = false;
 
-        foreach ($superUsers as $superUser) {
-            if ($superUser['login'] !== $userLogin) {
-                $superUserLogin = $superUser['login'];
-                break;
+            foreach ($superUsers as $superUser) {
+                if ($superUser['login'] !== $userLogin) {
+                    $superUserLogin = $superUser['login'];
+                    break;
+                }
             }
-        }
 
-        if (!$superUserLogin) {
-            return;
-        }
-
-        foreach ($model->getAllSegments($userLogin) as $segment) {
-            if ($segment['login'] === $userLogin) {
-                $model->updateSegment($segment['idsegment'], array(
-                    'login' => $superUserLogin,
-                    'ts_last_edit' => $updatedAt
-                ));
+            if (!$superUserLogin) {
+                return;
             }
-        }
+
+            foreach ($model->getAllSegments($userLogin) as $segment) {
+                if ($segment['login'] === $userLogin) {
+                    $model->updateSegment($segment['idsegment'], array(
+                        'login' => $superUserLogin,
+                        'ts_last_edit' => $updatedAt
+                    ));
+                }
+            }
+        });
     }
 }

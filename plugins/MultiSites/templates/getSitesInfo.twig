@@ -16,13 +16,14 @@
             <div id="main" class="card">
                 <div class="card-content">
         {% endif %}
-                <div piwik-multisites-dashboard
-                     display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
-                     page-size="{{ limit }}"
-                     show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
-                     date-sparkline="{{ dateSparkline }}"
-                     auto-refresh-today-report="{{ autoRefreshTodayReport }}">
-                </div>
+                <div
+                    vue-entry="MultiSites.Dashboard"
+                    display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
+                    page-size="{{ limit|json_encode }}"
+                    show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
+                    date-sparkline="{{ dateSparkline|json_encode }}"
+                    auto-refresh-today-report="{{ autoRefreshTodayReport|json_encode }}"
+                ></div>
         {% if isWidgetized %}
             </div>
         {% else %}
