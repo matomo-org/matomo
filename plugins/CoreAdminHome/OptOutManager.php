@@ -225,14 +225,14 @@ class OptOutManager
 
         // Self contained code translations are static and always use the language of the user who generated the embed code
         $settings = array_merge($settings, $this->getTranslations());
-        $settingsString = 'let settings = '.json_encode($settings).';';
+        $settingsString = 'var settings = '.json_encode($settings).';';
 
         $styleSheet = $this->optOutStyling($fontSize, $fontColor, $fontFamily, $backgroundColor, true);
 
 $code = <<<HTML
 <div id="matomo-opt-out" style=""></div>
 <script>    
-    let settings = {};         
+    var settings = {};         
     document.addEventListener('DOMContentLoaded', function() {                             
         window.MatomoConsent.init(settings.useSecureCookies, settings.cookiePath, settings.cookieDomain, settings.cookieSameSite);                
         showContent(window.MatomoConsent.hasConsent());        
@@ -243,7 +243,7 @@ $code = <<<HTML
 HTML;
         return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
                str_replace('style=""', 'style="'.$styleSheet.'"',
-               str_replace("let settings = {};", $settingsString, $code)));
+               str_replace("var settings = {};", $settingsString, $code)));
     }
 
     /**
@@ -294,18 +294,18 @@ HTML;
         $translations = $this->getTranslations($language);
         $translations['OptOutErrorNoTracker'] = Piwik::translate('CoreAdminHome_OptOutErrorNoTracker', [], $language);
         $settings = array_merge($settings, $translations);
-        $settingsString = 'let settings = '.json_encode($settings).';';
+        $settingsString = 'var settings = '.json_encode($settings).';';
 
         $styleSheet = $this->optOutStyling(null, null, null, null, true);
 
         /** @lang JavaScript */
         $code = <<<JS
 
-        let settings = {};          
-        let checkForTrackerTried = 0;
-        let checkForTrackerTries = (settings.useCookiesTimeout * 4);
-        let checkForTrackerInterval = 250;
-        let optOutDiv = null;
+        var settings = {};          
+        var checkForTrackerTried = 0;
+        var checkForTrackerTries = (settings.useCookiesTimeout * 4);
+        var checkForTrackerInterval = 250;
+        var optOutDiv = null;
         
         function optOutInit() {
             optOutDiv = document.getElementById(settings.divId);
@@ -360,7 +360,7 @@ JS;
 
         return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
             str_replace('stylecss', $styleSheet,
-            str_replace("let settings = {};", $settingsString, $code)));
+            str_replace("var settings = {};", $settingsString, $code)));
 
     }
 
@@ -372,15 +372,15 @@ JS;
     private function getOptOutCommonJS() : string
     {
         /** @lang JavaScript */
-        return <<<CODE
+        return <<<JS
 
         function showContent(consent, errorMessage = null, useTracker = false) {
-            let div = document.getElementById(settings.divId);
+            var div = document.getElementById(settings.divId);
             if (!div) {
                 console.log('Unable to find opt-out content div :'+settings.divId);
                 return;
             }
-            let errorBlock = '<p style="color: red; font-weight: bold;">';
+            var errorBlock = '<p style="color: red; font-weight: bold;">';
             if (!navigator || !navigator.cookieEnabled) {
                 div.innerHTML = errorBlock+settings.OptOutErrorNoCookies+'</p>';
                 return;
@@ -393,7 +393,7 @@ JS;
                 div.innerHTML = errorBlock+errorMessage+'</p>';
                 return;
             }
-            let content = '';        
+            var content = '';        
             if (consent) {
                 if (settings.showIntro) {
                     content += '<p>'+settings.YouMayOptOut2+' '+settings.YouMayOptOut3+'</p>';                       
@@ -432,7 +432,7 @@ JS;
                 }
             },               
             hasConsent: function() {
-                let value = this.getCookie(this.CONSENT_COOKIE_NAME);
+                var value = this.getCookie(this.CONSENT_COOKIE_NAME);
                 if (this.getCookie(this.CONSENT_REMOVED_COOKIE_NAME) && value) {                
                     this.setCookie(this.CONSENT_COOKIE_NAME, '', -129600000);              
                     return false;
@@ -448,11 +448,11 @@ JS;
                 this.setCookie(this.CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 946080000000);                
             },                   
             getCookie: function(cookieName) {            
-                let cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'), cookieMatch = cookiePattern.exec(document.cookie);
+                var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'), cookieMatch = cookiePattern.exec(document.cookie);
                 return cookieMatch ? window.decodeURIComponent(cookieMatch[2]) : 0;
             },        
             setCookie: function(cookieName, value, msToExpire) {                       
-                let expiryDate = new Date();
+                var expiryDate = new Date();
                 expiryDate.setTime((new Date().getTime()) + msToExpire);            
                 document.cookie = cookieName + '=' + window.encodeURIComponent(value) +
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
@@ -465,7 +465,7 @@ JS;
                 }
             }
         };           
-CODE;
+JS;
 
     }
 
