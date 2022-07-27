@@ -397,6 +397,8 @@ class Common
 
         $value = self::sanitizeNullBytes($value);
 
+        $value = self::sanitizeTabs($value);
+
         // escape
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
@@ -465,6 +467,17 @@ class Common
     public static function sanitizeNullBytes($value)
     {
         return str_replace(array("\0"), '', $value);
+    }
+
+    /**
+     * Replace \t tab characters with spaces
+     *
+     * @param string $value
+     * @return string Tabs removed
+     */
+    public static function sanitizeTabs($value)
+    {
+        return str_replace(["\t"], ' ', $value);
     }
 
     /**
