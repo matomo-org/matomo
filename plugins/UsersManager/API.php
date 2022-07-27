@@ -752,7 +752,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @throws Exception
      */
-    public function inviteUser($userLogin, $email, $idSite = null, $expiryInDays = null)
+    public function inviteUser($userLogin, $email, $initialIdSite = null, $expiryInDays = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
@@ -761,9 +761,9 @@ class API extends \Piwik\Plugin\API
             $expiryInDays = Config\GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');
         }
 
-        $idSite = $idSite === null ? null : intval($idSite);
+        $initialIdSite = $initialIdSite === null ? null : intval($initialIdSite);
 
-        $this->userRepository->inviteUser((string) $userLogin, (string) $email, $idSite, (int) $expiryInDays);
+        $this->userRepository->inviteUser((string) $userLogin, (string) $email, $initialIdSite, (int) $expiryInDays);
 
         /**
          * Triggered after a new user was invited.
