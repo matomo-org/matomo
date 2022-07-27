@@ -130,8 +130,8 @@ __webpack_require__.d(__webpack_exports__, "UserPermissionsEdit", function() { r
 __webpack_require__.d(__webpack_exports__, "UserEditForm", function() { return /* reexport */ UserEditForm; });
 __webpack_require__.d(__webpack_exports__, "PagedUsersList", function() { return /* reexport */ PagedUsersList; });
 __webpack_require__.d(__webpack_exports__, "UsersManager", function() { return /* reexport */ UsersManager; });
-__webpack_require__.d(__webpack_exports__, "NewsletterSettings", function() { return /* reexport */ AnonymousSettings; });
-__webpack_require__.d(__webpack_exports__, "AnonymousSettings", function() { return /* reexport */ NewsletterSettings; });
+__webpack_require__.d(__webpack_exports__, "AnonymousSettings", function() { return /* reexport */ AnonymousSettings; });
+__webpack_require__.d(__webpack_exports__, "NewsletterSettings", function() { return /* reexport */ NewsletterSettings; });
 __webpack_require__.d(__webpack_exports__, "PersonalSettings", function() { return /* reexport */ PersonalSettings; });
 __webpack_require__.d(__webpack_exports__, "AddNewToken", function() { return /* reexport */ AddNewToken; });
 __webpack_require__.d(__webpack_exports__, "AddNewTokenSuccess", function() { return /* reexport */ AddNewTokenSuccess; });
