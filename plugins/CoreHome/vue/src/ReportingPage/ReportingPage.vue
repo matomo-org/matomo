@@ -276,16 +276,16 @@ export default defineComponent({
           method: 'Live.getLastVisitsDetails',
           filter_limit: 1,
           doNotFetchActions: 1,
-        });
-      }).then((lastVisits) => {
-        if (!lastVisits || lastVisits.length === 0) {
-          this.hasRawData = false;
-          hideOnlyRawDataNoticifation();
-          return;
-        }
+        }).then((lastVisits) => {
+          if (!lastVisits || lastVisits.length === 0) {
+            this.hasRawData = false;
+            hideOnlyRawDataNoticifation();
+            return;
+          }
 
-        this.hasRawData = true;
-        showOnlyRawDataNotification();
+          this.hasRawData = true;
+          showOnlyRawDataNotification();
+        });
       });
     },
   },

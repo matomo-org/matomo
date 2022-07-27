@@ -94,7 +94,7 @@
           </div>
           <div>
             <Field
-               v-if="isPendingUser"
+               v-if="!isPending"
                :model-value="theUser.password"
                :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
@@ -132,7 +132,6 @@
             <div class="form-group row" style="position: relative">
               <div class="col s12 m6">
                 <SaveButton
-                    style="position: absolute;bottom: 0"
                     v-if="currentUserRole === 'superuser' || isAdd"
                     :value="saveButtonLabel"
                     :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
@@ -185,7 +184,7 @@
         </div>
         <div
           v-if="activeTab === 'superuser' && currentUserRole === 'superuser' && !isAdd"
-          class="superuser-access"
+          class="superuser-access form-group"
         >
           <p>{{ translate('UsersManager_SuperUserIntro1') }}</p>
           <p><strong>{{ translate('UsersManager_SuperUserIntro2') }}</strong></p>
@@ -199,45 +198,24 @@
               :title="translate('UsersManager_HasSuperUserAccess')"
             />
           </div>
-          <div class="superuser-confirm-modal modal" ref="superUserConfirmModal">
-            <div class="modal-content">
-              <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
-              <p v-if="theUser.superuser_access">
-                {{ translate('UsersManager_RemoveSuperuserAccessConfirm') }}
-              </p>
-              <p v-if="!theUser.superuser_access">
-                {{ translate('UsersManager_AddSuperuserAccessConfirm') }}
-              </p>
-              <div>
-                <Field
-                  v-model="passwordConfirmationForSuperUser"
-                  uicontrol="password"
-                  name="currentUserPasswordForSuperUser"
-                  :autocomplete="false"
-                  :full-width="true"
-                  :title="translate('UsersManager_YourCurrentPassword')"
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <a
-                href=""
-                class="modal-action modal-close btn"
-                @click.prevent="toggleSuperuserAccess()"
-                style="margin-right:3.5px"
-              >{{ translate('General_Yes') }}</a>
-              <a
-                href=""
-                class="modal-action modal-close modal-no"
-                @click.prevent="setSuperUserAccessChecked(); passwordConfirmationForSuperUser = ''"
-              >{{ translate('General_No') }}</a>
-            </div>
-          </div>
+          <PasswordConfirmation
+            v-model="showPasswordConfirmationForSuperUser"
+            @confirmed="toggleSuperuserAccess"
+            @aborted="setSuperUserAccessChecked()"
+          >
+            <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
+            <p v-if="theUser.superuser_access">
+              {{ translate('UsersManager_RemoveSuperuserAccessConfirm') }}
+            </p>
+            <p v-if="!theUser.superuser_access">
+              {{ translate('UsersManager_AddSuperuserAccessConfirm') }}
+            </p>
+          </PasswordConfirmation>
         </div>
         <div
           v-show="activeTab === '2fa'"
           v-if="currentUserRole === 'superuser' && !isAdd"
-          class="twofa-reset"
+          class="twofa-reset form-group"
         >
           <p>{{ translate('UsersManager_ResetTwoFactorAuthenticationInfo') }}</p>
           <div
@@ -249,66 +227,23 @@
               :value="translate('UsersManager_ResetTwoFactorAuthentication')"
             />
           </div>
-          <div class="twofa-confirm-modal modal" ref="twofaConfirmModal">
-            <div class="modal-content">
-              <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
-              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
-              <div>
-                <Field
-                  v-model="passwordConfirmation"
-                  uicontrol="password"
-                  name="currentUserPasswordTwoFa"
-                  :autocomplete="false"
-                  :full-width="true"
-                  :title="translate('UsersManager_YourCurrentPassword')"
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <a
-                href=""
-                class="modal-action modal-close btn"
-                @click.prevent="reset2FA()"
-                style="margin-right:3.5px"
-              >{{ translate('General_Yes') }}</a>
-              <a
-                href=""
-                class="modal-action modal-close modal-no"
-                @click="$event.preventDefault(); passwordConfirmation = ''"
-              >{{ translate('General_No') }}</a>
-            </div>
-          </div>
+          <PasswordConfirmation
+            v-model="showPasswordConfirmationFor2FA"
+            @confirmed="reset2FA"
+          >
+            <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
+            <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+          </PasswordConfirmation>
         </div>
       </div>
     </div>
-    <div class="change-password-modal modal" ref="changePasswordModal">
-      <div class="modal-content">
-        <h2 v-html="$sanitize(changePasswordTitle)"></h2>
-        <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
-        <div>
-          <Field
-            v-model="passwordConfirmation"
-            uicontrol="password"
-            name="currentUserPasswordChangePwd"
-            :autocomplete="false"
-            :full-width="true"
-            :title="translate('UsersManager_YourCurrentPassword')"
-          />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a
-          href=""
-          class="modal-action modal-close btn"
-          @click.prevent="updateUser()"
-        >{{ translate('General_Yes') }}</a>
-        <a
-          href=""
-          class="modal-action modal-close modal-no"
-          @click="$event.preventDefault(); passwordConfirmation = ''"
-        >{{ translate('General_No') }}</a>
-      </div>
-    </div>
+    <PasswordConfirmation
+      v-model="isShowingPasswordConfirm"
+      @confirmed="updateUser"
+    >
+      <h2 v-html="$sanitize(changePasswordTitle)"></h2>
+      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+    </PasswordConfirmation>
   </ContentBlock>
 </template>
 
@@ -321,10 +256,14 @@ import {
   AjaxHelper,
   NotificationsStore,
 } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import {
+  PasswordConfirmation,
+  Form,
+  Field,
+  SaveButton,
+} from 'CorePluginsAdmin';
 import UserPermissionsEdit from '../UserPermissionsEdit/UserPermissionsEdit.vue';
 import User from '../User';
-import KeyPressEvent = JQuery.KeyPressEvent;
 
 const DEFAULT_USER: User = {
   login: '',
@@ -332,7 +271,7 @@ const DEFAULT_USER: User = {
   uses_2fa: false,
   password: '',
   email: '',
-  invited_at: '',
+  invite_status: '',
 };
 
 interface UserEditFormState {
@@ -343,15 +282,13 @@ interface UserEditFormState {
   userHasAccess: boolean;
   firstSiteAccess: SiteRef|null;
   isUserModified: boolean;
-  passwordConfirmation: string;
   isPasswordModified: boolean;
   superUserAccessChecked: boolean|null;
-  passwordConfirmationForSuperUser: string;
+  showPasswordConfirmationForSuperUser: boolean;
+  showPasswordConfirmationFor2FA: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
 }
-
-const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -382,6 +319,7 @@ export default defineComponent({
     Field,
     SaveButton,
     UserPermissionsEdit,
+    PasswordConfirmation,
   },
   directives: {
     Form,
@@ -398,10 +336,10 @@ export default defineComponent({
         name: this.initialSiteName,
       },
       isUserModified: false,
-      passwordConfirmation: '',
       isPasswordModified: false,
       superUserAccessChecked: null,
-      passwordConfirmationForSuperUser: '',
+      showPasswordConfirmationForSuperUser: false,
+      showPasswordConfirmationFor2FA: false,
       isResetting2FA: false,
       isShowingPasswordConfirm: false,
     };
@@ -426,14 +364,12 @@ export default defineComponent({
       this.setSuperUserAccessChecked();
     },
     confirmSuperUserChange() {
-      $(this.$refs.superUserConfirmModal as HTMLElement).modal({
-        dismissible: false,
-      }).modal('open');
+      this.showPasswordConfirmationForSuperUser = true;
     },
     confirmReset2FA() {
-      $(this.$refs.twofaConfirmModal as HTMLElement).modal({ dismissible: false }).modal('open');
+      this.showPasswordConfirmationFor2FA = true;
     },
-    toggleSuperuserAccess() {
+    toggleSuperuserAccess(password: string) {
       this.isSavingUserInfo = true;
       AjaxHelper.post(
         {
@@ -442,7 +378,7 @@ export default defineComponent({
         {
           userLogin: this.theUser.login,
           hasSuperUserAccess: this.theUser.superuser_access ? '0' : '1',
-          passwordConfirmation: this.passwordConfirmationForSuperUser!,
+          passwordConfirmation: password,
         },
       ).then(() => {
         this.theUser.superuser_access = !this.theUser.superuser_access;
@@ -450,8 +386,6 @@ export default defineComponent({
         // ignore error (still displayed to user)
       }).then(() => { // eslint-disable-line
         this.isSavingUserInfo = false;
-        this.isUserModified = true;
-        this.passwordConfirmationForSuperUser = '';
         this.setSuperUserAccessChecked();
       });
     },
@@ -484,10 +418,10 @@ export default defineComponent({
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
-        this.theUser.invited_at = 'xx';
+        this.theUser.invite_status = 'pending';
 
         this.resetPasswordVar();
-        this.showUserSavedNotification();
+        this.showUserCreatedNotification();
       });
     },
     resetPasswordVar() {
@@ -497,24 +431,7 @@ export default defineComponent({
       }
     },
     confirmUserChange() {
-      this.passwordConfirmation = '';
       this.isShowingPasswordConfirm = true;
-
-      const onEnter = (event: KeyPressEvent) => {
-        const keycode = event.keyCode ? event.keyCode : event.which;
-        if (keycode === 13) {
-          $(this.$refs.changePasswordModal as HTMLElement).modal('close');
-          this.updateUser();
-        }
-      };
-
-      $(this.$refs.changePasswordModal as HTMLElement).modal({
-        dismissible: false,
-        onOpenEnd: () => {
-          this.isShowingPasswordConfirm = false;
-          $('.modal.open #currentUserPasswordChangePwd').focus().off('keypress').keypress(onEnter);
-        },
-      }).modal('open');
     },
     showUserSavedNotification() {
       NotificationsStore.show({
@@ -523,12 +440,19 @@ export default defineComponent({
         type: 'toast',
       });
     },
-    reset2FA() {
+    showUserCreatedNotification() {
+      NotificationsStore.show({
+        message: translate('UsersManager_InviteSuccess'),
+        context: 'success',
+        type: 'toast',
+      });
+    },
+    reset2FA(password: string) {
       this.isResetting2FA = true;
       return AjaxHelper.post({
         method: 'TwoFactorAuth.resetTwoFactorAuth',
         userLogin: this.theUser.login,
-        passwordConfirmation: this.passwordConfirmation,
+        passwordConfirmation: password,
       }).catch((e) => {
         this.isResetting2FA = false;
         throw e;
@@ -538,11 +462,9 @@ export default defineComponent({
         this.activeTab = 'basic';
 
         this.showUserSavedNotification();
-      }).finally(() => {
-        this.passwordConfirmation = '';
       });
     },
-    updateUser() {
+    updateUser(password: string) {
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
@@ -553,12 +475,11 @@ export default defineComponent({
           password: (this.isPasswordModified && this.theUser.password)
             ? this.theUser.password
             : undefined,
-          passwordConfirmation: this.passwordConfirmation ? this.passwordConfirmation : undefined,
+          passwordConfirmation: password,
           email: this.theUser.email,
         },
       ).then(() => {
         this.isSavingUserInfo = false;
-        this.passwordConfirmation = '';
         this.isUserModified = true;
         this.isPasswordModified = false;
 
@@ -566,7 +487,6 @@ export default defineComponent({
         this.showUserSavedNotification();
       }).catch(() => {
         this.isSavingUserInfo = false;
-        this.passwordConfirmation = '';
       });
     },
     setSuperUserAccessChecked() {
@@ -585,12 +505,17 @@ export default defineComponent({
         ? translate('UsersManager_InviteUser')
         : translate('UsersManager_SaveBasicInfo');
     },
-    isPendingUser() {
-      // eslint-disable-next-line eqeqeq
-      return this.user && (this.theUser.invited_at === '' || !this.theUser.invited_at);
+    isPending() {
+      if (!this.user) {
+        return true;
+      }
+      if (this.user.invite_status === 'pending' || Number.isInteger(this.user.invite_status)) {
+        return true;
+      }
+      return false;
     },
     isAdd() {
-      return !this.user; // purposefully checking input property not theUser state
+      return !this.user;
     },
     changePasswordTitle() {
       return translate(
