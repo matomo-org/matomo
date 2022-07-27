@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Tietokannan käyttö",
-        "DataSize": "Tietojen koko",
         "DBSize": "Tietokannan koko",
+        "DataSize": "Tietojen koko",
+        "DatabaseUsage": "Tietokannan käyttö",
         "EstimatedSize": "Arvioitu koko",
         "IndexSize": "Indeksien koko",
         "LearnMore": "Jos haluat tietää enemmän Matomon tietojen käsittelystä ja Matomon optimoinnista isoille sivustoille, lue lisää aiheesta osoitteesta %s.",

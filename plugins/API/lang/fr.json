@@ -13,6 +13,6 @@
         "ReportingApiReference": "Référence de l'API de rapports",
         "TopLinkTooltip": "Accédez à vos données d'analyse Web de manière programmatique par le biais d'une API simple en JSON, XML, etc.",
         "UserAuthentication": "Authentification de l'utilisateur",
-        "UsingTokenAuth": "Si vous souhaitez %1$solliciter des données dans un script, une crontab, etc.%2$s, vous devez ajouter le paramètre URL '%3$s' aux appels d'API pour les URL qui nécessitent une authentification."
+        "UsingTokenAuth": "Si vous souhaitez %1$s solliciter des données dans un script, une crontab, etc.%2$s, vous devez ajouter le paramètre URL '%3$s' aux appels d'API pour les URL qui nécessitent une authentification."
     }
 }

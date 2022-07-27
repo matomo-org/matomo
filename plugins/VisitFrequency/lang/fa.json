@@ -1,5 +1,6 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "اقدامات کاربران جدید",
         "ColumnActionsByReturningVisits": "اقدامات انجام شده توسط مشاهدات بازگشتی",
         "ColumnAverageVisitDurationForReturningVisitors": "AVG. مدت بازدید بازگشتی (در ثانیه)",
         "ColumnAvgActionsPerReturningVisit": "متوسط عملیات در هر بازدید بازگشتی",

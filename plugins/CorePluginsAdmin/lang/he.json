@@ -1,5 +1,6 @@
 {
     "CorePluginsAdmin": {
+        "ActionUninstall": "הסר",
         "Activate": "הפעל",
         "Activated": "הופעל",
         "Active": "פעיל",
@@ -8,10 +9,10 @@
         "Deactivate": "כבה",
         "Inactive": "לא פעיל",
         "LicenseHomepage": "אתר רישון השימוש",
-        "PluginsExtendPiwik": "תוספים מרחיבים את היכולות של Matomo.",
-        "OncePluginIsInstalledYouMayActivateHere": "ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
         "MenuPlatform": "פלטפורמה",
+        "OncePluginIsInstalledYouMayActivateHere": "ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
         "PluginHomepage": "אתר התוסף",
+        "PluginsExtendPiwik": "תוספים מרחיבים את היכולות של Matomo.",
         "PluginsManagement": "ניהול תוספים",
         "Status": "מצב",
         "Theme": "ערכת עיצוב",

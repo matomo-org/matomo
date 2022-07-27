@@ -396,6 +396,7 @@ interface SiteAccess {
 interface AccessLevel {
   key: string|number;
   value: unknown;
+  type: string;
 }
 
 interface UserPermissionsEditState {
@@ -754,7 +755,7 @@ export default defineComponent({
       return Math.min(this.offset + this.limit, this.totalEntries);
     },
     filteredAccessLevels() {
-      return (this.accessLevels as AccessLevel[]).filter((entry) => entry.key !== 'superuser');
+      return (this.accessLevels as AccessLevel[]).filter((entry) => entry.key !== 'superuser' && entry.type === 'role');
     },
     filteredSelectAccessLevels() {
       return (this.filterAccessLevels as AccessLevel[]).filter(

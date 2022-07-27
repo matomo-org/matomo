@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "2FA": "אימות דו-שלבי",
         "AllWebsites": "כל האתרים",
         "Email": "אימייל",
         "ManageAccess": "ניהול הרשאות",

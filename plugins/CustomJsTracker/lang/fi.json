@@ -1,8 +1,8 @@
 {
     "CustomJsTracker": {
-        "PluginDescription": "Sallii minkä tahansa liitännäisen laajentaa Matomon JavaScript-seurantatiedostoa (matomo.js) ja lisätä uusia toiminnallisuuksia sekä verkkosivuston mittauskyvykkyyksiä.",
-        "DiagnosticPiwikJsWritable": "Kirjoitettava JavaScript-seurain (%s)",
+        "DiagnosticPiwikJsMakeWritable": "Suosittelemme, että %1$s asetetaan kirjoitettavaksi suorittamalla seuraava komento: %2$s",
         "DiagnosticPiwikJsNotWritable": "Matomon JavaScript-seuraintiedosto %s ei ole kirjoitettavissa. Se tarkoittaa, etteivät muut liitännäiset pysty laajentamaan JavaScript-seurainta. Jatkossa jotkin keskeisimmät ominaisuudet eivät välttämättä toimi odotetulla tavalla.",
-        "DiagnosticPiwikJsMakeWritable": "Suosittelemme, että %1$s asetetaan kirjoitettavaksi suorittamalla seuraava komento: %2$s"
+        "DiagnosticPiwikJsWritable": "Kirjoitettava JavaScript-seurain (%s)",
+        "PluginDescription": "Sallii minkä tahansa liitännäisen laajentaa Matomon JavaScript-seurantatiedostoa (matomo.js) ja lisätä uusia toiminnallisuuksia sekä verkkosivuston mittauskyvykkyyksiä."
     }
 }

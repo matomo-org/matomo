@@ -19,7 +19,7 @@ use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Site;
 
 /**
- * Fetches and formats the response of `MultiSites.getAll` in a way that it can be used by the All Websites AngularJS
+ * Fetches and formats the response of `MultiSites.getAll` in a way that it can be used by the All Websites
  * widget. Eg sites are moved into groups if one is assigned, stats are calculated for groups, etc.
  */
 class Dashboard

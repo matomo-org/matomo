@@ -199,7 +199,12 @@
             }
 
             // make sure percent axes don't go above 100%
-            if (axis.tickOptions.formatString.substring(2, 3) == '%' && maxCrossDataSets > 100) {
+            if (
+              axis.tickOptions
+              && axis.tickOptions.formatString
+              && axis.tickOptions.formatString.substring(2, 3) == '%'
+              && maxCrossDataSets > 100
+            ) {
                 maxCrossDataSets = 100;
             }
 
