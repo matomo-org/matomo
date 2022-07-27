@@ -2,7 +2,7 @@
     "TwoFactorAuth": {
         "TwoFactorAuthentication": "Two-factor authentication",
         "TwoFAShort": "2FA",
-        "TwoFactorAuthenticationIntro": "%1$sTwo-factor authentication%2$s increases account security by asking you for something generated on for example a mobile device (in addition to your password) to log in.",
+        "TwoFactorAuthenticationIntro": "%1$sTwo-factor authentication%2$s increases account security by also asking you for a code generated on a mobile device, or one of the remaining recovery codes (in addition to your password) to log in.",
         "TwoFactorAuthenticationIsEnabled": "Two-factor authentication on.",
         "TwoFactorAuthenticationIsDisabled": "Two-factor authentication off.",
         "TwoFactorAuthenticationRequired": "Two-factor authentication is required for everyone, you cannot turn it off.",
@@ -44,8 +44,8 @@
         "RecoveryCodesAllUsed": "All recovery codes have been used. You must generate new ones.",
         "RecoveryCodesRegenerated": "Recovery codes generated. Make sure to download or print out the newly generated codes.",
         "GenerateNewRecoveryCodes": "Generate new recovery codes",
-        "GenerateNewRecoveryCodesInfo": "When you generate new recovery codes, your old ones won't work anymore. Make sure you download or print out your new codes.",
+        "GenerateNewRecoveryCodesInfo": "Generating new recovery codes means ones won't work anymore. Download or print out your new codes.",
         "RequireTwoFAForAll": "Require two-factor authentication for everyone",
-        "RequireTwoFAForAllInformation": "Requires other users also log in with 2FA by using an OTP app on their device to log in."
+        "RequireTwoFAForAllInformation": "Requires other users also log in with 2FA by using an OTP app on their mobile device to log in."
     }
 }
