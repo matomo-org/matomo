@@ -8,9 +8,6 @@
  */
 namespace Piwik\Plugins\UserLanguage;
 
-use Piwik\Piwik;
-use Piwik\FrontController;
-
 /**
  *
  */
