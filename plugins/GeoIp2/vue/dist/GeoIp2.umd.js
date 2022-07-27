@@ -125,7 +125,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "Geoip2Updater", function() { return /* reexport */ Geoip2Updater; });
+__webpack_require__.d(__webpack_exports__, "GeoIp2Updater", function() { return /* reexport */ GeoIp2Updater; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -143,13 +143,10 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=23b5cb60
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=55b13210
 
 var _hoisted_1 = {
   key: 0
@@ -341,18 +338,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=template&id=23b5cb60
+// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=55b13210
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts
 
 
 
 var _window = window,
     $ = _window.$;
-/* harmony default export */ var Geoip2Updatervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+/* harmony default export */ var GeoIp2Updatervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     geoipDatabaseStartedInstalled: Boolean,
     showGeoipUpdateSection: {
@@ -574,73 +574,15 @@ var _window = window,
     }
   }
 }));
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.vue
+// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue
 
 
 
-Geoip2Updatervue_type_script_lang_ts.render = render
+GeoIp2Updatervue_type_script_lang_ts.render = render
 
-/* harmony default export */ var Geoip2Updater = (Geoip2Updatervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/Geoip2Updater/Geoip2Updater.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var Geoip2Updater_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: Geoip2Updater,
-  scope: {
-    geoIpDatabasesInstalled: {
-      angularJsBind: '<'
-    },
-    showGeoIpUpdateSection: {
-      angularJsBind: '<'
-    },
-    dbipLiteUrl: {
-      angularJsBind: '<'
-    },
-    dbipLiteFilename: {
-      angularJsBind: '<'
-    },
-    geoipLocUrl: {
-      angularJsBind: '<'
-    },
-    isProviderPluginActive: {
-      angularJsBind: '<'
-    },
-    geoipIspUrl: {
-      angularJsBind: '<'
-    },
-    lastTimeUpdaterRun: {
-      angularJsBind: '<'
-    },
-    geoipUpdatePeriod: {
-      angularJsBind: '<'
-    },
-    updatePeriodOptions: {
-      angularJsBind: '<'
-    },
-    geoipDatabaseStartedInstalled: {
-      angularJsBind: '<'
-    },
-    showGeoipUpdateSection: {
-      angularJsBind: '<'
-    },
-    nextRunTime: {
-      angularJsBind: '<'
-    },
-    nextRunTimePretty: {
-      angularJsBind: '<'
-    }
-  },
-  directiveName: 'piwikGeoip2Updater',
-  transclude: true
-}));
+/* harmony default export */ var GeoIp2Updater = (GeoIp2Updatervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -648,7 +590,6 @@ Geoip2Updatervue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 

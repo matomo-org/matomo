@@ -127,6 +127,8 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "TransitionExporter", function() { return /* reexport */ TransitionExporter; });
 __webpack_require__.d(__webpack_exports__, "TransitionSwitcher", function() { return /* reexport */ TransitionSwitcher; });
+__webpack_require__.d(__webpack_exports__, "TransitionsPage", function() { return /* reexport */ TransitionsPage; });
+__webpack_require__.d(__webpack_exports__, "TransitionExporterLink", function() { return /* reexport */ TransitionExporterLink; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -290,7 +292,7 @@ var _window = window,
         }]
       };
       var app = Object(external_CoreHome_["createVueApp"])({
-        template: "\n          <popover v-bind=\"bind\"/>",
+        template: '<popover v-bind="bind"/>',
         data: function data() {
           return {
             bind: props
@@ -309,25 +311,6 @@ var _window = window,
     });
   }
 });
-// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionExporter/TransitionExporter.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function transitionExporter() {
-  return {
-    restrict: 'A',
-    link: function link(scope, element) {
-      TransitionExporter.mounted(element[0]);
-    }
-  };
-}
-
-window.angular.module('piwikApp').directive('transitionExporter', transitionExporter);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.vue?vue&type=template&id=3282161c
 
 var TransitionSwitchervue_type_template_id_3282161c_hoisted_1 = {
@@ -650,6 +633,89 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 TransitionSwitchervue_type_script_lang_ts.render = TransitionSwitchervue_type_template_id_3282161c_render
 
 /* harmony default export */ var TransitionSwitcher = (TransitionSwitchervue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=4abcdeb0
+
+function TransitionsPagevue_type_template_id_4abcdeb0_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_TransitionSwitcher = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("TransitionSwitcher");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  return !_ctx.isWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    key: 0,
+    "help-text": _ctx.translate('Transitions_FeatureDescription'),
+    "help-url": "https://matomo.org/docs/transitions/",
+    "content-title": _ctx.translate('Transitions_Transitions')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_TransitionSwitcher, {
+        "is-widget": _ctx.isWidget
+      }, null, 8, ["is-widget"])];
+    }),
+    _: 1
+  }, 8, ["help-text", "content-title"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_TransitionSwitcher, {
+    key: 1,
+    "is-widget": _ctx.isWidget
+  }, null, 8, ["is-widget"]));
+}
+// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=4abcdeb0
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var TransitionsPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    isWidget: Boolean
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    TransitionSwitcher: TransitionSwitcher
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue
+
+
+
+TransitionsPagevue_type_script_lang_ts.render = TransitionsPagevue_type_template_id_4abcdeb0_render
+
+/* harmony default export */ var TransitionsPage = (TransitionsPagevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=template&id=12d2f936
+
+var TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_1 = {
+  class: "dataTableAction"
+};
+
+var TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-export"
+}, null, -1);
+
+var TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_3 = [TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_2];
+function TransitionExporterLinkvue_type_template_id_12d2f936_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _directive_transition_exporter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("transition-exporter");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_1, TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_3, 512)), [[_directive_transition_exporter]]);
+}
+// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=template&id=12d2f936
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var TransitionExporterLinkvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  directives: {
+    TransitionExporter: TransitionExporter
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue
+
+
+
+TransitionExporterLinkvue_type_script_lang_ts.render = TransitionExporterLinkvue_type_template_id_12d2f936_render
+
+/* harmony default export */ var TransitionExporterLink = (TransitionExporterLinkvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Transitions/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -657,6 +723,7 @@ TransitionSwitchervue_type_script_lang_ts.render = TransitionSwitchervue_type_te
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
