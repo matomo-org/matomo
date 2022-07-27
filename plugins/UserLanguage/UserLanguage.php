@@ -16,14 +16,4 @@ use Piwik\FrontController;
  */
 class UserLanguage extends \Piwik\Plugin
 {
-    public function postLoad()
-    {
-        Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\UserLanguage\UserLanguage', 'footerUserCountry'));
-    }
-
-    public static function footerUserCountry(&$out)
-    {
-        $out .= '<h2 vue-entry="CoreHome.EnrichedHeadline">' . Piwik::translate('UserLanguage_BrowserLanguage') . '</h2>';
-        $out .= FrontController::getInstance()->fetchDispatch('UserLanguage', 'getLanguage');
-    }
 }
