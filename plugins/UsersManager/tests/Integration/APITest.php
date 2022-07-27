@@ -1140,13 +1140,14 @@ class APITest extends IntegrationTestCase
 
     public function test_addCapabilities_DoesNotAddCapabilityToUserWithNoRole()
     {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExceptionNoCapabilitiesWithoutRole');
+
         $access = $this->model->getSitesAccessFromUser($this->login);
 
         $this->assertEquals([], $access);
 
-        $this->api->addCapabilities($this->login, [TestCap2::ID, TestCap3::ID], [1]);
-
-        $this->assertEquals([], $access);
+        $this->api->addCapabilities($this->login, array(TestCap2::ID, TestCap3::ID), array(1));
     }
 
     public function test_addCapabilities_DoesNotAddCapabilitiesWhichAreIncludedInRoleAlready()

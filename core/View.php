@@ -164,6 +164,8 @@ class View implements ViewInterface
         } catch (Exception $ex) {
             // pass (occurs when DB cannot be connected to, perhaps piwik URL cache should be stored in config file...)
         }
+
+        $this->userRequiresPasswordConfirmation = Piwik::doesUserRequirePasswordConfirmation(Piwik::getCurrentUserLogin());
     }
 
     /**

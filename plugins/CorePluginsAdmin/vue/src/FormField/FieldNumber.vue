@@ -20,8 +20,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
 import { debounce } from 'CoreHome';
+import AbortableModifiers from './AbortableModifiers';
 
 export default defineComponent({
   props: {
@@ -29,6 +30,7 @@ export default defineComponent({
     name: String,
     title: String,
     modelValue: [Number, String],
+    modelModifiers: Object,
     uiControlAttributes: Object,
   },
   inheritAttrs: false,
@@ -39,16 +41,25 @@ export default defineComponent({
   methods: {
     onChange(event: Event) {
       const value = parseFloat((event.target as HTMLInputElement).value);
-
-      this.$emit('update:modelValue', value);
-
-      nextTick(() => {
-        if ((event.target as HTMLInputElement).value !== this.modelValueFormatted) {
-          // change to previous value if the parent component did not update the model value
-          // (done manually because Vue will not notice if a value does NOT change)
-          (event.target as HTMLInputElement).value = this.modelValueFormatted;
+      if (value !== this.modelValue) {
+        if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+          this.$emit('update:modelValue', value);
+          return;
         }
-      });
+
+        const emitEventData = {
+          value,
+          abort: () => {
+            if ((event.target as HTMLInputElement).value !== this.modelValueFormatted) {
+              // change to previous value if the parent component did not update the model value
+              // (done manually because Vue will not notice if a value does NOT change)
+              (event.target as HTMLInputElement).value = this.modelValueFormatted;
+            }
+          },
+        };
+
+        this.$emit('update:modelValue', emitEventData);
+      }
     },
   },
   mounted() {
