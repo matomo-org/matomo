@@ -47,7 +47,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->os_family_logo      = getOsFamilyLogo($view->os_family);
         $view->os_version          = $uaParser->getOs('version');
         $view->device_type         = getDeviceTypeLabel($uaParser->getDeviceName());
-        $view->device_type_logo    = getDeviceTypeLogo($uaParser->getDeviceName());
+        $view->device_type_logo    = getDeviceTypeLogo($uaParser->getDevice());
         $view->device_model        = $uaParser->getModel();
         $view->device_brand        = getDeviceBrandLabel($uaParser->getBrand());
         $view->device_brand_logo   = getBrandLogo($view->device_brand);
@@ -112,7 +112,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $deviceTypes = \DeviceDetector\Parser\Device\AbstractDeviceParser::getAvailableDeviceTypes();
 
                 foreach ($deviceTypes as $name => $id) {
-                    $list[$name] = getDeviceTypeLogo($name);
+                    $list[$name] = getDeviceTypeLogo($id);
                 }
                 break;
         }
