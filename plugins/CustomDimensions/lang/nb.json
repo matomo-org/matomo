@@ -34,11 +34,13 @@
         "NoCustomDimensionConfigured": "Ingen tilpassede dimensjoner er konfigurert ennå. Konfigurer en nå.",
         "NoValue": "ingen verdi",
         "PageUrlParam": "Side-URL-parameter",
-        "PluginDescription": "Utvid Matomo til dine behov ved å definere å spore egendefinerte dimensjoner innenfor rammen «handling» eller «Besøk»",
+        "PluginDescription": "Utvid Matomo til dine behov ved å definere å spore egendefinerte dimensjoner innenfor rammen «Handling» eller «Besøk»",
         "ScopeDescriptionAction": "Tilpassede dimensjoner av typen «handling» kan sendes sammen med alle handlinger (sidevisning, nedlasting, hendelse, etc.).",
         "ScopeDescriptionActionMoreInfo": "Uttrekk kan defineres slik at verdien til den tilpassede dimensjonen hentes ut fra side-URL, sidetittel eller et spørreparameter i URL-en.",
         "ScopeDescriptionVisit": "Tilpassede dimensjoner av typen «Besøk» kan sendes sammen med alle sporingsspørringer og lagres i besøket.",
         "ScopeDescriptionVisitMoreInfo": "Hvis du setter ulike verdier for en gitt dimensjon i løpet av livstiden til et besøk, vil den siste verdien bli brukt.",
+        "ScopeTitleAction": "Handlingsrammer",
+        "ScopeTitleVisit": "Besøksrammer",
         "UrlQueryStringParameter": "URL-strengspørringsparameter",
         "XofYLeft": "%1$s av %2$s dimensjoner igjen"
     }

@@ -7,14 +7,13 @@
   }
 
   .multiPairFieldTable {
-    
+
     &.has1Fields {
       .fieldUiControl1{
-        width: ~"calc(100% - 60px)";
         padding-right: 0.75rem;
       }
     }
-  
+
     &:not(.has1Fields) {
       .fieldUiControl {
         display: inline-block;
@@ -23,38 +22,56 @@
     }
 
     &.has2Fields {
-      .fieldUiControl1 {
-        width: 160px;
-      }
       .fieldUiControl2 {
-        width: ~"calc(100% - 190px)";
         padding: 0.75rem;
-      }
-    }
-  
-    &.has3Fields {
-      .fieldUiControl1 {
-        width: 120px;
-      }
-      .fieldUiControl2,
-      .fieldUiControl3 {
-        width: 220px;
-      }
-    }
-  
-    &.has4Fields {
-      .fieldUiControl1 {
-        width: 120px;
-      }
-      .fieldUiControl2,
-      .fieldUiControl3,
-      .fieldUiControl4 {
-        width: 148px;
       }
     }
   }
 
   .icon-minus {
     cursor: pointer;
+  }
+}
+
+.col.m6 {
+  .multiPairField {
+    .multiPairFieldTable {
+
+      &.has1Fields {
+        .fieldUiControl1{
+          width: ~"calc(100% - 60px)";
+        }
+      }
+
+      &.has2Fields {
+        .fieldUiControl1 {
+          width: 160px;
+        }
+        .fieldUiControl2 {
+          width: ~"calc(100% - 190px)";
+        }
+      }
+
+      &.has3Fields {
+        .fieldUiControl1 {
+          width: 120px;
+        }
+        .fieldUiControl2,
+        .fieldUiControl3 {
+          width: 220px;
+        }
+      }
+
+      &.has4Fields {
+        .fieldUiControl1 {
+          width: 120px;
+        }
+        .fieldUiControl2,
+        .fieldUiControl3,
+        .fieldUiControl4 {
+          width: 148px;
+        }
+      }
+    }
   }
 }

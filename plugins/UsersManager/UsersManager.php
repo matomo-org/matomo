@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
@@ -32,19 +34,19 @@ class UsersManager extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        return array(
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'SitesManager.deleteSite.end'            => 'deleteSite',
-            'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Platform.initialized'                   => 'onPlatformInitialized',
-            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-        );
+        return [
+          'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+          'SitesManager.deleteSite.end'            => 'deleteSite',
+          'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
+          'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+          'Platform.initialized'                   => 'onPlatformInitialized',
+          'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
+        ];
     }
 
     public static function isUsersAdminEnabled()
     {
-        return (bool) Config::getInstance()->General['enable_users_admin'];
+        return (bool)Config::getInstance()->General['enable_users_admin'];
     }
 
     public static function dieIfUsersAdminIsDisabled()
@@ -140,7 +142,7 @@ class UsersManager extends \Piwik\Plugin
     public static function isValidPasswordString($input)
     {
         if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
-            && !empty($input)
+          && !empty($input)
         ) {
             return true;
         }
@@ -171,10 +173,12 @@ class UsersManager extends \Piwik\Plugin
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
+              array(self::PASSWORD_MIN_LENGTH)));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong', array(self::PASSWORD_MAX_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
+              array(self::PASSWORD_MAX_LENGTH)));
         }
     }
 
@@ -331,6 +335,11 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
+        $translationKeys[] = 'UsersManager_ResendInviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteDayLeft';
+        $translationKeys[] = 'UsersManager_FilterByStatus';
+        $translationKeys[] = 'UsersManager_ExpiredInviteAutomaticallyRemoved';
         $translationKeys[] = 'UsersManager_AuthTokens';
         $translationKeys[] = 'UsersManager_TokenAuthIntro';
         $translationKeys[] = 'General_Description';

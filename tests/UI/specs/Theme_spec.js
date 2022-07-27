@@ -48,7 +48,9 @@ describe("Theme", function () {
 
     it("should use the current theme", async function () {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
+        await page.waitForSelector('.widget');
         await page.waitForTimeout(500); // wait for angular finished rendering
+        await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('home');
     });
 

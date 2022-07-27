@@ -87,7 +87,13 @@ class VisitorDetails extends VisitorDetailsAbstract
 					AND log_conversion.idgoal > 0
                 ORDER BY log_conversion.idvisit, log_conversion.server_time ASC
 			";
-        return $this->getDb()->fetchAll($sql);
+        $conversions = $this->getDb()->fetchAll($sql);
+
+        foreach ($conversions as &$conversion) {
+            $conversion['goalName'] = Common::unsanitizeInputValue($conversion['goalName']);
+        }
+
+        return $conversions;
     }
 
 
