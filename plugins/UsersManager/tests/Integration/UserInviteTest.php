@@ -49,20 +49,6 @@ class UserInviteTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
-    public function testInviteUserInitialIdSite()
-    {
-        Request::processRequest(
-          'UsersManager.inviteUser',
-          [
-            'userLogin' => "testInviteUser",
-            'email' => "testInviteUser@example.com",
-            'expiryInDays' => 7
-          ]
-        );
-        $access = $this->model->getSitesAccessFromUser("testInviteUser");
-        $this->assertEmpty($access);
-    }
-
     public function testInviteUser()
     {
         Request::processRequest(
@@ -70,7 +56,7 @@ class UserInviteTest extends IntegrationTestCase
             [
                 'userLogin' => $this->pendingUser['login'],
                 'email' => $this->pendingUser['email'],
-                'initialIdSite' => 1,
+                'idSite' => 1,
                 'expiryInDays' => 7
             ]
         );
