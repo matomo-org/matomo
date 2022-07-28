@@ -730,7 +730,14 @@ class API extends \Piwik\Plugin\API
         $password = Common::unsanitizeInputValue($password);
         UsersManager::checkPassword($password);
 
+
         $initialIdSite = $initialIdSite === null ? null : intval($initialIdSite);
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if (empty($initialIdSite)) {
+                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+            }
+        }
 
         $this->userRepository->create(
             (string) $userLogin,

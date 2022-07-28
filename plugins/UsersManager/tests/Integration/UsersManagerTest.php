@@ -308,6 +308,7 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
 
+
     public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo(
     )
     {
@@ -1010,6 +1011,18 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionLoginExists');
 
         FakeAccess::$identity = 'login';
+        $this->testUpdateUserNoEmail();
+    }
+
+    /**
+     * check to modify as being another user => exception
+     */
+    public function testUpdateUserIAmNotTheUser()
+    {
+        $this->expectException(\Exception::class);
+
+        FakeAccess::$identity = 'login2';
+        FakeAccess::$superUser = false;
         $this->testUpdateUserNoEmail();
     }
 
