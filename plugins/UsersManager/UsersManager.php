@@ -153,7 +153,7 @@ class UsersManager extends \Piwik\Plugin
         return $l >= self::PASSWORD_MIN_LENGTH;
     }
 
-    public static function checkPassword($password, $showError = false)
+    public static function checkPassword($password, $returnError = false)
     {
         /**
          * Triggered before core password validator check password.
@@ -182,7 +182,7 @@ class UsersManager extends \Piwik\Plugin
             $error = Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
                 array(self::PASSWORD_MAX_LENGTH));
         }
-        if ($error && !$showError) {
+        if ($error && !$returnError) {
             throw new Exception($error);
         }
         return $error;
