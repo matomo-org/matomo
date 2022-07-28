@@ -45,6 +45,10 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
+; Database error codes to ignore during updates
+;
+;ignore_error_codes[] = 1105
+
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table
@@ -155,6 +159,7 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
+[Debug]
 ; If set to 1, all requests to matomo.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 
