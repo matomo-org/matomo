@@ -764,7 +764,7 @@ class API extends \Piwik\Plugin\API
 
         if (empty($initialIdSite)) {
             throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
-        }else{
+        } else {
             // check if the site exists
             new Site($initialIdSite);
         }
