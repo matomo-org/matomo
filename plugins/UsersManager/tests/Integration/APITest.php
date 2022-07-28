@@ -1249,7 +1249,7 @@ class APITest extends IntegrationTestCase
         );
     }
 
-    public function testInviteUserInitialIdSite()
+    public function testInviteUserInitialIdSiteMissingWithSuperAdminAccess()
     {
         Request::processRequest(
           'UsersManager.inviteUser',
