@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Access\Capability;
+use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
@@ -28,8 +30,6 @@ use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Access\Role\Admin;
-use Piwik\Access\Capability;
 
 class TestCap1 extends Capability
 {
@@ -1247,6 +1247,22 @@ class APITest extends IntegrationTestCase
           ]
         );
     }
+
+    public function testInviteUserInitialIdSiteError()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("An unexpected website was found in the request: website id was set to '10'");
+        Request::processRequest(
+          'UsersManager.inviteUser',
+          [
+            'userLogin'    => "testInviteUser",
+            'email'        => "testInviteUser@example.com",
+            'initialIdSite' => 10,
+            'expiryInDays' => 7
+          ]
+        );
+    }
+
 
 
     public function testInviteUserAsSuperUser()

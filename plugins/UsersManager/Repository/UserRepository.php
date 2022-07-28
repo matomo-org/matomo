@@ -7,6 +7,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
@@ -18,8 +19,6 @@ use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Plugins\UsersManager\Validators\Login;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
-use Piwik\Validators\IdSite;
-use Piwik\Plugin;
 
 class UserRepository
 {
