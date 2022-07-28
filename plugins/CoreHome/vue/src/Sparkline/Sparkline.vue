@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <img :src="sparklineUrl" />
+  <img loading="lazy" alt="" :src="sparklineUrl" :width="width" :height="height" />
 </template>
 
 <script lang="ts">
@@ -19,7 +19,9 @@ import { format } from '../Periods';
 export default defineComponent({
   props: {
     seriesIndices: Array,
-    params: Object,
+    params: [Object, String],
+    width: Number,
+    height: Number,
   },
   data() {
     return {
@@ -57,8 +59,12 @@ export default defineComponent({
         segment: MatomoUrl.parsed.value.segment as string,
       };
 
+      const givenParams = typeof params === 'object'
+        ? params as QueryParameters
+        : MatomoUrl.parse((params as string).substring((params as string).indexOf('?') + 1));
+
       const helper = new AjaxHelper();
-      const urlParams = helper.mixinDefaultGetParams({ ...defaultParams, ...params });
+      const urlParams = helper.mixinDefaultGetParams({ ...defaultParams, ...givenParams });
 
       // Append the token_auth to the URL if it was set (eg. embed dashboard)
       const token_auth = MatomoUrl.parsed.value.token_auth as string;

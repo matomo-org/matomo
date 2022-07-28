@@ -5,24 +5,16 @@
 {% block content %}
 {% import 'macros.twig' as piwik %}
 
-<div piwik-content-intro>
-    <h2 piwik-enriched-headline
-        help-url="https://matomo.org/docs/geo-locate/"
-        id="location-providers">{{ title }}</h2>
-    <p>{{ 'UserCountry_GeolocationPageDesc'|translate }}</p>
-</div>
-<div piwik-content-block content-title="{{ 'UserCountry_LocationProvider'|translate|e('html_attr') }}">
 <div
-  vue-entry="UserCountry.LocationProviderSelection"
-  current-provider-id="{{ currentProviderId|json_encode|e('html_attr') }}"
-  is-there-working-provider="{{ isThereWorkingProvider|default(null)|json_encode|e('html_attr') }}"
-  set-up-guides="{{ setUpGuides|default(null)|json_encode|e('html_attr') }}"
-  this-ip="{{ thisIP|default(null)|json_encode|e('html_attr') }}"
-  location-providers="{{ locationProviders|default(null)|json_encode|e('html_attr') }}"
-  default-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DefaultProvider::ID")|default(null)|json_encode|e('html_attr') }}"
-  disabled-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DisabledProvider::ID")|default(null)|json_encode|e('html_attr') }}"
+    vue-entry="UserCountry.AdminPage"
+    current-provider-id="{{ currentProviderId|json_encode }}"
+    is-there-working-provider="{{ isThereWorkingProvider|default(null)|json_encode }}"
+    set-up-guides="{{ setUpGuides|default(null)|json_encode }}"
+    this-ip="{{ thisIP|default(null)|json_encode }}"
+    location-providers="{{ locationProviders|default(null)|json_encode }}"
+    default-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DefaultProvider::ID")|default(null)|json_encode }}"
+    disabled-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DisabledProvider::ID")|default(null)|json_encode }}"
 ></div>
-</div>
 
 {{ configurations|raw }}
 
