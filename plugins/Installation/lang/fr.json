@@ -157,7 +157,7 @@
         "Timezone": "Fuseau horaire du site web",
         "WeHopeYouWillEnjoyPiwik": "Appréciez l'utilisation de Matomo autant que nous aimons le concevoir.",
         "Welcome": "Bienvenue",
-        "WelcomeHelp": "<p>Matomo est un logiciel libre pour analyser le trafic issu de vos vvisiteurs.</p>\t<p>Ce procédé est divisé en %s étapes faciles et vous prendra 5 minutes environ.</p>",
+        "WelcomeHelp": "<p>Matomo est un logiciel libre pour analyser le trafic issu de vos visiteurs.</p>\t<p>Ce procédé est divisé en %s étapes faciles et vous prendra 5 minutes environ.</p>",
         "WelcomeToCommunity": "Bienvenue dans la communauté Matomo.",
         "YouMayInstallPiwikNow": "Vous pouvez %1$sinstaller Matomo maintenant%2$s"
     }
