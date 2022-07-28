@@ -1234,11 +1234,10 @@ class APITest extends IntegrationTestCase
     }
 
 
-    public function testInviteUserInitialIdSiteMissingWithAdminAccess()
+    public function testInviteUserInitialIdSiteMissing()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_AddUserNoInitialAccessError');
-        $this->setCurrentUser('adminUser', 'admin', 1);
         Request::processRequest(
           'UsersManager.inviteUser',
           [
@@ -1247,20 +1246,6 @@ class APITest extends IntegrationTestCase
             'expiryInDays' => 7
           ]
         );
-    }
-
-    public function testInviteUserInitialIdSite()
-    {
-        Request::processRequest(
-          'UsersManager.inviteUser',
-          [
-            'userLogin'    => "testInviteUser",
-            'email'        => "testInviteUser@example.com",
-            'expiryInDays' => 7
-          ]
-        );
-        $access = $this->model->getSitesAccessFromUser("testInviteUser");
-        $this->assertEmpty($access);
     }
 
 

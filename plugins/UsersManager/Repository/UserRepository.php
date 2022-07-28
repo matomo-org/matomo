@@ -60,12 +60,10 @@ class UserRepository
         string $password = '',
         bool $isPasswordHashed = false
     ): void {
+
+
         if (!Piwik::hasUserSuperUserAccess()) {
-            if (empty($initialIdSite)) {
-                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
-            }
-            // check if the site exists
-            BaseValidator::check('siteId', $initialIdSite, [new IdSite()]);
+            // check if the user has admin access to the site
             Piwik::checkUserHasAdminAccess($initialIdSite);
         }
 
