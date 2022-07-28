@@ -159,7 +159,6 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
-[Debug]
 ; If set to 1, all requests to matomo.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 
