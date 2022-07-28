@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
+use Piwik\API\Request;
 use Piwik\Auth\Password;
 use Piwik\Config;
 use Piwik\Date;
@@ -1231,6 +1232,37 @@ class APITest extends IntegrationTestCase
 
         $this->api->setSuperUserAccess($this->login, true, 'asldfkjds');
     }
+
+
+    public function testInviteUserInitialIdSiteMissingWithAdminAccess()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_AddUserNoInitialAccessError');
+        $this->setCurrentUser('adminUser', 'admin', 1);
+        Request::processRequest(
+          'UsersManager.inviteUser',
+          [
+            'userLogin'    => "testInviteUser",
+            'email'        => "testInviteUser@example.com",
+            'expiryInDays' => 7
+          ]
+        );
+    }
+
+    public function testInviteUserInitialIdSite()
+    {
+        Request::processRequest(
+          'UsersManager.inviteUser',
+          [
+            'userLogin'    => "testInviteUser",
+            'email'        => "testInviteUser@example.com",
+            'expiryInDays' => 7
+          ]
+        );
+        $access = $this->model->getSitesAccessFromUser("testInviteUser");
+        $this->assertEmpty($access);
+    }
+
 
     public function testInviteUserAsSuperUser()
     {
