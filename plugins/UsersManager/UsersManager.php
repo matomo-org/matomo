@@ -171,26 +171,21 @@ class UsersManager extends \Piwik\Plugin
          *
          * @param string $password Checking password in plain text.
          */
+        $error = null;
+
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            if ($showError) {
-                return Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH));
-            }
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
-                array(self::PASSWORD_MIN_LENGTH)));
-
+            $error = Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
-            if ($showError) {
-                return Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
-                    array(self::PASSWORD_MAX_LENGTH));
-            }
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
-                array(self::PASSWORD_MAX_LENGTH)));
-
+            $error = Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
+                array(self::PASSWORD_MAX_LENGTH));
         }
-        return null;
+        if ($error && !$showError) {
+            throw new Exception($error);
+        }
+        return $error;
     }
 
     public static function getPasswordHash($password)
