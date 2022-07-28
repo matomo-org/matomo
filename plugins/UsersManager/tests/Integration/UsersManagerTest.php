@@ -1014,18 +1014,6 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
     /**
-     * check to modify as being another user => exception
-     */
-    public function testUpdateUserIAmNotTheUser()
-    {
-        $this->expectException(\Exception::class);
-
-        FakeAccess::$identity = 'login2';
-        FakeAccess::$superUser = false;
-        $this->testUpdateUserNoEmail();
-    }
-
-    /**
      * normal case, reused in other tests
      */
     public function testUpdateUser()
