@@ -44,7 +44,7 @@
         "RecoveryCodesAllUsed": "All recovery codes have been used. You must generate new ones.",
         "RecoveryCodesRegenerated": "Recovery codes generated. Make sure to download or print out the newly generated codes.",
         "GenerateNewRecoveryCodes": "Generate new recovery codes",
-        "GenerateNewRecoveryCodesInfo": "Generating new recovery codes means ones won't work anymore. Download or print out your new codes.",
+        "GenerateNewRecoveryCodesInfo": "Generating new recovery codes means your old ones won't work anymore. Download or print out your new codes.",
         "RequireTwoFAForAll": "Require two-factor authentication for everyone",
         "RequireTwoFAForAllInformation": "Requires other users also log in with 2FA by using an OTP app on their mobile device to log in."
     }
