@@ -307,7 +307,16 @@ class UsersManagerTest extends IntegrationTestCase
         ], $access);
     }
 
+    public function test_addUser_shouldNotAllowAdminUsersToCreateUsers_WithNoInitialSiteWithAccess()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_AddUserNoInitialAccessError');
 
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = [1];
+
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com');
+    }
 
     public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo(
     )
