@@ -1325,7 +1325,7 @@ class APITest extends IntegrationTestCase
     {
         Date::$now = time(); // freeze time, so it doesn't change between inviting user and comparing the time
         $expiredDays = 10;
-        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', null, $expiredDays);
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1, $expiredDays);
         $user = $this->model->getUser('pendingLoginTest');
         $expired = Date::factory($user['invite_expired_at'])->getTimestamp();
         $now = Date::now()->getTimestamp();
