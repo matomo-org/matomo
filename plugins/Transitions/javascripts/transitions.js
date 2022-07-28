@@ -128,7 +128,7 @@ DataTable_RowActions_Registry.register({
 
             if (dataTableParams['period'] === 'range') {
 
-                var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+                var piwikPeriods = window.CoreHome.Periods;
                 if (piwikPeriods) {
                     var range = piwikPeriods.parse(dataTableParams['period'], dataTableParams['date']);
                     if (range) {
@@ -387,10 +387,7 @@ Piwik_Transitions.prototype.render = function () {
 
     this.renderLoops();
 
-    var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-    if ($rootScope) {
-        $rootScope.$emit('Transitions.dataChanged', {'actionType': this.actionType, 'actionName': this.actionName});
-    }
+    window.CoreHome.Matomo.postEvent('Transitions.dataChanged', {'actionType': this.actionType, 'actionName': this.actionName});
 };
 
 /** Render left side: referrer groups & direct entries */
@@ -636,12 +633,9 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
             if (this.showEmbeddedInReport) {
                 onClick = (function (url) {
                     return function () {
-                        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-                        if ($rootScope) {
-                            $rootScope.$emit('Transitions.switchTransitionsUrl', {
-                                url:url
-                            });
-                        }
+                        window.CoreHome.Matomo.postEvent('Transitions.switchTransitionsUrl', {
+                            url: url,
+                        });
                     };
                 })(label);
             } else {
