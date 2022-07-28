@@ -572,13 +572,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             // validate password
-            Piwik::postEvent('UsersManager.checkPassword', array($password));
-            if (!UsersManager::isValidPasswordString($password)) {
-                $error = Piwik::translate('UsersManager_ExceptionInvalidPassword', [UsersManager::PASSWORD_MIN_LENGTH]);
-            }
-            if (mb_strlen($password) > UsersManager::PASSWORD_MAX_LENGTH) {
-                $error = Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong', [UsersManager::PASSWORD_MAX_LENGTH]);
-            }
+            $error = UsersManager::checkPassword($password, true);
 
             // confirm matching passwords
             if ($password !== $passwordConfirmation) {
