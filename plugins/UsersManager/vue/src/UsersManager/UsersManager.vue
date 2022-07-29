@@ -48,7 +48,7 @@
         <PagedUsersList
           @edit-user="onEditUser($event.user)"
           @change-user-role="onChangeUserRole($event.users, $event.role)"
-          @delete-user="onDeleteUser($event.users)"
+          @delete-user="onDeleteUser($event.users, $event.password)"
           @search-change="searchParams = $event.params; fetchUsers()"
           @resend-invite="onResendInvite($event.user)"
           :initial-site-id="initialSiteId"
@@ -266,7 +266,7 @@ export default defineComponent({
         filter_limit: '-1',
       });
     },
-    onDeleteUser(users: User[]|string) {
+    onDeleteUser(users: User[]|string, password: string) {
       this.isLoadingUsers = true;
 
       Promise.resolve().then(() => {
@@ -278,11 +278,30 @@ export default defineComponent({
         const requests = userLogins.map((login) => ({
           method: 'UsersManager.deleteUser',
           userLogin: login,
+          passwordConfirmation: password,
         }));
         return AjaxHelper.fetch(requests, { createErrorNotification: true });
-      }).catch(() => {
-        // ignore (errors will still be displayed to the user)
-      }).then(() => this.fetchUsers());
+      }).then(() => {
+        NotificationsStore.show({
+          id: 'removeUserSuccess',
+          message: translate('UsersManager_DeleteSuccess'),
+          context: 'success',
+          type: 'transient',
+        });
+        this.fetchUsers();
+      }, () => {
+        if (users !== 'all' && users.length > 1) {
+          // Show a notification that some users might not have been removed if an error occurs
+          // and more than one users was tried to remove
+          NotificationsStore.show({
+            id: 'removeUserSuccess',
+            message: translate('UsersManager_DeleteNotSuccessful'),
+            context: 'warning',
+            type: 'transient',
+          });
+        }
+        this.fetchUsers();
+      });
     },
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(

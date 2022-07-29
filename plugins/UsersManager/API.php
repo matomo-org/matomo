@@ -947,16 +947,17 @@ class API extends \Piwik\Plugin\API
      * Delete one or more users and all its access, given its login.
      *
      * @param string $userLogin the user login(s).
+     * @param string $passwordConfirmation the currents users password
      *
-     * @return bool true on success
      * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
      *
      */
-    public function deleteUser($userLogin)
+    public function deleteUser($userLogin, $passwordConfirmation)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
+        $this->confirmCurrentUserPassword($passwordConfirmation);
 
         $user = $this->model->getUser($userLogin);
 
