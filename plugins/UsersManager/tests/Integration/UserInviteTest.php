@@ -56,7 +56,7 @@ class UserInviteTest extends IntegrationTestCase
             [
                 'userLogin' => $this->pendingUser['login'],
                 'email' => $this->pendingUser['email'],
-                'idSite' => 1,
+                'initialIdSite' => 1,
                 'expiryInDays' => 7
             ]
         );
