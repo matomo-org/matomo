@@ -46,6 +46,6 @@
         "GenerateNewRecoveryCodes": "Generate new recovery codes",
         "GenerateNewRecoveryCodesInfo": "Generating new recovery codes means your old ones won't work anymore. Download or print out your new codes.",
         "RequireTwoFAForAll": "Require two-factor authentication for everyone",
-        "RequireTwoFAForAllInformation": "Requires other users also log in with 2FA by using an OTP app on their mobile device to log in. (As a prerequisite, you must use 2FA yourself.)"
+        "RequireTwoFAForAllInformation": "Requires other users also log in with 2FA by using an OTP app on their mobile device. (As a prerequisite, you must use 2FA yourself.)"
     }
 }
