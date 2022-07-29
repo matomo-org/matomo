@@ -303,6 +303,7 @@
             "support": {
                 "source": "https://github.com/lox/xhprof/tree/master"
             },
+            "abandoned": true,
             "time": "2015-08-31T22:07:48+00:00"
         },
         {
