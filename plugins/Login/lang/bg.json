@@ -1,7 +1,13 @@
 {
     "Login": {
         "Accept": "Приемане",
+        "AcceptPrivacyPolicy": "Трябва да приемете политиката за поверителност.",
+        "AcceptPrivacyPolicyAndTermsAndCondition": "Трябва да приемете политиката за поверителност и правилата &amp; условията.",
+        "AcceptTermsAndCondition": "Трябва да приемете правилата &amp; условията.",
         "BruteForceLog": "Лог за brute force атаки",
+        "BySigningUpPrivacyPolicy": "Като се регистрирам, приемам %1$sполитиката за поверителност%2$s",
+        "BySigningUpPrivacyPolicyAndTermsAndCondition": "Като се регистрирам, приемам %1$sполитиката за поверителност%2$s и %3$sправилата &amp; условията %4$s",
+        "BySigningUpTermsAndCondition": "Като се регистрирам, приемам %1$sправилата &amp; и условията %2$s",
         "ChangeYourPassword": "Променете паролата си",
         "ConfirmPasswordReset": "Нулиране на паролата",
         "ConfirmPasswordResetIntro": "Моля, въведете новата си парола, за да потвърдите, че наистина сте поискали промяна.",
@@ -12,6 +18,7 @@
         "CurrentlyBlockedIPs": "Блокирани IP адреси",
         "CurrentlyBlockedIPsUnblockConfirm": "Да се отблокират ли всички блокирани IP адреси?",
         "CurrentlyBlockedIPsUnblockInfo": "Можете да деблокирате IP адреси, блокирани по погрешка, за да им позволите да влязат отново.",
+        "DeclineInvitationInfo": "Вашата покана беше отхвърлена.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Потребител с достъп на суперпотребител не може да бъде удостоверен чрез механизма „%s“.",
         "ExceptionPasswordMD5HashExpected": "Параметърът на паролата се очаква да бъде MD5 хеш на парола.",
         "HelpIpRange": "Въведете един IP адрес или един IP диапазон на ред. Можете да използвате CIDR нотация, напр.: %1$s или можете да използвате заместващи знаци, напр.: %2$s или %3$s",

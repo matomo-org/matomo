@@ -28,7 +28,6 @@
         "InstallAllPurchasedPluginsAction": "購入した %d プラグインをインストールして有効にする",
         "InstallPurchasedPlugins": "購入したプラグインをインストールする",
         "InstallThesePlugins": "これにより、次のプラグインがインストールされ、有効になります:",
-        "InstallingNewPluginViaMarketplaceOrUpload": "マーケットプレイスから自動的に %1$s をインストールするか、または%3$s%4$sを.zip形式でアップロード%2$sすることができます。",
         "InstallingPlugin": "%s のインストール",
         "LastCommitTime": "( 最終更新 %s )",
         "LastUpdated": "最終更新日",
