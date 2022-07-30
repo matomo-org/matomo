@@ -58,7 +58,7 @@
         "InstallationGuides": "Installasjonsveiledninger",
         "InstallationGuidesIntro": "Stegvis veiledning forklarer hvordan du bygger inn sporingskoden for noen av de populære innholdshåndteringssystemene og nettsidebyggerne:",
         "Integrations": "Integrasjoner",
-        "JsTrackingTagHelp": "Her er JavaScript-sporingskoden som må inkluderes på alle dine sider",
+        "JsTrackingTagHelp": "Dette er JavaScript-sporingskoden som må inkluderes på alle sidene dine",
         "KeepURLFragments": "URL-fragmentsporing",
         "KeepURLFragmentsHelp": "Hvis boksen under ikke er merket, vil URL-fragmenter (alt etter %1$s) fjernes når de spores: %2$s vil bli sporet som %3$s",
         "KeepURLFragmentsHelp2": "Du kan også overstyre denne innstillingen for individuelle nettsteder over.",
