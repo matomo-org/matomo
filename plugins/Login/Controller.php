@@ -572,7 +572,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             // validate password
-            $error = UsersManager::checkPassword($password, true);
+            try {
+                UsersManager::checkPassword($password);
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+            }
 
             // confirm matching passwords
             if ($password !== $passwordConfirmation) {
