@@ -43,7 +43,7 @@ class Sql extends DbMigration
         }
 
         $this->sql = $sql;
-        $globalErrorCodesToIgnore = Config::getInstance()->database['ignore_error_codes'];
+        $globalErrorCodesToIgnore = Config::getInstance()->database['ignore_error_codes'] ?? [];
         $this->errorCodesToIgnore = array_merge($errorCodesToIgnore, (is_array($globalErrorCodesToIgnore) ? $globalErrorCodesToIgnore : []));
     }
 
