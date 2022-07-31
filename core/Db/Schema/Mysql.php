@@ -57,7 +57,8 @@ class Mysql implements SchemaInterface
                           invite_token VARCHAR(191) NULL,
                           invite_expired_at TIMESTAMP NULL,
                           invite_accept_at TIMESTAMP NULL,
-                            PRIMARY KEY(login)
+                            PRIMARY KEY(login),
+                            UNIQUE INDEX `uniq_email` (`email`)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
             'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (

@@ -439,15 +439,15 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForSelector('.superuser-confirm-modal');
+        await page.waitForSelector('.modal.open');
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('.superuser-confirm-modal')).to.matchImage('superuser_confirm');
+        expect(await page.screenshotSelector('.modal.open')).to.matchImage('superuser_confirm');
     });
 
     it('should fail to set superuser access if password is wrong', async function () {
-        await page.type('input#currentUserPasswordForSuperUser', 'wrongpassword');
-        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.modal.open #currentUserPassword', 'wrongpassword');
+        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.waitForSelector('.notification-error', { visible: true });
@@ -460,8 +460,8 @@ describe("UsersManager", function () {
         await page.click('.userEditForm #superuser_access+span');
         await page.waitForTimeout(500);
 
-        await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
-        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
@@ -508,9 +508,9 @@ describe("UsersManager", function () {
     });
 
     it('should show error when wrong password entered', async function () {
-        await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
+        await page.type('.modal.open #currentUserPassword', 'test123456');
 
-        var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
+        var btnNo = await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
 
         await page.waitForTimeout(500); // animation
@@ -525,14 +525,15 @@ describe("UsersManager", function () {
         await page.goto(url);
         await (await page.jQuery('.resend')).click();
         await page.waitForTimeout(500); // animation
-        await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+        const elem = await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
+        expect(await elem.screenshot()).to.matchImage('resend_popup');
     });
 
     it('should show resend success message', async function() {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForSelector('#notificationContainer .notification');
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.usersManager, #notificationContainer .notification')).to.matchImage('resend_success');
     });
 
 

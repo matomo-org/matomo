@@ -3654,7 +3654,7 @@ if ($mysql) {
     });
 
     test("referrer ignore list", function() {
-        expect(23);
+        expect(25);
 
         var testCases = [
             ['no exclusion', 'https://www.google.fr/?query=test', '', false],
@@ -3663,6 +3663,7 @@ if ($mysql) {
             ['host exclusion matches (www ignored)', 'https://www.google.fr/?query=test', 'google.fr', true],
             ['host exclusion not matching', 'https://www.google.de/?query=test', 'www.google.fr', false],
             ['wildcard subdomain exclusion matches', 'https://www.google.fr/?query=test', '*.google.fr', true],
+            ['paypal.com is excluded by default', 'https://www.paypal.com/proceed/payment/', '', true],
             ['host with path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/', true],
             ['host with path exclusion not matching', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/shipping', false],
             ['host with wild card path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed*', true],
@@ -3683,6 +3684,8 @@ if ($mysql) {
             if (excludedReferrer) {
                 tracker.setExcludedReferrers(excludedReferrer);
                 expectedExcludedReferrer = tracker.hook.test._isString(excludedReferrer) ? [excludedReferrer] : excludedReferrer;
+            } else {
+                expectedExcludedReferrer = ['.paypal.com'];
             }
             deepEqual(tracker.getExcludedReferrers(), expectedExcludedReferrer, testName + " - check getExcludedReferrers()");
             deepEqual(tracker.hook.test._isReferrerExcluded(referrerUrl), result, testName + " - check isReferrerExcluded()");

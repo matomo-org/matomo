@@ -9,6 +9,7 @@
     :form-field="field"
     :model-value="modelValue"
     @update:model-value="onChange($event)"
+    :model-modifiers="modelModifiers"
   >
     <template v-slot:inline-help>
       <slot name="inline-help"></slot>
@@ -30,6 +31,7 @@ const UI_CONTROLS_TO_TYPE: Record<string, string> = {
 export default defineComponent({
   props: {
     modelValue: null,
+    modelModifiers: Object,
     uicontrol: String,
     name: String,
     defaultValue: null,

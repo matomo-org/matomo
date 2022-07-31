@@ -1,7 +1,7 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Tilgjengelig kreditt: %1$s",
-        "Exception_UnknownProvider": "Tilbydernavnet '%1$s' er ukjent. Prøv ett av følgende i stedet: %2$s.",
+        "Exception_UnknownProvider": "Tilbydernavnet «%1$s» er ukjent. Prøv ett av følgende istedenfor: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Du kan legge til flere telefonnummer ved å gå til",
         "MobileReport_MobileMessagingSettingsLink": "innstillingssiden for mobilmeldinger",
         "MobileReport_NoPhoneNumbers": "Aktiver minst ett telefonnummer ved å besøke",
