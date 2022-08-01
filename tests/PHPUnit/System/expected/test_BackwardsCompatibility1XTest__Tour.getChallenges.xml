@@ -91,7 +91,7 @@
 	<row>
 		<id>setup_twofa</id>
 		<name>Setup Two-factor authentication</name>
-		<description>Two-factor authentication increase your account security by adding an additional layer of verification when you log in. Each time you log in you will not only be asked to provide your login and password, but also an additional authentication token which changes periodically and is generated for example on your mobile device. This means that even when someone knows your username and password, they still won't be able to log in unless they have access to your mobile device for example.</description>
+		<description>Two-factor authentication increases account security by also asking you for a code generated on a mobile device, or one of the remaining recovery codes (in addition to your password) to log in.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>https://matomo.org/faq/general/faq_27245</url>
