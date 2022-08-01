@@ -239,14 +239,14 @@ class Csv extends Renderer
 
         $value = $this->formatFormulas($value);
 
+        $value = str_replace(["\t"], ' ', $value);
+
         if (is_string($value)
             && (strpos($value, '"') !== false
                 || strpos($value, $this->separator) !== false)
         ) {
             $value = '"' . str_replace('"', '""', $value) . '"';
         }
-
-        //$value = str_replace(["\t"], ' ', $value);
 
         // in some number formats (e.g. German), the decimal separator is a comma
         // we need to catch and replace this
