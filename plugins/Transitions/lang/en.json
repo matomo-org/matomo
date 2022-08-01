@@ -11,7 +11,7 @@
         "TopX": "Top %s labels",
         "FeatureDescription": "Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful \"Transitions\" report.",
         "AvailableInOtherReports": "Did you know? Transitions are also available as a row action in the following reports:",
-        "AvailableInOtherReports2": "Launch transitions by clicking their icon (%s) after hovering a row in any of these reports."
+        "AvailableInOtherReports2": "Launch transitions by clicking their icon (%s) after hovering a row in any of these reports.",
         "FromCampaigns": "From campaigns",
         "FromPreviousPages": "From internal pages",
         "FromPreviousPagesInline": "%s from internal pages",
