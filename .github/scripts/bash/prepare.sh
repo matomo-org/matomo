@@ -46,7 +46,7 @@ else
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 fi
 
-if [ "$MATOMO_TEST_TARGE" == "JS"]
+if [ "$MATOMO_TEST_TARGET" == "JS"]
 then
   echo -e "${GREEN}run php on 80{SET}"
   sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
