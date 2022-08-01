@@ -107,7 +107,7 @@ var PagePerformance = function() {
             Piwik_Popover.setContent(html);
 
             // remove title returned from the server
-            var title = box.find('h2[piwik-enriched-headline]');
+            var title = box.find('.enrichedHeadline').closest('h2');
             var defaultTitle = title.text();
 
             if (title.length) {

@@ -128,7 +128,6 @@
         "SystemCheckTracker": "追踪器状态",
         "SystemCheckTrackerHelp": "对matomo.php的GET请求失败。 尝试从HTTP身份验证中将此URL列入白名单并禁用mod_security（您可能需要询问您的webhost）。 有关错误的详细信息，请检查您的Web服务器错误日志文件。",
         "SystemCheckUpdateHttps": "通过 HTTPS 更新",
-        "SystemCheckUpdateHttpsNotSupported": "MatomoMatomo无法使用HTTPS进行更新，它将回退到不安全的HTTP更新。 检查是否支持CURL或allow_url_fopen并且安装了openssl PHP扩展：https://matomo.org/faq/troubleshooting/faq_177/.。",
         "SystemCheckViewFullSystemCheck": "查看完整的系统检查报告",
         "SystemCheckWarnDomHelp": "必须启用“dom”扩展（例如安装“php-dom”或“php-xml”包）。",
         "SystemCheckWarnLibXmlHelp": "您必须启用“libxml”扩展（例如安装“php-libxml”包，它被其他核心 PHP 扩展所依赖。",

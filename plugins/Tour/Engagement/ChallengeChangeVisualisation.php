@@ -29,7 +29,7 @@ class ChallengeChangeVisualisation extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/piwik-tour/#a-look-at-a-piwik-report';
+        return 'https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/';
     }
 
 

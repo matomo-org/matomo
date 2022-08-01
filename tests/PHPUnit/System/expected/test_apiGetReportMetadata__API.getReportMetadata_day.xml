@@ -217,11 +217,11 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Locations</subcategory>
-		<name>Browser language</name>
+		<name>Web-browser language</name>
 		<module>UserLanguage</module>
 		<action>getLanguage</action>
 		<dimension>Language</dimension>
-		<documentation>This report shows which language the visitor's browsers are using. (e.g. &quot;English&quot;)</documentation>
+		<documentation>Shows which language the visitor's browsers are using. (e.g. &quot;French&quot;)</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -300,7 +300,7 @@
 		<module>UserLanguage</module>
 		<action>getLanguageCode</action>
 		<dimension>Language</dimension>
-		<documentation>This report shows which exact language code the visitor's browsers is set to. (e.g. &quot;German - Austria (de-at)&quot;)</documentation>
+		<documentation>Shows which exact language code the visitor's browsers is set to. (e.g. &quot;German — Austria (de-at)&quot;)</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -325,7 +325,7 @@
 		</processedMetrics>
 		<relatedReports>
 			<row>
-				<name>Browser language</name>
+				<name>Web-browser language</name>
 				<module>UserLanguage</module>
 				<action>getLanguage</action>
 			</row>
@@ -890,7 +890,7 @@
 		<module>UserId</module>
 		<action>getUsers</action>
 		<dimension>UserId</dimension>
-		<documentation>This report shows visits and other general metrics for every individual User ID.</documentation>
+		<documentation>Shows visits and other general metrics for every individual User ID.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/user-id/</onlineGuideUrl>
 		<metrics>
 			<label>Label</label>

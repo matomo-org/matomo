@@ -58,7 +58,7 @@
         "PerformanceSettingsDesc2": "Cela nécessite d'ajouter une commande Matomo comme tâche planifiée Cron, ce qui ne peut être fait automatiquement par le processus d'installation. Vous pouvez %1$slire notre FAQ pour savoir comment faire ce paramétrage%2$s",
         "PhpBinaryCheck": "Binaire PHP 64 bits",
         "PhpBinaryCheckHelp": "32 bits <p>Mettre à niveau vers un binaire PHP 64 bits au plus tard en janvier 2026 pour éviter les bogues.</p>",
-        "PiwikOrgNewsletter": "inscription à la newsletter pour recevoir régulièrement des informations sur Matomo.",
+        "PiwikOrgNewsletter": "inscrivez-vous à notre newsletter pour recevoir régulièrement des informations sur Matomo.",
         "PleaseFixTheFollowingErrors": "Merci de corriger les erreurs suivantes",
         "ProfessionalServicesAdTitle": "Services et statistiques avancés",
         "ProfessionalServicesNewsletter": "envoyez-moi des informations à propos %1$sdes produits et services professionnels%2$s pour Matomo",
@@ -132,7 +132,6 @@
         "SystemCheckTracker": "État du traqueur",
         "SystemCheckTrackerHelp": "Impossible d'effectuer une requête GET vers matomo.php . Essayez d'ajouter à la liste de confiance de l'authentification HTTP cette URL et désactivez le mod_security (il est possible que vous ayez besoin de demander à votre hébergeur). Pour plus d'information à propos de l'erreur, consultez le fichier de journalisation des erreurs de votre serveur.",
         "SystemCheckUpdateHttps": "Mettre à jour via HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo n'a pas pu utiliser HTTPS pour effectuer la mise à jour, et va rétrograder vers une mise à jour non sécurisée via HTTP. Vérifiez que CURL ou allow_url_fopen est activé et que l'extension PHP openssl est installée : https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Afficher le rapport complet du système",
         "SystemCheckWarnDomHelp": "Vous devriez activer l'extension « dom » (ex. installez le paquet \"php-dom\" et/ou \"php-xml\").",
         "SystemCheckWarnJsonHelp": "Vous devez activer l'extension « json » (ex. installez le paquet php-json).",
@@ -156,7 +155,7 @@
         "Timezone": "Fuseau horaire du site web",
         "WeHopeYouWillEnjoyPiwik": "Appréciez l'utilisation de Matomo autant que nous aimons le concevoir.",
         "Welcome": "Bienvenue",
-        "WelcomeHelp": "<p>Matomo est un logiciel libre pour analyser le trafic issu de vos vvisiteurs.</p>\t<p>Ce procédé est divisé en %s étapes faciles et vous prendra 5 minutes environ.</p>",
+        "WelcomeHelp": "<p>Matomo est un logiciel libre pour analyser le trafic issu de vos visiteurs.</p><p>Ce procédé est divisé en %s étapes faciles et vous prendra 5 minutes environ.</p>",
         "WelcomeToCommunity": "Bienvenue dans la communauté Matomo.",
         "YouMayInstallPiwikNow": "Vous pouvez %1$sinstaller Matomo maintenant%2$s"
     }
