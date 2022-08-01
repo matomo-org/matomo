@@ -246,6 +246,8 @@ class Csv extends Renderer
             $value = '"' . str_replace('"', '""', $value) . '"';
         }
 
+        //$value = str_replace(["\t"], ' ', $value);
+
         // in some number formats (e.g. German), the decimal separator is a comma
         // we need to catch and replace this
         if (is_numeric($value)) {
