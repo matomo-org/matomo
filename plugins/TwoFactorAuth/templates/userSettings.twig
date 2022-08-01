@@ -1,4 +1,4 @@
-<div piwik-content-block
+<div vue-entry="CoreHome.ContentBlock"
      content-title="{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }} ({{ 'TwoFactorAuth_TwoFAShort'|translate }})" class="userSettings2FA">
 
     <p>
@@ -13,14 +13,15 @@
             {{ 'TwoFactorAuth_TwoFactorAuthenticationRequired'|translate }}
             <br />
             <br />
-            <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
+            <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}" style="margin-right:3.5px">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
         {% else %}
-            <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
+            <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}" style="margin-right:3.5px">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
             <a href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'disableNonce': disableNonce}) }}" style="display:none;" id="disable2fa">disable2fa</a>
             <input type="button"
                    class="btn btn-link disable2FaLink"
                    onclick="twoFactorAuth.confirmDisable2FA('{{ disableNonce|e('url') }}');"
-                   value="{{ 'TwoFactorAuth_DisableTwoFA'|translate }}">
+                   value="{{ 'TwoFactorAuth_DisableTwoFA'|translate }}"
+                   style="margin-right:3.5px">
         {% endif %}
             <a class="btn btn-link showRecoveryCodesLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}">{{ 'TwoFactorAuth_ShowRecoveryCodes'|translate }}</a>
         </p>

@@ -25,8 +25,7 @@ export default {
       };
 
       const app = createVueApp({
-        template: `
-          <popover v-bind="bind"/>`,
+        template: '<popover v-bind="bind"/>',
         data() {
           return {
             bind: props,

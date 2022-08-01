@@ -128,7 +128,6 @@
         "SystemCheckTracker": "Status śledzenia",
         "SystemCheckTrackerHelp": "Żądanie GET do matomo.php nie powiodło się. Spróbuj dodać do whitelisting ten URL z HTTP Authentication i wyłączyć mod_security (być może będziesz musiał zapytać o to swojego webhost). Więcej informacji o tym błędzie znajdziesz sprawdzając na swoim serwerze WWW plik z dziennikiem błędów.",
         "SystemCheckUpdateHttps": "Aktualizacja przez HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo nie może używać HTTPS do aktualizacji, więc powróci do niepewnej aktualizacji HTTP. Sprawdź, czy CURL lub allow_url_fopen są obsługiwane i czy rozszerzenie PHP OpenSSL jest zainstalowane: https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Przeglądaj pełny raport ze sprawdzenia systemu",
         "SystemCheckWarnDomHelp": "Rozszerzenie \"dom\" winno być włączone (np., instalując pakiety \"php-dom\" i/lub pakiet \"php-xml\").",
         "SystemCheckWarnJsonHelp": "Należy aktywować rozszerzenie \"JSON\" (np. poprzez zainstalowanie pakietu \"php-json\").",

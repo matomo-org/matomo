@@ -56,7 +56,8 @@
           :is-loading-users="isLoadingUsers"
           :current-user-role="currentUserRole"
           :access-levels="accessLevels"
-          :filter-access-levels="actualFilterAccessLevels"
+          :filter-access-levels="filterAccessLevels"
+          :filter-status-levels="filterStatusLevels"
           :search-params="searchParams"
           :users="users"
           :total-entries="totalEntries"
@@ -70,7 +71,7 @@
         :user="userBeingEdited"
         :current-user-role="currentUserRole"
         :access-levels="accessLevels"
-        :filter-access-levels="actualFilterAccessLevels"
+        :filter-access-levels="filterAccessLevels"
         :initial-site-id="initialSiteId"
         :initial-site-name="initialSiteName"
         @updated="userBeingEdited = $event.user"
@@ -116,6 +117,8 @@ import {
   Matomo,
   MatomoUrl,
   AjaxHelper,
+  translate,
+  NotificationsStore,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import PagedUsersList from '../PagedUsersList/PagedUsersList.vue';
@@ -127,8 +130,8 @@ interface UsersManagerState {
   isEditing: boolean;
   isCurrentUserSuperUser: boolean;
   users: User[];
-  userBeingEdited: User|null;
-  totalEntries: null|number;
+  userBeingEdited: User | null;
+  totalEntries: null | number;
   searchParams: SearchParams;
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
@@ -160,6 +163,10 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    filterStatusLevels: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     EnrichedHeadline,
@@ -182,6 +189,7 @@ export default defineComponent({
         limit: NUM_USERS_PER_PAGE,
         filter_search: '',
         filter_access: '',
+        filter_status: '',
         idSite: this.initialSiteId,
       },
       isLoadingUsers: false,
@@ -223,13 +231,25 @@ export default defineComponent({
       }).then((usersResolved) => (
         usersResolved.filter((u) => u.role !== 'superuser').map((u) => u.login)
       )).then((userLogins) => {
-        const requests = userLogins.map((login) => ({
-          method: 'UsersManager.setUserAccess',
-          userLogin: login,
-          access: role,
-          idSites: this.searchParams.idSite,
-          ignoreSuperusers: 1,
-        }));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const type = this.accessLevels.filter((a: any) => a.key === role).map((a: any) => a.type);
+
+        let requests;
+        if (type.length && type[0] === 'capability') {
+          requests = userLogins.map((login) => ({
+            method: 'UsersManager.addCapabilities',
+            userLogin: login,
+            capabilities: role,
+            idSites: this.searchParams.idSite,
+          }));
+        } else {
+          requests = userLogins.map((login) => ({
+            method: 'UsersManager.setUserAccess',
+            userLogin: login,
+            access: role,
+            idSites: this.searchParams.idSite,
+          }));
+        }
 
         return AjaxHelper.fetch(requests, { createErrorNotification: true });
       }).catch(() => {
@@ -241,6 +261,7 @@ export default defineComponent({
         method: 'UsersManager.getUsersPlusRole',
         filter_search: this.searchParams.filter_search,
         filter_access: this.searchParams.filter_access,
+        filter_status: this.searchParams.filter_status,
         idSite: this.searchParams.idSite,
         filter_limit: '-1',
       });
@@ -264,14 +285,20 @@ export default defineComponent({
       }).then(() => this.fetchUsers());
     },
     onResendInvite(user: User) {
-      console.log(user);
       AjaxHelper.fetch<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
           userLogin: user.login,
         },
-      ).then((res) => {
-        console.log(res);
+      ).then(() => {
+        this.fetchUsers();
+        const id = NotificationsStore.show({
+          message: translate('UsersManager_ResendInviteSuccess', user.login),
+          id: 'resendinvite',
+          context: 'success',
+          type: 'transient',
+        });
+        NotificationsStore.scrollToNotification(id);
       });
     },
     fetchUsers() {
@@ -336,14 +363,6 @@ export default defineComponent({
 
       this.isEditing = true;
       this.userBeingEdited = null;
-    },
-  },
-  computed: {
-    actualFilterAccessLevels() {
-      if (this.currentUserRole === 'superuser') {
-        return [...this.filterAccessLevels, { key: 'superuser', value: 'Superuser' }];
-      }
-      return this.filterAccessLevels;
     },
   },
 });

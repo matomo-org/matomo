@@ -376,11 +376,11 @@ window.piwikHelper = {
      * via angular as soon as it detects a $locationChange
      *
      * @returns {number|jQuery}
-     * @deprecated
+     * @deprecated use isReportingPage() instead
      */
     isAngularRenderingThePage: function ()
     {
-        return piwikHelper.isReportingPage();
+        return this.isReportingPage();
     },
 
     /**
