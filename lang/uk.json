@@ -85,7 +85,7 @@
         "ColumnUniqueExits": "Унікальні виходи",
         "ColumnUniquePageviews": "Унікальні перегляди сторінок",
         "ColumnUniquePageviewsDocumentation": "Число відвідувань, які включали також цю сторінку. Якщо сторінка була переглянута одним користувачем кілька разів, це зараховується як одне відвідування сторінки.",
-        "ColumnValuePerEntry": "Дохід за запис",
+        "ColumnValuePerEntry": "Дохід на запис",
         "ColumnValuePerVisit": "Вартість візиту",
         "ColumnViewedAfterSearch": "Клікнули по результату в пошуку",
         "ColumnViewedAfterSearchDocumentation": "Число разів, коли відвідувачі відвідували цю сторінку після того, як вони користувалися пошуком на Вашому сайті і клікнули по знайденої сторінці.",

@@ -1,7 +1,13 @@
 {
     "Login": {
         "Accept": "Godta",
+        "AcceptPrivacyPolicy": "Du må samtykke til personvernspraksisen.",
+        "AcceptPrivacyPolicyAndTermsAndCondition": "Du må samtykke til personvernspraksisen, og vilkår og betingelser.",
+        "AcceptTermsAndCondition": "Du må samtykke til vilkår og betingelser.",
         "BruteForceLog": "Logg over brutale styrkeangrep",
+        "BySigningUpPrivacyPolicy": "Ved å registrere meg samtykker jeg til %1$spersonvernspraksisen%2$s",
+        "BySigningUpPrivacyPolicyAndTermsAndCondition": "Ved å registrere meg samtykker jeg til %1$spersonvernspraksisen%2$s og %3$svilkår og betingelser%4$s",
+        "BySigningUpTermsAndCondition": "Ved å registrere meg samtykker jeg til %1$svilkår og betingelser%2$s",
         "ChangeYourPassword": "Endret ditt passord",
         "ConfirmPasswordReset": "Tilbakestill passord",
         "ConfirmPasswordResetIntro": "Skriv inn passordet ditt igjen for å bekrefte at det var du som forespurte tilbakestilling.",
@@ -12,6 +18,7 @@
         "CurrentlyBlockedIPs": "IP-er som blokkeres",
         "CurrentlyBlockedIPsUnblockConfirm": "Avblokker alle blokkerte IP-adresser?",
         "CurrentlyBlockedIPsUnblockInfo": "Du kan avblokkere IP-er som er blokkert feilaktig og tillate dem å logge inn igjen.",
+        "DeclineInvitationInfo": "Invitasjonen din ble avslått.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruker med superbrukertilgang kan ikke autentiseres med «%s»-mekanismen.",
         "ExceptionPasswordMD5HashExpected": "Passordparameteret er forventet å være en MD5-hash av passordet.",
         "HelpIpRange": "Skriv inn én IP-adresse eller ett IP-tallfølge per linje. Du kan bruke CIDR-notasjon, f.eks. %1$s eller du kan bruke jokertegn, f.eks. %2$s eller %3$s",
