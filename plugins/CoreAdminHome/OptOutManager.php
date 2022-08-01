@@ -312,7 +312,8 @@ HTML;
             if (optOutDiv) {
                 optOutDiv.style.cssText += 'stylecss'; // Appending css to avoid overwritting existing inline div styles
             } else {
-                console.log('Unable to find opt-out content div :'+settings.divId);
+                showContent(false, null, true); // will show unable to find opt-out div error
+                return;                
             }
             checkForMatomoTracker();
         }
@@ -375,12 +376,20 @@ JS;
         return <<<JS
 
         function showContent(consent, errorMessage = null, useTracker = false) {
+    
+            var errorBlock = '<p style="color: red; font-weight: bold;">';
+    
             var div = document.getElementById(settings.divId);
             if (!div) {
-                console.log('Unable to find opt-out content div :'+settings.divId);
+                const warningDiv = document.createElement("div");
+                var msg = 'Unable to find opt-out content div: "'+settings.divId+'"';
+                warningDiv.id = settings.divId+'-warning';
+                warningDiv.innerHTML = errorBlock+msg+'</p>';
+                document.body.insertBefore(warningDiv, document.body.firstChild);
+                console.log(msg);
                 return;
             }
-            var errorBlock = '<p style="color: red; font-weight: bold;">';
+            
             if (!navigator || !navigator.cookieEnabled) {
                 div.innerHTML = errorBlock+settings.OptOutErrorNoCookies+'</p>';
                 return;

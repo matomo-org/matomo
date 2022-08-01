@@ -140,6 +140,20 @@
     <p
       v-html="$sanitize(optOutExplanationIntro)">
     </p>
+    <div class="alert-info alert">
+      <strong>{{ translate('PrivacyManager_OptOutRememberToTest') }}</strong>
+      <p>
+      {{ translate('PrivacyManager_OptOutRememberToTestBody') }}
+      </p>
+      <p>
+        <ul>
+          <li>{{ translate('PrivacyManager_OptOutRememberToTestStep1') }}</li>
+          <li>{{ translate('PrivacyManager_OptOutRememberToTestStep2') }}</li>
+          <li>{{ translate('PrivacyManager_OptOutRememberToTestStep3') }}</li>
+          <li>{{ translate('PrivacyManager_OptOutRememberToTestStep4') }}</li>
+        </ul>
+      </p>
+    </div>
     <p
       v-html="$sanitize(optOutCustomOptOutLink)">
     </p>

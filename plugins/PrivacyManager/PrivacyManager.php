@@ -337,6 +337,12 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_OptOutUseTracker';
         $translationKeys[] = 'PrivacyManager_OptOutUseStandalone';
         $translationKeys[] = 'PrivacyManager_OptOutCodeTypeExplanation';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTest';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestBody';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep1';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep2';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep3';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep4';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserId';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote2';
