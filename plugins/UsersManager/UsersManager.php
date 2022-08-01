@@ -35,12 +35,12 @@ class UsersManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-          'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-          'SitesManager.deleteSite.end'            => 'deleteSite',
-          'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
-          'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-          'Platform.initialized'                   => 'onPlatformInitialized',
-          'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'SitesManager.deleteSite.end'            => 'deleteSite',
+            'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Platform.initialized'                   => 'onPlatformInitialized',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
         ];
     }
 
@@ -70,7 +70,8 @@ class UsersManager extends \Piwik\Plugin
             $numUsers--;
         }
 
-        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers), $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
+        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers),
+            $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
     }
 
     public function onPlatformInitialized()
@@ -108,7 +109,7 @@ class UsersManager extends \Piwik\Plugin
 
     public static function hashTrackingToken($tokenAuth, $idSite)
     {
-        return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
+        return sha1($idSite.$tokenAuth.SettingsPiwik::getSalt());
     }
 
     /**
@@ -116,7 +117,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public function deleteSite($idSite)
     {
-        Option::deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::deleteLike('%\_'.API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**
@@ -142,7 +143,7 @@ class UsersManager extends \Piwik\Plugin
     public static function isValidPasswordString($input)
     {
         if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
-          && !empty($input)
+            && !empty($input)
         ) {
             return true;
         }
@@ -170,15 +171,16 @@ class UsersManager extends \Piwik\Plugin
          *
          * @param string $password Checking password in plain text.
          */
+
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
-              array(self::PASSWORD_MIN_LENGTH)));
+                array(self::PASSWORD_MIN_LENGTH)));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
-              array(self::PASSWORD_MAX_LENGTH)));
+                array(self::PASSWORD_MAX_LENGTH)));
         }
     }
 
