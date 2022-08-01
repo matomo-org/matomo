@@ -48,7 +48,7 @@ fi
 
 if [ "$MATOMO_TEST_TARGET" = "JS" ];
 then
-  echo -e "${GREEN}run php on 80{SET}"
+  echo -e "${GREEN}start php on 80${SET}"
   sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
   tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
   tmux ls
