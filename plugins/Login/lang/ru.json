@@ -1,7 +1,13 @@
 {
     "Login": {
         "Accept": "Принять",
+        "AcceptPrivacyPolicy": "Вам необходимо принять политику конфиденциальности.",
+        "AcceptPrivacyPolicyAndTermsAndCondition": "Вам необходимо принять политику конфиденциальности и условия.",
+        "AcceptTermsAndCondition": "Вам необходимо принять условия и положения.",
         "BruteForceLog": "Журнал Brute Force атак",
+        "BySigningUpPrivacyPolicy": "Регистрируясь, я принимаю %1$sполитику конфиденциальности%2$s",
+        "BySigningUpPrivacyPolicyAndTermsAndCondition": "Регистрируясь, я принимаю %1$sполитику конфиденциальности%2$s и %3$sположения и условия%4$s",
+        "BySigningUpTermsAndCondition": "Регистрируясь, я принимаю %1$sусловия и положения%2$s",
         "ChangeYourPassword": "Измените пароль",
         "ConfirmPasswordReset": "Сбросить пароль",
         "ConfirmPasswordResetIntro": "Пожалуйста, введите новый пароль, чтобы подтвердить, что вы действительно запрашивали смену пароля.",
@@ -12,6 +18,7 @@
         "CurrentlyBlockedIPs": "Заблокированные IP",
         "CurrentlyBlockedIPsUnblockConfirm": "Разблокировать все заблокированные IP-адреса?",
         "CurrentlyBlockedIPsUnblockInfo": "Вы можете разблокировать IP-адреса, заблокированные по ошибке, чтобы позволить им снова войти в систему.",
+        "DeclineInvitationInfo": "Ваше приглашение было отклонено.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Пользователь с правами суперпользователя не может пройти проверку подлинности с помощью данного механизма: '%s'.",
         "ExceptionPasswordMD5HashExpected": "Ожидается, что параметром будет MD5-хеш пароля.",
         "HelpIpRange": "Введите один IP-адрес или один диапазон IP-адресов в каждой строке. Вы можете использовать нотацию CIDR, например: %1$s, или вы можете использовать подстановочные знаки, например: %2$s или %3$s",

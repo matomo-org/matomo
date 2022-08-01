@@ -11,6 +11,7 @@
         "DefaultLocationProviderDesc1": "預設的地理位置供應商是透過訪客使用的語言來猜測他的國家與地區。",
         "DefaultLocationProviderDesc2": "這沒有很準確，所以%1$s我們推薦安裝並使用%2$s任一地理位置資料庫%3$s。%4$s",
         "DefaultLocationProviderExplanation": "你正在使用預設地理位置供應商，這代表 Matomo 將以訪客所使用的語言來猜測他們的地理位置。%1$s點此查看%2$s如何安裝更準確的地理位置。",
+        "DisabledLocationProvider": "停用地理位置。",
         "DistinctCountries": "%s 個不同的國家與地區",
         "FromDifferentCities": "不同城市",
         "GeoIPDocumentationSuffix": "要查看此報表的數據，你必須先在管理後台中的地理位置設定 GeoIP 。商用的 %1$sMaxmind%2$s GeoIP 資料庫比免費的還來的精準。點擊%3$s這裡%4$s看看他們多準確。",
