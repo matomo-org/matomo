@@ -46,26 +46,27 @@ else
   cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 fi
 
-if ["$MATOMO_TEST_TARGE" == "JS"]
+if [ "$MATOMO_TEST_TARGE" == "JS"]
 then
-sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
-tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
-tmux ls
+  echo -e "${GREEN}run php on 80{SET}"
+  sudo setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f $(which php))
+  tmux new-session -d -s "php-cgi" sudo php -S 127.0.0.1:80
+  tmux ls
 else
-echo -e "${GREEN}setup php-fpm${SET}"
-cd /home/runner/work/matomo/matomo/
-sudo systemctl enable php$PHP_VERSION-fpm.service
-sudo systemctl start php$PHP_VERSION-fpm.service
-sudo cp ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
-sudo systemctl reload php$PHP_VERSION-fpm.service
-sudo systemctl restart php$PHP_VERSION-fpm.service
-sudo systemctl status php$PHP_VERSION-fpm.service
-sudo systemctl enable nginx
-sudo systemctl start nginx
-sudo cp ./.github/artifacts/ui_nginx.conf /etc/nginx/conf.d/
-sudo unlink /etc/nginx/sites-enabled/default
-sudo systemctl reload nginx
-sudo systemctl restart nginx
+  echo -e "${GREEN}setup php-fpm${SET}"
+  cd /home/runner/work/matomo/matomo/
+  sudo systemctl enable php$PHP_VERSION-fpm.service
+  sudo systemctl start php$PHP_VERSION-fpm.service
+  sudo cp ./.github/artifacts/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
+  sudo systemctl reload php$PHP_VERSION-fpm.service
+  sudo systemctl restart php$PHP_VERSION-fpm.service
+  sudo systemctl status php$PHP_VERSION-fpm.service
+  sudo systemctl enable nginx
+  sudo systemctl start nginx
+  sudo cp ./.github/artifacts/ui_nginx.conf /etc/nginx/conf.d/
+  sudo unlink /etc/nginx/sites-enabled/default
+  sudo systemctl reload nginx
+  sudo systemctl restart nginx
 fi
 
 #update chrome drive
