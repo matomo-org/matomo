@@ -49,6 +49,7 @@ class API extends \Piwik\Plugin\API
     const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
 
     public static $UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+    public static $DELETE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
     public static $SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
 
     /**
@@ -952,12 +953,15 @@ class API extends \Piwik\Plugin\API
      * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
      *
      */
-    public function deleteUser($userLogin, $passwordConfirmation)
+    public function deleteUser($userLogin, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
-        $this->confirmCurrentUserPassword($passwordConfirmation);
+
+        if (self::$DELETE_USER_REQUIRE_PASSWORD_CONFIRMATION) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         $user = $this->model->getUser($userLogin);
 
