@@ -4,7 +4,7 @@
         "EvolutionMetricName": "%s-utvikling",
         "GenerateVisits": "Hvis du ikke har data for i dag kan du generere det med %1$s-utvidelsen ved å gå til «Utvikling» → «Besøksgenerator»-i administrasjonsområdet for Matomo.",
         "Glossary": "Ordliste",
-        "KeepTokenSecret": "Denne token_auth er like hemmelig som ditt brukernavn og passord. %1$s Ikke del den%2$s!",
+        "KeepTokenSecret": "Denne token_auth er like hemmelig som brukernavnet og passordet ditt. %1$s Ikke del den%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Lær mer om ofte brukt orbruk for å få mest mulig ut av Matomo-analyse.",
         "LoadedAPIs": "Lastet inn %s API-er",
         "MainMetricsReportDocumentation": "Denne rapporten gir den en oversikt over de viktigste måleverdiene på tvers av kategorier og programtillegg.",

@@ -86,8 +86,6 @@ class API extends \Piwik\Plugin\API
      */
     private $passwordVerifier;
 
-    private $twoFaPluginActivated;
-
     private $userRepository;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
@@ -729,7 +727,15 @@ class API extends \Piwik\Plugin\API
 
         $password = Common::unsanitizeInputValue($password);
         UsersManager::checkPassword($password);
+
+
         $initialIdSite = $initialIdSite === null ? null : intval($initialIdSite);
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if (empty($initialIdSite)) {
+                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+            }
+        }
 
         $this->userRepository->create(
             (string) $userLogin,
@@ -752,7 +758,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @throws Exception
      */
-    public function inviteUser($userLogin, $email, $idSite = null, $expiryInDays = null)
+    public function inviteUser($userLogin, $email, $initialIdSite = null, $expiryInDays = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
@@ -761,9 +767,14 @@ class API extends \Piwik\Plugin\API
             $expiryInDays = Config\GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');
         }
 
-        $idSite = $idSite === null ? null : intval($idSite);
+        if (empty($initialIdSite)) {
+            throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+        } else {
+            // check if the site exists
+            new Site($initialIdSite);
+        }
 
-        $this->userRepository->inviteUser((string) $userLogin, (string) $email, $idSite, (int) $expiryInDays);
+        $this->userRepository->inviteUser((string) $userLogin, (string) $email, intval($initialIdSite), (int) $expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -1432,20 +1443,6 @@ class API extends \Piwik\Plugin\API
             }
         }
         return [$roles, $capabilities];
-    }
-
-    private function confirmCurrentUserPassword($passwordConfirmation)
-    {
-        if (empty($passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
-        }
-
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
-        $loginCurrentUser = Piwik::getCurrentUserLogin();
-        if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
-        }
     }
 
     private function sendEmailChangedEmail($user, $newEmail)

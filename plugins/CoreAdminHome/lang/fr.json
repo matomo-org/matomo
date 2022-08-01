@@ -156,7 +156,7 @@
         "UpdateSettings": "Paramètres de mise à jour",
         "UseCustomLogo": "Utiliser un logo personnalisé",
         "UserInviteContent": "Vous pouvez accepter cette invitation en cliquant sur le bouton d'acceptation ci-dessous.",
-        "UserInviteNotes": "Cette invitation était destinée à l'accès %1$s. Si vous ne vous attendiez pas à cette invitation, vous pouvez ignorer cet e-mail. Si %2$s vous envoie trop d'e-mails, vous pouvez les bloquer ou signaler les abus. L'invitation expire automatiquement dans 7 jours.",
+        "UserInviteNotes": "Si vous ne vous attendiez pas à cette invitation, vous pouvez ignorer cet e-mail. Si %1$s vous envoie trop d'e-mails, vous pouvez les bloquer ou signaler les abus. L'invitation expire automatiquement dans %2$s jours.",
         "UserInviteSubject": "%1$s vous a invité à rejoindre Matomo Analytics pour %2$s.",
         "ValidPiwikHostname": "Nom d'hôte Matomo valide",
         "ViewAllTrackingFailures": "Afficher toutes les erreurs de suivi",

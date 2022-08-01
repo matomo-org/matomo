@@ -572,8 +572,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             // validate password
-            if (!UsersManager::isValidPasswordString($password)) {
-                $error = Piwik::translate('UsersManager_ExceptionInvalidPassword', [UsersManager::PASSWORD_MIN_LENGTH]);
+            try {
+                UsersManager::checkPassword($password);
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
             }
 
             // confirm matching passwords

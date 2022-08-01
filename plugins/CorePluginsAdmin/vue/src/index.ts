@@ -25,3 +25,4 @@ export { default as PluginUpload } from './Plugins/PluginUpload';
 export { default as SaveButton } from './SaveButton/SaveButton.vue';
 export { default as Form } from './Form/Form';
 export { default as GroupedSettings } from './GroupedSettings/GroupedSettings';
+export { default as PasswordConfirmation } from './PasswordConfirmation/PasswordConfirmation.vue';

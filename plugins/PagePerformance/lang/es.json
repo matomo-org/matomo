@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Tiempo medio de carga de la página",
         "ColumnTimeServer": "Hora del servidor",
         "Performance": "Rendimiento",
         "RowActionTitle": "Abrir reporte de rendimiento de página"
