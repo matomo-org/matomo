@@ -282,22 +282,24 @@ export default defineComponent({
         }));
         return AjaxHelper.fetch(requests, { createErrorNotification: true });
       }).then(() => {
-        NotificationsStore.show({
+        NotificationsStore.scrollToNotification(NotificationsStore.show({
           id: 'removeUserSuccess',
           message: translate('UsersManager_DeleteSuccess'),
           context: 'success',
-          type: 'transient',
-        });
+          type: 'toast',
+        }));
         this.fetchUsers();
       }, () => {
         if (users !== 'all' && users.length > 1) {
           // Show a notification that some users might not have been removed if an error occurs
           // and more than one users was tried to remove
+          // Note: We do not scroll to this notification, as the error notification from AjaxHandler
+          // will be created earlier, which will already be scrolled into view.
           NotificationsStore.show({
             id: 'removeUserSuccess',
             message: translate('UsersManager_DeleteNotSuccessful'),
             context: 'warning',
-            type: 'transient',
+            type: 'toast',
           });
         }
         this.fetchUsers();
