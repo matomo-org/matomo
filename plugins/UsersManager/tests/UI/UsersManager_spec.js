@@ -24,7 +24,6 @@ describe("UsersManager", function () {
         try {
             await testEnvironment.callApi('UsersManager.deleteUser', {
                 userLogin: '000newuser',
-                passwordConfirmation: 'superUserPass',
             });
         } catch (err) {
             // ignore
