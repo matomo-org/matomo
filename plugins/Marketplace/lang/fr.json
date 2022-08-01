@@ -28,7 +28,6 @@
         "InstallAllPurchasedPluginsAction": "Installer et activer %d composants achetés",
         "InstallPurchasedPlugins": "Installer les composants achetés",
         "InstallThesePlugins": "Ceci va installer et activer les composants suivants :",
-        "InstallingNewPluginViaMarketplaceOrUpload": "Vous pouvez installer automatiquement %1$s depuis le marché ou %2$stéléverser un %3$s%4$s au format .zip.",
         "InstallingPlugin": "Installation de %s",
         "LastCommitTime": "(dernier archivage %s)",
         "LastUpdated": "A jour",

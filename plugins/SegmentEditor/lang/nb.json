@@ -27,7 +27,7 @@
         "LoadingSegmentedDataMayTakeSomeTime": "Behandling av inndelt besøksdata kan ta noen minutter …",
         "OperatorAND": "OG",
         "OperatorOR": "ELLER",
-        "PluginDescription": "Et segment er et sett med kriterier som brukes til å velge bare en del av hele settet med besøk. Ved å bruke segmenter kan du injisere vilkårlig kontekst tilbake i rapportene dine.",
+        "PluginDescription": "Et segment er et sett kriterier som brukes til å velge bare én del av hele settet med besøk. Ved å bruke segmenter kan du injisere vilkårlig kontekst tilbake i rapportene dine.",
         "SaveAndApply": "Lagre og bruk",
         "SegmentDisplayedAllWebsites": "alle nettsteder",
         "SegmentDisplayedThisWebsiteOnly": "kun dette nettstedet",
