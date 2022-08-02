@@ -105,16 +105,17 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: failure-artifacts-${{ github.run_id }}
-          path:
+          name: ${{ github.run_id }}
+          path: |
             /home/runner/work/matomo/matomo/plugins/**/tests/System/processed/**
 
       - name: download artface
         if: failure()
         uses: actions/download-artifact@v3
         with:
-          name: failure-artifacts-${{ github.run_id }}
-
+          name: ${{ github.run_id }}
+          path: |
+            /home/runner/work/matomo/matomo/plugins/**/tests/System/processed/**
 
 
 
