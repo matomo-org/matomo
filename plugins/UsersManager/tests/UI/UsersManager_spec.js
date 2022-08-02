@@ -173,7 +173,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('.deleteuser:eq(0)')).click();
         await page.waitForSelector('.modal.open');
         await page.focus('.modal.open #currentUserPassword');
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(250);
         const modal = await page.$('.modal.open');
         expect(await modal.screenshot()).to.matchImage('delete_single_confirm');
     });
@@ -196,7 +196,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
         await page.waitForSelector('.modal.open');
         await page.focus('.modal.open #currentUserPassword');
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(250);
         const modal = await page.$('.modal.open');
         expect(await modal.screenshot()).to.matchImage('delete_bulk_confirm');
     });
