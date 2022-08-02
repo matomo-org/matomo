@@ -36,7 +36,7 @@
         "Longitude": "Longitude",
         "Longitudes": "Longitudes",
         "NoDataForGeoIPReport1": "No data for this report, as there is either no location data available, or visitor IP addresses cannot be geolocated.",
-        "NoDataForGeoIPReport2": "%1$Change these settings%2$s, and use a %3$scity-level database%4$s to get accurate geolocation.",
+        "NoDataForGeoIPReport2": "%1$sChange these settings%2$s, and use a %3$scity-level database%4$s to get accurate geolocation.",
         "NoProviders": "No additional geolocation providers available. %1$sDB-IP%2$s is recommended, but requires the GeoIp2 plugin. (You can also install a third-party geolocation plugin from the marketplace.)",
         "PluginDescription": "Reports the location of your visitors: country, region, city and geographic coordinates (latitude and longitude).",
         "Region": "Region",
