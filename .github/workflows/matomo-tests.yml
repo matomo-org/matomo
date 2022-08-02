@@ -101,6 +101,20 @@ jobs:
           PHP_VERSION: ${{ matrix.php }}
           MYSQL_ADAPTER: ${{ matrix.adapter }}
 
+      - name: upload artfact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: failure-artifacts-${{ github.run_id }}
+          path:
+            ./plugins/**/tests/System/processed/**.pdf
+            ./plugins/**/tests/System/processed/**.yml
+
+      - name: download artface
+        if: failure()
+        uses: actions/download-artifact@v3
+        with:
+          name: failure-artifacts-${{ github.run_id }}
 
 
 
