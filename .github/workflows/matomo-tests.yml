@@ -107,8 +107,7 @@ jobs:
         with:
           name: failure-artifacts-${{ github.run_id }}
           path:
-            ./plugins/**/tests/System/processed/**.pdf
-            ./plugins/**/tests/System/processed/**.yml
+            plugins/**/tests/System/processed/**
 
       - name: download artface
         if: failure()
