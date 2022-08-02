@@ -107,7 +107,7 @@ jobs:
         with:
           name: failure-artifacts-${{ github.run_id }}
           path:
-            plugins/**/tests/System/processed/**
+            /home/runner/work/matomo/matomo/plugins/**/tests/System/processed/**
 
       - name: download artface
         if: failure()
