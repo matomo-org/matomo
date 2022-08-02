@@ -11,7 +11,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
-use Symfony\Component\Console\Helper\QuestionHelper;
 
 /**
  * @group Core
