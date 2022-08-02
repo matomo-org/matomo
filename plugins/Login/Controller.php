@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\IP;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -542,6 +543,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // if no user matches the invite token
         if (!$user) {
+            $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
@@ -646,6 +648,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // if no user matches the invite token
         if (!$user) {
+            $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
