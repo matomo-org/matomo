@@ -174,7 +174,10 @@ describe("UsersManager", function () {
         const modal = await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage('delete_single_confirm');
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'delete_single_confirm',
+          comparisonThreshold: 0.025
+        });
     });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
@@ -196,7 +199,10 @@ describe("UsersManager", function () {
         const modal = await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage('delete_bulk_confirm');
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'delete_bulk_confirm',
+          comparisonThreshold: 0.025
+        });
     });
 
     it('should delete selected users when delete users bulk action is used', async function () {
