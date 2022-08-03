@@ -34,6 +34,7 @@ class Bar extends JqplotGraph
     {
         $config = new Config();
         $config->max_graph_elements = 6;
+        $config->show_all_ticks = true;
 
         return $config;
     }
