@@ -601,10 +601,28 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
 
         const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
-        const errors = results.filter((r) => r.result === 'error').map((r) => r.message as string);
+        const errors = results.filter((r) => r.result === 'error')
+          .map((r) => r.message as string)
+          .filter((e) => e.length)
+          // count occurrences of error messages
+          .reduce((acc: Record<string, number>, e: string) => {
+            acc[e] = (acc[e] || 0) + 1;
+            return acc;
+          }, {});
 
-        if (errors && errors.length && !this.useRegularCallbackInCaseOfError) {
-          const errorMessage = errors.filter((e) => e.length).join('<br />');
+        if (errors && Object.keys(errors).length && !this.useRegularCallbackInCaseOfError) {
+          let errorMessage = '';
+          Object.keys(errors).forEach((error) => {
+            if (errorMessage.length) {
+              errorMessage += '<br />';
+            }
+            // append error count if it occured more than once
+            if (errors[error] > 1) {
+              errorMessage += `${error} (${errors[error]}x)`;
+            } else {
+              errorMessage += error;
+            }
+          });
           let placeAt = null;
           let type: string|null = 'toast';
           if ($(this.errorElement).length && errorMessage.length) {

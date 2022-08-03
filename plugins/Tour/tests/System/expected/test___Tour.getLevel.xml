@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<description>Welcome to Matomo superUserLogin. This widget will help you become a Matomo expert in no time.</description>
+		<description>Welcome to Matomo superUserLogin. This widget helps you become a Matomo expert.</description>
 		<currentLevel>1</currentLevel>
-		<currentLevelName>Matomo Beginner</currentLevelName>
-		<nextLevelName>Matomo Intermediate</nextLevelName>
+		<currentLevelName>Matomo beginner</currentLevelName>
+		<nextLevelName>Matomo intermediate</nextLevelName>
 		<numLevelsTotal>5</numLevelsTotal>
 		<challengesNeededForNextLevel>4</challengesNeededForNextLevel>
 	</row>
