@@ -132,7 +132,6 @@
         "SystemCheckTracker": "Gjendje ndjekësi",
         "SystemCheckTrackerHelp": "Kërkesa GET te matomo.php dështoi. Provoni ta kaloni këtë URL si një të lejuar nga mirëfilltësimi HTTP dhe çaktivizoni 'mod_security' (mund t’ju duhet t’i kërkoni ndihmë strehuesit tuaj web). Për më tepër hollësi mbi gabimin, shihni kartelën përkatëse të regjistrimit të gabimeve të shërbyesit tuaj web.",
         "SystemCheckUpdateHttps": "Përditësoje përmes HTTPS-je",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo s’mund të përdorë HTTPS për përditësim, ndaj do të kalojë te përditësimi i pasigurt përmes HTTP-s. Kujdesuni që të mbulohet CURL ose allow_url_fopen dhe që zgjerimi PHP OpenSSL të jetë i instaluar: http://piwik.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Shihni raportin e plotë të kontrollit të sistemit",
         "SystemCheckWarnDomHelp": "Duhet të aktivizoni zgjerimin “dom” (p.sh., instaloni paketën “php-dom” dhe/ose “php-xml”).",
         "SystemCheckWarnJsonHelp": "Duhet të aktivizoni zgjerimin “JSON” (p.sh., instaloni paketën “php-json”) për punim më të mirë.",

@@ -335,56 +335,56 @@
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>City</name>
 		<segment>city</segment>
 		<acceptedValues>Sydney, Sao Paolo, Rome, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>Continent</name>
 		<segment>continentCode</segment>
 		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>Country</name>
 		<segment>countryName</segment>
 		<acceptedValues>Germany, France, Spain, ...</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>Country code</name>
 		<segment>countryCode</segment>
 		<acceptedValues>ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>Language</name>
 		<segment>languageCode</segment>
 		<acceptedValues>de, fr, en-gb, zh-cn, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>Latitude</name>
 		<segment>latitude</segment>
 		<acceptedValues>-33.578, 40.830, etc.&lt;br/&gt;You can select visitors within a lat/long range using &amp;segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>Longitude</name>
 		<segment>longitude</segment>
 		<acceptedValues>-70.664, 14.326, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>Visit Location</category>
+		<category>Visitor location</category>
 		<name>Region</name>
 		<segment>regionCode</segment>
 		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=BFC;country=fr</acceptedValues>
