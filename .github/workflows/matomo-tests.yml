@@ -47,10 +47,10 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.2', '8.0' ]
+        php: [ '7.2', '8.1' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
-          - php: '8.0'
+          - php: '8.1'
             adapter: 'PDO_MYSQL'
           - php: '7.2'
             adapter: 'MYSQLI'
