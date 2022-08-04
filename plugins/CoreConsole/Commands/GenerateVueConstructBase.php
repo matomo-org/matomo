@@ -12,18 +12,8 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class GenerateAngularConstructBase extends GeneratePluginBase
+abstract class GenerateVueConstructBase extends GeneratePluginBase
 {
-    /**
-     * Convert MyComponentName => my-component-name
-     * @param  string $directiveCamelCase
-     * @return string
-     */
-    protected function getSnakeCaseName($camelCase)
-    {
-        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $camelCase));
-    }
-
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
