@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
@@ -32,19 +34,19 @@ class UsersManager extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        return array(
+        return [
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Platform.initialized'                   => 'onPlatformInitialized',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-        );
+        ];
     }
 
     public static function isUsersAdminEnabled()
     {
-        return (bool) Config::getInstance()->General['enable_users_admin'];
+        return (bool)Config::getInstance()->General['enable_users_admin'];
     }
 
     public static function dieIfUsersAdminIsDisabled()
@@ -68,7 +70,8 @@ class UsersManager extends \Piwik\Plugin
             $numUsers--;
         }
 
-        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers), $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
+        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers),
+            $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
     }
 
     public function onPlatformInitialized()
@@ -106,7 +109,7 @@ class UsersManager extends \Piwik\Plugin
 
     public static function hashTrackingToken($tokenAuth, $idSite)
     {
-        return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
+        return sha1($idSite.$tokenAuth.SettingsPiwik::getSalt());
     }
 
     /**
@@ -114,7 +117,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public function deleteSite($idSite)
     {
-        Option::deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::deleteLike('%\_'.API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**
@@ -168,13 +171,16 @@ class UsersManager extends \Piwik\Plugin
          *
          * @param string $password Checking password in plain text.
          */
+
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
+                array(self::PASSWORD_MIN_LENGTH)));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong', array(self::PASSWORD_MAX_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
+                array(self::PASSWORD_MAX_LENGTH)));
         }
     }
 
@@ -331,6 +337,47 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
-
+        $translationKeys[] = 'UsersManager_ResendInviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteDayLeft';
+        $translationKeys[] = 'UsersManager_FilterByStatus';
+        $translationKeys[] = 'UsersManager_ExpiredInviteAutomaticallyRemoved';
+        $translationKeys[] = 'UsersManager_AuthTokens';
+        $translationKeys[] = 'UsersManager_TokenAuthIntro';
+        $translationKeys[] = 'General_Description';
+        $translationKeys[] = 'General_ValidatorErrorEmptyValue';
+        $translationKeys[] = 'UsersManager_AuthTokenPurpose';
+        $translationKeys[] = 'UsersManager_CreateNewToken';
+        $translationKeys[] = 'UsersManager_TokenSuccessfullyGenerated';
+        $translationKeys[] = 'UsersManager_PleaseStoreToken';
+        $translationKeys[] = 'UsersManager_DoNotStoreToken';
+        $translationKeys[] = 'UsersManager_ConfirmTokenCopied';
+        $translationKeys[] = 'UsersManager_GoBackSecurityPage';
+        $translationKeys[] = 'General_ChangePassword';
+        $translationKeys[] = 'Login_NewPassword';
+        $translationKeys[] = 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne';
+        $translationKeys[] = 'Login_NewPasswordRepeat';
+        $translationKeys[] = 'UsersManager_TypeYourPasswordAgain';
+        $translationKeys[] = 'UsersManager_TypeYourCurrentPassword';
+        $translationKeys[] = 'UsersManager_PasswordChangeTerminatesOtherSessions';
+        $translationKeys[] = 'UsersManager_InjectedHostCannotChangePwd';
+        $translationKeys[] = 'UsersManager_EmailYourAdministrator';
+        $translationKeys[] = 'UsersManager_ExpiredTokensDeleteAutomatically';
+        $translationKeys[] = 'General_CreationDate';
+        $translationKeys[] = 'UsersManager_LastUsed';
+        $translationKeys[] = 'UsersManager_TokensWithExpireDateCreationBySystem';
+        $translationKeys[] = 'UsersManager_ExpireDate';
+        $translationKeys[] = 'UsersManager_NoTokenCreatedYetCreateNow';
+        $translationKeys[] = 'General_Never';
+        $translationKeys[] = 'General_Delete';
+        $translationKeys[] = 'UsersManager_DeleteAllTokens';
+        $translationKeys[] = 'UsersManager_ExcludeVisitsViaCookie';
+        $translationKeys[] = 'UsersManager_ClickHereToDeleteTheCookie';
+        $translationKeys[] = 'UsersManager_ClickHereToSetTheCookieOnDomain';
+        $translationKeys[] = 'UsersManager_YourVisitsAreIgnoredOnDomain';
+        $translationKeys[] = 'UsersManager_YourVisitsAreNotIgnored';
+        $translationKeys[] = 'General_AllWebsitesDashboard';
+        $translationKeys[] = 'General_Ok';
+        $translationKeys[] = 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2';
     }
 }

@@ -127,7 +127,6 @@
         "SystemCheckTracker": "Spårningsstatus",
         "SystemCheckTrackerHelp": "GET-förfrågan till matomo.php misslyckades. Testa att vitlista den här URL:en från HTTP-autentisering och avaktivera mod_security (du kan behöva fråga ditt webbhotell). I din webbservers logg-fil kan du hitta mer information om problemet.",
         "SystemCheckUpdateHttps": "Uppdatera över HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo kan inte använda HTTPS-anslutning för uppdatering och kommer istället använda en osäker HTTP-anslutning. Kontrollera att CURL eller allow_url_fopen är aktiverat och att PHP-tillägget \"openssl\" är installerat: https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Visa full systemrapport",
         "SystemCheckWarnDomHelp": "Du bör aktivera tillägget \"dom\" (t.ex., installera paketet \"php-dom\" och/eller \"php-xml\").",
         "SystemCheckWarnLibXmlHelp": "Du bör aktivera tillägget \"libxml\" (t.ex., installera paketet \"php-libxml\") eftersom det krävs av andra grundläggande PHP-tillägg.",

@@ -239,6 +239,8 @@ class Csv extends Renderer
 
         $value = $this->formatFormulas($value);
 
+        $value = str_replace(["\t"], ' ', $value);
+
         if (is_string($value)
             && (strpos($value, '"') !== false
                 || strpos($value, $this->separator) !== false)

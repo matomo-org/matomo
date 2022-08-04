@@ -22,7 +22,7 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Real Time Visitor Count</name>
+		<name>Real-time visitor count</name>
 		<category>
 			<id>General_Visitors</id>
 			<name>Visitors</name>
@@ -217,7 +217,7 @@
 			<id>Live_VisitorLog</id>
 			<name>Visits Log</name>
 			<order>5</order>
-			<help>&lt;p&gt;The Visits Log shows you every visit your website receives in detail. You can see what actions each visitor has taken, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the Visits Log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/real-time/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more in the Visits Log guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The visits log shows you every visit your website receives in detail. Find out which actions each visitor has performed, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the visits log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/real-time/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more in the visit-log guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<module>Live</module>
 		<action>getLastVisitsDetails</action>
@@ -235,7 +235,7 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Visits in Real-time</name>
+		<name>Visits in real-time</name>
 		<category>
 			<id>General_Visitors</id>
 			<name>Visitors</name>
@@ -247,7 +247,7 @@
 			<id>General_RealTime</id>
 			<name>Real-time</name>
 			<order>7</order>
-			<help>&lt;p&gt;The Visits in Real-time report shows the real-time flow of visits to your website. It includes a real-time counter of your visits and page views in the last 24 hours and the previous 30 minutes.&lt;/p&gt;&lt;p&gt;This report refreshes every 5 seconds and displays new visits (or existing visitors that view a new page) at the top of the list with a fade-in effect.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The visits in the real-time report show the real-time flow of visits to your website. It includes a real-time counter of your visits and page views in the last 24 hours and the previous 30 minutes.&lt;/p&gt;&lt;p&gt;This report refreshes every 5 seconds and displays new visits (or existing visitors that view a new page) at the top of the list with a fade-in effect.&lt;/p&gt;</help>
 		</subcategory>
 		<module>Live</module>
 		<action>widget</action>
@@ -272,7 +272,7 @@
 			<id>UserCountryMap_RealTimeMap</id>
 			<name>Real-time Map</name>
 			<order>9</order>
-			<help>&lt;p&gt;The Real-time Map shows the location of visitors on your site within the last 30 minutes. Large orange bubbles represent more recent visits, while smaller grey bubbles represent older visits. This data refreshes every five seconds, and new visitors appear with a flashing effect.&lt;/p&gt;</help>
+			<help>&lt;p&gt;Shows the location of website visitors the last 30 minutes, and flashes for new ones. Recent visits are shown as large orange bubbles, and older ones as smaller gray ones. It refreshes every five seconds.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserCountryMap</module>
 		<action>realtimeMap</action>
@@ -297,7 +297,7 @@
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
 			<order>10</order>
-			<help>&lt;p&gt;The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserCountryMap</module>
 		<action>visitorMap</action>
@@ -322,7 +322,7 @@
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
 			<order>10</order>
-			<help>&lt;p&gt;The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getCity</action>
@@ -349,7 +349,7 @@
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
 			<order>10</order>
-			<help>&lt;p&gt;The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getContinent</action>
@@ -376,7 +376,7 @@
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
 			<order>10</order>
-			<help>&lt;p&gt;The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getCountry</action>
@@ -403,7 +403,7 @@
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
 			<order>10</order>
-			<help>&lt;p&gt;The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserCountry</module>
 		<action>getRegion</action>
@@ -418,7 +418,7 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Browser language</name>
+		<name>Web-browser language</name>
 		<category>
 			<id>General_Visitors</id>
 			<name>Visitors</name>
@@ -430,7 +430,7 @@
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
 			<order>10</order>
-			<help>&lt;p&gt;The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserLanguage</module>
 		<action>getLanguage</action>
@@ -457,7 +457,7 @@
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
 			<order>10</order>
-			<help>&lt;p&gt;The Locations section is the best way to find out where people are when they visit your site. It reveals the countries, continents, regions, cities that you visitors come from, in tables and map form. Additionally, you can see what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserLanguage</module>
 		<action>getLanguageCode</action>
@@ -862,7 +862,7 @@
 			<id>UserId_UserReportTitle</id>
 			<name>User IDs</name>
 			<order>40</order>
-			<help>&lt;p&gt;The User IDs report shows visits associated with all of your registered and logged in users. You can use this section to understand website usage by specific users and identify who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<module>UserId</module>
 		<action>getUsers</action>
@@ -1543,7 +1543,7 @@
 			<id>Transitions_Transitions</id>
 			<name>Transitions</name>
 			<order>46</order>
-			<help>&lt;p&gt;Transitions gives you a report that shows the things your visitors did directly before and after viewing a certain page. This page will explain how to access, understand, and use the powerful Transitions report.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/transitions/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;More Details&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful &quot;Transitions&quot; report.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/transitions/?mtm_campaign=App_Help&amp;mtm_source=Matomo_App&amp;mtm_keyword=UserGuides&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;More details&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<module>Transitions</module>
 		<action>getTransitions</action>
@@ -3924,7 +3924,7 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Become a Matomo Expert</name>
+		<name>Become a Matomo expert</name>
 		<category>
 			<id>About Matomo</id>
 			<name>About Matomo</name>

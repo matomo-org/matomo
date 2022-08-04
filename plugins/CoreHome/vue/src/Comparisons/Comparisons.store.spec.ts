@@ -55,7 +55,7 @@ describe('CoreHome/Comparisons.store', () => {
   });
   beforeAll(() => {
     // so piwikHelper.isAngularRenderingThePage will return true
-    document.body.innerHTML = document.body.innerHTML + '<div piwik-reporting-page />';
+    document.body.innerHTML = document.body.innerHTML + '<div class="reporting-page" />';
   });
   beforeAll(async () => {
     await new Promise<void>((resolve) => {
