@@ -39,6 +39,8 @@
         "ScopeDescriptionActionMoreInfo": "Les extraccions es poden definir de manera que el valor de la dimensió personalitzada s'extregui de l'URL de la pàgina, del títol de la pàgina o d'un paràmetre de consulta de l'URL de la pàgina.",
         "ScopeDescriptionVisit": "Les dimensions personalitzades a l'àmbit \"Visita\" es poden enviar amb qualsevol sol·licitud de seguiment i s'emmagatzemen a la visita.",
         "ScopeDescriptionVisitMoreInfo": "Si establiu valors diferents per a una dimensió determinada durant la vida útil d'una visita, s'utilitzarà l'últim valor establert.",
+        "ScopeTitleAction": "Dimensions d'acció",
+        "ScopeTitleVisit": "Dimensió de Visites",
         "UrlQueryStringParameter": "paràmetre de cadena de consulta d'url",
         "XofYLeft": "Queden %1$s de %2$s dimensions"
     }

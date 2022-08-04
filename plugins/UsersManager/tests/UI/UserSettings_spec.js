@@ -84,7 +84,7 @@ describe("UserSettings", function () {
     });
 
     it('should load error when wrong password specified', async function () {
-        await page.type('.modal.open #currentPassword', 'foobartest123');
+        await page.type('.modal.open #currentUserPassword', 'foobartest123');
         btnNo = await page.jQuery('.modal.open .modal-action:not(.modal-no)');
         await btnNo.click();
         await page.waitForNetworkIdle();

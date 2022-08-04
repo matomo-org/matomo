@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<id>track_data</id>
-		<name>Embed tracking code</name>
+		<name>Embed a tracking code</name>
 		<description>Matomo offers you various ways to embed the tracking code for your website, mobile app, and even for any device or application.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
@@ -11,7 +11,7 @@
 	<row>
 		<id>define_goal</id>
 		<name>Add a goal</name>
-		<description>Conversion tracking is a great way to identify whether you are meeting your current business objectives, identify new objectives, view and analyse your performance, and learn how to increase your conversions, conversion rates, and revenue per visit.</description>
+		<description>Conversion tracking is a great way to identify whether you are meeting your current objectives, to identify new ones, view and analyse performance. You can also learn to increase your conversions, conversion rates, and revenue per visit.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>index.php?module=Goals&amp;action=manage</url>
@@ -26,7 +26,7 @@
 	</row>
 	<row>
 		<id>add_user</id>
-		<name>Add another user</name>
+		<name>Add a user</name>
 		<description>Users Management lets you add new users, edit existing users and give them access to view or administrate websites.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
@@ -34,7 +34,7 @@
 	</row>
 	<row>
 		<id>add_website</id>
-		<name>Add another website</name>
+		<name>Add a website</name>
 		<description>Websites management lets you add a new website and edit existing websites.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
@@ -43,18 +43,18 @@
 	<row>
 		<id>flatten_actions</id>
 		<name>Flatten a page report</name>
-		<description>Go to Behaviour =&gt; Pages and click in the bottom of the report on the cog icon to flatten the report. A flattened report changes the hierarchy from a grouped report to a list.</description>
+		<description>Go to Behaviour → Pages and click the cog icon in the bottom of the report to flatten it. This changes the hierarchy from a grouped report to a list.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#flattening-reports</url>
+		<url>https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/#flattening-reports</url>
 	</row>
 	<row>
 		<id>change_visualisations</id>
 		<name>Change a visualisation</name>
-		<description>View a report and select the visualisation icon at the bottom of a report to view the same report in a different visualisation.</description>
+		<description>Browse a report and select the visualisation icon at the bottom of a report to change its visualisation.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#a-look-at-a-piwik-report</url>
+		<url>https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/</url>
 	</row>
 	<row>
 		<id>add_scheduled_report</id>
@@ -66,11 +66,11 @@
 	</row>
 	<row>
 		<id>customise_dashboard</id>
-		<name>Customise dashboard</name>
-		<description>You can add new widgets to your Dashboard, to ensure it reports on all of your most important metrics.</description>
+		<name>Set up your dashboard</name>
+		<description>Add widgets to your dashboard to ensure it reports all your most important metrics.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#dashboard-widgets</url>
+		<url>https://matomo.org/faq/dashboards/create-dashboards-and-customise-widgets-and-layout/</url>
 	</row>
 	<row>
 		<id>add_segment</id>
@@ -91,14 +91,14 @@
 	<row>
 		<id>setup_twofa</id>
 		<name>Setup Two-factor authentication</name>
-		<description>Two-factor authentication increase your account security by adding an additional layer of verification when you log in. Each time you log in you will not only be asked to provide your login and password, but also an additional authentication token which changes periodically and is generated for example on your mobile device. This means that even when someone knows your username and password, they still won't be able to log in unless they have access to your mobile device for example.</description>
+		<description>Two-factor authentication increases account security by also asking you for a code generated on a mobile device, or one of the remaining recovery codes (in addition to your password) to log in.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>https://matomo.org/faq/general/faq_27245</url>
 	</row>
 	<row>
 		<id>disable_browser_archiving</id>
-		<name>Disable browser archiving for better performance</name>
+		<name>Turn off web-browser archiving for better performance</name>
 		<description />
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
@@ -106,7 +106,7 @@
 	</row>
 	<row>
 		<id>configure_geolocation</id>
-		<name>Configure geolocation</name>
+		<name>Set up geolocation</name>
 		<description>Ensure the location of your visitors is correctly detected.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
@@ -115,23 +115,23 @@
 	<row>
 		<id>select_date_range</id>
 		<name>Select a date range</name>
-		<description>Select a date range in the calendar.</description>
+		<description>Select a time span in the calendar.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/piwik-tour/#select-a-date-range</url>
+		<url>https://matomo.org/faq/reports/data-selectors-in-matomo/</url>
 	</row>
 	<row>
 		<id>view_visits_log</id>
 		<name>View Visits Log</name>
-		<description>The visits Log shows you all the individual visits and actions each visitor took on your site.</description>
+		<description>Shows all the individual visits and actions each visitor made on your website.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>https://matomo.org/docs/real-time/#visits-log</url>
+		<url>https://matomo.org/faq/reports/the-visits-log-report/</url>
 	</row>
 	<row>
 		<id>view_visitor_profile</id>
 		<name>View Visitor profile</name>
-		<description>The visitor log helps you to understand your visitors’ individual behavior by summarizing and listing your visitors’ visits.</description>
+		<description>Understand your visitors’ individual behavior by summarizing and listing your visitors’ visits.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>https://matomo.org/docs/user-profile/</url>
@@ -139,14 +139,14 @@
 	<row>
 		<id>view_row_evolution</id>
 		<name>View Row evolution</name>
-		<description>Row evolution shows you the current &amp; past metric data for any row in any report.</description>
+		<description>Shows the current and past metric data for any row in any report.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>https://matomo.org/docs/row-evolution/</url>
 	</row>
 	<row>
 		<id>browse_marketplace</id>
-		<name>Browse Marketplace</name>
+		<name>Browse the marketplace</name>
 		<description>Extend and expand the functionality of Matomo via the Marketplace by downloading plugins and themes.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
