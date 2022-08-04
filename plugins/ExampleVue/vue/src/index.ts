@@ -5,4 +5,4 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-export { default as exampleVueComponentAdapter } from './ExampleComponent/ExampleComponent.adapter';
+export { default as ExampleComponent } from './ExampleComponent/ExampleComponent.vue';

@@ -11,6 +11,7 @@ interface SearchParams {
   offset: number;
   filter_search: string;
   filter_access: string;
+  filter_status: string;
 }
 
 export default SearchParams;

@@ -62,7 +62,8 @@ declare global {
   type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
-    onCloseEnd: () => void;
+    onCloseEnd?: () => void;
+    fixedFooter?: boolean;
   }
 
   interface CompileAngularComponentsOptions {
@@ -160,6 +161,7 @@ declare global {
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
     userLogin: string;
+    requiresPasswordConfirmation: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;

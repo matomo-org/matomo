@@ -2250,7 +2250,7 @@ if (typeof window.Matomo !== 'object') {
                 configIgnoreClasses = [],
 
                 // Referrer URLs that should be excluded
-                configExcludedReferrers = [],
+                configExcludedReferrers = ['.paypal.com'],
 
                 // Query parameters to be excluded
                 configExcludedQueryParams = [],
@@ -2463,7 +2463,7 @@ if (typeof window.Matomo !== 'object') {
              * Get cookie value
              */
             function getCookie(cookieName) {
-                if (configCookiesDisabled) {
+                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return 0;
                 }
 
@@ -2521,6 +2521,10 @@ if (typeof window.Matomo !== 'object') {
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
+
+                // remove ignore referrer parameter if present
+                url = removeUrlParameter(url, 'ignore_referrer');
+                url = removeUrlParameter(url, 'ignore_referer');
 
                 for (i = 0; i < configExcludedQueryParams.length; i++) {
                     url = removeUrlParameter(url, configExcludedQueryParams[i]);
@@ -3757,6 +3761,16 @@ if (typeof window.Matomo !== 'object') {
                 return request + timings;
             }
 
+            /**
+             * Returns if the given url contains a parameter to ignore the referrer
+             * e.g. ignore_referer or ignore_referrer
+             * @param url
+             * @returns {boolean}
+             */
+            function hasIgnoreReferrerParameter(url) {
+                return getUrlParameter(url, 'ignore_referrer') === "1" || getUrlParameter(url, 'ignore_referer') === "1";
+            }
+
             function detectReferrerAttribution() {
                 var i,
                     now = new Date(),
@@ -3780,7 +3794,7 @@ if (typeof window.Matomo !== 'object') {
                 referralTs = attributionCookie[2];
                 referralUrl = attributionCookie[3];
 
-                if (!cookieSessionValue) {
+                if (!hasIgnoreReferrerParameter(currentUrl) && !cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
 
                     // Detect the campaign information from the current URL
@@ -3871,7 +3885,8 @@ if (typeof window.Matomo !== 'object') {
                     now = new Date(),
                     customVariablesCopy = customVariables,
                     cookieCustomVariablesName = getCookieName('cvar'),
-                    currentUrl = configCustomUrl || locationHrefAlias;
+                    currentUrl = configCustomUrl || locationHrefAlias,
+                    hasIgnoreReferrerParam = hasIgnoreReferrerParameter(currentUrl);
 
                 if (configCookiesDisabled) {
                     deleteCookies();
@@ -3898,7 +3913,7 @@ if (typeof window.Matomo !== 'object') {
                     '&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
-                    (configReferrerUrl.length && !isReferrerExcluded(configReferrerUrl) ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    (configReferrerUrl.length && !isReferrerExcluded(configReferrerUrl) && !hasIgnoreReferrerParam ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + cookieVisitorIdValues.uuid +
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
@@ -7203,16 +7218,25 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Calling this method will remove any previously given consent and during this page view no request
-             * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
-             * consent will be enforced. You may call this method if the user removes consent manually, or if you
-             * want to re-ask for consent after a specific time period.
-             */
-            this.forgetConsentGiven = function () {
-                var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
+            * Calling this method will remove any previously given consent and during this page view no request
+            * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
+            * consent will be enforced. You may call this method if the user removes consent manually, or if you
+            * want to re-ask for consent after a specific time period. You can optionally define the lifetime of 
+            * the CONSENT_REMOVED_COOKIE_NAME cookie in hours using a parameter.
+            *
+            * @param int hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
+            * By default the consent is valid for 30 years unless cookies are deleted by the user or the browser
+            * prior to this
+            */
+            this.forgetConsentGiven = function (hoursToExpire) {
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                } else {
+                    hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
+                }
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
                 this.requireConsent();
             };

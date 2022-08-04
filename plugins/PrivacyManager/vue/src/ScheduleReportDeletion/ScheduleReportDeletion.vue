@@ -42,7 +42,7 @@
                   id="purgeDataNowLink"
                   href="#"
                   v-show="showPurgeNowLink"
-                  @click="executeDataPurgeNow()"
+                  @click.prevent="executeDataPurge()"
                 >{{ translate('PrivacyManager_PurgeNow') }}</a>
                 <ActivityIndicator
                   :loading-message="translate('PrivacyManager_PurgingData')"
@@ -91,10 +91,27 @@
         </div>
       </div>
       <SaveButton
-        @confirm="save()"
+        @confirm="showPasswordConfirmModal = true"
         :saving="isLoading"
       />
+      <PasswordConfirmation
+        v-model="showPasswordConfirmModal"
+        @confirmed="save"
+      >
+        <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
+      </PasswordConfirmation>
+      <PasswordConfirmation
+        v-model="showPasswordConfirmModalForPurge"
+        @confirmed="executePurgeNow"
+      >
+        <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
+        <div>{{ translate('UsersManager_ConfirmWithPassword') }}</div>
+      </PasswordConfirmation>
     </ContentBlock>
+  </div>
+  <div class="ui-confirm" id="saveSettingsBeforePurge">
+    <h2>{{ translate('PrivacyManager_SaveSettingsBeforePurge') }}</h2>
+    <input role="yes" type="button" value="{{ translate('General_Ok') }}"/>
   </div>
 </template>
 
@@ -106,7 +123,12 @@ import {
   ContentBlock,
   ActivityIndicator,
 } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import {
+  PasswordConfirmation,
+  Form,
+  Field,
+  SaveButton,
+} from 'CorePluginsAdmin';
 import ReportDeletionSettingsStore from '../ReportDeletionSettings/ReportDeletionSettings.store';
 
 interface ScheduleReportDeletionState {
@@ -115,6 +137,8 @@ interface ScheduleReportDeletionState {
   dataWasPurged: boolean;
   showPurgeNowLink: boolean;
   deleteLowestInterval: string;
+  showPasswordConfirmModal: boolean;
+  showPasswordConfirmModalForPurge: boolean;
 }
 
 export default defineComponent({
@@ -134,6 +158,7 @@ export default defineComponent({
     ActivityIndicator,
     Field,
     SaveButton,
+    PasswordConfirmation,
   },
   directives: {
     Form,
@@ -145,16 +170,18 @@ export default defineComponent({
       dataWasPurged: false,
       showPurgeNowLink: true,
       deleteLowestInterval: this.deleteData.config.delete_logs_schedule_lowest_interval,
+      showPasswordConfirmModal: false,
+      showPasswordConfirmModalForPurge: false,
     };
   },
   methods: {
-    save() {
+    save(password: string) {
       const method = 'PrivacyManager.setScheduleReportDeletionSettings';
       ReportDeletionSettingsStore.savePurgeDataSettings(method, {
         deleteLowestInterval: this.deleteLowestInterval,
-      });
+      }, password);
     },
-    executeDataPurgeNow() {
+    executeDataPurge() {
       if (ReportDeletionSettingsStore.state.value.isModified) {
         // ask user if they really want to delete their old data
         Matomo.helper.modalConfirm('#saveSettingsBeforePurge', {
@@ -164,35 +191,37 @@ export default defineComponent({
         return;
       }
 
-      Matomo.helper.modalConfirm('#confirmPurgeNow', {
-        yes: () => {
-          this.loadingDataPurge = true;
-          this.showPurgeNowLink = false; // execute a data purge
-
-          AjaxHelper.fetch(
-            {
-              module: 'PrivacyManager',
-              action: 'executeDataPurge',
-              format: 'html',
-            },
-            { withTokenInUrl: true },
-          ).then(() => {
-            // force reload
-            ReportDeletionSettingsStore.reloadDbStats();
-            this.dataWasPurged = true;
-
-            setTimeout(() => {
-              this.dataWasPurged = false;
-              this.showPurgeNowLink = true;
-            }, 2000);
-          }).finally(() => {
-            this.loadingDataPurge = false;
-          });
-        },
-      });
+      this.showPasswordConfirmModalForPurge = true;
     },
     getPurgeEstimate() {
       return ReportDeletionSettingsStore.reloadDbStats(true);
+    },
+    executePurgeNow(password: string) {
+      this.loadingDataPurge = true;
+      this.showPurgeNowLink = false; // execute a data purge
+
+      return AjaxHelper.post(
+        {
+          module: 'API',
+          method: 'PrivacyManager.executeDataPurge',
+        },
+        {
+          passwordConfirmation: password,
+        },
+      ).then(() => {
+        // force reload
+        ReportDeletionSettingsStore.reloadDbStats();
+        this.dataWasPurged = true;
+
+        setTimeout(() => {
+          this.dataWasPurged = false;
+          this.showPurgeNowLink = true;
+        }, 2000);
+      }).catch(() => {
+        this.showPurgeNowLink = true;
+      }).finally(() => {
+        this.loadingDataPurge = false;
+      });
     },
   },
   computed: {

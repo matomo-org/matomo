@@ -132,7 +132,6 @@
         "SystemCheckTracker": "トラッカー状況",
         "SystemCheckTrackerHelp": "matomo.php への GET リクエストが失敗しました。 HTTP 認証からこの URL をホワイトリストに入れ、mod_security を無効にしてください（あなたのウェブホストに尋ねる必要があるかもしれません）。 エラーの詳細については、Web サーバーのエラーログファイルを確認してください。",
         "SystemCheckUpdateHttps": "HTTPS 経由で更新",
-        "SystemCheckUpdateHttpsNotSupported": "Matomoは更新にHTTPSを使用することはできません。安全でないHTTP更新にフォールバックします。 CURLまたは allow_url_fopenがサポートされていることと、OpenSSL PHPエクステンションがインストールされていることを確認してください：https://matomo.org/faq/troubleshooting/faq_177/。",
         "SystemCheckViewFullSystemCheck": "完全なシステムチェックレポートを表示する",
         "SystemCheckWarnDomHelp": "\"dom\" エクステンションを有効にする必要があります（例えば \"php-dom\" と \"php-xml\" パッケージのどちらか、あるいは両方をインストールする）。",
         "SystemCheckWarnJsonHelp": "「json」拡張機能を有効にする必要があります（たとえば、「php-json」パッケージをインストールします）。",

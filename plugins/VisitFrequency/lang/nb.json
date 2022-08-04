@@ -1,6 +1,6 @@
 {
     "VisitFrequency": {
-        "ColumnActionsByNewVisits": "Handlinger etter Nye besøk",
+        "ColumnActionsByNewVisits": "Handlinger sortert etter nye besøk",
         "ColumnActionsByReturningVisits": "Handlinger av tilbakevendende besøk",
         "ColumnAverageVisitDurationForNewVisitors": "Gjennomsnittlig antall sekunder besøkstid for nye besøkende",
         "ColumnAverageVisitDurationForReturningVisitors": "Gj.snitt. besøksvarighet for tilbakevendende besøk (i sekunder)",
