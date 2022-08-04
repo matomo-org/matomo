@@ -680,7 +680,7 @@ Segmentation = (function($) {
               new CustomEvent('matomoVueDestroy'),
             );
 
-            self.currentSegmentStr = undefined;
+            self.currentSegmentStr = '';
 
             $(self.form).unbind().remove();
             self.target.closest('.segmentEditorPanel').removeClass('editing');
