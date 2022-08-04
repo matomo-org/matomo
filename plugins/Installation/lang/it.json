@@ -129,7 +129,6 @@
         "SystemCheckTracker": "Stato del tracker",
         "SystemCheckTrackerHelp": "Richiesta GET a matomo.php fallita. Prova ad autorizzare questo URL dall'Autenticazione HTTP e a disabilitare mod_security (potresti dover chiedere al tuo webhost). Per ulteriori informazioni sull'errore, controlla il log degli errori del server Web.",
         "SystemCheckUpdateHttps": "Aggiorna tramite HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo non può utilizzare il protocollo HTTPS per l'aggiornamento e ritornerà all'aggiornamento non sicuro HTTP. Controlla che CURL o allow_fopen siano supportati e che sia installata l'estensione PHP openssl: https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Guarda il report completo di controllo del sistema",
         "SystemCheckWarnDomHelp": "Dovresti abilitare l'estensione \"dom\" (ad esempio, installando \"php-dom\" e/o \"php-xml\").",
         "SystemCheckWarnJsonHelp": "È necessario abilitare l'estensione \"json\" (ad esempio, installando il pacchetto \"php-json\").",

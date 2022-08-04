@@ -55,6 +55,8 @@ class Login extends \Piwik\Plugin
             'Controller.Login.resetPassword'   => 'beforeLoginCheckBruteForceForUserPwdLogin',
             'Controller.Login.login'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
             'Controller.TwoFactorAuth.loginTwoFactorAuth' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.acceptInvitation' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.declineInvitation' => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
             'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
             'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI

@@ -6,7 +6,7 @@
         "ConfirmPasswordResetIntro": "Um zu bestätigen, dass wirklich Sie es sind, der das Passort ändern muss, bitte das neue Passwort noch einmal eingeben.",
         "ConfirmPasswordResetWrongPassword": "Das angegebene Passwort passt nicht zu Ihrem neuen Passwort. Wenn Sie sich nicht an das neu angegebene Passwort erinnern können, setzten Sie Ihr Passwort noch einmal zurück. Wenn Sie diese Anfrage des Passworts nicht ändern, müssen Sie nichts weiter tun und das Passwort wird nicht geändert.",
         "ConfirmPasswordToContinue": "Bitte bestätigen Sie Ihr Passwort um fortzufahren",
-        "ConfirmationLinkSent": "Ein Bestätigungslink wurde an Ihre E-Mail-Adresse verschickt. Überprüfen Sie Ihren Posteingang und besuchen diesen Link um die Passwortänderung zu bestätigen.",
+        "ConfirmationLinkSent": "Öffnen Sie den Bestätigungslink in Ihrem E-Mail-Posteingang, um die Änderung Ihres Passworts zu bestätigen.",
         "ContactAdmin": "Möglicher Grund: Der Server könnte die mail()-Funktion deaktiviert haben.<br>Bitte sprechen Sie mit Ihrem Matomo Administrator.",
         "CurrentlyBlockedIPs": "Aktuell geblockte IP-Adressen",
         "CurrentlyBlockedIPsUnblockConfirm": "Sind Sie sicher, dass Sie die Blockierung aller aktuell geblockten IPs aufheben wollen?",
