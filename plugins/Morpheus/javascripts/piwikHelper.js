@@ -222,8 +222,6 @@ window.piwikHelper = {
           handleProperty(name, value);
         });
 
-        var element = this;
-
         // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
         // slots to be in the vue-entry element this way. So instead, we create a quick
         // template that references the root component and wraps the vue-entry component's html.
