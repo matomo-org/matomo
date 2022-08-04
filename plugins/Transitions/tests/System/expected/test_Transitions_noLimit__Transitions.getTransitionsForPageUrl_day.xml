@@ -73,14 +73,14 @@
 	</downloads>
 	<referrers>
 		<row>
-			<label>Direct Entries</label>
+			<label>Direct entries</label>
 			<shortName>direct</shortName>
 			<visits>1</visits>
 			<details>
 			</details>
 		</row>
 		<row>
-			<label>From Search Engines</label>
+			<label>From search engines</label>
 			<shortName>search</shortName>
 			<visits>2</visits>
 			<details>
@@ -95,7 +95,7 @@
 			</details>
 		</row>
 		<row>
-			<label>From Websites</label>
+			<label>From websites</label>
 			<shortName>website</shortName>
 			<visits>1</visits>
 			<details>
@@ -106,7 +106,7 @@
 			</details>
 		</row>
 		<row>
-			<label>From Campaigns</label>
+			<label>From campaigns</label>
 			<shortName>campaign</shortName>
 			<visits>1</visits>
 			<details>

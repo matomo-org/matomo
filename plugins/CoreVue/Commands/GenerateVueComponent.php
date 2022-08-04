@@ -9,12 +9,12 @@
 namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\CoreConsole\Commands\GenerateAngularConstructBase;
+use Piwik\Plugins\CoreConsole\Commands\GenerateVueConstructBase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateVueComponent extends GenerateAngularConstructBase
+class GenerateVueComponent extends GenerateVueConstructBase
 {
     protected function configure()
     {
@@ -38,13 +38,11 @@ class GenerateVueComponent extends GenerateAngularConstructBase
         }
 
         $exampleFolder = Manager::getPluginDirectory('ExampleVue');
-        $adapterFunctionName = lcfirst($component) . 'Adapter';
         $replace = array(
             'ExampleVue'       => $pluginName,
             'ExampleComponent' => $component,
             'exampleVueComponent' => lcfirst($component),
             'AsyncExampleComponent' => 'Async' . $component,
-            'exampleVueComponentAdapter' => $adapterFunctionName,
         );
 
         $allowlistFiles = array(
@@ -52,7 +50,6 @@ class GenerateVueComponent extends GenerateAngularConstructBase
             '/vue/src',
             '/vue/src/ExampleComponent',
             '/vue/src/ExampleComponent/ExampleComponent.vue',
-            '/vue/src/ExampleComponent/ExampleComponent.adapter.ts',
         );
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowlistFiles);
@@ -61,7 +58,6 @@ class GenerateVueComponent extends GenerateAngularConstructBase
         if (!file_exists($indexFile)) {
             file_put_contents($indexFile, '');
         }
-        file_put_contents($indexFile, "export { default as $adapterFunctionName } from './$component/$component.adapter';\n", FILE_APPEND);
         file_put_contents($indexFile, "export { default as $component } from './$component/$component.vue';\n", FILE_APPEND);
 
         // TODO: generate a less file as well?

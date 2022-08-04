@@ -16,10 +16,10 @@ use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\UsersManager\Model;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Login\PasswordResetter;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group PasswordResetterTest
@@ -41,6 +41,7 @@ class PasswordResetterTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+        Fixture::createWebsite('2010-01-01 05:00:00');
         $this->passwordResetter = new PasswordResetter();
         $this->capturedToken = null;
 
@@ -171,7 +172,7 @@ class PasswordResetterTest extends IntegrationTestCase
             [
                 'userLogin' => 'pendingUser',
                 'email' => 'pending@user.io',
-                'idSite' => 1,
+                'initialIdSite' => 1,
                 'expiryInDays' => 7
             ]
         );
