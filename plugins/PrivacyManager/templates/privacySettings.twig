@@ -35,25 +35,6 @@
 {% if isDataPurgeSettingsEnabled %}
     <div piwik-content-block id="deleteLogsAnchor"
          content-title="{{ 'PrivacyManager_DeleteOldRawData'|translate|e('html_attr') }}">
-        <div class="ui-confirm" id="confirmDeleteSettings">
-            <h2 id="deleteLogsConfirm">{{ 'PrivacyManager_DeleteLogsConfirm'|translate }}</h2>
-
-            <h2 id="deleteReportsConfirm">{{ 'PrivacyManager_DeleteReportsConfirm'|translate }}</h2>
-
-            <h2 id="deleteBothConfirm">{{ 'PrivacyManager_DeleteBothConfirm'|translate }}</h2>
-            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-        </div>
-        <div class="ui-confirm" id="saveSettingsBeforePurge">
-            <h2>{{ 'PrivacyManager_SaveSettingsBeforePurge'|translate }}</h2>
-            <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
-        </div>
-        <div class="ui-confirm" id="confirmPurgeNow">
-            <h2>{{ 'PrivacyManager_PurgeNowConfirm'|translate }}</h2>
-            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-        </div>
-
         <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
 
         <div

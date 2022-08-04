@@ -16,7 +16,6 @@
 {% macro requestErrorDiv(contactEmail, areAdsForProfessionalServicesEnabled = false, currentModule = '', showMoreHelp = false) %}
     <div id="loadingError">
         <div class="alert alert-danger">
-
             {% if contactEmail is defined and contactEmail %}
                 {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ contactEmail|e('url') ~ '">', '</a>')|raw }}
             {% else %}
@@ -35,6 +34,22 @@
                 –
                 {% set supportUrl = 'https://matomo.org/support-plans/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Matomo_App' %}
                 <a rel="noreferrer noopener" target="_blank" href="{{ supportUrl|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
+            {%- endif %}.
+        </div>
+    </div>
+    <div id="loadingRateLimitError" style="display: none">
+        <div class="alert alert-danger">
+            {{ 'General_ErrorRateLimit'|translate }}
+
+            <br /><br />
+            {{ 'General_NeedMoreHelp'|translate }}
+
+            <a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+
+            {%- if areAdsForProfessionalServicesEnabled %}
+            –
+            {% set supportUrl = 'https://matomo.org/support-plans/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Matomo_App' %}
+            <a rel="noreferrer noopener" target="_blank" href="{{ supportUrl|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
             {%- endif %}.
         </div>
     </div>
