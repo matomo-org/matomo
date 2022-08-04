@@ -58,7 +58,7 @@
         "RateFeatureOtherReason": "Annen grunn",
         "RateFeatureSendFeedbackInformation": "Din Matomo-plattform sender oss i Matomo-laget en e-post (inkludert din e-postadresse) slik at vi kan ta kontakt med deg hvis du har noen spørsmål.",
         "RateFeatureThankYouTitle": "Takk for at du rangerer «%s»!",
-        "RateFeatureTitle": "Liker du funksjonen «%s»? Vennligst ranger den og legg igjen en kommentar",
+        "RateFeatureTitle": "Liker du funksjonen «%s»? La de komme til kjenne slik at vi kan forbedre Matomo.",
         "RateFeatureUsefulInfo": "Nyttig info",
         "ReferBannerEmailShareBody": "Jeg bruker Matomo, et etisk alternativ til Google Analytics som gir 100%% dataeierskap og beskytter dem som besøker nettsidene mine.\nHåper du vil ta makten tilbake fra Google og få fullstendig eierskap til din egen data.\n\nSjekk ut Matomo på https://matomo.org",
         "ReferBannerEmailShareSubject": "Vis dem Matomo og ta tilbake kontrollen.",

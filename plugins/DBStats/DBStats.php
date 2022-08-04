@@ -21,9 +21,17 @@ class DBStats extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             "TestingEnvironment.addHooks" => 'setupTestEnvironment',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'DBStats_DatabaseUsage';
+        $translations[] = 'DBStats_MainDescription';
+        $translations[] = 'DBStats_LearnMore';
     }
 
     public function getStylesheetFiles(&$stylesheets)

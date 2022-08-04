@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "نمایش تنظیمات",
         "AggregateReportsFormat_GraphsOnly": "نمایش ها نمودار ها تنها (بدون جداول گزارش)",
         "AggregateReportsFormat_TablesAndGraphs": "نمایش جداول گزارش و نمودار برای همه گزارش ها",
         "AggregateReportsFormat_TablesOnly": "(پیش فرض) نمایش جدول گزارش (نمودار فقط برای معیارهای کلیدی)",
@@ -25,9 +26,9 @@
         "ReportFormat": "فرمت گزارش",
         "ReportIncludeNWebsites": "گزارش شامل معیار های اصلی برای تمام وبسایت هایی که حداقل یک بازدید دارند می شود (از میان %s وبسایتی که در دسترس هستند).",
         "ReportSent": "گزارش ارسال شد",
-        "ReportsIncluded": "شامل گزارشات می باشد",
         "ReportType": "گزارش را ارسال کن با",
         "ReportUpdated": "گزارش به روز شده",
+        "ReportsIncluded": "شامل گزارشات می باشد",
         "SegmentAppliedToReports": "بخش '%s' در گزارش استفاده شود.",
         "SendReportNow": "ارسال گزارش هم اکنون",
         "SendReportTo": "ارسال گزارش به",

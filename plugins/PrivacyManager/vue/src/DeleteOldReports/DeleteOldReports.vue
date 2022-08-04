@@ -125,16 +125,34 @@
       </div>
     </div>
     <SaveButton
-      @confirm="save()"
+      @confirm="this.showPasswordConfirmModal = true"
       :saving="isLoading"
     />
+    <PasswordConfirmation
+      v-model="showPasswordConfirmModal"
+      @confirmed="saveSettings"
+    >
+      <h2 v-if="enabled && !enableDeleteLogs">
+        {{ translate('PrivacyManager_DeleteReportsConfirm') }}
+      </h2>
+      <h2 v-if="enabled && enableDeleteLogs">
+        {{ translate('PrivacyManager_DeleteBothConfirm') }}
+      </h2>
+      <div v-if="enabled">{{ translate('UsersManager_ConfirmWithPassword') }}</div>
+      <h2 v-if="!enabled">{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
+    </PasswordConfirmation>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { translate, Matomo } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import { translate } from 'CoreHome';
+import {
+  PasswordConfirmation,
+  Form,
+  Field,
+  SaveButton,
+} from 'CorePluginsAdmin';
 import ReportDeletionSettingsStore, {
   ReportDeletionSettings,
 } from '../ReportDeletionSettings/ReportDeletionSettings.store';
@@ -150,13 +168,12 @@ interface DeleteOldReportsState {
   keepDataForYear: boolean;
   keepDataForRange: boolean;
   keepDataForSegments: boolean;
+  showPasswordConfirmModal: boolean;
 }
 
 function getInt(value: unknown) {
   return value ? '1' : '0';
 }
-
-const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -173,6 +190,7 @@ export default defineComponent({
   components: {
     Field,
     SaveButton,
+    PasswordConfirmation,
   },
   directives: {
     Form,
@@ -198,6 +216,7 @@ export default defineComponent({
         this.deleteData.config.delete_reports_keep_segment_reports,
         10,
       ) === 1,
+      showPasswordConfirmModal: false,
     };
   },
   created() {
@@ -206,35 +225,18 @@ export default defineComponent({
     });
   },
   methods: {
-    saveSettings() {
+    saveSettings(password: string) {
       const method = 'PrivacyManager.setDeleteReportsSettings';
 
       this.isLoading = true;
-      ReportDeletionSettingsStore.savePurgeDataSettings(method, this.settings).finally(() => {
-        this.isLoading = false;
-      });
+      ReportDeletionSettingsStore
+        .savePurgeDataSettings(method, this.settings, password)
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
     reloadDbStats() {
       ReportDeletionSettingsStore.updateSettings(this.settings);
-    },
-    save() {
-      if (this.enabled) {
-        let confirmId = 'deleteReportsConfirm';
-        if (ReportDeletionSettingsStore.enableDeleteLogs.value) {
-          confirmId = 'deleteBothConfirm';
-        }
-
-        $('#confirmDeleteSettings').find('>h2').hide();
-        $(`#${confirmId}`).show();
-
-        Matomo.helper.modalConfirm('#confirmDeleteSettings', {
-          yes: () => {
-            this.saveSettings();
-          },
-        });
-      } else {
-        this.saveSettings();
-      }
     },
   },
   computed: {
@@ -261,6 +263,9 @@ export default defineComponent({
     deleteReportsKeepBasicTitle(): string {
       const first = translate('PrivacyManager_KeepBasicMetrics');
       return `${first} (${translate('General_Recommended')})`;
+    },
+    enableDeleteLogs(): boolean {
+      return !!ReportDeletionSettingsStore.enableDeleteLogs.value;
     },
   },
 });

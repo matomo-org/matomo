@@ -174,10 +174,23 @@
                     return;
                 }
 
+                var errorMessage;
                 $('.widgetContent', currentWidget).removeClass('loading');
-                var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
-                if ($('#loadingError').html()) {
-                    errorMessage = $('#loadingError').html();
+
+
+                if (deferred.status === 429) {
+                    errorMessage = `<div class="alert alert-danger">${_pk_translate('General_ErrorRateLimit')}>',
+                        '</a>'])}</div>`;
+
+                    if($('#loadingRateLimitError').html()) {
+                        errorMessage = $('#loadingRateLimitError')
+                          .html();
+                    }
+                } else {
+                    var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
+                    if ($('#loadingError').html()) {
+                        errorMessage = $('#loadingError').html();
+                    }
                 }
 
                 $('.widgetContent', currentWidget).html('<div class="widgetLoadingError">' + errorMessage + '</div>');

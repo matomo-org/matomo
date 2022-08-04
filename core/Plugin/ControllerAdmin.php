@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,11 +7,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
@@ -103,18 +106,18 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
+        $pluginsLink = Url::getCurrentQueryStringWithParametersModified([
             'module' => 'CorePluginsAdmin', 'action' => 'plugins'
-        ));
+        ]);
 
-        $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
+        $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', [
                 self::getPiwikVersion(),
-                '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
+                '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'])
             . "<br/>"
-            . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
+            . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', [
                 '<a href="' . $pluginsLink . '"/>',
                 '</a>'
-        ));
+            ]);
 
         $notification = new Notification($invalidPluginsWarning);
         $notification->raw = true;
@@ -161,9 +164,10 @@ abstract class ControllerAdmin extends Controller
 
         $message .= " ";
 
-        $message .= Piwik::translate('General_ReadThisToLearnMore',
-            array('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/how-to/faq_91/">', '</a>')
-          );
+        $message .= Piwik::translate(
+            'General_ReadThisToLearnMore',
+            ['<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/how-to/faq_91/">', '</a>']
+        );
 
         $notification = new Notification($message);
         $notification->context = Notification::CONTEXT_WARNING;
@@ -219,10 +223,13 @@ abstract class ControllerAdmin extends Controller
         if (empty($isEacceleratorUsed)) {
             return;
         }
-        $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Matomo.
+        $message = sprintf(
+            "You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Matomo.
             We have disabled eAccelerator, which might affect the performance of Matomo.
             Read the %srelated ticket%s for more information and how to fix this problem.",
-            '<a rel="noreferrer noopener" target="_blank" href="https://github.com/matomo-org/matomo/issues/4439">', '</a>');
+            '<a rel="noreferrer noopener" target="_blank" href="https://github.com/matomo-org/matomo/issues/4439">',
+            '</a>'
+        );
 
         $notification = new Notification($message);
         $notification->context = Notification::CONTEXT_WARNING;
@@ -241,7 +248,7 @@ abstract class ControllerAdmin extends Controller
 
     private static function isUsingPhpVersionCompatibleWithNextPiwik()
     {
-        return version_compare( PHP_VERSION, self::getNextRequiredMinimumPHP(), '>=' );
+        return version_compare(PHP_VERSION, self::getNextRequiredMinimumPHP(), '>=');
     }
 
     private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
@@ -271,15 +278,23 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && ! self::isPhpVersionAtLeast71();
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersionEOL();
         if (!$notifyPhpIsEOL) {
             return;
         }
 
         $deprecatedMajorPhpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, self::getNextRequiredMinimumPHP()))
-            . "<br/> "
-            . Piwik::translate('General_WarningPhpVersionXIsTooOld', $deprecatedMajorPhpVersion);
+
+        $message = '';
+
+        if (version_compare(PHP_VERSION, self::getNextRequiredMinimumPHP(), '<')) {
+            $message = Piwik::translate(
+                'General_WarningPiwikWillStopSupportingPHPVersion',
+                [$deprecatedMajorPhpVersion, self::getNextRequiredMinimumPHP()]
+            ) . '<br/>';
+        }
+
+        $message .= Piwik::translate('General_WarningPhpVersionXIsTooOld', $deprecatedMajorPhpVersion);
 
         $notification = new Notification($message);
         $notification->raw = true;
@@ -288,18 +303,24 @@ abstract class ControllerAdmin extends Controller
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
-        NotificationManager::notify('PHP71VersionCheck', $notification);
+        NotificationManager::notify('PHPVersionCheck', $notification);
     }
 
     private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
     {
-        if (!Development::isEnabled()
-            && Piwik::hasUserSuperUserAccess() &&
-            TrackerConfig::getConfigValue($trackerSetting)) {
-
+        if (
+            !Development::isEnabled()
+            && Piwik::hasUserSuperUserAccess()
+            && TrackerConfig::getConfigValue($trackerSetting)
+        ) {
             $message = Piwik::translate('General_WarningDebugOnDemandEnabled');
-            $message = sprintf($message, '"' . $trackerSetting . '"', '"[Tracker] ' .  $trackerSetting . '"', '"0"',
-                                               '"config/config.ini.php"');
+            $message = sprintf(
+                $message,
+                '"' . $trackerSetting . '"',
+                '"[Tracker] ' .  $trackerSetting . '"',
+                '"0"',
+                '"config/config.ini.php"'
+            );
             $notification = new Notification($message);
             $notification->title = Piwik::translate('General_Warning');
             $notification->priority = Notification::PRIORITY_LOW;
@@ -398,8 +419,21 @@ abstract class ControllerAdmin extends Controller
         return "Matomo " . Version::VERSION;
     }
 
-    private static function isPhpVersionAtLeast71()
+    private static function isPhpVersionEOL()
     {
-        return version_compare(PHP_VERSION, '7.1', '>=');
+        $phpEOL = '7.3';
+
+        // End of security update for certain PHP versions as of https://www.php.net/supported-versions.php
+        if (Date::today()->isLater(Date::factory('2022-11-28'))) {
+            $phpEOL = '7.4';
+        }
+        if (Date::today()->isLater(Date::factory('2023-11-26'))) {
+            $phpEOL = '8.0';
+        }
+        if (Date::today()->isLater(Date::factory('2024-11-25'))) {
+            $phpEOL = '8.1';
+        }
+
+        return version_compare(PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, $phpEOL, '<=');
     }
 }
