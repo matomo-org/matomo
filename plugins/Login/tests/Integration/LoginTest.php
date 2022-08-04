@@ -341,14 +341,16 @@ class LoginTest extends IntegrationTestCase
 
     protected function _setUpUser()
     {
-        $user = array('login'    => 'user',
-                      'password' => 'geqgeagae',
-                      'email'    => 'test@test.com',
-                      'superuser_access' => 0);
+        $user = array(
+          'login'            => 'user',
+          'password'         => 'geqgeagae',
+          'email'            => 'test@test.com',
+          'superuser_access' => 0
+        );
 
         API::getInstance()->addUser($user['login'], $user['password'], $user['email']);
 
-        $model  = new \Piwik\Plugins\UsersManager\Model();
+        $model = new \Piwik\Plugins\UsersManager\Model();
         $tokenAuth = $model->generateRandomTokenAuth();
         $model->addTokenAuth($user['login'], $tokenAuth, 'many users test', Date::now()->getDatetime());
 
@@ -393,7 +395,7 @@ class LoginTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess()
         );
     }
 }

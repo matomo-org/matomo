@@ -96,7 +96,7 @@ export default defineComponent({
     }
 
     if (contentTopPosition || contentTopPosition === 0) {
-      const parents = root.closest('[piwik-widget-loader]') as HTMLElement;
+      const parents = root.closest('.widgetLoader') as HTMLElement;
 
       // when shown within the widget loader, we need to get the offset of that element
       // as the widget loader might be still shown. Would otherwise not position correctly

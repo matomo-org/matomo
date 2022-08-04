@@ -542,19 +542,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var paddingLeft  = elem.css('paddingLeft');
             paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
             var paddingRight = elem.css('paddingRight');
-            paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
+            paddingRight     = paddingRight ? Math.round(parseFloat(paddingRight)) : 0;
 
-            labelWidth = labelWidth - paddingLeft - paddingRight;
+            if (elem.find('.prefix-numeral').length) {
+                labelWidth -= Math.round(parseFloat(elem.find('.prefix-numeral').outerWidth()));
+            }
 
-            return labelWidth;
+            return labelWidth - paddingLeft - paddingRight;
         }
 
         setMaxTableWidthIfNeeded(domElem, 1200);
 
-        var isTableVisualization = this.jsViewDataTable
-            && typeof this.jsViewDataTable === 'string'
-            && typeof this.jsViewDataTable.indexOf === 'function'
-            && this.jsViewDataTable.indexOf('table') !== -1;
+        var isTableVisualization = this.param.viewDataTable
+            && typeof this.param.viewDataTable === 'string'
+            && typeof this.param.viewDataTable.indexOf === 'function'
+            && this.param.viewDataTable.indexOf('table') !== -1;
         if (isTableVisualization) {
             // we do this only for html tables
 
@@ -569,9 +571,41 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelColumnWidth = labelColumnMaxWidth;
             }
 
+            // special handling if the loaded datatable is a subtable
+            if ($(domElem).closest('.subDataTableContainer').length) {
+                var parentTable = $(domElem).closest('table.dataTable');
+                var tableColumns = $('table:eq(0)>thead th', domElem).length;
+                var parentTableColumns = $('>thead th', parentTable).length;
+                var labelColumn = $('>tbody td.label:eq(0)', parentTable);
+                var labelWidthParentTable = labelColumn.outerWidth();
+
+                // if the subtable has the same column count as the main table, we rearrange all tables
+                if (parentTableColumns === tableColumns) {
+                    labelColumnWidth = Math.min(labelColumnWidth, labelWidthParentTable);
+
+                    // rearrange base table labels, so the tables are displayed aligned
+                    $('>tbody>tr:not(.subDataTableContainer)>td.label', parentTable).each(function() {
+                        $(this).css({
+                            width: removePaddingFromWidth($(this), labelColumnWidth) + 'px'
+                        });
+                    });
+
+                    // rearrange all subtables having the same column count
+                    $('>tbody>tr.subDataTableContainer', parentTable).each(function() {
+                        if ($('table:eq(0)>thead th', this).length === parentTableColumns) {
+                            $(this).css({
+                                width: removePaddingFromWidth($(this), labelColumnWidth) + 'px'
+                            });
+                        }
+                    });
+                }
+            }
+
             if (labelColumnWidth) {
                 $('td.label', domElem).each(function() {
-                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
+                    $(this).css({
+                        width: removePaddingFromWidth($(this), labelColumnWidth) + 'px'
+                    });
                 });
             }
 
@@ -583,7 +617,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             // on resize of the window we re-calculate everything.
             var timeout = null;
+            var windowWidth = 0;
             var resizeDataTable = function() {
+
+                if (windowWidth === $(window).width()) {
+                    return; // only resize a data table if the width changes
+                }
 
                 if (timeout) {
                     clearTimeout(timeout);
@@ -598,6 +637,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                             $('td.label', domElem).width('');
                         }
                         self.setFixWidthToMakeEllipsisWork(domElem);
+                        windowWidth = $(window).width();
                     } else {
                         $(window).off('resize', resizeDataTable);
                     }
@@ -729,7 +769,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
-            var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
+            if (self.param['dateUsedInGraph']) {
+                // this parameter is passed along when switching between periods. So we perfer using
+                // it, to avoid a change in the end date shown in the graph
+                var currentPeriod = piwikPeriods.parse('range', self.param['dateUsedInGraph']);
+            } else {
+                var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
+            }
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
             endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
 
@@ -1440,7 +1486,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var self = this;
 
         // highlight all columns on hover
-        $(domElem).on('mouseenter', 'td', function (e) {
+        $(domElem).on('mouseenter', 'td:not(.cellSubDataTable)', function (e) {
             e.stopPropagation();
             var $this = $(e.target);
             if ($this.hasClass('label')) {
