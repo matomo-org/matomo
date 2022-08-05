@@ -43,7 +43,7 @@
 	</row>
 	<row>
 		<name>City (Visitors)</name>
-		<documentation>This report shows the cities your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>Shows the cities your visitors connected from when accessing your website.&lt;br/&gt;Set up GeoIP in the Geolocation admin tab to provide data for this report. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;MaxMind&lt;/a&gt; GeoIP databases are more accurate than the gratis ones. &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;Click here&lt;/a&gt; to see how accurate they are.</documentation>
 	</row>
 	<row>
 		<name>Configurations (Visitors)</name>
@@ -61,11 +61,11 @@
 	</row>
 	<row>
 		<name>Continent (Visitors)</name>
-		<documentation>This report shows which continent your visitors were in when they accessed your website.</documentation>
+		<documentation>Shows which continent your visitors connected from when accessing your website.</documentation>
 	</row>
 	<row>
 		<name>Country (Visitors)</name>
-		<documentation>This report shows which country your visitors were in when they accessed your website.</documentation>
+		<documentation>Shows which country your visitors connected from when accessing your website.</documentation>
 	</row>
 	<row>
 		<name>Custom Variables (Visitors)</name>
@@ -248,7 +248,7 @@
 	</row>
 	<row>
 		<name>Region (Visitors)</name>
-		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>Shows which region your visitors connected from when accessing website.&lt;br/&gt;Set up GeoIP in the Geolocation admin tab to provide data for this report. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;MaxMind&lt;/a&gt; GeoIP databases are more accurate than the gratis ones. &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;Click here&lt;/a&gt; to see how accurate they are.</documentation>
 	</row>
 	<row>
 		<name>Returning Visits (Actions)</name>

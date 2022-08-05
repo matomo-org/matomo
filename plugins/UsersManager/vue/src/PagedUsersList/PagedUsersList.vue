@@ -367,37 +367,28 @@
         </tbody>
       </table>
     </ContentBlock>
-    <div class="delete-user-confirm-modal modal" ref="deleteUserConfirmModal">
-      <div class="modal-content">
-        <h3
-            v-if="userToChange"
-            v-html="$sanitize(translate(
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForUserRemoval"
+      @confirmed="deleteRequestedUsers"
+      @aborted="userToChange = null; roleToChangeTo = null;"
+    >
+      <h2
+        v-if="userToChange"
+        v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmSingle',
             `<strong>${userToChange.login}</strong>`,
           ))"
-        ></h3>
-        <p
-            v-if="!userToChange"
-            v-html="$sanitize(translate(
+      ></h2>
+      <h2
+        v-if="!userToChange"
+        v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmMultiple',
             `<strong>${affectedUsersCount}</strong>`,
           ))"
-        ></p>
-      </div>
-      <div class="modal-footer">
-        <a
-            href=""
-            class="modal-action modal-close btn"
-            @click.prevent="deleteRequestedUsers()"
-            style="margin-right:3.5px"
-        >{{ translate('General_Yes') }}</a>
-        <a
-            href=""
-            class="modal-action modal-close modal-no"
-            @click.prevent="userToChange = null; roleToChangeTo = null;"
-        >{{ translate('General_No') }}</a>
-      </div>
-    </div>
+      ></h2>
+      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+    </PasswordConfirmation>
+
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
       <div class="modal-content">
         <h3
@@ -475,7 +466,7 @@ import {
   SiteRef,
   Matomo,
 } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
+import { Field, PasswordConfirmation } from 'CorePluginsAdmin';
 import User from '../User';
 import SearchParams from './SearchParams';
 
@@ -497,6 +488,7 @@ interface PagedUsersListState {
   isRoleHelpToggled: boolean;
   userTextFilter: string;
   permissionsForSite: SiteRef;
+  showPasswordConfirmationForUserRemoval: boolean;
 }
 
 const { $ } = window;
@@ -540,6 +532,7 @@ export default defineComponent({
     ActivityIndicator,
     Notification,
     ContentBlock,
+    PasswordConfirmation,
   },
   directives: {
     DropdownMenu,
@@ -561,6 +554,7 @@ export default defineComponent({
         id: this.initialSiteId,
         name: this.initialSiteName,
       },
+      showPasswordConfirmationForUserRemoval: false,
     };
   },
   emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite'],
@@ -617,9 +611,10 @@ export default defineComponent({
         this.isAllCheckboxSelected = selectedRowKeyCount === this.users.length;
       });
     },
-    deleteRequestedUsers() {
+    deleteRequestedUsers(password: string) {
       this.$emit('deleteUser', {
         users: this.userOperationSubject,
+        password,
       });
     },
     resendRequestedUser() {
@@ -628,11 +623,7 @@ export default defineComponent({
       });
     },
     showDeleteConfirm() {
-      $(this.$refs.deleteUserConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
+      this.showPasswordConfirmationForUserRemoval = true;
     },
     showResendConfirm() {
       $(this.$refs.resendInviteConfirmModal as HTMLElement)
