@@ -55,7 +55,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
+          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, opcache
           ini-values: |
             post_max_size=256M
             max_execution_time=10000
