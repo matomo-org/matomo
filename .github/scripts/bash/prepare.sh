@@ -26,6 +26,14 @@ cd /home/runner/work/matomo/matomo/
 echo -e "${GREEN}install composer${SET}"
 composer install --ignore-platform-reqs
 
+#php 8.1 require unitTest > 9
+if [ "$PHP_VERSION" = "8.1" ];
+then
+  composer remove --dev phpunit/phpunit
+  composer require --dev phpunit/phpunit ~9.3 --ignore-platform-reqs
+if
+
+
 # setup config
 sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" .github/artifacts/config.ini.github.php > config/config.ini.php
 
