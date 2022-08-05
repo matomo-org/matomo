@@ -1874,12 +1874,28 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             return r.result === 'error';
           }).map(function (r) {
             return r.message;
-          });
+          }).filter(function (e) {
+            return e.length;
+          }) // count occurrences of error messages
+          .reduce(function (acc, e) {
+            acc[e] = (acc[e] || 0) + 1;
+            return acc;
+          }, {});
 
-          if (errors && errors.length && !_this3.useRegularCallbackInCaseOfError) {
-            var errorMessage = errors.filter(function (e) {
-              return e.length;
-            }).join('<br />');
+          if (errors && Object.keys(errors).length && !_this3.useRegularCallbackInCaseOfError) {
+            var errorMessage = '';
+            Object.keys(errors).forEach(function (error) {
+              if (errorMessage.length) {
+                errorMessage += '<br />';
+              } // append error count if it occured more than once
+
+
+              if (errors[error] > 1) {
+                errorMessage += "".concat(error, " (").concat(errors[error], "x)");
+              } else {
+                errorMessage += error;
+              }
+            });
             var placeAt = null;
             var type = 'toast';
 

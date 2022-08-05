@@ -441,8 +441,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         try {
             $passwordHash = $this->passwordResetter->checkValidConfirmPasswordToken($login, $resetToken);
         } catch (Exception $ex) {
-            Log::debug($ex);
+            $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
 
+            Log::debug($ex);
             $errorMessage = $ex->getMessage();
         }
 
