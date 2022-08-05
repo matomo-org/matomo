@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Http;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -52,7 +53,11 @@ class PageSpeedCheck implements Diagnostic
 
     private function isPageSpeedEnabled()
     {
-        $matomoUrl = SettingsPiwik::getPiwikUrl();
+        try {
+            $matomoUrl = SettingsPiwik::getPiwikUrl();
+        } catch (\Exception $e) {
+            $matomoUrl = Url::getCurrentUrlWithoutQueryString();
+        }
 
         if (empty($matomoUrl)) {
             // skip this check if we can't determine the matomo url (e.g. on command line)
