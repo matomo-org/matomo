@@ -32,7 +32,7 @@ class TrackerConfig
             $siteSpecificConfig = self::getSiteSpecificConfig($idSite);
             $config = array_merge($config, $siteSpecificConfig);
         }
-        return $config[$name];
+        return $config[$name] ?? null;
     }
 
     private static function getConfig()
