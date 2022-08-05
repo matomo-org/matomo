@@ -70,7 +70,7 @@
 
     <p>
       {{ translate('TwoFactorAuth_VerifyIdentifyExplanation') }}
-      <span v-html="learnMoreText" />
+      <span v-html="$sanitize(learnMoreText)" />
 
       <br /><br />
       <strong>{{ translate('TwoFactorAuth_DontHaveYourMobileDevice') }}</strong>
