@@ -56,7 +56,14 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis
-          ini-values: post_max_size=256M, max_execution_time=10000, memory_limit=-1, always_populate_raw_post_data=-1,zend.exception_ignore_args = Off
+          ini-values: |
+            post_max_size=256M
+            max_execution_time=10000
+            memory_limit=-1
+            always_populate_raw_post_data=-1
+            zend.exception_ignore_args = Off
+            opcache.enable = 1
+            opcache.enable_cli=1
           tools: composer:v2
           coverage: none
 
