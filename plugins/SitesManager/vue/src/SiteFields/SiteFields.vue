@@ -178,19 +178,14 @@
       </div>
     </div>
 
-    <MatomoDialog
+    <PasswordConfirmation
       v-model="showRemoveDialog"
-      @yes="deleteSite()"
+      @confirmed="deleteSite"
     >
-      <div class="ui-confirm">
         <h2>{{ removeDialogTitle }}</h2>
-
         <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
-
-        <input type="button" :value="translate('General_Yes')" role="yes"/>
-        <input type="button" :value="translate('General_No')" role="no" />
-      </div>
-    </MatomoDialog>
+        <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+    </PasswordConfirmation>
   </div>
 </template>
 
@@ -202,7 +197,6 @@ import {
   ActivityIndicator,
   format,
   translate,
-  MatomoDialog,
   AjaxHelper,
   NotificationsStore,
 } from 'CoreHome';
@@ -211,6 +205,7 @@ import {
   GroupedSettings,
   SettingsForSinglePlugin,
   Setting,
+  PasswordConfirmation,
 } from 'CorePluginsAdmin';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import CurrencyStore from '../CurrencyStore/CurrencyStore';
@@ -271,7 +266,7 @@ export default defineComponent({
     };
   },
   components: {
-    MatomoDialog,
+    PasswordConfirmation,
     Field,
     GroupedSettings,
     ActivityIndicator,
@@ -433,12 +428,14 @@ export default defineComponent({
 
       this.$emit('cancelEditSite', { site, element: this.$refs.root as HTMLElement });
     },
-    deleteSite() {
-      AjaxHelper.fetch({
+    deleteSite(password: string) {
+      AjaxHelper.post({
         idSite: this.theSite.idsite,
         module: 'API',
         format: 'json',
         method: 'SitesManager.deleteSite',
+      }, {
+        passwordConfirmation: password,
       }).then(() => {
         this.$emit('delete', this.theSite);
       });
