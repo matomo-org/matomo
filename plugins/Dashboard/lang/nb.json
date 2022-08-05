@@ -27,7 +27,7 @@
         "ResetDashboard": "Nullstill oversikt",
         "ResetDashboardConfirm": "Gjennopprett oversiktsoppsettet til  bruk av de forvalgte miniprogrammene?",
         "SelectDashboardLayout": "Vennligst veld ny oversiktslayout",
-        "SelectWidget": "Velg hvilket element som du vil legge til oversiktspanelet",
+        "SelectWidget": "Velg miniprogram å legge til i oversiktspanelet",
         "SetAsDefaultWidgets": "Bruk som forvalgt miniprogramsutvalg",
         "SetAsDefaultWidgetsConfirm": "Sett dette miniprogramsutvalget og kolonneoppsettet som forvalgt mal?",
         "SetAsDefaultWidgetsConfirmHelp": "Dette miniprogramsutvalget og kolonneoppsettet vil bli brukt når brukere lager nye oversikter, eller når «%s»-funksjonen brukes.",

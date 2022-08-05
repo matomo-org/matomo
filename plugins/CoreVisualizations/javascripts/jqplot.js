@@ -1221,7 +1221,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            $('.jqplot-legend-canvas').css({paddingLeft: '34px'});
+            $('.jqplot-legend-canvas', $('#' + target)).css({paddingLeft: '34px'});
             plot.baseCanvas._elem.before(this.domElem);
         });
 
