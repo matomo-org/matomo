@@ -31,7 +31,7 @@ if [ "$PHP_VERSION" = "8.1" ];
 then
   composer remove --dev phpunit/phpunit
   composer require --dev phpunit/phpunit ~9.3 --ignore-platform-reqs
-if
+fi
 
 
 # setup config
