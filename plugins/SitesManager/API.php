@@ -817,7 +817,7 @@ class API extends \Piwik\Plugin\API
      * Requires Super User access.
      *
      * @param int $idSite
-     * @param string $passwordConfirmation the currents users password, only required when request is authenticated with session token auth
+     * @param string $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
      * @throws Exception
      */
     public function deleteSite($idSite, $passwordConfirmation = null)
