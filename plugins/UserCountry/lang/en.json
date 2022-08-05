@@ -42,7 +42,7 @@
         "Region": "Region",
         "SubmenuLocations": "Locations",
         "TestIPLocatorFailed": "Couldn't find the location of the IP address \"%1$s\". Maybe this provider is not set up correctly, the geolocation database is incorrectly named, or in the wrong folder?",
-        "ToGeolocateOldVisits": "Use %1$this script%2$s to get location data for your old visits.",
+        "ToGeolocateOldVisits": "Use %1$sthis script%2$s to get location data for your old visits.",
         "WidgetLocation": "Visitor location",
         "GeoIpDbIpAccuracyNote": "The DB-IP geolocation databases are gratis and can be auto-downloaded. MaxMind is more accurate for cities, but requires %1$making an account%2$s.",
         "MaxMindLinkExplanation": "%1$sClick here to learn how to generate your download URL%2$s if you are using MaxMind's geolocation.",
