@@ -1,11 +1,7 @@
 name: Javascript Tests
 
 on:
-  workflow_run:
-    workflows: [ Build Vue files,PHPCS check ]
-    types:
-      - completed
-
+  pull_request:
 
 permissions:
   actions: read
