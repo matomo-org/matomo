@@ -1,7 +1,10 @@
-name: Matomo UI Tests
+name: UI Tests
 
 on:
-  pull_request:
+  workflow_run:
+    workflows: [ Build Vue files,PHPCS check ]
+    types:
+      - completed
 
 permissions:
   actions: read

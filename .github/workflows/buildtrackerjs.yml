@@ -1,8 +1,9 @@
 name: Build Tracker JS files
 
 on:
-  issue_comment:
-    types: [created]
+  push:
+    paths:
+      - 'js/piwik.js'
 
 permissions:
   actions: read
@@ -21,34 +22,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Detect branch for PR
-      id: vars
-      run: |
-        PR=$( echo "${{ github.event.comment.issue_url }}" | grep -oE 'issues/([0-9]+)$' | cut -d'/' -f 2 )
-        
-        PR_INFO=$( curl \
-                 --request GET \
-                 --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-                 --header 'content-type: application/json' \
-                 --url https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR )
-        REF=$(echo "${PR_INFO}" | jq -r .head.ref)
-        BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
-        STATE=$(echo "${PR_INFO}" | jq -r .state)
-        
-        if [[ $STATE == "closed" ]]
-        then
-          echo "Pull Request already closed."
-          exit 0;
-        fi
-        
-        if [[ $BASE != $GITHUB_REPOSITORY ]]
-        then
-          echo "It's only possible to update local branches"
-          exit 0;
-        fi
-        
-        echo ::set-output name=branch::$REF
-      if: github.event.comment.body == 'build js'
     - uses: actions/setup-java@v1
       with:
         java-version: 9
@@ -59,7 +32,7 @@ jobs:
         lfs: false
       if: steps.vars.outputs.branch != ''
     - name: Prepare git config
-      run: | 
+      run: |
           cat <<- EOF > $HOME/.netrc
             machine github.com
             login $GITHUB_ACTOR
