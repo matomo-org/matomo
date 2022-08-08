@@ -34,6 +34,8 @@
         "ConfirmProhibitMySuperUserAccess": "%s, do you really want to remove your own Super User access? You will lose all permissions and access to all websites and will be logged out from Matomo.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Do you really want to remove Super User access from '%s'? The user will lose all permissions and access to all websites. Make sure to give access to needed websites afterwards if necessary.",
         "DeleteConfirm": "Are you sure you want to delete the user %s?",
+        "DeleteSuccess": "The selected users have been removed.",
+        "DeleteNotSuccessful": "An error occurred while removing the selected users. Some users might not have been removed.",
         "Email": "Email",
         "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s.",
         "EnterUsernameOrEmail": "Enter a username or email address",

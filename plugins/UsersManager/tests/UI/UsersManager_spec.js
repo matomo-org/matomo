@@ -169,9 +169,20 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
     });
 
-    it('should delete a single user when the modal is confirmed is clicked', async function () {
+    it('should show password confirmation when deleting a single user', async function () {
         await (await page.jQuery('.deleteuser:eq(0)')).click();
-        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'delete_single_confirm',
+          comparisonThreshold: 0.025
+        });
+    });
+
+    it('should delete a single user when the modal is confirmed is clicked', async function () {
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
@@ -180,12 +191,23 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_single');
     });
 
-    it('should delete selected users when delete users bulk action is used', async function () {
+    it('should show password confirmation when deleting multiple user using bulk action', async function () {
         await page.click('th.select-cell input + span'); // select displayed rows
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
-        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'delete_bulk_confirm',
+          comparisonThreshold: 0.025
+        });
+    });
+
+    it('should delete selected users when delete users bulk action is used', async function () {
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
