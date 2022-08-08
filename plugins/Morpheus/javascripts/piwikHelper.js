@@ -230,7 +230,7 @@ window.piwikHelper = {
           template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
           data: function () {
             return componentParams;
-          }
+          },
         });
         app.component('root', component);
 
@@ -380,7 +380,7 @@ window.piwikHelper = {
      */
     isAngularRenderingThePage: function ()
     {
-        return this.isReportingPage();
+        return piwikHelper.isReportingPage();
     },
 
     /**
@@ -390,7 +390,7 @@ window.piwikHelper = {
      */
     isReportingPage: function ()
     {
-      return $('.reporting-page').length;
+        return $('.reporting-page').length;
     },
 
     /**

@@ -175,6 +175,8 @@ __webpack_require__.d(__webpack_exports__, "SideNav", function() { return /* ree
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
 __webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
+__webpack_require__.d(__webpack_exports__, "ComparisonsStore", function() { return /* reexport */ Comparisons_store_ComparisonsStore; });
+__webpack_require__.d(__webpack_exports__, "ComparisonsStoreInstance", function() { return /* reexport */ Comparisons_store_instance; });
 __webpack_require__.d(__webpack_exports__, "MenuItemsDropdown", function() { return /* reexport */ MenuItemsDropdown; });
 __webpack_require__.d(__webpack_exports__, "DatePicker", function() { return /* reexport */ DatePicker; });
 __webpack_require__.d(__webpack_exports__, "DateRangePicker", function() { return /* reexport */ DateRangePicker; });
@@ -1874,12 +1876,28 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             return r.result === 'error';
           }).map(function (r) {
             return r.message;
-          });
+          }).filter(function (e) {
+            return e.length;
+          }) // count occurrences of error messages
+          .reduce(function (acc, e) {
+            acc[e] = (acc[e] || 0) + 1;
+            return acc;
+          }, {});
 
-          if (errors && errors.length && !_this3.useRegularCallbackInCaseOfError) {
-            var errorMessage = errors.filter(function (e) {
-              return e.length;
-            }).join('<br />');
+          if (errors && Object.keys(errors).length && !_this3.useRegularCallbackInCaseOfError) {
+            var errorMessage = '';
+            Object.keys(errors).forEach(function (error) {
+              if (errorMessage.length) {
+                errorMessage += '<br />';
+              } // append error count if it occured more than once
+
+
+              if (errors[error] > 1) {
+                errorMessage += "".concat(error, " (").concat(errors[error], "x)");
+              } else {
+                errorMessage += error;
+              }
+            });
             var placeAt = null;
             var type = 'toast';
 
@@ -12270,6 +12288,8 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 

@@ -93,6 +93,8 @@ export { default as SideNav } from './SideNav/SideNav';
 export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
 export { default as ContentBlock } from './ContentBlock/ContentBlock.vue';
 export { default as Comparisons } from './Comparisons/Comparisons.vue';
+export { default as ComparisonsStore } from './Comparisons/Comparisons.store';
+export { default as ComparisonsStoreInstance } from './Comparisons/Comparisons.store.instance';
 export { default as MenuItemsDropdown } from './MenuItemsDropdown/MenuItemsDropdown.vue';
 export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
