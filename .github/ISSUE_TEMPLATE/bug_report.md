@@ -48,3 +48,5 @@ labels: Potential Bug
 <!-- For UI Bugs please also tell us something about your environment -->
 * Browser:
 * Operating System:
+* You can make a recording with [Bird Eats Bug](https://birdeatsbug.com/).
+
