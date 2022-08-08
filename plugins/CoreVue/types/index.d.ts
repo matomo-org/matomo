@@ -80,6 +80,7 @@ declare global {
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
+    isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
