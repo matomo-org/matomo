@@ -305,6 +305,7 @@ class CronArchiveTest extends IntegrationTestCase
             [
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2021-12-27', 'date2' => '2022-01-02', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2022-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 4, 'date1' => '2022-01-01', 'date2' => '2022-12-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2022-03-04 01:00:00'],
                 ],
                 ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2021-12-27', 'date2' => '2022-01-02', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2022-03-04 01:00:00'],
                 [
@@ -319,7 +320,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'ts_invalidated' => '2022-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => 1,
                         'idsite' => '1',
                         'period' => '4',
                         'date1' => '2022-01-01',
