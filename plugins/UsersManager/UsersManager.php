@@ -379,5 +379,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_AllWebsitesDashboard';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2';
+        $translationKeys[] = 'UsersManager_DeleteSuccess';
+        $translationKeys[] = 'UsersManager_DeleteNotSuccessful';
     }
 }

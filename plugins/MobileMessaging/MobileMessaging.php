@@ -120,6 +120,12 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_MobileReport_MobileMessagingSettingsLink';
         $translationKeys[] = 'ScheduledReports_SendReportTo';
         $translationKeys[] = 'MobileMessaging_PhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_Settings_DelegatedSmsProviderOnlyAppliesToYou';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvided';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvidedByAdmin';
+        $translationKeys[] = 'MobileMessaging_Settings_DeleteAccountConfirm';
+        $translationKeys[] = 'MobileMessaging_Settings_SuspiciousPhoneNumber';
+        $translationKeys[] = 'MobileMessaging_SettingsMenu';
     }
     
     public function validateReportParameters(&$parameters, $reportType)

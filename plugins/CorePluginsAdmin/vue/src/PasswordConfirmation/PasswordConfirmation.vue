@@ -34,7 +34,7 @@
       >{{ translate('General_Yes') }}</a>
       <a
         href=""
-        class="modal-action modal-close modal-no"
+        class="modal-action modal-close modal-no btn-flat"
         @click="$event.preventDefault(); $emit('aborted')"
       >{{ translate('General_No') }}</a>
     </div>

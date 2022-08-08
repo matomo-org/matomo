@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "347f5480050f7094eed62ede97378192",
+    "content-hash": "8abf91a75153ccb117e1cacc82cc9fb5",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2085,16 +2085,16 @@
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v3.0.13",
+            "version": "v3.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
-                "reference": "0cecbea0317227817030b2edc79ecbe870224215"
+                "reference": "373786c8a9e7651c445b9ce42320b5a66e777dbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/0cecbea0317227817030b2edc79ecbe870224215",
-                "reference": "0cecbea0317227817030b2edc79ecbe870224215",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/373786c8a9e7651c445b9ce42320b5a66e777dbf",
+                "reference": "373786c8a9e7651c445b9ce42320b5a66e777dbf",
                 "shasum": ""
             },
             "require": {
@@ -2150,9 +2150,9 @@
             ],
             "support": {
                 "issues": "https://github.com/szymach/c-pchart/issues",
-                "source": "https://github.com/szymach/c-pchart/tree/v3.1.0"
+                "source": "https://github.com/szymach/c-pchart/tree/v3.0.15"
             },
-            "time": "2022-06-05T10:54:17+00:00"
+            "time": "2022-08-05T11:53:51+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -3314,16 +3314,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.27",
+            "version": "8.5.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "df70070f2711b8fe8dcca0797c1239ede8c94be6"
+                "reference": "8f2d1c9c7b30382459c871467853da1a6e44fbd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/df70070f2711b8fe8dcca0797c1239ede8c94be6",
-                "reference": "df70070f2711b8fe8dcca0797c1239ede8c94be6",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8f2d1c9c7b30382459c871467853da1a6e44fbd4",
+                "reference": "8f2d1c9c7b30382459c871467853da1a6e44fbd4",
                 "shasum": ""
             },
             "require": {
@@ -3392,7 +3392,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.27"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.28"
             },
             "funding": [
                 {
@@ -3404,7 +3404,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-19T12:11:16+00:00"
+            "time": "2022-07-29T09:20:50+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
