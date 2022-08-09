@@ -73,9 +73,12 @@ class SyncScreenshots extends ConsoleCommand
 
         $this->logger->notice('Downloading {number} screenshots', array('number' => count($screenshots)));
         foreach ($screenshots as $name => $url) {
-            if (preg_match('/' . $screenshotsRegex . '/', $name)) {
-                $this->logger->info('Downloading {name}', array('name' => $name));
-                $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword, $agent);
+            foreach ($screenshotsRegex as $regex) {
+                if (preg_match('/' . $regex . '/', $name)) {
+                    $this->logger->info('Downloading {name}', array('name' => $name));
+                    $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword);
+                    break;
+                }
             }
         }
 
