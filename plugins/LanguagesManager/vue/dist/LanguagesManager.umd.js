@@ -119,7 +119,9 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "TranslationSearch", function() { return /* reexport */ TranslationSearch; });
+__webpack_require__.d(__webpack_exports__, "TranslationSearchPage", function() { return /* reexport */ TranslationSearchPage; });
 __webpack_require__.d(__webpack_exports__, "LanguageSelector", function() { return /* reexport */ LanguageSelector; });
+__webpack_require__.d(__webpack_exports__, "LanguagesDropdown", function() { return /* reexport */ LanguagesDropdown; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -136,65 +138,6 @@ if (typeof window !== 'undefined') {
 
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
-
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-var _window = window,
-    $ = _window.$;
-
-function postLanguageChange(element, event) {
-  var value = $(event.target).attr('value');
-
-  if (value) {
-    $(element).find('#language').val(value).parents('form').submit();
-  }
-}
-
-/* harmony default export */ var LanguageSelector = ({
-  mounted: function mounted(el, binding) {
-    binding.value.onClick = postLanguageChange.bind(null, el);
-    $(el).on('click', 'a[value]', binding.value.onClick);
-  },
-  unmounted: function unmounted(el, binding) {
-    $(el).off('click', 'a[value]', binding.value.onClick);
-  }
-});
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-function languageSelection() {
-  return {
-    restrict: 'C',
-    link: function languageSelectionLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {},
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      LanguageSelector.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        LanguageSelector.unmounted(element[0], binding);
-      });
-    }
-  };
-}
-
-window.angular.module('piwikApp').directive('languageSelection', languageSelection);
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
 
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
@@ -261,6 +204,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128))])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm], [_directive_content_table]])]);
 }
 // CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3d477584
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts
 
@@ -365,19 +311,181 @@ var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePlugin
 TranslationSearchvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var TranslationSearch = (TranslationSearchvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.adapter.ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearchPage.vue?vue&type=template&id=d4a5b52e
+
+function TranslationSearchPagevue_type_template_id_d4a5b52e_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_TranslationSearch = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("TranslationSearch");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('LanguagesManager_TranslationSearch'),
+    feature: "true"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_TranslationSearch)];
+    }),
+    _: 1
+  }, 8, ["content-title"]);
+}
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearchPage.vue?vue&type=template&id=d4a5b52e
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearchPage.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var TranslationSearchPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    TranslationSearch: TranslationSearch
+  }
+}));
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearchPage.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearchPage.vue
+
+
+
+TranslationSearchPagevue_type_script_lang_ts.render = TranslationSearchPagevue_type_template_id_d4a5b52e_render
+
+/* harmony default export */ var TranslationSearchPage = (TranslationSearchPagevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts
 /*!
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+var _window = window,
+    $ = _window.$;
+
+function postLanguageChange(element, event) {
+  var value = $(event.target).attr('value');
+
+  if (value) {
+    $(element).find('#language').val(value).parents('form').submit();
+  }
+}
+
+/* harmony default export */ var LanguageSelector = ({
+  mounted: function mounted(el, binding) {
+    binding.value.onClick = postLanguageChange.bind(null, el);
+    $(el).on('click', 'a[value]', binding.value.onClick);
+  },
+  unmounted: function unmounted(el, binding) {
+    $(el).off('click', 'a[value]', binding.value.onClick);
+  }
+});
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=template&id=645528d7
+
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_1 = {
+  class: "languageSelection"
+};
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_2 = {
+  class: "item",
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "https://matomo.org/translations/"
+};
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_3 = ["value", "title"];
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_4 = {
+  action: "index.php?module=LanguagesManager&action=saveLanguage",
+  method: "post",
+  ref: "form"
+};
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_5 = ["value"];
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_6 = ["value"];
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_7 = ["value"];
+function LanguagesDropdownvue_type_template_id_645528d7_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_MenuItemsDropdown = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MenuItemsDropdown");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LanguagesDropdownvue_type_template_id_645528d7_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MenuItemsDropdown, {
+    "menu-title": _ctx.currentLanguageName,
+    onAfterSelect: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.onSelect($event);
+    })
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", LanguagesDropdownvue_type_template_id_645528d7_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.languages, function (language) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+          key: language.code,
+          class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("item ".concat(language.code === _ctx.currentLanguageCode ? 'active' : '')),
+          value: language.code,
+          title: "".concat(language.name, " (").concat(language.english_name, ")")
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(language.name), 11, LanguagesDropdownvue_type_template_id_645528d7_hoisted_3);
+      }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", LanguagesDropdownvue_type_template_id_645528d7_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "hidden",
+        name: "language",
+        id: "language",
+        value: _ctx.selectedLanguage
+      }, null, 8, LanguagesDropdownvue_type_template_id_645528d7_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "hidden",
+        name: "nonce",
+        id: "nonce",
+        value: _ctx.formNonce
+      }, null, 8, LanguagesDropdownvue_type_template_id_645528d7_hoisted_6), _ctx.tokenAuth ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
+        key: 0,
+        type: "hidden",
+        name: "token_auth",
+        value: _ctx.tokenAuth
+      }, null, 8, LanguagesDropdownvue_type_template_id_645528d7_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)];
+    }),
+    _: 1
+  }, 8, ["menu-title"])]);
+}
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=template&id=645528d7
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=script&lang=ts
 
 
-/* harmony default export */ var TranslationSearch_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: TranslationSearch,
-  directiveName: 'piwikTranslationSearch'
+/* harmony default export */ var LanguagesDropdownvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    tokenAuth: String,
+    formNonce: {
+      type: String,
+      required: true
+    },
+    languages: {
+      type: Array,
+      required: true
+    },
+    currentLanguageCode: {
+      type: String,
+      required: true
+    },
+    currentLanguageName: {
+      type: String,
+      required: true
+    }
+  },
+  components: {
+    MenuItemsDropdown: external_CoreHome_["MenuItemsDropdown"]
+  },
+  data: function data() {
+    return {
+      selectedLanguage: this.currentLanguageCode
+    };
+  },
+  methods: {
+    onSelect: function onSelect(selected) {
+      var _this = this;
+
+      this.selectedLanguage = selected.getAttribute('value');
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])().then(function () {
+        _this.$refs.form.submit();
+      });
+    }
+  }
 }));
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue
+
+
+
+LanguagesDropdownvue_type_script_lang_ts.render = LanguagesDropdownvue_type_template_id_645528d7_render
+
+/* harmony default export */ var LanguagesDropdown = (LanguagesDropdownvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
