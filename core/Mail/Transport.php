@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Common;
 
 class Transport
 {
@@ -124,11 +125,11 @@ class Transport
         }
 
         if (!empty($mailConfig['username'])) {
-            $phpMailer->Username = $mailConfig['username'];
+            $phpMailer->Username = Common::unsanitizeInputValue($mailConfig['username']);
         }
 
         if (!empty($mailConfig['password'])) {
-            $phpMailer->Password = $mailConfig['password'];
+            $phpMailer->Password = Common::unsanitizeInputValue($mailConfig['password']);
         }
 
         if (!empty($mailConfig['encryption'])) {
