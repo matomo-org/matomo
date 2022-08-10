@@ -63,6 +63,7 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Actions_SubmenuPagesEntry';
         $translationKeys[] = 'Actions_SubmenuPagesExit';
         $translationKeys[] = 'Transitions_AvailableInOtherReports2';
+        $translationKeys[] = 'Transitions_FeatureDescription';
     }
 
     public function addJsGlobalVariables(&$out)

@@ -116,7 +116,6 @@
         "SystemCheckTracker": "Sporingsstatus",
         "SystemCheckTrackerHelp": "GET forespørgsel til matomo.php fejlede. Prøv at hvisliste denne URL fra HTTP autentificering og deaktivér mod_security (du skal måske snakke med din hostingudbyder). Tjek din webservers fejl-logfil for yderligere information om denne fejl.",
         "SystemCheckUpdateHttps": "Opdater over HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo kan ikke anvende HTTPS til opdatering men vil falde tilbage til en usikker HTTP opdatering. Tjek at CURL eller allow_url_fopen understøttes og at openssl PHP udvidelse er installeret: https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Se hele systemtjekrapporten",
         "SystemCheckWarnDomHelp": "Aktiver \"Dom\" udvidelsen (f.eks. installere \"php-dom\"og/eller \"php-xml-pakken\").",
         "SystemCheckWarnLibXmlHelp": "Aktiver \"libxml\" udvidelsen (fx \"installere php-libxml\" pakken), som kræves af andre centrale PHP udvidelser.",

@@ -1,58 +1,23 @@
 {% extends 'admin.twig' %}
 
-{% import '@MobileMessaging/macros.twig' as macro %}
-
 {% set title %}{{ 'MobileMessaging_SettingsMenu'|translate }}{% endset %}
 
 {% block content %}
-<div class="manageMobileMessagingSettings">
-    {% if isSuperUser %}
-    <div piwik-content-block content-title="{{ title|e('html_attr') }}">
-        <div
-          vue-entry="MobileMessaging.DelegateMobileMessagingSettings"
-          delegate-management-options="{{ delegateManagementOptions|default(null)|json_encode|e('html_attr') }}"
-          delegated-management="{{ delegatedManagement|default(null)|json_encode|e('html_attr') }}"
-        ></div>
-    </div>
-    {% endif %}
-
-    {% if accountManagedByCurrentUser %}
-        <div piwik-content-block content-title="{{ 'MobileMessaging_Settings_SMSProvider'|translate|e('html_attr') }}" feature="true">
-
-            {% if isSuperUser and delegatedManagement %}
-                <p>{{ 'MobileMessaging_Settings_DelegatedSmsProviderOnlyAppliesToYou'|translate }}</p>
-            {% endif %}
-
-            {{ macro.manageSmsApi(credentialSupplied, credentialError, creditLeft, smsProviderOptions, smsProviders, provider) }}
-        </div>
-    {% endif %}
-
-    <div piwik-content-block content-title="{{ 'MobileMessaging_PhoneNumbers'|translate|e('html_attr') }}">
-        {% if not credentialSupplied %}
-            <p>
-                {% if accountManagedByCurrentUser %}
-                    {{ 'MobileMessaging_Settings_CredentialNotProvided'|translate }}
-                {% else %}
-                    {{ 'MobileMessaging_Settings_CredentialNotProvidedByAdmin'|translate }}
-                {% endif %}
-            </p>
-        {% else %}
-            <div
-                    vue-entry="MobileMessaging.ManageMobilePhoneNumbers"
-                    is-super-user="{{ isSuperUser|default(null)|json_encode|e('html_attr') }}"
-                    default-calling-code="{{ defaultCallingCode|default(null)|json_encode|e('html_attr') }}"
-                    countries="{{ countries|default(null)|json_encode|e('html_attr') }}"
-                    str-help-add-phone="{{ strHelpAddPhone|default(null)|json_encode|e('html_attr') }}"
-                    phone-numbers="{{ phoneNumbers|default(null)|json_encode|e('html_attr') }}"
-            ></div>
-        {% endif %}
-    </div>
-
-
-    <div class='ui-confirm' id='confirmDeleteAccount'>
-        <h2>{{ 'MobileMessaging_Settings_DeleteAccountConfirm'|translate }}</h2>
-        <input role='yes' type='button' value='{{ 'General_Yes'|translate }}'/>
-        <input role='no' type='button' value='{{ 'General_No'|translate }}'/>
-    </div>
-</div>
+<div
+    vue-entry="MobileMessaging.AdminPage"
+    delegate-management-options="{{ delegateManagementOptions|default(null)|json_encode }}"
+    delegated-management="{{ delegatedManagement|default(null)|json_encode }}"
+    credential-supplied="{{ credentialSupplied|default(null)|json_encode }}"
+    credential-error="{{ credentialError|default(null)|json_encode }}"
+    provider="{{ provider|default(null)|json_encode }}"
+    credit-left="{{ creditLeft|default(null)|json_encode }}"
+    sms-provider-options="{{ smsProviderOptions|default(null)|json_encode }}"
+    sms-providers="{{ smsProviders|default(null)|json_encode }}"
+    is-super-user="{{ isSuperUser|default(null)|json_encode }}"
+    default-calling-code="{{ defaultCallingCode|default(null)|json_encode }}"
+    countries="{{ countries|default(null)|json_encode }}"
+    str-help-add-phone="{{ strHelpAddPhone|default(null)|json_encode }}"
+    phone-numbers="{{ phoneNumbers|default(null)|json_encode }}"
+    account-managed-by-current-user="{{ accountManagedByCurrentUser|json_encode }}"
+></div>
 {% endblock %}

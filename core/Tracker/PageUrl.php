@@ -87,9 +87,12 @@ class PageUrl
         $website = TrackerCache::getCacheWebsiteAttributes($idSite);
         $excludedParameters = self::getExcludedParametersFromWebsite($website);
 
-        $parametersToExclude = array_merge($excludedParameters,
-                                           self::getUrlParameterNamesToExcludeFromUrl(),
-                                           $campaignTrackingParameters);
+        $parametersToExclude = array_merge(
+            ['ignore_referrer', 'ignore_referer'],
+            $excludedParameters,
+            self::getUrlParameterNamesToExcludeFromUrl(),
+            $campaignTrackingParameters
+        );
 
         /**
          * Triggered before setting the action url in Piwik\Tracker\Action so plugins can register

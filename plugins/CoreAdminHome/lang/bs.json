@@ -1,6 +1,10 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Dodajte novi pouzdani host",
         "Administration": "Administracija",
+        "ArchivingSettings": "Postavke arhiviranja",
+        "BrandingSettings": "Postavke brendiranja",
+        "BruteForce": "Brute Force",
         "EmailServerSettings": "Postavke email servera",
         "MenuDiagnostic": "Dijagnostika",
         "MenuGeneralSettings": "Opšte postavke"
