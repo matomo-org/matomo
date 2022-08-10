@@ -62,6 +62,7 @@ class DefaultProvider extends LocationProvider
     {
         if (
             !Manager::getInstance()->isPluginInstalled('Provider')
+            || !class_exists('Piwik\Plugins\Provider\Provider')
             || Common::getRequestVar('dp', 0, 'int') === 1
         ) {
             return false;
