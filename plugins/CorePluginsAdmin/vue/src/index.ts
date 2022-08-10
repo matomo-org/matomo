@@ -13,6 +13,7 @@ import './Plugins/PluginFilter.adapter';
 import './SaveButton/SaveButton.adapter';
 import './Form/Form.adapter';
 
+export { default as AbortableEvent } from './FormField/AbortableEvent';
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
 export { default as Setting } from './PluginSettings/Setting';
@@ -23,7 +24,8 @@ export { default as PluginManagement } from './Plugins/PluginManagement';
 export { default as PluginUpload } from './Plugins/PluginUpload';
 export { default as SaveButton } from './SaveButton/SaveButton.vue';
 export { default as Form } from './Form/Form';
-export { default as GroupedSettings } from './GroupedSettings/GroupedSettings.vue';
+export { default as GroupedSettings } from './GroupedSettings/GroupedSettings';
+export { default as PasswordConfirmation } from './PasswordConfirmation/PasswordConfirmation.vue';
 export { default as PluginsIntro } from './PluginsIntro/PluginsIntro.vue';
 export { default as PluginName } from './Plugins/PluginName';
 export { default as PluginsTable } from './PluginsTable/PluginsTable.vue';

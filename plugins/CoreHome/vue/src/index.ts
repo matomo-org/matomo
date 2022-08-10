@@ -69,6 +69,7 @@ export {
   clone,
   cloneThenApply,
 } from './createAngularJsAdapter';
+export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export * from './translate';
@@ -92,6 +93,8 @@ export { default as SideNav } from './SideNav/SideNav';
 export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
 export { default as ContentBlock } from './ContentBlock/ContentBlock.vue';
 export { default as Comparisons } from './Comparisons/Comparisons.vue';
+export { default as ComparisonsStore } from './Comparisons/Comparisons.store';
+export { default as ComparisonsStoreInstance } from './Comparisons/Comparisons.store.instance';
 export { default as MenuItemsDropdown } from './MenuItemsDropdown/MenuItemsDropdown.vue';
 export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';

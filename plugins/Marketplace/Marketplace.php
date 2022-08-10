@@ -88,7 +88,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_NotAllowedToBrowseMarketplaceThemes';
         $translationKeys[] = 'Marketplace_NotAllowedToBrowseMarketplacePlugins';
         $translationKeys[] = 'CorePluginsAdmin_ThemesDescription';
-        $translationKeys[] = 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload';
+        $translationKeys[] = 'Marketplace_InstallingNewThemesViaMarketplaceOrUpload';
+        $translationKeys[] = 'Marketplace_InstallingNewPluginsViaMarketplaceOrUpload';
         $translationKeys[] = 'CorePluginsAdmin_Themes';
         $translationKeys[] = 'CorePluginsAdmin_Theme';
         $translationKeys[] = 'CorePluginsAdmin_PluginsExtendPiwik';
