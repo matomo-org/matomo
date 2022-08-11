@@ -11,35 +11,29 @@
 
 {% set reportParametersScheduledReportsEvent %}{{ postEvent('Template.reportParametersScheduledReports') }}{% endset %}
 
-{# load the Template.reportParametersScheduledReports event twice, once here outside of vue so any inline scripts
-   will execute. then again in the vue slot so it will be used correctly. This is hack to provide some level of BC. #}
-<div style="display:none" vue-entry-ignore ng-non-bindable>
-    {{ reportParametersScheduledReportsEvent|raw }}
-</div>
-
 <div
   vue-entry="ScheduledReports.ManageScheduledReport"
-  content-title="{{ title|default(null)|json_encode|e('html_attr') }}"
-  user-login="{{ userLogin|default(null)|json_encode|e('html_attr') }}"
-  login-module="{{ loginModule|default(null)|json_encode|e('html_attr') }}"
-  reports="{{ reports|default([])|json_encode|e('html_attr') }}"
-  site-name="{{ siteName|default(null)|json_encode|e('html_attr') }}"
-  segment-editor-activated="{{ segmentEditorActivated|default(null)|json_encode|e('html_attr') }}"
-  saved-segments-by-id="{{ savedSegmentsById|default(null)|json_encode|e('html_attr') }}"
-  periods="{{ periods|default(null)|json_encode|e('html_attr') }}"
-  download-output-type="{{ downloadOutputType|default(null)|json_encode|e('html_attr') }}"
-  language="{{ language|default(null)|json_encode|e('html_attr') }}"
-  report-formats-by-report-type="{{ reportFormatsByReportType|default(null)|json_encode|e('html_attr') }}"
-  param-periods="{{ paramPeriods|default(null)|json_encode|e('html_attr') }}"
-  report-type-options="{{ reportTypeOptions|default(null)|json_encode|e('html_attr') }}"
-  report-formats-by-report-type-options="{{ reportFormatsByReportTypeOptions|default(null)|json_encode|e('html_attr') }}"
-  display-formats="{{ displayFormats|default(null)|json_encode|e('html_attr') }}"
-  reports-by-category-by-report-type="{{ reportsByCategoryByReportType|default({})|json_encode|e('html_attr') }}"
-  allow-multiple-reports-by-report-type="{{ allowMultipleReportsByReportType|default(null)|json_encode|e('html_attr') }}"
-  count-websites="{{ countWebsites|default(null)|json_encode|e('html_attr') }}"
-  report-types="{{ reportTypes|default(null)|json_encode|e('html_attr') }}"
+  content-title="{{ title|default(null)|json_encode }}"
+  user-login="{{ userLogin|default(null)|json_encode }}"
+  login-module="{{ loginModule|default(null)|json_encode }}"
+  reports="{{ reports|default([])|json_encode }}"
+  site-name="{{ siteName|default(null)|json_encode }}"
+  segment-editor-activated="{{ segmentEditorActivated|default(null)|json_encode }}"
+  saved-segments-by-id="{{ savedSegmentsById|default(null)|json_encode }}"
+  periods="{{ periods|default(null)|json_encode }}"
+  download-output-type="{{ downloadOutputType|default(null)|json_encode }}"
+  language="{{ language|default(null)|json_encode }}"
+  report-formats-by-report-type="{{ reportFormatsByReportType|default(null)|json_encode }}"
+  param-periods="{{ paramPeriods|default(null)|json_encode }}"
+  report-type-options="{{ reportTypeOptions|default(null)|json_encode }}"
+  report-formats-by-report-type-options="{{ reportFormatsByReportTypeOptions|default(null)|json_encode }}"
+  display-formats="{{ displayFormats|default(null)|json_encode }}"
+  reports-by-category-by-report-type="{{ reportsByCategoryByReportType|default({})|json_encode }}"
+  allow-multiple-reports-by-report-type="{{ allowMultipleReportsByReportType|default(null)|json_encode }}"
+  count-websites="{{ countWebsites|default(null)|json_encode }}"
+  report-types="{{ reportTypes|default(null)|json_encode }}"
 >
-    <template v-slot:report-parameters >
+    <template v-slot:report-parameters>
         {{ reportParametersScheduledReportsEvent|raw }}
     </template>
 </div>

@@ -108,7 +108,7 @@ export default defineComponent({
       $(this.$slots.default!()[0]!.el as HTMLElement).find('.item').removeClass('active');
       targetClasses.add('active');
 
-      this.$emit('afterSelect');
+      this.$emit('afterSelect', event.target);
     },
     onSearchTermKeydown() {
       setTimeout(() => {

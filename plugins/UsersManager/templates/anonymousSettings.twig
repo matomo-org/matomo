@@ -5,14 +5,14 @@
 {% block content %}
 {% if isSuperUser %}
 <div
-    matomo-anonymous-settings
-    title="{{ title|json_encode|e('html_attr') }}"
-    anonymous-sites="{{ anonymousSites|json_encode|e('html_attr') }}"
-    anonymous-default-report="{{ anonymousDefaultReport|json_encode|e('html_attr') }}"
-    anonymous-default-site="{{ anonymousDefaultSite|json_encode|e('html_attr') }}"
-    anonymous-default-date="{{ anonymousDefaultDate|json_encode|e('html_attr') }}"
-    available-default-dates="{{ availableDefaultDates|json_encode|e('html_attr') }}"
-    default-report-options="{{ defaultReportOptions|json_encode|e('html_attr') }}"
+    vue-entry="UsersManager.AnonymousSettings"
+    title="{{ title|json_encode }}"
+    anonymous-sites="{{ anonymousSites|json_encode }}"
+    anonymous-default-report="{{ anonymousDefaultReport|json_encode }}"
+    anonymous-default-site="{{ anonymousDefaultSite|json_encode }}"
+    anonymous-default-date="{{ anonymousDefaultDate|json_encode }}"
+    available-default-dates="{{ availableDefaultDates|json_encode }}"
+    default-report-options="{{ defaultReportOptions|json_encode }}"
 ></div>
 {% endif %}
 {% endblock %}

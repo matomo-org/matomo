@@ -143,9 +143,6 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -267,6 +264,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8, _hoisted_3)], 512), [[_directive_select_on_focus, {}]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.generatedUrl]])])]);
 }
 // CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.vue?vue&type=template&id=6a2b52a2
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -397,24 +397,6 @@ var _window = window,
 CampaignBuildervue_type_script_lang_ts.render = render
 
 /* harmony default export */ var CampaignBuilder = (CampaignBuildervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var CampaignBuilder_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: CampaignBuilder,
-  scope: {
-    hasExtraPlugin: {
-      angularJsBind: '<'
-    }
-  },
-  directiveName: 'matomoCampaignBuilder'
-}));
 // CONCATENATED MODULE: ./plugins/Referrers/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -422,7 +404,6 @@ CampaignBuildervue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 

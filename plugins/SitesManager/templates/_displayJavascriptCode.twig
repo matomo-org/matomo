@@ -1,7 +1,7 @@
 <div class="trackingHelpHeader">
     <h2>{{ 'SitesManager_TrackingTags'|translate(displaySiteName) }}</h2>
     <a class="btn"
-        href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}">
+        href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode }}&body={{ emailBody|url_encode }}">
         {{ 'SitesManager_EmailInstructionsButton'|translate }}
     </a>
 </div>
@@ -15,7 +15,7 @@
 
     <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
 
-    <pre piwik-select-on-focus>{{ jsTag|raw }}</pre>
+    <pre vue-directive="CoreHome.SelectOnFocus">{{ jsTag|raw }}</pre>
 
     <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">','</a>')|raw }}</p>
 

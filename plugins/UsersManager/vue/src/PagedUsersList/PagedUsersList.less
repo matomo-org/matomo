@@ -37,7 +37,7 @@
   table.entityTable tbody tr td.actions-cell {
     width: 140px;
     padding: 0;
-    text-align: center;
+    text-align: left;
   }
 
   table.entityTable th.actions-cell-header > div {
@@ -124,6 +124,7 @@
 
     .input-field > .btn {
       margin-top: .7rem;
+      white-space: nowrap;
     }
 
     &.row {
@@ -133,6 +134,11 @@
     }
   }
 
+  .users-list-pagination-container {
+    float: right;
+    min-width: 350px;
+  }
+
   .usersListPagination {
     display: flex;
     flex-direction: row;
@@ -140,6 +146,7 @@
     justify-content: space-between;
     margin-top: .7rem;
     float: right;
+    white-space: nowrap;
 
     .pointer {
       cursor: pointer;
@@ -165,11 +172,11 @@
   }
 
   #status {
-    .accept {
+    .active {
       color: green;
     }
 
-    .expired, .decline {
+    .expired {
       color: red;
     }
 

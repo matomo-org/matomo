@@ -283,6 +283,32 @@ class Piwik
     }
 
     /**
+     * Returns if the given user needs to confirm his password in UI and for certain API methods
+     *
+     * @param string $login
+     * @return bool
+     */
+    public static function doesUserRequirePasswordConfirmation(string $login)
+    {
+        $requiresPasswordConfirmation = true;
+
+        /**
+         * Triggered to check if a password confirmation for a user is required.
+         *
+         * This event can be used in custom login plugins to skip the password confirmation checks for certain users,
+         * where e.g. no password would be available.
+         *
+         * Attention: Use this event wisely. Disabling password confirmation decreases the security.
+         *
+         * @param bool $requiresPasswordConfirmation Indicates if the password should be checked or not
+         * @param string $login Login of a user the password should be confirmed for
+         */
+        Piwik::postEvent('Login.userRequiresPasswordConfirmation', [&$requiresPasswordConfirmation, $login]);
+
+        return $requiresPasswordConfirmation;
+    }
+
+    /**
      * Check that the current user is either the specified user or the superuser.
      *
      * @param string $theUser A username.

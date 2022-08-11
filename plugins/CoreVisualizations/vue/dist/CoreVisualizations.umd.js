@@ -137,9 +137,6 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -201,6 +198,9 @@ function SeriesPickervue_type_template_id_bd202f38_render(_ctx, _cache, $props, 
   }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 34);
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=bd202f38
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
 
@@ -317,41 +317,6 @@ function getSelected(optionStates) {
 SeriesPickervue_type_script_lang_ts.render = SeriesPickervue_type_template_id_bd202f38_render
 
 /* harmony default export */ var SeriesPicker = (SeriesPickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SeriesPicker_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SeriesPicker,
-  scope: {
-    multiselect: {
-      angularJsBind: '<'
-    },
-    selectableColumns: {
-      angularJsBind: '<'
-    },
-    selectableRows: {
-      angularJsBind: '<'
-    },
-    selectedColumns: {
-      angularJsBind: '<'
-    },
-    selectedRows: {
-      angularJsBind: '<'
-    },
-    onSelect: {
-      angularJsBind: '&',
-      vue: 'select'
-    }
-  },
-  directiveName: 'piwikSeriesPicker',
-  restrict: 'E'
-}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=2e2e889f
 
 var SingleMetricViewvue_type_template_id_2e2e889f_hoisted_1 = {
@@ -726,47 +691,6 @@ var _window = window,
 SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_2e2e889f_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SingleMetricView_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SingleMetricView,
-  scope: {
-    metric: {
-      angularJsBind: '<'
-    },
-    idGoal: {
-      angularJsBind: '<'
-    },
-    metricTranslations: {
-      angularJsBind: '<'
-    },
-    metricDocumentations: {
-      angularJsBind: '<'
-    },
-    goals: {
-      angularJsBind: '<'
-    },
-    goalMetrics: {
-      angularJsBind: '<'
-    }
-  },
-  directiveName: 'piwikSingleMetricView',
-  restrict: 'E',
-  postCreate: function postCreate(vm, scope, element) {
-    element.closest('.widgetContent').on('widget:destroy', function () {
-      scope.$parent.$destroy();
-    }).on('widget:reload', function () {
-      scope.$parent.$destroy();
-    });
-  }
-}));
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -774,8 +698,6 @@ SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_templa
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-
 
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
