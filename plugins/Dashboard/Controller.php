@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
