@@ -148,9 +148,6 @@ describe("CustomDimensions", function () {
             await (await page.jQuery('.dataTable .subDataTable .value:contains(en):first')).click();
             await page.waitForNetworkIdle();
             await page.waitForTimeout(500);
-            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-              $('.dataTableScroller').css('overflow-x', 'scroll');
-            });
             await (await page.jQuery('td.label:contains(en_US)')).hover();
             await page.waitForTimeout(100);
         });

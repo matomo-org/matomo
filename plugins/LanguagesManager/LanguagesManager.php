@@ -36,6 +36,7 @@ class LanguagesManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Config.NoConfigurationFile'                 => 'initLanguage',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initLanguage',
             'Request.dispatch'                           => 'initLanguage',
@@ -45,6 +46,12 @@ class LanguagesManager extends \Piwik\Plugin
             'Template.jsGlobalVariables'                 => 'jsGlobalVariables',
             'Db.getTablesInstalled'                      => 'getTablesInstalled'
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'LanguagesManager_TranslationSearch';
+        $translations[] = 'LanguagesManager_AboutPiwikTranslations';
     }
 
     /**

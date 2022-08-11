@@ -51,6 +51,7 @@
         "UnprocessedSegmentInVisitorLog3": "Ini dapat membantu Anda memahami apakah Segmen Anda cocok dengan pengguna dan tindakan yang Anda harapkan darinya.",
         "UnprocessedSegmentNoData1": "Laporan ini tidak memiliki data, karena Segmen yang Anda minta %1$s belum diproses oleh sistem.",
         "UnprocessedSegmentNoData2": "Data untuk Segmen ini akan tersedia dalam beberapa jam saat pemrosesan selesai. (Jika tidak, mungkin ada masalah.)",
+        "UnprocessedSegmentNoData3": "Matomo tidak dapat menampilkan data untuk segmen %1$s, karena konfigurasi mencegah pengarsipan ulang untuk periode ini. Silakan hubungi administrator Anda atau periksa %2$sFAQ%3$s bagaimana cara untuk mengatasi masalah ini.",
         "VisibleToAllUsers": "semua pengguna",
         "VisibleToMe": "saya",
         "VisibleToSuperUser": "Terlihat oleh Anda karena Anda memiliki akses Pengguna Super",

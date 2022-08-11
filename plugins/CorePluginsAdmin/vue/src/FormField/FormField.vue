@@ -29,6 +29,7 @@
           formField,
           ...formField,
           modelValue: processedModelValue,
+          modelModifiers,
           availableOptions,
           ...extraChildComponentParams,
         }"
@@ -161,6 +162,7 @@ interface OptionLike {
 export default defineComponent({
   props: {
     modelValue: null,
+    modelModifiers: Object,
     formField: {
       type: Object,
       required: true,

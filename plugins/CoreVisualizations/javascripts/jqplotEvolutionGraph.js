@@ -159,11 +159,11 @@
                                 break;
                         }
                         if (last_n) {
-                            var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+                            var RangePeriod = window.CoreHome.Range;
                             if (self.param.hasOwnProperty('dateUsedInGraph') && self.param.dateUsedInGraph.indexOf(',') > 0) {
                                 var graphDateRange = self.param.dateUsedInGraph.split(',');
                                 if (graphDateRange.length == 2) {
-                                    var hoverDateRange = piwikPeriods.RangePeriod.getLastNRangeChild(self.param.period, graphDateRange[1], (last_n - lastTick)-1);
+                                    var hoverDateRange = RangePeriod.getLastNRangeChild(self.param.period, graphDateRange[1], (last_n - lastTick)-1);
                                     if (hoverDateRange.containsToday()) {
                                         content += '<br />(' + self._lang.incompletePeriod + ')';
                                     }

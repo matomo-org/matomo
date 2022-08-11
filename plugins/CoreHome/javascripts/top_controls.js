@@ -108,3 +108,22 @@ function blockPropegation(){
         e.stopPropagation();
     })
 }
+
+//refresh page short cut 'r'
+$(function () {
+  piwikHelper.registerShortcut('r', _pk_translate('CoreHome_ShortcutRefresh'), function (event) {
+    if (event.altKey) {
+      return;
+    }
+    if (event.preventDefault) {
+      event.preventDefault();
+    } else {
+      event.returnValue = false; // IE
+    }
+
+    var Matomo = window.CoreHome.Matomo;
+    var hashParsed = window.CoreHome.MatomoUrl.hashParsed.value;
+
+    Matomo.postEvent('loadPage', hashParsed.category, hashParsed.subcategory);
+  });
+});
