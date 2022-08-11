@@ -9183,7 +9183,7 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
               categoryGroups.name = subcategory.name;
             }
 
-            var entityId = page.subcategory.id;
+            var entityId = subcategory.id;
             subcategory.tooltip = "".concat(subcategory.name, " (id = ").concat(entityId, ")");
             categoryGroups.subcategories.push(subcategory);
             return;
