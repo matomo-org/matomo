@@ -126,6 +126,8 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "LocationProviderSelection", function() { return /* reexport */ LocationProviderSelection; });
+__webpack_require__.d(__webpack_exports__, "AdminPage", function() { return /* reexport */ AdminPage; });
+__webpack_require__.d(__webpack_exports__, "GetDistinctCountries", function() { return /* reexport */ GetDistinctCountries; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -436,6 +438,158 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 LocationProviderSelectionvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var LocationProviderSelection = (LocationProviderSelectionvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=0c7134c6
+
+function AdminPagevue_type_template_id_0c7134c6_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+
+  var _component_LocationProviderSelection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LocationProviderSelection");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
+    "help-url": "https://matomo.org/docs/geo-locate/",
+    id: "location-providers"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_Geolocation')), 1)];
+    }),
+    _: 1
+  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_GeolocationPageDesc')), 1)], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('UserCountry_LocationProvider')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_LocationProviderSelection, {
+        "current-provider-id": _ctx.currentProviderId,
+        "is-there-working-provider": _ctx.isThereWorkingProvider,
+        "set-up-guides": _ctx.setUpGuides,
+        "this-ip": _ctx.thisIp,
+        "location-providers": _ctx.locationProviders,
+        "default-provider-id": _ctx.defaultProviderId,
+        "disabled-provider-id": _ctx.disabledProviderId
+      }, null, 8, ["current-provider-id", "is-there-working-provider", "set-up-guides", "this-ip", "location-providers", "default-provider-id", "disabled-provider-id"])];
+    }),
+    _: 1
+  }, 8, ["content-title"])], 64);
+}
+// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=0c7134c6
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var AdminPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    currentProviderId: {
+      type: String,
+      required: true
+    },
+    isThereWorkingProvider: Boolean,
+    setUpGuides: String,
+    thisIp: {
+      type: String,
+      required: true
+    },
+    locationProviders: {
+      type: Object,
+      required: true
+    },
+    defaultProviderId: {
+      type: String,
+      required: true
+    },
+    disabledProviderId: {
+      type: String,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    LocationProviderSelection: LocationProviderSelection,
+    EnrichedHeadline: external_CoreHome_["EnrichedHeadline"]
+  },
+  directives: {
+    ContentIntro: external_CoreHome_["ContentIntro"],
+    ContentBlock: external_CoreHome_["ContentBlock"]
+  }
+}));
+// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue
+
+
+
+AdminPagevue_type_script_lang_ts.render = AdminPagevue_type_template_id_0c7134c6_render
+
+/* harmony default export */ var AdminPage = (AdminPagevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=template&id=0efb6e2a
+
+var GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_1 = {
+  class: "sparkline"
+};
+var GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_2 = ["innerHTML"];
+
+var GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
+  style: {
+    "clear": "left"
+  }
+}, null, -1);
+
+function GetDistinctCountriesvue_type_template_id_0efb6e2a_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, null, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+        params: _ctx.urlSparklineCountries,
+        width: 100,
+        height: 25
+      }, null, 8, ["params"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+        innerHTML: _ctx.$sanitize(_ctx.distinctCountriesText)
+      }, null, 8, GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_2)]), GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_3];
+    }),
+    _: 1
+  });
+}
+// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=template&id=0efb6e2a
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var GetDistinctCountriesvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    numberDistinctCountries: {
+      type: Number,
+      required: true
+    },
+    urlSparklineCountries: {
+      type: [Object, String],
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    Sparkline: external_CoreHome_["Sparkline"]
+  },
+  computed: {
+    distinctCountriesText: function distinctCountriesText() {
+      return Object(external_CoreHome_["translate"])('UserCountry_DistinctCountries', "<strong>".concat(this.numberDistinctCountries, "</strong>"));
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue
+
+
+
+GetDistinctCountriesvue_type_script_lang_ts.render = GetDistinctCountriesvue_type_template_id_0efb6e2a_render
+
+/* harmony default export */ var GetDistinctCountries = (GetDistinctCountriesvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/UserCountry/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -443,6 +597,8 @@ LocationProviderSelectionvue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 

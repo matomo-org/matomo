@@ -172,28 +172,18 @@
     <p><span class="icon-info" /> {{ translate('PrivacyManager_AnonymizeProcessInfo') }}</p>
     <SaveButton
       class="anonymizePastData"
-      @confirm="scheduleAnonymization()"
+      @confirm="showPasswordConfirmModal = true"
       :disabled="isAnonymizePastDataDisabled"
       :value="translate('PrivacyManager_AnonymizeDataNow')"
     >
     </SaveButton>
-    <div
-      class="ui-confirm"
-      id="confirmAnonymizeLogData"
-      ref="confirmAnonymizeLogData"
+    <PasswordConfirmation
+      v-model="showPasswordConfirmModal"
+      @confirmed="scheduleAnonymization"
     >
       <h2>{{ translate('PrivacyManager_AnonymizeDataConfirm') }}</h2>
-      <input
-        role="yes"
-        type="button"
-        :value="translate('General_Yes')"
-      />
-      <input
-        role="no"
-        type="button"
-        :value="translate('General_No')"
-      />
-    </div>
+      <div>{{ translate('UsersManager_ConfirmWithPassword') }}</div>
+    </PasswordConfirmation>
   </div>
 </template>
 
@@ -205,7 +195,7 @@ import {
   SiteSelector,
   debounce,
 } from 'CoreHome';
-import { Field, SaveButton } from 'CorePluginsAdmin';
+import { PasswordConfirmation, Field, SaveButton } from 'CorePluginsAdmin';
 
 interface Option {
   key: string;
@@ -225,6 +215,7 @@ interface AnonymizeLogDataState {
   selectedActionColumns: Record<string, string>[];
   startDate: string;
   endDate: string;
+  showPasswordConfirmModal: boolean;
 }
 
 function sub(value: number) {
@@ -236,6 +227,7 @@ function sub(value: number) {
 
 export default defineComponent({
   components: {
+    PasswordConfirmation,
     SiteSelector,
     Field,
     SaveButton,
@@ -263,6 +255,7 @@ export default defineComponent({
       }],
       startDate,
       endDate: startDate,
+      showPasswordConfirmModal: false,
     };
   },
   created() {
@@ -343,7 +336,7 @@ export default defineComponent({
         }
       }
     },
-    scheduleAnonymization() {
+    scheduleAnonymization(password: string) {
       let date = `${this.startDate},${this.endDate}`;
 
       if (this.startDate === this.endDate) {
@@ -361,15 +354,12 @@ export default defineComponent({
       params.unsetLinkVisitActionColumns = this.selectedActionColumns.filter(
         (c) => !!c?.column,
       ).map((c) => c.column);
+      params.passwordConfirmation = password;
 
-      Matomo.helper.modalConfirm(this.$refs.confirmAnonymizeLogData as HTMLElement, {
-        yes: () => {
-          AjaxHelper.post({
-            method: 'PrivacyManager.anonymizeSomeRawData',
-          }, params).then(() => {
-            window.location.reload(true);
-          });
-        },
+      AjaxHelper.post({
+        method: 'PrivacyManager.anonymizeSomeRawData',
+      }, params).then(() => {
+        window.location.reload(true);
       });
     },
     onKeydownStartDate(event: Event) {
