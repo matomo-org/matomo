@@ -4,13 +4,6 @@
 
 {% block content %}
 
-    <div
-        vue-entry="CoreHome.ContentBlock"
-        vue-components="LanguagesManager.TranslationSearch"
-        content-title="{{ title|json_encode|e('html_attr') }}"
-        feature="{{ 'true'|json_encode }}"
-    >
-        <translation-search />
-    </div>
+    <div vue-entry="LanguagesManager.TranslationSearchPage"></div>
 
 {% endblock %}

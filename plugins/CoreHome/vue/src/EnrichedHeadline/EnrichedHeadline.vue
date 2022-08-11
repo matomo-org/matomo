@@ -22,7 +22,7 @@
       v-if="editUrl"
       class="title"
       :href="editUrl"
-      :title="translate('CoreHome_ClickToEditX', $sanitize(actualFeatureName))"
+      :title="translate('CoreHome_ClickToEditX', htmlEntities(actualFeatureName))"
     >
       <slot />
     </a>
@@ -199,6 +199,11 @@ export default defineComponent({
         }
       }
     });
+  },
+  methods: {
+    htmlEntities(v: string) {
+      return Matomo.helper.htmlEntities(v);
+    },
   },
 });
 </script>

@@ -48,9 +48,10 @@ describe("TwoFactorAuthUsersManager", function () {
     });
 
     it('should be possible to confirm the reset', async function () {
-        await page.type('.twofa-confirm-modal input[name=currentUserPasswordTwoFa]', 'superUserPass');
-        await page.click('.twofa-confirm-modal .modal-close:not(.modal-no)');
-        await page.waitForTimeout(500); // wait for modal to close
+        await page.type('.confirm-password-modal input[name=currentUserPassword]', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(100); // wait for modal to close
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa_reset_confirmed');
     });
 

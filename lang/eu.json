@@ -85,6 +85,7 @@
         "ColumnUniqueExits": "Irteera bakarrak",
         "ColumnUniquePageviews": "Orri-bistaratze desberdinak",
         "ColumnUniquePageviewsDocumentation": "Orrialde hau barne hartzen duen bisita kopurua. Bisita batean orrialde bat hainbat aldiz ikusi bada, behin bakarrik zenbatuko da.",
+        "ColumnValuePerEntry": "Sarrera bakoitzeko diru-sarrerak",
         "ColumnValuePerVisit": "Etekina bisitako",
         "ColumnViewedAfterSearch": "Bilaketa-emaitzetan klik egina",
         "ColumnViewedAfterSearchDocumentation": "Bisitari batek zure webgunean bilaketa bat egin eta bilaketa-emaitzetan orrialde honetan klik egin ostean zenbat aldiz bisitatu den Orrialde hau.",

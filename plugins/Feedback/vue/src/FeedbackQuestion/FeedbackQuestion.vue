@@ -91,14 +91,14 @@ interface SendFeedbackForSurveyResponse {
 const cookieName = 'feedback-question';
 export default defineComponent({
   props: {
-    showQuestionBanner: String,
+    showQuestionBanner: Boolean,
   },
   components: {
     MatomoDialog,
   },
   computed: {
     isHidden() {
-      if (this.showQuestionBanner === '0') {
+      if (!this.showQuestionBanner) {
         return true;
       }
       return !!this.hide;
@@ -135,7 +135,7 @@ export default defineComponent({
     },
   },
   created() {
-    if (this.showQuestionBanner !== '0') {
+    if (this.showQuestionBanner) {
       this.initQuestion();
     }
   },
