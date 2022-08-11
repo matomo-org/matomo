@@ -1,12 +1,5 @@
-{% if not isWidget %}<div piwik-content-block
-                          help-text="{{ 'Transitions_FeatureDescription'|translate|e('html_attr') }}"
-                          help-url="https://matomo.org/docs/transitions/"
-                          content-title="{{ 'Transitions_Transitions'|translate|e('html_attr') }}">{% endif %}
-
+<!-- has-content-block -->
 <div
-  vue-entry="Transitions.TransitionSwitcher"
-  is-widget="{{ (not not isWidget)|default(null)|json_encode|e('html_attr') }}"
+    vue-entry="Transitions.TransitionsPage"
+    is-widget="{{ (isWidget == 1)|default(null)|json_encode }}"
 ></div>
-
-{% if not isWidget %}</div>{% endif %}
-

@@ -1,9 +1,9 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "Browser language",
+        "BrowserLanguage": "Web-browser language",
         "LanguageCode": "Language code",
-        "PluginDescription": "Reports the language used by your visitors' browsers.",
-        "getLanguageDocumentation": "This report shows which language the visitor's browsers are using. (e.g. \"English\")",
-        "getLanguageCodeDocumentation": "This report shows which exact language code the visitor's browsers is set to. (e.g. \"German - Austria (de-at)\")"
+        "PluginDescription": "Reports the primary web-browser language used by your visitors.",
+        "getLanguageDocumentation": "Shows which language the visitor's browsers are using. (e.g. \"French\")",
+        "getLanguageCodeDocumentation": "Shows which exact language code the visitor's browsers is set to. (e.g. \"German — Austria (de-at)\")"
     }
 }

@@ -202,7 +202,7 @@ window.piwikHelper = {
             return;
           }
 
-          // append with underscore so reserved javascripy keywords aren't accidentally used
+          // append '_' to avoid accidentally using javascript keywords
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -230,7 +230,7 @@ window.piwikHelper = {
           template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
           data: function () {
             return componentParams;
-          }
+          },
         });
         app.component('root', component);
 
@@ -246,9 +246,12 @@ window.piwikHelper = {
           app.component(toKebabCase(componentName), component);
         });
 
-        app.mount(this);
+        var appInstance = app.mount(this);
+        $(this).data('vueAppInstance', appInstance);
 
+        var self = this;
         this.addEventListener('matomoVueDestroy', function () {
+          $(self).data('vueAppInstance', null);
           app.unmount();
         });
       });
@@ -373,10 +376,21 @@ window.piwikHelper = {
      * via angular as soon as it detects a $locationChange
      *
      * @returns {number|jQuery}
+     * @deprecated use isReportingPage() instead
      */
     isAngularRenderingThePage: function ()
     {
-        return $('[piwik-reporting-page]').length;
+        return piwikHelper.isReportingPage();
+    },
+
+    /**
+     * Detects whether the current page is a reporting page or not.
+     *
+     * @returns {number|jQuery|*}
+     */
+    isReportingPage: function ()
+    {
+        return $('.reporting-page').length;
     },
 
     /**

@@ -29,7 +29,6 @@
         "InstallAllPurchasedPluginsAction": "Installiere und aktiviere %d erworbene Plugins",
         "InstallPurchasedPlugins": "Erworbene Plugins installieren",
         "InstallThesePlugins": "Folgende Plugins werden hierdurch installiert und aktiviert:",
-        "InstallingNewPluginViaMarketplaceOrUpload": "Sie können ein %1$s aus dem Marketplace automatisiert installieren oder %2$sein %3$s%4$s im .zip Format hochladen.",
         "InstallingPlugin": "Installiere %s",
         "LastCommitTime": "(letzter Commit %s)",
         "LastUpdated": "Letzte Aktualisierung",

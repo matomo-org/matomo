@@ -1,8 +1,8 @@
 {
     "CustomJsTracker": {
-        "DiagnosticPiwikJsMakeWritable": "Vi anbefaler å gjøre %1$s skrivbar ved å kjøre denne kommandoen: %2$s",
+        "DiagnosticPiwikJsMakeWritable": "Det anbefales å gjøre %1$s skrivbar ved å kjøre denne kommandoen: %2$s",
         "DiagnosticPiwikJsNotWritable": "Matomos JavaScript-sporingsfil «%s» er skrivebeskyttet, noe som betyr at andre programtillegg ikke kan utvide JavaScript-sporeren. I fremtiden kan det hende at selv noe av kjernefunksjonaliteten vil slutte å fungere.",
-        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-tracker (%s)",
+        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-sporer (%s)",
         "PluginDescription": "Tillater alle programtillegg å utvide Matomo JavaScript-sporingsfilen (matomo.js) og legge til ny funksjonalitet og flere muligheter for nettstedsmåling."
     }
 }
