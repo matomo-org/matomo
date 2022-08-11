@@ -1,5 +1,6 @@
 {
     "GeoIp2": {
+        "AssumingNonApache": "לא יכול למצוא את הפונקציה apache_get_modules, מניח שימוש בשרת לא-תוצרת Apache.",
         "GeoIPDatabases": "מסד נתונים GeoIP"
     }
 }

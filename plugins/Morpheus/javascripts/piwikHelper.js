@@ -202,8 +202,7 @@ window.piwikHelper = {
             return;
           }
 
-          // property binding
-          // append with underscore so reserved javascript keywords aren't accidentally used
+          // append '_' to avoid accidentally using javascript keywords
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -222,8 +221,6 @@ window.piwikHelper = {
         Object.entries(extraProps || {}).forEach(([name, value]) => {
           handleProperty(name, value);
         });
-
-        var element = this;
 
         // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
         // slots to be in the vue-entry element this way. So instead, we create a quick
@@ -249,9 +246,12 @@ window.piwikHelper = {
           app.component(toKebabCase(componentName), component);
         });
 
-        app.mount(this);
+        var appInstance = app.mount(this);
+        $(this).data('vueAppInstance', appInstance);
 
+        var self = this;
         this.addEventListener('matomoVueDestroy', function () {
+          $(self).data('vueAppInstance', null);
           app.unmount();
         });
       });
@@ -376,7 +376,7 @@ window.piwikHelper = {
      * via angular as soon as it detects a $locationChange
      *
      * @returns {number|jQuery}
-     * @deprecated
+     * @deprecated use isReportingPage() instead
      */
     isAngularRenderingThePage: function ()
     {

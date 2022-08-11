@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Copiar o painel para um usuário",
         "CreateNewDashboard": "Criar um novo painel",
         "Dashboard": "Painel de Controle",
+        "DashboardCategoryHelp": "Essa é uma página de painel de controle. Paineis de controle são uma coleção de widgets da Matomo que você mesmo adiciona para adequar as necessidades específicas. Misture e combine quaisquer widgets da Matomo para obter os dados %1$s*você*%2$s precisa de uma olhada.",
         "DashboardCopied": "Painel atual copiado com êxito para o usuário selecionado.",
         "DashboardEmptyNotification": "Seu Painel não contém widgets. Comece por adicionar alguns widgets ou apenas voltar o painel para a seleção widget padrão.",
         "DashboardName": "Nome do painel:",
@@ -23,7 +24,7 @@
         "RemoveDashboardConfirm": "Tem certeza de que deseja remover o painel \"%s\"?",
         "RemoveDefaultDashboardNotPossible": "O painel padrão não pode ser removido",
         "RenameDashboard": "Renomear painel",
-        "ResetDashboard": "Resetar o painel",
+        "ResetDashboard": "Reiniciar o painel",
         "ResetDashboardConfirm": "Tem certeza de que deseja redefinir o layout do painel para a seleção Widgets padrão?",
         "SelectDashboardLayout": "Por favor selecione o novo leiaute do painel",
         "SelectWidget": "Selecione o widget a adicionar ao painel",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Esta seleção widgets e layout de colunas do painel será usado quando qualquer usuário cria um novo painel, ou quando o recurso \"%s\" é usado.",
         "TopLinkTooltip": "Ver relatórios de Análise Web para %s.",
         "WidgetNotFound": "Widget não encontrado",
-        "WidgetPreview": "Visualização do Widget",
-        "DashboardCategoryHelp": "Essa é uma página de painel de controle. Paineis de controle são uma coleção de widgets da Matomo que você mesmo adiciona para adequar as necessidades específicas. Misture e combine quaisquer widgets da Matomo para obter os dados %1$s*você*%2$s precisa de uma olhada."
+        "WidgetPreview": "Visualização do Widget"
     }
 }
