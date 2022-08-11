@@ -1,4 +1,4 @@
-<div id="dashboard" piwik-dashboard dashboardid="{{ dashboardId }}">
+<div id="dashboard" vue-directive="Dashboard.Dashboard" vue-directive-value="{{ {idDashboard: dashboardId}|json_encode }}">
     <div class="ui-confirm" id="confirm">
         <h2>{{ 'Dashboard_DeleteWidgetConfirm'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
