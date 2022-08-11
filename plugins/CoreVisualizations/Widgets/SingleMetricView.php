@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -11,7 +12,6 @@ namespace Piwik\Plugins\CoreVisualizations\Widgets;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\View;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -63,7 +63,7 @@ class SingleMetricView extends \Piwik\Widget\Widget
             );
             $metricDocumentations = array_merge($metricDocumentations, $reportMetadata['metricsDocumentation']);
 
-            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
         }
 
         return '<div vue-entry="CoreVisualizations.SingleMetricView"
