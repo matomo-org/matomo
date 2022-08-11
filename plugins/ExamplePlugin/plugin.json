@@ -1,6 +1,6 @@
 {
   "name": "ExamplePlugin",
-  "description": "Matomo Platform showcase: how to create widgets, menus, scheduled tasks, a custom archiver, plugin tests, and an AngularJS component.",
+  "description": "Matomo Platform showcase: how to create widgets, menus, scheduled tasks, a custom archiver, and plugin tests.",
   "version": "0.1.0",
   "theme": false,
   "require": {

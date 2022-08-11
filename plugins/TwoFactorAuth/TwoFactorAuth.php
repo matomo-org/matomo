@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -179,11 +180,16 @@ class TwoFactorAuth extends \Piwik\Plugin
         $twoFa = $this->getTwoFa();
 
         $isUsing2FA = TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
-        if ($isUsing2FA && !Request::isRootRequestApiRequest() && Session::isStarted()) {
+        if ($isUsing2FA && Session::isStarted()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
-                $module = 'TwoFactorAuth';
-                $action = 'loginTwoFactorAuth';
+                if (!Request::isRootRequestApiRequest()) {
+                    $module = 'TwoFactorAuth';
+                    $action = 'loginTwoFactorAuth';
+                } else if (Common::getRequestVar('force_api_session', 0) == 1) {
+                    // don't allow API requests with session auth if 2fa code hasn't been verified.
+                    throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
+                }
             }
         } elseif (!$isUsing2FA && $twoFa->isUserRequiredToHaveTwoFactorEnabled()) {
             $module = 'TwoFactorAuth';

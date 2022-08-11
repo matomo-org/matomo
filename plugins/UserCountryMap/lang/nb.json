@@ -11,7 +11,7 @@
         "NoVisitsInfo": "Ingen besøk vises for øyeblikket fordi ingen besøk i perioden har rett geolokasjonsinfo, (breddegrad og lengdegrad).",
         "NoVisitsInfo2": "Løs problemet ved å ha en GeoIP-lokasjonstilbyder med en GeoIP-bydatabase. Hvis problemet vedvarer kan det hende (dog er det usannsynlig) at dine besøkende har IP-adresser som ikke kan geolokaliseres.",
         "None": "Ingen",
-        "PluginDescription": "Denne utvidelsen gir deg widgetene Kart over besøkende og Sanntidskart. Merk: krever at UserCountry-utvidelsen er aktivert.",
+        "PluginDescription": "Denne utvidelsen gir deg miniprogrammene «Kart over besøkende» og «Sanntidskart». Merk: krever at «UserCountry»-utvidelsen er aktivert.",
         "RealTimeMap": "Sanntidskart",
         "RealTimeMapHelp": "Sanntidskartet viser lokasjon for besøkende på din side de siste 30 minuttene. Store oransje bobler representerer flere besøk, mens mindre grå bobler representerer eldre besøk. Dataen gjenoppfriskes hvert femte sekund, og nye besøkende viser med en blinkende effekt.",
         "Regions": "Regioner",

@@ -30,9 +30,9 @@
                 {% embed 'contentBlock.twig' with {'title': 'ScheduledReports_ReportUnsubscribe'|translate} %}
                 {% block content %}
                     {% if error is defined %}
-                        <div piwik-notification
+                        <div vue-entry="CoreHome.Notification"
                              noclear="true"
-                             context="error">
+                             context="&quot;error&quot;">
                             <strong>{{ 'General_Error'|translate }}</strong>: {{ error|raw }}<br/>
                         </div>
                     {% elseif success is defined %}
