@@ -468,6 +468,35 @@ class Common
     }
 
     /**
+     * Gets a request parameter by name from the `$_GET` and `$_POST` superglobals.
+     *
+     * Use this function to get request parameter values. **_NEVER use `$_GET` and `$_POST` directly._**
+     *
+     * Attention: This method will return the raw values from the request. Depending on the use, don't forget to escape
+     * or sanitize them.
+     *
+     * If the variable cannot be found, and a default value was not provided, an exception is raised.
+     *
+     * @param string $varName Name of the request parameter to get. By default, we look in `$_GET[$varName]`
+     *                        and `$_POST[$varName]` for the value.
+     * @param string|null $varDefault The value to return if the request parameter cannot be found or has an empty value.
+     * @param string|null $varType Expected type of the request variable. This parameters value must be one of the following:
+     *                             `'array'`, `'int'`, `'integer'`, `'string'`, `'json'`.
+     *
+     *                             If `'json'`, the string value will be `json_decode`-d and then sanitized.
+     * @param array|null $requestArrayToUse The array to use instead of `$_GET` and `$_POST`.
+     * @param bool $sanitize Whether to sanitize the value or not.
+     * @return mixed The sanitized request parameter.
+     * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
+     *                   exists but has an incorrect type.
+     * @api
+     */
+    public static function getRequestParam($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
+    {
+        return self::getRequestVar($varName, $varDefault, $varType, $requestArrayToUse, false);
+    }
+
+    /**
      * Gets a sanitized request parameter by name from the `$_GET` and `$_POST` superglobals.
      *
      * Use this function to get request parameter values. **_NEVER use `$_GET` and `$_POST` directly._**

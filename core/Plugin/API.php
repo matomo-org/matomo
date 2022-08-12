@@ -138,6 +138,10 @@ abstract class API
         }
     }
 
+    /**
+     * @return bool
+     * @internal
+     */
     public function usesAutoSanitizeInputParams()
     {
         return $this->autoSanitizeInputParams;
