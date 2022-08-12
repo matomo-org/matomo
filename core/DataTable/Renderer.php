@@ -413,6 +413,16 @@ abstract class Renderer extends BaseFactory
             }
         } elseif ($dataTable instanceof Simple) {
             $flatArray = $this->convertSimpleTable($dataTable);
+            reset($flatArray);
+            $firstKey = key($flatArray);
+
+            // if we return only one value and the column doesn't have a name then we print out a simple <result> tag
+            if (count($flatArray) == 1
+                && $firstKey !== DataTable\Row::COMPARISONS_METADATA_NAME
+                && !is_numeric($firstKey)
+            ) {
+                $flatArray = current($flatArray);
+            }
         } // A normal DataTable needs to be handled specifically
         else {
             $array = $this->convertTable($dataTable);
