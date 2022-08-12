@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\Piwik;
+use Piwik\Plugin\API;
 use Piwik\Plugin\Manager;
 use ReflectionClass;
 use ReflectionMethod;
@@ -156,7 +157,10 @@ class Proxy
 
             $this->registerClass($className);
 
-            // instantiate the object
+            /**
+             * instantiate the object
+             * @var API $object
+             */
             $object = $className::getInstance();
 
             // check method exists
@@ -166,7 +170,7 @@ class Proxy
             $parameterNamesDefaultValues = $this->getParametersList($className, $methodName);
 
             // load parameters in the right order, etc.
-            $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $parametersRequest);
+            $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $parametersRequest, $object->usesAutoSanitizeInputParams());
 
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
@@ -406,20 +410,20 @@ class Proxy
      * @throws Exception
      * @return array values to pass to the function call
      */
-    private function getRequestParametersArray($requiredParameters, $parametersRequest)
+    private function getRequestParametersArray($requiredParameters, $parametersRequest, $sanitize)
     {
         $finalParameters = array();
         foreach ($requiredParameters as $name => $defaultValue) {
             try {
                 if ($defaultValue instanceof NoDefaultValue) {
-                    $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
+                    $requestValue = Common::getRequestVar($name, null, null, $parametersRequest, $sanitize);
                 } else {
                     try {
                         if ($name == 'segment' && !empty($parametersRequest['segment'])) {
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);
                         } else {
-                            $requestValue = Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+                            $requestValue = Common::getRequestVar($name, $defaultValue, null, $parametersRequest, $sanitize);
                         }
                     } catch (Exception $e) {
                         // Special case: empty parameter in the URL, should return the empty string
