@@ -18,7 +18,7 @@
         "IncomingTraffic": "Lalu lintas masuk",
         "LoopsInline": "%s halaman dimuat ulang",
         "NoDataForAction": "Tidak tersedia data untuk %s",
-        "NoDataForActionDetails": "Entah tindakan tersebut tidak memiliki tayangan laman selama periode %s atau tindakan tersebut tidak valid.",
+        "NoDataForActionDetails": "Entah tindakan tersebut tidak memiliki tayangan laman selama periode atau tindakan tersebut tidak valid.",
         "NumDownloads": "%s unduhan",
         "NumOutlinks": "%s tautan keluar",
         "NumPageviews": "%s tampilan halaman",
