@@ -1,1 +1,9 @@
-{}
+{
+    "Overlay": {
+        "Clicks": "%s klik",
+        "Domain": "Domeinua",
+        "Link": "Esteka",
+        "Location": "Kokagunea",
+        "OneClick": "Klik 1"
+    }
+}
