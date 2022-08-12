@@ -173,6 +173,7 @@
         "Edit": "Editar",
         "EncryptedSmtpTransport": "Especifique a encriptação da camada de transporte requerida pelo seu servidor SMTP.",
         "Error": "Erro",
+        "ErrorRateLimit": "Oops... demasiados pedidos. Isto acontece é excedido o número de pedidos ao API num determinado período de tempo.",
         "ErrorRequest": "Ops… ocorreu um problema durante o pedido. Talvez o servidor tenha tido um problema temporário ou talvez tenha solicitado um relatório com demasiada informação. Por favor tente novamente. Se este erro ocorre repetidamente, por favor %1$scontacte o seu administrador Matomo%2$s para assistência.",
         "ErrorRequestFaqLink": "Consulte os passos para resolver este problema nas perguntas frequentes.",
         "ErrorTryAgain": "Erro. Por favor, tente novamente mais tarde.",
