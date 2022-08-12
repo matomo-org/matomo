@@ -400,7 +400,7 @@ class SitesManager extends \Piwik\Plugin
                     '</a>',
                 ]),
                 Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress2', [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/installation-maintenance/matomo-for-wordpress/">',
+                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/which-plugin-should-i-use-with-wordpress/">',
                     '</a>',
                 ])
             );
