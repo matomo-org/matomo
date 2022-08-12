@@ -1,5 +1,12 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Tambahkan hos dipercayai baharu",
+        "Administration": "Pentadbiran",
+        "ArchivingSettings": "Tetapan mengarkib",
+        "BrandingSettings": "Tetapan penjenamaan",
+        "BruteForce": "Kekerasan",
+        "CheckToOptIn": "Tandai kotak ini untuk ikut serta.",
+        "ClickHereToOptIn": "Klik di sini untuk ikut serta.",
         "UseCustomLogo": "Gunakan logo terurai"
     }
 }
