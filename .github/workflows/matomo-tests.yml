@@ -55,69 +55,81 @@ jobs:
           - php: '7.2'
             adapter: 'MYSQLI'
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           lfs: false
           submodules: recursive
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
         with:
+          test-type: 'PHP'
+          mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
-          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, zlib, opcache
-          ini-values: |
-            memory_limit = 256M,
-            max_execution_time=10000,
-            always_populate_raw_post_data=-1,
-            error_reporting=E_ALL,
-            log_errors=on, display_errors=on,
-            allow_url_fopen = on,
-            zend.exception_ignore_args = Off
-            mysqli.allow_local_infile = On
-            opcache.enable = 1
-            opcache.enable_cli=1
-          tools: composer:v2
-          coverage: none
+          test-command: ${{ matrix.tests }}
 
-      - name: set up google woff
-        if: matrix.tests == 'IntegrationTestsCore'
-        run: |
-          git clone --recursive https://github.com/google/woff2.git ../travis_woff2
-          cd ../travis_woff2
-          make clean all
-
-      - name: prepare setup
-        shell: bash
-        run: ./.github/scripts/bash/prepare.sh
-        env:
-          PHP_VERSION: ${{ matrix.php }}
-          MATOMO_TEST_TARGET: 'PHP'
-          MYSQL_ADAPTER: ${{ matrix.adapter }}
-
-      - name: Test running
-        run: |
-          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
-        env:
-          GITHUB: true
-          PHP_VERSION: ${{ matrix.php }}
-          MYSQL_ADAPTER: ${{ matrix.adapter }}
-
-      - name: upload artfact
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ github.run_id }}
-          path: |
-            /home/runner/work/matomo/matomo/plugins/**/tests/System/processed/**
-
-      - name: download artface
-        if: failure()
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ github.run_id }}
-          path: |
-            /home/runner/work/matomo/matomo/plugins/**/tests/System/processed/**
-
+#
+#
+#
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php }}
+#          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, zlib, opcache
+#          ini-values: |
+#            memory_limit = 256M,
+#            max_execution_time=10000,
+#            always_populate_raw_post_data=-1,
+#            error_reporting=E_ALL,
+#            log_errors=on, display_errors=on,
+#            allow_url_fopen = on,
+#            zend.exception_ignore_args = Off
+#            mysqli.allow_local_infile = On
+#            opcache.enable = 1
+#            opcache.enable_cli=1
+#          tools: composer:v2
+#          coverage: none
+#
+#      - name: set up google woff
+#        if: matrix.tests == 'IntegrationTestsCore'
+#        run: |
+#          git clone --recursive https://github.com/google/woff2.git ../travis_woff2
+#          cd ../travis_woff2
+#          make clean all
+#
+#      - name: prepare setup
+#        shell: bash
+#        run: ./.github/scripts/bash/prepare.sh
+#        env:
+#          PHP_VERSION: ${{ matrix.php }}
+#          MATOMO_TEST_TARGET: 'PHP'
+#          MYSQL_ADAPTER: ${{ matrix.adapter }}
+#
+#      - name: Test running
+#        run: |
+#          ./vendor/phpunit/phpunit/phpunit --configuration ./tests/PHPUnit/phpunit.xml --testsuite ${{ matrix.tests }}
+#        env:
+#          GITHUB: true
+#          PHP_VERSION: ${{ matrix.php }}
+#          MYSQL_ADAPTER: ${{ matrix.adapter }}
+#
+#      - name: upload artfact
+#        if: failure()
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{ github.run_id }}
+#          path: |
+#            /home/runner/work/matomo/matomo/plugins/**/tests/System/processed/**
+#
+#      - name: download artface
+#        if: failure()
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: ${{ github.run_id }}
+#          path: |
+#            /home/runner/work/matomo/matomo/plugins/**/tests/System/processed/**
+#
 
 
