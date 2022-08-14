@@ -1,1 +1,10 @@
-{}
+{
+    "MobileMessaging": {
+        "Exception_UnknownProvider": "Nama pembekal '%1$s' tidak diketahui. Cuba mana-mana yang berikut: %2$s.",
+        "MobileReport_AdditionalPhoneNumbers": "Anda boleh menambah lebih banyak nombor telefon dengan mengakses",
+        "MobileReport_MobileMessagingSettingsLink": "halaman tetapan Pemesejan Mudah Alih",
+        "MobileReport_NoPhoneNumbers": "Sila aktifkan sekurang-kurangnya satu nombor telefon dengan mengakses",
+        "MultiSites_Must_Be_Activated": "Untuk menjana teks SMS statistik tapak web anda, sila dayakan pemalam MultiSites dalam Matomo.",
+        "PhoneNumbers": "Nombor Telefon"
+    }
+}

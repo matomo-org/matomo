@@ -1,5 +1,12 @@
 {
     "General": {
+        "12HourClock": "Masa 12-jam",
+        "24HourClock": "Masa 24-jam",
+        "API": "API",
+        "AbandonedCarts": "Troli Terbengkalai",
+        "AboutPiwikX": "Tentang Matomo %s",
+        "Action": "Tindakan",
+        "Actions": "Tindakan",
         "Locale": "ms_MY.UTF-8"
     }
 }

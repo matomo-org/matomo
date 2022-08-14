@@ -25,7 +25,7 @@
         "RemoveDefaultDashboardNotPossible": "Standardoversikten kan ikke slettes",
         "RenameDashboard": "Gi nytt navn på oversiktspanelet",
         "ResetDashboard": "Nullstill oversikt",
-        "ResetDashboardConfirm": "Gjennopprett oversiktsoppsettet til  bruk av de forvalgte miniprogrammene?",
+        "ResetDashboardConfirm": "Gjennopprett oversiktsoppsettet til bruk av de forvalgte miniprogrammene?",
         "SelectDashboardLayout": "Vennligst veld ny oversiktslayout",
         "SelectWidget": "Velg miniprogram å legge til i oversiktspanelet",
         "SetAsDefaultWidgets": "Bruk som forvalgt miniprogramsutvalg",
