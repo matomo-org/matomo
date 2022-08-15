@@ -45,7 +45,6 @@ jobs:
           lfs: false
           submodules: recursive
 
-
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -55,7 +54,6 @@ jobs:
           node-version: ${{ matrix.node }}
   UI:
     runs-on: ubuntu-20.04
-
     services:
       redis:
         image: redis:5.0
@@ -105,7 +103,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'Angular' ]
+        type: [ 'Angular' ]
         node: [ '16' ]
         adapter: [ 'PDO_MYSQL' ]
 
@@ -119,7 +117,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
-          test-type: ${{ matrix.tests }}
+          test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.tests }}
