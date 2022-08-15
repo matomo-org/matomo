@@ -68,7 +68,6 @@ jobs:
           MYSQL_DATABASE: matomo_tests
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-
     strategy:
       fail-fast: false
       matrix:
@@ -77,7 +76,6 @@ jobs:
         parts: [ 0,1,2 ]
         adapter: [ 'PDO_MYSQL' ]
         node: [ '16' ]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -106,7 +104,6 @@ jobs:
         type: [ 'Angular' ]
         node: [ '16' ]
         adapter: [ 'PDO_MYSQL' ]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
