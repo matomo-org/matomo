@@ -35,55 +35,66 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '7.2' ]
-        tests: [ 'JavascriptTests' ]
+        tests: [ 'JS' ]
         node: [ '12' ]
+        adapter: ['PDO_MYSQL']
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: false
           submodules: recursive
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, zlib
-          ini-values: |
-            memory_limit = 256M,
-            max_execution_time=10000,
-            always_populate_raw_post_data=-1,
-            error_reporting=E_ALL,
-            log_errors=on, display_errors=on,
-            allow_url_fopen = on,
-            zend.exception_ignore_args = Off
-            mysqli.allow_local_infile = On
-          tools: composer:v2
-          coverage: none
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
         with:
+          test-type: ${{ matrix.tests }}
+          mysql-driver: ${{ matrix.adapter }}
+          php-version: ${{ matrix.php }}
           node-version: ${{ matrix.node }}
 
-      - name: installing node/puppeteer
-        working-directory: ./tests/lib/screenshot-testing
-        run: npm install
-
-      - name: Install dependencies
-        run: |
-          composer clear-cache
-          composer install --ignore-platform-reqs
-
-      - name: prepare setup
-        shell: bash
-        run: ./.github/scripts/bash/prepare.sh
-        env:
-          PHP_VERSION: ${{ matrix.php }}
-          MATOMO_TEST_TARGET: 'JS'
-          MYSQL_ADAPTER: 'PDO_MYSQL'
-
-      - name: Javascript Tests
-        run: |
-          ./console tests:run-js --matomo-url='http://localhost'
+#
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php }}
+#          extensions: bcmath, ldap, curl, zip, pdo_mysql, mysqli, gd, redis, zlib
+#          ini-values: |
+#            memory_limit = 256M,
+#            max_execution_time=10000,
+#            always_populate_raw_post_data=-1,
+#            error_reporting=E_ALL,
+#            log_errors=on, display_errors=on,
+#            allow_url_fopen = on,
+#            zend.exception_ignore_args = Off
+#            mysqli.allow_local_infile = On
+#          tools: composer:v2
+#          coverage: none
+#
+#      - name: Setup Node
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: ${{ matrix.node }}
+#
+#      - name: installing node/puppeteer
+#        working-directory: ./tests/lib/screenshot-testing
+#        run: npm install
+#
+#      - name: Install dependencies
+#        run: |
+#          composer clear-cache
+#          composer install --ignore-platform-reqs
+#
+#      - name: prepare setup
+#        shell: bash
+#        run: ./.github/scripts/bash/prepare.sh
+#        env:
+#          PHP_VERSION: ${{ matrix.php }}
+#          MATOMO_TEST_TARGET: 'JS'
+#          MYSQL_ADAPTER: 'PDO_MYSQL'
+#
+#      - name: Javascript Tests
+#        run: |
+#          ./console tests:run-js --matomo-url='http://localhost'

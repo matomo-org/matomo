@@ -19,13 +19,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Javascript:
+  Angular:
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        tests: [ 'AngularJSTests' ]
+        tests: [ 'Angular' ]
         node: [ '16' ]
+        adapter: ['PDO_MYSQL']
 
     steps:
       - name: Checkout code
@@ -34,30 +35,35 @@ jobs:
           lfs: false
           submodules: recursive
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
         with:
-          node-version: ${{ matrix.node }}
+          test-type:  ${{ matrix.tests }}
+          mysql-driver: ${{ matrix.adapter }}
+          php-version: ${{ matrix.php }}
+          test-command: ${{ matrix.tests }}
 
-      - name: installing node/puppeteer
-        working-directory: ./tests/lib/screenshot-testing
-        run: npm install
 
-      - name: Install dependencies
-        run: |
-          composer clear-cache
-          composer install --ignore-platform-reqs
-
-      - name: prepare setup
-        shell: bash
-        run: ./.github/scripts/bash/prepare.sh
-        env:
-          MATOMO_TEST_TARGET: 'JS'
-          MYSQL_ADAPTER: 'PDO_MYSQL'
-
-      - name: Running angularjs && vue tests
-        if: matrix.tests == 'AngularJSTests'
-        working-directory: ./tests/angularjs
-        run: |
-          npm install
-          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
+#      - name: Setup Node
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: ${{ matrix.node }}
+#
+#      - name: installing node/puppeteer
+#        working-directory: ./tests/lib/screenshot-testing
+#        run: npm install
+#
+#
+#      - name: prepare setup
+#        shell: bash
+#        run: ./.github/scripts/bash/prepare.sh
+#        env:
+#          MATOMO_TEST_TARGET: 'JS'
+#          MYSQL_ADAPTER: 'PDO_MYSQL'
+#
+#      - name: Running angularjs && vue tests
+#        if: matrix.tests == 'AngularJSTests'
+#        working-directory: ./tests/angularjs
+#        run: |
+#          npm install
+#          ./node_modules/karma/bin/karma start karma.conf.js --browsers ChromeHeadless --single-run
