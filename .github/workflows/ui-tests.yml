@@ -112,7 +112,6 @@ jobs:
 #          GITHUB_BRANCH: ${{ github.event.pull_request.base.ref }}
 #          GITHUB_RUN_ID: ${{ github.run_id }}
 #          GITHUB_RUN_NUMBER: ${{ github.run_number }}
-#
 #      - name: View UI failures
 #        if: failure()
 #        shell: bash
