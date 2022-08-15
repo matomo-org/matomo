@@ -14,13 +14,13 @@
 </script>
 
 <div
-    piwik-manage-goals
-    user-can-edit-goals="{{ userCanEditGoals|json_encode|e('html_attr') }}"
-    only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode|e('html_attr') }}"
-    ecommerce-enabled="{{ ecommerceEnabled|json_encode|e('html_attr') }}"
+    vue-entry="Goals.ManageGoals"
+    user-can-edit-goals="{{ userCanEditGoals|json_encode }}"
+    only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode }}"
+    ecommerce-enabled="{{ ecommerceEnabled|json_encode }}"
     {% if userCanEditGoals %}
         {% if onlyShowAddNewGoal is not defined or not onlyShowAddNewGoal %}
-            goals="{{ goals|json_encode|e('html_attr') }}"
+            goals="{{ goals|json_encode }}"
             {% if idGoal %}
                 show-goal="{{ idGoal|e('js') }}"
             {% endif %}
@@ -28,17 +28,17 @@
             show-add-goal="true"
         {% endif %}
     {% else %}
-        goals="{{ goals|json_encode|e('html_attr') }}"
+        goals="{{ goals|json_encode }}"
     {% endif %}
-    {% if addNewGoalIntro is defined %}add-new-goal-intro="{{ addNewGoalIntro|json_encode|e('html_attr') }}"{% endif %}
-    goal-trigger-type-options="{{ goalTriggerTypeOptions|json_encode|e('html_attr') }}"
-    goal-match-attribute-options="{{ goalMatchAttributeOptions|json_encode|e('html_attr') }}"
-    event-type-options="{{ eventTypeOptions|json_encode|e('html_attr') }}"
-    pattern-type-options="{{ patternTypeOptions|json_encode|e('html_attr') }}"
-    numeric-comparison-type-options="{{ numericComparisonTypeOptions|json_encode|e('html_attr') }}"
-    allow-multiple-options="{{ allowMultipleOptions|json_encode|e('html_attr') }}"
-    before-goal-list-actions-body="{{ beforeGoalListActionsBodyEventResult|default(null)|json_encode|e('html_attr') }}"
-    end-edit-table="{{ endEditTable|default(null)|json_encode|e('html_attr') }}"
-    before-goal-list-actions-head="{{ beforeGoalListActionsHead|default(null)|json_encode|e('html_attr') }}"
+    {% if addNewGoalIntro is defined %}add-new-goal-intro="{{ addNewGoalIntro|json_encode }}"{% endif %}
+    goal-trigger-type-options="{{ goalTriggerTypeOptions|json_encode }}"
+    goal-match-attribute-options="{{ goalMatchAttributeOptions|json_encode }}"
+    event-type-options="{{ eventTypeOptions|json_encode }}"
+    pattern-type-options="{{ patternTypeOptions|json_encode }}"
+    numeric-comparison-type-options="{{ numericComparisonTypeOptions|json_encode }}"
+    allow-multiple-options="{{ allowMultipleOptions|json_encode }}"
+    before-goal-list-actions-body="{{ beforeGoalListActionsBodyEventResult|default(null)|json_encode }}"
+    end-edit-table="{{ endEditTable|default(null)|json_encode }}"
+    before-goal-list-actions-head="{{ beforeGoalListActionsHead|default(null)|json_encode }}"
 >
 </div>

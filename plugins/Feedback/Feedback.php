@@ -91,7 +91,6 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_Question4';
         $translationKeys[] = 'Feedback_FeedbackTitle';
         $translationKeys[] = 'Feedback_FeedbackSubtitle';
-        $translationKeys[] = 'Feedback_Policy';
         $translationKeys[] = 'Feedback_ThankYourForFeedback';
         $translationKeys[] = 'Feedback_ThankYou';
         $translationKeys[] = 'Feedback_MessageBodyValidationError';

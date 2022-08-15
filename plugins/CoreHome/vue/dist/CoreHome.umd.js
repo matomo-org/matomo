@@ -3014,7 +3014,13 @@ function ExpandOnClick_onClickOutsideElement(element, binding, event) {
   }
 
   if (!element.contains(event.target)) {
+    var _binding$value;
+
     element.classList.remove('expanded');
+
+    if ((_binding$value = binding.value) !== null && _binding$value !== void 0 && _binding$value.onClosed) {
+      binding.value.onClosed();
+    }
   }
 }
 
@@ -4635,16 +4641,17 @@ function defaultContentTransform() {
 }
 
 function setupTooltips(el, binding) {
-  var _binding$value, _binding$value2, _binding$value3;
+  var _binding$value, _binding$value2, _binding$value3, _binding$value4, _binding$value5, _binding$value6;
 
   Tooltips_$(el).tooltip({
     track: true,
     content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || defaultContentTransform,
-    show: {
-      delay: ((_binding$value2 = binding.value) === null || _binding$value2 === void 0 ? void 0 : _binding$value2.delay) || 700,
-      duration: ((_binding$value3 = binding.value) === null || _binding$value3 === void 0 ? void 0 : _binding$value3.duration) || 200
+    show: typeof ((_binding$value2 = binding.value) === null || _binding$value2 === void 0 ? void 0 : _binding$value2.show) !== 'undefined' ? (_binding$value3 = binding.value) === null || _binding$value3 === void 0 ? void 0 : _binding$value3.show : {
+      delay: ((_binding$value4 = binding.value) === null || _binding$value4 === void 0 ? void 0 : _binding$value4.delay) || 700,
+      duration: ((_binding$value5 = binding.value) === null || _binding$value5 === void 0 ? void 0 : _binding$value5.duration) || 200
     },
-    hide: false
+    hide: false,
+    tooltipClass: (_binding$value6 = binding.value) === null || _binding$value6 === void 0 ? void 0 : _binding$value6.tooltipClass
   });
 }
 
@@ -9177,7 +9184,7 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
               categoryGroups.name = subcategory.name;
             }
 
-            var entityId = page.subcategory.id;
+            var entityId = subcategory.id;
             subcategory.tooltip = "".concat(subcategory.name, " (id = ").concat(entityId, ")");
             categoryGroups.subcategories.push(subcategory);
             return;

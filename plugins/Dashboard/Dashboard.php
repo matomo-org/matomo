@@ -330,5 +330,14 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'General_Close';
         $translationKeys[] = 'General_HelpResources';
         $translationKeys[] = 'General_Refresh';
+        $translationKeys[] = 'Dashboard_ManageDashboard';
+        $translationKeys[] = 'Dashboard_AddAWidget';
+        $translationKeys[] = 'Dashboard_ResetDashboard';
+        $translationKeys[] = 'Dashboard_ChangeDashboardLayout';
+        $translationKeys[] = 'Dashboard_RenameDashboard';
+        $translationKeys[] = 'Dashboard_RemoveDashboard';
+        $translationKeys[] = 'Dashboard_SetAsDefaultWidgets';
+        $translationKeys[] = 'Dashboard_CopyDashboardToUser';
+        $translationKeys[] = 'Dashboard_CreateNewDashboard';
     }
 }

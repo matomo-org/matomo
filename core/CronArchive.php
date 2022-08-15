@@ -1054,9 +1054,16 @@ class CronArchive
                 continue;
             }
 
-            // archive is for week that is over two months, we don't need to care about the month
+            // archive is for a week that is over two months, we don't need to care about the month
             if ($label == 'month'
                 && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
+            ) {
+                continue;
+            }
+
+            // archive is for a week that is over two years, we don't need to care about the year
+            if ($label == 'year'
+                && Date::factory($archiveToProcess['date1'])->toString('y') != Date::factory($archiveToProcess['date2'])->toString('y')
             ) {
                 continue;
             }

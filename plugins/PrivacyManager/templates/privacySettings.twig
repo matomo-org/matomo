@@ -5,123 +5,25 @@
 {% block content %}
 {% import 'macros.twig' as piwik %}
 
-<div piwik-content-intro>
-    <h2 piwik-enriched-headline help-url="https://matomo.org/docs/privacy/">{{ title }}</h2>
-
-    <p>{{ 'PrivacyManager_TeaserHeader'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#anonymizeHistoricalData">',"</a>")|raw }}
-        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="https://matomo.org/docs/privacy/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
-</div>
-
-<div piwik-content-block
-     id="anonymizeIPAnchor"
-     content-title="{{ 'PrivacyManager_UseAnonymizeTrackingData'|translate|e('html_attr') }}">
-  <div
-    vue-entry="PrivacyManager.AnonymizeIp"
-    anonymize-ip-enabled="{{ anonymizeIP.enabled|default(null)|json_encode|e('html_attr') }}"
-    anonymize-user-id="{{ anonymizeIP.anonymizeUserId|default(null)|json_encode|e('html_attr') }}"
-    mask-length="{{ anonymizeIP.maskLength|default(null)|json_encode|e('html_attr') }}"
-    use-anonymized-ip-for-visit-enrichment="{{ anonymizeIP.useAnonymizedIpForVisitEnrichment|default(null)|json_encode|e('html_attr') }}"
-    anonymize-order-id="{{ anonymizeIP.anonymizeOrderId|default(null)|json_encode|e('html_attr') }}"
-    force-cookieless-tracking="{{ anonymizeIP.forceCookielessTracking|default(null)|json_encode|e('html_attr') }}"
-    anonymize-referrer="{{ anonymizeIP.anonymizeReferrer|default(null)|json_encode|e('html_attr') }}"
-    mask-length-options="{{ maskLengthOptions|default(null)|json_encode|e('html_attr') }}"
-    use-anonymized-ip-for-visit-enrichment-options="{{ useAnonymizedIpForVisitEnrichmentOptions|default(null)|json_encode|e('html_attr') }}"
-    tracker-file-name="{{ trackerFileName|default(null)|json_encode|e('html_attr') }}"
-    tracker-writable="{{ trackerWritable|default(null)|json_encode|e('html_attr') }}"
-    referrer-anonymization-options="{{ referrerAnonymizationOptions|default(null)|json_encode|e('html_attr') }}"
-  ></div>
-</div>
-
-{% if isDataPurgeSettingsEnabled %}
-    <div piwik-content-block id="deleteLogsAnchor"
-         content-title="{{ 'PrivacyManager_DeleteOldRawData'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
-
-        <div
-          vue-entry="PrivacyManager.DeleteOldLogs"
-          is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode|e('html_attr') }}"
-          delete-data="{{ deleteData|default(null)|json_encode|e('html_attr') }}"
-          schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode|e('html_attr') }}"
-        ></div>
-    </div>
-
-    <div piwik-content-block id="deleteReportsAnchor"
-            content-title="{{ 'PrivacyManager_DeleteOldAggregatedReports'|translate|e('html_attr') }}">
-
-        <div
-          vue-entry="PrivacyManager.DeleteOldReports"
-          is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode|e('html_attr') }}"
-          delete-data="{{ deleteData|default(null)|json_encode|e('html_attr') }}"
-          delete-old-logs="{{ deleteOldLogs|default(null)|json_encode|e('html_attr') }}"
-          schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode|e('html_attr') }}"
-        ></div>
-
-    </div>
-
-  <div
-    vue-entry="PrivacyManager.ScheduleReportDeletion"
-    is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode|e('html_attr') }}"
-    delete-data="{{ deleteData|default(null)|json_encode|e('html_attr') }}"
-    delete-old-logs="{{ deleteOldLogs|default(null)|json_encode|e('html_attr') }}"
-    schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode|e('html_attr') }}"
-  ></div>
-{% endif %}
-
-    <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
-
-    <div piwik-content-block content-title="Anonymize previously tracked raw data" class="logDataAnonymizer">
-        <p>If you have tracked personal data such as the full visitor IP, you may
-            want to anonymize this data now in case you do not have consent for this data or no longer a legitimate
-            interest.
-        </p>
-
-        {% if isSuperUser %}
-            <div vue-entry="PrivacyManager.AnonymizeLogData"></div>
-        {% else %}
-            <p>Only a user with Super User access can anonymize previously tracked raw data.</p>
-        {% endif %}
-
-        <br />
-        <h3>Previous raw data anonymizations</h3>
-        <table piwik-content-table>
-            <thead>
-            <tr>
-                <th>Requester</th>
-                <th>Affected ID Sites</th>
-                <th>Affected date</th>
-                <th>Anonymize</th>
-                <th>Visit Columns</th>
-                <th>Link Visit Action Columns</th>
-                <th>Status</th>
-            </tr></thead>
-            <tbody>
-            {% for entry in anonymizations %}
-                {% set isStarted = entry.job_start_date or not entry.job_start_date is empty %}
-                {% set isFinished = entry.job_finish_date or not entry.job_finish_date is empty %}
-                <tr>
-                    <td>{{ entry.requester }}</td>
-                    <td>{{ entry.sites|join(', ') }}</td>
-                    <td>{{ entry.date_start }} - {{ entry.date_end }}</td>
-                    <td>{% if entry.anonymize_ip %}<span>IP address<br /></span>{% endif %}
-                        {% if entry.anonymize_location %}<span>Location<br /></span>{% endif %}
-                        {% if entry.anonymize_userid %}<span>User ID</span>{% endif %}
-                        {% if not entry.anonymize_ip and not entry.anonymize_location and not entry.anonymize_userid %}-{% endif %}
-                    </td>
-                    <td>{{ entry.unset_visit_columns|join(', ') }}</td>
-                    <td>{{ entry.unset_link_visit_action_columns|join(', ') }}</td>
-                    <td>
-                        {% if not isStarted %}
-                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}."></span> Scheduled
-                        {% elseif isStarted and not isFinished %}
-                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Current Output: {{ entry.output }}"></span> In progress
-                        {% else %}
-                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Job Finish Date: {{ entry.job_finish_date }}. Output: {{ entry.output }}"></span> Done
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div
+    vue-entry="PrivacyManager.PrivacySettings"
+    anonymize-ip-enabled="{{ anonymizeIP.enabled|default(null)|json_encode }}"
+    anonymize-user-id="{{ anonymizeIP.anonymizeUserId|default(null)|json_encode }}"
+    mask-length="{{ anonymizeIP.maskLength|default(null)|json_encode }}"
+    use-anonymized-ip-for-visit-enrichment="{{ anonymizeIP.useAnonymizedIpForVisitEnrichment|default(null)|json_encode }}"
+    anonymize-order-id="{{ anonymizeIP.anonymizeOrderId|default(null)|json_encode }}"
+    force-cookieless-tracking="{{ anonymizeIP.forceCookielessTracking|default(null)|json_encode }}"
+    anonymize-referrer="{{ anonymizeIP.anonymizeReferrer|default(null)|json_encode }}"
+    mask-length-options="{{ maskLengthOptions|default(null)|json_encode }}"
+    use-anonymized-ip-for-visit-enrichment-options="{{ useAnonymizedIpForVisitEnrichmentOptions|default(null)|json_encode }}"
+    tracker-file-name="{{ trackerFileName|default(null)|json_encode }}"
+    tracker-writable="{{ trackerWritable|default(null)|json_encode }}"
+    referrer-anonymization-options="{{ referrerAnonymizationOptions|default(null)|json_encode }}"
+    is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode }}"
+    delete-data="{{ deleteData|default(null)|json_encode }}"
+    schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode }}"
+    anonymizations="{{ anonymizations|json_encode }}"
+    is-super-user="{{ isSuperUser|json_encode }}"
+></div>
 
 {% endblock %}
