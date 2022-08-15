@@ -298,8 +298,10 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_CreateNewToken';
         $translationKeys[] = 'UsersManager_Decline';
         $translationKeys[] = 'UsersManager_DeleteAllTokens';
+        $translationKeys[] = 'UsersManager_DeleteNotSuccessful';
         $translationKeys[] = 'UsersManager_DeletePermConfirmMultiple';
         $translationKeys[] = 'UsersManager_DeletePermConfirmSingle';
+        $translationKeys[] = 'UsersManager_DeleteSuccess';
         $translationKeys[] = 'UsersManager_DeleteUserConfirmMultiple';
         $translationKeys[] = 'UsersManager_DeleteUserConfirmSingle';
         $translationKeys[] = 'UsersManager_DeleteUserPermConfirmMultiple';
@@ -379,10 +381,5 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_YourUsernameCannotBeChanged';
         $translationKeys[] = 'UsersManager_YourVisitsAreIgnoredOnDomain';
         $translationKeys[] = 'UsersManager_YourVisitsAreNotIgnored';
-        $translationKeys[] = 'General_AllWebsitesDashboard';
-        $translationKeys[] = 'General_Ok';
-        $translationKeys[] = 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2';
-        $translationKeys[] = 'UsersManager_DeleteSuccess';
-        $translationKeys[] = 'UsersManager_DeleteNotSuccessful';
     }
 }
