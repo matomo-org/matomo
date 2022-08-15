@@ -300,6 +300,37 @@ class CronArchiveTest extends IntegrationTestCase
                     ),
                 ],
             ],
+
+            // week split across two years - make sure the year invalidation isn't changed to the week start year
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2021-12-27', 'date2' => '2022-01-02', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2022-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 4, 'date1' => '2022-01-01', 'date2' => '2022-12-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2022-03-04 01:00:00'],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 2, 'date1' => '2021-12-27', 'date2' => '2022-01-02', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2022-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2021-12-27',
+                        'date2' => '2022-01-02',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2022-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => 1,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2022-01-01',
+                        'date2' => '2022-12-31',
+                        'name' => 'done',
+                        'report' => NULL,
+                        'ts_invalidated' => '2022-03-04 01:00:00',
+                    ),
+                ],
+            ],
         ];
     }
 

@@ -6,7 +6,6 @@
 
 <template>
   <div class="manageGoals">
-    <!-- v-show required until funnels/multiattribution are using vue and not angularjs -->
     <div v-show="!onlyShowAddNewGoal">
       <div
         id='entityEditContainer'
@@ -122,7 +121,6 @@
       </div>
     </div>
 
-    <!-- v-show required until funnels/multiattribution are using vue and not angularjs -->
     <div v-show="userCanEditGoals">
       <div class="addEditGoal" v-show="showEditGoal">
         <ContentBlock
@@ -352,7 +350,7 @@
           </div>
 
           <div ref="endedittable">
-            <component :is="endEditTableComponent" v-if="endEditTableComponent"/>
+            <VueEntryContainer :html="endEditTable" v-if="endEditTable"/>
           </div>
 
           <input type="hidden" name="goalIdUpdate" value=""/>
@@ -382,8 +380,7 @@
 </template>
 
 <script lang="ts">
-import { IScope } from 'angular';
-import { defineComponent, markRaw, nextTick } from 'vue';
+import { defineComponent, markRaw } from 'vue';
 import {
   Matomo,
   AjaxHelper,
@@ -395,6 +392,7 @@ import {
   ContentTable,
   Alert,
   ReportingMenuStore,
+  VueEntryContainer,
 } from 'CoreHome';
 import {
   Form,
@@ -465,6 +463,7 @@ export default defineComponent({
     ActivityIndicator,
     Field,
     Alert,
+    VueEntryContainer,
   },
   directives: {
     ContentTable,
@@ -484,25 +483,6 @@ export default defineComponent({
     } else {
       this.showListOfReports();
     }
-
-    // this component can be used in multiple places, one where
-    // Matomo.helper.compileAngularComponents() is already called, one where it's not.
-    // to make sure this function is only applied once to the slot data, we explicitly do not
-    // add it to vue, then on the next update, add it and call compileAngularComponents()
-    nextTick(() => {
-      this.addEditTableComponent = true;
-
-      nextTick(() => {
-        const el = this.$refs.endedittable as HTMLElement;
-        const scope = Matomo.helper.getAngularDependency('$rootScope').$new(true);
-        $(el).data('scope', scope);
-        Matomo.helper.compileAngularComponents(el, { scope });
-      });
-    });
-  },
-  beforeUnmount() {
-    const el = this.$refs.endedittable as HTMLElement;
-    ($(el).data('scope') as IScope).$destroy();
   },
   methods: {
     scrollToTop() {
@@ -680,7 +660,7 @@ export default defineComponent({
       AjaxHelper.fetch(parameters, options).then(() => {
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
         if (subcategory === 'Goals_AddNewGoal'
-          && Matomo.helper.isAngularRenderingThePage()
+          && Matomo.helper.isReportingPage()
         ) {
           // when adding a goal for the first time we need to load manage goals page afterwards
           ReportingMenuStore.reloadMenuItems().then(() => {
@@ -806,22 +786,6 @@ export default defineComponent({
         };
       });
       return markRaw(componentsByIdGoal);
-    },
-    endEditTableComponent() {
-      if (!this.endEditTable || !this.addEditTableComponent) {
-        return null;
-      }
-
-      const endedittable = this.$refs.endedittable as HTMLElement;
-      return markRaw({
-        template: this.endEditTable,
-        mounted() {
-          Matomo.helper.compileVueEntryComponents(endedittable);
-        },
-        beforeUnmount() {
-          Matomo.helper.destroyVueComponent(endedittable);
-        },
-      });
     },
     beforeGoalListActionsHeadComponent() {
       if (!this.beforeGoalListActionsHead) {

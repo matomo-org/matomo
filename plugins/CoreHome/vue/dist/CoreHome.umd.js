@@ -175,6 +175,8 @@ __webpack_require__.d(__webpack_exports__, "SideNav", function() { return /* ree
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
 __webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
+__webpack_require__.d(__webpack_exports__, "ComparisonsStore", function() { return /* reexport */ Comparisons_store_ComparisonsStore; });
+__webpack_require__.d(__webpack_exports__, "ComparisonsStoreInstance", function() { return /* reexport */ Comparisons_store_instance; });
 __webpack_require__.d(__webpack_exports__, "MenuItemsDropdown", function() { return /* reexport */ MenuItemsDropdown; });
 __webpack_require__.d(__webpack_exports__, "DatePicker", function() { return /* reexport */ DatePicker; });
 __webpack_require__.d(__webpack_exports__, "DateRangePicker", function() { return /* reexport */ DateRangePicker; });
@@ -1874,12 +1876,28 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             return r.result === 'error';
           }).map(function (r) {
             return r.message;
-          });
+          }).filter(function (e) {
+            return e.length;
+          }) // count occurrences of error messages
+          .reduce(function (acc, e) {
+            acc[e] = (acc[e] || 0) + 1;
+            return acc;
+          }, {});
 
-          if (errors && errors.length && !_this3.useRegularCallbackInCaseOfError) {
-            var errorMessage = errors.filter(function (e) {
-              return e.length;
-            }).join('<br />');
+          if (errors && Object.keys(errors).length && !_this3.useRegularCallbackInCaseOfError) {
+            var errorMessage = '';
+            Object.keys(errors).forEach(function (error) {
+              if (errorMessage.length) {
+                errorMessage += '<br />';
+              } // append error count if it occured more than once
+
+
+              if (errors[error] > 1) {
+                errorMessage += "".concat(error, " (").concat(errors[error], "x)");
+              } else {
+                errorMessage += error;
+              }
+            });
             var placeAt = null;
             var type = 'toast';
 
@@ -2995,7 +3013,13 @@ function ExpandOnClick_onClickOutsideElement(element, binding, event) {
   }
 
   if (!element.contains(event.target)) {
+    var _binding$value;
+
     element.classList.remove('expanded');
+
+    if ((_binding$value = binding.value) !== null && _binding$value !== void 0 && _binding$value.onClosed) {
+      binding.value.onClosed();
+    }
   }
 }
 
@@ -4616,16 +4640,17 @@ function defaultContentTransform() {
 }
 
 function setupTooltips(el, binding) {
-  var _binding$value, _binding$value2, _binding$value3;
+  var _binding$value, _binding$value2, _binding$value3, _binding$value4, _binding$value5, _binding$value6;
 
   Tooltips_$(el).tooltip({
     track: true,
     content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || defaultContentTransform,
-    show: {
-      delay: ((_binding$value2 = binding.value) === null || _binding$value2 === void 0 ? void 0 : _binding$value2.delay) || 700,
-      duration: ((_binding$value3 = binding.value) === null || _binding$value3 === void 0 ? void 0 : _binding$value3.duration) || 200
+    show: typeof ((_binding$value2 = binding.value) === null || _binding$value2 === void 0 ? void 0 : _binding$value2.show) !== 'undefined' ? (_binding$value3 = binding.value) === null || _binding$value3 === void 0 ? void 0 : _binding$value3.show : {
+      delay: ((_binding$value4 = binding.value) === null || _binding$value4 === void 0 ? void 0 : _binding$value4.delay) || 700,
+      duration: ((_binding$value5 = binding.value) === null || _binding$value5 === void 0 ? void 0 : _binding$value5.duration) || 200
     },
-    hide: false
+    hide: false,
+    tooltipClass: (_binding$value6 = binding.value) === null || _binding$value6 === void 0 ? void 0 : _binding$value6.tooltipClass
   });
 }
 
@@ -9158,7 +9183,7 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
               categoryGroups.name = subcategory.name;
             }
 
-            var entityId = page.subcategory.id;
+            var entityId = subcategory.id;
             subcategory.tooltip = "".concat(subcategory.name, " (id = ").concat(entityId, ")");
             categoryGroups.subcategories.push(subcategory);
             return;
@@ -12270,6 +12295,8 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 

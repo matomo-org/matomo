@@ -80,6 +80,7 @@ declare global {
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
+    isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
@@ -160,7 +161,8 @@ declare global {
     visitorProfileEnabled: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
-    userLogin: string;
+    userLogin?: string;
+    userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
 
     updatePeriodParamsFromUrl(): void;
