@@ -2,8 +2,7 @@
     <div class="card-content">
         {% if title is defined and title %}
             <h2 class="card-title"
-                  {% if rate is defined and rate and rate is true %}vue-entry="CoreHome.EnrichedHeadline"
-                  {% elseif rate is defined and rate and rate %}vue-entry="CoreHome.EnrichedHeadline"{% endif %}
+                  {% if rate is defined and rate %}vue-entry="CoreHome.EnrichedHeadline"{% endif %}
             >{% block helpText %}{% endblock %}{{ title }}</h2>
         {% endif %}
 
