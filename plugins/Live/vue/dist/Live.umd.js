@@ -169,7 +169,9 @@ var _window = window,
           }, {
             format: 'html'
           }).then(function (r) {
+            external_CoreHome_["Matomo"].helper.destroyVueComponent(el);
             $(el).find('#visitsTotal').replaceWith(r);
+            external_CoreHome_["Matomo"].helper.compileVueEntryComponents(el);
           });
         },
         maxRows: 10,
