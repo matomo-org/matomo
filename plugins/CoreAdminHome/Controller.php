@@ -155,12 +155,12 @@ class Controller extends ControllerAdmin
 
             // Update email settings
             $mail = array();
-            $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-            $mail['port'] = Common::getRequestVar('mailPort', '');
-            $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
-            $mail['type'] = Common::getRequestVar('mailType', '');
-            $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
-            $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
+            $mail['transport'] = (Common::getRequestParam('mailUseSmtp') == '1') ? 'smtp' : '';
+            $mail['port'] = Common::getRequestParam('mailPort', '');
+            $mail['host'] = Common::getRequestParam('mailHost', '');
+            $mail['type'] = Common::getRequestParam('mailType', '');
+            $mail['username'] = Common::getRequestParam('mailUsername', '');
+            $mail['password'] = Common::getRequestParam('mailPassword', '');
 
             if (!array_key_exists('mailPassword', $_POST) && Config::getInstance()->mail['host'] === $mail['host']) {
                 // use old password if it wasn't set in request (and the host wasn't changed)

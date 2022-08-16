@@ -609,10 +609,10 @@ JS;
     private function optOutStyling(?string $fontSize = null, ?string $fontColor = null, ?string $fontFamily = null,
                                    ?string $backgroundColor = null, bool $noBody = false): string
     {
-        $cssfontsize = ($fontSize ? : Common::unsanitizeInputValue(Common::getRequestVar('fontSize', false, 'string')));
-        $cssfontcolour = ($fontColor ? : Common::unsanitizeInputValue(Common::getRequestVar('fontColor', false, 'string')));
-        $cssfontfamily = ($fontFamily ? : Common::unsanitizeInputValue(Common::getRequestVar('fontFamily', false, 'string')));
-        $cssbackgroundcolor = ($backgroundColor ? : Common::unsanitizeInputValue(Common::getRequestVar('backgroundColor', false, 'string')));
+        $cssfontsize = ($fontSize ? : Common::getRequestParam('fontSize', false, 'string'));
+        $cssfontcolour = ($fontColor ? : Common::getRequestParam('fontColor', false, 'string'));
+        $cssfontfamily = ($fontFamily ? : Common::getRequestParam('fontFamily', false, 'string'));
+        $cssbackgroundcolor = ($backgroundColor ? : Common::getRequestParam('backgroundColor', false, 'string'));
 
         if (!$noBody) {
             $cssbody = 'body { ';

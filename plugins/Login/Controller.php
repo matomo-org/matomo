@@ -341,7 +341,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         if (empty($urlToRedirect)) {
-            $redirect = Common::unsanitizeInputValue(Common::getRequestVar('form_redirect', false));
+            $redirect = Common::getRequestParam('form_redirect', false);
             $redirectParams = UrlHelper::getArrayFromQueryString(UrlHelper::getQueryFromUrl($redirect));
             $module = Common::getRequestVar('module', '', 'string', $redirectParams);
             // when module is login, we redirect to home...
