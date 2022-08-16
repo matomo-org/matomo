@@ -120,6 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "DashboardStore", function() { return /* reexport */ Dashboard_store; });
 __webpack_require__.d(__webpack_exports__, "Dashboard", function() { return /* reexport */ Dashboard; });
+__webpack_require__.d(__webpack_exports__, "DashboardSettings", function() { return /* reexport */ DashboardSettings; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -234,17 +235,6 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var Dashboard_store = (new Dashboard_store_DashboardStore());
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/Dashboard/Dashboard.store.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-window.angular.module('piwikApp.service').factory('dashboardsModel', function () {
-  return Dashboard_store;
-});
 // CONCATENATED MODULE: ./plugins/Dashboard/vue/src/Dashboard/Dashboard.ts
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -304,13 +294,13 @@ function renderDashboard(dashboardId, dashboard, layout) {
 }
 
 function fetchDashboard(dashboardId) {
-  window.globalAjaxQueue.abort();
   return new Promise(function (resolve) {
     return setTimeout(resolve);
   }).then(function () {
     return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall);
   }).then(function () {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    window.globalAjaxQueue.abort(); // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     var dashboardElement = $('#dashboardWidgetsArea');
     dashboardElement.dashboard('destroyWidgets');
     dashboardElement.empty();
@@ -370,44 +360,220 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/Dashboard/Dashboard.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=88d42e44
 
-function piwikDashboard() {
-  return {
-    restrict: 'A',
-    scope: {
-      dashboardid: '=',
-      layout: '='
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    link: function expandOnClickLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {
-          idDashboard: scope.dashboardid,
-          layout: scope.layout
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      Dashboard.mounted(element[0], binding); // using scope destroy instead of element destroy event, since piwik-dashboard elements
-      // are removed manually, outside of angularjs/vue workflow, so element destroy is not
-      // triggered
+var _hoisted_1 = ["title"];
 
-      scope.$on('$destroy', function () {
-        Dashboard.unmounted();
-      });
-    }
-  };
+var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon icon-arrow-bottom"
+}, null, -1);
+
+var _hoisted_3 = {
+  class: "dropdown positionInViewport"
+};
+var _hoisted_4 = {
+  class: "submenu"
+};
+var _hoisted_5 = {
+  class: "addWidget"
+};
+
+var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
+  class: "widgetpreview-categorylist"
+}, null, -1);
+
+var _hoisted_7 = {
+  class: "manageDashboard"
+};
+var _hoisted_8 = ["onClick", "disabled", "title", "data-action"];
+var _hoisted_9 = ["onClick", "disabled", "title", "data-action"];
+
+var _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
+  class: "widgetpreview-widgetlist"
+}, null, -1);
+
+var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  class: "widgetpreview-preview"
+}, null, -1);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
+
+  var _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    ref: "root",
+    class: "dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.onOpen();
+    })
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    class: "title",
+    title: _ctx.translate('Dashboard_ManageDashboard'),
+    tabindex: "4",
+    ref: "expander"
+  }, [_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_Dashboard')), 1)], 8, _hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_AddAWidget')), 1), _hoisted_6]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_ManageDashboard')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.dashboardActions, function (title, actionName) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: actionName,
+      onClick: function onClick($event) {
+        return _ctx.onClickAction($event, actionName);
+      },
+      disabled: _ctx.isActionDisabled[actionName] ? 'disabled' : undefined,
+      title: _ctx.actionTooltips[actionName] || undefined,
+      "data-action": actionName
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(title)), 9, _hoisted_8);
+  }), 128))])]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.generalActions, function (title, actionName) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: actionName,
+      onClick: function onClick($event) {
+        return _ctx.onClickAction($event, actionName);
+      },
+      class: "generalAction",
+      disabled: _ctx.isActionDisabled[actionName] ? 'disabled' : undefined,
+      title: _ctx.actionTooltips[actionName] || undefined,
+      "data-action": actionName
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(title)), 9, _hoisted_9);
+  }), 128))]), _hoisted_10, _hoisted_11])], 512)), [[_directive_expand_on_click, {
+    expander: 'expander',
+    onClosed: _ctx.onClose
+  }], [_directive_tooltips, {
+    show: false
+  }]]);
 }
-window.angular.module('piwikApp').directive('piwikDashboard', piwikDashboard);
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=88d42e44
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=script&lang=ts
+
+
+var DashboardSettingsvue_type_script_lang_ts_window = window,
+    DashboardSettingsvue_type_script_lang_ts_$ = DashboardSettingsvue_type_script_lang_ts_window.$;
+
+function isWidgetAvailable(widgetUniqueId) {
+  return !DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').find("[widgetId=\"".concat(widgetUniqueId, "\"]")).length;
+}
+
+function widgetSelected(widget) {
+  // for UI tests (see DashboardManager_spec.js)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
+    return;
+  } // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+
+  DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
+}
+
+/* harmony default export */ var DashboardSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  directives: {
+    ExpandOnClick: external_CoreHome_["ExpandOnClick"],
+    Tooltips: external_CoreHome_["Tooltips"]
+  },
+  data: function data() {
+    return {
+      isActionDisabled: {},
+      actionTooltips: {}
+    };
+  },
+  setup: function setup() {
+    // $.widgetMenu will modify the jquery object it's given, so we have to save it and reuse
+    // it to call functions.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var rootJQuery = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
+      external_CoreHome_["Matomo"].postEvent('Dashboard.DashboardSettings.mounted', root.value);
+      rootJQuery.value = DashboardSettingsvue_type_script_lang_ts_$(root.value);
+      rootJQuery.value.widgetPreview({
+        isWidgetAvailable: isWidgetAvailable,
+        onSelect: function onSelect(widgetUniqueId) {
+          window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {
+            root.value.click(); // close selector
+
+            widgetSelected(widget);
+          });
+        },
+        resetOnSelect: true
+      });
+      rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
+    });
+    return {
+      root: root,
+      rootJQuery: rootJQuery
+    };
+  },
+  computed: {
+    isUserNotAnonymous: function isUserNotAnonymous() {
+      return !!external_CoreHome_["Matomo"].userLogin && external_CoreHome_["Matomo"].userLogin !== 'anonymous';
+    },
+    isSuperUser: function isSuperUser() {
+      return this.isUserNotAnonymous && external_CoreHome_["Matomo"].hasSuperUserAccess;
+    },
+    isUserHasSomeAdminAccess: function isUserHasSomeAdminAccess() {
+      return this.isUserNotAnonymous && external_CoreHome_["Matomo"].userHasSomeAdminAccess;
+    },
+    dashboardActions: function dashboardActions() {
+      var result = {
+        resetDashboard: 'Dashboard_ResetDashboard',
+        showChangeDashboardLayoutDialog: 'Dashboard_ChangeDashboardLayout'
+      };
+
+      if (this.isUserNotAnonymous) {
+        result.renameDashboard = 'Dashboard_RenameDashboard';
+        result.removeDashboard = 'Dashboard_RemoveDashboard';
+      }
+
+      if (this.isSuperUser) {
+        result.setAsDefaultWidgets = 'Dashboard_SetAsDefaultWidgets';
+      }
+
+      if (this.isUserHasSomeAdminAccess) {
+        result.copyDashboardToUser = 'Dashboard_CopyDashboardToUser';
+      }
+
+      return result;
+    },
+    generalActions: function generalActions() {
+      var result = {};
+
+      if (this.isUserNotAnonymous) {
+        result.createDashboard = 'Dashboard_CreateNewDashboard';
+      }
+
+      return result;
+    }
+  },
+  methods: {
+    onClickAction: function onClickAction(event, action) {
+      if (event.target.getAttribute('disabled')) {
+        return;
+      }
+
+      window[action]();
+    },
+    onOpen: function onOpen() {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
+        this.isActionDisabled.removeDashboard = true;
+        this.actionTooltips.removeDashboard = Object(external_CoreHome_["translate"])('Dashboard_RemoveDefaultDashboardNotPossible');
+      } else {
+        this.isActionDisabled.removeDashboard = false;
+        this.actionTooltips.removeDashboard = undefined;
+      }
+    },
+    onClose: function onClose() {
+      this.rootJQuery.widgetPreview('reset');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue
+
+
+
+DashboardSettingsvue_type_script_lang_ts.render = render
+
+/* harmony default export */ var DashboardSettings = (DashboardSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Dashboard/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -415,7 +581,6 @@ window.angular.module('piwikApp').directive('piwikDashboard', piwikDashboard);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 
 
 

@@ -283,7 +283,7 @@ describe("Dashboard", function () {
             await page.waitForTimeout(500); // sometimes the text doesn't seem to type fast enough
 
             var value = await page.evaluate(function() {
-                return $('#createDashboardName').attr('value');
+                return $('#createDashboardName').prop('value');
             });
 
             if (value === name) {

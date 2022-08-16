@@ -829,6 +829,7 @@ class Plugin extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Platform.initialized' => 'detectIsApiRequest'
         );
@@ -843,5 +844,11 @@ class Plugin extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
         $stylesheets[] = "plugins/API/stylesheets/glossary.less";
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'API_Glossary';
+        $translations[] = 'API_LearnAboutCommonlyUsedTerms2';
     }
 }

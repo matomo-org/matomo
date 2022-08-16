@@ -45,7 +45,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
         // Contact me signup goal
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
-            API::getInstance()->addGoal($this->idSite, 'Goal 2', 'event_action', 'press',
+            API::getInstance()->addGoal($this->idSite, 'Goal "<2~$%+"', 'event_action', 'press',
                 'contains', false, 10);
         }
 

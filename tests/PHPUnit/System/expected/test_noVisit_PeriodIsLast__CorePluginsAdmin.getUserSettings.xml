@@ -19,6 +19,7 @@
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>refreshInterval</name>
@@ -36,6 +37,7 @@
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>color</name>
@@ -56,6 +58,7 @@
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>
@@ -78,6 +81,7 @@
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>
