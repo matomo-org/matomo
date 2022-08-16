@@ -163,7 +163,7 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.parts }}
           run_number: ${{ github.run_number }}
-          node_version: ${{ matrix.node }}
+          node-version: ${{ matrix.node }}
           repository: ${{ github.repository }}
           artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
           ref: ${{ github.event.pull_request.base.ref }}
