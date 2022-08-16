@@ -1,1 +1,7 @@
-{}
+{
+    "IntranetMeasurable": {
+        "Intranet": "Laman Web Intranet",
+        "IntranetDescription": "Intranet boleh diukur sama seperti tapak web tetapi dihoskan pada rangkaian dalaman.",
+        "Intranets": "Laman Web Intranet"
+    }
+}

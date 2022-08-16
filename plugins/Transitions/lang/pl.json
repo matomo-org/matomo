@@ -14,7 +14,7 @@
         "IncomingTraffic": "Ruch przychodzący",
         "LoopsInline": "%s odświeżeń strony",
         "NoDataForAction": "Brak danych dla %s",
-        "NoDataForActionDetails": "Akcja nie powodowała wyświetleń strony w czasie %s lub jest błędna.",
+        "NoDataForActionDetails": "Akcja nie powodowała wyświetleń strony w czasie lub jest błędna.",
         "NumDownloads": "%s pobrania",
         "NumOutlinks": "%s linków zewnętrznych",
         "NumPageviews": "%s wyświetleń strony",

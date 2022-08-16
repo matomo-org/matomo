@@ -1,16 +1,25 @@
 {
     "CoreHome": {
         "CategoryNoData": "אין מידע בקטגוריה זו. נא לנסות \"לכלול את כלל האוכלוסייה\"",
+        "ChangePeriod": "עדכן תקופה",
+        "ChangeVisualization": "ערוך תצוגה",
         "CheckForUpdates": "בדוק עדכונים",
+        "CheckPiwikOut": "בדוק את מטומו!",
+        "ChooseX": "בחר %1$s",
+        "ClickToEditX": "לחץ לעריכה %s",
+        "ClickToSeeFullInformation": "לחץ למידע מלא",
+        "CloseSearch": "סגור חיפוש",
+        "CloseWidgetDirections": "אתה יכול לסגור את הווידג'ט ע\"י לחיצה על ה 'X' בכותרת של הווידג'ט.",
+        "DataForThisReportHasBeenPurged": "המידע בדוח זה הוא בן למעלה מ %s חודשים והוא נגנז.",
         "Default": "ברירת מחדל",
         "DonateCall1": "תמיד השימוש ב-Matomo לא יעלה לך דבר, אך זה לא אומר שלהכין אותו לא עולה לנו כסף",
         "PeriodRange": "טווח",
         "SharePiwikShort": "Matomo! ניתוח רשת חינמי ופתוח. שליטה בנתונים של עצמך.",
         "ShowJSCode": "הצגת הJavaScript להטמעה",
         "SupportPiwik": "תמיכה ב-Matomo!",
+        "SystemSummaryPhpVersion": "גרסת PHP",
         "ThereIsNoDataForThisReport": "אין מידע להצגה עבור הדוח",
         "ViewAllPiwikVideoTutorials": "צפייה בכל סרטי ההדרכה של Matomo",
-        "WebAnalyticsReports": "דוחות פעילות",
-        "SystemSummaryPhpVersion": "גרסת PHP"
+        "WebAnalyticsReports": "דוחות פעילות"
     }
 }

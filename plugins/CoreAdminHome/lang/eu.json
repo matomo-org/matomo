@@ -1,5 +1,32 @@
 {
     "CoreAdminHome": {
-        "MenuGeneralSettings": "Ezarpen orokorrak"
+        "AcceptInvite": "Onartu gonbidapena",
+        "Administration": "Administrazioa",
+        "DeclineInvite": "Baztertu gonbidapena",
+        "DeleteAllFailures": "Ezabatu akats guztiak",
+        "EmailServerSettings": "Email zerbitzari ezarpenak",
+        "ImageTracking": "Irudi jarraipena",
+        "JSTracking_DisableCookies": "Ezgaitu jarraipeneko cookie guztiak",
+        "JavaScriptTracking": "JavaScript jarraipena",
+        "LearnMore": "Ikasi gehiago",
+        "MenuDevelopment": "Garapena",
+        "MenuDiagnostic": "Diagnostikoa",
+        "MenuGeneralSettings": "Ezarpen orokorrak",
+        "MenuMeasurables": "Neurgarriak",
+        "MenuSystem": "Sistema",
+        "NeedHelp": "Laguntza behar?",
+        "PluginSettings": "Plugin ezarpenak",
+        "Problem": "Arazoa",
+        "SecurityNotificationEmailSubject": "Segurtasun jakinarazpena",
+        "SecurityNotificationIfItWasYou": "Zu izan bazara, jarritu. Ez baduzu ekintza hau ezagutzen, mesedez, berrezarri zure pasahitza.",
+        "SettingsSaveSuccess": "Ezarpenak eguneratuta.",
+        "Solution": "Irtenbidea",
+        "SystemPluginSettings": "Sistema plugin ezarpenak",
+        "TrackAGoal": "Jarraitu helburu bat",
+        "TrackingCode": "Jarraipen kodea",
+        "UpdateSettings": "Eguneratu ezarpenak",
+        "UseCustomLogo": "Erabili logo pertsonalizatua",
+        "WhatIsNew": "Zer berri",
+        "WhatIsNewNoChangesTitle": "Duela gutxiko aldaketarik ez"
     }
 }
