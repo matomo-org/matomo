@@ -21,7 +21,7 @@
     {% include "@CoreHome/_topScreen.twig" %}
 
     <div class="top_controls">
-        <div piwik-quick-access ng-cloak class="piwikTopControl borderedControl"></div>
+        <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
         {% block topcontrols %}
         {% endblock %}
 
@@ -38,7 +38,7 @@
 
         {% if showMenu is defined and showMenu %}
             <div id="secondNavBar" class="Menu--dashboard z-depth-1">
-                <div piwik-reporting-menu></div>
+                <div vue-entry="CoreHome.ReportingMenu"></div>
             </div>
         {% endif %}
 
@@ -49,9 +49,7 @@
                 {% include "@CoreHome/_notifications.twig" %}
             {% endblock %}
 
-            <div piwik-popover></div>
-
-            <piwik-comparisons></piwik-comparisons>
+            <div vue-entry="CoreHome.Comparisons"></div>
 
             {% block content %}
             {% endblock %}
