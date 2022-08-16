@@ -19,105 +19,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Javascript:
-    runs-on: ubuntu-20.04
-    services:
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw
-    strategy:
-      fail-fast: false
-      matrix:
-        php: [ '7.2' ]
-        tests: [ 'JS' ]
-        node: [ '12' ]
-        adapter: [ 'PDO_MYSQL' ]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          lfs: false
-          submodules: recursive
-
-      - name: running tests
-        uses: matomo-org/github-action-tests@v1
-        with:
-          test-type: ${{ matrix.tests }}
-          mysql-driver: ${{ matrix.adapter }}
-          php-version: ${{ matrix.php }}
-          node-version: ${{ matrix.node }}
-  UI:
-    runs-on: ubuntu-20.04
-    services:
-      redis:
-        image: redis:5.0
-        ports:
-          - 6379:6379
-        options: --entrypoint redis-server
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-    strategy:
-      fail-fast: false
-      matrix:
-        tests: [ 'UI' ]
-        php: [ '7.2' ]
-        parts: [ 0,1,2 ]
-        adapter: [ 'PDO_MYSQL' ]
-        node: [ '16' ]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          lfs: true
-          submodules: recursive
-
-      - name: running tests
-        uses: matomo-org/github-action-tests@v1
-        with:
-          test-type: ${{ matrix.tests }}
-          mysql-driver: ${{ matrix.adapter }}
-          php-version: ${{ matrix.php }}
-          test-command: ${{ matrix.parts }}
-          run_number: ${{ github.run_number }}
-          node_version: ${{ matrix.node }}
-          repository: ${{ github.repository }}
-          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
-          ref: ${{ github.event.pull_request.base.ref }}
-          run_id: ${{ github.run_id }}
-  Angular:
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        type: [ 'Angular' ]
-        node: [ '16' ]
-        adapter: [ 'PDO_MYSQL' ]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          lfs: false
-          submodules: recursive
-
-      - name: running tests
-        uses: matomo-org/github-action-tests@v1
-        with:
-          test-type: ${{ matrix.type }}
-          mysql-driver: ${{ matrix.adapter }}
-          php-version: ${{ matrix.php }}
-          test-command: ${{ matrix.tests }}
   PHP:
     runs-on: ubuntu-20.04
     services:
@@ -168,6 +69,105 @@ jobs:
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.command }}
+  Javascript:
+    runs-on: ubuntu-20.04
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: matomo_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.2' ]
+        tests: [ 'JS' ]
+        node: [ '12' ]
+        adapter: [ 'PDO_MYSQL' ]
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          lfs: false
+          submodules: recursive
+
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
+        with:
+          test-type: ${{ matrix.tests }}
+          mysql-driver: ${{ matrix.adapter }}
+          php-version: ${{ matrix.php }}
+          node-version: ${{ matrix.node }}
+  Angular:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [ 'Angular' ]
+        node: [ '16' ]
+        adapter: [ 'PDO_MYSQL' ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: false
+          submodules: recursive
+
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
+        with:
+          test-type: ${{ matrix.type }}
+          mysql-driver: ${{ matrix.adapter }}
+          php-version: ${{ matrix.php }}
+          test-command: ${{ matrix.tests }}
+  UI:
+    runs-on: ubuntu-20.04
+    services:
+      redis:
+        image: redis:5.0
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: matomo_tests
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [ 'UI' ]
+        php: [ '7.2' ]
+        parts: [ 0,1,2 ]
+        adapter: [ 'PDO_MYSQL' ]
+        node: [ '16' ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
+        with:
+          test-type: ${{ matrix.tests }}
+          mysql-driver: ${{ matrix.adapter }}
+          php-version: ${{ matrix.php }}
+          test-command: ${{ matrix.parts }}
+          run_number: ${{ github.run_number }}
+          node_version: ${{ matrix.node }}
+          repository: ${{ github.repository }}
+          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
+          ref: ${{ github.event.pull_request.base.ref }}
+          run_id: ${{ github.run_id }}
+          php-memory: "-1"
 
 
