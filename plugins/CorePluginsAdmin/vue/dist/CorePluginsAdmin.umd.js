@@ -127,12 +127,12 @@ __webpack_require__.d(__webpack_exports__, "PluginUpload", function() { return /
 __webpack_require__.d(__webpack_exports__, "SaveButton", function() { return /* reexport */ SaveButton; });
 __webpack_require__.d(__webpack_exports__, "Form", function() { return /* reexport */ Form; });
 __webpack_require__.d(__webpack_exports__, "GroupedSettings", function() { return /* reexport */ GroupedSettings; });
+__webpack_require__.d(__webpack_exports__, "PasswordConfirmation", function() { return /* reexport */ PasswordConfirmation; });
 __webpack_require__.d(__webpack_exports__, "PluginsIntro", function() { return /* reexport */ PluginsIntro; });
 __webpack_require__.d(__webpack_exports__, "PluginName", function() { return /* reexport */ PluginName; });
 __webpack_require__.d(__webpack_exports__, "PluginsTable", function() { return /* reexport */ PluginsTable; });
 __webpack_require__.d(__webpack_exports__, "PluginsTableWithUpdates", function() { return /* reexport */ PluginsTableWithUpdates; });
 __webpack_require__.d(__webpack_exports__, "UploadPluginDialog", function() { return /* reexport */ UploadPluginDialog; });
-__webpack_require__.d(__webpack_exports__, "PasswordConfirmation", function() { return /* reexport */ PasswordConfirmation; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
