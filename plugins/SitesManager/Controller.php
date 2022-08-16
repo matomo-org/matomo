@@ -200,8 +200,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $this->cache->save($gtmCacheId, $gtmUsed, 60 * 60 * 24);
         }
 
-        $instructionUrl = SitesManager::getInstructionUrlBySiteType($siteType);
-
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
 
@@ -235,7 +233,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikUrl'      => $piwikUrl,
             'showMatomoLinks' => $showMatomoLinks,
             'siteType' => $siteType,
-            'instructionUrl' => $instructionUrl,
+            'instruction' => SitesManager::getInstructionBySiteType($siteType),
             'gtmUsed' => $gtmUsed,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
