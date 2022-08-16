@@ -45,8 +45,7 @@
         &nbsp;
         <a
           class="rightLink"
-          href="#"
-          @click.prevent="gotoVisitorLog()"
+          :href="visitorLogUrl"
         >
           {{ translate('Live_LinkVisitorLog') }}
         </a>
@@ -96,19 +95,21 @@ export default defineComponent({
   directives: {
     LiveWidgetRefresh,
   },
+  computed: {
+    visitorLogUrl() {
+      return `#?${MatomoUrl.stringify({
+        ...MatomoUrl.hashParsed.value,
+        category: 'General_Visitors',
+        subcategory: 'Live_VisitorLog',
+      })}`;
+    },
+  },
   methods: {
     onClickPause() {
       window.onClickPause();
     },
     onClickPlay() {
       window.onClickPlay();
-    },
-    gotoVisitorLog() {
-      MatomoUrl.updateHash({
-        ...MatomoUrl.hashParsed.value,
-        category: 'General_Visitors',
-        subcategory: 'Live_VisitorLog',
-      });
     },
   },
 });
