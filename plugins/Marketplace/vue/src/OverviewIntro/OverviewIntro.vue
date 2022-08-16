@@ -160,7 +160,7 @@ export default defineComponent({
   computed: {
     installingNewThemeText() {
       return translate(
-        'Marketplace_InstallingNewPluginViaMarketplaceOrUpload',
+        'Marketplace_InstallingNewPluginsViaMarketplaceOrUpload',
         translate('CorePluginsAdmin_Themes'),
         '<a href="#" class="uploadPlugin">',
         translate('CorePluginsAdmin_Theme'),
@@ -169,7 +169,7 @@ export default defineComponent({
     },
     installingNewPluginText() {
       return translate(
-        'Marketplace_InstallingNewPluginViaMarketplaceOrUpload',
+        'Marketplace_InstallingNewPluginsViaMarketplaceOrUpload',
         translate('General_Plugins'),
         '<a href="#" class="uploadPlugin">',
         translate('General_Plugin'),

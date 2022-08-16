@@ -7,7 +7,10 @@
 <template>
   <ContentBlock
     v-if="Object.keys(pluginsHavingUpdate).length"
-    :content-title="`${Object.keys(pluginsHavingUpdate).length } Update(s) available`"
+    :content-title="translate(
+      'CorePluginsAdmin_NUpdatesAvailable',
+      Object.keys(pluginsHavingUpdate).length,
+    )"
   >
     <p>{{ translate('CorePluginsAdmin_InfoPluginUpdateIsRecommended') }}</p>
 
@@ -177,7 +180,7 @@ export default defineComponent({
     isUpdateLinkDisabled() {
       return this.isUpdating
         || !Object.keys(this.pluginsSelected).length
-        || Object.values(this.pluginsSelected).some((s) => !!s);
+        || !Object.values(this.pluginsSelected).some((s) => !!s);
     },
   },
   methods: {

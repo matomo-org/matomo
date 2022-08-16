@@ -150,6 +150,7 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'CorePluginsAdmin_InstallNewPlugins';
         $translations[] = 'CorePluginsAdmin_AlwaysActivatedPluginsList';
         $translations[] = 'CorePluginsAdmin_PluginsManagement';
+        $translations[] = 'CorePluginsAdmin_NUpdatesAvailable';
     }
 
 }
