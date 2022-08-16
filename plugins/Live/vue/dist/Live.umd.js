@@ -452,11 +452,9 @@ var LastVisits_window = window,
     LastVisits_$ = LastVisits_window.$;
 /* harmony default export */ var LastVisits = ({
   mounted: function mounted(el) {
-    var _this = this;
-
-    LastVisits_$(el).on('click', '.visits-live-launch-visitor-profile', function (e) {
+    LastVisits_$(el).on('click', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {
       e.preventDefault();
-      window.broadcast.propagateNewPopoverParameter('visitorProfile', LastVisits_$(_this).attr('data-visitor-id'));
+      window.broadcast.propagateNewPopoverParameter('visitorProfile', LastVisits_$(this).attr('data-visitor-id'));
       return false;
     }).tooltip({
       track: true,
