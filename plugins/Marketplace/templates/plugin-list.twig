@@ -8,18 +8,18 @@
                         {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
                         <div class="plugin">
                             <h3 class="card-title" title="{{ 'General_MoreDetails'|translate }}">
-                                <a href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}">{{ plugin.displayName }}</a>
+                                <a href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}">{{ plugin.displayName }}</a>
                             </h3>
 
                             <p class="description">
                                 {{ plugin.description }}
-                                <a class="more" href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}" title="{{ 'General_MoreDetails'|translate }}">
+                                <a class="more" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">
                                     &rsaquo; {{ 'General_MoreLowerCase'|translate }}</a>
                             </p>
 
                             {% if showThemes %}
                                 {# Screenshot for themes #}
-                                <a class="more" href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}">
+                                <a class="more" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}">
                                     <img title="{{ 'General_MoreDetails'|translate }}"
                                          class="preview" src="{{ plugin.screenshots|first }}?w=250&h=150"/></a>
                             {% endif %}
@@ -34,9 +34,9 @@
                                         {% if plugin.canBeUpdated %}
                                             <a class="update-available"
                                                 {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
-                                                    target="_blank" href="{{ plugin.changelog.url|e('html_attr') }}"
+                                                    target="_blank" href="{{ plugin.changelog.url }}"
                                                 {% else %}
-                                                    href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}"
+                                                    href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}"
                                                 {% endif %}
                                                title="{{ 'Marketplace_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}">
                                                 {{ 'Marketplace_NewVersion'|translate }}</a>
@@ -54,7 +54,7 @@
 
                             {% macro moreDetailsLink(plugin) %}
                                 {% set canBePurchased = not plugin.isDownloadable and plugin.shop is defined and plugin.shop and plugin.shop.url %}
-                                <a class="btn btn-block plugin-details {% if canBePurchased %}purchaseable{% endif %}" href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}" title="{{ 'General_MoreDetails'|translate }}">
+                                <a class="btn btn-block plugin-details {% if canBePurchased %}purchaseable{% endif %}" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">
 
                                     {% if canBePurchased and plugin.shop.variations %}
                                         {% set foundCheapest = 0 %}
@@ -82,14 +82,14 @@
                                         <div class="alert alert-danger" >
                                             {{ 'Marketplace_LicenseMissing'|translate }}
 
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
                                         </div>
 
                                     {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
                                         <div class="alert alert-danger">
                                             {{ 'Marketplace_LicenseExceeded'|translate }}
 
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
                                         </div>
 
                                     {% elseif plugin.canBeUpdated and 0 == plugin.missingRequirements|length and isAutoUpdatePossible %}
@@ -110,7 +110,7 @@
 
                                         {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
                                             {{ 'Marketplace_CannotUpdate'|translate }}
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                         {% elseif plugin.isInstalled %}
                                             {{ 'General_Installed'|translate }}
                                             {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
@@ -119,7 +119,7 @@
                                         {% else %}
                                             {{ 'Marketplace_CannotInstall'|translate }}
 
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="Marketplace.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode|e('html_attr') }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                         {% endif %}
 
                                     {% elseif plugin.isInstalled %}
@@ -153,7 +153,7 @@
 {% endif %}
 
 {% if pluginsToShow|length == 0 %}
-    <div piwik-content-block>
+    <div vue-entry="CoreHome.ContentBlock">
         {% if showThemes %}
             {{ 'Marketplace_NoThemesFound'|translate }}
         {% else %}
