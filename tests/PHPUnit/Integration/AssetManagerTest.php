@@ -16,7 +16,6 @@ use Piwik\Config;
 use Piwik\Filesystem;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\Login\Login;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
 use Piwik\Tests\Unit\AssetManager\PluginMock;
