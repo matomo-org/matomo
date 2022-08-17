@@ -113,7 +113,7 @@ describe("SegmentSelectorEditorTest", function () {
           await page.evaluate(function (i) {
             $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
           }, i);
-          await page.waitForTimeout(200);
+          await page.waitForTimeout(250);
         }
 
         await page.type('input.edit_segment_name', 'new segment');

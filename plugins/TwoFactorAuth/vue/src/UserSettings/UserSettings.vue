@@ -9,7 +9,7 @@
     :content-title="contentTitle"
     class="userSettings2FA"
   >
-    <p v-html="twoFactorAuthIntro"></p>
+    <p v-html="$sanitize(twoFactorAuthIntro)"></p>
 
     <p v-if="isEnabled">
       <strong class="twoFaStatusEnabled">

@@ -1,26 +1,10 @@
-<div piwik-content-block
-     content-title="{{ 'Goals_ConversionsOverview'|translate|e('html_attr') }}">
-    <ul class="ulGoalTopElements">
-        <li>
-        {{ 'General_ColumnRevenue'|translate }}: {{ revenue|money(idSite)|raw -}}
-        {% if revenue_subtotal is not empty %},
-            {{ 'General_Subtotal'|translate }}: {{ revenue_subtotal|money(idSite)|raw -}}
-        {% endif %}
-        {%- if revenue_tax is not empty -%},
-            {{ 'General_Tax'|translate }}: {{ revenue_tax|money(idSite)|raw -}}
-        {% endif %}
-        {%- if revenue_shipping is not empty -%},
-            {{ 'General_Shipping'|translate }}: {{ revenue_shipping|money(idSite)|raw -}}
-        {% endif %}
-        {%- if revenue_discount is not empty -%},
-            {{ 'General_Discount'|translate }}: {{ revenue_discount|money(idSite)|raw -}}
-        {% endif %}
-        </li>
-    </ul>
-    {% if visitorLogEnabled %}
-    <a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
-        <span class="icon-visitor-profile rowActionIcon"></span> {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
-    </a>
-    {% endif %}
-    <br style="clear:left"/>
-</div>
+<div
+    vue-entry="Ecommerce.ConversionOverview"
+    id-goal="{{ idGoal|default(null)|json_encode }}"
+    visitor-log-enabled="{{ visitorLogEnabled|default(null)|json_encode }}"
+    revenue="{{ revenue is not empty ? revenue|money(idSite)|json_encode : 'null' }}"
+    revenue_subtotal="{{ revenue_subtotal is not empty ? revenue_subtotal|money(idSite)|json_encode : 'null' }}"
+    revenue_tax="{{ revenue_tax is not empty ? revenue_tax|money(idSite)|json_encode : 'null' }}"
+    revenue_shipping="{{ revenue_shipping is not empty ? revenue_shipping|money(idSite)|json_encode : 'null' }}"
+    revenue_discount="{{ revenue_discount is not empty ? revenue_discount|money(idSite)|json_encode : 'null' }}"
+></div>

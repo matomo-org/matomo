@@ -22,6 +22,8 @@
 
     {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}
 
+    piwik.requiresPasswordConfirmation = {{ userRequiresPasswordConfirmation ? 'true' : 'false' }};
+
     {% if siteName is defined %}
     // NOTE: siteName is currently considered deprecated, use piwik.currentSiteName instead, which will not contain HTML entities
     piwik.siteName = "{{ siteName|e('js') }}";
@@ -51,6 +53,7 @@
     {% if language is defined %}piwik.language = "{{ language }}";{% endif %}
 
     piwik.hasSuperUserAccess = {{ hasSuperUserAccess|default(0)|e('js')}};
+    piwik.userHasSomeAdminAccess = {{ userHasSomeAdminAccess|json_encode|raw }};
     piwik.userCapabilities = {{ userCapabilities|default([])|json_encode|raw }};
     piwik.config = {};
 {% if clientSideConfig is defined %}

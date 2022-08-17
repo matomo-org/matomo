@@ -66,7 +66,7 @@ class ReportDeletionSettingsStore {
     this.reloadDbStats();
   }
 
-  savePurgeDataSettings(apiMethod: string, settings: ReportDeletionSettings) {
+  savePurgeDataSettings(apiMethod: string, settings: ReportDeletionSettings, password: string) {
     this.privateState.isModified = false;
     return AjaxHelper.post(
       {
@@ -77,6 +77,7 @@ class ReportDeletionSettingsStore {
         ...settings,
         enableDeleteLogs: settings.enableDeleteLogs ? '1' : '0',
         enableDeleteReports: settings.enableDeleteReports ? '1' : '0',
+        passwordConfirmation: password,
       },
     ).then(() => {
       const notificationInstanceId = NotificationsStore.show({

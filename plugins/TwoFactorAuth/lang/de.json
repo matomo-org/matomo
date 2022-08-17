@@ -36,7 +36,7 @@
         "StepX": "Schritt %s",
         "TwoFAShort": "2FA",
         "TwoFactorAuthentication": "Zwei-Faktor-Authentisierung",
-        "TwoFactorAuthenticationIntro": "%1$sZwei-Faktor-Authentisierung%2$s erhöht die Sicherheit Ihres Accounts indem eine weitere Verifizierung bei jedem Login hinzugefügt wird. Beim Anmelden werden Sie nicht nur nach Ihrem Benutzername und Passwort gefragt, sondern auch nach einem Authentifizierungscode, welcher sich zeitlich ändert und zum Beispiel mit einem Mobilgerät generiert werden kann. Das bedeutet, dass selbst wenn jemand Ihren Benutzername und Passwort weiß, ein Login ohne Zugriff auf Ihr Mobilgerät nicht möglich ist.",
+        "TwoFactorAuthenticationIntro": "Die %1$sZwei-Faktor-Authentifizierung%2$s erhöht die Kontosicherheit, indem Sie auch nach einem auf einem Mobilgerät generierten Code oder einem der verbleibenden Wiederherstellungscodes (zusätzlich zu Ihrem Passwort) gefragt werden, um sich anzumelden.",
         "TwoFactorAuthenticationIsDisabled": "Zwei-Faktor-Authentisierung ist momentan deaktiviert.",
         "TwoFactorAuthenticationIsEnabled": "Zwei-Faktor-Authentisierung ist momentan aktiviert.",
         "TwoFactorAuthenticationRequired": "Zwei-Faktor-Authentisierung ist für alle Nutzer verpflichtend. Sie können es nicht deaktivieren.",

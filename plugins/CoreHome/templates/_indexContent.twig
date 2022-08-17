@@ -5,7 +5,7 @@
     <div class="top_controls">
         {% include "@CoreHome/_periodSelect.twig" %}
         {{ postEvent("Template.nextToCalendar") }}
-        {% render dashboardSettingsControl %}
+        <div vue-entry="Dashboard.DashboardSettings"></div>
         {% include "@CoreHome/_headerMessage.twig" %}
         {{ ajax.requestErrorDiv(contactEmail|default(''), false, '', showMoreFaqInfo) }}
     </div>

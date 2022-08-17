@@ -244,37 +244,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    /**
-     * Executes a data purge, deleting raw data and report data using the current config
-     * options. Echo's the result of getDatabaseSize after purging.
-     */
-    public function executeDataPurge()
-    {
-        $this->checkDataPurgeAdminSettingsIsEnabled();
-
-        Piwik::checkUserHasSuperUserAccess();
-        $this->checkTokenInUrl();
-
-        // if the request isn't a POST, redirect to index
-        if ($_SERVER["REQUEST_METHOD"] != "POST"
-            && !Common::isPhpCliMode()
-        ) {
-            $this->redirectToIndex('PrivacyManager', 'privacySettings');
-            return;
-        }
-
-        $settings = PrivacyManager::getPurgeDataSettings();
-        if ($settings['delete_logs_enable']) {
-            /** @var LogDataPurger $logDataPurger */
-            $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-            $logDataPurger->purgeData($settings['delete_logs_older_than'], true);
-        }
-        if ($settings['delete_reports_enable']) {
-            $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
-            $reportsPurger->purgeData(true);
-        }
-    }
-
     private function getDeleteDBSizeEstimate($getSettingsFromQuery = false, $forceEstimate = false)
     {
         $this->checkDataPurgeAdminSettingsIsEnabled();

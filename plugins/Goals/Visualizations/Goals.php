@@ -92,8 +92,8 @@ class Goals extends HtmlTable
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
-            $this->config->addTranslation('nb_hits', Piwik::translate('General_ColumnUniquePageviews'));
-            $this->config->metrics_documentation['nb_hits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
+            $this->config->addTranslation('nb_visits', Piwik::translate('General_ColumnUniquePageviews'));
+            $this->config->metrics_documentation['nb_visits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
             $this->removeUnusedRevenueColumns();
         }
 
@@ -193,7 +193,7 @@ class Goals extends HtmlTable
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
-            $this->config->columns_to_display = ['label', 'nb_hits'];
+            $this->config->columns_to_display = ['label', 'nb_visits']; // Should be uniques
             $goalColumnTemplates = [
                 'goal_%s_nb_conversions_attrib',
                 'goal_%s_revenue_attrib',
@@ -265,14 +265,14 @@ class Goals extends HtmlTable
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
             if ('all' === $idGoals) {
                 $idGoals = array_keys($allGoals);
-                $this->requestConfig->filter_sort_column = 'nb_hits';
+                $this->requestConfig->filter_sort_column = 'nb_visits';
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
                 $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_attrib';
             }
             $this->requestConfig->filter_sort_order  = 'desc';
 
-            $this->config->columns_to_display = ['label', 'nb_hits'];
+            $this->config->columns_to_display = ['label', 'nb_visits'];
             $goalColumnTemplates = [
                 'goal_%s_nb_conversions_attrib',
                 'goal_%s_revenue_attrib',
@@ -335,8 +335,6 @@ class Goals extends HtmlTable
             $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
             foreach ($siteGoals as &$goal) {
-                $goal['name'] = Common::sanitizeInputValue($goal['name']);
-
                 $goal['quoted_name'] = '"' . $goal['name'] . '"';
                 $allGoals[$goal['idgoal']] = $goal;
             }

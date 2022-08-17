@@ -34,10 +34,6 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     public function __construct($plugins, $theme, $chunk, $loadIndividually = null, $chunkCount = null)
     {
-        // Login must always be loaded, even if there's another login plugin being used
-        $plugins[] = 'Login';
-        $plugins = array_unique($plugins);
-
         parent::__construct($plugins, $theme);
 
         if ($loadIndividually === null) {
@@ -98,7 +94,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function getAllPluginUmds()
     {
-        $plugins = self::orderPluginsByPluginDependencies($this->plugins, false);
+        $plugins = self::orderPluginsByPluginDependencies($this->getPluginsWithUmdsToUse(), false);
 
         $allPluginUmds = [];
         foreach ($plugins as $plugin) {
@@ -146,7 +142,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     protected function retrieveFileLocations()
     {
-        if (empty($this->plugins)) {
+        $plugins = $this->getPluginsWithUmdsToUse();
+        if (empty($plugins)) {
             return;
         }
 
@@ -173,7 +170,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         // either loadFilesIndividually = true, or being called w/ disable_merged_assets=1
-        $this->addUmdFilesIfDetected($this->plugins);
+        $this->addUmdFilesIfDetected($this->getPluginsWithUmdsToUse());
    }
 
     private function addUmdFilesIfDetected($plugins)
@@ -312,5 +309,14 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     public static function getDefaultChunkCount()
     {
         return (int)(Config::getInstance()->General['assets_umd_chunk_count'] ?? 3);
+    }
+
+    private function getPluginsWithUmdsToUse()
+    {
+        $plugins = $this->plugins;
+        // Login UMDs must always be used, even if there's another login plugin being used
+        $plugins[] = 'Login';
+        $plugins = array_unique($plugins);
+        return $plugins;
     }
 }
