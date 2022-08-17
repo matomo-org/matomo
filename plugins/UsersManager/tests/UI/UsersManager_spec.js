@@ -234,7 +234,10 @@ describe("UsersManager", function () {
         const modal = await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage('invite_confirm');
+        expect(await modal.screenshot()).to.matchImage({
+            imageName: 'invite_confirm',
+            comparisonThreshold: 0.025
+        });
     });
 
     it('should show the edit user form when user has been invited', async function () {
@@ -564,7 +567,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.usersManager, #notificationContainer .notification')).to.matchImage('resend_success');
+        expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
     });
 
 
