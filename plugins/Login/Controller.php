@@ -282,7 +282,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('bruteForceLog', [
           'blockedIps'     => $this->bruteForceDetection->getCurrentlyBlockedIps(),
-          'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
+          'disallowedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
         ]);
     }
 
