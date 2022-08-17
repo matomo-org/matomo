@@ -197,7 +197,7 @@ class OptOutManager
                                          string $fontSize, string $fontFamily, bool $showIntro): string
     {
         return '<div id="matomo-opt-out"></div>
-<script src="'.$piwikUrl.'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.'&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily.'&showIntro='.$showIntro.'"></script>';
+<script src="'.$piwikUrl.'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.'&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily.'&showIntro='.($showIntro ? '1' : '0').'"></script>';
     }
 
     /**
@@ -613,13 +613,15 @@ JS;
             }
         }
 
-        if ($cssfontsize && (preg_match("/^[0-9]+[.]?[0-9]*(px|pt|em|rem|%)$/", $cssfontsize))) {
+        /** @noinspection RegExpRedundantEscape */
+        if ($cssfontsize && (preg_match("/^[0-9]+[\.]?[0-9]*(px|pt|em|rem|%)$/", $cssfontsize))) {
             $cssbody .= 'font-size: ' . $cssfontsize . '; ';
         } else if ($cssfontsize) {
             throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
         }
 
-        if ($cssfontfamily && (preg_match('/^[a-zA-Z0-9-,\'"]+$/', $cssfontfamily))) {
+        /** @noinspection RegExpRedundantEscape */
+        if ($cssfontfamily && (preg_match('/^[a-zA-Z0-9-\ ,\'"]+$/', $cssfontfamily))) {
             $cssbody .= 'font-family: ' . $cssfontfamily . '; ';
         } else if ($cssfontfamily) {
             throw new \Exception("The URL parameter fontFamily value of '$cssfontfamily' is not valid. Expected value is for example 'sans-serif' or 'Monaco, monospace'.\n");

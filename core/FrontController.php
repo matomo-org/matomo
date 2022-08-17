@@ -539,7 +539,7 @@ class FrontController extends Singleton
     protected function handleSSLRedirection()
     {
         // Specifically disable for the opt out iframe
-        if (Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
+        if (Piwik::getModule() == 'CoreAdminHome' && (Piwik::getAction() == 'optOut' || Piwik::getAction() == 'optOutJS')) {
             return;
         }
         // Disable Https for VisitorGenerator
