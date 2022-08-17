@@ -344,5 +344,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ExpiredInviteAutomaticallyRemoved';
         $translationKeys[] = 'UsersManager_DeleteSuccess';
         $translationKeys[] = 'UsersManager_DeleteNotSuccessful';
+        $translationKeys[] = 'UsersManager_InviteConfirm';
     }
 }
