@@ -1,6 +1,12 @@
 {
     "Dashboard": {
+        "AddAWidget": "Tambah widget",
+        "AddPreviewedWidget": "Klik untuk menambah widget pada papan pemuka",
+        "ChangeDashboardLayout": "Tukar susun atur papan pemuka",
+        "CopyDashboardToUser": "Salin papan pemuka kepada pengguna",
+        "CreateNewDashboard": "Buat papan pemuka baharu",
         "Dashboard": "Papan Pemuka",
+        "DashboardCopied": "Papan pemuka semasa berjaya disalin ke pengguna terpilih.",
         "RenameDashboard": "Ubah nama papan pemuka"
     }
 }

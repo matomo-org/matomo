@@ -14,15 +14,15 @@
         "IncomingTraffic": "Incoming traffic",
         "LoopsInline": "muling pagload ng pahina %s",
         "NoDataForAction": "Walang data para sa %s",
-        "NoDataForActionDetails": "Maaaring ang aksyon ay walang pageview sa panahon ng %s o ito ay hindi wasto.",
+        "NoDataForActionDetails": "Maaaring ang aksyon ay walang pageview sa panahon ng o ito ay hindi wasto.",
         "OutgoingTraffic": "Mga outgoing na traffic",
         "ShareOfAllPageviews": "Ang pahinang ito ay may %1$s na pageview (%2$s ng lahat ng mga pageview)",
         "ToFollowingPages": "Sa mga panloob na mga pahina",
         "ToFollowingPagesInline": "%s panloob na mga pahina",
         "ToFollowingSiteSearches": "Panloob na paghahanap",
         "ToFollowingSiteSearchesInline": "panloob na paghahanap %s",
+        "TransitionsSubcategoryHelp2": "Higit pang mga detalye",
         "XOfAllPageviews": "%s ng lahat ng mga tanawin ng pahinang ito",
-        "XOutOfYVisits": "%1$s (mula sa %2$s)",
-        "TransitionsSubcategoryHelp2": "Higit pang mga detalye"
+        "XOutOfYVisits": "%1$s (mula sa %2$s)"
     }
 }
