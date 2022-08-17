@@ -7436,7 +7436,7 @@ if (typeof window.Matomo !== 'object') {
 
                     if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
                         var jsonMessage = JSON.stringify(postMessage);
-                        iframe.contentWindow.postMessage(jsonMessage, '*');
+                        iframe.contentWindow.postMessage(jsonMessage, e.origin);
                     }
                 }
             }
