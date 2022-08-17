@@ -329,6 +329,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne';
         $translationKeys[] = 'UsersManager_IncludedInUsersRole';
         $translationKeys[] = 'UsersManager_InjectedHostCannotChangePwd';
+        $translationKeys[] = 'UsersManager_InviteConfirm';
         $translationKeys[] = 'UsersManager_InviteDayLeft';
         $translationKeys[] = 'UsersManager_InviteNewUser';
         $translationKeys[] = 'UsersManager_InviteSuccess';
