@@ -720,10 +720,15 @@ class API extends \Piwik\Plugin\API
      *
      * @see userExists()
      */
-    public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
+    public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         $password = Common::unsanitizeInputValue($password);
         UsersManager::checkPassword($password);
@@ -758,10 +763,15 @@ class API extends \Piwik\Plugin\API
     /**
      * @throws Exception
      */
-    public function inviteUser($userLogin, $email, $initialIdSite = null, $expiryInDays = null)
+    public function inviteUser($userLogin, $email, $initialIdSite = null, $expiryInDays = null, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if (empty($expiryInDays)) {
             $expiryInDays = Config\GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');

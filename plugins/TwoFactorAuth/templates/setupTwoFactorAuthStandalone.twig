@@ -1,9 +1,15 @@
 {% extends '@Login/loginLayout.twig' %}
 
 {% block loginContent %}
-<div piwik-content-block
-     content-title="{{ 'TwoFactorAuth_RequiredToSetUpTwoFactorAuthentication'|translate }}">
-   {% include '@TwoFactorAuth/_setupTwoFactorAuth.twig' %}
-</div>
-
+<div
+   vue-entry="TwoFactorAuth.SetupTwoFactorAuth"
+   is-already-using2fa="{{ isAlreadyUsing2fa|default(null)|json_encode }}"
+   access-error-string="{{ AccessErrorString|default(null)|json_encode }}"
+   submit-action="{{ submitAction|default(null)|json_encode }}"
+   auth-code-nonce="{{ authCodeNonce|default(null)|json_encode }}"
+   codes="{{ codes|default(null)|json_encode }}"
+   new-secret="{{ newSecret|json_encode }}"
+   two-fa-bar-code-setup-url="{{ twoFaBarCodeSetupUrl|json_encode }}"
+   standalone="true"
+></div>
 {% endblock %}

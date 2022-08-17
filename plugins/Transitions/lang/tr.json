@@ -18,7 +18,7 @@
         "IncomingTraffic": "Gelen trafik",
         "LoopsInline": "%s sayfa yüklemesi",
         "NoDataForAction": "%s için henüz bir veri yok",
-        "NoDataForActionDetails": "%s zaman aralığından işlem için hiç bir sayfa gösterilmemiş ya da geçersiz.",
+        "NoDataForActionDetails": "zaman aralığından işlem için hiç bir sayfa gösterilmemiş ya da geçersiz.",
         "NumDownloads": "%s indirme",
         "NumOutlinks": "%s dış bağlantı",
         "NumPageviews": "%s sayfa gösterimi",

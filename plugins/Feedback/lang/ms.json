@@ -1,5 +1,11 @@
 {
     "Feedback": {
-        "IWantTo": "Saya mahu:"
+        "DoYouHaveBugReportOrFeatureRequest": "Adakah anda mempunyai pepijat untuk dilaporkan atau permintaan ciri?",
+        "HowToCreateTicket": "Sila baca cadangan untuk menulis %1$slaporan pepijat%2$s atau %3$spermintaan ciri%4$s yang bagus. Kemudian daftar atau log masuk pada %5$spenjejak isu kami%6$s dan buat %7$sisu baru%8$s.",
+        "IWantTo": "Saya mahu:",
+        "LearnWaysToParticipate": "Ketahui tentang semua cara anda boleh %1$s menyertai%2$s",
+        "ManuallySendEmailTo": "Sila hantar mesej anda secara manual ke",
+        "PluginDescription": "Hantar Maklum Balas anda kepada Pasukan Matomo. Kongsi idea dan cadangan anda untuk menjadikan Matomo sebagai platform analitik terbaik di dunia!",
+        "PrivacyClaim": "Matomo menghormati %1$sprivasi%2$s anda dan memberi anda kawalan penuh ke atas data anda."
     }
 }

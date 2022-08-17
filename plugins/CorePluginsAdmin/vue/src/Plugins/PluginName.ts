@@ -28,7 +28,7 @@ window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
 interface PluginNameDirectiveValue {
   // input
   pluginName: string;
-  activePluginTab: string;
+  activePluginTab?: string;
 
   // state
   onClickHandler?: (event: ClickEvent) => void;

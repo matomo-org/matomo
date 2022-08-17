@@ -1,5 +1,12 @@
 {
     "Referrers": {
+        "Acquisition": "Pemerolehan",
+        "AllReferrersReportDocumentation": "Laporan ini menunjukkan semua Perujuk anda dalam satu laporan bersatu, menyenaraikan semua Tapak Web, Kata kunci Carian dan Kempen yang digunakan oleh pelawat anda untuk mencari tapak web anda.",
+        "AllReferrersSubcategory1": "Bahagian ini menunjukkan kepada anda bilangan lawatan yang datang daripada jenis saluran dan perujuk yang berbeza. Klik pada butang tambah atau tolak untuk melihat perujuk dalam setiap jenis.",
+        "AllReferrersSubcategory2": "Anda juga boleh menganalisis bilangan tindakan yang dilakukan oleh setiap sumber trafik anda dengan mendayakan jadual dengan paparan metrik interaksi Pelawat.",
+        "CampaignContent": "Kandungan kempen",
+        "CampaignContentHelp": "Parameter ini sering digunakan apabila anda menguji berbilang iklan dan akan memasukkan nama setiap iklan untuk melihat yang paling berkesan untuk mendorong trafik.",
+        "CampaignGroup": "Kumpulan Kempen",
         "ColumnWebsite": "Laman Web"
     }
 }

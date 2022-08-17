@@ -1,1 +1,10 @@
-{}
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s tanpa pemalam didayakan",
+        "BrowserWithPluginsEnabled": "%1$s dengan pemalam %2$s didayakan",
+        "PluginDescription": "Melaporkan senarai pemalam yang disokong dalam pelayar pelawat.",
+        "PluginDetectionDoesNotWorkInIE": "Nota: Pengesanan pemalam tidak berfungsi dalam Internet Explorer sebelum 11. Laporan ini hanya berdasarkan pelayar bukan IE dan versi IE yang lebih baharu.",
+        "WidgetPlugins": "Pemalam Penyemak Imbas",
+        "WidgetPluginsDocumentation": "Laporan ini menunjukkan pemalam penyemak imbas yang telah didayakan oleh pelawat anda. Maklumat ini mungkin penting untuk memilih cara yang betul untuk menyampaikan kandungan anda."
+    }
+}
