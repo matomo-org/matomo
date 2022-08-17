@@ -355,6 +355,8 @@ class API extends \Piwik\Plugin\API
      * @param string $language
      *
      * @return string
+     *
+     * @internal
      */
     public function getOptOutJSEmbedCode(string $backgroundColor, string $fontColor,
                                          string $fontSize, string $fontFamily, bool $showIntro,
@@ -374,6 +376,8 @@ class API extends \Piwik\Plugin\API
      * @param bool $showIntro
      *
      * @return string
+     *
+     * @internal
      */
     public function getOptOutSelfContainedEmbedCode(string $backgroundColor,
                                                     string $fontColor, string $fontSize, string $fontFamily,
