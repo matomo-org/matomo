@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use Piwik\Request;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
 use Piwik\View;
@@ -609,10 +610,10 @@ JS;
     private function optOutStyling(?string $fontSize = null, ?string $fontColor = null, ?string $fontFamily = null,
                                    ?string $backgroundColor = null, bool $noBody = false): string
     {
-        $cssfontsize = ($fontSize ? : Common::getRequestParam('fontSize', false, 'string'));
-        $cssfontcolour = ($fontColor ? : Common::getRequestParam('fontColor', false, 'string'));
-        $cssfontfamily = ($fontFamily ? : Common::getRequestParam('fontFamily', false, 'string'));
-        $cssbackgroundcolor = ($backgroundColor ? : Common::getRequestParam('backgroundColor', false, 'string'));
+        $cssfontsize = ($fontSize ? : Request::fromRequest()->getStringParameter('fontSize', ''));
+        $cssfontcolour = ($fontColor ? : Request::fromRequest()->getStringParameter('fontColor', ''));
+        $cssfontfamily = ($fontFamily ? : Request::fromRequest()->getStringParameter('fontFamily', ''));
+        $cssbackgroundcolor = ($backgroundColor ? : Request::fromRequest()->getStringParameter('backgroundColor', ''));
 
         if (!$noBody) {
             $cssbody = 'body { ';
