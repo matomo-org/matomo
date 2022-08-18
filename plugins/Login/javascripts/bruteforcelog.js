@@ -13,10 +13,11 @@
                 ajaxRequest.addParams({
                     module: 'API',
                     method: 'Login.unblockBruteForceIPs',
+                    format: 'json'
                 }, 'get');
                 ajaxRequest.setCallback(
                     function (response) {
-                        piwikHelper.reload();
+                        piwikHelper.refreshAfter(0);
                     }
                 );
                 ajaxRequest.send();
