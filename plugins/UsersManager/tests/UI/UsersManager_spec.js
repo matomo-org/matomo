@@ -223,7 +223,7 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('add_new_user_form');
     });
 
-    it('should create a user and show the edit user form when the create user button is clicked', async function () {
+    it('should show confirmation when inviting a user', async function () {
         await page.type('#user_login', '000newuser');
         await page.type('#user_email', 'theuser@email.com');
 
@@ -231,6 +231,18 @@ describe("UsersManager", function () {
         await (await page.jQuery('.userEditForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
 
         await page.evaluate(() => $('.userEditForm .matomo-save-button input').click());
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+            imageName: 'invite_confirm',
+            comparisonThreshold: 0.025
+        });
+    });
+
+    it('should show the edit user form when user has been invited', async function () {
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
@@ -555,7 +567,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.usersManager, #notificationContainer .notification')).to.matchImage('resend_success');
+        expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
     });
 
 

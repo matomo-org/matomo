@@ -9,6 +9,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 
 * When removing a user through the `UsersManager.deleteUser` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
+* When adding a user through the `UsersManager.addUser` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
+* When inviting a user through the `UsersManager.inviteUser` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
 * When removing a site through the `SitesManager.deleteSite` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
 
 ### New PHP events

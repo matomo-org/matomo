@@ -147,6 +147,13 @@
                 </div>
               </div>
             </div>
+            <PasswordConfirmation
+              v-model="showPasswordConfirmationForInviteUser"
+              @confirmed="inviteUser"
+            >
+              <h2 v-html="$sanitize(inviteUserTitle)"></h2>
+              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+            </PasswordConfirmation>
           </div>
           <div
             class="entityCancel"
@@ -286,6 +293,7 @@ interface UserEditFormState {
   superUserAccessChecked: boolean|null;
   showPasswordConfirmationForSuperUser: boolean;
   showPasswordConfirmationFor2FA: boolean;
+  showPasswordConfirmationForInviteUser: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
 }
@@ -340,6 +348,7 @@ export default defineComponent({
       superUserAccessChecked: null,
       showPasswordConfirmationForSuperUser: false,
       showPasswordConfirmationFor2FA: false,
+      showPasswordConfirmationForInviteUser: false,
       isResetting2FA: false,
       isShowingPasswordConfirm: false,
     };
@@ -390,17 +399,13 @@ export default defineComponent({
       });
     },
     saveUserInfo() {
-      return Promise.resolve().then(() => {
-        if (this.isAdd) {
-          return this.createUser();
-        }
-
-        return this.confirmUserChange();
-      }).then(() => {
-        this.$emit('updated', { user: readonly(this.theUser) });
-      });
+      if (this.isAdd) {
+        this.showPasswordConfirmationForInviteUser = true;
+      } else {
+        this.isShowingPasswordConfirm = true;
+      }
     },
-    createUser() {
+    inviteUser(password: string) {
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
@@ -410,6 +415,7 @@ export default defineComponent({
           userLogin: this.theUser.login,
           email: this.theUser.email,
           initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
+          passwordConfirmation: password,
         },
       ).catch((e) => {
         this.isSavingUserInfo = false;
@@ -422,6 +428,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserCreatedNotification();
+        this.$emit('updated', { user: readonly(this.theUser) });
       });
     },
     resetPasswordVar() {
@@ -429,9 +436,6 @@ export default defineComponent({
         // make sure password is not stored in the client after update/save
         this.theUser.password = 'XXXXXXXX';
       }
-    },
-    confirmUserChange() {
-      this.isShowingPasswordConfirm = true;
     },
     showUserSavedNotification() {
       NotificationsStore.show({
@@ -485,6 +489,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
+        this.$emit('updated', { user: readonly(this.theUser) });
       }).catch(() => {
         this.isSavingUserInfo = false;
       });
@@ -520,6 +525,12 @@ export default defineComponent({
     changePasswordTitle() {
       return translate(
         'UsersManager_AreYouSureChangeDetails',
+        `<strong>${this.theUser.login}</strong>`,
+      );
+    },
+    inviteUserTitle() {
+      return translate(
+        'UsersManager_InviteConfirm',
         `<strong>${this.theUser.login}</strong>`,
       );
     },
