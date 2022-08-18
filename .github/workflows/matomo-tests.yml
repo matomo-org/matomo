@@ -21,28 +21,6 @@ concurrency:
 jobs:
   PHP:
     runs-on: ubuntu-20.04
-    services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      redis-sentinel:
-        image: 'bitnami/redis-sentinel:latest'
-        ports:
-          - 26379:26379
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw
     strategy:
       fail-fast: false
       matrix:
@@ -69,17 +47,9 @@ jobs:
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.command }}
+          redis-service: true
   Javascript:
     runs-on: ubuntu-20.04
-    services:
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw
     strategy:
       fail-fast: false
       matrix:
@@ -124,22 +94,9 @@ jobs:
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.tests }}
+          mysql-service: false
   UI:
     runs-on: ubuntu-20.04
-    services:
-      redis:
-        image: redis:5.0
-        ports:
-          - 6379:6379
-        options: --entrypoint redis-server
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: matomo_tests
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        options: --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     strategy:
       fail-fast: false
       matrix:
@@ -169,5 +126,6 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
           run_id: ${{ github.run_id }}
           php-memory: "-1"
+          redis-service: true
 
 
