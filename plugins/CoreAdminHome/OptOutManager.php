@@ -319,22 +319,23 @@ HTML;
         }
         
         function checkForMatomoTracker() {
-            if (typeof _paq === 'undefined') {                
-                if (checkForTrackerTried < checkForTrackerTries) {
-                    setTimeout(checkForMatomoTracker, checkForTrackerInterval);
-                    checkForTrackerTried++;
-                    return;
-                } else {
-                    if (settings.useCookiesIfNoTracker) {
-                        showOptOutDirect();
-                        return;
-                    } else {
-                        console.log('Matomo OptOutJS: failed to find Matomo tracker after '+(checkForTrackerTries*checkForTrackerInterval / 1000)+' seconds');
-                        return;    
-                    }
-                }
+            if (typeof _paq !== 'undefined') {
+                showOptOutTracker();
+                return;
             }
-            showOptOutTracker();
+            
+            if (checkForTrackerTried < checkForTrackerTries) {
+                setTimeout(checkForMatomoTracker, checkForTrackerInterval);
+                checkForTrackerTried++;
+                return;
+            }
+            
+            if (settings.useCookiesIfNoTracker) {
+                showOptOutDirect();
+                return;
+            }
+            
+            console.log('Matomo OptOutJS: failed to find Matomo tracker after '+(checkForTrackerTries*checkForTrackerInterval / 1000)+' seconds');
         }
         
         function showOptOutTracker() {             
