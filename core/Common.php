@@ -484,22 +484,19 @@ class Common
      *
      *                             If `'json'`, the string value will be `json_decode`-d and then sanitized.
      * @param array|null $requestArrayToUse The array to use instead of `$_GET` and `$_POST`.
-     * @param bool $sanitize Whether to sanitize the value or not.
      * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
      *                   exists but has an incorrect type.
      * @return mixed The sanitized request parameter.
      * @see Request::getParameter()
      * @deprecated Use Request class instead, which will return raw values instead.
      */
-    public static function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null, bool $sanitize = true)
+    public static function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
     {
         if (is_null($requestArrayToUse)) {
             $requestArrayToUse = $_GET + $_POST;
         }
 
-        if (true === $sanitize) {
-            $varDefault = self::sanitizeInputValues($varDefault);
-        }
+        $varDefault = self::sanitizeInputValues($varDefault);
 
         if ($varType === 'int') {
             // settype accepts only integer
@@ -532,14 +529,10 @@ class Common
         if ($varType === 'json') {
             $value = $requestArrayToUse[$varName];
             $value = json_decode($value, $assoc = true);
-            return (true === $sanitize) ? self::sanitizeInputValues($value, true) : $value;
+            return self::sanitizeInputValues($value, true);
         }
 
-        $value = $requestArrayToUse[$varName];
-
-        if (true === $sanitize) {
-            $value = self::sanitizeInputValues($value);
-        }
+        $value = self::sanitizeInputValues($requestArrayToUse[$varName]);
 
         if (isset($varType)) {
             $ok = false;

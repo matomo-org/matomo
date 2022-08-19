@@ -227,6 +227,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function getValidStringValues(): iterable
     {
         yield 'String value' => ['random string', 'random string'];
+        yield 'empty string' => ['', ''];
         yield 'whitespace value' => [' ', ' '];
         yield 'Integer value' => [17, '17'];
         yield 'Float value' => [17.123, '17.123'];
@@ -262,7 +263,6 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         yield 'null value' => [null];
         yield 'bool value' => [true];
-        yield 'empty string' => [''];
         yield 'array' => [['x' => 'y']];
         yield 'object' => [new \stdClass()];
     }

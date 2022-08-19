@@ -25,7 +25,7 @@ class Request
     }
 
     /**
-     * Creates a request object using GET and POST parameters of der current request
+     * Creates a request object using GET and POST parameters of the current request
      *
      * @return static
      */
@@ -35,7 +35,7 @@ class Request
     }
 
     /**
-     * Creates a request object using only GET parameters of der current request
+     * Creates a request object using only GET parameters of the current request
      *
      * @return static
      */
@@ -45,7 +45,7 @@ class Request
     }
 
     /**
-     * Creates a request object using only POST parameters of der current request
+     * Creates a request object using only POST parameters of the current request
      *
      * @return static
      */
@@ -91,7 +91,6 @@ class Request
         if (
             array_key_exists($name, $this->requestParameters)
             && $this->requestParameters[$name] !== null
-            && $this->requestParameters[$name] !== ''
         ) {
             return $this->requestParameters[$name];
         }
