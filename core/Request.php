@@ -19,6 +19,8 @@ class Request
      */
     protected $requestParameters;
 
+    private static $exceptionMsg = "The parameter '%s' isn't set in the Request and a default value wasn't provided.";
+
     public function __construct(array $requestParameters)
     {
         $this->requestParameters = $requestParameters;
@@ -99,7 +101,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException("The parameter '$name' isn't set in the Request and a default value wasn't provided.");
+        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -109,10 +111,10 @@ class Request
      *
      * @param string $name
      * @param int|null $default
-     * @return int|null
+     * @return int
      * @throws InvalidArgumentException
      */
-    public function getIntegerParameter(string $name, ?int $default = null): ?int
+    public function getIntegerParameter(string $name, ?int $default = null): int
     {
         $parameter = $this->getParameter($name, $default);
 
@@ -124,7 +126,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException("The parameter '$name' doesn't contain an integer and a default value wasn't provided.");
+        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -134,10 +136,10 @@ class Request
      *
      * @param string $name
      * @param float|null $default
-     * @return float|null
+     * @return float
      * @throws InvalidArgumentException
      */
-    public function getFloatParameter(string $name, ?float $default = null): ?float
+    public function getFloatParameter(string $name, ?float $default = null): float
     {
         $parameter = $this->getParameter($name, $default);
 
@@ -153,7 +155,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException("The parameter '$name' doesn't contain a float and a default value wasn't provided.");
+        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -163,10 +165,10 @@ class Request
      *
      * @param string $name
      * @param string|null $default
-     * @return string|null
+     * @return string
      * @throws InvalidArgumentException
      */
-    public function getStringParameter(string $name, ?string $default = null): ?string
+    public function getStringParameter(string $name, ?string $default = null): string
     {
         $parameter = $this->getParameter($name, $default);
 
@@ -178,7 +180,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException("The parameter '$name' doesn't contain a string and a default value wasn't provided.");
+        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -192,10 +194,10 @@ class Request
      *
      * @param string $name
      * @param bool|null $default
-     * @return bool|null
+     * @return bool
      * @throws InvalidArgumentException
      */
-    public function getBoolParameter(string $name, ?bool $default = null): ?bool
+    public function getBoolParameter(string $name, ?bool $default = null): bool
     {
         $parameter = $this->getParameter($name, $default);
 
@@ -215,7 +217,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException("The parameter '$name' doesn't contain a bool-ish value and a default value wasn't provided.");
+        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -225,10 +227,10 @@ class Request
      *
      * @param string $name
      * @param array|null $default
-     * @return array|null
+     * @return array
      * @throws InvalidArgumentException
      */
-    public function getArrayParameter(string $name, ?array $default = null): ?array
+    public function getArrayParameter(string $name, ?array $default = null): array
     {
         $parameter = $this->getParameter($name, $default);
 
@@ -240,7 +242,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException("The parameter '$name' doesn't contain an array and a default value wasn't provided.");
+        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -279,7 +281,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException("The parameter '$name' doesn't contain a json encoded value and a default value wasn't provided.");
+        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
