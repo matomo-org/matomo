@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
@@ -24,6 +25,7 @@ use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
@@ -41,6 +43,7 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Piwik\Updater;
 use Psr\Container\ContainerInterface;
 use Piwik\CronArchive\SegmentArchiving;
 
@@ -72,7 +75,20 @@ class UITestFixture extends SqlDump
     {
         parent::setUp();
 
-        self::resetPluginsInstalledConfig();
+        $updater = new Updater();
+        $config = Config::getInstance();
+        $installed = [];
+
+        // check previously installed plugins in database, so installAndActivatePlugins won't try to install them again
+        // as this would overwrite the installed version in db, causing updates not to be executed for such plugins
+        foreach (Manager::getInstance()->getLoadedPlugins() as $pluginName => $plugin) {
+            if ($updater->getCurrentComponentVersion($pluginName)) {
+                $installed['PluginsInstalled'][] = $pluginName;
+            }
+        }
+
+        $config->PluginsInstalled = $installed;
+
         self::updateDatabase();
         self::installAndActivatePlugins($this->getTestEnvironment());
         self::updateDatabase();
