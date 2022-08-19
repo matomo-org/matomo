@@ -10,7 +10,7 @@
 
 namespace Piwik;
 
-use Exception;
+use InvalidArgumentException;
 
 class Request
 {
@@ -80,12 +80,12 @@ class Request
      * @param string $name
      * @param mixed $default
      * @return mixed
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getParameter(string $name, $default = null)
     {
         if (!strlen($name)) {
-            throw new Exception('Invalid request parameter. Parameter name required.');
+            throw new InvalidArgumentException('Invalid request parameter. Parameter name required.');
         }
 
         if (
@@ -100,7 +100,7 @@ class Request
             return $default;
         }
 
-        throw new Exception("The parameter '$name' isn't set in the Request and a default value wasn't provided.");
+        throw new InvalidArgumentException("The parameter '$name' isn't set in the Request and a default value wasn't provided.");
     }
 
     /**
@@ -111,7 +111,7 @@ class Request
      * @param string $name
      * @param int|null $default
      * @return int|null
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getIntegerParameter(string $name, ?int $default = null): ?int
     {
@@ -125,7 +125,7 @@ class Request
             return $default;
         }
 
-        throw new Exception("The parameter '$name' doesn't contain an integer and a default value wasn't provided.");
+        throw new InvalidArgumentException("The parameter '$name' doesn't contain an integer and a default value wasn't provided.");
     }
 
     /**
@@ -136,7 +136,7 @@ class Request
      * @param string $name
      * @param float|null $default
      * @return float|null
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getFloatParameter(string $name, ?float $default = null): ?float
     {
@@ -154,7 +154,7 @@ class Request
             return $default;
         }
 
-        throw new Exception("The parameter '$name' doesn't contain a float and a default value wasn't provided.");
+        throw new InvalidArgumentException("The parameter '$name' doesn't contain a float and a default value wasn't provided.");
     }
 
     /**
@@ -165,7 +165,7 @@ class Request
      * @param string $name
      * @param string|null $default
      * @return string|null
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getStringParameter(string $name, ?string $default = null): ?string
     {
@@ -179,7 +179,7 @@ class Request
             return $default;
         }
 
-        throw new Exception("The parameter '$name' doesn't contain a string and a default value wasn't provided.");
+        throw new InvalidArgumentException("The parameter '$name' doesn't contain a string and a default value wasn't provided.");
     }
 
     /**
@@ -194,7 +194,7 @@ class Request
      * @param string $name
      * @param bool|null $default
      * @return bool|null
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getBoolParameter(string $name, ?bool $default = null): ?bool
     {
@@ -204,11 +204,11 @@ class Request
             return $parameter;
         }
 
-        if ($parameter === 'false' || $parameter === '0' || $parameter === 0) {
+        if ((\is_string($parameter) && \strtolower($parameter) === 'false') || $parameter === '0' || $parameter === 0) {
             return false;
         }
 
-        if ($parameter === 'true' || $parameter === '1' || $parameter === 1) {
+        if ((\is_string($parameter) && \strtolower($parameter) === 'true') || $parameter === '1' || $parameter === 1) {
             return true;
         }
 
@@ -216,7 +216,7 @@ class Request
             return $default;
         }
 
-        throw new Exception("The parameter '$name' doesn't contain a bool-ish value and a default value wasn't provided.");
+        throw new InvalidArgumentException("The parameter '$name' doesn't contain a bool-ish value and a default value wasn't provided.");
     }
 
     /**
@@ -227,7 +227,7 @@ class Request
      * @param string $name
      * @param array|null $default
      * @return array|null
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getArrayParameter(string $name, ?array $default = null): ?array
     {
@@ -241,7 +241,7 @@ class Request
             return $default;
         }
 
-        throw new Exception("The parameter '$name' doesn't contain an array and a default value wasn't provided.");
+        throw new InvalidArgumentException("The parameter '$name' doesn't contain an array and a default value wasn't provided.");
     }
 
     /**
@@ -252,11 +252,21 @@ class Request
      * @param string $name
      * @param mixed $default
      * @return mixed
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function getJSONParameter(string $name, $default = null)
+    public function getJsonParameter(string $name, $default = null)
     {
-        $parameter = $this->getParameter($name, $default);
+        try {
+            // Note we can't simply pass the default to getParameter here, in case the default would be string
+            // we would otherwise try to parse it as json below, which might result in unexpected behavior
+            $parameter = $this->getParameter($name);
+        } catch (InvalidArgumentException $e) {
+            $parameter = null;
+
+            if ($default !== null) {
+                return $default;
+            }
+        }
 
         if (is_string($parameter)) {
             $decodedValue = \json_decode($parameter, true);
@@ -270,6 +280,16 @@ class Request
             return $default;
         }
 
-        throw new Exception("The parameter '$name' doesn't contain a json encoded value and a default value wasn't provided.");
+        throw new InvalidArgumentException("The parameter '$name' doesn't contain a json encoded value and a default value wasn't provided.");
+    }
+
+    /**
+     * Returns an array containing all parameters of the request object
+     *
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        return $this->requestParameters;
     }
 }
