@@ -51,7 +51,6 @@ jobs:
         php: [ '7.2' ]
         tests: [ 'JS' ]
         node: [ '12' ]
-        adapter: [ 'PDO_MYSQL' ]
 
     steps:
       - name: running tests
@@ -69,7 +68,6 @@ jobs:
       matrix:
         type: [ 'Angular' ]
         node: [ '16' ]
-        adapter: [ 'PDO_MYSQL' ]
     steps:
       - name: running tests
         uses: matomo-org/github-action-tests@v1
@@ -89,7 +87,6 @@ jobs:
         tests: [ 'UI' ]
         php: [ '7.2' ]
         parts: [ 0,1,2 ]
-        adapter: [ 'PDO_MYSQL' ]
         node: [ '16' ]
     steps:
       - name: running tests
