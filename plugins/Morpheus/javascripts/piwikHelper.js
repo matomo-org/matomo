@@ -182,14 +182,22 @@ window.piwikHelper = {
 
         var useExternalPluginComponent = CoreHome.useExternalPluginComponent;
         var createVueApp = CoreHome.createVueApp;
-        var plugin = window[parts[0]];
-        if (!plugin) {
-          throw new Error('Unknown plugin in vue-entry: ' + entry);
-        }
+        var component;
 
-        var component = plugin[parts[1]];
-        if (!component) {
-          throw new Error('Unknown component in vue-entry: ' + entry);
+        var shouldLoadOnDemand = piwik.pluginsToLoadOnDemand.indexOf(parts[0]) !== -1;
+        if (!shouldLoadOnDemand) {
+          var plugin = window[parts[0]];
+          if (!plugin) {
+            // plugin may not be activated
+            return;
+          }
+
+          component = plugin[parts[1]];
+          if (!component) {
+            throw new Error('Unknown component in vue-entry: ' + entry);
+          }
+        } else {
+          component = useExternalPluginComponent(parts[0], parts[1]);
         }
 
         $(this).attr('ng-non-bindable', '');
