@@ -140,6 +140,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     {
         $plugins = $this->getPluginsWithUmdsToUse();
         $plugins = array_filter($plugins, function ($pluginName) {
+            if ($pluginName === 'Login') {
+                return true;
+            }
+
             return Manager::getInstance()->isPluginLoaded($pluginName)
                 && !$this->shouldLoadUmdOnDemand($pluginName);
         });
