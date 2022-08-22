@@ -43,6 +43,7 @@ jobs:
           test-command: ${{ matrix.command }}
           redis-service: true
           git-sha: ${{ github.event.pull_request.head.sha }}
+          run_id: ${{ github.run_id }}
 
   Javascript:
     runs-on: ubuntu-20.04
