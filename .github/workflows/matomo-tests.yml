@@ -71,12 +71,6 @@ jobs:
         node: [ '16' ]
         adapter: [ 'PDO_MYSQL' ]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          lfs: false
-          submodules: recursive
-
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -85,6 +79,8 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.tests }}
           mysql-service: false
+          git-sha: ${{ github.event.pull_request.head.sha }}
+
   UI:
     runs-on: ubuntu-20.04
     strategy:
