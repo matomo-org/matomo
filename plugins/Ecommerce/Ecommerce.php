@@ -25,9 +25,22 @@ class Ecommerce extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics' => 'addComputedMetrics',
             'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         ];
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'Goals_ConversionsOverview';
+        $translations[] = 'General_ColumnRevenue';
+        $translations[] = 'General_Subtotal';
+        $translations[] = 'General_Tax';
+        $translations[] = 'General_Shipping';
+        $translations[] = 'General_Discount';
+        $translations[] = 'Live_RowActionTooltipWithDimension';
+        $translations[] = 'General_Goal';
     }
 
     public function provideActionDimensionFields(&$fields, &$joins)

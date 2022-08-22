@@ -18,7 +18,7 @@
         "IncomingTraffic": "Tràfic entrant",
         "LoopsInline": "%s refrescos de pàgina",
         "NoDataForAction": "No hi ha informació per %s",
-        "NoDataForActionDetails": "O l'acció no ha estat vista cap vegada durant el període %s o és invàlida.",
+        "NoDataForActionDetails": "O l'acció no ha estat vista cap vegada durant el període o és invàlida.",
         "NumDownloads": "%s descàrregues",
         "NumOutlinks": "%s enllaços sortints",
         "NumPageviews": "%s pàgines vistes",

@@ -8,12 +8,12 @@
 {% block content %}
 
     <div id="feedback-faq" class="admin">
-        <div piwik-content-block content-title="{{ "Feedback_HowCanWeHelp"|translate|e('html_attr') }}" class="feedback-help-resources">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ "Feedback_HowCanWeHelp"|translate }}" class="feedback-help-resources">
             <form target="_blank" method="GET" action="https://matomo.org/">
                 <div class="search-matomo-form z-depth-1">
                     <div class="search-field">
                         <span class="icon-search"></span>
-                        <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate|e('html_attr')}}" name="s"/>
+                        <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate}}" name="s"/>
                     </div>
                     <div class="search-button">
                         <input type="submit" value="Search" class="btn hide-on-small-only"/>
@@ -23,7 +23,7 @@
 
             <h4>{{'Feedback_PopularHelpTopics'|translate}}</h4>
             {% for helpTopic in popularHelpTopics %}
-                <p> &bull;  <a rel="noreferrer noopener" target="_blank" href="{{helpTopic.url|e('html_attr')}}?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides">{{helpTopic.title|translate}}</a></p>
+                <p> &bull;  <a rel="noreferrer noopener" target="_blank" href="{{helpTopic.url}}?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides">{{helpTopic.title|translate}}</a></p>
             {% endfor %}
 
             <h4>{{ 'Feedback_CommunityHelp'|translate }}</h4>
@@ -51,9 +51,9 @@
             </form>
         </div>
 
-        <div piwik-content-block
-             content-title="{{ headline|e('html_attr') }}"
-             feature="{{ 'General_Help'|translate|e('html_attr') }}">
+        <div vue-entry="CoreHome.ContentBlock"
+             content-title="{{ headline }}"
+             feature="{{ 'General_Help'|translate }}">
             <p>{{ 'General_MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease'|translate(
                     "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>",
                     "</a>",
@@ -67,7 +67,7 @@
             </p>
         </div>
 
-        <div piwik-content-block content-title="Premium products">
+        <div vue-entry="CoreHome.ContentBlock" content-title="Premium products">
             <p>Grow your business, understand your audience better and increase your sales and conversions with a premium plugin:
             <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/users-flow/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Users Flow</a>: a visual representation of the most popular paths your users take through your website or app.</p>
             <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/ab-testing-learn-more/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>A/B Testing</a>: compare different versions of your websites or apps and detect the winning variation.</p>
@@ -81,7 +81,7 @@
             <p> &bull;  <strong><a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/premium-plugins?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>All premium plugins.</a></strong></p>
         </div>
 
-        <div piwik-content-block content-title="{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate|e('html_attr') }}">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate }}">
             <p>{{ 'Feedback_HowToCreateTicket'|translate(
             "<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#submitting-a-bug-report'>",
             "</a>",

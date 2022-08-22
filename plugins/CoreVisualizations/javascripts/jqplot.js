@@ -389,7 +389,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 // Work out incomplete data points
                 this.jqplotParams['incompleteDataPoints'] = 0;
 
-                var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+                var piwikPeriods = window.CoreHome.Periods;
 
                 var period = this.param.period;
                 // If date is actually a range then adjust the period type for the containsToday check
@@ -415,9 +415,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
             // TODO: this code destroys plots when a page is switched. there must be a better way of managing memory.
             if (typeof $.jqplot.visiblePlots == 'undefined') {
                 $.jqplot.visiblePlots = [];
-                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-
-                $rootScope.$on('piwikPageChange', function () {
+                window.CoreHome.Matomo.on('piwikPageChange', function () {
                     for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                         if ($.jqplot.visiblePlots[i] == null) {
                             continue;
@@ -568,7 +566,12 @@ function rowEvolutionGetMetricNameFromRow(tr)
             }
 
             // make sure percent axes don't go above 100%
-            if (axis.tickOptions.formatString.substring(2, 3) == '%' && maxCrossDataSets > 100) {
+            if (
+              axis.tickOptions
+              && axis.tickOptions.formatString
+              && axis.tickOptions.formatString.substring(2, 3) == '%'
+              && maxCrossDataSets > 100
+            ) {
                 maxCrossDataSets = 100;
             }
 
@@ -621,7 +624,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 if ($rowEvolution.data('initialMetrics')) {
                     initialMetrics = $rowEvolution.data('initialMetrics');
 
-                    if (angular.isArray(initialMetrics)) {
+                    if (Array.isArray(initialMetrics)) {
                         for (var j = 0; j < initialMetrics.length; j++) {
                             // find index of series and data
                             for (var k = 0; k < this.jqplotParams.series.length; k++) {
@@ -684,7 +687,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
                     'series6', 'series7', 'series8', 'series9', 'series10'];
 
-            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
                 namespace = 'comparison-series-color';
 
@@ -771,8 +774,11 @@ JQPlotExternalSeriesToggle.prototype = {
             for (var k = 0; k < this.originalSeries.length; k++) {
                 if (this.originalSeries[k]
                     && this.originalSeries[k].label
-                    && this.originalSeries[k].label === this.activated[j]) {
-
+                    && (
+                      this.originalSeries[k].label === this.activated[j]
+                      || piwikHelper.htmlDecode(this.originalSeries[k].label) === this.activated[j]
+                    )
+                ) {
                     config.data.push(this.originalData[k]);
                     config.params.seriesColors.push(this.originalSeriesColors[k]);
                     config.params.series.push($.extend(true, {}, this.originalSeries[k]));
@@ -1213,7 +1219,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            $('.jqplot-legend-canvas').css({paddingLeft: '34px'});
+            $('.jqplot-legend-canvas', $('#' + target)).css({paddingLeft: '34px'});
             plot.baseCanvas._elem.before(this.domElem);
         });
 

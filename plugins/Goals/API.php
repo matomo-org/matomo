@@ -113,6 +113,10 @@ class API extends \Piwik\Plugin\API
 
     private function formatGoal($goal)
     {
+        $goal['name'] = Common::unsanitizeInputValue($goal['name']);
+        $goal['description'] = Common::unsanitizeInputValue($goal['description']);
+        $goal['pattern_type'] = Common::unsanitizeInputValue($goal['pattern_type']);
+
         if ($goal['match_attribute'] == 'manually') {
             unset($goal['pattern']);
             unset($goal['pattern_type']);

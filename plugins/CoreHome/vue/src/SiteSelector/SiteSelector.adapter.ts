@@ -98,12 +98,14 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     });
 
     if (attrs.siteid && attrs.sitename) {
-      vm.modelValue = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
+      scope.value = { id: attrs.siteid, name: Matomo.helper.htmlDecode(attrs.sitename) };
+      vm.modelValue = scope.value;
     } else if (Matomo.idSite) {
-      vm.modelValue = {
+      scope.value = {
         id: Matomo.idSite,
         name: Matomo.helper.htmlDecode(Matomo.siteName),
       };
+      vm.modelValue = scope.value;
     }
 
     // setup ng-model mapping

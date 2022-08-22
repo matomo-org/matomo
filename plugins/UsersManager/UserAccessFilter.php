@@ -108,7 +108,8 @@ class UserAccessFilter
         }
 
         return array_values(array_filter($users, function ($user) {
-            return $this->isNonSuperUserAllowedToSeeThisLogin($user['login']);
+            $isPendingVisible = empty($user['invite_token']) || $this->isOwnLogin($user['invited_by']);
+            return $isPendingVisible && $this->isNonSuperUserAllowedToSeeThisLogin($user['login']);
         }));
     }
 

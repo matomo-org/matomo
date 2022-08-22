@@ -1,11 +1,11 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s Aktionen in %2$s",
-        "AveragePageGenerationTime": "Jede Seite benötigte im Durchschnitt %1$s um bei diesem Besucher zu laden.",
+        "AveragePageGenerationTime": "Jede Seite brauchte für diesen Besucher durchschnittlich %1$s zum Laden.",
         "CalculatedOverNPageViews": "Berechnet mithilfe der letzten %1$s Seitenansichten dieses Besuchers.",
         "ClickToSeeAllContents": "Klicken um sämtliche Inhaltsinteraktionen/Impressionen zu sehen",
         "ClickToViewAllActions": "Klicken Sie um alle Aktionen dieser Gruppe im Detail zu sehen",
-        "ClickToViewMoreAboutVisit": "Klicken Sie um nähere Informationen zu diesem Besuch zu sehen",
+        "ClickToViewMoreAboutVisit": "Klicken Sie hier, um weitere Informationen zu diesem Besuch zu erhalten",
         "ConvertedNGoals": "%s Ziele konvertiert",
         "DisableVisitorProfile": "Nur Besucherprofil deaktivieren",
         "DisableVisitorProfileDescription": "Hier können Sie das Besucherprofil-Feature deaktivieren. Alle Besuche-Logs, welche auf dieses Feature verweisen, werden weiterhin funktionieren.",

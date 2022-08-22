@@ -62,7 +62,8 @@ declare global {
   type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
-    onCloseEnd: () => void;
+    onCloseEnd?: () => void;
+    fixedFooter?: boolean;
   }
 
   interface CompileAngularComponentsOptions {
@@ -79,6 +80,7 @@ declare global {
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
+    isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
@@ -159,7 +161,9 @@ declare global {
     visitorProfileEnabled: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
-    userLogin: string;
+    userLogin?: string;
+    userHasSomeAdminAccess: boolean;
+    requiresPasswordConfirmation: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -205,6 +209,10 @@ declare global {
     new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
   }
 
+  interface SegmentedVisitorLogService {
+    show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -220,6 +228,7 @@ declare global {
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;
+    SegmentedVisitorLog: SegmentedVisitorLogService;
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;

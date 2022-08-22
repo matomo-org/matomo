@@ -1,6 +1,10 @@
 {
     "UserCountryMap": {
+        "AndNOthers": "dan %s yang lain",
         "Cities": "Bandar",
-        "Countries": "Negara"
+        "Countries": "Negara",
+        "DaysAgo": "%s hari yang lalu",
+        "GoalConversions": "%s penukaran matlamat",
+        "HoursAgo": "%s jam yang lalu"
     }
 }

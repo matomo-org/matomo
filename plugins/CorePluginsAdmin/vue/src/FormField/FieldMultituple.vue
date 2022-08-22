@@ -11,6 +11,7 @@
       :name="name"
       :model-value="modelValue"
       @update:modelValue="onUpdateValue"
+      :model-modifiers="modelModifiers"
       :field1="uiControlAttributes.field1"
       :field2="uiControlAttributes.field2"
       :field3="uiControlAttributes.field3"
@@ -29,6 +30,7 @@ export default defineComponent({
     name: String,
     title: String,
     modelValue: null,
+    modelModifiers: Object,
     uiControlAttributes: Object,
   },
   inheritAttrs: false,
