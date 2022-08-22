@@ -42,7 +42,7 @@ class AnonymizationTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        $params['xmlFieldsToRemove'] = array();
+        $params['xmlFieldsToRemove'] = array('userId');
         $this->runApiTests($api, $params);
     }
 

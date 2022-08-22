@@ -5289,7 +5289,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 540, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 540 ' );
+        ok( msSinceStarted < 580, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 580 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
