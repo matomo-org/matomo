@@ -43,6 +43,7 @@ jobs:
           test-command: ${{ matrix.command }}
           redis-service: true
           git-sha: ${{ github.event.pull_request.head.sha }}
+
   Javascript:
     runs-on: ubuntu-20.04
     strategy:
@@ -51,7 +52,6 @@ jobs:
         php: [ '7.2' ]
         tests: [ 'JS' ]
         node: [ '12' ]
-
     steps:
       - name: running tests
         uses: matomo-org/github-action-tests@v1
@@ -61,6 +61,7 @@ jobs:
           php-version: ${{ matrix.php }}
           node-version: ${{ matrix.node }}
           git-sha: ${{ github.event.pull_request.head.sha }}
+          
   Angular:
     runs-on: ubuntu-20.04
     strategy:
