@@ -9,7 +9,7 @@
 		<module>UserCountry</module>
 		<action>getContinent</action>
 		<dimension>Continent</dimension>
-		<documentation>This report shows which continent your visitors were in when they accessed your website.</documentation>
+		<documentation>Shows which continent your visitors connected from when accessing your website.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>

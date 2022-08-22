@@ -2,7 +2,7 @@
 <div class="top_controls">
     {% include "@CoreHome/_periodSelect.twig" %}
     {{ postEvent("Template.nextToCalendar") }}
-    {% render dashboardSettingsControl %}
+    <div vue-entry="Dashboard.DashboardSettings"></div>
     {% if dashboards|length %}
     <div id="Dashboard" class="piwikTopControl borderedControl piwikSelector">
         <ul>

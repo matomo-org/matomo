@@ -65,7 +65,8 @@ class ThreeGoalsOnePageview extends Fixture
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
         // Record 1st page view
-        $t->setUrl('http://example.org/index.htm');
+        $t->setUrl('http://example.org/index.htm?ignore_referrer=1');
+        $t->setUrlReferrer('http://www.example.org/page/'); // this should be ignored due to the `ignore_referrer` parameter in page url
         self::checkResponse($t->doTrackPageView('0'));
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());

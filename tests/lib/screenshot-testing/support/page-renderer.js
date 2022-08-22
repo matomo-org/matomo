@@ -506,7 +506,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         }, arg))).catch((e) => {
           console.log(`Could not print message: ${e.message}`);
         });
-        const message = args.join(' ');
+        const message = (args || []).join(' ');
         this._logMessage(`Log: ${message}`);
     });
 

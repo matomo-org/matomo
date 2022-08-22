@@ -18,7 +18,7 @@
         "IncomingTraffic": "受信トラフィック",
         "LoopsInline": "%s ページリロード",
         "NoDataForAction": "%s に対するデータはありません",
-        "NoDataForActionDetails": "アクションが %s の期間ページビューが無かったか、無効です。",
+        "NoDataForActionDetails": "アクションが の期間ページビューが無かったか、無効です。",
         "NumDownloads": "%s ダウンロード",
         "NumOutlinks": "%s アウトリンク",
         "NumPageviews": "%s ページビュー",

@@ -1,19 +1,8 @@
-<div class="languageSelection"
-     ng-cloak
-     menu-title="{{ currentLanguageName|e('html_attr') }}"
-     piwik-menudropdown>
-    <a class="item" target="_blank" rel="noreferrer noopener"
-        href="https://matomo.org/translations/">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
-    {% for language in languages %}
-        <a class="item {% if language.code == currentLanguageCode %}active{% endif %}"
-           value="{{ language.code|e('html_attr') }}"
-           title="{{ language.name|e('html_attr') }} ({{ language.english_name|e('html_attr') }})">{{ language.name }}</a>
-    {% endfor %}
-
-    <form action="index.php?module=LanguagesManager&amp;action=saveLanguage" method="post">
-        <input type="hidden" name="language" id="language">
-        <input type="hidden" name="nonce" id="nonce" value="{{ nonce|e('html_attr') }}">
-        {# During installation token_auth is not set #}
-        {% if token_auth is defined %}<input type="hidden" name="token_auth" value="{{ token_auth|e('html_attr') }}"/>{% endif %}
-    </form>
-</div>
+<div
+    vue-entry="LanguagesManager.LanguagesDropdown"
+    token-auth="{{ token_auth|default(null)|json_encode }}"
+    form-nonce="{{ nonce|json_encode }}"
+    languages="{{ languages|json_encode }}"
+    current-language-code="{{ currentLanguageCode|json_encode }}"
+    current-language-name="{{ currentLanguageName|json_encode }}"
+></div>
