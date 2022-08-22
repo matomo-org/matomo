@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
@@ -43,7 +42,6 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
-use Piwik\Updater;
 use Psr\Container\ContainerInterface;
 use Piwik\CronArchive\SegmentArchiving;
 
@@ -75,22 +73,28 @@ class UITestFixture extends SqlDump
     {
         parent::setUp();
 
-        $updater = new Updater();
-        $config = Config::getInstance();
-        $installed = [];
+        // fetch the installed versions of all plugins from options table
+        $pluginOptions = [];
+        $pluginVersions = Option::getLike('version_%');
 
-        // check previously installed plugins in database, so installAndActivatePlugins won't try to install them again
-        // as this would overwrite the installed version in db, causing updates not to be executed for such plugins
-        foreach (Manager::getInstance()->getLoadedPlugins() as $pluginName => $plugin) {
-            if ($updater->getCurrentComponentVersion($pluginName)) {
-                $installed['PluginsInstalled'][] = $pluginName;
+        foreach ($pluginVersions as $pluginName => $version) {
+            $name = substr($pluginName, 8);
+            if (Manager::getInstance()->isValidPluginName($name) && Manager::getInstance()->isPluginInFilesystem($name)) {
+                $pluginOptions[$pluginName] = $version;
             }
         }
 
-        $config->PluginsInstalled = $installed;
-
+        self::resetPluginsInstalledConfig();
         self::updateDatabase();
+
+        // Note: installAndActivatePlugins will update the installed version of all core plugins to latest core version
         self::installAndActivatePlugins($this->getTestEnvironment());
+
+        // recover originally installed plugin versions, so updateDatabase() will execute available updates
+        foreach ($pluginOptions as $name => $value) {
+            Option::set($name, $value, 1);
+        }
+
         self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
