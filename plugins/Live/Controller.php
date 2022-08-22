@@ -153,8 +153,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];
-        $view->pisHalfhour = $last30min['actions'];
-        $view->pisToday = $today['actions'];
+        $view->pisHalfhour = (int)$last30min['actions'];
+        $view->pisToday = (int)$today['actions'];
         return $view;
     }
 
