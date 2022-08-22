@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.2' ]
+        php: [ '7.4' ]
         tests: [ 'JS' ]
         node: [ '12' ]
     steps:
@@ -84,7 +84,7 @@ jobs:
       fail-fast: false
       matrix:
         tests: [ 'UI' ]
-        php: [ '7.2' ]
+        php: [ '7.4' ]
         parts: [ 0,1,2 ]
         node: [ '16' ]
     steps:
