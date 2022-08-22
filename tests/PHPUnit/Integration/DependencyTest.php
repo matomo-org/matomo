@@ -298,6 +298,9 @@ class DependencyTest extends IntegrationTestCase
         );
     }
 
+    /*
+     * remove all the ubuntu and system text
+     */
     private function formatPhpVersion()
     {
         preg_match("#^\d+(\.\d+)*#", PHP_VERSION, $phpversion);
