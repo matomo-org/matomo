@@ -34,12 +34,6 @@ jobs:
           - php: '7.2'
             adapter: 'MYSQLI'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          lfs: false
-          submodules: recursive
-
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -48,6 +42,7 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.command }}
           redis-service: true
+          git-sha: ${{ github.event.pull_request.head.sha }}
   Javascript:
     runs-on: ubuntu-20.04
     strategy:
@@ -59,12 +54,6 @@ jobs:
         adapter: [ 'PDO_MYSQL' ]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          lfs: false
-          submodules: recursive
-
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -72,6 +61,7 @@ jobs:
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           node-version: ${{ matrix.node }}
+          git-sha: ${{ github.event.pull_request.head.sha }}
   Angular:
     runs-on: ubuntu-20.04
     strategy:
@@ -106,12 +96,6 @@ jobs:
         adapter: [ 'PDO_MYSQL' ]
         node: [ '16' ]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          lfs: true
-          submodules: recursive
-
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -127,5 +111,6 @@ jobs:
           run_id: ${{ github.run_id }}
           php-memory: "-1"
           redis-service: true
+          git-sha: ${{ github.event.pull_request.head.sha }}
 
 
