@@ -50,7 +50,7 @@ describe("DashboardManager", function () {
     it("should close the manager when a widget is selected", async function() {
         // make sure selecting a widget does nothing
         await page.evaluate(function () {
-            $('.dashboard-manager').data('uiControlObject').widgetSelected = function () {};
+            window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP = true;
         });
 
         vot = await page.jQuery('.widgetpreview-widgetlist>li:contains(Visits Over Time)');
@@ -97,6 +97,13 @@ describe("DashboardManager", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
+    });
+
+
+    it("should load widgets on smaller screen", async function(){
+        await page.webpage.setViewport({ width: 815, height: 512 });
+        await page.waitForTimeout(500);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
     });
 
     it("should remove dashboard when remove dashboard process completed", async function() {

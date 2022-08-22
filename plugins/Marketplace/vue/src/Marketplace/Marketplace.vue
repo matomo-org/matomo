@@ -31,7 +31,7 @@
       </Field>
     </div>
     <!-- Hide filters and search for themes because we don't have many of them -->
-    <div class="col s12 m12 l4 " v-if="pluginsToShow.length > 20 || query">
+    <div class="col s12 m12 l4 " v-if="pluginsToShow?.length > 20 || query">
       <form
         method="post"
         class="plugin-search"

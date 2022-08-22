@@ -6,17 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Marketplace\Api;
 
+use Exception as PhpException;
 use Matomo\Cache\Lazy;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\SettingsServer;
-use Exception as PhpException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -167,7 +169,7 @@ class Client
             $pluginName = $plugin->getPluginName();
             if (!$this->pluginManager->isPluginBundledWithCore($pluginName)) {
                 $isActivated = $this->pluginManager->isPluginActivated($pluginName);
-                $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion(), 'activated' => (int) $isActivated);
+                $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion(), 'activated' => (int)$isActivated);
             }
         }
 
@@ -188,7 +190,7 @@ class Client
     }
 
     /**
-     * @param  \Piwik\Plugin[] $plugins
+     * @param \Piwik\Plugin[] $plugins
      * @return array
      */
     public function getInfoOfPluginsHavingUpdate($plugins)
@@ -213,7 +215,6 @@ class Client
                 $plugin['repositoryChangelogUrl'] = $pluginHavingUpdate['repositoryChangelogUrl'];
                 $pluginDetails[] = $plugin;
             }
-
         }
 
         return $pluginDetails;
@@ -267,7 +268,7 @@ class Client
             $params['release_channel'] = $releaseChannel;
         }
 
-        $params['prefer_stable'] = (int) $this->environment->doesPreferStable();
+        $params['prefer_stable'] = (int)$this->environment->doesPreferStable();
         $params['piwik'] = $this->environment->getPiwikVersion();
         $params['php'] = $this->environment->getPhpVersion();
         $params['mysql'] = $this->environment->getMySQLVersion();
@@ -308,8 +309,8 @@ class Client
 
     /**
      * @param  $pluginOrThemeName
-     * @throws Exception
      * @return string
+     * @throws Exception
      */
     public function getDownloadUrl($pluginOrThemeName)
     {
@@ -323,6 +324,15 @@ class Client
         $downloadUrl = $latestVersion['download'];
 
         return $this->service->getDomain() . $downloadUrl . '?coreVersion=' . $this->environment->getPiwikVersion();
+    }
+
+    /**
+     * this will return the api.matomo.org through right protocols
+     * @return string
+     */
+    public static function getApiServiceUrl()
+    {
+        return GeneralConfig::getConfigValue('api_service_url');
     }
 
 }

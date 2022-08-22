@@ -1,9 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "&rsaquo; Enllaç directe",
+        "DisplayDashboardInIframe": "També podeu mostrar el tauler complet de Matomo a la vostra aplicació o lloc web en un IFRAME (%1$svegeu exemple%2$s). El paràmetre de data es pot establir en una data del calendari específica, \"avui\" o \"ahir\". El paràmetre de període es pot configurar a \"dia\", \"setmana\", \"mes\" o\n \"any\". El paràmetre d'idioma es pot configurar al codi d'idioma d'una traducció, com ara language=fr. Per exemple, per a idSite=1 i date=yesterday, podeu escriure:",
+        "DisplayDashboardInIframeAllSites": "També podeu transformar en giny el tauler de control de tots els llocs web dins d'un IFRAME (%1$svegeu exemple%2$s)",
+        "EmbedIframe": "&rsaquo; Incrusta un Iframe",
+        "Intro": "Amb Matomo podeu %1$sexportar els vostres informes d'anàlisi web%2$s al vostre bloc, lloc web o tauler d'intranet... amb un sol clic.",
         "OpenInNewWindow": "Obrir en una nova finestra",
         "PluginDescription": "Mostra qualsevol informe de Matomo al teu lloc web o aplicació amb una senzilla etiqueta HTML \"embed\".",
+        "Reports": "Transformeu els informes en ginys",
+        "SelectAReport": "Seleccioneu un informe i copieu i enganxeu a la vostra pàgina el codi d'inserció a sota del giny:",
         "TooHighAccessLevel": "Aquest usuari té accés de superusuari. No es permet incrustar ginys amb autenticació de testimoni de superusuari. %1$sConsulteu les FAQ per obtenir més informació.%2$s",
         "TopLinkTooltip": "Exporta els informes de Matomo com a ginys i incrusta el tauler a la teva aplicació com a iframe.",
-        "ViewAccessRequired": "Aquest usuari té almenys accés d'escriptura. Només es poden utilitzar tokens d'usuari que només tinguin accés de visualització. Consulteu %1$s per obtenir més informació."
+        "ViewAccessRequired": "Aquest usuari té almenys accés d'escriptura. Només es poden utilitzar tokens d'usuari que només tinguin accés de visualització. Consulteu %1$s per obtenir més informació.",
+        "ViewableAnonymously": "Si voleu que els vostres ginys siguin visibles per tothom, primer heu d'establir els permisos de \"visualització\" per a l'usuari anònim a la secció %1$sGestió d'usuaris%2$s. <br>Alternativament, si publiqueu ginys en una pàgina privada o protegida amb contrasenya, no necessàriament haureu de permetre que \"anònim\" vegi els vostres informes. En aquest cas, podeu afegir el paràmetre secret <code>token_auth</code> a l'URL del giny. Podeu gestionar els vostres testimonis d'autenticació a la vostra %3$spàgina de seguretat%4$s."
     }
 }

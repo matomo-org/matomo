@@ -183,9 +183,6 @@ class LogImporterTest extends IntegrationTestCase
         $this->assertEquals('matomo.org/äöüß§$%', $name);
     }
 
-    /**
-     * @group bla
-     */
     public function testOutputOption()
     {
         $file = StaticContainer::get('path.tmp') . '/logs/import_log.log';

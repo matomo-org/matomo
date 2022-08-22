@@ -110,7 +110,7 @@ module.exports = {
           options.compilerOptions = {
             declaration: true,
             noEmit: false,
-            outDir: `@types/${process.env.MATOMO_CURRENT_PLUGIN}`,
+            outDir: `${__dirname}/@types/${process.env.MATOMO_CURRENT_PLUGIN}`,
           };
           return options;
         });

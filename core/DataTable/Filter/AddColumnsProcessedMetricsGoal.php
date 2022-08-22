@@ -14,10 +14,17 @@ use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\AverageOrderRevenue;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionPageRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionEntryRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionsAttrib;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionsEntry;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Conversions;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ItemsCount;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Revenue;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit as GoalSpecificRevenuePerVisit;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerEntry as GoalSpecificRevenuePerEntry;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenueAttrib;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenueEntry;
 use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
 
 /**
@@ -58,6 +65,27 @@ use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
  */
 class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 {
+
+    /**
+     * Process metrics for entry page views, with ECommerce
+     */
+    const GOALS_ENTRY_PAGES_ECOMMERCE = -6;
+
+    /**
+     * Process for page views, with ECommerce
+     */
+    const GOALS_PAGES_ECOMMERCE = -5;
+
+    /**
+     * Process metrics for entry page views
+     */
+    const GOALS_ENTRY_PAGES = -4;
+
+    /**
+     * Process for page views
+     */
+    const GOALS_PAGES = -3;
+
     /**
      * Process main goal metrics: conversion rate, revenue per visit
      */
@@ -129,14 +157,27 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                 // When the table is displayed by clicking on the flag icon, we only display the columns
                 // Visits, Conversions, Per goal conversion rate, Revenue
                 if ($this->processOnlyIdGoal == self::GOALS_OVERVIEW) {
-                    continue;
+                   continue;
                 }
 
                 $extraProcessedMetrics[] = new Conversions($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
                 $extraProcessedMetrics[] = new GoalSpecificRevenuePerVisit($idSite, $idGoal); // PerGoal\Revenue
                 $extraProcessedMetrics[] = new Revenue($idSite, $idGoal); // PerGoal\Revenue
 
-                if ($this->isEcommerce) {
+                if ($this->processOnlyIdGoal == self::GOALS_PAGES || $this->processOnlyIdGoal == self::GOALS_PAGES_ECOMMERCE) {
+                    $extraProcessedMetrics[] = new ConversionsAttrib($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
+                    $extraProcessedMetrics[] = new RevenueAttrib($idSite, $idGoal); // PerGoal\Revenue attrib
+                    $extraProcessedMetrics[] = new ConversionPageRate($idSite, $idGoal); // PerGoal\ConversionRate for page uniq views
+                }
+
+                if ($this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES || $this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES_ECOMMERCE) {
+                    $extraProcessedMetrics[] = new ConversionsEntry($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\
+                    $extraProcessedMetrics[] = new GoalSpecificRevenuePerEntry($idSite, $idGoal); // PerGoal\Revenue entries
+                    $extraProcessedMetrics[] = new RevenueEntry($idSite, $idGoal); // PerGoal\Revenue entrances
+                    $extraProcessedMetrics[] = new ConversionEntryRate($idSite, $idGoal); // PerGoal\ConversionRate for entrances
+                }
+
+                if ($this->isEcommerce || $this->processOnlyIdGoal == self::GOALS_PAGES_ECOMMERCE || $this->processOnlyIdGoal == self::GOALS_ENTRY_PAGES_ECOMMERCE) {
                     $extraProcessedMetrics[] = new AverageOrderRevenue($idSite, $idGoal);
                     $extraProcessedMetrics[] = new ItemsCount($idSite, $idGoal);
                 }

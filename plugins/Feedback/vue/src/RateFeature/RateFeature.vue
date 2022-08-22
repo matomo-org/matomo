@@ -6,7 +6,7 @@
 
 <template>
   <div
-    :title="translate('Feedback_RateFeatureTitle', $sanitize(title))"
+    :title="translate('Feedback_RateFeatureTitle', htmlEntities(title))"
     class="ratefeature"
   >
     <div
@@ -197,7 +197,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoDialog, AjaxHelper } from 'CoreHome';
+import { Matomo, MatomoDialog, AjaxHelper } from 'CoreHome';
 import ReviewLinks from '../ReviewLinks/ReviewLinks.vue';
 
 const { $ } = window;
@@ -283,6 +283,9 @@ export default defineComponent({
           this.errorMessage = res.value;
         }
       });
+    },
+    htmlEntities(v: string) {
+      return Matomo.helper.htmlEntities(v);
     },
   },
 });

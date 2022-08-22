@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -26,8 +27,8 @@ class SEOTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        FakeAccess::setIdSitesView(array(1, 2));
-        FakeAccess::setIdSitesAdmin(array(3, 4));
+        FakeAccess::setIdSitesView([1, 2]);
+        FakeAccess::setIdSitesAdmin([3, 4]);
 
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
@@ -38,7 +39,7 @@ class SEOTest extends IntegrationTestCase
     /**
      * tell us when the API is broken
      */
-    public function test_API()
+    public function testAPI()
     {
         $dataTable = API::getInstance()->getRank('http://matomo.org/');
         $renderer = Renderer::factory('json');
@@ -55,9 +56,8 @@ class SEOTest extends IntegrationTestCase
 
     public function provideContainerConfig()
     {
-        return array(
+        return [
           'Piwik\Access' => new FakeAccess()
-        );
+        ];
     }
-
 }

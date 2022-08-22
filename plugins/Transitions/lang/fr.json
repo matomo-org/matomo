@@ -18,7 +18,7 @@
         "IncomingTraffic": "Trafic entrant",
         "LoopsInline": "%s rechargements de pages",
         "NoDataForAction": "Il n'y a aucune données pour %s",
-        "NoDataForActionDetails": "L'action n'a eu aucune visite de page durant la période %s ou bien elle est invalide.",
+        "NoDataForActionDetails": "L'action n'a eu aucune visite de page durant la période ou bien elle est invalide.",
         "NumDownloads": "%s téléchargements",
         "NumOutlinks": "%s liens sortant",
         "NumPageviews": "%s pages vues",

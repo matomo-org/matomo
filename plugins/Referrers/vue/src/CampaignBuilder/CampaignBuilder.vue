@@ -158,7 +158,10 @@ const { $ } = window;
 
 export default defineComponent({
   props: {
-    hasExtraPlugin: Boolean,
+    hasExtraPlugin: {
+      type: Boolean,
+      default: true,
+    },
   },
   components: {
     Field,
@@ -213,8 +216,8 @@ export default defineComponent({
 
       let urlHash = '';
       if (urlHashPos >= 0) {
-        urlHash = generatedUrl.substr(urlHashPos);
-        generatedUrl = generatedUrl.substr(0, urlHashPos);
+        urlHash = generatedUrl.slice(urlHashPos);
+        generatedUrl = generatedUrl.slice(0, urlHashPos);
       }
 
       if (generatedUrl.indexOf('/', 10) < 0 && generatedUrl.indexOf('?') < 0) {

@@ -6,5 +6,5 @@
  */
 
 export function ucfirst(s: string): string {
-  return `${s[0].toUpperCase()}${s.substr(1)}`;
+  return `${s[0].toUpperCase()}${s.slice(1)}`;
 }

@@ -1,7 +1,7 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Một liên kết xác nhận đã được gửi đến hộp thư của bạn. Kiểm tra e-mail của bạn và truy cập vào liên kết này để cấp phép yêu cầu thay đổi mật khẩu của bạn.",
-        "ExceptionPasswordMD5HashExpected": "Mật khẩu dự kiến ​​sẽ là một mật khẩu dạng mã MD5.",
+        "ExceptionPasswordMD5HashExpected": "Mật khẩu dự kiến sẽ là một mật khẩu dạng mã MD5.",
         "InvalidOrExpiredToken": "Mã thông báo là không hợp lệ hoặc đã hết hạn.",
         "InvalidUsernameEmail": "Tên hoặc địa chỉ e-mail truy cập không hợp lệ.",
         "LogIn": "Đăng nhập",

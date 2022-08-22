@@ -181,7 +181,7 @@ export default defineComponent({
       return !!this.piwikurl
         && this.backgroundColor === ''
         && this.fontColor !== ''
-        && nearlyWhite(this.fontColor.substr(1));
+        && nearlyWhite(this.fontColor.slice(1));
     },
     iframeUrl(): string {
       if (this.piwikurl) {
@@ -189,8 +189,8 @@ export default defineComponent({
           module: 'CoreAdminHome',
           action: 'optOut',
           language: this.language,
-          backgroundColor: this.backgroundColor.substr(1),
-          fontColor: this.fontColor.substr(1),
+          backgroundColor: this.backgroundColor.slice(1),
+          fontColor: this.fontColor.slice(1),
           fontSize: this.fontSizeWithUnit,
           fontFamily: this.fontFamily,
         });

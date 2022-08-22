@@ -14,14 +14,17 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
+use Piwik\Plugins\CoreVisualizations\Visualizations\jqplotGraph\Evolution;
 
 /**
  *
@@ -124,6 +127,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setGoalOptions($view);
         $view->onlyShowAddNewGoal = true;
+        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
         $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
     }
@@ -142,12 +146,16 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (empty($view->onlyShowAddGoal)) {
             $beforeGoalListActionsBody = [];
-            foreach ($view->goals as $goal) {
-                $str = '';
-                Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
 
-                $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+            if ($view->goals) {
+                foreach ($view->goals as $goal) {
+                    $str = '';
+                    Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
+    
+                    $beforeGoalListActionsBody[$goal['idgoal']] = $str;
+                }
             }
+
             $view->beforeGoalListActionsBodyEventResult = $beforeGoalListActionsBody;
 
             $str = '';
@@ -198,7 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
         if (empty($idGoal)) {
             $idGoal = Common::getRequestVar('idGoal', '', 'string');
         }
-        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
+        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get', ['format_metrics' => 0]);
         $view->requestConfig->request_parameters_to_modify['idGoal'] = $idGoal;
         $view->requestConfig->request_parameters_to_modify['showAllGoalSpecificMetrics'] = 1;
 
@@ -246,6 +254,10 @@ class Controller extends \Piwik\Plugin\Controller
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
         $view->config->documentation = $this->translator->translate($langString, '<br />');
 
+        if ($view instanceof Evolution) {
+            $view->requestConfig->request_parameters_to_modify['format_metrics'] = 0;
+        }
+
         return $this->renderView($view);
     }
 
@@ -261,10 +273,13 @@ class Controller extends \Piwik\Plugin\Controller
                 'only_summary' => 1,
             ];
 
-            \Piwik\Context::executeWithQueryParameters($params, function() use (&$content) {
+            \Piwik\Context::executeWithQueryParameters($params, function () use (&$content, $goal) {
                 //load Visualisations Sparkline
                 $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.getMetrics', 'Goals.' . __METHOD__, true);
                 $view->config->show_title = true;
+                $view->config->custom_parameters = [
+                    'idGoal' => $goal['idgoal'],
+                ];
                 $content .= $view->render();
             });
         }
@@ -296,7 +311,6 @@ class Controller extends \Piwik\Plugin\Controller
     protected function getTopDimensions($idGoal)
     {
         $columnNbConversions = 'goal_' . $idGoal . '_nb_conversions';
-        $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';
 
         $topDimensionsToLoad = array();
 
@@ -314,6 +328,11 @@ class Controller extends \Piwik\Plugin\Controller
                 'website' => 'Referrers.getWebsites',
             );
         }
+
+        $topDimensionsToLoad += array(
+            'entry_page' => 'Actions.getEntryPageUrls',
+        );
+
         $topDimensions = array();
         foreach ($topDimensionsToLoad as $dimensionName => $apiMethod) {
             $request = new Request("method=$apiMethod
@@ -327,6 +346,13 @@ class Controller extends \Piwik\Plugin\Controller
             $datatable = $request->process();
             $topDimension = array();
             $count = 0;
+
+            if ($apiMethod == 'Actions.getEntryPageUrls') {
+                $columnConversionRate = 'goal_' . $idGoal . '_nb_conversions_entry_rate';
+            } else {
+                $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';
+            }
+
             foreach ($datatable->getRows() as $row) {
                 $conversions = $row->getColumn($columnNbConversions);
                 if ($conversions > 0
@@ -350,11 +376,13 @@ class Controller extends \Piwik\Plugin\Controller
         return $topDimensions;
     }
 
-    protected function getMetricsForGoal($idGoal)
+    protected function getMetricsForGoal($idGoal, $dataRow = null)
     {
-        $request = new Request("method=Goals.get&format=original&idGoal=$idGoal");
-        $datatable = $request->process();
-        $dataRow = $datatable->getFirstRow();
+        if (!$dataRow) {
+            $request = new Request("method=Goals.get&format=original&idGoal=$idGoal");
+            $datatable = $request->process();
+            $dataRow = $datatable->getFirstRow();
+        }
         $nbConversions = $dataRow->getColumn('nb_conversions');
         $nbVisitsConverted = $dataRow->getColumn('nb_visits_converted');
         // Backward compatibility before 1.3, this value was not processed
@@ -394,15 +422,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $goals = $this->goals;
 
-        // unsanitize goal names and other text data (not done in API so as not to break
-        // any other code/cause security issues)
         foreach ($goals as &$goal) {
-            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
-            $goal['description'] = Common::unsanitizeInputValue($goal['description']);
-            if (isset($goal['pattern'])) {
-                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
-            }
-            $goal['revenue_pretty'] = \Piwik\piwik_format_money($goal['revenue'], $this->idSite);
+            $goal['revenue_pretty'] = NumberFormatter::getInstance()->formatCurrency($goal['revenue'], Site::getCurrencySymbolFor($this->idSite));
         }
 
         $view->goals = $goals;

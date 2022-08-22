@@ -1,70 +1,10 @@
 {% set title %}{{ 'API_Glossary'|translate }}{% endset %}
 
 {% set theContent %}
-    <div class="row">
-        <div class="col s12">
-            <div piwik-content-intro>
-                <h2>{{ title|e('html_attr') }}</h2>
-                <p>
-                    {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }}
-
-                    <!-- {% for keyword, item in glossaryItems %}{{ item.entries|length }} {{ keyword }}{% if not loop.last %}, {% endif %}{% endfor %} -->
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row glossary">
-        <div class="col s12">
-            <ul class="tabs">
-                {% for keyword, item in glossaryItems %}
-                    <li class="tab col s3"><a {% if loop.index0 == 0 %}class="active"{% endif %} href="#{{ keyword }}">{{ item.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% for keyword, item in glossaryItems %}
-            <div id="{{ keyword }}" class="col s12">
-                <div class="card">
-                    <div class="card-content">
-                        <div style="background:#fff;width:100%" class="pushpin">
-                        <h2 class="card-title">{{ item.title }}</h2>
-                        <ul class="pagination table-of-contents">
-                            {% for letter in item.letters %}
-                                <li class="waves-effect"><a href="#{{ keyword }}{{ letter }}">{{ letter }}</a></li>
-                            {% endfor %}
-                        </ul></div>
-
-                        {% set lastLetter = '' %}
-                        {% for entry in item.entries %}
-                            {% if not lastLetter or lastLetter != entry.letter %}
-                                {% if lastLetter %}</div>{% endif %}
-                                {% set lastLetter = entry.letter %}
-                                <div class="section scrollspy" id="{{ keyword }}{{ lastLetter }}">
-                            {% endif %}
-                                <h3 style="color:#4183C4;font-weight: bold;">{{ entry.name }}</h3>
-                                {% if entry.subtitle|default is not empty %}<p style="color:#999;text-transform:uppercase;font-weight:normal;margin-top:-16px;">{{ entry.subtitle|translate }}</p>{% endif %}
-                                <p>
-                                    <span ng-bind-html="{{ entry.documentation|json_encode|e('html_attr') }}"></span>
-
-                                    {% if entry.id is defined %}
-                                        <br/><span style="color: #bbb;">{{ entry.id }}{% if keyword == 'metrics' or entry.is_metric|default %} (API){% endif %}</span>
-                                    {% endif %}
-                                </p>
-                        {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('.scrollspy').scrollSpy();
-            $('.pushpin').pushpin({ top: $('.pushpin').offset().top });
-            $('.tabs').tabs();
-        });
-    </script>
+    <div
+        vue-entry="API.Glossary"
+        glossary-items="{{ glossaryItems|json_encode }}"
+    ></div>
 {% endset %}
 
 {% if isWidget %}

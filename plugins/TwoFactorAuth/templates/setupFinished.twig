@@ -1,11 +1,4 @@
 {% extends 'admin.twig' %}
 {% block content %}
-    <div piwik-content-block class="twoFactorSetupFinished">
-        <h2 class="successMessage">
-            {{ 'TwoFactorAuth_SetupFinishedTitle'|translate }}
-        </h2>
-        <h3>{{ 'TwoFactorAuth_SetupFinishedSubtitle'|translate }}</h3>
-        <p><br />
-        <a class="btn" href="{{ linkTo({'module': 'UsersManager', 'action': 'userSecurity'}) }}">{{ 'General_Continue'|translate }}</a></p>
-    </div>
+    <div vue-entry="TwoFactorAuth.SetupFinished"></div>
 {% endblock %}

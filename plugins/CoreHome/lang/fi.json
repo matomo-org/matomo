@@ -27,6 +27,7 @@
         "EndDate": "Lopetuspäivä",
         "EndShortcut": "Loppuun",
         "EnterZenMode": "Siirry Zen-tilaan (piilota valikot)",
+        "ExceptionNotAllowlistedIP": "Et voi käyttää tätä Matomo-instanssia, koska IP-osoitteesi %s ei ole sallittu.",
         "ExcludeRowsWithLowPopulation": "Kaikki rivit näytetään %s Piilota vajaat rivit",
         "ExitZenMode": "Poistu Zen-tilasta (näytä valikot)",
         "ExpandSubtables": "Avaa alataulut",

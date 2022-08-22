@@ -92,7 +92,11 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
                     // copy to diff dir for ui tests viewer (we don't generate diffs w/ compare since it slows the tests a bit)
                     if (!fs.existsSync(diffPath)) {
-                        fs.linkSync(expectedPath, diffPath);
+                        try {
+                          fs.linkSync(expectedPath, diffPath);
+                        } catch (e) {
+                          console.log(`Failed to copy ${expectedPath} to ${diffPath}`);
+                        }
                     }
                 }
 
@@ -237,7 +241,7 @@ function assumeFileIsImageIfNotSpecified(filename) {
 
 function endsWith(string, needle)
 {
-    return string.substr(-1 * needle.length, needle.length) === needle;
+    return needle.length === 0 || string.slice(-needle.length) === needle;
 }
 
 // other automatically run assertions

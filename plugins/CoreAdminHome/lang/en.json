@@ -162,6 +162,15 @@
         "YouMayOptOut": "You may choose not to have a unique web analytics cookie identification number assigned to your computer to avoid the aggregation and analysis of data collected on this website.",
         "YouMayOptOut2": "You may choose to prevent this website from aggregating and analyzing the actions you take here.",
         "YouMayOptOut3": "Doing so will protect your privacy, but will also prevent the owner from learning from your actions and creating a better experience for you and other users.",
-        "YouMayOptOutBis": "To make that choice, please click below to receive an opt-out cookie."
+        "YouMayOptOutBis": "To make that choice, please click below to receive an opt-out cookie.",
+        "UserInviteSubject": "%1$s sent you an invite to join Matomo Analytics for %2$s.",
+        "AcceptInvite": "Accept Invite",
+        "DeclineInvite": "Decline Invite",
+        "UserInviteContent": "You can accept this invitation by clicking the accept button below.",
+        "UserInviteNotes": "If you were not expecting this invitation, you can ignore this email. If %1$s is sending you too many emails, you can block them or report abuse. The invitation automatically expires in %2$s days.",
+        "SecurityNotificationUserAcceptInviteBody": "User (login: %s) accepted the invitation.",
+        "SecurityNotificationUserDeclinedInviteBody": "User (login: %s) declined the invitation.",
+        "NeedHelp": "Need help?",
+        "HowToGetHelp": "There are different ways you can get help. There is free support via the Matomo Community and paid support provided by the Matomo team and partners of Matomo. Or maybe do you have a bug to report or want to suggest a new feature?"
     }
 }

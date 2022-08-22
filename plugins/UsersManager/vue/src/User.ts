@@ -12,6 +12,7 @@ interface User {
   password?: string;
   email: string;
   role?: string;
+  invite_status?: string;
 }
 
 export default User;

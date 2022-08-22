@@ -57,8 +57,7 @@
         },
 
         _initStandaloneMap: function () {
-            var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-            $rootScope.$emit('hidePeriodSelector');
+            window.CoreHome.Matomo.postEvent('hidePeriodSelector');
 
             $('.realTimeMap_overlay').css('top', '0px');
             $('.realTimeMap_datetime').css('top', '20px');
@@ -586,7 +585,7 @@
                 }
             }
 
-            updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z]{2,3}$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
+            updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z]{2,3}$/)) ? location.hash.slice(1) : 'world'); // TODO: restore last state
 
             // clicking on map background zooms out
             $('.RealTimeMap_map', this.$element).off('click').click(function () {
@@ -643,7 +642,7 @@
                     var ds = new Date().getTime() / 1000 - el.data('actiontime');
                     el.html(relativeTime(ds));
                 });
-                var d = new Date(), datetime = d.toTimeString().substr(0, 8);
+                var d = new Date(), datetime = d.toTimeString().slice(0, 8);
                 $('.realTimeMap_datetime').html(datetime);
             }, 1000);
         },

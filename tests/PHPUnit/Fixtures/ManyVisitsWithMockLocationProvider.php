@@ -175,7 +175,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
             // one visit to root url
             $t->setUrl("http://piwik.net/$visitorCounter/");
-            $t->setUrlReferrer(null);
+            $t->setUrlReferrer(false);
             $t->setForceVisitDateTime($visitDate->getDatetime());
             $t->setCustomDimension('' . $this->customDimensionId, $i * 5);
             $this->trackAction($t, $actionType, $visitorCounter, null);
@@ -195,7 +195,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
                 if (!is_null($referrers)) {
                     $t->setUrlReferrer($referrers[$actionIdx]);
                 } else {
-                    $t->setUrlReferrer(null);
+                    $t->setUrlReferrer(false);
                 }
 
                 if (!is_null($customVars)) {

@@ -5,12 +5,22 @@
 		<email>login5@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<invited_by />
+		
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
 		<login>login6</login>
 		<email>login6@example.com</email>
 		<superuser_access>0</superuser_access>
+		
+		<invited_by />
+		
+		
+		
 		
 		<uses_2fa>0</uses_2fa>
 	</row>

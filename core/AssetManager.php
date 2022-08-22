@@ -159,7 +159,7 @@ class AssetManager extends Singleton
         return $result;
     }
 
-    private function getPluginUmdChunks()
+    protected function getPluginUmdChunks()
     {
         $fetcher = $this->getPluginUmdJScriptFetcher();
 
@@ -349,11 +349,11 @@ class AssetManager extends Singleton
         if (Config::getInstance()->Development['disable_merged_assets'] == 1) {
             return true;
         }
-        
+
         if (isset($_GET['disable_merged_assets']) && $_GET['disable_merged_assets'] == 1) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -510,12 +510,12 @@ class AssetManager extends Singleton
     {
         $mergedAsset = new InMemoryUIAsset();
         $fetcher = new StaticUIAssetFetcher($files, $priorityOrder = array(), $theme = null);
-        
+
         $cacheBuster = UIAssetCacheBuster::getInstance();
 
         $assetMerger = new JScriptUIAssetMerger($mergedAsset, $fetcher, $cacheBuster);
         $assetMerger->generateFile();
-        
+
         return $mergedAsset->getContent();
     }
 }

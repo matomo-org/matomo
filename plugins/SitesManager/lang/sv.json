@@ -3,7 +3,7 @@
         "AddMeasurable": "Lägg till ny mätpunkt",
         "AddSite": "Lägg till en ny webbplats",
         "AdvancedTimezoneSupportNotFound": "Stöd för avancerade tidszoner hittades inte i din PHP (stöds i PHP> = 5,2). Du kan fortfarande välja en manuell UTC kompensation.",
-        "AliasUrlHelp": "Det rekommenderas, men krävs inte, att ange de olika webbadresser, en per rad, som dina besökare använder för att komma åt denna webbplats. Alias ​​webbadresser för en webbplats visas inte i hänvisningsadresserna > Webbplatsernas rapporter. Observera att detta inte är nödvändigt för att ange webbadresser med och utan \\\"www\\\" som Matomo automatiskt anser båda.",
+        "AliasUrlHelp": "Det rekommenderas, men krävs inte, att ange de olika webbadresser, en per rad, som dina besökare använder för att komma åt denna webbplats. Alias webbadresser för en webbplats visas inte i hänvisningsadresserna &gt; Webbplatsernas rapporter. Observera att detta inte är nödvändigt för att ange webbadresser med och utan \\\"www\\\" som Matomo automatiskt anser båda.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ändring av din tidszon kommer endast att påverka informationen i framtiden, och kommer inte att tillämpas retroaktivt.",
         "ChooseMeasurableTypeHeadline": "Vad vill du mäta?",
         "Currency": "Valuta",

@@ -97,6 +97,15 @@ class Metrics
     const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
+    const INDEX_GOAL_NB_PAGES_UNIQ_BEFORE = 9;
+    const INDEX_GOAL_NB_CONVERSIONS_ATTRIB = 10;
+    const INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE = 11;
+    const INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ = 12;
+    const INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE = 13;
+    const INDEX_GOAL_REVENUE_PER_ENTRY = 14;
+    const INDEX_GOAL_REVENUE_ATTRIB = 15;
+    const INDEX_GOAL_NB_CONVERSIONS_ENTRY = 16;
+    const INDEX_GOAL_REVENUE_ENTRY = 17;
 
     public static $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
@@ -162,6 +171,15 @@ class Metrics
         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 'revenue_shipping',
         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 'revenue_discount',
         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
+        Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE       => 'nb_conv_pages_before',
+        Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB      => 'nb_conversions_attrib',
+        Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE   => 'nb_conversions_page_rate',
+        Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ   => 'nb_conversions_page_uniq',
+        Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE  => 'nb_conversions_entry_rate',
+        Metrics::INDEX_GOAL_REVENUE_PER_ENTRY          => 'revenue_per_entry',
+        Metrics::INDEX_GOAL_REVENUE_ATTRIB             => 'revenue_attrib',
+        Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY       => 'nb_conversions_entry',
+        Metrics::INDEX_GOAL_REVENUE_ENTRY              => 'revenue_entry',
     );
 
     protected static $metricsAggregatedFromLogs = array(

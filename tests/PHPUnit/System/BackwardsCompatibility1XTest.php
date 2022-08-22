@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
@@ -45,7 +47,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         }
 
         // truncate log tables so old data won't be re-archived
-        foreach (array('log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item') as $table) {
+        foreach (['log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item'] as $table) {
             Db::query("TRUNCATE TABLE " . Common::prefixTable($table));
         }
 
@@ -83,7 +85,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         // note: not sure why I have to manually activate plugin in order for `./console tests:run BackwardsCompatibility1XTest` to work
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('DevicesDetection');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         $this->runApiTests($api, $params);
@@ -134,14 +136,14 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'avg_page_load_time',
         ];
 
-        $defaultOptions = array(
+        $defaultOptions = [
             'idSite' => $idSite,
             'date'   => $dateTime,
             'disableArchiving' => true,
-            'otherRequestParameters' => array(
+            'otherRequestParameters' => [
                 // when changing this, might also need to change the same line in OneVisitorTwoVisitsTest.php
-                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
-            ),
+                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth'
+            ],
             'xmlFieldsToRemove' => array_merge([
                 'entry_sum_visit_length',
                 'sum_visit_length',
@@ -149,7 +151,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                 'interactionPosition',
                 'pageviewPosition',
             ], $performanceMetrics),
-        );
+        ];
 
         /**
          * When Piwik\Tests\System\BackwardsCompatibility1XTest is failing,
@@ -157,7 +159,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
          * sometimes for a given API method that fails to generate the same output as OneVisitorTwoVisits does,
          * we need to add the API below which will cause the fixtures for this API to be created in processed/
          */
-        $reportsToCompareSeparately = array(
+        $reportsToCompareSeparately = [
 
             // the label column is not the first column here
             'MultiSites.getAll',
@@ -174,14 +176,18 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'Actions.getDownloads',
             'Actions.getDownload',
 
+            'Actions.getEntryPageUrls',
+            'Actions.getExitPageUrls',
+            'Actions.getPageTitle',
+
             // new flag dimensions
             'UserCountry.getCountry',
 
             'Tour.getLevel',
             'Tour.getChallenges'
-        );
+        ];
 
-        $apiNotToCall = array(
+        $apiNotToCall = [
             // in the SQL dump, a referrer is named referer.com, but now in OneVisitorTwoVisits it is referrer.com
             'Referrers',
 
@@ -229,8 +235,12 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'VisitsSummary.getSumVisitsLengthPretty',
 
             // did not exist before Matomo 4
+
             'PagePerformance.get',
-        );
+
+            // Did not exist before Matomo 4.11.
+            'MultiSites.getAllWithGroups'
+        ];
 
         if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {
             // includes some columns that are not available when CustomVariables plugin is not available
@@ -243,53 +253,53 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         $allReportsOptions['compareAgainst'] = 'OneVisitorTwoVisits';
         $allReportsOptions['apiNotToCall']   = $apiNotToCall;
 
-        return array(
-            array('all', $allReportsOptions),
+        return [
+            ['all', $allReportsOptions],
 
-            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
-                                              'disableArchiving' => true, 'testSuffix' => '_multipleDates')),
+            ['VisitFrequency.get', ['idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
+                                              'disableArchiving' => true, 'testSuffix' => '_multipleDates']],
 
-            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => $dateTime,
-                                              'periods' => array('day', 'week', 'month', 'year'),
-                                              'disableArchiving' => false)),
+            ['VisitFrequency.get', ['idSite' => $idSite, 'date' => $dateTime,
+                                              'periods' => ['day', 'week', 'month', 'year'],
+                                              'disableArchiving' => false]],
 
-            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
-                                              'periods' => array('range'), 'disableArchiving' => true)),
+            ['VisitFrequency.get', ['idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
+                                              'periods' => ['range'], 'disableArchiving' => true]],
 
-            array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
-                                               'otherRequestParameters' => array('expanded' => '1'),
+            ['Actions.getPageUrls', ['idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
+                                               'otherRequestParameters' => ['expanded' => '1'],
                                                'xmlFieldsToRemove' => $performanceMetrics,
                                                'testSuffix' => '_expanded',
-                                               'periods' => array('range'), 'disableArchiving' => true)),
+                                               'periods' => ['range'], 'disableArchiving' => true]],
 
-            array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
-                                               'otherRequestParameters' => array('flat' => '1'),
+            ['Actions.getPageUrls', ['idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
+                                               'otherRequestParameters' => ['flat' => '1'],
                                                'xmlFieldsToRemove' => $performanceMetrics,
                                                'testSuffix' => '_flat',
-                                               'periods' => array('range'), 'disableArchiving' => true)),
+                                               'periods' => ['range'], 'disableArchiving' => true]],
 
-            array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06',
-                                               'otherRequestParameters' => array('idSubtable' => '30'),
+            ['Actions.getPageUrls', ['idSite' => $idSite, 'date' => '2012-03-06',
+                                               'otherRequestParameters' => ['idSubtable' => '30'],
                                                'xmlFieldsToRemove' => $performanceMetrics,
                                                'testSuffix' => '_subtable',
-                                               'periods' => array('day'), 'disableArchiving' => true)),
+                                               'periods' => ['day'], 'disableArchiving' => true]],
 
-            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => array('month'),
-                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true)),
-            array($reportsToCompareSeparately, $defaultOptions),
-        );
+            ['VisitFrequency.get', ['idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => ['month'],
+                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true]],
+            [$reportsToCompareSeparately, $defaultOptions],
+        ];
     }
 
     public function provideContainerConfig()
     {
-        return array(
+        return [
             'Piwik\Config' => \DI\decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;
                 return $previous;
             }),
-        );
+        ];
     }
 }
 

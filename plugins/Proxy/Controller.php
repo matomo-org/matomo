@@ -21,7 +21,6 @@ use Piwik\ProxyHttp;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
     const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
 
     /**
@@ -98,35 +97,5 @@ class Controller extends \Piwik\Plugin\Controller
     private function serveJsFile($uiAsset)
     {
         ProxyHttp::serverStaticFile($uiAsset->getAbsoluteLocation(), self::JS_MIME_TYPE);
-    }
-
-    /**
-     * Validate URL against *.piwik.org domains
-     *
-     * @param string $url
-     * @return bool True if valid; false otherwise
-     */
-    public static function isPiwikUrl($url)
-    {
-        // guard for IE6 meta refresh parsing weakness (OSVDB 19029)
-        if (strpos($url, ';') !== false
-            || strpos($url, '&#59') !== false
-        ) {
-            return false;
-        }
-        if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org([#?/]|$)~', $url)) {
-            return true;
-        }
-
-        if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?matomo.org([#?/]|$)~', $url)) {
-            return true;
-        }
-
-        // Allow clockworksms domain
-        if (strpos($url, 'http://www.clockworksms.com/') === 0) {
-            return true;
-        }
-
-        return false;
     }
 }

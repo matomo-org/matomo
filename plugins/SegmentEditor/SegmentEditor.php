@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
@@ -18,18 +19,18 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\Date;
 use Piwik\Notification;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Diagnostics\Diagnostics;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Piwik\Period;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\Plugins\UsersManager\API as UsersManagerApi;
-use Piwik\Date;
 
 /**
  */
@@ -177,7 +178,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+        [$segment, $storedSegment, $isSegmentToPreprocess] = $segmentInfo;
 
         throw new UnprocessedSegmentException($segment, $isSegmentToPreprocess, $storedSegment);
     }
@@ -194,7 +195,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+        [$segment, $storedSegment, $isSegmentToPreprocess, $canBeArchived] = $segmentInfo;
 
         if (!$isSegmentToPreprocess) {
             return; // do not display the notification for custom segments
@@ -205,6 +206,7 @@ class SegmentEditor extends \Piwik\Plugin
         $view = new View('@SegmentEditor/_unprocessedSegmentMessage.twig');
         $view->isSegmentToPreprocess = $isSegmentToPreprocess;
         $view->segmentName = $segmentDisplayName;
+        $view->canBeArchived = $canBeArchived;
         $view->visitorLogLink = '#' . Url::getCurrentQueryStringWithParametersModified([
             'category' => 'General_Visitors',
             'subcategory' => 'Live_VisitorLog',
@@ -283,7 +285,20 @@ class SegmentEditor extends \Piwik\Plugin
             $storedSegment = null;
         }
 
-        return [$segment, $storedSegment, $isSegmentToPreprocess];
+        // get the earliest date to rearchive
+        $earliestDateToRearchive =  Piwik::getEarliestDateToRearchive();
+
+        //get the request end period
+        $endDate = $period->getDateEnd();
+        $canBeArchived = true;
+        if (!empty($earliestDateToRearchive) && !empty($endDate)) {
+            //if the rearchive won't trigger
+            if ($earliestDateToRearchive->isLater($endDate)) {
+                $canBeArchived = false;
+            }
+        }
+
+        return [$segment, $storedSegment, $isSegmentToPreprocess, $canBeArchived];
     }
 
     public function install()
@@ -375,30 +390,33 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function transferAllUserSegmentsToSuperUser($userLogin)
     {
-        $model = new Model();
-        $updatedAt = Date::factory('now')->toString('Y-m-d H:i:s');
+        // We need to do that as super user, as the event triggering this method might be initiated without a session
+        Access::doAsSuperUser(function () use ($userLogin) {
+            $model = new Model();
+            $updatedAt = Date::factory('now')->toString('Y-m-d H:i:s');
 
-        $superUsers = UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess();
-        $superUserLogin = false;
+            $superUsers = UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess();
+            $superUserLogin = false;
 
-        foreach ($superUsers as $superUser) {
-            if ($superUser['login'] !== $userLogin) {
-                $superUserLogin = $superUser['login'];
-                break;
+            foreach ($superUsers as $superUser) {
+                if ($superUser['login'] !== $userLogin) {
+                    $superUserLogin = $superUser['login'];
+                    break;
+                }
             }
-        }
 
-        if (!$superUserLogin) {
-            return;
-        }
-
-        foreach ($model->getAllSegments($userLogin) as $segment) {
-            if ($segment['login'] === $userLogin) {
-                $model->updateSegment($segment['idsegment'], array(
-                    'login' => $superUserLogin,
-                    'ts_last_edit' => $updatedAt
-                ));
+            if (!$superUserLogin) {
+                return;
             }
-        }
+
+            foreach ($model->getAllSegments($userLogin) as $segment) {
+                if ($segment['login'] === $userLogin) {
+                    $model->updateSegment($segment['idsegment'], array(
+                        'login' => $superUserLogin,
+                        'ts_last_edit' => $updatedAt
+                    ));
+                }
+            }
+        });
     }
 }

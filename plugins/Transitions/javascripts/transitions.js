@@ -128,7 +128,7 @@ DataTable_RowActions_Registry.register({
 
             if (dataTableParams['period'] === 'range') {
 
-                var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+                var piwikPeriods = window.CoreHome.Periods;
                 if (piwikPeriods) {
                     var range = piwikPeriods.parse(dataTableParams['period'], dataTableParams['date']);
                     if (range) {
@@ -387,10 +387,7 @@ Piwik_Transitions.prototype.render = function () {
 
     this.renderLoops();
 
-    var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-    if ($rootScope) {
-        $rootScope.$emit('Transitions.dataChanged', {'actionType': this.actionType, 'actionName': this.actionName});
-    }
+    window.CoreHome.Matomo.postEvent('Transitions.dataChanged', {'actionType': this.actionType, 'actionName': this.actionName});
 };
 
 /** Render left side: referrer groups & direct entries */
@@ -459,7 +456,7 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
             el.addClass('Transitions_Value0');
         } else {
             self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
-            var groupName = cssClass.charAt(0).toLowerCase() + cssClass.substr(1);
+            var groupName = cssClass.charAt(0).toLowerCase() + cssClass.slice(1);
             el.hover(function () {
                 self.highlightGroup(groupName, highlightCurveOnSide);
             }, function () {
@@ -636,12 +633,9 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
             if (this.showEmbeddedInReport) {
                 onClick = (function (url) {
                     return function () {
-                        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-                        if ($rootScope) {
-                            $rootScope.$emit('Transitions.switchTransitionsUrl', {
-                                url:url
-                            });
-                        }
+                        window.CoreHome.Matomo.postEvent('Transitions.switchTransitionsUrl', {
+                            url: url,
+                        });
                     };
                 })(label);
             } else {
@@ -792,7 +786,7 @@ Piwik_Transitions.prototype.highlightGroup = function (groupName, side) {
     this.highlightedGroup = groupName;
     this.highlightedGroupSide = side;
 
-    var cssClass = 'Transitions_' + groupName.charAt(0).toUpperCase() + groupName.substr(1);
+    var cssClass = 'Transitions_' + groupName.charAt(0).toUpperCase() + groupName.slice(1);
     this.highlightedGroupCenterEl = this.canvas.container.find('.' + cssClass);
     this.highlightedGroupCenterEl.addClass('Transitions_Highlighted');
 

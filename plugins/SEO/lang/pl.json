@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "Wtyczka pobiera i wyświetla wskaźniki SEO: rankingu Alexa, Google Pagerank, liczbę zindeksowanych stron oraz linki zwrotne do aktualnie wybranego serwisu.",
-        "AlexaRank": "Ranking Alexa",
         "Bing_IndexedPages": "Zindeksowane w Bing",
         "DomainAge": "Wiek domeny",
         "Google_IndexedPages": "Zindeksowane w Google",
+        "PluginDescription": "Wtyczka pobiera i wyświetla wskaźniki SEO: Google Pagerank, liczbę zindeksowanych stron oraz linki zwrotne do aktualnie wybranego serwisu.",
         "Rank": "Pozycja",
-        "SeoRankings": "Pozycja SEO",
-        "SEORankingsFor": "Pozycja SEO dla %s"
+        "SEORankingsFor": "Pozycja SEO dla %s",
+        "SeoRankings": "Pozycja SEO"
     }
 }

@@ -304,6 +304,7 @@ interface JsTrackingCodeGeneratorState {
   isLoading: boolean;
   siteUrls: Record<string, string[]>;
   siteExcludedQueryParams: Record<string, string[]>,
+  siteExcludedReferrers: Record<string, string[]>,
   crossDomain: boolean;
   groupByDomain: boolean;
   trackAllAliases: boolean;
@@ -356,6 +357,7 @@ export default defineComponent({
       isLoading: false,
       siteUrls: {},
       siteExcludedQueryParams: {},
+      siteExcludedReferrers: {},
       crossDomain: false,
       groupByDomain: false,
       trackAllAliases: false,
@@ -431,6 +433,24 @@ export default defineComponent({
         );
       }
 
+      if (!this.siteExcludedReferrers[idSite]) {
+        this.isLoading = true;
+
+        promises.push(
+          AjaxHelper.fetch({
+            module: 'API',
+            method: 'SitesManager.getExcludedReferrers',
+            idSite,
+            filter_limit: '-1',
+          }).then((data) => {
+            this.siteExcludedReferrers[idSite] = [];
+            Object.values(data || []).forEach((referrer: unknown) => {
+              this.siteExcludedReferrers[idSite].push((referrer as string).replace(/^https?:\/\//, ''));
+            });
+          }),
+        );
+      }
+
       Promise.all(promises).then(() => {
         this.isLoading = false;
         this.updateCurrentSiteInfo();
@@ -479,6 +499,10 @@ export default defineComponent({
 
       if (this.siteExcludedQueryParams[site.id]) {
         params.excludedQueryParams = this.siteExcludedQueryParams[site.id];
+      }
+
+      if (this.siteExcludedReferrers[site.id]) {
+        params.excludedReferrers = this.siteExcludedReferrers[site.id];
       }
 
       if (this.useCustomCampaignParams) {
@@ -612,7 +636,7 @@ export default defineComponent({
     jsTrackCampaignParamsInlineHelp() {
       return translate(
         'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc',
-        '<a href="https://matomo.org/faq/general/#faq_119" rel="noreferrer noopener" target="_blank">',
+        '<a href="https://matomo.org/faq/general/faq_119" rel="noreferrer noopener" target="_blank">',
         '</a>',
       );
     },

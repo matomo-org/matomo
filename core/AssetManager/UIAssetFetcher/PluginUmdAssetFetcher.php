@@ -115,17 +115,18 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function checkForMissingPluginDependencies($pluginsToLoadOnInit)
     {
+        $allPlugins = $this->getPluginsWithUmdsToUse();
         foreach ($pluginsToLoadOnInit as $pluginName) {
             $pluginDependencies = self::getPluginDependencies($pluginName);
 
-            // if the plugin dependencies has a plugin that is in $this->plugins, but not in $pluginsToLoadOnInit,
+            // if the plugin dependencies has a plugin that is in $allPlugins, but not in $pluginsToLoadOnInit,
             // the dependency was set to load on demand, and we report an error since this should only happen
             // during development.
             //
-            // if it's not in either $this->plugins and not in $pluginsToLoadOnInit, then it's not activated
+            // if it's not in either $allPlugins and not in $pluginsToLoadOnInit, then it's not activated
             // and we ignore it.
             if (!empty(array_diff($pluginDependencies, $pluginsToLoadOnInit))
-                && empty(array_diff($pluginDependencies, $this->plugins))
+                && empty(array_diff($pluginDependencies, $allPlugins))
             ) {
                 throw new \Exception("Missing plugin dependency: $pluginName requires plugins "
                     . implode(', ', $pluginDependencies) . ', but one or more of these is set to load on demand. '
@@ -137,7 +138,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function getPluginsToLoadOnInit()
     {
-        $plugins = $this->plugins;
+        $plugins = $this->getPluginsWithUmdsToUse();
         $plugins = array_filter($plugins, function ($pluginName) {
             return Manager::getInstance()->isPluginLoaded($pluginName)
                 && !$this->shouldLoadUmdOnDemand($pluginName);
@@ -178,7 +179,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     protected function retrieveFileLocations()
     {
-        if (empty($this->plugins)) {
+        $plugins = $this->getPluginsWithUmdsToUse();
+        if (empty($plugins)) {
             return;
         }
 
@@ -205,7 +207,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         // either loadFilesIndividually = true, or being called w/ disable_merged_assets=1
-        $this->addUmdFilesIfDetected($this->plugins);
+        $this->addUmdFilesIfDetected($this->getPluginsWithUmdsToUse());
    }
 
     private function addUmdFilesIfDetected($plugins)
@@ -318,7 +320,22 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
     private static function getRelativePluginDirectory($plugin)
     {
         $result = self::getPluginDirectory($plugin);
-        $result = str_replace(PIWIK_INCLUDE_PATH . '/', '', $result);
+
+        $matomoPath = rtrim(PIWIK_INCLUDE_PATH, '/') . '/';
+        $webroots = array_merge(
+            Manager::getAlternativeWebRootDirectories(),
+            [$matomoPath => '/']
+        );
+
+        foreach ($webroots as $webrootAbsolute => $webrootRelative) {
+            if (strpos($result, $webrootAbsolute) === 0) {
+                $result = str_replace($webrootAbsolute, $webrootRelative, $result);
+                break;
+            }
+        }
+
+        $result = ltrim($result, '/');
+
         return $result;
     }
 
@@ -353,5 +370,14 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         // there may be a Plugin instance in memory that does not have this method.
         $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
         return method_exists($plugin, 'shouldLoadUmdOnDemand') && $plugin->shouldLoadUmdOnDemand();
+    }
+
+    private function getPluginsWithUmdsToUse()
+    {
+        $plugins = $this->plugins;
+        // Login UMDs must always be used, even if there's another login plugin being used
+        $plugins[] = 'Login';
+        $plugins = array_unique($plugins);
+        return $plugins;
     }
 }

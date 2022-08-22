@@ -4,117 +4,26 @@
 
 {% block content %}
 
-    <script type="text/javascript">
-
-        function showList(type) {
-            var ajaxHandler = new ajaxHelper();
-            ajaxHandler.addParams({
-                module: 'DevicesDetection',
-                action: 'showList',
-                type: type
-            }, 'GET');
-            ajaxHandler.setFormat('html');
-            ajaxHandler.setCallback(function(response){
-                var $list = $('#deviceDetectionItemList');
-                $list.find('.itemList').html(response);
-                piwikHelper.modalConfirm($list, [], {fixedFooter: true});
-            });
-            ajaxHandler.send();
-        }
-
-    </script>
-
-    <style type="text/css">
-        textarea {
-            width: 700px;
-            display: block;
-        }
-
-        .detection {
-            padding-top:10px;
-        }
-        .detection td {
-            width: 50%;
-        }
-        .detection td img {
-            margin-right: 10px;
-        }
-    </style>
-
-    <div piwik-content-block content-title="{{ title|e('html_attr') }}">
-        <h3>{{ 'DevicesDetection_UserAgent'|translate|e('html_attr') }}</h3>
-
-        <form action="{{ linkTo({}) }}" method="POST">
-            <textarea name="ua">{{ userAgent }}</textarea>
-            <br />
-            <input type="submit" value="{{ 'General_Refresh'|translate }}" class="btn" />
-        </form>
-
-        {% if bot_info %}
-
-        <h3>{{ 'DevicesDetection_BotDetected'|translate(bot_info.name) }}</h3>
-
-        {% else %}
-
-        <h3>{{ 'DevicesDetection_ColumnOperatingSystem'|translate|e('html_attr') }}</h3>
-        <table class="detection" piwik-content-table>
-            <tbody>
-            <tr>
-                <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('os');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-                <td><img height="16px" width="16px" src="{{ os_logo }}" />{{ os_name }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
-                <td>{{ os_version }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'DevicesDetection_OperatingSystemFamily'|translate }}  <small>(<a href="javascript:showList('osfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-                <td><img height="16px" width="16px" src="{{ os_family_logo }}" />{{ os_family }}</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h3>{{ 'DevicesDetection_ColumnBrowser'|translate }}</h3>
-        <table class="detection" piwik-content-table>
-            <tbody>
-            <tr>
-                <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('browsers');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-                <td><img height="16px" width="16px" src="{{ browser_logo }}" />{{ browser_name }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
-                <td>{{ browser_version }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'DevicesDetection_BrowserFamily'|translate }} <small>(<a href="javascript:showList('browserfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-                <td><img height="16px" width="16px" src="{{ browser_family_logo }}" />{{ browser_family }}</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h3>{{ 'DevicesDetection_Device'|translate }}</h3>
-        <table class="detection" piwik-content-table>
-            <tbody>
-            <tr>
-                <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }} <small>(<a href="javascript:showList('devicetypes');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-                <td><img height="16px" width="16px" src="{{ device_type_logo }}" />{{ device_type }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'DevicesDetection_dataTableLabelBrands'|translate }} <small>(<a href="javascript:showList('brands');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-                <td><img height="16px" width="16px" src="{{ device_brand_logo }}" />{{ device_brand }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'DevicesDetection_dataTableLabelModels'|translate }}</td>
-                <td>{{ device_model }}</td>
-            </tr></tbody>
-        </table>
-
-        {% endif %}
-    </div>
-
-    <div class="ui-confirm" id="deviceDetectionItemList">
-        <div class="itemList"> </div>
-        <input role="close" type="button" value="{{ 'General_Close'|translate }}"/>
-    </div>
+<div
+    vue-entry="DevicesDetection.DetectionPage"
+    user-agent="{{ userAgent|json_encode|e('html_attr') }}"
+    bot_info="{{ bot_info|default(null)|json_encode|e('html_attr') }}"
+    os_logo="{{ os_logo|default(null)|json_encode|e('html_attr') }}"
+    os_name="{{ os_name|default(null)|json_encode|e('html_attr') }}"
+    os_version="{{ os_version|default(null)|json_encode|e('html_attr') }}"
+    os_family_logo="{{ os_family_logo|default(null)|json_encode|e('html_attr') }}"
+    os_family="{{ os_family|default(null)|json_encode|e('html_attr') }}"
+    browser_logo="{{ browser_logo|default(null)|json_encode|e('html_attr') }}"
+    browser_name="{{ browser_name|default(null)|json_encode|e('html_attr') }}"
+    browser_version="{{ browser_version|default(null)|json_encode|e('html_attr') }}"
+    browser_family="{{ browser_family|default(null)|json_encode|e('html_attr') }}"
+    browser_family_logo="{{ browser_family_logo|default(null)|json_encode|e('html_attr') }}"
+    device_type_logo="{{ device_type_logo|default(null)|json_encode|e('html_attr') }}"
+    device_type="{{ device_type|default(null)|json_encode|e('html_attr') }}"
+    device_brand_logo="{{ device_brand_logo|default(null)|json_encode|e('html_attr') }}"
+    device_brand="{{ device_brand|default(null)|json_encode|e('html_attr') }}"
+    device_model="{{ device_model|default(null)|json_encode|e('html_attr') }}"
+    client-hints-checked="{{ (not not clientHints)|json_encode|e('html_attr') }}"
+></div>
 
 {% endblock %}

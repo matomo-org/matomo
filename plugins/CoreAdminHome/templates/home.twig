@@ -4,14 +4,12 @@
 
 {% block content %}
     {% set feedbackHelp %}
-        <div piwik-content-block content-title="Need help?">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'CoreAdminHome_NeedHelp'|translate }}">
             <div>
-                There are different ways you can get help. There is free support via the Matomo Community and paid support
-                provided by the Matomo team and partners of Matomo. Or maybe do you have a bug to report or want to suggest a new
-                feature?
+                {{ 'CoreAdminHome_HowToGetHelp'|translate }}
                 <br />
                 <br />
-                <a href="{{ linkTo({'module': 'Feedback', 'action': 'index'}) }}">Learn more</a>
+                <a href="{{ linkTo({'module': 'Feedback', 'action': 'index'}) }}">{{ 'CoreAdminHome_LearnMore'|translate }}</a>
             </div>
         </div>
     {% endset %}
@@ -20,17 +18,17 @@
         <div class="row">
             {% if hasQuickLinks or hasSystemSummary %}
                 <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
-                    {% if hasQuickLinks %}<div piwik-widget-loader='{"module":"CoreHome","action":"quickLinks"}'></div>{% endif %}
-                    {% if hasSystemSummary %}<div piwik-widget-loader='{"module":"CoreHome","action":"getSystemSummary"}'></div>{% endif %}
+                    {% if hasQuickLinks %}<div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;CoreHome&quot;,&quot;action&quot;:&quot;quickLinks&quot;}"></div>{% endif %}
+                    {% if hasSystemSummary %}<div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;CoreHome&quot;,&quot;action&quot;:&quot;getSystemSummary&quot;}"></div>{% endif %}
                 </div>
             {% endif %}
             {% if hasDiagnostics or hasTrackingFailures %}
                 <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
                     {% if hasDiagnostics %}
-                    <div piwik-widget-loader='{"module":"Installation","action":"getSystemCheck"}'></div>
+                    <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;Installation&quot;,&quot;action&quot;:&quot;getSystemCheck&quot;}"></div>
                     {% endif %}
                     {% if hasTrackingFailures %}
-                    <div piwik-widget-loader='{"module":"CoreAdminHome","action":"getTrackingFailures"}'></div>
+                    <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;CoreAdminHome&quot;,&quot;action&quot;:&quot;getTrackingFailures&quot;}"></div>
                     {% endif %}
                 </div>
             {% endif %}
@@ -45,10 +43,10 @@
     {% endif %}
 
     {% if hasPremiumFeatures and isMarketplaceEnabled and isInternetEnabled %}
-        <div piwik-widget-loader='{"module":"Marketplace","action":"getPremiumFeatures"}'></div>
+        <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;Marketplace&quot;,&quot;action&quot;:&quot;getPremiumFeatures&quot;}"></div>
     {% endif %}
     {% if hasNewPlugins and isMarketplaceEnabled and isInternetEnabled %}
-        <div piwik-widget-loader='{"module":"Marketplace","action":"getNewPlugins", "isAdminPage": "1"}'></div>
+        <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;Marketplace&quot;,&quot;action&quot;:&quot;getNewPlugins&quot;,&quot;isAdminPage&quot;: &quot;1&quot;}"></div>
     {% endif %}
 
     {{ postEvent('Template.adminHome') }}
@@ -68,12 +66,12 @@
         <div class="row">
             {% if hasDonateForm %}
                 <div class="col s12 {% if hasPiwikBlog %}m6{% endif %}">
-                    <div piwik-widget-loader='{"module":"CoreHome","action":"getDonateForm","widget": "0"}'></div>
+                    <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;CoreHome&quot;,&quot;action&quot;:&quot;getDonateForm&quot;,&quot;widget&quot;: &quot;0&quot;}"></div>
                 </div>
             {% endif %}
             {% if hasPiwikBlog and isInternetEnabled %}
                 <div class="col s12 {% if hasDonateForm %}m6{% endif %}">
-                    <div piwik-widget-loader='{"module":"RssWidget","action":"rssPiwik"}'></div>
+                    <div vue-entry="CoreHome.WidgetLoader" widget-params="{&quot;module&quot;:&quot;RssWidget&quot;,&quot;action&quot;:&quot;rssPiwik&quot;}"></div>
                 </div>
             {% endif %}
         </div>

@@ -49,6 +49,12 @@ class UserAccessFilter
     private $usersWithAdminAccess;
 
     /**
+     * Holds a list of all user logins that have write access. Only used for caching
+     * @var array  Array ('loginName' => array(idsites...))
+     */
+    private $usersWithWriteAccess;
+
+    /**
      * Holds a list of all user logins that have view access. Only used for caching
      * @var array  Array ('loginName' => array(idsites...))
      */
@@ -102,9 +108,9 @@ class UserAccessFilter
         }
 
         return array_values(array_filter($users, function ($user) {
-            return $this->isNonSuperUserAllowedToSeeThisLogin($user['login']);
+            $isPendingVisible = empty($user['invite_token']) || $this->isOwnLogin($user['invited_by']);
+            return $isPendingVisible && $this->isNonSuperUserAllowedToSeeThisLogin($user['login']);
         }));
-
     }
 
     /**
@@ -171,13 +177,14 @@ class UserAccessFilter
         if (!isset($this->idSitesWithAdmin)) {
             $this->idSitesWithAdmin     = $this->access->getSitesIdWithAdminAccess();
             $this->usersWithAdminAccess = $this->model->getUsersSitesFromAccess('admin');
+            $this->usersWithWriteAccess = $this->model->getUsersSitesFromAccess('write');
             $this->usersWithViewAccess  = $this->model->getUsersSitesFromAccess('view');
         }
 
         return (
           (isset($this->usersWithViewAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithViewAccess[$login]))
-          ||
-          (isset($this->usersWithAdminAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithAdminAccess[$login]))
+          || (isset($this->usersWithWriteAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithWriteAccess[$login]))
+          || (isset($this->usersWithAdminAccess[$login]) && array_intersect($this->idSitesWithAdmin, $this->usersWithAdminAccess[$login]))
         );
     }
 }

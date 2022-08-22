@@ -1,0 +1,14 @@
+{% set break = false %}
+{% for element in topDimension %}
+
+    {% if not break %}
+        {% set goal_nb_conversion=element.nb_conversions %}
+        {% set goal_conversion_rate=element.conversion_rate %}
+        <span class='goalTopElement' title='{{ 'Goals_Conversions'|translate("<b>"~goal_nb_conversion|number~"</b>")|raw }},
+            {{ 'Goals_ConversionRate'|translate("<b>"~goal_conversion_rate|number~"</b>")|raw }}'>
+            <a href="#" target="_blank" rel="noopener">{{ element.name }}</a>
+        </span>
+        {% set break = true %}
+    {% endif %}
+
+{% endfor %}

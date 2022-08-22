@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
@@ -38,8 +40,8 @@ class GetEntryPageUrls extends Base
         $this->order   = 3;
 
         $this->actionToLoadSubTables = $this->action;
-
         $this->subcategoryId = 'Actions_SubmenuPagesEntry';
+        $this->hasGoalMetrics = true;
     }
 
     public function getProcessedMetrics()
@@ -76,6 +78,8 @@ class GetEntryPageUrls extends Base
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);
+
+        $view->config->show_goals = true;
     }
 
     public function getRelatedReports()

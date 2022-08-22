@@ -10,7 +10,7 @@
     :name="name"
     v-bind="uiControlAttributes"
     :id="name"
-    :value="modelValue"
+    :value="modelValueText"
     @keydown="onKeydown($event)"
     @change="onKeydown($event)"
     class="materialize-textarea"
@@ -22,12 +22,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { debounce } from 'CoreHome';
+import AbortableModifiers from './AbortableModifiers';
 
 export default defineComponent({
   props: {
     name: String,
     uiControlAttributes: Object,
     modelValue: String,
+    modelModifiers: Object,
     title: String,
   },
   inheritAttrs: false,
@@ -37,7 +39,29 @@ export default defineComponent({
   },
   methods: {
     onKeydown(event: Event) {
-      this.$emit('update:modelValue', (event.target as HTMLTextAreaElement).value);
+      const newValue = (event.target as HTMLTextAreaElement).value;
+      if (newValue !== this.modelValue) {
+        if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+          this.$emit('update:modelValue', newValue);
+          return;
+        }
+
+        const emitEventData = {
+          value: newValue,
+          abort: () => {
+            if ((event.target as HTMLInputElement).value !== this.modelValue) {
+              (event.target as HTMLInputElement).value = this.modelValueText;
+            }
+          },
+        };
+
+        this.$emit('update:modelValue', emitEventData);
+      }
+    },
+  },
+  computed: {
+    modelValueText() {
+      return this.modelValue || '';
     },
   },
   watch: {

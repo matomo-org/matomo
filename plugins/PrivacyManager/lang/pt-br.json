@@ -22,7 +22,7 @@
         "DeleteDataDescription": "Você pode configurar o Matomo para excluir regularmente dados brutos antigos e/ou relatórios agregados para manter sua base de dados pequena ou para atender regulamentações de privacidade como a GDPR.",
         "DeleteDataInterval": "Excluir dados antigos a cada",
         "DeleteDataSettings": "Excluir logs de visitantes e relatórios antigos",
-        "DeleteLogDescription2": "Quando você habilita a exclusão automática de logs, você deve garantir que todos os relatórios diários anteriores tenham sido processados​​, para que nenhum dado seja perdido.",
+        "DeleteLogDescription2": "Quando você habilita a exclusão automática de logs, você deve garantir que todos os relatórios diários anteriores tenham sido processados, para que nenhum dado seja perdido.",
         "DeleteLogsConfirm": "Você está prestes a habilitar a exclusão de dados brutos. Se dados brutos antigos forem excluídos e relatórios ainda não tiverem sido criados, você não conseguirá ver dados de análises históricas passadas. Você tem certeza que deseja fazer isto?",
         "DeleteLogsOlderThan": "Excluir logs mais antigos que",
         "DeleteMaxRows": "Número máximo de linhas a serem excluídas em uma execução:",

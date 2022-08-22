@@ -25,7 +25,7 @@ class SqlDump extends Fixture
     public $period = 'day';
     public $idSite = 'all';
     public $tablesPrefix = 'piwik_';
-    public $dumpUrl = "http://piwik-team.s3.amazonaws.com/generated-logs-one-day.sql.gz";
+    public $dumpUrl = "";
 
     public function setUp(): void
     {

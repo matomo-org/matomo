@@ -28,9 +28,15 @@ type ParsedQueryParameters = Record<string, unknown>;
  * URL store and helper functions.
  */
 class MatomoUrl {
-  readonly urlQuery = ref('');
+  readonly url = ref<URL|null>(null);
 
-  readonly hashQuery = ref('');
+  readonly urlQuery = computed(
+    () => (this.url.value ? this.url.value.search.replace(/^\?/, '') : ''),
+  );
+
+  readonly hashQuery = computed(
+    () => (this.url.value ? this.url.value.hash.replace(/^[#/?]+/, '') : ''),
+  );
 
   readonly urlParsed = computed(() => readonly(
     this.parse(this.urlQuery.value) as ParsedQueryParameters,
@@ -46,16 +52,13 @@ class MatomoUrl {
   } as ParsedQueryParameters));
 
   constructor() {
-    this.setUrlQuery(window.location.search);
-    this.setHashQuery(window.location.hash);
+    this.url.value = new URL(window.location.href);
 
     // $locationChangeSuccess is triggered before angularjs changes actual window the hash, so we
     // have to hook into this method if we want our event handlers to execute before other angularjs
     // handlers (like the reporting page one)
     Matomo.on('$locationChangeSuccess', (absUrl: string) => {
-      const url = new URL(absUrl);
-      this.setUrlQuery(url.search.replace(/^\?/, ''));
-      this.setHashQuery(url.hash.replace(/^#/, ''));
+      this.url.value = new URL(absUrl);
     });
 
     this.updatePeriodParamsFromUrl();
@@ -158,7 +161,10 @@ class MatomoUrl {
       // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
       // entries to show up in the browser history. this has a compounding effect w/ angular.js,
       // which when the back button is pressed to effectively abort the back navigation.
-      .replace(/%2C/g, ',');
+      .replace(/%2C/g, ',')
+      // jquery seems to encode space characters as '+', but certain parts of matomo won't
+      // decode it correctly, so we make sure to use %20 instead
+      .replace(/\+/g, '%20');
   }
 
   updatePeriodParamsFromUrl(): void {
@@ -189,14 +195,6 @@ class MatomoUrl {
     }
 
     piwik.currentDateString = date;
-  }
-
-  private setUrlQuery(search: string) {
-    this.urlQuery.value = search.replace(/^\?/, '');
-  }
-
-  private setHashQuery(hash: string) {
-    this.hashQuery.value = hash.replace(/^[#/?]+/, '');
   }
 }
 

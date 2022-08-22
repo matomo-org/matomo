@@ -79,7 +79,7 @@
         "SiteSearchKeywordsDocumentation": "Bu rapor, ziyaretçilerin sitedeki arama motorunda aradığı anahtar sözcükleri içerir.",
         "SiteSearchKeywordsNoResultDocumentation": "Bu rapor, herhangi bir sonuç vermeyen arama anahtar sözcüklerini içerir. Arama motoru algoritmasının geliştirilmesi gerekiyor ya da ziyaretçiler (henüz) sitenizde olmayan bir içeriği arıyor olabilir mi?",
         "SiteSearchSubcategoryHelp1": "Site arama bölümünde, ziyaretçilerin web sitesinde arama yaparken kullandığı anahtar sözcükler görüntülenir. Ayrıca, kullanıcıların bir arama yaptıktan sonra açtığı sayfalar ile site içi aramasında hiçbir sonuç döndürmeyen anahtar sözcükler de görüntülenir.",
-        "SiteSearchSubcategoryHelp2": "Bu raporlar, sitede eksik içerikler ile ziyaretçilerin aradığı ancak kolayca bulamadığı şeyler hakkında fikir vermek ve yeni bakış açıları kazanmak için kullanılabilir.",
+        "SiteSearchSubcategoryHelp2": "Bu raporlar, sitede eksik içerikler ile ziyaretçilerin aradığı ancak kolayca bulamadığı şeyler hakkında fikir vermek ve içgörü kazanmak için kullanılabilir.",
         "SiteSearchSubcategoryHelp3": "Ayrıntılı bilgi almak için site arama rehberine bakabilirsiniz.",
         "SubmenuPageTitles": "Sayfa başlıkları",
         "SubmenuPagesEntry": "Giriş sayfaları",

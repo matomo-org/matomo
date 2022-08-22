@@ -17,7 +17,7 @@ const { $ } = window;
 // usage v-goal-page-link="{ idGoal: 5 }"
 const GoalPageLink = {
   mounted(el: HTMLElement, binding: DirectiveBinding<GoalPageLinkArgs>): void {
-    if (!Matomo.helper.isAngularRenderingThePage()) {
+    if (!Matomo.helper.isReportingPage()) {
       return;
     }
 

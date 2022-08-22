@@ -16,6 +16,21 @@
 		<entry_nb_actions>10</entry_nb_actions>
 		<entry_sum_visit_length>54</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>5</revenue_attrib>
+				<revenue_entry>5</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_server>0.443</avg_time_server>
 		<avg_page_load_time>0.443</avg_page_load_time>
@@ -40,6 +55,21 @@
 				<entry_nb_actions>10</entry_nb_actions>
 				<entry_sum_visit_length>54</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<revenue>5</revenue>
+						<nb_conv_pages_before>1</nb_conv_pages_before>
+						<nb_conversions_attrib>1</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+						<revenue_attrib>5</revenue_attrib>
+						<revenue_entry>5</revenue_entry>
+						<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+						<revenue_per_entry>5</revenue_per_entry>
+						<nb_conversions_entry>1</nb_conversions_entry>
+					</row>
+				</goals>
 				<avg_time_on_page>12</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
@@ -99,6 +129,21 @@
 						<entry_nb_actions>10</entry_nb_actions>
 						<entry_sum_visit_length>54</entry_sum_visit_length>
 						<entry_bounce_count>0</entry_bounce_count>
+						<goals>
+							<row idgoal='1'>
+								<nb_conversions>1</nb_conversions>
+								<revenue>5</revenue>
+								<nb_conv_pages_before>1</nb_conv_pages_before>
+								<nb_conversions_attrib>1</nb_conversions_attrib>
+								<nb_conversions_page_rate>0</nb_conversions_page_rate>
+								<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+								<revenue_attrib>5</revenue_attrib>
+								<revenue_entry>5</revenue_entry>
+								<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+								<revenue_per_entry>5</revenue_per_entry>
+								<nb_conversions_entry>1</nb_conversions_entry>
+							</row>
+						</goals>
 						<avg_time_on_page>17</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>0%</exit_rate>
@@ -122,6 +167,21 @@
 								<entry_nb_actions>10</entry_nb_actions>
 								<entry_sum_visit_length>54</entry_sum_visit_length>
 								<entry_bounce_count>0</entry_bounce_count>
+								<goals>
+									<row idgoal='1'>
+										<nb_conversions>1</nb_conversions>
+										<revenue>5</revenue>
+										<nb_conv_pages_before>1</nb_conv_pages_before>
+										<nb_conversions_attrib>1</nb_conversions_attrib>
+										<nb_conversions_page_rate>0</nb_conversions_page_rate>
+										<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+										<revenue_attrib>5</revenue_attrib>
+										<revenue_entry>5</revenue_entry>
+										<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+										<revenue_per_entry>5</revenue_per_entry>
+										<nb_conversions_entry>1</nb_conversions_entry>
+									</row>
+								</goals>
 								<avg_time_on_page>17</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
 								<exit_rate>0%</exit_rate>

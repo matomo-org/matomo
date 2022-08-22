@@ -5,14 +5,14 @@
 -->
 
 <template>
-  <div>
+  <div class="widgetLoader">
     <ActivityIndicator
       :loading-message="loadingMessage"
       :loading="loading"
     />
     <div v-show="loadingFailed">
       <h2 v-if="widgetName">{{ widgetName }}</h2>
-      <div class="notification system notification-error">
+      <div v-if="!loadingFailedRateLimit" class="notification system notification-error">
         {{ translate('General_ErrorRequest', '', '') }}
         <a
           rel="noreferrer noopener"
@@ -22,6 +22,9 @@
         >
           {{ translate('General_ErrorRequestFaqLink') }}
         </a>
+      </div>
+      <div v-else class="notification system notification-error">
+        {{ translate('General_ErrorRateLimit') }}
       </div>
     </div>
     <div class="theWidgetContent" ref="widgetContent" />
@@ -42,6 +45,7 @@ import ComparisonsStoreInstance from '../Comparisons/Comparisons.store.instance'
 interface WidgetLoaderState {
   loading: boolean;
   loadingFailed: boolean;
+  loadingFailedRateLimit: boolean;
   changeCounter: number;
   currentScope: null|IScope;
   lastWidgetAbortController: null|AbortController;
@@ -71,6 +75,7 @@ export default defineComponent({
     return {
       loading: false,
       loadingFailed: false,
+      loadingFailedRateLimit: false,
       changeCounter: 0,
       currentScope: null,
       lastWidgetAbortController: null,
@@ -105,7 +110,7 @@ export default defineComponent({
       this.loadWidgetUrl(this.widgetParams as QueryParameters, this.changeCounter += 1);
     }
   },
-  unmounted() {
+  beforeUnmount() {
     this.cleanupLastWidgetContent();
   },
   methods: {
@@ -117,11 +122,12 @@ export default defineComponent({
     },
     cleanupLastWidgetContent() {
       const widgetContent = this.$refs.widgetContent as HTMLElement;
-      if (widgetContent) {
-        widgetContent.innerHTML = '';
-      }
+      Matomo.helper.destroyVueComponent(widgetContent);
       if (this.currentScope) {
         this.currentScope.$destroy();
+      }
+      if (widgetContent) {
+        widgetContent.innerHTML = '';
       }
     },
     getWidgetUrl(parameters?: QueryParameters): QueryParameters {
@@ -245,6 +251,10 @@ export default defineComponent({
 
         if (response.xhrStatus === 'abort') {
           return;
+        }
+
+        if (response.status === 429) {
+          this.loadingFailedRateLimit = true;
         }
 
         this.loadingFailed = true;

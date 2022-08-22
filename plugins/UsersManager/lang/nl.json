@@ -2,8 +2,6 @@
     "UsersManager": {
         "2FA": "2FA",
         "AddExistingUser": "Bestaande gebruiker toevoegen",
-        "AddNewUser": "Nieuwe gebruiker toevoegen",
-        "AddUser": "Nieuwe gebruiker toevoegen",
         "AllWebsites": "Alle websites",
         "AnonymousUser": "Anonieme gebruiker",
         "AnonymousUserHasViewAccess": "Opmerking: de %1$s-gebruiker heeft %2$s-toegang tot deze website.",
@@ -15,7 +13,6 @@
         "ConfirmGrantSuperUserAccess": "Weet u zeker dat u '%s' Super Gebruiker toegang wilt geven? Waarschuwing: deze gebruiker heeft toegang tot alle websites en kan administratieve taken uitvoeren.",
         "ConfirmProhibitMySuperUserAccess": "%s, wilt u echt uw eigen Super gebruiker rechten wegnemen? U verliest alle rechten en toegang tot alle websites en wordt bij Matomo uitgelogd.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Weet je zeker dat je de Super User rechten van '%s' wil verwijderen? De gebruiker zal alle rechten verliezen en toegang tot websites. Zorg ervoor dat na het verwijderen van de rechten, mocht het nodig zijn, de gebruiker rechten te geven voor specifieke websites.",
-        "CreateUser": "Gebruiker aanmaken",
         "DeleteConfirm": "Weet je zeker dat je de gebruiker %s wilt verwijderen?",
         "EditUser": "Gebruiker bewerken",
         "Email": "E-mail",

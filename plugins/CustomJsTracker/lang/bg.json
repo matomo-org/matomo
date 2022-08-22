@@ -1,1 +1,8 @@
-{}
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "Препоръчваме да направите %1$s достъпен за запис, като изпълните тази команда: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Файлът за проследяване на Matomo JavaScript %s не е записваем, което означава, че други плъгини не могат да разширят JavaScript тракера. В бъдеще дори някои основни функции може да не работят според очакванията.",
+        "DiagnosticPiwikJsWritable": "Записваем JavaScript тракер (%s)",
+        "PluginDescription": "Позволява на всеки плъгин да разшири JavaScript файла за проследяване на Matomo (matomo.js) и да добави нова функционалност и възможности за анализ на уебсайтове."
+    }
+}

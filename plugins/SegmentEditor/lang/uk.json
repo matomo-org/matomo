@@ -13,7 +13,7 @@
         "CustomSegment": "Користувальницький Сегмент",
         "DataAvailableAtLaterDate": "Ваш сегментовані звіти аналітики будуть доступні пізніше. Ми приносимо свої вибачення за доставлені незручності.",
         "DefaultAllVisits": "Всі візити",
-        "DragDropCondition": "Drag & Drop переміщення",
+        "DragDropCondition": "Умова перетягування",
         "HideMessageInFuture": "Приховати це повідомлення у майбутньому",
         "LoadingSegmentedDataMayTakeSomeTime": "Обробка сегментованих даних відвідувач може зайняти кілька хвилин...",
         "OperatorAND": "AND",

@@ -26,6 +26,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { debounce } from 'CoreHome';
+import AbortableModifiers from './AbortableModifiers';
 
 const SEPARATOR = '\n';
 
@@ -35,6 +36,7 @@ export default defineComponent({
     title: String,
     uiControlAttributes: Object,
     modelValue: [Array, String],
+    modelModifiers: Object,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
@@ -54,7 +56,23 @@ export default defineComponent({
     onKeydown(event: KeyboardEvent) {
       const value = (event.target as HTMLTextAreaElement).value.split(SEPARATOR);
       if (value.join(SEPARATOR) !== this.concattedValue) {
-        this.$emit('update:modelValue', value);
+        if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+          this.$emit('update:modelValue', value);
+          return;
+        }
+
+        const emitEventData = {
+          value,
+          abort: () => {
+            if ((event.target as HTMLInputElement).value !== this.concattedValue) {
+              // change to previous value if the parent component did not update the model value
+              // (done manually because Vue will not notice if a value does NOT change)
+              (event.target as HTMLInputElement).value = this.concattedValue;
+            }
+          },
+        };
+
+        this.$emit('update:modelValue', emitEventData);
       }
     },
   },

@@ -47,7 +47,6 @@ var Piwik_Overlay = (function () {
             params.segment = segment;
         }
 
-        globalAjaxQueue.abort();
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams(params, 'get');
         ajaxRequest.withTokenInUrl(); // needed because it is calling a controller and not the API
@@ -241,18 +240,17 @@ var Piwik_Overlay = (function () {
                 return;
             }
 
-            angular.element(document).injector().invoke(['piwikApi', function (piwikApi) {
-                piwikApi.withTokenInUrl();
-                piwikApi.fetch(params)
-                    .then(function (response) {
-                        sendResponse(response);
-                    }).catch(function (err) {
-                        sendResponse({
-                            result: 'error',
-                            message: err.message || err || 'unknown error',
-                        });
-                    });
-            }]);
+            var AjaxHelper = window.CoreHome.AjaxHelper;
+            AjaxHelper
+              .fetch(params, { withTokenInUrl: true })
+              .then(function (response) {
+                  sendResponse(response);
+              }).catch(function (err) {
+                  sendResponse({
+                      result: 'error',
+                      message: err.message || err || 'unknown error',
+                  });
+              });
 
             function sendResponse(data) {
                 var message = 'overlay.response:' + requestId + ':' + encodeURIComponent(JSON.stringify(data));
@@ -296,12 +294,10 @@ var Piwik_Overlay = (function () {
                 adjustDimensions();
             });
 
-            angular.element(document).injector().invoke(function ($rootScope) {
-                $rootScope.$on('$locationChangeSuccess', function () {
-                    hashChangeCallback(broadcast.getHash());
-                });
-
-                hashChangeCallback(broadcast.getHash());
+            var watchEffect = window.Vue.watchEffect;
+            var MatomoUrl = window.CoreHome.MatomoUrl;
+            watchEffect(function () {
+              hashChangeCallback(MatomoUrl.url.value.hash.replace(/^[#/?]+/g, ''));
             });
 
             if (window.location.href.split('#').length == 1) {
@@ -377,10 +373,10 @@ var Piwik_Overlay = (function () {
                 updateComesFromInsideFrame = true;
 
                 // available in global scope
-                var currentHashStr = broadcast.getHash();
+                var currentHashStr = window.CoreHome.MatomoUrl.url.value.hash.replace(/^[#/?]+/g, '');
 
                 if (currentHashStr.charAt(0) == '?') {
-                    currentHashStr = currentHashStr.substr(1);
+                    currentHashStr = currentHashStr.slice(1);
                 }
 
                 currentHashStr = broadcast.updateParamValue('l=' + newFrameLocation, currentHashStr);
@@ -389,8 +385,8 @@ var Piwik_Overlay = (function () {
                 // window.location.replace changes the current url without pushing it on the browser's history stack
                 window.location.replace(newLocation);
 
-                // manually trigger hashchange since angularjs doesn't seem to pick it up anymore
-                hashChangeCallback(broadcast.getHash());
+                // manually trigger hashchange since it doesn't seem to get pick it up anymore
+                hashChangeCallback(window.CoreHome.MatomoUrl.url.value.hash.replace(/^[#/?]+/g, ''));
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
                 setIframeOrigin(currentUrl);

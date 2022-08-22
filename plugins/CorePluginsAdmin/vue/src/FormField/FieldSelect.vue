@@ -60,7 +60,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
+import AbortableModifiers from './AbortableModifiers';
 
 interface OptionGroup {
   group?: string;
@@ -171,6 +172,7 @@ function handleOldAngularJsValues<T>(value: T): T {
 export default defineComponent({
   props: {
     modelValue: null,
+    modelModifiers: Object,
     multiple: Boolean,
     name: String,
     title: String,
@@ -244,15 +246,19 @@ export default defineComponent({
         newValue = handleOldAngularJsValues(newValue);
       }
 
-      this.$emit('update:modelValue', newValue);
+      if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+        this.$emit('update:modelValue', newValue);
+        return;
+      }
 
-      // if modelValue does not change, select will still have the changed value, but we
-      // want it to have the value determined by modelValue. so we force an update.
-      nextTick(() => {
-        if (this.modelValue !== newValue) {
+      const emitEventData = {
+        value: newValue,
+        abort: () => {
           this.onModelValueChange(this.modelValue);
-        }
-      });
+        },
+      };
+
+      this.$emit('update:modelValue', emitEventData);
     },
     onModelValueChange(newVal: string|number|string[]) {
       window.$(this.$refs.select as HTMLSelectElement).val(newVal);

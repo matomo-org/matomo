@@ -33,7 +33,7 @@ try {
 use \Piwik\Plugins\CustomJsTracker\TrackerUpdater;
 use \Piwik\Plugins\CustomJsTracker\TrackingCode\JsTestPluginTrackerFiles;
 
-$targetFileName = '/tests/resources/matomo.test.js';
+$targetFileName = '/tests/resources/matomo2.test.js';
 $sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
 $targetFile = PIWIK_DOCUMENT_ROOT . $targetFileName;
 
@@ -2096,7 +2096,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(121);
+        expect(123);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2156,6 +2156,8 @@ function PiwikTest() {
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
         equal( typeof tracker.setGenerationTimeMs, 'function', 'setGenerationTimeMs' );
         equal( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
+        equal( typeof tracker.setExcludedReferrers, 'function', 'setExcludedReferrers' );
+        equal( typeof tracker.getExcludedReferrers, 'function', 'getExcludedReferrers' );
         equal( typeof tracker.setCustomUrl, 'function', 'setCustomUrl' );
         equal( typeof tracker.setDocumentTitle, 'function', 'setDocumentTitle' );
         equal( typeof tracker.setDownloadClasses, 'function', 'setDownloadClasses' );
@@ -3188,7 +3190,7 @@ function PiwikTest() {
         equal(tracker.getVisitorId(), visitorId, "After tracking an action and updating the ID cookie, the visitor ID is still the same.");
 
         // Visitor ID is by default set to a UUID fingerprint
-        var hashUserId = tracker.hook.test._sha1(userIdString).substr(0, 16);
+        var hashUserId = tracker.hook.test._sha1(userIdString).slice(0, 16);
         notEqual(hashUserId, tracker.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is not yet the hash of User ID " + hashUserId);
         notEqual("", tracker.getVisitorId(), "Visitor ID is not empty");
         ok( tracker.getVisitorId().length === 16, "Visitor ID is 16 chars string");
@@ -3231,7 +3233,7 @@ function PiwikTest() {
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
         equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
-            notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is not the sha1 of User ID (it used to be)");
+            notEqual(tracker.hook.test._sha1(userIdString).slice(0, 16), tracker.getVisitorId(), "Visitor ID is not the sha1 of User ID (it used to be)");
             equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID does not change");
 
             // Set the User ID and verify nothing's changed
@@ -3284,6 +3286,7 @@ function PiwikTest() {
         expect(5);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token": '---' });
@@ -3592,6 +3595,7 @@ if ($mysql) {
         expect(11);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token" : getAlwaysUseSendBeaconToken() });
@@ -3630,9 +3634,66 @@ if ($mysql) {
         }, 6000);
     });
 
+    test("referrer attribution without tracking", function() {
+        expect(6);
+
+        // Check visitor referrer attribution cookie is set on unload without a tracking request
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setReferrerUrl('http://www.google.fr/?query=test');
+        equal( tracker.getAttributionReferrerUrl(), "", "getAttributionReferrerUrl() is empty on load")
+        tracker.hook.test._beforeUnloadHandler();
+        equal( tracker.getAttributionReferrerUrl(), 'http://www.google.fr/?query=test', "getAttributionReferrerUrl() is set after unload")
+
+        var tracker2 = Piwik.getTracker();
+        tracker2.setTrackerUrl("matomo.php");
+        tracker2.setSiteId(1);
+        tracker2.setReferrerUrl('');
+        equal( tracker2.getAttributionReferrerUrl(), 'http://www.google.fr/?query=test', "getAttributionReferrerUrl() should be read from cookie in new tracker")
+    });
+
+    test("referrer ignore list", function() {
+        expect(25);
+
+        var testCases = [
+            ['no exclusion', 'https://www.google.fr/?query=test', '', false],
+            ['host exclusion matches', 'https://www.google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://www.google.fr/?query=test', 'google.fr', true],
+            ['host exclusion not matching', 'https://www.google.de/?query=test', 'www.google.fr', false],
+            ['wildcard subdomain exclusion matches', 'https://www.google.fr/?query=test', '*.google.fr', true],
+            ['paypal.com is excluded by default', 'https://www.paypal.com/proceed/payment/', '', true],
+            ['host with path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/', true],
+            ['host with path exclusion not matching', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/shipping', false],
+            ['host with wild card path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed*', true],
+            ['host with wild card path exclusion matches again', 'https://www.paypal.com/proceed-my-payment/', 'www.paypal.com/proceed*', true],
+        ];
+
+        for (var i=0; i < testCases.length; i++) {
+            var testName = testCases[i][0];
+            var referrerUrl = testCases[i][1];
+            var excludedReferrer = testCases[i][2];
+            var result = testCases[i][3];
+            var expectedExcludedReferrer = [];
+
+            var tracker = Piwik.getTracker();
+            tracker.setTrackerUrl("matomo.php");
+            tracker.setSiteId(1);
+            tracker.setReferrerUrl(referrerUrl);
+            if (excludedReferrer) {
+                tracker.setExcludedReferrers(excludedReferrer);
+                expectedExcludedReferrer = tracker.hook.test._isString(excludedReferrer) ? [excludedReferrer] : excludedReferrer;
+            } else {
+                expectedExcludedReferrer = ['.paypal.com'];
+            }
+            deepEqual(tracker.getExcludedReferrers(), expectedExcludedReferrer, testName + " - check getExcludedReferrers()");
+            deepEqual(tracker.hook.test._isReferrerExcluded(referrerUrl), result, testName + " - check isReferrerExcluded()");
+        }
+    });
 
     test("tracking", function() {
-        expect(178);
+        expect(182);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3650,6 +3711,7 @@ if ($mysql) {
             };
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
 
@@ -3657,7 +3719,7 @@ if ($mysql) {
 
         var piwikUrl = location.href;
         if (piwikUrl.indexOf('?') > 0) {
-            piwikUrl = piwikUrl.substr(0, piwikUrl.indexOf('?'));
+            piwikUrl = piwikUrl.slice(0, piwikUrl.indexOf('?'));
         }
         equal(tracker.getPiwikUrl(), piwikUrl, "getPiwikUrl, relative tracker url" );
 
@@ -3774,6 +3836,21 @@ if ($mysql) {
 
         strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
+        tracker.setExcludedReferrers('ignored.referrer.url')
+        tracker.setReferrerUrl('http://ignored.referrer.url/path/page?query=string');
+        tracker.trackPageView();
+
+        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+
+        tracker.setReferrerUrl('http://another.referrer.url/path/page');
+        tracker.setCustomUrl(customUrl  + '&ignore_referrer=1');
+        tracker.trackPageView();
+
+        tracker.setReferrerUrl(referrerUrl);
+        tracker.setCustomUrl(customUrl);
+
+        strictEqual(3, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
 
@@ -3781,7 +3858,7 @@ if ($mysql) {
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
-        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+        strictEqual(4, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageviewCustomTitle = tracker.getConfigIdPageView();
         ok(idPageviewCustomTitle != idPageview, 'trackPageview, should generate a new random pageview id whenever it is called');
@@ -3870,14 +3947,14 @@ if ($mysql) {
         attributionInfo2 = tracker.getAttributionInfo();
         ok( attributionInfo1 && attributionInfo2 && attributionInfo1.length == attributionInfo2.length, "getAttributionInfo()" );
         referrer2 = tracker.getAttributionReferrerUrl();
-        ok( referrer2 == referrerUrl, "getAttributionReferrerUrl()" );
-        ok( referrer1 == referrerUrl, "async getAttributionReferrerUrl()" );
+        equal( referrer2, referrerUrl, "getAttributionReferrerUrl()" );
+        equal( referrer1, referrerUrl, "async getAttributionReferrerUrl()" );
         referrerTimestamp2 = tracker.getAttributionReferrerTimestamp();
-        ok( referrerTimestamp2 == referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
+        equal( referrerTimestamp2, referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
         campaignName2 = tracker.getAttributionCampaignName();
         campaignKeyword2 = tracker.getAttributionCampaignKeyword();
-        ok( campaignName2 == "YEAH", "getAttributionCampaignName()");
-        ok( campaignKeyword2 == "RIGHT!", "getAttributionCampaignKeyword()");
+        equal( campaignName2, "YEAH", "getAttributionCampaignName()");
+        equal( campaignKeyword2, "RIGHT!", "getAttributionCampaignKeyword()");
 
         // Test visitor ID at the start is the same at the end
         var visitorIdEnd = tracker.getVisitorId();
@@ -4144,7 +4221,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "54", "count tracking events" );
+                equal( countTrackingEvents[1], "56", "count tracking events" );
             }
 
             // firing callback
@@ -4176,6 +4253,8 @@ if ($mysql) {
             ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
             ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
             ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
+            ok( ! /ignored.referrer.url/.test( results ), "ignored referrer url isn't sent with request" );
+            ok( ! /another.referrer.url/.test( results ), "referrer ignored with url parameter isn't sent with request" );
             ok( /cookiename/.test( results ) && /cookievalue/.test( results ), "tracking request contains custom variable" );
             ok( /DeleteCustomVariableCookie/.test( results ), "tracking request deleting custom variable" );
             ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
@@ -4929,6 +5008,7 @@ if ($mysql) {
 
         var queue;
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setCustomData('token', getConsentToken() + '1');
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
         strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
@@ -4968,7 +5048,7 @@ if ($mysql) {
         strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
         var rememberedConsent = tracker.getRememberedConsent();
         strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
-        strictEqual(String(rememberedConsent).substr(0, 2), '16', "getRememberedConsent, starts with correct data" );
+        strictEqual(String(rememberedConsent).slice(0, 2), '16', "getRememberedConsent, starts with correct data" );
 
         tracker.requireConsent();
         strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );
@@ -5194,6 +5274,7 @@ if ($mysql) {
         expect(8);
 
         var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
 
         ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
         equal( typeof tracker, typeof _paq, "async tracker proxy" );
@@ -5208,7 +5289,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 520, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 520 ' );
+        ok( msSinceStarted < 540, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 540 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);

@@ -128,6 +128,7 @@ class SettingsMetadata
             'templateFile' => $config->customUiControlTemplateFile,
             'introduction' => $config->introduction,
             'condition' => $config->condition,
+            'fullWidth' => $config->fullWidth,
         );
 
         if ($config->customFieldComponent) {

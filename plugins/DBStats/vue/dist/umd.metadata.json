@@ -1,0 +1,5 @@
+{
+  "dependsOn": [
+    "CoreHome"
+  ]
+}

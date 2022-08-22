@@ -42,7 +42,7 @@
             v-for="subcategory in category.subcategories"
             :key="subcategory.id"
           >
-            <MenuDropdown
+            <MenuItemsDropdown
               v-if="subcategory.isGroup"
               :show-search="true"
               :menu-title="htmlEntities(subcategory.name)"
@@ -63,7 +63,7 @@
               >
                 {{ subcat.name }}
               </a>
-            </MenuDropdown>
+            </MenuItemsDropdown>
             <a
               v-if="!subcategory.isGroup"
               :href="`#?${makeUrl(category, subcategory)}`"
@@ -139,7 +139,7 @@
 
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
-import MenuDropdown from '../MenuDropdown/MenuDropdown.vue';
+import MenuItemsDropdown from '../MenuItemsDropdown/MenuItemsDropdown.vue';
 import SideNav from '../SideNav/SideNav';
 import { NotificationsStore } from '../Notification';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
@@ -160,7 +160,7 @@ interface ReportingMenuState {
 
 export default defineComponent({
   components: {
-    MenuDropdown,
+    MenuItemsDropdown,
   },
   directives: {
     SideNav,
@@ -236,7 +236,7 @@ export default defineComponent({
         this.showSubcategoryHelpOnLoad = null;
       }
 
-      window.$('#loadingError').hide();
+      window.$('#loadingError,#loadingRateLimitError').hide();
 
       this.initialLoad = false;
     });

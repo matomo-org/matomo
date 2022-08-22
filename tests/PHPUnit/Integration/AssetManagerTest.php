@@ -206,6 +206,7 @@ class AssetManagerTest extends IntegrationTestCase
     {
         $this->pluginManager->setPlugins(
             array(
+                 new PluginMock('Login'), // PluginUmdAssetFetcher assumes Login is always available
                  $this->getCoreTheme()->getPlugin(),
                  $this->getNonCoreTheme()->getPlugin(),
                  $this->getCorePlugin(),

@@ -37,6 +37,9 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://example.org/store/purchase.htm</url>
+				<referrerType>search</referrerType>
+				<referrerName>Yahoo!</referrerName>
+				<referrerKeyword>purchase</referrerKeyword>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -264,6 +267,9 @@
 				<goalPageId />
 				
 				<url>http://example.org/</url>
+				<referrerType>website</referrerType>
+				<referrerName>referrer.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>

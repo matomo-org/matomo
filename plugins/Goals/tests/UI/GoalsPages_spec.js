@@ -51,6 +51,7 @@ describe("GoalsPages", function () {
 
     await page.waitForSelector('.ui-dialog');
     await page.waitForNetworkIdle();
+    await page.waitForTimeout(200);
 
     const dialog = await page.$('.ui-dialog');
     expect(await dialog.screenshot()).to.matchImage('overview_row_evolution_reloaded');
@@ -71,7 +72,7 @@ describe("GoalsPages", function () {
   });
 
   it('should update the evolution chart if a sparkline is clicked', async function () {
-    elem = await page.jQuery('.sparkline.linked:contains(%)');
+    elem = await page.jQuery('.sparkline.linked:contains(conversion rate)');
     await elem.click();
     await page.waitForNetworkIdle();
     await page.mouse.move(-10, -10);
@@ -103,6 +104,7 @@ describe("GoalsPages", function () {
 
     await page.waitForSelector('.ui-dialog');
     await page.waitForNetworkIdle();
+    await page.waitForTimeout(200);
 
     const dialog = await page.$('.ui-dialog');
     expect(await dialog.screenshot()).to.matchImage('individual_row_evolution_reloaded');

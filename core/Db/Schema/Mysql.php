@@ -53,7 +53,12 @@ class Mysql implements SchemaInterface
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                           idchange_last_viewed TIMESTAMP NULL,
-                            PRIMARY KEY(login)
+                          invited_by VARCHAR(100) NULL,
+                          invite_token VARCHAR(191) NULL,
+                          invite_expired_at TIMESTAMP NULL,
+                          invite_accept_at TIMESTAMP NULL,
+                            PRIMARY KEY(login),
+                            UNIQUE INDEX `uniq_email` (`email`)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
             'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (
@@ -104,6 +109,7 @@ class Mysql implements SchemaInterface
                             excluded_ips TEXT NOT NULL,
                             excluded_parameters TEXT NOT NULL,
                             excluded_user_agents TEXT NOT NULL,
+                            excluded_referrers TEXT NOT NULL,
                             `group` VARCHAR(250) NOT NULL,
                             `type` VARCHAR(255) NOT NULL,
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,

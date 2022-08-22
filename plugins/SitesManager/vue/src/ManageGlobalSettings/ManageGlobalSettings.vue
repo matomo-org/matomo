@@ -55,6 +55,29 @@
         </div>
       </div>
 
+      <div id="excludedReferrersGlobalHelp" class="inline-help-node">
+        <div>
+          {{ translate('SitesManager_ExcludedReferrersHelp') }}
+          <br/><br/>
+          {{ translate('SitesManager_ExcludedReferrersHelpDetails') }}
+          <br/>
+          {{ translate(
+              'SitesManager_ExcludedReferrersHelpExamples',
+              'www.example.org',
+              'http://example.org/mypath',
+              'https://www.example.org/?param=1',
+              'https://sub.example.org/'
+          ) }}
+          <br/><br/>
+          {{ translate(
+            'SitesManager_ExcludedReferrersHelpSubDomains',
+            '.sub.example.org',
+            'http://sub.example.org/mypath',
+            'https://new.sub.example.org/'
+          ) }}
+        </div>
+      </div>
+
       <div id="timezoneHelp" class="inline-help-node">
         <div>
           <span v-if="!timezoneSupportEnabled">
@@ -108,6 +131,19 @@
           :title="translate('SitesManager_GlobalListExcludedUserAgents_Desc')"
           :introduction="translate('SitesManager_GlobalListExcludedUserAgents')"
           :inline-help="'#excludedUserAgentsGlobalHelp'"
+          :disabled="isLoading"
+        />
+      </div>
+
+      <div>
+        <Field
+          uicontrol="textarea"
+          name="excludedReferrersGlobal"
+          var-type="array"
+          v-model="excludedReferrersGlobal"
+          :title="translate('SitesManager_GlobalListExcludedReferrersDesc')"
+          :introduction="translate('SitesManager_GlobalListExcludedReferrers')"
+          :inline-help="'#excludedReferrersGlobalHelp'"
           :disabled="isLoading"
         />
       </div>
@@ -210,6 +246,7 @@ interface GlobalSettingsState {
   excludedIpsGlobal: string[];
   excludedQueryParametersGlobal: string[];
   excludedUserAgentsGlobal: string[];
+  excludedReferrersGlobal: string[];
   searchKeywordParametersGlobal: string[];
   searchCategoryParametersGlobal: string[];
   isSaving: boolean;
@@ -253,6 +290,7 @@ export default defineComponent({
       excludedQueryParametersGlobal:
         (settings.excludedQueryParametersGlobal || '').split(','),
       excludedUserAgentsGlobal: (settings.excludedUserAgentsGlobal || '').split(','),
+      excludedReferrersGlobal: (settings.excludedReferrersGlobal || '').split(','),
       searchKeywordParametersGlobal:
         (settings.searchKeywordParametersGlobal || '').split(','),
       searchCategoryParametersGlobal:
@@ -273,6 +311,7 @@ export default defineComponent({
       this.excludedQueryParametersGlobal = (settings.excludedQueryParametersGlobal || '')
         .split(',');
       this.excludedUserAgentsGlobal = (settings.excludedUserAgentsGlobal || '').split(',');
+      this.excludedReferrersGlobal = (settings.excludedReferrersGlobal || '').split(',');
       this.searchKeywordParametersGlobal = (settings.searchKeywordParametersGlobal || '')
         .split(',');
       this.searchCategoryParametersGlobal = (settings.searchCategoryParametersGlobal || '')
@@ -293,10 +332,13 @@ export default defineComponent({
         excludedIps: this.excludedIpsGlobal.join(','),
         excludedQueryParameters: this.excludedQueryParametersGlobal.join(','),
         excludedUserAgents: this.excludedUserAgentsGlobal.join(','),
+        excludedReferrers: this.excludedReferrersGlobal.join(','),
         searchKeywordParameters: this.searchKeywordParametersGlobal.join(','),
         searchCategoryParameters: this.searchCategoryParametersGlobal.join(','),
       }).then(() => {
         Matomo.helper.redirect({ showaddsite: false });
+      }).finally(() => {
+        this.isSaving = false;
       });
     },
   },

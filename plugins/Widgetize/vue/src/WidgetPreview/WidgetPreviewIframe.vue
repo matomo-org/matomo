@@ -6,14 +6,20 @@
 
 <template>
   <div id="embedThisWidgetIframe">
-    <label for="embedThisWidgetIframeInput">&rsaquo; Embed Iframe</label>
+    <label
+      for="embedThisWidgetIframeInput"
+      v-html="$sanitize(translate('Widgetize_EmbedIframe'))"
+    ></label>
     <div id="embedThisWidgetIframeInput">
       <pre v-select-on-focus="{}" readonly="true" id="iframeEmbed">{{ widgetIframeHtml }}</pre>
     </div>
   </div>
 
   <div>
-    <label for="embedThisWidgetDirectLink">&rsaquo; Direct Link</label>
+    <label
+      for="embedThisWidgetDirectLink"
+      v-html="$sanitize(translate('Widgetize_DirectLink'))"
+    ></label>
     <div id="embedThisWidgetDirectLink">
       <pre v-select-on-focus="{}" readonly="true" id="directLinkEmbed">{{ urlIframe }}</pre>
       -

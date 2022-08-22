@@ -27,7 +27,7 @@
         v-show="enabled"
       >
         <a
-          href="https://matomo.org/faq/general/#faq_125"
+          href="https://matomo.org/faq/general/faq_125"
           rel="noreferrer noopener"
           target="_blank"
         >
@@ -52,16 +52,34 @@
       </div>
     </div>
     <SaveButton
-      @confirm="save()"
+      @confirm="this.showPasswordConfirmModal = true"
       :saving="isLoading"
     />
+    <PasswordConfirmation
+      v-model="showPasswordConfirmModal"
+      @confirmed="saveSettings"
+    >
+      <h2 v-if="enabled && !enableDeleteReports">
+        {{ translate('PrivacyManager_DeleteLogsConfirm') }}
+      </h2>
+      <h2 v-if="enabled && enableDeleteReports">
+        {{ translate('PrivacyManager_DeleteBothConfirm') }}
+      </h2>
+      <div v-if="enabled">{{ translate('UsersManager_ConfirmWithPassword') }}</div>
+      <h2 v-if="!enabled">{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
+    </PasswordConfirmation>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo, translate } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import { translate } from 'CoreHome';
+import {
+  PasswordConfirmation,
+  Form,
+  Field,
+  SaveButton,
+} from 'CorePluginsAdmin';
 import ReportDeletionSettingsStore, {
   ReportDeletionSettings,
 } from '../ReportDeletionSettings/ReportDeletionSettings.store';
@@ -70,9 +88,8 @@ interface DeleteOldLogsState {
   isLoading: boolean;
   enabled: boolean;
   deleteOlderThan: string;
+  showPasswordConfirmModal: boolean;
 }
-
-const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -87,6 +104,7 @@ export default defineComponent({
     },
   },
   components: {
+    PasswordConfirmation,
     Field,
     SaveButton,
   },
@@ -98,6 +116,7 @@ export default defineComponent({
       isLoading: false,
       enabled: this.deleteData.config.delete_logs_enable === '1',
       deleteOlderThan: this.deleteData.config.delete_logs_older_than,
+      showPasswordConfirmModal: false,
     };
   },
   created() {
@@ -106,34 +125,17 @@ export default defineComponent({
     });
   },
   methods: {
-    saveSettings() {
+    saveSettings(password: string) {
       const method = 'PrivacyManager.setDeleteLogsSettings';
       this.isLoading = true;
-      ReportDeletionSettingsStore.savePurgeDataSettings(method, this.settings).finally(() => {
-        this.isLoading = false;
-      });
+      ReportDeletionSettingsStore
+        .savePurgeDataSettings(method, this.settings, password)
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
     reloadDbStats() {
       ReportDeletionSettingsStore.updateSettings(this.settings);
-    },
-    save() {
-      if (this.enabled) {
-        let confirmId = 'deleteLogsConfirm';
-        if (ReportDeletionSettingsStore.enableDeleteReports.value) {
-          confirmId = 'deleteBothConfirm';
-        }
-
-        $('#confirmDeleteSettings').find('>h2').hide();
-        $(`#${confirmId}`).show();
-
-        Matomo.helper.modalConfirm('#confirmDeleteSettings', {
-          yes: () => {
-            this.saveSettings();
-          },
-        });
-      } else {
-        this.saveSettings();
-      }
     },
   },
   computed: {
@@ -145,6 +147,9 @@ export default defineComponent({
     },
     deleteOlderThanTitle(): string {
       return `${translate('PrivacyManager_DeleteLogsOlderThan')} (${translate('Intl_PeriodDays')})`;
+    },
+    enableDeleteReports(): boolean {
+      return !!ReportDeletionSettingsStore.enableDeleteReports.value;
     },
   },
 });

@@ -132,7 +132,6 @@
         "SystemCheckTracker": "İzleyici durumu",
         "SystemCheckTrackerHelp": "matomo.php GET isteği yerine getirilemedi. Bu adresi HTTP kimlik doğrulaması bölümünden beyaz listeye almayı ve mod_security modülünü devre dışı bırakmayı deneyin (web hizmeti sağlayıcınızdan istemeniz gerekebilir). Sorun hakkında ayrıntılı bilgi almak için ilgili web sunucu hata günlüğü dosyasına bakabilirsiniz.",
         "SystemCheckUpdateHttps": "HTTPS üzerinden güncelleme",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo HTTPS bağlantısı üzerinden güncelleme yapamadığından şifrelenmemiş HTTP bağlantısı üzerine dönüyor. Bu cURL ya da allow_url_fopen seçeneklerinin desteklendiğinden ve OpenSSL PHP eklentisinin kurulmuş olduğundan emin olun: https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Tam sistem denetimi raporunu görüntüle",
         "SystemCheckWarnDomHelp": "\"dom\" eklentisini etkinleştirmelisiniz (örneğin \"php-dom\" ve/veya \"php-xml\" paketini kurun).",
         "SystemCheckWarnJsonHelp": "\"json\" eklentisini etkinleştirmelisiniz (Örneğin \"php-json\" paketini kurun).",

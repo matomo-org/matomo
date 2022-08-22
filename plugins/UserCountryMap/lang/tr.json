@@ -18,7 +18,7 @@
         "Searches": "%s arama",
         "SecondsAgo": "%s saniye önce",
         "ShowingVisits": "Son dönemdeki ziyaret coğrafi konumları",
-        "Unlocated": "%3$s üzerinden <b>%1$s</b> %2$s ziyaretin coğrafi konumu belirlenemedi.",
+        "Unlocated": "%3$s üzerinden yapılmış <b>%1$s</b> %2$s ziyaretin coğrafi konumu belirlenemedi.",
         "VisitorMap": "Ziyaretçi haritası",
         "WithUnknownCity": "%s ziyaretin ili bilinmiyor",
         "WithUnknownRegion": "%s ziyaretin bölgesi bilinmiyor",

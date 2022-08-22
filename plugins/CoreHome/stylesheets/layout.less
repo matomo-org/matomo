@@ -28,10 +28,19 @@ nav {
 
   .icon-more-verti,
   .icon-menu-hamburger {
-    font-size: 2.7rem;
+    // nav{line-height:56px} - {padding:10+10px}
+    font-size: 36px;
     padding: 8px 10px 10px;
     display: inline-block;
     cursor: pointer;
+  }
+
+  @media only screen and (min-width: 601px) {
+    .icon-more-verti,
+    .icon-menu-hamburger {
+      // nav{line-height:64px} - {padding:10+10px}
+      font-size: 48px;
+    }
   }
 
   .side-nav {

@@ -192,15 +192,6 @@ class Csv extends Renderer
 
         $csv = $this->makeArrayFromDataTable($table, $allColumns);
 
-        // now we make sure that all the rows in the CSV array have all the columns
-        foreach ($csv as &$row) {
-            foreach ($allColumns as $columnName => $true) {
-                if (!isset($row[$columnName])) {
-                    $row[$columnName] = '';
-                }
-            }
-        }
-
         $str = $this->buildCsvString($allColumns, $csv);
         return $str;
     }
@@ -248,11 +239,12 @@ class Csv extends Renderer
 
         $value = $this->formatFormulas($value);
 
-        if (is_string($value)
-            && (strpos($value, '"') !== false
-                || strpos($value, $this->separator) !== false)
-        ) {
-            $value = '"' . str_replace('"', '""', $value) . '"';
+        if (is_string($value)) {
+            $value = str_replace(["\t"], ' ', $value);
+
+            if (strpos($value, '"') !== false || strpos($value, $this->separator) !== false) {
+                $value = '"' . str_replace('"', '""', $value) . '"';
+            }
         }
 
         // in some number formats (e.g. German), the decimal separator is a comma
@@ -390,7 +382,7 @@ class Csv extends Renderer
         foreach ($csv as $theRow) {
             $rowStr = '';
             foreach ($allColumns as $columnName => $true) {
-                $rowStr .= $this->formatValue($theRow[$columnName]) . $this->separator;
+                $rowStr .= $this->formatValue($theRow[$columnName] ?? '') . $this->separator;
             }
             // remove the last separator
             $rowStr = substr_replace($rowStr, "", -strlen($this->separator));

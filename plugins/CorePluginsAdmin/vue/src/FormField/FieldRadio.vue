@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div ref="root">
     <label class="fieldRadioTitle" v-show="title">{{ title }}</label>
 
     <p
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import AbortableModifiers from './AbortableModifiers';
 
 export default defineComponent({
   props: {
@@ -48,12 +49,38 @@ export default defineComponent({
     disabled: Boolean,
     uiControlAttributes: Object,
     modelValue: [String, Number],
+    modelModifiers: Object,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
   methods: {
     onChange(event: Event) {
-      this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
+      if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+        this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
+        return;
+      }
+
+      const reset = () => {
+        // change to previous value so the parent component can determine if this change should
+        // go through
+        (this.$refs.root as HTMLElement).querySelectorAll('input').forEach((inp, i) => {
+          if (!this.availableOptions?.[i]) {
+            return;
+          }
+
+          const { key } = (this.availableOptions as { key: string }[])[i];
+          (inp as HTMLInputElement).checked = this.modelValue === key || `${this.modelValue}` === key;
+        });
+      };
+
+      const emitEventData = {
+        value: (event.target as HTMLInputElement).value,
+        abort: () => {
+          reset();
+        },
+      };
+
+      this.$emit('update:modelValue', emitEventData);
     },
   },
 });

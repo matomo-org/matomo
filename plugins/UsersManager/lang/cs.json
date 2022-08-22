@@ -1,8 +1,6 @@
 {
     "UsersManager": {
         "AddExistingUser": "Přidat existujícího uživatele",
-        "AddNewUser": "Přidat novéhoho uživatele",
-        "AddUser": "Přidat nového uživatele",
         "AllWebsites": "Všechny weby",
         "AnonymousAccessConfirmation": "Chystáte anonymnímu uživateli poskytnout přístup k tomuto webu. Znamená to, že vaše analytické přehledy a informace o vašich návštěvnících budou veřejně viditelné i bez přihlášení. Opravdu chcete pokračovat?",
         "AnonymousUser": "Anonymní uživatel",
@@ -17,7 +15,6 @@
         "ConfirmGrantSuperUserAccess": "Opravdu chcete uživateli %s povolit super-uživatelský přístup?",
         "ConfirmProhibitMySuperUserAccess": "%s, opravdu chcete odstranit svůjvlastn í super-uživatelský přístup? Přijdete o všechna oprávnění a o přístup k datům stránek a budete odhlášen z Matomou.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Opravdu chcete odstranit super-uživatelský přístup pro '%s'? Tento uživatel přijde o všechna práva a o přístup ke všem stránkám. Nezapomeňte mu poté povolit přístup k těm které potřebuje, je-li to nutné.",
-        "CreateUser": "Vytvořit uživatele",
         "DeleteConfirm": "Jste si jistí, že chcete vymazat uživatele %s?",
         "EditUser": "Upravit uživatele",
         "Email": "E-mail",

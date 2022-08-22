@@ -77,7 +77,7 @@ NOTES:
             'value' => $input->getOption('value'),
         ]);
 
-        $argument = trim($input->getArgument('argument'));
+        $argument = trim($input->getArgument('argument') ?? '');
 
         // Sanity check inputs.
         switch (true) {

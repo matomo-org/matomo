@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div ref="root">
     <label class="fieldRadioTitle" v-show="title">{{ title }}</label>
     <p
       v-for="(checkboxModel, $index) in availableOptions"
@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import AbortableModifiers from './AbortableModifiers';
 
 interface Option {
   key: unknown;
@@ -46,6 +47,7 @@ function getCheckboxStates(availableOptions?: Option[], modelValue?: unknown[]) 
 export default defineComponent({
   props: {
     modelValue: Array,
+    modelModifiers: Object,
     name: String,
     title: String,
     availableOptions: Array,
@@ -76,7 +78,22 @@ export default defineComponent({
         }
       });
 
-      this.$emit('update:modelValue', newValue);
+      if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+        this.$emit('update:modelValue', newValue);
+        return;
+      }
+
+      const emitEventData = {
+        value: newValue,
+        abort: () => {
+          // undo checked changes since we want the parent component to decide if it should go
+          // through
+          const item = (this.$refs.root as HTMLElement).querySelectorAll('input').item(changedIndex);
+          item.checked = !item.checked;
+        },
+      };
+
+      this.$emit('update:modelValue', emitEventData);
     },
   },
 });

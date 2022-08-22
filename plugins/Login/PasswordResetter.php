@@ -15,9 +15,9 @@ use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Emails\PasswordResetEmail;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
@@ -281,7 +281,7 @@ class PasswordResetter
             $expiryTimestamp = $this->getDefaultExpiryTime();
         }
 
-        $expiry = strftime('%Y%m%d%H', $expiryTimestamp);
+        $expiry = date('YmdH', $expiryTimestamp);
         $token = $this->generateSecureHash(
             $expiry . $user['login'] . $user['email'] . $user['ts_password_modified'] . $keySuffix,
             $user['password']
@@ -379,6 +379,8 @@ class PasswordResetter
     /**
      * Returns user information based on a login or email.
      *
+     * If user is pending, return null
+     *
      * Derived classes can override this method to provide custom user querying logic.
      *
      * @param string $loginMail user login or email address
@@ -388,7 +390,12 @@ class PasswordResetter
     {
         $userModel = new Model();
 
+        if ($userModel->isPendingUser($loginOrMail)) {
+            return null;
+        }
+
         $user = null;
+
         if ($userModel->userExists($loginOrMail)) {
             $user = $userModel->getUser($loginOrMail);
         } else if ($userModel->userEmailExists($loginOrMail)) {

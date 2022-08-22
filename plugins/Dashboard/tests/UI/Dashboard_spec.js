@@ -283,7 +283,7 @@ describe("Dashboard", function () {
             await page.waitForTimeout(500); // sometimes the text doesn't seem to type fast enough
 
             var value = await page.evaluate(function() {
-                return $('#createDashboardName').attr('value');
+                return $('#createDashboardName').prop('value');
             });
 
             if (value === name) {
@@ -299,6 +299,7 @@ describe("Dashboard", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });
+
     it("should load segmented dashboard", async function() {
         await removeAllExtraDashboards();
         await page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"));
@@ -325,5 +326,6 @@ describe("Dashboard", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token_auth');
     });
+
 
 });

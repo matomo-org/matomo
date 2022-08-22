@@ -10,10 +10,10 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\SettingsPiwik;
 
 class NewsletterSignup
@@ -28,7 +28,7 @@ class NewsletterSignup
             return false;
         }
 
-        $url = Config::getInstance()->General['api_service_url'];
+        $url = Client::getApiServiceUrl();
         $url .= '/1.0/subscribeNewsletter/';
 
         $params = array(

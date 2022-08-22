@@ -29,12 +29,14 @@ class Request
      * The function init() must have been called before, so that the object knows which API module and action to call.
      * It builds the API request string and uses Request to call the API.
      * The requested DataTable object is stored in $this->dataTable.
+     *
+     * @param array $forcedParams   Optional parameters which will be used to overwrite the request parameters
      */
-    public function loadDataTableFromAPI($extraParams = [])
+    public function loadDataTableFromAPI($forcedParams = [])
     {
         // we build the request (URL) to call the API
         $requestArray = $this->getRequestArray();
-        $requestArray = array_merge($extraParams, $requestArray);
+        $requestArray = array_merge($requestArray, $forcedParams);
 
         // we make the request to the API
         $request = new ApiRequest($requestArray);

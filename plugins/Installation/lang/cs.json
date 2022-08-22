@@ -2,7 +2,7 @@
     "Installation": {
         "CannotConnectToDb": "Nelze se připojit k databázi",
         "CannotConnectToDbResolvingExplanation": "To může být dočasný problém, zkuste %1$sobnovit stránku%2$s. Pokud problém přetrvá, kontaktujte svého administrátora Matomou.",
-        "CollaborativeProject": "Matomo je společný projekt tvořený s láskou lidmi z celého světa.",
+        "CollaborativeProject": "Matomo je společný projekt tvořený s láskou.",
         "ConfigurationHelp": "Zdá se, že konfigurační soubor Matomo je chybně nakonfigurován. Můžete buď odstranit config / config.ini.php a pokračovat v instalaci, nebo opravit nastavení připojení k databázi.",
         "ConfirmDeleteExistingTables": "Jste si jistí, že chcete vymazat tabulky: %s z vaší databáze? UPOZORNĚNÍ: DATA Z TĚCHTO TABULEK NEPŮJDOU OBNOVIT!",
         "Congratulations": "Gratulujeme",
@@ -126,7 +126,6 @@
         "SystemCheckTracker": "Stav sledování",
         "SystemCheckTrackerHelp": "GET požadavek na matomo.php se nezdařil. Vyzkoušejte whitelisting této URL z ověřování HTTP a vypněte mod_security (možná o to budete muset požádat u svého poskytovatele webhostingu). Další informace o chybě naleznete v souboru protokolu chyb webového serveru.",
         "SystemCheckUpdateHttps": "Aktualizace přes HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo nemůže použít HTTPS k aktualizaci, bude přesměrováno zpět na nezabezpečenou aktualizaci HTTP. Zkontrolujte, zda je podporován CURL nebo allow_url_fopen a zda je nainstalováno rozšíření openssl PHP: https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Zobrazit úplné hlášení kontroly systému",
         "SystemCheckWarnDomHelp": "Měli byste povolit \"dom\" rozšíření t. j. nainstalovat balíček \"php-dom\" nebo \"php-xml\".",
         "SystemCheckWarnLibXmlHelp": "Protože je vyžadováno dalšími php rozšířeními, měli byste povolit rozšíření \"libxml\" t. j. nainstalovat balíček \"php-libxml\".",

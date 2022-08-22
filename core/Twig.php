@@ -360,6 +360,11 @@ class Twig
     protected function addFilter_safeDecodeRaw()
     {
         $rawSafeDecoded = new TwigFilter('rawSafeDecoded', function ($string) {
+
+            if ($string === null) {
+                return '';
+            }
+
             $string = str_replace('+', '%2B', $string);
             $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
 

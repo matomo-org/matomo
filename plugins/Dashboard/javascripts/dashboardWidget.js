@@ -136,15 +136,13 @@
                 if (currentWidget.parents('body').length) {
                     // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
                     // removed from DOM
-                    piwikHelper.compileAngularComponents($widgetContent, { forceNewScope: true });
+                    piwikHelper.compileAngularComponents($widgetContent);
                     piwikHelper.compileVueEntryComponents($widgetContent);
                 }
                 $widgetContent.removeClass('loading');
                 $widgetContent.trigger('widget:create', [self]);
 
-                angular.element(document).injector().invoke(['notifications', function (notifications) {
-                    notifications.parseNotificationDivs();
-                }]);
+                window.CoreHome.NotificationsStore.parseNotificationDivs();
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)
@@ -174,10 +172,23 @@
                     return;
                 }
 
+                var errorMessage;
                 $('.widgetContent', currentWidget).removeClass('loading');
-                var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
-                if ($('#loadingError').html()) {
-                    errorMessage = $('#loadingError').html();
+
+
+                if (deferred.status === 429) {
+                    errorMessage = `<div class="alert alert-danger">${_pk_translate('General_ErrorRateLimit')}>',
+                        '</a>'])}</div>`;
+
+                    if($('#loadingRateLimitError').html()) {
+                        errorMessage = $('#loadingRateLimitError')
+                          .html();
+                    }
+                } else {
+                    var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
+                    if ($('#loadingError').html()) {
+                        errorMessage = $('#loadingError').html();
+                    }
                 }
 
                 $('.widgetContent', currentWidget).html('<div class="widgetLoadingError">' + errorMessage + '</div>');

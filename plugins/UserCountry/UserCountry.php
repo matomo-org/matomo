@@ -43,6 +43,10 @@ class UserCountry extends \Piwik\Plugin
         $translations[] = 'UserCountry_CannotLocalizeLocalIP';
         $translations[] = 'UserCountry_NoProviders';
         $translations[] = 'General_Disabled';
+        $translations[] = 'UserCountry_GeolocationPageDesc';
+        $translations[] = 'UserCountry_LocationProvider';
+        $translations[] = 'UserCountry_Geolocation';
+        $translations[] = 'UserCountry_DistinctCountries';
     }
 
     public function addReportToInsightsOverview(&$reports)

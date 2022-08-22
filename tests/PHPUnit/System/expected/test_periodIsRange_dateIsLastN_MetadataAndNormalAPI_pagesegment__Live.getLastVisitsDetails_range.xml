@@ -132,6 +132,9 @@
 				<revenue>1000</revenue>
 				<goalPageId />
 				<url>http://example.org/homepage</url>
+				<referrerType>campaign</referrerType>
+				<referrerName>campaign name - yeah!</referrerName>
+				<referrerKeyword>campaign keyword - right...</referrerKeyword>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -265,6 +268,9 @@
 				<revenue>0</revenue>
 				<goalPageId />
 				<url>http://example.org/homepage</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword>piwik</referrerKeyword>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -297,6 +303,9 @@
 				<revenue>0</revenue>
 				<goalPageId />
 				<url>http://example.org/user/profile</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword>piwik</referrerKeyword>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>

@@ -40,16 +40,24 @@ class Config extends \Piwik\ViewDataTable\Config
     private $evolutionGraphLinkable = true;
 
     /**
-     * Adds possibility to set html attributes on the sparklines title / headline. For example can be used
-     * to set an angular directive
+     * Adds possibility to set html attributes on the sparklines title / headline.
      * @var string
      */
     public $title_attributes = array();
 
     /**
+     * Defines custom parameters that will be appended to the sparkline image urls
+     */
+    public $custom_parameters = [];
+
+    /**
      * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
      *
-     * The function is passed an array mapping column names with column values.
+     * The function is passed three parameters:
+     * - an array mapping column names with column values ['column' => 123]
+     * - an array of \Piwik\Plugin\Metrics objects available for the report - useful for formatting values
+     *
+     * compute_evolution(array, array)
      *
      * @var callable
      */
@@ -299,7 +307,8 @@ class Config extends \Piwik\ViewDataTable\Config
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
                 $sparkline['evolution'] = array(
                     'percent' => $evolutionPercent,
-                    'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null
+                    'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null,
+                    'trend' => $evolution['currentValue'] - $evolution['pastValue'],
                 );
             }
 

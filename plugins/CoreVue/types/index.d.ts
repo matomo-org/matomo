@@ -11,7 +11,7 @@ import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
   type QueryParameterValue = string | number | null | undefined | QueryParameterValue[];
-  type QueryParameters = {[name: string]: QueryParameterValue | QueryParameters};
+  type QueryParameters = Record<string, QueryParameterValue | QueryParameters>;
 
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
@@ -59,14 +59,11 @@ declare global {
 
   let Piwik_Popover: PiwikPopoverGlobal;
 
-  interface ModalConfirmCallbacks {
-    yes?: () => void;
-    no?: () => void;
-    validation?: () => void;
-  }
+  type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
-    onCloseEnd: () => void;
+    onCloseEnd?: () => void;
+    fixedFooter?: boolean;
   }
 
   interface CompileAngularComponentsOptions {
@@ -83,6 +80,7 @@ declare global {
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     getAngularDependency(eventName: string): any;
     isAngularRenderingThePage(): boolean;
+    isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
@@ -134,7 +132,11 @@ declare global {
     shouldPropagateTokenAuth: boolean;
     token_auth: string;
     idSite: string|number;
+    /**
+     * @deprecated
+     */
     siteName: string;
+    currentSiteName: string;
     period?: string;
     currentDateString?: string;
     startDateString?: string;
@@ -157,6 +159,11 @@ declare global {
     cacheBuster: string;
     numbers: Record<string, string>;
     visitorProfileEnabled: boolean;
+    languageName: string;
+    isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
+    userLogin?: string;
+    userHasSomeAdminAccess: boolean;
+    requiresPasswordConfirmation: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
@@ -202,6 +209,10 @@ declare global {
     new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
   }
 
+  interface SegmentedVisitorLogService {
+    show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -217,8 +228,9 @@ declare global {
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;
+    SegmentedVisitorLog: SegmentedVisitorLogService;
 
-    _pk_translate(translationStringId: string, values: string[]): string;
+    _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;

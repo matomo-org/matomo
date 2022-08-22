@@ -1,5 +1,12 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Menyemak kemas kini pemalam baharu",
+        "ClickHereToViewSqlQueries": "Klik di sini untuk melihat dan menyalin senarai pertanyaan SQL dan arahan konsol yang akan dilaksanakan",
+        "CriticalErrorDuringTheUpgradeProcess": "Ralat Kritikal semasa proses kemas kini:",
+        "DatabaseUpgradeRequired": "Peningkatan Pangkalan Data Diperlukan",
+        "DisablingIncompatiblePlugins": "Melumpuhkan pemalam yang tidak serasi: %s",
+        "DownloadX": "Muat turun %s",
+        "DownloadingUpdateFromX": "Memuat turun kemas kini daripada %s",
         "ExceptionArchiveEmpty": "Arkib kosong.",
         "MajorUpdateWarning2": "Pemberitahu yang berikut adalah amat penting untuk pemasangan yang besar.",
         "ReadyToGo": "Sudah bersedia?",

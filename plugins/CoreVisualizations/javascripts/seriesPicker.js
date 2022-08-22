@@ -37,7 +37,7 @@
      *
      * @param {dataTable} dataTable  The dataTable instance to add a series picker to.
      * @constructor
-     * @deprecated use the piwik-series-picker directive instead
+     * @deprecated use the SeriesPicker Vue component instead
      */
     var SeriesPicker = function (dataTable) {
         this.domElem = null;

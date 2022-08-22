@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,19 +7,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Metrics\Formatter;
-use Matomo\Network\IP;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Plugin\Segment;
-use Piwik\Plugins\Provider\Provider as ProviderProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Visit;
@@ -53,8 +51,8 @@ class Country extends Base
         $segment->setNeedsMostFrequentValues(false);
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
         $countryList = $regionDataProvider->getCountryList();
-        array_walk($countryList, function(&$item, $key) {
-            $item = Piwik::translate('Intl_Country_'.strtoupper($key), [], 'en');
+        array_walk($countryList, function (&$item, $key) {
+            $item = Piwik::translate('Intl_Country_' . strtoupper($key), [], 'en');
         });
 
         $segment->setSqlFilterValue(function ($val) use ($countryList) {
@@ -97,53 +95,7 @@ class Country extends Base
             return strtolower($country);
         }
 
-        $country = $this->getCountryUsingProviderExtensionIfValid($userInfo['ip']);
-
-        if (!empty($country)) {
-            return $country;
-        }
-
         return Visit::UNKNOWN_CODE;
-    }
-
-    private function getCountryUsingProviderExtensionIfValid($ipAddress)
-    {
-        if (!Manager::getInstance()->isPluginInstalled('Provider')) {
-            return false;
-        }
-
-        $hostname = $this->getHost($ipAddress);
-        $hostnameExtension = ProviderProvider::getCleanHostname($hostname);
-
-        $hostnameDomain = substr($hostnameExtension, 1 + strrpos($hostnameExtension, '.'));
-        if ($hostnameDomain == 'uk') {
-            $hostnameDomain = 'gb';
-        }
-
-        /** @var RegionDataProvider $regionDataProvider */
-        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
-
-        if (array_key_exists($hostnameDomain, $regionDataProvider->getCountryList())) {
-            return $hostnameDomain;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the hostname given the IP address string
-     *
-     * @param string $ipStr IP Address
-     * @return string hostname (or human-readable IP address)
-     */
-    private function getHost($ipStr)
-    {
-        $ip = IP::fromStringIP($ipStr);
-
-        $host = $ip->getHostname();
-        $host = ($host === null ? $ipStr : $host);
-
-        return trim(strtolower($host));
     }
 
     /**
@@ -175,8 +127,6 @@ class Country extends Base
         $enableLanguageToCountryGuess = Config::getInstance()->Tracker['enable_language_to_country_guess'];
         $locationIp = $visitor->getVisitorColumn('location_ip');
 
-        $country = Common::getCountry($browserLanguage, $enableLanguageToCountryGuess, $locationIp);
-
-        return $country;
+        return Common::getCountry($browserLanguage, $enableLanguageToCountryGuess, $locationIp);
     }
 }

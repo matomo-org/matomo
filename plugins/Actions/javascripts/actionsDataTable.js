@@ -19,7 +19,7 @@
 
         var currentLevelIndex = style.indexOf('level');
         if (currentLevelIndex >= 0) {
-            currentLevel = Number(style.substr(currentLevelIndex + 5, 1));
+            currentLevel = Number(style.slice(currentLevelIndex + 5, currentLevelIndex + 6));
         }
         return currentLevel;
     }

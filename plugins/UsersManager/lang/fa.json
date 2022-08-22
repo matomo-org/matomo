@@ -1,6 +1,6 @@
 {
     "UsersManager": {
-        "AddUser": "ایجاد یک کاربر جدید",
+        "2FA": "احراز هویت دو عاملی",
         "AllWebsites": "همه وب سایت ها",
         "AnonymousUserHasViewAccess": "توجه: کاربر %1$s در%2$s دسترسی به این وب سایت می باشد.",
         "AnonymousUserHasViewAccess2": "گزارش تجزیه و تحلیل و اطلاعات بازدید کنندگان خود را علنی قابل مشاهده است.",
