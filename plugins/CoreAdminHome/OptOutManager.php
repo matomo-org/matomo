@@ -183,7 +183,7 @@ class OptOutManager
     /**
      * Return the HTML code to be added to pages for the JavaScript opt-out
      *
-     * @param string $piwikUrl
+     * @param string $matomoUrl
      * @param string $language
      * @param string $backgroundColor
      * @param string $fontColor
@@ -193,11 +193,11 @@ class OptOutManager
      *
      * @return string
      */
-    public function getOptOutJSEmbedCode(string $piwikUrl, string $language, string $backgroundColor, string $fontColor,
+    public function getOptOutJSEmbedCode(string $matomoUrl, string $language, string $backgroundColor, string $fontColor,
                                          string $fontSize, string $fontFamily, bool $showIntro): string
     {
         return '<div id="matomo-opt-out"></div>
-<script src="'.$piwikUrl.'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.'&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily.'&showIntro='.($showIntro ? '1' : '0').'"></script>';
+<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.'&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily.'&showIntro='.($showIntro ? '1' : '0').'"></script>';
     }
 
     /**

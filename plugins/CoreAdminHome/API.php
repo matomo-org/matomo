@@ -351,7 +351,7 @@ class API extends \Piwik\Plugin\API
      * @param string $fontSize
      * @param string $fontFamily
      * @param bool $showIntro
-     * @param string $piwikUrl
+     * @param string $matomoUrl
      * @param string $language
      *
      * @return string
@@ -360,10 +360,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getOptOutJSEmbedCode(string $backgroundColor, string $fontColor,
                                          string $fontSize, string $fontFamily, bool $showIntro,
-                                         string $piwikUrl, string $language): string
+                                         string $matomoUrl, string $language): string
     {
 
-        return $this->optOutManager->getOptOutJSEmbedCode($piwikUrl, $language, $backgroundColor, $fontColor, $fontSize, $fontFamily, $showIntro);
+        return $this->optOutManager->getOptOutJSEmbedCode($matomoUrl, $language, $backgroundColor, $fontColor, $fontSize, $fontFamily, $showIntro);
     }
 
     /**
