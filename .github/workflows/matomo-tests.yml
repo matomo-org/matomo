@@ -57,11 +57,10 @@ jobs:
         uses: matomo-org/github-action-tests@v1
         with:
           test-type: ${{ matrix.tests }}
-          mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           node-version: ${{ matrix.node }}
           git-sha: ${{ github.event.pull_request.head.sha }}
-          
+
   Angular:
     runs-on: ubuntu-20.04
     strategy:
@@ -74,7 +73,6 @@ jobs:
         uses: matomo-org/github-action-tests@v1
         with:
           test-type: ${{ matrix.type }}
-          mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.tests }}
           mysql-service: false
@@ -94,7 +92,6 @@ jobs:
         uses: matomo-org/github-action-tests@v1
         with:
           test-type: ${{ matrix.tests }}
-          mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.parts }}
           run_number: ${{ github.run_number }}
