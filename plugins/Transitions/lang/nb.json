@@ -18,7 +18,7 @@
         "IncomingTraffic": "Innkommende trafikk",
         "LoopsInline": "%s innlastinger av side på nytt",
         "NoDataForAction": "Det finnes ingen data for %s",
-        "NoDataForActionDetails": "Enten har handlingen ingen sidevisninger i perioden %s eller så er den ugyldig.",
+        "NoDataForActionDetails": "Enten har handlingen ingen sidevisninger i perioden eller så er den ugyldig.",
         "NumDownloads": "%s nedlastinger",
         "NumOutlinks": "%s utlenker",
         "NumPageviews": "%s sidevisninger",

@@ -1,1 +1,6 @@
-{}
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Matomo itzulpenei buruz",
+        "TranslationSearch": "Itzulpen bilaketa"
+    }
+}

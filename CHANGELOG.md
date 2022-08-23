@@ -10,11 +10,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
 
+### Other Breaking changes
+
+* Requests to ASPSMS and Clockwork API do no longer accept invalid SSL certificates. If you experience problems with mobile messaging please check your SSL setup.
+
 ## Matomo 4.12.0
 
 ### Breaking Changes
 
 * When removing a user through the `UsersManager.deleteUser` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
+* When adding a user through the `UsersManager.addUser` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
+* When inviting a user through the `UsersManager.inviteUser` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
 * When removing a site through the `SitesManager.deleteSite` API using a session authentication, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
 
 ### New PHP events
