@@ -232,9 +232,14 @@ export default defineComponent({
 
       CustomDimensionsStore.fetch().then(() => {
         if (this.edit && this.dimensionId) {
-          this.dimension = clone(
-            CustomDimensionsStore.customDimensionsById.value[this.dimensionId],
-          ) as unknown as CustomDimension;
+          // no dimension for this site and dimensionId, so go back to /list
+          const dimensionInfo = CustomDimensionsStore.customDimensionsById.value[this.dimensionId];
+          if (!dimensionInfo) {
+            MatomoUrl.updateHashToUrl('/list');
+            return;
+          }
+
+          this.dimension = clone(dimensionInfo) as unknown as CustomDimension;
 
           if (this.dimension && !this.dimension.extractions.length) {
             this.addExtraction();
