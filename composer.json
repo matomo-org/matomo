@@ -54,9 +54,9 @@
         "php-di/php-di": "^6.0.0",
         "phpmailer/phpmailer": "^6.1",
         "psr/log": "~1.0",
-        "symfony/console": "~5.3.0",
-        "symfony/event-dispatcher": "~5.3.0",
-        "symfony/monolog-bridge": "~5.3.0",
+        "symfony/console": "~5.4.0",
+        "symfony/event-dispatcher": "~5.4.0",
+        "symfony/monolog-bridge": "~5.4.0",
         "symfony/polyfill-iconv": "^1.20",
         "symfony/polyfill-mbstring": "^1.20",
         "szymach/c-pchart": "~3.0.13",
@@ -70,8 +70,8 @@
         "slevomat/coding-standard": "~7.2.0",
         "squizlabs/php_codesniffer": "~3.6",
         "phpstan/phpdoc-parser": "~1.5.0",
-        "symfony/var-dumper": "~5.3.0",
-        "symfony/yaml": "~5.3.0"
+        "symfony/var-dumper": "~5.4.0",
+        "symfony/yaml": "~5.4.0"
     },
     "replace": {
         "symfony/polyfill-php54": "*",
