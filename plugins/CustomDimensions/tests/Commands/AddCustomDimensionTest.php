@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\Commands;
 
+use Piwik\Console\DialogHelper;
 use Piwik\Plugins\CustomDimensions\Commands\AddCustomDimension;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
@@ -130,12 +131,16 @@ class AddCustomDimensionTest extends IntegrationTestCase
         $addCustomDimension = new AddCustomDimension();
 
         $application = new Application();
+
+        // this is needed until dialog helper was replaced with QuestionHelper
+        $helperSet = $application->getHelperSet();
+        $helperSet->set(new DialogHelper());
+        $application->setHelperSet($helperSet);
+
         $application->add($addCustomDimension);
 
         $commandTester = new CommandTester($addCustomDimension);
-
-        $dialog = $addCustomDimension->getHelper('dialog');
-        $dialog->setInputStream($this->getInputStream($confirm ? 'yes' : 'no' . '\n'));
+        $commandTester->setInputs([($confirm ? 'yes' : 'no') . '\n']);
 
         $params = array();
         if (!is_null($scope)) {

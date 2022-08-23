@@ -66,7 +66,7 @@ class ConsoleCommand extends SymfonyCommand
             return parent::run($input, $output);
         } catch (\TypeError $e) {
             if (strpos($e->getMessage(), 'Return value of "') === 0) {
-                Log::info('Deprecation warning: ' . $e->getMessage() . "\nPlease update the command implementation, as this won't be supported by Matomo 6 anymore");
+                Log::info('Deprecation warning: ' . $e->getMessage() . "\nPlease update the command implementation to return an int instead, as this won't be supported by Matomo 6 anymore");
                 return self::SUCCESS;
             }
             throw $e;

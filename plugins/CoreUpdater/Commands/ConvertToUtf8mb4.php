@@ -62,7 +62,7 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
         if (DbHelper::getDefaultCharset() !== 'utf8mb4') {
             $this->writeSuccessMessage($output, array('Your database does not support utf8mb4'));
-            return self::SUCCESS;
+            return self::FAILURE;
         }
 
         if (!$keepTracking) {

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\Commands;
 
+use Piwik\Console\DialogHelper;
 use Piwik\Plugins\CustomDimensions\Commands\RemoveCustomDimension;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
@@ -135,12 +136,16 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         $removeCustomDimension = new RemoveCustomDimension();
 
         $application = new Application();
+
+        // this is needed until dialog helper was replaced with QuestionHelper
+        $helperSet = $application->getHelperSet();
+        $helperSet->set(new DialogHelper());
+        $application->setHelperSet($helperSet);
+
         $application->add($removeCustomDimension);
 
         $commandTester = new CommandTester($removeCustomDimension);
-
-        $dialog = $removeCustomDimension->getHelper('dialog');
-        $dialog->setInputStream($this->getInputStream($confirm ? 'yes' : 'no' . '\n'));
+        $commandTester->setInputs([($confirm ? 'yes' : 'no') . '\n']);
 
         $params = array();
         if (!is_null($scope)) {

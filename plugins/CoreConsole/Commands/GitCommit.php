@@ -46,7 +46,7 @@ class GitCommit extends ConsoleCommand
                 $output->writeln(sprintf('<error>%s has untracked files or folders. Delete or add them and try again.</error>', $submodule));
                 $output->writeln('<error>Status:</error>');
                 $output->writeln(sprintf('<comment>%s</comment>', $status));
-                return self::SUCCESS;
+                return self::FAILURE;
             }
         }
 
@@ -54,7 +54,7 @@ class GitCommit extends ConsoleCommand
 
         if (empty($commitMessage)) {
             $output->writeln('No message specified. Use option -m or --message.');
-            return self::SUCCESS;
+            return self::FAILURE;
         }
 
         if (!$this->hasChangesToBeCommitted()) {

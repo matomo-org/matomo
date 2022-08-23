@@ -45,7 +45,7 @@ class AddCustomDimension extends ConsoleCommand
 
         $noInteraction = $input->getOption('no-interaction');
         if (!$noInteraction && !$this->confirmChange($output)) {
-            return self::SUCCESS;
+            return self::FAILURE;
         }
 
         $output->writeln('');

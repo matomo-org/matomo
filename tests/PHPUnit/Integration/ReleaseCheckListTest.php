@@ -229,7 +229,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
             PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
-            PIWIK_INCLUDE_PATH . '/vendor/phpunit/php-code-coverage/tests',
+            PIWIK_INCLUDE_PATH . '/vendor/phpunit/',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
             PIWIK_INCLUDE_PATH . '/node_modules/',
         );
