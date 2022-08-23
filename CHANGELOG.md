@@ -6,6 +6,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.0.0
 
+### Breaking Changes
+
+* The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
+
 ### Other Breaking changes
 
 * Requests to ASPSMS and Clockwork API do no longer accept invalid SSL certificates. If you experience problems with mobile messaging please check your SSL setup.
