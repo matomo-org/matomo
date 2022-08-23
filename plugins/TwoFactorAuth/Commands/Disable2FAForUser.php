@@ -40,6 +40,6 @@ class Disable2FAForUser extends ConsoleCommand
         $message = sprintf('<info>Disabled two-factor authentication for user: %s</info>', $login);
         $output->writeln($message);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

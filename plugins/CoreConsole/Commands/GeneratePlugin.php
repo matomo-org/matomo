@@ -99,7 +99,7 @@ class GeneratePlugin extends GeneratePluginBase
             ));
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

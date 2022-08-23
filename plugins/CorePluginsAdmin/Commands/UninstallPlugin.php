@@ -43,6 +43,6 @@ class UninstallPlugin extends ConsoleCommand
             $output->writeln("Uninstalled plugin <info>$plugin</info>");
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }

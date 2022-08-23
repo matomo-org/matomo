@@ -61,13 +61,13 @@ class ConsoleCommand extends SymfonyCommand
         // This method used to return `0` if a non numeric value was returned from execute()
         // To have our commands still compatible till the next major release we imitate that behaviour but output
         // an info message so old commands will get updated
-        // @todo remove in Matomo 5
+        // @todo remove in Matomo 6
         try {
             return parent::run($input, $output);
         } catch (\TypeError $e) {
             if (strpos($e->getMessage(), 'Return value of "') === 0) {
-                Log::info('Deprecation warning: ' . $e->getMessage() . "\nPlease update the command implementation, as this won't be supported by Matomo 5 anymore");
-                return 0;
+                Log::info('Deprecation warning: ' . $e->getMessage() . "\nPlease update the command implementation, as this won't be supported by Matomo 6 anymore");
+                return self::SUCCESS;
             }
             throw $e;
         }

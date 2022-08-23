@@ -52,6 +52,6 @@ class HelloWorld extends ConsoleCommand
 
         $output->writeln($message);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

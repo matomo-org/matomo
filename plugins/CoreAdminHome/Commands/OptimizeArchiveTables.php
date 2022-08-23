@@ -50,7 +50,7 @@ class OptimizeArchiveTables extends ConsoleCommand
             $this->optimizeTable($output, $dryRun, 'archive_blob_' . $month);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function optimizeTable(OutputInterface $output, $dryRun, $table)

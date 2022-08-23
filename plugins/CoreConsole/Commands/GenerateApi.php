@@ -42,7 +42,7 @@ class GenerateApi extends GeneratePluginBase
              'Enjoy!'
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

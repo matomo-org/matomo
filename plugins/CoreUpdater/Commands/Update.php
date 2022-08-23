@@ -89,7 +89,7 @@ class Update extends ConsoleCommand
             Filesystem::$skipCacheClearOnUpdate = false;
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function askForUpdateConfirmation(InputInterface $input, OutputInterface $output)

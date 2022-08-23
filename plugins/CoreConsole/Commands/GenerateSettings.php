@@ -46,7 +46,7 @@ class GenerateSettings extends GeneratePluginBase
              'Enjoy!'
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getSettingTypes()

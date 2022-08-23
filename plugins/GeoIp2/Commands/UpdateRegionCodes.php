@@ -48,14 +48,14 @@ class UpdateRegionCodes extends ConsoleCommand
             $newContent = Http::sendHttpRequest($this->source, 1000);
         } catch (\Exception $e) {
             $output->writeln(' <fg=red>X (Fetching content failed)</>');
-            return 1;
+            return self::FAILURE;
         }
 
         $regionData = json_decode($newContent, true);
 
         if (empty($regionData)) {
             $output->writeln(' <fg=red>X (Content could not be parsed)</>');
-            return 1;
+            return self::FAILURE;
         }
 
         $output->writeln(' <fg=green>✓</>');
@@ -113,7 +113,7 @@ class UpdateRegionCodes extends ConsoleCommand
 
         if (json_encode($newRegions) === json_encode($currentRegions)) {
             $output->writeln('Everything already up to date <fg=green>✓</>');
-            return 0;
+            return self::SUCCESS;
         }
 
         $content = <<<CONTENT
@@ -128,7 +128,7 @@ CONTENT;
 
         $output->writeln('File successfully updated <fg=green>✓</>');
 
-        return 0;
+        return self::SUCCESS;
     }
 
 

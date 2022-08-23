@@ -33,12 +33,12 @@ class SetLicenseKey extends ConsoleCommand
         if (empty(trim($licenseKey))) {
             API::getInstance()->deleteLicenseKey();
             $output->writeln("License key removed.");
-            return;
+            return self::SUCCESS;
         }
 
         API::getInstance()->saveLicenseKey($licenseKey);
         $output->writeln("License key set.");
 
-        return 0;
+        return self::SUCCESS;
     }
 }

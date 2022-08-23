@@ -67,6 +67,6 @@ class GenerateVueComponent extends GenerateVueConstructBase
             sprintf('You should now build the vue library using the vue:build command (use --watch to continuously build after making changes).'),
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 }

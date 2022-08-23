@@ -89,7 +89,7 @@ class Validate extends TranslationBase
 
         $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

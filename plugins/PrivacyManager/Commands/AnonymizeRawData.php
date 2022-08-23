@@ -98,7 +98,7 @@ class AnonymizeRawData extends ConsoleCommand
 
         $output->writeln('Done');
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function confirmAnonymize(InputInterface $input, OutputInterface $output, $startDate, $endDate, $action)

@@ -35,6 +35,6 @@ class ClearCaches extends ConsoleCommand
 
         $this->writeSuccessMessage($output, array('Caches cleared'));
 
-        return 0;
+        return self::SUCCESS;
     }
 }

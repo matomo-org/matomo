@@ -57,7 +57,7 @@ class DevelopmentEnable extends ConsoleCommand
             $this->writeComment($output, [$comment]);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
 }

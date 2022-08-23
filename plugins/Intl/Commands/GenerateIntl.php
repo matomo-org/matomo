@@ -146,7 +146,7 @@ class GenerateIntl extends ConsoleCommand
             $translationWriter->save();
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     protected function checkCurrencies(OutputInterface $output)

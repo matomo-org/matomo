@@ -160,7 +160,7 @@ class TestsSetupFixture extends ConsoleCommand
             Config::getInstance()->forceSave();
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function createSymbolicLinksForUITests()

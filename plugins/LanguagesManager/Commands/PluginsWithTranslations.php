@@ -39,6 +39,6 @@ class PluginsWithTranslations extends TranslationBase
 
         $output->writeln(join("\n", $pluginFiles));
 
-        return 0;
+        return self::SUCCESS;
     }
 }

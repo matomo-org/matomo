@@ -64,7 +64,7 @@ class GenerateTest extends GeneratePluginBase
 
         $this->writeSuccessMessage($output, $messages);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

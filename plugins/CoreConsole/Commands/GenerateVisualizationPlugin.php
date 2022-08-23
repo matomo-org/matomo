@@ -56,7 +56,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
              'Enjoy!'
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

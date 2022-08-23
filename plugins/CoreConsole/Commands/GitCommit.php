@@ -46,7 +46,7 @@ class GitCommit extends ConsoleCommand
                 $output->writeln(sprintf('<error>%s has untracked files or folders. Delete or add them and try again.</error>', $submodule));
                 $output->writeln('<error>Status:</error>');
                 $output->writeln(sprintf('<comment>%s</comment>', $status));
-                return 0;
+                return self::SUCCESS;
             }
         }
 
@@ -54,7 +54,7 @@ class GitCommit extends ConsoleCommand
 
         if (empty($commitMessage)) {
             $output->writeln('No message specified. Use option -m or --message.');
-            return 0;
+            return self::SUCCESS;
         }
 
         if (!$this->hasChangesToBeCommitted()) {
@@ -62,7 +62,7 @@ class GitCommit extends ConsoleCommand
             $question = '<question>There are no changes to be committed in the super repo, do you just want to commit and converge submodules?</question>';
             if (!$dialog->askConfirmation($output, $question, false)) {
                 $output->writeln('<info>Cool, nothing done. Stage files using "git add" and try again.</info>');
-                return 0;
+                return self::SUCCESS;
             }
         }
 
@@ -100,7 +100,7 @@ class GitCommit extends ConsoleCommand
             $this->passthru($cmd, $output);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function passthru($cmd, OutputInterface $output)

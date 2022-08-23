@@ -33,6 +33,6 @@ class LanguageInfo extends TranslationBase
             $output->writeln($languageInfo['code'].'|' . $languageInfo['english_name'] . '|' . $languageInfo['percentage_complete']);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }

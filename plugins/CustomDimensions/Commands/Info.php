@@ -55,6 +55,6 @@ class Info extends ConsoleCommand
             $output->writeln(sprintf('<comment>./console customdimensions:add-custom-dimension --scope=%s --count=%d</comment>', CustomDimensions::SCOPE_CONVERSION, $numVisit - $numConversions));
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }

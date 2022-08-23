@@ -48,7 +48,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
             $this->updatePluginsFiles($input, $output);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     protected function updateCoreFiles(InputInterface $input, OutputInterface $output)

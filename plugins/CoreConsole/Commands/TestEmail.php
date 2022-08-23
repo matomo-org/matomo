@@ -46,6 +46,6 @@ class TestEmail extends ConsoleCommand
         $mail->send();
         $output->writeln('Message sent to ' . $email);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

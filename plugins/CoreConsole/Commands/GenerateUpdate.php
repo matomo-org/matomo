@@ -48,7 +48,7 @@ class GenerateUpdate extends GeneratePluginBase
             'Enjoy!'
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getUpdateClassName($component, $version)

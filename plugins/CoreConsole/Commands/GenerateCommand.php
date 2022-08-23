@@ -51,7 +51,7 @@ class GenerateCommand extends GeneratePluginBase
             sprintf('Command %s for plugin %s generated', $commandName, $pluginName)
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

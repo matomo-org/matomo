@@ -44,7 +44,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         // chick if option is set to disable second run
         if (Option::get(self::OPTION_NAME)) {
             $output->writeln('Converting region codes already done.');
-            return 0;
+            return self::SUCCESS;
         }
 
         $output->setDecorated(true);
@@ -119,6 +119,6 @@ class ConvertRegionCodesToIso extends ConsoleCommand
 
         $output->writeln('All region codes converted.');
 
-        return 0;
+        return self::SUCCESS;
     }
 }

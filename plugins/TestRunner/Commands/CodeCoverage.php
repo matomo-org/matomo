@@ -35,7 +35,7 @@ class CodeCoverage extends ConsoleCommand
         if (empty($phpCovPath)) {
 
             $output->writeln('phpcov not installed. please install pear.phpunit.de/phpcov.');
-            return 1;
+            return self::FAILURE;
         }
 
         $command = $this->getApplication()->find('tests:run');
@@ -93,7 +93,7 @@ class CodeCoverage extends ConsoleCommand
 
         passthru(sprintf('cd %1$s && %2$s --merge --html tests/results/coverage/ --whitelist ./core/ --whitelist ./plugins/ --add-uncovered %1$s/tests/results/logs/', PIWIK_DOCUMENT_ROOT, $command));
 
-        return 0;
+        return self::SUCCESS;
     }
 
 }

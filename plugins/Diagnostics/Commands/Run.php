@@ -63,14 +63,14 @@ class Run extends ConsoleCommand
         }
         if ($report->hasErrors()) {
             $output->writeln(sprintf('<error>%d errors detected</error>', $report->getErrorCount()));
-            return 1;
+            return self::FAILURE;
         }
 
         if(!$report->hasWarnings() && !$report->hasErrors()) {
             $output->writeln(sprintf('<info>%s</info>', Piwik::translate('Installation_SystemCheckSummaryNoProblems')));
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function formatItem(DiagnosticResultItem $item)

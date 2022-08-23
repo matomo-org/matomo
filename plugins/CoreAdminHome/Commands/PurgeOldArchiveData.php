@@ -121,7 +121,7 @@ class PurgeOldArchiveData extends ConsoleCommand
             $this->optimizeArchiveTables($output, $dates);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

@@ -53,6 +53,6 @@ class ActivatePlugin extends ConsoleCommand
             $output->writeln("Activated plugin <info>$plugin</info>");
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }

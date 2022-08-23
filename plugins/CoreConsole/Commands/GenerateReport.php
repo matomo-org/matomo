@@ -74,7 +74,7 @@ class GenerateReport extends GeneratePluginBase
             'Enjoy!'
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getOrder($category)

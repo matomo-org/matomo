@@ -45,7 +45,7 @@ class AddCustomDimension extends ConsoleCommand
 
         $noInteraction = $input->getOption('no-interaction');
         if (!$noInteraction && !$this->confirmChange($output)) {
-            return 0;
+            return self::SUCCESS;
         }
 
         $output->writeln('');
@@ -68,7 +68,7 @@ class AddCustomDimension extends ConsoleCommand
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getScope(InputInterface $input)

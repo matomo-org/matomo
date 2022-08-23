@@ -67,7 +67,7 @@ class RemoveCustomDimension extends ConsoleCommand
 
         $noInteraction = $input->getOption('no-interaction');
         if (!$noInteraction && !$this->confirmChange($output)) {
-            return;
+            return self::FAILURE;
         }
 
         $output->writeln('');
@@ -92,7 +92,7 @@ class RemoveCustomDimension extends ConsoleCommand
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getScope(InputInterface $input)

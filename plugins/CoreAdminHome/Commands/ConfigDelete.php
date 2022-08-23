@@ -122,7 +122,7 @@ NOTES:
             }
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

@@ -27,6 +27,6 @@ class VersionInfo extends ConsoleCommand
     {
         $output->writeln(Version::VERSION);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

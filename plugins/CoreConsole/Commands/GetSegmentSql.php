@@ -103,6 +103,6 @@ class GetSegmentSql extends ConsoleCommand
             $output->writeln('  BIND #' . $key . ': ' . $value);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }
