@@ -87,7 +87,6 @@ export default defineComponent({
       return '';
     },
     initState() {
-      // as we're not using angular router we have to handle it manually here
       const idDimension = MatomoUrl.hashParsed.value.idDimension as string;
 
       if (idDimension) {
