@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,7 +10,6 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\Commands;
 
-use Piwik\Console\DialogHelper;
 use Piwik\Plugins\CustomDimensions\Commands\RemoveCustomDimension;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
@@ -25,7 +25,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class RemoveCustomDimensionTest extends IntegrationTestCase
 {
-    public function testExecute_ShouldThrowException_IfArgumentIsMissing()
+    public function testExecuteShouldThrowExceptionIfArgumentIsMissing()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The specified scope is invalid. Use either');
@@ -33,7 +33,7 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand(null, null);
     }
 
-    public function testExecute_ShouldThrowException_IfScopeIsInvalid()
+    public function testExecuteShouldThrowExceptionIfScopeIsInvalid()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The specified scope is invalid. Use either "--scope=visit" or "--scope=action"');
@@ -41,7 +41,7 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand('invalidscope', null);
     }
 
-    public function testExecute_ShouldThrowException_IfIndexIsNotSpecified()
+    public function testExecuteShouldThrowExceptionIfIndexIsNotSpecified()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('An option "index" must be specified');
@@ -49,7 +49,7 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand(CustomDimensions::SCOPE_VISIT, null);
     }
 
-    public function testExecute_ShouldThrowException_IfIndexIsNotANumber()
+    public function testExecuteShouldThrowExceptionIfIndexIsNotANumber()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Option "index" must be a number');
@@ -57,7 +57,7 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand(CustomDimensions::SCOPE_VISIT, '545fddfd');
     }
 
-    public function testExecute_ShouldThrowException_IfCountIsLessThanONe()
+    public function testExecuteShouldThrowExceptionIfCountIsLessThanONe()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Specified index is not installed');
@@ -65,22 +65,22 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand(CustomDimensions::SCOPE_VISIT, '14');
     }
 
-    public function testExecute_ShouldThrowException_IfUserCancelsConfirmation()
+    public function testExecuteShouldThrowExceptionIfUserCancelsConfirmation()
     {
         $result = $this->executeCommand(CustomDimensions::SCOPE_VISIT, $index = 5, false);
         $this->assertStringEndsWith('Are you sure you want to perform this action? (y/N)', $result);
     }
 
-    public function testExecute_ShouldAddSpecifiedCount()
+    public function testExecuteShouldAddSpecifiedCount()
     {
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(range(1,5), $logConversion->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logConversion->getInstalledIndexes());
 
         $logAction = new LogTable(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(range(1,5), $logAction->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logAction->getInstalledIndexes());
 
         $result = $this->executeCommand(CustomDimensions::SCOPE_ACTION, $index = 3);
 
@@ -90,22 +90,22 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Your Matomo is now configured for up to 4 Custom Dimensions in scope action.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(range(1,5), $logConversion->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logConversion->getInstalledIndexes());
 
         $logAction = new LogTable(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(array(1,2,4,5), $logAction->getInstalledIndexes());
+        $this->assertSame([1,2,4,5], $logAction->getInstalledIndexes());
     }
 
-    public function testExecute_ShouldAddSpecifiedCount_IfScopeIsVisitShouldAlsoUpdateConversion()
+    public function testExecuteShouldAddSpecifiedCountIfScopeIsVisitShouldAlsoUpdateConversion()
     {
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(range(1,5), $logConversion->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logConversion->getInstalledIndexes());
 
         $result = $this->executeCommand(CustomDimensions::SCOPE_VISIT, $index = 2);
 
@@ -115,13 +115,13 @@ class RemoveCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Your Matomo is now configured for up to 4 Custom Dimensions in scope visit.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(array(1,3,4,5), $logVisit->getInstalledIndexes());
+        $this->assertSame([1,3,4,5], $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(array(1,3,4,5), $logConversion->getInstalledIndexes());
+        $this->assertSame([1,3,4,5], $logConversion->getInstalledIndexes());
 
         $logAction = new LogTable(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(array(1,2,4,5), $logAction->getInstalledIndexes());
+        $this->assertSame([1,2,4,5], $logAction->getInstalledIndexes());
     }
 
     /**

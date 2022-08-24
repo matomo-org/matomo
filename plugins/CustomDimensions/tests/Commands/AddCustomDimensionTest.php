@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,7 +10,6 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\Commands;
 
-use Piwik\Console\DialogHelper;
 use Piwik\Plugins\CustomDimensions\Commands\AddCustomDimension;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
@@ -25,7 +25,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class AddCustomDimensionTest extends IntegrationTestCase
 {
-    public function testExecute_ShouldThrowException_IfArgumentIsMissing()
+    public function testExecuteShouldThrowExceptionIfArgumentIsMissing()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The specified scope is invalid. Use either');
@@ -33,7 +33,7 @@ class AddCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand(null, null);
     }
 
-    public function testExecute_ShouldThrowException_IfScopeIsInvalid()
+    public function testExecuteShouldThrowExceptionIfScopeIsInvalid()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The specified scope is invalid. Use either "--scope=visit" or "--scope=action"');
@@ -41,7 +41,7 @@ class AddCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand('invalidscope', null);
     }
 
-    public function testExecute_ShouldThrowException_IfCountIsNotANumber()
+    public function testExecuteShouldThrowExceptionIfCountIsNotANumber()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Option "count" must be a number');
@@ -49,7 +49,7 @@ class AddCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand(CustomDimensions::SCOPE_VISIT, '545fddfd');
     }
 
-    public function testExecute_ShouldThrowException_IfCountIsLessThanONe()
+    public function testExecuteShouldThrowExceptionIfCountIsLessThanONe()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Option "count" must be at least one');
@@ -57,22 +57,22 @@ class AddCustomDimensionTest extends IntegrationTestCase
         $this->executeCommand(CustomDimensions::SCOPE_VISIT, '0');
     }
 
-    public function testExecute_ShouldThrowException_IfUserCancelsConfirmation()
+    public function testExecuteShouldThrowExceptionIfUserCancelsConfirmation()
     {
         $result = $this->executeCommand(CustomDimensions::SCOPE_VISIT, $count = 5, false);
         $this->assertStringEndsWith('Are you sure you want to perform this action? (y/N)', $result);
     }
 
-    public function testExecute_ShouldAddSpecifiedCount()
+    public function testExecuteShouldAddSpecifiedCount()
     {
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(range(1,5), $logConversion->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logConversion->getInstalledIndexes());
 
         $logAction = new LogTable(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(range(1,5), $logAction->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logAction->getInstalledIndexes());
 
         $result = $this->executeCommand(CustomDimensions::SCOPE_ACTION, $count = 3);
 
@@ -82,25 +82,25 @@ class AddCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Your Matomo is now configured for up to 8 Custom Dimensions in scope action.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(range(1,5), $logConversion->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logConversion->getInstalledIndexes());
 
         $logAction = new LogTable(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(range(1,8), $logAction->getInstalledIndexes());
+        $this->assertSame(range(1, 8), $logAction->getInstalledIndexes());
     }
 
-    public function testExecute_ShouldAddSpecifiedCount_IfScopeIsVisitShouldAlsoUpdateConversion()
+    public function testExecuteShouldAddSpecifiedCountIfScopeIsVisitShouldAlsoUpdateConversion()
     {
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,5), $logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(range(1,5), $logConversion->getInstalledIndexes());
+        $this->assertSame(range(1, 5), $logConversion->getInstalledIndexes());
 
         $logAction = new LogTable(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(range(1,8), $logAction->getInstalledIndexes());
+        $this->assertSame(range(1, 8), $logAction->getInstalledIndexes());
 
         $result = $this->executeCommand(CustomDimensions::SCOPE_VISIT, $count = 2);
 
@@ -110,13 +110,13 @@ class AddCustomDimensionTest extends IntegrationTestCase
         self::assertStringContainsString('Your Matomo is now configured for up to 7 Custom Dimensions in scope visit.', $result);
 
         $logVisit = new LogTable(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,7), $logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 7), $logVisit->getInstalledIndexes());
 
         $logConversion = new LogTable(CustomDimensions::SCOPE_CONVERSION);
-        $this->assertSame(range(1,7), $logConversion->getInstalledIndexes());
+        $this->assertSame(range(1, 7), $logConversion->getInstalledIndexes());
 
         $logAction = new LogTable(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(range(1,8), $logAction->getInstalledIndexes());
+        $this->assertSame(range(1, 8), $logAction->getInstalledIndexes());
     }
 
     /**

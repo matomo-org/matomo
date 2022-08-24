@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -65,9 +66,9 @@ class AddCustomDimension extends ConsoleCommand
 
         $numDimensionsAvailable = $tracking->getNumInstalledIndexes();
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage($output, [
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
-        ));
+        ]);
 
         return self::SUCCESS;
     }

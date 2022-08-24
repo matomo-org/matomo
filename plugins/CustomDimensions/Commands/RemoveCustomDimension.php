@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -51,7 +52,7 @@ class RemoveCustomDimension extends ConsoleCommand
         $configuration = new Configuration();
         $configs = $configuration->getCustomDimensionsHavingIndex($scope, $index);
 
-        $names = array();
+        $names = [];
         foreach ($configs as $config) {
             $names[] = $config['name'];
         }
@@ -89,9 +90,9 @@ class RemoveCustomDimension extends ConsoleCommand
 
         $numDimensionsAvailable = $tracking->getNumInstalledIndexes();
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage($output, [
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
-        ));
+        ]);
 
         return self::SUCCESS;
     }
@@ -100,7 +101,7 @@ class RemoveCustomDimension extends ConsoleCommand
     {
         $scope = $input->getOption('scope');
 
-        if (empty($scope) || !in_array($scope, array(CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION))) {
+        if (empty($scope) || !in_array($scope, [CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION])) {
             $message = sprintf('The specified scope is invalid. Use either "--scope=%s" or "--scope=%s"', CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION);
             throw new \InvalidArgumentException($message);
         }
