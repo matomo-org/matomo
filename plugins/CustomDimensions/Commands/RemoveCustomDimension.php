@@ -17,6 +17,7 @@ use Piwik\Tracker\Cache;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  */
@@ -66,7 +67,7 @@ class RemoveCustomDimension extends ConsoleCommand
         $output->writeln('<comment>Removing tracked Custom Dimension data cannot be undone unless you have a backup.</comment>');
 
         $noInteraction = $input->getOption('no-interaction');
-        if (!$noInteraction && !$this->confirmChange($output)) {
+        if (!$noInteraction && !$this->confirmChange($input, $output)) {
             return self::FAILURE;
         }
 
@@ -130,16 +131,16 @@ class RemoveCustomDimension extends ConsoleCommand
         return $index;
     }
 
-    private function confirmChange(OutputInterface $output)
+    private function confirmChange(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('');
 
-        $dialog = $this->getHelperSet()->get('dialog');
-        return $dialog->askConfirmation(
-            $output,
+        $helper   = $this->getHelper('question');
+        $question = new ConfirmationQuestion(
             '<question>Are you sure you want to perform this action? (y/N)</question>',
             false
         );
-    }
 
+        return $helper->ask($input, $output, $question);
+    }
 }

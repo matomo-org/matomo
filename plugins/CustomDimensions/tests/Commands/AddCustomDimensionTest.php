@@ -131,18 +131,12 @@ class AddCustomDimensionTest extends IntegrationTestCase
         $addCustomDimension = new AddCustomDimension();
 
         $application = new Application();
-
-        // this is needed until dialog helper was replaced with QuestionHelper
-        $helperSet = $application->getHelperSet();
-        $helperSet->set(new DialogHelper());
-        $application->setHelperSet($helperSet);
-
         $application->add($addCustomDimension);
 
         $commandTester = new CommandTester($addCustomDimension);
         $commandTester->setInputs([($confirm ? 'yes' : 'no') . "\n"]);
 
-        $params = array();
+        $params = [];
         if (!is_null($scope)) {
             $params['--scope'] = $scope;
         }
@@ -153,17 +147,6 @@ class AddCustomDimensionTest extends IntegrationTestCase
 
         $params['command'] = $addCustomDimension->getName();
         $commandTester->execute($params);
-        $result = $commandTester->getDisplay();
-
-        return $result;
-    }
-
-    protected function getInputStream($input)
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        fputs($stream, $input);
-        rewind($stream);
-
-        return $stream;
+        return $commandTester->getDisplay();
     }
 }
