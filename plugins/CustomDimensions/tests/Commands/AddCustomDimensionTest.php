@@ -140,7 +140,7 @@ class AddCustomDimensionTest extends IntegrationTestCase
         $application->add($addCustomDimension);
 
         $commandTester = new CommandTester($addCustomDimension);
-        $commandTester->setInputs([($confirm ? 'yes' : 'no') . '\n']);
+        $commandTester->setInputs([($confirm ? 'yes' : 'no') . "\n"]);
 
         $params = array();
         if (!is_null($scope)) {
