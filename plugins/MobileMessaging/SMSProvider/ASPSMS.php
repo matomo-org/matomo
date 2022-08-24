@@ -121,7 +121,7 @@ class ASPSMS extends SMSProvider
                 $file = null,
                 $followDepth = 0,
                 $acceptLanguage = false,
-                $acceptInvalidSslCertificate = true,
+                $acceptInvalidSslCertificate = false,
                 $byteRange = false,
                 $getExtendedInfo = false,
                 $httpMethod = 'POST',
