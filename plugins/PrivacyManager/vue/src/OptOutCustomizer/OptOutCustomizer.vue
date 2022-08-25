@@ -93,7 +93,8 @@
       :src="iframeUrl"
       :class="{ withBg }"
     />
-
+  </div>
+  <div>
     <div class="form-group row">
       <div class="col s12 m6">
         <h3>{{ translate('PrivacyManager_OptOutHtmlCode') }}</h3>
@@ -127,31 +128,29 @@
           </label>
         </p>
 
-      </div>
-    </div>
-  </div>
-  <div>
-    <div v-if="codeType === 'selfContained'">
-        <div>
-            <Field
-              uicontrol="select"
-              name="language"
-              v-model="language"
-              :title="translate('General_Language')"
-              :options="languageOptions"
-              @keydown="updateCode()"
-              @change="updateCode()"
-            />
+        <div v-if="codeType === 'selfContained'">
+          <div>
+              <Field
+                uicontrol="select"
+                name="language"
+                v-model="language"
+                :title="translate('General_Language')"
+                :options="languageOptions"
+                @keydown="updateCode()"
+                @change="updateCode()"
+              />
+          </div>
         </div>
-    </div>
 
-    <div class="form-group row">
+      </div>
       <div class="col s12 m6">
         <div class="form-help" v-html="$sanitize(codeTypeHelp)">
         </div>
       </div>
     </div>
+  </div>
 
+  <div>
     <pre v-select-on-focus="{}" ref="pre">
 {{ codeBox }}
     </pre>
