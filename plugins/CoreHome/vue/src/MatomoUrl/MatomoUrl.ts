@@ -67,6 +67,9 @@ class MatomoUrl {
   updateHashToUrl(url: string) {
     const $location: ILocationService = Matomo.helper.getAngularDependency('$location');
     $location.url(url);
+
+    const $timeout: ITimeoutService = Matomo.helper.getAngularDependency('$timeout');
+    $timeout();
   }
 
   updateHash(params: QueryParameters|string) {

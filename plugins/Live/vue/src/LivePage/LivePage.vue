@@ -11,15 +11,7 @@
       :content-title="!isWidgetized ? translate('Live_VisitorsInRealTime') : undefined"
     >
       <div v-live-widget-refresh="{liveRefreshAfterMs: liveRefreshAfterMs}">
-        <TotalVisitors
-          :count-error-half-hour="countErrorHalfHour"
-          :count-error-today="countErrorToday"
-          :pis-halfhour="pisHalfhour"
-          :pis-today="pisToday"
-          :visitors-count-half-hour="visitorsCountHalfHour"
-          :visitors-count-today="visitorsCountToday"
-        />
-
+        <VueEntryContainer :html="initialTotalVisitors"/>
         <VueEntryContainer :html="visitors"/>
       </div>
 
@@ -75,14 +67,9 @@ declare global {
 
 export default defineComponent({
   props: {
-    countErrorToday: Number,
-    visitorsCountToday: Number,
-    pisToday: Number,
-    countErrorHalfHour: Number,
-    visitorsCountHalfHour: Number,
-    pisHalfhour: Number,
     disableLink: Boolean,
     visitors: String,
+    initialTotalVisitors: String,
     liveRefreshAfterMs: Number,
     isWidgetized: Boolean,
   },
