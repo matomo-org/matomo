@@ -32,12 +32,12 @@ class SitesStore {
 
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
-  loadInitialSites(): Promise<DeepReadonly<Site[]>|null> {
+  loadInitialSites(onlySitesWithAdminAccess = false): Promise<DeepReadonly<Site[]>|null> {
     if (this.state.isInitialized) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
-    return this.searchSite('%').then((sites) => {
+    return this.searchSite('%', onlySitesWithAdminAccess).then((sites) => {
       this.state.isInitialized = true;
       if (sites !== null) {
         this.state.initialSites = sites;
