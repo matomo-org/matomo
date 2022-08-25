@@ -76,8 +76,8 @@
               type="checkbox"
               name="showIntro"
               v-model="showIntro"
-              @keydown="onShowIntroChange($event)"
-              @change="onShowIntroChange($event)"
+              @keydown="updateCode()"
+              @change="updateCode()"
             />
              <span>
                {{ translate('PrivacyManager_ShowIntro') }}
@@ -105,8 +105,8 @@
               name="codeType"
               value="tracker"
               v-model="codeType"
-              @keydown="onCodeTypeChange($event)"
-              @change="onCodeTypeChange($event)"
+              @keydown="updateCode()"
+              @change="updateCode()"
             />
             <span>{{ translate('PrivacyManager_OptOutUseTracker') }}</span>
           </label>
@@ -120,14 +120,32 @@
               name="codeType"
               value="selfContained"
               v-model="codeType"
-              @keydown="onCodeTypeChange($event)"
-              @change="onCodeTypeChange($event)"
+              @keydown="updateCode()"
+              @change="updateCode()"
             />
             <span>{{ translate('PrivacyManager_OptOutUseStandalone') }}</span>
           </label>
         </p>
 
       </div>
+    </div>
+  </div>
+  <div>
+    <div v-if="codeType === 'selfContained'">
+        <div>
+            <Field
+              uicontrol="select"
+              name="language"
+              v-model="language"
+              :title="translate('General_Language')"
+              :options="languageOptions"
+              @keydown="updateCode()"
+              @change="updateCode()"
+            />
+        </div>
+    </div>
+
+    <div class="form-group row">
       <div class="col s12 m6">
         <div class="form-help" v-html="$sanitize(codeTypeHelp)">
         </div>
@@ -173,6 +191,9 @@ import {
   MatomoUrl,
   AjaxHelper,
 } from 'CoreHome';
+import {
+  Field,
+} from 'CorePluginsAdmin';
 
 interface OptOutCustomizerState {
   fontSizeUnit: string;
@@ -197,11 +218,18 @@ const { $ } = window;
 
 export default defineComponent({
   props: {
-    language: {
+    currentLanguageCode: {
       type: String,
       required: true,
     },
-    piwikurl: String,
+    languageOptions: {
+      type: Object,
+      required: true,
+    },
+    matomoUrl: String,
+  },
+  components: {
+    Field,
   },
   directives: {
     SelectOnFocus,
@@ -216,6 +244,7 @@ export default defineComponent({
       showIntro: true,
       codeType: 'tracker',
       code: '',
+      language: this.currentLanguageCode,
     };
   },
   created() {
@@ -224,10 +253,8 @@ export default defineComponent({
     this.onFontSizeChange = debounce(this.onFontSizeChange, 50);
     this.onFontSizeUnitChange = debounce(this.onFontSizeUnitChange, 50);
     this.onFontFamilyChange = debounce(this.onFontFamilyChange, 50);
-    this.onShowIntroChange = debounce(this.onShowIntroChange, 50);
-    this.onCodeTypeChange = debounce(this.onCodeTypeChange, 50);
 
-    if (this.piwikurl) {
+    if (this.matomoUrl) {
       this.updateCode();
     }
   },
@@ -252,14 +279,6 @@ export default defineComponent({
       this.fontFamily = (event.target as HTMLInputElement).value;
       this.updateCode();
     },
-    onShowIntroChange(event: Event) {
-      this.showIntro = (event.target as HTMLInputElement).checked;
-      this.updateCode();
-    },
-    onCodeTypeChange(event: Event) {
-      this.codeType = (event.target as HTMLInputElement).value;
-      this.updateCode();
-    },
     updateCode() {
       let methodName = 'CoreAdminHome.getOptOutJSEmbedCode';
       if (this.codeType === 'selfContained') {
@@ -272,8 +291,8 @@ export default defineComponent({
         fontSize: this.fontSizeWithUnit,
         fontFamily: this.fontFamily,
         showIntro: (this.showIntro === true ? 1 : 0),
-        piwikUrl: this.piwikurl,
-        language: this.language,
+        matomoUrl: this.matomoUrl,
+        language: (this.codeType === 'selfContained' ? this.language : 'auto'),
       }).then((data) => {
         this.code = data.value || '';
       });
@@ -297,13 +316,13 @@ export default defineComponent({
       return '';
     },
     withBg(): boolean {
-      return !!this.piwikurl
+      return !!this.matomoUrl
         && this.backgroundColor === ''
         && this.fontColor !== ''
         && nearlyWhite(this.fontColor.slice(1));
     },
     codeBox(): string {
-      if (this.piwikurl) {
+      if (this.matomoUrl) {
         return this.code;
       }
       return '';
@@ -319,7 +338,7 @@ export default defineComponent({
         fontFamily: this.fontFamily,
         showIntro: (this.showIntro === true ? 1 : 0),
       });
-      return `${this.piwikurl}index.php?${query}`;
+      return `${this.matomoUrl}index.php?${query}`;
     },
     readThisToLearnMore() {
       const link = 'https://matomo.org/faq/how-to/faq_25918/';
