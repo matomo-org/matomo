@@ -645,10 +645,8 @@ class API extends \Piwik\Plugin\API
             $idSites
         );
         foreach ($sites as &$siteAccess) {
-            [
-              $siteAccess['role'],
-              $siteAccess['capabilities']
-            ] = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
+            $siteAccess['role'] = $this->roleProvider->getAllRoleIds();
+            $siteAccess['capabilities'] = $this->capabilityProvider->getAllCapabilityIds();
             $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
             unset($siteAccess['access']);
         }
