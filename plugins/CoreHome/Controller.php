@@ -22,7 +22,6 @@ use Piwik\SettingsPiwik;
 use Piwik\Widget\Widget;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
-use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
@@ -96,12 +95,14 @@ class Controller extends \Piwik\Plugin\Controller
             if (strpos($content, '<h2') !== false
                 || strpos($content, ' content-title=') !== false
                 || strpos($content, ' piwik-enriched-headline') !== false
+                || strpos($content, 'CoreHome.EnrichedHeadline') !== false
                 || strpos($content, '<h1') !== false ) {
                 // already includes title
                 return $content;
             }
 
             if (strpos($content, 'piwik-content-block') === false
+                && strpos($content, '<!-- has-content-block -->') === false
                 && strpos($content, 'class="card"') === false
                 && strpos($content, "class='card'") === false
                 && strpos($content, 'class="card-content"') === false
@@ -178,7 +179,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
         $view->showMenu = true;
-        $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
         return $view;
     }

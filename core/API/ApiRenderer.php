@@ -120,9 +120,6 @@ abstract class ApiRenderer
      */
     public static function factory($format, $request)
     {
-        if (mb_strtolower($format) === 'json2') {
-            $format = 'json';
-        }
         $formatToCheck = '\\' . ucfirst(strtolower($format));
 
         $rendererClassnames = Plugin\Manager::getInstance()->findMultipleComponents('Renderer', 'Piwik\\API\\ApiRenderer');

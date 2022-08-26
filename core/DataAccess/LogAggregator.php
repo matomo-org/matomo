@@ -321,7 +321,7 @@ class LogAggregator
             return;
         }
 
-        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $insertIntoStatement = 'INSERT IGNORE INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
 
         $transactionLevel->restorePreviousStatus();

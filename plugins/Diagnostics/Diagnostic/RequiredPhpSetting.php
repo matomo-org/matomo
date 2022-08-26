@@ -2,8 +2,6 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use JetBrains\PhpStorm\Internal\TentativeType;
-
 class RequiredPhpSetting implements \JsonSerializable
 {
     

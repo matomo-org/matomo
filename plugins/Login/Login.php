@@ -36,6 +36,7 @@ class Login extends \Piwik\Plugin
     public function registerEvents()
     {
         $hooks = array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
@@ -55,6 +56,8 @@ class Login extends \Piwik\Plugin
             'Controller.Login.resetPassword'   => 'beforeLoginCheckBruteForceForUserPwdLogin',
             'Controller.Login.login'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
             'Controller.TwoFactorAuth.loginTwoFactorAuth' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.acceptInvitation' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.declineInvitation' => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
             'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
             'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
@@ -76,6 +79,15 @@ class Login extends \Piwik\Plugin
         }
 
         return $hooks;
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'Login_CurrentlyBlockedIPs';
+        $translations[] = 'Login_CurrentlyBlockedIPsUnblockInfo';
+        $translations[] = 'Login_UnblockAllIPs';
+        $translations[] = 'Login_CurrentlyBlockedIPsUnblockConfirm';
+        $translations[] = 'Login_IPsAlwaysBlocked';
     }
 
     public function isTrackerPlugin()

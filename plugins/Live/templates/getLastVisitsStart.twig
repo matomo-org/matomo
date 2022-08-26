@@ -85,7 +85,7 @@
 <span class="tooltip-action-server-time">{{ action.serverTimePretty }}</span>
     {% if action.timeSpentPretty is defined %}<span class='tooltip-time-on-page'>{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}</span>{% endif %}
 {%- endset %}
-                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title -}}"/>
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title|e('html') -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>

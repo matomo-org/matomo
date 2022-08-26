@@ -158,7 +158,7 @@ export class ReportingMenuStore {
             categoryGroups.name = subcategory.name;
           }
 
-          const entityId = page.subcategory.id;
+          const entityId = subcategory.id;
           subcategory.tooltip = `${subcategory.name} (id = ${entityId})`;
 
           (categoryGroups as SubcategoryContainer).subcategories.push(subcategory);

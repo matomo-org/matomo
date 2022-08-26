@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { MatomoUrl, AjaxHelper } from 'CoreHome';
+import { MatomoUrl, Matomo, AjaxHelper } from 'CoreHome';
 import { DirectiveBinding } from 'vue';
 
 interface LiveWidgetRefreshBinding {
@@ -34,7 +34,9 @@ export default {
               format: 'html',
             },
           ).then((r) => {
+            Matomo.helper.destroyVueComponent(el);
             $(el).find('#visitsTotal').replaceWith(r);
+            Matomo.helper.compileVueEntryComponents(el);
           });
         },
         maxRows: 10,

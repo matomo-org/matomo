@@ -205,6 +205,9 @@ class Controller extends Plugin\ControllerAdmin
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
+        $this->securityPolicy->addPolicy('img-src', '*.matomo.org');
+        $this->securityPolicy->addPolicy('default-src', '*.matomo.org');
+
         $view->updateNonce = Nonce::getNonce(MarketplaceController::UPDATE_NONCE);
         $view->activateNonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         $view->uninstallNonce = Nonce::getNonce(static::UNINSTALL_NONCE);
@@ -226,6 +229,11 @@ class Controller extends Plugin\ControllerAdmin
             try {
                 $view->marketplacePluginNames = $this->marketplacePlugins->getAvailablePluginNames($themesOnly);
                 $view->pluginsHavingUpdate    = $this->marketplacePlugins->getPluginsHavingUpdate();
+
+                $view->pluginUpdateNonces = [];
+                foreach ($view->pluginsHavingUpdate as $name => $plugin) {
+                    $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
+                }
             } catch(Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
             }
