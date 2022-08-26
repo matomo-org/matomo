@@ -24,6 +24,7 @@ use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
@@ -72,9 +73,28 @@ class UITestFixture extends SqlDump
     {
         parent::setUp();
 
+        // fetch the installed versions of all plugins from options table
+        $pluginOptions = [];
+        $pluginVersions = Option::getLike('version_%');
+
+        foreach ($pluginVersions as $pluginName => $version) {
+            $name = substr($pluginName, 8);
+            if (Manager::getInstance()->isValidPluginName($name) && Manager::getInstance()->isPluginInFilesystem($name)) {
+                $pluginOptions[$pluginName] = $version;
+            }
+        }
+
         self::resetPluginsInstalledConfig();
         self::updateDatabase();
+
+        // Note: installAndActivatePlugins will update the installed version of all core plugins to latest core version
         self::installAndActivatePlugins($this->getTestEnvironment());
+
+        // recover originally installed plugin versions, so updateDatabase() will execute available updates
+        foreach ($pluginOptions as $name => $value) {
+            Option::set($name, $value, 1);
+        }
+
         self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
