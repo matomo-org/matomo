@@ -203,6 +203,7 @@ interface OptOutCustomizerState {
   showIntro: null|boolean;
   codeType: string;
   code: string;
+  language: string;
 }
 
 function nearlyWhite(hex: string) {
