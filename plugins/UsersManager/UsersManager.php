@@ -331,7 +331,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
         $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
         $translationKeys[] = 'UsersManager_InviteSuccessNotification';
-        $translationKeys[] = 'UsersManager_ResendInviteConfirmSingle';
         $translationKeys[] = 'UsersManager_Status';
         $translationKeys[] = 'UsersManager_Active';
         $translationKeys[] = 'UsersManager_Pending';
@@ -345,5 +344,11 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_DeleteSuccess';
         $translationKeys[] = 'UsersManager_DeleteNotSuccessful';
         $translationKeys[] = 'UsersManager_InviteConfirm';
+        $translationKeys[] = 'UsersManager_ResendInvite';
+        $translationKeys[] = 'UsersManager_InvitationSent';
+        $translationKeys[] = 'UsersManager_SendInvite';
+        $translationKeys[] = 'UsersManager_CopyLink';
+        $translationKeys[] = 'UsersManager_InviteLinkValidDays';
+
     }
 }

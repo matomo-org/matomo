@@ -625,13 +625,7 @@ export default defineComponent({
     showDeleteConfirm() {
       this.showPasswordConfirmationForUserRemoval = true;
     },
-    showResendConfirm() {
-      $(this.$refs.resendInviteConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
-    },
+
     showAccessChangeConfirm() {
       $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
         .modal({

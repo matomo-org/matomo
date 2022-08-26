@@ -50,7 +50,7 @@
           @change-user-role="onChangeUserRole($event.users, $event.role)"
           @delete-user="onDeleteUser($event.users, $event.password)"
           @search-change="searchParams = $event.params; fetchUsers()"
-          @resend-invite="onResendInvite($event.user)"
+          @resend-invite="showResendConfirm($event.user)"
           :initial-site-id="initialSiteId"
           :initial-site-name="initialSiteName"
           :is-loading-users="isLoadingUsers"
@@ -74,8 +74,38 @@
         :filter-access-levels="filterAccessLevels"
         :initial-site-id="initialSiteId"
         :initial-site-name="initialSiteName"
+        @resend-invite="showResendConfirm($event.user)"
         @updated="userBeingEdited = $event.user"
       />
+    </div>
+    <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
+      <div class="btn-close modal-close"><i class="icon-close"></i></div>
+      <div class="modal-content">
+        <h2 class="modal-title">{{ translate('UsersManager_ResendInvite') }}</h2>
+        <h3
+          v-if="userBeingEdited"
+          v-html="$sanitize(translate(
+            'UsersManager_InviteConfirm',
+            [userBeingEdited.login, userBeingEdited.email]
+            ,
+          ))"
+        ></h3>
+        <h3><strong>
+            {{ translate('UsersManager_InviteLinkValidDays', inviteTokenExpiryDays) }}
+        </strong></h3>
+      </div>
+      <div class="modal-footer">
+        <a
+          href=""
+          class="modal-action modal-close btn-success"
+          style="margin-right:3.5px"
+        >{{ translate('UsersManager_CopyLink') }}</a>
+        <a
+          href="#"
+          class="modal-action modal-close modal-no btn-success"
+          @click = "onResendInvite(userBeingEdited)"
+        >{{ translate('UsersManager_SendInvite') }}</a>
+      </div>
     </div>
     <div class="add-existing-user-modal modal" ref="addExistingUserModal">
       <div class="modal-content">
@@ -167,6 +197,10 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    inviteTokenExpiryDays: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     EnrichedHeadline,
@@ -206,6 +240,14 @@ export default defineComponent({
     },
   },
   methods: {
+    showResendConfirm(user: User) {
+      this.userBeingEdited = user;
+      $(this.$refs.resendInviteConfirmModal as HTMLElement)
+        .modal({
+          dismissible: false,
+        })
+        .modal('open');
+    },
     onEditUser(user: User) {
       Matomo.helper.lazyScrollToContent();
       this.isEditing = true;
@@ -388,3 +430,11 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.modal-title {
+  font-size: 20px;
+  line-height: 20px;
+  padding-top: 0px;
+  font-weight: 600;
+}
+</style>

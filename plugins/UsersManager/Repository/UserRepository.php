@@ -155,6 +155,9 @@ class UserRepository
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
         }
 
+        if (!empty($user['invite_token'])) {
+            $user['invite_token'] = $this->model->hashTokenAuth($user['invite_token']);
+        }
         $user['invite_status'] = 'active';
 
         if (!empty($user['invite_expired_at'])) {

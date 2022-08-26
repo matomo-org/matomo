@@ -147,6 +147,12 @@
                 </div>
               </div>
             </div>
+            <p style="font-size: 16px" v-if="user && isPending"
+               >
+              {{ translate('UsersManager_InvitationSent') }}
+              <span class="resend-link" @click="resendRequestedUser"
+                    v-html="$sanitize(translate('UsersManager_ResendInvite'))"></span>
+            </p>
             <PasswordConfirmation
               v-model="showPasswordConfirmationForInviteUser"
               @confirmed="inviteUser"
@@ -157,7 +163,7 @@
           </div>
           <div
             class="entityCancel"
-            v-if="isAdd"
+            v-if="isAdd && user"
           >
             <a
               href=""
@@ -405,6 +411,11 @@ export default defineComponent({
         this.isShowingPasswordConfirm = true;
       }
     },
+    resendRequestedUser() {
+      this.$emit('resendInvite', {
+        user: this.user,
+      });
+    },
     inviteUser(password: string) {
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
@@ -537,3 +548,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.resend-link {
+  color: #1976d2;
+  cursor: pointer;
+  text-decoration: underline;
+}
+</style>
