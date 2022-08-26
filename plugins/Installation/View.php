@@ -7,6 +7,8 @@
  *
  */
 namespace Piwik\Plugins\Installation;
+
+use Piwik\Container\StaticContainer;
 use Piwik\Version;
 
 /**
@@ -18,6 +20,7 @@ class View extends \Piwik\View
     {
         parent::__construct($subtemplatePath);
 
+        $this->javascriptTranslations = StaticContainer::get('Piwik\Translation\Translator')->getJavascriptTranslations();
         $this->steps = array_keys($installationSteps);
         $this->allStepsTitle = array_values($installationSteps);
         $this->currentStepName = $currentStepName;

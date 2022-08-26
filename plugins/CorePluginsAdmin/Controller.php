@@ -205,6 +205,9 @@ class Controller extends Plugin\ControllerAdmin
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
+        $this->securityPolicy->addPolicy('img-src', '*.matomo.org');
+        $this->securityPolicy->addPolicy('default-src', '*.matomo.org');
+
         $view->updateNonce = Nonce::getNonce(MarketplaceController::UPDATE_NONCE);
         $view->activateNonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         $view->uninstallNonce = Nonce::getNonce(static::UNINSTALL_NONCE);

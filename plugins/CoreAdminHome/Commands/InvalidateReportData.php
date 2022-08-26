@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -109,7 +110,9 @@ class InvalidateReportData extends ConsoleCommand
                             false, $plugin, $ignoreLogDeletionLimit);
 
                         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                            $logger->info($invalidationResult->makeOutputLogs());
+                            foreach ($invalidationResult->makeOutputLogs() as $outputLog) {
+                                $logger->info($outputLog);
+                            }
                         }
                     }
                 }
