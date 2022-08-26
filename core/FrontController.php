@@ -706,6 +706,7 @@ class FrontController extends Singleton
         // so we do it here, if this is not an API request.
         if (SettingsPiwik::isMatomoInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
+            && !($module === 'CoreAdminHome' && $action === 'optOutJS')
         ) {
             /**
              * @ignore
