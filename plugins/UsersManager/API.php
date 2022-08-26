@@ -641,12 +641,14 @@ class API extends \Piwik\Plugin\API
             $limit,
             $offset,
             $filter_search,
-            $filter_access,
+            null,
             $idSites
         );
         foreach ($sites as &$siteAccess) {
-            $siteAccess['role'] = $this->roleProvider->getAllRoleIds();
-            $siteAccess['capabilities'] = $this->capabilityProvider->getAllCapabilityIds();
+            [
+              $siteAccess['role'],
+              $siteAccess['capabilities']
+            ] = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
             $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
             unset($siteAccess['access']);
         }

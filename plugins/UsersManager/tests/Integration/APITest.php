@@ -854,6 +854,17 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function testGetUserCapabilitiesAfterFilter()
+    {
+        $this->addUserWithAccess('userLoginCapabilities', 'view', 1, 'searchTextdef@email.com');
+        $this->api->addCapabilities('userLoginCapabilities','tagmanager_write',1);
+
+        $access = $this->api->getSitesAccessForUser('userLoginCapabilities', null, 1, null, 'view');
+
+        $this->assertEquals(['tagmanager_write'], $access[0]['capabilities']);
+
+    }
+
     public function testGetSitesAccessForUserShouldIgnoreOffsetIfLimitNotSupplied()
     {
         $this->api->setUserAccess('userLogin', 'admin', [1]);
