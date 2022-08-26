@@ -10,11 +10,13 @@
 namespace Piwik\Tests\Fixtures;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
@@ -24,6 +26,7 @@ use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
@@ -39,6 +42,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Psr\Container\ContainerInterface;
@@ -72,9 +76,23 @@ class UITestFixture extends SqlDump
     {
         parent::setUp();
 
-        self::resetPluginsInstalledConfig();
+        // fetch the installed versions of all plugins from options table
+        $pluginVersions = Option::getLike('version_%');
+        $plugins = [];
+
+        foreach ($pluginVersions as $pluginName => $version) {
+            $name = substr($pluginName, 8);
+            if (Manager::getInstance()->isValidPluginName($name) && Manager::getInstance()->isPluginInFilesystem($name)) {
+                $plugins[] = $name;
+            }
+        }
+
+        self::resetPluginsInstalledConfig($plugins);
+
         self::updateDatabase();
+
         self::installAndActivatePlugins($this->getTestEnvironment());
+
         self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
