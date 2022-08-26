@@ -109,7 +109,7 @@ var SegmentedVisitorLog = function() {
             Piwik_Popover.setContent(html);
 
             // remove title returned from the server
-            var title = box.find('h2[piwik-enriched-headline]');
+            var title = box.find('.enrichedHeadline').closest('h2');
 
             // if the enriched headline has been already parsed, there might be additional content,
             // so we prefer using the original title, which is placed in div with class "title"

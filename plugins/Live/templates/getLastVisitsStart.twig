@@ -2,9 +2,9 @@
 {% set maxPagesDisplayedByVisitor=100 %}
 
 {% if error is not empty %}
-<div piwik-alert="danger">{{ error }}</div>
+<div vue-entry="CoreHome.Alert" severity="danger">{{ error }}</div>
 {% else %}
-<ul id="visitsLive">
+<ul id="visitsLive" vue-directive="Live.LastVisits">
     {% for visitor in visitors.getRows() %}
         <li id="{{ visitor.getColumn('idVisit') }}" class="visit">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
@@ -30,7 +30,7 @@
                     {% include "@Referrers/_visitorDetails.twig" with {'visitInfo': visitor} %}
                  </span>
             </div>
-            <div id="{{ visitor.getColumn('idVisit')|e('html_attr') }}_actions" class="settings">
+            <div id="{{ visitor.getColumn('idVisit') }}_actions" class="settings">
                 <span class="pagesTitle"
                       title="{{ visitor.getColumn('actionDetails')|length }} {{ 'General_Actions'|translate }}"
                       >{{ 'General_Actions'|translate }}:</span>&nbsp;
@@ -73,7 +73,7 @@
                         {% else %}
 
                             {% if action.url is defined and action.url is not empty %}
-                            <a href="{{ action.url|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">
+                            <a href="{{ action.url|safelink }}" target="_blank" rel="noreferrer noopener">
                             {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
@@ -85,7 +85,7 @@
 <span class="tooltip-action-server-time">{{ action.serverTimePretty }}</span>
     {% if action.timeSpentPretty is defined %}<span class='tooltip-time-on-page'>{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}</span>{% endif %}
 {%- endset %}
-                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title|e('html_attr') -}}"/>
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title|e('html') -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>
@@ -114,21 +114,4 @@
         </li>
     {% endfor %}
 </ul>
-<script type="text/javascript">
-$(function () {
-    $('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
-        e.preventDefault();
-        broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
-        return false;
-    }).tooltip({
-        track: true,
-        content: function() {
-            var title = $(this).attr('title');
-            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
-        },
-        show: {delay: 100, duration: 0},
-        hide: false
-    });
-});
-</script>
 {% endif %}
