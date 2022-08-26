@@ -641,7 +641,7 @@ class API extends \Piwik\Plugin\API
             $limit,
             $offset,
             $filter_search,
-            null,
+            $filter_access,
             $idSites
         );
         foreach ($sites as &$siteAccess) {
