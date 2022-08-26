@@ -12517,17 +12517,7 @@ function deleteCookie(name) {
 
 
 
- // for plugin modules loaded on demand that provide angularjs adapters, the adapters
-// have to be loaded through this event. this is because they must be defined before
-// the angular app is bootstrapped, so they must be in the javascripts/ folder.
-// but they must also be defined after CoreHome is loaded since that is where the
-// createAngularJsAdapter function is defined, and CoreHome is loaded after
-// javascripts/* scripts are. the event allows the adapters to be loaded right after
-// CoreHome is loaded at initial page load.
-//
-// Note: this will be removed in Matomo 5 and is only here for the interim.
 
-Matomo_Matomo.postEvent('Matomo.addAngularJsAdapters', createAngularJsAdapter);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
 
