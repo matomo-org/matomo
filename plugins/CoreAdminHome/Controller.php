@@ -270,6 +270,8 @@ class Controller extends ControllerAdmin
      */
     public function optOutJS(): string
     {
+        Common::sendHeader('Content-Type: application/javascript; charset=utf-8');
+        Common::sendHeader('Cache-Control: no-store');
         return $this->optOutManager->getOptOutJS();
     }
 
