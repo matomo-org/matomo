@@ -23,6 +23,10 @@ class SecurityPolicy
     const RULE_IMG_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:";
     const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https: http:";
 
+    const RULE_DEFAULT_RESTRICTIVE = "'self'";
+    const RULE_IMG_DEFAULT_RESTRICTIVE = "'self' data:";
+    const RULE_EMBEDDED_FRAME_RESTRICTIVE = "'self' data: https: http:";
+
     /**
      * The policies that will generate the CSP header.
      * These are keyed by the directive.
@@ -120,5 +124,17 @@ class SecurityPolicy
         $this->overridePolicy('default-src', self::RULE_EMBEDDED_FRAME);
         $this->overridePolicy('img-src', self::RULE_EMBEDDED_FRAME);
         $this->addPolicy('script-src', self::RULE_DEFAULT);
+    }
+
+    /**
+     * A more restrictive CSP which will allow embedding other sites with iframes
+     * (useful for heatmaps and session recordings)
+     *
+     * @api
+     */
+    public function allowEmbedPageRestrictive() {
+        $this->overridePolicy('default-src', self::RULE_EMBEDDED_FRAME_RESTRICTIVE);
+        $this->overridePolicy('img-src', self::RULE_EMBEDDED_FRAME_RESTRICTIVE);
+        $this->addPolicy('script-src', self::RULE_DEFAULT_RESTRICTIVE);
     }
 }
