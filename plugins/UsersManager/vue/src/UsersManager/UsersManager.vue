@@ -328,7 +328,7 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
-    copyToClipboard(value) {
+    copyToClipboard(value: any) {
       navigator.clipboard.writeText(value);
       this.copied = true;
     },
@@ -338,7 +338,7 @@ export default defineComponent({
           method: 'UsersManager.resendInvite',
           userLogin: user.login,
         },
-      ).then((r) => {
+      ).then((r: any) => {
         this.fetchUsers();
         if (typeof r.value !== 'undefined') {
           this.showInviteNotification(r.value);
