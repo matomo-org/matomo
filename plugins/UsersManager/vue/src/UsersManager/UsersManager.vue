@@ -221,6 +221,11 @@ export default defineComponent({
     this.fetchUsers();
   },
   watch: {
+    userBeingEdited(n, o) {
+      if (n && o) {
+        this.showNotification = false;
+      }
+    },
     showNotification(value) {
       if (!value) this.copied = false;
     },
