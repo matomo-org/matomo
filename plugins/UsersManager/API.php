@@ -28,8 +28,10 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Url;
 use Piwik\Validators\BaseValidator;
 
 /**
@@ -793,7 +795,11 @@ class API extends \Piwik\Plugin\API
          * @param string $email The new user's e-mail.
          */
         Piwik::postEvent('UsersManager.inviteUser.end', [$userLogin, $email]);
-        return $token;
+        return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
+            'module' => 'Login',
+            'action' => 'acceptInvitation',
+            'token' => $token,
+        ]);
     }
 
     /**
@@ -1554,6 +1560,10 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
 
-        return $token;
+        return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
+                'module' => 'Login',
+                'action' => 'acceptInvitation',
+                'token' => $token,
+            ]);
     }
 }

@@ -6,6 +6,19 @@
 
 <template>
   <div class="usersManager" v-tooltips>
+    <div class="notification system notification-success"
+         v-if="showNotification">
+      <div>
+        <Notification
+          context="success"
+        >
+            {{ translate('UsersManager_ResendInviteSuccess') }}
+          <a href="#" v-if="!copied" @click="copyToClipboard(token)">
+            {{ translate('UsersManager_CopyLink') }}</a>
+          <span v-if="copied"> {{ translate('UsersManager_Copied')}}</span>
+        </Notification>
+      </div>
+    </div>
     <div v-show="!isEditing">
       <div v-content-intro>
         <h2>
@@ -75,6 +88,7 @@
         :initial-site-id="initialSiteId"
         :initial-site-name="initialSiteName"
         @updated="userBeingEdited = $event.user"
+        @show-notification="showInviteNotification"
       />
     </div>
     <div class="add-existing-user-modal modal" ref="addExistingUserModal">
@@ -109,7 +123,7 @@
 <script lang="ts">
 /* eslint-disable newline-per-chained-call */
 
-import {defineComponent} from 'vue';
+import { defineComponent } from 'vue';
 import {
   ContentIntro,
   EnrichedHeadline,
@@ -120,7 +134,7 @@ import {
   translate,
   NotificationsStore,
 } from 'CoreHome';
-import {Field} from 'CorePluginsAdmin';
+import { Field } from 'CorePluginsAdmin';
 import PagedUsersList from '../PagedUsersList/PagedUsersList.vue';
 import UserEditForm from '../UserEditForm/UserEditForm.vue';
 import User from '../User';
@@ -136,11 +150,13 @@ interface UsersManagerState {
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
   token: string;
+  showNotification: boolean;
+  copied: boolean;
 }
 
 const NUM_USERS_PER_PAGE = 20;
 
-const {$} = window;
+const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -193,7 +209,9 @@ export default defineComponent({
         filter_status: '',
         idSite: this.initialSiteId,
       },
-      token:null,
+      copied: false,
+      showNotification: false,
+      token: null,
       isLoadingUsers: false,
       userBeingEdited: null,
       addNewUserLoginEmail: '',
@@ -203,6 +221,9 @@ export default defineComponent({
     this.fetchUsers();
   },
   watch: {
+    showNotification(value) {
+      if (!value) this.copied = false;
+    },
     limit() {
       this.fetchUsers();
     },
@@ -220,7 +241,7 @@ export default defineComponent({
       }
     },
     showAddExistingUserModal() {
-      $(this.$refs.addExistingUserModal as HTMLElement).modal({dismissible: false}).modal('open');
+      $(this.$refs.addExistingUserModal as HTMLElement).modal({ dismissible: false }).modal('open');
     },
     onChangeUserRole(users: User[] | string, role: string) {
       this.isLoadingUsers = true;
@@ -253,7 +274,7 @@ export default defineComponent({
           }));
         }
 
-        return AjaxHelper.fetch(requests, {createErrorNotification: true});
+        return AjaxHelper.fetch(requests, { createErrorNotification: true });
       }).catch(() => {
         // ignore (errors will still be displayed to the user)
       }).then(() => this.fetchUsers());
@@ -282,7 +303,7 @@ export default defineComponent({
           userLogin: login,
           passwordConfirmation: password,
         }));
-        return AjaxHelper.fetch(requests, {createErrorNotification: true});
+        return AjaxHelper.fetch(requests, { createErrorNotification: true });
       }).then(() => {
         NotificationsStore.scrollToNotification(NotificationsStore.show({
           id: 'removeUserSuccess',
@@ -307,6 +328,10 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
+    copyToClipboard(value) {
+      navigator.clipboard.writeText(value);
+      this.copied = true;
+    },
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(
         {
@@ -315,15 +340,12 @@ export default defineComponent({
         },
       ).then((r) => {
         this.fetchUsers();
-        navigator.clipboard.writeText(r.value);
-        const id = NotificationsStore.show({
-          message: translate('UsersManager_ResendInviteSuccess', user.login) + ' <a href="#" onclick=\'navigator.clipboard.writeText(this.token)\'>Copy Link</a>',
-          id: 'resendinvite',
-          context: 'success',
-          type: 'transient',
-        });
-        NotificationsStore.scrollToNotification(id);
+        this.showInviteNotification(r.value);
       });
+    },
+    showInviteNotification(token) {
+      this.showNotification = true;
+      this.token = token;
     },
     fetchUsers() {
       this.isLoadingUsers = true;
@@ -332,7 +354,7 @@ export default defineComponent({
           ...this.searchParams,
           method: 'UsersManager.getUsersPlusRole',
         },
-        {returnResponseObject: true},
+        { returnResponseObject: true },
       ).then((helper) => {
         const result = helper.getRequestHandle()!;
 
@@ -379,7 +401,8 @@ export default defineComponent({
       });
     },
     onAddNewUser() {
-      const parameters = {isAllowed: true};
+      this.showNotification = false;
+      const parameters = { isAllowed: true };
       Matomo.postEvent('UsersManager.initAddUser', parameters);
       if (parameters && !parameters.isAllowed) {
         return;

@@ -420,15 +420,15 @@ export default defineComponent({
       ).catch((e) => {
         this.isSavingUserInfo = false;
         throw e;
-      }).then(() => {
+      }).then((r) => {
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
         this.theUser.invite_status = 'pending';
 
         this.resetPasswordVar();
-        this.showUserCreatedNotification();
         this.$emit('updated', { user: readonly(this.theUser) });
+        this.$emit('show-notification', r.value);
       });
     },
     resetPasswordVar() {
@@ -440,13 +440,6 @@ export default defineComponent({
     showUserSavedNotification() {
       NotificationsStore.show({
         message: translate('General_YourChangesHaveBeenSaved'),
-        context: 'success',
-        type: 'toast',
-      });
-    },
-    showUserCreatedNotification() {
-      NotificationsStore.show({
-        message: translate('UsersManager_InviteSuccess'),
         context: 'success',
         type: 'toast',
       });
