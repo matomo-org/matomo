@@ -784,7 +784,7 @@ class API extends \Piwik\Plugin\API
             new Site($initialIdSite);
         }
 
-        $this->userRepository->inviteUser((string) $userLogin, (string) $email, intval($initialIdSite), (int) $expiryInDays);
+        $token = $this->userRepository->inviteUser((string) $userLogin, (string) $email, intval($initialIdSite), (int) $expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -793,6 +793,7 @@ class API extends \Piwik\Plugin\API
          * @param string $email The new user's e-mail.
          */
         Piwik::postEvent('UsersManager.inviteUser.end', [$userLogin, $email]);
+        return $token;
     }
 
     /**
@@ -1544,7 +1545,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
+        $token = $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -1552,5 +1553,7 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The new user's login.
          */
         Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
+
+        return $token;
     }
 }

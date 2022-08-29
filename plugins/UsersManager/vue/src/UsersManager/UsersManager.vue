@@ -109,7 +109,7 @@
 <script lang="ts">
 /* eslint-disable newline-per-chained-call */
 
-import { defineComponent } from 'vue';
+import {defineComponent} from 'vue';
 import {
   ContentIntro,
   EnrichedHeadline,
@@ -120,7 +120,7 @@ import {
   translate,
   NotificationsStore,
 } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
+import {Field} from 'CorePluginsAdmin';
 import PagedUsersList from '../PagedUsersList/PagedUsersList.vue';
 import UserEditForm from '../UserEditForm/UserEditForm.vue';
 import User from '../User';
@@ -135,11 +135,12 @@ interface UsersManagerState {
   searchParams: SearchParams;
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
+  token: string;
 }
 
 const NUM_USERS_PER_PAGE = 20;
 
-const { $ } = window;
+const {$} = window;
 
 export default defineComponent({
   props: {
@@ -192,6 +193,7 @@ export default defineComponent({
         filter_status: '',
         idSite: this.initialSiteId,
       },
+      token:null,
       isLoadingUsers: false,
       userBeingEdited: null,
       addNewUserLoginEmail: '',
@@ -218,9 +220,9 @@ export default defineComponent({
       }
     },
     showAddExistingUserModal() {
-      $(this.$refs.addExistingUserModal as HTMLElement).modal({ dismissible: false }).modal('open');
+      $(this.$refs.addExistingUserModal as HTMLElement).modal({dismissible: false}).modal('open');
     },
-    onChangeUserRole(users: User[]|string, role: string) {
+    onChangeUserRole(users: User[] | string, role: string) {
       this.isLoadingUsers = true;
 
       Promise.resolve().then(() => {
@@ -251,7 +253,7 @@ export default defineComponent({
           }));
         }
 
-        return AjaxHelper.fetch(requests, { createErrorNotification: true });
+        return AjaxHelper.fetch(requests, {createErrorNotification: true});
       }).catch(() => {
         // ignore (errors will still be displayed to the user)
       }).then(() => this.fetchUsers());
@@ -266,7 +268,7 @@ export default defineComponent({
         filter_limit: '-1',
       });
     },
-    onDeleteUser(users: User[]|string, password: string) {
+    onDeleteUser(users: User[] | string, password: string) {
       this.isLoadingUsers = true;
 
       Promise.resolve().then(() => {
@@ -280,7 +282,7 @@ export default defineComponent({
           userLogin: login,
           passwordConfirmation: password,
         }));
-        return AjaxHelper.fetch(requests, { createErrorNotification: true });
+        return AjaxHelper.fetch(requests, {createErrorNotification: true});
       }).then(() => {
         NotificationsStore.scrollToNotification(NotificationsStore.show({
           id: 'removeUserSuccess',
@@ -311,10 +313,11 @@ export default defineComponent({
           method: 'UsersManager.resendInvite',
           userLogin: user.login,
         },
-      ).then(() => {
+      ).then((r) => {
         this.fetchUsers();
+        navigator.clipboard.writeText(r.value);
         const id = NotificationsStore.show({
-          message: translate('UsersManager_ResendInviteSuccess', user.login),
+          message: translate('UsersManager_ResendInviteSuccess', user.login) + ' <a href="#" onclick=\'navigator.clipboard.writeText(this.token)\'>Copy Link</a>',
           id: 'resendinvite',
           context: 'success',
           type: 'transient',
@@ -329,7 +332,7 @@ export default defineComponent({
           ...this.searchParams,
           method: 'UsersManager.getUsersPlusRole',
         },
-        { returnResponseObject: true },
+        {returnResponseObject: true},
       ).then((helper) => {
         const result = helper.getRequestHandle()!;
 
@@ -376,7 +379,7 @@ export default defineComponent({
       });
     },
     onAddNewUser() {
-      const parameters = { isAllowed: true };
+      const parameters = {isAllowed: true};
       Matomo.postEvent('UsersManager.initAddUser', parameters);
       if (parameters && !parameters.isAllowed) {
         return;
