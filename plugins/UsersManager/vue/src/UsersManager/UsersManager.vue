@@ -149,7 +149,7 @@ interface UsersManagerState {
   searchParams: SearchParams;
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
-  token: string;
+  token: null | string;
   showNotification: boolean;
   copied: boolean;
 }
@@ -340,10 +340,12 @@ export default defineComponent({
         },
       ).then((r) => {
         this.fetchUsers();
-        this.showInviteNotification(r.value);
+        if (typeof r.value !== 'undefined') {
+          this.showInviteNotification(r.value);
+        }
       });
     },
-    showInviteNotification(token) {
+    showInviteNotification(token: string) {
       this.showNotification = true;
       this.token = token;
     },

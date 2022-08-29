@@ -353,7 +353,7 @@ export default defineComponent({
       isShowingPasswordConfirm: false,
     };
   },
-  emits: ['done', 'updated'],
+  emits: ['done', 'updated', 'show-notification'],
   watch: {
     user(newVal) {
       this.onUserChange(newVal);
