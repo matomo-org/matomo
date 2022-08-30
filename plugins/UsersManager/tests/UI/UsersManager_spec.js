@@ -249,6 +249,8 @@ describe("UsersManager", function () {
     });
 
     it('should show the permissions edit when the permissions tab is clicked', async function () {
+
+        await page.evaluate(() => $('.notification btn').click());
         await page.click('.userEditForm .menuPermissions');
         await page.mouse.move(0, 0);
 
@@ -290,10 +292,6 @@ describe("UsersManager", function () {
 
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // animation
-
-        await page.evaluate(function () {
-          $('.usersManager .notification').hide();
-        });
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
               imageName: 'permissions_all_sites_access',
@@ -571,9 +569,6 @@ describe("UsersManager", function () {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
-        await page.evaluate(function () {
-          $('.usersManager .notification').show();
-        });
         expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
     });
 

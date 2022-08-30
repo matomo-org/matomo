@@ -8,9 +8,11 @@
   <div class="usersManager" v-tooltips>
     <div class="notification system notification-success"
          v-if="showNotification">
+      <button class="close" @click="showNotification = false">x</button>
       <div>
         <Notification
           context="success"
+          :noclear="false"
         >
             {{ translate('UsersManager_ResendInviteSuccess') }}
           <a href="#" v-if="!copied" @click="copyToClipboard(token)">
@@ -333,7 +335,7 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
-    copyToClipboard(value: any) {
+    copyToClipboard(value: null| string) {
       navigator.clipboard.writeText(value);
       this.copied = true;
     },
