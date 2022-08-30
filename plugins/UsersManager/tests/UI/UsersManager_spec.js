@@ -571,6 +571,9 @@ describe("UsersManager", function () {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
+        await page.evaluate(function () {
+          $('.usersManager .notification').show();
+        });
         expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
     });
 
