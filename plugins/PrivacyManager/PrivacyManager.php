@@ -283,7 +283,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_AnonymizeSites';
         $translationKeys[] = 'PrivacyManager_AnonymizeUserId';
         $translationKeys[] = 'PrivacyManager_AnonymizeUserIdHelp';
+        $translationKeys[] = 'PrivacyManager_ApplyStyling';
         $translationKeys[] = 'PrivacyManager_BackgroundColor';
+        $translationKeys[] = 'PrivacyManager_BuildYourOwn';
         $translationKeys[] = 'PrivacyManager_DBPurged';
         $translationKeys[] = 'PrivacyManager_DeleteAggregateReportsDetailedInfo';
         $translationKeys[] = 'PrivacyManager_DeleteBothConfirm';

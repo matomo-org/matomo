@@ -179,6 +179,8 @@
         "FontFamily": "Font Family",
         "BackgroundColor": "Background Color",
         "ShowIntro": "Show introduction text",
+        "ApplyStyling": "Apply a custom style",
+        "BuildYourOwn": "Build Your Own",
         "TrackingOptOut": "Let users opt-out of tracking",
         "UseAnonymizeOrderId": "Anonymize Order ID",
         "UseDeleteLog": "Regularly delete old raw data from the database",

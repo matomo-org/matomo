@@ -14,6 +14,23 @@
     </p>
     <h3>{{ translate('PrivacyManager_OptOutAppearance') }}</h3>
     <div>
+      <span>
+         <label>
+          <input
+            id="applyStyling"
+            type="checkbox"
+            name="applyStyling"
+            v-model="applyStyling"
+            @keydown="updateCode()"
+            @change="updateCode()"
+          />
+           <span>
+             {{ translate('PrivacyManager_ApplyStyling') }}
+           </span>
+         </label>
+      </span>
+    </div>
+    <div v-if="applyStyling" id="opt-out-styling">
       <p>
         <span>
           {{ translate('PrivacyManager_FontColor') }}:
@@ -69,22 +86,24 @@
             @change="onFontFamilyChange($event)"
           />
         </span>
-        <span>
-           <label>
-            <input
-              id="showIntro"
-              type="checkbox"
-              name="showIntro"
-              v-model="showIntro"
-              @keydown="updateCode()"
-              @change="updateCode()"
-            />
-             <span>
-               {{ translate('PrivacyManager_ShowIntro') }}
-             </span>
-           </label>
-        </span>
       </p>
+    </div>
+    <div>
+      <span>
+         <label>
+          <input
+            id="showIntro"
+            type="checkbox"
+            name="showIntro"
+            v-model="showIntro"
+            @keydown="updateCode()"
+            @change="updateCode()"
+          />
+           <span>
+             {{ translate('PrivacyManager_ShowIntro') }}
+           </span>
+         </label>
+      </span>
     </div>
     <h3>{{ translate('PrivacyManager_OptOutPreview') }}</h3>
     <iframe
@@ -157,12 +176,14 @@
     <p
       v-html="$sanitize(optOutExplanationIntro)">
     </p>
-    <div class="alert-info alert">
-      <strong>{{ translate('PrivacyManager_OptOutRememberToTest') }}</strong>
+    <div class="alert-info alert" style="background:#cce5ff !important;color:#004085 !important">
       <p>
+      <strong>{{ translate('PrivacyManager_OptOutRememberToTest') }}</strong>
+      </p>
+      <p style="color:#212121">
       {{ translate('PrivacyManager_OptOutRememberToTestBody') }}
       </p>
-      <p>
+      <p style="color:#212121">
         <ul>
           <li>{{ translate('PrivacyManager_OptOutRememberToTestStep1') }}</li>
           <li>{{ translate('PrivacyManager_OptOutRememberToTestStep2') }}</li>
@@ -171,6 +192,7 @@
         </ul>
       </p>
     </div>
+    <h3>{{ translate('PrivacyManager_BuildYourOwn') }}</h3>
     <p
       v-html="$sanitize(optOutCustomOptOutLink)">
     </p>
@@ -201,6 +223,7 @@ interface OptOutCustomizerState {
   fontSize: string;
   fontFamily: string;
   showIntro: null|boolean;
+  applyStyling: boolean;
   codeType: string;
   code: string;
   language: string;
@@ -242,6 +265,7 @@ export default defineComponent({
       fontSize: '12',
       fontFamily: 'Arial',
       showIntro: true,
+      applyStyling: false,
       codeType: 'tracker',
       code: '',
       language: this.currentLanguageCode,
@@ -291,6 +315,7 @@ export default defineComponent({
         fontSize: this.fontSizeWithUnit,
         fontFamily: this.fontFamily,
         showIntro: (this.showIntro === true ? 1 : 0),
+        applyStyling: (this.applyStyling === true ? 1 : 0),
         matomoUrl: this.matomoUrl,
         language: (this.codeType === 'selfContained' ? this.language : 'auto'),
       }).then((data) => {
@@ -336,6 +361,7 @@ export default defineComponent({
         fontColor: this.fontColor.substr(1),
         fontSize: this.fontSizeWithUnit,
         fontFamily: this.fontFamily,
+        applyStyling: (this.applyStyling === true ? 1 : 0),
         showIntro: (this.showIntro === true ? 1 : 0),
       });
       return `${this.matomoUrl}index.php?${query}`;

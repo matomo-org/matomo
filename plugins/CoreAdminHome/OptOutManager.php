@@ -189,15 +189,16 @@ class OptOutManager
      * @param string $fontColor
      * @param string $fontSize
      * @param string $fontFamily
-     * @param bool $showIntro
+     * @param bool   $applyStyling
+     * @param bool   $showIntro
      *
      * @return string
      */
     public function getOptOutJSEmbedCode(string $matomoUrl, string $language, string $backgroundColor, string $fontColor,
-                                         string $fontSize, string $fontFamily, bool $showIntro): string
+                                         string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro): string
     {
         return '<div id="matomo-opt-out"></div>
-<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.'&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily.'&showIntro='.($showIntro ? '1' : '0').'"></script>';
+<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.($applyStyling ? '&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily : '').'&showIntro='.($showIntro ? '1' : '0').'"></script>';
     }
 
     /**
@@ -207,12 +208,13 @@ class OptOutManager
      * @param string $fontColor
      * @param string $fontSize
      * @param string $fontFamily
-     * @param bool $showIntro
+     * @param bool   $applyStyling
+     * @param bool   $showIntro
      *
      * @return string
      */
     public function getOptOutSelfContainedEmbedCode(string $backgroundColor, string $fontColor, string $fontSize,
-                                                    string $fontFamily, bool $showIntro): string
+                                                    string $fontFamily, bool $applyStyling, bool $showIntro): string
     {
         $settings = [
             'showIntro' => $showIntro,
@@ -242,7 +244,7 @@ $code = <<<HTML
 </script>
 HTML;
         return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
-               str_replace('style=""', 'style="'.$styleSheet.'"',
+               str_replace('style=""', ($applyStyling ? 'style="'.$styleSheet.'"' : ''),
                str_replace("var settings = {};", $settingsString, $code)));
     }
 
@@ -557,7 +559,9 @@ JS;
             'nonce' => $nonce
         ), false);
 
-        $this->addStylesheet($this->optOutStyling());
+        if (Common::getRequestVar('applyStyling', 1, 'int')) {
+            $this->addStylesheet($this->optOutStyling());
+        }
 
         $this->view = new View("@CoreAdminHome/optOut");
 

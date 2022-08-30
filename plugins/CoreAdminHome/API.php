@@ -350,7 +350,8 @@ class API extends \Piwik\Plugin\API
      * @param string $fontColor
      * @param string $fontSize
      * @param string $fontFamily
-     * @param bool $showIntro
+     * @param bool   $applyStyling
+     * @param bool   $showIntro
      * @param string $matomoUrl
      * @param string $language
      *
@@ -359,11 +360,12 @@ class API extends \Piwik\Plugin\API
      * @internal
      */
     public function getOptOutJSEmbedCode(string $backgroundColor, string $fontColor,
-                                         string $fontSize, string $fontFamily, bool $showIntro,
+                                         string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro,
                                          string $matomoUrl, string $language): string
     {
 
-        return $this->optOutManager->getOptOutJSEmbedCode($matomoUrl, $language, $backgroundColor, $fontColor, $fontSize, $fontFamily, $showIntro);
+        return $this->optOutManager->getOptOutJSEmbedCode($matomoUrl, $language, $backgroundColor, $fontColor, $fontSize,
+                                                          $fontFamily, $applyStyling, $showIntro);
     }
 
     /**
@@ -373,7 +375,8 @@ class API extends \Piwik\Plugin\API
      * @param string $fontColor
      * @param string $fontSize
      * @param string $fontFamily
-     * @param bool $showIntro
+     * @param bool   $applyStyling
+     * @param bool   $showIntro
      *
      * @return string
      *
@@ -381,9 +384,9 @@ class API extends \Piwik\Plugin\API
      */
     public function getOptOutSelfContainedEmbedCode(string $backgroundColor,
                                                     string $fontColor, string $fontSize, string $fontFamily,
-                                                    bool $showIntro = true): string
+                                                    bool $applyStyling = false, bool $showIntro = true): string
     {
-        return $this->optOutManager->getOptOutSelfContainedEmbedCode($backgroundColor, $fontColor, $fontSize, $fontFamily, $showIntro);
+        return $this->optOutManager->getOptOutSelfContainedEmbedCode($backgroundColor, $fontColor, $fontSize, $fontFamily, $applyStyling, $showIntro);
     }
 
 
