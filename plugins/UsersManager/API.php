@@ -795,6 +795,10 @@ class API extends \Piwik\Plugin\API
          * @param string $email The new user's e-mail.
          */
         Piwik::postEvent('UsersManager.inviteUser.end', [$userLogin, $email]);
+
+        /**
+         * return invite link, in case someone doesn't have email enable
+         */
         return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
             'module' => 'Login',
             'action' => 'acceptInvitation',
