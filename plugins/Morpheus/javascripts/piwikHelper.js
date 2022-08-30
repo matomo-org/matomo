@@ -184,7 +184,7 @@ window.piwikHelper = {
         var createVueApp = CoreHome.createVueApp;
         var component;
 
-        var shouldLoadOnDemand = piwik.pluginsToLoadOnDemand.indexOf(parts[0]) !== -1;
+        var shouldLoadOnDemand = (piwik.pluginsToLoadOnDemand || []).indexOf(parts[0]) !== -1;
         if (!shouldLoadOnDemand) {
           var plugin = window[parts[0]];
           if (!plugin) {
