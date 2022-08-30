@@ -291,11 +291,13 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // animation
 
-        await page.jQuery(".usersManager .notification").hide();
+        await page.evaluate(function () {
+          $('.usersManager .notification').hide();
+        });
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_all_sites_access',
-            comparisonThreshold: 0.0005,
+              imageName: 'permissions_all_sites_access',
+              comparisonThreshold: 0.0005,
         });
     });
 
