@@ -26,6 +26,10 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         'TestPlugin3' => 3,
         'TestPlugin4' => 1,
         'TestPlugin5' => 5,
+        'OnDemand1' => 2,
+        'OnDemand2' => 3,
+        'OnDemand3' => 5,
+        'TestPlugin6' => 2,
     ];
 
     const TEST_PLUGIN_DEPENDENCIES = [
@@ -35,6 +39,16 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         'TestPlugin3' => ['TestPlugin1', 'TestPlugin2'],
         'TestPlugin4' => ['TestPlugin5'],
         'TestPlugin5' => ['TestPlugin1', 'TestPlugin3'],
+    ];
+
+    const TEST_PLUGIN_DEPENDENCIES_ON_DEMAND = [
+        'OnDemand1' => ['TestPlugin1'],
+        'OnDemand2' => ['TestPlugin1'],
+        'OnDemand3' => ['TestPlugin1'],
+    ];
+
+    const TEST_PLUGIN_DEPENDENCIES_DEPENDS_ON_ON_DEMAND = [
+        'TestPlugin6' => ['OnDemand1'],
     ];
 
     private $oldPluginDirsEnvVar;
@@ -48,13 +62,32 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         Filesystem::unlinkRecursive(self::TEST_PLUGINS_DIR, true);
         foreach (array_keys(self::TEST_PLUGIN_UMD_SIZES) as $pluginName) {
             $pluginSize = self::TEST_PLUGIN_UMD_SIZES[$pluginName];
-            $pluginDependencies = self::TEST_PLUGIN_DEPENDENCIES[$pluginName];
 
-            $vueDir = self::TEST_PLUGINS_DIR . '/' . $pluginName . '/vue/dist';
-            $vueSrcDir = self::TEST_PLUGINS_DIR . '/' . $pluginName . '/vue/src';
+            if (array_key_exists($pluginName, self::TEST_PLUGIN_DEPENDENCIES)) {
+                $pluginDependencies = self::TEST_PLUGIN_DEPENDENCIES[$pluginName];
+            } else if (array_key_exists($pluginName, self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)) {
+                $pluginDependencies = self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND[$pluginName];
+            } else {
+                $pluginDependencies = self::TEST_PLUGIN_DEPENDENCIES_DEPENDS_ON_ON_DEMAND[$pluginName];
+            }
+
+            $pluginPath = self::TEST_PLUGINS_DIR . '/' . $pluginName;
+            $vueDir = $pluginPath . '/vue/dist';
+            $vueSrcDir = $pluginPath . '/vue/src';
 
             Filesystem::mkdir($vueDir);
             Filesystem::mkdir($vueSrcDir);
+
+            $pluginJsonFile = $pluginPath . '/plugin.json';
+            file_put_contents($pluginJsonFile, json_encode([
+                'name' => $pluginName,
+                'description' => "---",
+                'version' => "1.0.0",
+                'require' => [
+                    'matomo' => ">=4.0.0-b1"
+                ],
+                'license' => "GPL v3+",
+            ]));
 
             if ($pluginSize === null) {
                 continue;
@@ -98,6 +131,16 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
             . str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR));
         unset($GLOBALS['MATOMO_PLUGIN_DIRS']);
         Manager::initPluginDirectories();
+
+        $allPlugins = array_merge(
+            array_keys(self::TEST_PLUGIN_DEPENDENCIES),
+            array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND),
+            array_keys(self::TEST_PLUGIN_DEPENDENCIES_DEPENDS_ON_ON_DEMAND)
+        );
+        foreach ($allPlugins as $plugin) {
+            Manager::getInstance()->activatePlugin($plugin);
+        }
+        Manager::getInstance()->loadActivatedPlugins();
     }
 
     public function tearDown(): void
@@ -229,6 +272,110 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
+    public function test_getChunkFiles_whenLoadingUmdsIndividually_andOnePluginLoadsOnDemand_andOneDependencyIsMissing()
+    {
+        $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
+        unset($plugins[array_search('TestPlugin1', $plugins)]);
+        $instance = new PluginUmdAssetFetcher($plugins, null, null, true);
+
+        $actualChunkFiles = $instance->getChunkFiles();
+        $expectedChunkFiles = [
+            new Chunk('TestPlugin4', [self::getUmdFile('TestPlugin4')]),
+        ];
+
+        $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
+    }
+
+    public function test_getChunkFiles_whenLoadingUmdsIndividually_andOnePluginLoadsOnDemand_andOneNormalPluginDependsOnOnDemandPlugin()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Missing plugin dependency: TestPlugin6 requires plugins OnDemand1');
+
+        $plugins = array_merge(
+            array_keys(self::TEST_PLUGIN_DEPENDENCIES),
+            array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND),
+            array_keys(self::TEST_PLUGIN_DEPENDENCIES_DEPENDS_ON_ON_DEMAND)
+        );
+        $instance = new PluginUmdAssetFetcher($plugins, null, null, true);
+
+        $instance->getChunkFiles();
+    }
+
+    public function test_getChunkFiles_whenLoadingUmdsIndividually_andOnePluginLoadsOnDemand_andOnDemandDependencyIsMissing()
+    {
+        $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
+        unset($plugins[array_search('OnDemand2', $plugins)]);
+        $instance = new PluginUmdAssetFetcher($plugins, null, null, true);
+
+        $actualChunkFiles = $instance->getChunkFiles();
+        $expectedChunkFiles = [
+            new Chunk('TestPlugin1', [self::getUmdFile('TestPlugin1')]),
+            new Chunk('TestPlugin2', [self::getUmdFile('TestPlugin2')]),
+            new Chunk('TestPlugin3', [self::getUmdFile('TestPlugin3')]),
+            new Chunk('TestPlugin5', [self::getUmdFile('TestPlugin5')]),
+            new Chunk('TestPlugin4', [self::getUmdFile('TestPlugin4')]),
+        ];
+
+        $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
+    }
+
+    public function test_getChunkFiles_whenLoadingUmdsIndividually_andSomePluginsLoadOnDemand()
+    {
+        $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
+        $instance = new PluginUmdAssetFetcher($plugins, null, null, true);
+
+        $actualChunkFiles = $instance->getChunkFiles();
+        $expectedChunkFiles = [
+            new Chunk('TestPlugin1', [self::getUmdFile('TestPlugin1')]),
+            new Chunk('TestPlugin2', [self::getUmdFile('TestPlugin2')]),
+            new Chunk('TestPlugin3', [self::getUmdFile('TestPlugin3')]),
+            new Chunk('TestPlugin5', [self::getUmdFile('TestPlugin5')]),
+            new Chunk('TestPlugin4', [self::getUmdFile('TestPlugin4')]),
+        ];
+
+        $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
+    }
+
+    public function test_getChunkFiles_whenOneChunkConfigured_andSomePluginsLoadOnDemand()
+    {
+        $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
+        $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 1);
+
+        $actualChunkFiles = $instance->getChunkFiles();
+        $expectedChunkFiles = [
+            new Chunk(0, [
+                self::getUmdFile('TestPlugin1'),
+                self::getUmdFile('TestPlugin2'),
+                self::getUmdFile('TestPlugin3'),
+                self::getUmdFile('TestPlugin5'),
+                self::getUmdFile('TestPlugin4'),
+            ]),
+        ];
+
+        $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
+    }
+
+    public function test_getChunkFiles_whenMultipleChunksConfigured_andSomePluginsLoadOnDemand()
+    {
+        $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
+        $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 2);
+
+        $actualChunkFiles = $instance->getChunkFiles();
+        $expectedChunkFiles = [
+            new Chunk(0, [
+                self::getUmdFile('TestPlugin1'),
+            ]),
+            new Chunk(1, [
+                self::getUmdFile('TestPlugin2'),
+                self::getUmdFile('TestPlugin3'),
+                self::getUmdFile('TestPlugin5'),
+                self::getUmdFile('TestPlugin4'),
+            ]),
+        ];
+
+        $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
+    }
+
     public function test_getCatalog_whenLoadingUmdsIndividually()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
@@ -346,5 +493,12 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $relativeRoot = str_replace(PIWIK_INCLUDE_PATH, '', self::TEST_PLUGINS_DIR);
         $relativeRoot = ltrim($relativeRoot, '/');
         return $relativeRoot . '/' . $pluginName . '/vue/dist/' . $pluginName . '.umd.min.js';
+    }
+
+    protected function provideContainerConfig()
+    {
+        return [
+            'plugins.shouldLoadOnDemand' => \DI\add(array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)),
+        ];
     }
 }
