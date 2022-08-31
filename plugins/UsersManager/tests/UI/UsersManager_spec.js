@@ -625,6 +625,8 @@ describe("UsersManager", function () {
             await page.evaluate(function () {
               $('.access-filter select').val('string:admin').change();
             });
+            await page.waitForTimeout(500); // wait for animation
+
             await page.mouse.move(-10, -10);
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_filter_permissions');
