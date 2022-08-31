@@ -335,7 +335,7 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
-    copyToClipboard(value: null| string) {
+    copyToClipboard(value: any) {
       navigator.clipboard.writeText(value);
       this.copied = true;
     },
