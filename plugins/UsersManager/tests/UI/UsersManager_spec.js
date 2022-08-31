@@ -567,7 +567,7 @@ describe("UsersManager", function () {
 
     it('should show resend success message', async function() {
         await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
-        await page.waitForSelector('#notificationContainer .notification');
+        await page.waitForSelector('.notification');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
     });
