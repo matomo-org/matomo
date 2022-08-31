@@ -106,6 +106,22 @@ class InvalidateReportData extends ConsoleCommand
                         }
                         $logger->info($message);
                     } else {
+                        /**
+                         * Trigger the activity that tracks when a customer requests invalidation.
+                         * Having the post here results in multiple activity logs if there are multiple segments and/or
+                         * periods, but all of the dates and other fields are pretty much in the right format.
+                         */
+                        Piwik::postEvent('InvalidateReports.invalidateReports', [[
+                            'idSites' => is_array($sites) ? implode(',', $sites) : $sites,
+                            'dates' => is_array($dates) ? implode(',', $dates) : $dates,
+                            'period' => $periodType,
+                            'segment' => $segment,
+                            'cascadeDown' => $cascade,
+                            '_forceInvalidateNonexistant' => false,
+                            'plugin' => $plugin,
+                            'ignoreLogDeletionLimit' => $ignoreLogDeletionLimit
+                        ]]);
+
                         $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
                             false, $plugin, $ignoreLogDeletionLimit);
 
