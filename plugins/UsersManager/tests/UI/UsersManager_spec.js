@@ -250,7 +250,7 @@ describe("UsersManager", function () {
 
     it('should show the permissions edit when the permissions tab is clicked', async function () {
 
-        await page.evaluate(() => $('.notification btn').click());
+        await page.evaluate(() => $('.notification .close').click());
         await page.click('.userEditForm .menuPermissions');
         await page.mouse.move(0, 0);
 
