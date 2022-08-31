@@ -1,7 +1,7 @@
 [
   {
     "title":       "Privacy Manager - User Opt-Out Improvements",
-    "description": "The privacy manager user opt-out has been updated to provide new code generation options that improve compatibily and allow additional customisation.",
+    "description": "The privacy manager user opt-out has been updated to provide new code generation options that improve compatibility and allow additional customisation.",
     "version":     "4.12.0"
   }
 ]
