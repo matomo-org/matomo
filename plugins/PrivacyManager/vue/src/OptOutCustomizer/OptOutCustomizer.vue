@@ -176,14 +176,14 @@
     <p
       v-html="$sanitize(optOutExplanationIntro)">
     </p>
-    <div class="alert-info alert" style="background:#cce5ff !important;color:#004085 !important">
+    <div class="alert-info alert opt-out-remember-to-test">
       <p>
       <strong>{{ translate('PrivacyManager_OptOutRememberToTest') }}</strong>
       </p>
-      <p style="color:#212121">
+      <p>
       {{ translate('PrivacyManager_OptOutRememberToTestBody') }}
       </p>
-      <p style="color:#212121">
+      <p>
         <ul>
           <li>{{ translate('PrivacyManager_OptOutRememberToTestStep1') }}</li>
           <li>{{ translate('PrivacyManager_OptOutRememberToTestStep2') }}</li>
