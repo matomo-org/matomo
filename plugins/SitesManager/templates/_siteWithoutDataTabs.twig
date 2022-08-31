@@ -16,8 +16,8 @@
 
     <div id="integrations" class="col s12">
         <h3>{{ 'SitesManager_Integrations'|translate }}</h3>
-        {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and instructionUrl %}
-            <p>{{ 'SitesManager_SiteWithoutDataDetectedSite'|translate(siteType|capitalize, '<a target="_blank" rel="noreferrer noopener" href="' ~ instructionUrl ~ '">','</a>')|raw }}</p>
+        {% if instruction %}
+            <p>{{ instruction|raw }}</p>
 
             {% if gtmUsed %}
                 <p>{{ 'SitesManager_SiteWithoutDataDetectedGtm'|translate(siteType|capitalize, '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">','</a>')|raw }}</p>
@@ -41,8 +41,8 @@
             <p>{{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
             <br>
             <p>{{ 'SitesManager_ExtraInformationNeeded'|translate }}</p>
-            <p>Matomo URL: <code piwik-select-on-focus>{{ piwikUrl }}</code></p>
-            <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code piwik-select-on-focus>' ~ idSite ~ '</code>')|raw }}</p>
+            <p>Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></p>
+            <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.SelectOnFocus">' ~ idSite ~ '</code>')|raw }}</p>
         {% endif %}
     </div>
 
@@ -51,7 +51,7 @@
 
         <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
 
-        <pre piwik-select-on-focus>{{ jsTag|raw }}</pre>
+        <pre vue-directive="CoreHome.SelectOnFocus">{{ jsTag|raw }}</pre>
 
         <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">','</a>')|raw }}</p>
 

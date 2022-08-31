@@ -1,7 +1,7 @@
 {
     "PrivacyManager": {
         "AnonymizeData": "Anonymizace dat",
-        "AnonymizeIpInlineHelp": "Anonymizací posledního  byte IP adresy návštěvníka, můžete vyhovět místní legislativě ve vaší zemi.",
+        "AnonymizeIpInlineHelp": "Anonymizací posledního byte IP adresy návštěvníka, můžete vyhovět místní legislativě ve vaší zemi.",
         "AnonymizeIpMaskLengtDescription": "Zvolte, kolik bitů z návštěvníkovy IP adresy má být maskováno.",
         "AnonymizeIpMaskLength": "%1$s bitů - např. %2$s",
         "AskingForConsent": "Žádání o souhlas",
@@ -39,7 +39,7 @@
         "GetPurgeEstimate": "Získat odhad po vyprázdnění",
         "HowDoIAskForConsent": "Jak mohu požádat uživatele o souhlas?",
         "IndividualsRights": "Práva uživatelů",
-        "IndividualsRightsAccess": "Právo na přístup: %1$vyhledat subjekt údajů%2$s a exportovat všechny jeho údaje.",
+        "IndividualsRightsAccess": "Právo na přístup: %1$svyhledat subjekt údajů%2$s a exportovat všechny jeho údaje.",
         "IndividualsRightsInform": "Právo být informován: informujte své uživatele jasným oznámením o ochraně osobních údajů.",
         "IndividualsRightsIntro": "Splňte práva svých uživatelů pomocí našich postupů, které jsou v souladu s GDPR:",
         "KeepBasicMetrics": "Uchovat základní měření (návštěvy, zobrazení stránek, odchody, cíle, atd.)",

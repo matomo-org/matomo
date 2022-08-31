@@ -1,5 +1,9 @@
 {
     "Actions": {
+        "AvgGenerationTimeTooltip": "Purata berdasarkan %1$s hit(s) %2$s antara %3$s dan %4$s",
+        "ColumnActionURL": "URL tindakan",
+        "ColumnClickedURL": "Pautan keluar yang Diklik",
+        "ColumnClickedURLs": "Pautan Luar Diklik",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Jumlah pautan ini diklik",
         "ColumnDownloadURL": "URL Muat Turun",
@@ -13,9 +17,9 @@
         "ColumnUniqueDownloads": "Muat Turun Unik",
         "EntryPageTitles": "Tajuk laman masuk",
         "ExitPageTitlesReportDocumentation": "Laporan ini mengandungi maklumat mengenai tajuk-tajuk laman keluar yang berlaku dalam tempoh yang ditetapkan.",
+        "SubmenuPageTitles": "Tajuk laman",
         "SubmenuPagesEntry": "Laman masuk",
         "SubmenuPagesExit": "Laman keluar",
-        "SubmenuPageTitles": "Tajuk laman",
         "WidgetEntryPageTitles": "Tajuk Laman Masuk",
         "WidgetExitPageTitles": "Tajuk laman keluar"
     }

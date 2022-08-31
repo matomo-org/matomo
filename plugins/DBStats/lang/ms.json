@@ -1,5 +1,12 @@
 {
     "DBStats": {
+        "DBSize": "Saiz pangkalan data",
+        "DataSize": "Saiz data",
+        "DatabaseUsage": "Penggunaan pangkalan data",
+        "EstimatedSize": "Anggaran saiz",
+        "IndexSize": "Saiz indeks",
+        "LearnMore": "Untuk mengetahui lebih lanjut tentang cara Matomo memproses data dan cara menjadikan Matomo berfungsi dengan baik dengan tapak web trafik sederhana dan tinggi, lihat dokumentasi ini: %s.",
+        "MainDescription": "Matomo menyimpan semua data analitik web anda dalam pangkalan data MySQL. Pada masa ini, jadual Matomo menggunakan %s ruang.",
         "MetricTables": "Jadual Metrik",
         "OtherTables": "Jadual Lain",
         "ReportTables": "Jadual Laporan",

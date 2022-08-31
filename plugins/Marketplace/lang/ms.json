@@ -1,5 +1,11 @@
 {
     "Marketplace": {
-        "ActivateLicenseKey": "Aktifkan"
+        "ActionActivatePlugin": "Aktifkan pemalam",
+        "ActionActivateTheme": "Aktifkan tema",
+        "ActionInstall": "Pasang",
+        "ActivateLicenseKey": "Aktifkan",
+        "AddToCart": "Tambah ke troli",
+        "AllowedUploadFormats": "Anda boleh memuat naik pemalam atau tema dalam format .zip melalui halaman ini.",
+        "Authors": "Pengarang"
     }
 }

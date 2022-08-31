@@ -183,6 +183,14 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "General_Segment";
         $translationKeys[] = "General_And";
         $translationKeys[] = 'Live_ClickToSeeAllContents';
+        $translationKeys[] = 'General_ColumnNbVisits';
+        $translationKeys[] = 'Live_LastHours';
+        $translationKeys[] = 'Live_LastMinutes';
+        $translationKeys[] = 'Live_VisitorsInRealTime';
+        $translationKeys[] = 'Live_OnClickPause';
+        $translationKeys[] = 'Live_OnClickStart';
+        $translationKeys[] = 'Live_LinkVisitorLog';
+        $translationKeys[] = 'Live_VisitorLog';
     }
 
     public function renderAction(&$renderedAction, $action, $previousAction, $visitorDetails)

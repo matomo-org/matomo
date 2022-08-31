@@ -55,20 +55,24 @@ import './Progressbar/Progressbar.adapter';
 import './ContentIntro/ContentIntro.adapter';
 import './ContentTable/ContentTable.adapter';
 import './AjaxForm/AjaxForm.adapter';
+import Matomo from './Matomo/Matomo';
+import createAngularJsAdapter from './createAngularJsAdapter';
 
 export { default as createVueApp } from './createVueApp';
+export { default as importPluginUmd } from './importPluginUmd';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as getFormattedEvolution } from './getFormattedEvolution';
+export { createAngularJsAdapter };
 export {
-  default as createAngularJsAdapter,
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   removeAngularJsSpecificProperties,
   clone,
   cloneThenApply,
 } from './createAngularJsAdapter';
+export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export * from './translate';
@@ -76,7 +80,7 @@ export { default as Alert } from './Alert/Alert.vue';
 export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
-export { default as Matomo } from './Matomo/Matomo';
+export { Matomo };
 export * from './Periods';
 export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
 export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAnywhereButHere';
@@ -92,6 +96,8 @@ export { default as SideNav } from './SideNav/SideNav';
 export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
 export { default as ContentBlock } from './ContentBlock/ContentBlock.vue';
 export { default as Comparisons } from './Comparisons/Comparisons.vue';
+export { default as ComparisonsStore } from './Comparisons/Comparisons.store';
+export { default as ComparisonsStoreInstance } from './Comparisons/Comparisons.store.instance';
 export { default as MenuItemsDropdown } from './MenuItemsDropdown/MenuItemsDropdown.vue';
 export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
@@ -112,7 +118,9 @@ export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.
 export { default as WidgetsStore } from './Widget/Widgets.store';
 export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';
-export { default as WidgetByDimensionContainer } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
+export {
+  default as WidgetByDimensionContainer,
+} from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
 export { default as Widget } from './Widget/Widget.vue';
 export {
   Widget as WidgetType,
@@ -126,3 +134,4 @@ export { default as Progressbar } from './Progressbar/Progressbar.vue';
 export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';
 export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';
+export { default as Passthrough } from './Passthrough/Passthrough.vue';

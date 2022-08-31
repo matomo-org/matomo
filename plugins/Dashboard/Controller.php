@@ -56,7 +56,6 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = $this->_getDashboardView('@Dashboard/index');
-        $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {

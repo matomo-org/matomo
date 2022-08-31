@@ -63,11 +63,11 @@ function renderDashboard(
 }
 
 function fetchDashboard(dashboardId: string|number) {
-  window.globalAjaxQueue.abort();
-
   return new Promise((resolve) => setTimeout(resolve)).then(
     () => Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall),
   ).then(() => {
+    window.globalAjaxQueue.abort();
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dashboardElement = $('#dashboardWidgetsArea') as any;
     dashboardElement.dashboard('destroyWidgets');
@@ -97,19 +97,6 @@ function onLocationChange(parsed: (typeof MatomoUrl)['urlParsed']['value']) {
     clearDashboard();
   }
 }
-interface LoadPageArgs {
-  category: string;
-  subcategory: string;
-  promise?: Promise<void>;
-}
-
-function onLoadPage(params: LoadPageArgs) {
-  if (params.category === 'Dashboard_Dashboard'
-    && $.isNumeric(params.subcategory)
-  ) {
-    params.promise = fetchDashboard(parseInt(params.subcategory, 10));
-  }
-}
 
 function onLoadDashboard(idDashboard: string|number) {
   fetchDashboard(idDashboard);
@@ -123,15 +110,11 @@ export default {
       onLocationChange(parsed);
     });
 
-    // load dashboard directly since it will be faster than going through reporting page API
-    Matomo.on('ReportingPage.loadPage', onLoadPage);
-
     Matomo.on('Dashboard.loadDashboard', onLoadDashboard);
   },
   unmounted(): void {
     onLocationChange(MatomoUrl.parsed.value);
 
-    Matomo.off('ReportingPage.loadPage', onLoadPage);
     Matomo.off('Dashboard.loadDashboard', onLoadDashboard);
   },
 };

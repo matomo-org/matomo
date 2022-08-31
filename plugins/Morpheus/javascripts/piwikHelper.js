@@ -182,14 +182,22 @@ window.piwikHelper = {
 
         var useExternalPluginComponent = CoreHome.useExternalPluginComponent;
         var createVueApp = CoreHome.createVueApp;
-        var plugin = window[parts[0]];
-        if (!plugin) {
-          throw new Error('Unknown plugin in vue-entry: ' + entry);
-        }
+        var component;
 
-        var component = plugin[parts[1]];
-        if (!component) {
-          throw new Error('Unknown component in vue-entry: ' + entry);
+        var shouldLoadOnDemand = (piwik.pluginsToLoadOnDemand || []).indexOf(parts[0]) !== -1;
+        if (!shouldLoadOnDemand) {
+          var plugin = window[parts[0]];
+          if (!plugin) {
+            // plugin may not be activated
+            return;
+          }
+
+          component = plugin[parts[1]];
+          if (!component) {
+            throw new Error('Unknown component in vue-entry: ' + entry);
+          }
+        } else {
+          component = useExternalPluginComponent(parts[0], parts[1]);
         }
 
         $(this).attr('ng-non-bindable', '');
@@ -202,7 +210,7 @@ window.piwikHelper = {
             return;
           }
 
-          // append with underscore so reserved javascripy keywords aren't accidentally used
+          // append '_' to avoid accidentally using javascript keywords
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -230,7 +238,7 @@ window.piwikHelper = {
           template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
           data: function () {
             return componentParams;
-          }
+          },
         });
         app.component('root', component);
 
@@ -246,9 +254,12 @@ window.piwikHelper = {
           app.component(toKebabCase(componentName), component);
         });
 
-        app.mount(this);
+        var appInstance = app.mount(this);
+        $(this).data('vueAppInstance', appInstance);
 
+        var self = this;
         this.addEventListener('matomoVueDestroy', function () {
+          $(self).data('vueAppInstance', null);
           app.unmount();
         });
       });
@@ -373,10 +384,21 @@ window.piwikHelper = {
      * via angular as soon as it detects a $locationChange
      *
      * @returns {number|jQuery}
+     * @deprecated use isReportingPage() instead
      */
     isAngularRenderingThePage: function ()
     {
-        return $('[piwik-reporting-page]').length;
+        return piwikHelper.isReportingPage();
+    },
+
+    /**
+     * Detects whether the current page is a reporting page or not.
+     *
+     * @returns {number|jQuery|*}
+     */
+    isReportingPage: function ()
+    {
+        return $('.reporting-page').length;
     },
 
     /**

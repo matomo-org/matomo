@@ -366,7 +366,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the visitors > real-time visits page correctly', async function () {
             await page.goto("?" + urlBaseGeneric + idSite3Params + "#?" + idSite3Params + "&category=General_Visitors&subcategory=General_RealTime");
+            //await page.waitForNetworkIdle();
             await page.mouse.move(-10, -10);
+            //await page.click('#pauseImage'); // prevent refreshes breaking the tests
+            await page.waitForTimeout(100);
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
@@ -842,7 +845,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('admin_plugins');
         });
 
-        it('should load the plugins admin page correctly', async function () {
+        it('should load the plugins admin page correctly when internet disabled', async function () {
             testEnvironment.overrideConfig('General', {
                 enable_internet_features: 0
             });

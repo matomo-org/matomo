@@ -14,6 +14,7 @@ import {
 import { IDirectiveFactory, IDirectivePrePost, Injectable } from 'angular';
 import Matomo from './Matomo/Matomo';
 import createVueApp from './createVueApp';
+import useExternalPluginComponent from './useExternalPluginComponent';
 
 interface SingleScopeVarInfo<InjectTypes extends unknown[]> {
   vue?: string;
@@ -90,8 +91,13 @@ export function removeAngularJsSpecificProperties<T>(newValue: T): T {
   return newValue;
 }
 
+interface ComponentReference {
+  plugin: string;
+  component: string;
+}
+
 export default function createAngularJsAdapter<InjectTypes extends unknown[] = []>(options: {
-  component: ComponentType,
+  component: ComponentType | ComponentReference,
   require?: string,
   scope?: ScopeMapping<InjectTypes>,
   directiveName: string,
@@ -105,8 +111,8 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
   priority?: number,
   replace?: boolean,
 }): Injectable<ng.IDirectiveFactory> {
+  let { component } = options;
   const {
-    component,
     require,
     scope = {},
     events = {},
@@ -120,6 +126,11 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
     priority,
     replace,
   } = options;
+
+  const componentRef = component as ComponentReference;
+  if (typeof componentRef.plugin === 'string') {
+    component = useExternalPluginComponent(componentRef.plugin, componentRef.component);
+  }
 
   const currentTranscludeCounter = transcludeCounter;
   if (transclude) {
@@ -138,7 +149,7 @@ export default function createAngularJsAdapter<InjectTypes extends unknown[] = [
     vueToAngular[info.vue] = scopeVarName;
   });
 
-  function angularJsAdapter(...injectedServices: InjectTypes): ng.IDirective {
+  function angularJsAdapter(...injectedServices: InjectTypes): ng.IDirective|undefined {
     const adapter: ng.IDirective = {
       restrict,
       require,

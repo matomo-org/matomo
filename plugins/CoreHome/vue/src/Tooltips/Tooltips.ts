@@ -11,6 +11,8 @@ interface TooltipsArgs {
   content?: () => void;
   delay?: number;
   duration?: number;
+  show?: unknown;
+  tooltipClass?: string;
 }
 
 const { $ } = window;
@@ -24,8 +26,14 @@ function setupTooltips(el: HTMLElement, binding: DirectiveBinding<TooltipsArgs>)
   $(el).tooltip({
     track: true,
     content: binding.value?.content || defaultContentTransform,
-    show: { delay: binding.value?.delay || 700, duration: binding.value?.duration || 200 },
+    show: typeof binding.value?.show !== 'undefined'
+      ? binding.value?.show
+      : {
+        delay: binding.value?.delay || 700,
+        duration: binding.value?.duration || 200,
+      },
     hide: false,
+    tooltipClass: binding.value?.tooltipClass,
   });
 }
 

@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Piwik;
 
 abstract class Base extends \Piwik\Plugin\Report
@@ -28,8 +27,6 @@ abstract class Base extends \Piwik\Plugin\Report
         $goals  = $this->getGoalsForIdSite($idSite);
 
         foreach ($goals as $goal) {
-            $goal['name'] = Common::sanitizeInputValue($goal['name']);
-
             $this->name       = $goalNameFormatter($goal);
             $this->parameters = array('idGoal' => $goal['idgoal']);
             $this->order      = $this->orderGoal + $goal['idgoal'] * 3;

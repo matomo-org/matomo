@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -21,14 +22,14 @@ class InvalidationResult
      *
      * @var array
      */
-    public $warningDates = array();
+    public $warningDates = [];
 
     /**
      * Dates that were successfully invalidated.
      *
      * @var array
      */
-    public $processedDates = array();
+    public $processedDates = [];
 
     /**
      * The day of the oldest log entry.
@@ -40,9 +41,9 @@ class InvalidationResult
     /**
      * @return string[]
      */
-    public function makeOutputLogs()
+    public function makeOutputLogs(): array
     {
-        $output = array();
+        $output = [];
         if ($this->warningDates) {
             $output[] = 'Warning: the following Dates have not been invalidated, because they are earlier than your Log Deletion limit: ' .
                 implode(", ", $this->warningDates) .
