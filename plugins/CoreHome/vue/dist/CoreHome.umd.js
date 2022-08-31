@@ -129,6 +129,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "createVueApp", function() { return /* reexport */ createVueApp; });
+__webpack_require__.d(__webpack_exports__, "importPluginUmd", function() { return /* reexport */ importPluginUmd; });
 __webpack_require__.d(__webpack_exports__, "useExternalPluginComponent", function() { return /* reexport */ useExternalPluginComponent; });
 __webpack_require__.d(__webpack_exports__, "DirectiveUtilities", function() { return /* reexport */ directiveUtilities; });
 __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
@@ -2378,6 +2379,134 @@ function createVueApp() {
   app.config.globalProperties.translateOrDefault = translateOrDefault;
   return app;
 }
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/importPluginUmd.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+var pluginLoadingPromises = {};
+var PLUGIN_LOAD_TIMEOUT = 120;
+var POLL_INTERVAL = 50;
+var POLL_LIMIT = 1000; // code based off webpack's generated code for import()
+// currently does not load styles on demand
+
+function importPluginUmd(plugin) {
+  if (pluginLoadingPromises[plugin]) {
+    return pluginLoadingPromises[plugin];
+  }
+
+  if (window[plugin]) {
+    return Promise.resolve(window[plugin]);
+  }
+
+  var pluginUmdPath = "?module=Proxy&action=getPluginUmdJs&plugin=".concat(plugin);
+  var promiseReject;
+  var promiseResolve;
+  var script = document.createElement('script');
+  script.charset = 'utf-8';
+  script.timeout = PLUGIN_LOAD_TIMEOUT;
+  script.src = pluginUmdPath;
+  var timeout; // create error before stack unwound to get useful stacktrace later
+
+  var error = new Error();
+
+  var onScriptComplete = function onScriptComplete(event) {
+    // avoid mem leaks in IE.
+    script.onerror = null;
+    script.onload = null;
+    clearTimeout(timeout); // the script may not load entirely at the time onload is called, so we poll for a small
+    // amount of time until the window.PluginName object appears
+
+    var pollProgress = 0;
+
+    function checkPluginInWindow() {
+      pollProgress += POLL_INTERVAL; // promise was already handled
+
+      if (!promiseReject || !promiseResolve) {
+        return;
+      } // promise was not resolved, and window object exists
+
+
+      if (window[plugin] && promiseResolve) {
+        try {
+          promiseResolve(window[plugin]);
+        } finally {
+          promiseReject = undefined;
+          promiseResolve = undefined;
+        }
+
+        return;
+      } // script took too long to execute or failed to execute, and no plugin object appeared in
+      // window, so we report an error
+
+
+      if (pollProgress > POLL_LIMIT) {
+        try {
+          var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+          var realSrc = event && event.target && event.target.src;
+          error.message = "Loading plugin ".concat(plugin, " on demand failed.\n(").concat(errorType, ": ").concat(realSrc, ")");
+          error.name = 'PluginOnDemandLoadError';
+          error.type = errorType;
+          error.request = realSrc;
+          promiseReject(error);
+        } finally {
+          promiseReject = undefined;
+          promiseResolve = undefined;
+        }
+
+        return;
+      }
+
+      setTimeout(checkPluginInWindow, POLL_INTERVAL);
+    }
+
+    setTimeout(checkPluginInWindow, POLL_INTERVAL);
+  };
+
+  timeout = setTimeout(function () {
+    onScriptComplete({
+      type: 'timeout',
+      target: script
+    });
+  }, PLUGIN_LOAD_TIMEOUT);
+  script.onerror = onScriptComplete;
+  script.onload = onScriptComplete;
+  document.head.appendChild(script);
+  return new Promise(function (resolve, reject) {
+    promiseResolve = resolve;
+    promiseReject = reject;
+  });
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/useExternalPluginComponent.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
+
+function useExternalPluginComponent(plugin, component) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
+    return importPluginUmd(plugin).then(function (module) {
+      if (!module) {
+        // @ts-ignore
+        resolve(null); // plugin not loaded
+      }
+
+      return module[component];
+    });
+  });
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createAngularJsAdapter.ts
 function createAngularJsAdapter_slicedToArray(arr, i) { return createAngularJsAdapter_arrayWithHoles(arr) || createAngularJsAdapter_iterableToArrayLimit(arr, i) || createAngularJsAdapter_unsupportedIterableToArray(arr, i) || createAngularJsAdapter_nonIterableRest(); }
 
@@ -2401,6 +2530,7 @@ function createAngularJsAdapter_typeof(obj) { "@babel/helpers - typeof"; if (typ
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 
 
@@ -2428,8 +2558,8 @@ function removeAngularJsSpecificProperties(newValue) {
   return newValue;
 }
 function createAngularJsAdapter(options) {
-  var component = options.component,
-      require = options.require,
+  var component = options.component;
+  var require = options.require,
       _options$scope = options.scope,
       scope = _options$scope === void 0 ? {} : _options$scope,
       _options$events = options.events,
@@ -2444,6 +2574,12 @@ function createAngularJsAdapter(options) {
       restrict = _options$restrict === void 0 ? 'A' : _options$restrict,
       priority = options.priority,
       replace = options.replace;
+  var componentRef = component;
+
+  if (typeof componentRef.plugin === 'string') {
+    component = useExternalPluginComponent(componentRef.plugin, componentRef.component);
+  }
+
   var currentTranscludeCounter = transcludeCounter;
 
   if (transclude) {
@@ -3762,32 +3898,6 @@ function EnrichedHeadlinevue_type_template_id_744f4bf7_render(_ctx, _cache, $pro
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=template&id=744f4bf7
 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/useExternalPluginComponent.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-
-function useExternalPluginComponent(plugin, component) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineAsyncComponent"])(function () {
-    return new Promise(function (resolve) {
-      window.$(document).ready(function () {
-        if (window[plugin]) {
-          resolve(window[plugin][component]);
-        } else {
-          // @ts-ignore
-          resolve(null); // plugin not loaded
-        }
-      });
-    });
-  });
-}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.vue?vue&type=script&lang=ts
 
 
@@ -12360,6 +12470,10 @@ Passthroughvue_type_script_lang_ts.render = Passthroughvue_type_template_id_6f9e
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
 
 
 

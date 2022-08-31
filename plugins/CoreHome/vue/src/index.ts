@@ -55,14 +55,17 @@ import './Progressbar/Progressbar.adapter';
 import './ContentIntro/ContentIntro.adapter';
 import './ContentTable/ContentTable.adapter';
 import './AjaxForm/AjaxForm.adapter';
+import Matomo from './Matomo/Matomo';
+import createAngularJsAdapter from './createAngularJsAdapter';
 
 export { default as createVueApp } from './createVueApp';
+export { default as importPluginUmd } from './importPluginUmd';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as getFormattedEvolution } from './getFormattedEvolution';
+export { createAngularJsAdapter };
 export {
-  default as createAngularJsAdapter,
   transformAngularJsBoolAttr,
   transformAngularJsIntAttr,
   removeAngularJsSpecificProperties,
@@ -77,7 +80,7 @@ export { default as Alert } from './Alert/Alert.vue';
 export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
-export { default as Matomo } from './Matomo/Matomo';
+export { Matomo };
 export * from './Periods';
 export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
 export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAnywhereButHere';
@@ -115,7 +118,9 @@ export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.
 export { default as WidgetsStore } from './Widget/Widgets.store';
 export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';
-export { default as WidgetByDimensionContainer } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
+export {
+  default as WidgetByDimensionContainer,
+} from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
 export { default as Widget } from './Widget/Widget.vue';
 export {
   Widget as WidgetType,
