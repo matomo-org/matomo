@@ -797,7 +797,7 @@ class API extends \Piwik\Plugin\API
         Piwik::postEvent('UsersManager.inviteUser.end', [$userLogin, $email]);
 
         /**
-         * return invite link, in case someone doesn't have email enable
+         * return invite link, in case someone doesn't have email enabled
          */
         return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
             'module' => 'Login',
