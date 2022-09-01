@@ -12,7 +12,6 @@ use Piwik\Category\Category;
 use Piwik\Category\Subcategory;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Categories;
-use Piwik\Settings\Storage;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

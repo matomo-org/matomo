@@ -1,6 +1,5 @@
 {
     "Events": {
-        "PluginDescription": "Etkinlikleri izler ve ziyaretçilerin yaptığı etkinlikler hakkında raporlar oluşturur.",
         "AvgEventValue": "Ortalama etkinlik değeri: %s",
         "AvgValue": "Ortalama değer",
         "AvgValueDocumentation": "Bu etkinlik için tüm değerlerin ortalaması",
@@ -17,15 +16,18 @@
         "EventNamesReportDocumentation": "Bu rapor, izlenen her bir etkinlikle ilişkili adları ve bunların kaç kez gerçekleştiğini içerir. Her satırın alt tablosunda her etkinlik adıyla birlikte izlenen etkinlik işlemleri ve kategorileri görülebilir. Raporun altındaki bağlantıyla ikincil boyut değiştirilerek neyin görüntüleneceği seçilebilir.",
         "EventUrl": "Etkinlik adresi",
         "EventUrls": "Etkinlik adresi",
-        "Events": "Etkinlikler",
-        "EventsWithValue": "Değeri olan etkinlikler",
-        "EventsWithValueDocumentation": "Etkinlik değeri ayarlanmış olan etkinlik sayısı",
         "EventValue": "Etkinlik değeri",
         "EventValueTooltip": "Toplam etkinlik %1$s etkinliğin %2$s değerinden %3$s ile %4$s arasında.",
+        "Events": "Etkinlikler",
+        "EventsSubcategoryHelp1": "Etkinlikler bölümü, site ile ilişkili özel etkinlikler hakkında raporlar sunar. Etkinlikler için genellikle özel yapılandırma gerekir. Yapılandırma sonrasında raporlar kategoriye, işleme ve ada göre düzenlenmiş olarak incelenebilir.",
+        "EventsSubcategoryHelp2": "Ayrıntılı bilgi almak için etkinlik izleme rehberine bakabilirsiniz.",
+        "EventsWithValue": "Değeri olan etkinlikler",
+        "EventsWithValueDocumentation": "Etkinlik değeri ayarlanmış olan etkinlik sayısı",
         "MaxValue": "En büyük etkinlik değeri",
         "MaxValueDocumentation": "Bu etkinliğin en büyük değeri",
         "MinValue": "En küçük etkinlik değeri",
         "MinValueDocumentation": "Bu etkinliğin en küçük değeri",
+        "PluginDescription": "Etkinlikleri izler ve ziyaretçilerin yaptığı etkinlikler hakkında raporlar oluşturur.",
         "SecondaryDimension": "İkincil boyut %s.",
         "SwitchToSecondaryDimension": "%s geç",
         "TopEvents": "En yoğun etkinlikler",
@@ -33,8 +35,6 @@
         "TotalEventsDocumentation": "Toplam etkinlik sayısı",
         "TotalValue": "Etkinlik değeri",
         "TotalValueDocumentation": "Etkinlik değerleri toplamı",
-        "ViewEvents": "Etkinlikleri görüntüle",
-        "EventsSubcategoryHelp1": "Etkinlikler bölümü, site ile ilişkili özel etkinlikler hakkında raporlar sunar. Etkinlikler için genellikle özel yapılandırma gerekir. Yapılandırma sonrasında raporlar kategoriye, işleme ve ada göre düzenlenmiş olarak incelenebilir.",
-        "EventsSubcategoryHelp2": "Ayrıntılı bilgi almak için etkinlik izleme rehberine bakabilirsiniz."
+        "ViewEvents": "Etkinlikleri görüntüle"
     }
 }

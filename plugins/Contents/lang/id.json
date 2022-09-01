@@ -1,11 +1,24 @@
 {
     "Contents": {
-        "Impressions": "Impresi",
+        "ContentImpression": "Impresi Konten",
         "ContentInteraction": "Interaksi Konten",
         "ContentInteractions": "Interaksi Konten",
-        "InteractionRate": "Nilai Interaksi",
         "ContentName": "Nama Konten",
+        "ContentNameReportDocumentation": "Laporan ini menunjukkan nama konten yang berinteraksi dengan pengunjung Anda dan yang dilihat oleh pengunjung Anda.",
+        "ContentNames": "Nama Konten",
         "ContentPiece": "Potongan Konten",
-        "Contents": "Konten"
+        "ContentPieceReportDocumentation": "Laporan ini menunjukkan bagian konten yang dilihat oleh pengunjung Anda dan yang berinteraksi dengan pengunjung Anda.",
+        "ContentPieces": "Potongan Konten",
+        "ContentTarget": "Target Konten",
+        "ContentTargets": "Target Konten",
+        "Contents": "Konten",
+        "ContentsSubcategoryHelp1": "Pelacakan konten membantu Anda dalam menentukan popularitas konten tertentu di halaman mana pun di situs web atau aplikasi Anda. Bagian ini melaporkan jumlah tayangan dan interaksi yang diterima berbagai konten di situs Anda.",
+        "ContentsSubcategoryHelp2": "Pelajari lebih lanjut di panduan Pelacakan Konten.",
+        "Impressions": "Impresi",
+        "ImpressionsMetricDocumentation": "Frekuensi blok konten, seperti spanduk atau iklan, ditampilkan di halaman.",
+        "InteractionRate": "Nilai Interaksi",
+        "InteractionRateMetricDocumentation": "Rasio impresi konten terhadap interaksi.",
+        "InteractionsMetricDocumentation": "Frekuensi interaksi blok konten (misalnya, 'klik' pada spanduk atau iklan).",
+        "PluginDescription": "Pelacakan konten dan spanduk memungkinkan Anda untuk mengukur kinerja (tampilan, klik, CTR) dari setiap konten di halaman Anda (Iklan spanduk, gambar, bentuk apa pun)."
     }
 }

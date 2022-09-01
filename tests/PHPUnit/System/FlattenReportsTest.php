@@ -8,7 +8,6 @@
 namespace Piwik\Tests\System;
 
 use Piwik\EventDispatcher;
-use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Referrers\Reports\GetWebsites;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;

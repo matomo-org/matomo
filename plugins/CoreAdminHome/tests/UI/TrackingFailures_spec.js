@@ -42,7 +42,7 @@ describe("TrackingFailures", function () {
 
     it('should show widget with failures', async function () {
         generateTrackingFailures();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.goto(widgetUrl);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_with_failures');
     });
@@ -50,7 +50,7 @@ describe("TrackingFailures", function () {
     it('should show manage page with failures', async function () {
         await page.goto(manageUrl);
         await page.waitForSelector('.matomoTrackingFailures td');
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         const elem = await page.$('.matomoTrackingFailures');
         expect(await elem.screenshot()).to.matchImage('manage_with_failures');
@@ -61,8 +61,8 @@ describe("TrackingFailures", function () {
             $('.matomoTrackingFailures table tbody tr:nth-child(2) .icon-delete').click();
         });
 
-        const elem = await page.waitFor('.modal.open');
-        await page.waitFor(500);
+        const elem = await page.waitForSelector('.modal.open');
+        await page.waitForTimeout(500);
         expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_ask_confirmation');
     });
 
@@ -70,9 +70,9 @@ describe("TrackingFailures", function () {
         await confirmModal();
         await page.waitForNetworkIdle();
 
-        await page.waitFor('.matomoTrackingFailures td .icon-delete');
+        await page.waitForSelector('.matomoTrackingFailures td .icon-delete');
 
-        await page.waitFor(500); // animation
+        await page.waitForTimeout(500); // animation
 
         const elem = await page.$('.matomoTrackingFailures');
         expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_confirmed');
@@ -80,15 +80,15 @@ describe("TrackingFailures", function () {
 
     it('should show ask to confirm delete all', async function () {
         await page.click('.matomoTrackingFailures .deleteAllFailures');
-        await page.waitFor('.modal.open');
-        await page.waitFor(500);
+        await page.waitForSelector('.modal.open');
+        await page.waitForTimeout(500);
         expect(await (await page.$('.modal.open')).screenshot()).to.matchImage('manage_with_failures_delete_all_ask_confirmation');
     });
 
     it('should show nothing when confirmed', async function () {
         await confirmModal();
-        await page.waitFor('.matomoTrackingFailures td .icon-ok');
-        await page.waitFor(500);
+        await page.waitForSelector('.matomoTrackingFailures td .icon-ok');
+        await page.waitForTimeout(500);
         const frame = await page.waitForSelector('.matomoTrackingFailures');
         expect(await frame.screenshot()).to.matchImage('manage_with_failures_delete_all_confirmed');
     });

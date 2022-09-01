@@ -15,7 +15,7 @@
         "Searches": "%s 검색",
         "SecondsAgo": "%s초 전",
         "ShowingVisits": "최근 방문의 지리적 위치",
-        "Unlocated": "<b>%1$s</b> %3$c 방문에서 %2$p의 지리적 위치를 찾을 수 없습니다.",
+        "Unlocated": "<b>%1$s</b> %3$s 방문에서 %2$s의 지리적 위치를 찾을 수 없습니다.",
         "VisitorMap": "방문자 지도",
         "WithUnknownCity": "%s 알 수 없는 도시",
         "WithUnknownRegion": "%s 알 수 없는 지역",

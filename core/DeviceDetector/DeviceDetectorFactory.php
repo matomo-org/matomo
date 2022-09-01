@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,51 +7,65 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\DeviceDetector;
 
+use DeviceDetector\ClientHints;
 use DeviceDetector\DeviceDetector;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 
 class DeviceDetectorFactory
 {
-    protected static $deviceDetectorInstances = array();
+    protected static $deviceDetectorInstances = [];
 
     /**
      * Returns an instance of DeviceDetector for the given user agent. Uses template method pattern
      * and calls getDeviceDetectionInfo() when it doesn't find a matching instance in the cache.
      * @param string $userAgent
-     * @return DeviceDetector|mixed
+     * @param array $clientHints
+     * @return DeviceDetector
      */
-    public function makeInstance($userAgent)
+    public function makeInstance($userAgent, array $clientHints = [])
     {
-        $userAgent = self::getNormalizedUserAgent($userAgent);
+        $cacheKey = self::getNormalizedUserAgent($userAgent, $clientHints);
 
-        if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
-            return self::$deviceDetectorInstances[$userAgent];
+        if (array_key_exists($cacheKey, self::$deviceDetectorInstances)) {
+            return self::$deviceDetectorInstances[$cacheKey];
         }
 
-        $deviceDetector = $this->getDeviceDetectionInfo($userAgent);
+        $deviceDetector = $this->getDeviceDetectionInfo($userAgent, $clientHints);
 
-        self::$deviceDetectorInstances[$userAgent] = $deviceDetector;
+        self::$deviceDetectorInstances[$cacheKey] = $deviceDetector;
 
         return $deviceDetector;
     }
 
-    public static function getNormalizedUserAgent($userAgent)
+    public static function getNormalizedUserAgent($userAgent, array $clientHints = [])
     {
-        return mb_substr(trim($userAgent), 0, 500);
+        $normalizedClientHints = '';
+        if (is_array($clientHints) && count($clientHints)) {
+            $hints  = ClientHints::factory($clientHints);
+            $brands = $hints->getBrandList();
+            ksort($brands);
+
+            // we only take the (sorted) list of brand, os + version and model name into account, as the other values
+            // are actually not used and should not change the result
+            $normalizedClientHints = md5(json_encode($brands) . $hints->getOperatingSystem() . $hints->getOperatingSystemVersion() . $hints->getModel());
+        }
+
+        return mb_substr($normalizedClientHints . trim($userAgent), 0, 500);
     }
 
     /**
      * Creates a new DeviceDetector for the user agent. Called by makeInstance() when no matching instance
      * was found in the cache.
-     * @param $userAgent
+     * @param string $userAgent
+     * @param array $clientHints
      * @return DeviceDetector
      */
-    protected function getDeviceDetectionInfo($userAgent)
+    protected function getDeviceDetectionInfo($userAgent, array $clientHints = [])
     {
-        $deviceDetector = new DeviceDetector($userAgent);
+        $deviceDetector = new DeviceDetector($userAgent, ClientHints::factory($clientHints));
         $deviceDetector->discardBotInformation();
         $deviceDetector->setCache(StaticContainer::get('DeviceDetector\Cache\Cache'));
         $deviceDetector->parse();
@@ -59,6 +74,6 @@ class DeviceDetectorFactory
 
     public static function clearInstancesCache()
     {
-        self::$deviceDetectorInstances = array();
+        self::$deviceDetectorInstances = [];
     }
 }

@@ -77,31 +77,32 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
         if ($yes) {
 
+            $config = Config::getInstance();
+
             if (!$keepTracking) {
                 $output->writeln("\n" . Piwik::translate('Disabling Matomo Tracking'));
-                $config                               = Config::getInstance();
                 $config->Tracker['record_statistics'] = '0';
                 $config->forceSave();
             }
 
             $output->writeln("\n" . Piwik::translate('CoreUpdater_ConsoleStartingDbUpgrade'));
 
-            foreach ($queries as $query) {
-                $output->write("\n" . 'Executing ' . $query . '... ');
-                Db::get()->exec($query);
-                $output->write(' done.');
+            try {
+                foreach ($queries as $query) {
+                    $output->write("\n" . 'Executing ' . $query . '... ');
+                    Db::get()->exec($query);
+                    $output->write(' done.');
+                }
+
+                $output->writeln("\n" . 'Updating used database charset in config.ini.php.');
+                $config->database['charset'] = 'utf8mb4';
+            } finally {
+                if (!$keepTracking) {
+                    $output->writeln("\n" . Piwik::translate('Enabling Matomo Tracking'));
+                    $config->Tracker['record_statistics'] = '1';
+                }
+                $config->forceSave();
             }
-
-            $output->writeln("\n" . 'Updating used database charset in config.ini.php.');
-            $config = Config::getInstance();
-            $config->database['charset'] = 'utf8mb4';
-
-            if (!$keepTracking) {
-                $output->writeln("\n" . Piwik::translate('Enabling Matomo Tracking'));
-                $config->Tracker['record_statistics'] = '1';
-            }
-
-            $config->forceSave();
 
             $this->writeSuccessMessage($output, array('Conversion to utf8mb4 successful.'));
 

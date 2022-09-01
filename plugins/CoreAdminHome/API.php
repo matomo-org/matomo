@@ -14,7 +14,6 @@ use Monolog\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;

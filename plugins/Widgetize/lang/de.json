@@ -1,9 +1,9 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "In neuem Fenster öffnen",
-        "PluginDescription": "Zeigt sämtliche Matomo Berichte in Ihrer Website oder App mit einem einfachen Embed HTML tag an.",
-        "ViewAccessRequired": "Dieser Benutzer hat mindestens Schreibzugriff. Es können nur Token von Benutzern verwendet werden, welche lediglich Lesezugriff haben. Siehe %1$s für mehr Informationen.",
-        "TopLinkTooltip": "Exportieren Sie Berichte als Widgets und binden Sie das Dashboard in Ihrer Applikation als iframe ein.",
-        "TooHighAccessLevel": "Dieser Benutzer hat Administratorenrechte. Es ist nicht erlaubt, Widgets mit Administratoren-Token einzubinden. %1$sFAQ kontaktieren für mehr Informationen.%2$s"
+        "PluginDescription": "Zeigt sämtliche Matomo Berichte in Ihrer Website oder App mit einem einfachen Embed HTML-Tag an.",
+        "TooHighAccessLevel": "Dieser Benutzer hat Administratorenberechtigungen. Es ist nicht erlaubt, Widgets mit Administratoren-Token-Authentifizierung einzubinden. %1$sFAQ kontaktieren für mehr Informationen.%2$s",
+        "TopLinkTooltip": "Exportieren Sie Matomo-Berichte als Widgets und binden Sie das Dashboard in Ihrer Applikation als iframe ein.",
+        "ViewAccessRequired": "Dieser Benutzer hat mindestens Schreibzugriff. Es können nur Token von Benutzern verwendet werden, welche lediglich Lesezugriff haben. Sehen Sie in %1$s nach für mehr Infos."
     }
 }

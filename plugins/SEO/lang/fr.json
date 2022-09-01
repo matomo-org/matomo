@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "Ce composant extrait et affiche les indicateurs de SEO : Alexa web ranking, Google Pagerank, le nombre de pages indexées et les rétroliens du site actuellement sélectionné.",
-        "AlexaRank": "Notation Alexa",
         "Bing_IndexedPages": "Pages indexées sur Bing",
         "DomainAge": "Âge du domaine",
         "Google_IndexedPages": "Page indexées sur Google",
+        "PluginDescription": "Ce composant extrait et affiche les indicateurs de SEO : Google Pagerank, nombre de pages indexées et rétroliens du site actuellement sélectionné.",
         "Rank": "Notation",
-        "SeoRankings": "Notations des SEO",
-        "SEORankingsFor": "Notations SEO pour %s"
+        "SEORankingsFor": "Notations SEO pour %s",
+        "SeoRankings": "Notations des SEO"
     }
 }

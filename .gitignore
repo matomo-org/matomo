@@ -98,3 +98,12 @@ docker-compose.yml
 !/node_modules/qrcodejs2
 !/node_modules/sprintf-js
 !/node_modules/visibilityjs
+/node_modules/vue/*
+!/node_modules/vue
+!/node_modules/vue/dist
+/plugins/*/vue/dist/demo.html
+/plugins/*/vue/dist/*.common.js
+/plugins/*/vue/dist/*.map
+/plugins/*/vue/dist/*.development.*
+/plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js.map
+/@types

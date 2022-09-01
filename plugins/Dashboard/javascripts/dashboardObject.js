@@ -4,6 +4,7 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 (function ($) {
 
     var layoutColumnSelector = '#dashboardWidgetsArea > .col';
@@ -61,6 +62,8 @@
                 generateLayout(options.layout);
             }
 
+            window.CoreHome.Matomo.postEvent('Dashboard.Dashboard.mounted', { element: this });
+
             return this;
         },
 
@@ -70,6 +73,10 @@
          * @return void
          */
         destroy: function () {
+            if (dashboardElement && dashboardElement.length) {
+              window.CoreHome.Matomo.postEvent('Dashboard.Dashboard.unmounted', {element: dashboardElement[0]});
+            }
+
             $(dashboardElement).remove();
             dashboardElement = null;
             destroyWidgets();
@@ -94,9 +101,7 @@
                     $location.search('subcategory', '' + dashboardIdToLoad);
                 });
             } else {
-                var element = $('[piwik-dashboard]');
-                var scope = angular.element(element).scope();
-                scope.fetchDashboard(dashboardIdToLoad);
+                piwik.postEvent('Dashboard.loadDashboard', dashboardIdToLoad);
             }
 
             return this;
@@ -204,8 +209,9 @@
             }, 'get');
             ajaxRequest.setCallback(
                 function () {
-                    methods.loadDashboard.apply(this, [1]);
-                    rebuildMenu();
+                    Promise.resolve(rebuildMenu()).then(function () {
+                      methods.loadDashboard.apply(this, [1]);
+                    });
                 }
             );
             ajaxRequest.withTokenInUrl();
@@ -535,10 +541,7 @@
 
         if (piwikHelper.isAngularRenderingThePage()) {
             // dashboard in reporting page (regular Piwik UI)
-            angular.element(document).injector().invoke(function (reportingMenuModel) {
-                reportingMenuModel.reloadMenuItems();
-            });
-            return;
+            return piwikHelper.getAngularDependency('reportingMenuModel').reloadMenuItems();
         }
 
         var _self = this;
@@ -595,7 +598,7 @@
         }, 'get');
         ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(success);
-        ajaxRequest.send();
+        return ajaxRequest.send();
     }
 
     /**

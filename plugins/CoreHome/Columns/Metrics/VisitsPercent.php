@@ -13,7 +13,6 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
-use Piwik\Plugin\Report;
 
 /**
  * Percent of visits in the whole table. Calculated as:

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Config;
 
 use Piwik\Common;
@@ -42,14 +44,14 @@ class IniFileChain
      *
      * @var array
      */
-    protected $settingsChain = array();
+    protected $settingsChain = [];
 
     /**
      * The merged INI settings.
      *
      * @var array
      */
-    protected $mergedSettings = array();
+    protected $mergedSettings = [];
 
     /**
      * Constructor.
@@ -57,7 +59,7 @@ class IniFileChain
      * @param string[] $defaultSettingsFiles The list of paths to INI files w/ the default setting values.
      * @param string|null $userSettingsFile The path to the user settings file.
      */
-    public function __construct(array $defaultSettingsFiles = array(), $userSettingsFile = null)
+    public function __construct(array $defaultSettingsFiles = [], $userSettingsFile = null)
     {
         $this->reload($defaultSettingsFiles, $userSettingsFile);
     }
@@ -71,7 +73,7 @@ class IniFileChain
     public function &get($name)
     {
         if (!isset($this->mergedSettings[$name])) {
-            $this->mergedSettings[$name] = array();
+            $this->mergedSettings[$name] = [];
         }
 
         $result =& $this->mergedSettings[$name];
@@ -146,12 +148,12 @@ class IniFileChain
 
         $dirty = false;
 
-        $configToWrite = array();
+        $configToWrite = [];
         foreach ($this->mergedSettings as $sectionName => $changedSection) {
-            if(isset($existingMutableSettings[$sectionName])){
+            if (isset($existingMutableSettings[$sectionName])) {
                 $existingMutableSection = $existingMutableSettings[$sectionName];
-            } else{
-                $existingMutableSection = array();
+            } else {
+                $existingMutableSection = [];
             }
 
             // remove default values from both (they should not get written to local)
@@ -162,7 +164,8 @@ class IniFileChain
 
             // if either local/config have non-default values and the other doesn't,
             // OR both have values, but different values, we must write to config.ini.php
-            if (empty($changedSection) xor empty($existingMutableSection)
+            if (
+                empty($changedSection) xor empty($existingMutableSection)
                 || (!empty($changedSection)
                     && !empty($existingMutableSection)
                     && self::compareElements($changedSection, $existingMutableSection))
@@ -207,9 +210,10 @@ class IniFileChain
     /**
      * Reloads settings from disk.
      */
-    public function reload($defaultSettingsFiles = array(), $userSettingsFile = null)
+    public function reload($defaultSettingsFiles = [], $userSettingsFile = null)
     {
-        if (!empty($defaultSettingsFiles)
+        if (
+            !empty($defaultSettingsFiles)
             || !empty($userSettingsFile)
         ) {
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
@@ -218,13 +222,15 @@ class IniFileChain
         $hasAbsoluteConfigFile = !empty($userSettingsFile) && strpos($userSettingsFile, DIRECTORY_SEPARATOR) === 0;
         $useConfigCache = !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE']) && $hasAbsoluteConfigFile;
 
-        if ($useConfigCache) {
+        if ($useConfigCache && is_file($userSettingsFile)) {
             $cache = new Cache();
             $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
-            
-            if (!empty($values)
+
+            if (
+                !empty($values)
                 && isset($values['mergedSettings'])
-                && isset($values['settingsChain'][$userSettingsFile])) {
+                && isset($values['settingsChain'][$userSettingsFile])
+            ) {
                 $this->mergedSettings = $values['mergedSettings'];
                 $this->settingsChain = $values['settingsChain'];
                 return;
@@ -253,16 +259,18 @@ class IniFileChain
         if (!empty($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS']) && !empty($this->mergedSettings)) {
             $this->mergedSettings = call_user_func($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS'], $this->mergedSettings);
         }
-        
-        if ($useConfigCache
-            && !empty($this->mergedSettings)
-            && !empty($this->settingsChain)) {
 
+        if (
+            $useConfigCache
+            && !empty($this->mergedSettings)
+            && !empty($this->settingsChain)
+            && Cache::hasHostConfig($this->mergedSettings)
+        ) {
             $ttlOneHour = 3600;
             $cache = new Cache();
             if ($cache->isValidHost($this->mergedSettings)) {
                 // we make sure to save the config only if the host is valid...
-                $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
+                $data = ['mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain];
                 $cache->doSave(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
             }
         }
@@ -278,7 +286,7 @@ class IniFileChain
 
     private function copy($merged)
     {
-        $copy = array();
+        $copy = [];
         foreach ($merged as $index => $value) {
             if (is_array($value)) {
                 $copy[$index] = $this->copy($value);
@@ -291,7 +299,7 @@ class IniFileChain
 
     private function resetSettingsChain($defaultSettingsFiles, $userSettingsFile)
     {
-        $this->settingsChain = array();
+        $this->settingsChain = [];
 
         if (!empty($defaultSettingsFiles)) {
             foreach ($defaultSettingsFiles as $file) {
@@ -308,7 +316,7 @@ class IniFileChain
     {
         $mergedSettings = $this->getMergedDefaultSettings();
 
-        $userSettings = end($this->settingsChain) ?: array();
+        $userSettings = end($this->settingsChain) ?: [];
         foreach ($userSettings as $sectionName => $section) {
             if (!isset($mergedSettings[$sectionName])) {
                 $mergedSettings[$sectionName] = $section;
@@ -326,9 +334,10 @@ class IniFileChain
     {
         $userSettingsFile = $this->getUserSettingsFile();
 
-        $mergedSettings = array();
+        $mergedSettings = [];
         foreach ($this->settingsChain as $file => $settings) {
-            if ($file == $userSettingsFile
+            if (
+                $file == $userSettingsFile
                 || empty($settings)
             ) {
                 continue;
@@ -396,14 +405,14 @@ class IniFileChain
         // ignore keys that are in $original but not in $modified
 
         if (empty($original) || !is_array($original)) {
-            $original = array();
+            $original = [];
         }
 
         if (empty($modified) || !is_array($modified)) {
-            $modified = array();
+            $modified = [];
         }
 
-        return array_udiff_assoc($modified, $original, array(__CLASS__, 'compareElements'));
+        return array_udiff_assoc($modified, $original, [__CLASS__, 'compareElements']);
     }
 
     /**
@@ -537,7 +546,7 @@ class IniFileChain
          *
          * @param array &$values Config values that will be saved
          */
-        Piwik::postEvent('Config.beforeSave', array(&$values));
+        Piwik::postEvent('Config.beforeSave', [&$values]);
         $values = $this->encodeValues($values);
 
         $writer = new IniWriter();

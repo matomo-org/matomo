@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Marketplace;
 
+use Exception;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Filesystem;
@@ -29,7 +30,6 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\View;
-use Exception;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
@@ -209,7 +209,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         $show  = Common::getRequestVar('show', 'plugins', 'string');
-        $query = Common::getRequestVar('query', '', 'string', $_POST);
+        $query = Common::getRequestVar('query', '', 'string');
 
         $sort = new Sort();
         $sort = $sort->getSort();
@@ -514,8 +514,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->setBasicVariablesView($view);
         $this->displayWarningIfConfigFileNotWritable();
 
+        $this->securityPolicy->addPolicy('img-src', '*.matomo.org');
+        $this->securityPolicy->addPolicy('default-src', '*.matomo.org');
+
         $view->errorMessage = '';
 
         return $view;
     }
+
 }

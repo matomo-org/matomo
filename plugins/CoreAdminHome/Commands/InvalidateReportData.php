@@ -20,12 +20,9 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 
 /**
  * Provides a simple interface for invalidating report data by date ranges, site IDs and periods.

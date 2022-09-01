@@ -2,11 +2,9 @@
 
 namespace Piwik\Tests\Unit\DataTable;
 
-use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Tests\Framework\Mock\TestConfig;
 
 /**
  * @group DataTableTest

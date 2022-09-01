@@ -1,19 +1,18 @@
 {
     "Login": {
+        "ChangeYourPassword": "Skift din adgangskode",
+        "ConfirmPasswordToContinue": "Bekræft din adgangskode for at fortsætte",
         "ConfirmationLinkSent": "Et bekræftelselink er blevet sendt til din indbakke. Tjek din e-mail og besøg dette link for at godkende ændringen af din adgangskode.",
+        "CurrentlyBlockedIPs": "Aktuelt blokerede IP-adresser",
+        "CurrentlyBlockedIPsUnblockConfirm": "Er du sikker på, at du vil fjerne alle blokeringer af IP-adresser?",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruger med superbrugeradgang kan ikke godkendes ved hjælp af '%s'.",
         "ExceptionPasswordMD5HashExpected": "Adgangskode parameteren forventes at være en MD5 hash af adgangskoden.",
-        "InvalidNonceOrHeadersOrReferrer": "Formularsikkerhed fejlede. Genindlæs formularen og kontroller, at dine cookies er aktiveret. Hvis du bruger en proxyserver, skal du %1$s konfigurere Matomo til at acceptere proxyheaderen%2$s, der videresender hostheaderen. Kontroller også, at din Referer header er sendt korrekt",
         "InvalidOrExpiredToken": "Nøglen er forkert eller udløbet",
         "InvalidUsernameEmail": "Fejl i brugernavn eller e-mailadresse.",
         "LogIn": "Log på",
         "LoginOrEmail": "Brugernavn eller e-mail",
-        "CurrentlyBlockedIPs": "Aktuelt blokerede IP-adresser",
-        "UnblockAllIPs": "Fjern alle blokeringer af IP-adresser",
-        "CurrentlyBlockedIPsUnblockConfirm": "Er du sikker på, at du vil fjerne alle blokeringer af IP-adresser?",
         "LoginPasswordNotCorrect": "Brugernavn og adgangskode er ikke korrekt",
         "LostYourPassword": "Glemt adgangskoden?",
-        "ChangeYourPassword": "Skift din adgangskode",
         "MailPasswordChangeBody2": "Hej %1$s,\n\nEn anmodning om nulstilling af din adgangskode blev modtaget fra %2$s. For at bekræfte denne ændring, så du kan logge ind med din nye adgangskode, skal du kopiere følgende link og indsætte det i din browser:\n\n%3$s\n\nOBS: Linket vil udløbe om 24 timer.\n\nTak fordi du bruger Matomo!",
         "MailTopicPasswordChange": "Bekræft ændring af adgangskode",
         "NewPassword": "Ny adgangskode",
@@ -21,8 +20,8 @@
         "PasswordChanged": "Din adgangskode er blevet ændret.",
         "PasswordRepeat": "Adgangskode (gentag)",
         "PasswordsDoNotMatch": "Adgangskoder er ikke ens.",
-        "ConfirmPasswordToContinue": "Bekræft din adgangskode for at fortsætte",
         "PluginDescription": "Giver godkendelse via brugernavn og adgangskode samt nulstilling af adgangskode funktionalitet. Godkendelsesmetoden kan ændres ved hjælp af en anden logind udvidelse såsom LoginLDAP, som er tilgængelig på markedspladsen.",
-        "RememberMe": "Husk mig"
+        "RememberMe": "Husk mig",
+        "UnblockAllIPs": "Fjern alle blokeringer af IP-adresser"
     }
 }

@@ -1,9 +1,9 @@
 {
     "Live": {
         "GoalType": "Vrsta",
-        "HideMap": "sakrij mapu",
+        "HideMap": "sakrij kartu",
         "LoadMoreVisits": "Učitaj više posjeta",
-        "NbVisitor": "1 visitor",
+        "NbVisitor": "1 posjetilac",
         "NextVisitor": "Slijedeći posjetitelj",
         "PreviousVisitor": "Prijašnji posjetitelj",
         "Referrer_URL": "Referrer URL",

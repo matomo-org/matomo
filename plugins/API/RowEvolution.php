@@ -12,14 +12,20 @@ use Exception;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Conversions;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Revenue;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -29,15 +35,15 @@ use Piwik\Url;
  */
 class RowEvolution
 {
-    private static $actionsUrlReports = array(
+    private static $actionsUrlReports = [
         'getPageUrls',
         'getPageUrlsFollowingSiteSearch',
         'getEntryPageUrls',
         'getExitPageUrls',
         'getPageUrl'
-    );
+    ];
 
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = array(), $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $labelSeries = '')
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = [], $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $labelSeries = '', $showGoalMetricsForGoal = false)
     {
         // validation of requested $period & $date
         if ($period == 'range') {
@@ -54,10 +60,64 @@ class RowEvolution
 
         $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters);
 
-        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters);
+        // if goal metrics should be shown, we replace the metrics
+        if ($showGoalMetricsForGoal !== false) {
+            $metadata['metrics'] = [
+                'nb_visits' => $metadata['metrics']['nb_visits'],
+            ];
+
+            // Use ecommerce specific metrics / column names when only showing ecommerce metrics
+            if ($showGoalMetricsForGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+                $metadata['metrics']['goal_ecommerceOrder_nb_conversions'] = Piwik::translate('General_EcommerceOrders');
+                $metadata['metrics']['goal_ecommerceOrder_revenue'] = Piwik::translate('General_TotalRevenue');
+                $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
+                $metadata['metrics']['goal_ecommerceOrder_avg_order_revenue'] = Piwik::translate('General_AverageOrderValue');
+                $metadata['metrics']['goal_ecommerceOrder_items'] = Piwik::translate('General_PurchasedProducts');
+                $metadata['metrics']['goal_ecommerceOrder_revenue_per_visit'] = Piwik::translate('General_ColumnValuePerVisit');
+            } else {
+                $goalsToProcess = $this->getGoalsToProcess($showGoalMetricsForGoal, $idSite);
+
+                foreach ($goalsToProcess as $idGoal) {
+                    if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+
+                        $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
+
+                        if ((int) $showGoalMetricsForGoal === AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW) {
+                            // only conversion rate is used for goals overview
+                            continue;
+                        }
+
+                        $metadata['metrics']['goal_ecommerceOrder_nb_conversions'] = Piwik::translate('Goals_Conversions', Piwik::translate('General_EcommerceOrders'));
+                        $metadata['metrics']['goal_ecommerceOrder_revenue'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnRevenue');
+                        $metadata['metrics']['goal_ecommerceOrder_revenue_per_visit'] = Piwik::translate('General_EcommerceOrders') . ' ' . Piwik::translate('General_ColumnValuePerVisit');
+                        continue;
+                    }
+
+                    $conversionRateMetric  = new ConversionRate($idSite, $idGoal);
+                    $metadata['metrics'][$conversionRateMetric->getName()]  = $conversionRateMetric->getTranslatedName();
+
+                    if ((int) $showGoalMetricsForGoal === AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW) {
+                        // only conversion rate is used for goals overview
+                        continue;
+                    }
+
+                    $conversionsMetric     = new Conversions($idSite, $idGoal);
+                    $revenueMetric         = new Revenue($idSite, $idGoal);
+                    $revenuePerVisitMetric = new RevenuePerVisit($idSite, $idGoal);
+
+                    $metadata['metrics'][$conversionsMetric->getName()]     = $conversionsMetric->getTranslatedName();
+                    $metadata['metrics'][$revenueMetric->getName()]         = $revenueMetric->getTranslatedName();
+                    $metadata['metrics'][$revenuePerVisitMetric->getName()] = $revenuePerVisitMetric->getTranslatedName();
+                }
+
+                $metadata['metrics']['revenue_per_visit'] = Piwik::translate('General_ColumnValuePerVisit');
+            }
+        }
+
+        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters, $showGoalMetricsForGoal);
 
         if (empty($dataTable->getDataTables())) {
-            return array();
+            return [];
         }
 
         if (empty($labels)) {
@@ -88,6 +148,44 @@ class RowEvolution
             );
         }
         return $data;
+    }
+
+    protected function getGoalsToProcess($goalId, $idSite): array
+    {
+        switch ($goalId) {
+            case AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE:
+            case AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW:
+                return $this->getAllGoalIds($idSite);
+            case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
+            default:
+                return [$goalId];
+        }
+    }
+
+    protected function getAllGoalIds($idSite): array
+    {
+        $cache = Cache::getTransientCache();
+        $key   = 'RowEvolution_allGoalIds_' . $idSite;
+
+        if ($cache->contains($key)) {
+            return $cache->fetch($key);
+        }
+
+        $goalIds = [];
+
+        if (Site::isEcommerceEnabledFor($idSite)) {
+            $goalIds[] = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        }
+
+        $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+
+        foreach ($siteGoals as $goal) {
+            $goalIds[] = $goal['idgoal'];
+        }
+
+        $cache->save($key, $goalIds);
+
+        return $goalIds;
     }
 
     /**
@@ -186,11 +284,11 @@ class RowEvolution
             $actualLabel = $this->formatQueryLabelForDisplay($idSite, $apiModule, $apiAction, $label);
         }
 
-        $return = array(
+        $return = [
             'label'      => SafeDecodeLabel::decodeLabelSafe($actualLabel),
             'reportData' => $dataTable,
-            'metadata'   => $metadata
-        );
+            'metadata'   => $metadata,
+        ];
         if (!empty($logo)) {
             $return['logo'] = $logo;
         }
@@ -248,20 +346,20 @@ class RowEvolution
      * @param string $date
      * @param string $apiModule
      * @param string $apiAction
-     * @param string|bool $label
+     * @param string|bool|array $label
      * @param string|bool $segment
      * @param array $apiParameters
      * @throws Exception
      * @return DataTable\Map|DataTable
      */
-    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $apiParameters)
+    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $apiParameters, $showGoalMetricsForGoal)
     {
         if (!is_array($label)) {
-            $label = array($label);
+            $label = [$label];
         }
         $label = array_map('rawurlencode', $label);
 
-        $parameters = array(
+        $parameters = [
             'method'                   => $apiModule . '.' . $apiAction,
             'label'                    => $label,
             'idSite'                   => $idSite,
@@ -277,7 +375,14 @@ class RowEvolution
             // row corresponds with which label (since the labels can change, and rows
             // can be sorted in a different order)
             'labelFilterAddLabelIndex' => count($label) > 1 ? 1 : 0,
-        );
+        ];
+
+        if ($showGoalMetricsForGoal !== false) {
+            $parameters['filter_show_goal_columns_process_goals'] = implode(',', $this->getGoalsToProcess($showGoalMetricsForGoal, $idSite));
+            $parameters['filter_update_columns_when_show_all_goals'] = 1;
+            $parameters['idGoal'] = $showGoalMetricsForGoal;
+        }
+
         if (!empty($apiParameters) && is_array($apiParameters)) {
             foreach ($apiParameters as $param => $value) {
                 $parameters[$param] = $value;
@@ -353,9 +458,9 @@ class RowEvolution
     private function enhanceRowEvolutionMetaData(&$metadata, $dataTable)
     {
         // prepare result array for metrics
-        $metricsResult = array();
+        $metricsResult = [];
         foreach ($metadata['metrics'] as $metric => $name) {
-            $metricsResult[$metric] = array('name' => $name);
+            $metricsResult[$metric] = ['name' => $name];
 
             if (!empty($metadata['logos'][$metric])) {
                 $metricsResult[$metric]['logo'] = $metadata['logos'][$metric];
@@ -377,7 +482,7 @@ class RowEvolution
         $lastDataTableRow = $lastDataTable->getFirstRow();
 
         // Process min/max values
-        $firstNonZeroFound = array();
+        $firstNonZeroFound = [];
         foreach ($subDataTables as $subDataTable) {
             // $subDataTable is the report for one period, it has only one row
             $firstRow = $subDataTable->getFirstRow();
@@ -436,7 +541,7 @@ class RowEvolution
         }
 
         // get the processed label and logo (if any) for every requested label
-        $actualLabels = $logos = array();
+        $actualLabels = $logos = [];
         foreach ($labels as $labelIdx => $label) {
             foreach ($dataTable->getDataTables() as $table) {
                 $labelRow = $this->getRowEvolutionRowFromLabelIdx($table, $labelIdx);
@@ -469,8 +574,8 @@ class RowEvolution
             }
         }
 
-        // convert rows to be array($column.'_'.$labelIdx => $value) as opposed to
-        // array('label' => $label, 'column' => $value).
+        // convert rows to be [$column.'_'.$labelIdx => $value] as opposed to
+        // ['label' => $label, 'column' => $value].
         $dataTableMulti = $dataTable->getEmptyClone();
         foreach ($dataTable->getDataTables() as $tableLabel => $table) {
             $newRow = new Row();
@@ -505,7 +610,7 @@ class RowEvolution
 
         // metadata / metrics should document the rows that are compared
         // this way, UI code can be reused
-        $metadata['metrics'] = array();
+        $metadata['metrics'] = [];
         foreach ($actualLabels as $labelIndex => $label) {
             if ($legendAppendMetric) {
                 $label .= ' (' . $metadata['columns'][$column] . ')';
@@ -520,11 +625,11 @@ class RowEvolution
 
         $this->enhanceRowEvolutionMetaData($metadata, $dataTableMulti);
 
-        return array(
+        return [
             'column'     => $column,
             'reportData' => $dataTableMulti,
-            'metadata'   => $metadata
-        );
+            'metadata'   => $metadata,
+        ];
     }
 
     /**
@@ -551,8 +656,7 @@ class RowEvolution
     private function cleanOriginalLabel($label)
     {
         $label = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
-        $label = SafeDecodeLabel::decodeLabelSafe($label);
-        return $label;
+        return SafeDecodeLabel::decodeLabelSafe($label);
     }
 
     private function checkDataTableInstance($lastDataTable)

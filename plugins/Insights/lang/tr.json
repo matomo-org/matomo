@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Trafiğiniz hakkında içgörüler sunar. Ayrıntılı bilgiler pano bileşeni olarak kullanılabileceği gibi raporlardaki yeni bir simge ile verilerinizdeki en önemli eğilimlerin görüntülenmesini sağlar.",
         "ControlComparedToDescription": "Şununla karşılaştırmalı büyüme",
         "ControlFilterByDescription": "Tümünü görüntüle, yalnız göçenler, yalnız yeniler ya da yalnız kaybolanlar",
         "DatePeriodCombinationNotSupported": "Bu tarih ve zaman aralığı kombinasyonu için içgörü oluşturulamıyor.",
@@ -20,7 +19,8 @@
         "MoversAndShakersWidgetTitle": "Göç edenler ve gidip gelenler",
         "NoResultMatchesCriteria": "Ölçüte uyan bir satır bulunamadı",
         "OverviewWidgetTitle": "İçgörü özeti",
-        "TitleConsideredInsightsChanges": "En az %1$s ziyaret artan ya da azalan satırlar (%2$s %% \/ %3$s toplam ziyaret).",
+        "PluginDescription": "Trafiğiniz hakkında içgörüler sunar. Ayrıntılı bilgiler pano bileşeni olarak kullanılabileceği gibi raporlardaki yeni bir simge ile verilerinizdeki en önemli eğilimlerin görüntülenmesini sağlar.",
+        "TitleConsideredInsightsChanges": "En az %1$s ziyaret artan ya da azalan satırlar (%2$s %% / %3$s toplam ziyaret).",
         "TitleConsideredInsightsGrowth": "Şu satırlarda %2$s değerine göre en az %1$s%% büyüme var.",
         "TitleConsideredMoversAndShakersChanges": "Göçen ziyaretleri, yalnız %1$s%% değerinden fazla artar ya da %2$s%% değerinden fazla azalırsa, yeni kayıt ziyaretleri, yalnız %3$s%% (%4$s) değerinden fazla artar ve kaybolanlar satırı yalnız %5$s%% (%6$s) değerinden fazla azalırsa hesaba katılır.",
         "TitleConsideredMoversAndShakersGrowth": "%1$s, %4$s değerine göre %2$s değerinden %3$s değerine değişti. Her satırın gelişime göre %5$s %% bekleniyor.",

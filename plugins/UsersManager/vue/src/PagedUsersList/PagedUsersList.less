@@ -1,0 +1,228 @@
+.pagedUsersList {
+  display: block;
+  position: relative;
+
+  .siteSelector {
+    display: inline-block;
+  }
+
+  .dropdown-content li > span {
+    font-size: 13px;
+    line-height: 19px;
+  }
+
+  .access-display-control {
+    position: absolute;
+    margin-left: .1rem;
+
+    label {
+      color: @theme-color-text;
+    }
+  }
+
+  .card {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  .card .card-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  table.entityTable tbody tr td {
+    vertical-align: middle !important;
+  }
+
+  table.entityTable tbody tr td.actions-cell {
+    width: 140px;
+    padding: 0;
+    text-align: left;
+  }
+
+  table.entityTable th.actions-cell-header > div {
+    text-align: center;
+  }
+
+  table#manageUsersTable {
+    .matomo-form-field {
+      &.form-group {
+        margin: 0;
+      }
+      .input-field {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0;
+      }
+    }
+
+    .select-wrapper {
+      width: 100px;
+
+      input {
+        margin-bottom: 0;
+        padding-bottom: .3em;
+        height: 1em;
+        line-height: 1em;
+        font-size: 13px;
+      }
+
+      span.caret {
+        top: 0;
+      }
+    }
+
+    th.role_header {
+      .helpIcon {
+        color: #9e9e9e;
+        font-size: .8rem;
+        margin-left: .1rem;
+        text-decoration: none;
+
+        &:hover,&.sticky {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  tbody span.checkbox-container {
+    label {
+      transform: scale(.8);
+      height: 1em;
+      line-height: 1em;
+    }
+  }
+
+  .select-cell {
+    width: 32px;
+  }
+
+  table.entityTable tbody tr.select-all-row > td {
+    padding: 6px;
+    text-align: center;
+  }
+
+  .sites_autocomplete {
+    display: block;
+    margin-left: 0;
+  }
+
+  .userListFilters {
+    > .col > .input-field {
+      display: inline-block;
+      vertical-align: top;
+      padding: 0;
+    }
+
+    .form-group, .form-group .input-field {
+      margin: 0;
+    }
+    .form-group input {
+      margin-bottom: 0;
+    }
+
+    .input-field > .btn {
+      margin-top: .7rem;
+      white-space: nowrap;
+    }
+
+    &.row {
+      margin-bottom: 0;
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+    }
+  }
+
+  .users-list-pagination-container {
+    float: right;
+    min-width: 350px;
+  }
+
+  .usersListPagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: .7rem;
+    float: right;
+    white-space: nowrap;
+
+    .pointer {
+      cursor: pointer;
+    }
+
+    div.counter {
+      display: inline-block;
+      line-height: 36px;
+      vertical-align: bottom;
+      flex: 1;
+      text-align: center;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  .delete-user-confirm-modal,.change-user-role-confirm-modal,.resend-invite-confirm-modal {
+    .modal-no {
+      margin-left: 1em;
+      margin-right: 1em;
+      margin-top: 1em;
+    }
+  }
+
+  #status {
+    .active {
+      color: green;
+    }
+
+    .expired {
+      color: red;
+    }
+
+    .pending{
+      color: orange;
+    }
+  }
+
+  &.loading {
+    table {
+      opacity: 0.5;
+    }
+
+    a, input, select, button, label {
+      pointer-events: none;
+    }
+
+    div.counter {
+      position: relative;
+      > span {
+        opacity: 0;
+      }
+    }
+
+    .loadingPiwik {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      span {
+        display: none;
+      }
+    }
+  }
+
+  .roles-help-notification {
+    margin-top: 1rem;
+  }
+}
+
+#root .pagedUsersList .siteSelector.borderedControl {
+  background-color: white;
+  width: 150px;
+}
+
+#content .pagedUsersList .sites_autocomplete > .siteSelector {
+  position: static;
+}

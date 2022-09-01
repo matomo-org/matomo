@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Events\Widgets;
 
 use Piwik\Plugins\CoreHome\CoreHome;
-use Piwik\Translation\Translator;
 use Piwik\Widget\WidgetContainerConfig;
 
 class EventsByDimension extends WidgetContainerConfig

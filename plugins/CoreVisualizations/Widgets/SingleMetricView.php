@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\View;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugins\Goals\API as GoalsAPI;
 
 class SingleMetricView extends \Piwik\Widget\Widget
 {

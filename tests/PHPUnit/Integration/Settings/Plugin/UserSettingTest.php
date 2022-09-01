@@ -11,9 +11,7 @@ namespace Piwik\Tests\Integration\Settings\Plugin;
 use Piwik\Db;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\UserSetting;
-use Piwik\Settings\Storage\Storage;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Tests\Framework\Mock\Settings\FakeBackend;
 use Piwik\Tests\Framework\Mock\Settings\FakeUserSettings;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 

@@ -17,6 +17,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -110,7 +113,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>353</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -132,7 +134,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>354</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -154,7 +155,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>355</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -176,7 +176,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>356</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -198,7 +197,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>357</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -220,7 +218,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>358</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -242,7 +239,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>359</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -311,7 +307,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -379,6 +375,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -414,6 +413,8 @@
 				<pageId>372</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -545,6 +546,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -601,6 +605,8 @@
 				<pageId>393</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -732,6 +738,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -766,6 +775,8 @@
 				
 				<pageId>411</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -896,6 +907,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -952,6 +966,8 @@
 				<pageId>423</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -1102,6 +1118,8 @@
 				
 				<pageId>441</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -1232,6 +1250,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1288,6 +1309,8 @@
 				<pageId>447</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -1415,6 +1438,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1450,6 +1476,8 @@
 				<pageId>464</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -1581,6 +1609,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1674,7 +1705,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>469</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -1696,7 +1726,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>470</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -1718,7 +1747,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>471</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -1740,7 +1768,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>472</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -1762,7 +1789,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>473</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -1784,7 +1810,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>474</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -1806,7 +1831,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>475</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -1875,7 +1899,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -1943,6 +1967,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1978,6 +2005,8 @@
 				<pageId>488</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -2109,6 +2138,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2165,6 +2197,8 @@
 				<pageId>509</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -2296,6 +2330,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2330,6 +2367,8 @@
 				
 				<pageId>527</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -2460,6 +2499,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2516,6 +2558,8 @@
 				<pageId>539</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -2666,6 +2710,8 @@
 				
 				<pageId>557</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -2796,6 +2842,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2852,6 +2901,8 @@
 				<pageId>563</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -2979,6 +3030,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3014,6 +3068,8 @@
 				<pageId>580</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -3145,6 +3201,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3238,7 +3297,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>585</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -3260,7 +3318,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>586</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -3282,7 +3339,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>587</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -3304,7 +3360,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>588</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -3326,7 +3381,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>589</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -3348,7 +3402,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>590</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -3370,7 +3423,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>591</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -3439,7 +3491,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -3507,6 +3559,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3542,6 +3597,8 @@
 				<pageId>604</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -3673,6 +3730,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3729,6 +3789,8 @@
 				<pageId>625</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -3860,6 +3922,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3894,6 +3959,8 @@
 				
 				<pageId>643</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -4024,6 +4091,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4080,6 +4150,8 @@
 				<pageId>655</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -4230,6 +4302,8 @@
 				
 				<pageId>673</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -4360,6 +4434,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4416,6 +4493,8 @@
 				<pageId>679</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -4543,6 +4622,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4578,6 +4660,8 @@
 				<pageId>696</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -4709,6 +4793,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4724,6 +4811,8 @@
 				
 				<pageId>366</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -4854,6 +4943,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4886,7 +4978,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>395</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -4908,7 +4999,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>396</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -4930,7 +5020,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>397</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -4952,7 +5041,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>398</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -4974,7 +5062,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>399</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -4996,7 +5083,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>400</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -5018,7 +5104,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>401</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -5043,8 +5128,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5065,8 +5148,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5087,8 +5168,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5109,8 +5188,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5260,6 +5337,8 @@
 				
 				<pageId>430</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -5390,6 +5469,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5423,8 +5505,6 @@
 				
 				<pageId>449</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
@@ -5446,8 +5526,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5468,8 +5546,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5490,8 +5566,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5512,8 +5586,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -5663,6 +5735,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5678,6 +5753,8 @@
 				
 				<pageId>482</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -5808,6 +5885,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5823,6 +5903,8 @@
 				
 				<pageId>510</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world204</subtitle>
@@ -5838,7 +5920,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>511</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -5860,7 +5941,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>512</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -5882,7 +5962,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>513</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -5904,7 +5983,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>514</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -5926,7 +6004,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>515</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -5948,7 +6025,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>516</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -5970,7 +6046,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>517</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -5995,8 +6070,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6017,8 +6090,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6039,8 +6110,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6061,8 +6130,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6082,8 +6149,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6214,6 +6279,8 @@
 				
 				<pageId>546</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -6344,6 +6411,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6377,8 +6447,6 @@
 				
 				<pageId>565</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
@@ -6400,8 +6468,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6422,8 +6488,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6444,8 +6508,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6466,8 +6528,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6617,6 +6677,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6632,6 +6695,8 @@
 				
 				<pageId>598</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -6762,6 +6827,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6794,7 +6862,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>627</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -6816,7 +6883,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>628</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -6838,7 +6904,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>629</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -6860,7 +6925,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>630</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -6882,7 +6946,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>631</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -6904,7 +6967,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>632</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -6926,7 +6988,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>633</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -6951,8 +7012,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6973,8 +7032,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -6995,8 +7052,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -7017,8 +7072,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -7168,6 +7221,8 @@
 				
 				<pageId>662</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -7298,6 +7353,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7331,8 +7389,6 @@
 				
 				<pageId>681</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
@@ -7354,8 +7410,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -7376,8 +7430,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -7398,8 +7450,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -7420,8 +7470,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -7612,6 +7660,8 @@
 				<pageId>390</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -7763,6 +7813,8 @@
 				<pageId>456</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -7935,6 +7987,8 @@
 				<pageId>506</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -8115,6 +8169,8 @@
 				<pageId>572</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -8287,6 +8343,8 @@
 				<pageId>622</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -8467,6 +8525,8 @@
 				<pageId>688</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -8639,6 +8699,8 @@
 				<pageId>414</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -8811,6 +8873,8 @@
 				<pageId>444</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -8979,6 +9043,8 @@
 				<pageId>530</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -9151,6 +9217,8 @@
 				<pageId>560</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -9319,6 +9387,8 @@
 				<pageId>646</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -9491,6 +9561,8 @@
 				<pageId>676</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -9638,8 +9710,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -9660,8 +9730,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -9682,8 +9750,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -9704,8 +9770,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -9875,8 +9939,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -9897,8 +9959,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -9919,8 +9979,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -9941,8 +9999,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -10112,8 +10168,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -10134,8 +10188,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -10156,8 +10208,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -10178,8 +10228,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -10370,6 +10418,8 @@
 				<pageId>387</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -10712,6 +10762,8 @@
 				<pageId>420</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -10884,6 +10936,8 @@
 				<pageId>503</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -11255,6 +11309,8 @@
 				<pageId>536</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -11427,6 +11483,8 @@
 				<pageId>619</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -11798,6 +11856,8 @@
 				<pageId>652</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -11949,8 +12009,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -11971,8 +12029,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -11993,8 +12049,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12015,8 +12069,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12186,8 +12238,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12208,8 +12258,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12230,8 +12278,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12252,8 +12298,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12423,8 +12467,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12445,8 +12487,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12467,8 +12507,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12489,8 +12527,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -12660,6 +12696,8 @@
 				<pageId>370</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -12811,6 +12849,8 @@
 				<pageId>462</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -12962,6 +13002,8 @@
 				<pageId>486</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -13113,6 +13155,8 @@
 				<pageId>578</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -13264,6 +13308,8 @@
 				<pageId>602</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -13415,6 +13461,8 @@
 				<pageId>694</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -13587,6 +13635,8 @@
 				<pageId>417</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -13759,6 +13809,8 @@
 				<pageId>533</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -13931,6 +13983,8 @@
 				<pageId>649</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -14103,6 +14157,8 @@
 				<pageId>384</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -14277,6 +14333,8 @@
 				
 				<pageId>432</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -14292,7 +14350,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>433</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -14314,7 +14371,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>434</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -14336,7 +14392,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>435</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -14358,7 +14413,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>436</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -14380,7 +14434,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>437</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -14402,7 +14455,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>438</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -14424,7 +14476,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>439</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -14602,6 +14653,8 @@
 				<pageId>500</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -14776,6 +14829,8 @@
 				
 				<pageId>548</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -14791,7 +14846,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>549</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -14813,7 +14867,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>550</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -14835,7 +14888,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>551</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -14857,7 +14909,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>552</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -14879,7 +14930,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>553</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -14901,7 +14951,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>554</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -14923,7 +14972,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>555</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -15101,6 +15149,8 @@
 				<pageId>616</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -15275,6 +15325,8 @@
 				
 				<pageId>664</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -15290,7 +15342,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>665</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -15312,7 +15363,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>666</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -15334,7 +15384,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>667</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -15356,7 +15405,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>668</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -15378,7 +15426,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>669</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -15400,7 +15447,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>670</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -15422,7 +15468,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>671</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -15559,6 +15604,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -15594,6 +15642,8 @@
 				<pageId>460</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -15725,6 +15775,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -15760,6 +15813,8 @@
 				<pageId>576</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -15891,6 +15946,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -15926,6 +15984,8 @@
 				<pageId>692</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -16098,6 +16158,8 @@
 				<pageId>381</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -16229,6 +16291,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -16264,6 +16329,8 @@
 				<pageId>458</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -16436,6 +16503,8 @@
 				<pageId>497</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -16567,6 +16636,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -16602,6 +16674,8 @@
 				<pageId>574</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -16774,6 +16848,8 @@
 				<pageId>613</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -16905,6 +16981,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -16940,6 +17019,8 @@
 				<pageId>690</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -17112,6 +17193,8 @@
 				<pageId>378</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -17284,6 +17367,8 @@
 				<pageId>494</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -17456,6 +17541,8 @@
 				<pageId>610</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -17631,6 +17718,8 @@
 				<pageId>368</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -17803,6 +17892,8 @@
 				<pageId>375</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -17978,6 +18069,8 @@
 				<pageId>484</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -18150,6 +18243,8 @@
 				<pageId>491</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -18325,6 +18420,8 @@
 				<pageId>600</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -18497,6 +18594,8 @@
 				<pageId>607</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -18628,6 +18727,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -18721,7 +18823,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>237</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -18743,7 +18844,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>238</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -18765,7 +18865,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>239</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -18787,7 +18886,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>240</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -18809,7 +18907,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>241</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -18831,7 +18928,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>242</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -18853,7 +18949,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>243</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -18922,7 +19017,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -18990,6 +19085,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19025,6 +19123,8 @@
 				<pageId>256</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -19156,6 +19256,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19212,6 +19315,8 @@
 				<pageId>277</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -19343,6 +19448,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19377,6 +19485,8 @@
 				
 				<pageId>295</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -19507,6 +19617,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19563,6 +19676,8 @@
 				<pageId>307</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -19713,6 +19828,8 @@
 				
 				<pageId>325</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -19843,6 +19960,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -19899,6 +20019,8 @@
 				<pageId>331</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -20026,6 +20148,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -20061,6 +20186,8 @@
 				<pageId>348</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -20192,6 +20319,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -20207,6 +20337,8 @@
 				
 				<pageId>250</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -20337,6 +20469,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -20369,7 +20504,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>279</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -20391,7 +20525,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>280</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -20413,7 +20546,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>281</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -20435,7 +20567,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>282</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -20457,7 +20588,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>283</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -20479,7 +20609,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>284</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -20501,7 +20630,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>285</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -20526,8 +20654,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -20548,8 +20674,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -20570,8 +20694,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -20592,8 +20714,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -20743,6 +20863,8 @@
 				
 				<pageId>314</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -20873,6 +20995,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -20906,8 +21031,6 @@
 				
 				<pageId>333</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
@@ -20929,8 +21052,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -20951,8 +21072,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -20973,8 +21092,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -20995,8 +21112,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -21187,6 +21302,8 @@
 				<pageId>274</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -21338,6 +21455,8 @@
 				<pageId>340</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -21510,6 +21629,8 @@
 				<pageId>298</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -21682,6 +21803,8 @@
 				<pageId>328</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -21829,8 +21952,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -21851,8 +21972,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -21873,8 +21992,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -21895,8 +22012,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -22087,6 +22202,8 @@
 				<pageId>271</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -22429,6 +22546,8 @@
 				<pageId>304</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -22580,8 +22699,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -22602,8 +22719,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -22624,8 +22739,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -22646,8 +22759,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -22817,6 +22928,8 @@
 				<pageId>254</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -22968,6 +23081,8 @@
 				<pageId>346</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -23140,6 +23255,8 @@
 				<pageId>301</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -23312,6 +23429,8 @@
 				<pageId>268</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -23486,6 +23605,8 @@
 				
 				<pageId>316</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -23501,7 +23622,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>317</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -23523,7 +23643,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>318</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -23545,7 +23664,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>319</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -23567,7 +23685,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>320</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -23589,7 +23706,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>321</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -23611,7 +23727,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>322</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -23633,7 +23748,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>323</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -23770,6 +23884,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -23805,6 +23922,8 @@
 				<pageId>344</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -23977,6 +24096,8 @@
 				<pageId>265</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -24108,6 +24229,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -24143,6 +24267,8 @@
 				<pageId>342</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -24315,6 +24441,8 @@
 				<pageId>262</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -24490,6 +24618,8 @@
 				<pageId>252</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -24662,6 +24792,8 @@
 				<pageId>259</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -24793,6 +24925,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -24886,7 +25021,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>121</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -24908,7 +25042,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>122</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -24930,7 +25063,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>123</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -24952,7 +25084,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>124</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -24974,7 +25105,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>125</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -24996,7 +25126,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>126</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -25018,7 +25147,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>127</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -25087,7 +25215,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -25155,6 +25283,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25190,6 +25321,8 @@
 				<pageId>140</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -25321,6 +25454,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25377,6 +25513,8 @@
 				<pageId>161</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -25508,6 +25646,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25542,6 +25683,8 @@
 				
 				<pageId>179</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -25672,6 +25815,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -25728,6 +25874,8 @@
 				<pageId>191</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -25878,6 +26026,8 @@
 				
 				<pageId>209</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -26008,6 +26158,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26064,6 +26217,8 @@
 				<pageId>215</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -26191,6 +26346,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26226,6 +26384,8 @@
 				<pageId>232</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -26357,6 +26517,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26450,7 +26613,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>701</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -26472,7 +26634,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>702</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -26494,7 +26655,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>703</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -26516,7 +26676,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>704</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -26538,7 +26697,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>705</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -26560,7 +26718,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>706</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -26582,7 +26739,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>707</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -26651,7 +26807,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -26719,6 +26875,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26754,6 +26913,8 @@
 				<pageId>720</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -26885,6 +27046,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -26941,6 +27105,8 @@
 				<pageId>741</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -27072,6 +27238,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27106,6 +27275,8 @@
 				
 				<pageId>759</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -27236,6 +27407,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27292,6 +27466,8 @@
 				<pageId>771</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -27442,6 +27618,8 @@
 				
 				<pageId>789</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -27572,6 +27750,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27628,6 +27809,8 @@
 				<pageId>795</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -27755,6 +27938,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27790,6 +27976,8 @@
 				<pageId>812</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -27921,6 +28109,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -27936,6 +28127,8 @@
 				
 				<pageId>134</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -28066,6 +28259,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -28098,7 +28294,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>163</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -28120,7 +28315,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>164</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -28142,7 +28336,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>165</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -28164,7 +28357,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>166</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -28186,7 +28378,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>167</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -28208,7 +28399,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>168</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -28230,7 +28420,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>169</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -28255,8 +28444,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28277,8 +28464,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28299,8 +28484,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28321,8 +28504,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28472,6 +28653,8 @@
 				
 				<pageId>198</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -28602,6 +28785,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -28635,8 +28821,6 @@
 				
 				<pageId>217</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
@@ -28658,8 +28842,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28680,8 +28862,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28702,8 +28882,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28724,8 +28902,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -28875,6 +29051,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -28890,6 +29069,8 @@
 				
 				<pageId>714</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -29020,6 +29201,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -29052,7 +29236,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>743</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -29074,7 +29257,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>744</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -29096,7 +29278,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>745</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -29118,7 +29299,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>746</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -29140,7 +29320,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>747</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -29162,7 +29341,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>748</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -29184,7 +29362,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>749</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -29209,8 +29386,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29231,8 +29406,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29253,8 +29426,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29275,8 +29446,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29426,6 +29595,8 @@
 				
 				<pageId>778</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -29556,6 +29727,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -29589,8 +29763,6 @@
 				
 				<pageId>797</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
@@ -29612,8 +29784,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29634,8 +29804,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29656,8 +29824,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29678,8 +29844,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -29870,6 +30034,8 @@
 				<pageId>158</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -30021,6 +30187,8 @@
 				<pageId>224</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -30193,6 +30361,8 @@
 				<pageId>738</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -30344,6 +30514,8 @@
 				<pageId>804</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -30516,6 +30688,8 @@
 				<pageId>182</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -30688,6 +30862,8 @@
 				<pageId>212</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -30856,6 +31032,8 @@
 				<pageId>762</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -31028,6 +31206,8 @@
 				<pageId>792</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -31175,8 +31355,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31197,8 +31375,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31219,8 +31395,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31241,8 +31415,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31412,8 +31584,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31434,8 +31604,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31456,8 +31624,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31478,8 +31644,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -31670,6 +31834,8 @@
 				<pageId>155</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -32012,6 +32178,8 @@
 				<pageId>188</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -32184,6 +32352,8 @@
 				<pageId>735</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -32505,6 +32675,8 @@
 				<pageId>767</pageId>
 				<pageLoadTime>1.02s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1020</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -32677,8 +32849,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -32699,8 +32869,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -32721,8 +32889,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -32743,8 +32909,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -32914,8 +33078,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -32936,8 +33098,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -32958,8 +33118,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -32980,8 +33138,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -33151,6 +33307,8 @@
 				<pageId>138</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -33302,6 +33460,8 @@
 				<pageId>230</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -33453,6 +33613,8 @@
 				<pageId>718</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -33604,6 +33766,8 @@
 				<pageId>810</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -33776,6 +33940,8 @@
 				<pageId>185</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -33948,6 +34114,8 @@
 				<pageId>765</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -34120,6 +34288,8 @@
 				<pageId>152</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -34294,6 +34464,8 @@
 				
 				<pageId>200</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -34309,7 +34481,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>201</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -34331,7 +34502,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>202</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -34353,7 +34523,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>203</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -34375,7 +34544,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>204</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -34397,7 +34565,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>205</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -34419,7 +34586,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>206</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -34441,7 +34607,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>207</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -34619,6 +34784,8 @@
 				<pageId>732</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -34793,6 +34960,8 @@
 				
 				<pageId>780</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -34808,7 +34977,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>781</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -34830,7 +34998,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>782</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -34852,7 +35019,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>783</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -34874,7 +35040,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>784</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -34896,7 +35061,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>785</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -34918,7 +35082,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>786</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -34940,7 +35103,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>787</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -35077,6 +35239,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -35112,6 +35277,8 @@
 				<pageId>228</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -35243,6 +35410,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -35278,6 +35448,8 @@
 				<pageId>808</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -35450,6 +35622,8 @@
 				<pageId>149</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -35581,6 +35755,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -35616,6 +35793,8 @@
 				<pageId>226</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -35788,6 +35967,8 @@
 				<pageId>729</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -35919,6 +36100,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -35954,6 +36138,8 @@
 				<pageId>806</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -36126,6 +36312,8 @@
 				<pageId>146</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -36298,6 +36486,8 @@
 				<pageId>726</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -36473,6 +36663,8 @@
 				<pageId>136</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -36645,6 +36837,8 @@
 				<pageId>143</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -36820,6 +37014,8 @@
 				<pageId>716</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -36992,6 +37188,8 @@
 				<pageId>723</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -37123,6 +37321,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37216,7 +37417,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>5</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -37238,7 +37438,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>6</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -37260,7 +37459,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>7</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -37282,7 +37480,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>8</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -37304,7 +37501,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>9</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -37326,7 +37522,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>10</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -37348,7 +37543,6 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>11</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -37417,7 +37611,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -37485,6 +37679,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37520,6 +37717,8 @@
 				<pageId>24</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -37651,6 +37850,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.innocraft.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37707,6 +37909,8 @@
 				<pageId>45</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -37838,6 +38042,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -37872,6 +38079,8 @@
 				
 				<pageId>63</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world205/0</subtitle>
@@ -38002,6 +38211,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world206</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38058,6 +38270,8 @@
 				<pageId>75</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -38208,6 +38422,8 @@
 				
 				<pageId>93</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -38338,6 +38554,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38394,6 +38613,8 @@
 				<pageId>99</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -38521,6 +38742,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38556,6 +38780,8 @@
 				<pageId>116</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -38687,6 +38913,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
+				<referrerType>website</referrerType>
+				<referrerName>www.example.com</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38702,6 +38931,8 @@
 				
 				<pageId>18</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world201</subtitle>
@@ -38832,6 +39063,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world204</url>
+				<referrerType>website</referrerType>
+				<referrerName>developer.matomo.org</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -38864,7 +39098,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>47</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -38886,7 +39119,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>48</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -38908,7 +39140,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>49</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -38930,7 +39161,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>50</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -38952,7 +39182,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>51</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -38974,7 +39203,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>52</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -38996,7 +39224,6 @@
 				<pageIdAction>43</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>53</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -39021,8 +39248,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39043,8 +39268,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39065,8 +39288,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39087,8 +39308,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39238,6 +39457,8 @@
 				
 				<pageId>82</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world207</subtitle>
@@ -39368,6 +39589,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -39401,8 +39625,6 @@
 				
 				<pageId>101</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<siteSearchKeyword>analytics</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount>210</siteSearchCount>
@@ -39424,8 +39646,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39446,8 +39666,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39468,8 +39686,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39490,8 +39706,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -39682,6 +39896,8 @@
 				<pageId>42</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -39862,6 +40078,8 @@
 				<pageId>108</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -40034,6 +40252,8 @@
 				<pageId>66</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -40206,6 +40426,8 @@
 				<pageId>96</pageId>
 				<pageLoadTime>1.06s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1061</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -40353,8 +40575,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -40375,8 +40595,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -40397,8 +40615,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -40419,8 +40635,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -40611,6 +40825,8 @@
 				<pageId>39</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -40982,6 +41198,8 @@
 				<pageId>72</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -41133,8 +41351,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -41155,8 +41371,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -41177,8 +41391,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>stop</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -41199,8 +41411,6 @@
 				<eventCategory>Sound</eventCategory>
 				<eventAction>resume</eventAction>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -41370,6 +41580,8 @@
 				<pageId>22</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -41521,6 +41733,8 @@
 				<pageId>114</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -41693,6 +41907,8 @@
 				<pageId>69</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -41865,6 +42081,8 @@
 				<pageId>36</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -42039,6 +42257,8 @@
 				
 				<pageId>84</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
 				<subtitle>http://www.helloworld.com/hello/world208/0</subtitle>
@@ -42054,7 +42274,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>85</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>/path/product1.jpg</contentPiece>
@@ -42076,7 +42295,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>86</pageId>
 				<contentName>Product 1</contentName>
 				<contentPiece>Buy Product 1 Now!</contentPiece>
@@ -42098,7 +42316,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>87</pageId>
 				<contentName>Product 2</contentName>
 				<contentPiece>/path/product2.jpg</contentPiece>
@@ -42120,7 +42337,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>88</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -42142,7 +42358,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>89</pageId>
 				<contentName>Product 4</contentName>
 				<contentPiece>Unknown</contentPiece>
@@ -42164,7 +42379,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>90</pageId>
 				<contentName>Product 3</contentName>
 				<contentPiece>Product 3 on sale</contentPiece>
@@ -42186,7 +42400,6 @@
 				<pageIdAction>58</pageIdAction>
 				
 				
-				<timeSpentRef>0</timeSpentRef>
 				<pageId>91</pageId>
 				<contentName>/path/product1.jpg</contentName>
 				<contentPiece>http://product1.example.com</contentPiece>
@@ -42323,6 +42536,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -42358,6 +42574,8 @@
 				<pageId>112</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -42530,6 +42748,8 @@
 				<pageId>33</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>
@@ -42661,6 +42881,9 @@
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -42696,6 +42919,8 @@
 				<pageId>110</pageId>
 				<pageLoadTime>1.35s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1348</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Hello World 0</title>
@@ -42868,6 +43093,8 @@
 				<pageId>30</pageId>
 				<pageLoadTime>1.39s</pageLoadTime>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1387</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>

@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CustomDimensions\Dimension;
 
-use \Exception;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 
 class Scope

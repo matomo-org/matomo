@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class MysqlLockBackendTest extends IntegrationTestCase
 {
     /**
-     * @var MySQLLockBackend
+     * @var MySqlLockBackend
      */
     private $backend;
     private $key = 'testKeyValueKey';
@@ -43,7 +43,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
 
     protected function createMysqlBackend()
     {
-        return new MySQLLockBackend();
+        return new MySqlLockBackend();
     }
 
     public function test_deleteIfKeyHasValue_ShouldNotWork_IfKeyDoesNotExist()

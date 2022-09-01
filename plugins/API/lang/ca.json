@@ -1,10 +1,18 @@
 {
     "API": {
-        "GenerateVisits": "Si no disposeu d'informació d'avui podeu generar informació utilitzant l'extensió: %1$s. Heu d'activar l'extensió %2$s i desprès anar al menú 'Generador de visites' de l'espai d'administració del Matomo.",
+        "ChangeTokenHint": "Si voleu canviar aquest testimoni, aneu a la vostra %1$spàgina de configuració personal%2$s.",
+        "EvolutionMetricName": "Evloució %s",
+        "GenerateVisits": "Si no teniu dades d'avui, podeu generar-ne algunes utilitzant el connector %1$s si aneu a 'Desenvolupament → Generador de visitants' a l'àrea d'administració de Matomo.",
+        "Glossary": "Glossari",
         "KeepTokenSecret": "El token_auth es tan secret com el vostre usuari i la vostra contrasenya, %1$s no compartiu el seu %2$s!",
-        "LoadedAPIs": "S'ha carregat correctament un total de %s API",
-        "MoreInformation": "Per mes informació sobre les APIs de Matomo, siusplau reviseu %1$s Introducció a l'API de Matomo %2$s i %3$s la Referència de l'API de Matomo %4$s.",
-        "TopLinkTooltip": "Accediu a la vostra informació de l'anàlisis Web d'una forma programada a través d'una API simple en json, xml, etc.",
-        "UserAuthentication": "Autentificació de l'usuari"
+        "LearnAboutCommonlyUsedTerms2": "Obteniu informació sobre els termes que s'utilitzen habitualment per treure el màxim profit de Matomo analytics.",
+        "LoadedAPIs": "Carregades %s API",
+        "MainMetricsReportDocumentation": "Aquest informe ofereix una visió general de les mètriques més importants de totes les categories i connectors.",
+        "MoreInformation": "Més informació sobre les API de Matomo disponible a %1$sIntroducció a l'API de Matomo%2$s i a la %3$sReferència de l'API de Matomo%4$s.",
+        "PluginDescription": "Totes les dades de Matomo estan disponibles mitjançant API simples. Aquest connector és el punt d'entrada del servei web al qual podeu cridar per obtenir les vostres dades d'anàlisi web en XML, JSON, PHP, CSV, etc.",
+        "ReportingApiReference": "Referència de l'API d'informes",
+        "TopLinkTooltip": "Accediu a les vostres dades d'Analytics Web de manera programada mitjançant una API senzilla en JSON, XML, etc.",
+        "UserAuthentication": "Autentificació de l'usuari",
+        "UsingTokenAuth": "Si voleu %1$ssol·licitar dades dins d'un script, un crontab, etc.%2$s heu d'afegir el paràmetre d'URL '%3$s' a les crides de l'API per als URL que requereixen autenticació."
     }
 }

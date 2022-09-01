@@ -13,22 +13,32 @@
 
 </script>
 
-<div piwik-manage-goals
-        {% if userCanEditGoals %}
-            {% if onlyShowAddNewGoal is not defined %}
-                {% if idGoal %}
-                    show-goal="{{ idGoal|e('js') }}"
-                {% endif %}
-            {% else %}
-                show-add-goal="true"
-            {% endif %}
-        {% endif %}>
-
-    {% if onlyShowAddNewGoal is not defined %}
-        {% include "@Goals/_listGoalEdit.twig" %}
-    {% endif %}
+<div
+    piwik-manage-goals
+    user-can-edit-goals="{{ userCanEditGoals|json_encode|e('html_attr') }}"
+    only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode|e('html_attr') }}"
+    ecommerce-enabled="{{ ecommerceEnabled|json_encode|e('html_attr') }}"
     {% if userCanEditGoals %}
-        {% include "@Goals/_formAddGoal.twig" %}
+        {% if onlyShowAddNewGoal is not defined or not onlyShowAddNewGoal %}
+            goals="{{ goals|json_encode|e('html_attr') }}"
+            {% if idGoal %}
+                show-goal="{{ idGoal|e('js') }}"
+            {% endif %}
+        {% else %}
+            show-add-goal="true"
+        {% endif %}
+    {% else %}
+        goals="{{ goals|json_encode|e('html_attr') }}"
     {% endif %}
-    <a id='bottom'></a>
+    {% if addNewGoalIntro is defined %}add-new-goal-intro="{{ addNewGoalIntro|json_encode|e('html_attr') }}"{% endif %}
+    goal-trigger-type-options="{{ goalTriggerTypeOptions|json_encode|e('html_attr') }}"
+    goal-match-attribute-options="{{ goalMatchAttributeOptions|json_encode|e('html_attr') }}"
+    event-type-options="{{ eventTypeOptions|json_encode|e('html_attr') }}"
+    pattern-type-options="{{ patternTypeOptions|json_encode|e('html_attr') }}"
+    numeric-comparison-type-options="{{ numericComparisonTypeOptions|json_encode|e('html_attr') }}"
+    allow-multiple-options="{{ allowMultipleOptions|json_encode|e('html_attr') }}"
+    before-goal-list-actions-body="{{ beforeGoalListActionsBodyEventResult|default(null)|json_encode|e('html_attr') }}"
+    end-edit-table="{{ endEditTable|default(null)|json_encode|e('html_attr') }}"
+    before-goal-list-actions-head="{{ beforeGoalListActionsHead|default(null)|json_encode|e('html_attr') }}"
+>
 </div>

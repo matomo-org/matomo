@@ -1,7 +1,7 @@
 {
     "MobileAppMeasurable": {
         "MobileApp": "Mobil uygulama",
-        "MobileApps": "Mobil uygulama",
-        "MobileAppDescription": "iOS Android ya da diğer mobil işletim sistemleri için doğal mobil uygulama."
+        "MobileAppDescription": "iOS Android ya da diğer mobil işletim sistemleri için doğal mobil uygulama.",
+        "MobileApps": "Mobil uygulama"
     }
 }

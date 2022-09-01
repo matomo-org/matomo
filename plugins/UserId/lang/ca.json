@@ -1,5 +1,10 @@
 {
     "UserId": {
-        "UserReportTitle": "Usuaris"
+        "PluginDescription": "Mostra els informes d'usuari",
+        "ThereIsNoDataForThisReportHelp": "%1$sLlegiu la guia de l'usuari per saber com generar dades per a aquest informe.%2$s",
+        "UserId": "Id d'usuari",
+        "UserReportDocumentation": "Mostra les visites i altres mètriques generals per a cada identificador d'usuari individual.",
+        "UserReportTitle": "Usuaris",
+        "VisitorsUserSubcategoryHelp": "L'informe d'identificació d'usuari mostra les visites associades a tots els usuaris registrats i connectats. Compreneu l'ús del lloc web per part dels vostres usuaris específics i esbrineu quins són els vostres usuaris més i menys actius."
     }
 }

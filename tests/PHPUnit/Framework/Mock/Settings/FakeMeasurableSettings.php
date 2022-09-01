@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Framework\Mock\Settings;
 
-use Piwik\Settings\Setting;
 
 class FakeMeasurableSettings extends \Piwik\Plugins\ExampleSettingsPlugin\MeasurableSettings {
     protected $pluginName = 'ExampleSettingsPlugin';

@@ -1,52 +1,8 @@
-<div piwik-field uicontrol="checkbox"
-     name="report_email_me"
-     introduction="{{ 'ScheduledReports_SendReportTo'|translate|e('html_attr') }}"
-     ng-show="manageScheduledReport.report.type == 'email'"
-     ng-model="manageScheduledReport.report.emailMe"
-     data-title="{{ 'ScheduledReports_SentToMe'|translate|e('html_attr') }} ({{ currentUserEmail|e('html_attr') }})">
-</div>
-
-<div piwik-field uicontrol="textarea" var-type="array"
-     ng-show="manageScheduledReport.report.type == 'email'"
-     ng-model="manageScheduledReport.report.additionalEmails"
-     data-title="{{ 'ScheduledReports_AlsoSendReportToTheseEmails'|translate|e('html_attr') }}">
-</div>
-
-<script>
-
-    $(function () {
-
-        resetReportParametersFunctions ['{{ reportType }}'] = function (report) {
-            report.displayFormat = '{{ defaultDisplayFormat }}';
-            report.emailMe = {{ defaultEmailMe }};
-            report.evolutionGraph = {{ defaultEvolutionGraph }};
-            report.additionalEmails = '';
-        };
-
-        updateReportParametersFunctions['{{ reportType }}'] = function (report) {
-            if (report == null || report.parameters == null) {
-                return;
-            }
-
-            var i, field, fields = ['displayFormat', 'emailMe', 'evolutionGraph', 'additionalEmails'];
-            for (i in fields) {
-                field = fields[i];
-                if (field in report.parameters) {
-                    report[field] = report.parameters[field];
-                }
-            }
-        };
-
-        getReportParametersFunctions['{{ reportType }}'] = function (report) {
-
-            var parameters = {};
-
-            parameters.displayFormat = report.displayFormat;
-            parameters.emailMe = report.emailMe;
-            parameters.evolutionGraph = report.evolutionGraph;
-            parameters.additionalEmails = report.additionalEmails ? report.additionalEmails : [];
-
-            return parameters;
-        };
-    });
-</script>
+<div
+  vue-entry="ScheduledReports.ReportParameters"
+  report-type="{{ reportType|default(null)|json_encode|e('html_attr') }}"
+  default-display-format="{{ defaultDisplayFormat|default(null)|json_encode|e('html_attr') }}"
+  default-email-me="{{ defaultEmailMe|default(false)|json_encode|e('html_attr') }}"
+  default-evolution-graph="{{ defaultEvolutionGraph|default(false)|json_encode|e('html_attr') }}"
+  current-user-email="{{ currentUserEmail|default(null)|json_encode|e('html_attr') }}"
+></div>

@@ -26,7 +26,7 @@ class VisitFirstActionTime extends VisitDimension
     protected $sqlSegment = 'HOUR(log_visit.visit_first_action_time)';
     protected $segmentName = 'visitStartServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
-    protected $nameSingular = 'VisitTime_ColumnVisitStartServerHour';
+    protected $nameSingular = 'VisitTime_ColumnVisitStartSiteHour';
 
     public function __construct()
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,14 +7,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Profiler;
 use Piwik\Timer;
 use Piwik\Tracker;
 use Piwik\Tracker\Db as TrackerDb;
+use Piwik\Url;
 
 class Response
 {
@@ -88,7 +92,8 @@ class Response
 
         Common::printDebug("End of the page.");
 
-        if ($tracker->isDebugModeEnabled()
+        if (
+            $tracker->isDebugModeEnabled()
             && $tracker->isDatabaseConnected()
             && TrackerDb::isProfilingEnabled()
         ) {
@@ -150,15 +155,59 @@ class Response
             return;
         }
 
+        // Check for a custom tracking image
+        $customImage = Config::getInstance()->Tracker['custom_image'];
+        if (!empty($customImage) && $this->outputCustomImage($customImage)) {
+            return;
+        }
+
+        // No custom image defined, so output the default 1x1 base64 transparent gif
         $this->outputTransparentGif();
     }
 
+    /**
+     * Output a 1px x 1px transparent gif
+     */
     private function outputTransparentGif()
     {
         $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         Common::sendHeader('Content-Type: image/gif');
 
         echo base64_decode($transGifBase64);
+    }
+
+    /**
+     * Output a custom tracking image
+     *
+     * @param string $customImage The custom image setting specified in the config
+     *
+     * @return bool True if the custom image was successfully output, else false
+     */
+    private function outputCustomImage(string $customImage): bool
+    {
+        $supportedMimeTypes = ['image/png', 'image/gif', 'image/jpeg'];
+
+        $img = null;
+        $size = null;
+
+        if (strlen($customImage) > 2 && substr($customImage, -2) == '==') {
+            // Base64 image string
+            $img = base64_decode($customImage);
+            $size = getimagesizefromstring($img);
+        } elseif (is_file($customImage) && is_readable($customImage)) {
+            // Image file
+            $img = file_get_contents($customImage);
+            $size = getimagesize($customImage); // imagesize is used to get the mime type
+        }
+
+        // Must have valid image data and a valid mime type to proceed
+        if ($img && $size && isset($size['mime'])  && in_array($size['mime'], $supportedMimeTypes)) {
+            Common::sendHeader('Content-Type: ' . $size['mime']);
+            echo $img;
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -184,6 +233,8 @@ class Response
 
     protected function logExceptionToErrorLog($e)
     {
-        error_log(sprintf("Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
+        $hostname = Url::getRFCValidHostname();
+        $hostStr = $hostname ? "[$hostname]" : '-';
+        error_log(sprintf("$hostStr Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
     }
 }

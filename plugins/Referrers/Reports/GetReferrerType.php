@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Referrers\Reports;
 
 use Piwik\Common;
-use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -102,7 +101,6 @@ class GetReferrerType extends Base
         $view->config->show_search = false;
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
-        $view->config->show_limit_control      = false;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', $labelColumnTitle);
 

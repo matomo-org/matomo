@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
 
 /**
@@ -40,6 +39,8 @@ class Db
 
     private static $logQueries = true;
 
+    // this is used for indicate TransactionLevel Cache
+    public $supportsUncommitted;
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
@@ -420,7 +421,7 @@ class Db
      * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
-     * @return \Zend_Db_Statement
+     * @return bool
      */
     public static function optimizeTables($tables, $force = false)
     {
@@ -461,7 +462,16 @@ class Db
         }
 
         // optimize the tables
-        return self::query("OPTIMIZE TABLE " . implode(',', $tables));
+        $success = true;
+        foreach ($tables as &$t) {
+            $ok = self::query('OPTIMIZE TABLE ' . $t);
+            if (!$ok) {
+                $success = false;
+            }
+        }
+
+        return $success;
+
     }
 
     private static function getTableStatus()

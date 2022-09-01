@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -11,7 +12,6 @@ namespace Piwik\Plugins\SEO\tests\Integration;
 use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
 use Piwik\Plugins\SEO\API;
-use Exception;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -27,32 +27,26 @@ class SEOTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        FakeAccess::setIdSitesView(array(1, 2));
-        FakeAccess::setIdSitesAdmin(array(3, 4));
+        FakeAccess::setIdSitesView([1, 2]);
+        FakeAccess::setIdSitesAdmin([3, 4]);
 
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
 
-        $user_agents = array(
-            'Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15',
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
-        );
-
-        $_SERVER['HTTP_USER_AGENT'] = $user_agents[mt_rand(0, count($user_agents) - 1)];
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36';
     }
 
     /**
      * tell us when the API is broken
      */
-    public function test_API()
+    public function testAPI()
     {
-        $dataTable = API::getInstance()->getRank('http://www.microsoft.com/');
+        $dataTable = API::getInstance()->getRank('http://matomo.org/');
         $renderer = Renderer::factory('json');
         $renderer->setTable($dataTable);
         $ranks = json_decode($renderer->render(), true);
         foreach ($ranks as $rank) {
-            if ($rank['rank'] == Piwik::translate('General_Error')) {
+            if ($rank['rank'] == Piwik::translate('General_ErrorTryAgain')) {
                 $this->markTestSkipped('An exception raised when fetching data. Skipping this test for now.');
                 continue;
             }
@@ -62,8 +56,8 @@ class SEOTest extends IntegrationTestCase
 
     public function provideContainerConfig()
     {
-        return array(
-            'Piwik\Access' => new FakeAccess()
-        );
+        return [
+          'Piwik\Access' => new FakeAccess()
+        ];
     }
 }

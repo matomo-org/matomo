@@ -11,9 +11,7 @@ namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 use PHPUnit\Runner\Version;
 use Piwik\Access;
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Log;
-use Piwik\Piwik;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 /**
@@ -72,7 +70,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => __FILE__ . "(65): [message and stack trace] [Query: , CLI mode: 1]",
+            'message' => __FILE__ . "(63): [message and stack trace] [Query: , CLI mode: 1]",
             'context' => array(
                 'exception' => $exception,
             ),

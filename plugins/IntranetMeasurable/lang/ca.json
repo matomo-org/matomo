@@ -1,1 +1,7 @@
-{}
+{
+    "IntranetMeasurable": {
+        "Intranet": "Lloc web de la intranet",
+        "IntranetDescription": "Una intranet mesurable és com un lloc web, però allotjada en una xarxa interna.",
+        "Intranets": "Llocs web de la intranet"
+    }
+}

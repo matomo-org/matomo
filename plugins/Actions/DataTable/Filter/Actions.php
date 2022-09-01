@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,12 +7,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Actions\DataTable\Filter;
 
 use Piwik\Common;
-use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\DataTable\BaseFilter;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;
@@ -42,17 +43,17 @@ class Actions extends BaseFilter
             $site = $dataTable->getMetadata('site');
             $urlPrefix = $site ? $site->getMainUrl() : null;
 
-            $defaultActionName = Config::getInstance()->General['action_default_name'];
+            $defaultActionName = GeneralConfig::getConfigValue('action_default_name');
 
             $isPageTitleType = $this->actionType == Action::TYPE_PAGE_TITLE;
 
             // for BC, we read the old style delimiter first (see #1067)
-            $actionDelimiter = @Config::getInstance()->General['action_category_delimiter'];
+            $actionDelimiter = GeneralConfig::getConfigValue('action_category_delimiter');
             if (empty($actionDelimiter)) {
                 if ($isPageTitleType) {
-                    $actionDelimiter = Config::getInstance()->General['action_title_category_delimiter'];
+                    $actionDelimiter = GeneralConfig::getConfigValue('action_title_category_delimiter');
                 } else {
-                    $actionDelimiter = Config::getInstance()->General['action_url_category_delimiter'];
+                    $actionDelimiter = GeneralConfig::getConfigValue('action_url_category_delimiter');
                 }
             }
 

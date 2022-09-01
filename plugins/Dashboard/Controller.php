@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Dashboard;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Session\SessionNamespace;
 use Piwik\View;

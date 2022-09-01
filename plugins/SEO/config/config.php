@@ -1,2 +1,3 @@
 <?php
-return array();
+
+return [];

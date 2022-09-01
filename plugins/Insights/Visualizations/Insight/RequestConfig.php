@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Insights\Visualizations\Insight;
 
 use Piwik\Plugins\Insights\InsightReport;
-use Piwik\Plugins\Insights\Visualizations\Insight;
 use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
 
 class RequestConfig extends VisualizationRequestConfig

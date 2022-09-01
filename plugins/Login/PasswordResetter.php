@@ -11,14 +11,13 @@ use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\IP;
-use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Emails\PasswordResetEmail;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
@@ -282,7 +281,7 @@ class PasswordResetter
             $expiryTimestamp = $this->getDefaultExpiryTime();
         }
 
-        $expiry = strftime('%Y%m%d%H', $expiryTimestamp);
+        $expiry = date('YmdH', $expiryTimestamp);
         $token = $this->generateSecureHash(
             $expiry . $user['login'] . $user['email'] . $user['ts_password_modified'] . $keySuffix,
             $user['password']
@@ -380,6 +379,8 @@ class PasswordResetter
     /**
      * Returns user information based on a login or email.
      *
+     * If user is pending, return null
+     *
      * Derived classes can override this method to provide custom user querying logic.
      *
      * @param string $loginMail user login or email address
@@ -389,7 +390,12 @@ class PasswordResetter
     {
         $userModel = new Model();
 
+        if ($userModel->isPendingUser($loginOrMail)) {
+            return null;
+        }
+
         $user = null;
+
         if ($userModel->userExists($loginOrMail)) {
             $user = $userModel->getUser($loginOrMail);
         } else if ($userModel->userEmailExists($loginOrMail)) {
@@ -440,25 +446,14 @@ class PasswordResetter
             . "&resetToken=" . urlencode($resetToken);
 
         // send email with new password
-        $mail = new Mail();
+        $mail = new PasswordResetEmail($login, $ip, $url);
         $mail->addTo($email, $login);
-        $mail->setSubject(Piwik::translate('Login_MailTopicPasswordChange'));
-        $bodyText = '<p>' . str_replace(
-                "\n\n",
-                "</p><p>",
-                Piwik::translate('Login_MailPasswordChangeBody2', [Common::sanitizeInputValue($login), $ip, $url])
-            ) . "</p>";
-        $mail->setWrappedHtmlBody($bodyText);
 
         if ($this->emailFromAddress || $this->emailFromName) {
             $mail->setFrom($this->emailFromAddress, $this->emailFromName);
         } else {
             $mail->setDefaultFromPiwik();
         }
-
-        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
-        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-        $mail->addReplyTo($replytoEmailAddress, $replytoEmailName);
 
         @$mail->send();
     }

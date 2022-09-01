@@ -1,6 +1,24 @@
 {
     "Contents": {
+        "ContentImpression": "Impressions de contingut",
+        "ContentInteraction": "Interacció amb el contingut",
+        "ContentInteractions": "Interacció amb els continguts",
         "ContentName": "Nom del contingut",
-        "Contents": "Continguts"
+        "ContentNameReportDocumentation": "Aquest informe mostra els noms del contingut que els vostres visitants han vist i amb el qual han interactuat.",
+        "ContentNames": "Noms del contingut",
+        "ContentPiece": "Element de contingut",
+        "ContentPieceReportDocumentation": "Aquest informe mostra els elements de contingut que els vostres visitants han vist i amb el qual han interactuat.",
+        "ContentPieces": "Parts de contingut",
+        "ContentTarget": "Objectiu de contingut",
+        "ContentTargets": "Objectius de contingut",
+        "Contents": "Continguts",
+        "ContentsSubcategoryHelp1": "El seguiment del contingut us ajuda a determinar la popularitat de contingut específic a qualsevol pàgina del vostre lloc web o aplicació. Aquesta secció informa del nombre d'impressions i interaccions que reben els diferents continguts del vostre lloc.",
+        "ContentsSubcategoryHelp2": "Més informació a la guia de seguiment de contingut.",
+        "Impressions": "Impressions",
+        "ImpressionsMetricDocumentation": "El nombre de vegades que s'ha mostrat un bloc de contingut, com ara un bàner o un anunci, en una pàgina.",
+        "InteractionRate": "Taxa d'interacció",
+        "InteractionRateMetricDocumentation": "La proporció entre impressions de contingut i interaccions.",
+        "InteractionsMetricDocumentation": "El nombre de vegades que s'ha interactuat amb un bloc de contingut (p. ex., un \"clic\" en un bàner o anunci).",
+        "PluginDescription": "El seguiment del contingut i dels bàners us permet mesurar el rendiment (visualitzacions, clics, CTR) de qualsevol contingut de les vostres pàgines (anunci de bàner, imatge, qualsevol element)."
     }
 }

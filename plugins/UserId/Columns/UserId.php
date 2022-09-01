@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserId\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 
 /**

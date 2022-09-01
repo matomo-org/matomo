@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Db;
 use Piwik\Sequence;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

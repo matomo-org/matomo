@@ -10,9 +10,7 @@ namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
-use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
-use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Request;

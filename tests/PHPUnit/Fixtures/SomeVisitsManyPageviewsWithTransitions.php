@@ -9,7 +9,6 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
-use MatomoTracker;
 
 /**
  * Adds one site and tracks a couple visits with many pageviews. The

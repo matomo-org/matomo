@@ -13,6 +13,9 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
+use Piwik\Changes\Model as ChangesModel;
+use Piwik\Db;
+use Piwik\Plugin\Manager as PluginManager;
 
 class CorePluginsAdmin extends Plugin
 {
@@ -26,8 +29,33 @@ class CorePluginsAdmin extends Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'PluginManager.pluginActivated'          => 'onPluginActivated'
+            'PluginManager.pluginActivated'          => 'onPluginActivated',
+            'PluginManager.pluginInstalled'          => 'addPluginChanges',
+            'Updater.componentUpdated'               => 'addPluginChanges',
+            'PluginManager.pluginUninstalled'        => 'removePluginChanges'
         );
+    }
+
+    /**
+     * Add any changes from newly installed or updated plugins to the changes table
+     *
+     * @param string $pluginName The name of the plugin that was updated or installed
+     */
+    public function addPluginChanges(string $pluginName)
+    {
+        $changes = new ChangesModel(Db::get(), PluginManager::getInstance());
+        $changes->addChanges($pluginName);
+    }
+
+    /**
+     * Remove any changes from a plugin that has been uninstalled
+     *
+     * @param string $pluginName The name of the plugin that was uninstalled
+     */
+    public function removePluginChanges(string $pluginName)
+    {
+        $changes = new ChangesModel(Db::get(), PluginManager::getInstance());
+        $changes->removeChanges($pluginName);
     }
 
     public function onPluginActivated($pluginName)
@@ -48,9 +76,11 @@ class CorePluginsAdmin extends Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
-        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
-        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/form-field/field-expandable-select.less";
-        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/form-field/field-multituple.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldExpandableSelect.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldMultituple.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldSelect.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/PasswordConfirmation/PasswordConfirmation.less";
     }
 
     public static function isPluginsAdminEnabled()

@@ -9,11 +9,8 @@
 namespace Piwik\Tests\Integration\CronArchive;
 
 use Piwik\Config;
-use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\CronArchive\SegmentArchiving;
-use Piwik\Option;
-use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

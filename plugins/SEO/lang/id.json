@@ -1,11 +1,11 @@
 {
     "SEO": {
-        "AlexaRank": "Peringkat Alexa",
         "Bing_IndexedPages": "Halaman terindeks Bing",
-        "DomainAge": "Umut Ranah",
-        "Google_IndexedPages": "Halaman terindeks Google",
+        "DomainAge": "Usia Domain",
+        "Google_IndexedPages": "Halaman yang terindeks Google",
+        "PluginDescription": "Pengaya ini mengekstrak dan menampilkan metrik SEO: Google Pagerank, jumlah halaman yang terindeks, dan tautan balik dari situs web yang saat ini dipilih.",
         "Rank": "Peringkat",
-        "SeoRankings": "Peringkat SEO",
-        "SEORankingsFor": "Peringkat SEO untuk %s"
+        "SEORankingsFor": "Peringkat SEO untuk %s",
+        "SeoRankings": "Peringkat SEO"
     }
 }

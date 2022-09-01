@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\Unit;
 
-use Piwik\Cache;
 use Piwik\AssetManager;
 use Piwik\Config;
 

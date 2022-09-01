@@ -9,11 +9,15 @@
 namespace Piwik\Tests\Integration\CliMulti;
 
 use Piwik\CliMulti\Output;
+use Piwik\CliMulti\OutputInterface;
+use Piwik\CliMulti\StaticOutput;
 use Piwik\Tests\Framework\Mock\File;
 use Piwik\Url;
 
 /**
  * @group CliMulti
+ * @group OutputTest
+ * @group StaticOutputTest
  */
 class OutputTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,7 +32,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
         File::reset();
         Url::setHost(false);
-        $this->output = new Output('myid');
     }
 
     public function tearDown(): void
@@ -42,6 +45,15 @@ class OutputTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
+    public function outputProvider()
+    {
+        $this->output = new Output('myid');
+        return [
+            [$this->output],
+            [new StaticOutput('myid')],
+        ];
+    }
+
     public function test_construct_shouldFail_IfInvalidOutputIdGiven()
     {
         $this->expectException(\Exception::class);
@@ -50,35 +62,52 @@ class OutputTest extends \PHPUnit\Framework\TestCase
         new Output('../../');
     }
 
-    public function test_getOutputId()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_getOutputId($output)
     {
-        $this->assertSame('myid', $this->output->getOutputId());
+        $this->assertSame('myid', $output->getOutputId());
     }
 
-    public function test_exists_ShouldReturnsFalse_IfNothingWrittenYet()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_exists_ShouldReturnsFalse_IfNothingWrittenYet(OutputInterface $output)
     {
-        $this->assertFalse($this->output->exists());
+        $this->assertFalse($output->exists());
     }
 
     public function test_getPathToFile_shouldReturnFullPath()
     {
+        $output = new Output('myid');
         $expectedEnd = '/climulti/myid.output';
 
-        $this->assertStringEndsWith($expectedEnd, $this->output->getPathToFile());
-        $this->assertGreaterThan(strlen($expectedEnd), strlen($this->output->getPathToFile()));
+        $this->assertStringEndsWith($expectedEnd, $output->getPathToFile());
+        $this->assertGreaterThan(strlen($expectedEnd), strlen($output->getPathToFile()));
     }
 
-    public function test_isAbormal_ShouldReturnFalse_IfFileDoesNotExist()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_isAbormal_ShouldReturnFalse_IfFileDoesNotExist(OutputInterface $output)
     {
-        $this->assertFalse($this->output->isAbnormal());
+        $this->assertFalse($output->isAbnormal());
     }
 
-    public function test_isAbormal_ShouldReturnTrue_IfFilesizeIsNotTooBig()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_isAbormal_ShouldReturnTrue_IfFilesizeIsNotTooBig(OutputInterface $output)
     {
         File::setFileSize(1024 * 1024 * 99);
         File::setFileExists(true);
 
-        $this->assertFalse($this->output->isAbnormal());
+        $this->assertFalse($output->isAbnormal());
     }
 
     public function test_isAbormal_ShouldReturnTrue_IfFilesizeIsTooBig()
@@ -86,76 +115,98 @@ class OutputTest extends \PHPUnit\Framework\TestCase
         File::setFileSize(1024 * 1024 * 101);
         File::setFileExists(true);
 
-        $this->assertTrue($this->output->isAbnormal());
+        $output = new Output('myid');
+
+        $this->assertTrue($output->isAbnormal());
     }
 
-    public function test_exists_ShouldReturnTrue_IfSomethingIsWritten()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_exists_ShouldReturnTrue_IfSomethingIsWritten(OutputInterface $output)
     {
-        $this->output->write('test');
+        $output->write('test');
 
-        $this->assertTrue($this->output->exists());
+        $this->assertTrue($output->exists());
 
-        $this->output->destroy();
+        $output->destroy();
 
-        $this->assertFalse($this->output->exists());
+        $this->assertFalse($output->exists());
     }
 
-    public function test_get_shouldReturnNull_IfNothingWritten()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_get_shouldReturnNull_IfNothingWritten(OutputInterface $output)
     {
-        $this->assertFalse($this->output->get());
+        $this->assertFalse($output->get());
     }
 
-    public function test_get_write_shouldReturnTheActualOutput_IfExists()
-    {
-        $anyContent = 'My Actual Content';
-        $this->output->write($anyContent);
-
-        $this->assertEquals($anyContent, $this->output->get());
-    }
-
-    public function test_get_write_shouldRemoveHashBang()
-    {
-        $anyContent = "\n#!/usr/bin/env php {}";
-        $this->output->write($anyContent);
-
-        $this->assertEquals('{}', $this->output->get());
-    }
-
-    public function test_write_shouldNotAppend_IfWriteIsCalledTwice()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_get_write_shouldReturnTheActualOutput_IfExists(OutputInterface $output)
     {
         $anyContent = 'My Actual Content';
-        $this->output->write($anyContent);
-        $this->output->write($anyContent);
+        $output->write($anyContent);
 
-        $this->assertEquals($anyContent, $this->output->get());
+        $this->assertEquals($anyContent, $output->get());
     }
 
-    public function test_write_shouldSaveAnEmptyString_IfContentIsNull()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_write_shouldNotAppend_IfWriteIsCalledTwice(OutputInterface $output)
     {
-        $this->output->write(null);
+        $anyContent = 'My Actual Content';
+        $output->write($anyContent);
+        $output->write($anyContent);
 
-        $this->assertTrue($this->output->exists());
-        $this->assertEquals('', $this->output->get());
+        $this->assertEquals($anyContent, $output->get());
     }
 
-    public function test_destroy_ShouldRemove_IfAnyOutputIsWritten()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_write_shouldSaveAnEmptyString_IfContentIsNull(OutputInterface $output)
     {
-        $this->output->write('test');
+        $output->write(null);
 
-        $this->assertTrue($this->output->exists());
-
-        $this->output->destroy();
-
-        $this->assertFalse($this->output->exists());
-        $this->assertFalse($this->output->get());
+        $this->assertTrue($output->exists());
+        $this->assertEquals('', $output->get());
     }
 
-    public function test_destroy_ShouldNotFail_IfNothingIsWritten()
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_destroy_ShouldRemove_IfAnyOutputIsWritten(OutputInterface $output)
     {
-        $this->output->destroy();
+        $output->write('test');
 
-        $this->assertFalse($this->output->exists());
-        $this->assertFalse($this->output->get());
+        $this->assertTrue($output->exists());
+
+        $output->destroy();
+
+        $this->assertFalse($output->exists());
+        $this->assertFalse($output->get());
+    }
+
+    /**
+     * @dataProvider outputProvider
+     * @param OutputInterface $output
+     */
+    public function test_destroy_ShouldNotFail_IfNothingIsWritten(OutputInterface $output)
+    {
+        $output->destroy();
+
+        $this->assertFalse($output->exists());
+        $this->assertFalse($output->get());
     }
 
     public function test_twoDifferentOutputHandles_ShouldWriteInDifferentFiles()

@@ -225,7 +225,7 @@ class RequestSetTest extends UnitTestCase
     {
         $serverBackup = $_SERVER;
         $cookieBackup = $_COOKIE;
-        
+
         $this->requestSet->setEnvironment($this->getFakeEnvironment());
         $this->requestSet->restoreEnvironment();
 
@@ -360,6 +360,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals(array('url' => 'mytesturl'), $requests[0]->getParams());
         $this->assertTrue(empty($_SERVER['HTTP_REFERER']));
     }
+
 
     /**
      * @param int $numRequests

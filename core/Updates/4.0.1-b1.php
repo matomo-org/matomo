@@ -10,12 +10,6 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\Date;
-use Piwik\DbHelper;
-use Piwik\Plugin\ReleaseChannels;
 use Piwik\SettingsPiwik;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;

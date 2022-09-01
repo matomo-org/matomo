@@ -9,10 +9,8 @@
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
 use Piwik\Config;
-use Piwik\Db;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
-use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 
 /**

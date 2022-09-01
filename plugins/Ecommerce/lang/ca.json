@@ -1,0 +1,32 @@
+{
+    "Ecommerce": {
+        "EcommerceLogSubcategoryHelp1": "El registre de comerç electrònic proporciona dades granulars a nivell de sessió perquè pugueu veure la sessió completa de cada usuari que ha fet una compra o ha abandonat el carretó. Això us pot ajudar a entendre què fan els usuaris abans i després de comprar per revelar oportunitats de millora.",
+        "EcommerceLogSubcategoryHelp2": "Les dades d'aquesta pàgina s'actualitzen en temps real.",
+        "EcommerceOverviewSubcategoryHelp1": "La secció Visió general del comerç electrònic és el millor lloc per obtenir una visió d'alt nivell del rendiment de la vostra botiga en línia. D'un cop d'ull podeu veure quantes vendes esteu fent, quants ingressos esteu generant i la taxa de conversió del vostre lloc web.",
+        "EcommerceOverviewSubcategoryHelp2": "Feu clic a una mètrica individual dins del gràfic destacat per centrar-vos-hi dins del gràfic d'evolució a mida completa.",
+        "EcommerceOverviewSubcategoryHelp3": "Obteniu més informació a la nostra guia de comerç electrònic aquí.",
+        "LifeTimeValue": "Valor de per vida del comerç electrònic",
+        "LifeTimeValueDescription": "Ingressos totals de comerç electrònic atribuïts a aquest client en totes les visites: la suma dels ingressos de totes les comandes de comerç electrònic per a l'identificador de visitant %s.",
+        "NumberOfItems": "Nombre d'articles al carretó",
+        "Order": "Comandes",
+        "OrderId": "Identificador de comanda",
+        "OrderRevenue": "Ingressos de comandes",
+        "OrderValue": "Valor de la comanda",
+        "Orders": "Comandes",
+        "PluginDescription": "Ecommerce us permet fer un seguiment de quan els usuaris afegeixen productes al carretó i quan es converteixen en una venda de comerç electrònic. També permet fer seguiment de les visualitzacions de productes i categories de productes i carretons abandonats.",
+        "ProductSubcategoryHelp": "La visualització Productes us pot ajudar a identificar productes i categories que tenen un rendiment superior o inferior per revelar tendències i oportunitats relacionades amb la selecció de productes i les pàgines de la botiga.",
+        "RevenueLeftInCart": "Ingressos deixats al carretó",
+        "Sales": "Vendes",
+        "SalesAdjective": "Vendes %s",
+        "SalesBy": "Vendes per %s",
+        "SalesSubcategoryHelp1": "Aquesta secció conté una àmplia col·lecció d'informes que us ajudaran a analitzar les diferents condicions que solen induïr vendes, com ara el trànsit i les fonts de la campanya, el temps i la ubicació dels usuaris i els dispositius utilitzats per accedir-hi.",
+        "SalesSubcategoryHelp2": "També podeu conèixer exactament com s'associen els ingressos amb cada dimensió, com ara tipus de trànsit concrets o campanyes de seguiment.",
+        "ViewedProductCategory": "Categoria de producte vista",
+        "ViewedProductName": "Nom de producte vist",
+        "ViewedProductPrice": "Preu de producte vist",
+        "ViewedProductSKU": "SKU de producte vist",
+        "VisitorProfileAbandonedCartSummary": "%1$s carretons abandonats que inclouen %2$s articles amb un valor total de %3$s.",
+        "VisitorProfileItemsAndOrders": "%1$s articles adquirits en %2$s comandes de comerç electrònic.",
+        "VisitorProfileLTV": "S'han generat uns ingressos de per vida de %1$s."
+    }
+}

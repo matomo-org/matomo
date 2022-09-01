@@ -15,7 +15,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Http;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;

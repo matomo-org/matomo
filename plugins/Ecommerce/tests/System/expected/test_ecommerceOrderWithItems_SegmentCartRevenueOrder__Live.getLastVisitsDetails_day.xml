@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>3</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>11</pageId>
+				<productViewPrice>999</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<pageviewPosition>1</pageviewPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>12</pageId>
+				<productViewPrice>333</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<pageviewPosition>2</pageviewPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>13</pageId>
+				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
+				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
+				<bandwidth />
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<pageviewPosition>3</pageviewPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<productViewCategories>
+				<row>Category TWO LEFT in cart</row>
+				<row>second category</row>
+				</productViewCategories>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>2510.11</revenue>
+				<items>4</items>
+				
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory />
+						<price>500.11</price>
+						<quantity>1</quantity>
+						<categories>
+						</categories>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+						<categories>
+						<row>Category TWO LEFT in cart</row>
+						<row>second category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
+				<title>Abandoned Cart</title>
+				<subtitle>$2,510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>3</visitCount>
+		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>27000</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder>21240</secondsSinceLastEcommerceOrder>
+		<visitDuration>721</visitDuration>
+		<visitDurationPretty>12 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>3</actions>
+		<interactions>3</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode>pl</languageCode>
+		<language>Polish</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Poland</country>
+		<countryCode>pl</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/pl.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Poland</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>21240</secondsSinceLastVisit>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName4>ValueIsZero</customVariableName4>
+				<customVariableValue4>0</customVariableValue4>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>2</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>5</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<pageviewPosition>1</pageviewPosition>
+				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>6</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<pageviewPosition>2</pageviewPosition>
+				<title>Looking at Electronics &amp; Cameras page again</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at product page</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>7</pageId>
+				<productViewPrice>666</productViewPrice>
+				<productViewName>PRODUCT name</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
+				<bandwidth />
+				<timeSpent>720</timeSpent>
+				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<pageviewPosition>3</pageviewPosition>
+				<title>Looking at product page</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<productViewCategories>
+				<row>Electronics &amp; Cameras</row>
+				</productViewCategories>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>937nsjusu 3894</orderId>
+				<revenue>1111.11</revenue>
+				<revenueSubTotal>1000</revenueSubTotal>
+				<revenueTax>111</revenueTax>
+				<revenueShipping>0.11</revenueShipping>
+				<revenueDiscount>666</revenueDiscount>
+				<items>8</items>
+				
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT name</itemName>
+						<itemCategory>Multiple Category 1</itemCategory>
+						<price>500</price>
+						<quantity>2</quantity>
+						<categories>
+						<row>Multiple Category 1</row>
+						<row>Multiple Category 2</row>
+						<row>Electronics &amp; Cameras</row>
+						<row>Multiple Category 4</row>
+						<row>Multiple Category 5</row>
+						</categories>
+					</row>
+					<row>
+						<itemSKU>ANOTHER SKU HERE</itemSKU>
+						<itemName>PRODUCT name BIS</itemName>
+						<itemCategory />
+						<price>100</price>
+						<quantity>6</quantity>
+						<categories>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (937nsjusu 3894)</title>
+				<subtitle>$1,111.11 revenue - 8 items: PRODUCT name, PRODUCT name BIS)</subtitle>
+				
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>1037nsjusu4s3894</orderId>
+				<revenue>2000</revenue>
+				<revenueSubTotal>1500</revenueSubTotal>
+				<revenueTax>400</revenueTax>
+				<revenueShipping>100</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>2</items>
+				
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU2</itemSKU>
+						<itemName>Canon SLR</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>1500</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
+					</row>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT name</itemName>
+						<itemCategory />
+						<price>11.22</price>
+						<quantity>1</quantity>
+						<categories>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (1037nsjusu4s3894)</title>
+				<subtitle>$2,000 revenue - 2 items: Canon SLR, PRODUCT name)</subtitle>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>8</pageId>
+				<productViewPrice>999</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<pageviewPosition>4</pageviewPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>9</pageId>
+				<productViewPrice>333</productViewPrice>
+				<productViewName>PRODUCT THREE LEFT in cart</productViewName>
+				<productViewSku>SKU VERY nice indeed</productViewSku>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<pageviewPosition>5</pageviewPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>10</pageId>
+				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
+				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
+				<bandwidth />
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<pageviewPosition>6</pageviewPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<productViewCategories>
+				<row>Category TWO LEFT in cart</row>
+				<row>second category</row>
+				</productViewCategories>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>2510.11</revenue>
+				<items>4</items>
+				
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory />
+						<price>500.11</price>
+						<quantity>1</quantity>
+						<categories>
+						</categories>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+						<categories>
+						<row>Category TWO LEFT in cart</row>
+						<row>second category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
+				<title>Abandoned Cart</title>
+				<subtitle>$2,510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>2</visitCount>
+		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>5760</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder>0</secondsSinceLastEcommerceOrder>
+		<visitDuration>3961</visitDuration>
+		<visitDurationPretty>1 hours 6 min</visitDurationPretty>
+		<searches>0</searches>
+		<actions>6</actions>
+		<interactions>6</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode>pl</languageCode>
+		<language>Polish</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Poland</country>
+		<countryCode>pl</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/pl.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Poland</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>5760</secondsSinceLastVisit>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName4>ValueIsZero</customVariableName4>
+				<customVariableValue4>0</customVariableValue4>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+	</row>
+</result>

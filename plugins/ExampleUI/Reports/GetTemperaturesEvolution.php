@@ -10,15 +10,11 @@ namespace Piwik\Plugins\ExampleUI\Reports;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\View;
 use Piwik\Widget\WidgetsList;
 
 /**

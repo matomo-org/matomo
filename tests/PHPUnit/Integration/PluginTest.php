@@ -9,11 +9,9 @@
 
 namespace PHPUnit\Integration;
 
-use Piwik\Common;
 use Piwik\CronArchive;
 use Piwik\CronArchive\ReArchiveList;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\Tests\Framework\Fixture;

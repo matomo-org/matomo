@@ -3,6 +3,7 @@
         "Clicks": "%s tıklama",
         "ClicksFromXLinks": "%2$s bağlantının birinden %1$s tıklama",
         "Domain": "Etki alanı",
+        "ErrorNoSiteUrls": "UYARI: Bu web sitesinde Matomo üzerinde tanımlanmış site adresleri yok. Bu durum, kaplama ve diğer özelliklerin bozulmasına veya garip davranmasına neden olabilir. Bu sorunu düzeltmek için, Matomo yönetim bölümünden bu web sitesinin ayarlarına bir adres ekleyin.",
         "ErrorNotLoading": "Sayfa kaplama oturumu henüz başlatılmamış.",
         "ErrorNotLoadingDetails": "Sağ tarafta yüklenmiş olan sayfada Matomo izleme kodu bulunmuyor olabilir. Bu durumda kaplamayı sayfa raporlarından farklı bir sayfa için başlatmayı deneyin.",
         "ErrorNotLoadingDetailsSSL": "Matomo uygulamasını HTTPS üzerinden kullandığınız için en olası neden web sitesinin SSL desteklemiyor olabileceğidir. Matomo uygulamasını HTTP üzerinden kullanmayı deneyin.",
@@ -16,7 +17,6 @@
         "PluginDescription": "İstatistik verilerinizi sitenizin üzerinde kaplama olarak konumlandırarak, kullanıcıların hangi bağlantıya kaç kez tıkladığını görüntüleyebilirsiniz. Not: Dönüşümler (transitions) uygulama ekinin etkinleştirilmiş olması gereklidir.",
         "RedirectUrlError": "\"%1$s\" adresi için sayfa kaplamasını açmaya çalışıyorsunuz. %2$s Matomo ayarlarındaki etki alanlarından hiç biri bu bağlantı ile eşleşmiyor.",
         "RedirectUrlErrorAdmin": "Bu etki alanını %1$sayarlar bölümünden%2$s ek bir adres olarak ekleyebilirsiniz.",
-        "RedirectUrlErrorUser": "Yöneticinizden bu etki alanını ek bir adres olarak eklemesini isteyin.",
-        "ErrorNoSiteUrls": "UYARI: Bu web sitesinde Matomo üzerinde tanımlanmış site adresleri yok. Bu durum, kaplama ve diğer özelliklerin bozulmasına veya garip davranmasına neden olabilir. Bu sorunu düzeltmek için, Matomo yönetim bölümünden bu web sitesinin ayarlarına bir adres ekleyin."
+        "RedirectUrlErrorUser": "Yöneticinizden bu etki alanını ek bir adres olarak eklemesini isteyin."
     }
 }

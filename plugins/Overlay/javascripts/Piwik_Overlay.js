@@ -380,7 +380,7 @@ var Piwik_Overlay = (function () {
                 var currentHashStr = broadcast.getHash();
 
                 if (currentHashStr.charAt(0) == '?') {
-                    currentHashStr = currentHashStr.substr(1);
+                    currentHashStr = currentHashStr.slice(1);
                 }
 
                 currentHashStr = broadcast.updateParamValue('l=' + newFrameLocation, currentHashStr);
@@ -388,6 +388,9 @@ var Piwik_Overlay = (function () {
                 var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
                 // window.location.replace changes the current url without pushing it on the browser's history stack
                 window.location.replace(newLocation);
+
+                // manually trigger hashchange since angularjs doesn't seem to pick it up anymore
+                hashChangeCallback(broadcast.getHash());
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
                 setIframeOrigin(currentUrl);

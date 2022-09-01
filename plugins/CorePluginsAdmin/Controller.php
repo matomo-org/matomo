@@ -13,7 +13,6 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\ErrorHandler;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -26,7 +25,6 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
-use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
@@ -168,12 +166,9 @@ class Controller extends Plugin\ControllerAdmin
             $nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         }
 
-        $superUsers = Request::processRequest('UsersManager.getUsersHavingSuperUserAccess', [], []);
-        $emails = implode(',', array_column($superUsers, 'email'));
-
         $view = new View('@CorePluginsAdmin/tagManagerTeaser');
         $this->setGeneralVariablesView($view);
-        $view->superUserEmails = $emails;
+        $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
         $view->nonce = $nonce;
         return $view->render();
     }
@@ -300,7 +295,7 @@ class Controller extends Plugin\ControllerAdmin
                 // If the plugin has been renamed, we do not show message to ask user to update plugin
                 list($pluginNameRenamed, $methodName) = Request::getRenamedModuleAndAction($pluginName, 'index');
                 if ($pluginName != $pluginNameRenamed) {
-                    $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
+                    $suffix = "You may uninstall the plugin or manually delete the files in /path/to/matomo/plugins/$pluginName/";
                 }
 
                 if ($this->pluginManager->isPluginInFilesystem($pluginName)) {
@@ -403,7 +398,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->deactivateIAmSuperUserSalt = Common::getRequestVar('i_am_super_user', '', 'string');
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
-        $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        $view->contactEmail  = implode(',', Piwik::getContactEmailAddresses());
         $view->piwikVersion    = Version::VERSION;
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';

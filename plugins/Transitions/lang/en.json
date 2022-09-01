@@ -24,6 +24,8 @@
         "LoopsInline": "%s page reloads",
         "NoDataForAction": "There's no data for %s",
         "NoDataForActionDetails": "Either the action had no pageviews during the period %s or it is invalid.",
+        "PeriodNotAllowed": "Time period not allowed",
+        "PeriodNotAllowedDetails": "This feature is not available for this period, try selecting a period with fewer days",
         "OutgoingTraffic": "Outgoing traffic",
         "PluginDescription": "Reports previous and following actions for each page URL in a new Transitions report, available in the Actions reports via a new icon.",
         "ShareOfAllPageviews": "This page had %1$s pageviews (%2$s of all pageviews)",

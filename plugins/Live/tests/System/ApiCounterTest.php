@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Live\tests\System;
 
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\Live\API;
 use Piwik\Tests\Framework\Fixture;

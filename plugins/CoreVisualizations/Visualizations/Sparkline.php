@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Site;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.

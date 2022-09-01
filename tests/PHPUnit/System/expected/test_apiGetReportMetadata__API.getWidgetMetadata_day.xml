@@ -1934,7 +1934,7 @@
 		<uniqueId>widgetRssWidgetrssPiwik</uniqueId>
 	</row>
 	<row>
-		<name>Welcome!</name>
+		<name>Welcome</name>
 		<category>
 			<name>Example Widgets</name>
 			<order>99</order>

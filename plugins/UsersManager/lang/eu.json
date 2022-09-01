@@ -1,6 +1,5 @@
 {
     "UsersManager": {
-        "AddUser": "Gehitu erabiltzaile berria",
         "AllWebsites": "Webgune guztiak",
         "ApplyToAllWebsites": "Aplikatu webgune guztiei",
         "DeleteConfirm": "Ziur zaude %s erabiltzailea ezabatu nahi duzula?",
@@ -16,9 +15,8 @@
         "PrivNone": "Atzipenik ez",
         "PrivView": "Ikusi",
         "User": "Erabiltzailea",
+        "Username": "Erabiltzaile-izena",
         "UsersManagement": "Erabiltzaileen kudeaketa",
-        "UsersManagementMainDescription": "Sortu erabiltzaile berriak edo eguneratu daudenak. Ondoren hauen baimenak goian ezar ditzakezu.",
-        "ShowAll": "Erakutsi guztia",
-        "Username": "Erabiltzaile-izena"
+        "UsersManagementMainDescription": "Sortu erabiltzaile berriak edo eguneratu daudenak. Ondoren hauen baimenak goian ezar ditzakezu."
     }
 }

@@ -52,7 +52,13 @@ class Mysql implements SchemaInterface
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
-                            PRIMARY KEY(login)
+                          idchange_last_viewed TIMESTAMP NULL,
+                          invited_by VARCHAR(100) NULL,
+                          invite_token VARCHAR(191) NULL,
+                          invite_expired_at TIMESTAMP NULL,
+                          invite_accept_at TIMESTAMP NULL,
+                            PRIMARY KEY(login),
+                            UNIQUE INDEX `uniq_email` (`email`)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
             'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (
@@ -103,6 +109,7 @@ class Mysql implements SchemaInterface
                             excluded_ips TEXT NOT NULL,
                             excluded_parameters TEXT NOT NULL,
                             excluded_user_agents TEXT NOT NULL,
+                            excluded_referrers TEXT NOT NULL,
                             `group` VARCHAR(250) NOT NULL,
                             `type` VARCHAR(255) NOT NULL,
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,
@@ -190,7 +197,7 @@ class Mysql implements SchemaInterface
                                 PRIMARY KEY(idvisit),
                                 INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
                                 INDEX index_idsite_datetime (idsite, visit_last_action_time),
-                                INDEX index_idsite_idvisitor (idsite, idvisitor)
+                                INDEX index_idsite_idvisitor (idsite, idvisitor, visit_last_action_time DESC)
                               ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
 
@@ -358,6 +365,19 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY (`key`)
                                   ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
+            'changes'             => "CREATE TABLE `{$prefixTables}changes` (
+                                      `idchange` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `created_time` DATETIME NOT NULL,
+                                      `plugin_name` VARCHAR(60) NOT NULL,
+                                      `version` VARCHAR(20) NOT NULL, 
+                                      `title` VARCHAR(255) NOT NULL,                                      
+                                      `description` TEXT NULL,
+                                      `link_name` VARCHAR(255) NULL,
+                                      `link` VARCHAR(255) NULL,       
+                                      PRIMARY KEY(`idchange`),
+                                      UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`(100))                            
+                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+            ",
         );
 
         return $tables;
@@ -515,11 +535,12 @@ class Mysql implements SchemaInterface
         $dbSettings   = new Db\Settings();
         $charset      = $dbSettings->getUsedCharset();
 
-        $statement = sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s ;",
+        $statement = sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s %s;",
                              Common::prefixTable($nameWithoutPrefix),
                              $createDefinition,
                              $this->getTableEngine(),
-                             $charset);
+                             $charset,
+          $dbSettings->getRowFormat());
 
         try {
             Db::exec($statement);
@@ -573,8 +594,9 @@ class Mysql implements SchemaInterface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`)
-                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' );");
+                    (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
+                    `idchange_last_viewed`)
+                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL);");
 
         $model = new Model();
         $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);

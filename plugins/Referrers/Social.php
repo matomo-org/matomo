@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Referrers;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -49,22 +50,44 @@ class Social extends Singleton
     private function loadDefinitions()
     {
         if ($this->definitionList === null) {
-            // Read first from the auto-updated list in database
-            $list = Option::get(self::OPTION_STORAGE_NAME);
+            $referrerDefinitionSyncOpt = Config::getInstance()->General['enable_referrer_definition_syncs'];
 
-            if ($list && SettingsPiwik::isInternetEnabled()) {
-                $this->definitionList = Common::safe_unserialize(base64_decode($list));
+            if( $referrerDefinitionSyncOpt == 1) {
+                $this->loadRemoteDefinitions();
             } else {
-                // Fallback to reading the bundled list
-                $yml = file_get_contents(PIWIK_INCLUDE_PATH . self::DEFINITION_FILE);
-                $this->definitionList = $this->loadYmlData($yml);
-                Option::set(self::OPTION_STORAGE_NAME, base64_encode(serialize($this->definitionList)));
+                $this->loadLocalYmlData();
             }
         }
 
         Piwik::postEvent('Referrer.addSocialUrls', array(&$this->definitionList));
 
         return $this->definitionList;
+    }
+
+    /**
+     * Loads definitions sourced from remote yaml with a local fallback
+     */
+    private function loadRemoteDefinitions()
+    {
+        // Read first from the auto-updated list in database
+        $list = Option::get(self::OPTION_STORAGE_NAME);
+
+        if ($list && SettingsPiwik::isInternetEnabled()) {
+            $this->definitionList = Common::safe_unserialize(base64_decode($list));
+        } else {
+            // Fallback to reading the bundled list
+            $this->loadLocalYmlData();
+            Option::set(self::OPTION_STORAGE_NAME, base64_encode(serialize($this->definitionList)));
+        }
+    }
+
+    /**
+     * Loads the definition data from the local definitions file
+     */
+    private function loadLocalYmlData()
+    {
+        $yml = file_get_contents(PIWIK_INCLUDE_PATH . self::DEFINITION_FILE);
+        $this->definitionList = $this->loadYmlData($yml);
     }
 
     /**

@@ -8,12 +8,9 @@
 
 namespace Piwik\Plugins\Login\tests\Integration\Security;
 
-use Piwik\Common;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\Login\Dao\BruteForceDetectionDao;
 use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\Login\SystemSettings;

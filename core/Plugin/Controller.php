@@ -113,7 +113,7 @@ abstract class Controller
     /**
      * The SecurityPolicy object.
      *
-     * @var SecurityPolicy
+     * @var \Piwik\View\SecurityPolicy
      * @api
      */
     protected $securityPolicy = null;
@@ -476,25 +476,14 @@ abstract class Controller
      */
     protected function getGraphParamsModified($paramsToSet = array())
     {
-        if (!isset($paramsToSet['period'])) {
-            $period = Common::getRequestVar('period');
-        } else {
-            $period = $paramsToSet['period'];
-        }
+        $period = $paramsToSet['period'] ?? Piwik::getPeriod();
+
         if ($period === 'range') {
             return $paramsToSet;
         }
-        if (!isset($paramsToSet['range'])) {
-            $range = 'last30';
-        } else {
-            $range = $paramsToSet['range'];
-        }
 
-        if (!isset($paramsToSet['date'])) {
-            $endDate = $this->strDate;
-        } else {
-            $endDate = $paramsToSet['date'];
-        }
+        $range = isset($paramsToSet['range']) ? $paramsToSet['range'] : 'last30';
+        $endDate = isset($paramsToSet['date']) ? $paramsToSet['date'] : $this->strDate;
 
         if (is_null($this->site)) {
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
@@ -640,10 +629,10 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate = Common::getRequestVar('date');
+        $rawDate = Piwik::getDate();
         Period::checkDateFormat($rawDate);
 
-        $periodStr = Common::getRequestVar('period');
+        $periodStr = Piwik::getPeriod();
 
         if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
@@ -726,6 +715,9 @@ abstract class Controller
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
         if (!Piwik::isUserIsAnonymous()) {
+            $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
+
+            // for BC only. Use contactEmail instead
             $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         }
 
@@ -748,7 +740,7 @@ abstract class Controller
         $view->logoLarge = $customLogo->getLogoUrl();
         $view->logoSVG = $customLogo->getSVGLogoUrl();
         $view->hasSVGLogo = $customLogo->hasSVGLogo();
-        $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
         $view->themeStyles = ThemeStyles::get();
 
         $general = PiwikConfig::getInstance()->General;
@@ -839,7 +831,7 @@ abstract class Controller
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));
-            $superUserEmail = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+            $superUserEmail = implode(',', Piwik::getContactEmailAddresses());
 
             $mailToUrl = "mailto:$superUserEmail?subject=$emailSubject&body=$emailBody";
             $mailLinkStart = "<a href=\"$mailToUrl\">";
@@ -889,7 +881,7 @@ abstract class Controller
                                                                                        '</a>'
                                                                                   ));
             }
-            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file piwik/config/config.ini.php
+            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file /path/to/matomo/config/config.ini.php
 						and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $invalidHost . '"</pre>After making the change, you will be able to login again.</p>
 						<p>You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
 						<pre>[General]' . "\n" . 'enable_trusted_host_check=0</pre>';
@@ -920,13 +912,14 @@ abstract class Controller
 
         $periodValidator = new PeriodValidator();
 
-        $currentPeriod = Common::getRequestVar('period');
-        $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
+        $currentPeriod = Piwik::getPeriod();
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
             throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
+
+        $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
 
         $found = array_search($currentPeriod, $availablePeriods);
         unset($availablePeriods[$found]);
@@ -972,7 +965,7 @@ abstract class Controller
 
         if (!Piwik::isUserIsAnonymous()) {
             $currentLogin = Piwik::getCurrentUserLogin();
-            $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+            $emails = implode(',', Piwik::getContactEmailAddresses());
             $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Matomo for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Piwik::getLoginPluginName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
 

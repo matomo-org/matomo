@@ -52,7 +52,7 @@ describe("PivotByDimension", function () {
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-15, -15); // make sure nothing is highlighted
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
 
         expect(await page.screenshotSelector('.dataTable,.expandDataTableFooterDrawer')).to.matchImage({
             imageName: 'pivoted_columns_report',

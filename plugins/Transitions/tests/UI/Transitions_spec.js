@@ -13,13 +13,12 @@ describe("Transitions", function () {
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
-
     async function selectValue(field, title)
     {
         await page.webpage.evaluate((field) => {
             $(field + ' input.select-dropdown').click()
         }, field);
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.webpage.evaluate((field, title) => {
             $(field + ' .dropdown-content li:contains("' + title + '"):first').click()
         }, field, title);
@@ -33,7 +32,7 @@ describe("Transitions", function () {
         await (await page.jQuery('a.actionTransitions:visible')).click();
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.ui-dialog', { visible: true });
+        await page.waitForSelector('.ui-dialog', { visible: true });
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_titles');
     });
@@ -42,9 +41,15 @@ describe("Transitions", function () {
         await page.goto('about:blank');
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages&"
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
-        await page.waitFor(500);
         await page.waitForNetworkIdle();
-        await page.hover('.Transitions_CurveTextRight');
+        await page.waitForTimeout(500);
+
+        // for some reason the tooltip isn't shown on the screenshot (even if the whole page is taken)
+        // but it seems to be placed in the HTML code so, we check for it's contents
+        await (await page.$('.Transitions_CurveTextRight')).hover();
+        await page.waitForSelector('.ui-tooltip');
+        const toolTipHtml = await page.evaluate(() => $('.ui-tooltip:visible').html());
+        expect(toolTipHtml).to.equal('<div class="ui-tooltip-content"><strong>4 (out of 4)</strong> to internal pages</div>');
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_urls');
     });
@@ -78,4 +83,16 @@ describe("Transitions", function () {
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_switch_type_title');
     });
 
+    it('should show period not allowed for disabled periods', async function () {
+
+        testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'day');
+        testEnvironment.save();
+
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_period_not_allowed');
+
+        testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'all');
+        testEnvironment.save();
+    });
 });

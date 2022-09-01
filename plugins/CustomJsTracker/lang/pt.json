@@ -1,8 +1,8 @@
 {
     "CustomJsTracker": {
-        "PluginDescription": "Permite que qualquer extensão complemente o ficheiro de acompanhamento de JavaScript do Matomo (matomo.js) e adicione novas funcionalidades e capacidades de medição de sites.",
+        "DiagnosticPiwikJsMakeWritable": "Recomendamos que dê permissões de escrita a %1$s, executando o seguinte comando %2$s",
+        "DiagnosticPiwikJsNotWritable": "O ficheiro JavaScript monitorizador do Matomo %s não tem permissões de escrita, o que significa que outras extensões não conseguem complementar o monitorizador JavaScript. É possível que no futuro certas funcionalidades centrais não funcionem como esperado.",
         "DiagnosticPiwikJsWritable": "Permissões de escrita no JavaScript de acompanhamento (%s)",
-        "DiagnosticPiwikJsNotWritable": "O ficheiro JavaScript de acompanhamento do Matomo %snão tem permissões de escrita, o que significa que outras extensões não conseguem complementar o tracker JavaScript. É possível que no futuro certas funcionalidades centrais não funcionem como o esperado.",
-        "DiagnosticPiwikJsMakeWritable": "Recomendamos que dê permissões de escrita a %1$s, executando o seguinte comando %2$s"
+        "PluginDescription": "Permite que qualquer extensão complemente o ficheiro de acompanhamento de JavaScript do Matomo (matomo.js) e adicione novas funcionalidades e capacidades de medição de sites."
     }
 }

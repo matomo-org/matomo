@@ -13,7 +13,6 @@ use Piwik\Archive;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;

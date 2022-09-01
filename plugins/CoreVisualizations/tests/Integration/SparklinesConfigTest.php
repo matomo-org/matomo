@@ -136,7 +136,8 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $this->assertSame(array (
             'percent'  => '-52.4%',
-             'tooltip' => '1 visit compared to 2 visits'
+            'tooltip' => '1 visit compared to 2 visits',
+            'trend' => -11
         ), $sparklines[''][0]['evolution']);
     }
 

@@ -8,12 +8,16 @@
  */
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
+use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DbHelper;
-use Piwik\Metrics\Formatter;
-use Piwik\NumberFormatter;
+use Piwik\Metrics;
+use Piwik\Metrics\Formatter as MetricFormatter;
+use Piwik\Period;
+use Piwik\Period\Month;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
@@ -50,7 +54,7 @@ class Get extends \Piwik\Plugin\Report
             'nb_profilable',
         );
 
-        $period = Common::getRequestVar('period', 'day');
+        $period = Piwik::getPeriod('day');
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $this->metrics = array_merge(['nb_uniq_visitors'], $this->metrics);
         }
@@ -91,6 +95,10 @@ class Get extends \Piwik\Plugin\Report
             $view->config->filters[] = function (DataTable $table) use ($view) {
                 $firstRow = $table->getFirstRow();
 
+                if (!$firstRow->getColumn('avg_time_generation')) {
+                    $view->config->removeSparklineMetric(array('avg_time_generation'));
+                }
+
                 if (($firstRow->getColumn('nb_pageviews')
                     + $firstRow->getColumn('nb_downloads')
                     + $firstRow->getColumn('nb_outlinks')) == 0
@@ -108,6 +116,55 @@ class Get extends \Piwik\Plugin\Report
                     $view->config->replaceSparklineMetric(array('nb_users'), '');
                 }
             };
+
+            // Add evolution values to sparklines
+            list($lastPeriodDate, $ignore) = Range::getLastDate();
+            if ($lastPeriodDate !== false) {
+
+                $currentPeriod = Period\Factory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
+                $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
+                $lastPeriod = Period\Factory::build(Piwik::getPeriod(), $lastPeriodDate);
+                $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
+
+                /** @var DataTable $previousData */
+                $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate, 'format_metrics' => '0']);
+                $previousDataRow = $previousData->getFirstRow();
+
+                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
+                    $value = reset($columns);
+                    $columnName = key($columns);
+                    $pastValue = $previousDataRow->getColumn($columnName);
+
+                    // Format
+                    $formatter = new MetricFormatter();
+                    $currentValueFormatted = $value;
+                    $pastValueFormatted = $pastValue;
+                    foreach ($metrics as $metric) {
+                        if ($metric->getName() == $columnName) {
+                            $pastValueFormatted = $metric->format($pastValue, $formatter);
+                            $currentValueFormatted = $metric->format($value, $formatter);
+                            break;
+                        }
+                    }
+
+                    $columnTranslations = Metrics::getDefaultMetricTranslations();
+                    $columnTranslation = '';
+                    if (array_key_exists($columnName, $columnTranslations)) {
+                        $columnTranslation = $columnTranslations[$columnName];
+                    }
+
+                    return [
+                        'currentValue' => $value,
+                        'pastValue' => $pastValue,
+                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', [
+                            $currentValueFormatted.' '.$columnTranslation,
+                            $currentPrettyDate,
+                            $pastValueFormatted.' '.$columnTranslation,
+                            $lastPrettyDate,
+                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)])
+                    ];
+                };
+            }
 
             // Remove metric tooltips
             $view->config->metrics_documentation['nb_actions'] = '';
@@ -130,9 +187,9 @@ class Get extends \Piwik\Plugin\Report
         }
     }
 
-    private function getSparklineTranslations()
+    private function getSparklineTranslationsKeys()
     {
-        $translations = array(
+        return array(
             'nb_actions' => 'NbActionsDescription',
             'nb_visits' => 'NbVisitsDescription',
             'nb_users' => 'NbUsersDescription',
@@ -152,6 +209,11 @@ class Get extends \Piwik\Plugin\Report
             'bounce_rate' => 'NbVisitsBounced',
         );
 
+    }
+
+    private function getSparklineTranslations()
+    {
+        $translations = $this->getSparklineTranslationsKeys();
         foreach ($translations as $metric => $key) {
             $translations[$metric] = Piwik::translate('VisitsSummary_' . $key);
         }

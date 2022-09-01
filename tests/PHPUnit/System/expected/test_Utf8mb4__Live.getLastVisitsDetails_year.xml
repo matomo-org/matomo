@@ -41,6 +41,8 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible 🚜</title>
 				<subtitle>http://example.org/foo/🙙.html</subtitle>
@@ -109,12 +111,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>100</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>1</totalAbandonedCarts>
-		<totalAbandonedCartsItems>1</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>

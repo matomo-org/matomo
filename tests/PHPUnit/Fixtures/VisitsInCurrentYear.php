@@ -7,13 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\Db;
-use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tracker\Cache;
 
 /**
  * This fixture adds one website and tracks two visits by one visitor.

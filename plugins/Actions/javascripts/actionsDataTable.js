@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
- (function ($, require) {
+(function ($, require) {
 
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
@@ -19,7 +19,7 @@
 
         var currentLevelIndex = style.indexOf('level');
         if (currentLevelIndex >= 0) {
-            currentLevel = Number(style.substr(currentLevelIndex + 5, 1));
+            currentLevel = Number(style.slice(currentLevelIndex + 5, currentLevelIndex + 6));
         }
         return currentLevel;
     }
@@ -92,7 +92,7 @@
 
             if (hasOnlyOneSubtable) {
                 var hasOnlyOneRow = domElem.find('tbody tr.level0').length === 1;
-                
+
                 if (hasOnlyOneRow) {
                     var $labels = $subtables.find('.label');
                     if ($labels.length) {
@@ -127,6 +127,8 @@
                 .each(function () {
                     if (self.param.filter_pattern_recursive) {
                         $(this).addClass('expanded');
+                        // remove tooltip "Click this row to expand or contract the subtable"
+                        $(this).attr('title', '');
                     }
                 });
 

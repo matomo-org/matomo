@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Insights\tests\Unit;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Plugins\Insights\InsightReport;
-use Piwik\Plugins\Insights\Visualizations\Insight;
 
 /**
  * @group Insights

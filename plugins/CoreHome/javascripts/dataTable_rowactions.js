@@ -76,6 +76,11 @@ DataTable_RowActions_Registry.register({
         if (dataTable === null && param) {
             // when row evolution is triggered from the url (not a click on the data table)
             // we look for the data table instance in the dom
+            // This actually doesn't work very good, as opening a row evolution using url params
+            // directly also triggers loading the report datatable, which might not yet be finished at
+            // this state, so the datatable might not yet be available
+            // When migrating/refactoring this it might be good to use promises in some way, so it would
+            // be possible to actually trigger the row evolution popover once the origin report was loaded.
             var report = param.split(':')[0];
             var div = $(require('piwik/UI').DataTable.getDataTableByReport(report));
             if (div.length && div.data('uiControlObject')) {
@@ -316,10 +321,24 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 
     $.each(this.dataTable.param, function (index, value) {
         // we automatically add fields like idDimension, idGoal etc.
-        if (index !== 'idSite' && index.indexOf('id') === 0 && $.isNumeric(value)) {
+        if (index !== 'idSite' && index.indexOf('id') === 0 && ($.isNumeric(value) || value.indexOf('ecommerce') === 0)) {
             extraParams[index] = value;
         }
     });
+
+    if (this.dataTable && this.dataTable.jsViewDataTable === 'tableGoals') {
+        // When there is a idGoal parameter available, the user is currently viewing a Goal or Ecommerce page
+        // In this case we want to show the specific goal metrics in the row evolution
+        if (extraParams['idGoal']) {
+            extraParams['showGoalMetricsForGoal'] = extraParams['idGoal'];
+            delete(extraParams['idGoal']);
+        }
+        // If no idGoal is available it is a random report switched to goal visualization
+        // we then ensure the row evolution will show the goal overview metrics
+        else  {
+            extraParams['showGoalMetricsForGoal'] = -1;
+        }
+    }
 
     // check if abandonedCarts is in the dataTable params and if so, propagate to row evolution request
     if (this.dataTable.param.abandonedCarts !== undefined) {
@@ -437,7 +456,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         box.find('select.multirowevoltion-metric').change(function () {
             var metric = $(this).val();
             Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
-            var extraParams = {action: 'getMultiRowEvolutionPopover', column: metric};
+            extraParams.column = metric;
             self.openPopover(apiMethod, extraParams, label);
             return true;
         });
@@ -460,13 +479,6 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         idDimension = parseInt(idDimension, 10);
         if (idDimension > 0) {
             requestParams.idDimension = idDimension;
-        }
-    }
-
-    if (self.dataTable && self.dataTable.jsViewDataTable === 'tableGoals') {
-        // remove idGoal param, when it's set for goal visualizations
-        if (extraParams['idGoal']) {
-            delete(extraParams['idGoal']);
         }
     }
 

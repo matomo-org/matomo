@@ -175,8 +175,8 @@ class Login extends \Piwik\Plugin
 
     private function shouldHandleRememberMe()
     {
-        $module = Common::getRequestVar('module', false);
-        $action = Common::getRequestVar('action', false);
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
         return ($module == 'Login' || $module == 'CoreHome') && (empty($action) || $action == 'index' || $action == 'login');
     }
 
@@ -221,8 +221,7 @@ class Login extends \Piwik\Plugin
         $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();
         if (empty($login) || $login == 'anonymous') {
             $login = Common::getRequestVar('form_login', false);
-            $action = Common::getRequestVar('action', false);
-            if ($action == 'logme') {
+            if (Piwik::getAction() === 'logme') {
                 $login = Common::getRequestVar('login', $login);
             }
         }

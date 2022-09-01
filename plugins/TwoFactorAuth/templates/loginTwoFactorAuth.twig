@@ -46,7 +46,7 @@
             <br />
                 <a href="https://matomo.org/faq/how-to/faq_27248" rel="noreferrer noopener">{{ 'TwoFactorAuth_EnterRecoveryCodeInstead'|translate }}</a>
                 <br />
-                <a href="mailto:{{ superUserEmails|e('url') }}?subject={{ 'TwoFactorAuth_NotPossibleToLogIn'|translate|e('url') }}&body={{ 'TwoFactorAuth_LostAuthenticationDevice'|translate("\n\n", "\n\n", piwikUrl|default(''), "\n\n", userLogin, "https://matomo.org/faq/how-to/faq_27248")|e('url') }}" rel="noreferrer noopener">{{ 'TwoFactorAuth_AskSuperUserResetAuthenticationCode'|translate }}</a>
+                <a href="mailto:{{ contactEmail|e('url') }}?subject={{ 'TwoFactorAuth_NotPossibleToLogIn'|translate|e('url') }}&body={{ 'TwoFactorAuth_LostAuthenticationDevice'|translate("\n\n", "\n\n", piwikUrl|default(''), "\n\n", userLogin, "https://matomo.org/faq/how-to/faq_27248")|e('url') }}" rel="noreferrer noopener">{{ 'TwoFactorAuth_AskSuperUserResetAuthenticationCode'|translate }}</a>
                 <br />
                 <a href="{{ linkTo({'module': loginModule, 'action': 'logout'}) }}" rel="noreferrer noopener">{{ 'General_Logout'|translate }}</a>
             </p>

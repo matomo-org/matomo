@@ -3,7 +3,7 @@
     {% set goal_conversion_rate=element.conversion_rate %}
     <span class='goalTopElement' title='{{ 'Goals_Conversions'|translate("<b>"~goal_nb_conversion|number~"</b>")|raw }},
 		{{ 'Goals_ConversionRate'|translate("<b>"~goal_conversion_rate|number~"</b>")|raw }}'>
-	    {{ element.name }}
+	    {{ element.name|rawSafeDecoded }}
     </span>
 
     {% import 'macros.twig' as piwik %}

@@ -10,17 +10,14 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Cache as PiwikCache;
 use Piwik\CliMulti;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\Context;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
-use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
@@ -76,17 +73,6 @@ class Updater
     {
         $latestVersion = self::getLatestVersion();
         return $latestVersion && version_compare(Version::VERSION, $latestVersion) === -1;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isUpdatingOverHttps()
-    {
-        $openSslEnabled = extension_loaded('openssl');
-        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
-
-        return $openSslEnabled && $usingMethodSupportingHttps;
     }
 
     /**
@@ -186,7 +172,7 @@ class Updater
         if (!isset($newVersion)) {
             $newVersion = Version::VERSION;
         }
-        
+
         // we also need to make sure to create a new instance here as otherwise we would change the "global"
         // environment, but we only want to change piwik version temporarily for this task here
         $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
@@ -300,7 +286,7 @@ class Updater
         foreach ($plugins as $plugin) {
             $plugin->reloadPluginInformation();
         }
-        
+
         $incompatiblePlugins = $this->getIncompatiblePlugins($version);
         $disabledPluginNames = array();
 
@@ -321,6 +307,9 @@ class Updater
         }
 
         $model = new Model();
+
+        // Check if the target directories are writable
+        $this->checkFolderPermissions($extractedArchiveDirectory, PIWIK_INCLUDE_PATH);
 
         /*
          * Copy all files to PIWIK_INCLUDE_PATH.
@@ -365,7 +354,7 @@ class Updater
         $channel = $this->releaseChannels->getActiveReleaseChannel();
         $url = $channel->getDownloadUrlWithoutScheme($version);
 
-        if ($this->isUpdatingOverHttps() && $https) {
+        if (Http::isUpdatingOverHttps() && $https && GeneralConfig::getConfigValue('force_matomo_http_request') == 0) {
             $url = 'https' . $url;
         } else {
             $url = 'http' . $url;
@@ -377,5 +366,35 @@ class Updater
     private function getIncompatiblePlugins($piwikVersion)
     {
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
+    }
+
+
+    /**
+     * check if the target file directory is writeable
+     * @param string $source
+     * @param string $target
+     * @throws Exception
+     */
+    private function checkFolderPermissions($source, $target)
+    {
+        $wrongPermissionDir = [];
+        if (is_dir($source)) {
+            $d = dir($source);
+            while (false !== ($entry = $d->read())) {
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
+                $sourcePath = $source . '/' . $entry;
+                if (is_dir($sourcePath) && !is_writable($target . '/' . $entry)) {
+                    //add the wrong permission to the array
+                    $wrongPermissionDir[] = $target . '/' . $entry;
+                }
+            }
+        }
+
+        if (!empty($wrongPermissionDir)) {
+            throw new Exception($this->translator->translate('CoreUpdater_ExceptionDirWrongPermission',
+              implode(', ', $wrongPermissionDir)));
+        }
     }
 }

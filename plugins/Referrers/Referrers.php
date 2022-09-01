@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\Referrers\Reports\Get;
 use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**
@@ -70,7 +69,7 @@ class Referrers extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = 'plugins/Referrers/angularjs/campaign-builder/campaign-builder.directive.less';
+        $stylesheets[] = 'plugins/Referrers/vue/src/CampaignBuilder/CampaignBuilder.less';
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -102,8 +101,6 @@ class Referrers extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = 'plugins/Referrers/angularjs/campaign-builder/campaign-builder.controller.js';
-        $jsFiles[] = 'plugins/Referrers/angularjs/campaign-builder/campaign-builder.directive.js';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

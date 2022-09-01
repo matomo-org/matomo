@@ -26,6 +26,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>exclude_unknown_urls</name>
@@ -42,6 +43,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>keep_url_fragment</name>
@@ -62,6 +64,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>excluded_ips</name>
@@ -83,6 +86,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>excluded_parameters</name>
@@ -103,6 +107,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>excluded_user_agents</name>
@@ -123,6 +128,28 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>excluded_referrers</name>
+				<title>Excluded referrers</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<cols>20</cols>
+					<rows>4</rows>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Enter the list of hostnames and URLs, one per line, you want to exclude from referrer detection.&lt;br /&gt;&lt;br /&gt;Each entry needs to contain the hostname and may contain a path. If a path is provided a referrer will only be excluded if the path matches as well. URLs with and without 'www' are treated the same. Provided protocols will be ignored.&lt;br /&gt;e.g. &quot;www.example.org&quot; would match &quot;http://example.org/mypath&quot; and &quot;https://www.example.org/?param=1&quot; but not &quot;https://sub.example.org/&quot;&lt;br /&gt;&lt;br /&gt;To also exclude all subdomains of a certain hostname, prefix it with a dot. e.g. &quot;.sub.example.org&quot; would exclude &quot;http://sub.example.org/mypath&quot;, but also all its subdomains like &quot;https://new.sub.example.org/&quot;.</inlineHelp>
+				<templateFile />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>sitesearch</name>
@@ -142,6 +169,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>use_default_site_search_params</name>
@@ -158,6 +186,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>1 &amp;&amp; sitesearch</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>sitesearch_keyword_parameters</name>
@@ -177,6 +206,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>sitesearch_category_parameters</name>
@@ -196,6 +226,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>ecommerce</name>
@@ -215,6 +246,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>
@@ -237,6 +269,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 			<row>
 				<name>disable_visitor_profile</name>
@@ -253,6 +286,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition>disable_visitor_log==0</condition>
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>
@@ -277,6 +311,7 @@ https://www.example.org/</placeholder>
 				<templateFile />
 				<introduction />
 				<condition />
+				<fullWidth>0</fullWidth>
 			</row>
 		</settings>
 	</row>

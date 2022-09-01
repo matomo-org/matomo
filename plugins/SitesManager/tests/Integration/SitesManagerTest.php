@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,7 +10,6 @@
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Cache;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -46,7 +46,7 @@ class SitesManagerTest extends IntegrationTestCase
         $this->siteId  = Fixture::createWebsite('2014-03-03 00:00:00');
     }
 
-    public function test_onSiteDeleted_shouldClearSiteCache()
+    public function testOnSiteDeletedShouldClearSiteCache()
     {
         $cache = Cache::getLazyCache();
         $cache->save($this->siteId, 'testcontent');
@@ -56,7 +56,7 @@ class SitesManagerTest extends IntegrationTestCase
         $this->assertFalse($cache->contains($this->siteId));
     }
 
-    public function test_onSiteDeleted_shouldRemoveRememberedArchiveReports()
+    public function testOnSiteDeletedShouldRemoveRememberedArchiveReports()
     {
         $archive = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $archive->rememberToInvalidateArchivedReportsLater($this->siteId, Date::factory('2014-04-05'));
@@ -67,23 +67,23 @@ class SitesManagerTest extends IntegrationTestCase
         $this->assertCount(2, $remembered);
 
         sort($remembered['2014-04-05']);
-        $this->assertSame(array($this->siteId, 4949), $remembered['2014-04-05']);
+        $this->assertSame([$this->siteId, 4949], $remembered['2014-04-05']);
 
         sort($remembered['2014-04-06']);
-        $this->assertSame(array($this->siteId), $remembered['2014-04-06']);
+        $this->assertSame([$this->siteId], $remembered['2014-04-06']);
 
         $this->manager->onSiteDeleted($this->siteId);
 
-        $expected = array(
-            '2014-04-05' => array(4949)
-        );
+        $expected = [
+            '2014-04-05' => [4949]
+        ];
         $this->assertEquals($expected, $archive->getRememberedArchivedReportsThatShouldBeInvalidated());
     }
 
     /**
      * @dataProvider getTestDataForRedirectDashboard
      */
-    public function test_redirectDashboardToWelcomePage_doesNothingIfModuleActionAreIncorrect($module, $action)
+    public function testRedirectDashboardToWelcomePageDoesNothingIfModuleActionAreIncorrect($module, $action)
     {
         $originalModule = $module;
         $originalAction = $action;
@@ -103,7 +103,7 @@ class SitesManagerTest extends IntegrationTestCase
         ];
     }
 
-    public function test_redirectDashboardToWelcomePage_doesNothingIfThereIsNoIdSiteParam()
+    public function testRedirectDashboardToWelcomePageDoesNothingIfThereIsNoIdSiteParam()
     {
         $module = 'CoreHome';
         $action = 'index';
@@ -115,7 +115,7 @@ class SitesManagerTest extends IntegrationTestCase
         $this->assertEquals('index', $action);
     }
 
-    public function test_redirectDashboardToWelcomePage_doesNothingIfAVisitWasTrackedInThePast()
+    public function testRedirectDashboardToWelcomePageDoesNothingIfAVisitWasTrackedInThePast()
     {
         $module = 'CoreHome';
         $action = 'index';
@@ -137,7 +137,7 @@ class SitesManagerTest extends IntegrationTestCase
         $this->assertEquals('index', $action);
     }
 
-    public function test_redirectDashboardToWelcomePage_doesNothingIfAVisitWasTrackedAndWasLaterPurged()
+    public function testRedirectDashboardToWelcomePageDoesNothingIfAVisitWasTrackedAndWasLaterPurged()
     {
         $module = 'CoreHome';
         $action = 'index';
@@ -160,7 +160,7 @@ class SitesManagerTest extends IntegrationTestCase
         $this->assertEquals('index', $action);
     }
 
-    public function test_redirectDashboardToWelcomePage_redirectsIfThereIsNoDataAndAppropriateParams()
+    public function testRedirectDashboardToWelcomePageRedirectsIfThereIsNoDataAndAppropriateParams()
     {
         $module = 'CoreHome';
         $action = 'index';
@@ -184,8 +184,8 @@ class SitesManagerTest extends IntegrationTestCase
 
     public function provideContainerConfig()
     {
-        return array(
+        return [
             'Piwik\Access' => new FakeAccess()
-        );
+        ];
     }
 }

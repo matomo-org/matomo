@@ -7,6 +7,7 @@
         "Resolutions": "Resoluutio",
         "WidgetGlobalVisitors": "Kaikkien kävijöiden asetukset",
         "WidgetGlobalVisitorsDocumentation": "Tämä raportti näyttää yleiskuvan eri kävijöiden asetuksista. Asetukset on yhdistelmä käyttöjärjestelmästä, selaimen tyypistä ja näytön resoluutiosta.",
-        "WidgetResolutions": "Näytön resoluutio"
+        "WidgetResolutions": "Näytön resoluutio",
+        "WidgetResolutionsDocumentation": "Tämä raportti näyttää kävijöiden näytön tarkkuuden, kun kävijä on käynyt verkkosivustollasi."
     }
 }

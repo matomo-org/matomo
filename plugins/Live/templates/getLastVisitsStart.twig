@@ -20,7 +20,7 @@
                 {% endif %}
 
                 {{ postEvent('Live.renderVisitorIcons', visitor) }}
-                {% if not userIsAnonymous %}
+                {% if isProfileEnabled and not userIsAnonymous %}
                 <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId') }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
                     <span class="icon-visitor-profile"></span>
                 </a>

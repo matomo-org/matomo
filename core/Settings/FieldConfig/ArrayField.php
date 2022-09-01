@@ -40,6 +40,14 @@ class ArrayField
     public $customUiControlTemplateFile = '';
 
     /**
+     * Array like ['plugin' => 'MyPlugin', 'component' => 'MyExportedCustomFieldComponent']. For an example see
+     * "plugins/CorePluginsAdmin/vue/src/FormField/FieldText.vue"
+     *
+     * @var string[]
+     */
+    public $customFieldComponent = null;
+
+    /**
      * This setting's display name, for example, `'Refresh Interval'`.
      *
      * Be sure to escape any user input as HTML can be used here.
@@ -72,6 +80,7 @@ class ArrayField
             'title' => $this->title,
             'uiControl' => $this->uiControl,
             'templateFile' => $this->customUiControlTemplateFile,
+            'component' => $this->customFieldComponent,
             'availableValues' => $this->availableValues,
         );
     }

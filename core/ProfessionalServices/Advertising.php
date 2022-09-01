@@ -93,6 +93,7 @@ class Advertising
     }
 
     /**
+     * @deprecated
      * Generates campaign URL parameters that can be used with promoting Professional Support service.
      *
      * @param string $campaignName

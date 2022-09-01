@@ -4,25 +4,37 @@
 		<login>login2</login>
 		<email>login2@example.com</email>
 		<superuser_access>0</superuser_access>
+		
 	</row>
 	<row>
 		<login>login4</login>
 		<superuser_access>0</superuser_access>
+		
 	</row>
 	<row>
 		<login>login6</login>
 		<superuser_access>0</superuser_access>
+		
 	</row>
 	<row>
 		<login>login7</login>
 		<superuser_access>0</superuser_access>
+		
 	</row>
 	<row>
 		<login>login8</login>
 		<superuser_access>0</superuser_access>
+		
 	</row>
 	<row>
 		<login>login9</login>
 		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>zzzpendingUser2</login>
+		<superuser_access>0</superuser_access>
+		
+		<invited_by>login2</invited_by>
 	</row>
 </result>

@@ -18,6 +18,7 @@ use Piwik\Plugins\Live\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Integration\SegmentTest;
 
 /**
@@ -116,6 +117,39 @@ class ModelTest extends IntegrationTestCase
 	    $minTimestamp = null;
 	    $limit = 5000;
         Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, ['param' => 'value']);
+    }
+
+    public function test_getLastMinutesCounterForQuery_maxExecutionTime()
+    {
+        if (SystemTestCase::isMysqli()) {
+            $this->markTestSkipped('max_execution_time not supported on mysqli');
+            return;
+        }
+        $this->expectException(MaxExecutionTimeExceededException::class);
+        $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
+        $this->setLowestMaxExecutionTime();
+
+        $this->trackPageView();
+
+        $model = new Model();
+        $model->queryAndWhereSleepTestsOnly = true;
+        $model->getNumVisits(1, 999999, '');
+    }
+
+    public function test_queryAdjacentVisitorId_maxExecutionTime()
+    {
+        if (SystemTestCase::isMysqli()) {
+            $this->markTestSkipped('max_execution_time not supported on mysqli');
+            return;
+        }
+        $this->expectException(MaxExecutionTimeExceededException::class);
+        $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
+        $this->setLowestMaxExecutionTime();
+
+        $this->trackPageView();
+        $model = new Model();
+        $model->queryAndWhereSleepTestsOnly = true;
+        $model->queryAdjacentVisitorId(1, '1234567812345678', Date::yesterday()->getDatetime(), '', true);
     }
 
     public function test_getStandAndEndDate()
@@ -316,10 +350,7 @@ class ModelTest extends IntegrationTestCase
 
     public function test_makeLogVisitsQueryString_addsMaxExecutionHintIfConfigured()
     {
-        $config = Config::getInstance();
-        $general = $config->General;
-        $general['live_query_max_execution_time'] = 30;
-        $config->General = $general;
+        $this->setMaxExecutionTime(30);
 
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
@@ -337,18 +368,14 @@ class ModelTest extends IntegrationTestCase
         $expectedSql = 'SELECT  /*+ MAX_EXECUTION_TIME(30000) */ 
 				log_visit.*';
 
-        $general['live_query_max_execution_time'] = -1;
-        $config->General = $general;
+        $this->setMaxExecutionTime(-1);
 
         $this->assertStringStartsWith($expectedSql, trim($sql));
     }
 
     public function test_makeLogVisitsQueryString_doesNotAddsMaxExecutionHintForVisitorIds()
     {
-        $config = Config::getInstance();
-        $general = $config->General;
-        $general['live_query_max_execution_time'] = 30;
-        $config->General = $general;
+        $this->setMaxExecutionTime(30);
 
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
@@ -366,8 +393,7 @@ class ModelTest extends IntegrationTestCase
         $expectedSql = 'SELECT
 				log_visit.*';
 
-        $general['live_query_max_execution_time'] = -1;
-        $config->General = $general;
+        $this->setMaxExecutionTime(-1);
 
         $this->assertStringStartsWith($expectedSql, trim($sql));
     }
@@ -501,5 +527,28 @@ class ModelTest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    private function setLowestMaxExecutionTime(): void
+    {
+        $this->setMaxExecutionTime(0.001);
+    }
+
+    private function setMaxExecutionTime($time): void
+    {
+        $config = Config::getInstance();
+        $general = $config->General;
+        $general['live_query_max_execution_time'] = $time;
+        $config->General = $general;
+    }
+
+    private function trackPageView(): void
+    {
+        // Needed for the tests that may execute a sleep() to test max execution time. Otherwise if the table is empty
+        // the sleep would not be executed making the tests fail randomly
+        $t = Fixture::getTracker(1, Date::now()->getDatetime(), $defaultInit = true);
+        $t->setTokenAuth(Fixture::getTokenAuth());
+        $t->setVisitorId(substr(sha1('X4F66G776HGI'), 0, 16));
+        $t->doTrackPageView('foo');
     }
 }

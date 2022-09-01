@@ -1,5 +1,6 @@
 {
     "Referrers": {
+        "Acquisition": "Pag-acquire",
         "AllReferrersReportDocumentation": "Ang ulat na ito ay nagpapakita ng lahat ng referrers sa pinag-isang ulat ng nakalista ang lahat ng websites Mga keywords at campaigns na ginamit ng iyong bisita upang makita ang iyong website",
         "Campaigns": "Mga Kampanya",
         "CampaignsDocumentation": "Ang iyong mga bisita na mula sa iyong website ay result ng isang campaign. %1$s Tignan ang %2$s ulat para sa karagdagang mga detalye.",
@@ -24,7 +25,7 @@
         "SearchEnginesDocumentation": "Ang isang bisita na mula sa iyong website sa ay galing sa isang search engine. %1$s Tingnan ang mga ulat ang %2$s para sa karagdagang detalye.",
         "SearchEnginesReportDocumentation": "Ang ulat na ito ay mag-papakita kung saang search engines na referred ang user papunta sa iyong website. %s Sa pamamagitan ng pag-click sa hilera ng table maari mong makita kung ano-ano ang hinahanap ng user sa partikular na search engine.",
         "Socials": "Social Networks",
-        "SocialsReportDocumentation": "Ang ulat na ito ay nagpapakita kung alin sa mga social networks ang pinang-galingan papunta sa iyong website.<br\/>Sa pamamagitan ng pag-click sa isang hilera sa table maari mong makita kung saang social network nagmula ang iyong bisita papunta sa iyong website.",
+        "SocialsReportDocumentation": "Ang ulat na ito ay nagpapakita kung alin sa mga social networks ang pinang-galingan papunta sa iyong website.<br/>Sa pamamagitan ng pag-click sa isang hilera sa table maari mong makita kung saang social network nagmula ang iyong bisita papunta sa iyong website.",
         "SubmenuSearchEngines": "Mga Search Engine at Keyword",
         "SubmenuWebsitesOnly": "Websites",
         "TypeCampaigns": "%s mula sa mga campaign",

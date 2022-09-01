@@ -1,5 +1,8 @@
 {
     "CustomJsTracker": {
-        "DiagnosticPiwikJsWritable": "Pelacak JavaScript yang Dapat Ditulis (%s)"
+        "DiagnosticPiwikJsMakeWritable": "Kami sarankan untuk membuat %1$s agar dapat ditulis dengan menjalankan perintah ini: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Berkas pelacak JavaScript Matomo %s tidak dapat ditulis yang berarti pengaya lain tidak dapat memperpanjang pelacak JavaScript. Di masa depan bahkan beberapa fitur inti mungkin tidak berfungsi seperti yang diharapkan.",
+        "DiagnosticPiwikJsWritable": "Pelacak JavaScript yang Dapat Ditulis (%s)",
+        "PluginDescription": "Mengizinkan pengaya apa pun untuk memperluas berkas Pelacakan JavaScript Matomo (matomo.js) dan menambahkan fungsionalitas baru dan kemampuan pengukuran situs web."
     }
 }

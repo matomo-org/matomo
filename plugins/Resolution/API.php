@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\Resolution;
 
 use Piwik\Archive;
-use Piwik\DataTable;
-use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**

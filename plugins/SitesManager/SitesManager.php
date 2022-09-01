@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
@@ -48,7 +47,6 @@ class SitesManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Tracker.Cache.getSiteAttributes'        => array('function' => 'recordWebsiteDataInCache', 'before' => true),
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
@@ -163,22 +161,6 @@ class SitesManager extends \Piwik\Plugin
     }
 
     /**
-     * Get JavaScript files
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-type-model.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-admin-sites-model.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/edit-trigger.directive.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager.controller.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-site.controller.js";
-    }
-
-    /**
      * Hooks when a website tracker cache is flushed (website updated, cache deleted, or empty cache)
      * Will record in the tracker config file all data needed for this website in Tracker.
      *
@@ -201,6 +183,7 @@ class SitesManager extends \Piwik\Plugin
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
         $array['excluded_user_agents'] = self::getExcludedUserAgents($website);
+        $array['excluded_referrers'] = self::getExcludedReferrers($website);
         $array['keep_url_fragment'] = self::shouldKeepURLFragmentsFor($website);
         $array['sitesearch'] = $website['sitesearch'];
         $array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
@@ -225,6 +208,7 @@ class SitesManager extends \Piwik\Plugin
         Access::doAsSuperUser(function () use (&$cache) {
             $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
             $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
+            $cache['global_excluded_referrers'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedReferrersGlobal());
         });
     }
 
@@ -314,6 +298,20 @@ class SitesManager extends \Piwik\Plugin
     }
 
     /**
+     * Returns the array of excluded referrers. Filters out
+     * any garbage data & trims each entry.
+     *
+     * @param array $website The full set of information for a site.
+     * @return array
+     */
+    private static function getExcludedReferrers($website)
+    {
+        $excludedReferrers = API::getInstance()->getExcludedReferrersGlobal();
+        $excludedReferrers .= ',' . $website['excluded_referrers'];
+        return self::filterBlankFromCommaSepList($excludedReferrers);
+    }
+
+    /**
      * Returns the array of URL query parameters to exclude from URLs
      *
      * @param array $website
@@ -373,7 +371,7 @@ class SitesManager extends \Piwik\Plugin
             self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
         ];
 
-        return $map[$siteType] ? $map[$siteType] : false;
+        return $map[$siteType] ?? false;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -464,5 +462,14 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButton";
         $translationKeys[] = "SitesManager_EmailInstructionsSubject";
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
+        $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
+        $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
+        $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
+        $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
+        $translationKeys[] = "SitesManager_ExcludedReferrers";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelp";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpDetails";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpSubDomains";
     }
 }

@@ -500,7 +500,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     *
     * @return   ArrayIterator
     */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->pages);
     }

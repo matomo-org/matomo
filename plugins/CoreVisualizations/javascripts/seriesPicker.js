@@ -83,47 +83,48 @@
                 });
 
             // initialize dom element
-            var seriesPicker = '<piwik-series-picker'
-                + ' multiselect="' + (this.multiSelect ? 'true' : 'false') + '"'
-                + ' selectable-columns="selectableColumns"'
-                + ' selectable-rows="selectableRows"'
-                + ' selected-columns="selectedColumns"'
-                + ' selected-rows="selectedRows"'
-                + ' on-select="selectionChanged(columns, rows)"/>';
-
-            this.domElem = $(seriesPicker);
+            this.domElem = $('<div style="display:inline-block"><div></div></div>');
 
             $(this).trigger('placeSeriesPicker');
 
-            piwikHelper.compileAngularComponents(this.domElem, {
-                params: {
-                    selectableColumns: this.selectableColumns,
-                    selectableRows: this.selectableRows,
-                    selectedColumns: selectedColumns,
-                    selectedRows: selectedRows,
-                    selectionChanged: function selectionChanged(columns, rows) {
-                        if (columns.length === 0 && rows.length === 0) {
-                            return;
-                        }
+            var createVNode = Vue.createVNode;
+            var createVueApp = CoreHome.createVueApp;
+            var SeriesPicker = CoreVisualizations.SeriesPicker;
 
-                        rows = rows.map(encodeURIComponent);
-
-                        $(self).trigger('seriesPicked', [columns, rows]);
-
-                        // inform dashboard widget about changed parameters (to be restored on reload)
-                        var UI = require('piwik/UI');
-                        var params = {
-                            columns: columns,
-                            columns_to_display: columns,
-                            rows: rows,
-                            rows_to_display: rows
-                        };
-
-                        var tableNode = $('#' + self.dataTableId);
-                        UI.DataTable.prototype.notifyWidgetParametersChange(tableNode, params);
+            var app = createVueApp({
+              render: function () {
+                return createVNode(SeriesPicker, {
+                  multiselect: self.multiSelect,
+                  selectableColumns: self.selectableColumns,
+                  selectableRows: self.selectableRows,
+                  selectedColumns: selectedColumns,
+                  selectedRows: selectedRows,
+                  onSelect: function selectionChanged(event) {
+                    var columns = event.columns, rows = event.rows;
+                    if (columns.length === 0 && rows.length === 0) {
+                      return;
                     }
-                }
+
+                    rows = rows.map(encodeURIComponent);
+
+                    $(self).trigger('seriesPicked', [columns, rows]);
+
+                    // inform dashboard widget about changed parameters (to be restored on reload)
+                    var UI = require('piwik/UI');
+                    var params = {
+                      columns: columns,
+                      columns_to_display: columns,
+                      rows: rows,
+                      rows_to_display: rows
+                    };
+
+                    var tableNode = $('#' + self.dataTableId);
+                    UI.DataTable.prototype.notifyWidgetParametersChange(tableNode, params);
+                  }
+                });
+              }
             });
+            app.mount(this.domElem.children()[0]);
 
             function isItemDisplayed(columnOrRowConfig) {
                 return columnOrRowConfig.displayed;

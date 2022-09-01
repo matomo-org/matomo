@@ -11,7 +11,6 @@ namespace Piwik\Plugin;
 use Exception;
 use Piwik\Piwik;
 use Piwik\Version;
-use Piwik\Plugin;
 
 /**
  * @see core/Version.php

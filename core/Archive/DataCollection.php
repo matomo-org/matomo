@@ -148,11 +148,17 @@ class DataCollection
      * @param string $period eg, '2012-01-01,2012-01-31'
      * @param string $name eg 'nb_visits'
      * @param string $value eg 5
+     * @param array  $meta Optional metadata to add to the row
      */
-    public function set($idSite, $period, $name, $value)
+    public function set($idSite, $period, $name, $value, array $meta = null)
     {
         $row = & $this->get($idSite, $period);
         $row[$name] = $value;
+        if ($meta) {
+            foreach ($meta as $k => $v) {
+                $row[self::METADATA_CONTAINER_ROW_KEY][$k] = $v;
+            }
+        }
     }
 
     /**
@@ -379,6 +385,17 @@ class DataCollection
 
         foreach ($this->data as $idSite => $periods) {
             foreach ($periods as $periodRange => $data) {
+                // FIXME: This hack works around a strange bug that occurs when getting
+                //         archive IDs through ArchiveProcessing instances. When a table
+                //         does not already exist, for some reason the archive ID for
+                //         today (or from two days ago) will be added to the Archive
+                //         instances list. The Archive instance will then select data
+                //         for periods outside of the requested set.
+                //         working around the bug here, but ideally, we need to figure
+                //         out why incorrect idarchives are being selected.
+                if (empty($this->periods[$periodRange])) {
+                    continue;
+                }
                 $tableMetadata = $dataTableFactory->getTableMetadataFor($idSite, $this->periods[$periodRange]);
 
                 $callable($data, $dataTableFactory, $tableMetadata);

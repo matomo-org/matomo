@@ -218,11 +218,11 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Locations</subcategory>
-		<name>Browser language</name>
+		<name>Web-browser language</name>
 		<module>UserLanguage</module>
 		<action>getLanguage</action>
 		<dimension>Language</dimension>
-		<documentation>This report shows which language the visitor's browsers are using. (e.g. &quot;English&quot;)</documentation>
+		<documentation>Shows which language the visitor's browsers are using. (e.g. &quot;French&quot;)</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -301,7 +301,7 @@
 		<module>UserLanguage</module>
 		<action>getLanguageCode</action>
 		<dimension>Language</dimension>
-		<documentation>This report shows which exact language code the visitor's browsers is set to. (e.g. &quot;German - Austria (de-at)&quot;)</documentation>
+		<documentation>Shows which exact language code the visitor's browsers is set to. (e.g. &quot;German — Austria (de-at)&quot;)</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -326,7 +326,7 @@
 		</processedMetrics>
 		<relatedReports>
 			<row>
-				<name>Browser language</name>
+				<name>Web-browser language</name>
 				<module>UserLanguage</module>
 				<action>getLanguage</action>
 			</row>
@@ -768,7 +768,7 @@
 		<name>Visits per local time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
-		<dimension>Local time - hour (Start of visit)</dimension>
+		<dimension>Local time — hour (start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -795,7 +795,7 @@
 		<constantRowsCount>1</constantRowsCount>
 		<relatedReports>
 			<row>
-				<name>Visits by Day of Week</name>
+				<name>Visits by day of the week</name>
 				<module>VisitTime</module>
 				<action>getByDayOfWeek</action>
 			</row>
@@ -806,11 +806,11 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Times</subcategory>
-		<name>Visits per server time</name>
+		<name>Visits per hour in the site's timezone</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<dimension>Server time - hour (Start of visit)</dimension>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
+		<dimension>Site time — hour (start of visit)</dimension>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; site's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -846,7 +846,7 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Times</subcategory>
-		<name>Visits by Day of Week</name>
+		<name>Visits by day of the week</name>
 		<module>VisitTime</module>
 		<action>getByDayOfWeek</action>
 		<dimension>Day of the week</dimension>
@@ -891,7 +891,7 @@
 		<module>UserId</module>
 		<action>getUsers</action>
 		<dimension>UserId</dimension>
-		<documentation>This report shows visits and other general metrics for every individual User ID.</documentation>
+		<documentation>Shows visits and other general metrics for every individual User ID.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/user-id/</onlineGuideUrl>
 		<metrics>
 			<label>Label</label>
@@ -1006,6 +1006,11 @@
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
 		</metrics>
+		<processedMetrics>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Bandwidth_get</uniqueId>
@@ -1576,11 +1581,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Length of Visits</name>
+		<name>Length of visits</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerVisitDuration</action>
 		<dimension>Visit duration</dimension>
-		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<documentation>How many visits had a certain total duration. Initially, the report is shown as a tag cloud, wherein more common durations have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1594,11 +1599,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Pages per Visit</name>
+		<name>Pages per visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerPage</action>
 		<dimension>Pages per visit</dimension>
-		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<documentation>How many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, wherein more common numbers of pages have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1612,11 +1617,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Visits by Visit Number</name>
+		<name>Visits by visit number</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByVisitCount</action>
-		<dimension>Visits by Visit Number</dimension>
-		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<dimension>Visits by visit number</dimension>
+		<documentation>The number of visitors reaching their Nth visit. I.e. the total amount of visitors visiting your website a given amount of times or more.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1637,7 +1642,7 @@
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
 		<dimension>Days since last visit</dimension>
-		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
+		<documentation>How many visits were from returning visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -2677,7 +2682,7 @@
 		<name>Main metrics</name>
 		<module>API</module>
 		<action>get</action>
-		<documentation>This report gives you an overview over the most important metrics across all categories and plugins.</documentation>
+		<documentation>This report gives an overview of the most important metrics across all categories and plugins.</documentation>
 		<metrics>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
@@ -2776,6 +2781,9 @@
 			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
 			<avg_time_on_load>Avg. on load time</avg_time_on_load>
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>

@@ -11,9 +11,6 @@ namespace Piwik\Plugins\MultiSites;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Period;
-use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -42,40 +39,15 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->getSitesInfo($isWidgetized = true);
     }
 
-    public function getAllWithGroups()
-    {
-        Piwik::checkUserHasSomeViewAccess();
-
-        $period  = Common::getRequestVar('period', null, 'string');
-        $date    = Common::getRequestVar('date', null, 'string');
-        $segment = Common::getRequestVar('segment', false, 'string');
-        $pattern = Common::getRequestVar('pattern', '', 'string');
-        $limit   = Common::getRequestVar('filter_limit', 0, 'int');
-        $segment = $segment ?: false;
-        $request = $_GET + $_POST;
-
-        $dashboard = new Dashboard($period, $date, $segment);
-
-        if ($pattern !== '') {
-            $dashboard->search(strtolower($pattern));
-        }
-
-        $response = array(
-            'numSites' => $dashboard->getNumSites(),
-            'totals'   => $dashboard->getTotals(),
-            'lastDate' => $dashboard->getLastDate(),
-            'sites'    => $dashboard->getSites($request, $limit)
-        );
-
-        return json_encode($response);
-    }
-
+    /**
+     * @throws \Piwik\NoAccessException
+     */
     public function getSitesInfo($isWidgetized = false)
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $date   = Common::getRequestVar('date', 'today');
-        $period = Common::getRequestVar('period', 'day');
+        $date = Piwik::getDate('today');
+        $period = Piwik::getPeriod('day');
 
         $view = new View("@MultiSites/getSitesInfo");
 
@@ -93,8 +65,8 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];
         }
-
-        $params = $this->getGraphParamsModified();
+        $paramsToSet = ['period' => $period, 'date' => $date];
+        $params = $this->getGraphParamsModified($paramsToSet);
         $view->dateSparkline = $period == 'range' ? $date : $params['date'];
 
         $this->setGeneralVariablesView($view);

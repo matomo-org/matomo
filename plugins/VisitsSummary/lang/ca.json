@@ -17,11 +17,12 @@
         "NbUniquePageviewsDescription": "visualitzacions de pàgina úniques",
         "NbUniqueVisitors": "visitants únics",
         "NbUsersDescription": "usuaris",
-        "NbVisitsDescription": "visites",
         "NbVisitsBounced": "visites han rebotat (abandonat el lloc després de veure una pàgina)",
+        "NbVisitsDescription": "visites",
         "PluginDescription": "Informes generals d'anàlisi de mètriques: visites, visitants únics, número d'accions, percentatge de rebot, etc.",
         "VisitsSummary": "Resum de les visites",
         "VisitsSummaryDocumentation": "Aquesta és una visió general de l'evolució visita.",
+        "VisitsSummaryReportDocumentation": "Aquest informe ofereix una visió general molt general de com es comporten els vostres visitants.",
         "WidgetLastVisits": "Gràfic de les darreres visites",
         "WidgetOverviewGraph": "Resum amb gràfic",
         "WidgetVisits": "Resum de les visites"

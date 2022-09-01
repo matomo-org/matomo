@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "AndNOthers": "u.c. %s",
         "map": "karte"
     }
 }

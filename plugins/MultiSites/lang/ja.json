@@ -1,8 +1,16 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "このレポートは、訪問者に関する最も一般的なメトリックを含む、各Webサイトの情報の概要を提供します。",
         "Evolution": "推移",
+        "EvolutionComparisonDay": "%1$s %2$sこの日%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
+        "EvolutionComparisonIncomplete": "現在選択されている期間帯が%1$s完了しました。",
+        "EvolutionComparisonMonth": "%1$s %2$sこの月%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
+        "EvolutionComparisonProportional": "前期も%1$s完了した時点で、推定%2$s %3$sあったはずです\n（前期の合計で%4$s %3$sのうちに）。",
+        "EvolutionComparisonWeek": "%1$s %2$sこの週%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
+        "EvolutionComparisonYear": "%1$s %2$sこの年%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
         "LoadingWebsites": "ウェブサイトをロード中",
         "PluginDescription": "この便利な「すべてのウェブサイト」ダッシュボードで、すべてのウェブサイトとアプリケーションを見て、比較してください。",
+        "SingleWebsitesDashboardDocumentation": "このレポートは、訪問者に関する最も一般的なメトリックを含む、特定のWebサイトの情報の概要を提供します。",
         "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。"
     }
 }

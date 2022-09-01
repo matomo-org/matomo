@@ -11,7 +11,6 @@ namespace Piwik\Plugins\SitesManager;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Measurable\Type\TypeManager;
-use Piwik\Plugins\WebsiteMeasurable;
 
 class Menu extends \Piwik\Plugin\Menu
 {

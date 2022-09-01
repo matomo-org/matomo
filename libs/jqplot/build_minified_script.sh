@@ -1,5 +1,5 @@
 # build jqplot-custom.min.js
-# the yuicompressor needs to be set up in piwik/js (see piwik/js/README.md)
+# the yuicompressor needs to be set up in /path/to/matomo/js (see /path/to/matomo/js/README.md)
 
 cat jqplot.core.js > jqplot-custom.min.js-temp 
 cat jqplot.linearAxisRenderer.js >> jqplot-custom.min.js-temp

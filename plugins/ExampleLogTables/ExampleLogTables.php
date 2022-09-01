@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\ExampleLogTables;
 
 use Piwik\Common;
-use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
-use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 
 class ExampleLogTables extends \Piwik\Plugin
 {

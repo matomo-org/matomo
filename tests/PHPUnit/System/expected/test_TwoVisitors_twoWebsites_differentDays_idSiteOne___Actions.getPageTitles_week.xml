@@ -141,7 +141,7 @@
 			<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
 		</row>
 		<row>
-			<label> second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view😀💩😀💩</label>
 			<nb_visits>6</nb_visits>
 			<nb_hits>6</nb_hits>
 			<sum_time_spent>3240</sum_time_spent>
@@ -179,7 +179,7 @@
 			<avg_time_on_page>540</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
-			<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview</segment>
+			<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview%25F0%259F%2598%2580%25F0%259F%2592%25A9%25F0%259F%2598%2580%25F0%259F%2592%25A9</segment>
 		</row>
 		<row>
 			<label> Page Name not defined</label>
@@ -314,7 +314,7 @@
 			<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
 		</row>
 		<row>
-			<label> second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view😀💩😀💩</label>
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>1080</sum_time_spent>
@@ -352,7 +352,7 @@
 			<avg_time_on_page>540</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
-			<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview</segment>
+			<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview%25F0%259F%2598%2580%25F0%259F%2592%25A9%25F0%259F%2598%2580%25F0%259F%2592%25A9</segment>
 		</row>
 	</result>
 	<result date="2010-01-18,2010-01-24" />

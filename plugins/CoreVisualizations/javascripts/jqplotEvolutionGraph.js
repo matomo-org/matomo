@@ -142,6 +142,34 @@
                         }
 
                         content += '<h3 class="evolution-tooltip-header">'+piwikHelper.htmlEntities(label)+'</h3>'+dataByAxis[axisName].join('<br />');
+
+                        var last_n = null;
+                        switch (self.param.period) {
+                            case 'day':
+                                last_n = self.param.evolution_day_last_n;
+                                break;
+                            case 'week':
+                                last_n = self.param.evolution_week_last_n;
+                                break;
+                            case 'month':
+                                last_n = self.param.evolution_month_last_n;
+                                break;
+                            case 'year':
+                                last_n = self.param.evolution_year_last_n;
+                                break;
+                        }
+                        if (last_n) {
+                            var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+                            if (self.param.hasOwnProperty('dateUsedInGraph') && self.param.dateUsedInGraph.indexOf(',') > 0) {
+                                var graphDateRange = self.param.dateUsedInGraph.split(',');
+                                if (graphDateRange.length == 2) {
+                                    var hoverDateRange = piwikPeriods.RangePeriod.getLastNRangeChild(self.param.period, graphDateRange[1], (last_n - lastTick)-1);
+                                    if (hoverDateRange.containsToday()) {
+                                        content += '<br />(' + self._lang.incompletePeriod + ')';
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     $(this).tooltip({

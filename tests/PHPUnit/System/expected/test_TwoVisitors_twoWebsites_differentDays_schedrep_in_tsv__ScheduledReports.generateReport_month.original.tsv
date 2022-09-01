@@ -21,7 +21,7 @@ Region
 label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
 Unknown	11	43	3.9	00:10:55	27%	$0
 
-Browser language
+Web-browser language
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Unknown	8	40	0%	5	00:15:01	0%
 French	3	3	0%	1	00:00:00	100%
@@ -126,7 +126,7 @@ label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site
 22	0	0	0%	0	00:00:00	0%
 23	0	0	0%	0	00:00:00	0%
 
-Visits per server time
+Visits per hour in the site's timezone
 label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
 00	1	1	1	00:00:00	100%	$0
 01	0	0	0	00:00:00	0%	$0
@@ -153,7 +153,7 @@ label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	rev
 22	0	0	0	00:00:00	0%	$0
 23	1	1	1	00:00:00	100%	$0
 
-Visits by Day of Week
+Visits by day of the week
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Monday	2	6	0%	3	00:07:31	50%
 Tuesday	2	10	0%	5	00:15:01	0%
@@ -209,7 +209,7 @@ Page titles
 label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
 Checkout / Purchasing...	8	8	0%	00:00:00	100%
 second visitor/two days later/a new visit	8	8	0%	00:06:00	0%
-second visitor/two days later/second page view	8	8	0%	00:09:00	0%
+second visitor/two days later/second page view😀💩😀💩	8	8	0%	00:09:00	0%
 first page view	2	2	100%	00:00:00	100%
 Page Name not defined	1	1	0%	00:00:00	0%
 
@@ -249,11 +249,11 @@ No data available
 Content Piece
 No data available
 
-Length of Visits
+Length of visits
 label	nb_visits
-0-10s	3
-11-30s	0
-31-60s	0
+0–10s	3
+11–30s	0
+31–60s	0
 1-2 min	0
 2-4 min	0
 4-7 min	0
@@ -262,7 +262,7 @@ label	nb_visits
 15-30 min	8
 30+ min	0
 
-Pages per Visit
+Pages per visit
 label	nb_visits
 1 page	3
 2 pages	0
@@ -275,7 +275,7 @@ label	nb_visits
 15-20 pages	0
 21+ pages	0
 
-Visits by Visit Number
+Visits by visit number
 label	nb_visits	nb_visits_percentage
 1 visit	2	18%
 2 visits	2	18%

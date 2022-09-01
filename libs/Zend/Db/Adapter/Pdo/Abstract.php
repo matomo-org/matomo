@@ -123,9 +123,9 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
         try {
             $this->_connection = new PDO(
                 $dsn,
-                $this->_config['username'],
-                $this->_config['password'],
-                $this->_config['driver_options']
+                $this->_config['username'] ?? null,
+                $this->_config['password'] ?? null,
+                $this->_config['driver_options'] ?? null
             );
 
             $this->_profiler->queryEnd($q);

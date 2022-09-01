@@ -17,7 +17,6 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     protected function retrieveFileLocations()
     {
         if (!empty($this->plugins)) {
-
             /**
              * Triggered when gathering the list of all JavaScript files needed by Piwik
              * and its plugins.
@@ -71,13 +70,16 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     {
         return array(
             'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery/dist/jquery.js',
             'node_modules/materialize-css/dist/js/materialize.min.js', // so jquery ui datepicker overrides materializecss
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
+            'node_modules/jquery-ui-dist/jquery-ui.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             "node_modules/jquery.browser/dist/jquery.browser.min.js",
             'node_modules/',
             'libs/',
             'js/',
+            'plugins/CoreVue/polyfills/dist/MatomoPolyfills',
             'piwik.js',
             'matomo.js',
             'plugins/CoreHome/javascripts/require.js',

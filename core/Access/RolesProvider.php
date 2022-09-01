@@ -59,7 +59,7 @@ class RolesProvider
     {
         if (!$this->isValidRole($roleId)) {
             $roles = $this->getAllRoleIds();
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $roles)));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", [implode(", ", $roles), $roleId]));
         }
     }
 

@@ -11,11 +11,11 @@ namespace Piwik;
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Container\StaticContainer;
-use Piwik\Session\SessionAuth;
+use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\View\ViewInterface;
 use Piwik\View\SecurityPolicy;
 use Twig\Environment;
-use Twig\Error\Error;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -153,12 +153,19 @@ class View implements ViewInterface
         $this->piwik_version = Version::VERSION;
         $this->userLogin = Piwik::getCurrentUserLogin();
         $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        // following is used in ajaxMacros called macro (showMoreHelp as passed in other templates) - requestErrorDiv
+        $isGeneralSettingsAdminEnabled = Controller::isGeneralSettingsAdminEnabled();
+        $isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
+        // simplify template usage
+        $this->showMoreFaqInfo = $this->isSuperUser && ($isGeneralSettingsAdminEnabled || $isPluginsAdminEnabled);
 
         try {
             $this->piwikUrl = SettingsPiwik::getPiwikUrl();
         } catch (Exception $ex) {
             // pass (occurs when DB cannot be connected to, perhaps piwik URL cache should be stored in config file...)
         }
+
+        $this->userRequiresPasswordConfirmation = Piwik::doesUserRequirePasswordConfirmation(Piwik::getCurrentUserLogin());
     }
 
     /**
@@ -352,12 +359,13 @@ class View implements ViewInterface
             $cache->save('cssCacheBusterId', $cssCacheBusterId);
         }
 
-        $tagJs  = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
+        $tagJs  = 'cb=' . ($this->cacheBuster ?? $cacheBuster->piwikVersionBasedCacheBuster());
         $tagCss = 'cb=' . $cssCacheBusterId;
 
         $pattern = array(
             '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
             '~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
+            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+?chunk=[^\'"]+)[\'"] defer>~',
             '~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
             // removes the double ?cb= tag
             '~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
@@ -366,6 +374,7 @@ class View implements ViewInterface
         $replace = array(
             '<script type="text/javascript" src="$1?' . $tagJs . '">',
             '<script type="text/javascript" src="$1?' . $tagJs . '">',
+            '<script type="text/javascript" src="$1&' . $tagJs . '" defer>',
             '<link rel="stylesheet" type="text/css" href="$1?' . $tagCss . '" />',
             '$1="index.php?module=$2&amp;action=$3&amp;cb=',
         );
@@ -441,8 +450,13 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
-        Filesystem::unlinkRecursive($templatesCompiledPath, false);
+        $enable = StaticContainer::get('view.clearcompiledtemplates.enable');
+        if ($enable) {
+            // some high performance systems that run many Matomo instances may never want to clear this template cache
+            // if they use eg a blue/green deployment
+            $templatesCompiledPath = StaticContainer::get('path.tmp.templates');
+            Filesystem::unlinkRecursive($templatesCompiledPath, false);
+        }
     }
 
     /**

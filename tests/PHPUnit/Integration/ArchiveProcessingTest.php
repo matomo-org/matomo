@@ -9,8 +9,6 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
-use Piwik\Access;
-use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -21,10 +19,8 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;

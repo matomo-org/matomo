@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Copiar o painel para o utilizador",
         "CreateNewDashboard": "Criar um novo painel",
         "Dashboard": "Painel",
+        "DashboardCategoryHelp": "Esta é página de dashboard. Dashboards são uma coleção de widgets do Matomo que pode adicionar para se adaptarem às suas necessidades específicas. Misture e organize qualquer um dos widgets to Matomo para obter as informações que %1$s*você*%2$s precisa.",
         "DashboardCopied": "O painel atual foi copiado com sucesso para o utilizador selecionado.",
         "DashboardEmptyNotification": "O seu painel não contém quaisquer widgets. Comece por adicionar alguns widgets ou simplesmente reponha o painel para a seleção predefinida de widgets.",
         "DashboardName": "Nome do painel:",

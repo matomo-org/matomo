@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Events;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;

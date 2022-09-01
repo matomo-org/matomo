@@ -15,8 +15,6 @@ use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
-use Piwik\Http;
-use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -39,26 +37,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
-    }
-
-    public function test_CustomVariablesAndProviderPluginCanBeUninstalledOnceNoLongerIncludedInPackage()
-    {
-        $pluginsToTest = ['CustomVariables', 'Provider'];
-
-        $pluginManager = Plugin\Manager::getInstance();
-
-        $package = Http::sendHttpRequest('https://raw.githubusercontent.com/matomo-org/matomo-package/master/scripts/build-package.sh', 20);
-
-        foreach ($pluginsToTest as $pluginToTest) {
-            $isPluginBundledWithCore = $pluginManager->isPluginBundledWithCore($pluginToTest);
-            $isPluginIncludedInBuildZip = strpos($package, 'plugins/' . $pluginToTest) !== false;
-
-            if ($isPluginBundledWithCore xor $isPluginIncludedInBuildZip) {
-                throw new Exception('Expected that when plugin can be uninstalled (is not included in core), then the plugin is also included in the build-package.sh so it is included in the release zip. Once we no longer include this plugin in build.zip then we need to allow uninstalling these plugins by changing isPluginBundledWithCore method. Plugin is ' . $pluginToTest);
-            }
-        }
-
-        $this->assertNotEmpty($isPluginBundledWithCore, 'We expect at least one plugin to be checked in this test, otherwise we can remove this test once they are no longer included in core');
     }
 
     public function test_TestCaseHasSetGroupsMethod()
@@ -636,7 +614,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 54;
+        $maximumTotalFilesizesExpectedInMb = 58;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 
@@ -716,6 +694,31 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEmpty($filesThatDoNotExist, 'The following asset files in UIAssetFetcher::$bowerComponentFileMappings do not exist: '
             . implode(', ', $filesThatDoNotExist));
+    }
+
+    public function test_noVueHtmlWithoutSanitize()
+    {
+        $command = 'grep -r "v-html=" ' . PIWIK_INCLUDE_PATH . '/plugins --include=*.vue | grep -v "v-html=[\'\\"]\\$sanitize"';
+        $output = shell_exec($command);
+
+        $errorMessage = "";
+        if (!empty($output)) {
+            $lines = explode("\n", $output);
+
+            $files = [];
+            foreach ($lines as $line) {
+                if (empty(trim($line))) {
+                    continue;
+                }
+
+                list($file, $match) = explode(':', $line);
+                $files[] = '- ' . trim($file);
+            }
+
+            $errorMessage = "Found uses of v-html without \$sanitize:\n" . implode("\n", $files);
+        }
+
+        $this->assertEmpty($output, $errorMessage);
     }
 
     /**
@@ -805,8 +808,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function getComposerRequireDevPackages()
     {
-        $composerJson = $this->getComposerJsonAsArray();
-        $composerDependencyDevOnly = array_keys($composerJson["require-dev"]);
+        $composerJson = $this->getComposerLockAsArray();
+        $composerDependencyDevOnly = array_keys($composerJson["packages-dev"]);
         return $composerDependencyDevOnly;
     }
 
@@ -819,8 +822,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isFilePathFoundInArray($file, $filesToMatchAgainst)
     {
-        foreach ($filesToMatchAgainst as $devPackageName) {
-            if (strpos($file, $devPackageName) !== false || fnmatch(PIWIK_INCLUDE_PATH.'/'.$devPackageName, $file)) {
+        foreach ($filesToMatchAgainst as $fileToMatchAgainst) {
+            if (strpos($file, $fileToMatchAgainst) !== false || fnmatch(PIWIK_INCLUDE_PATH.'/'.$fileToMatchAgainst, $file)) {
                 return true;
             }
         }
@@ -837,34 +840,43 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             # Should stay synchronised with: https://github.com/matomo/matomo-package/blob/master/scripts/build-package.sh#L104-L116
             'composer.phar',
             'vendor/bin/',
-            'vendor/twig/twig/test/',
-            'vendor/twig/twig/doc/',
-            'vendor/symfony/console/Symfony/Component/Console/Resources/bin',
-            'vendor/tecnickcom/tcpdf/examples',
-            'vendor/tecnickcom/tcpdf/CHANGELOG.TXT',
-            'vendor/guzzle/guzzle/docs/',
-            'vendor/davaxi/sparkline/tests',
-            'vendor/php-di/php-di/benchmarks/',
-            'vendor/geoip2/geoip2/.gitmodules',
-            'vendor/geoip2/geoip2/.php_cs',
+            'vendor/container-interop/container-interop/docs',
+            'vendor/davaxi/sparkline/composer-8.json',
+            'vendor/davaxi/sparkline/docker-compose.yml',
+            'vendor/davaxi/sparkline/Dockerfile',
+            'vendor/geoip2/geoip2/examples/',
+            'vendor/lox/xhprof/bin',
+            'vendor/lox/xhprof/examples',
+            'vendor/lox/xhprof/scripts',
+            'vendor/lox/xhprof/extension',
+            'vendor/lox/xhprof/xhprof_html',
             'vendor/maxmind-db/reader/ext/',
             'vendor/maxmind-db/reader/autoload.php',
             'vendor/maxmind-db/reader/CHANGELOG.md',
             'vendor/maxmind/web-service-common/dev-bin/',
             'vendor/maxmind/web-service-common/CHANGELOG.md',
-            'vendor/php-di/invoker/doc/',
-            'vendor/szymach/c-pchart/doc',
-            'vendor/leafo/lessphp/docs',
-            'vendor/container-interop/container-interop/docs',
             'vendor/pear/archive_tar/docs',
-
-            # Delete un-used files from the matomo-icons repository
+            'vendor/php-di/invoker/doc/',
+            'vendor/php-di/php-di/benchmarks/',
+            'vendor/symfony/console/Symfony/Component/Console/Resources/bin',
+            'vendor/szymach/c-pchart/resources/doc',
+            'vendor/szymach/c-pchart/coverage.sh',
+            'vendor/szymach/c-pchart/codeception.yml',
+            'vendor/tecnickcom/tcpdf/examples',
+            'vendor/tecnickcom/tcpdf/tools',
+            'vendor/tecnickcom/tcpdf/CHANGELOG.TXT',
+            'vendor/twig/twig/test/',
+            'vendor/twig/twig/doc/',
+            'vendor/twig/twig/.php-cs-fixer.dist.php',
+            'config/environment/test.php',
+            'config/environment/ui-test.php',
+            'plugins/*/config/test.php',
+            'plugins/*/config/ui-test.php',
             'plugins/Morpheus/icons/src*',
             'plugins/Morpheus/icons/tools*',
             'plugins/Morpheus/icons/flag-icon-css*',
             'plugins/Morpheus/icons/submodules*',
             'plugins/Morpheus/icons/.git*',
-            'plugins/Morpheus/icons/.travis.yml',
             'plugins/Morpheus/icons/*.py',
             'plugins/Morpheus/icons/*.sh',
             'plugins/Morpheus/icons/*.json',
@@ -873,10 +885,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'plugins/Morpheus/icons/*.txt',
             'plugins/Morpheus/icons/*.php',
             'plugins/Morpheus/icons/*.yml',
-
             'plugins/Example*',
-
-            # Delete un-used fonts
             'vendor/tecnickcom/tcpdf/fonts/ae_fonts_2.0',
             'vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.33',
             'vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.34',
@@ -899,56 +908,37 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/tecnickcom/tcpdf/fonts/pdf*',
             'vendor/tecnickcom/tcpdf/fonts/times*',
             'vendor/tecnickcom/tcpdf/fonts/uni2cid*',
-
-            'vendor/szymach/c-pchart/src/Resources/fonts/advent_light*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Bedizen*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/calibri*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Forgotte*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/MankSans*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/pf_arma_five*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/Silkscreen*',
-            'vendor/szymach/c-pchart/src/Resources/fonts/verdana*',
-
-            # not needed js files
+            'vendor/szymach/c-pchart/resources/fonts/advent_light*',
+            'vendor/szymach/c-pchart/resources/fonts/Bedizen*',
+            'vendor/szymach/c-pchart/resources/fonts/calibri*',
+            'vendor/szymach/c-pchart/resources/fonts/Forgotte*',
+            'vendor/szymach/c-pchart/resources/fonts/MankSans*',
+            'vendor/szymach/c-pchart/resources/fonts/pf_arma_five*',
+            'vendor/szymach/c-pchart/resources/fonts/Silkscreen*',
+            'vendor/szymach/c-pchart/resources/fonts/verdana*',
             'node_modules/angular/angular.min.js.gzip',
             'node_modules/angular/angular.js',
-            'node_modules/angular/bower.json',
-
             'node_modules/angular-animate/angular-animate.min.js.gzip',
             'node_modules/angular-animate/angular-animate.js',
-            'node_modules/angular-animate/bower.json',
-
             'node_modules/angular-sanitize/angular-sanitize.min.js.gzip',
             'node_modules/angular-sanitize/angular-sanitize.js',
-            'node_modules/angular-sanitize/bower.json',
-
             'node_modules/angular-cookies/angular-cookies.min.js.gzip',
             'node_modules/angular-cookies/angular-cookies.js',
-            'node_modules/angular-cookies/bower.json',
-
             'node_modules/chroma-js/Makefile',
-            'node_modules/chroma-js/bower.json',
             'node_modules/chroma-js/chroma.js',
             'node_modules/chroma-js/doc',
             'node_modules/chroma-js/readme.md',
             'node_modules/chroma-js/src',
             'node_modules/chroma-js/test',
-
             'node_modules/iframe-resizer/js/iframeResizer.contentWindow.js',
             'node_modules/iframe-resizer/js/iframeResizer.js',
             'node_modules/iframe-resizer/src/ie8.polyfils.js',
             'node_modules/iframe-resizer/src/iframeResizer.contentWindow.js',
             'node_modules/iframe-resizer/src/iframeResizer.js',
             'node_modules/iframe-resizer/test-main.js',
-            'node_modules/iframe-resizer/bower.json',
-            'node_modules/iframe-resizer/gruntfile.js',
-            'node_modules/iframe-resizer/karma-conf.js',
-
             'node_modules/jquery/dist/jquery.js',
-            'node_modules/jquery/bower.json',
             'node_modules/jquery/src',
-            'node_modules/jquery/external/sizzle/dist/sizzle.js',
-
+            'node_modules/jquery/external',
             'node_modules/jquery-ui-dist/component.json',
             'node_modules/jquery-ui-dist/external',
             'node_modules/jquery-ui-dist/images',
@@ -957,89 +947,110 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'node_modules/jquery-ui-dist/jquery-ui.js',
             'node_modules/jquery-ui-dist/jquery-ui.structure.css',
             'node_modules/jquery-ui-dist/jquery-ui.theme.css',
-
-            'node_modules/jquery.browser/Gruntfile.js',
-            'node_modules/jquery.browser/bower.json',
             'node_modules/jquery.browser/test',
             'node_modules/jquery.browser/dist/jquery.browser.js',
-
-            'node_modules/jquery.dotdotdot/bower.json',
             'node_modules/jquery.dotdotdot/gulpfile.js',
             'node_modules/jquery.dotdotdot/index.html',
             'node_modules/jquery.dotdotdot/dotdotdot.jquery.json',
-            'node_modules/jquery.dotdotdot/src/jquery.dotdotdot.js',
-            'node_modules/jquery.dotdotdot/src/jquery.dotdotdot.min.umd.js',
-
+            'node_modules/jquery.dotdotdot/src',
             'node_modules/jquery.scrollto/jquery.scrollTo.js',
             'node_modules/jquery.scrollto/scrollTo.jquery.json',
-            'node_modules/jquery.scrollto/bower.json',
             'node_modules/jquery.scrollto/changes.txt',
             'node_modules/jquery.scrollto/demo',
-            'node_modules/jquery.scrollto/tests',
-
-            'node_modules/materialize-css/Gruntfile.js',
             'node_modules/materialize-css/extras',
             'node_modules/materialize-css/js',
             'node_modules/materialize-css/sass',
             'node_modules/materialize-css/dist/js/materialize.js',
             'node_modules/materialize-css/dist/css/materialize.css',
-
-            'node_modules/mousetrap/Gruntfile.js',
             'node_modules/mousetrap/mousetrap.js',
-            'node_modules/mousetrap/tests',
             'node_modules/mousetrap/plugins',
-
+            'node_modules/mousetrap/mousetrap.sublime-project',
             'node_modules/ng-dialog/CONTRIBUTING.md',
-            'node_modules/ng-dialog/Gruntfile.js',
-            'node_modules/ng-dialog/bower.json',
             'node_modules/ng-dialog/css',
             'node_modules/ng-dialog/example',
-            'node_modules/ng-dialog/karma.conf.js',
             'node_modules/ng-dialog/protractor.conf.js',
             'node_modules/ng-dialog/server.js',
-            'node_modules/ng-dialog/tests',
-
-            'node_modules/qrcodejs2/bower.json',
             'node_modules/qrcodejs2/index-svg.html',
             'node_modules/qrcodejs2/index.html',
             'node_modules/qrcodejs2/index.svg',
             'node_modules/qrcodejs2/jquery.min.js',
             'node_modules/qrcodejs2/qrcode.js',
-
             'node_modules/sprintf-js/CONTRIBUTORS.MD',
             'node_modules/sprintf-js/README.md',
             'node_modules/sprintf-js/src',
-
             'node_modules/visibilityjs/ChangeLog.md',
             'node_modules/visibilityjs/component.json',
             'node_modules/visibilityjs/index.d.ts',
             'node_modules/visibilityjs/index.js',
             'node_modules/visibilityjs/README.md',
-
+            'node_modules/vue/dist/vue.cjs.js',
+            'node_modules/vue/dist/vue.cjs.prod.js',
+            'node_modules/vue/dist/vue.d.ts',
+            'node_modules/vue/dist/vue.esm-browser.js',
+            'node_modules/vue/dist/vue.esm-browser.prod.js',
+            'node_modules/vue/dist/vue.esm-bundler.js',
+            'node_modules/vue/dist/vue.runtime.esm-browser.js',
+            'node_modules/vue/dist/vue.runtime.esm-browser.prod.js',
+            'node_modules/vue/dist/vue.runtime.esm-bundler.js',
+            'node_modules/vue/dist/vue.runtime.global.js',
+            'node_modules/vue/dist/vue.runtime.global.prod.js',
             'libs/jqplot/jqplot.core.js',
             'libs/jqplot/jqplot.lineRenderer.js',
             'libs/jqplot/jqplot.linearAxisRenderer.js',
             'libs/jqplot/jqplot.themeEngine.js',
             'libs/jqplot/plugins/jqplot.barRenderer.js',
             'libs/jqplot/plugins/jqplot.pieRenderer.js',
-
             'config/config.php',
-
-            'libs/PhpDocumentor-1.3.2/',
-            'libs/FirePHPCore/',
-            'libs/open-flash-chart/php-ofc-library/ofc_upload_image.php',
-
-            'tmp/*',
-            'misc/updateLanguageFiles.sh',
-            'misc/others/db-schema*',
-            'misc/others/diagram_general_request*',
-            '.coveralls.yml',
-            '.scrutinizer.yml',
-            '.phpstorm.meta.php',
-            '.lfsconfig',
-            'HIRING.md',
-            '.github/',
-
+            '*.gitignore',
+            '*.gitmodules',
+            '*.gitattributes',
+            '*.bowerrc',
+            '*.bower.json',
+            '*bower.json',
+            '*.coveralls.yml',
+            '*.editorconfig',
+            '*.gitkeep',
+            '*.jshintrc',
+            '*.php_cs',
+            '*.php_cs.dist',
+            '*phpunit.xml.dist',
+            '*phpunit.xml',
+            '*.phpcs.xml.dist',
+            '*phpcs.xml',
+            '*Gruntfile.js',
+            '*gruntfile.js',
+            '*.map',
+            '*.travis.yml',
+            '*installed.json',
+            '*package.json',
+            '*package-lock.json',
+            '*yarn.lock',
+            '*.scrutinizer.yml',
+            '*.gitstats.yml',
+            '*composer.json',
+            '*composer.lock',
+            '*.spec.js',
+            '*.phpstorm.meta.php',
+            '*.lfsconfig',
+            '*.travis.sh',
+            '*tsconfig.json',
+            '*tsconfig.spec.json',
+            '*.eslintrc.js',
+            '*.eslintignore',
+            '*.eslintrc',
+            '*.browserslistrc',
+            '*babel.config.js',
+            '*jest.config.js',
+            '*karma.conf.js',
+            '*karma-conf.js',
+            '*vue.config.js',
+            '*.npmignore',
+            '*.ncurc.json',
+            '*.prettierrc',
+            '*.jscsrc',
+            '*phpstan.neon',
+            '*phpstan.neon.dist',
+            '*package.xml',
         ];
 
         return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);
@@ -1094,7 +1105,10 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 || strpos($file, 'node_modules/') !== false
                 || strpos($file, 'vendor/mayflower/mo4-coding-standard/') !== false
                 || strpos($file, 'vendor/symfony/polyfill-iconv/') !== false
-                || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
+                || strpos($file, 'plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js') !== false
+                || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false
+                || preg_match('%/plugins/[a-zA-Z0-9_]+/vue/dist%', $file)
+            ) {
                 continue;
             }
 
@@ -1108,7 +1122,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             $countFileChecked++;
         }
-        $this->assertTrue($countFileChecked > 42, "expected to test at least 100 files, but tested only " . $countFileChecked);
+        $this->assertGreaterThan(1, $countFileChecked, "expected to test at least one file, but tested only " . $countFileChecked);
 
         if (!empty($errors)) {
             throw new Exception(implode(",\n\n ", $errors));
@@ -1130,6 +1144,16 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function getComposerJsonAsArray()
     {
         $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.json');
+        $composerJson = json_decode($composer, $assoc = true);
+        return $composerJson;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getComposerLockAsArray()
+    {
+        $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.lock');
         $composerJson = json_decode($composer, $assoc = true);
         return $composerJson;
     }

@@ -44,7 +44,7 @@ class ServerFilesGenerator
             "</IfModule>\n\n" .
 
             "# Allow to serve static files which are safe\n" .
-            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|mp3|mp4|wav|ogg|avi|ttf|eot|woff|woff2|json)$\">\n" .
+            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|mp3|mp4|wav|ogg|avi|ttf|eot|woff|woff2)$\">\n" .
             $allow . "\n" .
             "</Files>\n";
 
@@ -56,11 +56,17 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 </IfModule>
 </Files>";
 
+        $allowManifestFile =
+            "# Allow to serve manifest.json\n" .
+            "<Files \"manifest.json\">\n" .
+            $allow . "\n" .
+            "</Files>\n";
+
         $directoriesToProtect = array(
             '/js'           => $allowAny . $noCachePreview,
             '/libs'         => $denyAll . $allowStaticAssets,
             '/vendor'       => $denyAll . $allowStaticAssets,
-            '/plugins'      => $denyAll . $allowStaticAssets,
+            '/plugins'      => $denyAll . $allowStaticAssets . $allowManifestFile,
             '/misc/user'    => $denyAll . $allowStaticAssets,
             '/node_modules' => $denyAll . $allowStaticAssets,
         );

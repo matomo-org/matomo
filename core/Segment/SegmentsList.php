@@ -132,6 +132,20 @@ class SegmentsList
             $dimension->configureSegments($list, new DimensionSegmentFactory($dimension));
         }
 
+        /**
+         * Triggered to filter segment definitions.
+         *
+         * **Example**
+         *
+         *     public function filterSegments(&$segmentList)
+         *     {
+         *         $segmentList->remove('Category');
+         *     }
+         *
+         * @param SegmentsList $list An instance of the SegmentsList.
+         */
+        Piwik::postEvent('Segment.filterSegments', array($list));
+        
         $cache->save($cacheKey, $list);
 
         return $list;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
 use Exception;
@@ -110,11 +112,21 @@ class Tracker
     {
         try {
             $this->init();
+
+            if ($this->isPreFlightCorsRequest()) {
+                Common::sendHeader('Access-Control-Allow-Methods: GET, POST');
+                Common::sendHeader('Access-Control-Allow-Headers: *');
+                Common::sendHeader('Access-Control-Allow-Origin: *');
+                Common::sendResponseCode(204);
+                $this->logger->debug("Tracker detected preflight CORS request. Skipping...");
+                return null;
+            }
+
             $handler->init($this, $requestSet);
 
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
-            StaticContainer::get(LoggerInterface::class)->debug("Tracker encountered an exception: {ex}", [$e]);
+            $this->logger->debug("Tracker encountered an exception: {ex}", [$e]);
 
             $handler->onException($this, $requestSet, $e);
         }
@@ -171,7 +183,8 @@ class Tracker
      */
     public static function initCorePiwikInTrackerMode()
     {
-        if (SettingsServer::isTrackerApiRequest()
+        if (
+            SettingsServer::isTrackerApiRequest()
             && self::$initTrackerMode === false
         ) {
             self::$initTrackerMode = true;
@@ -291,7 +304,8 @@ class Tracker
         }
 
         // Tests using window_look_back_for_visitor
-        if (Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1
+        if (
+            Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1
             // also look for this in bulk requests (see fake_logs_replay.log)
             || strpos(json_encode($args, true), '"forceLargeWindowLookBackForVisitor":"1"') !== false
         ) {
@@ -330,7 +344,8 @@ class Tracker
 
     private function handleFatalErrors()
     {
-        register_shutdown_function(function () { // TODO: add a log here
+        register_shutdown_function(function () {
+            // TODO: add a log here
             $lastError = error_get_last();
             if (!empty($lastError) && $lastError['type'] == E_ERROR) {
                 Common::sendResponseCode(500);
@@ -353,6 +368,14 @@ class Tracker
         } catch (Exception $e) {
         }
 
+        return false;
+    }
+
+    public function isPreFlightCorsRequest(): bool
+    {
+        if (isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD']) === 'OPTIONS') {
+            return !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) || !empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']);
+        }
         return false;
     }
 }

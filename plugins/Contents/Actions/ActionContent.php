@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Contents\Actions;
 
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
-use Piwik\Tracker;
 
 /**
  * A content is composed of a name, an actual piece of content, and optionally a target.

@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\CustomDimensions;
 
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Piwik;
-use Piwik\View;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {

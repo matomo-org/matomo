@@ -44,7 +44,7 @@ describe("MultiSitesTest", function () {
 
     it('should load the all websites dashboard correctly', async function() {
         await page.goto("?" + generalParams + "&module=MultiSites&action=index");
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector(selector)).to.matchImage('all_websites');

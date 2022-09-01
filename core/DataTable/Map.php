@@ -11,7 +11,6 @@ namespace Piwik\DataTable;
 use Closure;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable\Renderer\Html;
 
 /**
@@ -511,6 +510,19 @@ class Map implements DataTableInterface
             }
         }
         return array_values($data);
+    }
+
+    /**
+     * Delete row metadata by name in every row.
+     *
+     * @param       $name
+     * @param bool $deleteRecursiveInSubtables
+     */
+    public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false)
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->deleteRowsMetadata($name, $deleteRecursiveInSubtables);
+        }
     }
 
     /**

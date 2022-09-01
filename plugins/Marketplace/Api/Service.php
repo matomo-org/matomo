@@ -132,7 +132,7 @@ class Service
 
         $response = $this->download($url);
 
-        $result = json_decode($response, true);
+        $result = json_decode($response ?? '', true);
 
         if (is_null($result)) {
             $message = sprintf('There was an error reading the response from the Marketplace: Please try again later.');

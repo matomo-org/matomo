@@ -10,8 +10,6 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Archive\Chunk;
 use Piwik\DataAccess\ArchiveWriter;
-use Piwik\DataTable;
-use Piwik\Segment;
 
 /**
  * @group ArchiveWriterTest

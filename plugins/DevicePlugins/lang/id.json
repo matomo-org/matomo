@@ -1,8 +1,10 @@
 {
     "DevicePlugins": {
-        "BrowserWithNoPluginsEnabled": "%1$s dengan tanpa pengaya diaktifkan",
-        "BrowserWithPluginsEnabled": "%1$s dengan %2$s pengaya diaktifkan",
-        "WidgetPlugins": "Daftar Pengaya",
-        "WidgetPluginsDocumentation": "Laporan ini menunjukkan pengaya peramban yang diaktifkan oleh pengunjung. Informasi yang tersedia kemungkinan penting untuk memilih cara terbaik untuk menyampaikan konten Anda."
+        "BrowserWithNoPluginsEnabled": "%1$s tanpa pengaya yang diaktifkan",
+        "BrowserWithPluginsEnabled": "%1$s dengan pengaya %2$s yang diaktifkan",
+        "PluginDescription": "Melaporkan daftar pengaya yang didukung di peramban pengunjung.",
+        "PluginDetectionDoesNotWorkInIE": "Catatan: Deteksi pengaya tidak berfungsi di Internet Explorer sebelum versi 11. Laporan ini hanya didasarkan pada peramban non-IE dan versi IE yang lebih baru.",
+        "WidgetPlugins": "Pengaya Peramban",
+        "WidgetPluginsDocumentation": "Laporan ini menunjukkan pengaya peramban mana yang diaktifkan oleh pengunjung Anda. Informasi ini mungkin penting untuk memilih cara yang tepat untuk menyampaikan konten Anda."
     }
 }

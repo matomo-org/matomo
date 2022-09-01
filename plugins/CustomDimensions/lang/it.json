@@ -1,0 +1,18 @@
+{
+    "CustomDimensions": {
+        "CannotBeDeleted": "Una Dimensione Custom non può essere eliminata, solo disattivata.",
+        "ColumnAvgTimeOnDimension": "Tempo medio sulla dimensione",
+        "ColumnUniqueActions": "Azioni uniche",
+        "ConfigureDimension": "Configura una %1$sDimensione Custom%2$s",
+        "ConfigureNewDimension": "Configura una nuova dimensione",
+        "CustomDimensionId": "Dimensioni custom (Id %d)",
+        "CustomDimensions": "Dimensioni custom",
+        "CustomDimensionsIntro": "Creando %1$sDimensioni Custom%2$s puoi raccogliere dati personalizzati per '%3$s'.",
+        "DimensionCreated": "Dimensione custom creata",
+        "DimensionUpdated": "Dimensione custom aggiornata",
+        "EmptyValue": "valore vuoto",
+        "ExceptionDimensionDoesNotExist": "La dimensione %1$d per il sito %2$d non esiste.",
+        "ExceptionDimensionIsNotActive": "La dimensione %1$d per il sito %2$d non è attiva.",
+        "ExtractValue": "Estrai valore"
+    }
+}

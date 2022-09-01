@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Dashboard\tests\Integration;
 
 use Piwik\Plugins\Dashboard\API;
+use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\Dashboard\Model;
 use Piwik\Plugins\UsersManager;
 use Piwik\Tests\Framework\Fixture;
@@ -125,6 +126,30 @@ class APITest extends IntegrationTestCase
         $this->api->createNewDashboardForUser('eva', 'name', $layout);
     }
 
+    public function testCreateNewDashboardForAnonymousDoesNotWork()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'anonymous';
+
+        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+        $this->api->createNewDashboardForUser('anonymous', 'name', $layout);
+    }
+
+    public function testCreateNewDashboardForAnonymousDoesNotWorkForSuperUser()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('This method can\'t be performed for anonymous user');
+
+        FakeAccess::$superUser = true;
+        FakeAccess::$identity = 'eva';
+
+        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+        $this->api->createNewDashboardForUser('anonymous', 'name', $layout);
+    }
+
     public function testCreateNewDashboardForUserHimself()
     {
         FakeAccess::$superUser = false;
@@ -172,6 +197,28 @@ class APITest extends IntegrationTestCase
         $this->expectExceptionMessage('Dashboard not found');
 
         $this->api->copyDashboardToUser(5, 'eva', 'new name');
+    }
+
+    public function testRemoveDashboardForAnonymousDoesntWork()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'anonymous';
+
+        $this->api->removeDashboard(1, 'anonymous');
+    }
+
+    public function testRemoveDashboardForAnonymousDoesntWorkForSuperUser()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('This method can\'t be performed for anonymous user');
+
+        FakeAccess::$superUser = true;
+        FakeAccess::$identity = 'eva';
+
+        $this->api->removeDashboard(1, 'anonymous');
     }
 
     public function testRemoveDashboardForUserHimself()
@@ -229,6 +276,45 @@ class APITest extends IntegrationTestCase
 
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertEmpty($dashboards);
+    }
+
+    public function testResetDashboardForAnonymousDoesntWork()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'anonymous';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        $this->api->resetDashboardLayout(1, 'anonymous');
+    }
+
+    public function testResetDashboardForAnonymousDoesntWorkForSuperUser()
+    {
+        FakeAccess::$superUser = true;
+        FakeAccess::$identity = 'eva';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('This method can\'t be performed for anonymous user');
+
+        $this->api->resetDashboardLayout(1, 'anonymous');
+    }
+
+    public function testResetDashboard()
+    {
+        $db = new Dashboard();
+        $dashboards = $this->model->getAllDashboardsForUser('eva');
+        $this->assertEmpty($dashboards);
+
+        $id = $this->api->createNewDashboardForUser('eva', 'name', false);
+
+        $dashboard = $db->getLayoutForUser('eva', $id);
+        $this->assertEquals('{}', $dashboard);
+
+        $this->api->resetDashboardLayout($id, 'eva');
+
+        $dashboard = $db->getLayoutForUser('eva', $id);
+        $this->assertEquals($db->getDefaultLayout(), $dashboard);
     }
 
     public function provideContainerConfig()

@@ -62,7 +62,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -962,7 +962,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -1862,7 +1862,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -10886,7 +10886,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -14494,7 +14494,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -15394,7 +15394,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
@@ -21710,7 +21710,7 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Chrome 17.0</browser>
 		<browserName>Chrome</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>

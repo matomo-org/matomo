@@ -70,7 +70,7 @@ class DiagnosticResult
         }
 
         if ($escapeComment) {
-            $comment = Common::sanitizeInputValue($comment);
+            $comment = Common::fixLbrace(Common::sanitizeInputValue($comment));
         }
 
         return self::singleResult($label, self::STATUS_INFORMATIONAL, $comment);

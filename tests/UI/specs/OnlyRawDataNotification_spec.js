@@ -27,7 +27,7 @@ describe("OnlyRawDataNotification", function () {
 
     it("should show notification when only raw data exists", async function () {
         await page.goto(pageUrl);
-        await page.waitFor('.widget');
+        await page.waitForSelector('.widget');
         const notificationContainer = await page.$('#notificationContainer');
         expect(await notificationContainer.screenshot()).to.matchImage('show_notification_when_only_raw_data_exists');
     });

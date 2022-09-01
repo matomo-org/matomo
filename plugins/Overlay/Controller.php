@@ -14,12 +14,10 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
-use Piwik\Segment;
 use Piwik\Session;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
@@ -63,6 +61,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->ssl = ProxyHttp::isHttps();
         $view->siteUrls = SitesManager\API::getInstance()->getSiteUrlsFromId($this->site->getId());
 
+        $this->securityPolicy->allowEmbedPage();
         $this->outputCORSHeaders();
         return $view->render();
     }

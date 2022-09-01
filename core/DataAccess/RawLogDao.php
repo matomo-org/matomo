@@ -145,22 +145,6 @@ class RawLogDao
     }
 
     /**
-     * Deletes conversions for the supplied visit IDs from log_conversion. This method does not cascade, so
-     * conversion items will not be deleted.
-     *
-     * @param int[] $visitIds
-     * @return int The number of deleted rows.
-     */
-    public function deleteFromLogTable($tableName, $visitIds)
-    {
-        $sql = "DELETE FROM `" . Common::prefixTable($tableName) . "` WHERE idvisit IN "
-             . $this->getInFieldExpressionWithInts($visitIds);
-
-        $statement = Db::query($sql);
-        return $statement->rowCount();
-    }
-
-    /**
      * Deletes conversion items for the supplied visit IDs from log_conversion_item.
      *
      * @param int[] $visitIds

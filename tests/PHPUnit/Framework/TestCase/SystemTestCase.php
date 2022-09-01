@@ -20,11 +20,10 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Http;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\ReportRenderer;
 use Piwik\Site;
-use Piwik\Tests\Framework\Constraint\ResponseCode;
-use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\Mock\File as MockFileMethods;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
@@ -58,6 +57,29 @@ abstract class SystemTestCase extends TestCase
      * @var Fixture
      */
     public static $fixture;
+
+    private static $allowedModulesApiWise = array();
+    private static $allowedCategoriesApiWise = array();
+    private static $apisToFilterResponse = array(
+        'API.getReportMetadata' => array(
+            'actionName' => 'API.getReportMetadata.end',
+            'filterKey' => 'module'
+        ),
+        'API.getSegmentsMetadata' => array(
+            'actionName' => 'API.API.getSegmentsMetadata.end',
+            'filterKey' => 'category'
+        ),
+        'API.getReportPagesMetadata' => array(
+            'actionName' => 'API.API.getReportPagesMetadata.end',
+            'filterKey' => 'category'
+        ),
+        'API.getWidgetMetadata' => array(
+            'actionName' => 'API.API.getWidgetMetadata.end',
+            'filterKey' => 'module'
+        ),
+    );
+
+    private static $shouldFilterApiResponse = false;
 
     public function setGroups(array $groups): void
     {
@@ -100,6 +122,20 @@ abstract class SystemTestCase extends TestCase
         } catch (Exception $e) {
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
+
+        foreach (self::$apisToFilterResponse as $api => $apiValue) {
+            Piwik::addAction($apiValue['actionName'], function (&$reports, $info) use ($api, $apiValue) {
+                $filterValues = array();
+                if ($apiValue['filterKey'] === 'module') {
+                    $filterValues = self::getAllowedModulesToFilterApiResponse($api);
+                } else if ($apiValue['filterKey'] === 'category') {
+                    $filterValues = self::getAllowedCategoriesToFilterApiResponse($api);
+                }
+                if ($filterValues && self::$shouldFilterApiResponse) {
+                    self::filterReportsCallback($reports, $info, $api, $apiValue['filterKey'], $filterValues);
+                }
+            });
+        }
     }
 
     public static function tearDownAfterClass(): void
@@ -111,6 +147,9 @@ abstract class SystemTestCase extends TestCase
         } else {
             $fixture = static::$fixture;
         }
+
+        self::$allowedModulesApiWise = array();
+        self::$allowedCategoriesApiWise = array();
 
         $fixture->performTearDown();
     }
@@ -455,6 +494,10 @@ abstract class SystemTestCase extends TestCase
         unset($_GET['serialize']);
 
         $onlyCheckUnserialize = !empty($params['onlyCheckUnserialize']);
+
+        $apiIdExploded = explode('_', str_replace('.xml', '', $apiId));
+        $api = $apiIdExploded[0];
+        self::$shouldFilterApiResponse = !empty(self::$apisToFilterResponse[$api]);
 
         $processedResponse = Response::loadFromApi($params, $requestUrl, $normailze = !$onlyCheckUnserialize);
         if (empty($compareAgainst)) {
@@ -848,6 +891,42 @@ abstract class SystemTestCase extends TestCase
         }
 
         return parent::hasDependencies();
+    }
+
+    public static function setAllowedModulesToFilterApiResponse($api, $category){
+        self::$allowedModulesApiWise[$api] = $category;
+    }
+
+    public static function getAllowedModulesToFilterApiResponse($api) {
+        return (self::$allowedModulesApiWise[$api] ?? NULL);
+    }
+
+    public static function setAllowedCategoriesToFilterApiResponse($api, $category){
+        self::$allowedCategoriesApiWise[$api] = $category;
+    }
+
+    public static function getAllowedCategoriesToFilterApiResponse($api) {
+        return (self::$allowedCategoriesApiWise[$api] ?? NULL);
+    }
+
+    private static function filterReportsCallback(&$reports, $info, $api, $filterKey, $filterValues)
+    {
+        if (!empty($reports)) {
+            foreach ($reports as $key => $row) {
+                if (
+                    !isset($row[$filterKey]) ||
+                    (
+                        is_array($row[$filterKey]) &&
+                        isset($row[$filterKey]['name']) &&
+                        !in_array($row[$filterKey]['name'], $filterValues)
+                    ) ||
+                    !is_array($row[$filterKey]) && !in_array($row[$filterKey], $filterValues)
+                ) {
+                    unset($reports[$key]);
+                }
+            }
+            $reports = array_values($reports);
+        }
     }
 }
 

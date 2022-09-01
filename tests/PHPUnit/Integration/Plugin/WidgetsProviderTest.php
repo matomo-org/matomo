@@ -9,9 +9,7 @@
 namespace Piwik\Tests\Integration\Plugin;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\Plugin\WidgetsProvider;
-use Piwik\Settings\Storage;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Widget\WidgetConfig;

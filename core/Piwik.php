@@ -179,6 +179,42 @@ class Piwik
         return $user['email'] ?? '';
     }
 
+
+    public static function getCurrentUserCreationDate()
+    {
+        $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
+        return $user['date_registered'] ?? '';
+    }
+
+    /**
+     * Returns the current user's Last Seen.
+     *
+     * @return string
+     * @api
+     */
+    public static function getCurrentUserLastSeen()
+    {
+        $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
+        return $user['last_seen'] ?? '';
+    }
+
+    /**
+     * Returns the email addresses configured as contact. If none is configured the mail addresses of all super users will be returned instead.
+     *
+     * @return array
+     */
+    public static function getContactEmailAddresses(): array
+    {
+        $contactAddresses = trim(Config::getInstance()->General['contact_email_address']);
+
+        if (empty($contactAddresses)) {
+            return self::getAllSuperUserAccessEmailAddresses();
+        }
+
+        $contactAddresses = explode(',', $contactAddresses);
+        return array_map('trim', $contactAddresses);
+    }
+
     /**
      * Get a list of all email addresses having Super User access.
      *
@@ -244,6 +280,32 @@ class Piwik
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * Returns if the given user needs to confirm his password in UI and for certain API methods
+     *
+     * @param string $login
+     * @return bool
+     */
+    public static function doesUserRequirePasswordConfirmation(string $login)
+    {
+        $requiresPasswordConfirmation = true;
+
+        /**
+         * Triggered to check if a password confirmation for a user is required.
+         *
+         * This event can be used in custom login plugins to skip the password confirmation checks for certain users,
+         * where e.g. no password would be available.
+         *
+         * Attention: Use this event wisely. Disabling password confirmation decreases the security.
+         *
+         * @param bool $requiresPasswordConfirmation Indicates if the password should be checked or not
+         * @param string $login Login of a user the password should be confirmed for
+         */
+        Piwik::postEvent('Login.userRequiresPasswordConfirmation', [&$requiresPasswordConfirmation, $login]);
+
+        return $requiresPasswordConfirmation;
     }
 
     /**
@@ -852,5 +914,58 @@ class Piwik
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         return $translator->translate($translationId, $args, $language);
+    }
+
+    /**
+     * Returns the period provided in the current request.
+     * If no $default is provided, this method will throw an Exception if `period` can't be found in the request
+     *
+     * @param string|null $default  default value to use
+     * @throws Exception
+     * @return string
+     * @api
+     */
+    public static function getPeriod($default = null)
+    {
+        return Common::getRequestVar('period', $default, 'string');
+    }
+
+    /**
+     * Returns the date provided in the current request.
+     * If no $default is provided, this method will throw an Exception if `date` can't be found in the request
+     *
+     * @param string|null $default  default value to use
+     * @throws Exception
+     * @return string
+     * @api
+     */
+    public static function getDate($default = null)
+    {
+        return Common::getRequestVar('date', $default, 'string');
+    }
+
+    /**
+     * Returns the earliest date to rearchive provided in the config.
+     * @return Date|null
+     */
+    public static function getEarliestDateToRearchive()
+    {
+        $lastNMonthsToInvalidate = Config::getInstance()->General['rearchive_reports_in_past_last_n_months'];
+        if (empty($lastNMonthsToInvalidate)) {
+            return null;
+        }
+
+        if (!is_numeric($lastNMonthsToInvalidate)) {
+            $lastNMonthsToInvalidate = (int)str_replace('last', '', $lastNMonthsToInvalidate);
+            if (empty($lastNMonthsToInvalidate)) {
+                return null;
+            }
+        }
+
+        if ($lastNMonthsToInvalidate <= 0) {
+            return null;
+        }
+
+        return Date::yesterday()->subMonth($lastNMonthsToInvalidate)->setDay(1);
     }
 }

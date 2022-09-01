@@ -8,7 +8,6 @@
 namespace Piwik\Tests\Unit\Config;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Config;
 use Piwik\Config\IniFileChain;
 
 /**

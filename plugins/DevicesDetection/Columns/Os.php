@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\OperatingSystem;
 use Piwik\Columns\DimensionSegmentFactory;
-use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
@@ -40,6 +39,7 @@ class Os extends Base
         $segment->setSegment('operatingSystemName');
         $segment->setName('DevicesDetection_ColumnOperatingSystem');
         $segment->setAcceptedValues('Windows, Linux, Mac, Android, iOS etc.');
+        $segment->setNeedsMostFrequentValues(false);
         $segment->setSqlFilterValue(function ($val) {
             $oss = OperatingSystem::getAvailableOperatingSystems();
             $oss = array_map(function($val) {
@@ -53,8 +53,9 @@ class Os extends Base
 
             return $result;
         });
-        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
-            return array_values(OperatingSystem::getAvailableOperatingSystems() + ['Unknown']);
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) {
+            return $this->sortStaticListByUsage(OperatingSystem::getAvailableOperatingSystems(), $table,
+                'operatingSystemCode', $maxValuesToReturn);
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
@@ -77,8 +78,7 @@ class Os extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $userAgent = $request->getUserAgent();
-        $parser    = $this->getUAParser($userAgent);
+        $parser    = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
 
         if ($parser->isBot()) {
             $os = Settings::OS_BOT;

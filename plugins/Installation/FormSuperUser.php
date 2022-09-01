@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Installation;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;

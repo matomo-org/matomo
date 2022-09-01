@@ -5,16 +5,32 @@
 
     {% if numErrors %}
         <ul>
-            {% for error in errors %}
-                <li title="{{ error.getLongErrorMessage|default(error.getItems()[0].getComment())|e('html_attr') }}" class="system-check-widget-error"><span class="icon-error"></span> {{ error.getLabel }}</li>
+            {% for thisResult in errors %}
+                {% set checkItemMessages = '' %}
+                {% if thisResult.getLongErrorMessage is empty and thisResult.getItems()|length > 1 %}
+                    {% for checkItem in thisResult.getItems() %}
+                        {% if checkItem.getStatus is same as('warning') %}
+                            {% set checkItemMessages = checkItemMessages ~ checkItem.getComment() %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <li title="{{ checkItemMessages|default(thisResult.getLongErrorMessage)|default(thisResult.getItems()[0].getComment())|preg_replace('/<br.*?>/', "\n")|striptags|e('html_attr') }}" class="system-check-widget-error"><span class="icon-error"></span> {{ thisResult.getLabel }}</li>
             {% endfor %}
         </ul>
     {% endif %}
 
     {% if numWarnings %}
         <ul>
-            {% for warning in warnings %}
-                <li title="{{ warning.getLongErrorMessage|default(warning.getItems()[0].getComment())|e('html_attr') }}" class="system-check-widget-warning"><span class="icon-warning"></span> {{ warning.getLabel }}</li>
+            {% for thisResult in warnings %}
+                {% set checkItemMessages = '' %}
+                {% if thisResult.getLongErrorMessage is empty and thisResult.getItems()|length > 1 %}
+                    {% for checkItem in thisResult.getItems() %}
+                        {% if checkItem.getStatus is same as('warning') %}
+                            {% set checkItemMessages = checkItemMessages ~ checkItem.getComment() %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <li title="{{ checkItemMessages|default(thisResult.getLongErrorMessage)|default(thisResult.getItems()[0].getComment())|preg_replace('/<br.*?>/', "\n")|striptags|e('html_attr') }}" class="system-check-widget-warning"><span class="icon-warning"></span> {{ thisResult.getLabel }}</li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -23,12 +39,12 @@
         <p>
             <br />
             <a href="{{ linkTo({'module': 'Installation', 'action': 'systemCheckPage'}) }}"
-            >{{ 'Installation_SystemCheckViewFullSystemCheck'|translate }}</a>
+               >{{ 'Installation_SystemCheckViewFullSystemCheck'|translate }}</a>
         </p>
     {% endif %}
 
     <script>
-        jQuery(function () {
+        jQuery(function() {
             $('.widgetBody.system-check').tooltip({
                 track: true,
                 content: function() {

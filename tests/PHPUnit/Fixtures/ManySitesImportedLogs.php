@@ -58,7 +58,7 @@ class ManySitesImportedLogs extends Fixture
     {
         // for conversion testing
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime);
+            self::createWebsite($this->dateTime, 1);
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {

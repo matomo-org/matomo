@@ -4,6 +4,85 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.12.0
+
+### New PHP events
+
+* Added new event `Login.userRequiresPasswordConfirmation`, which can be used in login plugins to circumvent the password confirmation in UI and for certain API methods
+
+### JavaScript Tracker
+
+#### New APIs
+
+* The methods `setExcludedReferrers` and `getExcludedReferrers` have been added to the JavaScript tracker. They allow setting and receiving the referrers the JavaScript tracker should ignore. If a referrer matches an entry on that list, it will not be passed with the tracking requests and the attribution cookie will stay unchanged. This can for example be used if you need to forward your users to an external service like SSO or payment and don't want any visits or conversions being attributed to those services.
+
+## Matomo 4.11.0
+
+### Breaking Changes
+
+* The user management UI no longer allows direct creation of a new user (with a password). Instead an invitation can be sent via email. Directly creating a new user is still possible using the API.
+
+### New config.ini.php settings
+* A general config setting `force_matomo_http_request` defaulting to 0. If the Matomo instance can't make requests to matomo.org via HTTPS this can be set to 1 to force matomo marketplace and matomo api requests to use HTTP instead of HTTPS.
+
+#### New PHP events
+
+* Added new event `UsersManager.inviteUser.end`, which is triggered after a new user has been invited
+* Added new event `UsersManager.inviteUser.resendInvite`, which is triggered after the invitation to a user has been resent
+* Added new event `UsersManager.inviteUser.accepted`, which is triggered after an invitation has been accepted
+* Added new event `UsersManager.inviteUser.declined`, which is triggered after an invitation has been declined
+
+* The existing event `UsersManager.addUser.end` will only be triggered when a user is added using the API.
+
+
+## Matomo 4.10.0
+
+### Breaking Changes
+
+* As access to files like `plugin.json` might reveal version details, `json` files will now longer be considered as static files that can be served safely. Therefore `json` will no longer be included in the list of static file extensions in generated `.htaccess` files.
+
+## Matomo 4.8.0
+
+### New config.ini.php settings
+
+* The config setting `enable_default_location_provider` in `Tracker` has been added. By setting this option to 0, you can disable the default location provider. This can be used to prevent the geolocator to guess the country based on the users language, if the configured provider doesn't provide any results.
+
+#### New PHP events
+
+* Added new event `Segment.filterSegments`. Plugins can use this to filter segment definitions.
+
+## Matomo 4.7.0
+
+### Deprecated APIs
+
+* The `piwik-field` and related directives have been converted to Vue and the `template-file` attribute is now considered deprecated and will be removed in Matomo 5. Instead,
+  the `component` property should be used to add a new form field, it should be an object with two properties that reference a Vue component, `plugin` and `name`, where `plugin`
+  is the plugin the Vue component is located in and `name` is the Vue name of the component's export. 
+
+### New Change Notifications
+
+* Plugins can now provide a list of changes which will be displayed as part of the "What's New?" menu notification. Learn more about how this works in the [developer guide.](https://developer.matomo.org/guides/providing-updates) 
+
+
+## Matomo 4.6.0
+
+### New Framework
+
+* We have begun introducing Vue 3 as the frontend framework to replace AngularJS. You can learn more about it in [our developer guide.](https://developer.matomo.org/guides/working-with-piwiks-ui)
+
+### New APIs
+* New API Methods `SecurityPolicy.addPolicy`, `SecurityPolicy.overridePolicy`, `SecurityPolicy.removeDirective`, `SecurityPolicy.allowEmbedPage`, `SecurityPolicy.disable` allow developers to modify or disable the default Content Security Policy. `Plugins\Controller` has a new member `securityPolicy` so plugins can use `$this->securityPolicy` to access these new methods when a custom Content Security Policy is needed.
+
+### Breaking Changes
+
+* With the introduction of Vue 3 we are also dropping support for IE11. All new supported browsers are determined by the browserslist tool. Running `npx browserslist` will list the browsers currently supported.
+* When the Ecommerce feature is disabled for a site, then the Live API no longer returns the Ecommerce related visitor properties `totalEcommerceRevenue`, `totalEcommerceConversions`, `totalEcommerceItems`,  `totalAbandonedCartsRevenue`, `totalAbandonedCarts` and `totalAbandonedCartsItems`.
+* Content Security Policy (added in Matomo 4.4.0) is no longer in Report Only mode by default. 
+
+### New config.ini.php settings
+
+* The config setting `contact_email_address` in `General` has been added. It will be used as contact email address for users. If not defined (default) all email addresses of all super users will be used instead, which equals the behavior it used to be.
+
 ## Matomo 4.4.0
 
 ### Breaking Changes

@@ -7,6 +7,7 @@
         "Resolutions": "解像度",
         "WidgetGlobalVisitors": "ビジターの全般的な環境設定",
         "WidgetGlobalVisitorsDocumentation": "ビジターの最も一般的な利用環境についてのリポートです。オペレーティングシステム、ブラウザの種類と画面の解像度の組合せで表示します。",
-        "WidgetResolutions": "画面解像度"
+        "WidgetResolutions": "画面解像度",
+        "WidgetResolutionsDocumentation": "このレポートは、訪問者がウェブサイトを閲覧する際に使用した画面解像度を示します。"
     }
 }

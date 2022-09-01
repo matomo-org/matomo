@@ -92,7 +92,11 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
                     // copy to diff dir for ui tests viewer (we don't generate diffs w/ compare since it slows the tests a bit)
                     if (!fs.existsSync(diffPath)) {
-                        fs.linkSync(expectedPath, diffPath);
+                        try {
+                          fs.linkSync(expectedPath, diffPath);
+                        } catch (e) {
+                          console.log(`Failed to copy ${expectedPath} to ${diffPath}`);
+                        }
                     }
                 }
 
@@ -150,8 +154,8 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             // allow a 10 pixel difference only
             chai.assert(pixelError <= 10, `images differ in ${pixelError} pixels (command output: ${allOutput.replace(/\s+$/g, '')})`);
 
-            // if pixel error passes, but status is non-zero for some reason
-            chai.assert(result.status === 0, `the '${comparisonCommand}' command returned a non-zero status: ${result.status}. Output was ${allOutput.replace(/\s+$/g, '')}`);
+            // if pixel error passes, but status is unexpected for some reason
+            chai.assert(result.status === 0 || result.status === 1, `the '${comparisonCommand}' command returned a unexpected status: ${result.status}. Output was ${allOutput.replace(/\s+$/g, '')}`);
 
             return true;
         }
@@ -237,7 +241,7 @@ function assumeFileIsImageIfNotSpecified(filename) {
 
 function endsWith(string, needle)
 {
-    return string.substr(-1 * needle.length, needle.length) === needle;
+    return needle.length === 0 || string.slice(-needle.length) === needle;
 }
 
 // other automatically run assertions

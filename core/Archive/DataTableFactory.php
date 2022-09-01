@@ -11,7 +11,6 @@ namespace Piwik\Archive;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 
@@ -575,15 +574,22 @@ class DataTableFactory
         $this->setPrettySegmentMetadata($table);
 
         foreach ($index as $idsite => $row) {
+
+            $meta = array();
+            if (isset($row[DataCollection::METADATA_CONTAINER_ROW_KEY])) {
+                $meta = $row[DataCollection::METADATA_CONTAINER_ROW_KEY];
+            }
+            $meta['idsite'] = $idsite;
+
             if (!empty($row)) {
                 $table->addRow(new Row(array(
                     Row::COLUMNS  => $row,
-                    Row::METADATA => array('idsite' => $idsite))
+                    Row::METADATA => $meta)
                 ));
             } elseif ($isNumeric) {
                 $table->addRow(new Row(array(
                     Row::COLUMNS  => $this->defaultRow,
-                    Row::METADATA => array('idsite' => $idsite))
+                    Row::METADATA => $meta)
                 ));
             }
         }

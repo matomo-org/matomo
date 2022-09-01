@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Ecommerce\Widgets;
 use Piwik\Common;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Live\Live;
-use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Site;
 

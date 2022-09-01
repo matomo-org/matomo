@@ -9,7 +9,6 @@
 
 namespace Piwik\Validators;
 
-use Piwik\Common;
 use Piwik\Piwik;
 
 class CharacterLength extends BaseValidator

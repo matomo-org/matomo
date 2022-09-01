@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\Dimension;
-use Piwik\Piwik;
 
 class SearchNoResultKeyword extends Dimension
 {

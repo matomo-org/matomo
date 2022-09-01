@@ -1,43 +1,98 @@
 <div class="card"><div class="card-content">
-<div id='leftcolumn' style="clear:both;{% if not isWidget %}width:33%;'{% endif %}">
-    <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
-	<div>
-        <strong>{{ nb_conversions|number }}</strong>
-        {{ 'General_EcommerceOrders'|translate }}
-        <img src='plugins/Morpheus/images/ecommerceOrder.png'>
 
-        {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
+<div id='leftcolumn' style="clear:both;{% if not isWidget %}width:33%;'{% endif %}">
+    <div class="sparkline">
+        {{ sparkline(urlSparklineConversions) }}
+	    <div class="sparkline-metrics">
+            <strong>{{ nb_conversions|number }}</strong>
+            {{ 'General_EcommerceOrders'|translate }}
+            <img src='plugins/Morpheus/images/ecommerceOrder.png'>
             ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
+        </div>
+        {% if nb_conversions_trend is defined %}
+        <div class="metricEvolution" title="{{ nb_conversions_tooltip|raw }}">
+            {% if nb_conversions_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if nb_conversions_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if nb_conversions_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ nb_conversions_trend_percent|raw }}</strong>
+        </div>
         {% endif %}
-	</div>
     </div>
 
     <div class="sparkline">
         {{ sparkline(urlSparklineRevenue) }}
-	<div>
-        {% set revenue=revenue|money(idSite) %}
-        <strong>{{ revenue|raw }}</strong> {{ 'General_TotalRevenue'|translate }}
-	</div>
+	    <div class="sparkline-metrics">
+            {% set revenue=revenue|money(idSite) %}
+            <strong>{{ revenue|raw }}</strong> {{ 'General_TotalRevenue'|translate }}
+	    </div>
+        {% if revenue_trend is defined %}
+        <div class="metricEvolution" title="{{ revenue_tooltip|raw }}">
+            {% if revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ revenue_trend_percent|raw }}</strong>
+        </div>
+        {% endif %}
     </div>
 
-    <div class="sparkline">{{ sparkline(urlSparklineAverageOrderValue) }}
-	<div>
-        <strong>{{ avg_order_revenue|money(idSite)|raw }}</strong>
-        {{ 'General_AverageOrderValue'|translate }}
-	</div>
+    <div class="sparkline">
+        {{ sparkline(urlSparklineAverageOrderValue) }}
+        <div class="sparkline-metrics">
+            <strong>{{ avg_order_revenue|money(idSite)|raw }}</strong>
+            {{ 'General_AverageOrderValue'|translate }}
+        </div>
+        {% if avg_order_revenue_trend is defined %}
+        <div class="metricEvolution" title="{{ avg_order_revenue_tooltip|raw }}">
+            {% if avg_order_revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if avg_order_revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if avg_order_revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ avg_order_revenue_trend_percent|raw }}</strong>
+        </div>
+        {% endif %}
     </div>
+
 </div>
+
 <div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
-    <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
-	<div>
-        {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
-        {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
-	</div>
+
+    <div class="sparkline">
+        {{ sparkline(urlSparklineConversionRate) }}
+        <div class="sparkline-metrics">
+            {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
+            {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
+        </div>
+        {% if conversion_rate_trend is defined %}
+        <div class="metricEvolution" title="{{ conversion_rate_tooltip|raw }}">
+            {% if conversion_rate_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if conversion_rate_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if conversion_rate_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ conversion_rate_trend_percent|raw }}</strong>
+        </div>
+        {% endif %}
     </div>
-    <div class="sparkline">{{ sparkline(urlSparklinePurchasedProducts) }}
-	<div>
-    <strong>{{ items|number }}</strong> {{ 'General_PurchasedProducts'|translate }}</div></div>
+
+    <div class="sparkline">
+        {{ sparkline(urlSparklinePurchasedProducts) }}
+	    <div class="sparkline-metrics">
+            <strong>{{ items|number }}</strong> {{ 'General_PurchasedProducts'|translate }}
+        </div>
+        {% if items_trend is defined %}
+        <div class="metricEvolution" title="{{ items_tooltip|raw }}">
+            {% if items_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if items_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if items_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ items_trend_percent|raw }}</strong>
+        </div>
+        {% endif %}
+    </div>
+
 </div>
+
 <div id='rightcolumn' {% if not isWidget %}style='width:30%;'{% endif %}>
     <div>
         <img src='plugins/Morpheus/images/ecommerceAbandonedCart.png'> {{ 'General_AbandonedCarts'|translate }}
@@ -45,29 +100,58 @@
 
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineConversions) }}
-	<div>
-        {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
-        <strong>{{ cart_nb_conversions|number }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
-	</div>
+	    <div class="sparkline-metrics">
+            {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
+            <strong>{{ cart_nb_conversions|number }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	    </div>
+        {% if cart_nb_conversions_trend is defined %}
+        <div class="metricEvolution" title="{{ cart_nb_conversions_tooltip|raw }}">
+            {% if cart_nb_conversions_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if cart_nb_conversions_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if cart_nb_conversions_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ cart_nb_conversions_trend_percent|raw }}</strong>
+        </div>
+        {% endif %}
     </div>
 
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineRevenue) }}
-	<div>
-        {% set revenue %}{{ cart_revenue|money(idSite)|raw }}{% endset %}
-        {% set revenueText %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
-        <strong>{{ revenue }}</strong> {{ 'Goals_LeftInCart'|translate(revenueText) }}
-	</div>
+	    <div class="sparkline-metrics">
+            {% set revenue %}{{ cart_revenue|money(idSite)|raw }}{% endset %}
+            {% set revenueText %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
+            <strong>{{ revenue }}</strong> {{ 'Goals_LeftInCart'|translate(revenueText) }}
+	    </div>
+        {% if cart_revenue_trend is defined %}
+        <div class="metricEvolution" title="{{ cart_revenue_tooltip|raw }}">
+            {% if cart_revenue_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if cart_revenue_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if cart_revenue_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ cart_revenue_trend_percent|raw }}</strong>
+        </div>
+        {% endif %}
     </div>
 
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineConversionRate) }}
-	<div>
-        <strong>{{ cart_conversion_rate|percent }}</strong>
-        {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
-	</div>
+	    <div class="sparkline-metrics">
+            <strong>{{ cart_conversion_rate|percent }}</strong>
+            {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	    </div>
+        {% if cart_conversion_rate_trend is defined %}
+        <div class="metricEvolution" title="{{ cart_conversion_rate_tooltip|raw }}">
+            {% if cart_conversion_rate_trend == -1 %} {% set trend_icon='arrow_down' %} {% set trend_class='negative' %} {% endif %}
+            {% if cart_conversion_rate_trend == 1 %} {% set trend_icon='arrow_up' %} {% set trend_class='positive' %} {% endif %}
+            {% if cart_conversion_rate_trend == 0 %} {% set trend_icon='stop' %} {% set trend_class='neutral' %} {% endif %}
+            <img style="padding-right:4px;padding-left:4px;margin-top:-2px" src="plugins/MultiSites/images/{{ trend_icon }}.png">
+            <strong class="{{ trend_class }}-evolution">{% if nb_conversions_trend == 1 %}{{'Intl_NumberSymbolPlus'|translate}}{% endif %}{{ cart_conversion_rate_trend_percent|raw }}</strong>
+        </div>
+        {% endif %}
     </div>
+
 </div>
 <div style="clear: left;"></div>
 {% include "_sparklineFooter.twig" %}
-    </div></div>
+</div>
+</div>

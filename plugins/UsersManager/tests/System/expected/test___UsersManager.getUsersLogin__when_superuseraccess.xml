@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	<row>000pendingUser1</row>
 	<row>login1</row>
 	<row>login10</row>
 	<row>login2</row>
@@ -11,4 +12,5 @@
 	<row>login8</row>
 	<row>login9</row>
 	<row>superUserLogin</row>
+	<row>zzzpendingUser2</row>
 </result>

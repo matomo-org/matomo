@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,6 +10,7 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\API\Request;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
@@ -61,7 +63,7 @@ class API extends \Piwik\Plugin\API
     {
         BaseValidator::check('visits', $visits, [new VisitsDataSubject()]);
 
-        $idSites = array();
+        $idSites = [];
         foreach ($visits as $index => $visit) {
             $idSites[] = $visit['idsite'];
         }
@@ -126,6 +128,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        // Note: Datatable PostProcessor is disabled for this method in PrivacyManager::shouldDisablePostProcessing
         return $result;
     }
 
@@ -136,9 +139,12 @@ class API extends \Piwik\Plugin\API
         $anonymizeLocation = false,
         $anonymizeUserId = false,
         $unsetVisitColumns = [],
-        $unsetLinkVisitActionColumns = []
+        $unsetLinkVisitActionColumns = [],
+        $passwordConfirmation = ''
     ) {
         Piwik::checkUserHasSuperUserAccess();
+
+        $this->confirmCurrentUserPassword($passwordConfirmation);
 
         if ($idSites === 'all' || empty($idSites)) {
             $idSites = null; // all websites
@@ -262,8 +268,11 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setScheduleReportDeletionSettings($deleteLowestInterval = 7)
+    public function setScheduleReportDeletionSettings($deleteLowestInterval = 7, $passwordConfirmation = '')
     {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->confirmCurrentUserPassword($passwordConfirmation);
+
         return $this->savePurgeDataSettings(array(
             'delete_logs_schedule_lowest_interval' => (int) $deleteLowestInterval
         ));
@@ -272,8 +281,11 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setDeleteLogsSettings($enableDeleteLogs = '0', $deleteLogsOlderThan = 180)
+    public function setDeleteLogsSettings($enableDeleteLogs = '0', $deleteLogsOlderThan = 180, $passwordConfirmation = '')
     {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->confirmCurrentUserPassword($passwordConfirmation);
+
         $deleteLogsOlderThan = (int) $deleteLogsOlderThan;
         if ($deleteLogsOlderThan < 1) {
             $deleteLogsOlderThan = 1;
@@ -288,11 +300,22 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setDeleteReportsSettings($enableDeleteReports = 0, $deleteReportsOlderThan = 3,
-                                             $keepBasic = 0, $keepDay = 0, $keepWeek = 0, $keepMonth = 0,
-                                             $keepYear = 0, $keepRange = 0, $keepSegments = 0)
-    {
-        $settings = array();
+    public function setDeleteReportsSettings(
+        $enableDeleteReports = 0,
+        $deleteReportsOlderThan = 3,
+        $keepBasic = 0,
+        $keepDay = 0,
+        $keepWeek = 0,
+        $keepMonth = 0,
+        $keepYear = 0,
+        $keepRange = 0,
+        $keepSegments = 0,
+        $passwordConfirmation = ''
+    ) {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->confirmCurrentUserPassword($passwordConfirmation);
+
+        $settings = [];
 
         // delete reports settings
         $settings['delete_reports_enable'] = !empty($enableDeleteReports);
@@ -317,6 +340,30 @@ class API extends \Piwik\Plugin\API
         return $this->savePurgeDataSettings($settings);
     }
 
+    /**
+     * Executes a data purge, deleting raw data and report data using the current config options.
+     *
+     * @internal
+     */
+    public function executeDataPurge($passwordConfirmation)
+    {
+        $this->confirmCurrentUserPassword($passwordConfirmation);
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkDataPurgeAdminSettingsIsEnabled();
+
+        $settings = PrivacyManager::getPurgeDataSettings();
+        if ($settings['delete_logs_enable']) {
+            /** @var LogDataPurger $logDataPurger */
+            $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
+            $logDataPurger->purgeData($settings['delete_logs_older_than'], true);
+        }
+        if ($settings['delete_reports_enable']) {
+            $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
+            $reportsPurger->purgeData(true);
+        }
+    }
+
     private function savePurgeDataSettings($settings)
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -327,7 +374,7 @@ class API extends \Piwik\Plugin\API
 
         return true;
     }
-    
+
     private function checkDataPurgeAdminSettingsIsEnabled()
     {
         if (!Controller::isDataPurgeSettingsEnabled()) {

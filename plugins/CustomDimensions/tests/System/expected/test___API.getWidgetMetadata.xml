@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<name>MyName1</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+		</category>
+		<subcategory>
+			<id>customdimension1</id>
+			<name>MyName1</name>
+			<order>70</order>
+			<help />
+		</subcategory>
+		<module>CustomDimensions</module>
+		<action>getCustomDimension</action>
+		<order>201</order>
+		<parameters>
+			<module>CustomDimensions</module>
+			<action>getCustomDimension</action>
+			<idDimension>1</idDimension>
+		</parameters>
+		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension1</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>MyName2</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+		</category>
+		<subcategory>
+			<id>customdimension2</id>
+			<name>MyName2</name>
+			<order>71</order>
+			<help />
+		</subcategory>
+		<module>CustomDimensions</module>
+		<action>getCustomDimension</action>
+		<order>202</order>
+		<parameters>
+			<module>CustomDimensions</module>
+			<action>getCustomDimension</action>
+			<idDimension>2</idDimension>
+		</parameters>
+		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension2</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>MyName6</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+		</category>
+		<subcategory>
+			<id>customdimension6</id>
+			<name>MyName6</name>
+			<order>74</order>
+			<help />
+		</subcategory>
+		<module>CustomDimensions</module>
+		<action>getCustomDimension</action>
+		<order>206</order>
+		<parameters>
+			<module>CustomDimensions</module>
+			<action>getCustomDimension</action>
+			<idDimension>6</idDimension>
+		</parameters>
+		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension6</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>MyName3</name>
+		<category>
+			<id>General_Actions</id>
+			<name>Behaviour</name>
+			<order>10</order>
+			<icon>icon-reporting-actions</icon>
+			<help />
+		</category>
+		<subcategory>
+			<id>customdimension3</id>
+			<name>MyName3</name>
+			<order>72</order>
+			<help />
+		</subcategory>
+		<module>CustomDimensions</module>
+		<action>getCustomDimension</action>
+		<order>203</order>
+		<parameters>
+			<module>CustomDimensions</module>
+			<action>getCustomDimension</action>
+			<idDimension>3</idDimension>
+		</parameters>
+		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension3</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>MyName5</name>
+		<category>
+			<id>General_Actions</id>
+			<name>Behaviour</name>
+			<order>10</order>
+			<icon>icon-reporting-actions</icon>
+			<help />
+		</category>
+		<subcategory>
+			<id>customdimension5</id>
+			<name>MyName5</name>
+			<order>73</order>
+			<help />
+		</subcategory>
+		<module>CustomDimensions</module>
+		<action>getCustomDimension</action>
+		<order>205</order>
+		<parameters>
+			<module>CustomDimensions</module>
+			<action>getCustomDimension</action>
+			<idDimension>5</idDimension>
+		</parameters>
+		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension5</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+</result>

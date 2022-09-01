@@ -84,7 +84,6 @@
         "SystemCheckEvalHelp": "يتطلبها HTML QuickForm ونظام قولبة Smarty.",
         "SystemCheckExtensions": "الإضافات الأخرى المطلوبة",
         "SystemCheckFileIntegrity": "سلامة الملفات",
-        "SystemCheckFunctionHelp": "تحتاج لتفعيل هذه الوظيفة المضمّنة.",
         "SystemCheckFunctions": "الدوال المطلوبة",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (رسوم)",
         "SystemCheckGDHelp": "لن تعمل خاصية sparklines (الرسومات المصغرة).",

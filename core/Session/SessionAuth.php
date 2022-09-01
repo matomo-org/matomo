@@ -11,11 +11,9 @@ namespace Piwik\Session;
 
 use Piwik\Auth;
 use Piwik\AuthResult;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
 use Psr\Log\LoggerInterface;

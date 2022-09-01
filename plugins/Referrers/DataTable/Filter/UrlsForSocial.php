@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\Referrers\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
-use Piwik\Metrics;
 
 class UrlsForSocial extends BaseFilter
 {

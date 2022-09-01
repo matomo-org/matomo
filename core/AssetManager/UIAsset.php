@@ -8,7 +8,6 @@
  */
 namespace Piwik\AssetManager;
 
-use Exception;
 
 abstract class UIAsset
 {

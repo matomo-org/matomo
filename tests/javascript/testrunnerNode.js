@@ -23,7 +23,7 @@ async function main() {
     });
 
     await page.goto(url);
-    await page.waitFor(() => window.QUnit);
+    await page.waitForFunction(() => window.QUnit);
 
     await page.evaluate(() => {
         window.testsDone = false;
@@ -57,7 +57,7 @@ async function main() {
         });
     });
 
-    await page.waitFor(() => !!window.testsDone, {timeout: 600000});
+    await page.waitForFunction(() => !!window.testsDone, {timeout: 600000});
 
     var success = await page.evaluate(function() {
         return window.testsSuccessfull;

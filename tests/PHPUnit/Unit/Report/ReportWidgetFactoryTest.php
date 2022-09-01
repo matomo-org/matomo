@@ -11,7 +11,6 @@ namespace Piwik\Tests\Unit\Report;
 use Piwik\Plugin\Report;
 use Piwik\Report\ReportWidgetConfig;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetContainerConfig;
 
 class GetBasicReport extends Report

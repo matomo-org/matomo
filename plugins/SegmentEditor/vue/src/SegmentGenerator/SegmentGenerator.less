@@ -1,0 +1,213 @@
+.segment-generator {
+  width: 930px;
+
+  @media screen and (max-width: 940px) {
+    width: 100%;
+  }
+
+  .segment-row-inputs {
+    .form-group {
+      margin-top: 0;
+      margin-bottom: 0;
+
+      .input-field {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .segment-input input {
+    display: block;
+    width: 96%;
+    padding: 8px 2%;
+  }
+  .segment-input label {
+    display: block;
+    margin: 0 0 5px 0;
+    font-size: 11px;
+    color: #505050;
+  }
+  .segment-input {
+     float: left;
+     padding: 6px 0 5px 3px;
+     border: 2px dashed #EFEFEB;
+     margin-right: 3px;
+   }
+
+  .segment-rows {
+    padding: 4px;
+    margin: 0 3px 0 0;
+    border: 1px solid #a9a399;
+    border-radius: 3px 3px 3px 3px;
+    position: relative;
+    box-shadow: 0 12px 6px -10px rgba(0, 0, 0, 0.42);
+  }
+
+  .segment-add-row,
+  .segment-add-or {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    background: @theme-color-background-contrast;
+    color: #b9b9b9;
+    text-align: center;
+    position: relative;
+    .border-radius(5px);
+  }
+
+  .segment-add-row > div,
+  .segment-add-or > div {
+    border-radius: 4px;
+    border: 2px dashed #fff;
+    padding: 10px 0;
+  }
+
+  .segment-add-row > div a,
+  .segment-add-or > div a {
+    color: #b9b9b9;
+    text-decoration: none;
+  }
+
+  .segment-input {
+    select, input {
+      .font-default(12px, 14px);
+      color: @theme-color-text;
+      font-weight: 600;
+      margin: 0;
+      height: 32px;
+    }
+  }
+
+  .segment-add-row > div a span,
+  .segment-add-or > div a span {
+    color: @theme-color-brand;
+    text-shadow: none;
+  }
+
+  .segment-add-row {
+    margin: 0 3px 0 0;
+    padding: 0 12px;
+    border: 1px solid #a9a399;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 12px 6px -10px rgba(0, 0, 0, 0.42);
+  }
+
+  .segment-add-or {
+    text-shadow: 0 1px 0 #fff;
+    display: inline-block;
+    width: 100%;
+    padding: 0 1%;
+    background: #efefeb;
+    border-radius: 3px 3px 3px 3px;
+  }
+
+  .segment-add-or > div {
+    border: 2px dashed #EFEFEB;
+    background-color: #efefeb;
+  }
+
+  .segment-row {
+    border-radius: 3px;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding: 12px 1%;
+    background: #efefeb;
+    padding: 0 5px 0 5px;
+
+    @media screen and (max-width: 749px) {
+      width: 100%;
+    }
+
+  }
+
+  .segment-row .segment-close {
+    top: 15px;
+    right: 6px;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: url(plugins/SegmentEditor/images/segment-close.png) 0 0 no-repeat;
+    z-index: 9999;
+  }
+
+  .segment-row .segment-loading {
+    top: 25px;
+    right: 30px;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: url(plugins/Morpheus/images/loading-blue.gif) 0 0 no-repeat;
+  }
+
+  .segment-or {
+    display: inline-block;
+    margin: 0 0 0 6%;
+    position: relative;
+    background: #efefeb;
+    padding: 5px 28px;
+    color: #4f4f4f;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 1px 0 #fff;
+  }
+
+  .segment-or:before,
+  .segment-or:after {
+    content: '';
+    position: absolute;
+    background: @theme-color-background-base;
+    border: 1px solid #efefeb;
+    width: 10px;
+    top: -1px;
+    bottom: -1px;
+  }
+
+  .segment-or:before {
+    border-left: none;
+    left: 0;
+    border-radius: 0 5px 5px 0;
+  }
+
+  .segment-or:after {
+    border-right: none;
+    right: 0;
+    border-radius: 5px 0 0 5px;
+  }
+
+  .segment-and {
+    display: inline-block;
+    margin: -1px 0 -1px 6%;
+    z-index: 1;
+    position: relative;
+    background: @theme-color-background-contrast;
+    padding: 5px 35px;
+    color: #4f4f4f;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #fff;
+  }
+
+  .segment-and:before,
+  .segment-and:after {
+    content: '';
+    position: absolute;
+    background: url(plugins/SegmentEditor/images/bg-inverted-corners.png);
+    border: 1px solid #a9a399;
+    width: 10px;
+    top: 0;
+    bottom: 0;
+  }
+
+  .segment-and:before {
+    border-left: none;
+    left: 0;
+    border-radius: 0 5px 5px 0;
+  }
+
+  .segment-and:after {
+    border-right: none;
+    right: 0;
+    border-radius: 5px 0 0 5px;
+  }
+}

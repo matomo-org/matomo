@@ -9,13 +9,11 @@
 namespace Piwik\Tests\Integration\Plugin;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\Settings\Plugin\SystemSettings;
 use Piwik\Settings\Plugin\UserSettings;
-use Piwik\Settings\Storage;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

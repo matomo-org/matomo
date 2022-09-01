@@ -1,5 +1,6 @@
 {
     "MobileMessaging": {
+        "Available_Credits": "Kalan kredi: %1$s",
         "Exception_UnknownProvider": "'%1$s' adlı hizmet sağlayıcı geçersiz. Onun yerine şunlardan birini kullanın: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Şuraya erişerek daha fazla telefon numarası ekleyebilirsiniz",
         "MobileReport_MobileMessagingSettingsLink": "Mobil iletişim ayarları sayfası",
@@ -7,16 +8,17 @@
         "MultiSites_Must_Be_Activated": "Web sitesi istatistiklerinizin için SMS iletilerinin gönderilebilmesi için lütfen Matomo MultiSites uygulama ekini etkinleştirin.",
         "PhoneNumbers": "Telefon numaraları",
         "PluginDescription": "Özel SMS bildirimlerini ekleyip indirerek günlük, haftalık ve aylık bazda cep telefonunuza gönderilmesini sağlayın.",
+        "SMS_Content_Too_Long": "[çok uzun]",
+        "SettingsMenu": "Mobil iletişim",
         "Settings_APIKey": "API anahtarı",
         "Settings_CountryCode": "Ülke kodu",
-        "Settings_SelectCountry": "Ülke seçin",
+        "Settings_CredentialInvalid": "%1$s SMS API hesabınız yapılandırıldı ancak kullanılabilecek kredi sayısı alınırken bir sorun çıktı.",
         "Settings_CredentialNotProvided": "Telefon numaralarını ekleyip düzenlemeden önce Matomo uygulamanızı yukarıdaki SMS hesabınıza bağlayın.",
         "Settings_CredentialNotProvidedByAdmin": "Telefon numaralarını ekleyip düzenlemeden önce yöneticinizden Matomo uygulamanızı bir SMS hesabına bağlamasını isteyin.",
         "Settings_CredentialProvided": "%s SMS API hesabınız doğru şekilde yapılandırıldı!",
-        "Settings_CredentialInvalid": "%1$s SMS API hesabınız yapılandırıldı ancak kullanılabilecek kredi sayısı alınırken bir sorun çıktı.",
-        "Settings_DeleteAccountConfirm": "Bu SMS hesabını silmek istediğinize emin misiniz?",
-        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Yapılandırılmış SMS hizmeti sağlayıcısını yalnız siz kullanabilirsiniz, diğer kullanıcılar kullanamaz.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Yapılandırılmış telefon numaralarını yalnız siz görüp kullanabilirsiniz, diğer kullanıcılar kullanamaz.",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Yapılandırılmış SMS hizmeti sağlayıcısını yalnız siz kullanabilirsiniz, diğer kullanıcılar kullanamaz.",
+        "Settings_DeleteAccountConfirm": "Bu SMS hesabını silmek istediğinize emin misiniz?",
         "Settings_EnterActivationCode": "Etkinleştirme kodunu yazın",
         "Settings_InvalidActivationCode": "Yazılan kod geçersiz, lütfen yeniden deneyin.",
         "Settings_LetUsersManageAPICredential": "Kullanıcılar kendi SMS hizmeti sağlayıcılarını yönetebilsin",
@@ -32,17 +34,15 @@
         "Settings_PleaseSignUp": "SMS bilgilendirmeleri oluşturmak ve web sitesinin istatistiklerini SMS iletileri olarak telefonunuzdan almak için SMS API kaydınızı oluşturun ve aşağıdaki bilgileri yazın.",
         "Settings_SMSAPIAccount": "SMS API hesabı yönetimi",
         "Settings_SMSProvider": "SMS hizmeti sağlayıcı",
+        "Settings_SelectCountry": "Ülke seçin",
         "Settings_SuperAdmin": "Süper kullanıcı ayarları",
         "Settings_SuspiciousPhoneNumber": "SMS iletisini almadıysanız, baştaki sıfırı kaldırarak yeniden deneyin. Örnek: %s",
         "Settings_UpdateOrDeleteAccount": "Ayrıca bu hesabı %1$sgüncelleyebilir%2$s ya da %3$ssilebilirsiniz%4$s.",
         "Settings_ValidatePhoneNumber": "Doğrula",
         "Settings_VerificationCodeJustSent": "Bu telefon numarasına bir kod içeren bir SMS gönderildi. Lütfen gönderilen kodu yukarıya yazıp \"Doğrula\" üzerine tıklayın.",
-        "SettingsMenu": "Mobil iletişim",
-        "SMS_Content_Too_Long": "[çok uzun]",
-        "Available_Credits": "Kalan kredi: %1$s",
         "TopLinkTooltip": "Web istatistikleri raporlarını e-postanıza ya da cep telefonunuza gönderin.",
         "TopMenu": "E-posta ve SMS raporları",
         "UserKey": "Kullanıcı anahtarı",
-        "VerificationText": "Kod: %1$s. Telefon numaranızı doğrulamak ve Matomo SMS raporlarını almak için lütfen Matomo > %2$s > %3$s bölümüne bu kodu kopyalayın."
+        "VerificationText": "Kod: %1$s. Telefon numaranızı doğrulamak ve Matomo SMS raporlarını almak için lütfen Matomo &gt; %2$s &gt; %3$s bölümüne bu kodu kopyalayın."
     }
 }

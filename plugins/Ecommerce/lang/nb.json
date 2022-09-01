@@ -1,7 +1,32 @@
 {
     "Ecommerce": {
+        "EcommerceLogSubcategoryHelp1": "E-handelsloggen gir finmasket øktnivådata, slik at du kan sjekke hele økten for hver bruker som enten kjøpte noe eller forlot handlekurven sin. Dette kan hjelpe deg å forstå hva brukere gjorde før og etter kjøp for å finne optimaliseringsmuligheter.",
+        "EcommerceLogSubcategoryHelp2": "Data på denne siden oppdateres i sanntid.",
+        "EcommerceOverviewSubcategoryHelp1": "Netthandelsoversiktensdelen er den beste plassen å få et overblikk over ytelsen til nettbutikken din. Du kan se hvor mange salg du har, hvor mye omsetning du generer, og konverteringsraten for nettsiden din.",
+        "EcommerceOverviewSubcategoryHelp2": "Klikk på en individuell måling i sparkline-diagrammet for å fokusere på den i det fulle utviklingsdiagrammet.",
+        "EcommerceOverviewSubcategoryHelp3": "Lær mer i økonomiveiledningen her.",
+        "LifeTimeValue": "Livstidsverdi for e-handel",
+        "LifeTimeValueDescription": "Total netthandelsomsetning tilknyttet denne kunden for alle besøk: Summen av omsetning for alle netthandelsbestillinger for besøks-ID %s.",
+        "NumberOfItems": "Antall artikler i handlekurv",
+        "Order": "Bestilling",
+        "OrderId": "Ordre-ID",
+        "OrderRevenue": "Bestillingsomsetning",
+        "OrderValue": "Bestillingsverdi",
+        "Orders": "Bestillinger",
+        "PluginDescription": "Med netthandel kan du spore når brukere legger til produkter i handlekurver, og når de konverterer til en netthandel. Spor også visninger av produkter og produktkategorier og forlatte handlekurver.",
+        "ProductSubcategoryHelp": "Produktvisningen hjelper deg å finne ut hvilke produkter og kategorier som over- eller underpresterer for å avsløre trender og muligheter relatert til ditt produktvalg og butikksider.",
+        "RevenueLeftInCart": "Omsetning levnet i handlekurv",
         "Sales": "Salg",
+        "SalesAdjective": "Salg %s",
         "SalesBy": "Salg etter %s",
-        "SalesAdjective": "Salg %s"
+        "SalesSubcategoryHelp1": "Denne delen inneholder en omfattende samling av rapporter som hjelper deg å analysere forskjellige betingelser som oftest leder til salg, som f.eks. trafikk og kampanjekilder, brukertid og posisjon, samt enheten brukt til å finne dem.",
+        "SalesSubcategoryHelp2": "Du kan også lære akkurat hvordan omsetning er tilknyttet alle dimensjoner, som spesifikke trafikktyper eller sporede kampanjer.",
+        "ViewedProductCategory": "Vist produktkategori",
+        "ViewedProductName": "Besøkt produktnavn",
+        "ViewedProductPrice": "Vist produktpris",
+        "ViewedProductSKU": "Vist produkt-SKU",
+        "VisitorProfileAbandonedCartSummary": "Forlot %1$s handlevogner med %2$s artikler verdt totalt %3$s.",
+        "VisitorProfileItemsAndOrders": "Kjøpte %1$s artikler i totalt %2$s netthandler.",
+        "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s."
     }
 }

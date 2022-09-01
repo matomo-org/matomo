@@ -32,19 +32,19 @@ describe("QuickAccess", function () {
 
     it("should search for something and update view", async function () {
         await enterSearchTerm('s');
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_1');
     });
 
     it("should search again when typing another letter", async function () {
         await enterSearchTerm('as');
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_2');
     });
 
     it("should show message if no results", async function () {
         await enterSearchTerm('alaskdjfs');
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_no_result');
     });
 

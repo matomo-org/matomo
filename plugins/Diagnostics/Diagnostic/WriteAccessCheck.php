@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Translation\Translator;
@@ -86,7 +87,8 @@ class WriteAccessCheck implements Diagnostic
             $this->tmpPath . '/logs/',
             $this->tmpPath . '/sessions/',
             $this->tmpPath . '/tcpdf/',
-            $this->tmpPath . '/templates_c/',
+            StaticContainer::get('path.tmp.templates')
+        ,
         );
 
         if (! DbHelper::isInstalled()) {

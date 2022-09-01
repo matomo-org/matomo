@@ -8,8 +8,6 @@
 
 namespace Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker;
 
-use Piwik\Tracker;
-use Exception;
 
 class Response extends \Piwik\Plugins\BulkTracking\Tracker\Response
 {

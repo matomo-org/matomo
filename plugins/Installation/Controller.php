@@ -17,10 +17,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreVue\CoreVue;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -116,6 +118,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
+        $view->isInstallation = true;
 
         $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
@@ -148,6 +151,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $dbInfos = $form->createDatabaseObject();
 
                 DbHelper::checkDatabaseVersion();
+
 
                 Db::get()->checkClientVersion();
 
@@ -454,7 +458,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->addForm($form);
 
         $view->showNextStep = false;
-        $view->linkToProfessionalServices = StaticContainer::get('Piwik\ProfessionalServices\Advertising')->getPromoUrlForProfessionalServices($medium = 'App_InstallationFinished');
         $output = $view->render();
 
         return $output;
@@ -555,12 +558,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
             'plugins/CoreHome/angularjs/common/directives/directive.module.js',
-            'plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js',
             'plugins/CoreHome/angularjs/piwikApp.config.js',
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
+            "plugins/CoreHome/javascripts/broadcast.js",
         );
+
+        CoreVue::addJsFilesTo($files);
+
+        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
+        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
 
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
@@ -569,7 +577,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return AssetManager::compileCustomJs($files);
     }
-    
+
     private function getParam($name)
     {
         return Common::getRequestVar($name, false, 'string');

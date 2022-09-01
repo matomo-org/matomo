@@ -1,6 +1,7 @@
 {
     "WebsiteMeasurable": {
-        "Website": "Website",
-        "Websites": "Websites"
+        "Website": "Situs web",
+        "WebsiteDescription": "Sebuah situs web terdiri dari halaman web yang biasanya disajikan dari satu domain di web.",
+        "Websites": "Situs web"
     }
 }

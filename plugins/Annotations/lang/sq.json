@@ -5,7 +5,7 @@
         "Annotations": "Shënime",
         "ClickToDelete": "Klikoni që të fshihet ky shënim.",
         "ClickToEdit": "Klikoni që të përpunohet ky shënim.",
-        "ClickToEditOrAdd": "Klikoni që të përpunohet ose që të shtohet një shënim i ri.",
+        "ClickToEditOrAdd": "Klikoni që të përpunohet, ose që të shtohet një shënim i ri.",
         "ClickToStarOrUnstar": "Klikoni që këtij shënimi t’i vihet ose hiqet ylli.",
         "CreateNewAnnotation": "Krijoni një shënim të ri…",
         "EnterAnnotationText": "Jepni shënimin tuaj…",
@@ -17,6 +17,6 @@
         "NoAnnotations": "S’ka shënime për këtë interval datash.",
         "PluginDescription": "Ju lejon të bashkëngjitni shënime në ditë të ndryshme, për t’u vënë shenjë ndryshimeve të bëra te sajti juaj, të ruani analiza që bëni dhe që lidhen me të dhënat tuaja, si dhe për të ndarë me kolegët mendimet tuaja. Duke bërë shënime në të dhënat tuaja, do të bëni të mundur të mbani mend pse të dhënat tuaja duken ashtu si duken.",
         "ViewAndAddAnnotations": "Shihni dhe shtoni shënime për %s…",
-        "YouCannotModifyThisNote": "S’e ndryshoni dot këtë shënim, ngaqë s’e krijuat ju, dhe as keni të drejta përgjegjësi për këtë sajt."
+        "YouCannotModifyThisNote": "S’e ndryshoni dot këtë shënim, ngaqë s’e krijuat ju, as keni të drejta përgjegjësi për këtë sajt."
     }
 }

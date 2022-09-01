@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
 
 /**

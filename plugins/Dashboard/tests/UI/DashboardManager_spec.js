@@ -64,7 +64,7 @@ describe("DashboardManager", function () {
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
-        await page.waitFor('#createDashboardName', { visible: true });
+        await page.waitForSelector('#createDashboardName', { visible: true });
 
         // try to type the text a few times, as it sometimes doesn't get the full value
         var name = 'newdash2';
@@ -73,7 +73,7 @@ describe("DashboardManager", function () {
                 $('#createDashboardName').val('');
             });
             await page.type('#createDashboardName', name);
-            await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+            await page.waitForTimeout(500); // sometimes the text doesn't seem to type fast enough
 
             var value = await page.evaluate(function() {
                 return $('#createDashboardName').attr('value');
@@ -85,15 +85,27 @@ describe("DashboardManager", function () {
         }
 
         button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
+        // ensure tour widget always shows the same state
+        testEnvironment.completeAllChallenges = 1;
+        testEnvironment.save();
+
         await button.click();
 
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget');
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });
+
+
+    it("should load widgets on smaller screen", async function(){
+        await page.webpage.setViewport({ width: 815, height: 512 });
+        await page.waitForTimeout(500);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
+    });
+
 
     it("should remove dashboard when remove dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
@@ -102,7 +114,10 @@ describe("DashboardManager", function () {
         await button.click();
 
         await page.mouse.move(-10, -10);
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');

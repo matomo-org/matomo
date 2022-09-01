@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>WebKit (Safari, Chrome)</label>
+		<label>WebKit (Safari)</label>
 		<nb_visits>23</nb_visits>
 		<nb_actions>26</nb_actions>
 		<max_actions>3</max_actions>

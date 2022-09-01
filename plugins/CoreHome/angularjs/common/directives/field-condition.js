@@ -14,6 +14,10 @@
 
     piwikFieldCondition.$inject = ['piwik', '$timeout'];
 
+    /**
+     * Unused.
+     * @deprecated
+     */
     function piwikFieldCondition(piwik, $timeout){
 
         function evaluate(scope, condition, element)
@@ -34,7 +38,7 @@
             } else if (element.prop('tagName').toLowerCase() === 'select') {
                 var name = element.val();
                 if (name.indexOf('string:') === 0) {
-                    return name.substr('string:'.length);
+                    return name.slice('string:'.length);
                 }
 
                 return name;

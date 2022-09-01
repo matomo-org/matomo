@@ -41,7 +41,7 @@ class Date
 
     /** The default date time string format. */
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    
+
     /** Timestamp when first website came online - Tue, 06 Aug 1991 00:00:00 GMT. */
     const FIRST_WEBSITE_TIMESTAMP = 681436800;
 
@@ -155,7 +155,7 @@ class Date
             $date = new Date($dateString);
         }
         $timestamp = $date->getTimestamp();
-    
+
         if ($timestamp < self::FIRST_WEBSITE_TIMESTAMP) {
             $dateOfFirstWebsite = new self(self::FIRST_WEBSITE_TIMESTAMP);
             $message = Piwik::translate('General_ExceptionInvalidDateBeforeFirstWebsite', array(
@@ -165,7 +165,7 @@ class Date
             ));
             throw new Exception($message . ": $dateString");
         }
-        
+
         if (empty($timezone)) {
             return $date;
         }
@@ -889,6 +889,10 @@ class Date
             case "ss":
             case "s":
                 return $this->toString('s');
+            // would normally also include AM, PM, Noon and Midnight
+            case "b":
+            // would normally be a textual presentation like "in the afternoon"
+            case "B":
             // am / pm
             case "a":
                 return $this->toString('a') == 'am' ? $translator->translate('Intl_Time_AM') : $translator->translate('Intl_Time_PM');
@@ -911,7 +915,7 @@ class Date
     }
 
     protected static $tokens = array(
-        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'k', 'K', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'z', 'Z', 'v',
+        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'k', 'K', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'b', 'B', 'z', 'Z', 'v',
     );
 
     /**
@@ -982,6 +986,20 @@ class Date
     public function addDay($n)
     {
         $ts = strtotime("+$n day", $this->timestamp);
+        return new Date($ts, $this->timezone);
+    }
+
+    /**
+     * Adds `$n` Month to `$this` date and returns the result in a new Date.
+     * instance.
+     *
+     * @param int $n Number of days to add, must be > 0.
+     * @return \Piwik\Date
+     */
+
+    public function addMonth($n)
+    {
+        $ts = strtotime("+$n month", $this->timestamp);
         return new Date($ts, $this->timezone);
     }
 

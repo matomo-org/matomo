@@ -15,7 +15,10 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikOnenter', piwikOnenter);
 
-    function piwikOnenter() {
+  /**
+   * @deprecated
+   */
+  function piwikOnenter() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {
                 if(event.which === 13) {

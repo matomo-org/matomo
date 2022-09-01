@@ -7,8 +7,6 @@
  */
 namespace Piwik\Plugins\TwoFactorAuth;
 
-use Endroid\QrCode\QrCode;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\IP;
@@ -83,7 +81,8 @@ class Controller extends \Piwik\Plugin\Controller
         $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if ($nonce && Nonce::verifyNonce(self::LOGIN_2FA_NONCE, $nonce) && $form->validate()) {
+            $messageNoAccess = Nonce::verifyNonceWithErrorMessage(self::LOGIN_2FA_NONCE, $nonce);
+            if ($nonce && $messageNoAccess === "" && $form->validate()) {
                 $authCode = $form->getSubmitValue('form_authcode');
                 if ($authCode && is_string($authCode)) {
                     $authCode = str_replace('-', '', $authCode);
@@ -106,12 +105,9 @@ class Controller extends \Piwik\Plugin\Controller
                         // ignore error eg if login plugin is disabled
                      }
                 }
-            } else {
-                $messageNoAccess = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">', '</a>'));
             }
         }
-        $superUsers = Request::processRequest('UsersManager.getUsersHavingSuperUserAccess', [], []);
-        $view->superUserEmails = implode(',', array_column($superUsers, 'email'));
+        $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
         $view->loginModule = Piwik::getLoginPluginName();
         $view->AccessErrorString = $messageNoAccess;
         $view->addForm($form);
@@ -288,7 +284,8 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator->check2FaEnabled();
 
         $regenerateNonce = Common::getRequestVar('regenerateNonce', '', 'string', $_POST);
-        $postedValidNonce = !empty($regenerateNonce) && Nonce::verifyNonce(self::REGENERATE_CODES_2FA_NONCE, $regenerateNonce);
+        $postedValidNonce = !empty($regenerateNonce) && Nonce::verifyNonce(self::REGENERATE_CODES_2FA_NONCE,
+            $regenerateNonce);
 
         $regenerateSuccess = false;
         $regenerateError = false;

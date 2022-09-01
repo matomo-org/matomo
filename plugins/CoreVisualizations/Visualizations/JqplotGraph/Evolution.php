@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Period\Range;
@@ -117,7 +116,8 @@ class Evolution extends JqplotGraph
         $idSite = Common::getRequestVar('idSite');
         $timezone = Site::getTimezoneFor($idSite);
 
-        $defaultLastN = self::getDefaultLastN($period);
+        $lastNParamName = self::getLastNParamName($period);
+        $defaultLastN = $this->config->custom_parameters[$lastNParamName] ?? self::getDefaultLastN($period);
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ('range' != $period) { // show evolution limit if the period is not a range
@@ -136,7 +136,6 @@ class Evolution extends JqplotGraph
                 $this->config->custom_parameters['dateUsedInGraph'] = $newDate;
             }
 
-            $lastNParamName = self::getLastNParamName($period);
             $this->config->custom_parameters[$lastNParamName] = $lastN;
         }
     }

@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "Tento plugin extrahuje a zobrazuje SEO metriky: pořadí v Alexa web, Google PageRank, počet indexovaných stránek a zpětných odkazů aktuálně vybraného webu.",
-        "AlexaRank": "Hodnocení Alexa",
         "Bing_IndexedPages": "Stránek zaindexovaných Bingem",
         "DomainAge": "Staří domény",
         "Google_IndexedPages": "Stránek zaindexovaných Googlem",
+        "PluginDescription": "Tento plugin extrahuje a zobrazuje SEO metriky: pořadí v Alexa web, Google PageRank, počet indexovaných stránek a zpětných odkazů aktuálně vybraného webu.",
         "Rank": "Hodnocení",
-        "SeoRankings": "Hodnocení SEO",
-        "SEORankingsFor": "SEO hodnocení pro %s"
+        "SEORankingsFor": "SEO hodnocení pro %s",
+        "SeoRankings": "Hodnocení SEO"
     }
 }

@@ -82,7 +82,7 @@ class Model
                     break;
                 }
 
-                list($idarchive, $value) = explode('.', $pair);
+                [$idarchive, $value] = explode('.', $pair);
 
                 array_shift($duplicateArchives);
 
@@ -99,7 +99,7 @@ class Model
                         break;
                     }
 
-                    list($idarchive, $value) = explode('.', $pair);
+                    [$idarchive, $value] = explode('.', $pair);
                     $archiveIds[] = $idarchive; // does not matter what the value is, the latest is usable so older archives can be purged
                 }
             }
@@ -157,7 +157,7 @@ class Model
 
         if (!empty($name)) {
             if (strpos($name, '.') !== false) {
-                list($plugin, $name) = explode('.', $name, 2);
+                [$plugin, $name] = explode('.', $name, 2);
             } else {
                 $plugin = $name;
                 $name = null;
@@ -512,7 +512,14 @@ class Model
             $idarchive = $sequence->getNextId();
         } catch (Exception $e) {
             // edge case: sequence was not found, create it now
-            $sequence->create();
+            try {
+                $sequence->create();
+            } catch (Exception $ex) {
+                // Ignore duplicate entry error, as that means another request might have already created the sequence
+                if (!Db::get()->isErrNo($ex, \Piwik\Updater\Migration\Db::ERROR_CODE_DUPLICATE_ENTRY)) {
+                    throw $ex;
+                }
+            }
 
             $idarchive = $sequence->getNextId();
         }

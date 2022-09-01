@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Insights;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\Insights\Visualizations\Insight;
 use Piwik\View;
 
 /**

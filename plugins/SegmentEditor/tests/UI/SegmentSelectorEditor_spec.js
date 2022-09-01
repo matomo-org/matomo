@@ -1,6 +1,6 @@
 /*!
  * Matomo - free/libre analytics platform
- * 
+ *
  * SegmentEditor screenshot tests.
  *
  * @link https://matomo.org
@@ -9,7 +9,7 @@
 
 describe("SegmentSelectorEditorTest", function () {
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
-    
+
     this.timeout(0);
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
@@ -17,12 +17,8 @@ describe("SegmentSelectorEditorTest", function () {
 
     async function selectFieldValue(fieldName, textToSelect)
     {
-        await page.webpage.evaluate((fieldName) => {
-            $(fieldName + ' input.select-dropdown').click();
-        }, fieldName);
-        await page.webpage.evaluate((fieldName, textToSelect) => {
-            $(fieldName + ' .dropdown-content.active li:contains("' + textToSelect + '"):first').click();
-        }, fieldName, textToSelect);
+        await (await page.jQuery(fieldName + ' input.select-dropdown', { waitFor: true })).click();
+        await (await page.jQuery(fieldName + ' .dropdown-content li:contains("' + textToSelect + '"):first', { waitFor: true })).click();
         await page.mouse.move(-10, -10);
     }
 
@@ -53,21 +49,8 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should start editing segment name when segment name edit link clicked", async function() {
         await page.click('.segmentEditorPanel .editSegmentName');
-        await page.waitFor(250); // animation
+        await page.waitForTimeout(250); // animation
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('3_segment_editor_edit_name');
-    });
-
-    it("should show the segment editor's available segments dropdown", async function() {
-        var elem = await page.$('.available_segments a.dropList');
-        await elem.hover();
-        await page.click('.available_segments a.dropList');
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('6_segment_editor_droplist');
-    });
-
-    it("should change segment when another available segment clicked in segment editor's available segments dropdown", async function() {
-        await (await page.jQuery('.ui-menu-item div:contains(Add new segment)')).click();
-        await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('6_segment_editor_different');
     });
 
     it("should close the segment editor when the close link is clicked", async function() {
@@ -81,7 +64,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentationContainer .title');
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();
-        await page.waitFor('.segmentRow0');
+        await page.waitForSelector('.segmentRow0');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('8_segment_editor_create');
     });
 
@@ -94,13 +77,14 @@ describe("SegmentSelectorEditorTest", function () {
     it("should show suggested segment values when a segment value input is focused", async function() {
         await page.click('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input');
         await page.waitForNetworkIdle();
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('suggested_values');
     });
 
     it("should add an OR condition when clicking on add OR", async function() {
+        await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
         await page.click('.segmentEditorPanel .segment-add-or');
-        await page.waitFor(() => !! $('.segmentRow0 .segment-rows>div:eq(1)').length);
+        await page.waitForFunction(() => !! $('.segmentRow0 .segment-rows>div:eq(1)').length);
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_or_condition');
     });
@@ -113,7 +97,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should add an AND condition when clicking on add AND", async function() {
         await page.click('.segmentEditorPanel .segment-add-row');
-        await page.waitFor('.segmentRow1');
+        await page.waitForSelector('.segmentRow1');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_and_condition');
     });
@@ -125,20 +109,23 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", async function() {
-        await page.evaluate(function () {
-            $('.metricValueBlock input').each(function (index) {
-                $(this).val('value ' + index).change();
-            });
-        });
+        for (let i = 0; i < 3; i += 1) {
+          await page.evaluate(function (i) {
+            $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
+          }, i);
+          await page.waitForTimeout(200);
+        }
 
         await page.type('input.edit_segment_name', 'new segment');
         await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
+
+        await page.waitForTimeout(200);
 
         await page.evaluate(function () {
             $('button.saveAndApply').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor('.segmentationContainer');
+        await page.waitForSelector('.segmentationContainer');
 
         await page.click('.segmentationContainer');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved');
@@ -158,6 +145,8 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should correctly should show a confirmation when changing segment definition", async function() {
         await page.click('.segmentEditorPanel .editSegmentName');
+
+        await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
         await page.evaluate(function () {
             $('input.edit_segment_name').val('').change();
         });
@@ -168,17 +157,20 @@ describe("SegmentSelectorEditorTest", function () {
         await selectFieldValue('.segmentRow0 .segment-row:last .metricMatchBlock', 'Is not');
         await selectFieldValue('.segmentRow1 .segment-row .metricMatchBlock', 'Is not');
 
-        await page.evaluate(function () {
-            $('.metricValueBlock input').each(function (index) {
-                $(this).val('new value ' + index).change();
-            });
-        });
+        for (let i = 0; i < 3; i += 1) {
+          await page.waitForTimeout(200);
+          await page.evaluate(function (i) {
+            $(`.metricValueBlock input:eq(${i})`).val('new value ' + i).change();
+          }, i);
+        }
+
+        await page.waitForTimeout(200);
 
         await page.evaluate(function () {
-            $('button.saveAndApply').click();
+           $('button.saveAndApply').click();
         });
-        await page.waitFor('.modal.open');
-        await page.waitFor(500); // animation to show confirm
+        await page.waitForSelector('.modal.open');
+        await page.waitForTimeout(500); // animation to show confirm
 
         const modal = await page.$('.modal.open');
         expect(await modal.screenshot()).to.matchImage('update_confirmation');
@@ -188,7 +180,7 @@ describe("SegmentSelectorEditorTest", function () {
         var elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes):visible');
         await elem.click();
         await page.waitForNetworkIdle();
-        await page.click('.segmentationContainer');
+        await (await page.waitForSelector('.segmentationContainer')).click();
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated');
     });
@@ -203,14 +195,40 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentList li[data-idsegment="4"] .editSegment');
         await page.waitForNetworkIdle();
 
-        await page.waitFor('.segmentListContainer .metricValueBlock');
+        await page.waitForSelector('.segmentListContainer .metricValueBlock');
 
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
     });
 
+    it('should display autocomplete dropdown options correctly with lower case', async function() {
+        await page.click('.expandableSelector .select-wrapper');
+        await page.waitForSelector('.expandableList');
+        await page.click('.expandableSelector');
+        await page.type('.expandableSelector', 'event');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_lowercase');
+    });
+
+    it('should display autocomplete dropdown options correctly with upper case', async function() {
+        const input = await page.$('.expandableSelector');
+        await input.click({ clickCount: 3 })
+        await page.type('.expandableSelector', 'EVENT');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_uppercase');
+    });
+
+    it('should display autocomplete dropdown options correctly with capitalized', async function() {
+        const input = await page.$('.expandableSelector');
+        await input.click({ clickCount: 3 })
+        await page.type('.expandableSelector', 'Event');
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_capitalized');
+    });
+
+
     it("should correctly show delete dialog when the delete link is clicked", async function() {
         await page.click('.segmentEditorPanel a.delete');
-        await page.waitFor(500); // animation
+        await page.waitForTimeout(500); // animation
 
         const modal = await page.$('.modal.open');
         expect(await modal.screenshot()).to.matchImage('deleted_dialog');
@@ -241,44 +259,40 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('a.add_new_segment');
         await page.type('input.edit_segment_name', 'complex segment');
 
-        await page.waitFor('.segmentRow0');
+        await page.waitForSelector('.segmentRow0');
         await selectDimension('.segmentRow0', 'Visitors', 'Browser');
         await selectFieldValue('.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
 
-        await page.evaluate(function () {
-            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-            $('.segmentRow0 .segment-row:first .metricValueBlock input').val(complexValue).change();
-        });
+        var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+        await (await page.jQuery('.segmentRow0 .segment-row:first .metricValueBlock input')).type(complexValue);
+        await page.waitForTimeout(200);
 
         await page.click('.segment-add-or');
-        await page.waitFor(() => !! $('.segmentRow0 .segment-row:eq(1)').length);
+        await page.waitForFunction(() => !! $('.segmentRow0 .segment-row:eq(1)').length);
 
         // configure or condition
         await selectDimension('.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
         await selectFieldValue('.segmentRow0 .segment-row:eq(1) .metricMatchBlock', 'Is');
 
-        await page.evaluate(function () {
-            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-            $('.segmentRow0 .segment-row:eq(1) .metricValueBlock input').val(complexValue).change();
-        });
+        await (await page.jQuery('.segmentRow0 .segment-row:eq(1) .metricValueBlock input')).type(complexValue);
+        await page.waitForTimeout(200);
 
         await page.click('.segment-add-row');
-        await page.waitFor('.segmentRow1 .segment-row');
+        await page.waitForSelector('.segmentRow1 .segment-row');
 
         // configure and condition
         await selectDimension('.segmentRow1', 'Visitors', 'Browser');
         await selectFieldValue('.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
 
-        await page.evaluate(function () {
-            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-            $('.segmentRow1 .metricValueBlock input').val(complexValue).change();
-        });
+        await (await page.jQuery('.segmentRow1 .metricValueBlock input')).type(complexValue);
+        await page.waitForTimeout(200);
+
         await page.evaluate(function () {
             $('button.saveAndApply').click();
         });
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.dataTable');
+        await page.waitForSelector('.dataTable');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot()).to.matchImage('complex_segment');
@@ -292,5 +306,38 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments');
+    });
+
+    it("should save a new segment when enable_create_realtime_segments = 0", async function() {
+        // ensure segment won't be archived after saving it.
+        testEnvironment.overrideConfig('General', 'enable_create_realtime_segments', 0);
+        testEnvironment.overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        testEnvironment.overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+        testEnvironment.optionsOverride = {
+          enableBrowserTriggerArchiving: '0',
+        };
+        testEnvironment.save();
+        await page.evaluate(function () {
+          $('.segmentRow0 .segment-row:first .metricValueBlock input').val('3').change();
+        });
+
+        await page.type('input.edit_segment_name', 'auto archive segment');
+        await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
+
+        // this is for debug purpose. If segment can't be saved, and alert might be shown, causing the UI test to hang
+        page.on('dialog', (dialog)=> {
+            console.log(dialog.message());
+        });
+
+        await page.waitForTimeout(200);
+
+        await page.evaluate(function () {
+            $('button.saveAndApply').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.segmentationContainer');
+
+        await page.click('.segmentationContainer .title');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
     });
 });

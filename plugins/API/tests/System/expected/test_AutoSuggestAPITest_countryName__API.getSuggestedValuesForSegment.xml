@@ -1,253 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>Andorra</row>
-	<row>United Arab Emirates</row>
-	<row>Afghanistan</row>
-	<row>Antigua &amp; Barbuda</row>
-	<row>Anguilla</row>
-	<row>Albania</row>
-	<row>Armenia</row>
-	<row>Angola</row>
-	<row>Antarctica</row>
-	<row>Argentina</row>
-	<row>American Samoa</row>
-	<row>Austria</row>
-	<row>Australia</row>
-	<row>Aruba</row>
-	<row>Åland Islands</row>
-	<row>Azerbaijan</row>
-	<row>Bosnia &amp; Herzegovina</row>
-	<row>Barbados</row>
-	<row>Bangladesh</row>
-	<row>Belgium</row>
-	<row>Burkina Faso</row>
-	<row>Bulgaria</row>
-	<row>Bahrain</row>
-	<row>Burundi</row>
-	<row>Benin</row>
-	<row>St. Barthélemy</row>
-	<row>Bermuda</row>
-	<row>Brunei</row>
-	<row>Bolivia</row>
-	<row>Caribbean Netherlands</row>
-	<row>Brazil</row>
-	<row>Bahamas</row>
-	<row>Bhutan</row>
-	<row>Bouvet Island</row>
-	<row>Botswana</row>
-	<row>Belarus</row>
-	<row>Belize</row>
-	<row>Canada</row>
-	<row>Cocos (Keeling) Islands</row>
-	<row>Congo - Kinshasa</row>
-	<row>Central African Republic</row>
-	<row>Congo - Brazzaville</row>
-	<row>Switzerland</row>
-	<row>Côte d’Ivoire</row>
-	<row>Cook Islands</row>
-	<row>Chile</row>
-	<row>Cameroon</row>
-	<row>China</row>
-	<row>Colombia</row>
-	<row>Costa Rica</row>
-	<row>Cuba</row>
-	<row>Cape Verde</row>
-	<row>Curaçao</row>
-	<row>Christmas Island</row>
-	<row>Cyprus</row>
-	<row>Czechia</row>
-	<row>Germany</row>
-	<row>Djibouti</row>
-	<row>Denmark</row>
-	<row>Dominica</row>
-	<row>Dominican Republic</row>
-	<row>Algeria</row>
-	<row>Ecuador</row>
-	<row>Estonia</row>
-	<row>Egypt</row>
-	<row>Western Sahara</row>
-	<row>Eritrea</row>
-	<row>Spain</row>
-	<row>Ethiopia</row>
-	<row>Finland</row>
-	<row>Fiji</row>
-	<row>Falkland Islands</row>
-	<row>Micronesia</row>
-	<row>Faroe Islands</row>
-	<row>France</row>
-	<row>Gabon</row>
 	<row>United Kingdom</row>
-	<row>Grenada</row>
-	<row>Georgia</row>
-	<row>French Guiana</row>
-	<row>Guernsey</row>
-	<row>Ghana</row>
-	<row>Gibraltar</row>
-	<row>Greenland</row>
-	<row>Gambia</row>
-	<row>Guinea</row>
-	<row>Guadeloupe</row>
-	<row>Equatorial Guinea</row>
-	<row>Greece</row>
-	<row>South Georgia &amp; South Sandwich Islands</row>
-	<row>Guatemala</row>
-	<row>Guam</row>
-	<row>Guinea-Bissau</row>
-	<row>Guyana</row>
-	<row>Hong Kong SAR China</row>
-	<row>Heard &amp; McDonald Islands</row>
-	<row>Honduras</row>
-	<row>Croatia</row>
-	<row>Haiti</row>
-	<row>Hungary</row>
-	<row>Indonesia</row>
-	<row>Ireland</row>
-	<row>Israel</row>
-	<row>Isle of Man</row>
-	<row>India</row>
-	<row>British Indian Ocean Territory</row>
-	<row>Iraq</row>
-	<row>Iran</row>
-	<row>Iceland</row>
-	<row>Italy</row>
-	<row>Jersey</row>
-	<row>Jamaica</row>
-	<row>Jordan</row>
-	<row>Japan</row>
-	<row>Kenya</row>
-	<row>Kyrgyzstan</row>
-	<row>Cambodia</row>
-	<row>Kiribati</row>
-	<row>Comoros</row>
-	<row>St. Kitts &amp; Nevis</row>
-	<row>North Korea</row>
-	<row>South Korea</row>
-	<row>Kuwait</row>
-	<row>Cayman Islands</row>
-	<row>Kazakhstan</row>
-	<row>Laos</row>
-	<row>Lebanon</row>
-	<row>St. Lucia</row>
-	<row>Liechtenstein</row>
-	<row>Sri Lanka</row>
-	<row>Liberia</row>
-	<row>Lesotho</row>
-	<row>Lithuania</row>
-	<row>Luxembourg</row>
-	<row>Latvia</row>
-	<row>Libya</row>
-	<row>Morocco</row>
-	<row>Monaco</row>
-	<row>Moldova</row>
-	<row>Montenegro</row>
-	<row>St. Martin</row>
-	<row>Madagascar</row>
-	<row>Marshall Islands</row>
-	<row>North Macedonia</row>
-	<row>Mali</row>
-	<row>Myanmar (Burma)</row>
-	<row>Mongolia</row>
-	<row>Macao SAR China</row>
-	<row>Northern Mariana Islands</row>
-	<row>Martinique</row>
-	<row>Mauritania</row>
-	<row>Montserrat</row>
-	<row>Malta</row>
-	<row>Mauritius</row>
-	<row>Maldives</row>
-	<row>Malawi</row>
-	<row>Mexico</row>
-	<row>Malaysia</row>
-	<row>Mozambique</row>
-	<row>Namibia</row>
-	<row>New Caledonia</row>
-	<row>Niger</row>
-	<row>Norfolk Island</row>
-	<row>Nigeria</row>
-	<row>Nicaragua</row>
-	<row>Netherlands</row>
-	<row>Norway</row>
-	<row>Nepal</row>
-	<row>Nauru</row>
-	<row>Niue</row>
-	<row>New Zealand</row>
-	<row>Oman</row>
-	<row>Panama</row>
-	<row>Peru</row>
-	<row>French Polynesia</row>
-	<row>Papua New Guinea</row>
-	<row>Philippines</row>
-	<row>Pakistan</row>
-	<row>Poland</row>
-	<row>St. Pierre &amp; Miquelon</row>
-	<row>Pitcairn Islands</row>
-	<row>Puerto Rico</row>
-	<row>Palestinian Territories</row>
-	<row>Portugal</row>
-	<row>Palau</row>
-	<row>Paraguay</row>
-	<row>Qatar</row>
-	<row>Réunion</row>
-	<row>Romania</row>
-	<row>Serbia</row>
+	<row>Canada</row>
 	<row>Russia</row>
-	<row>Rwanda</row>
-	<row>Saudi Arabia</row>
-	<row>Solomon Islands</row>
-	<row>Seychelles</row>
-	<row>Sudan</row>
-	<row>Sweden</row>
-	<row>Singapore</row>
-	<row>St. Helena</row>
-	<row>Slovenia</row>
-	<row>Svalbard &amp; Jan Mayen</row>
-	<row>Slovakia</row>
-	<row>Sierra Leone</row>
-	<row>San Marino</row>
-	<row>Senegal</row>
-	<row>Somalia</row>
-	<row>Suriname</row>
-	<row>South Sudan</row>
-	<row>São Tomé &amp; Príncipe</row>
-	<row>El Salvador</row>
-	<row>Sint Maarten</row>
-	<row>Syria</row>
-	<row>Eswatini</row>
-	<row>Turks &amp; Caicos Islands</row>
-	<row>Chad</row>
-	<row>French Southern Territories</row>
-	<row>Togo</row>
-	<row>Thailand</row>
-	<row>Tajikistan</row>
-	<row>Tokelau</row>
-	<row>Timor-Leste</row>
-	<row>Turkmenistan</row>
-	<row>Tunisia</row>
-	<row>Tonga</row>
-	<row>Turkey</row>
-	<row>Trinidad &amp; Tobago</row>
-	<row>Tuvalu</row>
-	<row>Taiwan</row>
-	<row>Tanzania</row>
+	<row>United States</row>
+	<row>Unknown</row>
+	<row>North Macedonia</row>
+	<row>Italy</row>
+	<row>Indonesia</row>
+	<row>France</row>
+	<row>China</row>
+	<row>Åland Islands</row>
+	<row>Zimbabwe</row>
+	<row>Zambia</row>
+	<row>Yemen</row>
+	<row>Western Sahara</row>
+	<row>Wallis &amp; Futuna</row>
+	<row>Vietnam</row>
+	<row>Venezuela</row>
+	<row>Vatican City</row>
+	<row>Vanuatu</row>
+	<row>Uzbekistan</row>
+	<row>Uruguay</row>
+	<row>United Arab Emirates</row>
 	<row>Ukraine</row>
 	<row>Uganda</row>
-	<row>U.S. Outlying Islands</row>
-	<row>United States</row>
-	<row>Uruguay</row>
-	<row>Uzbekistan</row>
-	<row>Vatican City</row>
-	<row>St. Vincent &amp; Grenadines</row>
-	<row>Venezuela</row>
-	<row>British Virgin Islands</row>
 	<row>U.S. Virgin Islands</row>
-	<row>Vietnam</row>
-	<row>Vanuatu</row>
-	<row>Wallis &amp; Futuna</row>
-	<row>Samoa</row>
-	<row>Yemen</row>
-	<row>Mayotte</row>
-	<row>South Africa</row>
-	<row>Zambia</row>
-	<row>Zimbabwe</row>
-	<row>Unknown</row>
+	<row>U.S. Outlying Islands</row>
+	<row>Tuvalu</row>
+	<row>Turks &amp; Caicos Islands</row>
+	<row>Turkmenistan</row>
 </result>

@@ -1,0 +1,8 @@
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "Us recomanem que %1$s es pugui escriure executant aquesta ordre: %2$s",
+        "DiagnosticPiwikJsNotWritable": "El fitxer de seguiment de JavaScript de Matomo %s no es pot escriure, cosa que significa que altres connectors no poden estendre el seguiment de JavaScript. En el futur fins i tot algunes funcions bàsiques podrien no funcionar com s'espera.",
+        "DiagnosticPiwikJsWritable": "Seguiment de JavaScript que es pot escriure (%s)",
+        "PluginDescription": "Permet a qualsevol connector ampliar el fitxer de seguiment de JavaScript de Matomo (matomo.js) i afegir noves funcionalitats i capacitats de mesurament de llocs web."
+    }
+}

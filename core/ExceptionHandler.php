@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
 use DI\DependencyException;
@@ -13,8 +15,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
-use Piwik\Exception\NotYetInstalledException;
-use Piwik\Http\HttpCodeException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
@@ -27,7 +27,7 @@ class ExceptionHandler
 {
     public static function setUp()
     {
-        set_exception_handler(array('Piwik\ExceptionHandler', 'handleException'));
+        set_exception_handler(['Piwik\ExceptionHandler', 'handleException']);
     }
 
     /**
@@ -72,23 +72,34 @@ class ExceptionHandler
      */
     public static function dieWithHtmlErrorPage($exception)
     {
-        if ($exception instanceof HttpCodeException
-            && $exception->getCode() > 0
-        ) {
-            http_response_code($exception->getCode());
-        } elseif ($exception instanceof NotYetInstalledException) {
-            http_response_code(404);
-        } else {
-            http_response_code(500);
+        // Set an appropriate HTTP response code.
+        switch (true) {
+            case ( ($exception instanceof \Piwik\Http\HttpCodeException || $exception instanceof \Piwik\Exception\NotSupportedBrowserException) && $exception->getCode() > 0):
+                // For these exception types, use the exception-provided error code.
+                http_response_code($exception->getCode());
+                break;
+            case ($exception instanceof \Piwik\Exception\NotYetInstalledException):
+                http_response_code(404);
+                break;
+            default:
+                http_response_code(500);
         }
 
-        self::logException($exception);
+        // Log the error with an appropriate loglevel.
+        switch (true) {
+            case ($exception instanceof \Piwik\Exception\NotSupportedBrowserException):
+                // These unsupported browsers are really a client-side problem, so log only at DEBUG level.
+                self::logException($exception, Log::DEBUG);
+                break;
+            default:
+                self::logException($exception);
+        }
 
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
         try {
             echo self::getErrorResponse($exception);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // When there are failures while generating the HTML error response itself,
             // we simply print out the error message instead.
             echo $exception->getMessage();
@@ -109,11 +120,9 @@ class ExceptionHandler
         $isHtmlMessage = method_exists($ex, 'isHtmlMessage') && $ex->isHtmlMessage();
 
         if (!$isHtmlMessage && Request::isApiRequest($_GET)) {
-
             $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
             $response = new ResponseBuilder($outputFormat);
             return $response->getResponseException($ex);
-
         } elseif (!$isHtmlMessage) {
             $message = Common::sanitizeInputValue($message);
         }
@@ -137,7 +146,24 @@ class ExceptionHandler
             }
         }
 
-        $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl);
+        // Unsupported browser errors shouldn't be written to the web server log. At DEBUG logging level this error will
+        // be written to the application log instead
+        $writeErrorLog = !($ex instanceof \Piwik\Exception\NotSupportedBrowserException);
+
+        $hostname = Url::getRFCValidHostname();
+        $hostStr = $hostname ? "[$hostname] " : '- ';
+
+        $result = Piwik_GetErrorMessagePage(
+            $message,
+            $debugTrace,
+            true,
+            true,
+            $logoHeaderUrl,
+            $logoFaviconUrl,
+            null,
+            $hostStr,
+            $writeErrorLog
+        );
 
         try {
             /**
@@ -149,7 +175,7 @@ class ExceptionHandler
              * @param string &$result The HTML of the error page.
              * @param Exception $ex The Exception displayed in the error page.
              */
-            Piwik::postEvent('FrontController.modifyErrorPage', array(&$result, $ex));
+            Piwik::postEvent('FrontController.modifyErrorPage', [&$result, $ex]);
         } catch (ContainerDoesNotExistException $ex) {
             // this can happen when an error occurs before the Piwik environment is created
         }
@@ -157,13 +183,23 @@ class ExceptionHandler
         return $result;
     }
 
-    private static function logException($exception)
+    private static function logException($exception, $loglevel = Log::ERROR)
     {
         try {
-            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
-                'exception' => $exception,
-                'ignoreInScreenWriter' => true,
-            ]);
+            switch ($loglevel) {
+                case (Log::DEBUG):
+                    StaticContainer::get(LoggerInterface::class)->debug('Uncaught exception: {exception}', [
+                        'exception' => $exception,
+                        'ignoreInScreenWriter' => true,
+                    ]);
+                    break;
+                case (Log::ERROR):
+                default:
+                    StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+                        'exception' => $exception,
+                        'ignoreInScreenWriter' => true,
+                    ]);
+            }
         } catch (DependencyException $ex) {
             // ignore (occurs if exception is thrown when resolving DI entries)
         } catch (ContainerDoesNotExistException $ex) {

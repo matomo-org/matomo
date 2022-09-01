@@ -1,0 +1,122 @@
+name: Update Intl data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 1 * *"
+
+permissions:
+  actions: read
+  checks: none
+  contents: write
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Fetch latest CLDR version"
+        id: cldr
+        run: |
+          CLDRRELEASES=$( curl \
+                 --request GET \
+                 --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+                 --header 'content-type: application/json' \
+                 --url https://api.github.com/repos/unicode-org/cldr-json/releases?per_page=15 )
+          for row in $(echo "${CLDRRELEASES}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            if [[ $(_jq '.prerelease') == false ]]
+            then
+              echo ::set-output name=cldr-version::$(_jq '.tag_name')
+              break
+            fi
+          done
+        shell: bash
+      - name: "Check CLDR version"
+        if: steps.cldr.outputs.cldr-version == ''
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('Unable to find current CLDR version')
+      - uses: actions/checkout@v2
+        with:
+          lfs: false
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install dependencies
+        run: composer install --prefer-dist
+      - name: Quick Matomo Install
+        run: |
+          cat <<-EOF > ./config/config.ini.php
+          [General]
+          always_load_commands_from_plugin=Intl
+
+          [Development]
+          enabled = 1
+          EOF
+
+          cat ./config/config.ini.php
+      - name: Prepare git config
+        run: |
+          cat <<- EOF > $HOME/.netrc
+            machine github.com
+            login $GITHUB_ACTOR
+            password $GITHUB_TOKEN
+            machine api.github.com
+            login $GITHUB_ACTOR
+            password $GITHUB_TOKEN
+          EOF
+          chmod 600 $HOME/.netrc
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name "$GITHUB_ACTOR"
+          git push origin --delete update-intl || true
+          git branch -D update-intl || true
+          git branch update-intl
+          git checkout -f update-intl
+      - name: Update Intl data
+        run: php ./console translations:generate-intl-data --cldr-version="${{ steps.cldr.outputs.cldr-version }}"
+      - name: Push changes
+        id: push
+        run: |
+          if [[ $( git diff --numstat plugins/Intl/lang/*.json ) ]]
+          then
+            cd $GITHUB_WORKSPACE
+            git add plugins/Intl/lang/*.json
+            git commit -m "Updates Intl data from CLDR ${{ steps.cldr.outputs.cldr-version }}"
+            git push --set-upstream origin update-intl
+            echo ::set-output name=updated::1
+          fi
+      - name: Create PR
+        run: |
+          curl \
+             --request POST \
+             --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+             --header 'content-type: application/json' \
+             --data '{
+              "title":"[automatic Intl data updates from CLDR ${{ steps.cldr.outputs.cldr-version }}]",
+              "body":"Updated Intl plugin data with changes from CLDR ${{ steps.cldr.outputs.cldr-version }}",
+              "head":"update-intl",
+              "base":"4.x-dev"
+              }' \
+             --url https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls
+        shell: bash
+        if: steps.push.outputs.updated

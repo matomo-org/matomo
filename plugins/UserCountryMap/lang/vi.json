@@ -14,7 +14,7 @@
         "Searches": "%s tìm kiếm",
         "SecondsAgo": "%s giây cách đây",
         "ShowingVisits": "Định vị lượt truy cập cuối cùng",
-        "Unlocated": "<b>%1$s</b> %2$p các lượt truy cập từ %3$c có thể không được định vị.",
+        "Unlocated": "<b>%1$s</b> %2$s các lượt truy cập từ %3$s có thể không được định vị.",
         "VisitorMap": "Bản đồ khách truy cập",
         "WorldWide": "Khắp thế giới",
         "map": "Bản đồ"

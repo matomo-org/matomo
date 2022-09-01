@@ -1,0 +1,70 @@
+.piwikSelector {
+  display: inline-block;
+  line-height: 0;
+
+  span.title,
+  a.title {
+    .font-default(11px, 12px);
+    display: inline-block;
+    width: 100%;
+    padding: 10px 15px 11px 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: @theme-color-text;
+
+    &.activityIndicator {
+      background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat 9px 9px;
+
+      .icon {
+        visibility: hidden;
+      }
+    }
+
+    .icon {
+      // remove relative: [class^="icon-"], [class*=" icon-"]{line-height:1em}
+      .font-default(11px, 12px);
+      padding-right: 6px;
+      display: inline-block;
+      vertical-align: top;
+
+      &.iconHidden {
+        visibility: hidden;
+      }
+    }
+
+    .icon:not(.icon-fixed) {
+      float: left;
+      &:after {
+        clear:right;
+        content: ' ';
+      }
+    }
+
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
+
+  .dropdown {
+    .font-default(11px, 15px);
+    display: none;
+    padding: 5px 19px 11px 19px;
+  }
+
+  &.expanded {
+    .dropdown {
+      display: block;
+      margin-top: 2px;
+      margin-left: -1px;
+      position: absolute;
+      z-index: 999;
+      border: 1px solid @theme-color-background-base;
+      border-radius: 2px;
+      box-shadow: 4px 7px 25px rgba(0,0,0,0.3);
+      padding: 16px;
+      background-color: @theme-color-background-contrast;
+    }
+  }
+}

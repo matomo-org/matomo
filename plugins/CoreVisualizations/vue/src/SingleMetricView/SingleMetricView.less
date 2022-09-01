@@ -1,0 +1,66 @@
+.singleMetricView {
+  margin: 5px 12px 10px;
+  display: inline-block;
+
+  &.loading {
+    opacity: 0.5;
+  }
+
+  span, .metric-sparkline, .positive-evolution::before {
+    margin-right: 3.5px;
+  }
+
+  .metric-value {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 25px;
+    vertical-align: top;
+    margin-left: 3px;
+  }
+
+  .metric-sparkline {
+    display: inline-block;
+    vertical-align: top;
+    img {
+      width: 100px;
+      height: 25px;
+    }
+  }
+
+  .metricEvolution {
+    font-weight: bold;
+    font-size: 12px;
+
+    > span {
+      display: inline-block;
+
+      &:not(.positive-evolution):not(.negative-evolution) {
+        margin-left: 8px;
+      }
+    }
+
+    .positive-evolution::before {
+      content: "";
+      background: url(plugins/MultiSites/images/arrow_up.png) no-repeat center center;
+      display: inline-block;
+      height: 7px;
+      width: 12px;
+    }
+    .negative-evolution::before {
+      content: "";
+      background: url(plugins/MultiSites/images/arrow_down.png) no-repeat center center;
+      display: inline-block;
+      height: 7px;
+      width: 12px;
+    }
+  }
+}
+
+[piwik-single-metric-view] {
+  display: block;
+}
+
+.single-metric-view-picker {
+  margin-left: 6px;
+  display: inline-block;
+}

@@ -192,9 +192,9 @@ class Mail
      * Add Bcc address
      *
      * @param string $email
-     * @param null|string $name
+     * @param string $name
      */
-    public function addBcc($email, $name = null)
+    public function addBcc($email, $name = '')
     {
         $this->bccs[$email] = $name;
     }
@@ -222,9 +222,9 @@ class Mail
      * Add Reply-To address
      *
      * @param string $email
-     * @param null|string $name
+     * @param string $name
      */
-    public function addReplyTo($email, $name = null)
+    public function addReplyTo($email, $name = '')
     {
         $this->replyTos[$this->parseDomainPlaceholderAsPiwikHostName($email)] = $name;
     }
@@ -235,7 +235,7 @@ class Mail
      * @param string $email
      * @param string $name
      */
-    public function setReplyTo($email, $name = null)
+    public function setReplyTo($email, $name = '')
     {
         $this->replyTos = [];
         $this->addReplyTo($email, $name);

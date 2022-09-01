@@ -1,16 +1,17 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\API\Proxy;
-use Piwik\Cache;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * This tests the output of the API plugin API
@@ -49,40 +50,70 @@ class ApiGetReportMetadataTest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        $idSite = self::$fixture->idSite;
+        $idSite   = self::$fixture->idSite;
         $dateTime = self::$fixture->dateTime;
 
-        return array(
-            array('API', array('idSite' => $idSite, 'date' => $dateTime)),
+        return [
+            ['API', ['idSite' => $idSite, 'date' => $dateTime]],
 
             // test w/ hideMetricsDocs=true
-            array('API.getMetadata', array('idSite'                 => $idSite, 'date' => $dateTime,
-                                           'apiModule'              => 'Actions', 'apiAction' => 'get',
-                                           'testSuffix'             => '_hideMetricsDoc',
-                                           'otherRequestParameters' => array('hideMetricsDoc' => 1))),
-            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
-                                                  'apiModule'              => 'Actions', 'apiAction' => 'get',
-                                                  'testSuffix'             => '_hideMetricsDoc',
-                                                  'otherRequestParameters' => array('hideMetricsDoc' => 1))),
+            [
+                'API.getMetadata',
+                [
+                    'idSite'                 => $idSite,
+                    'date'                   => $dateTime,
+                    'apiModule'              => 'Actions',
+                    'apiAction'              => 'get',
+                    'testSuffix'             => '_hideMetricsDoc',
+                    'otherRequestParameters' => ['hideMetricsDoc' => 1],
+                ],
+            ],
+            [
+                'API.getProcessedReport',
+                [
+                    'idSite'                 => $idSite,
+                    'date'                   => $dateTime,
+                    'apiModule'              => 'Actions',
+                    'apiAction'              => 'get',
+                    'testSuffix'             => '_hideMetricsDoc',
+                    'otherRequestParameters' => ['hideMetricsDoc' => 1],
+                ],
+            ],
 
             // Test w/ showRawMetrics=true
-            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
-                                                  'apiModule'              => 'UserCountry', 'apiAction' => 'getCountry',
-                                                  'testSuffix'             => '_showRawMetrics',
-                                                  'otherRequestParameters' => array('showRawMetrics' => 1))),
+            [
+                'API.getProcessedReport',
+                [
+                    'idSite'                 => $idSite,
+                    'date'                   => $dateTime,
+                    'apiModule'              => 'UserCountry',
+                    'apiAction'              => 'getCountry',
+                    'testSuffix'             => '_showRawMetrics',
+                    'otherRequestParameters' => ['showRawMetrics' => 1],
+                ],
+            ],
 
             // Test w/ showRawMetrics=true
-            array('Actions.getPageTitles', array('idSite'     => $idSite, 'date' => $dateTime,
-                                                 'testSuffix' => '_pageTitleZeroString')),
+            [
+                'Actions.getPageTitles',
+                [
+                    'idSite'     => $idSite,
+                    'date'       => $dateTime,
+                    'testSuffix' => '_pageTitleZeroString',
+                ],
+            ],
 
             // Test w/ no format, should default to format=json
-            ['Actions.getPageTitles', [
-                'idSite'     => $idSite,
-                'date' => $dateTime,
-                'testSuffix' => '_defaultFormatValue',
-                'format' => 'asldjkf',
-            ]],
-        );
+            [
+                'Actions.getPageTitles',
+                [
+                    'idSite'     => $idSite,
+                    'date'       => $dateTime,
+                    'testSuffix' => '_defaultFormatValue',
+                    'format'     => 'asldjkf',
+                ],
+            ],
+        ];
     }
 
     /**

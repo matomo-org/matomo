@@ -23,11 +23,11 @@ describe("UserSettings", function () {
 
     it('should show user security page', async function () {
         await page.goto(userSecurityUrl);
-        await page.waitFor('.listAuthTokens', { visible: true });
+        await page.waitForSelector('.listAuthTokens', { visible: true });
         await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
             $('table.listAuthTokens th').css('width', '25%');
         });
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security');
     });
 
@@ -75,15 +75,16 @@ describe("UserSettings", function () {
         await page.evaluate(function () {
             $('#userSettingsTable input#email').val('testlogin123@example.com').change();
         });
-        await page.click('#userSettingsTable [piwik-save-button] .btn');
-        await page.waitFor(500); // wait for animation
+        await page.waitForTimeout(100);
+        await page.click('#userSettingsTable .matomo-save-button .btn');
+        await page.waitForTimeout(500); // wait for animation
 
         let pageWrap = await page.$('.modal.open');
         expect(await pageWrap.screenshot()).to.matchImage('asks_confirmation');
     });
 
     it('should load error when wrong password specified', async function () {
-        await page.type('.modal.open #currentPassword', 'foobartest123');
+        await page.type('.modal.open #currentUserPassword', 'foobartest123');
         btnNo = await page.jQuery('.modal.open .modal-action:not(.modal-no)');
         await btnNo.click();
         await page.waitForNetworkIdle();

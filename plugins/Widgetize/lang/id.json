@@ -1,6 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "&rsaquo; Tautan Langsung",
+        "DisplayDashboardInIframe": "Anda juga dapat menampilkan dasbor lengkap Matomo di aplikasi atau situs web Anda dalam IFRAME (%1$slihat contoh%2$s). Parameter tanggal dapat diatur ke tanggal tertentu, \"hari ini\", atau \"kemarin\". Parameter periode dapat diatur ke \"hari\", \"minggu\", \"bulan\", atau\n \"tahun\". Parameter bahasa dapat diatur ke kode bahasa terjemahan, seperti language=fr. Misalnya, untuk idSite=1 dan date=yesterday, Anda dapat menulis:",
+        "DisplayDashboardInIframeAllSites": "Anda juga dapat membuat widget dasbor dari semua situs web di IFRAME (%1$slihat contoh%2$s)",
+        "EmbedIframe": "&rsaquo; Sematkan Iframe",
+        "Intro": "Dengan Matomo, Anda dapat %1$smengekspor laporan Analisis Web%2$s di blog, situs web, atau dasbor intranet dalam satu klik.",
         "OpenInNewWindow": "Buka di jendela baru",
-        "TopLinkTooltip": "Ekspor Laporan Matomo sebagai gawit dan sematkan dalam Penel Kendali di aplikasi Anda sebagai binkai pendam."
+        "PluginDescription": "Tampilkan laporan Matomo apa pun di situs web atau aplikasi Anda dengan \"penyematan\" tag HTML sederhana.",
+        "Reports": "Laporan Widgetize",
+        "SelectAReport": "Pilih laporan, kemudian salin tempel kode semat di bawah widget berikut ini di halaman Anda:",
+        "TooHighAccessLevel": "Pengguna ini memiliki akses pengguna super. Menyematkan widget dengan autentikasi token pengguna super tidak diperbolehkan. %1$sPeriksa FAQ untuk info lebih lanjut.%2$s",
+        "TopLinkTooltip": "Ekspor laporan Matomo sebagai widget dan sematkan dalam dasbor di aplikasi Anda sebagai iframe.",
+        "ViewAccessRequired": "Pengguna ini memiliki setidaknya beberapa akses tulis. Hanya token pengguna yang hanya memiliki akses lihat yang dapat digunakan. Periksa %1$s untuk melihat info lebih lanjut.",
+        "ViewableAnonymously": "Jika Anda ingin widget Anda dapat dilihat oleh semua orang, pertama-tama Anda harus menyetel izin 'lihat' ke pengguna anonim di bagian %1$sManajemen Pengguna%2$s. <br>Atau, jika Anda menerbitkan widget di halaman pribadi atau yang dilindungi kata sandi, Anda tidak perlu mengizinkan 'anonim' untuk melihat laporan Anda. Dalam hal ini, Anda dapat menambahkan parameter rahasia <code>token_auth</code> di URL widget. Anda dapat mengelola token autentikasi di %3$shalaman Keamanan%4$s."
     }
 }

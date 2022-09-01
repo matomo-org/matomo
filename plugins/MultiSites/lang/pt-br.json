@@ -1,8 +1,16 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de cada um de seus sites, contendo as métricas mais gerais sobre seus visitantes.",
         "Evolution": "Evolução",
+        "EvolutionComparisonDay": "%1$s%2$s neste dia, comparado a %3$s%2$s no período parcial anterior (%4$s) Evolução: %5$s",
+        "EvolutionComparisonIncomplete": "O período de tempo atualmente selecionado está %1$s concluído.",
+        "EvolutionComparisonMonth": "%1$s%2$s este mês comparado a %3$s%2$s no período parcial anterior (%4$s) Evolução: %5$s",
+        "EvolutionComparisonProportional": "Quando o período anterior também foi %1$s completo, teria havido uma estimativa %2$s%3$s\n (fora de um total de %4$s %3$s no período anterior).",
+        "EvolutionComparisonWeek": "%1$s%2$s nesta semana comparado a %3$s%2$s no período parcial anterior (%4$s) Evolução:%5$s",
+        "EvolutionComparisonYear": "%1$s %2$s este ano em comparação com %3$s %2$s no período parcial anterior (%4$s) Evolução: %5$s",
         "LoadingWebsites": "Carregando sites",
         "PluginDescription": "Veja e compare todos os seus sites e aplicativos neste útil painel 'Todos os sites'.",
+        "SingleWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de um site específico, contendo as métricas mais gerais sobre seus visitantes.",
         "TopLinkTooltip": "Comparar estatísticas de Web Analytics de todos os seus sites."
     }
 }

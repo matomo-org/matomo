@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Unit\Category;
 
-use Piwik\Cache;
 use Piwik\Category\Subcategory;
 
 /**

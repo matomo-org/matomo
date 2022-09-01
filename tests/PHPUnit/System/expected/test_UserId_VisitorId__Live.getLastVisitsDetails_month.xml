@@ -13,6 +13,8 @@
 				<serverTimePretty>Mar 6, 2010 11:22:33</serverTimePretty>
 				<pageId>1</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -58,6 +60,8 @@
 				<serverTimePretty>Mar 6, 2010 11:28:33</serverTimePretty>
 				<pageId>3</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index3.htm</subtitle>
@@ -122,6 +126,8 @@
 				<serverTimePretty>Mar 6, 2010 13:28:33</serverTimePretty>
 				<pageId>6</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -148,6 +154,8 @@
 				<serverTimePretty>Mar 6, 2010 13:34:33</serverTimePretty>
 				<pageId>7</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>a new user id was set -&gt; new visit</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -174,6 +182,8 @@
 				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>10</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>pageview - should not be tracked by our user id but in a new visit</title>
 				<subtitle>http://example.org/home</subtitle>
@@ -238,6 +248,9 @@
 				<goalPageId />
 				<serverTimePretty>Mar 6, 2010 16:34:33</serverTimePretty>
 				<url>http://example.org/home</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -286,6 +299,8 @@
 				<serverTimePretty>Mar 14, 2010 11:22:33</serverTimePretty>
 				<pageId>11</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Page view by email@example.com</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -312,6 +327,8 @@
 				<serverTimePretty>Mar 14, 2010 11:46:33</serverTimePretty>
 				<pageId>12</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>A page view by new-user-id@one-weeklater</title>
 				<subtitle>http://example.org/index.htm</subtitle>

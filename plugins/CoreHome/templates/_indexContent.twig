@@ -7,7 +7,7 @@
         {{ postEvent("Template.nextToCalendar") }}
         {% render dashboardSettingsControl %}
         {% include "@CoreHome/_headerMessage.twig" %}
-        {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
+        {{ ajax.requestErrorDiv(contactEmail|default(''), false, '', showMoreFaqInfo) }}
     </div>
 
     {{ ajax.loadingDiv() }}

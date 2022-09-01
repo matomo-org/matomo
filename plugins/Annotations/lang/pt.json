@@ -12,11 +12,11 @@
         "HideAnnotationsFor": "Ocultar anotações para %s...",
         "IconDesc": "Ver notas para este intervalo de datas.",
         "IconDescHideNotes": "Ocultar notas para este intervalo de datas.",
-        "InlineQuickHelp": "Pode criar anotações para marcar eventos especiais (tais como uma nova publicação no blogue, ou redesenhar o <i>site<\/i> da Web), para guardar as suas análises de dados ou para guardar qualquer outra coisa que considere ser importante.",
+        "InlineQuickHelp": "Pode criar anotações para marcar eventos especiais (tais como uma nova publicação no blogue, ou redesenho do site), para guardar as suas análises de dados ou para guardar qualquer outra coisa que considere ser importante.",
         "LoginToAnnotate": "Inicie a sessão para criar uma anotação.",
         "NoAnnotations": "Não existem anotações para este intervalo de datas.",
         "PluginDescription": "Permite que anexe notas a dias diferentes para marcar alterações realizadas ao seu site, guardar análises que realizou relativas aos seus dados e partilhar os seus pensamentos com os seus colegas. Ao anotar a sua informação, terá a certeza que se lembrará da razão pela qual esta tem o aspeto que tem.",
         "ViewAndAddAnnotations": "Ver e adicionar anotações para %s...",
-        "YouCannotModifyThisNote": "Não pode modificar esta anotação, porque não a criou, nem tem acesso de administrador para este <i>site<\/i>."
+        "YouCannotModifyThisNote": "Não pode modificar esta anotação, porque não a criou, nem tem acesso de administrador para este site."
     }
 }

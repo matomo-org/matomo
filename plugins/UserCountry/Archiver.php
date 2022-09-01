@@ -102,7 +102,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         // remove the location separator from the region/city/country we get from the query
         foreach ($this->dimensions as $column) {
-            $row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column]);
+            $row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column] ?? '');
         }
 
         // set city first, as containing region might be manipulated afterwards if not empty

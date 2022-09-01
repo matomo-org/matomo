@@ -16,6 +16,8 @@
 				<serverTimePretty>Apr 7, 2013 10:00:00</serverTimePretty>
 				<pageId>1</pageId>
 				<bandwidth>9625</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
@@ -90,12 +92,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -134,6 +130,8 @@
 				<serverTimePretty>Apr 6, 2013 11:00:00</serverTimePretty>
 				<pageId>2</pageId>
 				<bandwidth>9625</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
@@ -208,12 +206,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -252,6 +244,8 @@
 				<serverTimePretty>Apr 5, 2013 12:00:00</serverTimePretty>
 				<pageId>3</pageId>
 				<bandwidth>9625</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
@@ -326,12 +320,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>

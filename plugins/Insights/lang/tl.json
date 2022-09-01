@@ -5,6 +5,7 @@
         "DayComparedToPreviousYear": "Sa parehong araw sa nakaraang taon",
         "MonthComparedToPreviousMonth": "nakaraang buwan",
         "MonthComparedToPreviousYear": "Parehong buwan sa nakaraang taon",
+        "PluginDescription": "Nagbibigay ng mga Insight tungkol sa iyong trapiko sa website. Available ang mga insight bilang mga widget ng dashboard pati na rin ang bagong icon sa mga ulat, para makita mo ang pinakamahahalagang trend sa iyong data.",
         "TitleConsideredMoversAndShakersChanges": "Masasabing movers kung ito ay tumaas ng mahigit sa %1$s%% pagbisita o bumababa ng higit sa %2$s%% pagbisita ang mga bagong entry kung ang kanilang pagtaas ay mahigit sa %3$s%% pagbisita (%4$s) at kung mawawala ang rows ng mas mababa sa %5$s%% pagbisita (%6$s).",
         "TitleConsideredMoversAndShakersGrowth": "%1$s ay nagbago mula sa %2$s sa %3$s kumpara sa %4$s. Base sa isang paglaki ng bawat hilera ng%5$s%% ay inaasahan.",
         "TitleRowChangeDetails": "'%1$s' ay nagbago mula %2$s (%3$s) hanggang %4$s (%5$s) %6$s.",

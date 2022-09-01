@@ -15,7 +15,7 @@
         "Searches": "%s vyhledávání",
         "SecondsAgo": "před %s sekundami",
         "ShowingVisits": "Geolokované návštěvy posledních",
-        "Unlocated": "<b>%1$s</b> %2$p z návštěv z %3$c nebylo možné geolokovat.",
+        "Unlocated": "<b>%1$s</b> %2$s z návštěv z %3$s nebylo možné geolokovat.",
         "VisitorMap": "Mapa návštěvníků",
         "WithUnknownCity": "%s s neznámým městem",
         "WithUnknownRegion": "%s s neznámým regionem",

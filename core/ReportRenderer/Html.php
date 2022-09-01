@@ -8,7 +8,6 @@
  */
 namespace Piwik\ReportRenderer;
 
-use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\ReportRenderer;
 use Piwik\View;

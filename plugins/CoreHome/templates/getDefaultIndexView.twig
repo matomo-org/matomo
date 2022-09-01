@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ ajax.requestErrorDiv(emailSuperUser|default(''), areAdsForProfessionalServicesEnabled, currentModule) }}
+    {{ ajax.requestErrorDiv(contactEmail|default(''), areAdsForProfessionalServicesEnabled, currentModule, showMoreFaqInfo) }}
     {{ ajax.loadingDiv() }}
 
     <div id="content" class="home">

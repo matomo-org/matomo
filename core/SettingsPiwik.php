@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Cache as PiwikCache;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 
 /**
@@ -31,7 +32,7 @@ class SettingsPiwik
     {
         static $salt = null;
         if (is_null($salt)) {
-            $salt = @Config::getInstance()->General['salt'];
+            $salt = Config::getInstance()->General['salt'] ?? '';
         }
         return $salt;
     }
@@ -467,9 +468,8 @@ class SettingsPiwik
      */
     public static function getPiwikInstanceId()
     {
-        // until Piwik is installed, we use hostname as instance_id
-        if (!self::isMatomoInstalled()
-            && Common::isPhpCliMode()) {
+        // until Matomo is installed, we use hostname as instance_id
+        if (!self::isMatomoInstalled() && Common::isPhpCliMode()) {
             // enterprise:install use case
             return Config::getHostname();
         }
@@ -479,12 +479,12 @@ class SettingsPiwik
             return false;
         }
 
-        $instanceId = @Config::getInstance()->General['instance_id'];
+        $instanceId = GeneralConfig::getConfigValue('instance_id');
         if (!empty($instanceId)) {
             return $instanceId;
         }
 
-        // do not rewrite the path as Piwik uses the standard config.ini.php file
+        // do not rewrite the path as Matomo uses the standard config.ini.php file
         return false;
     }
 

@@ -8,10 +8,22 @@
 			<nb_pageviews>2</nb_pageviews>
 			<revenue>10</revenue>
 			<visits_evolution>100%</visits_evolution>
+			<visits_evolution_trend>1</visits_evolution_trend>
 			<actions_evolution>100%</actions_evolution>
+			<actions_evolution_trend>1</actions_evolution_trend>
 			<pageviews_evolution>100%</pageviews_evolution>
+			<pageviews_evolution_trend>1</pageviews_evolution_trend>
 			<revenue_evolution>100%</revenue_evolution>
+			<revenue_evolution_trend>1</revenue_evolution_trend>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>0</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Sat, Jan 2</previousRange>
+			<previous_nb_actions>0</previous_nb_actions>
+			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -24,10 +36,22 @@
 			<nb_pageviews>1</nb_pageviews>
 			<revenue>0</revenue>
 			<visits_evolution>-50%</visits_evolution>
+			<visits_evolution_trend>-1</visits_evolution_trend>
 			<actions_evolution>-50%</actions_evolution>
+			<actions_evolution_trend>-1</actions_evolution_trend>
 			<pageviews_evolution>-50%</pageviews_evolution>
+			<pageviews_evolution_trend>-1</pageviews_evolution_trend>
 			<revenue_evolution>-100%</revenue_evolution>
+			<revenue_evolution_trend>-1</revenue_evolution_trend>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>2</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Sun, Jan 3</previousRange>
+			<previous_nb_actions>2</previous_nb_actions>
+			<previous_Actions_nb_pageviews>2</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>10</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -38,10 +62,22 @@
 			<nb_pageviews>3</nb_pageviews>
 			<revenue>0</revenue>
 			<visits_evolution>100%</visits_evolution>
+			<visits_evolution_trend>1</visits_evolution_trend>
 			<actions_evolution>100%</actions_evolution>
+			<actions_evolution_trend>1</actions_evolution_trend>
 			<pageviews_evolution>100%</pageviews_evolution>
+			<pageviews_evolution_trend>1</pageviews_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
+			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<idsite>2</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>0</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Sun, Jan 3</previousRange>
+			<previous_nb_actions>0</previous_nb_actions>
+			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -54,10 +90,22 @@
 			<nb_pageviews>5</nb_pageviews>
 			<revenue>5</revenue>
 			<visits_evolution>0%</visits_evolution>
+			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>400%</actions_evolution>
+			<actions_evolution_trend>1</actions_evolution_trend>
 			<pageviews_evolution>400%</pageviews_evolution>
+			<pageviews_evolution_trend>1</pageviews_evolution_trend>
 			<revenue_evolution>100%</revenue_evolution>
+			<revenue_evolution_trend>1</revenue_evolution_trend>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>1</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Mon, Jan 4</previousRange>
+			<previous_nb_actions>1</previous_nb_actions>
+			<previous_Actions_nb_pageviews>1</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>0</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -70,10 +118,22 @@
 			<nb_pageviews>5</nb_pageviews>
 			<revenue>5</revenue>
 			<visits_evolution>0%</visits_evolution>
+			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
+			<actions_evolution_trend>0</actions_evolution_trend>
 			<pageviews_evolution>0%</pageviews_evolution>
+			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
+			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>1</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Tue, Jan 5</previousRange>
+			<previous_nb_actions>5</previous_nb_actions>
+			<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>5</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -86,10 +146,22 @@
 			<nb_pageviews>5</nb_pageviews>
 			<revenue>5</revenue>
 			<visits_evolution>0%</visits_evolution>
+			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
+			<actions_evolution_trend>0</actions_evolution_trend>
 			<pageviews_evolution>0%</pageviews_evolution>
+			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
+			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>1</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Wed, Jan 6</previousRange>
+			<previous_nb_actions>5</previous_nb_actions>
+			<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>5</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -102,10 +174,22 @@
 			<nb_pageviews>5</nb_pageviews>
 			<revenue>5</revenue>
 			<visits_evolution>0%</visits_evolution>
+			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
+			<actions_evolution_trend>0</actions_evolution_trend>
 			<pageviews_evolution>0%</pageviews_evolution>
+			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
+			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>1</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Thu, Jan 7</previousRange>
+			<previous_nb_actions>5</previous_nb_actions>
+			<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>5</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -118,10 +202,22 @@
 			<nb_pageviews>5</nb_pageviews>
 			<revenue>5</revenue>
 			<visits_evolution>0%</visits_evolution>
+			<visits_evolution_trend>0</visits_evolution_trend>
 			<actions_evolution>0%</actions_evolution>
+			<actions_evolution_trend>0</actions_evolution_trend>
 			<pageviews_evolution>0%</pageviews_evolution>
+			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
+			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<idsite>1</idsite>
+			<ratio>1</ratio>
+			<currencySymbol>$</currencySymbol>
+			<previous_nb_visits>1</previous_nb_visits>
+			<periodName>day</periodName>
+			<previousRange>Fri, Jan 8</previousRange>
+			<previous_nb_actions>5</previous_nb_actions>
+			<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
+			<previous_Goal_revenue>5</previous_Goal_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>

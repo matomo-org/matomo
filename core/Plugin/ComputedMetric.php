@@ -167,10 +167,7 @@ class ComputedMetric extends ProcessedMetric
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds(round($value), $displayAsSentence = true);
             case Dimension::TYPE_DURATION_MS:
-                $val = number_format($value / 1000, 2);
-                if ($val > 60) {
-                    $val = round($val);
-                }
+                $val = round(($value / 1000), ($value / 1000) > 60 ? 0 : 2);
                 return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);

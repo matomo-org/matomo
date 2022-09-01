@@ -20,7 +20,6 @@ use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;
-use Piwik\SettingsServer;
 use Psr\Log\LoggerInterface;
 
 /**

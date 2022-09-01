@@ -11,7 +11,6 @@ namespace Piwik\Tests\Framework\TestRequest;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
-use Piwik\Date;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Url;
 use Piwik\UrlHelper;

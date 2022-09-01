@@ -128,7 +128,7 @@
         {% else %}
             <p>
                 If this error continues to happen you may want to send an
-                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Matomo ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
+                <a href="mailto:{{ contactEmail|e('url') }}?subject={{ 'Fatal error in Matomo ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
                 to your system administrator.
             </p>
         {% endif %}

@@ -63,7 +63,7 @@ port = 3306
 aurora_readonly_read_committed =
 
 [database_tests]
-host = localhost
+host = "127.0.0.1"
 username = "@USERNAME@"
 password =
 dbname = matomo_tests
@@ -277,6 +277,9 @@ browser_archiving_disabled_enforce = 0
 ; Add custom currencies to Sites Manager.
 currencies[BTC] = Bitcoin
 
+; default expiry time in days for invite user tokens
+default_invite_user_token_expiry_days = 7
+
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
 ; This can be useful if you want to prevent users from adding much load on the server.
@@ -294,7 +297,7 @@ enable_segment_suggested_values = 1
 ; By default, any user with a "view" access for a website can create segment assigned to this website.
 ; Set this to "admin" or "superuser" to require that users should have at least this access to create new segments.
 ; Note: anonymous user (even if it has view access) is not allowed to create or edit segment.
-; Possible values are "view", "admin", "superuser"
+; Possible values are "view", "write", "admin", "superuser"
 adding_segment_requires_access = "view"
 
 ; Whether it is allowed for users to add segments that affect all websites or not. If there are many websites
@@ -380,9 +383,15 @@ archiving_range_force_on_browser_request = 1
 archiving_custom_ranges[] =
 
 ; If configured, archiving queries will be aborted after the configured amount of seconds. Set it to -1 if the query time
-; should not be limited. Note: This feature requires a recent MySQL version (5.7 or newer). Some MySQL forks like MariaDB
-; might not support this feature which uses the MAX_EXECUTION_TIME hint.
+; should not be limited. Note: This feature requires a recent MySQL version (5.7 or newer) and the PDO\MYSQL extension
+; must be used. Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint.
+; This feature will not work with the MYSQLI extension.
 archiving_query_max_execution_time = 7200
+
+
+; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
+; Here you can specify the comma separated list eg: "plugin1,plugin2"
+disable_archiving_segment_for_plugins = ""
 
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
@@ -398,8 +407,6 @@ purge_date_range_archives_after_X_days = 1
 ; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1
 
-; PostgreSQL minimum required version
-minimum_pgsql_version = 8.3
 
 ; Minimum advised memory limit in Mb in php.ini file (see memory_limit value)
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
@@ -447,7 +454,7 @@ csp_enabled = 1
 
 ; If set, and csp_enabled is on, Matomo will send a report-uri in the Content-Security-Policy-Report-Only header
 ; instead of a Content-Security-Policy header.
-csp_report_only = 1
+csp_report_only = 0
 
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
 ; This can add an additional layer of security as SERVER_NAME can not be manipulated by sending custom host headers when configure correctly.
@@ -533,6 +540,10 @@ noreply_email_address = "noreply@{DOMAIN}"
 ; standard email name displayed when sending emails. If not set, a default name will be used.
 noreply_email_name = ""
 
+; email address to use when an administrator should be contacted. If not set, email addresses of all super users will be used instead.
+; To use multiple addresses simply concatenate them with a ','
+contact_email_address = ""
+
 ; set to 0 to disable sending of all emails. useful for testing.
 emails_enabled = 1
 
@@ -608,8 +619,9 @@ live_visitor_profile_max_visits_to_aggregate = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
-; limited. Note: This feature requires a recent MySQL version (5.7 or newer). Some MySQL forks like MariaDB might not
-; support this feature which uses the MAX_EXECUTION_TIME hint.
+; limited. Note: This feature requires a recent MySQL version (5.7 or newer) and the PDO\MYSQL extension must be used.
+; Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint. This feature will
+; not work with the MYSQLI extension.
 live_query_max_execution_time = -1
 
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
@@ -630,6 +642,7 @@ assume_secure_protocol = 0
 ; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
 ; installed on one server or a config one change would be only made on one server instead of all servers.
 ; This flag doesn't need to be enabled when the config file is on a shared filesystem such as NFS or EFS.
+; When enabled, Matomo will return the response code 200 instead of 503 in maintenance mode.
 multi_server_environment = 0
 
 ; List of proxy headers for client IP addresses
@@ -672,7 +685,8 @@ proxy_ip_read_last_in_list = 0
 enable_trusted_host_check = 1
 
 ; List of trusted hosts (eg domain or subdomain names) when generating absolute URLs.
-;
+; This only needs to be set for any hostnames that the Matomo UI will be accessed from. It is not necessary to set this
+; for other additional hostnames (For example tracking, API, etc.)
 ; Examples:
 ;trusted_hosts[] = example.com
 ;trusted_hosts[] = stats.example.com
@@ -789,6 +803,10 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
+; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
+; If you have a problem loading the marketplace, please enable this config option
+force_matomo_http_request = 0
+
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
 
@@ -832,6 +850,15 @@ rearchive_reports_in_past_last_n_months = 6
 
 ; If set to 1, when rearchiving reports in the past we do not rearchive segment data with those reports. Default is 0.
 rearchive_reports_in_past_exclude_segments = 0
+
+; Enable HTTP checks for required and recommended private directories in the diagnostic system check.
+; Set this to 0 if you need to skip it because your hosting provider makes your site inaccessible.
+; Default is 1.
+enable_required_directories_diagnostic = 1
+
+; If set to 1, then social and search engine definitions files will be synchronised using the internet if "enable_internet_features" is enabled.
+; When set to 0, the definitions will be loaded from the local definitions (updated with core).
+enable_referrer_definition_syncs = 1
 
 [Tracker]
 
@@ -908,6 +935,11 @@ default_time_one_page_visit = 0
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
 url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+
+; If set to 1, Matomo will use the default provider if no other provider is configured.
+; In addition the default provider will be used as a fallback when the configure provider does not return any results.
+; If set to 0, the default provider will be unavailable. Instead the "disabled" provider will be used as default and fallback instead.
+enable_default_location_provider = 1
 
 ; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.
@@ -1008,6 +1040,12 @@ innodb_lock_wait_timeout = 0
 ; For a list of tracking parameters you can use on the left side view https://developer.matomo.org/api-reference/tracking-api
 exclude_requests = ""
 
+; Custom image to return when tracker URL includes &image=1
+; Overrides the default 1x1 transparent gif
+; This should either be the full path to the image file or a base64 encoded image string wrapped in quotes
+; For both image files and base64 encoded strings supported image types are gif, jpg and png
+custom_image =
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
@@ -1064,6 +1102,7 @@ encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or 
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported
 host = ; Proxy host: the host name of your proxy server (mandatory)
 port = ; Proxy port: the port that the proxy server listens to. There is no standard default, but 80, 1080, 3128, and 8080 are popular
+exclude = ; Comma separated list of hosts to exclude from proxy: optional; localhost is always excluded
 username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
 
@@ -1100,6 +1139,7 @@ Languages[] = it
 Languages[] = ja
 Languages[] = ka
 Languages[] = ko
+Languages[] = ku
 Languages[] = lt
 Languages[] = lv
 Languages[] = nb
@@ -1127,6 +1167,7 @@ Languages[] = zh-tw
 
 [Plugins]
 ; list of plugins (in order they will be loaded) that are activated by default in the Matomo platform
+Plugins[] = CoreVue
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome

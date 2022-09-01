@@ -21,7 +21,7 @@ describe("Live", function () {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.dataTableVizVisitorLog');
+        await page.waitForSelector('.dataTableVizVisitorLog');
 
         var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log');
@@ -142,16 +142,32 @@ describe("Live", function () {
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_limited');
     });
 
+    it('should show visitor log next page', async function() {
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
+
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.dataTableVizVisitorLog');
+
+        const link = await page.jQuery('.dataTableNext');
+        await link.click();
+        await page.waitForNetworkIdle();
+
+        var report = await page.$('.reporting-page');
+        expect(await report.screenshot()).to.matchImage('visitor_log_page_next');
+    });
+
     it('should show visitor log purge message when purged and no data', async function() {
         testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', 1);
         testEnvironment.overrideConfig('Deletelogs', 'delete_logs_older_than', 4000);
         testEnvironment.save();
 
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2005-01-03#?idSite=1&period=year&date=2005-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
-
         await page.waitForNetworkIdle();
 
         var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log_purged');
     });
+
+
+
 });

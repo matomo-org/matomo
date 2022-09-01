@@ -19,17 +19,13 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
-use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\IP;
-use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
-use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Segment;
 use Piwik\Site;
@@ -414,9 +410,11 @@ class API extends \Piwik\Plugin\API
      * @param bool|string $legendAppendMetric
      * @param bool|string $labelUseAbsoluteUrl
      * @param bool|int $idDimension
+     * @param string $labelSeries
+     * @param string|int $showGoalMetricsForGoal
      * @return array
      */
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false, $showGoalMetricsForGoal = false)
     {
         // check if site exists
         $idSite = (int) $idSite;
@@ -444,7 +442,7 @@ class API extends \Piwik\Plugin\API
 
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries);
+            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries, $showGoalMetricsForGoal);
     }
 
     /**
@@ -455,7 +453,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getBulkRequest($urls)
     {
-        if (empty($urls)) {
+        if (empty($urls) || !is_array($urls)) {
             return array();
         }
 
@@ -613,7 +611,9 @@ class API extends \Piwik\Plugin\API
             $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
         }
 
-        $values = $this->getMostFrequentValues($values);
+        if ($segment['needsMostFrequentValues']) {
+            $values = $this->getMostFrequentValues($values);
+        }
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
         $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
@@ -746,7 +746,7 @@ class API extends \Piwik\Plugin\API
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
             'pageUrl', 'pageTitle', 'siteSearchKeyword', 'siteSearchCategory', 'siteSearchCount',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
-            'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId', 'productViewName', 'productViewSku', 'productViewPrice',
+            'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId', 'revenueOrder', 'revenueAbandonedCart', 'productViewName', 'productViewSku', 'productViewPrice',
             'productViewCategory1', 'productViewCategory2', 'productViewCategory3', 'productViewCategory4', 'productViewCategory5'
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;

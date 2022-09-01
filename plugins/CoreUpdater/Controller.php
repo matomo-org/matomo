@@ -14,23 +14,23 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
+use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\CoreVue\CoreVue;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
+use Piwik\Updater\Migration\Db as DbMigration;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\View\OneClickDone;
-use Piwik\Updater\Migration\Db as DbMigration;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -91,13 +91,14 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
-    
+
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
             'node_modules/materialize-css/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Morpheus/javascripts/piwikHelper.js',
+            "plugins/CoreHome/javascripts/broadcast.js",
             'plugins/CoreUpdater/javascripts/updateLayout.js',
             'node_modules/angular/angular.min.js',
             'node_modules/angular-sanitize/angular-sanitize.min.js',
@@ -108,11 +109,15 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
             'plugins/CoreHome/angularjs/common/directives/directive.module.js',
-            'plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js',
             'plugins/CoreHome/angularjs/piwikApp.config.js',
             'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
         );
+
+        CoreVue::addJsFilesTo($files);
+
+        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
+        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
 
         return AssetManager::compileCustomJs($files);
     }
@@ -120,7 +125,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function newVersionAvailable()
     {
         Piwik::checkUserHasSuperUserAccess();
-        
+
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
@@ -294,6 +299,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $updater = new DbUpdater();
         $componentsWithUpdateFile = $updater->getComponentUpdates();
+
         if (empty($componentsWithUpdateFile)) {
             throw new NoUpdatesFoundException("Everything is already up to date.");
         }
@@ -445,11 +451,4 @@ class Controller extends \Piwik\Plugin\Controller
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
     }
 
-    public static function isUpdatingOverHttps()
-    {
-        $openSslEnabled = extension_loaded('openssl');
-        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
-
-        return $openSslEnabled && $usingMethodSupportingHttps;
-    }
 }

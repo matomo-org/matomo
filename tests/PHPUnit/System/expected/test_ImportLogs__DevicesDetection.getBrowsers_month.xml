@@ -155,6 +155,18 @@
 		<segment>browserCode==FF</segment>
 	</row>
 	<row>
+		<label>Apache HTTP Client</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
+	</row>
+	<row>
 		<label>Chrome Mobile</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -193,18 +205,6 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
-	</row>
-	<row>
-		<label>Java</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>

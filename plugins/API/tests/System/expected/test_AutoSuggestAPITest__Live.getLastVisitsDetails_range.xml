@@ -17,6 +17,8 @@
 				
 				<pageId>95</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -34,6 +36,9 @@
 				<goalPageId>95</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword>wikileaks ftw</referrerKeyword>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -94,18 +99,12 @@
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Safari</browser>
 		<browserName>Safari</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion />
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -158,8 +157,8 @@
 				
 				<pageId>46</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -177,6 +176,9 @@
 				<goalPageId>46</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -191,8 +193,6 @@
 				
 				<pageId>47</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>48</siteSearchCount>
@@ -213,6 +213,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -228,8 +231,6 @@
 				
 				<pageId>48</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -247,8 +248,6 @@
 				
 				<pageId>49</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -337,12 +336,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -403,6 +396,8 @@
 				
 				<pageId>45</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -430,6 +425,9 @@
 				<goalPageId>45</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -496,12 +494,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -562,8 +554,8 @@
 				
 				<pageId>41</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -581,6 +573,9 @@
 				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -596,6 +591,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -611,8 +609,6 @@
 				
 				<pageId>42</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -630,8 +626,6 @@
 				
 				<pageId>43</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -720,12 +714,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -789,6 +777,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -822,6 +812,9 @@
 				<goalPageId>40</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -888,12 +881,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -954,8 +941,8 @@
 				
 				<pageId>35</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -973,6 +960,9 @@
 				<goalPageId>35</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -987,8 +977,6 @@
 				
 				<pageId>36</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>36</siteSearchCount>
@@ -1009,6 +997,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1024,8 +1015,6 @@
 				
 				<pageId>37</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -1043,8 +1032,6 @@
 				
 				<pageId>38</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -1162,12 +1149,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1228,6 +1209,8 @@
 				
 				<pageId>34</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -1255,6 +1238,9 @@
 				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1321,12 +1307,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1387,8 +1367,8 @@
 				
 				<pageId>30</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -1406,6 +1386,9 @@
 				<goalPageId>30</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1421,6 +1404,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1436,8 +1422,6 @@
 				
 				<pageId>31</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -1455,8 +1439,6 @@
 				
 				<pageId>32</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -1545,12 +1527,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1611,6 +1587,8 @@
 				
 				<pageId>29</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -1638,6 +1616,9 @@
 				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1704,12 +1685,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1770,8 +1745,8 @@
 				
 				<pageId>24</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -1789,6 +1764,9 @@
 				<goalPageId>24</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1803,8 +1781,6 @@
 				
 				<pageId>25</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>24</siteSearchCount>
@@ -1825,6 +1801,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -1840,8 +1819,6 @@
 				
 				<pageId>26</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -1859,8 +1836,6 @@
 				
 				<pageId>27</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -1949,12 +1924,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -2018,6 +1987,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -2051,6 +2022,9 @@
 				<goalPageId>23</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2117,12 +2091,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -2183,8 +2151,8 @@
 				
 				<pageId>19</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -2202,6 +2170,9 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2217,6 +2188,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2232,8 +2206,6 @@
 				
 				<pageId>20</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -2251,8 +2223,6 @@
 				
 				<pageId>21</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -2370,12 +2340,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -2436,8 +2400,8 @@
 				
 				<pageId>80</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -2455,6 +2419,9 @@
 				<goalPageId>80</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2470,6 +2437,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2485,8 +2455,6 @@
 				
 				<pageId>81</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -2504,8 +2472,6 @@
 				
 				<pageId>82</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -2623,12 +2589,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -2681,6 +2641,8 @@
 				
 				<pageId>18</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -2708,6 +2670,9 @@
 				<goalPageId>18</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2774,12 +2739,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -2840,6 +2799,8 @@
 				
 				<pageId>79</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -2867,6 +2828,9 @@
 				<goalPageId>79</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -2933,12 +2897,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -2999,8 +2957,8 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -3018,6 +2976,9 @@
 				<goalPageId>13</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3032,8 +2993,6 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>12</siteSearchCount>
@@ -3054,6 +3013,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3069,8 +3031,6 @@
 				
 				<pageId>15</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -3088,8 +3048,6 @@
 				
 				<pageId>16</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -3178,12 +3136,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -3244,8 +3196,8 @@
 				
 				<pageId>74</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -3263,6 +3215,9 @@
 				<goalPageId>74</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3277,8 +3232,6 @@
 				
 				<pageId>75</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>12</siteSearchCount>
@@ -3299,6 +3252,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3314,8 +3270,6 @@
 				
 				<pageId>76</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -3333,8 +3287,6 @@
 				
 				<pageId>77</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -3423,12 +3375,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>11.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3481,6 +3427,8 @@
 				
 				<pageId>12</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -3508,6 +3456,9 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3574,12 +3525,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -3640,6 +3585,8 @@
 				
 				<pageId>73</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -3667,6 +3614,9 @@
 				<goalPageId>73</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3733,12 +3683,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>11.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3799,8 +3743,8 @@
 				
 				<pageId>8</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -3818,6 +3762,9 @@
 				<goalPageId>8</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3833,6 +3780,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -3848,8 +3798,6 @@
 				
 				<pageId>9</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -3867,8 +3815,6 @@
 				
 				<pageId>10</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -3957,12 +3903,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4023,8 +3963,8 @@
 				
 				<pageId>58</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -4042,6 +3982,9 @@
 				<goalPageId>58</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4057,6 +4000,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4072,8 +4018,6 @@
 				
 				<pageId>59</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -4091,8 +4035,6 @@
 				
 				<pageId>60</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -4175,18 +4117,12 @@
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -4247,8 +4183,8 @@
 				
 				<pageId>69</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -4266,6 +4202,9 @@
 				<goalPageId>69</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4281,6 +4220,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4296,8 +4238,6 @@
 				
 				<pageId>70</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -4315,8 +4255,6 @@
 				
 				<pageId>71</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -4405,12 +4343,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -4463,8 +4395,8 @@
 				
 				<pageId>91</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<timeSpent>1621</timeSpent>
+				<timeSpentPretty>27 min 1s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -4482,6 +4414,9 @@
 				<goalPageId>91</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4497,6 +4432,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4512,8 +4450,6 @@
 				
 				<pageId>92</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -4531,8 +4467,6 @@
 				
 				<pageId>93</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -4621,12 +4555,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -4690,6 +4618,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -4723,6 +4653,9 @@
 				<goalPageId>7</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4789,12 +4722,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4858,6 +4785,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -4891,6 +4820,9 @@
 				<goalPageId>57</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -4951,18 +4883,12 @@
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -5026,6 +4952,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -5059,6 +4987,9 @@
 				<goalPageId>68</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5125,12 +5056,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -5194,6 +5119,8 @@
 				<productViewName>MyName</productViewName>
 				<productViewSku>Custom SKU</productViewSku>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -5227,6 +5154,9 @@
 				<goalPageId>90</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5293,12 +5223,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -5359,8 +5283,8 @@
 				
 				<pageId>2</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -5378,6 +5302,9 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5392,8 +5319,6 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -5414,6 +5339,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5429,8 +5357,6 @@
 				
 				<pageId>4</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -5448,8 +5374,6 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -5567,12 +5491,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -5633,8 +5551,8 @@
 				
 				<pageId>52</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -5652,6 +5570,9 @@
 				<goalPageId>52</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5666,8 +5587,6 @@
 				
 				<pageId>53</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -5688,6 +5607,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5703,8 +5625,6 @@
 				
 				<pageId>54</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -5722,8 +5642,6 @@
 				
 				<pageId>55</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -5841,12 +5759,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -5907,8 +5819,8 @@
 				
 				<pageId>63</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -5926,6 +5838,9 @@
 				<goalPageId>63</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5940,8 +5855,6 @@
 				
 				<pageId>64</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -5962,6 +5875,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -5977,8 +5893,6 @@
 				
 				<pageId>65</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -5996,8 +5910,6 @@
 				
 				<pageId>66</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -6115,12 +6027,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>32.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -6173,8 +6079,8 @@
 				
 				<pageId>85</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1623</timeSpent>
+				<timeSpentPretty>27 min 3s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -6192,6 +6098,9 @@
 				<goalPageId>85</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6206,8 +6115,6 @@
 				
 				<pageId>86</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>0</siteSearchCount>
@@ -6228,6 +6135,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6243,8 +6153,6 @@
 				
 				<pageId>87</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
@@ -6262,8 +6170,6 @@
 				
 				<pageId>88</pageId>
 				<bandwidth />
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
@@ -6375,18 +6281,12 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -6447,6 +6347,8 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -6474,6 +6376,9 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6540,12 +6445,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -6606,6 +6505,8 @@
 				
 				<pageId>51</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -6633,6 +6534,9 @@
 				<goalPageId>51</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6699,12 +6603,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -6765,6 +6663,8 @@
 				
 				<pageId>62</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -6792,6 +6692,9 @@
 				<goalPageId>62</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -6858,12 +6761,6 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>32.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -6924,6 +6821,8 @@
 				
 				<pageId>84</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
@@ -6951,6 +6850,9 @@
 				<goalPageId>84</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -7011,18 +6913,12 @@
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserFamilyDescription>WebKit (Safari)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
-		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>1</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>

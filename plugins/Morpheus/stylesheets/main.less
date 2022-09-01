@@ -8,6 +8,7 @@
 @import "ui/_charts";
 @import "ui/_map";
 
+
 body {
   background: @theme-color-background-base;
   font-family: @theme-fontFamily-base;
@@ -498,14 +499,7 @@ div.dataTableVizHtmlTable,
  div.dataTableVizAllColumns,
  div.dataTableVizGoals {
   tr.subDataTable > td > span.label::before {
-    font-family: 'matomo' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    .matomo-icon();
     .font-default(16px, 18px);
     color: #aaa;
     margin-right: 8px;

@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Columns\Dimension;
-use Piwik\Piwik;
 
 class SearchEngine extends Dimension
 {

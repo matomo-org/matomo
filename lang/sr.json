@@ -473,6 +473,7 @@
         "HelpUsToImprovePiwikMobile": "Da li želite da omogućite anonimno praćenje u Mobilnom Matomo-u?",
         "HowtoDeleteAnAccount": "Držite dugo kako biste uklonili nalog.",
         "HowtoDeleteAnAccountOniOS": "Prevucite s leva na desno kako biste obrisali nalog",
+        "HowtoExitAndroid": "Molimo vas,pritisnite NAZAD još jednom da izadjete",
         "HowtoLoginAnonymous": "Ukoliko želite da se prijavite anonimno, ostavite polja \"korisničko ime\" i \"lozinka\" prazno",
         "HttpIsNotSecureWarning": "Vaš Matomo autorizacioni token (token_auth) će biti poslat kao običan tekst ako koristite 'HTTP'. Zbog toga vam savetujemo da koristite HTTPS za siguran prenos podataka preko Interneta. Da li želite da nastavite?",
         "HttpTimeout": "HTTP tajmaut",
@@ -523,7 +524,6 @@
         "VerifyLoginData": "Proverite da li je tačna kombinacija korisničko ime i lozinka.",
         "YouAreOffline": "Niste povezani na Internet",
         "ExceptionNoViewAccess": "Molimo vas,proverite svoje korisničko ime i šifru i budite sigurni da imate %spristup za makar jedan Vebsajt",
-        "Mobile_HowtoExitAndroid": "Molimo vas,pritisnite NAZAD još jednom da izadjete",
         "EnterAuthCode": "Unesite autentičan kod",
         "EnterCorrectAuthCode": "Unesite tačan autentičan kod"
     },

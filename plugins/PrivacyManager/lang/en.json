@@ -184,6 +184,10 @@
         "ShowInEmbeddedWidgetsDescription": "If checked, a link to your Privacy Policy and your Terms & Conditions will be displayed at the bottom of embedded widgets.",
         "Imprint": "Imprint",
         "PrivacyPolicy": "Privacy Policy",
-        "TermsAndConditions": "Terms & Conditions"
+        "TermsAndConditions": "Terms & Conditions",
+        "VisitsSuccessfullyExported": "Visits were successfully exported",
+        "VisitsSuccessfullyDeleted": "Visits were successfully deleted",
+        "LastAction": "Last action",
+        "FindMatchingDataSubjects": "Find matching data subjects"
     }
 }

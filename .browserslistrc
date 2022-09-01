@@ -1,0 +1,5 @@
+> 0.05%
+last 2 versions
+not dead
+not ie <= 11 # Vue does not work on IE
+not ios < 10 # Vue does not work on ios 9.X and below

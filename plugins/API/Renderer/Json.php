@@ -59,20 +59,16 @@ class Json extends ApiRenderer
             $jsonRenderer = Renderer::factory('json');
             $jsonRenderer->setTable($array);
             $result = $jsonRenderer->render();
-            return $this->applyJsonpIfNeeded($result);
+        } else {
+            $result = parent::renderDataTable($array);
+
+            // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
+            if (!empty($array) && Piwik::isAssociativeArray($array)) {
+                $result = substr($result, 1, strlen($result) - 2);
+            }
         }
 
-        $result = $this->renderDataTable($array);
-
-        // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
-        if (!empty($array)
-            && Piwik::isAssociativeArray($array)
-            && !Piwik::isMultiDimensionalArray($array)
-        ) {
-            $result = substr($result, 1, strlen($result) - 2);
-        }
-
-        return $result;
+        return $this->applyJsonpIfNeeded($result);
     }
 
     public function sendHeader()

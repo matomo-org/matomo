@@ -452,8 +452,8 @@ class Visit implements VisitInterface
     private function printVisitorInformation()
     {
         $debugVisitInfo = $this->visitProperties->getProperties();
-        $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
-        $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
+        $debugVisitInfo['idvisitor'] = isset($debugVisitInfo['idvisitor']) ? bin2hex($debugVisitInfo['idvisitor']) : '';
+        $debugVisitInfo['config_id'] = isset($debugVisitInfo['config_id']) ? bin2hex($debugVisitInfo['config_id']) : '';
         $debugVisitInfo['location_ip'] = IPUtils::binaryToStringIP($debugVisitInfo['location_ip']);
         Common::printDebug($debugVisitInfo);
     }

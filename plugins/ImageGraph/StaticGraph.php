@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\ImageGraph;
 
-use CpChart\Chart\Data;
-use CpChart\Chart\Image;
+use CpChart\Data;
+use CpChart\Image;
 use Piwik\Container\StaticContainer;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;

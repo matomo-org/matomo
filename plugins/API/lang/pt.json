@@ -1,17 +1,17 @@
 {
     "API": {
         "ChangeTokenHint": "Se quiser alterar este código, por favor, aceda à sua %1$spágina de definições pessoais%2$s.",
-        "GenerateVisits": "Se não tem dados para hoje, pode gerar primeiro alguns utilizando a extensão %1$s. Pode ativar a extensão %2$s e depois clicar no menu 'Gerador de Visitante' na área de «Administração» do Matomo.",
+        "EvolutionMetricName": "Evolução de %s",
+        "Glossary": "Glossário",
         "KeepTokenSecret": "Este token_auth é tão secreto como o seu nome de utilizador e a palavra-passe. %1$s não o partilhe%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Saber mais sobre os termos mais utilizados para obter o máximo do Matomo Analytics.",
         "LoadedAPIs": "%s APIs carregadas com sucesso",
+        "MainMetricsReportDocumentation": "Este relatório dá-lhe uma visão geral sobre as métricas mais importantes em todas as categorias e extensões.",
         "MoreInformation": "Para mais informação sobre as APIs do Matomo, por favor dê uma vista de olhos na %1$s Introdução à API do Matomo %2$s e a %3$s referência da API do Matomo %4$s.",
         "PluginDescription": "Todos os dados no Matomo estão disponíveis através de APIs simples. Esta extensão é o ponto de entrada do web service que pode invocar para obter os seus dados em xml, json, php, csv, etc.",
         "ReportingApiReference": "Referência da API de relatórios",
         "TopLinkTooltip": "Aceda aos seus dados da «Analítica da Web» programaticamente por meio de uma API simples em json, xml, etc.",
         "UserAuthentication": "Autenticação do utilizador",
-        "UsingTokenAuth": "Se quiser %1$s solicitar dados através de um script, um crontab, etc. %2$s tem que adicionar o parâmetro do endereço %3$s aos endereços das chamadas à API que necessitam de autenticação.",
-        "Glossary": "Glossário",
-        "LearnAboutCommonlyUsedTerms2": "Saber mais sobre os termos mais utilizados para obter o máximo do Matomo Analytics.",
-        "EvolutionMetricName": "Evolução de %s"
+        "UsingTokenAuth": "Se quiser %1$s solicitar dados através de um script, um crontab, etc. %2$s tem que adicionar o parâmetro do endereço %3$s aos endereços das chamadas à API que necessitam de autenticação."
     }
 }

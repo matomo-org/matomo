@@ -10,7 +10,6 @@
 namespace PHPUnit\Unit\CliMulti;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\API\Request;
 use Piwik\CliMulti\RequestParser;
 
 class RequestParserTest extends TestCase

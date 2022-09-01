@@ -3,6 +3,7 @@
         <div>{{ visitors }}</div>
     </div>
     <br/>
+    {% if error is not empty %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
 
     <div class='simple-realtime-elaboration'>
         {% set visitsMessage %}

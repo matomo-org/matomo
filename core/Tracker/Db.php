@@ -9,9 +9,9 @@
 namespace Piwik\Tracker;
 
 use Exception;
-use PDOStatement;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db\Adapter;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Tracker\Db\DbException;
@@ -29,6 +29,9 @@ abstract class Db
     protected $queriesProfiling = array();
 
     protected $connection = null;
+
+    // this is used for indicate TransactionLevel Cache
+    public $supportsUncommitted = null;
 
     /**
      * Enables the SQL profiling.
@@ -278,7 +281,16 @@ abstract class Db
         }
 
         $db = self::factory($configDb);
-        $db->connect();
+
+        try {
+            $db->connect();
+        } catch (\Exception $e) {
+            $msg = Adapter::overriddenExceptionMessage($e->getMessage());
+            if ('' !== $msg) {
+                throw new \Exception($msg);
+            }
+            throw $e;
+        }
 
         $trackerConfig = Config::getInstance()->Tracker;
         if (!empty($trackerConfig['innodb_lock_wait_timeout']) && $trackerConfig['innodb_lock_wait_timeout'] > 0){

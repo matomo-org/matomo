@@ -28,10 +28,8 @@ class Update extends TranslationBase
     {
         $this->setName('translations:update')
             ->setDescription('Updates translation files')
-            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force update of all language files')
-            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
-            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
-            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Transifex project slug')
+            ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
+            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Weblate project slug')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Force to update all plugins (even non core). Can not be used with plugin option')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
@@ -45,7 +43,7 @@ class Update extends TranslationBase
         /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
 
-        $languages = API::getInstance()->getAvailableLanguageNames();
+        $languages = API::getInstance()->getAvailableLanguageNames(true);
 
         $languageCodes = array();
         foreach ($languages as $languageInfo) {
@@ -63,8 +61,6 @@ class Update extends TranslationBase
         if (empty($plugin)) {
             $pluginList = $forceAllPlugins ? self::getAllPlugins() : self::getPluginsInCore();
             array_unshift($pluginList, '');
-        } else {
-            $input->setOption('force', true); // force plugin only updates
         }
 
         foreach ($pluginList as $plugin) {
@@ -220,34 +216,11 @@ class Update extends TranslationBase
         $command = $this->getApplication()->find('translations:fetch');
         $arguments = array(
             'command' => 'translations:fetch',
-            '--username' => $input->getOption('username'),
-            '--password' => $input->getOption('password'),
+            '--token'    => $input->getOption('token'),
             '--slug'     => $input->getOption('slug'),
             '--plugin'   => $plugin
         );
 
-        if ($input->getOption('force')) {
-            $arguments['--lastupdate'] = 1;
-        } else {
-            $lastModDate = strtotime('2015-01-04 00:00:00'); // date of initial transifex setup
-            try {
-                // try to find the language file (of given plugin) with the newest modification date in git log
-                $path = ($plugin ? 'plugins/' . $plugin . '/' : '') . 'lang';
-                $files = explode("\n", trim(shell_exec('git ls-tree -r --name-only HEAD ' . $path)));
-
-                foreach ($files as $file) {
-                    $fileModDate = shell_exec('git log -1 --format="%at" -- ' . $file);
-                    if (basename($file) != 'en.json' && $fileModDate > $lastModDate) {
-                        $lastModDate = $fileModDate;
-                    }
-                }
-            } catch (\Exception $e) {
-            }
-
-            if ($lastModDate != 0) {
-                $arguments['--lastupdate'] = $lastModDate;
-            }
-        }
         $inputObject = new ArrayInput($arguments);
         $inputObject->setInteractive($input->isInteractive());
         $command->run($inputObject, $output);

@@ -17,9 +17,6 @@ use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
-use Piwik\Plugins\CustomDimensions\CustomDimensions;
-use Piwik\Plugins\CustomDimensions\Dao\Configuration;
-use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
@@ -79,7 +76,7 @@ class TasksTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        unset($_GET['trigger']);
+        Rules::$disablePureOutdatedArchive = false;
 
         parent::tearDown();
     }
@@ -103,8 +100,6 @@ class TasksTest extends IntegrationTestCase
     public function test_purgeOutdatedArchives_SkipsPurging_WhenBrowserArchivingDisabled_AndCronArchiveTriggerNotPresent()
     {
         Rules::setBrowserTriggerArchiving(false);
-        unset($_GET['trigger']);
-
         $wasPurged = $this->tasks->purgeOutdatedArchives();
         $this->assertFalse($wasPurged);
     }
@@ -112,7 +107,7 @@ class TasksTest extends IntegrationTestCase
     public function test_purgeOutdatedArchives_Purges_WhenBrowserArchivingEnabled_AndCronArchiveTriggerPresent()
     {
         Rules::setBrowserTriggerArchiving(false);
-        $_GET['trigger'] = 'archivephp';
+        Rules::$disablePureOutdatedArchive = true;
 
         $wasPurged = $this->tasks->purgeOutdatedArchives();
         $this->assertTrue($wasPurged);

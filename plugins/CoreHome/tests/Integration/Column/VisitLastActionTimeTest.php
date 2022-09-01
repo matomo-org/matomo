@@ -8,23 +8,14 @@
 
 namespace Piwik\Plugins\CoreHome\tests\Integration\Column;
 
-use Piwik\Cache;
 use Piwik\Common;
-use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics;
-use Piwik\Plugins\CoreHome\Columns\UserId;
 use Piwik\Plugins\CoreHome\Columns\VisitLastActionTime;
-use Piwik\Plugins\CoreHome\Tracker\LogTable\Visit;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\DataTable;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit\VisitProperties;
 use Piwik\Tracker\Visitor;
-use Piwik\Tracker\VisitorRecognizer;
 
 /**
  * @group CoreHome

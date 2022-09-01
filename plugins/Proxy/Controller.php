@@ -12,10 +12,7 @@ use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
 use Piwik\Exception\StylesheetLessCompileException;
-use Piwik\Piwik;
 use Piwik\ProxyHttp;
-use Piwik\Url;
-use Piwik\UrlHelper;
 
 /**
  * Controller for proxy services
@@ -64,6 +61,19 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $jsMergedFile = AssetManager::getInstance()->getMergedNonCoreJavaScript();
         $this->serveJsFile($jsMergedFile);
+    }
+
+    /**
+     * Output a UMD merged chunk JavaScript file.
+     * This method is called when the asset manager is enabled.
+     *
+     * @see core/AssetManager.php
+     */
+    public function getUmdJs()
+    {
+        $chunk = Common::getRequestVar('chunk');
+        $chunkFile = AssetManager::getInstance()->getMergedJavaScriptChunk($chunk);
+        $this->serveJsFile($chunkFile);
     }
 
     /**

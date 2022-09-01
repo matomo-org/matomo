@@ -8,12 +8,8 @@
 
 namespace Piwik\Tests\Integration\Plugin;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\Plugin;
-use Piwik\Settings\Storage;
-use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\UpdateCheck\ReleaseChannel;

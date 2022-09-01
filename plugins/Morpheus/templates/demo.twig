@@ -337,7 +337,7 @@
      data-title="Phone numbers"
      value="[&quot;1&quot;]"
      inline-help="Multi select"
-     options='{1: "0123456789",2:"9876543210",3:"5432109876"}'>
+     options='[{key: 1, value: "0123456789"},{key: 2, value: "9876543210", disabled: true}, {key: 3, value: "5432109876"}]'>
 </div>
 <div piwik-field uicontrol="expandable-select" name="selectexpand"
      data-title="{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}"
@@ -396,6 +396,14 @@
      ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null},"field3":{"key":"value2","title":"Value","uiControl":"text","availableValues":null},"field4":{"key":"value3","title":"Value","uiControl":"text","availableValues":null}}'>
 </div>
 
+<div piwik-field uicontrol="multituple" name="multitupletextfullwidth"
+     data-title="Multiple values full width (four)"
+     full-width="true"
+     value="[]"
+     inline-help="Multi Tuple text and text full width"
+     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null},"field3":{"key":"value2","title":"Value","uiControl":"text","availableValues":null},"field4":{"key":"value3","title":"Value","uiControl":"text","availableValues":null}}'>
+</div>
+
 <div piwik-field uicontrol="multituple" name="multitupletextvalue"
      data-title="Multiple values with values (four)"
      value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
@@ -435,7 +443,7 @@
      data-title="Select field array"
      value='["one", "two"]'
      inline-help="Multiple selects"
-     ui-control-attributes='{"field":{"title":"Index","uiControl":"select","availableValues":{"one":"text onw", "two":"text two", "three":"text three"}}}'>
+     ui-control-attributes='{"field":{"title":"Index","uiControl":"select","availableValues":{"one":"text one", "two":"text two", "three":"text three"}}}'>
 </div>
 
 <div piwik-field uicontrol="checkbox" name="enableFeature"
@@ -720,6 +728,7 @@
                         'finance',
                         'folder',
                         'folder-charts',
+                        'github',
                         'open-source',
                         'puzzle',
                         'server',
@@ -740,7 +749,8 @@
                         'rocket',
                         'bug',
                         'upload',
-                        'embed'
+                        'embed',
+                        'heart'
                     ]
                 };
 

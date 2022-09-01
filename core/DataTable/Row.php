@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Log;
 use Piwik\Metrics;
 use Piwik\Period;
 use Psr\Log\LoggerInterface;
@@ -36,7 +35,8 @@ class Row extends \ArrayObject
      */
     private static $unsummableColumns = array(
         'label' => true,
-        'full_url' => true // column used w/ old Piwik versions,
+        'full_url' => true, // column used w/ old Piwik versions,
+        'ts_archived' => true // date column used in metadata for proportional tooltips
     );
 
     // @see sumRow - implementation detail
@@ -473,6 +473,7 @@ class Row extends \ArrayObject
      */
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
+        $operationsIsArray = is_array($aggregationOperations);
         foreach ($rowToSum as $columnToSumName => $columnToSumValue) {
             if (!$this->isSummableColumn($columnToSumName)) {
                 continue;
@@ -481,11 +482,12 @@ class Row extends \ArrayObject
             $thisColumnValue = $this->getColumn($columnToSumName);
 
             $operation = 'sum';
-            if (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName])) {
-                if (is_string($aggregationOperations[$columnToSumName])) {
-                    $operation = strtolower($aggregationOperations[$columnToSumName]);
-                } elseif (is_callable($aggregationOperations[$columnToSumName])) {
-                    $operation = $aggregationOperations[$columnToSumName];
+            if ($operationsIsArray && isset($aggregationOperations[$columnToSumName])) {
+                $operationName = $aggregationOperations[$columnToSumName];
+                if (is_string($operationName)) {
+                    $operation = strtolower($operationName);
+                } elseif (is_callable($operationName)) {
+                    $operation = $operationName;
                 }
             }
 
@@ -650,6 +652,10 @@ class Row extends \ArrayObject
      */
     protected function sumRowArray($thisColumnValue, $columnToSumValue, $columnName = null)
     {
+        if ($columnToSumValue === false) {
+            return $thisColumnValue;
+        }
+
         if (is_numeric($columnToSumValue)) {
             if ($thisColumnValue === false) {
                 $thisColumnValue = 0;
@@ -664,10 +670,6 @@ class Row extends \ArrayObject
             return $thisColumnValue + $columnToSumValue;
         }
 
-        if ($columnToSumValue === false) {
-            return $thisColumnValue;
-        }
-
         if ($thisColumnValue === false) {
             return $columnToSumValue;
         }
@@ -675,6 +677,9 @@ class Row extends \ArrayObject
         if (is_array($columnToSumValue)) {
             $newValue = $thisColumnValue;
             foreach ($columnToSumValue as $arrayIndex => $arrayValue) {
+                if (!is_numeric($arrayIndex) && !$this->isSummableColumn($arrayIndex)) {
+                    continue;
+                }
                 if (!isset($newValue[$arrayIndex])) {
                     $newValue[$arrayIndex] = false;
                 }

@@ -8,11 +8,6 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Archive;
-use Piwik\Archive\ArchivePurger;
-use Piwik\Cache;
-use Piwik\Container\StaticContainer;
-use Piwik\Date;
-use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
@@ -132,6 +127,10 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 
         $archive = Archive::build($idSite1, 'range', $dateTimeRange);
         $result = $archive->getNumeric($columns);
+        if (isset($result['_metadata'])) {
+            unset($result['_metadata']);
+        }
+
         $this->assertEquals(
             array(
                 'nb_visits' => 5,

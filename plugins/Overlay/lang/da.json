@@ -14,7 +14,7 @@
         "OpenFullScreen": "Vis fuldskærm (ingen sidebjælke)",
         "Overlay": "Side overlejring",
         "PluginDescription": "Se dine analytiske data som et lag over din aktuelle webside. Se hvor mange gange brugere har klikket på de enkelte links. Note: Kræver at Transitions programtilføjelsen er aktiveret.",
-        "RedirectUrlError": "Du forsøger at åbne sideoverlejring for URL \"%1$s\". %2$s Ingen af ​​domæner fra Matomos indstillinger matcher linket.",
+        "RedirectUrlError": "Du forsøger at åbne sideoverlejring for URL \"%1$s\". %2$s Ingen af domæner fra Matomos indstillinger matcher linket.",
         "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %1$si indstillingerne%2$s.",
         "RedirectUrlErrorUser": "Spørg administratoren om at tilføje domænet som en yderligere URL."
     }

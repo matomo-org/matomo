@@ -1,7 +1,6 @@
 {
     "SEO": {
-        "PluginDescription": "This Plugin extracts and displays SEO metrics: Alexa web ranking, Google Pagerank, number of Indexed pages and backlinks of the currently selected website.",
-        "AlexaRank": "Alexa Rank",
+        "PluginDescription": "This Plugin extracts and displays SEO metrics: Google Pagerank, number of Indexed pages and backlinks of the currently selected website.",
         "Bing_IndexedPages": "Bing indexed pages",
         "DomainAge": "Domain Age",
         "Google_IndexedPages": "Google indexed pages",

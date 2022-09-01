@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,20 +7,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\MultiSites;
 
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
-use Piwik\Config;
-use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
-use Piwik\Period;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Site;
-use Piwik\View;
 
 /**
  * Fetches and formats the response of `MultiSites.getAll` in a way that it can be used by the All Websites AngularJS
@@ -39,7 +36,7 @@ class Dashboard
      * Array of metrics that will be displayed and will be number formatted
      * @var array
      */
-    private $displayedMetricColumns = array('nb_visits', 'nb_pageviews', 'nb_actions', 'revenue');
+    private $displayedMetricColumns = ['nb_visits', 'nb_pageviews', 'nb_actions', 'revenue'];
 
     /**
      * @param string $period
@@ -89,7 +86,6 @@ class Dashboard
             if ($pastData && $pastRow) {
                 $pastData->setLabelsHaveChanged();
             }
-
         });
 
         $this->setSitesTable($sites);
@@ -115,13 +111,13 @@ class Dashboard
 
     public function getTotals()
     {
-        $totals = array(
+        $totals = [
             'nb_pageviews'       => $this->sitesByGroup->getMetadata('total_nb_pageviews'),
             'nb_visits'          => $this->sitesByGroup->getMetadata('total_nb_visits'),
             'nb_actions'         => $this->sitesByGroup->getMetadata('total_nb_actions'),
             'revenue'            => $this->sitesByGroup->getMetadata('total_revenue'),
             'nb_visits_lastdate' => $this->sitesByGroup->getMetadata('total_nb_visits_lastdate') ? : 0,
-        );
+        ];
         $this->formatMetrics($totals);
         return $totals;
     }
@@ -129,10 +125,9 @@ class Dashboard
     private function formatMetrics(&$metrics)
     {
         $formatter = NumberFormatter::getInstance();
-        foreach($metrics as $metricName => &$value) {
-            if(in_array($metricName, $this->displayedMetricColumns)) {
-
-                if( strpos($metricName, 'revenue') !== false) {
+        foreach ($metrics as $metricName => &$value) {
+            if (in_array($metricName, $this->displayedMetricColumns)) {
+                if (strpos($metricName, 'revenue') !== false) {
                     $currency = isset($metrics['idsite']) ? Site::getCurrencySymbolFor($metrics['idsite']) : '';
                     $value  = $formatter->formatCurrency($value, $currency);
                     continue;
@@ -162,7 +157,6 @@ class Dashboard
     private function nestedSearch(DataTable $sitesByGroup, $pattern)
     {
         foreach ($sitesByGroup->getRows() as $index => $site) {
-
             $label = strtolower($site->getColumn('label'));
             $labelMatches = false !== strpos($label, $pattern);
 
@@ -174,7 +168,6 @@ class Dashboard
                     // we keep the group if at least one site within the group matches the pattern
                     $sitesByGroup->deleteRow($index);
                 }
-
             } elseif (!$labelMatches) {
                 $group = $site->getMetadata('group');
 
@@ -210,21 +203,18 @@ class Dashboard
         $request['disable_generic_filters'] = 1;
 
         $responseBuilder = new ResponseBuilder('json', $request);
-        $rows = json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true);
-
-        return $rows;
+        return json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true);
     }
 
     private function moveSitesHavingAGroupIntoSubtables(DataTable $sites)
     {
         /** @var DataTableSummaryRow[] $groups */
-        $groups = array();
+        $groups = [];
 
         $sitesByGroup = $this->makeCloneOfDataTableSites($sites);
         $sitesByGroup->enableRecursiveFilters(); // we need to make sure filters get applied to subtables (groups)
 
         foreach ($sites->getRows() as $site) {
-
             $group = $site->getMetadata('group');
 
             if (!empty($group) && !array_key_exists($group, $groups)) {
@@ -251,7 +241,7 @@ class Dashboard
             // only actual returned groups.
             $group->recalculate();
         }
-        
+
         return $sitesByGroup;
     }
 
@@ -332,7 +322,7 @@ class Dashboard
         $table->disableFilter('Sort');
 
         // make sites flat and limit
-        $table->filter('Piwik\Plugins\MultiSites\DataTable\Filter\NestedSitesLimiter', array($filterOffset, $filterLimit));
+        $table->filter('Piwik\Plugins\MultiSites\DataTable\Filter\NestedSitesLimiter', [$filterOffset, $filterLimit]);
     }
 
     private function enrichValues($sites)

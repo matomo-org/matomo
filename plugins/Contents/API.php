@@ -10,8 +10,6 @@ namespace Piwik\Plugins\Contents;
 
 use Piwik\Archive;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Contents\Archiver;
 

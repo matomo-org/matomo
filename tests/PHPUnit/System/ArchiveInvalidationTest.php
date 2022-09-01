@@ -9,10 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Common;
 use Piwik\Config;
-use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -71,30 +68,42 @@ class ArchiveInvalidationTest extends SystemTestCase
         // Build tests for the 2 websites
         return array(
 
-            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
-                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
-                                    'periods'                => 'day',
-                                    'segment'                => self::TEST_SEGMENT,
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))
-            ),
-            array($apiToCall, array('idSite'                 => self::$fixture->idSite1,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite1 . $this->suffix,
-                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite1,
-                                    'periods'                => 'month',
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))
-            ),
-
-            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
-                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
-                                    'periods'                => 'month',
-                                    'segment'                => self::TEST_SEGMENT,
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))
+          array(
+            $apiToCall,
+            array(
+              'idSite'                 => self::$fixture->idSite2,
+              'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
+              'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
+              'periods'                => 'day',
+              'segment'                => self::TEST_SEGMENT,
+              'setDateLastN'           => 4, // 4months ahead
+              'otherRequestParameters' => array('expanded' => 1)
             )
+          ),
+          array(
+            $apiToCall,
+            array(
+              'idSite'                 => self::$fixture->idSite1,
+              'testSuffix'             => 'Website' . self::$fixture->idSite1 . $this->suffix,
+              'date'                   => self::$fixture->dateTimeFirstDateWebsite1,
+              'periods'                => 'month',
+              'setDateLastN'           => 4, // 4months ahead
+              'otherRequestParameters' => array('expanded' => 1)
+            )
+          ),
+
+          array(
+            $apiToCall,
+            array(
+              'idSite'                 => self::$fixture->idSite2,
+              'testSuffix'             => 'Website' . self::$fixture->idSite2 . $this->suffix,
+              'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
+              'periods'                => 'month',
+              'segment'                => self::TEST_SEGMENT,
+              'setDateLastN'           => 4, // 4months ahead
+              'otherRequestParameters' => array('expanded' => 1)
+            )
+          )
         );
     }
 
@@ -127,6 +136,72 @@ class ArchiveInvalidationTest extends SystemTestCase
             $this->runApiTests($api, $params);
         }
     }
+
+    public function testDisablePluginArchive()
+    {
+        $config = Config::getInstance();
+        $config->General['disable_archiving_segment_for_plugins'] = 'testPlugin';
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+
+        $config->General['disable_archiving_segment_for_plugins'] = ['testPlugin', 'testPlugin2'];
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+
+        $config->General['disable_archiving_segment_for_plugins'] = 'testPlugin,testPlugin2';
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin2'));
+
+        $config->General['disable_archiving_segment_for_plugins'] = '';
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+
+    }
+
+    public function testDisablePluginArchiveCaseInsensitive()
+    {
+        $config = Config::getInstance();
+        $config->General['disable_archiving_segment_for_plugins'] = 'testplugin,testplugin2';
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin'));
+    }
+
+    public function testDisablePluginArchiveSpecialCharacters()
+    {
+        //special characters will not work
+        $config = Config::getInstance();
+        $config->General['disable_archiving_segment_for_plugins'] = '!@##$%^^&&**(()_+';
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('!@##$%^^&&**(()_+'));
+    }
+
+    public function testDisablePluginArchiveBySiteId()
+    {
+        //test siteId 1 by string
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin');
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        //test siteId 1 by array
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins',['testPlugin', 'testPlugin2'] );
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        //test siteId 1 by string with comma
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','testPlugin,testPlugin2' );
+        $this->assertTrue(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        //test empty
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','' );
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+        //test siteId 2 not affect siteId1
+        Config::setSetting('General_2', 'disable_archiving_segment_for_plugins','testPlugin' );
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin',1));
+
+
+        //test general setting not affect siteId1
+        Config::setSetting('General', 'disable_archiving_segment_for_plugins','myPlugin' );
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins','testPlugin' );
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('myPlugin',1));
+
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin2');
+        $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin', 1));
+    }
+
+
 
     /**
      * This is called after getApiToTest()

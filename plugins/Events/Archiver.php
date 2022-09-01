@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Events;
 
 use Piwik\Config;
 use Piwik\DataArray;
-use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\RankingQuery;

@@ -142,7 +142,7 @@ class NumberFormatter
      */
     public function formatCurrency($value, $currency, $precision=2)
     {
-        $newValue = trim($value, " \0\x0B$currency");
+        $newValue = trim(strval($value), " \0\x0B$currency");
         if (!is_numeric($newValue)) {
             return $value;
         }

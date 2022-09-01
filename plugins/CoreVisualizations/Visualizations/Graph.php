@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\AbTesting\Columns\Metrics\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
@@ -63,7 +62,10 @@ abstract class Graph extends Visualization
             $this->requestConfig->request_parameters_to_modify['filter_truncate'] = $this->config->max_graph_elements - 1;
         }
 
-        $this->requestConfig->request_parameters_to_modify['format_metrics'] = 1;
+        // Only default to formatting metrics if the request hasn't already been set to not format metrics
+        if (!isset($this->requestConfig->request_parameters_to_modify['format_metrics'])) {
+            $this->requestConfig->request_parameters_to_modify['format_metrics'] = 1;
+        }
 
         // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
         // different metrics

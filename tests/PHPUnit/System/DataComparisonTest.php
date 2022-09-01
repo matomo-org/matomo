@@ -12,7 +12,11 @@ use Piwik\API\Request;
 use Piwik\DataTable;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-
+/**
+ * Testing Data comparison
+ *
+ * @group DataComparisonTest
+ */
 class DataComparisonTest extends SystemTestCase
 {
     /**

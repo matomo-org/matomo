@@ -2,7 +2,6 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Translation\Translator;

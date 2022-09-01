@@ -1,16 +1,15 @@
 {
     "Login": {
+        "ChangeYourPassword": "비밀번호 변경",
         "ConfirmationLinkSent": "확인 링크가 당신의 받은 편지함으로 전송되었습니다. 이메일을 확인하고 비밀번호 변경요청을 승인하려면 이 링크를 방문하세요.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "슈퍼 유저 접근의 '%s' 방법으로는 인증되지 않습니다.",
         "ExceptionPasswordMD5HashExpected": "비밀번호 매개변수는 MD5해시 값이 사용되고 있습니다.",
-        "InvalidNonceOrHeadersOrReferrer": "양식 보안 실패, 양식을 새로고침하여 쿠키가 활성화되어 있는지 확인하세요. 프록시 서버를 사용하는 경우라면, 호스트 헤더에 %1$sMatomo configure에서 프록시 헤더를 수락%2$s하고 전달해야합니다. 또한 리퍼러 헤더가 올바르게 전송되는지 확인합니다.",
         "InvalidNonceSSLMisconfigured": "또한, 당신은 %1$s Matomo에 보안 연결 사용 강제%2$s할 수 있습니다: 설정 파일에 %3$s %4$s 설정, section 아래 %5$s",
         "InvalidOrExpiredToken": "토큰이 잘못되었거나 만료되었습니다.",
-        "InvalidUsernameEmail": "잘못된 사용자명 그리고\/또는 이메일 주소",
+        "InvalidUsernameEmail": "잘못된 사용자명 그리고/또는 이메일 주소",
         "LogIn": "로그인",
         "LoginPasswordNotCorrect": "사용자이름 또는 비밀번호가 맞지 않습니다",
         "LostYourPassword": "비밀번호를 잊으셨습니까?",
-        "ChangeYourPassword": "비밀번호 변경",
         "MailTopicPasswordChange": "비밀번호 변경 확인",
         "NewPassword": "새 비밀번호",
         "NewPasswordRepeat": "새 비밀번호 (재입력)",

@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DBStats\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
 /**
  * Shows a datatable that displays the amount of space each individual log table

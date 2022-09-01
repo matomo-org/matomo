@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UserCountryMap;
 
 use Exception;
@@ -14,9 +16,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -30,7 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
 {
     // By default plot up to the last 3 days of visitors on the map, for low traffic sites
     const REAL_TIME_WINDOW = 'last3';
-    
+
     /**
      * @var Translator
      */
@@ -61,7 +60,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $segment = '';
             }
         }
-        
+
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = new View('@UserCountryMap/visitorMap');
@@ -76,21 +75,53 @@ class Controller extends \Piwik\Plugin\Controller
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $config = array();
+        $config = [];
         $config['visitsSummary'] = json_decode($request->process(), true);
-        $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
-            $this->idSite, $period, $date, $token_auth, false, $segment);
-        $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
-            $this->idSite, $period, $date, $token_auth, true, $segment);
-        $config['cityDataUrl'] = $this->_report('UserCountry', 'getCity',
-            $this->idSite, $period, $date, $token_auth, true, $segment);
-        $config['countrySummaryUrl'] = $this->getApiRequestUrl('VisitsSummary', 'get',
-            $this->idSite, $period, $date, $token_auth, true, $segment);
+        $config['countryDataUrl'] = $this->_report(
+            'UserCountry',
+            'getCountry',
+            $this->idSite,
+            $period,
+            $date,
+            $token_auth,
+            false,
+            $segment
+        );
+        $config['regionDataUrl'] = $this->_report(
+            'UserCountry',
+            'getRegion',
+            $this->idSite,
+            $period,
+            $date,
+            $token_auth,
+            true,
+            $segment
+        );
+        $config['cityDataUrl'] = $this->_report(
+            'UserCountry',
+            'getCity',
+            $this->idSite,
+            $period,
+            $date,
+            $token_auth,
+            true,
+            $segment
+        );
+        $config['countrySummaryUrl'] = $this->getApiRequestUrl(
+            'VisitsSummary',
+            'get',
+            $this->idSite,
+            $period,
+            $date,
+            $token_auth,
+            true,
+            $segment
+        );
         $view->defaultMetric = array_key_exists('nb_uniq_visitors', $config['visitsSummary']) ? 'nb_uniq_visitors' : 'nb_visits';
 
         $noVisitTranslation = $this->translator->translate('UserCountryMap_NoVisit');
         // some translations containing metric number
-        $translations = array(
+        $translations = [
              'nb_visits'            => $this->translator->translate('General_NVisits'),
              'no_visit'             => $noVisitTranslation,
              'nb_actions'           => $this->translator->translate('VisitsSummary_NbActionsDescription'),
@@ -100,11 +131,13 @@ class Controller extends \Piwik\Plugin\Controller
              'and_n_others'         => $this->translator->translate('UserCountryMap_AndNOthers'),
              'nb_uniq_visitors'     => $this->translator->translate('General_NUniqueVisitors'),
              'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
-        );
+        ];
 
         foreach ($translations as &$translation) {
-            if (false === strpos($translation, '%s')
-                && $translation !== $noVisitTranslation) {
+            if (
+                false === strpos($translation, '%s')
+                && $translation !== $noVisitTranslation
+            ) {
                 $translation = '%s ' . $translation;
             }
         }
@@ -114,7 +147,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->localeJSON = json_encode($translations);
 
-        $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
+        $view->reqParamsJSON = $this->getEnrichedRequest($params = [
             'period'                      => $period,
             'idSite'                      => $this->idSite,
             'date'                        => $date,
@@ -122,7 +155,7 @@ class Controller extends \Piwik\Plugin\Controller
             'token_auth'                  => $token_auth,
             'enable_filter_excludelowpop' => 1,
             'filter_excludelowpop_value'  => -1
-        ));
+        ]);
 
         $view->metrics = $config['metrics'] = $this->getMetrics($this->idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
@@ -130,24 +163,24 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config = json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
-        $countriesByIso = array();
+        $countriesByIso = [];
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
         $countries = array_keys($regionDataProvider->getCountryList());
 
-        foreach ($countries AS $country) {
-            $countriesByIso[strtoupper($country)] = Piwik::translate('Intl_Country_'.strtoupper($country));
+        foreach ($countries as $country) {
+            $countriesByIso[strtoupper($country)] = Piwik::translate('Intl_Country_' . strtoupper($country));
         }
 
         $view->countriesByIso = $countriesByIso;
 
-        $view->continents = array(
+        $view->continents = [
             'AF' => \Piwik\Plugins\UserCountry\continentTranslate('afr'),
             'AS' => \Piwik\Plugins\UserCountry\continentTranslate('asi'),
             'EU' => \Piwik\Plugins\UserCountry\continentTranslate('eur'),
             'NA' => \Piwik\Plugins\UserCountry\continentTranslate('amn'),
             'OC' => \Piwik\Plugins\UserCountry\continentTranslate('oce'),
             'SA' => \Piwik\Plugins\UserCountry\continentTranslate('ams')
-        );
+        ];
 
         return $view->render();
     }
@@ -191,7 +224,7 @@ class Controller extends \Piwik\Plugin\Controller
         $maxVisits = Common::getRequestVar('filter_limit', 100, 'int');
 
         // some translations
-        $locale = array(
+        $locale = [
             'nb_actions'       => $this->translator->translate('VisitsSummary_NbActionsDescription'),
             'local_time'       => $this->translator->translate('VisitTime_ColumnLocalTime'),
             'from'             => $this->translator->translate('General_FromReferrer'),
@@ -205,15 +238,15 @@ class Controller extends \Piwik\Plugin\Controller
             'actions'          => $this->translator->translate('Transitions_NumPageviews'),
             'searches'         => $this->translator->translate('UserCountryMap_Searches'),
             'goal_conversions' => $this->translator->translate('UserCountryMap_GoalConversions'),
-        );
+        ];
 
         $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
-        $params = array(
+        $params = [
             'period'     => 'range',
             'idSite'     => $this->idSite,
             'segment'    => $segment,
             'token_auth' => $token_auth,
-        );
+        ];
 
         $realtimeWindow = Common::getRequestVar('realtimeWindow', self::REAL_TIME_WINDOW, 'string');
         if ($realtimeWindow != 'false') { // handle special value
@@ -222,8 +255,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $reqParams = $this->getEnrichedRequest($params, $encode = false);
 
-        $view->config = array(
-            'metrics'            => array(),
+        $view->config = [
+            'metrics'            => [],
             'svgBasePath'        => 'plugins/UserCountryMap/svg/',
             'liveRefreshAfterMs' => $liveRefreshAfterMs,
             '_'                  => $locale,
@@ -237,7 +270,7 @@ class Controller extends \Piwik\Plugin\Controller
             'doNotRefreshVisits' => Common::getRequestVar('doNotRefreshVisits', false, 'int'),
             'enableAnimation'    => Common::getRequestVar('enableAnimation', true, 'int'),
             'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int')
-        );
+        ];
 
         return $view->render();
     }
@@ -284,15 +317,15 @@ class Controller extends \Piwik\Plugin\Controller
         );
         $metaData = json_decode($request->process(), true);
 
-        $metrics = array();
+        $metrics = [];
         if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {
             foreach ($metaData[0]['metrics'] as $id => $val) {
-                $metrics[] = array($id, $val);
+                $metrics[] = [$id, $val];
             }
         }
         if (!empty($metaData[0]['processedMetrics']) && is_array($metaData[0]['processedMetrics'])) {
             foreach ($metaData[0]['processedMetrics'] as $id => $val) {
-                $metrics[] = array($id, $val);
+                $metrics[] = [$id, $val];
             }
         }
         return $metrics;
@@ -324,7 +357,15 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
     {
-        return $this->getApiRequestUrl('API', 'getProcessedReport&apiModule=' . $module . '&apiAction=' . $action,
-            $idSite, $period, $date, $token_auth, $filter_by_country, $segmentOverride);
+        return $this->getApiRequestUrl(
+            'API',
+            'getProcessedReport&apiModule=' . $module . '&apiAction=' . $action,
+            $idSite,
+            $period,
+            $date,
+            $token_auth,
+            $filter_by_country,
+            $segmentOverride
+        );
     }
 }

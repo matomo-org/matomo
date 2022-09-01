@@ -11,13 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\Exception\InvalidRequestParameterException;
-use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\SettingsServer;
-use Piwik\Site;
-use Piwik\Db as PiwikDb;
 
 class FingerprintSalt
 {

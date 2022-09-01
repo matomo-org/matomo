@@ -1,0 +1,30 @@
+piwik-series-picker {
+  display: inline-block;
+}
+
+.jqplot-seriespicker {
+  display: inline-block;
+
+  &:not(.open) {
+    opacity: .55;
+  }
+
+  &.open { // while open, make sure we're above other series picker icons
+    z-index: 1000;
+  }
+
+  > a {
+    display: inline-block;
+    opacity: 0;
+    position: absolute;
+  }
+
+  position: relative;
+}
+
+.jqplot-seriespicker-popover {
+  position: absolute;
+
+  top: -3px;
+  left: -4px;
+}

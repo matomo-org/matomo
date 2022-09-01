@@ -67,6 +67,7 @@ class API extends \Piwik\Plugin\API
      */
     public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true)
     {
+        $this->checkLoginIsNotAnonymous($login);
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
         $layout = '{}';
@@ -95,6 +96,7 @@ class API extends \Piwik\Plugin\API
     {
         $login = $login ? $login : Piwik::getCurrentUserLogin();
 
+        $this->checkLoginIsNotAnonymous($login);
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
         $this->model->deleteDashboardForUser($idDashboard, $login);
@@ -150,8 +152,9 @@ class API extends \Piwik\Plugin\API
      */
     public function resetDashboardLayout($idDashboard, $login='')
     {
-        $login = $login ? $login : Piwik::getCurrentUserLogin();
+        $login = $login ?: Piwik::getCurrentUserLogin();
 
+        $this->checkLoginIsNotAnonymous($login);
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
         $layout = $this->dashboard->getDefaultLayout();
@@ -214,6 +217,15 @@ class API extends \Piwik\Plugin\API
         }
 
         return $widgets;
+    }
+
+    private function checkLoginIsNotAnonymous($login)
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        if ($login === 'anonymous') {
+            throw new \Exception('This method can\'t be performed for anonymous user');
+        }
     }
 
     private function getColumnsFromDashboard($dashboard)

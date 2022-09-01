@@ -7,11 +7,9 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Access;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\API;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 
 /**
  * A fixture that adds two websites and annotations for each website.

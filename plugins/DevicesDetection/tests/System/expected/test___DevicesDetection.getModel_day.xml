@@ -44,24 +44,45 @@
 	</row>
 	<row>
 		<label>Unknown</label>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
+		<nb_actions>1</nb_actions>
 		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
-		<sum_visit_length>724</sum_visit_length>
+		<sum_visit_length>3</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>52.26</revenue>
+				<revenue>42.26</revenue>
 			</row>
 		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>52.26</revenue>
+		<nb_conversions>1</nb_conversions>
+		<revenue>42.26</revenue>
 		<segment>deviceBrand==Unknown;deviceModel==</segment>
+	</row>
+	<row>
+		<label>Fly - DS123</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>724</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>10</revenue>
+		<segment>deviceBrand==Fly;deviceModel==DS123</segment>
 	</row>
 	<row>
 		<label>Generic Desktop</label>

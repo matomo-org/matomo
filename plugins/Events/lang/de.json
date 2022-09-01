@@ -1,9 +1,8 @@
 {
     "Events": {
-        "PluginDescription": "Speichert Ereignisse und stellt Berichte über die Aktivität der Besucher bereit",
         "AvgEventValue": "Durchschnittlicher Ereigniswert ist: %s",
         "AvgValue": "Durchschnittswert",
-        "AvgValueDocumentation": "Der Durchschnitt aller Werte für dieses Event.",
+        "AvgValueDocumentation": "Der Durchschnitt aller Werte für dieses Ereigniss",
         "Category": "Kategorie",
         "Event": "Ereignis",
         "EventAction": "Ereignisaktion",
@@ -17,15 +16,18 @@
         "EventNamesReportDocumentation": "Dieser Bericht zeigt Ihnen die mit jedem getrackten Ereignis assoziierten Namen und wie oft diese eingetreten sind. Sie können die Ereigniskategorien und -namen anschauen welche getrackt wurdem, mit jeder Ereignisaktion in der Zeilenuntertabelle. Sie können einstellen was als zweite Dimension angezeigt werden soll, in dem Sie auf den Link am Ende des Berichts klicken.",
         "EventUrl": "Ereignis URL",
         "EventUrls": "Ereignis URLs",
-        "Events": "Ereignisse",
-        "EventsWithValue": "Ereignisse mit einem Wert",
-        "EventsWithValueDocumentation": "Anzahl der Ereignisse, bei denen ein Ereigniswert gesetzt war",
         "EventValue": "Ereigniswert",
         "EventValueTooltip": "Der Gesamtereigniswert ist die Summe von %1$s Ereigniswerten %2$s zwischen dem Minimum von %3$s und dem Maximum von %4$s.",
+        "Events": "Ereignisse",
+        "EventsSubcategoryHelp1": "Der Ereignisbereich offeriert Berichte für benutzerdefinierte Ereignisse, die mit Ihrer Seite verknüpfte sind. Ereignisse benötigen normalerweise eine spezifische Konfiguration. Wenn sie einmal konfiguriert sind, können Sie Berichte auf Kategorie, Aktion und Name heruntergebrochen anzeigen.",
+        "EventsSubcategoryHelp2": "Erfahren Sie mehr über die Erfassung von Ereignissen.",
+        "EventsWithValue": "Ereignisse mit einem Wert",
+        "EventsWithValueDocumentation": "Anzahl der Ereignisse, bei denen ein Ereigniswert gesetzt war",
         "MaxValue": "Maximaler Ereigniswert",
         "MaxValueDocumentation": "Maximaler Wert für dieses Ereignis",
         "MinValue": "Minimaler Ereigniswert",
         "MinValueDocumentation": "Minimaler Wert für dieses Ereignis",
+        "PluginDescription": "Verfolgt Ereignisse und stellt Berichte über die Aktivitäten der Besucher bereit.",
         "SecondaryDimension": "Die sekundäre Dimension ist %s.",
         "SwitchToSecondaryDimension": "Wechseln zu %s",
         "TopEvents": "Häufigste Ereignisse",
@@ -33,8 +35,6 @@
         "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse",
         "TotalValue": "Ereigniswert",
         "TotalValueDocumentation": "Summe der Ereigniswerte",
-        "ViewEvents": "Ereignisse ansehen",
-        "EventsSubcategoryHelp1": "Der Ereignisbereich offeriert Berichte für mit Ihrer Seite verknüpfte benutzerdefinierte Ereignisse. Ereignisse benötigen normalerweise eine spezifische Konfiguration. Wenn sie einmal konfiguriert sind, können Sie Berichte auf Kategorie, Aktion und Name heruntergebrochen anzeigen.",
-        "EventsSubcategoryHelp2": "Erfahren Sie mehr über die Erfassung von Ereignissen."
+        "ViewEvents": "Ereignisse ansehen"
     }
 }

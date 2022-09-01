@@ -9,8 +9,6 @@
 
 namespace Piwik;
 
-use Piwik\Http;
-use Piwik\Piwik;
 use Piwik\Container\StaticContainer;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Exception\NotSupportedBrowserException;
@@ -25,15 +23,15 @@ class SupportedBrowser
      * supported.
      *
      * Current version numbers are coming from this list:
-     * https://caniuse.com/rel-noreferrer
+     * $ npx browserslist
      */
     private static $notSupportedBrowsers = [
-        'FF' => 32,
-        'IE' => 10,
-        'SF' => 4,
-        'CH' => 15,
-        'OP' => 12,
-        'PS' => 12,
+        'FF' => 51,
+        'IE' => 11,
+        'SF' => 10,
+        'CH' => 48,
+        'OP' => 72,
+        'PS' => 17,
     ];
 
     public static function checkIfBrowserSupported()
@@ -45,13 +43,13 @@ class SupportedBrowser
 
         $ddFactory = StaticContainer::get(DeviceDetectorFactory::class);
         /** @var \DeviceDetector\DeviceDetector */
-        $deviceDetector = $ddFactory->makeInstance($userAgent);
+        $deviceDetector = $ddFactory->makeInstance($userAgent, Http::getClientHintsFromServerVariables());
 
         $deviceDetector->parse();
         $client = $deviceDetector->getClient();
 
         if (!empty($client) && $client['type'] === 'browser' && self::browserNotSupported($client['short_name'], (int)$client['version'])) {
-            self::throwException();
+            self::throwException($client);
         }
     }
 
@@ -60,7 +58,7 @@ class SupportedBrowser
         return array_key_exists($shortName, self::$notSupportedBrowsers) && $version > 0 && $version <= self::$notSupportedBrowsers[$shortName];
     }
 
-    private static function throwException()
+    private static function throwException($client)
     {
         $message  = "<p><b>" . Piwik::translate('General_ExceptionNotSupportedBrowserTitle') . "</b></p>";
         $message .= "<p>" . Piwik::translate('General_ExceptionNotSupportedBrowserText') . "</p>";

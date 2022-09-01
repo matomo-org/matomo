@@ -3,115 +3,26 @@
 {% set title %}{{ 'UsersManager_PersonalSettings'|translate }}{% endset %}
 
 {% block content %}
-
-<div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
-    <form id="userSettingsTable" piwik-form ng-controller="PersonalSettingsController as personalSettings">
-
-        <div piwik-field uicontrol="text" name="username"
-             data-title="{{ 'General_Username'|translate|e('html_attr') }}"
-             value="{{ userLogin }}" data-disabled="true"
-             ng-model="personalSettings.username"
-             inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
-        </div>
-
-        {% if isUsersAdminEnabled %}
-        <div piwik-field uicontrol="text" name="email"
-             ng-model="personalSettings.email"
-             ng-change="personalSettings.requirePasswordConfirmation()"
-             maxlength="100"
-             data-title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
-             value="{{ userEmail }}">
-        </div>
-        {% endif %}
-
-        <div id="languageHelp" class="inline-help-node">
-            <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/translations/">
-                {{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
-        </div>
-
-        <div piwik-field uicontrol="select" name="language"
-             ng-model="personalSettings.language"
-             data-title="{{ 'General_Language'|translate|e('html_attr') }}"
-             options="{{ languageOptions|json_encode }}"
-             inline-help="#languageHelp"
-             value="{{ currentLanguageCode }}">
-        </div>
-
-        <div piwik-field uicontrol="select" name="timeformat"
-             ng-model="personalSettings.timeformat"
-             data-title="{{ 'General_TimeFormat'|translate|e('html_attr') }}"
-             value="{{ currentTimeformat }}" options="{{ timeFormats|json_encode }}">
-        </div>
-
-        <div piwik-field uicontrol="radio" name="defaultReport"
-             ng-model="personalSettings.defaultReport"
-             introduction="{{ 'UsersManager_ReportToLoadByDefault'|translate|e('html_attr') }}"
-             data-title="{{ 'General_AllWebsitesDashboard'|translate|e('html_attr') }}"
-             value="{{ defaultReport }}" options="{{ defaultReportOptions|json_encode }}">
-        </div>
-
-        <div piwik-siteselector
-             ng-model="personalSettings.site"
-             show-selected-site="true"
-             class="sites_autocomplete"
-             siteid="{{ defaultReportIdSite }}"
-             sitename="{{ defaultReportSiteName|rawSafeDecoded }}"
-             switch-site-on-select="false"
-             show-all-sites-item="false"
-             showselectedsite="true"
-             id="defaultReportSiteSelector"
-        ></div>
-
-        <div piwik-field uicontrol="radio" name="defaultDate"
-             ng-model="personalSettings.defaultDate"
-             introduction="{{ 'UsersManager_ReportDateToLoadByDefault'|translate|e('html_attr') }}"
-             value="{{ defaultDate }}" options="{{ availableDefaultDates|json_encode }}">
-        </div>
-
-        <div piwik-save-button onconfirm="personalSettings.save()"
-             saving="personalSettings.loading"></div>
-
-        <div class="modal" id="confirmChangesWithPassword">
-            <div class="modal-content">
-                <h2>{{ 'UsersManager_ConfirmWithPassword'|translate }}</h2>
-
-                <div piwik-field uicontrol="password" name="currentPassword" autocomplete="off"
-                     ng-model="personalSettings.passwordCurrent"
-                     full-width="true"
-                     data-title="{{ 'UsersManager_YourCurrentPassword'|translate|e('html_attr') }}"
-                     value="">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)" class="modal-action btn" ng-click="personalSettings.save()">{{ 'General_Ok'|translate }}</a>
-                <a href="javascript:void(0)" class="modal-action modal-close modal-no"  ng-click="personalSettings.cancelSave()">{{ 'General_Cancel'|translate }}</a>
-            </div>
-        </div>
-
-    </form>
-</div>
+<div
+    matomo-personal-settings
+    is-users-admin-enabled="{{ isUsersAdminEnabled|json_encode|e('html_attr') }}"
+    title="{{ title|json_encode|e('html_attr') }}"
+    user-login="{{ userLogin|json_encode|e('html_attr') }}"
+    user-email="{{ userEmail|json_encode|e('html_attr') }}"
+    current-language-code="{{ currentLanguageCode|json_encode|e('html_attr') }}"
+    language-options="{{ languageOptions|json_encode|e('html_attr') }}"
+    current-timeformat="{{ currentTimeformat|json_encode|e('html_attr') }}"
+    time-formats="{{ timeFormats|json_encode|e('html_attr') }}"
+    default-report="{{ defaultReport|json_encode|e('html_attr') }}"
+    default-report-options="{{ defaultReportOptions|json_encode|e('html_attr') }}"
+    default-report-id-site="{{ defaultReportIdSite|json_encode|e('html_attr') }}"
+    default-report-site-name="{{ defaultReportSiteName|json_encode|e('html_attr') }}"
+    default-date="{{ defaultDate|json_encode|e('html_attr') }}"
+    available-default-dates="{{ availableDefaultDates|json_encode|e('html_attr') }}"
+></div>
 
 {% if showNewsletterSignup %}
-    <div ng-controller="PersonalSettingsController as personalSettings">
-        <div piwik-content-block id="newsletterSignup"
-             ng-show="personalSettings.showNewsletterSignup"
-             content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
-
-            <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox" id="newsletterSignupCheckbox"
-                 ng-model="personalSettings.newsletterSignupCheckbox"
-                 full-width="true"
-                 data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"
-            >
-            </div>
-
-            <div piwik-save-button id="newsletterSignupBtn"
-                 onconfirm="personalSettings.signupForNewsletter()"
-                 data-disabled="!personalSettings.newsletterSignupCheckbox"
-                 value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
-                 saving="personalSettings.isProcessingNewsletterSignup">
-            </div>
-        </div>
-    </div>
+    <div matomo-newsletter-settings></div>
 {% endif %}
 
 <div piwik-plugin-settings mode="user"></div>

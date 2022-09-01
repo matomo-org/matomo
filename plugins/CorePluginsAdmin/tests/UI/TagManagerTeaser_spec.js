@@ -63,7 +63,7 @@ describe("TagManagerTeaser", function () {
         await page.click('#login_form_submit');
 
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('super_user_activate_plugin');
     });
@@ -80,7 +80,7 @@ describe("TagManagerTeaser", function () {
         setAdminUser();
         await page.click('.activateTagManager .dontShowAgainBtn');
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget');
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('admin_page_disable');
     });

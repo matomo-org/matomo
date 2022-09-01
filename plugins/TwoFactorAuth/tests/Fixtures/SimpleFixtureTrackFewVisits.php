@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\TwoFactorAuth\tests\Fixtures;
 
-use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
 
 /**

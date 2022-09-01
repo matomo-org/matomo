@@ -1,7 +1,10 @@
 {
     "UserId": {
+        "PluginDescription": "Vises brukerrapporter",
+        "ThereIsNoDataForThisReportHelp": "%1$sLær mer om generering av data for denne rapporten i brukerveiledningen.%2$s",
         "UserId": "Bruker-ID",
+        "UserReportDocumentation": "Denne rapporten viser besøk og andre generelle måleverdier for hver individuell bruker-ID.",
         "UserReportTitle": "Bruker IDer",
-        "PluginDescription": "Vises brukerrapporter"
+        "VisitorsUserSubcategoryHelp": "Bruker-ID-rapporten viser besøk for alle registrerte og innloggede brukere. Du kan bruke denne delen for å forstå nettsidebruk for spesifikke brukere og identifisere hvem dine mest og minst aktive brukere er."
     }
 }

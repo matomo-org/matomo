@@ -1,8 +1,10 @@
 <?php
 
 if (!defined('PIWIK_INCLUDE_PATH')) {
-    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__)) . '/../../../');
+    // NOTE: PIWIK_INCLUDE_PATH must end in '/' or some parts of matomo will break
+    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . '/../../..') . '/');
 }
+
 if (!defined('PIWIK_USER_PATH')) {
     define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 }

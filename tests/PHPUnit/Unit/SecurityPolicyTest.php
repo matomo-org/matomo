@@ -18,7 +18,7 @@ use Piwik\Config;
 class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
 {
     private $securityPolicy;
-    private $defaultPolicy = "default-src 'self' 'unsafe-inline' 'unsafe-eval'; ";
+    private $defaultPolicy = "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' 'unsafe-inline' 'unsafe-eval' data:; ";
     private $generalConfig;
 
 
@@ -63,14 +63,14 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
     public function testCanAppendPolicy() {
         $this->securityPolicy->addPolicy('default-src', "'new-policy'");
 
-        $expected = "Content-Security-Policy-Report-Only: default-src 'self' 'unsafe-inline' 'unsafe-eval' 'new-policy'; ";
+        $expected = "Content-Security-Policy-Report-Only: default-src 'self' 'unsafe-inline' 'unsafe-eval' 'new-policy'; img-src 'self' 'unsafe-inline' 'unsafe-eval' data:; ";
         $this->assertEquals($expected, $this->securityPolicy->createHeaderString());
     }
 
     public function testCanOverridePolicy() {
         $this->securityPolicy->overridePolicy('default-src', "'self'");
 
-        $expected = "Content-Security-Policy-Report-Only: default-src 'self'; ";
+        $expected = "Content-Security-Policy-Report-Only: default-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-eval' data:; ";
         $this->assertEquals($expected, $this->securityPolicy->createHeaderString());
     }
 
@@ -78,7 +78,7 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
         $this->securityPolicy->removeDirective('default-src');
         $this->securityPolicy->addPolicy('script-src', "'self'");
 
-        $expected = "Content-Security-Policy-Report-Only: script-src 'self'; ";
+        $expected = "Content-Security-Policy-Report-Only: img-src 'self' 'unsafe-inline' 'unsafe-eval' data:; script-src 'self'; ";
         $this->assertEquals($expected, $this->securityPolicy->createHeaderString());
     }
 }

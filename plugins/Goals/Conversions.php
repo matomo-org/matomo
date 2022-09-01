@@ -9,9 +9,6 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\API\Request;
-use Piwik\Cache;
-use Piwik\Common;
-use Piwik\Db;
 
 class Conversions
 {

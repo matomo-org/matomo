@@ -1,0 +1,124 @@
+.alert-icon-center-vertically(@font-size) {
+  @half-height: @font-size / 2;
+  // IE8 doesn't support calc(): it's OK, the icon will just be aligned to the top
+  top: calc(~'50% - @{half-height}');
+  // phantomjs only supports -webkit-calc()
+  top: -webkit-calc(~'50% - @{half-height}');
+}
+
+.alert {
+  padding: 20px 20px 20px 60px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-size: 14px;
+  position: relative;
+  &:before {
+    font-family: "matomo";
+    content: "\e625";
+    position: absolute;
+    left: 20px;
+    line-height: 100%; // line-height = font-size
+    font-size: 24px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+body #content .alert-success p {
+  color: @color-green-piwik;
+}
+
+.alert-success {
+  color: @color-green-piwik;
+  border-color: @color-green-piwik;
+  &:before {
+    content: "\e63d";
+    color: @color-green-piwik;
+  }
+  p {
+    color: @color-green-piwik;
+  }
+  a {
+    color: @color-green-piwik;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+body #content .alert-info p {
+  color: #838383;
+}
+
+.alert-info {
+  color: #838383;
+  background-color: #F5F5F5;
+  font-size: 14px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  p {
+    color: #838383;
+  }
+  &:before {
+    color: #afafaf;
+    font-size: 20px;
+  }
+  a {
+    color: #838383;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+body #content .alert-warning p {
+  color: #fbf7f1;
+}
+
+.alert-warning {
+  color: @color-orange-brand;
+  border-color: @color-orange-brand;
+  &:before {
+    content: "\e621";
+    color: @color-orange-brand;
+  }
+  p {
+    color: @color-orange-brand;
+  }
+  a {
+    color: @color-orange-brand;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+body #content .alert-danger p {
+  color: @color-red-piwik;
+}
+
+.alert-danger {
+  color: @color-red-piwik;
+  border-color: @color-red-piwik;
+  &:before {
+    content: "\e616";
+    color: @color-red-piwik;
+  }
+  p {
+    color: @color-red-piwik;
+  }
+  a {
+    color: @color-red-piwik;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

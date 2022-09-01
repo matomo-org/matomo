@@ -13,12 +13,9 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Config;
 use Piwik\DataTable\Filter\ColumnDelete;
-use Piwik\Date;
-use Piwik\Metrics\Formatter;
 use Piwik\Plugin;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
-use Piwik\Tracker\GoalManager;
 
 class Visitor implements VisitorInterface
 {
@@ -301,7 +298,7 @@ class Visitor implements VisitorInterface
 
     private static function sortActionDetails($actions)
     {
-        usort($actions, function ($a, $b) {
+        usort($actions, function ($a, $b) use ($actions) {
             $fields = array('serverTimePretty', 'idlink_va', 'type', 'title', 'url', 'pageIdAction', 'goalId');
             foreach ($fields as $field) {
                 $sort = VisitorLog::sortByActionsOnPageColumn($a, $b, $field);
@@ -310,7 +307,10 @@ class Visitor implements VisitorInterface
                 }
             }
 
-            return 0;
+            $indexA = array_search($a, $actions);
+            $indexB = array_search($b, $actions);
+
+            return $indexA > $indexB ? 1 : -1;
         });
 
         return $actions;

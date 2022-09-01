@@ -1,0 +1,77 @@
+.multiPairField {
+  margin-top: 40px !important;
+
+  .form-group.row {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .multiPairFieldTable {
+
+    &.has1Fields {
+      .fieldUiControl1{
+        padding-right: 0.75rem;
+      }
+    }
+
+    &:not(.has1Fields) {
+      .fieldUiControl {
+        display: inline-block;
+        padding-right: 0.75rem;
+      }
+    }
+
+    &.has2Fields {
+      .fieldUiControl2 {
+        padding: 0.75rem;
+      }
+    }
+  }
+
+  .icon-minus {
+    cursor: pointer;
+  }
+}
+
+.col.m6 {
+  .multiPairField {
+    .multiPairFieldTable {
+
+      &.has1Fields {
+        .fieldUiControl1{
+          width: ~"calc(100% - 60px)";
+        }
+      }
+
+      &.has2Fields {
+        .fieldUiControl1 {
+          width: 160px;
+        }
+        .fieldUiControl2 {
+          width: ~"calc(100% - 190px)";
+        }
+      }
+
+      &.has3Fields {
+        .fieldUiControl1 {
+          width: 120px;
+        }
+        .fieldUiControl2,
+        .fieldUiControl3 {
+          width: 220px;
+        }
+      }
+
+      &.has4Fields {
+        .fieldUiControl1 {
+          width: 120px;
+        }
+        .fieldUiControl2,
+        .fieldUiControl3,
+        .fieldUiControl4 {
+          width: 148px;
+        }
+      }
+    }
+  }
+}

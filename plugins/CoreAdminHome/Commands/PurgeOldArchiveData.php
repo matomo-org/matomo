@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
-use Piwik\Archive;
 use Piwik\Archive\ArchivePurger;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;

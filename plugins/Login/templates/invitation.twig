@@ -1,0 +1,83 @@
+{% extends '@Login/loginLayout.twig' %}
+
+{% block loginContent %}
+    <div class="contentForm invitationForm">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-title">
+                    {{ "Login_InvitationTitle"|translate }}
+                </div>
+
+                {% if AccessErrorString is defined %}
+                    <div piwik-notification
+                         noclear="true"
+                         context="error">
+                        <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+                    </div>
+                {% endif %}
+                {% block content %}
+                    <form method="post" action="?module=Login&action=acceptInvitation">
+                        <input type="hidden" name="token" value="{{ token }}"/>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="text" name="login" value="{{ user.login }}" size="20" readonly
+                                       tabindex="0"/>
+                                <label><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
+                            </div>
+                            <div class="col s12 input-field">
+                                <input type="password" placeholder="" name="password" id="password" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
+                                       tabindex="1" required/>
+                                <label for="password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
+                            </div>
+                            <div class="col s12 input-field">
+                                <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
+                                       tabindex="2" required/>
+                                <label for="password_confirm"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
+                            </div>
+                        </div>
+                        <div class="row actions">
+                            {% if privacyPolicyUrl|default('') is not empty or termsAndCondition|default('') is not empty %}
+                                <div class="col s12">
+                                    <label>
+                                        <input name="conditionCheck" type="checkbox" id="conditionCheck" value="1" tabindex="89"/>
+                                        <span>
+                                            {% if privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is empty %}
+                                                {{ 'Login_BySigningUpPrivacyPolicy'|translate(
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ privacyPolicyUrl|safelink|e('html_attr') ~ '">',
+                                                    '</a>'
+                                                )|raw }}
+                                            {% elseif privacyPolicyUrl|default('') is empty and termsAndCondition|default('') is not empty %}
+                                                {{ 'Login_BySigningUpTermsAndCondition'|translate(
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ termsAndCondition|safelink|e('html_attr') ~ '">',
+                                                    '</a>'
+                                                )|raw }}
+                                            {% elseif privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is not empty %}
+                                                {{ 'Login_BySigningUpPrivacyPolicyAndTermsAndCondition'|translate(
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ privacyPolicyUrl|safelink|e('html_attr') ~ '">',
+                                                    '</a>',
+                                                    '<a target="_blank" rel="noreferrer noopener" href="' ~ termsAndCondition|safelink|e('html_attr') ~ '">',
+                                                    '</a>'
+                                                )|raw }}
+                                            {% endif %}
+                                    </span>
+                                    </label>
+                                </div>
+                            {% endif %}
+                            <div style="margin-top:10px" class="col s12">
+                                <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Accept'|translate }}"
+                                       tabindex="100"/>
+                            </div>
+                        </div>
+                    </form>
+                    {% if isCustomLogo %}
+                        <p id="piwik">
+                            <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
+                        </p>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

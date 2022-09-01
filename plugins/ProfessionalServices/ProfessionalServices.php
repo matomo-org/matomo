@@ -31,6 +31,8 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterCustomVariablesReport' => 'getCustomVariablesPromo',
             'Template.afterOverlaySidebar' => 'getHeatmapPromo',
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
+            'Template.afterPagePerformanceReport' => 'getSeoWebVitalsPromo',
+            'Template.afterSearchEngines' => 'getSeoWebVitalsPromo',
         );
     }
 
@@ -138,6 +140,14 @@ class ProfessionalServices extends \Piwik\Plugin
     private function isPluginActivated($pluginName)
     {
         return Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+    }
+
+    public function getSeoWebVitalsPromo(&$out)
+    {
+        if ($this->shouldShowPromoForPlugin('SEOWebVitals')) {
+            $view = new View('@ProfessionalServices/promoSEOWebVitals');
+            $out .= $view->render();
+        }
     }
 
 }

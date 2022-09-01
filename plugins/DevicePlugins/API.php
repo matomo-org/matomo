@@ -86,6 +86,7 @@ class API extends \Piwik\Plugin\API
             $visitsSum = $visitsSumTotal - $ieVisits;
 
             $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
             $extraProcessedMetrics[] = new VisitsPercent($visitsSum);
             $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }

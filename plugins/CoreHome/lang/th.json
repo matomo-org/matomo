@@ -1,6 +1,7 @@
 {
     "CoreHome": {
         "CategoryNoData": "ไม่มีข้อมูลในประเภทนี้ พยายาม \"รวมประชากรทั้งหมด\"",
+        "ChangeVisualization": "เปลี่ยน มุมมอง",
         "CheckForUpdates": "ตรวจสอบชุดอัพเดท",
         "Default": "ค่าเริ่มต้น",
         "ShowJSCode": "แสดงรหัส JavaScript เมื่อต้องการแทรก",

@@ -13,7 +13,6 @@ use Piwik\Piwik;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Translation\Translator;
-use Piwik\View;
 
 class GetDonateForm extends Widget
 {

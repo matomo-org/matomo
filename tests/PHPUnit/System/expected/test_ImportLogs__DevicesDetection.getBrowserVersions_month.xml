@@ -118,6 +118,19 @@
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 	</row>
 	<row>
+		<label>Apache HTTP Client 4.2</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserCode==Apache+HTTP+Client;browserVersion==4.2</segment>
+		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
+	</row>
+	<row>
 		<label>Chrome 11.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -220,18 +233,5 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==IE;browserVersion==8.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
-	</row>
-	<row>
-		<label>Java</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==Java;browserVersion==</segment>
-		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
 </result>

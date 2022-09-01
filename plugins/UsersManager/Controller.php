@@ -23,16 +23,12 @@ use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\Plugins\TagManager\Validators\TriggerIds;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Translation\Translator;
 use Piwik\Url;
-use Piwik\Validators\BaseValidator;
-use Piwik\Validators\CharacterLength;
-use Piwik\Validators\NotEmpty;
 use Piwik\View;
 use Piwik\Session\SessionInitializer;
 use Piwik\Plugins\CoreAdminHome\Emails\TokenAuthCreatedEmail;
@@ -68,11 +64,6 @@ class Controller extends ControllerAdmin
         parent::__construct();
     }
 
-    static function orderByName($a, $b)
-    {
-        return strcmp($a['name'], $b['name']);
-    }
-
     /**
      * The "Manage Users and Permissions" Admin UI screen
      */
@@ -103,26 +94,35 @@ class Controller extends ControllerAdmin
         $view->defaultReportSiteName = $defaultReportSiteName;
         $view->currentUserRole = Piwik::hasUserSuperUserAccess() ? 'superuser' : 'admin';
         $view->accessLevels = [
-            ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
-            ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
-            ['key' => 'write', 'value' => Piwik::translate('UsersManager_PrivWrite')],
-            ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
-            ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'disabled' => true],
+            ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone'), 'type' => 'role'],
+            ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView'), 'type' => 'role'],
+            ['key' => 'write', 'value' => Piwik::translate('UsersManager_PrivWrite'), 'type' => 'role'],
+            ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin'), 'type' => 'role'],
+            ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'type' => 'role', 'disabled' => true],
         ];
         $view->filterAccessLevels = [
-            ['key' => '', 'value' => Piwik::translate('UsersManager_ShowAll')],
-            ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
-            ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView')],
-            ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
-            ['key' => 'write', 'value' => Piwik::translate('UsersManager_PrivWrite')],
-            ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
-            ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
+            ['key' => '', 'value' => '', 'type' => 'role'], // show all
+            ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone'), 'type' => 'role'],
+            ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView'), 'type' => 'role'],
+            ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView'), 'type' => 'role'],
+            ['key' => 'write', 'value' => Piwik::translate('UsersManager_PrivWrite'), 'type' => 'role'],
+            ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin'), 'type' => 'role'],
+            ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'type' => 'role'],
+        ];
+
+        $view->statusAccessLevels = [
+          ['key' => '', 'value' => ''], // show all
+          ['key' => 'pending', 'value' => Piwik::translate('UsersManager_Pending')],
+          ['key' => 'active', 'value' => Piwik::translate('UsersManager_Active')],
+          ['key' => 'expired', 'value' => Piwik::translate('UsersManager_Expired')],
         ];
 
         $capabilities = Request::processRequest('UsersManager.getAvailableCapabilities', [], []);
         foreach ($capabilities as $capability) {
             $capabilityEntry = [
-                'key' => $capability['id'], 'value' => $capability['category'] . ': ' . $capability['name'],
+                'key' => $capability['id'],
+                'value' => $capability['category'] . ': ' . $capability['name'],
+                'type' => 'capability'
             ];
             $view->accessLevels[] = $capabilityEntry;
             $view->filterAccessLevels[] = $capabilityEntry;

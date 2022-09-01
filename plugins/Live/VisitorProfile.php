@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Live;
 
 use Exception;
 use Piwik\DataTable;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 
 class VisitorProfile
 {
@@ -90,10 +91,19 @@ class VisitorProfile
         $rows            = $visits->getRows();
         $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
 
-        $model                              = new Model();
-        $this->profile['nextVisitorId']     = $model->queryAdjacentVisitorId($this->idSite, $visitorId,
-            $latestVisitTime, $segment, $getNext = true);
-        $this->profile['previousVisitorId'] = $model->queryAdjacentVisitorId($this->idSite, $visitorId,
-            $latestVisitTime, $segment, $getNext = false);
+        $model = new Model();
+        try {
+            $this->profile['nextVisitorId'] = $model->queryAdjacentVisitorId($this->idSite, $visitorId, $latestVisitTime, $segment, $getNext = true);
+        } catch (MaxExecutionTimeExceededException $e) {
+            $this->profile['nextVisitorId'] = false;
+            $this->profile['previousVisitorId'] = false; // if query for next visitor is too slow, we assume query for previous visitor is too slow too
+            return;
+        }
+        try {
+            $this->profile['previousVisitorId'] = $model->queryAdjacentVisitorId($this->idSite, $visitorId, $latestVisitTime, $segment, $getNext = false);
+        } catch (MaxExecutionTimeExceededException $e) {
+            // we simply assume there is no previous visitor in that case
+            $this->profile['previousVisitorId'] = false;
+        }
     }
 }

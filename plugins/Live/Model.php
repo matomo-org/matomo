@@ -28,6 +28,11 @@ use Piwik\Updater\Migration\Db as DbMigration;
 class Model
 {
     /**
+     * @internal for tests only
+     */
+    public $queryAndWhereSleepTestsOnly = false;
+
+    /**
      * @param $idSite
      * @param $period
      * @param $date
@@ -371,6 +376,11 @@ class Model
         );
     }
 
+    private function shouldQuerySleepInTests()
+    {
+        return $this->queryAndWhereSleepTestsOnly && defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE;
+    }
+
     private function getLastMinutesCounterForQuery($idSite, $lastMinutes, $segment, $select, $from, $where)
     {
         $lastMinutes = (int)$lastMinutes;
@@ -394,11 +404,31 @@ class Model
         $bind[] = $startDate->toString('Y-m-d H:i:s');
 
         $where = $whereIdSites . "AND " . $where;
+        if ($this->shouldQuerySleepInTests()) {
+            $where = ' SLEEP(1)';
+        }
 
         $segment = new Segment($segment, $idSite, $startDate, $endDate = null);
         $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $numVisitors = Db::getReader()->fetchOne($query['sql'], $query['bind']);
+        if ($this->shouldQuerySleepInTests()) {
+            $query['bind'] = [];
+        }
+
+        $query['sql'] = trim($query['sql']);
+        if (0 === stripos($query['sql'], 'SELECT')) {
+            $query['sql'] = 'SELECT /* Live.getCounters */' . mb_substr($query['sql'], strlen('SELECT'));
+        }
+
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $this->getLiveQueryMaxExecutionTime());
+
+        $readerDb = Db::getReader();
+        try {
+            $numVisitors = $readerDb->fetchOne($query['sql'], $query['bind']);
+        } catch (Exception $e) {
+            $this->handleMaxExecutionTimeError($readerDb, $e, $segment->getOriginalString(), $startDate, Date::now(), null, 0, $query);
+            throw $e;
+        }
 
         return $numVisitors;
     }
@@ -460,15 +490,35 @@ class Model
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
 
+        if ($this->shouldQuerySleepInTests()) {
+            $where = ' SLEEP(1)';
+            $visitLastActionTimeCondition = 'SLEEP(1)';
+        }
+
         $segment = new Segment($segment, $idSite, $dateOneDayAgo, $dateOneDayInFuture);
         $queryInfo = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy);
 
-        $sql = "SELECT sub.idvisitor, sub.visit_last_action_time FROM ({$queryInfo['sql']}) as sub
+        $sql = "SELECT /* Live.queryAdjacentVisitorId */ sub.idvisitor, sub.visit_last_action_time FROM ({$queryInfo['sql']}) as sub
                  WHERE $visitLastActionTimeCondition
                  LIMIT 1";
         $bind = array_merge($queryInfo['bind'], array($visitLastActionTime));
 
-        $visitorId = Db::getReader()->fetchOne($sql, $bind);
+        if ($this->shouldQuerySleepInTests()) {
+            $bind = [];
+        }
+
+        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->getLiveQueryMaxExecutionTime());
+
+        $readerDb = Db::getReader();
+        try {
+            $visitorId = $readerDb->fetchOne($sql, $bind);
+        } catch (Exception $e) {
+            $this->handleMaxExecutionTimeError($readerDb, $e, $segment->getOriginalString(), Date::now(), Date::now(), null, 1, [
+                'sql' => $sql, 'bind' => $bind
+            ]);
+            throw $e;
+        }
+
         if (!empty($visitorId)) {
             $visitorId = bin2hex($visitorId);
         }
@@ -529,7 +579,9 @@ class Model
 
         if (!$visitorId) {
             // for now let's not apply when looking for a specific visitor
-            $innerQuery['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($innerQuery['sql'], Config::getInstance()->General['live_query_max_execution_time']);
+            $innerQuery['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($innerQuery['sql'],
+                $this->getLiveQueryMaxExecutionTime()
+            );
         }
 
         return array($innerQuery['sql'], $bind);
@@ -655,5 +707,10 @@ class Model
             $where = false;
         }
         return array($whereBind, $where);
+    }
+
+    private function getLiveQueryMaxExecutionTime()
+    {
+        return Config::getInstance()->General['live_query_max_execution_time'];
     }
 }

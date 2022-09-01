@@ -12,7 +12,6 @@ use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
 use Piwik\Plugins\CustomDimensions\Tracker\CustomDimensionsRequestProcessor as Processor;
-use Piwik\Plugins\CustomDimensions\Tracker\CustomDimensionsRequestProcessor;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\ActionPageview;

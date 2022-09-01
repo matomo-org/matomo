@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,8 +9,6 @@
 
 namespace Piwik\Plugins\UsersManager\Sql;
 
-
-use Piwik\Access;
 use Piwik\Common;
 use Piwik\Piwik;
 
@@ -31,15 +30,21 @@ class UserTableFilter
     private $filterSearch;
 
     /**
+     * @var string
+     */
+    private $filterStatus;
+
+    /**
      * @var string[]
      */
     private $logins;
 
-    public function __construct($filterByRole, $filterByRoleSite, $filterSearch, $logins = null)
+    public function __construct($filterByRole, $filterByRoleSite, $filterSearch, $filterStatus, $logins = null)
     {
         $this->filterByRole = $filterByRole;
         $this->filterByRoleSite = $filterByRoleSite;
         $this->filterSearch = $filterSearch;
+        $this->filterStatus = $filterStatus;
         $this->logins = $logins;
 
         if (isset($this->filterByRole) && !isset($this->filterByRoleSite)) {
@@ -47,7 +52,8 @@ class UserTableFilter
         }
 
         // can only filter by superuser if current user is a superuser
-        if ($this->filterByRole == 'superuser'
+        if (
+            $this->filterByRole == 'superuser'
             && !Piwik::hasUserSuperUserAccess()
         ) {
             $this->filterByRole = null;
@@ -79,6 +85,28 @@ class UserTableFilter
             $bind = array_merge($bind, ['%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%']);
         }
 
+        if ($this->filterStatus) {
+            if ($this->filterStatus === 'active') {
+                $conditions[] = '(u.invite_token is NULL and u.invite_expired_at is NULL)';
+            }
+            if ($this->filterStatus === 'pending') {
+                $conditions[] = '(u.invite_token is not NULL and u.invite_expired_at > DATE(Now()))';
+                // Pending users are only visible for super user or the user, who invited the user
+                if (!Piwik::hasUserSuperUserAccess()) {
+                    $conditions[] = 'u.invited_by = ?';
+                    $bind[] = Piwik::getCurrentUserLogin();
+                }
+            }
+            if ($this->filterStatus === 'expired') {
+                $conditions[] = '(u.invite_token is not NULL and u.invite_expired_at < DATE(Now()))';
+                // Expired users are only visible for super user or the user, who invited the user
+                if (!Piwik::hasUserSuperUserAccess()) {
+                    $conditions[] = 'u.invited_by = ?';
+                    $bind[] = Piwik::getCurrentUserLogin();
+                }
+            }
+        }
+
         if ($this->logins !== null) {
             $logins = array_map('json_encode', $this->logins);
             $conditions[] = 'u.login IN (' . implode(',', $logins) . ')';
@@ -94,7 +122,6 @@ class UserTableFilter
 
     private function getAccessSelectSqlCondition()
     {
-        $sql = '';
         $bind = [];
 
         switch ($this->filterByRole) {
@@ -108,8 +135,9 @@ class UserTableFilter
                 $sql = "u.superuser_access = 1";
                 break;
             default:
-                $sql = "a.access = ?";
+                $sql = "u.login IN (SELECT login from " . Common::prefixTable('access') . " WHERE access = ? AND (idsite IS NULL OR idsite = ?))";
                 $bind[] = $this->filterByRole;
+                $bind[] = $this->filterByRoleSite;
                 break;
         }
 

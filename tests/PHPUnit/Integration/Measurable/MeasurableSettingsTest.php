@@ -8,8 +8,6 @@
 
 namespace Piwik\Tests\Integration\Measurable;
 
-use Piwik\Access;
-use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Plugins\WebsiteMeasurable\Type as WebsiteType;
 use Piwik\Plugins\WebsiteMeasurable\MeasurableSettings;

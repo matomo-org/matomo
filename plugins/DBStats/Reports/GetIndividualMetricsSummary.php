@@ -10,8 +10,6 @@ namespace Piwik\Plugins\DBStats\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
  * Shows a datatable that displays how many occurrences there are of each individual

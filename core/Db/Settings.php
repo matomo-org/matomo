@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Db;
 
 use Piwik\Db;
@@ -32,9 +33,14 @@ class Settings
         return strtolower($this->getDbSetting('charset'));
     }
 
+    public function getRowFormat()
+    {
+        return $this->getUsedCharset() === 'utf8mb4' ? 'ROW_FORMAT=DYNAMIC' : '';
+    }
+
     private function getDbSetting($key)
     {
         $dbInfos = Db::getDatabaseConfig();
-        return $dbInfos[$key];
+        return $dbInfos[$key] ?? null;
     }
 }

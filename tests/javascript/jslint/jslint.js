@@ -951,7 +951,7 @@ var JSLINT = (function () {
             var c, pos = 0, r = '', result;
 
             function hex(n) {
-                var i = parseInt(source_row.substr(pos + 1, n), 16);
+                var i = parseInt(source_row.slice(pos + 1, pos + 1 + n), 16);
                 pos += n;
                 if (i >= 32 && i <= 126 &&
                         i !== 34 && i !== 92 && i !== 39) {

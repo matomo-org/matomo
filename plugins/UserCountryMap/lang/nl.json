@@ -17,7 +17,7 @@
         "Searches": "%s zoekopdrachten",
         "SecondsAgo": "%s seconden geleden",
         "ShowingVisits": "Gelokaliseerde bezoeken van laatste",
-        "Unlocated": "<b>%1$s</b> %2$p van de bezoeken vanaf %3$c konden niet worden gelokaliseerd.",
+        "Unlocated": "<b>%1$s</b> %2$s van de bezoeken vanaf %3$s konden niet worden gelokaliseerd.",
         "VisitorMap": "Bezoekersmap",
         "WithUnknownCity": "%s met onbekende stad",
         "WithUnknownRegion": "%s met onbekende regio",

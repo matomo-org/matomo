@@ -8,12 +8,11 @@
  */
 namespace Piwik\Plugins\DevicesDetection;
 
+use DeviceDetector\ClientHints;
 use DeviceDetector\DeviceDetector;
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
-use Piwik\Plugin\Report;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -27,11 +26,13 @@ class Controller extends \Piwik\Plugin\Controller
         ControllerAdmin::setBasicVariablesAdminView($view);
 
         $userAgent = Common::getRequestVar('ua', $_SERVER['HTTP_USER_AGENT'], 'string');
+        $clientHints = Common::getRequestVar('clienthints', '', 'json');
 
-        $uaParser = new DeviceDetector($userAgent);
+        $uaParser = new DeviceDetector($userAgent, is_array($clientHints) ? ClientHints::factory($clientHints) : null);
         $uaParser->parse();
 
         $view->userAgent           = $userAgent;
+        $view->clientHints         = $clientHints;
         $view->bot_info            = $uaParser->getBot();
         $view->browser_name        = $uaParser->getClient('name');
         $view->browser_short_name  = $uaParser->getClient('short_name');

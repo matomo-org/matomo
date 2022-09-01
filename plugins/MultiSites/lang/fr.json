@@ -1,8 +1,16 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Ce rapport vous donne un aperçu informatif de chacun de vos sites Web, contenant les métriques les plus générales sur vos visiteurs.",
         "Evolution": "Évolution",
+        "EvolutionComparisonDay": "%1$s %2$s ce jour par rapport à %3$s %2$s au cours du délai partiel précédent (%4$s) Évolution : %5$s",
+        "EvolutionComparisonIncomplete": "La période actuellement sélectionnée est terminée depuis %1$s.",
+        "EvolutionComparisonMonth": "%1$s %2$s ce mois-ci par rapport à %3$s %2$s au cours du délai partiel précédent (%4$s) Evolution : %5$s",
+        "EvolutionComparisonProportional": "Lorsque la période précédente était également terminée à %1$s, il y aurait eu une estimation de %2$s %3$s\n (sur un total de %4$s %3$s pour la période précédente).",
+        "EvolutionComparisonWeek": "%1$s %2$s cette semaine par rapport à %3$s %2$s au cours du trimestre partiel précédent (%4$s) Evolution : %5$s",
+        "EvolutionComparisonYear": "%1$s %2$s cette année par rapport à %3$s %2$s au cours de la période partielle précédente (%4$s) Evolution : %5$s",
         "LoadingWebsites": "Chargement des sites",
-        "PluginDescription": "Visualisez et comparez tous vos sites web et applications en utilisant le tableau de bord « tous les sites web ».",
+        "PluginDescription": "Affichez et comparez tous vos sites Web et applications dans ce tableau de bord \"Tous les sites Web\" utile.",
+        "SingleWebsitesDashboardDocumentation": "Ce rapport vous donne un aperçu informatif d'un site Web spécifique, contenant les métriques les plus générales sur vos visiteurs.",
         "TopLinkTooltip": "Comparez les statistiques pour tous vos sites web."
     }
 }

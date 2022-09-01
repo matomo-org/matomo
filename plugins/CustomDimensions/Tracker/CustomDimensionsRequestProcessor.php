@@ -18,7 +18,6 @@ use Piwik\Tracker\Model;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
-use Piwik\Url;
 
 /**
  * Handles tracking of custom dimensions

@@ -38,6 +38,8 @@
 					
 					<pageId>44</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
@@ -106,12 +108,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -164,6 +160,8 @@
 					
 					<pageId>43</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
@@ -232,12 +230,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -290,6 +282,8 @@
 					
 					<pageId>42</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
@@ -358,12 +352,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -416,6 +404,8 @@
 					
 					<pageId>41</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
@@ -484,12 +474,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -542,6 +526,8 @@
 					
 					<pageId>40</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
@@ -610,12 +596,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -668,6 +648,8 @@
 					
 					<pageId>39</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
@@ -736,12 +718,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -794,6 +770,8 @@
 					
 					<pageId>38</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
@@ -862,12 +840,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -920,6 +892,8 @@
 					
 					<pageId>37</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
@@ -988,12 +962,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1046,6 +1014,8 @@
 					
 					<pageId>36</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
@@ -1114,12 +1084,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1172,6 +1136,8 @@
 					
 					<pageId>35</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
@@ -1240,12 +1206,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1298,6 +1258,8 @@
 					
 					<pageId>34</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
@@ -1366,12 +1328,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1424,6 +1380,8 @@
 					
 					<pageId>33</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
@@ -1492,12 +1450,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1550,6 +1502,8 @@
 					
 					<pageId>32</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
@@ -1618,12 +1572,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1676,6 +1624,8 @@
 					
 					<pageId>31</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
@@ -1744,12 +1694,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1802,6 +1746,8 @@
 					
 					<pageId>30</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
@@ -1870,12 +1816,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1928,6 +1868,8 @@
 					
 					<pageId>29</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
@@ -1996,12 +1938,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -2054,6 +1990,8 @@
 					
 					<pageId>28</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
@@ -2122,12 +2060,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -2180,6 +2112,8 @@
 					
 					<pageId>27</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
@@ -2248,12 +2182,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -2306,6 +2234,8 @@
 					
 					<pageId>26</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
@@ -2374,12 +2304,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -2432,6 +2356,8 @@
 					
 					<pageId>25</pageId>
 					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
 					<pageviewPosition>1</pageviewPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
@@ -2500,12 +2426,6 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>

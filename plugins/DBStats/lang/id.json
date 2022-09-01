@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Penggunaan Basisdata",
+        "DBSize": "Ukuran basis data",
         "DataSize": "Ukuran Data",
-        "DBSize": "Ukuran Basisdat",
+        "DatabaseUsage": "Penggunaan basis data",
         "EstimatedSize": "Perkiraan ukuran",
-        "IndexSize": "Ukuran Index",
-        "LearnMore": "Pelajari selengkapnya tentang bagaimana Matomo mengolah data dan bagaimana Matomo bekerja baik dalam kunjungan situs menengah dan tinggi, lihat dokumentasi %s.",
-        "MainDescription": "Matomo menyimpan seluruh data analisis ramatraya Anda di basisdata MySQL. Sekarang, tabel Matomo menggunakan %s.",
-        "MetricDataByYear": "Tabel Metrik berdasarkan Tahun",
+        "IndexSize": "Ukuran indeks",
+        "LearnMore": "Untuk mempelajari lebih lanjut tentang bagaimana Matomo mengolah data dan bagaimana membuat Matomo bekerja dengan baik di situs web dengan lalu lintas sedang dan tinggi, lihat dokumentasi ini: %s.",
+        "MainDescription": "Matomo menyimpan semua data analisis web Anda dalam basis data MySQL. Saat ini, tabel Matomo memakan ruang sebesar %s.",
+        "MetricDataByYear": "Tabel Metrik Berdasarkan Tahun",
         "MetricTables": "Tabel Metrik",
         "OtherTables": "Tabel Lain",
-        "PluginDescription": "Menyediakan laporan rincian penggunaan basis data MySQL. Tersedia untuk Pengguna Super dibawah diagnostik.",
-        "ReportDataByYear": "Tabel Laporan berdasarkan Tahun",
+        "PluginDescription": "Menyediakan laporan penggunaan basis data MySQL yang terperinci. Tersedia untuk Pengguna Super di bawah Diagnostik.",
+        "ReportDataByYear": "Tabel Laporan Berdasarkan Tahun",
         "ReportTables": "Tabel Laporan",
         "RowCount": "Jumlah Baris",
         "Table": "Tabel",
         "TotalSize": "Ukuran Total",
-        "TrackerTables": "Tabel pelacak"
+        "TrackerTables": "Tabel Pelacak"
     }
 }

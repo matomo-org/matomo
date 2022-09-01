@@ -22,6 +22,8 @@
 
     {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}
 
+    piwik.requiresPasswordConfirmation = {{ userRequiresPasswordConfirmation ? 'true' : 'false' }};
+
     {% if siteName is defined %}
     // NOTE: siteName is currently considered deprecated, use piwik.currentSiteName instead, which will not contain HTML entities
     piwik.siteName = "{{ siteName|e('js') }}";
@@ -56,6 +58,7 @@
 {% if clientSideConfig is defined %}
     piwik.config = {{ clientSideConfig|json_encode|raw }};
 {% endif %}
+    Object.freeze(piwik.config); // disallow accidental changes
     piwik.shouldPropagateTokenAuth = {{ shouldPropagateTokenAuth|json_encode|raw }};
     {{ postEvent("Template.jsGlobalVariables") }}
 </script>

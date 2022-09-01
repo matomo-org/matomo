@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IP;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\Fixture;

@@ -184,7 +184,7 @@ abstract class Renderer extends BaseFactory
         if (is_string($value)
             && !is_numeric($value)
         ) {
-            $value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
+            $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
             // make sure non-UTF-8 chars don't cause htmlspecialchars to choke
             if (function_exists('mb_convert_encoding')) {
                 $value = @mb_convert_encoding($value, 'UTF-8', 'UTF-8');

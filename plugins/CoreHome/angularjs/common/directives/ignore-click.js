@@ -15,7 +15,10 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikIgnoreClick', piwikIgnoreClick);
 
-    function piwikIgnoreClick() {
+  /**
+   * @deprecated
+   */
+  function piwikIgnoreClick() {
         return function(scope, element, attrs) {
             $(element).click(function(event) {
                 event.preventDefault();

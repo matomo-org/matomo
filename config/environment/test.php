@@ -1,5 +1,6 @@
 <?php
 
+use Piwik\Piwik;
 use Psr\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -121,7 +122,7 @@ return array(
         })),
 
         array('Test.Mail.send', \DI\value(function (\PHPMailer\PHPMailer\PHPMailer $mail) {
-            $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
+            $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Piwik::getModule() . '.' . Piwik::getAction() . '.mail.json';
             $outputContent = str_replace("=\n", "", $mail->Body ?: $mail->AltBody);
             $outputContent = str_replace("=0A", "\n", $outputContent);
             $outputContent = str_replace("=3D", "=", $outputContent);

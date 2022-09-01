@@ -16,6 +16,13 @@ use Piwik\Config;
  */
 class SecurityPolicy
 {
+    /*
+     * Commonly used rules
+     */
+    const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval'";
+    const RULE_IMG_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:";
+    const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https: http:";
+
     /**
      * The policies that will generate the CSP header.
      * These are keyed by the directive.
@@ -24,23 +31,25 @@ class SecurityPolicy
      */
     private $policies = array();
 
-    private $cspEnabled = true;
-    private $reportOnly = false;
+    private $cspEnabled;
+    private $reportOnly;
 
     /**
      * Constructor.
      */
     public function __construct(Config $config) {
-        $this->policies['default-src'] = "'self' 'unsafe-inline' 'unsafe-eval'";
+        $this->policies['default-src'] = self::RULE_DEFAULT;
+        $this->policies['img-src'] = self::RULE_IMG_DEFAULT;
 
         $generalConfig = $config->General;
-        $this->cspEnabled = $generalConfig['csp_enabled'];
-        $this->reportOnly = $generalConfig['csp_report_only'];
+        $this->cspEnabled = $generalConfig['csp_enabled'] ?? true;
+        $this->reportOnly = $generalConfig['csp_report_only'] ?? false;
     }
 
     /**
      * Appends a policy to a directive.
      *
+     * @api
      */
     public function addPolicy($directive, $value) {
         if (isset($this->policies[$directive])) {
@@ -53,6 +62,7 @@ class SecurityPolicy
     /**
      * Removes a directive.
      *
+     * @api
      */
     public function removeDirective($directive) {
         if (isset($this->policies[$directive])) {
@@ -63,9 +73,19 @@ class SecurityPolicy
     /**
      * Overrides a directive.
      *
+     * @api
      */
     public function overridePolicy($directive, $value) {
         $this->policies[$directive] = $value;
+    }
+
+    /**
+     * Disable CSP
+     *
+     * @api
+     */
+    public function disable() {
+        $this->cspEnabled = false;
     }
 
     /**
@@ -88,5 +108,17 @@ class SecurityPolicy
         }
 
         return $headerString;
+    }
+
+    /**
+     * A less restrictive CSP which will allow embedding other sites with iframes
+     * (useful for heatmaps and session recordings)
+     *
+     * @api
+     */
+    public function allowEmbedPage() {
+        $this->overridePolicy('default-src', self::RULE_EMBEDDED_FRAME);
+        $this->overridePolicy('img-src', self::RULE_EMBEDDED_FRAME);
+        $this->addPolicy('script-src', self::RULE_DEFAULT);
     }
 }

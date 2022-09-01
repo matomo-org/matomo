@@ -37,7 +37,9 @@ async function main() {
         config.phpServer.REQUEST_URI += '/';
     }
 
-    setUpGlobals(config, webpage);
+    const originalUserAgent = await browser.userAgent();
+
+    setUpGlobals(config, webpage, originalUserAgent);
 
     mocha = new Mocha({
         ui: 'bdd',

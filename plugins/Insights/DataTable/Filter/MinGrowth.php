@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Insights\DataTable\Filter;
 
-use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
 
 /**

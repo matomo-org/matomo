@@ -2,7 +2,8 @@
     "Overlay": {
         "Clicks": "%s klik",
         "ClicksFromXLinks": "%1$s klik dari salah satu %2$s tautan",
-        "Domain": "Ranah",
+        "Domain": "Domain",
+        "ErrorNoSiteUrls": "PERINGATAN: Situs web ini tidak memiliki URL Situs yang ditentukan di Matomo. Ini dapat menyebabkan Hamparan dan fitur lainnya rusak atau berperilaku aneh. Untuk memperbaikinya, tambahkan URL di pengaturan situs web ini di bagian Administrasi Matomo.",
         "ErrorNotLoading": "Sesi Penghampar Halaman belum dapat diluncurkan.",
         "ErrorNotLoadingDetails": "Kemungkinan yang dimuat di kanan tidak memiliki kode pelcakan Matomo. Dalam hal ini, silakan mencoba meluncurkan Penghampar untuk halaman yang berbeda dari laporan halaman.",
         "ErrorNotLoadingDetailsSSL": "Sejak Anda menggunakan Matomo melalui https, kemungkinan besar penyebabnya adalah situs Anda tidak mendukung SSL. Silakan menggunakan Matomo melalui http.",
@@ -13,6 +14,8 @@
         "OneClick": "1 kilik",
         "OpenFullScreen": "Menuju halaman penuh (tanpa batang sisi)",
         "Overlay": "Penghampar Halaman",
+        "PluginDescription": "Lihat data analisis Anda sebagai Hamparan di situs web Anda yang sebenarnya. Lihat berapa kali pengguna Anda mengeklik setiap tautan. Catatan: Membutuhkan pengaya Transitions yang diaktifkan.",
+        "RedirectUrlError": "Anda mencoba membuka Hamparan Halaman untuk URL \"%1$s\". %2$s Tidak ada domain dari pengaturan Matomo yang cocok dengan tautan.",
         "RedirectUrlErrorAdmin": "Anda dapat menambah ranah sebagai URL tambahan di %1$spengaturan%2$s.",
         "RedirectUrlErrorUser": "Silakan bertanya kepada pengelola Anda untuk menambah ranah sebagai URL tambahan."
     }

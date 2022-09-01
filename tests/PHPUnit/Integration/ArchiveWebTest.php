@@ -10,9 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Option;
 use Piwik\Http;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\Fixture;
-use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

@@ -8,10 +8,7 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\Container\StaticContainer;
-use Piwik\Log;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\FieldConfig;
 

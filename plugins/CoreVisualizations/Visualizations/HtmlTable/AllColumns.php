@@ -10,9 +10,7 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 use Piwik\DataTable;
-use Piwik\Metrics;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\View;
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.

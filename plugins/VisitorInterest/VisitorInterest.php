@@ -8,12 +8,8 @@
  */
 namespace Piwik\Plugins\VisitorInterest;
 
-use Piwik\ArchiveProcessor;
 use Piwik\FrontController;
-use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
 class VisitorInterest extends \Piwik\Plugin
 {

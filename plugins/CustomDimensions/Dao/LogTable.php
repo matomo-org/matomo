@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CustomDimensions\Dao;
 
 use Piwik\Common;
 use Piwik\DataAccess\TableMetadata;
-use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;

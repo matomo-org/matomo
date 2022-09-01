@@ -1,18 +1,18 @@
 {
     "Diagnostics": {
-        "ConfigFileTitle": "コンフィグファイル",
-        "MysqlMaxPacketSize": "最大パケットサイズ",
-        "MysqlMaxPacketSizeWarning": "少なくとも %1$s の MySQL データベースに 'max_allowed_packet' サイズを設定することをお勧めします。 設定は現在 %2$s です。",
+        "BrowserTriggeredArchivingEnabled": "最適なパフォーマンスと迅速な Matomo のために、レポートを自動的にアーカイブするように crontab をセットアップし、Matomo 設定でブラウザのトリガーを無効にすることを強くお勧めします。%1$s詳細%2$s",
         "ConfigFileIntroduction": "ここで Matomo の設定を見ることができます。 負荷分散環境で Matomo を実行している場合、このページがどのサーバーからロードされるかによってページが異なる場合があります。 背景色が異なる行は、 %1$sファイルなどで指定されている構成値が変更されます。",
-        "HideUnchanged": "変更された値だけを表示する場合は、%1$s変更されていない値をすべて非表示にすることができます。%2$s",
-        "Sections": "セクション",
-        "DatabaseReaderConnection": "データベースリーダー接続",
-        "CronArchivingLastRunCheck": "最後に正常に完了したアーカイブ",
+        "ConfigFileTitle": "コンフィグファイル",
         "CronArchivingHasNotRun": "アーカイブはまだ正常に実行されていません。",
         "CronArchivingHasNotRunInAWhile": "アーカイブは、 %2$s 前の %1$s で正常に実行されました。",
-        "CronArchivingRunDetails": "%1$s コンソールコマンドを呼び出すcrontabを設定したこと、およびアーカイブが失敗した場合に電子メールでエラーを受信するように %2$s を設定したことを確認してください。 手動でレポートをアーカイブするために console コマンドを実行してみることもできます：%3$s。 %4$sもっと詳しく知る%5$s。",
+        "CronArchivingLastRunCheck": "最後に正常に完了したアーカイブ",
         "CronArchivingRanSuccessfullyXAgo": "アーカイブプロセスは%1$s 前に正常に完了しました。",
-        "BrowserTriggeredArchivingEnabled": "最適なパフォーマンスと迅速な Matomo のために、レポートを自動的にアーカイブするように crontab をセットアップし、Matomo 設定でブラウザのトリガーを無効にすることを強くお勧めします。%1$s詳細%2$s",
-        "NoDataForReportArchivingNotRun": "レポートのアーカイブは最近実行されていません。 %1$sレポートの生成方法について詳しく学んでください。%2$s"
+        "CronArchivingRunDetails": "%1$s コンソールコマンドを呼び出すcrontabを設定したこと、およびアーカイブが失敗した場合に電子メールでエラーを受信するように %2$s を設定したことを確認してください。 手動でレポートをアーカイブするために console コマンドを実行してみることもできます：%3$s。 %4$sもっと詳しく知る。%5$s",
+        "DatabaseReaderConnection": "データベースリーダー接続",
+        "HideUnchanged": "変更された値だけを表示する場合は、変更されていない値%2$sをすべて非表示にすることができます%1$s。",
+        "MysqlMaxPacketSize": "最大パケットサイズ",
+        "MysqlMaxPacketSizeWarning": "少なくとも %1$s の MySQL データベースに 'max_allowed_packet' サイズを設定することをお勧めします。 設定は現在 %2$s です。",
+        "NoDataForReportArchivingNotRun": "レポートのアーカイブは最近実行されていません。 %1$sレポートの生成方法について詳しく学んでください。%2$s",
+        "Sections": "セクション"
     }
 }

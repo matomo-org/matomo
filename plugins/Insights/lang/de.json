@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Stellt Einblicke in ihren Traffic zur Verfügung. Diese \"Einblicke\" sind verfügbar als Dashboard Widgets sowie über ein neues Icon in den Berichten, das Ihnen die Möglichkeit gibt die wichtigsten Trends ihrer Daten zu sehen.",
         "ControlComparedToDescription": "Wachstum verglichen mit",
         "ControlFilterByDescription": "Zeige alle, nur Verschiebungen, nur neue oder nur Ausstiege",
         "DatePeriodCombinationNotSupported": "Es ist nicht möglich, Ansichten für diese Datums- und Zeitraumskombination zu generieren.",
@@ -8,7 +7,7 @@
         "DayComparedToPreviousWeek": "gleicher Tag in vorheriger Woche",
         "DayComparedToPreviousYear": "gleicher Tag im vorherigen Jahr",
         "Filter": "Filter",
-        "FilterIncreaserAndDecreaser": "Steigerungen & Reduktionen",
+        "FilterIncreaserAndDecreaser": "Steigerungen und Reduktionen",
         "FilterOnlyDecreaser": "Nur Reduktionen",
         "FilterOnlyDisappeared": "Nur Ausstiege",
         "FilterOnlyIncreaser": "Nur Steigerungen",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Verschiebungen und Streuungen",
         "NoResultMatchesCriteria": "Keine Zeilen entsprechen den Kriterien",
         "OverviewWidgetTitle": "Insights Übersicht",
+        "PluginDescription": "Stellt Einblicke in ihren Traffic zur Verfügung. Diese \"Einblicke\" sind verfügbar als Dashboard Widgets sowie über ein neues Icon in den Berichten, das Ihnen die Möglichkeit gibt die wichtigsten Trends ihrer Daten zu sehen.",
         "TitleConsideredInsightsChanges": "Die Zeilen steigerten sich oder sanken um mindestens %1$s Besuche (%2$s%% von %3$s Total Besuchen).",
         "TitleConsideredInsightsGrowth": "Die folgenden Zeilen steigerten sich um mindestens %1$s%% verglichen mit %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Berücksichtigte Verschiebungen, nur wenn sie sich um mehr als %1$s%% Besuche steigerten oder sich auf weniger als %2$s%% Besuche reduzierten, neue Einträge nur bei Steigerungen um mehr als %3$s%% Besuche (%4$s), und verlorene Zeilen, wenn Sie sich auf weniger als %5$s%% Besuche (%6$s) reduzierten.",

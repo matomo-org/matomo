@@ -3,9 +3,11 @@
         "ColumnConfiguration": "Configuració",
         "ColumnResolution": "Resolució",
         "Configurations": "Configuracions",
+        "PluginDescription": "Informa de les resolucions de pantalla dels vostres visitants.",
         "Resolutions": "Resolucions",
         "WidgetGlobalVisitors": "Configuracions globals dels visitants",
         "WidgetGlobalVisitorsDocumentation": "Aquest informe mostra les configuracions més comuns que tenen els vostres visitants. Una configuració es la combinació de Sistema Operatiu, tipus de navegador i resolució de pantalla.",
-        "WidgetResolutions": "Resolucions"
+        "WidgetResolutions": "Resolucions",
+        "WidgetResolutionsDocumentation": "Aquest informe mostra les resolucions de pantalla que han utilitzat els vostres visitants per veure el vostre lloc web."
     }
 }

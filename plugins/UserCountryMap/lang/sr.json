@@ -15,7 +15,7 @@
         "Searches": "%s pretraga",
         "SecondsAgo": "pre %s sekundi",
         "ShowingVisits": "Geolocirane posete od poslednjih",
-        "Unlocated": "<b>%1$s</b> %2$p od poseta sa %3$c nije moguće geolocirati.",
+        "Unlocated": "<b>%1$s</b> %2$s od poseta sa %3$s nije moguće geolocirati.",
         "VisitorMap": "Mapa posetilaca",
         "WithUnknownCity": "%s sa nepoznatim gradom",
         "WithUnknownRegion": "%s sa nepoznatim regionom",

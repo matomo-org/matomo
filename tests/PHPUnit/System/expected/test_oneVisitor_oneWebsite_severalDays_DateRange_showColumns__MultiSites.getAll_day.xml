@@ -5,6 +5,11 @@
 		<nb_visits>2</nb_visits>
 		<visits_evolution>0%</visits_evolution>
 		<idsite>1</idsite>
+		<ratio>1</ratio>
+		<currencySymbol>$</currencySymbol>
+		<previous_nb_visits>2</previous_nb_visits>
+		<periodName>day</periodName>
+		<previousRange>Tue, Dec 14</previousRange>
 		<group />
 		<main_url>http://piwik.net</main_url>
 	</row>
@@ -13,6 +18,11 @@
 		<nb_visits>1</nb_visits>
 		<visits_evolution>0%</visits_evolution>
 		<idsite>2</idsite>
+		<ratio>1</ratio>
+		<currencySymbol>$</currencySymbol>
+		<previous_nb_visits>1</previous_nb_visits>
+		<periodName>day</periodName>
+		<previousRange>Tue, Dec 14</previousRange>
 		<group />
 		<main_url>http://piwik.net</main_url>
 	</row>

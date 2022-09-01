@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\VisitTime;
 
 use Piwik\DataArray;
-use Piwik\DataTable;
 use Piwik\Date;
 
 class Archiver extends \Piwik\Plugin\Archiver

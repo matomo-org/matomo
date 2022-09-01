@@ -1,1 +1,5 @@
 tests/System/processed/*xml
+/vue/dist/demo.html
+/vue/dist/*.common.js
+/vue/dist/*.map
+/vue/dist/*.development.*

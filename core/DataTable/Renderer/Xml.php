@@ -179,7 +179,7 @@ class Xml extends Renderer
             } else {
                 $xmlValue = self::formatValueXml($value);
 
-                if (strlen($xmlValue) != 0) {
+                if (strlen(strval($xmlValue)) !== 0) {
                     $result .= $prefixLines . $prefix . $xmlValue . $suffix . "\n";
                 } else {
                     $result .= $prefixLines . $emptyNode . "\n";
@@ -381,7 +381,7 @@ class Xml extends Renderer
 
                     list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($name, $columnsHaveInvalidChars);
 
-                    if (strlen($value) == 0) {
+                    if (strlen((string) $value) == 0) {
                         $out .= $prefixLine . "\t\t<$tagStart />\n";
                     } else {
                         $out .= $prefixLine . "\t\t<$tagStart>" . $value . "</$tagEnd>\n";

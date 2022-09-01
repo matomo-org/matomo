@@ -10,19 +10,15 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
-use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
-use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Access\Role\Admin;
 
 
 /**
@@ -44,6 +40,7 @@ class ModelTest extends IntegrationTestCase
 
     private $login = 'userLogin';
     private $login2 = 'userLogin2';
+    private $login3 ='pendingLogin3';
 
     public function setUp(): void
     {
@@ -60,6 +57,7 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, 'password', 'userlogin@password.de');
         $this->api->addUser($this->login2, 'password2', 'userlogin2@password.de');
+
     }
 
     public function test_getSitesAccessFromUser_noAccess()
@@ -81,9 +79,9 @@ class ModelTest extends IntegrationTestCase
         $this->model->addUserAccess($this->login, Write::ID, array(2));
         $this->model->addUserAccess($this->login, View::ID, array(1));
         $this->assertEquals(array(
-            array('site' => '3', 'access' => Write::ID),
-            array('site' => '2', 'access' => Write::ID),
-            array('site' => '1', 'access' => View::ID),
+          array('site' => '3', 'access' => Write::ID),
+          array('site' => '2', 'access' => Write::ID),
+          array('site' => '1', 'access' => View::ID),
         ), $this->model->getSitesAccessFromUser($this->login));
     }
 
@@ -355,15 +353,19 @@ class ModelTest extends IntegrationTestCase
 
     public function test_deleteExpiredTokens()
     {
-        $id1 = $this->model->addTokenAuth($this->login, 'token', 'MyDescription1', '2020-01-01 03:04:05', '2020-01-02 03:04:05');
+        $date = Date::factory('now')->addMonth(1)->getDatetime();
+        $dateNotExpired = Date::factory('now')->addMonth(24)->getDatetime();
+        $dateExpired =  Date::factory('now')->subMonth(1)->getDatetime();
+
+        $id1 = $this->model->addTokenAuth($this->login, 'token', 'MyDescription1', '2020-01-01 03:04:05', $dateExpired);
         $id2 = $this->model->addTokenAuth($this->login, 'token2', 'MyDescription2', '2020-01-02 03:04:05');
-        $id3 = $this->model->addTokenAuth($this->login, 'token3', 'MyDescription3', '2020-01-03 03:04:05', '2022-01-02 03:04:05');
-        $id4 = $this->model->addTokenAuth($this->login2, 'token4', 'MyDescription4', '2020-01-04 03:04:05', '2024-01-02 03:04:05');
+        $id3 = $this->model->addTokenAuth($this->login, 'token3', 'MyDescription3', '2020-01-03 03:04:05', $dateNotExpired);
+        $id4 = $this->model->addTokenAuth($this->login2, 'token4', 'MyDescription4', '2020-01-04 03:04:05', $dateNotExpired);
         $id5 = $this->model->addTokenAuth($this->login2, 'token5', 'MyDescription5', '2020-01-05 03:04:05');
         $id6 = $this->model->addTokenAuth($this->login2, 'token6', 'MyDescription6', '2020-01-06 03:04:05', '2018-01-02 03:04:05');
 
         // id1 and id6 are expired and should have been deleted
-        $this->model->deleteExpiredTokens('2021-01-02 03:04:05');
+        $this->model->deleteExpiredTokens($date);
 
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertEquals($id2, $tokens[0]['idusertokenauth']);
@@ -375,5 +377,6 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($id5, $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
     }
+
 
 }

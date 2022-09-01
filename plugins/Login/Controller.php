@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,10 +7,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
@@ -18,11 +19,15 @@ use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\UserAcceptInvitationEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\UserDeclinedInvitationEmail;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
-use Piwik\Plugins\UsersManager\Model AS UsersModel;
-use Piwik\Plugins\UsersManager\UserUpdater;
+use Piwik\Plugins\PrivacyManager\SystemSettings;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
 use Piwik\Session;
+use Piwik\Session\SessionInitializer;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
@@ -69,14 +74,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
-     * @param AuthInterface $auth
+     * @param \Piwik\Auth $auth
      * @param SessionInitializer $sessionInitializer
      * @param PasswordVerifier $passwordVerify
      * @param BruteForceDetection $bruteForceDetection
      * @param SystemSettings $systemSettings
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null, $bruteForceDetection = null, $systemSettings = null)
-    {
+    public function __construct(
+        $passwordResetter = null,
+        $auth = null,
+        $sessionInitializer = null,
+        $passwordVerify = null,
+        $bruteForceDetection = null,
+        $systemSettings = null
+    ) {
         parent::__construct();
 
         if (empty($passwordResetter)) {
@@ -115,7 +126,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @return string
      */
-    function index()
+    public function index()
     {
         return $this->login();
     }
@@ -125,15 +136,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @param string $messageNoAccess Access error message
      * @param bool $infoMessage
-     * @internal param string $currentUrl Current URL
      * @return string
+     * @internal param string $currentUrl Current URL
      */
-    function login($messageNoAccess = null, $infoMessage = false)
+    public function login($messageNoAccess = null, $infoMessage = false)
     {
         $form = new FormLogin();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Nonce::verifyNonce('Login.login', $nonce)) {
+            $messageNoAccess = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce, null);
+
+            // validate if there is error message
+            if ($messageNoAccess === "") {
                 $loginOrEmail = $form->getSubmitValue('form_login');
                 $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
 
@@ -143,11 +157,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 } catch (Exception $e) {
                     $messageNoAccess = $e->getMessage();
                 }
-            } else {
-                $messageNoAccess = $this->getMessageExceptionNoAccess();
             }
         }
-        
+
         if ($messageNoAccess) {
             http_response_code(403);
         }
@@ -212,8 +224,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if ($password) {
                 $password = Common::unsanitizeInputValue($password);
             }
-            if (!Nonce::verifyNonce($nonceKey, $nonce)) {
-                $messageNoAccess = $this->getMessageExceptionNoAccess();
+            $errorMessage = Nonce::verifyNonceWithErrorMessage($nonceKey, $nonce);
+            if ($errorMessage !== "") {
+                $messageNoAccess = $errorMessage;
             } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
                 $this->passwordVerify->setPasswordVerifiedCorrectly();
                 return;
@@ -222,20 +235,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return $this->renderTemplate('@Login/confirmPassword', array(
-            'nonce' => Nonce::getNonce($nonceKey),
-            'AccessErrorString' => $messageNoAccess,
-            'loginPlugin' => Piwik::getLoginPluginName(),
-        ));
+        return $this->renderTemplate('@Login/confirmPassword', [
+          'nonce'             => Nonce::getNonce($nonceKey),
+          'AccessErrorString' => $messageNoAccess,
+          'loginPlugin'       => Piwik::getLoginPluginName(),
+        ]);
     }
 
     /**
      * Form-less login
-     * @see how to use it on http://piwik.org/faq/how-to/#faq_30
+     * @see how to use it on https://matomo.org/faq/how-to/faq_30
      * @throws Exception
      * @return void
      */
-    function logme()
+    public function logme()
     {
         if (Config::getInstance()->General['login_allow_logme'] == 0) {
             throw new Exception('This functionality has been disabled in config');
@@ -245,7 +258,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $login = Common::getRequestVar('login', null, 'string');
         if (Piwik::hasTheUserSuperUserAccess($login)) {
-            throw new Exception(Piwik::translate('Login_ExceptionInvalidSuperUserAccessAuthenticationMethod', array("logme")));
+            throw new Exception(
+                Piwik::translate('Login_ExceptionInvalidSuperUserAccessAuthenticationMethod', ["logme"])
+            );
         }
 
         $currentUrl = 'index.php';
@@ -264,10 +279,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        return $this->renderTemplate('bruteForceLog', array(
-            'blockedIps' => $this->bruteForceDetection->getCurrentlyBlockedIps(),
-            'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
-        ));
+        return $this->renderTemplate('bruteForceLog', [
+          'blockedIps'     => $this->bruteForceDetection->getCurrentlyBlockedIps(),
+          'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
+        ]);
     }
 
     /**
@@ -319,7 +334,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // only use redirect url if host is trusted
         if (!empty($parsedUrl['host']) && !Url::isValidHost($parsedUrl['host'])) {
-            $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "'.Common::sanitizeInputValue($parsedUrl['host']).'"</i> under <i>[General]</i>');
+            $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "' . Common::sanitizeInputValue($parsedUrl['host']) . '"</i> under <i>[General]</i>');
             $e->setIsHtmlMessage();
             throw $e;
         }
@@ -335,7 +350,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $currentHost = explode(':', $currentHost, 2)[0];
 
                 // we only redirect to a trusted host
-                if (!empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
+                if (
+                    !empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
                 ) {
                     $urlToRedirect = $redirect;
                 }
@@ -349,44 +365,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Url::redirectToUrl($urlToRedirect);
     }
 
-    protected function getMessageExceptionNoAccess()
-    {
-        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">', '</a>'));
-
-        $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed();
-
-        return $message;
-    }
-
-    /**
-     * The Session cookie is set to a secure cookie, when SSL is mis-configured, it can cause the PHP session cookie ID to change on each page view.
-     * Indicate to user how to solve this particular use case by forcing secure connections.
-     *
-     * @return string
-     */
-    protected function getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed()
-    {
-        $message = '';
-        if(Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
-            $message = '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
-                    array(
-                        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_91/">',
-                        '</a>',
-                        'config/config.ini.php',
-                        '<pre>force_ssl=1</pre>',
-                        '<pre>[General]</pre>',
-                    )
-                );
-        }
-        return $message;
-    }
-
     /**
      * Reset password action. Stores new password as hash and sends email
      * to confirm use.
-     *
      */
-    function resetPassword()
+    public function resetPassword()
     {
         $infoMessage = null;
         $formErrors = null;
@@ -394,13 +377,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormResetPassword();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Nonce::verifyNonce('Login.login', $nonce)) {
+            $errorMessage = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce);
+            if ($errorMessage === "") {
                 $formErrors = $this->resetPasswordFirstStep($form);
                 if (empty($formErrors)) {
                     $infoMessage = Piwik::translate('Login_ConfirmationLinkSent');
                 }
             } else {
-                $formErrors = array($this->getMessageExceptionNoAccess());
+                $formErrors = [$errorMessage];
             }
         } else {
             // if invalid, display error
@@ -424,14 +408,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected function resetPasswordFirstStep($form)
     {
         $loginMail = $form->getSubmitValue('form_login');
-        $password  = $form->getSubmitValue('form_password');
+        $password = $form->getSubmitValue('form_password');
 
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
         } catch (Exception $ex) {
             Log::debug($ex);
 
-            return array($ex->getMessage());
+            return [$ex->getMessage()];
         }
 
         return null;
@@ -465,14 +449,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $this->login($errorMessage);
         }
 
-        if (!empty($_POST['nonce'])
+        if (
+            !empty($_POST['nonce'])
             && !empty($_POST['mtmpasswordconfirm'])
             && !empty($resetToken)
             && !empty($login)
             && !empty($passwordHash)
-            && empty($errorMessage)) {
+            && empty($errorMessage)
+        ) {
             Nonce::checkNonce(self::NONCE_CONFIRMRESETPASSWORD, $_POST['nonce']);
-            if ($this->passwordResetter->doesResetPasswordHashMatchesPassword($_POST['mtmpasswordconfirm'], $passwordHash)) {
+            if (
+                $this->passwordResetter->doesResetPasswordHashMatchesPassword(
+                    $_POST['mtmpasswordconfirm'],
+                    $passwordHash
+                )
+            ) {
                 $this->passwordResetter->setHashedPasswordForLogin($login, $passwordHash);
                 return $this->resetPasswordSuccess();
             } else {
@@ -482,10 +473,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $nonce = Nonce::getNonce(self::NONCE_CONFIRMRESETPASSWORD);
 
-        return $this->renderTemplateAs('confirmResetPassword', array(
-            'nonce' => $nonce,
-            'errorMessage' => $errorMessage
-        ), 'basic');
+        return $this->renderTemplateAs('confirmResetPassword', [
+          'nonce'        => $nonce,
+          'errorMessage' => $errorMessage
+        ], 'basic');
     }
 
     /**
@@ -495,7 +486,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function resetPasswordSuccess()
     {
-        $_POST = array(); // prevent showing error message username and password is missing
+        $_POST = []; // prevent showing error message username and password is missing
         return $this->login($errorMessage = null, $infoMessage = Piwik::translate('Login_PasswordChanged'));
     }
 
@@ -519,7 +510,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function logout()
     {
-        Piwik::postEvent('Login.logout', array(Piwik::getCurrentUserLogin()));
+        Piwik::postEvent('Login.logout', [Piwik::getCurrentUserLogin()]);
 
         self::clearSession();
 
@@ -529,5 +520,176 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         } else {
             Url::redirectToUrl($logoutUrl);
         }
+    }
+
+    /**
+     * Init page for invite user
+     * @return string|void
+     */
+    public function acceptInvitation()
+    {
+        $model = new UsersModel();
+        $passwordHelper = new Password();
+        $view = new View('@Login/invitation');
+
+        $token = Common::getRequestVar('token', null, 'string');
+        $form = Common::getRequestVar('invitation_form', false, 'string');
+
+        $settings = new SystemSettings();
+        $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
+        $privacyPolicyUrl = $settings->privacyPolicyUrl->getValue();
+        $user = $model->getUserByInviteToken($token);
+
+        // if no user matches the invite token
+        if (!$user) {
+            throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
+        }
+
+        if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+        }
+
+        // if form was sent
+        if (!empty($form)) {
+            $error = null;
+            $password = Common::getRequestVar('password', false, 'string');
+            $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
+            $conditionCheck = Common::getRequestVar('conditionCheck', false, 'string');
+
+            if (!$password) {
+                $error = Piwik::translate('Login_PasswordRequired');
+            }
+
+            // check if terms accepted and privacy
+            if (!$conditionCheck && ($privacyPolicyUrl || $termsAndConditionUrl)) {
+                if ($privacyPolicyUrl && $termsAndConditionUrl) {
+                    $error = Piwik::translate('Login_AcceptPrivacyPolicyAndTermsAndCondition');
+                } elseif ($privacyPolicyUrl) {
+                    $error = Piwik::translate('Login_AcceptPrivacyPolicy');
+                } elseif ($termsAndConditionUrl) {
+                    $error = Piwik::translate('Login_AcceptTermsAndCondition');
+                }
+            }
+
+            // validate password
+            if (!UsersManager::isValidPasswordString($password)) {
+                $error = Piwik::translate('UsersManager_ExceptionInvalidPassword', [UsersManager::PASSWORD_MIN_LENGTH]);
+            }
+
+            // confirm matching passwords
+            if ($password !== $passwordConfirmation) {
+                $error = Piwik::translate('Login_PasswordsDoNotMatch');
+            }
+
+            if (!$error) {
+                $password = UsersManager::getPasswordHash($password);
+                $password = $passwordHelper->hash($password);
+
+                // update pending user to active user
+                $model->updateUserFields(
+                    $user['login'],
+                    [
+                        'password'          => $password,
+                        'invite_token'      => null,
+                        'invite_accept_at'  => Date::now()->getDatetime(),
+                        'invite_expired_at' => null,
+                    ]
+                );
+
+                // send e-mail to inviter
+                if (!empty($user['invited_by'])) {
+                    $invitedBy = $model->getUser($user['invited_by']);
+                    if ($invitedBy) {
+                        $mail = StaticContainer::getContainer()->make(UserAcceptInvitationEmail::class, [
+                          'login'        => $user['invited_by'],
+                          'emailAddress' => $invitedBy['email'],
+                          'userLogin'    => $user['login'],
+                        ]);
+                        $mail->safeSend();
+                    }
+                }
+
+                /**
+                 * Triggered after a user accepted an invite
+                 *
+                 * @param string $userLogin The invited user's login.
+                 * @param string $email The invited user's e-mail.
+                 * @param string $inviterLogin The login of the user, who invited this user
+                 */
+                Piwik::postEvent('UsersManager.inviteUser.accepted', [$user['login'], $user['email'], $user['invited_by']]);
+
+                $this->authenticateAndRedirect($user['login'], $passwordConfirmation);
+            }
+
+            $view->AccessErrorString = $error;
+        }
+
+        $view->user = $user;
+        $view->termsAndCondition = $termsAndConditionUrl;
+        $view->privacyPolicyUrl = $privacyPolicyUrl;
+        $view->token = $token;
+        $this->configureView($view);
+        self::setHostValidationVariablesView($view);
+        return $view->render();
+    }
+
+    public function declineInvitation()
+    {
+        $model = new UsersModel();
+
+        $token = Common::getRequestVar('token', null, 'string');
+        $form = Common::getRequestVar('invitation_form', false, 'string');
+
+        $user = $model->getUserByInviteToken($token);
+
+        // if no user matches the invite token
+        if (!$user) {
+            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+        }
+
+        if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+        }
+
+        $view = new View('@Login/invitationDecline');
+
+        if ($form) {
+            // remove user
+            try {
+                $model->deleteUser($user['login']);
+            } catch (\Exception $e) {
+                // deleting the user triggers an event, which might call methods that require a user to be logged in
+                // as those operations might not be needed for a pending user, we simply ignore any errors here
+            }
+
+            // send e-mail to inviter
+            if (!empty($user['invited_by'])) {
+                $invitedBy = $model->getUser($user['invited_by']);
+                if ($invitedBy) {
+                    $mail = StaticContainer::getContainer()->make(UserDeclinedInvitationEmail::class, [
+                      'login'        => $user['invited_by'],
+                      'emailAddress' => $invitedBy['email'],
+                      'userLogin'    => $user['login'],
+                    ]);
+                    $mail->safeSend();
+                }
+            }
+
+            $view = new View('@Login/invitationDeclineSuccess');
+
+            /**
+             * Triggered after a user accepted an invite
+             *
+             * @param string $userLogin The invited user's login.
+             * @param string $email The invited user's e-mail.
+             * @param string $inviterLogin The login of the user, who invited this user
+             */
+            Piwik::postEvent('UsersManager.inviteUser.declined', [$user['login'], $user['email'], $user['invited_by']]);
+        }
+
+        $view->token = $token;
+        $this->configureView($view);
+        self::setHostValidationVariablesView($view);
+        return $view->render();
     }
 }

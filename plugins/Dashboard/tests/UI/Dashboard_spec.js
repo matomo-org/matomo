@@ -74,7 +74,7 @@ describe("Dashboard", function () {
         await col2.hover();
         await page.mouse.up();
         await page.waitForNetworkIdle();
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
@@ -130,6 +130,8 @@ describe("Dashboard", function () {
     it("should add a widget when a widget is selected in the dashboard manager", async function() {
         await page.click('.dashboard-manager .title');
 
+        await page.waitForSelector('.widgetpreview-categorylist>li');
+
         var live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
         await live.hover();
         await live.click();
@@ -173,7 +175,7 @@ describe("Dashboard", function () {
         await button.click();
 
         await page.mouse.move(-10, -10);
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move_removed');
     });
@@ -185,16 +187,17 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
-        await page.waitFor(500); // animation
-
+        await page.waitForTimeout(250); // animation
+        await page.evaluate(() => $('.evolution-annotations').css('display','none'));
         expect(await page.screenshot({ fullPage: true })).to.matchImage('change_layout');
     });
 
     it("should rename dashboard when dashboard rename process completed", async function() {
+        await page.evaluate(() => $('.evolution-annotations').css('display','none'));
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="renameDashboard"]');
         await page.evaluate(() => $('#newDashboardName').val('newname'));
-        await page.waitFor(250);
+        await page.waitForTimeout(250);
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
@@ -206,7 +209,7 @@ describe("Dashboard", function () {
     it("should copy dashboard successfully when copy dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="copyDashboardToUser"]');
-        await page.waitFor(100); // wait for animation
+        await page.waitForTimeout(100); // wait for animation
         await page.evaluate(function () {
             $('#copyDashboardName').val('');
         });
@@ -232,6 +235,8 @@ describe("Dashboard", function () {
         await button.click();
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
+        await page.waitForSelector('.widget');
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('reset');
     });
@@ -243,7 +248,9 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
         await page.mouse.move(-10, -10);
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');
@@ -255,7 +262,7 @@ describe("Dashboard", function () {
         await page.click('li[data-action="setAsDefaultWidgets"]');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
-        await page.waitFor(200);
+        await page.waitForTimeout(200);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('default_widget_selection_changed');
@@ -264,7 +271,7 @@ describe("Dashboard", function () {
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
-        await page.waitFor('#createDashboardName', { visible: true });
+        await page.waitForSelector('#createDashboardName', { visible: true });
 
         // try to type the text a few times, as it sometimes doesn't get the full value
         var name = 'newdash2';
@@ -273,7 +280,7 @@ describe("Dashboard", function () {
                 $('#createDashboardName').val('');
             });
             await page.type('#createDashboardName', name);
-            await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
+            await page.waitForTimeout(500); // sometimes the text doesn't seem to type fast enough
 
             var value = await page.evaluate(function() {
                 return $('#createDashboardName').attr('value');
@@ -287,6 +294,7 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
         await page.mouse.move(-10, -10);
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
@@ -318,5 +326,6 @@ describe("Dashboard", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token_auth');
     });
+
 
 });

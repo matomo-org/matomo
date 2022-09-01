@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\VisitTime\Columns;
 
 use Piwik\Columns\Dimension;
-use Piwik\Piwik;
 
 class DayOfTheWeek extends Dimension
 {

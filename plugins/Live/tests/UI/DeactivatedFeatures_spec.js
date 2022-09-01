@@ -48,7 +48,7 @@ describe("DeactivatedFeatures", function () {
     it('menu should contain visits log & realtime when enabled', async function () {
         await setFeatures(1, 0, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_Overview");
-        await page.waitFor('#secondNavBar', {visible: true});
+        await page.waitForSelector('#secondNavBar', {visible: true});
 
         const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
         expect(vlog).to.be.ok;
@@ -63,7 +63,7 @@ describe("DeactivatedFeatures", function () {
     it('menu should not contain visits log & realtime when deactivated', async function () {
         await setFeatures(1, 1, 1);
         await page.reload();
-        await page.waitFor('#secondNavBar', {visible: true});
+        await page.waitForSelector('#secondNavBar', {visible: true});
 
         const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
         expect(vlog).to.be.not.ok;
@@ -102,7 +102,7 @@ describe("DeactivatedFeatures", function () {
     it('menu should contain ecommerce log when visits log enabled', async function () {
         await setFeatures(1, 0, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
-        await page.waitFor('#secondNavBar', {visible: true});
+        await page.waitForSelector('#secondNavBar', {visible: true});
 
         const element = await page.$('#secondNavBar .navbar a[href*="Goals_EcommerceLog"]');
         expect(element).to.be.ok;
@@ -111,7 +111,7 @@ describe("DeactivatedFeatures", function () {
     it('menu should not contain ecommerce log when visits log deactivated', async function () {
         await setFeatures(1, 1, 1);
         await page.reload();
-        await page.waitFor('#secondNavBar', {visible: true});
+        await page.waitForSelector('#secondNavBar', {visible: true});
 
         const element = await page.$('#secondNavBar .navbar a[href*="Goals_EcommerceLog"]');
         expect(element).to.be.not.ok;
@@ -128,7 +128,7 @@ describe("DeactivatedFeatures", function () {
     it('it should show profile link in visits log when enabled', async function () {
         await setFeatures(1, 0, 0);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=Live_VisitorLog");
-        await page.waitFor('.dataTableVizVisitorLog');
+        await page.waitForSelector('.dataTableVizVisitorLog');
 
         const element = await page.$('.dataTableVizVisitorLog .card .visitor-log-visitor-profile-link');
         expect(element).to.be.ok;
@@ -137,7 +137,7 @@ describe("DeactivatedFeatures", function () {
     it('it should not show profile link in visits log when disabled', async function () {
         await setFeatures(1, 0, 1);
         await page.reload();
-        await page.waitFor('.dataTableVizVisitorLog');
+        await page.waitForSelector('.dataTableVizVisitorLog');
 
         const element = await page.$('.dataTableVizVisitorLog .card .visitor-log-visitor-profile-link');
         expect(element).to.be.not.ok;
@@ -146,7 +146,7 @@ describe("DeactivatedFeatures", function () {
     it('it should show button to test new segments with enabled visits log', async function () {
         await setFeatures(1, 0, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-07-09#?idSite=1&period=year&date=2012-07-09&category=General_Visitors&subcategory=General_Overview");
-        await page.waitFor('.segmentationContainer');
+        await page.waitForSelector('.segmentationContainer');
         await page.click('.segmentationContainer');
         await page.click('.add_new_segment');
 
@@ -157,7 +157,7 @@ describe("DeactivatedFeatures", function () {
     it('it should not show button to test new segments with disabled visits log', async function () {
         await setFeatures(1, 1, 1);
         await page.reload();
-        await page.waitFor('.segmentationContainer');
+        await page.waitForSelector('.segmentationContainer');
         await page.click('.segmentationContainer');
         await page.click('.add_new_segment');
 
@@ -171,7 +171,7 @@ describe("DeactivatedFeatures", function () {
         await page.waitForNetworkIdle();
 
         await (await page.jQuery('#widgetDevicesDetectiongetOsVersions td.label:first')).hover();
-        await page.waitFor('#widgetDevicesDetectiongetOsVersions .dataTableRowActions', {visible: true});
+        await page.waitForSelector('#widgetDevicesDetectiongetOsVersions .dataTableRowActions', {visible: true});
 
         const element = await page.$('#widgetDevicesDetectiongetOsVersions .dataTableRowActions .actionSegmentVisitorLog');
         expect(element).to.be.ok;
@@ -183,7 +183,7 @@ describe("DeactivatedFeatures", function () {
         await page.waitForNetworkIdle();
 
         await (await page.jQuery('#widgetDevicesDetectiongetOsVersions td.label:first')).hover();
-        await page.waitFor('#widgetDevicesDetectiongetOsVersions .dataTableRowActions', {visible: true});
+        await page.waitForSelector('#widgetDevicesDetectiongetOsVersions .dataTableRowActions', {visible: true});
 
         const element = await page.$('#widgetDevicesDetectiongetOsVersions .dataTableRowActions .actionSegmentVisitorLog');
         expect(element).to.be.not.ok;
@@ -195,7 +195,7 @@ describe("DeactivatedFeatures", function () {
         await page.waitForNetworkIdle();
 
         await (await page.jQuery('.widgetpreview-categorylist li:contains("Visitors"):first')).hover();
-        await page.waitFor('.widgetpreview-widgetlist', {visible: true});
+        await page.waitForSelector('.widgetpreview-widgetlist', {visible: true});
 
         const profile = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivegetVisitorProfilePopup]');
         expect(profile).to.be.ok;
@@ -216,7 +216,7 @@ describe("DeactivatedFeatures", function () {
         await page.waitForNetworkIdle();
 
         await (await page.jQuery('.widgetpreview-categorylist li:contains("Visitors"):first')).hover();
-        await page.waitFor('.widgetpreview-widgetlist', {visible: true});
+        await page.waitForSelector('.widgetpreview-widgetlist', {visible: true});
 
         const profile = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivegetVisitorProfilePopup]');
         expect(profile).to.be.not.ok;
@@ -234,7 +234,7 @@ describe("DeactivatedFeatures", function () {
     it('Goal overview contains segmented visitor log link when activated', async function () {
         await setFeatures(1, 0, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-08#?idSite=1&period=year&date=2012-08-08&category=Goals_Goals&subcategory=1");
-        await page.waitFor('#widgetGoalsgoalConversionsOverviewidGoal1', {visible: true});
+        await page.waitForSelector('#widgetGoalsgoalConversionsOverviewidGoal1', {visible: true});
 
         const profile = await page.$('#widgetGoalsgoalConversionsOverviewidGoal1 a.segmentedlog');
         expect(profile).to.be.ok;
@@ -243,7 +243,7 @@ describe("DeactivatedFeatures", function () {
     it('Goal overview does not contain segmented visitor log link when disabled', async function () {
         await setFeatures(1, 1, 1);
         await page.reload();
-        await page.waitFor('#widgetGoalsgoalConversionsOverviewidGoal1', {visible: true});
+        await page.waitForSelector('#widgetGoalsgoalConversionsOverviewidGoal1', {visible: true});
 
         const profile = await page.$('#widgetGoalsgoalConversionsOverviewidGoal1 a.segmentedlog');
         expect(profile).to.be.not.ok;
@@ -305,7 +305,7 @@ describe("DeactivatedFeatures", function () {
     it('menu should not contain visits log when deactivated globally', async function () {
         await setConfig(1, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_Overview");
-        await page.waitFor('#secondNavBar', {visible: true});
+        await page.waitForSelector('#secondNavBar', {visible: true});
 
         const element = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
         expect(element).to.be.not.ok;

@@ -12,7 +12,6 @@ use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join;
 use Piwik\Columns\MetricsList;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;

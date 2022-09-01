@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
-use Piwik\Filesystem;
+use Piwik\Config;
 use Piwik\Http;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
@@ -65,6 +65,15 @@ abstract class AbstractPrivateDirectories implements Diagnostic
         }
 
         $result = new DiagnosticResult($label);
+        if (Config::getInstance()->General['enable_required_directories_diagnostic'] == 0) {
+            $result->addItem(
+                new DiagnosticResultItem(
+                    DiagnosticResult::STATUS_WARNING,
+                    $this->translator->translate('Diagnostics_EnableRequiredDirectoriesDiagnostic')
+                )
+            );
+            return [$result];
+        }
 
         $atLeastOneIsAccessible = $this->computeAccessiblePaths($result, $baseUrl, $testUrls);
 

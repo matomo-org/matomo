@@ -22,6 +22,17 @@
     vertical-align: text-bottom;
   }
 
+  thead {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 10;
+
+    &.with-z-index {
+      z-index: 150;
+    }
+  }
+
   td.highlight > .ratio {
     visibility: visible;
   }
@@ -187,7 +198,7 @@ table.dataTable tr td.cellSubDataTable {
 }
 
 .cellSubDataTable > .dataTable {
-    padding: 6px 0 0;
+  padding: 6px 0 0;
 }
 
 /* A link in a column in the DataTable */
@@ -398,8 +409,8 @@ table.dataTable img {
 }
 
 .tableIconsGroup > span > span {
-    position:relative;
-    float:left;
+  position:relative;
+  float:left;
 }
 
 .dataTableFooterActiveItem {
@@ -553,7 +564,7 @@ table.dataTable span.cell-tooltip {
 }
 
 td.cellSubDataTable .loadingPiwik {
-    padding:0;
+  padding:0;
 }
 
 .dataTable .searchReset {
@@ -617,10 +628,10 @@ td.cellSubDataTable .loadingPiwik {
     }
 
     .periodName {
-        padding-left:8px;
-        padding-right:8px;
-        font-size:16px;
-        text-transform:capitalize;
+      padding-left:8px;
+      padding-right:8px;
+      font-size:16px;
+      text-transform:capitalize;
     }
   }
 
@@ -630,9 +641,10 @@ td.cellSubDataTable .loadingPiwik {
     padding-left:8px;
   }
 }
-
-div.dataTableScroller {
-  overflow-x: scroll;
+.widgetContent {
+  div.dataTableScroller {
+    overflow-x: scroll;
+  }
 }
 
 .theWidgetContent .card .card-content, table.dataTable {

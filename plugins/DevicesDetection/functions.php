@@ -37,6 +37,9 @@ function getBrowserFamilyFullName($label)
 function getBrowserFamilyLogo($label)
 {
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
+    if (!empty($label) && in_array($label, BrowserParser::getAvailableBrowsers())) {
+        return getBrowserLogo($label);
+    }
     if (!empty($label) && array_key_exists($label, $browserFamilies)) {
         return getBrowserLogo($browserFamilies[$label][0]);
     }
@@ -97,22 +100,28 @@ function getBrowserLogo($short)
         }
     }
 
+    if (empty($short)) {
+        return sprintf($path, 'UNK');
+    }
+
     $family = getBrowserFamilyFullName($short);
 
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
 
-    if (!empty($short) &&
-        array_key_exists($short, BrowserParser::getAvailableBrowsers()) &&
+    if (array_key_exists($short, BrowserParser::getAvailableBrowsers()) &&
         file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
 
         return sprintf($path, $short);
-
-    } elseif (!empty($short) &&
-        array_key_exists($family, $browserFamilies) &&
-        file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $browserFamilies[$family][0]))) {
-
-        return sprintf($path, $browserFamilies[$family][0]);
     }
+
+    if (array_key_exists($family, $browserFamilies)) {
+        foreach ($browserFamilies[$family] as $browserShort) {
+            if (file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $browserShort))) {
+                return sprintf($path, $browserShort);
+            }
+        }
+    }
+
     return sprintf($path, 'UNK');
 }
 
@@ -212,7 +221,7 @@ function getDeviceTypeLogo($label)
 function getModelName($label)
 {
     if (strpos($label, ';') !== false) {
-        list($brand, $model) = explode(';', $label, 2);
+        [$brand, $model] = explode(';', $label, 2);
     } else {
         $brand = null;
         $model = $label;
@@ -386,7 +395,7 @@ function getBrowserEngineName($engineName) {
         'Gecko' => 'Gecko (Firefox)',
         'KHTML' => 'KHTML (Konqueror)',
         'Presto' => 'Presto (Opera)',
-        'WebKit' => 'WebKit (Safari, Chrome)',
+        'WebKit' => 'WebKit (Safari)',
         'Blink' => 'Blink (Chrome, Opera)'
     );
 

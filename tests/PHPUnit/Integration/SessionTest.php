@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Http;
-use Piwik\Piwik;
 use Piwik\Session;
 use Piwik\Tests\Framework\Fixture;
 

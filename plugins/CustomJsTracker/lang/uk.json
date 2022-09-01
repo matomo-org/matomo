@@ -1,7 +1,8 @@
 {
     "CustomJsTracker": {
-        "DiagnosticPiwikJsWritable": "Доступний для запису JavaScript трекер (%s)",
+        "DiagnosticPiwikJsMakeWritable": "Ми рекомендуємо %1$s зробити доступним для запису, виконавши команду: %2$s",
         "DiagnosticPiwikJsNotWritable": "Файл Matomo JavaScript трекеру %s недоступний для запису, що означає, що інші плагіни не можуть використовувати JavaScript треккер. У майбутньому навіть деякі основні функції можуть не працювати, як очікується.",
-        "DiagnosticPiwikJsMakeWritable": "Ми рекомендуємо %1$s зробити доступним для запису, виконавши команду: %2$s"
+        "DiagnosticPiwikJsWritable": "Доступний для запису JavaScript трекер (%s)",
+        "PluginDescription": "Дозволяє будь-якому плагіну розширювати файл відстеження Matomo JavaScript (matomo.js) і додавати нові функції та можливості вимірювання вебсайту."
     }
 }

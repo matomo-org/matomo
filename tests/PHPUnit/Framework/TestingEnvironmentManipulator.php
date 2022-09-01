@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Framework;
 
 use Psr\Container\ContainerInterface;
-use Piwik\Application\Environment;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
@@ -32,6 +31,15 @@ class FakePluginList extends PluginList
         $section = $globalSettingsProvider->getSection('Plugins');
         $section['Plugins'] = $this->plugins;
         $globalSettingsProvider->setSection('Plugins', $section);
+    }
+
+    public function sortPlugins(array $plugins)
+    {
+        if (isset($GLOBALS['MATOMO_SORT_PLUGINS']) && is_callable($GLOBALS['MATOMO_SORT_PLUGINS'])) {
+            return call_user_func($GLOBALS['MATOMO_SORT_PLUGINS'], parent::sortPlugins($plugins));
+        }
+
+        return parent::sortPlugins($plugins);
     }
 }
 

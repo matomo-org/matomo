@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-use Piwik\Columns\Dimension;
 use Piwik\ViewDataTable\Config as VisualizationConfig;
 
 /**

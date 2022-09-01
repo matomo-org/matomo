@@ -9,11 +9,9 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Container\StaticContainer;
-use Piwik\SettingsPiwik;
 
 class ArchivingStatus
 {

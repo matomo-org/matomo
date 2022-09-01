@@ -192,15 +192,6 @@ class Csv extends Renderer
 
         $csv = $this->makeArrayFromDataTable($table, $allColumns);
 
-        // now we make sure that all the rows in the CSV array have all the columns
-        foreach ($csv as &$row) {
-            foreach ($allColumns as $columnName => $true) {
-                if (!isset($row[$columnName])) {
-                    $row[$columnName] = '';
-                }
-            }
-        }
-
         $str = $this->buildCsvString($allColumns, $csv);
         return $str;
     }
@@ -241,7 +232,7 @@ class Csv extends Renderer
         if (is_string($value)
             && !is_numeric($value)
         ) {
-            $value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
+            $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
         } elseif ($value === false) {
             $value = 0;
         }
@@ -390,7 +381,7 @@ class Csv extends Renderer
         foreach ($csv as $theRow) {
             $rowStr = '';
             foreach ($allColumns as $columnName => $true) {
-                $rowStr .= $this->formatValue($theRow[$columnName]) . $this->separator;
+                $rowStr .= $this->formatValue($theRow[$columnName] ?? '') . $this->separator;
             }
             // remove the last separator
             $rowStr = substr_replace($rowStr, "", -strlen($this->separator));
@@ -489,7 +480,7 @@ class Csv extends Renderer
     protected function removeFirstPercentSign($value)
     {
         $needle = '%';
-        $posPercent = strpos($value, $needle);
+        $posPercent = strpos($value ?? '', $needle);
         if ($posPercent !== false) {
             return substr_replace($value, '', $posPercent, strlen($needle));
         }

@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "I-anonimize ang data",
         "AnonymizeIpInlineHelp": "E-Anonymize ang huling byte ng IP address ng iyong mga bisita upang sumunod sa iyong mga alituntuning local at privacy.",
         "AnonymizeIpMaskLengtDescription": "Piliin kung gaano karaming byte ng IP ng bisita ang dapat na ikubli.",
         "AnonymizeIpMaskLength": "%1$s (na) byte - hal %2$s",
@@ -7,13 +8,13 @@
         "CurrentDBSize": "Kasalukuyang laki ng database",
         "DBPurged": "DB purged",
         "DeleteDataInterval": "Tanggalin ang mga lumang data sa bawat",
+        "DeleteDataSettings": "Tanggaling lumang log ng mga bisita at mga ulat.",
         "DeleteLogDescription2": "Kapag iyong pinagana ang automatic log deletion dapat mong tiyakin na ang lahat ng karaang mga ulat ay na proseso na upang sa ganun ay wala ng data na mawawala.",
         "DeleteLogsOlderThan": "Tanggalin ang mga log na mas luma sa",
         "DeleteMaxRows": "Pinakamataas na bilang ng mga hilera na tatanggalin sa isang pagtakbo:",
         "DeleteMaxRowsNoLimit": "walang limitasyon",
         "DeleteReportsConfirm": "Iyong papaganahin ang pag tanggal sa datus ng ulat. Kung ang matatagal ng ulat ay natanggal Kailangan mong ulitin ang mga ito upang makita. Gustomo mo bang gawin ito?",
         "DeleteReportsOlderThan": "Tanggalin ang mga lumang ulat na hihigit sa",
-        "DeleteDataSettings": "Tanggaling lumang log ng mga bisita at mga ulat.",
         "DoNotTrack_Description": "Do Not Track ay isang teknolohiya at patakaran na nagbibigay daan sa mga gumagamit upang makapili kung nais nitong hindi masubay-bayan ang bawat website na kanilang binibista kabilang na dito ang analytics services mga network sa advertising at social platform.",
         "DoNotTrack_Disable": "Huwag paganahin ang Do Not Track support",
         "DoNotTrack_Enable": "Paganahin ang Do Not Track support",
@@ -37,8 +38,8 @@
         "SaveSettingsBeforePurge": "Iyong binago ang mga setting ng pagtanggal ng data. Mangyaring i-save ang mga ito bago simulan ang isang pag purge.",
         "SeeAlsoOurOfficialGuidePrivacy": "Tingnan din ang aming opisyal na gabay: %1$s Privacy Web Analytics %2$s",
         "TeaserHeadline": "Mga setting ng privacy",
-        "UseAnonymizedIpForVisitEnrichment": "Gamitin rin ang hindi kilalang IP address kapag bumibisita.",
         "UseAnonymizeIp": "I-anonymize ang IP addresses ng mga bisita.",
+        "UseAnonymizedIpForVisitEnrichment": "Gamitin rin ang hindi kilalang IP address kapag bumibisita.",
         "UseDeleteReports": "Palaging tanggalin ang mga lumang report sa database"
     }
 }

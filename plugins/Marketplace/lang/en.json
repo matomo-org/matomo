@@ -8,6 +8,10 @@
         "AllowedUploadFormats": "You may upload a plugin or theme in .zip format via this page.",
         "Authors": "Authors",
         "Browse": "Browse",
+        "TryFreeTrialTitle": "Try 30 days for free, then",
+        "FreeTrialLabel" : "Free Trial",
+        "SpecialOffer": "Special Offer",
+        "TrialHints": "All premium features come with a %1$sfree 30-day trial%2$s. It is risk-free and there are no strings attached.",
         "SupportMatomoThankYou": "Any purchase will help fund the future of the Matomo open-source project. Thank you for your support!",
         "LatestMarketplaceUpdates": "Latest Marketplace Updates",
         "BackToMarketplace": "Back to Marketplace",
@@ -24,7 +28,8 @@
         "Marketplace": "Marketplace",
         "PaidPlugins": "Premium Features",
         "FeaturedPlugin": "Featured plugin",
-        "InstallingNewPluginViaMarketplaceOrUpload": "You may automatically install %1$s from the Marketplace or %2$supload a %3$s%4$s in .zip format.",
+        "InstallingNewPluginsViaMarketplaceOrUpload": "You may automatically install plugins from the Marketplace or %1$supload a plugin%2$s in .zip format.",
+        "InstallingNewThemesViaMarketplaceOrUpload": "You may automatically install themes from the Marketplace or %1$supload a theme%2$s in .zip format.",
         "InstallingPlugin": "Installing %s",
         "InstallPurchasedPlugins": "Install purchased plugins",
         "LastCommitTime": "(last commit %s)",
@@ -112,6 +117,8 @@
         "LicenseKeyIsExpired": "Your license key is expired, please contact %1$s.",
         "MultiServerEnvironmentWarning": "You cannot install or update the plugin directly as you are using Matomo on multiple servers. The plugin would be only installed on one server. Instead, download the plugin and deploy it manually to all your servers.",
         "AutoUpdateDisabledWarning": "You cannot install or update the plugin directly as automatic updates are disabled in the config. To enable automatic updates set %1$s in %2$s.",
-        "ViewRepositoryChangelog": "View the changes"
+        "ViewRepositoryChangelog": "View the changes",
+        "Show": "Show",
+        "Sort": "Sort"
     }
 }

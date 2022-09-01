@@ -1,8 +1,6 @@
 <?php
 
 use Piwik\Application\Environment;
-use Piwik\Container\StaticContainer;
-use Piwik\Http;
 use Piwik\Intl\Locale;
 use Piwik\Config;
 use Piwik\SettingsPiwik;
@@ -25,22 +23,26 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
 
+if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
+    require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
+}
+
 if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
     define('PIWIK_INCLUDE_SEARCH_PATH', get_include_path()
-        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor/bin'
-        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
-        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+      . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor/bin'
+      . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
+      . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+      . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 }
 @ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 @ini_set('memory_limit', -1);
 
 $GLOBALS['MATOMO_PLUGIN_DIRS'] = array(
-    array(
-        'pluginsPathAbsolute' => PIWIK_INCLUDE_PATH . '/tests/resources/custompluginsdir',
-        'webrootDirRelativeToMatomo' => 'tests/resources/custompluginsdir'
-    ),
+  array(
+    'pluginsPathAbsolute' => PIWIK_INCLUDE_PATH . '/tests/resources/custompluginsdir',
+    'webrootDirRelativeToMatomo' => 'tests/resources/custompluginsdir'
+  ),
 );
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
@@ -61,14 +63,16 @@ function setPiwikDomainFromEnvVar()
 setPiwikDomainFromEnvVar();
 
 // setup container for tests
-function setupRootContainer() {
+function setupRootContainer($enable = false) {
     // before running tests, delete the TestingEnvironmentVariables file, since it can indirectly mess w/
     // phpunit's class loading (if a test class is loaded in bootstrap.php, phpunit can't load it from a file,
     // so executing the tests in a file will fail)
-    $vars = new TestingEnvironmentVariables();
-    $vars->delete();
+    if($enable) {
+        $vars = new TestingEnvironmentVariables();
+        $vars->delete();
 
     Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
+    }
 
     $rootTestEnvironment = new \Piwik\Application\Environment(null);
     $rootTestEnvironment->init();
@@ -134,13 +138,14 @@ $config = Config::getInstance();
 
 prepareServerVariables($config);
 prepareTestDatabaseConfig($config);
+setupRootContainer(true);
 checkPiwikSetupForTests();
 printTestDoxHint();
 
 function checkPiwikSetupForTests()
 {
     if (empty($_SERVER['REQUEST_URI'])
-        || $_SERVER['REQUEST_URI'] == '@REQUEST_URI@'
+      || $_SERVER['REQUEST_URI'] == '@REQUEST_URI@'
     ) {
         echo "WARNING: for tests to pass, you must first:
 1) Install webserver on localhost, eg. apache

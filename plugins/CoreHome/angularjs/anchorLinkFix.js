@@ -75,8 +75,8 @@
 
     function handleScrollToAnchorIfPresentOnPageLoad()
     {
-        if (location.hash.substr(0, 2) == '#/') {
-            var hash = location.hash.substr(2);
+        if (location.hash.slice(0, 2) == '#/') {
+            var hash = location.hash.slice(2);
             scrollToAnchorIfPossible(hash, null);
         }
     }
@@ -102,7 +102,7 @@
                     return;
                 }
 
-                var hash = newUrl.substr(hashPos + 2);
+                var hash = newUrl.slice(hashPos + 2);
 
                 scrollToAnchorIfPossible(hash, event);
             }

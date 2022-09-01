@@ -11,50 +11,10 @@
 
 <div>
 
-<div class="widgetize" ng-controller="ExportWidgetController as exportWidget">
-<div piwik-content-intro>
-    <h2 piwik-enriched-headline>{{ title|e('html_attr') }}</h2>
-    <p>With Matomo, you can <a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/embed-piwik-report/">export your Web Analytics reports</a> on your blog, website, or intranet dashboard... in one click.</p>
-</div>
-<div piwik-content-block content-title="Authentication">
-    <p>
-        If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions
-        to the anonymous user in the <a href='index.php?module=UsersManager' rel='noreferrer noopener' target='_blank'>Users Management section</a>.
-        <br/>Alternatively, if you are publishing widgets on a password protected or private page,
-        you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret <code>token_auth</code> parameter in the widget URL.
-        You can manage your auth tokens on your <a href='{{ linkTo({'module':'UsersManager','action':'userSecurity'}) }}' rel='noreferrer noopener' target='_blank'>Security page</a>.
-    </p>
-</div>
-<div piwik-content-block content-title="Widgetize dashboards">
-    <p>You can also display the full Matomo dashboard in your application or website in an IFRAME
-        (<a ng-href='{{ '{{ exportWidget.dashboardUrl }}'|raw }}' rel='noreferrer noopener' target='_blank' >see example</a>).
-        The date parameter can be set to a specific calendar date, "today", or "yesterday". The period parameter can be set to "day", "week", "month", or
-        "year".
-        The language parameter can be set to the language code of a translation, such as language=fr.
-        For example, for idSite=1 and date=yesterday, you can write:
-
-        <br />
-
-        <pre piwik-select-on-focus ng-bind="exportWidget.dashboardCode"> </pre>
-
-        <br />
-        You can also widgetize the all websites dashboard in an IFRAME
-        (<a ng-href='{{ '{{ exportWidget.allWebsitesDashboardUrl }}'|raw }}' rel='noreferrer noopener' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
-
-        <br />
-
-        <pre piwik-select-on-focus ng-bind="exportWidget.allWebsitesDashboardCode"> </pre>
-    </p>
-</div>
-<div piwik-content-block content-title="Widgetize reports">
-    <p>Select a report, and copy paste in your page the embed code below the widget:
-
-    <div piwik-widget-preview></div>
-
-    <br class="clearfix" />
-
-</div>
-</div>
+<div
+  vue-entry="Widgetize.ExportWidget"
+  title="{{ title|default(null)|json_encode|e('html_attr') }}"
+></div>
 </div>
 
 {% include "@Dashboard/_widgetFactoryTemplate.twig" %}

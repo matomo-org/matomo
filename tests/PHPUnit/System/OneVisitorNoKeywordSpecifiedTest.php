@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsNoKeywordWithBot;
 

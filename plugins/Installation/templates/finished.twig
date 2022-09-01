@@ -20,10 +20,10 @@
     {% if areAdsForProfessionalServicesEnabled %}
         <h3>{{ 'Installation_ProfessionalServicesAdTitle'|translate }}</h3>
         <p>
-            {{ 'Installation_ProfessionalServicesfessionalServicesAdText'|translate }}
+            {{ 'Installation_ProfessionalServicesfessionalServicesAdText'|translate('<a rel="noreferrer noopener" target="_blank" href="https://plugins.matomo.org/premium?pk_campaign=App_ProfessionalServices&pk_medium=App_InstallationFinished&pk_source=Matomo_App">','</a>','<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support-plans/?pk_campaign=App_ProfessionalServices&pk_medium=App_InstallationFinished&pk_source=Matomo_App">')|raw }}
         </p>
         <p>
-            {{ 'Installation_ProfessionalServicesfessionalDiscoverHow'|translate('<a rel="noreferrer noopener" target="_blank" href="' ~ linkToProfessionalServices ~ '">','</a>')|raw }}
+            {{ 'Installation_ProfessionalServicesfessionalDiscoverHow'|translate('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/matomo-cloud/?pk_campaign=App_ProfessionalServices&pk_medium=App_InstallationFinished&pk_source=Matomo_App">','</a>')|raw }}
         </p>
     {% endif %}
 

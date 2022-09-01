@@ -1,9 +1,17 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Open in a new window",
-        "PluginDescription": "Display any Matomo report in your website or app with a simple Embed HTML tag.",
-        "ViewAccessRequired": "This user has at least some write access. Only tokens of users who have only view access can be used. See %1$s for more information.",
-        "TopLinkTooltip": "Export Matomo Reports as Widgets and embed the Dashboard in your app as an iframe.",
-        "TooHighAccessLevel": "This user has super user access. For embedding widgets super user token auths are not allowed. %1$sSee our faq for more information.%2$s"
+        "PluginDescription": "Display any Matomo report in your website or app with a simple \"embed\" HTML tag.",
+        "ViewAccessRequired": "This user has at least some write access. Only tokens of users who have only view access can be used. Check %1$s for more info.",
+        "TopLinkTooltip": "Export Matomo reports as widgets and embed the dashboard in your app as an iframe.",
+        "TooHighAccessLevel": "This user has super-user access. Embedding widgets with super-user token authentication is not allowed. %1$sCheck the FAQ for more info.%2$s",
+        "SelectAReport": "Select a report, and copy paste in your page the embed code below the widget:",
+        "Reports": "Widgetize reports",
+        "Intro": "With Matomo, you can %1$sexport your Web Analytics reports%2$s on your blog, website, or intranet dashboard… in one click.",
+        "DisplayDashboardInIframe": "You can also display the full Matomo dashboard in your application or website in an IFRAME (%1$ssee example%2$s). The date parameter can be set to a specific calendar date, \"today\", or \"yesterday\". The period parameter can be set to \"day\", \"week\", \"month\", or\n \"year\". The language parameter can be set to the language code of a translation, such as language=fr. For example, for idSite=1 and date=yesterday, you can write:",
+        "DisplayDashboardInIframeAllSites": "You can also widgetize the all websites dashboard in an IFRAME (%1$ssee example%2$s)",
+        "ViewableAnonymously": "If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions to the anonymous user in the %1$sUsers Management section%2$s. <br />Alternatively, if you are publishing widgets on a password protected or private page, you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret <code>token_auth</code> parameter in the widget URL. You can manage your auth tokens on your %3$sSecurity page%4$s.",
+        "EmbedIframe": "&rsaquo; Embed Iframe",
+        "DirectLink": "&rsaquo; Direct Link"
     }
 }

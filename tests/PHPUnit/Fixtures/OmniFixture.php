@@ -8,9 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\UsersManager\Model;
 use ReflectionClass;
@@ -196,6 +194,7 @@ class OmniFixture extends Fixture
                 'group' => $properties['group'],
                 'startDate' => $properties['ts_created'],
                 'excludedUserAgents' => $properties['excluded_user_agents'],
+                'excludedReferrers' => $properties['excluded_referrers'],
                 'keepURLFragments' => $properties['keep_url_fragment'],
                 'type' => $properties['type'],
                 'excludeUnknownUrls' => $properties['exclude_unknown_urls']

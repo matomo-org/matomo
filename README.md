@@ -6,7 +6,7 @@
 
 ## Code Status
 
-[![Build Status](https://travis-ci.com/matomo-org/matomo.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/matomo/branches)
+[![Build Status](https://travis-ci.com/matomo-org/matomo.svg?branch=4.x-dev)](https://app.travis-ci.com/matomo-org/matomo/branches)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/matomo-org/matomo.svg)](http://isitmaintained.com/project/matomo-org/matomo "Percentage of issues still open")
 
 ## Description
@@ -68,6 +68,12 @@ For the list of all tickets closed in the current and past releases, see [matomo
 
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Matomo was built by dozens of people like you,
 and we need your help to make Matomo better… Why not participate in a useful project today? [Learn how you can contribute to Matomo](https://matomo.org/get-involved).
+
+## Translations
+
+Our translations are managed on [Weblate](https://hosted.weblate.org/engage/matomo/).
+
+[![Translation Status](https://hosted.weblate.org/widgets/matomo/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/matomo/)
 
 ## Quality Assurance
 

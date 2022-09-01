@@ -32,7 +32,7 @@ class VisitorFingerprint extends VisitDimension
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metric->setTranslatedName(Piwik::translate('Visitor_Fingerprint'));
+        $metric->setTranslatedName(Piwik::translate('General_VisitorFingerprint'));
         $metricsList->addMetric($metric);
     }
 }

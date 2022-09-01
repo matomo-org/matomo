@@ -15,7 +15,7 @@
             }
 
             var firstLetter = (value + '').charAt(0).toUpperCase();
-            return firstLetter + value.substr(1);
+            return firstLetter + value.slice(1);
         };
     }
 })();

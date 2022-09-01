@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\UserId\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Plugins\UserId\API;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -38,12 +37,6 @@ class TrackFewVisitsAndCreateUsers extends Fixture
             for ($numVisits = 0; $numVisits < ($key+1) * 10; $numVisits++) {
                 $t->setUserId($userId);
                 $t->setVisitorId(str_pad($numVisits.$key, 16, 'a'));
-                if ($numVisits % 5 == 0) {
-                    $t->doTrackSiteSearch('some search term');
-                }
-                if ($numVisits % 4 == 0) {
-                    $t->doTrackEvent('Event action', 'event cat');
-                }
                 $t->setForceNewVisit();
                 $t->setUrl('http://example.org/my/dir/page' . ($numVisits % 4));
 
@@ -51,6 +44,18 @@ class TrackFewVisitsAndCreateUsers extends Fixture
                 $t->setForceVisitDateTime($visitDateTime);
 
                 self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
+
+                if ($numVisits && $numVisits % 5 == 0) {
+                    $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->addHour(0.02)->getDatetime();
+                    $t->setForceVisitDateTime($visitDateTime);
+                    self::assertTrue($t->doTrackSiteSearch('some search term'));
+                }
+                if ($numVisits && $numVisits % 4 == 0) {
+                    $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->addHour(0.04)->getDatetime();
+                    $t->setForceVisitDateTime($visitDateTime);
+                    self::assertTrue($t->doTrackEvent('Event action', 'event cat'));
+                }
+
             }
         }
 

@@ -11,8 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Period;
@@ -91,7 +89,11 @@ class Evolution extends JqplotDataGenerator
         $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
-        $visualization->setAxisYValues($allSeriesData, $seriesMetadata);
+        $units = null;
+        if ($visualization->properties['request_parameters_to_modify']['format_metrics'] === 0) {
+            $units = $seriesUnits;
+        }
+        $visualization->setAxisYValues($allSeriesData, $seriesMetadata, $units);
         $visualization->setAxisYUnits($seriesUnits);
 
         $xLabelStrs = [];

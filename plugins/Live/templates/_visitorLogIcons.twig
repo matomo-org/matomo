@@ -23,7 +23,7 @@
                 {% if visitor.getColumn('language') %}<li>{{ 'UserLanguage_BrowserLanguage'|translate }}: {{ visitor.getColumn('language') }}</li>{% endif %}
                 {% if visitor.getColumn('providerName') %}<li>{{ 'Provider_ColumnProvider'|translate }}: {{ visitor.getColumn('providerName') }}</li>{% endif %}
                 <li>{{ 'General_IP'|translate }}: {{ visitor.getColumn('visitIp') }}</li>
-                {% if visitor.getColumn('visitorId') is not empty %}<li>{{ 'General_VisitorID'|translate }}: {{ visitor.getColumn('visitorId') }}</li>{% endif %}
+                {% if isProfileEnabled and visitor.getColumn('visitorId') is not empty %}<li>{{ 'General_VisitorID'|translate }}: {{ visitor.getColumn('visitorId') }}</li>{% endif %}
 
             </ul>
         </span>

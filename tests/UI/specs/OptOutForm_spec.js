@@ -24,6 +24,9 @@ describe("OptOutForm", function () {
     after(async () => {
         await page.clearCookies();
     });
+    after(async () => {
+        await page.setUserAgent(page.originalUserAgent);
+    });
 
     it("should display correctly when embedded in another site", async function () {
         await page.clearCookies();
@@ -42,7 +45,7 @@ describe("OptOutForm", function () {
             $('iframe#optOutIframe').contents().find('input#trackVisits').click();
         });
 
-        await page.waitFor(5000); // opt out iframe creates a new page, so we can't wait on it that easily
+        await page.waitForTimeout(5000); // opt out iframe creates a new page, so we can't wait on it that easily
         await page.waitForNetworkIdle(); // safety
 
         await expandIframe();
@@ -69,7 +72,7 @@ describe("OptOutForm", function () {
             $('iframe#optOutIframe').contents().find('input#trackVisits').click();
         });
 
-        await page.waitFor(5000);
+        await page.waitForTimeout(5000);
 
         await expandIframe();
 
@@ -81,7 +84,7 @@ describe("OptOutForm", function () {
             $('iframe#optOutIframe').contents().find('input#trackVisits').click();
         });
 
-        await page.waitFor(5000);
+        await page.waitForTimeout(5000);
 
         // check the box has outed out state after click another time
         await page.reload();
@@ -109,7 +112,7 @@ describe("OptOutForm", function () {
             $('iframe#optOutIframe').contents().find('input#trackVisits').click();
         });
 
-        await page.waitFor(5000); // opt out iframe creates a new page, so we can't wait on it that easily
+        await page.waitForTimeout(5000); // opt out iframe creates a new page, so we can't wait on it that easily
         await page.waitForNetworkIdle(); // safety
 
         await page.goto(siteUrl); // reload to check that cookie was set

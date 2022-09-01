@@ -8,11 +8,8 @@
 
 namespace Piwik\Plugins\Diagnostics;
 
-use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
-use Piwik\View;
-use Piwik\Settings;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {

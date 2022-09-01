@@ -9,71 +9,8 @@
 
     SegmentGeneratorController.$inject = ['$scope', 'piwik', 'piwikApi', 'segmentGeneratorModel', '$filter', '$timeout'];
 
-    var findAndExplodeByMatch = function(metric){
-        var matches = ["==" , "!=" , "<=", ">=", "=@" , "!@","<",">", "=^", "=$"];
-        var newMetric = {};
-        var minPos = metric.length;
-        var match, index;
-        var singleChar = false;
 
-        for (var key=0; key < matches.length; key++) {
-            match = matches[key];
-            index = metric.indexOf(match);
-            if(index !== -1){
-                if(index < minPos){
-                    minPos = index;
-                    if(match.length === 1){
-                        singleChar = true;
-                    }
-                }
-            }
-        }
 
-        if (minPos < metric.length) {
-            // sth found - explode
-            if(singleChar == true){
-                newMetric.segment = metric.substr(0,minPos);
-                newMetric.matches = metric.substr(minPos,1);
-                newMetric.value = decodeURIComponent(metric.substr(minPos+1));
-            } else {
-                newMetric.segment = metric.substr(0,minPos);
-                newMetric.matches = metric.substr(minPos,2);
-                newMetric.value = decodeURIComponent(metric.substr(minPos+2));
-            }
-            // if value is only "" -> change to empty string
-            if(newMetric.value === '""')
-            {
-                newMetric.value = "";
-            }
-        }
-
-        try {
-            // Decode again to deal with double-encoded segments in database
-            newMetric.value = decodeURIComponent(newMetric.value);
-        } catch (e) {
-            // Expected if the segment was not double-encoded
-        }
-
-        return newMetric;
-    };
-
-    function generateUniqueId() {
-        var id = '';
-        var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-        for (var i = 1; i <= 10; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-
-        return id;
-    }
-
-    function stripTags(text) {
-        if (text) {
-            text = ('' + text).replace(/(<([^>]+)>)/ig,"");
-        }
-        return text;
-    }
 
     function SegmentGeneratorController($scope, piwik, piwikApi, segmentGeneratorModel, $filter, $timeout) {
         var translate = $filter('translate');
@@ -149,13 +86,13 @@
             orCondition.isLoading = true;
 
             this.updateSegmentDefinition();
-            
+
             var inputElement = $('.orCondId' + orCondition.id + " .metricValueBlock input");
             inputElement.autocomplete({
                 source: [],
                 minLength: 0
             });
-            
+
             var resolved = false;
 
             var promise = piwikApi.fetch({
@@ -230,51 +167,6 @@
         };
 
         this.getSegmentString = function () {
-            var segmentStr = '';
-
-            angular.forEach(this.conditions, function (conditions) {
-                var subSegmentStr = '';
-
-                angular.forEach(conditions.orConditions, function (orCondition){
-                    if (subSegmentStr !== ''){
-                        subSegmentStr += ","; // OR operator
-                    }
-
-                    // one encode for urldecode on value, one encode for urldecode on condition
-                    subSegmentStr += orCondition.segment + orCondition.matches + encodeURIComponent(encodeURIComponent(orCondition.value));
-                });
-
-                if (segmentStr !== '') {
-                    segmentStr += ";"; // add AND operator between segment blocks
-                }
-
-                segmentStr += subSegmentStr;
-            });
-
-            return segmentStr;
-        };
-
-        this.setSegmentString = function (segmentStr) {
-            var orCondition, condition;
-
-            this.conditions = [];
-            
-            if (!segmentStr) {
-                return;
-            }
-
-            var blocks = segmentStr.split(';');
-
-            for (var key = 0; key < blocks.length; key++) {
-                condition = {orConditions: []};
-                this.addAndCondition(condition);
-
-                blocks[key] = blocks[key].split(',');
-                for (var innerkey = 0; innerkey < blocks[key].length; innerkey++) {
-                    orCondition = findAndExplodeByMatch(blocks[key][innerkey]);
-                    this.addOrCondition(condition, orCondition);
-                }
-            }
         };
 
         this.updateSegmentDefinition = function () {

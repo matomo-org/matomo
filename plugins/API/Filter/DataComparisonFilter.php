@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\Simple;
 use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
@@ -22,7 +21,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\Filter\DataComparisonFilter\ComparisonRowGenerator;
 use Piwik\Segment;
-use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
 
 /**
@@ -298,6 +296,10 @@ class DataComparisonFilter
                 'format_metrics' => 0,
                 'label' => '',
                 'flat' => Common::getRequestVar('flat', 0, 'int', $this->request),
+                'filter_add_columns_when_show_all_columns' => Common::getRequestVar('filter_add_columns_when_show_all_columns', '', 'string', $this->request),
+                'filter_update_columns_when_show_all_goals' => Common::getRequestVar('filter_update_columns_when_show_all_goals', '', 'string', $this->request),
+                'filter_show_goal_columns_process_goals' => Common::getRequestVar('filter_show_goal_columns_process_goals', '', 'string', $this->request),
+                'idGoal' => Common::getRequestVar('idGoal', '', 'string', $this->request),
             ],
             $paramsToModify
         );
@@ -484,7 +486,7 @@ class DataComparisonFilter
                 /** @var DataTable\Row[] $rows */
                 $rows = array_values($comparisons->getRows());
                 foreach ($rows as $index => $compareRow) {
-                    list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices($table, $index, $segmentCount);
+                    [$periodIndex, $segmentIndex] = self::getIndividualComparisonRowIndices($table, $index, $segmentCount);
 
                     if (!$this->invertCompareChangeCompute && $index < $segmentCount) {
                         continue; // do not calculate for first period
@@ -502,11 +504,17 @@ class DataComparisonFilter
                     }
 
                     foreach ($compareRow->getColumns() as $name => $value) {
-                        $changeTo = $this->computeChangePercent($otherPeriodRow, $compareRow, $name);
+                        [$changeTo, $trendTo] = $this->computeChangePercent($otherPeriodRow, $compareRow, $name);
                         $compareRow->addColumn($name . '_change', $changeTo);
+                        if ($this->shouldIncludeTrendValues()) {
+                            $compareRow->addColumn($name . '_trend', $trendTo);
+                        }
 
-                        $changeFrom = $this->computeChangePercent($compareRow, $otherPeriodRow, $name);
+                        [$changeFrom, $trendFrom] = $this->computeChangePercent($compareRow, $otherPeriodRow, $name);
                         $compareRow->addColumn($name . '_change_from', $changeFrom);
+                        if ($this->shouldIncludeTrendValues()) {
+                            $compareRow->addColumn($name . '_trend_from', $trendFrom);
+                        }
                     }
                 }
             }
@@ -522,8 +530,9 @@ class DataComparisonFilter
         $valueToCompare = $valueToCompare ?: 0;
 
         $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, true, true);
+        $trend = $value - $valueToCompare < 0 ? -1 : ($value - $valueToCompare > 0 ? 1 : 0);
 
-        return $change;
+        return [$change, $trend];
     }
 
     /**
@@ -580,6 +589,20 @@ class DataComparisonFilter
     }
 
     /**
+     * Returns whether to include trend values for all evolution columns or not
+     * This is requested only for sparklines
+     *
+     * @see \Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines::render()
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    private function shouldIncludeTrendValues(): bool
+    {
+        return (bool) Common::getRequestVar('include_trends', 0, 'int', $this->request);
+    }
+
+    /**
      * Returns the pretty series label for a specific comparison based on the currently set comparison query parameters.
      *
      * @param int $labelSeriesIndex The index of the comparison. Comparison series order is determined by {@see self::getReportsToCompare()}.
@@ -590,7 +613,7 @@ class DataComparisonFilter
         $comparePeriods = self::getComparePeriods();
         $compareDates = self::getCompareDates();
 
-        list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices(null, $labelSeriesIndex, count($compareSegments));
+        [$periodIndex, $segmentIndex] = self::getIndividualComparisonRowIndices(null, $labelSeriesIndex, count($compareSegments));
 
         $segmentObj = new Segment($compareSegments[$segmentIndex], []);
         $prettySegment = $segmentObj->getStoredSegmentName(false);
@@ -610,6 +633,8 @@ class DataComparisonFilter
             $mappings[$index] = $name;
             $mappings[$index . '_change'] = $name . '_change';
             $mappings[$index . '_change_from'] = $name . '_change_from';
+            $mappings[$index . '_trend'] = $name . '_trend';
+            $mappings[$index . '_trend_from'] = $name . '_trend_from';
         }
         return $mappings;
     }

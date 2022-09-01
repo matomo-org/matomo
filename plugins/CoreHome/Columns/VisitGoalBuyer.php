@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreHome\Columns;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;

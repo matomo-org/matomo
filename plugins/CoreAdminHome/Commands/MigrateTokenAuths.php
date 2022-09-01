@@ -8,16 +8,12 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
-use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

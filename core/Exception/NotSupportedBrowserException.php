@@ -8,6 +8,11 @@
  */
 namespace Piwik\Exception;
 
-class NotSupportedBrowserException extends Exception
+class NotSupportedBrowserException extends \Piwik\Exception\Exception
 {
+    public function __construct($message)
+    {
+        // Use HTTP code 400 to avoid server-provided 403 error page.
+        parent::__construct($message, $code = 400);
+    }
 }

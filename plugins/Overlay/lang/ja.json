@@ -3,6 +3,7 @@
         "Clicks": "%s クリック",
         "ClicksFromXLinks": "%2$s リンクの 1 つからの%1$s クリック",
         "Domain": "ドメイン",
+        "ErrorNoSiteUrls": "警告：このウェブサイトには、Matomoで定義されたサイトURLがありません。 これにより、オーバーレイやその他の機能が壊れたり、奇妙な動作をしたりする可能性があります。 これを修正するには、このWebサイトの設定のMatomo管理セクションにURLを追加します。",
         "ErrorNotLoading": "ページオーバーレイ・セッションがまだ開始されていません。",
         "ErrorNotLoadingDetails": "右側にロードされたページには、Matomo 追跡コードがありません。ページレポートとは異なるページで、オーバーレイの起動をお試しください。",
         "ErrorNotLoadingDetailsSSL": "Matomo を https 経由で利用していますが、お使いのパソコンが SSL をサポートしていないことが原因として考えられます。http 経由でのご利用をお試しください。",

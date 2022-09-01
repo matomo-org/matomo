@@ -1,7 +1,16 @@
 {
     "MultiSites": {
-        "Evolution": "Perkembangan",
-        "LoadingWebsites": "Membuat website",
-        "TopLinkTooltip": "Bandingkan statistik Analisis Ramatraya untuk seluruh Situs Anda."
+        "AllWebsitesDashboardDocumentation": "Laporan ini memberikan Anda gambaran umum mengenai informasi untuk setiap situs web Anda, berisi metrik paling umum tentang pengunjung Anda.",
+        "Evolution": "Evolusi",
+        "EvolutionComparisonDay": "%1$s %2$s hari ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
+        "EvolutionComparisonIncomplete": "Jangka waktu yang dipilih saat ini adalah %1$s selesai.",
+        "EvolutionComparisonMonth": "%1$s %2$s bulan ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
+        "EvolutionComparisonProportional": "Ketika periode sebelumnya juga %1$s selesai, akan ada perkiraan %2$s %3$s\n (dari total %4$s %3$s pada periode sebelumnya).",
+        "EvolutionComparisonWeek": "%1$s %2$s minggu ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
+        "EvolutionComparisonYear": "%1$s %2$s tahun ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
+        "LoadingWebsites": "Memuat situs web",
+        "PluginDescription": "Lihat dan bandingkan semua situs web dan aplikasi Anda di dasbor 'Semua Situs Web' yang berguna ini.",
+        "SingleWebsitesDashboardDocumentation": "Laporan ini memberikan Anda gambaran umum tentang informasi untuk situs web tertentu. Laporan ini berisi metrik paling umum tentang pengunjung Anda.",
+        "TopLinkTooltip": "Bandingkan statistik Analisis Web untuk semua Situs Web Anda."
     }
 }

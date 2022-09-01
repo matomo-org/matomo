@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,19 +7,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
-use Piwik\Auth\Password;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
-use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\SettingsPiwik;
 
 /**
@@ -35,20 +34,19 @@ class UsersManager extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        return array(
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'SitesManager.deleteSite.end'            => 'deleteSite',
-            'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Platform.initialized'                   => 'onPlatformInitialized',
-            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-        );
+        return [
+          'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+          'SitesManager.deleteSite.end'            => 'deleteSite',
+          'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
+          'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+          'Platform.initialized'                   => 'onPlatformInitialized',
+          'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
+        ];
     }
 
     public static function isUsersAdminEnabled()
     {
-        return (bool) Config::getInstance()->General['enable_users_admin'];
+        return (bool)Config::getInstance()->General['enable_users_admin'];
     }
 
     public static function dieIfUsersAdminIsDisabled()
@@ -122,34 +120,17 @@ class UsersManager extends \Piwik\Plugin
     }
 
     /**
-     * Return list of plug-in specific JavaScript files to be imported by the asset manager
-     *
-     * @see \Piwik\AssetManager
-     */
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/UsersManager/angularjs/users-manager/users-manager.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/permissions-metadata/permissions-metadata.service.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.js";
-    }
-
-    /**
      * Get CSS files
      */
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/UsersManager/stylesheets/usersManager.less";
 
-        $stylesheets[] = "plugins/UsersManager/angularjs/users-manager/users-manager.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UsersManager/UsersManager.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UserEditForm/UserEditForm.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.less";
     }
 
     /**
@@ -161,7 +142,7 @@ class UsersManager extends \Piwik\Plugin
     public static function isValidPasswordString($input)
     {
         if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
-            && !empty($input)
+          && !empty($input)
         ) {
             return true;
         }
@@ -192,10 +173,12 @@ class UsersManager extends \Piwik\Plugin
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
+              array(self::PASSWORD_MIN_LENGTH)));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong', array(self::PASSWORD_MAX_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
+              array(self::PASSWORD_MAX_LENGTH)));
         }
     }
 
@@ -263,9 +246,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_PrivNone";
         $translationKeys[] = "UsersManager_ManageUsers";
         $translationKeys[] = "UsersManager_ManageUsersDesc";
+        $translationKeys[] = "UsersManager_ManageUsersAdminDesc";
         $translationKeys[] = 'Mobile_NavigationBack';
         $translationKeys[] = 'UsersManager_AddExistingUser';
-        $translationKeys[] = 'UsersManager_AddUser';
         $translationKeys[] = 'UsersManager_EnterUsernameOrEmail';
         $translationKeys[] = 'UsersManager_NoAccessWarning';
         $translationKeys[] = 'UsersManager_BulkActions';
@@ -309,9 +292,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ResetTwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_ResetTwoFactorAuthenticationInfo';
         $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
-        $translationKeys[] = 'UsersManager_AddNewUser';
+        $translationKeys[] = 'UsersManager_InviteNewUser';
         $translationKeys[] = 'UsersManager_EditUser';
-        $translationKeys[] = 'UsersManager_CreateUser';
+        $translationKeys[] = 'UsersManager_InviteUser';
         $translationKeys[] = 'UsersManager_SaveBasicInfo';
         $translationKeys[] = 'UsersManager_Email';
         $translationKeys[] = 'UsersManager_LastSeen';
@@ -335,5 +318,27 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
         $translationKeys[] = 'UsersManager_FirstWebsitePermission';
+        $translationKeys[] = 'UsersManager_YourUsernameCannotBeChanged';
+        $translationKeys[] = 'General_Language';
+        $translationKeys[] = 'LanguagesManager_AboutPiwikTranslations';
+        $translationKeys[] = 'General_TimeFormat';
+        $translationKeys[] = 'UsersManager_ReportToLoadByDefault';
+        $translationKeys[] = 'UsersManager_ReportDateToLoadByDefault';
+        $translationKeys[] = 'UsersManager_NewsletterSignupTitle';
+        $translationKeys[] = 'UsersManager_NewsletterSignupMessage';
+        $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
+        $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
+        $translationKeys[] = 'UsersManager_InviteSuccessNotification';
+        $translationKeys[] = 'UsersManager_ResendInviteConfirmSingle';
+        $translationKeys[] = 'UsersManager_Status';
+        $translationKeys[] = 'UsersManager_Active';
+        $translationKeys[] = 'UsersManager_Pending';
+        $translationKeys[] = 'UsersManager_Expired';
+        $translationKeys[] = 'UsersManager_Decline';
+        $translationKeys[] = 'UsersManager_ResendInviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteDayLeft';
+        $translationKeys[] = 'UsersManager_FilterByStatus';
+        $translationKeys[] = 'UsersManager_ExpiredInviteAutomaticallyRemoved';
     }
 }

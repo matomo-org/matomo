@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
-use Piwik\Option;
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 
@@ -98,7 +98,7 @@ class API extends \Piwik\Plugin\API
 
         $verificationCode = "";
         for ($i = 0; $i < self::VERIFICATION_CODE_LENGTH; $i++) {
-            $verificationCode .= mt_rand(0, 9);
+            $verificationCode .= Common::getRandomInt(0, 9);
         }
 
         $smsText = Piwik::translate(

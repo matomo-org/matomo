@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;

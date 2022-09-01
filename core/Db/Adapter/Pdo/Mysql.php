@@ -29,6 +29,10 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @param array|Zend_Config $config database configuration
      */
+    
+    // this is used for indicate TransactionLevel Cache
+    public $supportsUncommitted;
+
     public function __construct($config)
     {
         // Enable LOAD DATA INFILE
@@ -245,6 +249,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $charset = $charsetInfo[0]['Value'];
         return strpos($charset, 'utf8') === 0;
     }
+
 
     /**
      * Return number of affected rows in last query

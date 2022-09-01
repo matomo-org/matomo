@@ -16,7 +16,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\Date;
 use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
@@ -75,6 +74,7 @@ class Manager
     // These are always activated and cannot be deactivated
     protected $pluginToAlwaysActivate = array(
         'BulkTracking',
+        'CoreVue',
         'CoreHome',
         'CoreUpdater',
         'CoreAdminHome',
@@ -867,7 +867,7 @@ class Manager
     {
         return $this->isPluginEnabledByDefault($name)
         || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
-        || $name == self::DEFAULT_THEME || $name === 'CustomVariables' || $name === 'Provider';
+        || $name == self::DEFAULT_THEME;
     }
 
     /**

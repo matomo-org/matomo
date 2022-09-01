@@ -18,7 +18,7 @@
                     </td>
                     <td class="text">
                         <span class="evolution-graph-colors" data-name="series{{ (i % seriesColorCount) + 1 }}">
-                            {{- metric.label|raw -}}
+                            {{- metric.label|rawSafeDecoded -}}
                         </span>
                         {% if metric.details %}:
                             <span class="details" title="{{ metric.minmax }}">{{ metric.details|raw }}</span>

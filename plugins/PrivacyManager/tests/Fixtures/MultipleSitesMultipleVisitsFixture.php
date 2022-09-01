@@ -478,7 +478,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     private function trackVisit($userId, $referrer, $idGoal = null, $hoursAgo = null)
     {
         $this->initTracker($userId, $hoursAgo);
-        $this->tracker->setUrlReferrer($referrer);
+        $this->tracker->setUrlReferrer($referrer ?? false);
         $this->tracker->setUrl('http://www.helloworld.com/hello/world' . $userId);
         $this->tracker->doTrackPageView('Hello World ');
 

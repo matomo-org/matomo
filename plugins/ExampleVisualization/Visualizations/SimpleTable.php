@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\ExampleVisualization\Visualizations;
 
-use Piwik\DataTable;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 

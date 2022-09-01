@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Login\Commands;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\Login\API;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

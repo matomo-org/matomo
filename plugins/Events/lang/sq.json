@@ -1,6 +1,5 @@
 {
     "Events": {
-        "PluginDescription": "Ndiqni Akte dhe merrni raporte mbi veprimtarinë e vizitorëve tuaj.",
         "AvgEventValue": "Vlera mesatare e Akteve është: %s",
         "AvgValue": "Vlerë mesatare",
         "AvgValueDocumentation": "Mesatarja e krejt vlerave për këtë akt",
@@ -15,17 +14,20 @@
         "EventName": "Emër Akti",
         "EventNames": "Emra Aktesh",
         "EventNamesReportDocumentation": "Ky raport shfaq emrat përshoqëruar me çdo veprimtari të ndjekur dhe sa herë ka ndodhur. Mund të shihni veprimet dhe kategoritë e veprimtarive që janë ndjekur, tok me çdo emër veprim në to, te nëntabela e çdo rreshti. Mund të ndryshoni çfarë duket, duke ndryshuar përmasën e dytë me lidhjen në fund të raportit.",
-        "EventUrl": "URLAkti",
+        "EventUrl": "URL Akti",
         "EventUrls": "ULR-ra Aktesh",
-        "Events": "Akte",
-        "EventsWithValue": "Akte me një vlerë",
-        "EventsWithValueDocumentation": "Numër aktesh për të cilat është caktuar një vlerë Akti",
         "EventValue": "Vlerë akti",
         "EventValueTooltip": "Vlera Tërësore e Aktit është shuma e %1$s vlerave të akteve %2$s mes minimumit prej %3$s dhe maksimumit prej %4$s.",
+        "Events": "Akte",
+        "EventsSubcategoryHelp1": "Ndarja Veprimtari ofron raporte mbi veprimtari vetjake përshoqëruar me sajtin tuaj. Veprimtaritë zakonisht lypin formësim vetjak. Pasi të jenë formësuar, mund të shqyrtoni raporte të grupuar sipas kategorish, veprimesh dhe emrash.",
+        "EventsSubcategoryHelp2": "Mësoni më tepër rreth ndjekjes, këtu.",
+        "EventsWithValue": "Akte me një vlerë",
+        "EventsWithValueDocumentation": "Numër aktesh për të cilat është caktuar një vlerë Akti",
         "MaxValue": "Maksimum vlere Akti",
         "MaxValueDocumentation": "Vlera maksimum për këtë akt",
         "MinValue": "Minimum vlere Akti",
         "MinValueDocumentation": "Vlera minimum për këtë akt",
+        "PluginDescription": "Ndiqni Akte dhe merrni raporte mbi veprimtarinë e vizitorëve tuaj.",
         "SecondaryDimension": "Përmasa dytësore është %s.",
         "SwitchToSecondaryDimension": "Kalo te %s",
         "TopEvents": "Aktet Kryesuese",
@@ -33,8 +35,6 @@
         "TotalEventsDocumentation": "Numri gjithsej i akteve",
         "TotalValue": "Vlerë akti",
         "TotalValueDocumentation": "Shuma e vlerave të akteve",
-        "ViewEvents": "Shihni Akte",
-        "EventsSubcategoryHelp1": "Ndarja Veprimtari ofron raporte mbi veprimtari vetjake përshoqëruar me sajtin tuaj. Veprimtaritë zakonisht lypin formësim vetjak. Pasi të jenë formësuar, mund të shqyrtoni raporte të grupuar sipas kategorish, veprimesh dhe emrash.",
-        "EventsSubcategoryHelp2": "Mësoni më tepër rreth ndjekjes, këtu."
+        "ViewEvents": "Shihni Akte"
     }
 }

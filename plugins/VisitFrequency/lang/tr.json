@@ -11,13 +11,13 @@
         "ColumnBounceRateForReturningVisits": "Geri gelen ziyaretlerin hemen çıkma oranı",
         "ColumnMaxActionsInReturningVisit": "Geri gelen bir ziyarette yapılan en fazla işlem sayısı",
         "ColumnNbReturningVisitsConverted": "Hedef tutturan geri gelen ziyaret sayısı",
+        "ColumnNewUsers": "Yeni kullanıcılar",
         "ColumnNewVisits": "Yeni ziyaretler",
+        "ColumnReturningUsers": "Geri gelen kullanıcılar",
         "ColumnReturningVisits": "Geri gelen ziyaretler",
         "ColumnSumVisitLengthReturning": "Geri gelen ziyaretçilerin geçirdiği toplam süre (saniye)",
         "ColumnUniqueNewVisitors": "Tekil yeni ziyaretçi sayısı",
         "ColumnUniqueReturningVisitors": "Tekil geri gelen ziyaretçi sayısı",
-        "ColumnNewUsers": "Yeni kullanıcılar",
-        "ColumnReturningUsers": "Geri gelen kullanıcılar",
         "NewActions": "yeni ziyaretlere göre işlemler",
         "NewAverageVisitDuration": "yeni ziyaretler için ortalama ziyaret süresi",
         "NewAvgActions": "her yeni ziyaret için işlemler",
@@ -28,12 +28,12 @@
         "ReturnAverageVisitDuration": "geri gelen ziyaretler için ortalama ziyaret süresi",
         "ReturnAvgActions": "her geri gelen ziyaret için işlemler",
         "ReturnBounceRate": "hemen çıkan ziyaretler (bir sayfadan sonra siteden ayrılan)",
+        "ReturnVisits": "geri dönen ziyaretler",
         "ReturningVisitDocumentation": "Geri gelen ziyaret (yeni ziyaretten farklı olarak) daha önce siteyi en az bir kez ziyaret etmiş birisi tarafından yapılır.",
         "ReturningVisitsDocumentation": "Geri gelen ziyaretlerin özeti.",
-        "ReturnVisits": "geri dönen ziyaretler",
         "SubmenuFrequency": "Sıklık",
+        "VisitFrequencyReportDocumentation": "Bu rapor, geri gelen ziyaretçiler gibi genel ölçümleri, yeni ziyaretçilerin aynı ölçümleri ile yan yana görüntüler. Böylece geri gelen ziyaretçilerin, yeni ziyaretçilere göre genel başarımı öğrenilebilir.",
         "WidgetGraphReturning": "Zamana göre geri gelen ziyaretler",
-        "WidgetOverview": "Sıklık özeti",
-        "VisitFrequencyReportDocumentation": "Bu rapor, geri gelen ziyaretçiler gibi genel ölçümleri, yeni ziyaretçilerin aynı ölçümleri ile yan yana görüntüler. Böylece geri gelen ziyaretçilerin, yeni ziyaretçilere göre genel başarımı öğrenilebilir."
+        "WidgetOverview": "Sıklık özeti"
     }
 }

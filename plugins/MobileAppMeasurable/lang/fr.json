@@ -1,7 +1,7 @@
 {
     "MobileAppMeasurable": {
         "MobileApp": "Application mobile",
-        "MobileApps": "Applications mobiles",
-        "MobileAppDescription": "Une application mobile native pour iOS, Android ou tout autre système d'exploitation mobile."
+        "MobileAppDescription": "Une application mobile native pour iOS, Android ou tout autre système d'exploitation mobile.",
+        "MobileApps": "Applications mobiles"
     }
 }

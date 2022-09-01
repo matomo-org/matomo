@@ -8,7 +8,9 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\System;
 
+use Piwik\Context;
 use Piwik\Plugins\CustomDimensions\tests\Fixtures\TrackVisitsWithCustomDimensionsFixture;
+use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -22,6 +24,16 @@ class ApiTest extends SystemTestCase
      * @var TrackVisitsWithCustomDimensionsFixture
      */
     public static $fixture = null; // initialized below class definition
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        self::setAllowedModulesToFilterApiResponse('API.getReportMetadata', array('CustomDimensions'));
+        self::setAllowedCategoriesToFilterApiResponse('API.getSegmentsMetadata', array('Visitors', 'Behaviour'));
+        self::setAllowedModulesToFilterApiResponse('API.getWidgetMetadata', array('CustomDimensions'));
+        self::setAllowedCategoriesToFilterApiResponse('API.getReportPagesMetadata', array('Visitors', 'Behaviour'));
+    }
 
     /**
      * @dataProvider getApiForTesting
@@ -179,6 +191,24 @@ class ApiTest extends SystemTestCase
             )
         );
 
+        $apiToTest[] = array(
+            array('API.getReportPagesMetadata'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
+            )
+        );
+
+        $apiToTest[] = array(
+            array('API.getWidgetMetadata'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
+            )
+        );
+
         $apiToTest[] = array(array('API.getProcessedReport'),
                              array(
                                  'idSite'  => 1,
@@ -230,6 +260,26 @@ class ApiTest extends SystemTestCase
         );
 
         return $apiToTest;
+    }
+
+    public function testScheduledReport()
+    {
+        // Context change is needed, as otherwise the customdimension reports are not available
+        Context::changeIdSite(1, function(){
+            $this->runApiTests(['ScheduledReports.generateReport'], [
+                'idSite'                 => 1,
+                'date'                   => self::$fixture->dateTime,
+                'periods'                => ['year'],
+                'format'                 => 'original',
+                'fileExtension'          => 'pdf',
+                'otherRequestParameters' => [
+                    'idReport'     => 1,
+                    'reportFormat' => ReportRenderer::PDF_FORMAT,
+                    'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                    'serialize'    => 0,
+                ],
+            ]);
+        });
     }
 
     public static function getOutputPrefix()

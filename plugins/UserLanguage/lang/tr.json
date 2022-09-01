@@ -3,7 +3,7 @@
         "BrowserLanguage": "Tarayıcı dili",
         "LanguageCode": "Dil kodu",
         "PluginDescription": "Ziyaretçilerin web tarayıcılarında kullandıkları dilleri görüntüler.",
-        "getLanguageDocumentation": "Bu rapor, ziyaretçilerin kullandığı web tarayıcının dilini içerir. (Örnek: \"Türkçe\")",
-        "getLanguageCodeDocumentation": "Bu rapor, ziyaretçilerin kullandığı web tarayıcının ayarlandığı tam dil kodunu içerir. (Örnek: \"Almanca - Avusturya (de-at)\")"
+        "getLanguageCodeDocumentation": "Bu rapor, ziyaretçilerin kullandığı web tarayıcının ayarlandığı tam dil kodunu içerir. (Örnek: \"Almanca - Avusturya (de-at)\")",
+        "getLanguageDocumentation": "Bu rapor, ziyaretçilerin kullandığı web tarayıcının dilini içerir. (Örnek: \"Türkçe\")"
     }
 }

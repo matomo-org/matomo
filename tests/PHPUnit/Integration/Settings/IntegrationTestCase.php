@@ -11,7 +11,6 @@ namespace Piwik\Tests\Integration\Settings;
 use PHPUnit\Framework\Constraint\IsType;
 use Piwik\Db;
 use Piwik\Settings\Setting;
-use Piwik\Settings\Storage;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\Settings\FakeSystemSettings;
 

@@ -9,7 +9,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;

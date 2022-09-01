@@ -27,7 +27,7 @@ describe("CampaignBuilder", function () {
 
     async function ensureHighlightEffectIsGone()
     {
-        await page.waitFor(2000);
+        await page.waitForTimeout(2000);
     }
 
     async function generateUrl()
@@ -52,7 +52,7 @@ describe("CampaignBuilder", function () {
     it('can reset form', async function () {
         await captureUrlBuilder('generate_url_reset', async function () {
             await page.click('.resetCampaignUrl');
-            await page.waitFor(500); // wait to re-render
+            await page.waitForTimeout(500); // wait to re-render
         });
     });
 

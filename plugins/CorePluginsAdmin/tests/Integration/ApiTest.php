@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
 use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
 use Piwik\Plugins\CoreUpdater\SystemSettings;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\Fixture;

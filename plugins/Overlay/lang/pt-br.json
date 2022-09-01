@@ -3,6 +3,7 @@
         "Clicks": "%s cliques",
         "ClicksFromXLinks": "%1$s cliques de um dos %2$s links",
         "Domain": "Domínio",
+        "ErrorNoSiteUrls": "AVISO: Este site não possui URLs de sites definidos no Matomo. Isso pode fazer com que a sobreposição e outros recursos sejam interrompidos ou se comportem de maneira estranha. Para corrigir isso, adicione uma URL nas configurações deste site na seção Administração do Matomo.",
         "ErrorNotLoading": "A sessão de sobreposição de página (Page Overlay) ainda não pode ser exibida.",
         "ErrorNotLoadingDetails": "Talvez a página carregada no lado direito não tem o código JS de rastreamento. Neste caso, tente iniciar sobreposição para uma página diferente das páginas do relatório.",
         "ErrorNotLoadingDetailsSSL": "Desde que você está usando Matomo sobre https, a causa mais provável é que o seu site não suporta SSL. Tente usar Matomo sobre http.",

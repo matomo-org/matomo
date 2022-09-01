@@ -288,20 +288,6 @@ Segmentation = (function($) {
 
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
-            // set left margin to center form
-            var segmentsDropdown = $(html).find(".available_segments_select");
-            var segment, newOption;
-            newOption = '<option data-idsegment="" data-definition="" title="'
-                + self.translations['SegmentEditor_AddNewSegment']
-                + '">' + self.translations['SegmentEditor_AddNewSegment']
-                + '</option>';
-            segmentsDropdown.append(newOption);
-            for(var i = 0; i < self.availableSegments.length; i++)
-            {
-                segment = self.availableSegments[i];
-                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+getSegmentTooltipEnrichedWithUsername(segment)+'">'+getSegmentName(segment)+'</option>';
-                segmentsDropdown.append(newOption);
-            }
             $(html).find(".segment-content > h3").after('<div piwik-segment-generator add-initial-condition="true"></div>').show();
             return html;
         };
@@ -320,7 +306,7 @@ Segmentation = (function($) {
                 .html( getSegmentName(segment) )
                 .prop('title', getSegmentTooltipEnrichedWithUsername(segment));
 
-            $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
+            $(self.form).find('.available_segments_select').val(segment.idsegment);
 
             $(self.form).find('.available_segments a.dropList')
                 .html( getSegmentName(segment) )
@@ -525,14 +511,10 @@ Segmentation = (function($) {
                 e.preventDefault();
             });
 
-            self.target.on('change', '.available_segments_select', function (e) {
-                var option = $(e.currentTarget).find('option:selected');
-                openEditFormGivenSegment(option);
-            });
 
             self.target.on('click', ".delete", function() {
                 var segmentName = $(self.form).find(".segment-content > h3 > span").text();
-                var segmentId = $(self.form).find(".available_segments_select option:selected").attr("data-idsegment");
+                var segmentId = $(self.form).find(".available_segments_select").val();
                 var params = {
                     "idsegment" : segmentId
                 };
@@ -647,7 +629,6 @@ Segmentation = (function($) {
             makeDropList(".enable_all_users" , ".enable_all_users_select");
             makeDropList(".visible_to_website" , ".visible_to_website_select");
             makeDropList(".auto_archive" , ".auto_archive_select");
-            makeDropList(".available_segments" , ".available_segments_select");
             $(self.form).find(".saveAndApply").bind("click", function (e) {
                 e.preventDefault();
                 parseFormAndSave();
@@ -681,9 +662,14 @@ Segmentation = (function($) {
         var parseFormAndSave = function(){
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
             var segmentStr = getSegmentGeneratorController().getSegmentString();
-            var segmentId = $(self.form).find('.available_segments_select > option:selected').attr("data-idsegment");
+            var segmentId = $(self.form).find(".available_segments_select").val() || "";
             var user = $(self.form).find(".enable_all_users_select option:selected").val();
-            var autoArchive = $(self.form).find(".auto_archive_select option:selected").val() || 0;
+            // if create realtime segments is disabled, the select field is not available, but we need to use autoArchive = 1
+            if ($(self.form).find(".auto_archive_select").length) {
+              var autoArchive = $(self.form).find(".auto_archive_select option:selected").val() || 0;
+            } else {
+              var autoArchive = 1;
+            }
             var params = {
                 "name": segmentName,
                 "definition": segmentStr,
@@ -933,10 +919,10 @@ $(document).ready(function() {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
 
             if (piwikHelper.isAngularRenderingThePage()) {
-                return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods']);
+                return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods', 'compareDates']);
             } else {
                 // eg in case of exported dashboard
-                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods']);
+                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'addSegmentAsNew=&segment=' + segmentDefinition, ['compareSegments', 'comparePeriods', 'compareDates']);
             }
         };
 

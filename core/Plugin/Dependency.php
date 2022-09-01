@@ -65,7 +65,7 @@ class Dependency
 
     public function getMissingVersions($currentVersion, $requiredVersion)
     {
-        $currentVersion = trim($currentVersion);
+        $currentVersion = trim($currentVersion ?? '');
 
         $missingVersions = array();
 

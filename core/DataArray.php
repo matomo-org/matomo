@@ -286,10 +286,10 @@ class DataArray
 
         $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE], static::EVENT_VALUE_PRECISION);
         $oldRowToUpdate[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] += $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE];
-        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = round(max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]), static::EVENT_VALUE_PRECISION);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = round(max(0, $newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]), static::EVENT_VALUE_PRECISION);
 
         // Update minimum only if it is set
-        if ($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] !== false) {
+        if ($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] !== false && $newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] !== null) {
             if ($oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] === false) {
                 $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], static::EVENT_VALUE_PRECISION);
             } else {

@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Insights\tests\Unit;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 
 /**
  * Abstract class because it avoids it being picked up as a test case

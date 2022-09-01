@@ -43,7 +43,7 @@ class SetTranslations extends TranslationBase
         $languageCode = $input->getOption('code');
         $filename     = $input->getOption('file');
 
-        $languageCodes = (new API())->getAvailableLanguages();
+        $languageCodes = (new API())->getAvailableLanguages(true);
 
         if (empty($languageCode) || !in_array($languageCode, $languageCodes)) {
             $languageCode = $dialog->askAndValidate($output, 'Please provide a valid language code: ', function ($code) use ($languageCodes) {

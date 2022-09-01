@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsOverSeveralDays;

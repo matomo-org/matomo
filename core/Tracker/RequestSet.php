@@ -36,7 +36,7 @@ class RequestSet
         if (empty($requests)|| !is_array($requests)) {
             return;
         }
-        
+
         foreach ($requests as $request) {
             if (empty($request) && !is_array($request)) {
                 continue;
@@ -45,7 +45,6 @@ class RequestSet
             if (!$request instanceof Request) {
                 $request = new Request($request, $this->getTokenAuth());
             }
-
             $this->requests[] = $request;
         }
     }

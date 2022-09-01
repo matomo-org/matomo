@@ -1,1 +1,7 @@
-{}
+{
+    "IntranetMeasurable": {
+        "Intranet": "Intranett-nettside",
+        "IntranetDescription": "En måling fra et intranett er akkurat som en nettside, men vertstjenes på et internnettverk.",
+        "Intranets": "Intranett-nettsider"
+    }
+}

@@ -87,9 +87,12 @@ class PageUrl
         $website = TrackerCache::getCacheWebsiteAttributes($idSite);
         $excludedParameters = self::getExcludedParametersFromWebsite($website);
 
-        $parametersToExclude = array_merge($excludedParameters,
-                                           self::getUrlParameterNamesToExcludeFromUrl(),
-                                           $campaignTrackingParameters);
+        $parametersToExclude = array_merge(
+            ['ignore_referrer', 'ignore_referer'],
+            $excludedParameters,
+            self::getUrlParameterNamesToExcludeFromUrl(),
+            $campaignTrackingParameters
+        );
 
         /**
          * Triggered before setting the action url in Piwik\Tracker\Action so plugins can register
@@ -287,8 +290,8 @@ class PageUrl
         if (function_exists('mb_check_encoding')) {
             // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
             // encode to UTF-8.
-            if (strtolower($encoding) != 'utf-8'
-                && $encoding != false
+            if (is_string($encoding) &&
+                strtolower($encoding) !== 'utf-8'
             ) {
                 Common::printDebug("Encoding page URL query parameters to $encoding.");
 

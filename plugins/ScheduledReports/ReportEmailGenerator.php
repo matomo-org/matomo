@@ -15,7 +15,7 @@ abstract class ReportEmailGenerator
 {
     public function makeEmail(GeneratedReport $report, $customReplyTo = null)
     {
-        $mail = new Mail();
+        $mail = new ScheduledReportEmail();
         $mail->setDefaultFromPiwik();
         $mail->setSubject($report->getReportDescription());
 

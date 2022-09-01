@@ -12,13 +12,11 @@ use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Piwik\Date;
-use Piwik\Common;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
-use Piwik\Plugins\Marketplace\Api\Exception;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -239,8 +237,8 @@ class Php extends GeoIp2
     protected function setCountryResults($lookupResult, &$result)
     {
         $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
-        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
+        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code ?? '');
+        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode ?? '');
         $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
     }
 
@@ -253,7 +251,16 @@ class Php extends GeoIp2
         if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
             $subdivisions = $lookupResult->subdivisions;
             $subdivision = $this->determinSubdivision($subdivisions, $result[self::COUNTRY_CODE_KEY]);
-            $result[self::REGION_CODE_KEY] = $subdivision->isoCode ? strtoupper($subdivision->isoCode) : $this->determineRegionIsoCodeByNameAndCountryCode($subdivision->name, $result[self::COUNTRY_CODE_KEY]);
+            $subdivisionIsoCode = $subdivision->isoCode ? strtoupper($subdivision->isoCode) : '';
+
+            // In some cases the region code might be returned including the country code
+            // e.g. AE-DU instead of only DU. In that case we remove the prefix
+            // see https://github.com/matomo-org/matomo/issues/19323
+            if (0 === strpos($subdivisionIsoCode, $result[self::COUNTRY_CODE_KEY] . '-')) {
+                $subdivisionIsoCode = substr($subdivisionIsoCode, strlen($result[self::COUNTRY_CODE_KEY]) + 1);
+            }
+
+            $result[self::REGION_CODE_KEY] = $subdivisionIsoCode ? : $this->determineRegionIsoCodeByNameAndCountryCode($subdivision->name, $result[self::COUNTRY_CODE_KEY]);
             $result[self::REGION_NAME_KEY] = $subdivision->name;
         }
     }
@@ -389,7 +396,7 @@ class Php extends GeoIp2
                 array('<strong>', '</strong>'));
         }
 
-        $installDocs = '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_163">'
+        $installDocs = '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/faq_163">'
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a>';
 

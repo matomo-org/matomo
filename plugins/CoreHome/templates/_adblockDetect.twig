@@ -1,42 +1,44 @@
 <div id="bottomAd" style="font-size: 2px;">&nbsp;</div>
 <script type="text/javascript">
-    if ('undefined' === (typeof hasBlockedContent) || hasBlockedContent !== false) {
-        {# if hasBlockedContent was "false" most likely nothing was blocked #}
-        (function () {
-            {# most likely jQuery is not available, have to use vanilla JS here #}
-            var body = document.getElementsByTagName('body');
+    window.addEventListener('DOMContentLoaded', function () {
+        if ('undefined' === (typeof hasBlockedContent) || hasBlockedContent !== false) {
+            {# if hasBlockedContent was "false" most likely nothing was blocked #}
+            (function () {
+                {# most likely jQuery is not available, have to use vanilla JS here #}
+                var body = document.getElementsByTagName('body');
 
-            if (!body || !body[0]) {
-                return;
-            }
-
-            var bottomAd = document.getElementById('bottomAd');
-            var wasMostLikelyCausedByAdblock = false;
-
-            if (!bottomAd) {
-                wasMostLikelyCausedByAdblock = true;
-            } else if (bottomAd.style && bottomAd.style.display === 'none') {
-                wasMostLikelyCausedByAdblock = true;
-            } else if ('undefined' !== (typeof bottomAd.clientHeight) && bottomAd.clientHeight === 0) {
-                wasMostLikelyCausedByAdblock = true;
-            }
-
-            if (wasMostLikelyCausedByAdblock) {
-                var shouldGetHiddenElement = document.getElementById("should-get-hidden");
-                var warning = document.createElement('p');
-                warning.innerText = '{{ 'CoreHome_AdblockIsMaybeUsed'|translate|e('js') }}';
-
-                if (shouldGetHiddenElement) {
-                    shouldGetHiddenElement.appendChild(warning);
-                } else {
-                    body[0].insertBefore(warning, body[0].firstChild);
-                    warning.style.color = 'red';
-                    warning.style.fontWeight = 'bold';
-                    warning.style.marginLeft = '16px';
-                    warning.style.marginBottom = '16px';
-                    warning.style.fontSize = '20px';
+                if (!body || !body[0]) {
+                    return;
                 }
-            }
-        })();
-    }
+
+                var bottomAd = document.getElementById('bottomAd');
+                var wasMostLikelyCausedByAdblock = false;
+
+                if (!bottomAd) {
+                    wasMostLikelyCausedByAdblock = true;
+                } else if (bottomAd.style && bottomAd.style.display === 'none') {
+                    wasMostLikelyCausedByAdblock = true;
+                } else if ('undefined' !== (typeof bottomAd.clientHeight) && bottomAd.clientHeight === 0) {
+                    wasMostLikelyCausedByAdblock = true;
+                }
+
+                if (wasMostLikelyCausedByAdblock) {
+                    var shouldGetHiddenElement = document.getElementById("should-get-hidden");
+                    var warning = document.createElement('p');
+                    warning.innerText = '{{ 'CoreHome_AdblockIsMaybeUsed'|translate|e('js') }}';
+
+                    if (shouldGetHiddenElement) {
+                        shouldGetHiddenElement.appendChild(warning);
+                    } else {
+                        body[0].insertBefore(warning, body[0].firstChild);
+                        warning.style.color = 'red';
+                        warning.style.fontWeight = 'bold';
+                        warning.style.marginLeft = '16px';
+                        warning.style.marginBottom = '16px';
+                        warning.style.fontSize = '20px';
+                    }
+                }
+            })();
+        }
+    });
 </script>

@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\Dimension;
 use Piwik\Columns\DimensionSegmentFactory;
-use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
 

@@ -1,11 +1,11 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Afegir una anotació per %s",
+        "AddAnnotationsFor": "Afegir una anotació per %s...",
         "AnnotationOnDate": "Anotació per %1$s: %2$s",
         "Annotations": "Anotacions",
-        "ClickToDelete": "Feu click per eliminar l'anotació",
-        "ClickToEdit": "Feu click per editar aquesta anotació",
-        "ClickToEditOrAdd": "Feu click per editar o afegir una anotació",
+        "ClickToDelete": "Feu click per eliminar l'anotació.",
+        "ClickToEdit": "Feu click per editar aquesta anotació.",
+        "ClickToEditOrAdd": "Feu click per editar o afegir una anotació.",
         "ClickToStarOrUnstar": "Feu click per marcar o desmarcar aquesta nota.",
         "CreateNewAnnotation": "Crea una nova anotació...",
         "EnterAnnotationText": "Introduix la teva nota...",

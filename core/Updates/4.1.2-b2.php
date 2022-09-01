@@ -9,13 +9,7 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Container\StaticContainer;
-use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\Date;
-use Piwik\Plugins\SegmentEditor\API;
-use Piwik\Archive\ArchiveInvalidator;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;

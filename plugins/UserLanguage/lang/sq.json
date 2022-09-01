@@ -3,7 +3,7 @@
         "BrowserLanguage": "Gjuhë shfletuesi",
         "LanguageCode": "Kod gjuhe",
         "PluginDescription": "Raporton gjuhën e përdorur nga shfletuesit e vizitorëve tuaj.",
-        "getLanguageDocumentation": "Ky raport shfaq ç’gjuhëpo përdorin shfletuesit e vizitorëve (p.sh., \"Anglisht\")",
-        "getLanguageCodeDocumentation": "Ky raport shfaq kodin e saktë të gjuhës të ujdisur për shfletuesit e vizitorëve. (p.sh., \"Gjermanishte - Austri (de-at)\")"
+        "getLanguageCodeDocumentation": "Ky raport shfaq kodin e saktë të gjuhës të ujdisur për shfletuesit e vizitorëve. (p.sh., “Gjermanisht - Austri (de-at)”)",
+        "getLanguageDocumentation": "Ky raport shfaq ç’gjuhë po përdorin shfletuesit e vizitorëve (p.sh., “Anglisht”)"
     }
 }

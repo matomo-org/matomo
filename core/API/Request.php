@@ -108,7 +108,8 @@ class Request
                 $defaultRequest['segment'] = $requestRaw['segment'];
             }
 
-            if (!isset($defaultRequest['format_metrics'])) {
+            // Only default to formatting metrics if the request doesn't already contain the format metrics parameter
+            if (!isset($defaultRequest['format_metrics']) && !isset($request['format_metrics'])) {
                 $defaultRequest['format_metrics'] = 'bc';
             }
         }
@@ -130,7 +131,7 @@ class Request
 
         foreach ($requestArray as &$element) {
             if (!is_array($element)) {
-                $element = trim($element);
+                $element = trim((string) $element);
             }
         }
         return $requestArray;

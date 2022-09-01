@@ -8,7 +8,6 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
-use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API;

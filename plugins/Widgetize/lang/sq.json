@@ -1,9 +1,9 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Hape në dritare të re",
-        "PluginDescription": "Shfaqni çfarëdo raporti Matomo në sajtin apo aplikacionin tuaj, përmes një etikete të thjeshtë Embed HTML.",
-        "ViewAccessRequired": "Ky përdorues ka të paktën ca leje shkrimi. Mund të përdoren vetëm token-ë përdoruesish që kanë vetëm hyrje leximi. Për më tepër informacion, shihni %1$s.",
-        "TopLinkTooltip": "Eksportoni Raporte Matomo si Widget-e dhe bëjeni Pultin pjesë të aplikacionit tuaj si një iframe.",
-        "TooHighAccessLevel": "Ky përdorues ka hyrje superpërdoruesi. Nuk lejohen mirëfilltësime superpërdoruesi me token për widget-e të trupëzuar. %1$sPër më tepër hollësi, shihni PBR-të tona.%2$s"
+        "PluginDescription": "Shfaqni çfarëdo raporti Matomo në sajtin apo aplikacionin tuaj, përmes një etikete të thjeshtë “embed” HTML.",
+        "TooHighAccessLevel": "Ky përdorues ka hyrje superpërdoruesi. Nuk lejohen trupëzime widget-esh me token mirëfilltësimi superpërdoruesi. %1$sPër më tepër hollësi, shihni PBR-të tona.%2$s",
+        "TopLinkTooltip": "Eksportoni raporte Matomo si widget-e dhe bëjeni pultin pjesë të aplikacionit tuaj si një “iframe”.",
+        "ViewAccessRequired": "Ky përdorues ka të paktën ca leje shkrimi. Mund të përdoren vetëm token-ë përdoruesish që kanë vetëm hyrje leximi. Për më tepër hollësi, shihni %1$s."
     }
 }

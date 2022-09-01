@@ -1,12 +1,11 @@
 {
     "SEO": {
-        "PluginDescription": "このプラグインは SEO メトリクスを抽出し、表示します。： Alexa web ランキング, Google ページランク,インデックスされたページ数やバックリンクの数。",
-        "AlexaRank": "Alexa ランク",
         "Bing_IndexedPages": "Bing インデックスページ",
         "DomainAge": "ドメインエイジ",
         "Google_IndexedPages": "Google インデックスページ",
+        "PluginDescription": "このプラグインは SEO メトリクスを抽出し、表示します。： Alexa web ランキング, Google ページランク,インデックスされたページ数やバックリンクの数。",
         "Rank": "ランク",
-        "SeoRankings": "SEO ランキング",
-        "SEORankingsFor": "%s の SEO ランキング"
+        "SEORankingsFor": "%s の SEO ランキング",
+        "SeoRankings": "SEO ランキング"
     }
 }

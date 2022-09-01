@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
-use Piwik\Archive;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
@@ -233,7 +230,7 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function purgeOutdatedArchives()
     {
-        if ($this->willPurgingCausePotentialProblemInUI()) {
+        if ($this->willPurgingCausePotentialProblemInUI() && !Rules::$disablePureOutdatedArchive) {
             $this->logger->info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
             return false;
         }

@@ -10,7 +10,6 @@ namespace Piwik\Tests\Unit\Period;
 
 use Exception;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
@@ -21,6 +20,12 @@ use Piwik\Period\Year;
  */
 class RangeTest extends BasePeriodTest
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        Date::$now = null;
+    }
+
     /**
      * @dataProvider getDateXPeriodsAgoProvider
      */
@@ -181,6 +186,42 @@ class RangeTest extends BasePeriodTest
         $this->assertEquals('2008-01-01', $subPeriods[0]->toString());
         $this->assertEquals('2008-01-02', $subPeriods[1]->toString());
         $this->assertEquals('2008-01-03', $subPeriods[2]->toString());
+    }
+
+    // test range date1,date2
+    public function testRangeComma4_EndDateIncludesTodayWithTimezone()
+    {
+        Date::$now = strtotime('2020-08-01 03:00:00');
+        $range = new Range('day', '2008-01-01,today', 'Europe/Berlin');
+        $subPeriods = $range->getSubperiods();
+        $this->assertEquals('2008-01-01', $subPeriods[0]->toString());
+        $this->assertEquals('2008-01-02', $subPeriods[1]->toString());
+        $this->assertEquals('2008-01-03', $subPeriods[2]->toString());
+        $this->assertEquals('2020-08-01', end($subPeriods)->toString());
+    }
+
+    // test range date1,date2
+    public function testRangeComma5_EndDateIncludesTodayWithTimezoneAfterCurrentUTCDate()
+    {
+        Date::$now = strtotime('2020-08-01 03:00:00');
+        $range = new Range('day', '2008-01-01,today', 'Pacific/Auckland');
+        $subPeriods = $range->getSubperiods();
+        $this->assertEquals('2008-01-01', $subPeriods[0]->toString());
+        $this->assertEquals('2008-01-02', $subPeriods[1]->toString());
+        $this->assertEquals('2008-01-03', $subPeriods[2]->toString());
+        $this->assertEquals('2020-08-01', end($subPeriods)->toString());
+    }
+
+    // test range date1,date2
+    public function testRangeComma6_EndDateIncludesTodayWithTimezoneBeforeCurrentUTCDate()
+    {
+        Date::$now = strtotime('2020-08-01 03:00:00');
+        $range = new Range('day', '2008-01-01,today', 'America/New_York');
+        $subPeriods = $range->getSubperiods();
+        $this->assertEquals('2008-01-01', $subPeriods[0]->toString());
+        $this->assertEquals('2008-01-02', $subPeriods[1]->toString());
+        $this->assertEquals('2008-01-03', $subPeriods[2]->toString());
+        $this->assertEquals('2020-07-31', end($subPeriods)->toString());
     }
 
     // test range date1,date2

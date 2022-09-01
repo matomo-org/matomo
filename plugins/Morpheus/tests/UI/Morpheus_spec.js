@@ -18,13 +18,13 @@ describe("Morpheus", function () {
 
     it("should show all UI components and CSS classes", async function() {
         await page.goto(url);
-        await page.waitFor('.progressbar img');
+        await page.waitForSelector('.progressbar img');
         await page.evaluate(() => {
             $('img[src~=loading],.progressbar img').each(function () {
                 $(this).hide();
             });
         });
-        await page.waitFor(500); // wait for rendering
+        await page.waitForTimeout(500); // wait for rendering
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });
 });

@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\UserId;
 
-use Piwik\Db;
 
 /**
  * Plugin adds a new Users report showing all unique user IDs and some aggregated data

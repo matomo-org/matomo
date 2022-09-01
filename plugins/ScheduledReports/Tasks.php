@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Scheduler\Schedule\Schedule;
-use Piwik\Site;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {

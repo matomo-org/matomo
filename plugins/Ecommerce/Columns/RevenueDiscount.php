@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\Ecommerce\Columns;
 
-use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 

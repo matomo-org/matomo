@@ -14,7 +14,7 @@
         "Searches": "%s cautari",
         "SecondsAgo": "%s acum o secunda",
         "ShowingVisits": "Ultimile vizite geo-localizate",
-        "Unlocated": "<b>%1$s</b> %2$p vizitelor de la %3$c nu au putut fi geolocalizate.",
+        "Unlocated": "<b>%1$s</b> %2$s vizitelor de la %3$s nu au putut fi geolocalizate.",
         "VisitorMap": "Harta vizitatori",
         "WorldWide": "World-Wide",
         "map": "harta"

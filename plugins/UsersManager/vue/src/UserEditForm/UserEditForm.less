@@ -1,0 +1,54 @@
+.userEditForm {
+  .entityList ul li.active a {
+    font-weight: bold;
+  }
+
+  .entityList ul {
+    .icon-warning {
+      .alert-warning;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .user-permissions,.superuser-access {
+    margin-bottom: 32px;
+  }
+
+  .save-button-spacer {
+    height: 48px;
+  }
+
+  .basic-info-tab .matomo-save-button {
+    position: absolute;
+    bottom: 0;
+
+    .loadingPiwik {
+      position: absolute;
+    }
+  }
+
+  .twofa-confirm-modal, .change-password-modal {
+    .modal-no {
+      margin-left: 1em;
+      margin-right: 1em;
+      margin-top: 1em;
+    }
+  }
+
+  .basic-info-tab {
+    .siteSelector {
+      width: calc(~'100% - 25px');
+    }
+    .sites_autocomplete {
+      margin-bottom: 1rem;
+
+      .title {
+        &,span {
+          max-width: none;
+        }
+      }
+    }
+  }
+}
