@@ -44,25 +44,6 @@
         id="deleteLogsAnchor"
         :content-title="translate('PrivacyManager_DeleteOldRawData')"
       >
-        <div class="ui-confirm" id="confirmDeleteSettings">
-          <h2 id="deleteLogsConfirm">{{ translate('PrivacyManager_DeleteLogsConfirm') }}</h2>
-
-          <h2 id="deleteReportsConfirm">{{ translate('PrivacyManager_DeleteReportsConfirm') }}</h2>
-
-          <h2 id="deleteBothConfirm">{{ translate('PrivacyManager_DeleteBothConfirm') }}</h2>
-          <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
-          <input role="no" type="button" value="{{ translate('General_No') }}"/>
-        </div>
-        <div class="ui-confirm" id="saveSettingsBeforePurge">
-          <h2>{{ translate('PrivacyManager_SaveSettingsBeforePurge') }}</h2>
-          <input role="yes" type="button" value="{{ translate('General_Ok') }}"/>
-        </div>
-        <div class="ui-confirm" id="confirmPurgeNow">
-          <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
-          <input role="yes" type="button" value="{{ translate('General_Yes') }}"/>
-          <input role="no" type="button" value="{{ translate('General_No') }}"/>
-        </div>
-
         <p>{{ translate('PrivacyManager_DeleteDataDescription') }}</p>
 
         <DeleteOldLogs
