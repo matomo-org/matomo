@@ -51,6 +51,7 @@ describe("GoalsPages", function () {
 
     await page.waitForSelector('.ui-dialog');
     await page.waitForNetworkIdle();
+    await page.waitForTimeout(200);
 
     const dialog = await page.$('.ui-dialog');
     expect(await dialog.screenshot()).to.matchImage('overview_row_evolution_reloaded');
@@ -103,6 +104,7 @@ describe("GoalsPages", function () {
 
     await page.waitForSelector('.ui-dialog');
     await page.waitForNetworkIdle();
+    await page.waitForTimeout(200);
 
     const dialog = await page.$('.ui-dialog');
     expect(await dialog.screenshot()).to.matchImage('individual_row_evolution_reloaded');

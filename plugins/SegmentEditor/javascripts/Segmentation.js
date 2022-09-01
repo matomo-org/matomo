@@ -416,8 +416,7 @@ Segmentation = (function($) {
 
             self.target.on("click", ".segmentList li", function (e) {
                 if ($(e.currentTarget).hasClass("grayed") !== true) {
-                    var idsegment = $(this).attr("data-idsegment");
-                    segmentDefinition = $(this).data("definition");
+                    var segmentDefinition = $(this).data("definition");
 
                     if (!piwikHelper.isReportingPage()) {
                         // we update segment on location change success
@@ -425,7 +424,7 @@ Segmentation = (function($) {
                     }
 
                     self.markCurrentSegment();
-                    self.segmentSelectMethod( segmentDefinition );
+                    self.segmentSelectMethod(segmentDefinition);
                     toggleLoadingMessage(segmentDefinition.length);
                 }
             });
@@ -626,7 +625,7 @@ Segmentation = (function($) {
             }
 
             if (segment !== undefined && segment.definition != ""){
-                segmentDefinition = segment.definition;
+                self.currentSegmentStr = segment.definition;
                 self.form.find('.segment-generator-container').attr('model-value', JSON.stringify(segment.definition));
             }
 
@@ -662,12 +661,12 @@ Segmentation = (function($) {
               },
               watch: {
                 value: function () {
-                  segmentDefinition = this.value;
+                  self.currentSegmentStr = this.value;
                 },
               },
               data() {
                 return {
-                  value: segmentDefinition,
+                  value: self.currentSegmentStr,
                 };
               },
             });
@@ -683,7 +682,7 @@ Segmentation = (function($) {
               new CustomEvent('matomoVueDestroy'),
             );
 
-            segmentDefinition = undefined;
+            self.currentSegmentStr = '';
 
             $(self.form).unbind().remove();
             self.target.closest('.segmentEditorPanel').removeClass('editing');
@@ -691,7 +690,7 @@ Segmentation = (function($) {
 
         var parseFormAndSave = function(){
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
-            var segmentStr = segmentDefinition;
+            var segmentStr = self.currentSegmentStr;
             var segmentId = $(self.form).find(".available_segments_select").val() || "";
             var user = $(self.form).find(".enable_all_users_select option:selected").val();
             // if create realtime segments is disabled, the select field is not available, but we need to use autoArchive = 1
@@ -760,7 +759,7 @@ Segmentation = (function($) {
         };
 
         var testSegment = function() {
-            var segmentStr = segmentDefinition;
+            var segmentStr = self.currentSegmentStr;
             var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
 
             var url = window.location.href;
@@ -867,7 +866,7 @@ Segmentation = (function($) {
           var MatomoUrl = window.CoreHome.MatomoUrl;
           watch(
             function () {
-              return MatomoUrl.url;
+              return MatomoUrl.url.value;
             },
             function () {
               var segment = MatomoUrl.hashParsed.value.segment || '';

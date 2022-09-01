@@ -7,10 +7,10 @@
 
     <div
         vue-entry="Marketplace.SubscriptionOverview"
-        login-url="{{ loginUrl|json_encode|e('html_attr') }}"
-        num-users="{{ numUsers|json_encode|e('html_attr') }}"
-        has-license-key="{{ hasLicenseKey|default(false)|json_encode|e('html_attr') }}"
-        subscriptions="{{ subscriptions|json_encode|e('html_attr') }}"
+        login-url="{{ loginUrl|json_encode }}"
+        num-users="{{ numUsers|json_encode }}"
+        has-license-key="{{ hasLicenseKey|default(false)|json_encode }}"
+        subscriptions="{{ subscriptions|json_encode }}"
     ></div>
 
 {% endblock %}

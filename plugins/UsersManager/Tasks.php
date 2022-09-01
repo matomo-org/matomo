@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Access;
@@ -32,10 +34,27 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $this->daily("cleanupExpiredTokens");
         $this->daily("setUserDefaultReportPreference");
+        $this->daily("cleanUpExpiredInvites");
     }
 
-    public function cleanupExpiredTokens() {
+    public function cleanupExpiredTokens()
+    {
         $this->usersModel->deleteExpiredTokens(Date::now()->getDatetime());
+    }
+
+    public function cleanUpExpiredInvites()
+    {
+        // Expired invites will be removed after 3 days, so there's a chance to resend an invite before it's removed.
+
+        $expiredInvites = $this->usersModel->getExpiredInvites(Date::now()->subDay(3)->getDatetime());
+
+        foreach ($expiredInvites as $expiredInvite) {
+            try {
+                $this->usersModel->deleteUser($expiredInvite['login']);
+            } catch (\Exception $e) {
+                // ignore possible errors thrown during delete user event
+            }
+        }
     }
 
     public function setUserDefaultReportPreference()
@@ -46,7 +65,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $usersModel = $this->usersModel;
         $usersManagerApi = $this->usersManagerApi;
         Access::getInstance()->doAsSuperUser(function () use ($usersModel, $usersManagerApi) {
-            $allUsers = $usersModel->getUsers(array());
+            $allUsers = $usersModel->getUsers([]);
             foreach ($allUsers as $user) {
                 $usersManagerApi->initUserPreferenceWithDefault($user['login'], API::PREFERENCE_DEFAULT_REPORT);
             }

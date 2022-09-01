@@ -61,6 +61,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import AbortableModifiers from './AbortableModifiers';
 
 interface OptionGroup {
   group?: string;
@@ -171,6 +172,7 @@ function handleOldAngularJsValues<T>(value: T): T {
 export default defineComponent({
   props: {
     modelValue: null,
+    modelModifiers: Object,
     multiple: Boolean,
     name: String,
     title: String,
@@ -244,11 +246,19 @@ export default defineComponent({
         newValue = handleOldAngularJsValues(newValue);
       }
 
-      // change to previous value so the parent component can determine if this change should
-      // go through
-      this.onModelValueChange(this.modelValue);
+      if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+        this.$emit('update:modelValue', newValue);
+        return;
+      }
 
-      this.$emit('update:modelValue', newValue);
+      const emitEventData = {
+        value: newValue,
+        abort: () => {
+          this.onModelValueChange(this.modelValue);
+        },
+      };
+
+      this.$emit('update:modelValue', emitEventData);
     },
     onModelValueChange(newVal: string|number|string[]) {
       window.$(this.$refs.select as HTMLSelectElement).val(newVal);

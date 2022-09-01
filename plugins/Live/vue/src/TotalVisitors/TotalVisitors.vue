@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div id="visitsTotal">
+  <div>
     <table class="dataTable" cellspacing="0">
       <thead>
       <tr>

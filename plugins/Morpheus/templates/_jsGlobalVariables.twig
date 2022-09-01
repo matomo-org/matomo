@@ -1,5 +1,6 @@
 <script type="text/javascript">
     var piwik = {};
+    piwik.pluginsToLoadOnDemand = {{ pluginsToLoadOnDemand|json_encode|raw }};
     piwik.token_auth = "{{ token_auth }}";
     piwik.piwik_url = "{{ piwikUrl }}";
     piwik.cacheBuster = "{{ cacheBuster }}";
@@ -21,6 +22,8 @@
     {% if userLogin %}piwik.userLogin = "{{ userLogin|e('js')}}";{% endif %}
 
     {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}
+
+    piwik.requiresPasswordConfirmation = {{ userRequiresPasswordConfirmation ? 'true' : 'false' }};
 
     {% if siteName is defined %}
     // NOTE: siteName is currently considered deprecated, use piwik.currentSiteName instead, which will not contain HTML entities

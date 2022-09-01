@@ -566,7 +566,12 @@ function rowEvolutionGetMetricNameFromRow(tr)
             }
 
             // make sure percent axes don't go above 100%
-            if (axis.tickOptions.formatString.substring(2, 3) == '%' && maxCrossDataSets > 100) {
+            if (
+              axis.tickOptions
+              && axis.tickOptions.formatString
+              && axis.tickOptions.formatString.substring(2, 3) == '%'
+              && maxCrossDataSets > 100
+            ) {
                 maxCrossDataSets = 100;
             }
 
@@ -769,8 +774,11 @@ JQPlotExternalSeriesToggle.prototype = {
             for (var k = 0; k < this.originalSeries.length; k++) {
                 if (this.originalSeries[k]
                     && this.originalSeries[k].label
-                    && this.originalSeries[k].label === this.activated[j]) {
-
+                    && (
+                      this.originalSeries[k].label === this.activated[j]
+                      || piwikHelper.htmlDecode(this.originalSeries[k].label) === this.activated[j]
+                    )
+                ) {
                     config.data.push(this.originalData[k]);
                     config.params.seriesColors.push(this.originalSeriesColors[k]);
                     config.params.series.push($.extend(true, {}, this.originalSeries[k]));
@@ -1211,7 +1219,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            $('.jqplot-legend-canvas').css({paddingLeft: '34px'});
+            $('.jqplot-legend-canvas', $('#' + target)).css({paddingLeft: '34px'});
             plot.baseCanvas._elem.before(this.domElem);
         });
 

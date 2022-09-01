@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics;
 
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -83,7 +82,7 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
         if (isset($this->idSite)) {
             $allGoals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
             $goalName = @$allGoals[$this->idGoal]['name'];
-            return Common::sanitizeInputValue($goalName);
+            return $goalName;
         } else {
             return "";
         }

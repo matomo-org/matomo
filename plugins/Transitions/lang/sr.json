@@ -4,9 +4,6 @@
         "DirectEntries": "Direktni ulasci",
         "ErrorBack": "Vrati se na prethodnu akciju",
         "ExitsInline": "%s izlaza",
-        "NumPageviews": "%s prikaza stranica",
-        "NumDownloads": "%s preuzimanja",
-        "NumOutlinks": "%s izlaznih linkova",
         "FromCampaigns": "Iz kampanja",
         "FromPreviousPages": "Od internih stranica",
         "FromPreviousPagesInline": "%s sa internih strana",
@@ -17,7 +14,10 @@
         "IncomingTraffic": "Dolazni saobraćaj",
         "LoopsInline": "%s ponovnih učitavanja stranice",
         "NoDataForAction": "Nema podataka za %s",
-        "NoDataForActionDetails": "Ili akcija nema nijedan pregled stranica za dati period %s ili ona nije validna.",
+        "NoDataForActionDetails": "Ili akcija nema nijedan pregled stranica za dati period ili ona nije validna.",
+        "NumDownloads": "%s preuzimanja",
+        "NumOutlinks": "%s izlaznih linkova",
+        "NumPageviews": "%s prikaza stranica",
         "OutgoingTraffic": "Odlazni saobraćaj",
         "PluginDescription": "Izveštaj o prethodnoj i sledećoj akciji za svaki URL",
         "ShareOfAllPageviews": "Ova stranica ima %1$s pregleda (%2$s od svih pregleda)",
@@ -25,8 +25,8 @@
         "ToFollowingPagesInline": "%s ka drugim stranicama",
         "ToFollowingSiteSearches": "Pretraživanja sajta",
         "ToFollowingSiteSearchesInline": "%s pretraživanja sajta",
+        "TransitionsSubcategoryHelp2": "Više detalja",
         "XOfAllPageviews": "%s od svih pregleda ove strane",
-        "XOutOfYVisits": "%1$s (od %2$s)",
-        "TransitionsSubcategoryHelp2": "Više detalja"
+        "XOutOfYVisits": "%1$s (od %2$s)"
     }
 }

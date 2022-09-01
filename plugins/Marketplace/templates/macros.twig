@@ -11,5 +11,5 @@
 {% endmacro %}
 
 {% macro missingRequirementsPleaseUpdateNotice(plugin) %}
-    <div vue-entry="Marketplace.MissingReqsNotice" plugin="{{ plugin|json_encode|e('html_attr') }}"></div>
+    <div vue-entry="Marketplace.MissingReqsNotice" plugin="{{ plugin|json_encode }}"></div>
 {% endmacro %}

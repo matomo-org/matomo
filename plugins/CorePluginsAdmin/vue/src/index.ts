@@ -6,6 +6,7 @@
 */
 
 export { default as expressions } from './expressions';
+export { default as AbortableEvent } from './FormField/AbortableEvent';
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
 export { default as Setting } from './PluginSettings/Setting';
@@ -19,6 +20,7 @@ export { default as Form } from './Form/Form';
 export { default as GroupedSettings } from './GroupedSettings/GroupedSettings.vue';
 export { default as PluginsIntro } from './PluginsIntro/PluginsIntro.vue';
 export { default as ThemesIntro } from './ThemesIntro/ThemesIntro.vue';
+export { default as PasswordConfirmation } from './PasswordConfirmation/PasswordConfirmation.vue';
 export { default as PluginName } from './Plugins/PluginName';
 export { default as PluginsTable } from './PluginsTable/PluginsTable.vue';
 export { default as PluginsTableWithUpdates } from './PluginsTable/PluginsTableWithUpdates.vue';

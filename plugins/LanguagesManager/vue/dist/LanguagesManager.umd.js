@@ -376,64 +376,64 @@ function postLanguageChange(element, event) {
     $(el).off('click', 'a[value]', binding.value.onClick);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=template&id=b0cd4152
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=template&id=645528d7
 
-var LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_1 = {
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_1 = {
   class: "languageSelection"
 };
-var LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_2 = {
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_2 = {
   class: "item",
   target: "_blank",
   rel: "noreferrer noopener",
   href: "https://matomo.org/translations/"
 };
-var LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_3 = ["value", "title"];
-var LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_4 = {
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_3 = ["value", "title"];
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_4 = {
   action: "index.php?module=LanguagesManager&action=saveLanguage",
   method: "post",
   ref: "form"
 };
-var LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_5 = ["value"];
-var LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_6 = ["value"];
-var LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_7 = ["value"];
-function LanguagesDropdownvue_type_template_id_b0cd4152_render(_ctx, _cache, $props, $setup, $data, $options) {
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_5 = ["value"];
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_6 = ["value"];
+var LanguagesDropdownvue_type_template_id_645528d7_hoisted_7 = ["value"];
+function LanguagesDropdownvue_type_template_id_645528d7_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MenuItemsDropdown = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MenuItemsDropdown");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MenuItemsDropdown, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LanguagesDropdownvue_type_template_id_645528d7_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MenuItemsDropdown, {
     "menu-title": _ctx.currentLanguageName,
     onAfterSelect: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.onSelect($event);
     })
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.languages, function (language) {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", LanguagesDropdownvue_type_template_id_645528d7_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.languages, function (language) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
           key: language.code,
           class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("item ".concat(language.code === _ctx.currentLanguageCode ? 'active' : '')),
           value: language.code,
           title: "".concat(language.name, " (").concat(language.english_name, ")")
-        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(language.name), 11, LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_3);
-      }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(language.name), 11, LanguagesDropdownvue_type_template_id_645528d7_hoisted_3);
+      }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", LanguagesDropdownvue_type_template_id_645528d7_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "hidden",
         name: "language",
         id: "language",
         value: _ctx.selectedLanguage
-      }, null, 8, LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      }, null, 8, LanguagesDropdownvue_type_template_id_645528d7_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "hidden",
         name: "nonce",
         id: "nonce",
-        value: _ctx.nonce
-      }, null, 8, LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_6), _ctx.tokenAuth ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
+        value: _ctx.formNonce
+      }, null, 8, LanguagesDropdownvue_type_template_id_645528d7_hoisted_6), _ctx.tokenAuth ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
         key: 0,
         type: "hidden",
         name: "token_auth",
         value: _ctx.tokenAuth
-      }, null, 8, LanguagesDropdownvue_type_template_id_b0cd4152_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)];
+      }, null, 8, LanguagesDropdownvue_type_template_id_645528d7_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)];
     }),
     _: 1
   }, 8, ["menu-title"])]);
 }
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=template&id=b0cd4152
+// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=template&id=645528d7
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/LanguagesDropdown/LanguagesDropdown.vue?vue&type=script&lang=ts
 
@@ -441,7 +441,7 @@ function LanguagesDropdownvue_type_template_id_b0cd4152_render(_ctx, _cache, $pr
 /* harmony default export */ var LanguagesDropdownvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     tokenAuth: String,
-    nonce: {
+    formNonce: {
       type: String,
       required: true
     },
@@ -483,7 +483,7 @@ function LanguagesDropdownvue_type_template_id_b0cd4152_render(_ctx, _cache, $pr
 
 
 
-LanguagesDropdownvue_type_script_lang_ts.render = LanguagesDropdownvue_type_template_id_b0cd4152_render
+LanguagesDropdownvue_type_script_lang_ts.render = LanguagesDropdownvue_type_template_id_645528d7_render
 
 /* harmony default export */ var LanguagesDropdown = (LanguagesDropdownvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/index.ts

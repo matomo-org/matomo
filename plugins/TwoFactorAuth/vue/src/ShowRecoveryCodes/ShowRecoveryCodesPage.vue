@@ -58,7 +58,8 @@ export default defineComponent({
     },
     showRecoveryCodesLink() {
       return `?${MatomoUrl.stringify({
-        method: 'TwoFactorAuth',
+        ...MatomoUrl.urlParsed.value,
+        module: 'TwoFactorAuth',
         action: 'showRecoveryCodes',
       })}`;
     },

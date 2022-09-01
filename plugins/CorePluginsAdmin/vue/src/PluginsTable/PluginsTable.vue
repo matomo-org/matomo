@@ -145,11 +145,11 @@
                   </a>
 
                   <a
-                    v-if="plugin.info?.donate.flattr"
+                    v-if="plugin.info?.donate?.flattr"
                     class="donation-link flattr"
                     target="_blank"
                     rel="noreferrer noopener"
-                    :href="plugin.info.donate.flattr"
+                    :href="plugin.info.donate?.flattr"
                   >
                     <img
                       class="alignnone"

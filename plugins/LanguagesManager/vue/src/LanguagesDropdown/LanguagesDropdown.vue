@@ -34,7 +34,7 @@
         ref="form"
       >
         <input type="hidden" name="language" id="language" :value="selectedLanguage" />
-        <input type="hidden" name="nonce" id="nonce" :value="nonce" />
+        <input type="hidden" name="nonce" id="nonce" :value="formNonce" />
         <!-- During installation token_auth is not set -->
         <input v-if="tokenAuth" type="hidden" name="token_auth" :value="tokenAuth"/>
       </form>
@@ -53,7 +53,7 @@ interface LanguagesDropdownState {
 export default defineComponent({
   props: {
     tokenAuth: String,
-    nonce: {
+    formNonce: {
       type: String,
       required: true,
     },

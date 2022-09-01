@@ -332,12 +332,6 @@ function onLocationChange(parsed) {
   }
 }
 
-function onLoadPage(params) {
-  if (params.category === 'Dashboard_Dashboard' && $.isNumeric(params.subcategory)) {
-    params.promise = fetchDashboard(parseInt(params.subcategory, 10));
-  }
-}
-
 function onLoadDashboard(idDashboard) {
   fetchDashboard(idDashboard);
 }
@@ -349,14 +343,11 @@ function onLoadDashboard(idDashboard) {
       return external_CoreHome_["MatomoUrl"].parsed.value;
     }, function (parsed) {
       onLocationChange(parsed);
-    }); // load dashboard directly since it will be faster than going through reporting page API
-
-    external_CoreHome_["Matomo"].on('ReportingPage.loadPage', onLoadPage);
+    });
     external_CoreHome_["Matomo"].on('Dashboard.loadDashboard', onLoadDashboard);
   },
   unmounted: function unmounted() {
     onLocationChange(external_CoreHome_["MatomoUrl"].parsed.value);
-    external_CoreHome_["Matomo"].off('ReportingPage.loadPage', onLoadPage);
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });

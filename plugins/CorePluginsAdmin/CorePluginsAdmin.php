@@ -80,6 +80,7 @@ class CorePluginsAdmin extends Plugin
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldExpandableSelect.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldMultituple.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/FormField/FieldSelect.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/vue/src/PasswordConfirmation/PasswordConfirmation.less";
     }
 
     public static function isPluginsAdminEnabled()
@@ -153,6 +154,7 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'CorePluginsAdmin_TeaserExtendPiwikByTheme';
         $translations[] = 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell';
         $translations[] = 'CorePluginsAdmin_ThemesManagement';
+        $translations[] = 'CorePluginsAdmin_NUpdatesAvailable';
     }
 
 }

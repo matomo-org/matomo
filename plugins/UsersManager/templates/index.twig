@@ -6,11 +6,12 @@
 
 <div
     vue-entry="UsersManager.UsersManager"
-    initial-site-id="{{ idSiteSelected|json_encode|e('html_attr') }}"
-    initial-site-name="{{ defaultReportSiteName|json_encode|e('html_attr') }}"
-    current-user-role="{{ currentUserRole|json_encode|e('html_attr') }}"
-    access-levels="{{ accessLevels|json_encode|e('html_attr') }}"
-    filter-access-levels="{{ filterAccessLevels|json_encode|e('html_attr') }}"
+    initial-site-id="{{ idSiteSelected|json_encode }}"
+    initial-site-name="{{ defaultReportSiteName|json_encode }}"
+    current-user-role="{{ currentUserRole|json_encode }}"
+    access-levels="{{ accessLevels|json_encode }}"
+    filter-access-levels="{{ filterAccessLevels|json_encode }}"
+    filter-status-levels="{{ statusAccessLevels|json_encode }}"
 >
 </div>
 

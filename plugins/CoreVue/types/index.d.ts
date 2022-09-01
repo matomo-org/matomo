@@ -154,6 +154,7 @@ declare global {
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
     userLogin?: string;
     userHasSomeAdminAccess: boolean;
+    requiresPasswordConfirmation: boolean;
 
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;

@@ -60,7 +60,7 @@
         <div v-if="!isValidHost">
           <div class="alert alert-danger">
             {{ translate('UsersManager_InjectedHostCannotChangePwd', invalidHost) }}
-            <span v-if="!isSuperUser" v-html="emailYourAdminText"></span>
+            <span v-if="!isSuperUser" v-html="$sanitize(emailYourAdminText)"></span>
           </div>
         </div>
       </form>

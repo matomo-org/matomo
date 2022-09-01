@@ -9,14 +9,18 @@ const { $ } = window;
 
 export default {
   mounted(el: HTMLElement): void {
-    $(el).on('click', '.visits-live-launch-visitor-profile', (e) => {
-      e.preventDefault();
-      window.broadcast.propagateNewPopoverParameter(
-        'visitorProfile',
-        $(this).attr('data-visitor-id'),
-      );
-      return false;
-    }).tooltip({
+    $(el).on(
+      'click',
+      '.visits-live-launch-visitor-profile',
+      function onClickLaunchProfile(this: HTMLElement, e: Event) {
+        e.preventDefault();
+        window.broadcast.propagateNewPopoverParameter(
+          'visitorProfile',
+          $(this).attr('data-visitor-id'),
+        );
+        return false;
+      },
+    ).tooltip({
       track: true,
       content() {
         const title = $(this).attr('title') || '';
