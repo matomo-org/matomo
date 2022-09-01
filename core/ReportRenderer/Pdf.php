@@ -196,16 +196,17 @@ class Pdf extends ReportRenderer
         // report title
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize + 5);
         $this->TCPDF->SetTextColor($this->headerTextColor[0], $this->headerTextColor[1], $this->headerTextColor[2]);
-        $this->TCPDF->SetXY(10, 120);
+        $this->TCPDF->SetXY(10, 119);
         $this->TCPDF->MultiCell(0, 40, $reportTitle, 0, 'L');
-        $this->TCPDF->SetXY(10, 150);
 
         // date and period
+        $this->TCPDF->SetXY(10, 152);
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize);
         $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
         $this->TCPDF->MultiCell(0, 40, $dateRange, 0, 'L');
 
         // description
+        $this->TCPDF->SetXY(10, 210);
         $this->TCPDF->Write(1, $this->formatText($description));
 
         // segment
