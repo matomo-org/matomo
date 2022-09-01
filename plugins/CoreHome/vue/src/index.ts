@@ -11,6 +11,7 @@ import './Periods/Week';
 import './Periods/Month';
 import './Periods/Year';
 import './Periods/Range';
+import './AjaxHelper/AjaxHelper.adapter';
 import './PopoverHandler/PopoverHandler';
 import './zenMode';
 import Matomo from './Matomo/Matomo';
