@@ -12,6 +12,7 @@ use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
 use Piwik\Exception\StylesheetLessCompileException;
+use Piwik\Plugin\Manager;
 use Piwik\ProxyHttp;
 
 /**
@@ -73,6 +74,21 @@ class Controller extends \Piwik\Plugin\Controller
         $chunk = Common::getRequestVar('chunk');
         $chunkFile = AssetManager::getInstance()->getMergedJavaScriptChunk($chunk);
         $this->serveJsFile($chunkFile);
+    }
+
+    /**
+     * Output a single plugin's UMD JavaScript file.
+     * This method is called when the asset manager is enabled and when a plugin's UMD is set
+     * to be loaded on demand.
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function getPluginUmdJs()
+    {
+        $plugin = Common::getRequestVar('plugin');
+        $pluginUmdPath = Manager::getPluginDirectory($plugin) . "/vue/dist/$plugin.umd.min.js";
+        ProxyHttp::serverStaticFile($pluginUmdPath, self::JS_MIME_TYPE);
     }
 
     /**
