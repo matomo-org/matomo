@@ -27,6 +27,7 @@ use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Site;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Site;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles

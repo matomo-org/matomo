@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\VisitsSummary;
 
 use Matomo\Cache\Transient;
@@ -39,7 +41,7 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($requestedColumns)) {
             $columnsToShow = $requestedColumns ?: $report->getAllMetrics();
-            $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
+            $dataTable->queueFilter('ColumnDelete', [$columnsToRemove = [], $columnsToShow]);
         }
 
         return $dataTable;
@@ -49,7 +51,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if (!is_numeric($idSite)
+        if (
+            !is_numeric($idSite)
             || Period::isMultiplePeriod($date, $period)
         ) {
             throw new \Exception("VisitsSummary.isProfilable should not be called with multisites or period [idSite = $idSite, date = $date, period = $period]");
@@ -60,7 +63,8 @@ class API extends \Piwik\Plugin\API
         $data = $this->get($idSite, $period, $date, $segment, ['nb_visits', 'nb_profilable']);
         $row = $data->getFirstRow()->getColumns();
 
-        if (empty($row['nb_visits']) // no visits
+        if (
+            empty($row['nb_visits']) // no visits
             || !isset($row['nb_profilable']) // no profilable metric
             || $row['nb_profilable'] === false
         ) {
@@ -80,7 +84,7 @@ class API extends \Piwik\Plugin\API
 
     protected function getCoreColumns($period)
     {
-        $columns = array(
+        $columns = [
             'nb_visits',
             'nb_actions',
             'nb_visits_converted',
@@ -88,9 +92,9 @@ class API extends \Piwik\Plugin\API
             'sum_visit_length',
             'max_actions',
             'nb_profilable',
-        );
+        ];
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
-            $columns = array_merge(array('nb_uniq_visitors', 'nb_users'), $columns);
+            $columns = array_merge(['nb_uniq_visitors', 'nb_users'], $columns);
         }
         $columns = array_values($columns);
         return $columns;
@@ -154,8 +158,10 @@ class API extends \Piwik\Plugin\API
 
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
         if (is_object($table)) {
-            $table->filter('ColumnCallbackReplace',
-                array('sum_visit_length', array($formatter, 'getPrettyTimeFromSeconds'), array(true)));
+            $table->filter(
+                'ColumnCallbackReplace',
+                ['sum_visit_length', [$formatter, 'getPrettyTimeFromSeconds'], [true]]
+            );
         } else {
             $table = $formatter->getPrettyTimeFromSeconds($table, true);
         }
