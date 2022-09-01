@@ -29,7 +29,7 @@
             v-plugin-name="{pluginName: plugin.name}"
             class="screenshot"
             :src="`${plugin.screenshots[0]}?w=600`"
-            width="100%"
+            style="width: 100%"
             alt=""
           />
         </span>

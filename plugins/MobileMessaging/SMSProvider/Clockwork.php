@@ -99,13 +99,7 @@ class Clockwork extends SMSProvider
             $result = Http::sendHttpRequestBy(
                 Http::getTransportMethod(),
                 $url,
-                $timeout,
-                $userAgent = null,
-                $destinationPath = null,
-                $file = null,
-                $followDepth = 0,
-                $acceptLanguage = false,
-                $acceptInvalidSslCertificate = true
+                $timeout
             );
         } catch (Exception $e) {
             $result = self::ERROR_STRING . " " . $e->getMessage();

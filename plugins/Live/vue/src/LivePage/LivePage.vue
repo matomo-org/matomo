@@ -11,15 +11,7 @@
       :content-title="!isWidgetized ? translate('Live_VisitorsInRealTime') : undefined"
     >
       <div v-live-widget-refresh="{liveRefreshAfterMs: liveRefreshAfterMs}">
-        <TotalVisitors
-          :count-error-half-hour="countErrorHalfHour"
-          :count-error-today="countErrorToday"
-          :pis-halfhour="pisHalfhour"
-          :pis-today="pisToday"
-          :visitors-count-half-hour="visitorsCountHalfHour"
-          :visitors-count-today="visitorsCountToday"
-        />
-
+        <VueEntryContainer :html="initialTotalVisitors"/>
         <VueEntryContainer :html="visitors"/>
       </div>
 
@@ -45,8 +37,7 @@
         &nbsp;
         <a
           class="rightLink"
-          href="#"
-          @click.prevent="gotoVisitorLog()"
+          :href="visitorLogUrl"
         >
           {{ translate('Live_LinkVisitorLog') }}
         </a>
@@ -76,14 +67,9 @@ declare global {
 
 export default defineComponent({
   props: {
-    countErrorToday: Number,
-    visitorsCountToday: Number,
-    pisToday: Number,
-    countErrorHalfHour: Number,
-    visitorsCountHalfHour: Number,
-    pisHalfhour: Number,
     disableLink: Boolean,
     visitors: String,
+    initialTotalVisitors: String,
     liveRefreshAfterMs: Number,
     isWidgetized: Boolean,
   },
@@ -96,19 +82,21 @@ export default defineComponent({
   directives: {
     LiveWidgetRefresh,
   },
+  computed: {
+    visitorLogUrl() {
+      return `#?${MatomoUrl.stringify({
+        ...MatomoUrl.hashParsed.value,
+        category: 'General_Visitors',
+        subcategory: 'Live_VisitorLog',
+      })}`;
+    },
+  },
   methods: {
     onClickPause() {
       window.onClickPause();
     },
     onClickPlay() {
       window.onClickPlay();
-    },
-    gotoVisitorLog() {
-      MatomoUrl.updateHash({
-        ...MatomoUrl.hashParsed.value,
-        category: 'General_Visitors',
-        subcategory: 'Live_VisitorLog',
-      });
     },
   },
 });

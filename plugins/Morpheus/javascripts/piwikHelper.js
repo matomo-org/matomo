@@ -194,8 +194,7 @@ window.piwikHelper = {
             return;
           }
 
-          // property binding
-          // append with underscore so reserved javascript keywords aren't accidentally used
+          // append '_' to avoid accidentally using javascript keywords
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -314,7 +313,7 @@ window.piwikHelper = {
     /**
      * Detects whether the current page is a reporting page or not.
      *
-     * @returns {number|jQuery|*}
+     * @returns {number}
      */
     isReportingPage: function ()
     {

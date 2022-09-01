@@ -921,7 +921,7 @@ class Report
                 $translation = $metric->getTranslatedName();
             } else {
                 $metricName  = $metric;
-                $translation = @$translations[$metric];
+                $translation = $translations[$metric] ?? null;
             }
 
             $metrics[$metricName] = $translation ?: $metricName;

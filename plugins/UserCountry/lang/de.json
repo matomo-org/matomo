@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "Die IP-Adresse %s ist eine lokale Adresse. Der Standort kann daher nicht ermittelt werden.",
+        "CannotLocalizeLocalIP": "Die IP-Adresse „%s“ ist lokal und kann daher nicht geolokalisiert werden.",
         "City": "Stadt",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",

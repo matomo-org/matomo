@@ -55,7 +55,7 @@
                 (<a href="" @click.prevent="showList('os')">{{ translate('Mobile_ShowAll') }}</a>)
               </small>
             </td>
-            <td><img height="16px" width="16px" :src="os_logo" />{{ os_name }}</td>
+            <td><img :height="16" :width="16" :src="os_logo" />{{ os_name }}</td>
           </tr>
           <tr>
             <td>{{ translate('CorePluginsAdmin_Version') }}</td>
@@ -71,7 +71,7 @@
                 >{{ translate('Mobile_ShowAll') }}</a>)
               </small>
             </td>
-            <td><img height="16px" width="16px" :src="os_family_logo" />{{ os_family }}</td>
+            <td><img :height="16" :width="16" :src="os_family_logo" />{{ os_family }}</td>
           </tr>
           </tbody>
         </table>
@@ -90,7 +90,7 @@
               </small>
             </td>
             <td>
-              <img height="16px" width="16px" :src="browser_logo" />{{ browser_name }}
+              <img :height="16" :width="16" :src="browser_logo" />{{ browser_name }}
             </td>
           </tr>
           <tr>
@@ -108,7 +108,7 @@
               </small>
             </td>
             <td>
-              <img height="16px" width="16px" :src="browser_family_logo" />{{ browser_family }}
+              <img :height="16" :width="16" :src="browser_family_logo" />{{ browser_family }}
             </td>
           </tr>
           </tbody>
@@ -127,7 +127,7 @@
                 >{{ translate('Mobile_ShowAll') }}</a>)
               </small>
             </td>
-            <td><img height="16px" width="16px" :src="device_type_logo" />{{ device_type }}</td>
+            <td><img :height="16" :width="16" :src="device_type_logo" />{{ device_type }}</td>
           </tr>
           <tr>
             <td>
@@ -139,7 +139,7 @@
                 >{{ translate('Mobile_ShowAll') }}</a>)
               </small>
             </td>
-            <td><img height="16px" width="16px" :src="device_brand_logo" />{{ device_brand }}</td>
+            <td><img :height="16" :width="16" :src="device_brand_logo" />{{ device_brand }}</td>
           </tr>
           <tr>
             <td>{{ translate('DevicesDetection_dataTableLabelModels') }}</td>

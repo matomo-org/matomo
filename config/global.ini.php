@@ -45,6 +45,10 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
+; Database error codes to ignore during updates
+;
+;ignore_error_codes[] = 1105
+
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table
@@ -276,6 +280,9 @@ browser_archiving_disabled_enforce = 0
 
 ; Add custom currencies to Sites Manager.
 currencies[BTC] = Bitcoin
+
+; default expiry time in days for invite user tokens
+default_invite_user_token_expiry_days = 7
 
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
@@ -706,7 +713,7 @@ enable_trusted_host_check = 1
 ; The API server is an essential part of the Matomo infrastructure/ecosystem to
 ; provide services to Matomo installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
-api_service_url = https://api.matomo.org
+api_service_url = http://api.matomo.org
 
 ; When the ImageGraph plugin is activated, report metadata have an additional entry : 'imageGraphUrl'.
 ; This entry can be used to request a static graph for the requested report.
@@ -800,9 +807,9 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
-; This option forces matomo marketplace and matomo api requests to use Https for improved security
-; If you have a problem loading the marketplace, please disable this config option
-force_matomo_ssl_request = 1
+; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
+; If you have a problem loading the marketplace, please enable this config option
+force_matomo_http_request = 0
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
@@ -931,7 +938,7 @@ default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.

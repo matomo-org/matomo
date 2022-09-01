@@ -21,6 +21,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   props: {
     modelValue: null,
+    modelModifiers: Object, // not actually supported
     uiControl: String,
     name: String,
   },

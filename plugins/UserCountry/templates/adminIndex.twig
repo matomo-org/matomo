@@ -7,13 +7,13 @@
 
 <div
     vue-entry="UserCountry.AdminPage"
-    current-provider-id="{{ currentProviderId|json_encode|e('html_attr') }}"
-    is-there-working-provider="{{ isThereWorkingProvider|default(null)|json_encode|e('html_attr') }}"
-    set-up-guides="{{ setUpGuides|default(null)|json_encode|e('html_attr') }}"
-    this-ip="{{ thisIP|default(null)|json_encode|e('html_attr') }}"
-    location-providers="{{ locationProviders|default(null)|json_encode|e('html_attr') }}"
-    default-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DefaultProvider::ID")|default(null)|json_encode|e('html_attr') }}"
-    disabled-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DisabledProvider::ID")|default(null)|json_encode|e('html_attr') }}"
+    current-provider-id="{{ currentProviderId|json_encode }}"
+    is-there-working-provider="{{ isThereWorkingProvider|default(null)|json_encode }}"
+    set-up-guides="{{ setUpGuides|default(null)|json_encode }}"
+    this-ip="{{ thisIP|default(null)|json_encode }}"
+    location-providers="{{ locationProviders|default(null)|json_encode }}"
+    default-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DefaultProvider::ID")|default(null)|json_encode }}"
+    disabled-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DisabledProvider::ID")|default(null)|json_encode }}"
 ></div>
 
 {{ configurations|raw }}

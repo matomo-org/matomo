@@ -28,6 +28,7 @@ export default defineComponent({
   computed: {
     userSecurityLink(): string {
       return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
         module: 'UsersManager',
         action: 'userSecurity',
       })}`;

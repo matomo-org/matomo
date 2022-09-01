@@ -17,7 +17,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;

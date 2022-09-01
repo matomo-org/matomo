@@ -31,6 +31,7 @@
         "ExceptionArchiveEmpty": "Arquivo vazio.",
         "ExceptionArchiveIncompatible": "Arquivo incompatível: %s",
         "ExceptionArchiveIncomplete": "O arquivo está incompleto: faltam alguns ficheiros (ex. %s).",
+        "ExceptionDirWrongPermission": "Alguns ficheiros não são editáveis.Certifique-se que os seguintes ficheiros são editáveis e tente novamente:%s.",
         "ExecuteDbUpgrade": "É necessária uma atualização da base de dados. Executar atualização?",
         "FeedbackRequest": "Esteja à vontade para partilhar as suas ideias e sugestões com a equipa do Matomo aqui:",
         "HelpMessageContent": "Consulte as %1$s perguntas frequentes do Matomo %2$s que explicam os erros mais comuns durante a atualização %3$s Pergunte ao seu administrador de sistemas - ele pode ajudar com o erro que provavelmente está relacionado com o seu servidor ou configuração MySQL.",

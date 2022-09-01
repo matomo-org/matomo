@@ -1,1 +1,10 @@
-{}
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Buka dalam tetingkap baharu",
+        "PluginDescription": "Paparkan sebarang laporan Matomo dalam tapak web atau apl anda dengan teg HTML \"benam\" mudah.",
+        "SelectAReport": "Pilih laporan dan salin tampal dalam halaman anda kod benam di bawah widget:",
+        "TooHighAccessLevel": "Pengguna ini mempunyai akses pengguna super. Membenamkan widget dengan pengesahan token pengguna super tidak dibenarkan. %1$sSemak Soalan Lazim untuk mendapatkan maklumat lanjut.%2$s",
+        "TopLinkTooltip": "Eksport laporan Matomo sebagai widget dan benamkan papan pemuka dalam apl anda sebagai iframe.",
+        "ViewAccessRequired": "Pengguna ini mempunyai sekurang-kurangnya beberapa akses tulis. Hanya token pengguna yang hanya mempunyai akses melihat boleh digunakan. Semak %1$s untuk mendapatkan maklumat lanjut."
+    }
+}

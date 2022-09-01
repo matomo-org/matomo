@@ -170,6 +170,37 @@ class ActionTest extends IntegrationTestCase
         $this->assertEquals($filteredUrl[0], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
+    public function getTestAdvertisingClickIdUrls()
+    {
+        return [
+            ['https://www.example.com?gclid=1234', 'https://www.example.com'],
+            ['https://www.example.com?fbclid=1234', 'https://www.example.com'],
+            ['https://www.example.com?msclkid=1234', 'https://www.example.com'],
+            ['https://www.example.com?yclid=1234', 'https://www.example.com'],
+            ['https://www.example.com/path1?gclid=1234', 'https://www.example.com/path1'],
+            ['https://www.example.com/path2?fbclid=1234', 'https://www.example.com/path2'],
+            ['https://www.example.com/path3?msclkid=1234', 'https://www.example.com/path3'],
+            ['https://www.example.com/path4?yclid=1234', 'https://www.example.com/path4'],
+            ['https://www.example.com?random=1234', 'https://www.example.com?random=1234'],
+            ['https://www.example.com?random=1234&yclid=qwerty', 'https://www.example.com?random=1234'],
+        ];
+    }
+
+    /**
+     * No excluded query parameters specified, apart from the standard "session" parameters, always excluded
+     *
+     * @dataProvider getTestAdvertisingClickIdUrls
+     */
+    public function testExcludeQueryParametersAdvertisingClickIds($url, $filteredUrl)
+    {
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+            $excludedIps = '', $excludedQueryParameters = '', $timezone = null, $currency = null,
+            $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
+        $this->assertEquals($filteredUrl, PageUrl::excludeQueryParametersFromUrl($url, $idSite));
+    }
+
     public function getTestUrlsHashtag()
     {
         $urls = array(
