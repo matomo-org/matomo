@@ -229,10 +229,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: https://github.com/symfony/Console
 	License: MIT (Expat)
 
-	Name: AngularJS
-	Link: https://github.com/angular/angular.js
-	License: MIT (Expat)
-
 	Name: Mousetrap
 	Link: https://github.com/ccampbell/mousetrap
 	License: Apache 2.0
