@@ -772,7 +772,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             var piwikPeriods = window.CoreHome.Periods;
             var formatDate = window.CoreHome.format;
-            var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
             if (self.param['dateUsedInGraph']) {
                 // this parameter is passed along when switching between periods. So we perfer using
                 // it, to avoid a change in the end date shown in the graph
