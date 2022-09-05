@@ -126,13 +126,16 @@ class DevelopmentLoader implements LoaderInterface
     {
         $fallbackTranslations = $this->loader->load($this->fallbackLanguage, $directories);
 
-        $translations = array();
+        $translations = [];
         foreach ($fallbackTranslations as $section => $sectionFallbackTranslations) {
+            if ($section === 'Intl') {
+                $translations[$section] = $sectionFallbackTranslations;
+                continue;
+            }
 
             $translations[$section] = array_map(function ($translation) {
                 $accented = strtr($translation, self::MAP);
                 return "[" . $accented . "]";
-
             }, $sectionFallbackTranslations);
         }
 
