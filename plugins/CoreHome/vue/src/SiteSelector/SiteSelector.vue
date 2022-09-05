@@ -338,7 +338,7 @@ export default defineComponent({
       return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
     },
     loadInitialSites() {
-      return SitesStore.loadInitialSites().then((sites) => {
+      return SitesStore.loadInitialSites(this.onlySitesWithAdminAccess).then((sites) => {
         this.sites = sites || [];
       });
     },
