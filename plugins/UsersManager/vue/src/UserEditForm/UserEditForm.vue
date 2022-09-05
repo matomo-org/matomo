@@ -431,14 +431,14 @@ export default defineComponent({
       ).catch((e) => {
         this.isSavingUserInfo = false;
         throw e;
-      }).then(() => {
+      }).then((r: any) => {
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
         this.theUser.invite_status = 'pending';
 
         this.resetPasswordVar();
-        this.showUserCreatedNotification();
+        this.showUserCreatedNotification(r.value);
         this.$emit('updated', { user: readonly(this.theUser) });
       });
     },
@@ -455,11 +455,12 @@ export default defineComponent({
         type: 'toast',
       });
     },
-    showUserCreatedNotification() {
+    showUserCreatedNotification(token: string) {
       NotificationsStore.show({
         message: translate('UsersManager_InviteSuccess'),
         context: 'success',
         type: 'toast',
+        copyValue: token,
       });
     },
     reset2FA(password: string) {

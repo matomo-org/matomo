@@ -33,6 +33,9 @@
               <!-- ng-transclude causes directive child elements to be added here -->
               <div class="notification-body">
                 <div v-if="message" v-html="$sanitize(message)"/>
+                <a v-if="copyValue && !copied" href="#" @click="copyToClipboard(copyValue)">
+                  {{ translate('UsersManager_CopyLink') }}</a>
+                <span v-if="copied"> {{ translate('UsersManager_Copied')}}</span>
                 <div v-if="!message">
                   <slot />
                 </div>
@@ -48,6 +51,7 @@
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
+import { translate } from '../translate';
 
 const { $ } = window;
 
@@ -69,6 +73,7 @@ export default defineComponent({
     animate: Boolean,
     message: String,
     cssClass: String,
+    copyValue: String,
   },
   computed: {
     cssClasses() {
@@ -94,6 +99,7 @@ export default defineComponent({
   data() {
     return {
       deleted: false,
+      copied: false,
     };
   },
   mounted() {
@@ -112,6 +118,10 @@ export default defineComponent({
     }
   },
   methods: {
+    copyToClipboard(value) {
+      navigator.clipboard.writeText(value);
+      this.copied = true;
+    },
     toastClosed() {
       nextTick(() => {
         this.$emit('closed');

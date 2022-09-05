@@ -86,7 +86,7 @@
           v-if="userBeingEdited"
           v-html="$sanitize(translate(
             'UsersManager_InviteConfirm',
-            [userBeingEdited.login, userBeingEdited.email]
+            [`<strong>${userBeingEdited.login}</strong>`]
             ,
           ))"
         ></h3>
@@ -95,11 +95,6 @@
         </strong></h3>
       </div>
       <div class="modal-footer">
-        <a
-          href=""
-          class="modal-action modal-close btn-success"
-          style="margin-right:3.5px"
-        >{{ translate('UsersManager_CopyLink') }}</a>
         <a
           href="#"
           class="modal-action modal-close modal-no btn-success"
@@ -353,13 +348,15 @@ export default defineComponent({
           method: 'UsersManager.resendInvite',
           userLogin: user.login,
         },
-      ).then(() => {
+      ).then((r: any) => {
         this.fetchUsers();
+        console.log(r.value);
         const id = NotificationsStore.show({
           message: translate('UsersManager_ResendInviteSuccess', user.login),
-          id: 'resendinvite',
+          id: 'resendInvite',
           context: 'success',
           type: 'transient',
+          copyValue: r.value,
         });
         NotificationsStore.scrollToNotification(id);
       });
