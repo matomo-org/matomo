@@ -176,7 +176,7 @@
     <p
       v-html="$sanitize(optOutExplanationIntro)">
     </p>
-    <div class="alert-info alert opt-out-remember-to-test">
+    <div class="system notification notification-info optOutTestReminder">
       <p>
       <strong>{{ translate('PrivacyManager_OptOutRememberToTest') }}</strong>
       </p>
