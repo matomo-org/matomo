@@ -144,9 +144,9 @@ class RowEvolution
         $popoverTitle = '';
         if ($this->rowLabel) {
             $icon = $this->rowIcon ? '<img height="16px" src="' . $this->rowIcon . '" alt="">' : '';
-            $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $this->rowLabel ));
+            $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', Common::fixLbrace($this->rowLabel) ));
             $metricsText = sprintf(Piwik::translate('RowEvolution_MetricsFor'), $this->dimension . ': ' . $icon . ' ' . $rowLabel);
-            $popoverTitle = $icon . ' ' . $this->rowLabel;
+            $popoverTitle = $icon . ' ' . Common::fixLbrace($this->rowLabel);
         }
 
         $view->availableMetricsText = $metricsText;
