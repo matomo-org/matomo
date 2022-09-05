@@ -880,6 +880,7 @@ class API extends \Piwik\Plugin\API
         $_isPasswordHashed = false,
         $passwordConfirmation = false
     ) {
+        $email = Common::unsanitizeInputValue($email);
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
         self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
 

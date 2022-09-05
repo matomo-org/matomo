@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "复制面板给用户",
         "CreateNewDashboard": "创建新的面板",
         "Dashboard": "报表面板",
+        "DashboardCategoryHelp": "面板这是一个面板页面。面板是Matomo的部件的集合，你可以自己添加以满足你的特定需求。混合和匹配任何Matomo的部件，以获得数据%1$s*你*%2$s 需要，一目了然。",
         "DashboardCopied": "当前面板成功复制到所选用户。",
         "DashboardEmptyNotification": "您的面板没有任何小工具，请增加一些小工具或重置为默认的小工具选择。",
         "DashboardName": "面板名称:",
