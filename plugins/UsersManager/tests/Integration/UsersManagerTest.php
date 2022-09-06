@@ -108,6 +108,7 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['invite_status']);
         unset($userAfter['invite_token']);
         unset($userAfter['invite_expired_at']);
+        unset($userAfter['invite_link_token']);
         unset($userAfter['invite_accept_at']);
         unset($userAfter['invited_by']);
 
