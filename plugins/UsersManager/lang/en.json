@@ -191,7 +191,7 @@
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
         "FirstWebsitePermission": "First website permission",
         "InviteSuccessNotification": "The invited user will receive an email to accept the invite. This invite is valid for %1$s days. You can also resend and delete the invite on the user management page.",
-        "InviteConfirm": "You are going to resend the invitation to %1$s, you can also copying the invite link and sharing directly with %1$s after resend.",
+        "InviteConfirm": "You can resend the invitation by copying the invite link and sharing directly with %1$s, or resend an invite email to %2$s.",
         "Status": "Status",
         "Pending": "Pending",
         "Active": "Active",
@@ -207,7 +207,6 @@
         "InvitationSent": "Invitation has been sent.",
         "SendInvite": "Send Invite",
         "CopyLink": "Copy LInk",
-        "Copied": "Copied",
         "InviteLinkValidDays": "Invite links are valid for %1$s-days."
     }
 }

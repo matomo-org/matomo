@@ -18,7 +18,6 @@
       :style="notification.style"
       :animate="notification.animate"
       :message="notification.message"
-      :copy-value="notification.copyValue"
       :notification-instance-id="notification.notificationInstanceId"
       :css-class="notification.class"
       @closed="removeNotification(notification.id)"

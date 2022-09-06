@@ -28,10 +28,8 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\Email;
-use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\Url;
 use Piwik\Validators\BaseValidator;
 
 /**
@@ -786,7 +784,7 @@ class API extends \Piwik\Plugin\API
             new Site($initialIdSite);
         }
 
-        $token = $this->userRepository->inviteUser((string) $userLogin, (string) $email, intval($initialIdSite), (int) $expiryInDays);
+        $this->userRepository->inviteUser((string) $userLogin, (string) $email, intval($initialIdSite), (int) $expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -795,15 +793,6 @@ class API extends \Piwik\Plugin\API
          * @param string $email The new user's e-mail.
          */
         Piwik::postEvent('UsersManager.inviteUser.end', [$userLogin, $email]);
-
-        /**
-         * return invite link, in case someone doesn't have email enabled
-         */
-        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
-                'module' => 'Login',
-                'action' => 'acceptInvitation',
-                'token'  => $token,
-            ]);
     }
 
     /**
@@ -1556,7 +1545,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $token = $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
+        $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -1564,11 +1553,5 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The new user's login.
          */
         Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
-
-        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
-                'module' => 'Login',
-                'action' => 'acceptInvitation',
-                'token'  => $token,
-            ]);
     }
 }

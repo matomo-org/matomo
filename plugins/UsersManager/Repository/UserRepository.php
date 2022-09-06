@@ -87,7 +87,7 @@ class UserRepository
         $this->sendUserCreationNotification($userLogin);
     }
 
-    public function inviteUser(string $userLogin, string $email, ?int $initialIdSite = null, $expiryInDays = null): string
+    public function inviteUser(string $userLogin, string $email, ?int $initialIdSite = null, $expiryInDays = null): void
     {
         $this->create($userLogin, $email, $initialIdSite);
         $this->model->updateUserFields($userLogin, ['invited_by' => Piwik::getCurrentUserLogin()]);
@@ -95,16 +95,14 @@ class UserRepository
         $generatedToken = $this->model->generateRandomInviteToken();
         $this->model->attachInviteToken($userLogin, $generatedToken, $expiryInDays);
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
-        return $generatedToken;
     }
 
-    public function reInviteUser(string $userLogin, $expiryInDays = null): string
+    public function reInviteUser(string $userLogin, $expiryInDays = null): void
     {
         $user = $this->model->getUser($userLogin);
         $generatedToken = $this->model->generateRandomInviteToken();
         $this->model->attachInviteToken($userLogin, $generatedToken, $expiryInDays);
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
-        return $generatedToken;
     }
 
     protected function sendUserCreationNotification(string $createdUserLogin): void
