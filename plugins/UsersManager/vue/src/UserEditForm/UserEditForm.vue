@@ -163,7 +163,7 @@
           </div>
           <div
             class="entityCancel"
-            v-if="isAdd && user"
+            v-if="isAdd"
           >
             <a
               href=""
