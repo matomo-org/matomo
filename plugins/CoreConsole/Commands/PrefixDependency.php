@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\CliMulti\CliPhp;
 use Piwik\Development;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
@@ -47,9 +48,9 @@ class PrefixDependency extends ConsoleCommand
 
         $command = $this->getPhpScoperCommand($phpScoperBinary, $input, $output);
 
-        $output->writeln("Prefixing...");
+        $output->writeln("<info>Prefixing...</info>");
         passthru($command);
-        $output->writeln("Done.");
+        $output->writeln("<info>Done.</info>");
     }
 
     private function downloadPhpScoperIfNeeded(InputInterface $input, OutputInterface $output)
@@ -60,6 +61,11 @@ class PrefixDependency extends ConsoleCommand
         }
 
         $outputPath = PIWIK_INCLUDE_PATH . '/php-scoper.phar';
+        if (is_file($outputPath)) {
+            $output->writeln("Found existing phar.");
+            return $outputPath;
+        }
+
         $output->writeln("Downloading php-scoper from github...");
         Http::fetchRemoteFile('https://github.com/humbug/php-scoper/releases/download/'
             . self::PHP_SCOPER_VERSION . '/php-scoper.phar', $outputPath);
@@ -78,8 +84,11 @@ class PrefixDependency extends ConsoleCommand
 
         $prefix = $input->getOption('prefix');
 
-        $command = 'cd ' . $vendorPath . ' && ' . $phpScoperBinary . ' add --prefix="' . escapeshellarg($prefix)
-            . '" --force --output-dir=./vendor/prefixed/' . $dependency;
+        $cliPhp = new CliPhp();
+        $phpBinary = $cliPhp->findPhpBinary();
+
+        $command = 'cd ' . $vendorPath . ' && ' . $phpBinary . ' ' . $phpScoperBinary . ' add --prefix='
+            . escapeshellarg($prefix) . ' --no-config --force --output-dir=../../prefixed/' . $dependency;
 
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $output->writeln("<comment>php-scoper command: $command</comment>");
