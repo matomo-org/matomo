@@ -105,6 +105,13 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
+    public function generateInviteToken(string $userLogin, $expiryInDays = null): string
+    {
+        $generatedToken = $this->model->generateRandomInviteToken();
+        $this->model->attachInviteLinkToken($userLogin, $generatedToken, $expiryInDays);
+        return $generatedToken;
+    }
+
     protected function sendUserCreationNotification(string $createdUserLogin): void
     {
         $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, [

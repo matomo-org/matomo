@@ -95,14 +95,18 @@
         </strong></h3>
       </div>
       <div class="modal-footer">
+        <span v-if="copied" class="success-copied">
+          <i class="icon-success"></i>
+          {{ translate('UsersManager_LinkCopied') }}</span>
         <a
-          href=""
-          class="modal-action modal-close btn-success"
+          href="#"
+          @click="copyInviteLink(userBeingEdited)"
+          class="btn-copy-link modal-action btn-success"
           style="margin-right:3.5px"
         >{{ translate('UsersManager_CopyLink') }}</a>
         <a
           href="#"
-          class="modal-action modal-close modal-no btn-success"
+          class="btn-resend modal-action modal-close modal-no btn-success"
           @click = "onResendInvite(userBeingEdited)"
         >{{ translate('UsersManager_SendInvite') }}</a>
       </div>
@@ -165,6 +169,7 @@ interface UsersManagerState {
   searchParams: SearchParams;
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
+  copied: boolean;
 }
 
 const NUM_USERS_PER_PAGE = 20;
@@ -229,6 +234,7 @@ export default defineComponent({
       isLoadingUsers: false,
       userBeingEdited: null,
       addNewUserLoginEmail: '',
+      copied: false,
     };
   },
   created() {
@@ -347,6 +353,18 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
+    copyInviteLink(user: User) {
+      AjaxHelper.fetch<AjaxHelper>(
+        {
+          method: 'UsersManager.generateInviteLink',
+          userLogin: user.login,
+        },
+      ).then((response) => {
+        this.fetchUsers();
+        navigator.clipboard.writeText(response.value);
+        this.copied = true;
+      });
+    },
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(
         {
@@ -436,5 +454,10 @@ export default defineComponent({
   line-height: 20px;
   padding-top: 0px;
   font-weight: 600;
+}
+
+.success-copied {
+  color: #5D9E52;
+  margin-right: 15px;
 }
 </style>

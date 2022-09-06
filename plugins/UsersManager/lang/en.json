@@ -206,7 +206,8 @@
         "ResendInvite": "Resend invite",
         "InvitationSent": "Invitation has been sent.",
         "SendInvite": "Send Invite",
-        "CopyLink": "Copy LInk",
+        "CopyLink": "Copy Link",
+        "LinkCopied": "Link Copied",
         "InviteLinkValidDays": "Invite links are valid for %1$s-days."
     }
 }

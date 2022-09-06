@@ -348,6 +348,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_InvitationSent';
         $translationKeys[] = 'UsersManager_SendInvite';
         $translationKeys[] = 'UsersManager_CopyLink';
+        $translationKeys[] = 'UsersManager_LinkCopied';
         $translationKeys[] = 'UsersManager_InviteLinkValidDays';
 
     }

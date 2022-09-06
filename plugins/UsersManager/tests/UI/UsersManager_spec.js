@@ -563,8 +563,15 @@ describe("UsersManager", function () {
         expect(await elem.screenshot()).to.matchImage('resend_popup');
     });
 
+    it('should show invite link copied when copy clicked', async function () {
+        await (await page.jQuery('.resend-invite-confirm-modal .btn-copy-link')).click();
+        await page.waitForSelector('#notificationContainer .notification');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
+    });
+
     it('should show resend success message', async function() {
-        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await (await page.jQuery('.resend-invite-confirm-modal .btn-resend')).click();
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');

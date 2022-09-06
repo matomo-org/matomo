@@ -28,8 +28,10 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Url;
 use Piwik\Validators\BaseValidator;
 
 /**
@@ -1553,5 +1555,44 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The new user's login.
          */
         Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
+    }
+
+    /**
+     * @param $userLogin
+     * @param int $expiryInDays
+     * @return string
+     * @throws NoAccessException
+     */
+    public function generateInviteLink($userLogin, $expiryInDays = 7)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        if (!$this->model->isPendingUser($userLogin)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+        }
+
+        $user = $this->model->getUser($userLogin);
+
+        // If user is not a super user check if the user was invited by the current user
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
+                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+            }
+        }
+
+       $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
+
+        /**
+         * Triggered after a new user was invited.
+         *
+         * @param string $userLogin The new user's login.
+         */
+        Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
+
+        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
+                'module' => 'Login',
+                'action' => 'acceptInvitation',
+                'token'  => $token,
+            ]);
     }
 }
