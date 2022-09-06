@@ -566,7 +566,7 @@ describe("UsersManager", function () {
     it('should show invite link copied when copy clicked', async function () {
         await (await page.jQuery('.resend-invite-confirm-modal .btn-copy-link')).click();
         const elem = await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
-        expect(await page.screenshotSelector('.resend-invite-confirm-modal')).to.matchImage('copied_success');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
     });
 
     it('should show resend success message', async function() {
