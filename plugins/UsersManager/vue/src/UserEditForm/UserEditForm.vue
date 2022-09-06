@@ -359,7 +359,7 @@ export default defineComponent({
       isShowingPasswordConfirm: false,
     };
   },
-  emits: ['done', 'updated'],
+  emits: ['done', 'updated', 'resendInvite'],
   watch: {
     user(newVal) {
       this.onUserChange(newVal);

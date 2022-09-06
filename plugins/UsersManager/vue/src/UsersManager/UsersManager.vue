@@ -359,9 +359,9 @@ export default defineComponent({
           method: 'UsersManager.generateInviteLink',
           userLogin: user.login,
         },
-      ).then((response) => {
+      ).then((r: any) => {
         this.fetchUsers();
-        navigator.clipboard.writeText(response.value);
+        navigator.clipboard.writeText(r.value);
         this.copied = true;
       });
     },
