@@ -2,10 +2,11 @@
     "API": {
         "ChangeTokenHint": "Se desideri cambiare questo token, vai alla tua %1$spagina delle impostazioni personali%2$s.",
         "EvolutionMetricName": "%s Evoluzione",
+        "GenerateVisits": "Se non hai dati per oggi, puoi generarne qualcuno usando il plugin %1$s in 'Sviluppo → Generatore visitatori' nell'area amministrativa di Matomo.",
         "Glossary": "Glossario",
         "KeepTokenSecret": "Questo token_auth è segreto come il tuo login e la tua password, %1$s non condividerlo %2$s!",
         "LearnAboutCommonlyUsedTerms2": "Scopri i termini comunemente utilizzati per ottenere il massimo da Matomo Analytics.",
-        "LoadedAPIs": "Sono state caricate con successo %s API",
+        "LoadedAPIs": "Caricate %s API",
         "MainMetricsReportDocumentation": "Questo report offre una panoramica delle metriche più importanti in tutte le categorie e i plug-in.",
         "MoreInformation": "Per ulteriori informazioni sulle API di Matomo, si prega di dare un'occhiata alla %1$s Introduzione alle API di Matomo %2$s e alla %3$s Guida di Riferimento delle API di Matomo %4$s.",
         "PluginDescription": "Tutti i dati di Matomo sono disponibili tramite semplici API. Questo plugin è la porta d'accesso al servizio web che puoi utilizzare per avere i dati delle tue statistiche web in xml, json, php, csv, ecc.",
