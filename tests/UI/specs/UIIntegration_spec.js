@@ -55,7 +55,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
-/*
+
     // dashboard tests
     describe("dashboard", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
@@ -227,10 +227,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_idsite_superuser');
         });
     });
-*/
+
     describe("VisitorsPages", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
-/*
+
         // visitors pages
         it('should load visitors > overview page correctly', async function () {
             await page.keyboard.press('Escape'); // close shortcut screen
@@ -363,7 +363,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
         });
-*/
+
         it('should load the visitors > real-time visits page correctly', async function () {
             await page.goto("?" + urlBaseGeneric + idSite3Params + "#?" + idSite3Params + "&category=General_Visitors&subcategory=General_RealTime");
             //await page.waitForNetworkIdle();
@@ -375,7 +375,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
         });
     });
-/*
+
     describe("ActionsPages", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
@@ -1136,5 +1136,5 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('embed_whole_app');
         });
-    });*/
+    });
 });
