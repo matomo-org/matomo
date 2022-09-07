@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\CliMulti\CliPhp;
 use Piwik\Development;
+use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -40,16 +41,29 @@ class PrefixDependency extends ConsoleCommand
             'Specify a custom path to php-scoper. If not supplied, the PHAR will be downloaded from github.');
         $this->addOption('prefix', null, InputOption::VALUE_REQUIRED, 'The namespace prefix to use.',
             'Matomo\\Dependencies');
+        $this->addOption('composer-path', null, InputOption::VALUE_REQUIRED,
+            'Path to composer. Required to generate a new autoloader.');
+        $this->addOption('remove-original', null, InputOption::VALUE_NONE,
+            'If supplied, removes the original composer dependency after prefixing.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $composerPath = $this->getComposerPath($input);
+
         $phpScoperBinary = $this->downloadPhpScoperIfNeeded($input, $output);
 
-        $command = $this->getPhpScoperCommand($phpScoperBinary, $input, $output);
-
         $output->writeln("<info>Prefixing...</info>");
-        passthru($command);
+        $command = $this->getPhpScoperCommand($phpScoperBinary, $input, $output);
+        passthru($command, $returnCode);
+        if ($returnCode) {
+            throw new \Exception("Failed to run php-scoper! Command was: $command");
+        }
+
+        $output->writeln("");
+        $output->writeln("<info>Regenerating autoloader...</info>");
+        $this->generatePrefixedAutoloader($composerPath, $input, $output);
+
         $output->writeln("<info>Done.</info>");
     }
 
@@ -88,12 +102,55 @@ class PrefixDependency extends ConsoleCommand
         $phpBinary = $cliPhp->findPhpBinary();
 
         $command = 'cd ' . $vendorPath . ' && ' . $phpBinary . ' ' . $phpScoperBinary . ' add --prefix='
-            . escapeshellarg($prefix) . ' --no-config --force --output-dir=../../prefixed/' . $dependency;
+            . escapeshellarg($prefix) . ' --force --output-dir=../../prefixed/' . $dependency
+            . ' --config=../../../scoper.inc.php';
 
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $output->writeln("<comment>php-scoper command: $command</comment>");
         }
 
         return $command;
+    }
+
+    private function getComposerPath(InputInterface $input)
+    {
+        $composerPath = $input->getOption('composer-path');
+        if (empty($composerPath)) {
+            throw new \InvalidArgumentException('The --composer-path option is required.');
+        }
+
+        if (!is_file($composerPath)) {
+            throw new \InvalidArgumentException('--composer-path value "' . $composerPath . '" is not a file.');
+        }
+
+        return $composerPath;
+    }
+
+    private function generatePrefixedAutoloader($composerPath, InputInterface $input, OutputInterface $output)
+    {
+        $prefixed = "./vendor/prefixed";
+
+        file_put_contents("$prefixed/composer.json", '{ "autoload": { "classmap": [""] } }');
+
+        $output->writeln("Generating prefixed autoloader...");
+
+        $composerCommand = escapeshellarg($composerPath) . " --working-dir=" . escapeshellarg($prefixed)
+            . " dump-autoload --classmap-authoritative --no-interaction";
+        passthru($composerCommand, $returnCode);
+        if ($returnCode) {
+            throw new \Exception("Failed to invoke composer! Command was: $composerCommand");
+        }
+
+        Filesystem::remove("$prefixed/autoload.php");
+        Filesystem::unlinkRecursive("$prefixed/composer", true);
+
+        Filesystem::remove("$prefixed/composer.json");
+
+        $removeOriginal = $input->getOption('remove-original');
+        if ($removeOriginal) {
+            $dependency = $input->getArgument('dependency');
+            $vendorPath = "./vendor/$dependency";
+            Filesystem::unlinkRecursive($vendorPath, true);
+        }
     }
 }

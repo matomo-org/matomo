@@ -16,13 +16,13 @@ use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
-use Twig\Environment;
-use Twig\Extension\DebugExtension;
-use Twig\Loader\ChainLoader;
-use Twig\Loader\FilesystemLoader;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
-use Twig\TwigTest;
+use Matomo\Dependencies\Twig\Environment;
+use Matomo\Dependencies\Twig\Extension\DebugExtension;
+use Matomo\Dependencies\Twig\Loader\ChainLoader;
+use Matomo\Dependencies\Twig\Loader\FilesystemLoader;
+use Matomo\Dependencies\Twig\TwigFilter;
+use Matomo\Dependencies\Twig\TwigFunction;
+use Matomo\Dependencies\Twig\TwigTest;
 
 function piwik_filter_truncate($string, $size)
 {
@@ -47,7 +47,7 @@ function piwik_fix_lbrace($string)
 
 function piwik_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
 
-    $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
+    $string = \Matomo\Dependencies\twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
 
     switch ($strategy) {
         case 'html':
@@ -70,13 +70,13 @@ function piwik_format_money($amount, $idSite)
     return $numberFormatter->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
 }
 
-class PiwikTwigFilterExtension extends \Twig\Extension\AbstractExtension
+class PiwikTwigFilterExtension extends \Matomo\Dependencies\Twig\Extension\AbstractExtension
 {
     public function getFilters()
     {
         return array(
-            new TwigFilter('e', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe')),
-            new TwigFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe'))
+            new TwigFilter('e', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => '\Matomo\Dependencies\twig_escape_filter_is_safe')),
+            new TwigFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => '\Matomo\Dependencies\twig_escape_filter_is_safe'))
         );
     }
 
@@ -337,7 +337,7 @@ class Twig
 
             foreach ($options as $key => $value) {
                 if (ctype_alpha($key)) {
-                    $template .= sprintf('data-%s="%s" ', $key, twig_escape_filter($twigEnv, $value, 'html_attr'));
+                    $template .= sprintf('data-%s="%s" ', $key, \Matomo\Dependencies\twig_escape_filter($twigEnv, $value, 'html_attr'));
                 }
             }
 

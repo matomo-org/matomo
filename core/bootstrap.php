@@ -41,7 +41,12 @@ disableEaccelerator();
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 // Composer autoloader
-require_once PIWIK_VENDOR_PATH . '/autoload.php';
+$originalLoader = require_once PIWIK_VENDOR_PATH . '/autoload.php';
+if (is_file(PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php')) {
+    require_once PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php';
+
+    \Piwik\Dependency\PrefixedSkippingAutoloader::register($originalLoader);
+}
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/dev.php';
 

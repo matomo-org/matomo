@@ -15,7 +15,7 @@ use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\View\ViewInterface;
 use Piwik\View\SecurityPolicy;
-use Twig\Environment;
+use Matomo\Dependencies\Twig\Environment;
 
 /**
  * Transition for pre-Piwik 0.4.4

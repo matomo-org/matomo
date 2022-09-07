@@ -10,10 +10,10 @@
 
 namespace Piwik\View;
 
-use Twig\Compiler;
-use Twig\Node\Expression\AbstractExpression;
-use Twig\Node\Expression\ArrayExpression;
-use Twig\Node\Expression\NameExpression;
+use Matomo\Dependencies\Twig\Compiler;
+use Matomo\Dependencies\Twig\Node\Expression\AbstractExpression;
+use Matomo\Dependencies\Twig\Node\Expression\ArrayExpression;
+use Matomo\Dependencies\Twig\Node\Expression\NameExpression;
 
 class MethodCallExpression extends AbstractExpression
 {

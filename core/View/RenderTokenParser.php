@@ -8,10 +8,10 @@
  */
 namespace Piwik\View;
 
-use Twig\Node\Expression\ArrayExpression;
-use Twig\Node\IncludeNode;
-use Twig\Token;
-use Twig\TokenParser\AbstractTokenParser;
+use Matomo\Dependencies\Twig\Node\Expression\ArrayExpression;
+use Matomo\Dependencies\Twig\Node\IncludeNode;
+use Matomo\Dependencies\Twig\Token;
+use Matomo\Dependencies\Twig\TokenParser\AbstractTokenParser;
 
 /**
  * Defines a new Twig tag that will render a Piwik View.
@@ -28,7 +28,7 @@ class RenderTokenParser extends AbstractTokenParser
      * Parses the Twig stream and creates a Twig_Node_Include instance that includes
      * the View's template.
      *
-     * @return \Twig\Node\Node
+     * @return \Matomo\Dependencies\Twig\Node\Node
      */
     public function parse(Token $token)
     {
