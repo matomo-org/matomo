@@ -46,8 +46,8 @@ function piwik_fix_lbrace($string)
 }
 
 function piwik_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
-
-    $string = \Matomo\Dependencies\twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
+    $escapeFilter = function_exists('\Matomo\Dependencies\twig_escape_filter') ? '\Matomo\Dependencies\twig_escape_filter' : 'twig_escape_filter';
+    $string = $escapeFilter($env, $string, $strategy, $charset, $autoescape);
 
     switch ($strategy) {
         case 'html':
@@ -74,9 +74,11 @@ class PiwikTwigFilterExtension extends \Matomo\Dependencies\Twig\Extension\Abstr
 {
     public function getFilters()
     {
+        $isSafeFunction = function_exists('\Matomo\Dependencies\twig_escape_filter_is_safe')
+            ? '\Matomo\Dependencies\twig_escape_filter_is_safe' : 'twig_escape_filter_is_safe';
         return array(
-            new TwigFilter('e', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => '\Matomo\Dependencies\twig_escape_filter_is_safe')),
-            new TwigFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => '\Matomo\Dependencies\twig_escape_filter_is_safe'))
+            new TwigFilter('e', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => $isSafeFunction)),
+            new TwigFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => $isSafeFunction))
         );
     }
 
@@ -335,9 +337,10 @@ class Twig
 
             $template = '<div style="display:none" data-role="notification" ';
 
+            $escapeFilter = function_exists('\Matomo\Dependencies\twig_escape_filter') ? '\Matomo\Dependencies\twig_escape_filter' : 'twig_escape_filter';
             foreach ($options as $key => $value) {
                 if (ctype_alpha($key)) {
-                    $template .= sprintf('data-%s="%s" ', $key, \Matomo\Dependencies\twig_escape_filter($twigEnv, $value, 'html_attr'));
+                    $template .= sprintf('data-%s="%s" ', $key, $escapeFilter($twigEnv, $value, 'html_attr'));
                 }
             }
 
