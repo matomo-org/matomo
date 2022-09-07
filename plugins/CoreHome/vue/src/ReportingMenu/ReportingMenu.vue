@@ -221,7 +221,7 @@ export default defineComponent({
       );
     });
 
-    Matomo.on('piwikPageChange', () => {
+    Matomo.on('matomoPageChange', () => {
       if (!this.initialLoad) {
         window.globalAjaxQueue.abort();
       }
