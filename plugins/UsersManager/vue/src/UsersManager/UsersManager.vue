@@ -108,7 +108,7 @@
           href="#"
           class="btn btn-resend modal-action modal-close modal-no"
           @click = "onResendInvite(userBeingEdited)"
-        >{{ translate('UsersManager_SendInvite') }}</a>
+        >{{ translate('UsersManager_ResendInvite') }}</a>
       </div>
     </div>
     <div class="add-existing-user-modal modal" ref="addExistingUserModal">
@@ -253,6 +253,7 @@ export default defineComponent({
           dismissible: false,
         })
         .modal('open');
+      this.copied = false;
     },
     onEditUser(user: User) {
       Matomo.helper.lazyScrollToContent();

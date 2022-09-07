@@ -144,7 +144,7 @@
                   :value="saveButtonLabel"
                   :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
                   :saving="isSavingUserInfo"
-                  @confirm="saveUserInfo()"
+                  @confirm="inviteUser"
                 />
               </div>
             </div>
@@ -154,13 +154,13 @@
               <span class="resend-link" @click="resendRequestedUser"
                     v-html="$sanitize(translate('UsersManager_ResendInvite'))"></span>
             </p>
-            <PasswordConfirmation
-              v-model="showPasswordConfirmationForInviteUser"
-              @confirmed="inviteUser"
-            >
-              <h2 v-html="$sanitize(inviteUserTitle)"></h2>
-              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
-            </PasswordConfirmation>
+<!--            <PasswordConfirmation-->
+<!--              v-model="showPasswordConfirmationForInviteUser"-->
+<!--              @confirmed="inviteUser"-->
+<!--            >-->
+<!--              <h2 v-html="$sanitize(inviteUserTitle)"></h2>-->
+<!--              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>-->
+<!--            </PasswordConfirmation>-->
           </div>
           <div
             class="entityCancel"
@@ -419,7 +419,7 @@ export default defineComponent({
         user: this.user,
       });
     },
-    inviteUser(password: string) {
+    inviteUser() {
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
@@ -429,7 +429,6 @@ export default defineComponent({
           userLogin: this.theUser.login,
           email: this.theUser.email,
           initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
-          passwordConfirmation: password,
         },
       ).catch((e) => {
         this.isSavingUserInfo = false;
@@ -440,7 +439,6 @@ export default defineComponent({
         this.isUserModified = true;
         this.theUser.invite_status = 'pending';
 
-        this.resetPasswordVar();
         this.showUserCreatedNotification();
         this.$emit('updated', { user: readonly(this.theUser) });
       });
