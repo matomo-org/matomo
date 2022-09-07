@@ -38,7 +38,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
     private function setUpWebsitesAndGoals()
     {
         if (!self::siteCreated($this->idSite)) {
-            $this->idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+            $this->idSite = self::createWebsite($this->dateTime, $ecommerce = 1, 'A very long name for a very tiny test site, that also reaches the 90 character limit fully');
         }
 
         if (!self::siteCreated($this->idSite2)) {

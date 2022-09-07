@@ -820,7 +820,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         // set-up mail report
         APIScheduledReports::getInstance()->addReport(
             $idSite,
-            'Mail Test report',
+            'Mail Test report with <long> déscription and some 🚀 $peciäl characters $%&-~°^\'"@#*ß§²³',
             'day', // overridden in getApiForTestingScheduledReports()
             0,
             ScheduledReports::EMAIL_TYPE,
