@@ -355,7 +355,7 @@ export default defineComponent({
       });
     },
     copyInviteLink(user: User) {
-      AjaxHelper.fetch<AjaxHelper>(
+      AjaxHelper.fetch<{ value: string }>(
         {
           method: 'UsersManager.generateInviteLink',
           userLogin: user.login,
