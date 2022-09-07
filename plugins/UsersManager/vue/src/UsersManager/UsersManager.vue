@@ -360,7 +360,7 @@ export default defineComponent({
           method: 'UsersManager.generateInviteLink',
           userLogin: user.login,
         },
-      ).then((r: any) => {
+      ).then((r) => {
         this.fetchUsers();
         navigator.clipboard.writeText(r.value);
         this.copied = true;
@@ -449,4 +449,3 @@ export default defineComponent({
   },
 });
 </script>
-
