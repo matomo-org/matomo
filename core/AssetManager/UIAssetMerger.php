@@ -32,6 +32,11 @@ abstract class UIAssetMerger
     protected $cacheBuster;
 
     /**
+     * @var string
+     */
+    protected $cacheBusterValue;
+
+    /**
      * @param UIAsset $mergedAsset
      * @param UIAssetFetcher $assetFetcher
      * @param UIAssetCacheBuster $cacheBuster
