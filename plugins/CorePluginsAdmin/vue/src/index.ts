@@ -4,6 +4,7 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 import './FormField/FormField.adapter';
 import './Field/Field.adapter';
 import './PluginSettings/PluginSettings.adapter';
@@ -13,6 +14,7 @@ import './Plugins/PluginFilter.adapter';
 import './SaveButton/SaveButton.adapter';
 import './Form/Form.adapter';
 
+export { default as expressions } from './expressions';
 export { default as AbortableEvent } from './FormField/AbortableEvent';
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
