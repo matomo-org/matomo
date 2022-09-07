@@ -22,10 +22,12 @@ return [
             }
 
             // correctly scoped function calls to twig_... globals (which will not be globals anymore) in strings
-            $content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\Matomo\\Dependencies\\\${1}${2}', $content);
-            $content = preg_replace("/\"(_?twig_[a-z_0-9]+)([(\"])/", '"\\\\\\Matomo\\\\\\Dependencies\\\\\\\${1}${2}', $content);
+            if (strpos($filePath, 'twig/twig') !== false) {
+                $content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\Matomo\\Dependencies\\\${1}${2}', $content);
+                $content = preg_replace("/\"(_?twig_[a-z_0-9]+)([(\"])/", '"\\\\\\Matomo\\\\\\Dependencies\\\\\\\${1}${2}', $content);
 
-            $content = preg_replace("/(_?twig_[a-z_0-9]+)\(\"/", '\\\\\\Matomo\\\\\\Dependencies\\\\\\\${1}("', $content);
+                $content = preg_replace("/(_?twig_[a-z_0-9]+)\(\"/", '\\\\\\Matomo\\\\\\Dependencies\\\\\\\${1}("', $content);
+            }
 
             return $content;
         },

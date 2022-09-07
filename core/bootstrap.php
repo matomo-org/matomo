@@ -47,7 +47,7 @@ if (is_file(PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php')) {
 
     \Piwik\Dependency\PrefixedSkippingAutoloader::register($originalLoader);
 } else {
-    \Piwik\Dependency\PrefixIgnoringAutoloader::register($originalLoader);
+    \Piwik\Dependency\PrefixIgnoringAutoloader::register();
 }
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/dev.php';
