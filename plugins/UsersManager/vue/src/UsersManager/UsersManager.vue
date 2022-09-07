@@ -449,16 +449,4 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped>
-.modal-title {
-  font-size: 20px;
-  line-height: 20px;
-  padding-top: 0px;
-  font-weight: 600;
-}
 
-.success-copied {
-  color: #5D9E52;
-  margin-right: 15px;
-}
-</style>
