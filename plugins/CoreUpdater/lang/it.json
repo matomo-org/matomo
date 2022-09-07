@@ -31,6 +31,7 @@
         "ExceptionArchiveEmpty": "Archivio vuoto.",
         "ExceptionArchiveIncompatible": "Archivio incompatibile: %s",
         "ExceptionArchiveIncomplete": "L'archivio è incompleto: alcuni file mancano (es. %s).",
+        "ExceptionDirWrongPermission": "Alcune cartelle non sono scrivibili. Per favore assicurati che si possa scrivere nelle seguenti cartelle e riprova: %s.",
         "ExecuteDbUpgrade": "È richiesto un aggiornamento del database. Eseguo l'aggiornamento?",
         "FeedbackRequest": "Sei libero di condividere con il Team di Matomo idee e suggerimenti qui:",
         "HelpMessageContent": "Controlla le %1$sFAQ di Matomo %2$s, ti spiegheranno gli errori più comuni durante l'aggiornamento. %3$sChiedi all'amministratore di sistema informazioni sugli errori che ti sembrano relativi alla configurazione di MySQL o al server, piuttosto che a Matomo.",
