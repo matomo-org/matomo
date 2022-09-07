@@ -336,7 +336,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
-        $translationKeys[] = 'UsersManager_ResendInviteSuccess';
         $translationKeys[] = 'UsersManager_InviteSuccess';
         $translationKeys[] = 'UsersManager_InviteDayLeft';
         $translationKeys[] = 'UsersManager_FilterByStatus';
@@ -350,6 +349,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_CopyLink';
         $translationKeys[] = 'UsersManager_LinkCopied';
         $translationKeys[] = 'UsersManager_InviteLinkValidDays';
+        $translationKeys[] = "UsersManager_AddNewUser";
+        $translationKeys[] = 'UsersManager_BackToUser';
 
     }
 }

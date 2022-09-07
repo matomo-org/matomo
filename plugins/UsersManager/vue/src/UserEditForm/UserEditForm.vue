@@ -8,12 +8,18 @@
   <ContentBlock
     class="userEditForm"
     :class="{ loading: isSavingUserInfo }"
-    :content-title="`${formTitle} ${!isAdd ? `'${theUser.login}'` : ''}`"
+    :content-title="`${formTitle} ${!isAdd ? `${theUser.login}` : ''}`"
   >
     <div
       class="row"
       v-form=""
     >
+      <div v-if="isAdd" class="col s12 m6 invite-notes">
+        <div class="form-help">
+                     <span v-html="$sanitize(
+                          translate('UsersManager_InviteSuccessNotification', [7]))"></span>
+        </div>
+      </div>
       <div
         class="col m2 entityList"
         v-if="!isAdd"
@@ -74,7 +80,9 @@
           <a
             href=""
             class="entityCancelLink"
-          >{{ translate('Mobile_NavigationBack') }}</a>
+          >
+            <span class="icon-arrow-left2"></span>
+            {{ translate('UsersManager_BackToUser') }}</a>
         </div>
       </div>
       <div class="visibleTab col m10">
@@ -94,9 +102,9 @@
           </div>
           <div>
             <Field
-               v-if="!isPending"
-               :model-value="theUser.password"
-               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
+              v-if="!isPending"
+              :model-value="theUser.password"
+              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
               @update:model-value="theUser.password = $event; isPasswordModified = true"
               uicontrol="password"
@@ -130,25 +138,18 @@
           </div>
           <div>
             <div class="form-group row" style="position: relative">
-              <div class="col s12 m6">
+              <div class="col s12 m6 save-button">
                 <SaveButton
-                    v-if="currentUserRole === 'superuser' || isAdd"
-                    :value="saveButtonLabel"
-                    :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
-                    :saving="isSavingUserInfo"
-                    @confirm="saveUserInfo()"
+                  v-if="currentUserRole === 'superuser' || isAdd"
+                  :value="saveButtonLabel"
+                  :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
+                  :saving="isSavingUserInfo"
+                  @confirm="saveUserInfo()"
                 />
               </div>
-              <div class="col s12 m6">
-                <div v-if="isAdd" class="form-help">
-                     <span class="inline-help"
-                      v-html="$sanitize(
-                          translate('UsersManager_InviteSuccessNotification', [7]))"></span>
-                </div>
-              </div>
             </div>
-            <p style="font-size: 16px" v-if="user && isPending"
-               >
+            <p class="resend-notes" v-if="user && isPending"
+            >
               {{ translate('UsersManager_InvitationSent') }}
               <span class="resend-link" @click="resendRequestedUser"
                     v-html="$sanitize(translate('UsersManager_ResendInvite'))"></span>
@@ -169,7 +170,9 @@
               href=""
               class="entityCancelLink"
               @click.prevent="onDoneEditing()"
-            >{{ translate('General_Cancel') }}</a>
+            >
+              <span class="icon icon-arrow-left2"></span>
+              {{ translate('UsersManager_BackToUser') }}</a>
           </div>
         </div>
         <div
@@ -290,13 +293,13 @@ const DEFAULT_USER: User = {
 interface UserEditFormState {
   theUser: User;
   activeTab: string;
-  permissionsForIdSite: string|number;
+  permissionsForIdSite: string | number;
   isSavingUserInfo: boolean;
   userHasAccess: boolean;
-  firstSiteAccess: SiteRef|null;
+  firstSiteAccess: SiteRef | null;
   isUserModified: boolean;
   isPasswordModified: boolean;
-  superUserAccessChecked: boolean|null;
+  superUserAccessChecked: boolean | null;
   showPasswordConfirmationForSuperUser: boolean;
   showPasswordConfirmationFor2FA: boolean;
   showPasswordConfirmationForInviteUser: boolean;
@@ -514,7 +517,7 @@ export default defineComponent({
   },
   computed: {
     formTitle() {
-      return this.isAdd ? translate('UsersManager_InviteNewUser') : translate('UsersManager_EditUser');
+      return this.isAdd ? translate('UsersManager_AddNewUser') : '';
     },
     saveButtonLabel() {
       return this.isAdd
@@ -554,5 +557,35 @@ export default defineComponent({
   color: #1976d2;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.invite-notes {
+  margin-top: 25px;
+}
+
+.listCircle {
+  margin-left: -15px;
+}
+
+.entityCancel {
+  position: absolute;
+  top: 20px;
+}
+
+.entityCancelLink {
+  font-size: 14px;
+}
+.save-button {
+  margin-top: 3em;
+}
+.resend-notes {
+  font-size: 16px!important;
+  margin-top: 3em!important;
+}
+</style>
+<style>
+.userEditForm .card-title{
+  padding-left: 15px!important;
+  margin-top: 45px;
 }
 </style>

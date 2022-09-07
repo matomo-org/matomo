@@ -197,8 +197,8 @@
         "Active": "Active",
         "Expired": "Invite expired",
         "Decline": "Invite declined",
-        "ResendInviteSuccess": "Success! The invite has been resent to user %s",
-        "InviteSuccess": "Success! The invite has been sent.",
+        "AddNewUser": "Add new user",
+        "InviteSuccess": "Invitation sent.",
         "InviteDayLeft": "Expires in %s days",
         "FilterByStatus": "Filter by status",
         "ExceptionResendInviteDenied": "Resending an invite is only allowed to the user who invited %s or any super user.",
@@ -208,6 +208,7 @@
         "SendInvite": "Send Invite",
         "CopyLink": "Copy Link",
         "LinkCopied": "Link Copied",
-        "InviteLinkValidDays": "Invite links are valid for %1$s-days."
+        "InviteLinkValidDays": "Invite links are valid for %1$s-days.",
+        "BackToUser": "Back to Users"
     }
 }

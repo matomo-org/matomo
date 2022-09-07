@@ -101,12 +101,12 @@
         <a
           href="#"
           @click="copyInviteLink(userBeingEdited)"
-          class="btn-copy-link modal-action btn-success"
+          class="btn btn-copy-link modal-action"
           style="margin-right:3.5px"
         >{{ translate('UsersManager_CopyLink') }}</a>
         <a
           href="#"
-          class="btn-resend modal-action modal-close modal-no btn-success"
+          class="btn btn-resend modal-action modal-close modal-no"
           @click = "onResendInvite(userBeingEdited)"
         >{{ translate('UsersManager_SendInvite') }}</a>
       </div>
@@ -374,7 +374,7 @@ export default defineComponent({
       ).then(() => {
         this.fetchUsers();
         const id = NotificationsStore.show({
-          message: translate('UsersManager_ResendInviteSuccess', user.login),
+          message: translate('UsersManager_InviteSuccess', user.login),
           id: 'resendinvite',
           context: 'success',
           type: 'transient',
