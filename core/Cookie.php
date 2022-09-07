@@ -44,6 +44,11 @@ class Cookie
     protected $path = '';
 
     /**
+     * @var string
+     */
+    protected $keyStore = false;
+
+    /**
      * Restrict cookie to a domain (or subdomains)
      * @var string
      */
