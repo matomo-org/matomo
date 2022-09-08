@@ -128,7 +128,7 @@
 		
 		
 		
-		<siteName>Piwik test</siteName>
+		<siteName>A very long name for a very tiny test site, that also reaches the 90 character limit fully</siteName>
 		
 		
 		
@@ -510,7 +510,7 @@
 		
 		
 		
-		<siteName>Piwik test</siteName>
+		<siteName>A very long name for a very tiny test site, that also reaches the 90 character limit fully</siteName>
 		
 		
 		
