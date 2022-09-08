@@ -77,7 +77,7 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.tests }}
           mysql-service: false
-          git-sha: ${{ github.sha }}
+          git-sha: ${{ github.event.pull_request.head.sha }}
 
   UI:
     runs-on: ubuntu-20.04
@@ -103,6 +103,6 @@ jobs:
           run_id: ${{ github.run_id }}
           php-memory: "-1"
           redis-service: true
-          git-sha: ${{ github.sha }}
+          git-sha: ${{ github.event.pull_request.head.sha }}
 
 
