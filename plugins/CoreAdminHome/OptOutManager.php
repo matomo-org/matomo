@@ -15,7 +15,6 @@ use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Tracker\IgnoreCookie;
-use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\View;
 
@@ -216,13 +215,17 @@ class OptOutManager
     public function getOptOutSelfContainedEmbedCode(string $backgroundColor, string $fontColor, string $fontSize,
                                                     string $fontFamily, bool $applyStyling, bool $showIntro): string
     {
+
+        $cookiePath = Common::getRequestVar('cookiePath', '', 'string');
+        $cookieDomain = Common::getRequestVar('cookieDomain', '', 'string');
+
         $settings = [
             'showIntro' => $showIntro,
             'divId' => 'matomo-opt-out',
             'useSecureCookies' => true,
-            'cookiePath' => TrackerConfig::getConfigValue('cookie_path'),
-            'cookieDomain' => TrackerConfig::getConfigValue('cookie_domain'),
-            'cookieSameSite' => 'Lax',
+            'cookiePath' => ($cookiePath !== '' ? $cookiePath : null),
+            'cookieDomain' => ($cookieDomain !== '' ? $cookieDomain : null),
+            'cookieSameSite' => Common::getRequestVar('cookieSameSite', 'Lax', 'string'),
         ];
 
         // Self contained code translations are static and always use the language of the user who generated the embed code
@@ -262,6 +265,8 @@ HTML;
      *     useCookiesIfNoTracker (default 1)  Should consent cookies be read/written directly if the tracker can't be found?
      *     useCookiesTimeout (default 10)     How long to wait for the tracker to be detected?
      *     useSecureCookies (default 1)       Set secure cookies?
+     *     cookiePath (default blank)         Use this path for consent cookies
+     *     cookieDomain (default blank)       Use this domain for consent cookies
      *
      * @return string
      */
@@ -274,6 +279,8 @@ HTML;
         $useCookiesIfNoTracker = Common::getRequestVar('useCookiesIfNoTracker', 1, 'int');
         $useCookiesTimeout = Common::getRequestVar('useCookiesTimeout', 10, 'int');
         $useSecureCookies = Common::getRequestVar('useSecureCookies', 1, 'int');
+        $cookiePath = Common::getRequestVar('cookiePath', '', 'string');
+        $cookieDomain = Common::getRequestVar('cookieDomain', '', 'string');
 
         // If the language parameter is 'auto' then use the browser language
         if ($language === 'auto') {
@@ -285,9 +292,8 @@ HTML;
             'showIntro' => $showIntro,
             'divId' => $divId,
             'useSecureCookies' => $useSecureCookies,
-            'cookiePath' => TrackerConfig::getConfigValue('cookie_path'),
-            'cookieDomain' => TrackerConfig::getConfigValue('cookie_domain'),
-            'cookieSameSite' => 'Lax',
+            'cookiePath' => ($cookiePath !== '' ? $cookiePath : null),
+            'cookieDomain' => ($cookieDomain !== '' ? $cookieDomain : null),
             'useCookiesIfNoTracker' => $useCookiesIfNoTracker,
             'useCookiesTimeout' => $useCookiesTimeout,
         ];
@@ -342,6 +348,12 @@ HTML;
         
         function showOptOutTracker() {             
             _paq.push([function () {
+                if (settings.cookieDomain) {
+                    _paq.push(['setCookieDomain', settings.cookieDomain]);
+                }
+                if (settings.cookiePath) {
+                    _paq.push(['setCookiePath', settings.cookiePath]);
+                }
                 if (this.isUserOptedOut()) {
                     _paq.push(['forgetUserOptOut']);
                     showContent(false, null, true);
