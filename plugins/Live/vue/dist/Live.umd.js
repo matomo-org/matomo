@@ -7,7 +7,7 @@
 		exports["Live"] = factory(require("CoreHome"));
 	else
 		root["Live"] = factory(root["CoreHome"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,135 +91,81 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: LiveWidgetRefresh */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/Live/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"LiveWidgetRefresh\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"LiveWidgetRefresh\"]; });\n\n\n\n\n\n//# sourceURL=webpack://Live/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "LiveWidgetRefresh", function() { return /* reexport */ LiveWidgetRefresh; });
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://Live/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
 
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
+/***/ }),
 
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
+/***/ "./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.adapter.ts":
+/*!**********************************************************************!*\
+  !*** ./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.adapter.ts ***!
+  \**********************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _LiveWidgetRefresh__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LiveWidgetRefresh */ \"./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction piwikLiveWidgetRefresh() {\n  return {\n    restrict: 'A',\n    scope: {\n      liveRefreshAfterMs: '@'\n    },\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    link: function link(scope, element) {\n      _LiveWidgetRefresh__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mounted(element[0], {\n        instance: null,\n        value: {\n          liveRefreshAfterMs: parseInt(scope.liveRefreshAfterMs, 10)\n        },\n        oldValue: null,\n        modifiers: {},\n        dir: {}\n      });\n    }\n  };\n}\n\npiwikLiveWidgetRefresh.$inject = ['piwik', '$timeout'];\nwindow.angular.module('piwikApp').directive('piwikLiveWidgetRefresh', piwikLiveWidgetRefresh);\n\n//# sourceURL=webpack://Live/./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.adapter.ts?");
 
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+/***/ }),
 
-var _window = window,
-    $ = _window.$;
-/* harmony default export */ var LiveWidgetRefresh = ({
-  mounted: function mounted(el, binding) {
-    setTimeout(function () {
-      var segment = external_CoreHome_["MatomoUrl"].parsed.value.segment; // eslint-disable-next-line @typescript-eslint/no-explicit-any
+/***/ "./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.ts":
+/*!**************************************************************!*\
+  !*** ./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.ts ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-      $(el).find('#visitsLive').liveWidget({
-        interval: binding.value.liveRefreshAfterMs,
-        onUpdate: function onUpdate() {
-          // updates the numbers of total visits in startbox
-          external_CoreHome_["AjaxHelper"].fetch({
-            module: 'Live',
-            action: 'ajaxTotalVisitors',
-            segment: segment
-          }, {
-            format: 'html'
-          }).then(function (r) {
-            $(el).find('#visitsTotal').replaceWith(r);
-          });
-        },
-        maxRows: 10,
-        fadeInSpeed: 600,
-        dataUrlParams: {
-          module: 'Live',
-          action: 'getLastVisitsStart',
-          segment: segment
-        }
-      });
-    });
-  }
-});
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  mounted: function mounted(el, binding) {\n    setTimeout(function () {\n      var segment = CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"MatomoUrl\"].parsed.value.segment; // eslint-disable-next-line @typescript-eslint/no-explicit-any\n\n      $(el).find('#visitsLive').liveWidget({\n        interval: binding.value.liveRefreshAfterMs,\n        onUpdate: function onUpdate() {\n          // updates the numbers of total visits in startbox\n          CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"AjaxHelper\"].fetch({\n            module: 'Live',\n            action: 'ajaxTotalVisitors',\n            segment: segment\n          }, {\n            format: 'html'\n          }).then(function (r) {\n            $(el).find('#visitsTotal').replaceWith(r);\n          });\n        },\n        maxRows: 10,\n        fadeInSpeed: 600,\n        dataUrlParams: {\n          module: 'Live',\n          action: 'getLastVisitsStart',\n          segment: segment\n        }\n      });\n    });\n  }\n});\n\n//# sourceURL=webpack://Live/./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.ts?");
 
+/***/ }),
 
-function piwikLiveWidgetRefresh() {
-  return {
-    restrict: 'A',
-    scope: {
-      liveRefreshAfterMs: '@'
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    link: function link(scope, element) {
-      LiveWidgetRefresh.mounted(element[0], {
-        instance: null,
-        value: {
-          liveRefreshAfterMs: parseInt(scope.liveRefreshAfterMs, 10)
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      });
-    }
-  };
-}
+/***/ "./plugins/Live/vue/src/index.ts":
+/*!***************************************!*\
+  !*** ./plugins/Live/vue/src/index.ts ***!
+  \***************************************/
+/*! exports provided: LiveWidgetRefresh */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-piwikLiveWidgetRefresh.$inject = ['piwik', '$timeout'];
-window.angular.module('piwikApp').directive('piwikLiveWidgetRefresh', piwikLiveWidgetRefresh);
-// CONCATENATED MODULE: ./plugins/Live/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _LiveWidget_LiveWidgetRefresh_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LiveWidget/LiveWidgetRefresh.adapter */ \"./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.adapter.ts\");\n/* harmony import */ var _LiveWidget_LiveWidgetRefresh__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LiveWidget/LiveWidgetRefresh */ \"./plugins/Live/vue/src/LiveWidget/LiveWidgetRefresh.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"LiveWidgetRefresh\", function() { return _LiveWidget_LiveWidgetRefresh__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n//# sourceURL=webpack://Live/./plugins/Live/vue/src/index.ts?");
 
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-
-
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://Live/external_%22CoreHome%22?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=Live.umd.js.map

@@ -7,7 +7,7 @@
 		exports["CoreVisualizations"] = factory(require("CoreHome"), require("vue"));
 	else
 		root["CoreVisualizations"] = factory(root["CoreHome"], root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,700 +91,212 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7b8bfb57":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7b8bfb57 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "SeriesPicker", function() { return /* reexport */ SeriesPicker; });
-__webpack_require__.d(__webpack_exports__, "SingleMetricView", function() { return /* reexport */ SingleMetricView; });
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
-
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
-
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=bd202f38
-
-var _hoisted_1 = {
-  key: 0,
-  class: "jqplot-seriespicker-popover"
-};
-var _hoisted_2 = {
-  class: "headline"
-};
-var _hoisted_3 = ["onClick"];
-var _hoisted_4 = ["type", "checked"];
-var _hoisted_5 = {
-  key: 0,
-  class: "headline recordsToPlot"
-};
-var _hoisted_6 = ["onClick"];
-var _hoisted_7 = ["type", "checked"];
-function SeriesPickervue_type_template_id_bd202f38_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["jqplot-seriespicker", {
-      open: _ctx.isPopupVisible
-    }]),
-    onMouseenter: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.isPopupVisible = true;
-    }),
-    onMouseleave: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.onLeavePopup();
-    })
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    href: "#",
-    onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function () {}, ["prevent", "stop"]))
-  }, " + "), _ctx.isPopupVisible ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", _hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.multiselect ? 'General_MetricsToPlot' : 'General_MetricToPlot')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableColumns, function (columnConfig) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
-      class: "pickColumn",
-      onClick: function onClick($event) {
-        return _ctx.optionSelected(columnConfig.column, _ctx.columnStates);
-      },
-      key: columnConfig.column
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      class: "select",
-      type: _ctx.multiselect ? 'checkbox' : 'radio',
-      checked: !!_ctx.columnStates[columnConfig.column]
-    }, null, 8, _hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(columnConfig.translation), 1)])], 8, _hoisted_3);
-  }), 128)), _ctx.selectableRows.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RecordsToPlot')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableRows, function (rowConfig) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
-      class: "pickRow",
-      onClick: function onClick($event) {
-        return _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates);
-      },
-      key: rowConfig.matcher
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      class: "select",
-      type: _ctx.multiselect ? 'checkbox' : 'radio',
-      checked: !!_ctx.rowStates[rowConfig.matcher]
-    }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)])], 8, _hoisted_6);
-  }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 34);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=bd202f38
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
-
-
-
-function getInitialOptionStates(allOptions, selectedOptions) {
-  var states = {};
-  allOptions.forEach(function (columnConfig) {
-    var name = columnConfig.column || columnConfig.matcher;
-    states[name] = false;
-  });
-  selectedOptions.forEach(function (column) {
-    states[column] = true;
-  });
-  return states;
-}
-
-function arrayEqual(lhs, rhs) {
-  if (lhs.length !== rhs.length) {
-    return false;
-  }
-
-  return lhs.filter(function (element) {
-    return rhs.indexOf(element) === -1;
-  }).length === 0;
-}
-
-function unselectOptions(optionStates) {
-  Object.keys(optionStates).forEach(function (optionName) {
-    optionStates[optionName] = false;
-  });
-}
-
-function getSelected(optionStates) {
-  return Object.keys(optionStates).filter(function (optionName) {
-    return !!optionStates[optionName];
-  });
-}
-
-/* harmony default export */ var SeriesPickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    multiselect: Boolean,
-    selectableColumns: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
-    },
-    selectableRows: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
-    },
-    selectedColumns: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
-    },
-    selectedRows: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
-    }
-  },
-  data: function data() {
-    return {
-      isPopupVisible: false,
-      columnStates: getInitialOptionStates(this.selectableColumns, this.selectedColumns),
-      rowStates: getInitialOptionStates(this.selectableRows, this.selectedRows)
-    };
-  },
-  emits: ['select'],
-  created: function created() {
-    this.optionSelected = Object(external_CoreHome_["debounce"])(this.optionSelected, 0);
-  },
-  methods: {
-    optionSelected: function optionSelected(optionValue, optionStates) {
-      if (!this.multiselect) {
-        unselectOptions(this.columnStates);
-        unselectOptions(this.rowStates);
-      }
-
-      optionStates[optionValue] = !optionStates[optionValue];
-      this.triggerOnSelectAndClose();
-    },
-    onLeavePopup: function onLeavePopup() {
-      this.isPopupVisible = false;
-
-      if (this.optionsChanged()) {
-        this.triggerOnSelectAndClose();
-      }
-    },
-    triggerOnSelectAndClose: function triggerOnSelectAndClose() {
-      this.isPopupVisible = false;
-      this.$emit('select', {
-        columns: getSelected(this.columnStates),
-        rows: getSelected(this.rowStates)
-      });
-    },
-    optionsChanged: function optionsChanged() {
-      return !arrayEqual(getSelected(this.columnStates), this.selectedColumns) || !arrayEqual(getSelected(this.rowStates), this.selectedRows);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue
-
-
-
-SeriesPickervue_type_script_lang_ts.render = SeriesPickervue_type_template_id_bd202f38_render
-
-/* harmony default export */ var SeriesPicker = (SeriesPickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SeriesPicker_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SeriesPicker,
-  scope: {
-    multiselect: {
-      angularJsBind: '<'
-    },
-    selectableColumns: {
-      angularJsBind: '<'
-    },
-    selectableRows: {
-      angularJsBind: '<'
-    },
-    selectedColumns: {
-      angularJsBind: '<'
-    },
-    selectedRows: {
-      angularJsBind: '<'
-    },
-    onSelect: {
-      angularJsBind: '&',
-      vue: 'select'
-    }
-  },
-  directiveName: 'piwikSeriesPicker',
-  restrict: 'E'
-}));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=2e2e889f
-
-var SingleMetricViewvue_type_template_id_2e2e889f_hoisted_1 = {
-  class: "metric-sparkline"
-};
-var SingleMetricViewvue_type_template_id_2e2e889f_hoisted_2 = {
-  class: "metric-value"
-};
-var SingleMetricViewvue_type_template_id_2e2e889f_hoisted_3 = ["title"];
-var SingleMetricViewvue_type_template_id_2e2e889f_hoisted_4 = ["title"];
-function SingleMetricViewvue_type_template_id_2e2e889f_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["singleMetricView", {
-      'loading': _ctx.isLoading
-    }]),
-    ref: "root"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_2e2e889f_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
-    params: _ctx.sparklineParams
-  }, null, 8, ["params"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_2e2e889f_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    title: _ctx.metricDocumentation
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricValue), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])((_ctx.metricTranslation || '').toLowerCase()), 1)], 8, SingleMetricViewvue_type_template_id_2e2e889f_hoisted_3), _ctx.pastValue !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
-    key: 0,
-    class: "metricEvolution",
-    title: _ctx.translate('General_EvolutionSummaryGeneric', _ctx.metricValue, _ctx.currentPeriod, _ctx.pastValue, _ctx.pastPeriod, _ctx.metricChangePercent)
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
-      'positive-evolution': _ctx.metricValueUnformatted > _ctx.pastValueUnformatted,
-      'negative-evolution': _ctx.metricValueUnformatted < _ctx.pastValueUnformatted
-    })
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricChangePercent), 3)], 8, SingleMetricViewvue_type_template_id_2e2e889f_hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 2);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=2e2e889f
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-function getPastPeriodStr() {
-  var _Range$getLastNRange = external_CoreHome_["Range"].getLastNRange(external_CoreHome_["Matomo"].period, 2, external_CoreHome_["Matomo"].currentDateString),
-      startDate = _Range$getLastNRange.startDate;
-
-  var dateRange = external_CoreHome_["Periods"].get(external_CoreHome_["Matomo"].period).parse(startDate).getDateRange();
-  return "".concat(Object(external_CoreHome_["format"])(dateRange[0]), ",").concat(Object(external_CoreHome_["format"])(dateRange[1]));
-}
-
-var _window = window,
-    $ = _window.$;
-/* harmony default export */ var SingleMetricViewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    metric: {
-      type: String,
-      required: true
-    },
-    idGoal: [String, Number],
-    metricTranslations: {
-      type: Object,
-      required: true
-    },
-    metricDocumentations: Object,
-    goals: {
-      type: Object,
-      required: true
-    },
-    goalMetrics: Array
-  },
-  components: {
-    Sparkline: external_CoreHome_["Sparkline"]
-  },
-  setup: function setup(props) {
-    var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    var isLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
-    var responses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    var actualMetric = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.metric);
-    var actualIdGoal = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.idGoal);
-    var selectedColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return [actualIdGoal.value ? "goal".concat(actualIdGoal.value, "_").concat(actualMetric.value) : actualMetric.value];
-    });
-    var metricValueUnformatted = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var _responses$value;
-
-      if (!((_responses$value = responses.value) !== null && _responses$value !== void 0 && _responses$value[1])) {
-        return null;
-      }
-
-      return responses.value[1][actualMetric.value];
-    });
-    var pastValueUnformatted = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var _responses$value2;
-
-      if (!((_responses$value2 = responses.value) !== null && _responses$value2 !== void 0 && _responses$value2[2])) {
-        return null;
-      }
-
-      return responses.value[2][actualMetric.value] || 0;
-    });
-    var metricChangePercent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      if (!metricValueUnformatted.value) {
-        return null;
-      }
-
-      var currentValue = typeof metricValueUnformatted.value === 'string' ? parseInt(metricValueUnformatted.value, 10) : metricValueUnformatted.value;
-      var pastValue = typeof pastValueUnformatted.value === 'string' ? parseInt(pastValueUnformatted.value, 10) : pastValueUnformatted.value;
-      var evolution = external_CoreHome_["Matomo"].helper.calculateEvolution(currentValue, pastValue);
-      return "".concat((evolution * 100).toFixed(2), " %");
-    });
-    var pastValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var _responses$value3;
-
-      if (!((_responses$value3 = responses.value) !== null && _responses$value3 !== void 0 && _responses$value3[3])) {
-        return null;
-      }
-
-      var pastDataFormatted = responses.value[3];
-      return pastDataFormatted[actualMetric.value] || 0;
-    });
-    var metricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var _responses$value4;
-
-      if (!((_responses$value4 = responses.value) !== null && _responses$value4 !== void 0 && _responses$value4[0])) {
-        return null;
-      }
-
-      var currentData = responses.value[0];
-      return currentData[actualMetric.value] || 0;
-    });
-    var metricTranslation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var _props$metricTranslat;
-
-      if (!((_props$metricTranslat = props.metricTranslations) !== null && _props$metricTranslat !== void 0 && _props$metricTranslat[actualMetric.value])) {
-        return '';
-      }
-
-      return props.metricTranslations[actualMetric.value];
-    });
-    var metricDocumentation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var _props$metricDocument;
-
-      if (!((_props$metricDocument = props.metricDocumentations) !== null && _props$metricDocument !== void 0 && _props$metricDocument[actualMetric.value])) {
-        return '';
-      }
-
-      return props.metricDocumentations[actualMetric.value];
-    });
-    var currentPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      if (external_CoreHome_["Matomo"].startDateString === external_CoreHome_["Matomo"].endDateString) {
-        return external_CoreHome_["Matomo"].endDateString;
-      }
-
-      return "".concat(external_CoreHome_["Matomo"].startDateString, ", ").concat(external_CoreHome_["Matomo"].endDateString);
-    });
-
-    function isIdGoalSet() {
-      return actualIdGoal.value || actualIdGoal.value === 0;
-    }
-
-    var sparklineParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var params = {
-        module: 'API',
-        action: 'get',
-        columns: actualMetric.value
-      };
-
-      if (isIdGoalSet()) {
-        params.idGoal = actualIdGoal.value;
-        params.module = 'Goals';
-      }
-
-      return params;
-    });
-    var pastPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      if (external_CoreHome_["Matomo"].period === 'range') {
-        return undefined;
-      }
-
-      return getPastPeriodStr();
-    });
-    var selectableColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var result = [];
-      Object.keys(props.metricTranslations).forEach(function (column) {
-        result.push({
-          column: column,
-          translation: props.metricTranslations[column]
-        });
-      });
-      Object.values(props.goals || {}).forEach(function (goal) {
-        props.goalMetrics.forEach(function (column) {
-          result.push({
-            column: "goal".concat(goal.idgoal, "_").concat(column),
-            translation: "".concat(goal.name, " - ").concat(props.metricTranslations[column])
-          });
-        });
-      });
-      return result;
-    });
-
-    function setWidgetTitle() {
-      var title = metricTranslation.value;
-
-      if (isIdGoalSet()) {
-        var _props$goals$actualId;
-
-        var goalName = ((_props$goals$actualId = props.goals[actualIdGoal.value]) === null || _props$goals$actualId === void 0 ? void 0 : _props$goals$actualId.name) || Object(external_CoreHome_["translate"])('General_Unknown');
-        title = "".concat(goalName, " - ").concat(title);
-      }
-
-      $(root.value).closest('div.widget').find('.widgetTop > .widgetName > span').text(title);
-    }
-
-    function getLastPeriodDate() {
-      var range = external_CoreHome_["Range"].getLastNRange(external_CoreHome_["Matomo"].period, 2, external_CoreHome_["Matomo"].currentDateString);
-      return Object(external_CoreHome_["format"])(range.startDate);
-    }
-
-    function fetchData() {
-      isLoading.value = true;
-      var promises = [];
-      var apiModule = 'API';
-      var apiAction = 'get';
-      var extraParams = {};
-
-      if (isIdGoalSet()) {
-        // the conversion rate added by the AddColumnsProcessedMetrics filter conflicts w/
-        // the goals one, so don't run it
-        extraParams.idGoal = actualIdGoal.value;
-        extraParams.filter_add_columns_when_show_all_columns = 0;
-        apiModule = 'Goals';
-        apiAction = 'get';
-      }
-
-      var method = "".concat(apiModule, ".").concat(apiAction); // first request for formatted data
-
-      promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-        method: method,
-        format_metrics: 'all'
-      }, extraParams)));
-
-      if (external_CoreHome_["Matomo"].period !== 'range') {
-        // second request for unformatted data so we can calculate evolution
-        promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-          method: method,
-          format_metrics: '0'
-        }, extraParams))); // third request for past data (unformatted)
-
-        promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-          method: method,
-          date: getLastPeriodDate(),
-          format_metrics: '0'
-        }, extraParams))); // fourth request for past data (formatted for tooltip display)
-
-        promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-          method: method,
-          date: getLastPeriodDate(),
-          format_metrics: 'all'
-        }, extraParams)));
-      }
-
-      return Promise.all(promises).then(function (r) {
-        responses.value = r;
-        isLoading.value = false;
-      });
-    }
-
-    function onMetricChanged(newMetric) {
-      actualMetric.value = newMetric;
-      fetchData().then(setWidgetTitle); // notify widget of parameter change so it is replaced
-
-      $(root.value).closest('[widgetId]').trigger('setParameters', {
-        column: actualMetric.value,
-        idGoal: actualIdGoal.value
-      });
-    }
-
-    function setMetric(newColumn) {
-      var idGoal = undefined;
-      var actualColumn = newColumn;
-      var m = newColumn.match(/^goal([0-9]+)_(.*)/);
-
-      if (m) {
-        idGoal = +m[1];
-
-        var _m = _slicedToArray(m, 3);
-
-        actualColumn = _m[2];
-      }
-
-      if (actualMetric.value !== actualColumn || idGoal !== actualIdGoal.value) {
-        actualMetric.value = actualColumn;
-        actualIdGoal.value = idGoal;
-        onMetricChanged(actualColumn);
-      }
-    }
-
-    function createSeriesPicker() {
-      var element = $(root.value);
-      var $widgetName = element.closest('div.widget').find('.widgetTop > .widgetName');
-      var $seriesPickerElem = $('<div class="single-metric-view-picker"><div></div></div>');
-      var app = Object(external_CoreHome_["createVueApp"])({
-        render: function render() {
-          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(SeriesPicker, {
-            multiselect: false,
-            selectableColumns: selectableColumns.value,
-            selectableRows: [],
-            selectedColumns: selectedColumns.value,
-            selectedRows: [],
-            onSelect: function onSelect(_ref) {
-              var columns = _ref.columns;
-              setMetric(columns[0]);
-            }
-          });
-        }
-      });
-      $widgetName.append($seriesPickerElem);
-      app.mount($seriesPickerElem.children()[0]);
-      return app;
-    }
-
-    var seriesPickerApp;
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
-      seriesPickerApp = createSeriesPicker();
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(function () {
-      $(root.value).closest('.widgetContent').off('widget:destroy').off('widget:reload');
-      $(root.value).closest('div.widget').find('.single-metric-view-picker').remove();
-      seriesPickerApp.unmount();
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return props.metric;
-    }, function () {
-      onMetricChanged(props.metric);
-    });
-    onMetricChanged(props.metric);
-    return {
-      root: root,
-      metricValue: metricValue,
-      isLoading: isLoading,
-      selectedColumns: selectedColumns,
-      responses: responses,
-      metricValueUnformatted: metricValueUnformatted,
-      pastValueUnformatted: pastValueUnformatted,
-      metricChangePercent: metricChangePercent,
-      pastValue: pastValue,
-      metricTranslation: metricTranslation,
-      metricDocumentation: metricDocumentation,
-      sparklineParams: sparklineParams,
-      pastPeriod: pastPeriod,
-      selectableColumns: selectableColumns,
-      currentPeriod: currentPeriod
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue
-
-
-
-SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_2e2e889f_render
-
-/* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var SingleMetricView_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SingleMetricView,
-  scope: {
-    metric: {
-      angularJsBind: '<'
-    },
-    idGoal: {
-      angularJsBind: '<'
-    },
-    metricTranslations: {
-      angularJsBind: '<'
-    },
-    metricDocumentations: {
-      angularJsBind: '<'
-    },
-    goals: {
-      angularJsBind: '<'
-    },
-    goalMetrics: {
-      angularJsBind: '<'
-    }
-  },
-  directiveName: 'piwikSingleMetricView',
-  restrict: 'E',
-  postCreate: function postCreate(vm, scope, element) {
-    element.closest('.widgetContent').on('widget:destroy', function () {
-      scope.$parent.$destroy();
-    }).on('widget:reload', function () {
-      scope.$parent.$destroy();
-    });
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  key: 0,\n  class: \"jqplot-seriespicker-popover\"\n};\nvar _hoisted_2 = {\n  class: \"headline\"\n};\nvar _hoisted_3 = [\"onClick\"];\nvar _hoisted_4 = [\"type\", \"checked\"];\nvar _hoisted_5 = {\n  key: 0,\n  class: \"headline recordsToPlot\"\n};\nvar _hoisted_6 = [\"onClick\"];\nvar _hoisted_7 = [\"type\", \"checked\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"jqplot-seriespicker\", {\n      open: _ctx.isPopupVisible\n    }]),\n    onMouseenter: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.isPopupVisible = true;\n    }),\n    onMouseleave: _cache[2] || (_cache[2] = function ($event) {\n      return _ctx.onLeavePopup();\n    })\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    href: \"#\",\n    onClick: _cache[0] || (_cache[0] = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withModifiers\"])(function () {}, [\"prevent\", \"stop\"]))\n  }, \" + \"), _ctx.isPopupVisible ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", _hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate(_ctx.multiselect ? 'General_MetricsToPlot' : 'General_MetricToPlot')), 1\n  /* TEXT */\n  ), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.selectableColumns, function (columnConfig) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"p\", {\n      class: \"pickColumn\",\n      onClick: function onClick($event) {\n        return _ctx.optionSelected(columnConfig.column, _ctx.columnStates);\n      },\n      key: columnConfig.column\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"label\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n      class: \"select\",\n      type: _ctx.multiselect ? 'checkbox' : 'radio',\n      checked: !!_ctx.columnStates[columnConfig.column]\n    }, null, 8\n    /* PROPS */\n    , _hoisted_4), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(columnConfig.translation), 1\n    /* TEXT */\n    )])], 8\n    /* PROPS */\n    , _hoisted_3);\n  }), 128\n  /* KEYED_FRAGMENT */\n  )), _ctx.selectableRows.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"p\", _hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_RecordsToPlot')), 1\n  /* TEXT */\n  )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.selectableRows, function (rowConfig) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"p\", {\n      class: \"pickRow\",\n      onClick: function onClick($event) {\n        return _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates);\n      },\n      key: rowConfig.matcher\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"label\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n      class: \"select\",\n      type: _ctx.multiselect ? 'checkbox' : 'radio',\n      checked: !!_ctx.rowStates[rowConfig.matcher]\n    }, null, 8\n    /* PROPS */\n    , _hoisted_7), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(rowConfig.label), 1\n    /* TEXT */\n    )])], 8\n    /* PROPS */\n    , _hoisted_6);\n  }), 128\n  /* KEYED_FRAGMENT */\n  ))])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)], 34\n  /* CLASS, HYDRATE_EVENTS */\n  );\n}\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=79302557":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=79302557 ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"metric-sparkline\"\n};\nvar _hoisted_2 = {\n  class: \"metric-value\"\n};\nvar _hoisted_3 = [\"title\"];\nvar _hoisted_4 = [\"title\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Sparkline = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Sparkline\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"singleMetricView\", {\n      'loading': _ctx.isLoading\n    }]),\n    ref: \"root\"\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Sparkline, {\n    params: _ctx.sparklineParams\n  }, null, 8\n  /* PROPS */\n  , [\"params\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    title: _ctx.metricDocumentation\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"strong\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.metricValue), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])((_ctx.metricTranslation || '').toLowerCase()), 1\n  /* TEXT */\n  )], 8\n  /* PROPS */\n  , _hoisted_3), _ctx.pastValue !== null ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", {\n    key: 0,\n    class: \"metricEvolution\",\n    title: _ctx.translate('General_EvolutionSummaryGeneric', _ctx.metricValue, _ctx.currentPeriod, _ctx.pastValue, _ctx.pastPeriod, _ctx.metricChangePercent)\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])({\n      'positive-evolution': _ctx.metricValueUnformatted > _ctx.pastValueUnformatted,\n      'negative-evolution': _ctx.metricValueUnformatted < _ctx.pastValueUnformatted\n    })\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.metricChangePercent), 3\n  /* TEXT, CLASS */\n  )], 8\n  /* PROPS */\n  , _hoisted_4)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])], 2\n  /* CLASS */\n  );\n}\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\nfunction getInitialOptionStates(allOptions, selectedOptions) {\n  var states = {};\n  allOptions.forEach(function (columnConfig) {\n    var name = columnConfig.column || columnConfig.matcher;\n    states[name] = false;\n  });\n  selectedOptions.forEach(function (column) {\n    states[column] = true;\n  });\n  return states;\n}\n\nfunction arrayEqual(lhs, rhs) {\n  if (lhs.length !== rhs.length) {\n    return false;\n  }\n\n  return lhs.filter(function (element) {\n    return rhs.indexOf(element) === -1;\n  }).length === 0;\n}\n\nfunction unselectOptions(optionStates) {\n  Object.keys(optionStates).forEach(function (optionName) {\n    optionStates[optionName] = false;\n  });\n}\n\nfunction getSelected(optionStates) {\n  return Object.keys(optionStates).filter(function (optionName) {\n    return !!optionStates[optionName];\n  });\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    multiselect: Boolean,\n    selectableColumns: {\n      type: Array,\n      default: function _default() {\n        return [];\n      }\n    },\n    selectableRows: {\n      type: Array,\n      default: function _default() {\n        return [];\n      }\n    },\n    selectedColumns: {\n      type: Array,\n      default: function _default() {\n        return [];\n      }\n    },\n    selectedRows: {\n      type: Array,\n      default: function _default() {\n        return [];\n      }\n    }\n  },\n  data: function data() {\n    return {\n      isPopupVisible: false,\n      columnStates: getInitialOptionStates(this.selectableColumns, this.selectedColumns),\n      rowStates: getInitialOptionStates(this.selectableRows, this.selectedRows)\n    };\n  },\n  emits: ['select'],\n  created: function created() {\n    this.optionSelected = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"debounce\"])(this.optionSelected, 0);\n  },\n  methods: {\n    optionSelected: function optionSelected(optionValue, optionStates) {\n      if (!this.multiselect) {\n        unselectOptions(this.columnStates);\n        unselectOptions(this.rowStates);\n      }\n\n      optionStates[optionValue] = !optionStates[optionValue];\n      this.triggerOnSelectAndClose();\n    },\n    onLeavePopup: function onLeavePopup() {\n      this.isPopupVisible = false;\n\n      if (this.optionsChanged()) {\n        this.triggerOnSelectAndClose();\n      }\n    },\n    triggerOnSelectAndClose: function triggerOnSelectAndClose() {\n      this.isPopupVisible = false;\n      this.$emit('select', {\n        columns: getSelected(this.columnStates),\n        rows: getSelected(this.rowStates)\n      });\n    },\n    optionsChanged: function optionsChanged() {\n      return !arrayEqual(getSelected(this.columnStates), this.selectedColumns) || !arrayEqual(getSelected(this.rowStates), this.selectedRows);\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _SeriesPicker_SeriesPicker_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SeriesPicker/SeriesPicker.vue */ \"./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue\");\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\nfunction _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== \"undefined\" && arr[Symbol.iterator] || arr[\"@@iterator\"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\n\n\n\n\nfunction getPastPeriodStr() {\n  var _Range$getLastNRange = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Range\"].getLastNRange(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].period, 2, CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].currentDateString),\n      startDate = _Range$getLastNRange.startDate;\n\n  var dateRange = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Periods\"].get(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].period).parse(startDate).getDateRange();\n  return \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"format\"])(dateRange[0]), \",\").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"format\"])(dateRange[1]));\n}\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    metric: {\n      type: String,\n      required: true\n    },\n    idGoal: [String, Number],\n    metricTranslations: {\n      type: Object,\n      required: true\n    },\n    metricDocumentations: Object,\n    goals: {\n      type: Object,\n      required: true\n    },\n    goalMetrics: Array\n  },\n  components: {\n    Sparkline: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Sparkline\"]\n  },\n  setup: function setup(props) {\n    var root = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(null);\n    var isLoading = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(false);\n    var responses = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(null);\n    var actualMetric = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(props.metric);\n    var actualIdGoal = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"ref\"])(props.idGoal);\n    var selectedColumns = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return [actualIdGoal.value ? \"goal\".concat(actualIdGoal.value, \"_\").concat(actualMetric.value) : actualMetric.value];\n    });\n    var metricValueUnformatted = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var _responses$value;\n\n      if (!((_responses$value = responses.value) !== null && _responses$value !== void 0 && _responses$value[1])) {\n        return null;\n      }\n\n      return responses.value[1][actualMetric.value];\n    });\n    var pastValueUnformatted = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var _responses$value2;\n\n      if (!((_responses$value2 = responses.value) !== null && _responses$value2 !== void 0 && _responses$value2[2])) {\n        return null;\n      }\n\n      return responses.value[2][actualMetric.value] || 0;\n    });\n    var metricChangePercent = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      if (!metricValueUnformatted.value) {\n        return null;\n      }\n\n      var currentValue = typeof metricValueUnformatted.value === 'string' ? parseInt(metricValueUnformatted.value, 10) : metricValueUnformatted.value;\n      var pastValue = typeof pastValueUnformatted.value === 'string' ? parseInt(pastValueUnformatted.value, 10) : pastValueUnformatted.value;\n      var evolution = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.calculateEvolution(currentValue, pastValue);\n      return \"\".concat((evolution * 100).toFixed(2), \" %\");\n    });\n    var pastValue = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var _responses$value3;\n\n      if (!((_responses$value3 = responses.value) !== null && _responses$value3 !== void 0 && _responses$value3[3])) {\n        return null;\n      }\n\n      var pastDataFormatted = responses.value[3];\n      return pastDataFormatted[actualMetric.value] || 0;\n    });\n    var metricValue = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var _responses$value4;\n\n      if (!((_responses$value4 = responses.value) !== null && _responses$value4 !== void 0 && _responses$value4[0])) {\n        return null;\n      }\n\n      var currentData = responses.value[0];\n      return currentData[actualMetric.value] || 0;\n    });\n    var metricTranslation = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var _props$metricTranslat;\n\n      if (!((_props$metricTranslat = props.metricTranslations) !== null && _props$metricTranslat !== void 0 && _props$metricTranslat[actualMetric.value])) {\n        return '';\n      }\n\n      return props.metricTranslations[actualMetric.value];\n    });\n    var metricDocumentation = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var _props$metricDocument;\n\n      if (!((_props$metricDocument = props.metricDocumentations) !== null && _props$metricDocument !== void 0 && _props$metricDocument[actualMetric.value])) {\n        return '';\n      }\n\n      return props.metricDocumentations[actualMetric.value];\n    });\n    var currentPeriod = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      if (CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].startDateString === CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].endDateString) {\n        return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].endDateString;\n      }\n\n      return \"\".concat(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].startDateString, \", \").concat(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].endDateString);\n    });\n\n    function isIdGoalSet() {\n      return actualIdGoal.value || actualIdGoal.value === 0;\n    }\n\n    var sparklineParams = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var params = {\n        module: 'API',\n        action: 'get',\n        columns: actualMetric.value\n      };\n\n      if (isIdGoalSet()) {\n        params.idGoal = actualIdGoal.value;\n        params.module = 'Goals';\n      }\n\n      return params;\n    });\n    var pastPeriod = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      if (CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].period === 'range') {\n        return undefined;\n      }\n\n      return getPastPeriodStr();\n    });\n    var selectableColumns = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var result = [];\n      Object.keys(props.metricTranslations).forEach(function (column) {\n        result.push({\n          column: column,\n          translation: props.metricTranslations[column]\n        });\n      });\n      Object.values(props.goals || {}).forEach(function (goal) {\n        props.goalMetrics.forEach(function (column) {\n          result.push({\n            column: \"goal\".concat(goal.idgoal, \"_\").concat(column),\n            translation: \"\".concat(goal.name, \" - \").concat(props.metricTranslations[column])\n          });\n        });\n      });\n      return result;\n    });\n\n    function setWidgetTitle() {\n      var title = metricTranslation.value;\n\n      if (isIdGoalSet()) {\n        var _props$goals$actualId;\n\n        var goalName = ((_props$goals$actualId = props.goals[actualIdGoal.value]) === null || _props$goals$actualId === void 0 ? void 0 : _props$goals$actualId.name) || Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_Unknown');\n        title = \"\".concat(goalName, \" - \").concat(title);\n      }\n\n      $(root.value).closest('div.widget').find('.widgetTop > .widgetName > span').text(title);\n    }\n\n    function getLastPeriodDate() {\n      var range = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Range\"].getLastNRange(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].period, 2, CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].currentDateString);\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"format\"])(range.startDate);\n    }\n\n    function fetchData() {\n      isLoading.value = true;\n      var promises = [];\n      var apiModule = 'API';\n      var apiAction = 'get';\n      var extraParams = {};\n\n      if (isIdGoalSet()) {\n        // the conversion rate added by the AddColumnsProcessedMetrics filter conflicts w/\n        // the goals one, so don't run it\n        extraParams.idGoal = actualIdGoal.value;\n        extraParams.filter_add_columns_when_show_all_columns = 0;\n        apiModule = 'Goals';\n        apiAction = 'get';\n      }\n\n      var method = \"\".concat(apiModule, \".\").concat(apiAction); // first request for formatted data\n\n      promises.push(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch(Object.assign({\n        method: method,\n        format_metrics: 'all'\n      }, extraParams)));\n\n      if (CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].period !== 'range') {\n        // second request for unformatted data so we can calculate evolution\n        promises.push(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch(Object.assign({\n          method: method,\n          format_metrics: '0'\n        }, extraParams))); // third request for past data (unformatted)\n\n        promises.push(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch(Object.assign({\n          method: method,\n          date: getLastPeriodDate(),\n          format_metrics: '0'\n        }, extraParams))); // fourth request for past data (formatted for tooltip display)\n\n        promises.push(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch(Object.assign({\n          method: method,\n          date: getLastPeriodDate(),\n          format_metrics: 'all'\n        }, extraParams)));\n      }\n\n      return Promise.all(promises).then(function (r) {\n        responses.value = r;\n        isLoading.value = false;\n      });\n    }\n\n    function onMetricChanged(newMetric) {\n      actualMetric.value = newMetric;\n      fetchData().then(setWidgetTitle); // notify widget of parameter change so it is replaced\n\n      $(root.value).closest('[widgetId]').trigger('setParameters', {\n        column: actualMetric.value,\n        idGoal: actualIdGoal.value\n      });\n    }\n\n    function setMetric(newColumn) {\n      var idGoal = undefined;\n      var actualColumn = newColumn;\n      var m = newColumn.match(/^goal([0-9]+)_(.*)/);\n\n      if (m) {\n        idGoal = +m[1];\n\n        var _m = _slicedToArray(m, 3);\n\n        actualColumn = _m[2];\n      }\n\n      if (actualMetric.value !== actualColumn || idGoal !== actualIdGoal.value) {\n        actualMetric.value = actualColumn;\n        actualIdGoal.value = idGoal;\n        onMetricChanged(actualColumn);\n      }\n    }\n\n    function createSeriesPicker() {\n      var element = $(root.value);\n      var $widgetName = element.closest('div.widget').find('.widgetTop > .widgetName');\n      var $seriesPickerElem = $('<div class=\"single-metric-view-picker\"><div></div></div>');\n      var app = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"createVueApp\"])({\n        render: function render() {\n          return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_SeriesPicker_SeriesPicker_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"], {\n            multiselect: false,\n            selectableColumns: selectableColumns.value,\n            selectableRows: [],\n            selectedColumns: selectedColumns.value,\n            selectedRows: [],\n            onSelect: function onSelect(_ref) {\n              var columns = _ref.columns;\n              setMetric(columns[0]);\n            }\n          });\n        }\n      });\n      $widgetName.append($seriesPickerElem);\n      app.mount($seriesPickerElem.children()[0]);\n      return app;\n    }\n\n    var seriesPickerApp;\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"onMounted\"])(function () {\n      seriesPickerApp = createSeriesPicker();\n    });\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"onBeforeUnmount\"])(function () {\n      $(root.value).closest('.widgetContent').off('widget:destroy').off('widget:reload');\n      $(root.value).closest('div.widget').find('.single-metric-view-picker').remove();\n      seriesPickerApp.unmount();\n    });\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"watch\"])(function () {\n      return props.metric;\n    }, function () {\n      onMetricChanged(props.metric);\n    });\n    onMetricChanged(props.metric);\n    return {\n      root: root,\n      metricValue: metricValue,\n      isLoading: isLoading,\n      selectedColumns: selectedColumns,\n      responses: responses,\n      metricValueUnformatted: metricValueUnformatted,\n      pastValueUnformatted: pastValueUnformatted,\n      metricChangePercent: metricChangePercent,\n      pastValue: pastValue,\n      metricTranslation: metricTranslation,\n      metricDocumentation: metricDocumentation,\n      sparklineParams: sparklineParams,\n      pastPeriod: pastPeriod,\n      selectableColumns: selectableColumns,\n      currentPeriod: currentPeriod\n    };\n  }\n}));\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: SeriesPicker, SingleMetricView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/CoreVisualizations/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SeriesPicker\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SeriesPicker\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SingleMetricView\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SingleMetricView\"]; });\n\n\n\n\n\n//# sourceURL=webpack://CoreVisualizations/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://CoreVisualizations/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.adapter.ts":
+/*!*********************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.adapter.ts ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _SeriesPicker_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SeriesPicker.vue */ \"./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"createAngularJsAdapter\"])({\n  component: _SeriesPicker_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    multiselect: {\n      angularJsBind: '<'\n    },\n    selectableColumns: {\n      angularJsBind: '<'\n    },\n    selectableRows: {\n      angularJsBind: '<'\n    },\n    selectedColumns: {\n      angularJsBind: '<'\n    },\n    selectedRows: {\n      angularJsBind: '<'\n    },\n    onSelect: {\n      angularJsBind: '&',\n      vue: 'select'\n    }\n  },\n  directiveName: 'piwikSeriesPicker',\n  restrict: 'E'\n}));\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue":
+/*!**************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SeriesPicker_vue_vue_type_template_id_7b8bfb57__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SeriesPicker.vue?vue&type=template&id=7b8bfb57 */ \"./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7b8bfb57\");\n/* harmony import */ var _SeriesPicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SeriesPicker.vue?vue&type=script&lang=ts */ \"./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SeriesPicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SeriesPicker_vue_vue_type_template_id_7b8bfb57__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SeriesPicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SeriesPicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts":
+/*!**************************************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts ***!
+  \**************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SeriesPicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SeriesPicker.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SeriesPicker_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7b8bfb57":
+/*!********************************************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7b8bfb57 ***!
+  \********************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SeriesPicker_vue_vue_type_template_id_7b8bfb57__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SeriesPicker.vue?vue&type=template&id=7b8bfb57 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7b8bfb57\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SeriesPicker_vue_vue_type_template_id_7b8bfb57__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.adapter.ts":
+/*!*****************************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.adapter.ts ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _SingleMetricView_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SingleMetricView.vue */ \"./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"createAngularJsAdapter\"])({\n  component: _SingleMetricView_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    metric: {\n      angularJsBind: '<'\n    },\n    idGoal: {\n      angularJsBind: '<'\n    },\n    metricTranslations: {\n      angularJsBind: '<'\n    },\n    metricDocumentations: {\n      angularJsBind: '<'\n    },\n    goals: {\n      angularJsBind: '<'\n    },\n    goalMetrics: {\n      angularJsBind: '<'\n    }\n  },\n  directiveName: 'piwikSingleMetricView',\n  restrict: 'E',\n  postCreate: function postCreate(vm, scope, element) {\n    element.closest('.widgetContent').on('widget:destroy', function () {\n      scope.$parent.$destroy();\n    }).on('widget:reload', function () {\n      scope.$parent.$destroy();\n    });\n  }\n}));\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.adapter.ts?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue":
+/*!**********************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SingleMetricView_vue_vue_type_template_id_79302557__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SingleMetricView.vue?vue&type=template&id=79302557 */ \"./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=79302557\");\n/* harmony import */ var _SingleMetricView_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SingleMetricView.vue?vue&type=script&lang=ts */ \"./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SingleMetricView_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SingleMetricView_vue_vue_type_template_id_79302557__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SingleMetricView_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SingleMetricView_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SingleMetricView_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SingleMetricView.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SingleMetricView_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=79302557":
+/*!****************************************************************************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=79302557 ***!
+  \****************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SingleMetricView_vue_vue_type_template_id_79302557__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SingleMetricView.vue?vue&type=template&id=79302557 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=79302557\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SingleMetricView_vue_vue_type_template_id_79302557__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreVisualizations/vue/src/index.ts":
+/*!*****************************************************!*\
+  !*** ./plugins/CoreVisualizations/vue/src/index.ts ***!
+  \*****************************************************/
+/*! exports provided: SeriesPicker, SingleMetricView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SeriesPicker_SeriesPicker_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SeriesPicker/SeriesPicker.adapter */ \"./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.adapter.ts\");\n/* harmony import */ var _SingleMetricView_SingleMetricView_adapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SingleMetricView/SingleMetricView.adapter */ \"./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.adapter.ts\");\n/* harmony import */ var _SeriesPicker_SeriesPicker_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SeriesPicker/SeriesPicker.vue */ \"./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SeriesPicker\", function() { return _SeriesPicker_SeriesPicker_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/* harmony import */ var _SingleMetricView_SingleMetricView_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SingleMetricView/SingleMetricView.vue */ \"./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SingleMetricView\", function() { return _SingleMetricView_SingleMetricView_vue__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n//# sourceURL=webpack://CoreVisualizations/./plugins/CoreVisualizations/vue/src/index.ts?");
+
+/***/ }),
+
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://CoreVisualizations/external_%22CoreHome%22?");
+
+/***/ }),
+
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://CoreVisualizations/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=CoreVisualizations.umd.js.map

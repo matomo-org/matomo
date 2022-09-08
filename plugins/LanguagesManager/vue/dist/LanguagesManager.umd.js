@@ -7,7 +7,7 @@
 		exports["LanguagesManager"] = factory(require("CoreHome"), require("vue"));
 	else
 		root["LanguagesManager"] = factory(root["CoreHome"], root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,311 +91,164 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3b47292f":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3b47292f ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" This page helps you to find existing translations that you can reuse in your Plugin. If you want to know more about translations have a look at our \"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"https://developer.matomo.org/guides/internationalization\",\n  rel: \"noreferrer noopener\",\n  target: \"_blank\"\n}, \"Internationalization guide\"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\". Enter a search term to find translations and their corresponding keys: \")], -1\n/* HOISTED */\n);\n\nvar _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = {\n  style: {\n    \"word-break\": \"break-all\"\n  }\n};\n\nvar _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n  style: {\n    \"width\": \"250px\"\n  }\n}, \"Key\", -1\n/* HOISTED */\n);\n\nvar _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", null, \"English translation\", -1\n/* HOISTED */\n);\n\nvar _hoisted_7 = {\n  key: 0\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _directive_content_table = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"content-table\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", null, [_hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"text\",\n    name: \"alias\",\n    \"inline-help\": \"Search for English translation. Max 1000 results will be shown.\",\n    placeholder: \"Search for English translation\",\n    modelValue: _ctx.searchTerm,\n    \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.searchTerm = $event;\n    })\n  }, null, 8\n  /* PROPS */\n  , [\"modelValue\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"select\",\n    name: \"translationSearch.compareLanguage\",\n    \"inline-help\": \"Optionally select a language to compare the English language with.\",\n    \"model-value\": _ctx.compareLanguage,\n    \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n      _ctx.compareLanguage = $event;\n\n      _ctx.doCompareLanguage();\n    }),\n    options: _ctx.languages\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"options\"])]), _hoisted_2, _hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"table\", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"thead\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tr\", null, [_hoisted_5, _hoisted_6, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", null, \"Compare translation\", 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.compareLanguage && _ctx.compareTranslations]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tbody\", null, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.filteredTranslations, function (translation) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"tr\", {\n      key: translation.label\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(translation.label), 1\n    /* TEXT */\n    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(translation.value), 1\n    /* TEXT */\n    ), _ctx.compareLanguage && _ctx.compareTranslations ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"td\", _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.compareTranslations[translation.label]), 1\n    /* TEXT */\n    )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  ))])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.searchTerm], [_directive_content_table]])]);\n}\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "TranslationSearch", function() { return /* reexport */ TranslationSearch; });
-__webpack_require__.d(__webpack_exports__, "LanguageSelector", function() { return /* reexport */ LanguageSelector; });
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n\n // loading a component this way since during Installation we don't want to load CorePluginsAdmin\n// just for the language selector directive\n\nvar Field = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"useExternalPluginComponent\"])('CorePluginsAdmin', 'Field');\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  components: {\n    Field: Field\n  },\n  directives: {\n    ContentTable: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentTable\"]\n  },\n  data: function data() {\n    return {\n      compareTranslations: null,\n      existingTranslations: [],\n      languages: [],\n      compareLanguage: '',\n      searchTerm: ''\n    };\n  },\n  created: function created() {\n    this.fetchTranslations('en');\n    this.fetchLanguages();\n  },\n  methods: {\n    fetchTranslations: function fetchTranslations(languageCode) {\n      var _this = this;\n\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        method: 'LanguagesManager.getTranslationsForLanguage',\n        filter_limit: -1,\n        languageCode: languageCode\n      }).then(function (response) {\n        if (!response) {\n          return;\n        }\n\n        if (languageCode === 'en') {\n          _this.existingTranslations = response;\n        } else {\n          _this.compareTranslations = {};\n          response.forEach(function (translation) {\n            _this.compareTranslations[translation.label] = translation.value;\n          });\n        }\n      });\n    },\n    fetchLanguages: function fetchLanguages() {\n      var _this2 = this;\n\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        method: 'LanguagesManager.getAvailableLanguagesInfo',\n        filter_limit: -1\n      }).then(function (languages) {\n        _this2.languages = [{\n          key: '',\n          value: 'None'\n        }];\n\n        if (languages) {\n          languages.forEach(function (language) {\n            if (language.code === 'en') {\n              return;\n            }\n\n            _this2.languages.push({\n              key: language.code,\n              value: language.name\n            });\n          });\n        }\n      });\n    },\n    doCompareLanguage: function doCompareLanguage() {\n      if (this.compareLanguage) {\n        this.compareTranslations = null;\n        this.fetchTranslations(this.compareLanguage);\n      }\n    }\n  },\n  computed: {\n    filteredTranslations: function filteredTranslations() {\n      var _this3 = this;\n\n      var filtered = this.existingTranslations.filter(function (t) {\n        return t.label.includes(_this3.searchTerm) || t.value.includes(_this3.searchTerm);\n      });\n      filtered = filtered.slice(0, 1000);\n      return filtered;\n    }\n  }\n}));\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
+/***/ }),
 
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: TranslationSearch, LanguageSelector */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-var _window = window,
-    $ = _window.$;
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/LanguagesManager/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"TranslationSearch\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"TranslationSearch\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"LanguageSelector\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"LanguageSelector\"]; });\n\n\n\n\n\n//# sourceURL=webpack://LanguagesManager/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
 
-function postLanguageChange(element, event) {
-  var value = $(event.target).attr('value');
+/***/ }),
 
-  if (value) {
-    $(element).find('#language').val(value).parents('form').submit();
-  }
-}
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* harmony default export */ var LanguageSelector = ({
-  mounted: function mounted(el, binding) {
-    binding.value.onClick = postLanguageChange.bind(null, el);
-    $(el).on('click', 'a[value]', binding.value.onClick);
-  },
-  unmounted: function unmounted(el, binding) {
-    $(el).off('click', 'a[value]', binding.value.onClick);
-  }
-});
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://LanguagesManager/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
 
+/***/ }),
 
-function languageSelection() {
-  return {
-    restrict: 'C',
-    link: function languageSelectionLink(scope, element) {
-      var binding = {
-        instance: null,
-        value: {},
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      LanguageSelector.mounted(element[0], binding);
-      element.on('$destroy', function () {
-        LanguageSelector.unmounted(element[0], binding);
-      });
-    }
-  };
-}
+/***/ "./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.adapter.ts":
+/*!***************************************************************************************!*\
+  !*** ./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.adapter.ts ***!
+  \***************************************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-window.angular.module('piwikApp').directive('languageSelection', languageSelection);
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _LanguageSelector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LanguageSelector */ \"./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nfunction languageSelection() {\n  return {\n    restrict: 'C',\n    link: function languageSelectionLink(scope, element) {\n      var binding = {\n        instance: null,\n        value: {},\n        oldValue: null,\n        modifiers: {},\n        dir: {}\n      };\n      _LanguageSelector__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mounted(element[0], binding);\n      element.on('$destroy', function () {\n        _LanguageSelector__WEBPACK_IMPORTED_MODULE_0__[\"default\"].unmounted(element[0], binding);\n      });\n    }\n  };\n}\n\nwindow.angular.module('piwikApp').directive('languageSelection', languageSelection);\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.adapter.ts?");
 
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3d477584
+/***/ "./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts":
+/*!*******************************************************************************!*\
+  !*** ./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nvar _window = window,\n    $ = _window.$;\n\nfunction postLanguageChange(element, event) {\n  var value = $(event.target).attr('value');\n\n  if (value) {\n    $(element).find('#language').val(value).parents('form').submit();\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  mounted: function mounted(el, binding) {\n    binding.value.onClick = postLanguageChange.bind(null, el);\n    $(el).on('click', 'a[value]', binding.value.onClick);\n  },\n  unmounted: function unmounted(el, binding) {\n    $(el).off('click', 'a[value]', binding.value.onClick);\n  }\n});\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts?");
 
-var _hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" This page helps you to find existing translations that you can reuse in your Plugin. If you want to know more about translations have a look at our "), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://developer.matomo.org/guides/internationalization",
-  rel: "noreferrer noopener",
-  target: "_blank"
-}, "Internationalization guide"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". Enter a search term to find translations and their corresponding keys: ")], -1);
+/***/ }),
 
-var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ "./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.adapter.ts":
+/*!*****************************************************************************************!*\
+  !*** ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.adapter.ts ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _TranslationSearch_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TranslationSearch.vue */ \"./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"createAngularJsAdapter\"])({\n  component: _TranslationSearch_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  directiveName: 'piwikTranslationSearch'\n}));\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.adapter.ts?");
 
-var _hoisted_4 = {
-  style: {
-    "word-break": "break-all"
-  }
-};
+/***/ }),
 
-var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-  style: {
-    "width": "250px"
-  }
-}, "Key", -1);
+/***/ "./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue":
+/*!**********************************************************************************!*\
+  !*** ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "English translation", -1);
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _TranslationSearch_vue_vue_type_template_id_3b47292f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TranslationSearch.vue?vue&type=template&id=3b47292f */ \"./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3b47292f\");\n/* harmony import */ var _TranslationSearch_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TranslationSearch.vue?vue&type=script&lang=ts */ \"./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_TranslationSearch_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _TranslationSearch_vue_vue_type_template_id_3b47292f__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_TranslationSearch_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_TranslationSearch_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?");
 
-var _hoisted_7 = {
-  key: 0
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+/***/ }),
 
-  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
+/***/ "./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************!*\
+  !*** ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "text",
-    name: "alias",
-    "inline-help": "Search for English translation. Max 1000 results will be shown.",
-    placeholder: "Search for English translation",
-    modelValue: _ctx.searchTerm,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.searchTerm = $event;
-    })
-  }, null, 8, ["modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "select",
-    name: "translationSearch.compareLanguage",
-    "inline-help": "Optionally select a language to compare the English language with.",
-    "model-value": _ctx.compareLanguage,
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      _ctx.compareLanguage = $event;
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TranslationSearch_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./TranslationSearch.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TranslationSearch_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?");
 
-      _ctx.doCompareLanguage();
-    }),
-    options: _ctx.languages
-  }, null, 8, ["model-value", "options"])]), _hoisted_2, _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [_hoisted_5, _hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "Compare translation", 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.compareLanguage && _ctx.compareTranslations]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.filteredTranslations, function (translation) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
-      key: translation.label
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(translation.label), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(translation.value), 1), _ctx.compareLanguage && _ctx.compareTranslations ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", _hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.compareTranslations[translation.label]), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128))])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.searchTerm], [_directive_content_table]])]);
-}
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3d477584
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts
+/***/ "./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3b47292f":
+/*!****************************************************************************************************************!*\
+  !*** ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3b47292f ***!
+  \****************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
- // loading a component this way since during Installation we don't want to load CorePluginsAdmin
-// just for the language selector directive
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TranslationSearch_vue_vue_type_template_id_3b47292f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./TranslationSearch.vue?vue&type=template&id=3b47292f */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=3b47292f\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TranslationSearch_vue_vue_type_template_id_3b47292f__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?");
 
-var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePluginsAdmin', 'Field');
-/* harmony default export */ var TranslationSearchvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  components: {
-    Field: Field
-  },
-  directives: {
-    ContentTable: external_CoreHome_["ContentTable"]
-  },
-  data: function data() {
-    return {
-      compareTranslations: null,
-      existingTranslations: [],
-      languages: [],
-      compareLanguage: '',
-      searchTerm: ''
-    };
-  },
-  created: function created() {
-    this.fetchTranslations('en');
-    this.fetchLanguages();
-  },
-  methods: {
-    fetchTranslations: function fetchTranslations(languageCode) {
-      var _this = this;
+/***/ }),
 
-      external_CoreHome_["AjaxHelper"].fetch({
-        method: 'LanguagesManager.getTranslationsForLanguage',
-        filter_limit: -1,
-        languageCode: languageCode
-      }).then(function (response) {
-        if (!response) {
-          return;
-        }
+/***/ "./plugins/LanguagesManager/vue/src/index.ts":
+/*!***************************************************!*\
+  !*** ./plugins/LanguagesManager/vue/src/index.ts ***!
+  \***************************************************/
+/*! exports provided: TranslationSearch, LanguageSelector */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-        if (languageCode === 'en') {
-          _this.existingTranslations = response;
-        } else {
-          _this.compareTranslations = {};
-          response.forEach(function (translation) {
-            _this.compareTranslations[translation.label] = translation.value;
-          });
-        }
-      });
-    },
-    fetchLanguages: function fetchLanguages() {
-      var _this2 = this;
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _LanguageSelector_LanguageSelector_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LanguageSelector/LanguageSelector.adapter */ \"./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.adapter.ts\");\n/* harmony import */ var _TranslationSearch_TranslationSearch_adapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TranslationSearch/TranslationSearch.adapter */ \"./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.adapter.ts\");\n/* harmony import */ var _TranslationSearch_TranslationSearch_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TranslationSearch/TranslationSearch.vue */ \"./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"TranslationSearch\", function() { return _TranslationSearch_TranslationSearch_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/* harmony import */ var _LanguageSelector_LanguageSelector_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LanguageSelector/LanguageSelector.ts */ \"./plugins/LanguagesManager/vue/src/LanguageSelector/LanguageSelector.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"LanguageSelector\", function() { return _LanguageSelector_LanguageSelector_ts__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n//# sourceURL=webpack://LanguagesManager/./plugins/LanguagesManager/vue/src/index.ts?");
 
-      external_CoreHome_["AjaxHelper"].fetch({
-        method: 'LanguagesManager.getAvailableLanguagesInfo',
-        filter_limit: -1
-      }).then(function (languages) {
-        _this2.languages = [{
-          key: '',
-          value: 'None'
-        }];
+/***/ }),
 
-        if (languages) {
-          languages.forEach(function (language) {
-            if (language.code === 'en') {
-              return;
-            }
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-            _this2.languages.push({
-              key: language.code,
-              value: language.name
-            });
-          });
-        }
-      });
-    },
-    doCompareLanguage: function doCompareLanguage() {
-      if (this.compareLanguage) {
-        this.compareTranslations = null;
-        this.fetchTranslations(this.compareLanguage);
-      }
-    }
-  },
-  computed: {
-    filteredTranslations: function filteredTranslations() {
-      var _this3 = this;
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://LanguagesManager/external_%22CoreHome%22?");
 
-      var filtered = this.existingTranslations.filter(function (t) {
-        return t.label.includes(_this3.searchTerm) || t.value.includes(_this3.searchTerm);
-      });
-      filtered = filtered.slice(0, 1000);
-      return filtered;
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue
+/***/ }),
 
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-
-TranslationSearchvue_type_script_lang_ts.render = render
-
-/* harmony default export */ var TranslationSearch = (TranslationSearchvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var TranslationSearch_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: TranslationSearch,
-  directiveName: 'piwikTranslationSearch'
-}));
-// CONCATENATED MODULE: ./plugins/LanguagesManager/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
-
-
-
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://LanguagesManager/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=LanguagesManager.umd.js.map
