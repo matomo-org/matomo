@@ -208,7 +208,7 @@
         "SendInvite": "Send Invite",
         "CopyLink": "Copy Link",
         "LinkCopied": "Link Copied",
-        "InviteLinkValidDays": "Invite links are valid for %1$s-days.",
+        "InviteLinkValidDays": "Invite links are valid for %1$s days.",
         "BackToUser": "Back to Users"
     }
 }
