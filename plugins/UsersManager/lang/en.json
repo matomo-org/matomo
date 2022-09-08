@@ -207,7 +207,7 @@
         "InvitationSent": "Invitation has been sent.",
         "SendInvite": "Send Invite",
         "CopyLink": "Copy Link",
-        "LinkCopied": "Link Copied",
+        "LinkCopied": "Link copied",
         "InviteLinkValidDays": "Invite links are valid for %1$s days.",
         "BackToUser": "Back to Users"
     }
