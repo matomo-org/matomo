@@ -205,7 +205,7 @@
         "ExpiredInviteAutomaticallyRemoved": "Expired invites will be automatically deleted after %1$s days.",
         "ResendInvite": "Resend invite",
         "InvitationSent": "Invitation has been sent.",
-        "SendInvite": "Send Invite",
+        "SendInvite": "Send invite",
         "CopyLink": "Copy link",
         "LinkCopied": "Link copied",
         "InviteLinkValidDays": "Invite links are valid for %1$s days.",
