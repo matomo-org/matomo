@@ -1,7 +1,7 @@
 name: Matomo Tests
 
 on:
-  push:
+  pull_request:
 
 permissions:
   actions: read
