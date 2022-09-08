@@ -389,11 +389,12 @@ class API extends \Piwik\Plugin\API
 
     private function enableDevelopmentLanguageInDevEnvironment(&$languages)
     {
-        if (!Development::isEnabled()) {
-            $key = array_search(DevelopmentLoader::LANGUAGE_ID, $languages);
-            if ($key) {
-                unset($languages[$key]);
-            }
+        $key = array_search(DevelopmentLoader::LANGUAGE_ID, $languages);
+        if (!Development::isEnabled() && $key) {
+            unset($languages[$key]);
+        }
+        if (Development::isEnabled() && !$key) {
+            $languages[] = DevelopmentLoader::LANGUAGE_ID;
         }
     }
 }
