@@ -2,6 +2,7 @@ name: Matomo Tests
 
 on:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   actions: read
