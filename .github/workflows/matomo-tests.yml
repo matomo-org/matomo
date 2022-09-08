@@ -43,7 +43,7 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.command }}
           redis-service: true
-          git-sha: ${{ github.event.sha }}
+          git-sha: ${{ github.event.pull_request.head.sha }}
           run_id: ${{ github.run_id }}
 
   Javascript:
@@ -61,7 +61,7 @@ jobs:
           test-type: ${{ matrix.tests }}
           php-version: ${{ matrix.php }}
           node-version: ${{ matrix.node }}
-          git-sha: ${{ github.sha }}
+          git-sha: ${{ github.event.pull_request.head.sha }}
 
   Angular:
     runs-on: ubuntu-20.04
