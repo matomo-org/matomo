@@ -539,7 +539,7 @@ class FrontController extends Singleton
     protected function handleSSLRedirection()
     {
         // Specifically disable for the opt out iframe
-        if (Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
+        if (Piwik::getModule() == 'CoreAdminHome' && (Piwik::getAction() == 'optOut' || Piwik::getAction() == 'optOutJS')) {
             return;
         }
         // Disable Https for VisitorGenerator
@@ -706,6 +706,7 @@ class FrontController extends Singleton
         // so we do it here, if this is not an API request.
         if (SettingsPiwik::isMatomoInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
+            && !($module === 'CoreAdminHome' && $action === 'optOutJS')
         ) {
             /**
              * @ignore
