@@ -12,6 +12,15 @@ namespace Piwik;
 
 use InvalidArgumentException;
 
+/**
+ * Provides (type safe) access methods for request parameters.
+ *
+ * Ensure to handle parameters received with this class with care.
+ * Especially parameters received as string, array or json might contain malicious content. Those should never be used
+ * raw in templates or other output.
+ *
+ * @api
+ */
 class Request
 {
     /**

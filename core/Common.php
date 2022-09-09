@@ -489,6 +489,7 @@ class Common
      * @return mixed The sanitized request parameter.
      * @see Request::getParameter()
      * @deprecated Use Request class instead, which will return raw values instead.
+     * @api
      */
     public static function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
     {
