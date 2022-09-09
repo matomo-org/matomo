@@ -633,6 +633,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->termsAndCondition = $termsAndConditionUrl;
         $view->privacyPolicyUrl = $privacyPolicyUrl;
         $view->token = $token;
+        $view->loginPlugin = Piwik::getLoginPluginName();
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
@@ -694,6 +695,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view->token = $token;
+        $view->loginPlugin = Piwik::getLoginPluginName();
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
