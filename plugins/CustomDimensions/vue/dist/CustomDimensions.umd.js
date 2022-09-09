@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
+		module.exports = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
 	else if(typeof define === 'function' && define.amd)
-		define(["CoreHome", "CorePluginsAdmin", ], factory);
+		define(["CoreHome", , "CorePluginsAdmin"], factory);
 	else if(typeof exports === 'object')
-		exports["CustomDimensions"] = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
+		exports["CustomDimensions"] = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
 	else
-		root["CustomDimensions"] = factory(root["CoreHome"], root["CorePluginsAdmin"], root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__, __WEBPACK_EXTERNAL_MODULE_vue__) {
+		root["CustomDimensions"] = factory(root["CoreHome"], root["Vue"], root["CorePluginsAdmin"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__, __WEBPACK_EXTERNAL_MODULE_a5a2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,319 +91,998 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=77683287":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=77683287 ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"editCustomDimension\"\n};\nvar _hoisted_2 = {\n  class: \"loadingPiwik\"\n};\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n  src: \"plugins/Morpheus/images/loading-blue.gif\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = {\n  class: \"row form-group\"\n};\nvar _hoisted_5 = {\n  class: \"col s12\"\n};\nvar _hoisted_6 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_7 = {\n  class: \"row\"\n};\nvar _hoisted_8 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_9 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_10 = {\n  class: \"col s12\"\n};\nvar _hoisted_11 = [\"onClick\"];\nvar _hoisted_12 = {\n  class: \"row\"\n};\nvar _hoisted_13 = {\n  class: \"col s12\"\n};\nvar _hoisted_14 = {\n  class: \"col s12 m6 form-help\"\n};\nvar _hoisted_15 = [\"value\", \"disabled\"];\nvar _hoisted_16 = [\"value\", \"disabled\"];\nvar _hoisted_17 = {\n  class: \"btn cancel\",\n  type: \"button\",\n  href: \"#list\"\n};\nvar _hoisted_18 = {\n  class: \"alert alert-info howToTrackInfo\"\n};\nvar _hoisted_19 = [\"innerHTML\"];\nvar _hoisted_20 = [\"innerHTML\"];\nvar _hoisted_21 = [\"innerHTML\"];\nvar _hoisted_22 = [\"innerHTML\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _directive_select_on_focus = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"select-on-focus\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.contentTitleText\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      var _ctx$dimension$extrac;\n\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_2, [_hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_LoadingData')), 1\n      /* TEXT */\n      )])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.isLoading || _ctx.isUpdating]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"form\", {\n        onSubmit: _cache[4] || (_cache[4] = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withModifiers\"])(function ($event) {\n          return _ctx.edit ? _ctx.updateCustomDimension() : _ctx.createCustomDimension();\n        }, [\"prevent\"]))\n      }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"name\",\n        modelValue: _ctx.dimension.name,\n        \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.dimension.name = $event;\n        }),\n        maxlength: 255,\n        required: true,\n        title: _ctx.translate('General_Name'),\n        \"inline-help\": _ctx.translate('CustomDimensions_NameAllowedCharacters')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"checkbox\",\n        name: \"active\",\n        modelValue: _ctx.dimension.active,\n        \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.dimension.active = $event;\n        }),\n        title: _ctx.translate('CorePluginsAdmin_Active'),\n        \"inline-help\": _ctx.translate('CustomDimensions_CannotBeDeleted')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", _hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_ExtractValue')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_6, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.dimension.extractions, function (extraction, index) {\n        return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n          class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])(\"\".concat(index, \"extraction \")),\n          key: index\n        }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n          uicontrol: \"select\",\n          name: \"\".concat(index, \"dimension\"),\n          modelValue: extraction.dimension,\n          \"onUpdate:modelValue\": function onUpdateModelValue($event) {\n            return extraction.dimension = $event;\n          },\n          \"full-width\": true,\n          options: _ctx.extractionDimensionsOptions\n        }, null, 8\n        /* PROPS */\n        , [\"name\", \"modelValue\", \"onUpdate:modelValue\", \"options\"])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n          uicontrol: \"text\",\n          name: \"\".concat(index, \"pattern\"),\n          modelValue: extraction.pattern,\n          \"onUpdate:modelValue\": function onUpdateModelValue($event) {\n            return extraction.pattern = $event;\n          },\n          \"full-width\": true,\n          title: extraction.dimension === 'urlparam' ? _ctx.translate('CustomDimensions_UrlQueryStringParameter') : 'eg. /blog/(.*)/'\n        }, null, 8\n        /* PROPS */\n        , [\"name\", \"modelValue\", \"onUpdate:modelValue\", \"title\"])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n          class: \"icon-plus\",\n          onClick: _cache[2] || (_cache[2] = function ($event) {\n            return _ctx.addExtraction();\n          })\n        }, null, 512\n        /* NEED_PATCH */\n        ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], extraction.pattern]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n          class: \"icon-minus\",\n          onClick: function onClick($event) {\n            return _ctx.removeExtraction(index);\n          }\n        }, null, 8\n        /* PROPS */\n        , _hoisted_11), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.dimension.extractions.length > 1]])])])], 2\n        /* CLASS */\n        );\n      }), 128\n      /* KEYED_FRAGMENT */\n      )), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_13, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"checkbox\",\n        name: \"casesensitive\",\n        modelValue: _ctx.dimension.case_sensitive,\n        \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n          return _ctx.dimension.case_sensitive = $event;\n        }),\n        title: _ctx.translate('Goals_CaseSensitive')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\"]), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], (_ctx$dimension$extrac = _ctx.dimension.extractions[0]) === null || _ctx$dimension$extrac === void 0 ? void 0 : _ctx$dimension$extrac.pattern]])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_ExtractionsHelp')), 1\n      /* TEXT */\n      )], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.doesScopeSupportExtraction]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        class: \"btn update\",\n        type: \"submit\",\n        value: _ctx.translate('General_Update'),\n        disabled: _ctx.isUpdating,\n        style: {\n          \"margin-right\": \"3.5px\"\n        }\n      }, null, 8\n      /* PROPS */\n      , _hoisted_15), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.edit]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        class: \"btn create\",\n        type: \"submit\",\n        value: _ctx.translate('General_Create'),\n        disabled: _ctx.isUpdating,\n        style: {\n          \"margin-right\": \"3.5px\"\n        }\n      }, null, 8\n      /* PROPS */\n      , _hoisted_16), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.create]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", _hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Cancel')), 1\n      /* TEXT */\n      )], 32\n      /* HYDRATE_EVENTS */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_18, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"strong\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_HowToTrackManuallyTitle')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_HowToTrackManuallyViaJs')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"code\", {\n        innerHTML: _ctx.$sanitize(_ctx.manuallyTrackCodeViaJs(_ctx.dimension))\n      }, null, 8\n      /* PROPS */\n      , _hoisted_19)], 512\n      /* NEED_PATCH */\n      ), [[_directive_select_on_focus, {}]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n        innerHTML: _ctx.$sanitize(_ctx.howToTrackManuallyText)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_20), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_HowToTrackManuallyViaPhp')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"code\", {\n        innerHTML: _ctx.$sanitize(_ctx.manuallyTrackCodeViaPhp(_ctx.dimension))\n      }, null, 8\n      /* PROPS */\n      , _hoisted_21)], 512\n      /* NEED_PATCH */\n      ), [[_directive_select_on_focus, {}]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_HowToTrackManuallyViaHttp')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"code\", {\n        innerHTML: _ctx.$sanitize(_ctx.manuallyTrackCode)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_22)], 512\n      /* NEED_PATCH */\n      ), [[_directive_select_on_focus, {}]])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.edit]])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.isLoading]])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"])]);\n}\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Edit/Edit.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=35c721f2":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=35c721f2 ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = [\"innerHTML\"];\nvar _hoisted_2 = {\n  class: \"loadingPiwik\"\n};\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n  src: \"plugins/Morpheus/images/loading-blue.gif\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = {\n  class: \"index\"\n};\nvar _hoisted_5 = {\n  class: \"name\"\n};\nvar _hoisted_6 = {\n  class: \"active\"\n};\nvar _hoisted_7 = {\n  class: \"action\"\n};\nvar _hoisted_8 = {\n  colspan: \"5\"\n};\nvar _hoisted_9 = {\n  class: \"index\"\n};\nvar _hoisted_10 = {\n  class: \"name\"\n};\nvar _hoisted_11 = {\n  class: \"extractions\"\n};\nvar _hoisted_12 = {\n  class: \"active\"\n};\nvar _hoisted_13 = {\n  class: \"action\"\n};\nvar _hoisted_14 = [\"href\"];\nvar _hoisted_15 = {\n  class: \"tableActionBar\"\n};\nvar _hoisted_16 = [\"disabled\", \"onClick\"];\n\nvar _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-add\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_18 = {\n  class: \"info\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_EnrichedHeadline = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"EnrichedHeadline\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _directive_content_intro = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"content-intro\");\n\n  var _directive_content_table = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"content-table\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h2\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_EnrichedHeadline, null, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_CustomDimensions')), 1\n      /* TEXT */\n      )];\n    }),\n    _: 1\n    /* STABLE */\n\n  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n    innerHTML: _ctx.$sanitize(_ctx.contentIntroText)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_1), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_2, [_hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_LoadingData')), 1\n  /* TEXT */\n  )])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.isLoading]])], 512\n  /* NEED_PATCH */\n  ), [[_directive_content_intro]]), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.availableScopes, function (scope) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])((Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n      key: scope.value\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n      \"content-title\": _ctx.translate(\"CustomDimensions_ScopeTitle\".concat(_ctx.ucfirst(scope.value)))\n    }, {\n      default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n        return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate(\"CustomDimensions_ScopeDescription\".concat(_ctx.ucfirst(scope.value)))) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate(\"CustomDimensions_ScopeDescription\".concat(_ctx.ucfirst(scope.value), \"MoreInfo\"))), 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"table\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"thead\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tr\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Id')), 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", _hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Name')), 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n          class: \"extractions\"\n        }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_Extractions')), 513\n        /* TEXT, NEED_PATCH */\n        ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], scope.supportsExtractions]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", _hoisted_6, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CorePluginsAdmin_Active')), 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Action')), 1\n        /* TEXT */\n        )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tbody\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tr\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_NoCustomDimensionConfigured')), 1\n        /* TEXT */\n        )], 512\n        /* NEED_PATCH */\n        ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], scope.numSlotsUsed === 0 && !_ctx.isLoading]]), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.sortedCustomDimensionsByScope[scope.value], function (customDimension) {\n          var _customDimension$extr;\n\n          return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"tr\", {\n            class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])([\"customdimension\", customDimension.idcustomdimension]),\n            key: customDimension.idcustomdimension\n          }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(customDimension.idcustomdimension), 1\n          /* TEXT */\n          ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(customDimension.name), 1\n          /* TEXT */\n          ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n            class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])({\n              'icon-ok': (_customDimension$extr = customDimension.extractions[0]) === null || _customDimension$extr === void 0 ? void 0 : _customDimension$extr.pattern\n            })\n          }, null, 2\n          /* CLASS */\n          )], 512\n          /* NEED_PATCH */\n          ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], scope.supportsExtractions]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n            class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])({\n              'icon-ok': customDimension.active\n            })\n          }, null, 2\n          /* CLASS */\n          )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_13, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n            class: \"table-action icon-edit\",\n            href: \"#?idDimension=\".concat(customDimension.idcustomdimension, \"&scope=\").concat(scope.value)\n          }, null, 8\n          /* PROPS */\n          , _hoisted_14)])], 2\n          /* CLASS */\n          );\n        }), 128\n        /* KEYED_FRAGMENT */\n        ))])], 512\n        /* NEED_PATCH */\n        ), [[_directive_content_table]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_15, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"button\", {\n          class: \"btn\",\n          disabled: !scope.numSlotsLeft,\n          onClick: function onClick($event) {\n            return _ctx.addDimension(scope.value);\n          }\n        }, [_hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_ConfigureNewDimension')) + \" \", 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_18, \"(\" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_XofYLeft', scope.numSlotsLeft, scope.numSlotsAvailable)) + \")\", 1\n        /* TEXT */\n        )], 8\n        /* PROPS */\n        , _hoisted_16), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.isLoading]])])];\n      }),\n      _: 2\n      /* DYNAMIC */\n\n    }, 1032\n    /* PROPS, DYNAMIC_SLOTS */\n    , [\"content-title\"])], 512\n    /* NEED_PATCH */\n    )), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.isLoading]]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  ))]);\n}\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/List/List.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=49ddb8e7":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=49ddb8e7 ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"manageCustomDimensions\"\n};\nvar _hoisted_2 = {\n  key: 0\n};\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_7 = [\"textContent\"];\nvar _hoisted_8 = [\"textContent\"];\nvar _hoisted_9 = {\n  key: 1\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_CustomDimensionsList = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"CustomDimensionsList\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _component_CustomDimensionsEdit = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"CustomDimensionsEdit\");\n\n  var _directive_select_on_focus = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"select-on-focus\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [!_ctx.editMode ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_CustomDimensionsList)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n    id: \"customDimensionsCreateMoreDimensions\",\n    \"content-title\": _ctx.translate('CustomDimensions_IncreaseAvailableCustomDimensionsTitle')\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_IncreaseAvailableCustomDimensionsTakesLong')) + \" \", 1\n      /* TEXT */\n      ), _hoisted_3, _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_HowToCreateCustomDimension')) + \" \", 1\n      /* TEXT */\n      ), _hoisted_5, _hoisted_6]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"code\", {\n        textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.addCustomDimCode)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_7)], 512\n      /* NEED_PATCH */\n      ), [[_directive_select_on_focus, {}]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_HowToManyCreateCustomDimensions')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CustomDimensions_ExampleCreateCustomDimensions', 5)), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"code\", {\n        textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.addMultipleCustomDimCode)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_8)], 512\n      /* NEED_PATCH */\n      ), [[_directive_select_on_focus, {}]])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.editMode ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_CustomDimensionsEdit, {\n    \"dimension-id\": _ctx.dimensionId,\n    \"dimension-scope\": _ctx.dimensionScope\n  }, null, 8\n  /* PROPS */\n  , [\"dimension-id\", \"dimension-scope\"])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]);\n}\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Manage/Manage.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../CustomDimensions.store */ \"./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts\");\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utilities */ \"./plugins/CustomDimensions/vue/src/utilities.ts\");\n\n\n\n\n\nvar notificationId = 'customdimensions';\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    dimensionId: Number,\n    dimensionScope: {\n      type: String,\n      required: true\n    }\n  },\n  components: {\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"]\n  },\n  directives: {\n    SelectOnFocus: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"SelectOnFocus\"]\n  },\n  data: function data() {\n    return {\n      dimension: {\n        extractions: []\n      },\n      isUpdatingDim: false\n    };\n  },\n  created: function created() {\n    this.init();\n  },\n  watch: {\n    dimensionId: function dimensionId() {\n      this.init();\n    }\n  },\n  methods: {\n    removeAnyCustomDimensionNotification: function removeAnyCustomDimensionNotification() {\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].remove(notificationId);\n    },\n    showNotification: function showNotification(message, context) {\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].show({\n        message: message,\n        context: context,\n        id: notificationId,\n        type: 'transient'\n      });\n    },\n    init: function init() {\n      var _this = this;\n\n      if (this.dimensionId !== null) {\n        this.removeAnyCustomDimensionNotification();\n      }\n\n      _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].fetch().then(function () {\n        if (_this.edit && _this.dimensionId) {\n          _this.dimension = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"clone\"])(_CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].customDimensionsById.value[_this.dimensionId]);\n\n          if (_this.dimension && !_this.dimension.extractions.length) {\n            _this.addExtraction();\n          }\n        } else if (_this.create) {\n          _this.dimension = {\n            idsite: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].idSite,\n            name: '',\n            active: false,\n            extractions: [],\n            scope: _this.dimensionScope,\n            case_sensitive: true\n          };\n\n          _this.addExtraction();\n        }\n      });\n    },\n    removeExtraction: function removeExtraction(index) {\n      if (index > -1) {\n        this.dimension.extractions.splice(index, 1);\n      }\n    },\n    addExtraction: function addExtraction() {\n      if (this.doesScopeSupportExtraction) {\n        this.dimension.extractions.push({\n          dimension: 'url',\n          pattern: ''\n        });\n      }\n    },\n    createCustomDimension: function createCustomDimension() {\n      var _this2 = this;\n\n      this.isUpdatingDim = true;\n      _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].createOrUpdateDimension(this.dimension, 'CustomDimensions.configureNewCustomDimension').then(function () {\n        _this2.showNotification(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_DimensionCreated'), 'success');\n\n        _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].reload();\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].updateHashToUrl('/list');\n      }).finally(function () {\n        _this2.isUpdatingDim = false;\n      });\n    },\n    updateCustomDimension: function updateCustomDimension() {\n      var _this3 = this;\n\n      this.isUpdatingDim = true;\n      _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].createOrUpdateDimension(this.dimension, 'CustomDimensions.configureExistingCustomDimension').then(function () {\n        _this3.showNotification(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_DimensionUpdated'), 'success');\n\n        _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].reload();\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].updateHashToUrl('/list');\n      }).finally(function () {\n        _this3.isUpdatingDim = false;\n      });\n    },\n    manuallyTrackCodeViaJs: function manuallyTrackCodeViaJs(dimension) {\n      return \"_paq.push(['setCustomDimension', \".concat(dimension.idcustomdimension, \", \") + \"'\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_ExampleValue'), \"']);\");\n    },\n    manuallyTrackCodeViaPhp: function manuallyTrackCodeViaPhp(dimension) {\n      return \"$tracker->setCustomDimension('\".concat(dimension.idcustomdimension, \"', \") + \"'\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_ExampleValue'), \"');\");\n    }\n  },\n  computed: {\n    isLoading: function isLoading() {\n      return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].isLoading.value;\n    },\n    isUpdating: function isUpdating() {\n      return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].isUpdating.value || this.isUpdatingDim;\n    },\n    create: function create() {\n      return this.dimensionId === 0;\n    },\n    edit: function edit() {\n      return !this.create;\n    },\n    extractionDimensionsOptions: function extractionDimensionsOptions() {\n      return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].extractionDimensionsOptions.value;\n    },\n    availableScopes: function availableScopes() {\n      return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].availableScopes.value;\n    },\n    doesScopeSupportExtraction: function doesScopeSupportExtraction() {\n      var _this$dimension,\n          _this4 = this;\n\n      if (!((_this$dimension = this.dimension) !== null && _this$dimension !== void 0 && _this$dimension.scope) || !this.availableScopes) {\n        return false;\n      }\n\n      var dimensionScope = this.availableScopes.find(function (scope) {\n        return scope.value === _this4.dimension.scope;\n      });\n      return dimensionScope === null || dimensionScope === void 0 ? void 0 : dimensionScope.supportsExtractions;\n    },\n    contentTitleText: function contentTitleText() {\n      var _this$dimension2;\n\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_ConfigureDimension', Object(_utilities__WEBPACK_IMPORTED_MODULE_4__[\"ucfirst\"])(this.dimensionScope), \"\".concat(((_this$dimension2 = this.dimension) === null || _this$dimension2 === void 0 ? void 0 : _this$dimension2.index) || ''));\n    },\n    howToTrackManuallyText: function howToTrackManuallyText() {\n      var link = 'https://developer.piwik.org/guides/tracking-javascript-guide#custom-dimensions';\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_HowToTrackManuallyViaJsDetails', \"<a target=_blank href=\\\"\".concat(link, \"\\\" rel=\\\"noreferrer noopener\\\">\"), '</a>');\n    },\n    manuallyTrackCode: function manuallyTrackCode() {\n      var exampleValue = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_ExampleValue');\n      return \"&dimension\".concat(this.dimension.idcustomdimension, \"=\").concat(exampleValue);\n    }\n  }\n}));\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Edit/Edit.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities */ \"./plugins/CustomDimensions/vue/src/utilities.ts\");\n/* harmony import */ var _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../CustomDimensions.store */ \"./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts\");\nfunction _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }\n\nfunction _nonIterableSpread() { throw new TypeError(\"Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _iterableToArray(iter) { if (typeof Symbol !== \"undefined\" && iter[Symbol.iterator] != null || iter[\"@@iterator\"] != null) return Array.from(iter); }\n\nfunction _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\n\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  name: 'listcustomdimensions',\n  components: {\n    EnrichedHeadline: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"EnrichedHeadline\"],\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"]\n  },\n  directives: {\n    ContentIntro: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentIntro\"],\n    ContentTable: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentTable\"]\n  },\n  created: function created() {\n    _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].fetch();\n  },\n  methods: {\n    ucfirst: function ucfirst(s) {\n      return Object(_utilities__WEBPACK_IMPORTED_MODULE_2__[\"ucfirst\"])(s);\n    },\n    addDimension: function addDimension(scope) {\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].updateHashToUrl(\"/?idDimension=0&scope=\".concat(scope));\n    }\n  },\n  computed: {\n    isLoading: function isLoading() {\n      return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].isLoading.value;\n    },\n    availableScopes: function availableScopes() {\n      return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].availableScopes.value;\n    },\n    contentIntroText: function contentIntroText() {\n      var firstPart = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_CustomDimensionsIntroNext', '<a target=_blank href=\"https://piwik.org/docs/custom-variables\">', '</a>', '<a target=_blank href=\"https://piwik.org/faq/general/faq_21117\">', '</a>');\n      var secondPart = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CustomDimensions_CustomDimensionsIntro', '<a target=_blank href=\"https://piwik.org/docs/custom-dimensions\">', '</a>', this.siteName);\n      return \"\".concat(firstPart).concat(secondPart);\n    },\n    customDimensions: function customDimensions() {\n      return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].customDimensions.value;\n    },\n    sortedCustomDimensions: function sortedCustomDimensions() {\n      var result = _toConsumableArray(this.customDimensions);\n\n      result.sort(function (lhs, rhs) {\n        var lhsId = parseInt(\"\".concat(lhs.idcustomdimension), 10);\n        var rhsId = parseInt(\"\".concat(rhs.idcustomdimension), 10);\n        return lhsId - rhsId;\n      });\n      return result;\n    },\n    sortedCustomDimensionsByScope: function sortedCustomDimensionsByScope() {\n      var result = {};\n      this.sortedCustomDimensions.reduce(function (acc, dim) {\n        acc[dim.scope] = acc[dim.scope] || [];\n        acc[dim.scope].push(dim);\n        return acc;\n      }, result);\n      return result;\n    },\n    siteName: function siteName() {\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.htmlDecode(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].siteName);\n    }\n  }\n}));\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/List/List.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _List_List__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../List/List */ \"./plugins/CustomDimensions/vue/src/List/List.vue\");\n/* harmony import */ var _Edit_Edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Edit/Edit */ \"./plugins/CustomDimensions/vue/src/Edit/Edit.vue\");\n\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  components: {\n    CustomDimensionsList: _List_List__WEBPACK_IMPORTED_MODULE_2__[\"default\"],\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    CustomDimensionsEdit: _Edit_Edit__WEBPACK_IMPORTED_MODULE_3__[\"default\"]\n  },\n  directives: {\n    SelectOnFocus: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"SelectOnFocus\"]\n  },\n  data: function data() {\n    return {\n      editMode: false,\n      dimensionId: null,\n      dimensionScope: ''\n    };\n  },\n  created: function created() {\n    var _this = this;\n\n    Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"watch\"])(function () {\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].hashParsed.value;\n    }, function () {\n      _this.initState();\n    });\n    this.initState();\n  },\n  methods: {\n    getValidDimensionScope: function getValidDimensionScope(scope) {\n      if (['action', 'visit'].indexOf(scope) !== -1) {\n        return scope;\n      }\n\n      return '';\n    },\n    initState: function initState() {\n      // as we're not using angular router we have to handle it manually here\n      var idDimension = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].hashParsed.value.idDimension;\n\n      if (idDimension) {\n        var scope = this.getValidDimensionScope(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].hashParsed.value.scope);\n\n        if (idDimension === '0') {\n          var parameters = {\n            isAllowed: true,\n            scope: scope\n          };\n          CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].postEvent('CustomDimensions.initAddDimension', parameters);\n\n          if (parameters && !parameters.isAllowed) {\n            this.editMode = false;\n            this.dimensionId = null;\n            this.dimensionScope = '';\n            return;\n          }\n        }\n\n        this.editMode = true;\n        this.dimensionId = parseInt(idDimension, 10);\n        this.dimensionScope = scope;\n      } else {\n        this.editMode = false;\n        this.dimensionId = null;\n        this.dimensionScope = '';\n      }\n\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.lazyScrollToContent();\n    }\n  },\n  computed: {\n    addCustomDimCode: function addCustomDimCode() {\n      return './console customdimensions:add-custom-dimension --scope=action\\n' + './console customdimensions:add-custom-dimension --scope=visit';\n    },\n    addMultipleCustomDimCode: function addMultipleCustomDimCode() {\n      return './console customdimensions:add-custom-dimension --scope=action --count=5';\n    }\n  }\n}));\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Manage/Manage.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
-  \**********************************************************************************/
-/*! exports provided: CustomDimensionsStore, Edit, List, Manage */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/CustomDimensions/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"CustomDimensionsStore\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"CustomDimensionsStore\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Edit\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Edit\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"List\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"List\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Manage\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"Manage\"]; });\n\n\n\n\n\n//# sourceURL=webpack://CustomDimensions/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://CustomDimensions/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts":
-/*!********************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nvar CustomDimensionsStore = /*#__PURE__*/function () {\n  function CustomDimensionsStore() {\n    var _this = this;\n\n    _classCallCheck(this, CustomDimensionsStore);\n\n    _defineProperty(this, \"privateState\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"reactive\"])({\n      customDimensions: [],\n      availableScopes: [],\n      extractionDimensions: [],\n      isLoading: false,\n      isUpdating: false\n    }));\n\n    _defineProperty(this, \"state\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(_this.privateState);\n    }));\n\n    _defineProperty(this, \"isLoading\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.state.value.isLoading;\n    }));\n\n    _defineProperty(this, \"isUpdating\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.state.value.isUpdating;\n    }));\n\n    _defineProperty(this, \"extractionDimensions\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.state.value.extractionDimensions;\n    }));\n\n    _defineProperty(this, \"extractionDimensionsOptions\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.extractionDimensions.value.map(function (e) {\n        return {\n          key: e.value,\n          value: e.name\n        };\n      });\n    }));\n\n    _defineProperty(this, \"availableScopes\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.state.value.availableScopes;\n    }));\n\n    _defineProperty(this, \"customDimensions\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.state.value.customDimensions;\n    }));\n\n    _defineProperty(this, \"customDimensionsById\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      var dimensionsById = {};\n\n      _this.customDimensions.value.forEach(function (c) {\n        dimensionsById[\"\".concat(c.idcustomdimension)] = c;\n      });\n\n      return dimensionsById;\n    }));\n\n    _defineProperty(this, \"reloadPromise\", null);\n  }\n\n  _createClass(CustomDimensionsStore, [{\n    key: \"reload\",\n    value: function reload() {\n      this.privateState.customDimensions = [];\n      this.privateState.availableScopes = [];\n      this.privateState.extractionDimensions = [];\n      this.reloadPromise = null;\n      return this.fetch();\n    }\n  }, {\n    key: \"fetch\",\n    value: function fetch() {\n      var _this2 = this;\n\n      if (this.reloadPromise) {\n        return this.reloadPromise;\n      }\n\n      this.privateState.isLoading = true;\n      this.reloadPromise = Promise.all([this.fetchConfiguredCustomDimensions(), this.fetchAvailableExtractionDimensions(), this.fetchAvailableScopes()]).finally(function () {\n        _this2.privateState.isLoading = false;\n      });\n      return this.reloadPromise;\n    }\n  }, {\n    key: \"fetchConfiguredCustomDimensions\",\n    value: function fetchConfiguredCustomDimensions() {\n      var _this3 = this;\n\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        method: 'CustomDimensions.getConfiguredCustomDimensions',\n        filter_limit: '-1'\n      }).then(function (r) {\n        _this3.privateState.customDimensions = r;\n      });\n    }\n  }, {\n    key: \"fetchAvailableExtractionDimensions\",\n    value: function fetchAvailableExtractionDimensions() {\n      var _this4 = this;\n\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        method: 'CustomDimensions.getAvailableExtractionDimensions',\n        filter_limit: '-1'\n      }).then(function (r) {\n        _this4.privateState.extractionDimensions = r;\n      });\n    }\n  }, {\n    key: \"fetchAvailableScopes\",\n    value: function fetchAvailableScopes() {\n      var _this5 = this;\n\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        method: 'CustomDimensions.getAvailableScopes',\n        filter_limit: '-1'\n      }).then(function (r) {\n        _this5.privateState.availableScopes = r;\n      });\n    }\n  }, {\n    key: \"createOrUpdateDimension\",\n    value: function createOrUpdateDimension(dimension, method) {\n      var _this6 = this;\n\n      this.privateState.isUpdating = true;\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        method: method,\n        scope: dimension.scope,\n        idDimension: dimension.idcustomdimension,\n        idSite: dimension.idsite,\n        name: dimension.name,\n        active: dimension.active ? '1' : '0',\n        caseSensitive: dimension.case_sensitive ? '1' : '0'\n      }, {\n        extractions: dimension.extractions\n      }).finally(function () {\n        _this6.privateState.isUpdating = false;\n      });\n    }\n  }]);\n\n  return CustomDimensionsStore;\n}();\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new CustomDimensionsStore());\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Edit/Edit.adapter.ts":
-/*!***************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Edit/Edit.adapter.ts ***!
-  \***************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Edit_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Edit.vue */ \"./plugins/CustomDimensions/vue/src/Edit/Edit.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"createAngularJsAdapter\"])({\n  component: _Edit_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  scope: {\n    dimensionId: {\n      angularJsBind: '=',\n      transform: CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"transformAngularJsIntAttr\"]\n    },\n    dimensionScope: {\n      angularJsBind: '='\n    }\n  },\n  directiveName: 'piwikCustomDimensionsEdit'\n}));\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Edit/Edit.adapter.ts?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Edit/Edit.vue":
-/*!********************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Edit/Edit.vue ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Edit_vue_vue_type_template_id_77683287__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Edit.vue?vue&type=template&id=77683287 */ \"./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=77683287\");\n/* harmony import */ var _Edit_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Edit.vue?vue&type=script&lang=ts */ \"./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_Edit_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _Edit_vue_vue_type_template_id_77683287__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_Edit_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CustomDimensions/vue/src/Edit/Edit.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_Edit_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Edit/Edit.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts":
-/*!********************************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts ***!
-  \********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Edit_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Edit.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Edit_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Edit/Edit.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=77683287":
-/*!**************************************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=77683287 ***!
-  \**************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Edit_vue_vue_type_template_id_77683287__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Edit.vue?vue&type=template&id=77683287 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=77683287\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Edit_vue_vue_type_template_id_77683287__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Edit/Edit.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/List/List.adapter.ts":
-/*!***************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/List/List.adapter.ts ***!
-  \***************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _List_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./List.vue */ \"./plugins/CustomDimensions/vue/src/List/List.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"createAngularJsAdapter\"])({\n  component: _List_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  directiveName: 'piwikCustomDimensionsList'\n}));\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/List/List.adapter.ts?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/List/List.vue":
-/*!********************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/List/List.vue ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _List_vue_vue_type_template_id_35c721f2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./List.vue?vue&type=template&id=35c721f2 */ \"./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=35c721f2\");\n/* harmony import */ var _List_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./List.vue?vue&type=script&lang=ts */ \"./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_List_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _List_vue_vue_type_template_id_35c721f2__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_List_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CustomDimensions/vue/src/List/List.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_List_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/List/List.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts":
-/*!********************************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts ***!
-  \********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_List_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./List.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_List_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/List/List.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=35c721f2":
-/*!**************************************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=35c721f2 ***!
-  \**************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_List_vue_vue_type_template_id_35c721f2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./List.vue?vue&type=template&id=35c721f2 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=35c721f2\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_List_vue_vue_type_template_id_35c721f2__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/List/List.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Manage/Manage.adapter.ts":
-/*!*******************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Manage/Manage.adapter.ts ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Manage_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Manage.vue */ \"./plugins/CustomDimensions/vue/src/Manage/Manage.vue\");\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"createAngularJsAdapter\"])({\n  component: _Manage_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  directiveName: 'piwikCustomDimensionsManage'\n}));\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Manage/Manage.adapter.ts?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Manage/Manage.vue":
-/*!************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Manage/Manage.vue ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Manage_vue_vue_type_template_id_49ddb8e7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Manage.vue?vue&type=template&id=49ddb8e7 */ \"./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=49ddb8e7\");\n/* harmony import */ var _Manage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Manage.vue?vue&type=script&lang=ts */ \"./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_Manage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _Manage_vue_vue_type_template_id_49ddb8e7__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_Manage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CustomDimensions/vue/src/Manage/Manage.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_Manage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Manage/Manage.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts":
-/*!************************************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts ***!
-  \************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Manage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Manage.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Manage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Manage/Manage.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=49ddb8e7":
-/*!******************************************************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=49ddb8e7 ***!
-  \******************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Manage_vue_vue_type_template_id_49ddb8e7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./Manage.vue?vue&type=template&id=49ddb8e7 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=49ddb8e7\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Manage_vue_vue_type_template_id_49ddb8e7__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/Manage/Manage.vue?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/index.ts":
-/*!***************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/index.ts ***!
-  \***************************************************/
-/*! exports provided: CustomDimensionsStore, Edit, List, Manage */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Edit_Edit_adapter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Edit/Edit.adapter */ \"./plugins/CustomDimensions/vue/src/Edit/Edit.adapter.ts\");\n/* harmony import */ var _List_List_adapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./List/List.adapter */ \"./plugins/CustomDimensions/vue/src/List/List.adapter.ts\");\n/* harmony import */ var _Manage_Manage_adapter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Manage/Manage.adapter */ \"./plugins/CustomDimensions/vue/src/Manage/Manage.adapter.ts\");\n/* harmony import */ var _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CustomDimensions.store */ \"./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"CustomDimensionsStore\", function() { return _CustomDimensions_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/* harmony import */ var _Edit_Edit_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Edit/Edit.vue */ \"./plugins/CustomDimensions/vue/src/Edit/Edit.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Edit\", function() { return _Edit_Edit_vue__WEBPACK_IMPORTED_MODULE_4__[\"default\"]; });\n\n/* harmony import */ var _List_List_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./List/List.vue */ \"./plugins/CustomDimensions/vue/src/List/List.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"List\", function() { return _List_List_vue__WEBPACK_IMPORTED_MODULE_5__[\"default\"]; });\n\n/* harmony import */ var _Manage_Manage_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Manage/Manage.vue */ \"./plugins/CustomDimensions/vue/src/Manage/Manage.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Manage\", function() { return _Manage_Manage_vue__WEBPACK_IMPORTED_MODULE_6__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/index.ts?");
-
-/***/ }),
-
-/***/ "./plugins/CustomDimensions/vue/src/utilities.ts":
-/*!*******************************************************!*\
-  !*** ./plugins/CustomDimensions/vue/src/utilities.ts ***!
-  \*******************************************************/
-/*! exports provided: ucfirst */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ucfirst\", function() { return ucfirst; });\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\nfunction ucfirst(s) {\n  return \"\".concat(s[0].toUpperCase()).concat(s.slice(1));\n}\n\n//# sourceURL=webpack://CustomDimensions/./plugins/CustomDimensions/vue/src/utilities.ts?");
-
-/***/ }),
-
-/***/ "CoreHome":
-/*!***************************!*\
-  !*** external "CoreHome" ***!
-  \***************************/
-/*! no static exports found */
+/***/ "19dc":
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://CustomDimensions/external_%22CoreHome%22?");
+module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
-/***/ "CorePluginsAdmin":
-/*!***********************************!*\
-  !*** external "CorePluginsAdmin" ***!
-  \***********************************/
-/*! no static exports found */
+/***/ "8bbf":
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__;\n\n//# sourceURL=webpack://CustomDimensions/external_%22CorePluginsAdmin%22?");
+module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 
 /***/ }),
 
-/***/ "vue":
-/*!******************************************************************!*\
-  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
-  \******************************************************************/
-/*! no static exports found */
+/***/ "a5a2":
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://CustomDimensions/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
+module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
+
+/***/ }),
+
+/***/ "fae3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "CustomDimensionsStore", function() { return /* reexport */ CustomDimensions_store; });
+__webpack_require__.d(__webpack_exports__, "Edit", function() { return /* reexport */ Edit; });
+__webpack_require__.d(__webpack_exports__, "List", function() { return /* reexport */ List; });
+__webpack_require__.d(__webpack_exports__, "Manage", function() { return /* reexport */ Manage; });
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
+// This file is imported into lib/wc client bundles.
+
+if (typeof window !== 'undefined') {
+  var currentScript = window.document.currentScript
+  if (false) { var getCurrentScript; }
+
+  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
+  if (src) {
+    __webpack_require__.p = src[1] // eslint-disable-line
+  }
+}
+
+// Indicate to webpack that this file can be concatenated
+/* harmony default export */ var setPublicPath = (null);
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
+
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=593105ce
+
+var _hoisted_1 = {
+  class: "editCustomDimension"
+};
+var _hoisted_2 = {
+  class: "loadingPiwik"
+};
+
+var _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  src: "plugins/Morpheus/images/loading-blue.gif"
+}, null, -1);
+
+var _hoisted_4 = {
+  class: "row form-group"
+};
+var _hoisted_5 = {
+  class: "col s12"
+};
+var _hoisted_6 = {
+  class: "col s12 m6"
+};
+var _hoisted_7 = {
+  class: "row"
+};
+var _hoisted_8 = {
+  class: "col s12 m6"
+};
+var _hoisted_9 = {
+  class: "col s12 m6"
+};
+var _hoisted_10 = {
+  class: "col s12"
+};
+var _hoisted_11 = ["onClick"];
+var _hoisted_12 = {
+  class: "row"
+};
+var _hoisted_13 = {
+  class: "col s12"
+};
+var _hoisted_14 = {
+  class: "col s12 m6 form-help"
+};
+var _hoisted_15 = ["value", "disabled"];
+var _hoisted_16 = ["value", "disabled"];
+var _hoisted_17 = {
+  class: "btn cancel",
+  type: "button",
+  href: "#list"
+};
+var _hoisted_18 = {
+  class: "alert alert-info howToTrackInfo"
+};
+var _hoisted_19 = ["innerHTML"];
+var _hoisted_20 = ["innerHTML"];
+var _hoisted_21 = ["innerHTML"];
+var _hoisted_22 = ["innerHTML"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.contentTitleText
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      var _ctx$dimension$extrac;
+
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_2, [_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isLoading || _ctx.isUpdating]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+        onSubmit: _cache[4] || (_cache[4] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+          return _ctx.edit ? _ctx.updateCustomDimension() : _ctx.createCustomDimension();
+        }, ["prevent"]))
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "text",
+        name: "name",
+        modelValue: _ctx.dimension.name,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.dimension.name = $event;
+        }),
+        maxlength: 255,
+        required: true,
+        title: _ctx.translate('General_Name'),
+        "inline-help": _ctx.translate('CustomDimensions_NameAllowedCharacters')
+      }, null, 8, ["modelValue", "title", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "checkbox",
+        name: "active",
+        modelValue: _ctx.dimension.active,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          return _ctx.dimension.active = $event;
+        }),
+        title: _ctx.translate('CorePluginsAdmin_Active'),
+        "inline-help": _ctx.translate('CustomDimensions_CannotBeDeleted')
+      }, null, 8, ["modelValue", "title", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_ExtractValue')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.dimension.extractions, function (extraction, index) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+          class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("".concat(index, "extraction ")),
+          key: index
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+          uicontrol: "select",
+          name: "".concat(index, "dimension"),
+          modelValue: extraction.dimension,
+          "onUpdate:modelValue": function onUpdateModelValue($event) {
+            return extraction.dimension = $event;
+          },
+          "full-width": true,
+          options: _ctx.extractionDimensionsOptions
+        }, null, 8, ["name", "modelValue", "onUpdate:modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+          uicontrol: "text",
+          name: "".concat(index, "pattern"),
+          modelValue: extraction.pattern,
+          "onUpdate:modelValue": function onUpdateModelValue($event) {
+            return extraction.pattern = $event;
+          },
+          "full-width": true,
+          title: extraction.dimension === 'urlparam' ? _ctx.translate('CustomDimensions_UrlQueryStringParameter') : 'eg. /blog/(.*)/'
+        }, null, 8, ["name", "modelValue", "onUpdate:modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+          class: "icon-plus",
+          onClick: _cache[2] || (_cache[2] = function ($event) {
+            return _ctx.addExtraction();
+          })
+        }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], extraction.pattern]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+          class: "icon-minus",
+          onClick: function onClick($event) {
+            return _ctx.removeExtraction(index);
+          }
+        }, null, 8, _hoisted_11), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.dimension.extractions.length > 1]])])])], 2);
+      }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        uicontrol: "checkbox",
+        name: "casesensitive",
+        modelValue: _ctx.dimension.case_sensitive,
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+          return _ctx.dimension.case_sensitive = $event;
+        }),
+        title: _ctx.translate('Goals_CaseSensitive')
+      }, null, 8, ["modelValue", "title"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], (_ctx$dimension$extrac = _ctx.dimension.extractions[0]) === null || _ctx$dimension$extrac === void 0 ? void 0 : _ctx$dimension$extrac.pattern]])])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_ExtractionsHelp')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.doesScopeSupportExtraction]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        class: "btn update",
+        type: "submit",
+        value: _ctx.translate('General_Update'),
+        disabled: _ctx.isUpdating,
+        style: {
+          "margin-right": "3.5px"
+        }
+      }, null, 8, _hoisted_15), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.edit]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        class: "btn create",
+        type: "submit",
+        value: _ctx.translate('General_Create'),
+        disabled: _ctx.isUpdating,
+        style: {
+          "margin-right": "3.5px"
+        }
+      }, null, 8, _hoisted_16), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.create]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Cancel')), 1)], 32), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToTrackManuallyTitle')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToTrackManuallyViaJs')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
+        innerHTML: _ctx.$sanitize(_ctx.manuallyTrackCodeViaJs(_ctx.dimension))
+      }, null, 8, _hoisted_19)], 512), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.$sanitize(_ctx.howToTrackManuallyText)
+      }, null, 8, _hoisted_20), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToTrackManuallyViaPhp')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
+        innerHTML: _ctx.$sanitize(_ctx.manuallyTrackCodeViaPhp(_ctx.dimension))
+      }, null, 8, _hoisted_21)], 512), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToTrackManuallyViaHttp')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
+        innerHTML: _ctx.$sanitize(_ctx.manuallyTrackCode)
+      }, null, 8, _hoisted_22)], 512), [[_directive_select_on_focus, {}]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.edit]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]])];
+    }),
+    _: 1
+  }, 8, ["content-title"])]);
+}
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=template&id=593105ce
+
+// EXTERNAL MODULE: external "CorePluginsAdmin"
+var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
+
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/CustomDimensions.store.ts
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+var CustomDimensions_store_CustomDimensionsStore = /*#__PURE__*/function () {
+  function CustomDimensionsStore() {
+    var _this = this;
+
+    _classCallCheck(this, CustomDimensionsStore);
+
+    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      customDimensions: [],
+      availableScopes: [],
+      extractionDimensions: [],
+      isLoading: false,
+      isUpdating: false
+    }));
+
+    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
+    }));
+
+    _defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.isLoading;
+    }));
+
+    _defineProperty(this, "isUpdating", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.isUpdating;
+    }));
+
+    _defineProperty(this, "extractionDimensions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.extractionDimensions;
+    }));
+
+    _defineProperty(this, "extractionDimensionsOptions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.extractionDimensions.value.map(function (e) {
+        return {
+          key: e.value,
+          value: e.name
+        };
+      });
+    }));
+
+    _defineProperty(this, "availableScopes", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.availableScopes;
+    }));
+
+    _defineProperty(this, "customDimensions", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return _this.state.value.customDimensions;
+    }));
+
+    _defineProperty(this, "customDimensionsById", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      var dimensionsById = {};
+
+      _this.customDimensions.value.forEach(function (c) {
+        dimensionsById["".concat(c.idcustomdimension)] = c;
+      });
+
+      return dimensionsById;
+    }));
+
+    _defineProperty(this, "reloadPromise", null);
+  }
+
+  _createClass(CustomDimensionsStore, [{
+    key: "reload",
+    value: function reload() {
+      this.privateState.customDimensions = [];
+      this.privateState.availableScopes = [];
+      this.privateState.extractionDimensions = [];
+      this.reloadPromise = null;
+      return this.fetch();
+    }
+  }, {
+    key: "fetch",
+    value: function fetch() {
+      var _this2 = this;
+
+      if (this.reloadPromise) {
+        return this.reloadPromise;
+      }
+
+      this.privateState.isLoading = true;
+      this.reloadPromise = Promise.all([this.fetchConfiguredCustomDimensions(), this.fetchAvailableExtractionDimensions(), this.fetchAvailableScopes()]).finally(function () {
+        _this2.privateState.isLoading = false;
+      });
+      return this.reloadPromise;
+    }
+  }, {
+    key: "fetchConfiguredCustomDimensions",
+    value: function fetchConfiguredCustomDimensions() {
+      var _this3 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'CustomDimensions.getConfiguredCustomDimensions',
+        filter_limit: '-1'
+      }).then(function (r) {
+        _this3.privateState.customDimensions = r;
+      });
+    }
+  }, {
+    key: "fetchAvailableExtractionDimensions",
+    value: function fetchAvailableExtractionDimensions() {
+      var _this4 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'CustomDimensions.getAvailableExtractionDimensions',
+        filter_limit: '-1'
+      }).then(function (r) {
+        _this4.privateState.extractionDimensions = r;
+      });
+    }
+  }, {
+    key: "fetchAvailableScopes",
+    value: function fetchAvailableScopes() {
+      var _this5 = this;
+
+      return external_CoreHome_["AjaxHelper"].fetch({
+        method: 'CustomDimensions.getAvailableScopes',
+        filter_limit: '-1'
+      }).then(function (r) {
+        _this5.privateState.availableScopes = r;
+      });
+    }
+  }, {
+    key: "createOrUpdateDimension",
+    value: function createOrUpdateDimension(dimension, method) {
+      var _this6 = this;
+
+      this.privateState.isUpdating = true;
+      return external_CoreHome_["AjaxHelper"].post({
+        method: method,
+        scope: dimension.scope,
+        idDimension: dimension.idcustomdimension,
+        idSite: dimension.idsite,
+        name: dimension.name,
+        active: dimension.active ? '1' : '0',
+        caseSensitive: dimension.case_sensitive ? '1' : '0'
+      }, {
+        extractions: dimension.extractions
+      }).finally(function () {
+        _this6.privateState.isUpdating = false;
+      });
+    }
+  }]);
+
+  return CustomDimensionsStore;
+}();
+
+/* harmony default export */ var CustomDimensions_store = (new CustomDimensions_store_CustomDimensionsStore());
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/utilities.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+function utilities_ucfirst(s) {
+  return "".concat(s[0].toUpperCase()).concat(s.slice(1));
+}
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts
+
+
+
+
+
+var notificationId = 'customdimensions';
+/* harmony default export */ var Editvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    dimensionId: Number,
+    dimensionScope: {
+      type: String,
+      required: true
+    }
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    Field: external_CorePluginsAdmin_["Field"]
+  },
+  directives: {
+    SelectOnFocus: external_CoreHome_["SelectOnFocus"]
+  },
+  data: function data() {
+    return {
+      dimension: {
+        extractions: []
+      },
+      isUpdatingDim: false
+    };
+  },
+  created: function created() {
+    this.init();
+  },
+  watch: {
+    dimensionId: function dimensionId() {
+      this.init();
+    }
+  },
+  methods: {
+    removeAnyCustomDimensionNotification: function removeAnyCustomDimensionNotification() {
+      external_CoreHome_["NotificationsStore"].remove(notificationId);
+    },
+    showNotification: function showNotification(message, context) {
+      external_CoreHome_["NotificationsStore"].show({
+        message: message,
+        context: context,
+        id: notificationId,
+        type: 'transient'
+      });
+    },
+    init: function init() {
+      var _this = this;
+
+      if (this.dimensionId !== null) {
+        this.removeAnyCustomDimensionNotification();
+      }
+
+      CustomDimensions_store.fetch().then(function () {
+        if (_this.edit && _this.dimensionId) {
+          _this.dimension = Object(external_CoreHome_["clone"])(CustomDimensions_store.customDimensionsById.value[_this.dimensionId]);
+
+          if (_this.dimension && !_this.dimension.extractions.length) {
+            _this.addExtraction();
+          }
+        } else if (_this.create) {
+          _this.dimension = {
+            idsite: external_CoreHome_["Matomo"].idSite,
+            name: '',
+            active: false,
+            extractions: [],
+            scope: _this.dimensionScope,
+            case_sensitive: true
+          };
+
+          _this.addExtraction();
+        }
+      });
+    },
+    removeExtraction: function removeExtraction(index) {
+      if (index > -1) {
+        this.dimension.extractions.splice(index, 1);
+      }
+    },
+    addExtraction: function addExtraction() {
+      if (this.doesScopeSupportExtraction) {
+        this.dimension.extractions.push({
+          dimension: 'url',
+          pattern: ''
+        });
+      }
+    },
+    createCustomDimension: function createCustomDimension() {
+      var _this2 = this;
+
+      this.isUpdatingDim = true;
+      CustomDimensions_store.createOrUpdateDimension(this.dimension, 'CustomDimensions.configureNewCustomDimension').then(function () {
+        _this2.showNotification(Object(external_CoreHome_["translate"])('CustomDimensions_DimensionCreated'), 'success');
+
+        CustomDimensions_store.reload();
+        external_CoreHome_["MatomoUrl"].updateHashToUrl('/list');
+      }).finally(function () {
+        _this2.isUpdatingDim = false;
+      });
+    },
+    updateCustomDimension: function updateCustomDimension() {
+      var _this3 = this;
+
+      this.isUpdatingDim = true;
+      CustomDimensions_store.createOrUpdateDimension(this.dimension, 'CustomDimensions.configureExistingCustomDimension').then(function () {
+        _this3.showNotification(Object(external_CoreHome_["translate"])('CustomDimensions_DimensionUpdated'), 'success');
+
+        CustomDimensions_store.reload();
+        external_CoreHome_["MatomoUrl"].updateHashToUrl('/list');
+      }).finally(function () {
+        _this3.isUpdatingDim = false;
+      });
+    },
+    manuallyTrackCodeViaJs: function manuallyTrackCodeViaJs(dimension) {
+      return "_paq.push(['setCustomDimension', ".concat(dimension.idcustomdimension, ", ") + "'".concat(Object(external_CoreHome_["translate"])('CustomDimensions_ExampleValue'), "']);");
+    },
+    manuallyTrackCodeViaPhp: function manuallyTrackCodeViaPhp(dimension) {
+      return "$tracker->setCustomDimension('".concat(dimension.idcustomdimension, "', ") + "'".concat(Object(external_CoreHome_["translate"])('CustomDimensions_ExampleValue'), "');");
+    }
+  },
+  computed: {
+    isLoading: function isLoading() {
+      return CustomDimensions_store.isLoading.value;
+    },
+    isUpdating: function isUpdating() {
+      return CustomDimensions_store.isUpdating.value || this.isUpdatingDim;
+    },
+    create: function create() {
+      return this.dimensionId === 0;
+    },
+    edit: function edit() {
+      return !this.create;
+    },
+    extractionDimensionsOptions: function extractionDimensionsOptions() {
+      return CustomDimensions_store.extractionDimensionsOptions.value;
+    },
+    availableScopes: function availableScopes() {
+      return CustomDimensions_store.availableScopes.value;
+    },
+    doesScopeSupportExtraction: function doesScopeSupportExtraction() {
+      var _this$dimension,
+          _this4 = this;
+
+      if (!((_this$dimension = this.dimension) !== null && _this$dimension !== void 0 && _this$dimension.scope) || !this.availableScopes) {
+        return false;
+      }
+
+      var dimensionScope = this.availableScopes.find(function (scope) {
+        return scope.value === _this4.dimension.scope;
+      });
+      return dimensionScope === null || dimensionScope === void 0 ? void 0 : dimensionScope.supportsExtractions;
+    },
+    contentTitleText: function contentTitleText() {
+      var _this$dimension2;
+
+      return Object(external_CoreHome_["translate"])('CustomDimensions_ConfigureDimension', utilities_ucfirst(this.dimensionScope), "".concat(((_this$dimension2 = this.dimension) === null || _this$dimension2 === void 0 ? void 0 : _this$dimension2.index) || ''));
+    },
+    howToTrackManuallyText: function howToTrackManuallyText() {
+      var link = 'https://developer.piwik.org/guides/tracking-javascript-guide#custom-dimensions';
+      return Object(external_CoreHome_["translate"])('CustomDimensions_HowToTrackManuallyViaJsDetails', "<a target=_blank href=\"".concat(link, "\" rel=\"noreferrer noopener\">"), '</a>');
+    },
+    manuallyTrackCode: function manuallyTrackCode() {
+      var exampleValue = Object(external_CoreHome_["translate"])('CustomDimensions_ExampleValue');
+      return "&dimension".concat(this.dimension.idcustomdimension, "=").concat(exampleValue);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Edit/Edit.vue
+
+
+
+Editvue_type_script_lang_ts.render = render
+
+/* harmony default export */ var Edit = (Editvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Edit/Edit.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var Edit_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: Edit,
+  scope: {
+    dimensionId: {
+      angularJsBind: '=',
+      transform: external_CoreHome_["transformAngularJsIntAttr"]
+    },
+    dimensionScope: {
+      angularJsBind: '='
+    }
+  },
+  directiveName: 'piwikCustomDimensionsEdit'
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=0c3a05ca
+
+var Listvue_type_template_id_0c3a05ca_hoisted_1 = ["innerHTML"];
+var Listvue_type_template_id_0c3a05ca_hoisted_2 = {
+  class: "loadingPiwik"
+};
+
+var Listvue_type_template_id_0c3a05ca_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+  src: "plugins/Morpheus/images/loading-blue.gif"
+}, null, -1);
+
+var Listvue_type_template_id_0c3a05ca_hoisted_4 = {
+  class: "index"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_5 = {
+  class: "name"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_6 = {
+  class: "active"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_7 = {
+  class: "action"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_8 = {
+  colspan: "5"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_9 = {
+  class: "index"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_10 = {
+  class: "name"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_11 = {
+  class: "extractions"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_12 = {
+  class: "active"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_13 = {
+  class: "action"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_14 = ["href"];
+var Listvue_type_template_id_0c3a05ca_hoisted_15 = {
+  class: "tableActionBar"
+};
+var Listvue_type_template_id_0c3a05ca_hoisted_16 = ["disabled", "onClick"];
+
+var Listvue_type_template_id_0c3a05ca_hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-add"
+}, null, -1);
+
+var Listvue_type_template_id_0c3a05ca_hoisted_18 = {
+  class: "info"
+};
+function Listvue_type_template_id_0c3a05ca_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+
+  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, null, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_CustomDimensions')), 1)];
+    }),
+    _: 1
+  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    innerHTML: _ctx.$sanitize(_ctx.contentIntroText)
+  }, null, 8, Listvue_type_template_id_0c3a05ca_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Listvue_type_template_id_0c3a05ca_hoisted_2, [Listvue_type_template_id_0c3a05ca_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isLoading]])], 512), [[_directive_content_intro]]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.availableScopes, function (scope) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      key: scope.value
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+      "content-title": _ctx.translate("CustomDimensions_ScopeTitle".concat(_ctx.ucfirst(scope.value)))
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+        return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("CustomDimensions_ScopeDescription".concat(_ctx.ucfirst(scope.value)))) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("CustomDimensions_ScopeDescription".concat(_ctx.ucfirst(scope.value), "MoreInfo"))), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", Listvue_type_template_id_0c3a05ca_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Id')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", Listvue_type_template_id_0c3a05ca_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Name')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
+          class: "extractions"
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_Extractions')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], scope.supportsExtractions]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", Listvue_type_template_id_0c3a05ca_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_Active')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", Listvue_type_template_id_0c3a05ca_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Action')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Listvue_type_template_id_0c3a05ca_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_NoCustomDimensionConfigured')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], scope.numSlotsUsed === 0 && !_ctx.isLoading]]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sortedCustomDimensionsByScope[scope.value], function (customDimension) {
+          var _customDimension$extr;
+
+          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
+            class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["customdimension", customDimension.idcustomdimension]),
+            key: customDimension.idcustomdimension
+          }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Listvue_type_template_id_0c3a05ca_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(customDimension.idcustomdimension), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Listvue_type_template_id_0c3a05ca_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(customDimension.name), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Listvue_type_template_id_0c3a05ca_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+              'icon-ok': (_customDimension$extr = customDimension.extractions[0]) === null || _customDimension$extr === void 0 ? void 0 : _customDimension$extr.pattern
+            })
+          }, null, 2)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], scope.supportsExtractions]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Listvue_type_template_id_0c3a05ca_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+              'icon-ok': customDimension.active
+            })
+          }, null, 2)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Listvue_type_template_id_0c3a05ca_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+            class: "table-action icon-edit",
+            href: "#?idDimension=".concat(customDimension.idcustomdimension, "&scope=").concat(scope.value)
+          }, null, 8, Listvue_type_template_id_0c3a05ca_hoisted_14)])], 2);
+        }), 128))])], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Listvue_type_template_id_0c3a05ca_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+          class: "btn",
+          disabled: !scope.numSlotsLeft,
+          onClick: function onClick($event) {
+            return _ctx.addDimension(scope.value);
+          }
+        }, [Listvue_type_template_id_0c3a05ca_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_ConfigureNewDimension')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Listvue_type_template_id_0c3a05ca_hoisted_18, "(" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_XofYLeft', scope.numSlotsLeft, scope.numSlotsAvailable)) + ")", 1)], 8, Listvue_type_template_id_0c3a05ca_hoisted_16), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]])])];
+      }),
+      _: 2
+    }, 1032, ["content-title"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]]);
+  }), 128))]);
+}
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=template&id=0c3a05ca
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+
+
+/* harmony default export */ var Listvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'listcustomdimensions',
+  components: {
+    EnrichedHeadline: external_CoreHome_["EnrichedHeadline"],
+    ContentBlock: external_CoreHome_["ContentBlock"]
+  },
+  directives: {
+    ContentIntro: external_CoreHome_["ContentIntro"],
+    ContentTable: external_CoreHome_["ContentTable"]
+  },
+  created: function created() {
+    CustomDimensions_store.fetch();
+  },
+  methods: {
+    ucfirst: function ucfirst(s) {
+      return utilities_ucfirst(s);
+    },
+    addDimension: function addDimension(scope) {
+      external_CoreHome_["MatomoUrl"].updateHashToUrl("/?idDimension=0&scope=".concat(scope));
+    }
+  },
+  computed: {
+    isLoading: function isLoading() {
+      return CustomDimensions_store.isLoading.value;
+    },
+    availableScopes: function availableScopes() {
+      return CustomDimensions_store.availableScopes.value;
+    },
+    contentIntroText: function contentIntroText() {
+      var firstPart = Object(external_CoreHome_["translate"])('CustomDimensions_CustomDimensionsIntroNext', '<a target=_blank href="https://piwik.org/docs/custom-variables">', '</a>', '<a target=_blank href="https://piwik.org/faq/general/faq_21117">', '</a>');
+      var secondPart = Object(external_CoreHome_["translate"])('CustomDimensions_CustomDimensionsIntro', '<a target=_blank href="https://piwik.org/docs/custom-dimensions">', '</a>', this.siteName);
+      return "".concat(firstPart).concat(secondPart);
+    },
+    customDimensions: function customDimensions() {
+      return CustomDimensions_store.customDimensions.value;
+    },
+    sortedCustomDimensions: function sortedCustomDimensions() {
+      var result = _toConsumableArray(this.customDimensions);
+
+      result.sort(function (lhs, rhs) {
+        var lhsId = parseInt("".concat(lhs.idcustomdimension), 10);
+        var rhsId = parseInt("".concat(rhs.idcustomdimension), 10);
+        return lhsId - rhsId;
+      });
+      return result;
+    },
+    sortedCustomDimensionsByScope: function sortedCustomDimensionsByScope() {
+      var result = {};
+      this.sortedCustomDimensions.reduce(function (acc, dim) {
+        acc[dim.scope] = acc[dim.scope] || [];
+        acc[dim.scope].push(dim);
+        return acc;
+      }, result);
+      return result;
+    },
+    siteName: function siteName() {
+      return external_CoreHome_["Matomo"].helper.htmlDecode(external_CoreHome_["Matomo"].siteName);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/List/List.vue
+
+
+
+Listvue_type_script_lang_ts.render = Listvue_type_template_id_0c3a05ca_render
+
+/* harmony default export */ var List = (Listvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/List/List.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var List_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: List,
+  directiveName: 'piwikCustomDimensionsList'
+}));
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=7763a178
+
+var Managevue_type_template_id_7763a178_hoisted_1 = {
+  class: "manageCustomDimensions"
+};
+var Managevue_type_template_id_7763a178_hoisted_2 = {
+  key: 0
+};
+
+var Managevue_type_template_id_7763a178_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var Managevue_type_template_id_7763a178_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var Managevue_type_template_id_7763a178_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var Managevue_type_template_id_7763a178_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var Managevue_type_template_id_7763a178_hoisted_7 = ["textContent"];
+var Managevue_type_template_id_7763a178_hoisted_8 = ["textContent"];
+var Managevue_type_template_id_7763a178_hoisted_9 = {
+  key: 1
+};
+function Managevue_type_template_id_7763a178_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_CustomDimensionsList = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CustomDimensionsList");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  var _component_CustomDimensionsEdit = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CustomDimensionsEdit");
+
+  var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_7763a178_hoisted_1, [!_ctx.editMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_7763a178_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CustomDimensionsList)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    id: "customDimensionsCreateMoreDimensions",
+    "content-title": _ctx.translate('CustomDimensions_IncreaseAvailableCustomDimensionsTitle')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_IncreaseAvailableCustomDimensionsTakesLong')) + " ", 1), Managevue_type_template_id_7763a178_hoisted_3, Managevue_type_template_id_7763a178_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToCreateCustomDimension')) + " ", 1), Managevue_type_template_id_7763a178_hoisted_5, Managevue_type_template_id_7763a178_hoisted_6]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
+        textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.addCustomDimCode)
+      }, null, 8, Managevue_type_template_id_7763a178_hoisted_7)], 512), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_HowToManyCreateCustomDimensions')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CustomDimensions_ExampleCreateCustomDimensions', 5)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", {
+        textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.addMultipleCustomDimCode)
+      }, null, 8, Managevue_type_template_id_7763a178_hoisted_8)], 512), [[_directive_select_on_focus, {}]])];
+    }),
+    _: 1
+  }, 8, ["content-title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.editMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Managevue_type_template_id_7763a178_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CustomDimensionsEdit, {
+    "dimension-id": _ctx.dimensionId,
+    "dimension-scope": _ctx.dimensionScope
+  }, null, 8, ["dimension-id", "dimension-scope"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+}
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=template&id=7763a178
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts
+
+
+
+
+/* harmony default export */ var Managevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    CustomDimensionsList: List,
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    CustomDimensionsEdit: Edit
+  },
+  directives: {
+    SelectOnFocus: external_CoreHome_["SelectOnFocus"]
+  },
+  data: function data() {
+    return {
+      editMode: false,
+      dimensionId: null,
+      dimensionScope: ''
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+      return external_CoreHome_["MatomoUrl"].hashParsed.value;
+    }, function () {
+      _this.initState();
+    });
+    this.initState();
+  },
+  methods: {
+    getValidDimensionScope: function getValidDimensionScope(scope) {
+      if (['action', 'visit'].indexOf(scope) !== -1) {
+        return scope;
+      }
+
+      return '';
+    },
+    initState: function initState() {
+      // as we're not using angular router we have to handle it manually here
+      var idDimension = external_CoreHome_["MatomoUrl"].hashParsed.value.idDimension;
+
+      if (idDimension) {
+        var scope = this.getValidDimensionScope(external_CoreHome_["MatomoUrl"].hashParsed.value.scope);
+
+        if (idDimension === '0') {
+          var parameters = {
+            isAllowed: true,
+            scope: scope
+          };
+          external_CoreHome_["Matomo"].postEvent('CustomDimensions.initAddDimension', parameters);
+
+          if (parameters && !parameters.isAllowed) {
+            this.editMode = false;
+            this.dimensionId = null;
+            this.dimensionScope = '';
+            return;
+          }
+        }
+
+        this.editMode = true;
+        this.dimensionId = parseInt(idDimension, 10);
+        this.dimensionScope = scope;
+      } else {
+        this.editMode = false;
+        this.dimensionId = null;
+        this.dimensionScope = '';
+      }
+
+      external_CoreHome_["Matomo"].helper.lazyScrollToContent();
+    }
+  },
+  computed: {
+    addCustomDimCode: function addCustomDimCode() {
+      return './console customdimensions:add-custom-dimension --scope=action\n' + './console customdimensions:add-custom-dimension --scope=visit';
+    },
+    addMultipleCustomDimCode: function addMultipleCustomDimCode() {
+      return './console customdimensions:add-custom-dimension --scope=action --count=5';
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.vue
+
+
+
+Managevue_type_script_lang_ts.render = Managevue_type_template_id_7763a178_render
+
+/* harmony default export */ var Manage = (Managevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+/* harmony default export */ var Manage_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
+  component: Manage,
+  directiveName: 'piwikCustomDimensionsManage'
+}));
+// CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/index.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+
+
+
 
 /***/ })
 
 /******/ });
 });
+//# sourceMappingURL=CustomDimensions.umd.js.map
