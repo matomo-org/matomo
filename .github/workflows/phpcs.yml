@@ -22,8 +22,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: composer install --dev --prefer-dist --no-progress --no-suggest
-      - name: PHPCS check
-        uses: chekalsky/phpcs-action@e269c2f264f400adcda7c6b24c8550302350d495
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          phpcs_bin_path: './vendor/bin/phpcs'
-          enable_warnings: true
+          php-version: '7.2'
+          tools: cs2pr
+      - name: Run phpcs
+        run: ./vendor/bin/phpcs -q --report=checkstyle | cs2pr
