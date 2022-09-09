@@ -227,6 +227,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function getValidStringValues(): iterable
     {
         yield 'String value' => ['random string', 'random string'];
+        yield 'String value with null byte' => ["ran\0dom str\0ing", 'random string'];
         yield 'empty string' => ['', ''];
         yield 'whitespace value' => [' ', ' '];
         yield 'Integer value' => [17, '17'];
@@ -341,6 +342,12 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'multidim array' => [['a' => 'b', 'b' => [false, 1.22, 'key' => new \stdClass()]]];
     }
 
+    public function testGetArrayFiltersNullBytes()
+    {
+        $request = new Request(['parameter' => ['a' => "my\0 string", 3, false]]);
+        self::assertSame($request->getArrayParameter('parameter'), ['a' => 'my string', 3, false]);
+    }
+
     /**
      * @dataProvider getInvalidArrayValues
      */
@@ -384,10 +391,11 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function getValidJsonValues(): iterable
     {
         yield 'string value' => ['"random string value"', 'random string value'];
+        yield 'string value with encoded null byte' => ['"my \u0000string"', 'my string'];
         yield 'float value' => ['1.234', 1.234];
         yield 'integer value' => ['19', 19];
         yield 'bool value' => ['false', false];
-        yield 'array value' => ['{"a":"b","0":"c"}', ['a' => 'b', 'c']];
+        yield 'array value' => ['{"a":"b\u0000","0":"c"}', ['a' => 'b', 'c']];
         yield 'multidim array' => [
             '{"a":"b","b":{"0":false,"1":1.22,"key":{}}}',
             ['a' => 'b', 'b' => [false, 1.22, 'key' => []]]
