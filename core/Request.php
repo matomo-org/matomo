@@ -19,6 +19,8 @@ use InvalidArgumentException;
  * Especially parameters received as string, array or json might contain malicious content. Those should never be used
  * raw in templates or other output.
  *
+ * Note: For security reasons this class will automatically remove null byte sequences from string values.
+ *
  * @api
  */
 class Request
@@ -103,7 +105,7 @@ class Request
             array_key_exists($name, $this->requestParameters)
             && $this->requestParameters[$name] !== null
         ) {
-            return $this->requestParameters[$name];
+            return $this->filterNullBytes($this->requestParameters[$name]);
         }
 
         if (null !== $default) {
@@ -182,7 +184,7 @@ class Request
         $parameter = $this->getParameter($name, $default);
 
         if (is_string($parameter) || is_numeric($parameter)) {
-            return (string)$parameter;
+            return $this->filterNullBytes((string)$parameter);
         }
 
         if (null !== $default) {
@@ -244,7 +246,7 @@ class Request
         $parameter = $this->getParameter($name, $default);
 
         if (is_array($parameter)) {
-            return $parameter;
+            return $this->filterNullBytes($parameter);
         }
 
         if (null !== $default) {
@@ -282,7 +284,7 @@ class Request
             $decodedValue = \json_decode($parameter, true);
 
             if ($decodedValue !== null && $decodedValue !== '') {
-                return $decodedValue;
+                return $this->filterNullBytes($decodedValue);
             }
         }
 
@@ -291,6 +293,19 @@ class Request
         }
 
         throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+    }
+
+    private function filterNullBytes($value)
+    {
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $arrayValue) {
+                $result[$key] = $this->filterNullBytes($arrayValue);
+            }
+            return $result;
+        } else {
+            return is_string($value) ? Common::sanitizeNullBytes($value) : $value;
+        }
     }
 
     /**
