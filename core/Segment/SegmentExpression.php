@@ -501,5 +501,20 @@ class SegmentExpression
             'join'  => implode(' ', $this->joins)
         );
     }
-}
 
+    public function isRequiresProfilableData($segmentMetadata): bool
+    {
+        $segmentsByName = array_column($segmentMetadata, null, 'segment');
+
+        foreach ($this->parsedSubExpressions as $leaf) {
+            $operandName = $leaf[self::INDEX_OPERAND][self::INDEX_OPERAND_NAME];
+            if (isset($segmentsByName[$operandName])
+                && ($segmentsByName[$operandName]['requiresProfilableData'] ?? 0) == 1
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

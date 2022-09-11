@@ -6,6 +6,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>c7eabd04b45e68b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>ecommerceOrder</type>
@@ -174,6 +175,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>c7eabd04b45e68b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>

@@ -50,7 +50,8 @@ class Get extends \Piwik\Plugin\Report
             'nb_visits',
             $this->usersColumn,
             'nb_actions',
-            'max_actions'
+            'max_actions',
+            'nb_profilable',
         );
 
         $period = Piwik::getPeriod('day');

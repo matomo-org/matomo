@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -15,8 +16,10 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
+use Piwik\Notification;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\ReportsProvider;
 
@@ -85,24 +88,24 @@ use Piwik\Plugin\ReportsProvider;
  *
  * @api
  */
-class   Config
+class Config
 {
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
      */
-    public $clientSideProperties = array(
+    public $clientSideProperties = [
         'show_limit_control',
         'pivot_by_dimension',
         'pivot_by_column',
         'pivot_dimension_name',
         'disable_all_rows_filter_limit',
         'segmented_visitor_log_segment_suffix',
-    );
+    ];
 
     /**
      * The list of ViewDataTable properties that can be overridden by query parameters.
      */
-    public $overridableProperties = array(
+    public $overridableProperties = [
         'show_goals',
         'show_exclude_low_population',
         'show_flatten_table',
@@ -131,7 +134,7 @@ class   Config
         'columns_to_display',
         'rows_to_display',
         'segmented_visitor_log_segment_suffix',
-    );
+    ];
 
     /**
      * Controls what footer icons are displayed on the bottom left of the DataTable view.
@@ -187,7 +190,7 @@ class   Config
      * The default value for this property is set elsewhere. It will contain translations
      * of common metrics.
      */
-    public $translations = array();
+    public $translations = [];
 
     /**
      * Controls whether the 'Exclude Low Population' option (visible in the popup that displays after
@@ -259,7 +262,7 @@ class   Config
      * `array('label', 'nb_uniq_visitors')` if the report contains a nb_uniq_visitors column
      * after data is loaded.
      */
-    public $columns_to_display = array();
+    public $columns_to_display = [];
 
     /**
      * Controls whether graph and non core viewDataTable footer icons are shown or not.
@@ -271,7 +274,7 @@ class   Config
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
      */
-    public $related_reports = array();
+    public $related_reports = [];
 
     /**
      * "Related Reports" is displayed by default before listing the Related reports,
@@ -324,7 +327,7 @@ class   Config
      *
      * It can then be accessed in the twig templates by clientSideParameters.typeReferrer
      */
-    public $custom_parameters = array();
+    public $custom_parameters = [];
 
     /**
      * Controls whether the limit dropdown (which allows users to change the number of data shown)
@@ -420,7 +423,7 @@ class   Config
      *
      * By default this is set to values retrieved from report metadata (via API.getReportMetadata API method).
      */
-    public $metrics_documentation = array();
+    public $metrics_documentation = [];
 
     /**
      * Row metadata name that contains the tooltip for the specific row.
@@ -475,7 +478,7 @@ class   Config
      *
      * If a closure is used, the view is appended as a parameter.
      */
-    public $filters = array();
+    public $filters = [];
 
     /**
      * Contains the controller action to call when requesting subtables of the current report.
@@ -568,6 +571,13 @@ class   Config
     public $controllerAction;
 
     /**
+     * Notifications at the top of the page to display when the visualization loads.
+     *
+     * @var Notification[]
+     */
+    public $notifications;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -579,7 +589,7 @@ class   Config
 
         $periodValidator = new PeriodValidator();
         $this->selectable_periods = $periodValidator->getPeriodsAllowedForUI();
-        $this->selectable_periods = array_diff($this->selectable_periods, array('range'));
+        $this->selectable_periods = array_diff($this->selectable_periods, ['range']);
         foreach ($this->selectable_periods as $period) {
             $this->translations[$period] = ucfirst(Piwik::translate('Intl_Period' . ucfirst($period)));
         }
@@ -603,7 +613,7 @@ class   Config
     /** Load documentation from the API */
     private function loadDocumentation()
     {
-        $this->metrics_documentation = array();
+        $this->metrics_documentation = [];
 
         $idSite = Common::getRequestVar('idSite', 0, 'int');
 
@@ -611,7 +621,7 @@ class   Config
             return;
         }
 
-        $apiParameters = array();
+        $apiParameters = [];
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
             $idEntity = Common::getRequestVar($entityName, 0, 'int');
@@ -683,11 +693,13 @@ class   Config
      */
     public function setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors)
     {
+        $isProfilable = ApiRequest::isCurrentPeriodProfilable();
+
         if ($hasNbVisits || $hasNbUniqVisitors) {
-            $columnsToDisplay = array('label');
+            $columnsToDisplay = ['label'];
 
             // if unique visitors data is available, show it, otherwise just visits
-            if ($hasNbUniqVisitors) {
+            if ($hasNbUniqVisitors && $isProfilable) {
                 $columnsToDisplay[] = 'nb_uniq_visitors';
             } else {
                 $columnsToDisplay[] = 'nb_visits';
@@ -702,7 +714,6 @@ class   Config
     public function removeColumnToDisplay($columnToRemove)
     {
         if (!empty($this->columns_to_display)) {
-
             $key = array_search($columnToRemove, $this->columns_to_display);
             if (false !== $key) {
                 unset($this->columns_to_display[$key]);
@@ -715,26 +726,26 @@ class   Config
      */
     private function getFiltersToRun()
     {
-        $priorityFilters     = array();
-        $presentationFilters = array();
+        $priorityFilters     = [];
+        $presentationFilters = [];
 
         foreach ($this->filters as $filterInfo) {
             if ($filterInfo instanceof \Closure) {
                 $nameOrClosure = $filterInfo;
-                $parameters    = array();
+                $parameters    = [];
                 $priority      = false;
             } else {
                 @list($nameOrClosure, $parameters, $priority) = $filterInfo;
             }
 
             if ($priority) {
-                $priorityFilters[] = array($nameOrClosure, $parameters);
+                $priorityFilters[] = [$nameOrClosure, $parameters];
             } else {
-                $presentationFilters[] = array($nameOrClosure, $parameters);
+                $presentationFilters[] = [$nameOrClosure, $parameters];
             }
         }
 
-        return array($priorityFilters, $presentationFilters);
+        return [$priorityFilters, $presentationFilters];
     }
 
     public function getPriorityFilters()
@@ -761,13 +772,15 @@ class   Config
      * @param array $queryParams Any extra query parameters to set in related report's URL, eg,
      *                           `array('idGoal' => 'ecommerceOrder')`.
      */
-    public function addRelatedReport($relatedReport, $title, $queryParams = array())
+    public function addRelatedReport($relatedReport, $title, $queryParams = [])
     {
         list($module, $action) = explode('.', $relatedReport);
 
         // don't add the related report if it references this report
-        if ($this->controllerName === $module
-            && $this->controllerAction === $action) {
+        if (
+            $this->controllerName === $module
+            && $this->controllerAction === $action
+        ) {
             if (empty($queryParams)) {
                 return;
             }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
@@ -15,6 +17,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
@@ -100,7 +103,7 @@ class Report
      * @var array
      * @api
      */
-    protected $metrics = array('nb_visits', 'nb_uniq_visitors', 'nb_actions', 'nb_users');
+    protected $metrics = ['nb_visits', 'nb_uniq_visitors', 'nb_actions', 'nb_users'];
     // for a little performance improvement we avoid having to call Metrics::getDefaultMetrics for each report
 
     /**
@@ -111,7 +114,7 @@ class Report
      * @var array
      * @api
      */
-    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
+    protected $processedMetrics = ['nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate'];
     // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
 
     /**
@@ -231,6 +234,9 @@ class Report
      * might depend on a setting (such as Ecommerce) of a site. In such a case you can perform any checks and then
      * return `true` or `false`. If your report is only available to users having super user access you can do the
      * following: `return Piwik::hasUserSuperUserAccess();`
+     *
+     * Classes that override this method must make sure to call the parent version as well.
+     *
      * @return bool
      * @api
      */
@@ -418,7 +424,7 @@ class Report
         $processedMetricsById = $this->getProcessedMetricsById();
         $metricsSet = array_flip($allMetrics);
 
-        $metrics = array();
+        $metrics = [];
         foreach ($restrictToColumns as $column) {
             if (isset($processedMetricsById[$column])) {
                 $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependentMetrics());
@@ -456,7 +462,7 @@ class Report
      */
     public function getAllMetrics()
     {
-        $processedMetrics = $this->getProcessedMetrics() ?: array();
+        $processedMetrics = $this->getProcessedMetrics() ?: [];
         return array_keys(array_merge($this->getMetrics(), $processedMetrics));
     }
 
@@ -471,7 +477,7 @@ class Report
      */
     public function getMetricNamesToProcessReportTotals()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -488,7 +494,7 @@ class Report
     protected function getMetricsDocumentation()
     {
         $translations  = Metrics::getDefaultMetricsDocumentation();
-        $documentation = array();
+        $documentation = [];
 
         foreach ($this->metrics as $metric) {
             if (is_string($metric) && !empty($translations[$metric])) {
@@ -506,7 +512,7 @@ class Report
             }
         }
 
-        $processedMetrics = $this->processedMetrics ?: array();
+        $processedMetrics = $this->processedMetrics ?: [];
         foreach ($processedMetrics as $processedMetric) {
             if (is_string($processedMetric) && !empty($translations[$processedMetric])) {
                 $documentation[$processedMetric] = $translations[$processedMetric];
@@ -586,13 +592,13 @@ class Report
      */
     protected function buildReportMetadata()
     {
-        $report = array(
+        $report = [
             'category' => $this->getCategoryId(),
             'subcategory' => $this->getSubcategoryId(),
             'name'     => $this->getName(),
             'module'   => $this->getModule(),
             'action'   => $this->getAction()
-        );
+        ];
 
         if (null !== $this->parameters) {
             $report['parameters'] = $this->parameters;
@@ -634,14 +640,14 @@ class Report
 
         $relatedReports = $this->getRelatedReports();
         if (!empty($relatedReports)) {
-            $report['relatedReports'] = array();
+            $report['relatedReports'] = [];
             foreach ($relatedReports as $relatedReport) {
                 if (!empty($relatedReport)) {
-                    $report['relatedReports'][] = array(
+                    $report['relatedReports'][] = [
                         'name' => $relatedReport->getName(),
                         'module' => $relatedReport->getModule(),
                         'action' => $relatedReport->getAction()
-                    );
+                    ];
                 }
             }
         }
@@ -704,7 +710,7 @@ class Report
      */
     public function getRelatedReports()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -889,7 +895,7 @@ class Report
      * @return DataTable
      * @api
      */
-    public function fetch($paramOverride = array())
+    public function fetch($paramOverride = [])
     {
         return Request::processRequest($this->module . '.' . $this->action, $paramOverride);
     }
@@ -902,9 +908,9 @@ class Report
      * @return DataTable
      * @api
      */
-    public function fetchSubtable($idSubtable, $paramOverride = array())
+    public function fetchSubtable($idSubtable, $paramOverride = [])
     {
-        $paramOverride = array('idSubtable' => $idSubtable) + $paramOverride;
+        $paramOverride = ['idSubtable' => $idSubtable] + $paramOverride;
 
         list($module, $action) = $this->getSubtableApiMethod();
         return Request::processRequest($module . '.' . $action, $paramOverride);
@@ -913,7 +919,7 @@ class Report
     private function getMetricTranslations($metricsToTranslate)
     {
         $translations = Metrics::getDefaultMetricTranslations();
-        $metrics = array();
+        $metrics = [];
 
         foreach ($metricsToTranslate as $metric) {
             if ($metric instanceof Metric) {
@@ -935,7 +941,7 @@ class Report
         if (strpos($this->actionToLoadSubTables, '.') !== false) {
             return explode('.', $this->actionToLoadSubTables);
         } else {
-            return array($this->module, $this->actionToLoadSubTables);
+            return [$this->module, $this->actionToLoadSubTables];
         }
     }
 
@@ -951,7 +957,8 @@ class Report
         $provider = new ReportsProvider();
         $reports = $provider->getAllReports();
         foreach ($reports as $report) {
-            if (!$report->isSubtableReport()
+            if (
+                !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId()
             ) {
@@ -968,13 +975,14 @@ class Report
      */
     public function getProcessedMetricsById()
     {
-        $processedMetrics = $this->processedMetrics ?: array();
+        $processedMetrics = $this->processedMetrics ?: [];
 
-        $result = array();
+        $result = [];
         foreach ($processedMetrics as $processedMetric) {
             if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
-            } elseif ($processedMetric instanceof ArchivedMetric
+            } elseif (
+                $processedMetric instanceof ArchivedMetric
                 && $processedMetric->getType() !== Dimension::TYPE_NUMBER
                 && $processedMetric->getType() !== Dimension::TYPE_FLOAT
                 && $processedMetric->getType() !== Dimension::TYPE_BOOL
@@ -997,6 +1005,23 @@ class Report
     }
 
     /**
+     * Returns `true` if this report requires visit data that is profilable (that is to say, visit data that accurately
+     * identifies visitors across visits, which generally requires using cookies or tracking user IDs). If a report requires
+     * this, and Matomo finds that existing data is not good enough, the reports will not be shown, since they will not be
+     * accurate.
+     *
+     * @api
+     */
+    public function isRequiresProfilableData()
+    {
+        if ($this->dimension && $this->dimension->isRequiresProfilableData()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns the Metrics that are displayed by a DataTable of a certain Report type.
      *
      * Includes ProcessedMetrics and Metrics.
@@ -1009,13 +1034,13 @@ class Report
      */
     public static function getMetricsForTable(DataTable $dataTable, Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
     {
-        $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
+        $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
 
         if (!empty($report)) {
             $metrics = array_merge($metrics, $report->getProcessedMetricsById());
         }
 
-        $result = array();
+        $result = [];
 
         /** @var Metric $metric */
         foreach ($metrics as $metric) {

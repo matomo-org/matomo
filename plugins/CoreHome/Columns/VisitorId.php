@@ -42,6 +42,11 @@ class VisitorId extends VisitDimension
         $metricsList->addMetric($metric);
     }
 
+    public function isRequiresProfilableData()
+    {
+        return true;
+    }
+
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         try {
@@ -57,5 +62,10 @@ class VisitorId extends VisitDimension
         if ($visitorProfileEnabled) {
             parent::configureSegments($segmentsList, $dimensionSegmentFactory);
         }
+    }
+
+    public function isRequiresProfilableData()
+    {
+        return true;
     }
 }
