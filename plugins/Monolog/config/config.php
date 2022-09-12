@@ -1,24 +1,24 @@
 <?php
 
 use Psr\Container\ContainerInterface;
-use Monolog\Logger;
+use Matomo\Dependencies\Monolog\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
 use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
 
 return array(
 
-    'Monolog\Logger' => DI\create('Monolog\Logger')
+    'Matomo\Dependencies\Monolog\Logger' => DI\create('Matomo\Dependencies\Monolog\Logger')
         ->constructor('piwik', DI\get('log.handlers'), DI\get('log.processors')),
 
-    'Psr\Log\LoggerInterface' => DI\get('Monolog\Logger'),
+    'Psr\Log\LoggerInterface' => DI\get('Matomo\Dependencies\Monolog\Logger'),
 
     'log.handler.classes' => array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
-        'errorlog' => '\Monolog\Handler\ErrorLogHandler',
-        'syslog' => '\Monolog\Handler\SyslogHandler',
+        'errorlog' => 'Matomo\Dependencies\Monolog\Handler\ErrorLogHandler',
+        'syslog' => 'Matomo\Dependencies\Monolog\Handler\SyslogHandler',
     ),
     'log.handlers' => DI\factory(function (\DI\Container $c) {
         if ($c->has('ini.log.log_writers')) {
@@ -92,7 +92,7 @@ return array(
         DI\get('Piwik\Plugins\Monolog\Processor\ClassNameProcessor'),
         DI\get('Piwik\Plugins\Monolog\Processor\RequestIdProcessor'),
         DI\get('Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor'),
-        DI\get('Monolog\Processor\PsrLogMessageProcessor'),
+        DI\get('Matomo\Dependencies\Monolog\Processor\PsrLogMessageProcessor'),
         DI\get('Piwik\Plugins\Monolog\Processor\TokenProcessor'),
     ),
 
@@ -100,11 +100,11 @@ return array(
         ->constructor(DI\get('log.file.filename'), DI\get('log.level.file'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
     
-    '\Monolog\Handler\ErrorLogHandler' => DI\autowire()
+    'Matomo\Dependencies\Monolog\Handler\ErrorLogHandler' => DI\autowire()
         ->constructorParameter('level', DI\get('log.level.errorlog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
 
-    '\Monolog\Handler\SyslogHandler' => DI\autowire()
+    'Matomo\Dependencies\Monolog\Handler\SyslogHandler' => DI\autowire()
         ->constructorParameter('ident', DI\get('log.syslog.ident'))
         ->constructorParameter('level', DI\get('log.level.syslog'))
         ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),

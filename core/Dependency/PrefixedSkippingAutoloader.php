@@ -19,6 +19,8 @@ namespace Piwik\Dependency;
  */
 class PrefixedSkippingAutoloader
 {
+    public static $disabled = false;
+
     private $originalLoader;
 
     public function __construct($originalLoader)
@@ -38,8 +40,10 @@ class PrefixedSkippingAutoloader
     public function loadClass($class)
     {
         $filePath = $this->originalLoader->findFile($class);
-        if (!$filePath
-            || $this->isFileForPrefixedDependency($filePath)
+
+        if (!self::$disabled
+            && (!$filePath
+                || $this->isFileForPrefixedDependency($filePath))
         ) {
             return false;
         }
@@ -50,19 +54,22 @@ class PrefixedSkippingAutoloader
 
     private function isFileForPrefixedDependency($filePath)
     {
-        if (strpos($filePath, PIWIK_VENDOR_PATH) !== 0
-            || strpos($filePath, '..') !== false
-        ) {
+        $composerAutoloadPath = PIWIK_VENDOR_PATH . '/composer/../';
+        if (strpos($filePath, $composerAutoloadPath) !== 0) {
             return false;
         }
 
-        $dependency = ltrim(substr($filePath, strlen(PIWIK_VENDOR_PATH)), '/');
+        $dependency = ltrim(substr($filePath, strlen($composerAutoloadPath)), '/');
 
         $parts = explode('/', $dependency, 3);
         if (count($parts) > 2) {
             array_pop($parts);
         }
         $dependency = implode('/', $parts);
+
+        if (strpos($dependency, '..') !== false) {
+            return false;
+        }
 
         $isPrefixedDependency = is_dir(PIWIK_VENDOR_PATH . '/prefixed/' . $dependency);
         return $isPrefixedDependency;

@@ -13,10 +13,11 @@ use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
+use Piwik\Dependency\PrefixedSkippingAutoloader;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
+use Matomo\Dependencies\Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -102,6 +103,7 @@ class Console extends Application
 
         // dependencies may not be prefixed yet, so we want to make sure they can still be loaded during this command
         if ($commandName == 'development:prefix-dependency') {
+            PrefixedSkippingAutoloader::$disabled = true;
             \spl_autoload_register(function ($name) {
                 $prefix = 'Matomo\\Dependencies\\';
 
@@ -277,7 +279,7 @@ class Console extends Application
     private function initLoggerOutput(OutputInterface $output)
     {
         /** @var ConsoleHandler $consoleLogHandler */
-        $consoleLogHandler = StaticContainer::get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
+        $consoleLogHandler = StaticContainer::get('Matomo\Dependencies\Symfony\Bridge\Monolog\Handler\ConsoleHandler');
         $consoleLogHandler->setOutput($output);
     }
 

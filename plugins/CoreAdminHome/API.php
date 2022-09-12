@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use Matomo\Dependencies\Monolog\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;

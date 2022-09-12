@@ -8,7 +8,7 @@
 
 namespace Piwik;
 
-use Monolog\Logger;
+use Matomo\Dependencies\Monolog\Logger;
 use Piwik\Container\StaticContainer;
 use Psr\Log\LoggerInterface;
 

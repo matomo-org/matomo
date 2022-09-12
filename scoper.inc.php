@@ -42,4 +42,8 @@ return [
             return $content;
         },
     ],
+    'exclude-namespaces' => [
+        'Psr', // used by monolog but not prefixed (php-scoper can't tell it's part of a different dependency)
+        'Symfony\\Component',
+    ],
 ];
