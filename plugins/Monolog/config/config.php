@@ -81,7 +81,7 @@ return array(
         // we always add the null handler to make sure there is at least one handler specified. otherwise Monolog will
         // add a stream handler to stderr w/ a DEBUG log level, which will cause archiving requests to fail.
         if (empty($writers)) {
-            $writers[] = $c->get(\Monolog\Handler\NullHandler::class);
+            $writers[] = $c->get(\Matomo\Dependencies\Monolog\Handler\NullHandler::class);
         }
 
         return array_values($writers);
@@ -238,7 +238,7 @@ return array(
     'archiving.performance.handlers' => function (ContainerInterface $c) {
         $logFile = trim($c->get('ini.Debug.archive_profiling_log'));
         if (empty($logFile)) {
-            return [new \Monolog\Handler\NullHandler()];
+            return [new \Matomo\Dependencies\Monolog\Handler\NullHandler()];
         }
 
         $fileHandler = new FileHandler($logFile, \Psr\Log\LogLevel::INFO);
