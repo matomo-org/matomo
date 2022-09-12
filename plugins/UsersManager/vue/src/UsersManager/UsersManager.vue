@@ -99,12 +99,11 @@
         <span v-if="copied" class="success-copied">
           <i class="icon-success"></i>
           {{ translate('UsersManager_LinkCopied') }}</span>
-        <a
-          href="#"
-          @click="copyInviteLink(userBeingEdited)"
+        <button
+          @click="generateInviteLink(userBeingEdited)"
           class="btn btn-copy-link modal-action"
           style="margin-right:3.5px"
-        >{{ translate('UsersManager_CopyLink') }}</a>
+        >{{ translate('UsersManager_CopyLink') }}</button>
         <a
           href="#"
           class="btn btn-resend modal-action modal-close modal-no"
@@ -362,14 +361,6 @@ export default defineComponent({
           userLogin: user.login,
         },
       ).then((r) => {
-        const id = NotificationsStore.show({
-          message: translate('UsersManager_InviteLinkSuccess', r.value),
-          id: 'generateInviteLink',
-          context: 'success',
-          type: 'transient',
-        });
-        NotificationsStore.scrollToNotification(id);
-        this.fetchUsers();
         navigator.clipboard.writeText(r.value);
         this.copied = true;
       });

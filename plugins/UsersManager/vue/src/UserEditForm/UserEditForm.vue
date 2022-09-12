@@ -17,7 +17,9 @@
       <div v-if="isAdd" class="col s12 m6 invite-notes">
         <div class="form-help">
                      <span v-html="$sanitize(
-                          translate('UsersManager_InviteSuccessNotification', [7]))"></span>
+                          translate('UsersManager_InviteSuccessNotification',
+                          [inviteTokenExpiryDays]))">
+                     </span>
         </div>
       </div>
       <div
@@ -144,7 +146,7 @@
                   :value="saveButtonLabel"
                   :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
                   :saving="isSavingUserInfo"
-                  @confirm="inviteUser"
+                  @confirm="saveUserInfo"
                 />
               </div>
             </div>
@@ -154,13 +156,12 @@
               <span class="resend-link" @click="resendRequestedUser"
                     v-html="$sanitize(translate('UsersManager_ResendInvite'))"></span>
             </p>
-<!--            <PasswordConfirmation-->
-<!--              v-model="showPasswordConfirmationForInviteUser"-->
-<!--              @confirmed="inviteUser"-->
-<!--            >-->
-<!--              <h2 v-html="$sanitize(inviteUserTitle)"></h2>-->
-<!--              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>-->
-<!--            </PasswordConfirmation>-->
+            <PasswordConfirmation
+              v-model="showPasswordConfirmationForInviteUser"
+              @confirmed="inviteUser"
+            >
+              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+            </PasswordConfirmation>
           </div>
           <div
             class="entityCancel"
@@ -327,6 +328,10 @@ export default defineComponent({
       required: true,
     },
     initialSiteName: {
+      type: String,
+      required: true,
+    },
+    inviteTokenExpiryDays: {
       type: String,
       required: true,
     },
@@ -536,12 +541,6 @@ export default defineComponent({
     changePasswordTitle() {
       return translate(
         'UsersManager_AreYouSureChangeDetails',
-        `<strong>${this.theUser.login}</strong>`,
-      );
-    },
-    inviteUserTitle() {
-      return translate(
-        'UsersManager_InviteConfirm',
         `<strong>${this.theUser.login}</strong>`,
       );
     },
