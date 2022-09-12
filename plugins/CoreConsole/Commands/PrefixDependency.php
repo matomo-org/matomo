@@ -24,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PrefixDependency extends ConsoleCommand
 {
     const PHP_SCOPER_VERSION = '0.17.5';
+    const SUPPORTED_DEPENDENCIES = ['twig/twig', 'monolog/monolog'];
 
     public function isEnabled()
     {
@@ -45,24 +46,37 @@ class PrefixDependency extends ConsoleCommand
             'Path to composer. Required to generate a new autoloader.');
         $this->addOption('remove-original', null, InputOption::VALUE_NONE,
             'If supplied, removes the original composer dependency after prefixing.');
+        $this->addOption('all-supported', null, InputOption::VALUE_NONE,
+            'If supplied, this will prefix every dependency that can be prefixed. A dependency cannot be prefixed'
+            . ' if the prefixed namespace is not used in core.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $allSupported = $input->getOption('all-supported');
+        if ($allSupported) {
+            $dependenciesToPrefix = self::SUPPORTED_DEPENDENCIES;
+        } else {
+            $dependencyArg = $input->getArgument('dependency');
+            $dependenciesToPrefix = [$dependencyArg];
+        }
+
         $composerPath = $this->getComposerPath($input);
 
         $phpScoperBinary = $this->downloadPhpScoperIfNeeded($input, $output);
 
-        $output->writeln("<info>Prefixing...</info>");
-        $command = $this->getPhpScoperCommand($phpScoperBinary, $input, $output);
-        passthru($command, $returnCode);
-        if ($returnCode) {
-            throw new \Exception("Failed to run php-scoper! Command was: $command");
+        foreach ($dependenciesToPrefix as $dependency) {
+            $output->writeln("<info>Prefixing $dependency...</info>");
+            $command = $this->getPhpScoperCommand($dependency, $phpScoperBinary, $input, $output);
+            passthru($command, $returnCode);
+            if ($returnCode) {
+                throw new \Exception("Failed to run php-scoper! Command was: $command");
+            }
         }
 
         $output->writeln("");
         $output->writeln("<info>Regenerating autoloader...</info>");
-        $this->generatePrefixedAutoloader($composerPath, $input, $output);
+        $this->generatePrefixedAutoloader($dependenciesToPrefix, $composerPath, $input, $output);
 
         $output->writeln("<info>Done.</info>");
     }
@@ -88,9 +102,8 @@ class PrefixDependency extends ConsoleCommand
         return $outputPath;
     }
 
-    private function getPhpScoperCommand($phpScoperBinary, InputInterface $input, OutputInterface $output)
+    private function getPhpScoperCommand($dependency, $phpScoperBinary, InputInterface $input, OutputInterface $output)
     {
-        $dependency = $input->getArgument('dependency');
         $vendorPath = './vendor/' . $dependency;
         if (!is_dir($vendorPath)) {
             throw new \InvalidArgumentException('Cannot find dependency ' . $dependency);
@@ -126,7 +139,7 @@ class PrefixDependency extends ConsoleCommand
         return $composerPath;
     }
 
-    private function generatePrefixedAutoloader($composerPath, InputInterface $input, OutputInterface $output)
+    private function generatePrefixedAutoloader($dependenciesToPrefix, $composerPath, InputInterface $input, OutputInterface $output)
     {
         $prefixed = "./vendor/prefixed";
 
@@ -148,9 +161,10 @@ class PrefixDependency extends ConsoleCommand
 
         $removeOriginal = $input->getOption('remove-original');
         if ($removeOriginal) {
-            $dependency = $input->getArgument('dependency');
-            $vendorPath = "./vendor/$dependency";
-            Filesystem::unlinkRecursive($vendorPath, true);
+            foreach ($dependenciesToPrefix as $dependency) {
+                $vendorPath = "./vendor/$dependency";
+                Filesystem::unlinkRecursive($vendorPath, true);
+            }
         }
     }
 }
