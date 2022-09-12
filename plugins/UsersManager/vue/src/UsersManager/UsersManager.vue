@@ -368,7 +368,6 @@ export default defineComponent({
           id: 'generateInviteLink',
           context: 'success',
           type: 'transient',
-          copy: r.value,
         });
         NotificationsStore.scrollToNotification(id);
       });

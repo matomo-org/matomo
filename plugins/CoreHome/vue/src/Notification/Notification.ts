@@ -83,10 +83,6 @@ interface Notification {
    */
   prepend?: boolean;
 
-  /**
-   * enable copy value
-   */
-  copy?: null| string;
 }
 
 export default Notification;

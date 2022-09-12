@@ -36,11 +36,6 @@
                 <div v-if="!message">
                   <slot />
                 </div>
-                <div  v-if="copy">
-                  <span class="copy" @click="copyValue" v-if="!copied">
-                    {{ translate('UsersManager_Copy')}}</span>
-                  <span class="copy"  v-if="copied">{{ translate('UsersManager_Copied')}}</span>
-                </div>
               </div>
             </div>
           </transition>
@@ -74,12 +69,6 @@ export default defineComponent({
     animate: Boolean,
     message: String,
     cssClass: String,
-    copy: String,
-  },
-  watch: {
-    copy() {
-      this.copied = false;
-    },
   },
   computed: {
     cssClasses() {
@@ -124,10 +113,6 @@ export default defineComponent({
     }
   },
   methods: {
-    copyValue() {
-      navigator.clipboard.writeText(this.copy);
-      this.copied = true;
-    },
     toastClosed() {
       nextTick(() => {
         this.$emit('closed');
