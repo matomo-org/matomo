@@ -63,28 +63,19 @@ table.entityTable {
   }
 }
 
-// needed for IE10
-.card button.table-action {
-  background-color: @theme-color-background-contrast !important;
-  &:hover {
-    background-color: @theme-color-background-base !important;
-  }
-}
-.card tr:hover button.table-action {
-  background-color: @theme-color-background-tinyContrast !important;
-}
 .table-action {
   padding: 16px;
   height: auto;
   margin: 0;
   line-height: 1;
-  background-color: inherit;
+  background-color: transparent;
   border: 0;
   color: inherit !important;
   display: inline-block;
   &:hover {
     background-color: @theme-color-background-base !important;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16), 0 1px 5px 0 rgba(0,0,0,0.12);
+    cursor: pointer;
   }
 }
 

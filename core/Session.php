@@ -174,7 +174,7 @@ class Session extends Zend_Session
         $method = Common::getRequestVar('method', '', 'string');
         $referer = Url::getReferrer();
 
-        $isOptOutRequest = $module == 'CoreAdminHome' && $action == 'optOut';
+        $isOptOutRequest = $module == 'CoreAdminHome' && ($action == 'optOut' || $action == 'optOutJS');
         $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || Overlay::isOverlayRequest($module, $action, $method, $referer);
 
         if ($shouldUseNone && ProxyHttp::isHttps()) {
