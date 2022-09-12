@@ -52,7 +52,7 @@
         "ReportsRemovedAfter": "all aggregated reports are deleted after %1$s.",
         "ReportsNeverRemoved": "aggregated reports are <strong>never<\/strong> deleted.",
         "DBPurged": "DB purged.",
-        "DeleteBothConfirm": "You are about to enable both raw data deletion &amp; report data deletion. This will permanently remove your ability to view old analytics data. Are you sure you want to do this?",
+        "DeleteBothConfirm": "You are about to enable both raw data deletion and report data deletion. This will permanently remove your ability to view old analytics data. Are you sure you want to do this?",
         "DeleteDataDescription": "You can configure Matomo to regularly delete old raw data and\/or aggregated reports to keep your database small or to meet privacy regulations such as GDPR.",
         "DeleteDataInterval": "Delete old data every",
         "DeleteOldVisitorLogs": "Delete old visitor logs",

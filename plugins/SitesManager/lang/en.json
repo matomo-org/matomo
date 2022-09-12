@@ -65,7 +65,7 @@
         "NotFound": "No websites found for",
         "NoWebsites": "You don't have any website to administrate.",
         "OnlyOneSiteAtTime": "You can only edit one website at a time. Please Save or Cancel your current modifications to the website %s.",
-        "PiwikOffersEcommerceAnalytics": "Matomo allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about %1$s Ecommerce Analytics%2$s.",
+        "PiwikOffersEcommerceAnalytics": "Matomo allows for advanced Ecommerce Analytics tracking and reporting. Learn more about %1$s Ecommerce Analytics%2$s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Matomo will automatically exclude the common session parameters (%s).",
         "PluginDescription": "Websites management lets you add a new website and edit existing websites.",
         "SearchCategoryDesc": "Matomo can also track the Search category for each internal site search keyword.",
