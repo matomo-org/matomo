@@ -10,8 +10,7 @@
       <h2
         v-if="contentTitle && !actualFeature && !helpUrl && !actualHelpText"
         class="card-title"
-        v-html="$sanitize(contentTitle)"
-      ></h2>
+      >{{ decode(contentTitle) }}</h2>
       <h2
         v-if="contentTitle && (actualFeature || helpUrl || actualHelpText)"
         class="card-title"
@@ -20,8 +19,8 @@
           :feature-name="actualFeature"
           :help-url="helpUrl"
           :inline-help="actualHelpText"
-          v-html="$sanitize(contentTitle)"
         >
+          {{ decode(contentTitle) }}
         </EnrichedHeadline>
       </h2>
       <div ref="content">
@@ -34,6 +33,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
+import Matomo from '../Matomo/Matomo';
 
 let adminContent: HTMLElement|null = null;
 
@@ -110,6 +110,11 @@ export default defineComponent({
         root.style.marginTop = '0';
       }
     }
+  },
+  methods: {
+    decode(s: string) {
+      return Matomo.helper.htmlDecode(s);
+    },
   },
 });
 </script>
