@@ -1,6 +1,6 @@
 All Websites dashboard
 label	nb_visits	nb_actions	nb_pageviews	revenue	nb_conversions	orders	ecommerce_revenue	visits_evolution	actions_evolution	pageviews_evolution	revenue_evolution	nb_conversions_evolution	orders_evolution	ecommerce_revenue_evolution
-Piwik test	5	16	16	$13,361.11	5	4	$13,351.11	100%	100%	100%	100%	100%	100%	100%
+A very long name for a very tiny test site, that also reaches the 90 character limit fully	5	16	16	$13,361.11	5	4	$13,351.11	100%	100%	100%	100%	100%	100%	100%
 Piwik test	2	1	1	$0	0	0	$0	100%	100%	100%	0%	0%	0	0
 
 Visits Summary

@@ -10,8 +10,9 @@
       :content-title="translate('PrivacyManager_TrackingOptOut')"
     >
       <OptOutCustomizer
-        :piwikurl="piwikurl"
+        :matomo-url="matomoUrl"
         :language="language"
+        :language-options="languageOptions"
       />
     </ContentBlock>
 
@@ -52,11 +53,15 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    piwikurl: String,
+    matomoUrl: String,
     isSuperUser: Boolean,
     dntSupport: Boolean,
     doNotTrackOptions: {
       type: Array,
+      required: true,
+    },
+    languageOptions: {
+      type: Object,
       required: true,
     },
   },
