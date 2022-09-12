@@ -157,14 +157,20 @@ class UserRepository
         unset($user['password']);
         unset($user['ts_password_modified']);
         unset($user['idchange_last_viewed']);
+        unset($user['idchange_last_viewed']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
         }
 
         if (!empty($user['invite_token'])) {
-            $user['invite_token'] = $this->model->hashTokenAuth($user['invite_token']);
+            unset($user['invite_token']);
         }
+
+        if (!empty($user['invite_link_token'])) {
+            unset($user['invite_link_token']);
+        }
+
         $user['invite_status'] = 'active';
 
         if (!empty($user['invite_expired_at'])) {
