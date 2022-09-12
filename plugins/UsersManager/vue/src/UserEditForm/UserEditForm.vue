@@ -17,7 +17,9 @@
       <div v-if="isAdd" class="col s12 m6 invite-notes">
         <div class="form-help">
                      <span v-html="$sanitize(
-                          translate('UsersManager_InviteSuccessNotification', [7]))"></span>
+                          translate('UsersManager_InviteSuccessNotification',
+                          [inviteTokenExpiryDays]))">
+                     </span>
         </div>
       </div>
       <div
@@ -144,7 +146,7 @@
                   :value="saveButtonLabel"
                   :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
                   :saving="isSavingUserInfo"
-                  @confirm="inviteUser"
+                  @confirm="saveUserInfo()"
                 />
               </div>
             </div>
@@ -154,13 +156,13 @@
               <span class="resend-link" @click="resendRequestedUser"
                     v-html="$sanitize(translate('UsersManager_ResendInvite'))"></span>
             </p>
-<!--            <PasswordConfirmation-->
-<!--              v-model="showPasswordConfirmationForInviteUser"-->
-<!--              @confirmed="inviteUser"-->
-<!--            >-->
-<!--              <h2 v-html="$sanitize(inviteUserTitle)"></h2>-->
-<!--              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>-->
-<!--            </PasswordConfirmation>-->
+            <PasswordConfirmation
+              v-model="showPasswordConfirmationForInviteUser"
+              @confirmed="inviteUser"
+            >
+              <h2 v-html="$sanitize(inviteUserTitle)"></h2>
+              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+            </PasswordConfirmation>
           </div>
           <div
             class="entityCancel"
@@ -330,6 +332,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    inviteTokenExpiryDays: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     ContentBlock,
@@ -419,7 +425,7 @@ export default defineComponent({
         user: this.user,
       });
     },
-    inviteUser() {
+    inviteUser(password: string) {
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
@@ -429,6 +435,7 @@ export default defineComponent({
           userLogin: this.theUser.login,
           email: this.theUser.email,
           initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
+          passwordConfirmation: password,
         },
       ).catch((e) => {
         this.isSavingUserInfo = false;

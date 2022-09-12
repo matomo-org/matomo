@@ -70,6 +70,7 @@
         @done="onDoneEditing($event.isUserModified)"
         :user="userBeingEdited"
         :current-user-role="currentUserRole"
+        :invite-token-expiry-days="inviteTokenExpiryDays"
         :access-levels="accessLevels"
         :filter-access-levels="filterAccessLevels"
         :initial-site-id="initialSiteId"
@@ -95,20 +96,19 @@
         </strong></h3>
       </div>
       <div class="modal-footer">
-        <span v-if="copied" class="success-copied">
-          <i class="icon-success"></i>
-          {{ translate('UsersManager_LinkCopied') }}</span>
-        <a
-          href="#"
-          @click="copyInviteLink(userBeingEdited)"
-          class="btn btn-copy-link modal-action"
+        <p class="notes">
+          <span class="warning">*</span>
+          {{ translate('UsersManager_InviteLinkWarning') }}
+        </p>
+        <button
+          @click="generateInviteLink(userBeingEdited)"
+          class="btn btn-copy-link modal-close modal-action"
           style="margin-right:3.5px"
-        >{{ translate('UsersManager_CopyLink') }}</a>
-        <a
-          href="#"
+        >{{ translate('UsersManager_GenerateLink') }}</button>
+        <button
           class="btn btn-resend modal-action modal-close modal-no"
           @click = "onResendInvite(userBeingEdited)"
-        >{{ translate('UsersManager_ResendInvite') }}</a>
+        >{{ translate('UsersManager_ResendInvite') }}</button>
       </div>
     </div>
     <div class="add-existing-user-modal modal" ref="addExistingUserModal">
@@ -170,6 +170,7 @@ interface UsersManagerState {
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
   copied: boolean;
+  link: null| string;
 }
 
 const NUM_USERS_PER_PAGE = 20;
@@ -235,6 +236,7 @@ export default defineComponent({
       userBeingEdited: null,
       addNewUserLoginEmail: '',
       copied: false,
+      link: null,
     };
   },
   created() {
@@ -354,29 +356,35 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
-    copyInviteLink(user: User) {
+    generateInviteLink(user: User) {
       AjaxHelper.fetch<{ value: string }>(
         {
           method: 'UsersManager.generateInviteLink',
           userLogin: user.login,
         },
       ).then((r) => {
-        this.fetchUsers();
-        navigator.clipboard.writeText(r.value);
-        this.copied = true;
+        const id = NotificationsStore.show({
+          message: translate('UsersManager_InviteLinkSuccess', r.value),
+          id: 'generateInviteLink',
+          context: 'success',
+          type: 'transient',
+          copy: r.value,
+        });
+        NotificationsStore.scrollToNotification(id);
       });
     },
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(
         {
-          method: 'UsersManager.resendInvite',
+          method: 'UsersManager.generateInviteLink',
           userLogin: user.login,
+          mail: true,
         },
       ).then(() => {
         this.fetchUsers();
         const id = NotificationsStore.show({
-          message: translate('UsersManager_InviteSuccess', user.login),
-          id: 'resendinvite',
+          message: translate('UsersManager_InviteSuccess'),
+          id: 'resendInvite',
           context: 'success',
           type: 'transient',
         });

@@ -97,18 +97,14 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
-    public function reInviteUser(string $userLogin, $expiryInDays = null): void
-    {
-        $user = $this->model->getUser($userLogin);
-        $generatedToken = $this->model->generateRandomInviteToken();
-        $this->model->attachInviteToken($userLogin, $generatedToken, $expiryInDays);
-        $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
-    }
-
-    public function generateInviteToken(string $userLogin, $expiryInDays = null): string
+    public function generateInviteToken(string $userLogin, $mail, $expiryInDays = null): string
     {
         $generatedToken = $this->model->generateRandomInviteToken();
         $this->model->attachInviteLinkToken($userLogin, $generatedToken, $expiryInDays);
+        if ($mail) {
+            $user = $this->model->getUser($userLogin);
+            $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
+        }
         return $generatedToken;
     }
 

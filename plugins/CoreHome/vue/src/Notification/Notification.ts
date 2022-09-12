@@ -82,6 +82,11 @@ interface Notification {
    * If true, the notification will be displayed before others currently displayed.
    */
   prepend?: boolean;
+
+  /**
+   * enable copy value
+   */
+  copy?: null| string;
 }
 
 export default Notification;

@@ -206,9 +206,13 @@
         "ResendInvite": "Resend invite",
         "InvitationSent": "Invitation has been sent.",
         "SendInvite": "Send invite",
-        "CopyLink": "Copy link",
-        "LinkCopied": "Link copied",
+        "GenerateLink": "Generate link",
         "InviteLinkValidDays": "Invite links are valid for %1$s days.",
-        "BackToUser": "Back to Users"
+        "BackToUser": "Back to Users",
+        "InviteLinkWarning": "After generate invite link, the old invite will become invade.",
+        "InviteLinkSuccess": "Invite Link: %s",
+        "Copy": "Copy",
+        "Copied" : "Copied"
+
     }
 }
