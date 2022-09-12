@@ -28,6 +28,7 @@ class PrefixDependency extends ConsoleCommand
         'twig/twig',
         'monolog/monolog',
         'symfony/monolog-bridge',
+        'psr/log',
     ];
 
     public function isEnabled()
@@ -43,8 +44,6 @@ class PrefixDependency extends ConsoleCommand
             . ' like Matomo for Wordpress.');
         $this->addOption('php-scoper-path', null, InputOption::VALUE_REQUIRED,
             'Specify a custom path to php-scoper. If not supplied, the PHAR will be downloaded from github.');
-        $this->addOption('prefix', null, InputOption::VALUE_REQUIRED, 'The namespace prefix to use.',
-            'Matomo\\Dependencies');
         $this->addOption('composer-path', null, InputOption::VALUE_REQUIRED,
             'Path to composer. Required to generate a new autoloader.');
         $this->addOption('remove-originals', null, InputOption::VALUE_NONE,
@@ -59,20 +58,23 @@ class PrefixDependency extends ConsoleCommand
 
         $phpScoperBinary = $this->downloadPhpScoperIfNeeded($input, $output);
 
-        foreach ($dependenciesToPrefix as $dependency) {
-            $output->writeln("<info>Prefixing $dependency...</info>");
-            $command = $this->getPhpScoperCommand($dependency, $phpScoperBinary, $input, $output);
-            passthru($command, $returnCode);
-            if ($returnCode) {
-                throw new \Exception("Failed to run php-scoper! Command was: $command");
-            }
-        }
+        $this->scopeDependencies($dependenciesToPrefix, $phpScoperBinary, $output);
 
         $output->writeln("");
         $output->writeln("<info>Regenerating autoloader...</info>");
         $this->generatePrefixedAutoloader($dependenciesToPrefix, $composerPath, $input, $output);
 
         $output->writeln("<info>Done.</info>");
+    }
+
+    private function scopeDependencies($dependenciesToPrefix, $phpScoperBinary, OutputInterface $output)
+    {
+        $output->writeln("<info>Prefixing dependencies...</info>");
+        $command = $this->getPhpScoperCommand($dependenciesToPrefix, $phpScoperBinary, $output);
+        passthru($command, $returnCode);
+        if ($returnCode) {
+            throw new \Exception("Failed to run php-scoper! Command was: $command");
+        }
     }
 
     private function downloadPhpScoperIfNeeded(InputInterface $input, OutputInterface $output)
@@ -96,21 +98,16 @@ class PrefixDependency extends ConsoleCommand
         return $outputPath;
     }
 
-    private function getPhpScoperCommand($dependency, $phpScoperBinary, InputInterface $input, OutputInterface $output)
+    private function getPhpScoperCommand($dependenciesToPrefix, $phpScoperBinary, OutputInterface $output)
     {
-        $vendorPath = './vendor/' . $dependency;
-        if (!is_dir($vendorPath)) {
-            throw new \InvalidArgumentException('Cannot find dependency ' . $dependency);
-        }
-
-        $prefix = $input->getOption('prefix');
+        $vendorPath = PIWIK_VENDOR_PATH;
 
         $cliPhp = new CliPhp();
         $phpBinary = $cliPhp->findPhpBinary();
 
-        $command = 'cd ' . $vendorPath . ' && ' . $phpBinary . ' ' . $phpScoperBinary . ' add --prefix='
-            . escapeshellarg($prefix) . ' --force --output-dir=../../prefixed/' . $dependency
-            . ' --config=../../../scoper.inc.php';
+        $env = 'MATOMO_DEPENDENCIES_TO_PREFIX="' . addslashes(json_encode($dependenciesToPrefix)) . '"';
+        $command = 'cd ' . $vendorPath . ' && ' . $env . ' ' . $phpBinary . ' ' . $phpScoperBinary
+            . ' add  --force --output-dir=./prefixed/ --config=../scoper.inc.php';
 
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $output->writeln("<comment>php-scoper command: $command</comment>");

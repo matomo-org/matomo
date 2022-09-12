@@ -7,12 +7,22 @@
  *
  */
 
+use Isolated\Symfony\Component\Finder\Finder;
+
 /**
  * This file is for php-scoper, a tool used when prefixing dependencies.
  * TODO: link to docs here
  */
 
+$dependenciesToPrefix = json_decode(getenv('MATOMO_DEPENDENCIES_TO_PREFIX'));
+
 return [
+    'prefix' => 'Matomo\\Dependencies',
+    'finders' => array_map(function ($dependency) {
+        return Finder::create()
+            ->files()
+            ->in($dependency);
+    }, $dependenciesToPrefix),
     'patchers' => [
         // patchers for twig
         static function (string $filePath, string $prefix, string $content): string {
