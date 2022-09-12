@@ -437,9 +437,8 @@ export default defineComponent({
           initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
           passwordConfirmation: password,
         },
-      ).catch((e) => {
+      ).catch(() => {
         this.isSavingUserInfo = false;
-        throw e;
       }).then(() => {
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
