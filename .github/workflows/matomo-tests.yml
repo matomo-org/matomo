@@ -2,6 +2,11 @@ name: Matomo Tests
 
 on:
   pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - '**.x-dev'
+      - 'next_release'
   workflow_dispatch:
 
 permissions:
