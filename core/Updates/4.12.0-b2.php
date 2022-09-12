@@ -38,11 +38,12 @@ class Updates_4_12_0_b2 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         $uniqueIndex = $this->migration->db->addUniqueKey('user', 'email', 'uniq_email');
+        $linkToken = $this->migration->db->addColumns('user', ['invite_link_token' => 'VARCHAR(191) DEFAULT null']);
 
         // if for some reason a duplicate email exists we simply ignore the error and don't add the index.
         $uniqueIndex->addErrorCodeToIgnore(Migration\Db::ERROR_CODE_DUPLICATE_ENTRY);
 
-        return [$uniqueIndex];
+        return [$uniqueIndex, $linkToken];
     }
 
     public function doUpdate(Updater $updater)

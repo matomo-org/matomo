@@ -503,8 +503,7 @@ class Model
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
-
-            return $db->fetchRow("SELECT * FROM ".$this->userTable." WHERE `invite_token` = ?", [$token]);
+            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ? or `invite_link_token` = ?", [$token ,$token]);
         }
     }
 
@@ -555,6 +554,7 @@ class Model
     public function attachInviteLinkToken($userLogin, $token, $expiryInDays = 7)
     {
         $this->updateUserFields($userLogin, [
+            'invite_link_token' => $this->hashTokenAuth($token),
             'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
     }

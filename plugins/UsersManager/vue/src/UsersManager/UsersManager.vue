@@ -96,19 +96,20 @@
         </strong></h3>
       </div>
       <div class="modal-footer">
-        <p class="notes">
-          <span class="warning">*</span>
-          {{ translate('UsersManager_InviteLinkWarning') }}
-        </p>
-        <button
-          @click="generateInviteLink(userBeingEdited)"
-          class="btn btn-copy-link modal-close modal-action"
+        <span v-if="copied" class="success-copied">
+          <i class="icon-success"></i>
+          {{ translate('UsersManager_LinkCopied') }}</span>
+        <a
+          href="#"
+          @click="copyInviteLink(userBeingEdited)"
+          class="btn btn-copy-link modal-action"
           style="margin-right:3.5px"
-        >{{ translate('UsersManager_GenerateLink') }}</button>
-        <button
+        >{{ translate('UsersManager_CopyLink') }}</a>
+        <a
+          href="#"
           class="btn btn-resend modal-action modal-close modal-no"
           @click = "onResendInvite(userBeingEdited)"
-        >{{ translate('UsersManager_ResendInvite') }}</button>
+        >{{ translate('UsersManager_ResendInvite') }}</a>
       </div>
     </div>
     <div class="add-existing-user-modal modal" ref="addExistingUserModal">
@@ -170,7 +171,6 @@ interface UsersManagerState {
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
   copied: boolean;
-  link: null| string;
 }
 
 const NUM_USERS_PER_PAGE = 20;
@@ -236,7 +236,6 @@ export default defineComponent({
       userBeingEdited: null,
       addNewUserLoginEmail: '',
       copied: false,
-      link: null,
     };
   },
   created() {
@@ -370,6 +369,9 @@ export default defineComponent({
           type: 'transient',
         });
         NotificationsStore.scrollToNotification(id);
+        this.fetchUsers();
+        navigator.clipboard.writeText(r.value);
+        this.copied = true;
       });
     },
     onResendInvite(user: User) {

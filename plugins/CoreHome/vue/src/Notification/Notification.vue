@@ -94,7 +94,6 @@ export default defineComponent({
   data() {
     return {
       deleted: false,
-      copied: false,
     };
   },
   mounted() {
