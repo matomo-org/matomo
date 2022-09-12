@@ -82,7 +82,6 @@ interface Notification {
    * If true, the notification will be displayed before others currently displayed.
    */
   prepend?: boolean;
-
 }
 
 export default Notification;
