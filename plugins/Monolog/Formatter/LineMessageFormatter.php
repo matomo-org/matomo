@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Monolog\Formatter;
 
-use Monolog\Formatter\FormatterInterface;
+use Matomo\Dependencies\Monolog\Formatter\FormatterInterface;
 
 /**
  * Formats a log message into a line of text using our custom Piwik log format.

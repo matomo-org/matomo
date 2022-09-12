@@ -24,7 +24,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PrefixDependency extends ConsoleCommand
 {
     const PHP_SCOPER_VERSION = '0.17.5';
-    const SUPPORTED_DEPENDENCIES = ['twig/twig', 'monolog/monolog'];
+    const SUPPORTED_DEPENDENCIES = [
+        'twig/twig',
+        'monolog/monolog',
+        'symfony/monolog-bridge',
+    ];
 
     public function isEnabled()
     {
@@ -37,29 +41,19 @@ class PrefixDependency extends ConsoleCommand
         $this->setDescription('Prefix the namespace of every file in a composer dependency using php-scoper. Used to'
             . ' avoid collisions in environments where other third party software might use the same dependencies,'
             . ' like Matomo for Wordpress.');
-        $this->addArgument('dependency', InputArgument::REQUIRED, 'The composer dependency to prefix, eg, "twig/twig"');
         $this->addOption('php-scoper-path', null, InputOption::VALUE_REQUIRED,
             'Specify a custom path to php-scoper. If not supplied, the PHAR will be downloaded from github.');
         $this->addOption('prefix', null, InputOption::VALUE_REQUIRED, 'The namespace prefix to use.',
             'Matomo\\Dependencies');
         $this->addOption('composer-path', null, InputOption::VALUE_REQUIRED,
             'Path to composer. Required to generate a new autoloader.');
-        $this->addOption('remove-original', null, InputOption::VALUE_NONE,
+        $this->addOption('remove-originals', null, InputOption::VALUE_NONE,
             'If supplied, removes the original composer dependency after prefixing.');
-        $this->addOption('all-supported', null, InputOption::VALUE_NONE,
-            'If supplied, this will prefix every dependency that can be prefixed. A dependency cannot be prefixed'
-            . ' if the prefixed namespace is not used in core.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $allSupported = $input->getOption('all-supported');
-        if ($allSupported) {
-            $dependenciesToPrefix = self::SUPPORTED_DEPENDENCIES;
-        } else {
-            $dependencyArg = $input->getArgument('dependency');
-            $dependenciesToPrefix = [$dependencyArg];
-        }
+        $dependenciesToPrefix = self::SUPPORTED_DEPENDENCIES;
 
         $composerPath = $this->getComposerPath($input);
 
@@ -159,7 +153,7 @@ class PrefixDependency extends ConsoleCommand
 
         Filesystem::remove("$prefixed/composer.json");
 
-        $removeOriginal = $input->getOption('remove-original');
+        $removeOriginal = $input->getOption('remove-originals');
         if ($removeOriginal) {
             foreach ($dependenciesToPrefix as $dependency) {
                 $vendorPath = "./vendor/$dependency";

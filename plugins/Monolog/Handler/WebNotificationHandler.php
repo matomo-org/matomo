@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\Monolog\Handler;
 
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use Matomo\Dependencies\Monolog\Handler\AbstractProcessingHandler;
+use Matomo\Dependencies\Monolog\Logger;
 use Piwik\Common;
 use Piwik\Notification;
 use Piwik\Notification\Manager;

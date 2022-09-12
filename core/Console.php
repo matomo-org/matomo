@@ -98,6 +98,21 @@ class Console extends Application
 
     private function doRunImpl(InputInterface $input, OutputInterface $output)
     {
+        $commandName = $input->getFirstArgument();
+
+        // dependencies may not be prefixed yet, so we want to make sure they can still be loaded during this command
+        if ($commandName == 'development:prefix-dependency') {
+            \spl_autoload_register(function ($name) {
+                $prefix = 'Matomo\\Dependencies\\';
+
+                $name = ltrim($name, '\\');
+                if (substr($name, 0, strlen($prefix)) === $prefix) {
+                    class_alias(substr($name, strlen($prefix)), $name);
+                    return true;
+                }
+            }, true, true);
+        }
+
         if ($input->hasParameterOption('--xhprof')) {
             Profiler::setupProfilerXHProf(true, true);
         }

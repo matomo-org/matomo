@@ -21,6 +21,7 @@ class ClassNameProcessor
         'Piwik\Piwik',
         'Piwik\CronArchive',
         'Monolog\Logger',
+        'Matomo\Dependencies\Monolog\Logger',
     );
 
     public function __invoke(array $record)

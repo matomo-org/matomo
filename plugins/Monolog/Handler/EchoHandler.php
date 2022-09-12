@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Monolog\Handler;
 
-use Monolog\Handler\AbstractProcessingHandler;
+use Matomo\Dependencies\Monolog\Handler\AbstractProcessingHandler;
 
 /**
  * Simply echos all messages.

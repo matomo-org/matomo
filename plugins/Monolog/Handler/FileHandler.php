@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Monolog\Handler;
 
-use Monolog\Handler\StreamHandler;
+use Matomo\Dependencies\Monolog\Handler\StreamHandler;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 

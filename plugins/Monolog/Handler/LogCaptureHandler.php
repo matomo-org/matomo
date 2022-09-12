@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Monolog\Handler;
 
-use Monolog\Handler\AbstractHandler;
+use Matomo\Dependencies\Monolog\Handler\AbstractHandler;
 
 class LogCaptureHandler extends AbstractHandler
 {

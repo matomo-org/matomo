@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\Monolog\Handler;
 
-use Monolog\Handler\AbstractHandler;
-use Monolog\Logger;
+use Matomo\Dependencies\Monolog\Handler\AbstractHandler;
+use Matomo\Dependencies\Monolog\Logger;
 
 /**
  * Handler used to detect whether a certain level of log has been emitted.
