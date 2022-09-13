@@ -6,7 +6,6 @@
 		<superuser_access>0</superuser_access>
 		
 		<invited_by>superUserLogin</invited_by>
-		
 		<invite_link_token />
 		
 		
@@ -162,7 +161,6 @@
 		<superuser_access>0</superuser_access>
 		
 		<invited_by>login2</invited_by>
-		
 		<invite_link_token />
 		
 		
