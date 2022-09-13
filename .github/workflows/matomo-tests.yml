@@ -48,7 +48,7 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.command }}
           redis-service: true
-          git-sha: ${{ github.event.pull_request.head.sha }}
+          git-sha: ${{ github.sha}}
           run_id: ${{ github.run_id }}
 
   Javascript:

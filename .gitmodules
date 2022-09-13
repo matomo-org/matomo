@@ -22,10 +22,10 @@
     path = plugins/QueuedTracking
     url = https://github.com/matomo-org/plugin-QueuedTracking.git
     branch = master
-[submodule "tests/travis"]
-    path = tests/travis
-    url = https://github.com/matomo-org/travis-scripts.git
-    branch = master
+# [submodule "tests/travis"]
+#     path = tests/travis
+#     url = https://github.com/matomo-org/travis-scripts.git
+#     branch = master
 [submodule "plugins/LogViewer"]
 	path = plugins/LogViewer
 	url = https://github.com/matomo-org/plugin-LogViewer.git
