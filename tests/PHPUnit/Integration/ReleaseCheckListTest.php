@@ -822,9 +822,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isFilePathFoundInArray($file, $filesToMatchAgainst)
     {
+        if (empty(trim($file))) {
+            return false;
+        }
+
         foreach ($filesToMatchAgainst as $fileToMatchAgainst) {
             var_export($file);
-            print "\n";
+            print strlen($file) . "\n";
             @ob_flush();
 
             if (strpos($file, $fileToMatchAgainst) !== false || fnmatch(PIWIK_INCLUDE_PATH.'/'.$fileToMatchAgainst, $file)) {
