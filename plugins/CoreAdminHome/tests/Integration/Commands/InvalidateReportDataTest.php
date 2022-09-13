@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
-use Monolog\Handler\AbstractProcessingHandler;
+use Matomo\Dependencies\Monolog\Handler\AbstractProcessingHandler;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
