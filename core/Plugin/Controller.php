@@ -14,6 +14,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
@@ -632,7 +633,7 @@ abstract class Controller
         $rawDate = Piwik::getDate();
         Period::checkDateFormat($rawDate);
 
-        $periodStr = Piwik::getPeriod('day');
+        $periodStr = Piwik::getPeriod(GeneralConfig::getConfigValue('default_period'));
 
         if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
@@ -912,7 +913,7 @@ abstract class Controller
 
         $periodValidator = new PeriodValidator();
 
-        $currentPeriod = Piwik::getPeriod('day');
+        $currentPeriod = Piwik::getPeriod(GeneralConfig::getConfigValue('default_period'));
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
