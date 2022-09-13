@@ -34,24 +34,24 @@ matrix:
   fast_finish: true
   include:
     # PDO Mysql
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=SystemTestsCore MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=SystemTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=IntegrationTestsCore MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=IntegrationTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
       sudo: false
       addons: false
     # Javascript tests
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
       sudo: false
       service:
@@ -61,7 +61,7 @@ matrix:
           packages:
             - nginx
             - coreutils
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
       sudo: false
       addons: false
@@ -81,15 +81,15 @@ matrix:
         - composer remove --dev phpunit/phpunit
         - composer require --dev phpunit/phpunit ~9.3 --ignore-platform-reqs
     # UITests use a specific version because the default 5.5 (== 5.5.38) is missing FreeType support
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=0"
       dist: bionic
       sudo: false
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=1"
       dist: bionic
       sudo: false
-    - php: 7.2
+    - php: 7.4
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--num-test-groups=3 --test-group=2"
       dist: bionic
       sudo: false
