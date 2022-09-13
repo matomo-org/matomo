@@ -157,7 +157,6 @@ class UserRepository
         unset($user['password']);
         unset($user['ts_password_modified']);
         unset($user['idchange_last_viewed']);
-        unset($user['idchange_last_viewed']);
         unset($user['invite_token']);
         unset($user['invite_link_token']);
 
