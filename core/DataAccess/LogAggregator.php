@@ -321,7 +321,7 @@ class LogAggregator
             return;
         }
 
-        $insertIntoStatement = 'INSERT IGNORE INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
 
         $transactionLevel->restorePreviousStatus();
@@ -416,6 +416,7 @@ class LogAggregator
             Metrics::INDEX_BOUNCE_COUNT                   => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
             Metrics::INDEX_NB_VISITS_CONVERTED            => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
             Metrics::INDEX_NB_USERS                       => "count(distinct " . self::LOG_VISIT_TABLE . ".user_id)",
+            Metrics::INDEX_NB_PROFILABLE                  => "sum(" . self::LOG_VISIT_TABLE . ".profilable)",
         );
     }
 

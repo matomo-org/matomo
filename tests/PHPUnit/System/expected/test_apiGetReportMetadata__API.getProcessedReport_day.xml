@@ -9,7 +9,7 @@
 		<module>UserCountry</module>
 		<action>getCountry</action>
 		<dimension>Country</dimension>
-		<documentation>Shows which country your visitors connected from when accessing your website.</documentation>
+		<documentation>This report shows which country your visitors were in when they accessed your website.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
