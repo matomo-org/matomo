@@ -825,6 +825,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         foreach ($filesToMatchAgainst as $fileToMatchAgainst) {
             var_export($file);
             print "\n";
+            @ob_flush();
 
             if (strpos($file, $fileToMatchAgainst) !== false || fnmatch(PIWIK_INCLUDE_PATH.'/'.$fileToMatchAgainst, $file)) {
                 return true;
