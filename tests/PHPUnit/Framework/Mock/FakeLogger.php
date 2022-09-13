@@ -2,7 +2,7 @@
 
 namespace Piwik\Tests\Framework\Mock;
 
-use Monolog\Processor\PsrLogMessageProcessor;
+use Matomo\Dependencies\Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 
