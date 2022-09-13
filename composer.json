@@ -100,5 +100,13 @@
         "psr-4": {
             "Piwik\\Tests\\": "tests/PHPUnit/"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@php ./console composer:prefix-dependency"
+        ],
+        "post-update-cmd": [
+            "@php ./console composer:prefix-dependency"
+        ]
     }
 }

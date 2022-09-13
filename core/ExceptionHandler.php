@@ -188,17 +188,25 @@ class ExceptionHandler
         try {
             switch ($loglevel) {
                 case (Log::DEBUG):
-                    StaticContainer::get(LoggerInterface::class)->debug('Uncaught exception: {exception}', [
-                        'exception' => $exception,
-                        'ignoreInScreenWriter' => true,
-                    ]);
+                    try {
+                        StaticContainer::get(LoggerInterface::class)->debug('Uncaught exception: {exception}', [
+                            'exception' => $exception,
+                            'ignoreInScreenWriter' => true,
+                        ]);
+                    } catch (\Exception $ex) {
+                        // ignore
+                    }
                     break;
                 case (Log::ERROR):
                 default:
-                    StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
-                        'exception' => $exception,
-                        'ignoreInScreenWriter' => true,
-                    ]);
+                    try {
+                        StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+                            'exception' => $exception,
+                            'ignoreInScreenWriter' => true,
+                        ]);
+                    } catch (\Exception $ex) {
+                        // ignore
+                    }
             }
         } catch (DependencyException $ex) {
             // ignore (occurs if exception is thrown when resolving DI entries)

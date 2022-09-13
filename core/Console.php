@@ -15,6 +15,7 @@ use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Dependency\PrefixedSkippingAutoloader;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\CoreConsole\Commands\PrefixDependency;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Psr\Log\LoggerInterface;
 use Matomo\Dependencies\Symfony\Bridge\Monolog\Handler\ConsoleHandler;
@@ -102,7 +103,7 @@ class Console extends Application
         $commandName = $input->getFirstArgument();
 
         // dependencies may not be prefixed yet, so we want to make sure they can still be loaded during this command
-        if ($commandName == 'development:prefix-dependency') {
+        if ($commandName == PrefixDependency::NAME) {
             PrefixedSkippingAutoloader::$disabled = true;
             \spl_autoload_register(function ($name) {
                 $prefix = 'Matomo\\Dependencies\\';
