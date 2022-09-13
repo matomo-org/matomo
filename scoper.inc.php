@@ -37,6 +37,7 @@ return [
                 $content = preg_replace("/\"(_?twig_[a-z_0-9]+)([(\"])/", '"\\\\\\Matomo\\\\\\Dependencies\\\\\\\${1}${2}', $content);
 
                 $content = preg_replace("/(_?twig_[a-z_0-9]+)\(\"/", '\\\\\\Matomo\\\\\\Dependencies\\\\\\\${1}("', $content);
+                $content = preg_replace("/(_?twig_[a-z_0-9]+)\('/", '\\Matomo\\Dependencies\\\${1}${2}(\'', $content);
             }
 
             return $content;
