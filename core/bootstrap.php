@@ -41,10 +41,11 @@ disableEaccelerator();
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 // Composer autoloader
-$originalLoader = require_once PIWIK_VENDOR_PATH . '/autoload.php';
+require_once PIWIK_VENDOR_PATH . '/autoload.php';
 if (is_file(PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php')) {
     require_once PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php';
-    \Piwik\Dependency\PrefixedSkippingAutoloader::register($originalLoader);
+    \Piwik\Dependency\PrefixedSkippingAutoloader::setOriginalLoader($GLOBALS['MATOMO_ORIGINAL_AUTOLOADER']);
+    \Piwik\Dependency\PrefixedSkippingAutoloader::register();
 }
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/dev.php';
