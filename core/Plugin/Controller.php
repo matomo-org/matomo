@@ -632,7 +632,7 @@ abstract class Controller
         $rawDate = Piwik::getDate();
         Period::checkDateFormat($rawDate);
 
-        $periodStr = Piwik::getPeriod();
+        $periodStr = Piwik::getPeriod('day');
 
         if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
@@ -912,7 +912,7 @@ abstract class Controller
 
         $periodValidator = new PeriodValidator();
 
-        $currentPeriod = Piwik::getPeriod();
+        $currentPeriod = Piwik::getPeriod('day');
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
