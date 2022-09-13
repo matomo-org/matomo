@@ -66,7 +66,7 @@ jobs:
           test-type: ${{ matrix.tests }}
           php-version: ${{ matrix.php }}
           node-version: ${{ matrix.node }}
-          git-sha: ${{ github.event.pull_request.head.sha }}
+          git-sha: ${{ github.sha}}
 
   Angular:
     runs-on: ubuntu-20.04
@@ -83,7 +83,7 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.tests }}
           mysql-service: false
-          git-sha: ${{ github.event.pull_request.head.sha }}
+          git-sha: ${{ github.sha}}
 
   UI:
     runs-on: ubuntu-20.04
@@ -105,10 +105,9 @@ jobs:
           node-version: ${{ matrix.node }}
           repository: ${{ github.repository }}
           artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
-          test-target: ${{ github.event.pull_request.base.ref }}
           run_id: ${{ github.run_id }}
           php-memory: "-1"
           redis-service: true
-          git-sha: ${{ github.event.pull_request.head.sha }}
+          git-sha: ${{ github.sha}}
 
 
