@@ -7,8 +7,6 @@
 		
 		<invited_by />
 		
-		<invite_link_token />
-		
 		
 		
 		<uses_2fa>0</uses_2fa>
@@ -19,8 +17,6 @@
 		<superuser_access>0</superuser_access>
 		
 		<invited_by />
-		
-		<invite_link_token />
 		
 		
 		

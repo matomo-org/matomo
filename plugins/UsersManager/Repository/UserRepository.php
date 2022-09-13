@@ -158,17 +158,11 @@ class UserRepository
         unset($user['ts_password_modified']);
         unset($user['idchange_last_viewed']);
         unset($user['idchange_last_viewed']);
+        unset($user['invite_token']);
+        unset($user['invite_link_token']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
-        }
-
-        if (!empty($user['invite_token'])) {
-            unset($user['invite_token']);
-        }
-
-        if (!empty($user['invite_link_token'])) {
-            unset($user['invite_link_token']);
         }
 
         $user['invite_status'] = 'active';
