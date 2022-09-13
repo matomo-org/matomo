@@ -12,7 +12,7 @@ return array(
 
     'twig.cache' => function (\Psr\Container\ContainerInterface $container) {
         $templatesPath = $container->get('path.tmp.templates');
-        return new class($templatesPath) extends \Twig\Cache\FilesystemCache {
+        return new class($templatesPath) extends \Matomo\Dependencies\Twig\Cache\FilesystemCache {
             public function write(string $key, string $content): void
             {
                 $retryCount = 3;
