@@ -4,7 +4,11 @@
 
 {% block content %}
     <div piwik-content-block content-title="{{ 'PrivacyManager_TrackingOptOut'|translate|e('html_attr') }}">
-        <div vue-entry="PrivacyManager.OptOutCustomizer" piwikurl="{{ piwikUrl }}" language="{{ language }}">
+        <div vue-entry="PrivacyManager.OptOutCustomizer"
+             matomo-url="{{ piwikUrl }}"
+             current-language-code="{{ currentLanguageCode }}"
+             language-options="{{ languageOptions|json_encode|e('html_attr') }}"
+        >
         </div>
     </div>
 
