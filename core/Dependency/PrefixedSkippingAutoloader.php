@@ -20,26 +20,40 @@ namespace Piwik\Dependency;
 class PrefixedSkippingAutoloader
 {
     public static $disabled = false;
+    private static $originalLoader;
 
-    private $originalLoader;
-
-    public function __construct($originalLoader)
+    public function __construct()
     {
-        $this->originalLoader = $originalLoader;
+        if (!is_object(self::$originalLoader)) {
+            throw new \Exception('Expected self::$originalLoader to be set');
+        }
     }
 
-    public static function register($originalLoader)
+    public static function register()
     {
-        $wrappedLoader = new PrefixedSkippingAutoloader($originalLoader);
+        $wrappedLoader = new PrefixedSkippingAutoloader();
 
-        $originalLoader->unregister();
+        self::$originalLoader->unregister();
 
         spl_autoload_register([$wrappedLoader, 'loadClass'], true, $prepend = true);
     }
 
+    public static function setOriginalLoader($originalLoader)
+    {
+        if (!empty(self::$originalLoader)) {
+            return;
+        }
+
+        if (!is_object($originalLoader)) {
+            throw new \Exception('Expected $originalLoader to be class loader instance, instead got: ' . gettype($originalLoader));
+        }
+
+        self::$originalLoader = $originalLoader;
+    }
+
     public function loadClass($class)
     {
-        $filePath = $this->originalLoader->findFile($class);
+        $filePath = self::$originalLoader->findFile($class);
 
         if (!self::$disabled
             && (!$filePath
