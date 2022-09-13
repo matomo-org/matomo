@@ -424,7 +424,7 @@ export default defineComponent({
         user: this.user,
       });
     },
-    inviteUser() {
+    inviteUser(password: string) {
       this.isSavingUserInfo = true;
       return AjaxHelper.post(
         {
@@ -434,15 +434,18 @@ export default defineComponent({
           userLogin: this.theUser.login,
           email: this.theUser.email,
           initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
+          passwordConfirmation: password,
         },
-      ).catch(() => {
+      ).catch((e) => {
         this.isSavingUserInfo = false;
+        throw e;
       }).then(() => {
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
         this.theUser.invite_status = 'pending';
 
+        this.resetPasswordVar();
         this.showUserCreatedNotification();
         this.$emit('updated', { user: readonly(this.theUser) });
       });
