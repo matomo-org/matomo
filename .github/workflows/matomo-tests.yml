@@ -108,7 +108,6 @@ jobs:
           run_id: ${{ github.run_id }}
           php-memory: "-1"
           redis-service: true
-          test-target: ${{ github.head_ref }}
           git-head: ${{ github.head_ref }}
 
 
