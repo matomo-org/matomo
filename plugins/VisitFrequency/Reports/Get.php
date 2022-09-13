@@ -79,32 +79,6 @@ class Get extends \Piwik\Plugin\Report
             $view->requestConfig->apiMethodToRequestDataTable = 'VisitFrequency.get';
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
-
-            $numberFormatter = NumberFormatter::getInstance();
-            $view->config->filters[] = function (DataTable $table) use ($numberFormatter) {
-                $firstRow = $table->getFirstRow();
-                if ($firstRow) {
-                    $value = $firstRow->getColumn('nb_visits_returning');
-                    if (false !== $value) {
-                        $firstRow->setColumn('nb_visits_returning', $numberFormatter->formatNumber($value));
-                    }
-
-                    $value = $firstRow->getColumn('nb_actions_returning');
-                    if (false !== $value) {
-                        $firstRow->setColumn('nb_actions_returning', $numberFormatter->formatNumber($value));
-                    }
-
-                    $value = $firstRow->getColumn('nb_actions_per_visit_returning');
-                    if (false !== $value) {
-                        $firstRow->setColumn('nb_actions_per_visit_returning', $numberFormatter->formatNumber($value, 1));
-                    }
-
-                    $value = $firstRow->getColumn('bounce_rate_returning');
-                    if (false !== $value) {
-                        $firstRow->setColumn('bounce_rate_returning', $numberFormatter->formatNumber($value, $precision = 1));
-                    }
-                }
-            };
         }
     }
 
