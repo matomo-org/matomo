@@ -20,7 +20,7 @@ $executed = false;
 \Piwik\Piwik::addAction('Request.dispatch', function () use (&$executed) {
     if (!$executed) {
         $executed = true;
-        throw new \Twig\Error\RuntimeError('test message');
+        throw new \Matomo\Dependencies\Twig\Error\RuntimeError('test message');
     }
 });
 
