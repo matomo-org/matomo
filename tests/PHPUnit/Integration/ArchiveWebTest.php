@@ -65,7 +65,7 @@ class ArchiveWebTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
             'observers.global' => [
                 ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {

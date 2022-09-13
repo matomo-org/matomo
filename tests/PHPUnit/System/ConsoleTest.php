@@ -14,7 +14,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Tests\Framework\Fixture;
 use Psr\Log\LoggerInterface;
-use Monolog\Logger;
+use Matomo\Dependencies\Monolog\Logger;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
