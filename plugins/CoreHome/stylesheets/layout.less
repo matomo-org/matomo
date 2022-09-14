@@ -389,6 +389,9 @@ nav {
       border-bottom: 0;
       cursor: pointer!important;
       color: @theme-color-header-text;
+      & when (@theme-color-header-text = #ffffff) {
+        color: unset;
+      }
     }
 
     .collapsible-body {
