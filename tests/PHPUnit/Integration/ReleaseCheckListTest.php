@@ -51,6 +51,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
         $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
         $log = shell_exec($command);
+        $log = shell_exec("woff2_compress 'temp.ttf'");
 
         $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2", "woff2 file is out of date.\nCommand output:\n" . $log);
     }
