@@ -1523,13 +1523,16 @@ class API extends \Piwik\Plugin\API
         return $description;
     }
 
+
+
     /**
-     * @param $userLogin
+     * resend the invite email to user
+     *
+     * @param string $userLogin
      * @param int $expiryInDays
-     * @return string
      * @throws NoAccessException
      */
-    public function generateInviteLink($userLogin, $mail = false, $expiryInDays = 7)
+    public function resendInvite($userLogin, $expiryInDays = 7)
     {
         Piwik::checkUserHasSomeAdminAccess();
 
@@ -1546,31 +1549,55 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        if ($mail) {
-            $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
-            /**
-             * Triggered after a new user was invited with email method.
-             *
-             * @param string $userLogin The new user's login.
-             */
-            Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
+        $token = $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
 
-        } else {
-            $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
+        /**
+         * Triggered after a new user was invited.
+         *
+         * @param string $userLogin The new user's login.
+         */
+        Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
 
-            /**
-             * Triggered after a new user invite token was generate.
-             *
-             * @param string $userLogin The new user's login.
-             */
-            Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
+        return $token;
+    }
 
-            return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
-                    'module' => 'Login',
-                    'action' => 'acceptInvitation',
-                    'token'  => $token,
-                ]);
+    /**
+     * @param $userLogin
+     * @param int $expiryInDays
+     * @return string
+     * @throws NoAccessException
+     */
+    public function generateInviteLink($userLogin,$expiryInDays = 7)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        if (!$this->model->isPendingUser($userLogin)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
         }
+
+        $user = $this->model->getUser($userLogin);
+
+        // If user is not a super user check if the user was invited by the current user
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
+                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+            }
+        }
+
+        $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
+
+        /**
+         * Triggered after a new user invite token was generate.
+         *
+         * @param string $userLogin The new user's login.
+         */
+        Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
+
+        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
+                'module' => 'Login',
+                'action' => 'acceptInvitation',
+                'token'  => $token,
+            ]);
     }
 
 }

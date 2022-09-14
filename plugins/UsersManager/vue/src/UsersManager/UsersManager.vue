@@ -368,7 +368,7 @@ export default defineComponent({
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(
         {
-          method: 'UsersManager.generateInviteLink',
+          method: 'UsersManager.resendInvite',
           userLogin: user.login,
           mail: true,
         },
