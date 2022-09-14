@@ -1549,7 +1549,7 @@ class API extends \Piwik\Plugin\API
         if ($mail) {
             $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
             /**
-             * Triggered after a new user was invited.
+             * Triggered after a new user was invited with email method.
              *
              * @param string $userLogin The new user's login.
              */
@@ -1559,7 +1559,7 @@ class API extends \Piwik\Plugin\API
             $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
 
             /**
-             * Triggered after a new user was invited.
+             * Triggered after a new user invite token was generate.
              *
              * @param string $userLogin The new user's login.
              */
