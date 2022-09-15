@@ -10,6 +10,8 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration;
@@ -37,9 +39,20 @@ class Updates_4_12_0_b3 extends PiwikUpdates
      */
     public function getMigrations(Updater $updater)
     {
-        return [
-            $this->migration->db->addColumns('user', ['invite_link_token' => 'VARCHAR(191) DEFAULT null'])
-        ];
+        $column = Db::fetchRow('SHOW COLUMNS FROM ' . Common::prefixTable('user') . ' LIKE \'idchange_last_viewed\'');
+
+        if (
+            empty($column)
+            || strpos(strtolower($column['Type']), 'int') !== false
+            || strpos(strtolower($column['Type']), 'unsigned') !== false
+        ) {
+            return [];
+        }
+
+        $removeValues = $this->migration->db->sql('UPDATE ' . Common::prefixTable('user') . ' SET idchange_last_viewed = NULL');
+        $columnUpdate = $this->migration->db->changeColumnType('user', 'idchange_last_viewed', 'INTEGER UNSIGNED');
+
+        return [$removeValues, $columnUpdate];
     }
 
     public function doUpdate(Updater $updater)

@@ -52,7 +52,7 @@ class Mysql implements SchemaInterface
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
-                          idchange_last_viewed TIMESTAMP NULL,
+                          idchange_last_viewed INTEGER UNSIGNED NULL,
                           invited_by VARCHAR(100) NULL,
                           invite_token VARCHAR(191) NULL,
                           invite_link_token VARCHAR(191) NULL,
