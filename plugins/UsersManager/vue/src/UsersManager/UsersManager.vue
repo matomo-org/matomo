@@ -100,7 +100,7 @@
           <i class="icon-success"></i>
           {{ translate('UsersManager_LinkCopied') }}</span>
         <button
-          @click="generateInviteLink(userBeingEdited)"
+          @click="(!loading && !copied) ? generateInviteLink(userBeingEdited): null;"
           class="btn btn-copy-link modal-action"
           style="margin-right:3.5px"
         >{{ translate('UsersManager_CopyLink') }}</button>
@@ -170,6 +170,7 @@ interface UsersManagerState {
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
   copied: boolean;
+  loading: boolean;
 }
 
 const NUM_USERS_PER_PAGE = 20;
@@ -354,23 +355,25 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
-    generateInviteLink(user: User) {
+    async generateInviteLink(user: User) {
+      this.loading = true;
       AjaxHelper.fetch<{ value: string }>(
         {
           method: 'UsersManager.generateInviteLink',
           userLogin: user.login,
         },
       ).then((r) => {
-        navigator.clipboard.writeText(r.value);
+        this.inviteLink = r.value;
         this.copied = true;
+        this.loading = false;
       });
+      navigator.clipboard.writeText(this.inviteLink);
     },
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
           userLogin: user.login,
-          mail: true,
         },
       ).then(() => {
         this.fetchUsers();

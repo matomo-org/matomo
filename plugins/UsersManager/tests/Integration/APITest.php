@@ -1365,7 +1365,7 @@ class APITest extends IntegrationTestCase
             }
         );
 
-        $this->api->generateInviteLink('pendingLoginTest',true);
+        $this->api->resendInvite('pendingLoginTest',true);
         self::assertTrue($eventWasFired);
     }
 
@@ -1374,7 +1374,7 @@ class APITest extends IntegrationTestCase
         self::expectException(\Exception::class);
         self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
 
-        $this->api->generateInviteLink('notExistingUser');
+        $this->api->resendInvite('notExistingUser');
     }
 
     public function testResendInviteAsInviterWithAdminAccess()
@@ -1396,7 +1396,7 @@ class APITest extends IntegrationTestCase
             }
         );
 
-        $this->api->generateInviteLink('pendingLoginTest',1);
+        $this->api->resendInvite('pendingLoginTest',1);
         self::assertTrue($eventWasFired);
     }
 
@@ -1417,7 +1417,7 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('adminUser', 'admin', []);
         $this->setCurrentUser('adminUser', 'write', 1);
 
-        $this->api->generateInviteLink('pendingLoginTest');
+        $this->api->resendInvite('pendingLoginTest');
     }
 
     public function testResendInviteFailsAsNotInvitingAdmin()
@@ -1437,7 +1437,7 @@ class APITest extends IntegrationTestCase
         // another admin tries to resend invite
         $this->setCurrentUser('anotherAdminUser', 'admin', 1);
 
-        $this->api->generateInviteLink('pendingLoginTest',1);
+        $this->api->resendInvite('pendingLoginTest',1);
     }
 
     public function testInvitedUserCanBeRemovedBySuperUser()
