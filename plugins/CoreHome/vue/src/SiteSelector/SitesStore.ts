@@ -17,12 +17,14 @@ import Site from './Site';
 
 interface SitesStoreState {
   initialSites: DeepReadonly<Site[]>;
+  initialSitesFiltered: DeepReadonly<Site[]>;
   isInitialized: boolean;
 }
 
 class SitesStore {
   private state = reactive<SitesStoreState>({
     initialSites: [],
+    initialSitesFiltered: [],
     isInitialized: false,
   });
 
@@ -30,17 +32,24 @@ class SitesStore {
 
   private limitRequest?: Promise<{ value: number|string }>;
 
+  private sitesToExclude: number[] = [];
+
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
-  loadInitialSites(onlySitesWithAdminAccess = false): Promise<DeepReadonly<Site[]>|null> {
+  public readonly initialSitesFiltered = computed(() => readonly(this.state.initialSitesFiltered));
+
+  loadInitialSites(onlySitesWithAdminAccess = false,
+    returnFilteredSites: null|boolean = false): Promise<DeepReadonly<Site[]>|null> {
     if (this.state.isInitialized) {
-      return Promise.resolve(readonly(this.state.initialSites));
+      return Promise.resolve(readonly(returnFilteredSites
+        ? this.state.initialSitesFiltered : this.state.initialSites));
     }
 
-    return this.searchSite('%', onlySitesWithAdminAccess).then((sites) => {
+    return this.searchSite('%', onlySitesWithAdminAccess, returnFilteredSites).then((sites) => {
       this.state.isInitialized = true;
       if (sites !== null) {
         this.state.initialSites = sites;
+        this.state.initialSitesFiltered = readonly(sites);
       }
       return sites;
     });
@@ -68,9 +77,10 @@ class SitesStore {
     }
   }
 
-  searchSite(term?: string, onlySitesWithAdminAccess = false): Promise<DeepReadonly<Site[]>|null> {
+  searchSite(term?: string, onlySitesWithAdminAccess = false,
+    returnFilteredSites: null|boolean = false): Promise<DeepReadonly<Site[]>|null> {
     if (!term) {
-      return this.loadInitialSites();
+      return this.loadInitialSites(onlySitesWithAdminAccess, returnFilteredSites);
     }
 
     if (this.currentRequestAbort) {
@@ -99,7 +109,7 @@ class SitesStore {
       });
     }).then((response) => {
       if (response) {
-        return this.processWebsitesList(response as Site[]);
+        return this.processWebsitesList(response as Site[], returnFilteredSites);
       }
 
       return null;
@@ -108,7 +118,12 @@ class SitesStore {
     });
   }
 
-  private processWebsitesList(response: Site[]): Site[] {
+  setSitesToExclude(sitesToExclude: number[]) {
+    this.sitesToExclude = sitesToExclude;
+    this.state.isInitialized = false; // Set this so that things get re-initialized.
+  }
+
+  private processWebsitesList(response: Site[], returnFilteredSites: null|boolean = false): Site[] {
     let sites = response;
 
     if (!sites || !sites.length) {
@@ -127,7 +142,19 @@ class SitesStore {
       return lhs.name.toLowerCase() > rhs.name.toLowerCase() ? 1 : 0;
     });
 
-    return sites;
+    if (!this.sitesToExclude || this.sitesToExclude.length === 0) {
+      return sites;
+    }
+
+    const filteredSites: Site[] = [];
+    sites.forEach((site) => {
+      const idSite = typeof site.idsite === 'string' ? parseInt(site.idsite, 10) : site.idsite;
+      if (!this.sitesToExclude.includes(idSite)) {
+        filteredSites.push(site);
+      }
+    });
+
+    return returnFilteredSites ? filteredSites : sites;
   }
 }
 
