@@ -86,7 +86,7 @@
         <h3
           v-if="userBeingEdited"
           v-html="$sanitize(translate(
-            'UsersManager_InviteConfirm',
+            'UsersManager_InviteConfirmMessage',
             [userBeingEdited.login, userBeingEdited.email]
             ,
           ))"
