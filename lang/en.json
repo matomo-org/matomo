@@ -537,7 +537,9 @@
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
         "YourSessionHasExpired": "Your session has expired due to inactivity. Please log in to continue.",
         "Update": "Update",
-        "Create": "Create"
+        "Create": "Create",
+        "ProfilableVisits": "Profilable Visits",
+        "ColumnProfilableVisitsDocumentation": "The total number of visits that we can confidently attribute to a specific visitor, because they were tracked with information that requires a user's consent."
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

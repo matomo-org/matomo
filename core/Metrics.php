@@ -371,6 +371,7 @@ class Metrics
             'entry_bounce_count'            => 'General_ColumnBounces',
             'exit_bounce_count'             => 'General_ColumnBounces',
             'exit_rate'                     => 'General_ColumnExitRate',
+            'nb_profilable'                 => 'General_ProfilableVisits',
         );
 
         $dailySum = ' (' . Piwik::translate('General_DailySum') . ')';
@@ -494,7 +495,8 @@ class Metrics
             'conversion_rate'      => 'General_ColumnConversionRateDocumentation',
             'avg_time_on_page'     => 'General_ColumnAverageTimeOnPageDocumentation',
             'nb_hits'              => 'General_ColumnPageviewsDocumentation',
-            'exit_rate'            => 'General_ColumnExitRateDocumentation'
+            'exit_rate'            => 'General_ColumnExitRateDocumentation',
+            'nb_profilable'        => 'General_ColumnProfilableVisitsDocumentation',
         );
 
         /**
