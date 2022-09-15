@@ -364,11 +364,10 @@ export default defineComponent({
           userLogin: user.login,
         },
       ).then((r) => {
-        this.inviteLink = r.value;
         this.copied = true;
         this.loading = false;
       });
-      navigator.clipboard.writeText(this.inviteLink);
+      navigator.clipboard.writeText(this.r.value);
     },
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(
