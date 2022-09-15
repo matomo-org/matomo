@@ -366,8 +366,8 @@ export default defineComponent({
       ).then((r) => {
         this.copied = true;
         this.loading = false;
+        navigator.clipboard.writeText(r.value);
       });
-      navigator.clipboard.writeText(this.r.value);
     },
     onResendInvite(user: User) {
       AjaxHelper.fetch<AjaxHelper>(
