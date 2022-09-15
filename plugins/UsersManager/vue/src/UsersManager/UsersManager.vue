@@ -236,6 +236,7 @@ export default defineComponent({
       userBeingEdited: null,
       addNewUserLoginEmail: '',
       copied: false,
+      loading: false
     };
   },
   created() {
