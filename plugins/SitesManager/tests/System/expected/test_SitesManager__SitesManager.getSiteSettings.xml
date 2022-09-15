@@ -22,7 +22,7 @@ https://www.example.org/</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers &gt; Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Matomo automatically considers both.</inlineHelp>
+				<inlineHelp>It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers → Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Matomo automatically considers both.</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />
@@ -242,7 +242,7 @@ https://www.example.org/</placeholder>
 					<row>Ecommerce enabled</row>
 				</availableValues>
 				<description />
-				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
+				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking and reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />
