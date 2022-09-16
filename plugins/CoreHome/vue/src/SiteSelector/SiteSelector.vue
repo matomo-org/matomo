@@ -253,11 +253,13 @@ export default defineComponent({
         : '';
     },
     hasMultipleSites() {
-      return SitesStore.initialSitesFiltered.value
-        && SitesStore.initialSitesFiltered.value.length > 1;
+      const initialSites = SitesStore.initialSitesFiltered.value
+        ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
+      return initialSites && initialSites.length > 1;
     },
     firstSiteName() {
-      const initialSites = SitesStore.initialSitesFiltered.value;
+      const initialSites = SitesStore.initialSitesFiltered.value
+        ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 0 ? initialSites[0].name : '';
     },
     urlAllSites() {
@@ -343,15 +345,16 @@ export default defineComponent({
       return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
     },
     loadInitialSites() {
-      SitesStore.setSitesToExclude((this.sitesToExclude ? this.sitesToExclude : []) as number[]);
-      return SitesStore.loadInitialSites(this.onlySitesWithAdminAccess, true).then((sites) => {
+      return SitesStore.loadInitialSites(this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
         this.sites = sites || [];
       });
     },
     searchSite(term: string) {
       this.isLoading = true;
 
-      SitesStore.searchSite(term, this.onlySitesWithAdminAccess, true).then((sites) => {
+      SitesStore.searchSite(term, this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
         if (term !== this.searchTerm) {
           return; // search term changed in the meantime
         }

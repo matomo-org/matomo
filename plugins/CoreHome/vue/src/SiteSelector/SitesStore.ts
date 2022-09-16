@@ -17,39 +17,66 @@ import Site from './Site';
 
 interface SitesStoreState {
   initialSites: DeepReadonly<Site[]>;
-  initialSitesFiltered: DeepReadonly<Site[]>;
   isInitialized: boolean;
+}
+
+interface SitesStoreStateFiltered extends SitesStoreState {
+  excludedSites: number[];
 }
 
 class SitesStore {
   private state = reactive<SitesStoreState>({
     initialSites: [],
-    initialSitesFiltered: [],
     isInitialized: false,
+  });
+
+  private stateFiltered = reactive<SitesStoreStateFiltered>({
+    initialSites: [],
+    isInitialized: false,
+    excludedSites: [],
   });
 
   private currentRequestAbort: AbortController | null = null;
 
   private limitRequest?: Promise<{ value: number|string }>;
 
-  private sitesToExclude: number[] = [];
-
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
-  public readonly initialSitesFiltered = computed(() => readonly(this.state.initialSitesFiltered));
+  public readonly initialSitesFiltered = computed(() => readonly(this.stateFiltered.initialSites));
 
   loadInitialSites(onlySitesWithAdminAccess = false,
-    returnFilteredSites: null|boolean = false): Promise<DeepReadonly<Site[]>|null> {
-    if (this.state.isInitialized) {
-      return Promise.resolve(readonly(returnFilteredSites
-        ? this.state.initialSitesFiltered : this.state.initialSites));
+    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
+    if (this.state.isInitialized && sitesToExclude.length === 0) {
+      return Promise.resolve(readonly(this.state.initialSites));
     }
 
-    return this.searchSite('%', onlySitesWithAdminAccess, returnFilteredSites).then((sites) => {
+    // If the filtered state has already been initialized with the same sites, return that.
+    if (this.stateFiltered.isInitialized
+      && sitesToExclude.length === this.stateFiltered.excludedSites.length
+      && (sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index]))) {
+      return Promise.resolve(readonly(this.stateFiltered.initialSites));
+    }
+
+    // If we want to exclude certain sites, perform the search for that.
+    if (sitesToExclude.length > 0) {
+      this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
+        this.stateFiltered.isInitialized = true;
+        this.stateFiltered.excludedSites = sitesToExclude;
+        if (sites !== null) {
+          this.stateFiltered.initialSites = sites;
+        }
+      });
+    }
+
+    // If the main state has already been initialized, no need to continue.
+    if (this.state.isInitialized) {
+      return Promise.resolve(readonly(this.state.initialSites));
+    }
+
+    return this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
       this.state.isInitialized = true;
       if (sites !== null) {
         this.state.initialSites = sites;
-        this.state.initialSitesFiltered = readonly(sites);
       }
       return sites;
     });
@@ -78,9 +105,9 @@ class SitesStore {
   }
 
   searchSite(term?: string, onlySitesWithAdminAccess = false,
-    returnFilteredSites: null|boolean = false): Promise<DeepReadonly<Site[]>|null> {
+    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
     if (!term) {
-      return this.loadInitialSites(onlySitesWithAdminAccess, returnFilteredSites);
+      return this.loadInitialSites(onlySitesWithAdminAccess, sitesToExclude);
     }
 
     if (this.currentRequestAbort) {
@@ -104,12 +131,13 @@ class SitesStore {
         method: methodToCall,
         limit,
         pattern: term,
+        sitesToExclude,
       }, {
         abortController: this.currentRequestAbort,
       });
     }).then((response) => {
       if (response) {
-        return this.processWebsitesList(response as Site[], returnFilteredSites);
+        return this.processWebsitesList(response as Site[]);
       }
 
       return null;
@@ -118,12 +146,7 @@ class SitesStore {
     });
   }
 
-  setSitesToExclude(sitesToExclude: number[]) {
-    this.sitesToExclude = sitesToExclude;
-    this.state.isInitialized = false; // Set this so that things get re-initialized.
-  }
-
-  private processWebsitesList(response: Site[], returnFilteredSites: null|boolean = false): Site[] {
+  private processWebsitesList(response: Site[]): Site[] {
     let sites = response;
 
     if (!sites || !sites.length) {
@@ -142,19 +165,7 @@ class SitesStore {
       return lhs.name.toLowerCase() > rhs.name.toLowerCase() ? 1 : 0;
     });
 
-    if (!this.sitesToExclude || this.sitesToExclude.length === 0) {
-      return sites;
-    }
-
-    const filteredSites: Site[] = [];
-    sites.forEach((site) => {
-      const idSite = typeof site.idsite === 'string' ? parseInt(site.idsite, 10) : site.idsite;
-      if (!this.sitesToExclude.includes(idSite)) {
-        filteredSites.push(site);
-      }
-    });
-
-    return returnFilteredSites ? filteredSites : sites;
+    return sites;
   }
 }
 
