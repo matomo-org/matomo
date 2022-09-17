@@ -260,7 +260,7 @@ export default defineComponent({
     },
   },
   methods: {
-    showInviteActionPasswordConfirm(action: boolean) {
+    showInviteActionPasswordConfirm(action: string) {
       if (this.loading) return;
       this.showPasswordConfirmationForInviteAction = true;
       this.inviteAction = action;
