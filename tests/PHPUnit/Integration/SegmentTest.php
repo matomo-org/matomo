@@ -48,28 +48,6 @@ class SegmentTest extends IntegrationTestCase
         self::$fixture->getTestEnvironment()->save();
     }
 
-    /**
-     * @dataProvider getTestDataForIsRequiresProfilableData
-     */
-    public function test_isRequiresProfilableData($segmentStr, $expected)
-    {
-        $segment = new Segment($segmentStr, []);
-        $isRequiresProfilableData = $segment->isRequiresProfilableData();
-        $this->assertEquals($expected, $isRequiresProfilableData);
-
-    }
-
-    public function getTestDataForIsRequiresProfilableData()
-    {
-        return [
-            ['browserCode==ff', false],
-            ['browserCode==ff;pageUrl=@abc', false],
-            ['daysSinceLastVisit>2', true],
-            ['browserCode==ff;daysSinceLastVisit>=1', true],
-            ['browserCode==ff,pageUrl=@abc;visitCount==3', true],
-        ];
-    }
-
     public function test_getHash_returnsCorrectHashWhenDefinitionIsFromGetStringFromSegmentTableDefinition()
     {
         // definition is encoded as it would be in the URL
