@@ -381,15 +381,16 @@ export default defineComponent({
       });
     },
     async generateInviteLink(password: string) {
-      if (this.loading || this.copied || !this.userBeingEdited) {
+      if (this.loading || this.copied || !('login' in this.userBeingEdited)) {
         return;
       }
+      const { login }:string = this.userBeingEdited;
       this.loading = true;
       try {
         const res = await AjaxHelper.fetch<{ value: string }>(
           {
             method: 'UsersManager.generateInviteLink',
-            userLogin: this.userBeingEdited.login,
+            userLogin: login,
             passwordConfirmation: password,
           },
         );
@@ -401,11 +402,12 @@ export default defineComponent({
       this.loading = false;
     },
     onResendInvite(password: string) {
-      if (password === '' || !this.userBeingEdited) return;
+      if (password === '' || !('login' in this.userBeingEdited)) return;
+      const { login }:string = this.userBeingEdited;
       AjaxHelper.fetch<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
-          userLogin: this.userBeingEdited.login,
+          userLogin: login,
           passwordConfirmation: password,
         },
       ).then(() => {
