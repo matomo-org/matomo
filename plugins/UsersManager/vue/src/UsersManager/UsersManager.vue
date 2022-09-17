@@ -381,7 +381,7 @@ export default defineComponent({
       });
     },
     async generateInviteLink(password: string) {
-      if (this.loading || this.copied) {
+      if (this.loading || this.copied || !this.userBeingEdited) {
         return;
       }
       this.loading = true;
@@ -401,7 +401,7 @@ export default defineComponent({
       this.loading = false;
     },
     onResendInvite(password: string) {
-      if (password === '') return;
+      if (password === '' || !this.userBeingEdited) return;
       AjaxHelper.fetch<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
