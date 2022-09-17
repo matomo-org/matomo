@@ -333,7 +333,7 @@
           <td class="center actions-cell">
             <button
                 class="resend table-action"
-                title="Resend Invite"
+                title="Resend/Copy Invite Link"
                 @click="userToChange = user; resendRequestedUser()"
                 v-if="(
                   currentUserRole === 'superuser'

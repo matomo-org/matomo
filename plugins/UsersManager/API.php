@@ -1530,11 +1530,17 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $userLogin
      * @param int $expiryInDays
+     * @param string | null $passwordConfirmation
      * @throws NoAccessException
      */
-    public function resendInvite($userLogin, $expiryInDays = 7)
+    public function resendInvite($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if (!$this->model->isPendingUser($userLogin)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
@@ -1564,12 +1570,18 @@ class API extends \Piwik\Plugin\API
     /**
      * @param $userLogin
      * @param int $expiryInDays
+     * @param string | null $passwordConfirmation
      * @return string
      * @throws NoAccessException
      */
-    public function generateInviteLink($userLogin,$expiryInDays = 7)
+    public function generateInviteLink($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if (!$this->model->isPendingUser($userLogin)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));

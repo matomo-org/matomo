@@ -209,6 +209,7 @@
         "CopyLink": "Copy link",
         "LinkCopied": "Link copied",
         "InviteLinkValidDays": "Invite links are valid for %1$s days.",
-        "BackToUser": "Back to Users"
+        "BackToUser": "Back to Users",
+        "InviteActionNotes": "* Any action will extend all the invite links for %1$s days"
     }
 }

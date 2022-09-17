@@ -351,6 +351,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_InviteLinkValidDays';
         $translationKeys[] = "UsersManager_AddNewUser";
         $translationKeys[] = 'UsersManager_BackToUser';
+        $translationKeys[] = 'UsersManager_InviteActionNotes';
 
     }
 }

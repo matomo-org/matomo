@@ -565,12 +565,24 @@ describe("UsersManager", function () {
 
     it('should show invite link copied when copy clicked', async function () {
         await (await page.jQuery('.resend-invite-confirm-modal .btn-copy-link')).click();
-        const elem = await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
+
+        // password confirm
+        await page.waitForSelector('.confirm-password-modal', { visible: true });
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
+
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
     });
 
     it('should show resend success message', async function() {
         await (await page.jQuery('.resend-invite-confirm-modal .btn-resend')).click();
+
+        // password confirm
+        await page.waitForSelector('.confirm-password-modal', { visible: true });
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
+
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
