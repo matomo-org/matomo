@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<website>Piwik test</website>
+	<website>A very long name for a very tiny test site, that also reaches the 90 character limit fully</website>
 	<prettyDate>Tuesday, April 5, 2011</prettyDate>
 	<metadata>
 		<category>Visitors</category>

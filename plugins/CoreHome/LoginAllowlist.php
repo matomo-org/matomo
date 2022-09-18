@@ -34,8 +34,11 @@ class LoginAllowlist
             return false;
         }
 
-        // ignore whitelist checks for opt out iframe
-        if (!SettingsServer::isTrackerApiRequest() && 'CoreAdminHome' === Piwik::getModule() && 'optOut' === Piwik::getAction()) {
+        // ignore whitelist checks for opt out iframe or opt out JS
+        if (!SettingsServer::isTrackerApiRequest()
+            && (('CoreAdminHome' === Piwik::getModule() && ('optOut' === Piwik::getAction() || 'optOutJS' === Piwik::getAction())))
+            )
+        {
             return false;
         }
 

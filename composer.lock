@@ -395,16 +395,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "6.0.2",
+            "version": "6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "c01910dde14c95708019513ea0ee36c5a174fd4c"
+                "reference": "6ba69e1afd24b45d66b6de7b04553213f7ef2151"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/c01910dde14c95708019513ea0ee36c5a174fd4c",
-                "reference": "c01910dde14c95708019513ea0ee36c5a174fd4c",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/6ba69e1afd24b45d66b6de7b04553213f7ef2151",
+                "reference": "6ba69e1afd24b45d66b6de7b04553213f7ef2151",
                 "shasum": ""
             },
             "require": {
@@ -460,7 +460,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2022-07-12T07:49:25+00:00"
+            "time": "2022-09-12T11:43:29+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -696,12 +696,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "63c051a3a609938c2b701d643ce4d62811b88549"
+                "reference": "d7155f028b2cc87b781ca0950276e139ccbcf15f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/63c051a3a609938c2b701d643ce4d62811b88549",
-                "reference": "63c051a3a609938c2b701d643ce4d62811b88549",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/d7155f028b2cc87b781ca0950276e139ccbcf15f",
+                "reference": "d7155f028b2cc87b781ca0950276e139ccbcf15f",
                 "shasum": ""
             },
             "replace": {
@@ -719,7 +719,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2022-08-12T19:12:24+00:00"
+            "time": "2022-09-07T19:27:09+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -3231,16 +3231,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "3.0.3",
+            "version": "3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "1071dfcef776a57013124ff35e1fc41ccd294758"
+                "reference": "1dc7ceb4a24aede938c7af2a9ed1de09609ca770"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/1071dfcef776a57013124ff35e1fc41ccd294758",
-                "reference": "1071dfcef776a57013124ff35e1fc41ccd294758",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/1dc7ceb4a24aede938c7af2a9ed1de09609ca770",
+                "reference": "1dc7ceb4a24aede938c7af2a9ed1de09609ca770",
                 "shasum": ""
             },
             "require": {
@@ -3293,7 +3293,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/3.0.3"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/3.0.5"
             },
             "funding": [
                 {
@@ -3301,7 +3301,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-30T08:04:30+00:00"
+            "time": "2022-09-14T12:31:48+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -3434,16 +3434,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "3.1.4",
+            "version": "3.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "0c32ea2e40dbf59de29f3b49bf375176ce7dd8db"
+                "reference": "73a9676f2833b9a7c36968f9d882589cd75511e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/0c32ea2e40dbf59de29f3b49bf375176ce7dd8db",
-                "reference": "0c32ea2e40dbf59de29f3b49bf375176ce7dd8db",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/73a9676f2833b9a7c36968f9d882589cd75511e6",
+                "reference": "73a9676f2833b9a7c36968f9d882589cd75511e6",
                 "shasum": ""
             },
             "require": {
@@ -3499,7 +3499,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.4"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.5"
             },
             "funding": [
                 {
@@ -3507,7 +3507,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-11-11T13:51:24+00:00"
+            "time": "2022-09-14T06:00:17+00:00"
         },
         {
             "name": "sebastian/global-state",
