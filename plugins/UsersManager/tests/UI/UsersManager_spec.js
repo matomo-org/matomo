@@ -566,9 +566,9 @@ describe("UsersManager", function () {
     it('should show invite link copied when copy clicked', async function () {
         await (await page.jQuery('.resend-invite-confirm-modal .btn-copy-link')).click();
 
+        await page.waitForTimeout(500); // animation
         // password confirm
-        await page.waitForSelector('.confirm-password-modal', { visible: true });
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForNetworkIdle();
@@ -578,9 +578,9 @@ describe("UsersManager", function () {
     it('should show resend success message', async function() {
         await (await page.jQuery('.resend-invite-confirm-modal .btn-resend')).click();
 
+        await page.waitForTimeout(500); // animation
         // password confirm
-        await page.waitForSelector('.confirm-password-modal', { visible: true });
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForSelector('#notificationContainer .notification');
