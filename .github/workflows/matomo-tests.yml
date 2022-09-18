@@ -101,13 +101,14 @@ jobs:
           test-type: ${{ matrix.tests }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.parts }}
-          run_number: ${{ github.run_number }}
+          run-number: ${{ github.run_number }}
           node-version: ${{ matrix.node }}
           repository: ${{ github.repository }}
           artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
-          run_id: ${{ github.run_id }}
+          run-id: ${{ github.run_id }}
           php-memory: "-1"
           redis-service: true
           git-head: ${{ github.head_ref }}
+          merge-target: '4.x-dev'
 
 
