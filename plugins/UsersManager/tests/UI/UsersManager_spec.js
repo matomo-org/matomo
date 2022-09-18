@@ -572,6 +572,8 @@ describe("UsersManager", function () {
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForNetworkIdle();
+        await page.waitForSelector('.success-copied');
+
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
     });
 
