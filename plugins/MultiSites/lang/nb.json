@@ -5,7 +5,7 @@
         "EvolutionComparisonDay": "%1$s %2$s denne dagen sammenlignet med %3$s %2$s i den forrige delvise perioden (%4$s) Utvikling: %5$s",
         "EvolutionComparisonIncomplete": "Valgt tidsperiode er %1$s fullført.",
         "EvolutionComparisonMonth": "%1$s%2$s denne måneden sammenlignet med %3$s %2$s i forrige delvise periode (%4$s) Utvikling: %5$s",
-        "EvolutionComparisonProportional": "Når tidligere periode også var %1$s fullført, ville det anslagsvis ha vært %2$s %3$s\n (av totalt %4$s %3$s i forrige periode).",
+        "EvolutionComparisonProportional": "Når tidligere periode også var %1$s fullført, ville det anslagsvis ha vært %2$s %3$s\n(av totalt %4$s %3$s i forrige periode).",
         "EvolutionComparisonWeek": "%1$s %2$s denne uken sammenlignet med %3$s %2$s i forrige delvise periode (%4$s) Utvikling: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s dette året sammenlignet med %3$s %2$s i forrige delvise periode (%4$s) Utvikling: %5$s",
         "LoadingWebsites": "Laster nettsteder",

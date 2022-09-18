@@ -5,7 +5,7 @@
         "EvolutionComparisonDay": "%1$s %2$s aquest dia en comparació amb %3$s %2$s del període parcial anterior (%4$s) Evolució: %5$s",
         "EvolutionComparisonIncomplete": "El període de temps seleccionat actualment és %1$s complet.",
         "EvolutionComparisonMonth": "%1$s %2$s aquest mes en comparació amb %3$s %2$s en el període parcial anterior (%4$s) Evolució: %5$s",
-        "EvolutionComparisonProportional": "Quan el període anterior també estava al %1$s, hi havia una estimació de %2$s %3$s\n(d'un total de %4$s %3$s en el període anterior).",
+        "EvolutionComparisonProportional": "Quan el període anterior també estava al %1$s, hi havia una estimació de %2$s %3$s\n(d'un total de %4$s %3$s en el període precedent).",
         "EvolutionComparisonWeek": "%1$s %2$s aquesta setmana en comparació amb %3$s %2$s del període parcial anterior (%4$s) Evolució: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s aquest any en comparació amb %3$s %2$s en el període parcial anterior (%4$s) Evolució: %5$s",
         "LoadingWebsites": "Carregant llocs web",

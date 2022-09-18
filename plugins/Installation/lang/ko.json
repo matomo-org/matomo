@@ -123,7 +123,7 @@
         "TablesWithSameNamesFound": "몇몇의 테이블: %1$s \\/ 데이터베이스: %2$s 가 Matomo이 생성하려고 하는 테이블 이름과 같습니다.",
         "Timezone": "웹사이트 시간대",
         "WeHopeYouWillEnjoyPiwik": "당신이 Matomo를 사용함에 있어 즐기는 만큼 우리는 이를 만듦에 즐거움을 느낀다.",
-        "Welcome": "환영합니다!",
+        "Welcome": "환영합니다",
         "WelcomeToCommunity": "Matomo 커뮤니티에 오신 걸 환영합니다!",
         "YouMayInstallPiwikNow": "당신은 아마 %1$sMatomo 지금 설치%2$s중입니다."
     }
