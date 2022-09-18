@@ -571,10 +571,10 @@ describe("UsersManager", function () {
         await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
+        await page.waitForTimeout(500); // animation
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.success-copied');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
     });
 
     it('should show resend success message', async function() {

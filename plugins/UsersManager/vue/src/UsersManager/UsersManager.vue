@@ -87,7 +87,8 @@
           v-if="userBeingEdited"
           v-html="$sanitize(translate(
             'UsersManager_InviteConfirmMessage',
-            [userBeingEdited.login, userBeingEdited.email]
+            [`<strong>${userBeingEdited.login}</strong>`,
+             `<strong>${userBeingEdited.email}</strong>`]
             ,
           ))"
         ></h3>
@@ -261,7 +262,7 @@ export default defineComponent({
   },
   methods: {
     showInviteActionPasswordConfirm(action: string) {
-      if (this.loading) return;
+      if (this.loading || this.copied) return;
       this.showPasswordConfirmationForInviteAction = true;
       this.inviteAction = action;
     },
