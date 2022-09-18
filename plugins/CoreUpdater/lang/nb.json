@@ -52,7 +52,7 @@
         "NeedHelpUpgradingText": "Hvis du trenger støtte til å oppgradere din Matomo, er skaperne her for å hjelpe deg å oppgradere og tilby instruksjoner, god praksis, og vedvarende støtte. %1$sKontakt Matomo-ekspertene for å begynne trygg oppgradering av Matomo.%2$s",
         "NoteForLargePiwikInstances": "Viktig merknad for store Matomo-installasjoner",
         "NotificationClickToUpdatePlugins": "Klikk her for å oppdatere dine tillegg nå:",
-        "NotificationClickToUpdateThemes": "Klikk her for å oppdatere dine tema nå:",
+        "NotificationClickToUpdateThemes": "Klikk her for å oppdatere draktene dine nå:",
         "NotificationSubjectAvailableCoreUpdate": "Ny Matomo %s er tilgjengelig",
         "NotificationSubjectAvailablePluginUpdate": "Oppdatering tilgjengelig for dine Matomo tillegg",
         "PiwikHasBeenSuccessfullyUpgraded": "Matomo ble korrekt oppdatert!",
