@@ -276,9 +276,9 @@ export default defineComponent({
     },
     onInviteAction(password: string) {
       if (this.inviteAction === 'send') {
-        this.onResendInvite(password, this.userBeingEdited);
+        this.onResendInvite(password);
       } else {
-        this.generateInviteLink(password, this.userBeingEdited);
+        this.generateInviteLink(password);
       }
     },
     onEditUser(user: User) {
@@ -380,8 +380,8 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
-    async generateInviteLink(password: string, user: User) {
-      if (this.loading || this.copied ) {
+    async generateInviteLink(password: string) {
+      if (this.loading || this.copied) {
         return;
       }
       this.loading = true;
@@ -389,7 +389,7 @@ export default defineComponent({
         const res = await AjaxHelper.fetch<{ value: string }>(
           {
             method: 'UsersManager.generateInviteLink',
-            userLogin: user.login,
+            userLogin: this.userBeingEdited!.login,
             passwordConfirmation: password,
           },
         );
@@ -400,12 +400,12 @@ export default defineComponent({
       }
       this.loading = false;
     },
-    onResendInvite(password: string, user: User) {
+    onResendInvite(password: string) {
       if (password === '') return;
       AjaxHelper.fetch<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
-          userLogin: user.login,
+          userLogin: this.userBeingEdited!.login,
           passwordConfirmation: password,
         },
       ).then(() => {
