@@ -46,7 +46,7 @@
 
             <div class="col s12 m6 l4 input-field">
                 <select size="1" name="showIncreaseOrDecrease" title="Show increaser and/or decreaser">
-                    <option value="both" {% if properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>{{ 'Insights_FilterIncreaserAndDecreaser'|translate }}</option>
+                    <option value="both" {% if properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>{{ 'Insights_FilterIncreaserAndDecreaser'|translate|raw }}</option>
                     <option value="increase" {% if properties.limit_increaser and not properties.limit_decreaser %}selected{%endif%}>{{ 'Insights_FilterOnlyIncreaser'|translate }}</option>
                     <option value="decrease" {% if not properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>{{ 'Insights_FilterOnlyDecreaser'|translate }}</option>
                 </select>
