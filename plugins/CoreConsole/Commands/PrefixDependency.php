@@ -10,10 +10,12 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\CliMulti\CliPhp;
+use Piwik\CliMulti\Output;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PrefixDependency extends ConsoleCommand
 {
     const PHP_SCOPER_VERSION = '0.17.5';
-    const SUPPORTED_DEPENDENCIES = [
+    const SUPPORTED_CORE_DEPENDENCIES = [
         'twig/twig',
         'monolog/monolog',
         'symfony/monolog-bridge',
@@ -44,31 +46,53 @@ class PrefixDependency extends ConsoleCommand
             'Path to composer. Required to generate a new autoloader.', getenv('COMPOSER_BINARY'));
         $this->addOption('remove-originals', null, InputOption::VALUE_NONE,
             'If supplied, removes the original composer dependency after prefixing.');
+        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'Prefix dependencies for a specific plugin.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dependenciesToPrefix = self::SUPPORTED_DEPENDENCIES;
-        $output->writeln("Will run php-scoper on the following dependencies: [" . implode(', ', $dependenciesToPrefix) . ']');
-
         $composerPath = $this->getComposerPath($input);
-
         $phpScoperBinary = $this->downloadPhpScoperIfNeeded($input, $output);
 
-        $this->scopeDependencies($dependenciesToPrefix, $phpScoperBinary, $output);
+        $plugin = $this->getPlugin($input);
+        if ($plugin) {
+            $output->writeln("Will process dependencies of plugin $plugin.");
+            $pluginJson = __DIR__ . '/plugins/' . $plugin . '/plugin.json';
+            if (!is_file($pluginJson)) {
+                throw new \Exception("Cannot find the $pluginJson file, this is where the dependencies to prefix need to be declared (in the prefixedDependencies property).");
+            }
+
+            $contents = file_get_contents($pluginJson);
+            $contents = json_decode($contents, true);
+            if (!$contents
+                || !is_array($contents['prefixDependencies'])
+            ) {
+                throw new \Exception("Cannot read the prefixDependencies key in $pluginJson. It should be an array of dependencies, eg, [\"twig/twig\", ...].");
+            }
+
+            $dependenciesToPrefix = $contents['prefixDependencies'];
+
+            $this->generatePhpScoperFileIfNotExists($plugin, $output);
+        } else {
+            $dependenciesToPrefix = self::SUPPORTED_CORE_DEPENDENCIES;
+        }
+
+        $output->writeln("Will run php-scoper on the following dependencies: [" . implode(', ', $dependenciesToPrefix) . ']');
+
+        $this->scopeDependencies($plugin, $dependenciesToPrefix, $phpScoperBinary, $output);
 
         $output->writeln("");
         $output->writeln("<info>Regenerating autoloader...</info>");
-        $this->generatePrefixedAutoloader($dependenciesToPrefix, $composerPath, $input, $output);
-        $this->proxyOriginalComposerAutoloader($output);
+        $this->generatePrefixedAutoloader($plugin, $dependenciesToPrefix, $composerPath, $input, $output);
+        $this->proxyOriginalComposerAutoloader($plugin, $output);
 
         $output->writeln("<info>Done.</info>");
     }
 
-    private function scopeDependencies($dependenciesToPrefix, $phpScoperBinary, OutputInterface $output)
+    private function scopeDependencies($plugin, $dependenciesToPrefix, $phpScoperBinary, OutputInterface $output)
     {
         $output->writeln("<info>Prefixing dependencies...</info>");
-        $command = $this->getPhpScoperCommand($dependenciesToPrefix, $phpScoperBinary, $output);
+        $command = $this->getPhpScoperCommand($plugin, $dependenciesToPrefix, $phpScoperBinary, $output);
         passthru($command, $returnCode);
         if ($returnCode) {
             throw new \Exception("Failed to run php-scoper! Command was: $command");
@@ -96,9 +120,9 @@ class PrefixDependency extends ConsoleCommand
         return $outputPath;
     }
 
-    private function getPhpScoperCommand($dependenciesToPrefix, $phpScoperBinary, OutputInterface $output)
+    private function getPhpScoperCommand($plugin, $dependenciesToPrefix, $phpScoperBinary, OutputInterface $output)
     {
-        $vendorPath = PIWIK_VENDOR_PATH;
+        $vendorPath = $plugin ? PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/vendor' : PIWIK_VENDOR_PATH;
 
         $cliPhp = new CliPhp();
         $phpBinary = $cliPhp->findPhpBinary();
@@ -128,9 +152,10 @@ class PrefixDependency extends ConsoleCommand
         return $composerPath;
     }
 
-    private function generatePrefixedAutoloader($dependenciesToPrefix, $composerPath, InputInterface $input, OutputInterface $output)
+    private function generatePrefixedAutoloader($plugin, $dependenciesToPrefix, $composerPath, InputInterface $input, OutputInterface $output)
     {
-        $prefixed = "./vendor/prefixed";
+        $basePath = $plugin ? './plugins' . $plugin : '.';
+        $prefixed = "$basePath/vendor/prefixed";
 
         file_put_contents("$prefixed/composer.json", '{ "autoload": { "classmap": [""] } }');
 
@@ -151,16 +176,18 @@ class PrefixDependency extends ConsoleCommand
         $removeOriginal = $input->getOption('remove-originals');
         if ($removeOriginal) {
             foreach ($dependenciesToPrefix as $dependency) {
-                $vendorPath = "./vendor/$dependency";
+                $vendorPath = "$basePath/vendor/$dependency";
                 Filesystem::unlinkRecursive($vendorPath, true);
             }
         }
     }
 
-    private function proxyOriginalComposerAutoloader(OutputInterface $output)
+    private function proxyOriginalComposerAutoloader($plugin, OutputInterface $output)
     {
-        $autoloadPath = PIWIK_VENDOR_PATH . '/autoload.php';
-        $originalAutoloadPath = PIWIK_VENDOR_PATH . '/autoload_original.php';
+        $vendorPath = $plugin ? PIWIK_INCLUDE_PATH . '/plugins/vendor' . $plugin : PIWIK_VENDOR_PATH;
+
+        $autoloadPath = $vendorPath . '/autoload.php';
+        $originalAutoloadPath = $vendorPath . '/autoload_original.php';
         $proxyFileMarker = self::PROXY_FILE_MARKER;
 
         $proxyAutoloadContent = <<<EOF
@@ -194,5 +221,61 @@ EOF;
 
         $contents = file_get_contents($autoloadPath);
         return strpos($contents, self::PROXY_FILE_MARKER) !== false;
+    }
+
+    private function getPlugin(InputInterface $input)
+    {
+        $plugin = $input->getOption('plugin');
+        if (!$plugin) {
+            return null;
+        }
+
+        if (!Manager::getInstance()->isPluginInFilesystem($plugin)) {
+            throw new \InvalidArgumentException("Plugin $plugin does not exist!");
+        }
+
+        return $plugin;
+    }
+
+    private function generatePhpScoperFileIfNotExists($plugin, OutputInterface $output)
+    {
+        $pluginScoperIncFile = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/scoper.inc.php';
+        if (is_file($pluginScoperIncFile)) {
+            return;
+        }
+
+        $output->writeln("Could not find scoper.inc.php file for $plugin, generating one...");
+
+        $scoperIncFileContents = <<<EOF
+<?php
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+
+use Isolated\Symfony\Component\Finder\Finder;
+
+\$dependenciesToPrefix = json_decode(getenv('MATOMO_DEPENDENCIES_TO_PREFIX'));
+
+return [
+    'prefix' => 'Matomo\\Dependencies\\$plugin',
+    'finders' => array_map(function (\$dependency) {
+        return Finder::create()
+            ->files()
+            ->in(\$dependency);
+    }, \$dependenciesToPrefix),
+    'patchers' => [
+        // define custom patchers here
+    ],
+    'exclude-namespaces' => [
+        // namespaces to exclude from patching
+    ],
+];
+EOF;
+
+        file_put_contents($pluginScoperIncFile, $scoperIncFileContents);
     }
 }
