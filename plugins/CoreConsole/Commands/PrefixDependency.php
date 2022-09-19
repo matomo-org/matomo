@@ -57,7 +57,7 @@ class PrefixDependency extends ConsoleCommand
         $plugin = $this->getPlugin($input);
         if ($plugin) {
             $output->writeln("Will process dependencies of plugin $plugin.");
-            $pluginJson = __DIR__ . '/plugins/' . $plugin . '/plugin.json';
+            $pluginJson = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/plugin.json';
             if (!is_file($pluginJson)) {
                 throw new \Exception("Cannot find the $pluginJson file, this is where the dependencies to prefix need to be declared (in the prefixedDependencies property).");
             }
@@ -65,12 +65,12 @@ class PrefixDependency extends ConsoleCommand
             $contents = file_get_contents($pluginJson);
             $contents = json_decode($contents, true);
             if (!$contents
-                || !is_array($contents['prefixDependencies'])
+                || !is_array($contents['prefixedDependencies'])
             ) {
-                throw new \Exception("Cannot read the prefixDependencies key in $pluginJson. It should be an array of dependencies, eg, [\"twig/twig\", ...].");
+                throw new \Exception("Cannot read the prefixedDependencies key in $pluginJson. It should be an array of dependencies, eg, [\"twig/twig\", ...].");
             }
 
-            $dependenciesToPrefix = $contents['prefixDependencies'];
+            $dependenciesToPrefix = $contents['prefixedDependencies'];
 
             $this->generatePhpScoperFileIfNotExists($plugin, $output);
         } else {
@@ -154,7 +154,7 @@ class PrefixDependency extends ConsoleCommand
 
     private function generatePrefixedAutoloader($plugin, $dependenciesToPrefix, $composerPath, InputInterface $input, OutputInterface $output)
     {
-        $basePath = $plugin ? './plugins' . $plugin : '.';
+        $basePath = $plugin ? PIWIK_INCLUDE_PATH . '/plugins/' . $plugin : PIWIK_INCLUDE_PATH;
         $prefixed = "$basePath/vendor/prefixed";
 
         file_put_contents("$prefixed/composer.json", '{ "autoload": { "classmap": [""] } }');
@@ -184,7 +184,7 @@ class PrefixDependency extends ConsoleCommand
 
     private function proxyOriginalComposerAutoloader($plugin, OutputInterface $output)
     {
-        $vendorPath = $plugin ? PIWIK_INCLUDE_PATH . '/plugins/vendor' . $plugin : PIWIK_VENDOR_PATH;
+        $vendorPath = $plugin ? PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/vendor' : PIWIK_VENDOR_PATH;
 
         $autoloadPath = $vendorPath . '/autoload.php';
         $originalAutoloadPath = $vendorPath . '/autoload_original.php';

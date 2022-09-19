@@ -100,21 +100,7 @@ class Console extends Application
 
     private function doRunImpl(InputInterface $input, OutputInterface $output)
     {
-        $commandName = $input->getFirstArgument();
-
-        // dependencies may not be prefixed yet, so we want to make sure they can still be loaded during this command
-        if ($commandName == PrefixDependency::NAME) {
-            PrefixedSkippingAutoloader::$disabled = true;
-            \spl_autoload_register(function ($name) {
-                $prefix = 'Matomo\\Dependencies\\';
-
-                $name = ltrim($name, '\\');
-                if (substr($name, 0, strlen($prefix)) === $prefix) {
-                    class_alias(substr($name, strlen($prefix)), $name);
-                    return true;
-                }
-            }, true, true);
-        }
+        $this->handlePrefixCommandAutoloading($input);
 
         if ($input->hasParameterOption('--xhprof')) {
             Profiler::setupProfilerXHProf(true, true);
@@ -326,6 +312,53 @@ class Console extends Application
                         Plugins[] = Login
                         under the [Plugins] section in your config/config.ini.php";
             StaticContainer::get(LoggerInterface::class)->warning($message);
+        }
+    }
+
+    private function handlePrefixCommandAutoloading(InputInterface $input)
+    {
+        global $argv;
+
+        $commandName = $input->getFirstArgument();
+
+        // dependencies may not be prefixed yet, so we want to make sure they can still be loaded during this command
+        if ($commandName == PrefixDependency::NAME) {
+            $isForPlugin = false;
+            foreach ($argv as $arg) {
+                if (strpos($arg, '--plugin') !== false) {
+                    $isForPlugin = true;
+                    break;
+                }
+            }
+
+            if (!$isForPlugin) { // running as core, core dependencies not prefixed
+                PrefixedSkippingAutoloader::$disabled = true;
+                \spl_autoload_register(function ($name) {
+                    $prefix = 'Matomo\\Dependencies\\';
+
+                    $name = ltrim($name, '\\');
+                    if (substr($name, 0, strlen($prefix)) === $prefix) {
+                        class_alias(substr($name, strlen($prefix)), $name);
+                        return true;
+                    }
+                }, true, true);
+            } else { // running for plugin, core dependencies prefixed, plugin dependencies not
+                require_once PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php';
+                \Piwik\Dependency\PrefixedSkippingAutoloader::setOriginalLoader($GLOBALS['MATOMO_ORIGINAL_AUTOLOADER']);
+                \Piwik\Dependency\PrefixedSkippingAutoloader::register();
+
+                \spl_autoload_register(function ($name) {
+                    $prefix = 'Matomo\\Dependencies\\';
+
+                    $name = ltrim($name, '\\');
+                    if (substr($name, 0, strlen($prefix)) === $prefix
+                        && class_exists(substr($name, strlen($prefix)))
+                    ) {
+                        class_alias(substr($name, strlen($prefix)), $name);
+                        return true;
+                    }
+                }, true, true);
+            }
         }
     }
 }
