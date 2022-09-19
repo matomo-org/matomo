@@ -37,7 +37,7 @@
         "SystemCheckGDHelp": "Gnistlinjene (små bilete) og biletgrafane (i e-postrapportar og i mobilappen til Matomo) vil ikkje fungera.",
         "SystemCheckMailHelp": "Attendemeldingar og 'Tapt Passord'-meldingar vil ikkje sendast uten mail().",
         "SystemCheckMemoryLimit": "Minnegrense",
-        "SystemCheckMemoryLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir minne enn den hev lov til.<br \/>Sjå innstillinga memory_limit i php.ini-fila di viss det trengst.",
+        "SystemCheckMemoryLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir minne enn den hev lov til.<br />Sjå innstillinga memory_limit i php.ini-fila di viss det trengst.",
         "SystemCheckOpenURL": "Open URL",
         "SystemCheckOpenURLHelp": "Tinging av nyhendebrev, oppdateringsvarsel og eittklikks-oppdatering krev \"curl\"-utvidinga, allow_url_fopen=On, eller fsockopen() påslegen.",
         "SystemCheckOtherExtensions": "Andre utvidingar",
@@ -45,11 +45,11 @@
         "SystemCheckPdoAndMysqliHelp": "På ein Linux-tenar kan du kompilera php med følgjande val: %1$s Legg til følgjande linjer i di php.ini-fil: %2$s",
         "SystemCheckPhp": "PHP-versjon",
         "SystemCheckPhpPdoAndMysqli": "Meir informasjon om: %1$sPHP PDO%2$s og %3$sMYSQLI%4$s.",
-        "SystemCheckTimeLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir tid enn den hev lov til.<br \/>Viss det trengs, endre innstillinga max_execution_time i php.ini-fila di.",
-        "SystemCheckWarnDomHelp": "Du bør slå på \"dom\"-utvidinga (t.d. installer \"php-dom\"- og\/eller \"php-xml\"-pakken).",
-        "SystemCheckWarning": "Matomo vil fungera som normalt, men det kan hende at somme funksjonar manglar",
+        "SystemCheckTimeLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir tid enn den hev lov til.<br />Viss det trengs, endre innstillinga max_execution_time i php.ini-fila di.",
+        "SystemCheckWarnDomHelp": "Du bør slå på \"dom\"-utvidinga (t.d. installer \"php-dom\"- og/eller \"php-xml\"-pakken).",
         "SystemCheckWarnLibXmlHelp": "Du bør slå på \"libxml\"-utvidinga (t.d. installer \"php-libxml\"-pakken) sidan andre kjerneutvidingar i PHP krev den.",
-        "SystemCheckWarnSimpleXMLHelp": "Du bør installera \"SimpleXML\"-utvidinga (t.d. installer \"php-simplexml\"- og\/eller \"php-xml\"-pakken).",
+        "SystemCheckWarnSimpleXMLHelp": "Du bør installera \"SimpleXML\"-utvidinga (t.d. installer \"php-simplexml\"- og/eller \"php-xml\"-pakken).",
+        "SystemCheckWarning": "Matomo vil fungera som normalt, men det kan hende at somme funksjonar manglar",
         "SystemCheckWinPdoAndMysqliHelp": "På ein Windows-tenar kan du leggja til følgjande liner i di php.ini-fil: %s",
         "SystemCheckWriteDirs": "Katalogar med skrivetilgang",
         "SystemCheckWriteDirsHelp": "For å fiksa denne feilen på din Linux-tenar, prøv føljande kommando(ar)",
@@ -62,6 +62,6 @@
         "TablesReuse": "Nytt dei eksisterande tabellane",
         "TablesWarningHelp": "Du må velja om du vil nytta dei eksisterande tabellane slik dei er, eller å sletta dei og starta på nytt.",
         "TablesWithSameNamesFound": "Nokre %1$s tabellar i databasen din %2$s hev dei same namna som dei tabellane Matomo prøvar å lage",
-        "Welcome": "Velkommen!"
+        "Welcome": "Velkommen"
     }
 }

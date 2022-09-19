@@ -195,7 +195,7 @@
         "ExceptionFilesizeMismatch": "Filstorleken matchar inte: %1$s (förväntad storlek: %2$s, aktuell: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Din %1$s klientversion är %2$s, vilket är inkompatibel med serverns version %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Samlingsrapportens format, '%1$s', är ogiltigt. Prova något av följande: %2$s.",
-        "ExceptionInvalidArchiveTimeToLive": "Arkiveringstidens giltighetstid för idag måste anges i sekunder och vara större än noll.",
+        "ExceptionInvalidArchiveTimeToLive": "Arkiveringstidens giltighetstid för idag måste anges i sekunder och vara större än noll",
         "ExceptionInvalidDateBeforeFirstWebsite": "Datumet '%1$s' är innan webbplatsen publicerades. Försök med ett datum efter %2$s (tidsstämpel %3$s).",
         "ExceptionInvalidDateFormat": "Datumformatet måste vara: %1$s eller något nyckelord som stöds av %2$s funktionen (se %3$s för mer information)",
         "ExceptionInvalidDateRange": "Datumet '%1$s' är inte ett korrekt datumintervall. Det borde ha följande format: %2$s.",
