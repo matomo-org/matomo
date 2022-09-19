@@ -398,6 +398,13 @@ export default defineComponent({
         this.copied = true;
         // eslint-disable-next-line no-empty
       } catch (e) {
+        const id = NotificationsStore.show({
+          message: e.message,
+          id: 'copyError',
+          context: 'error',
+          type: 'transient',
+        });
+        NotificationsStore.scrollToNotification(id);
       }
       this.loading = false;
     },
