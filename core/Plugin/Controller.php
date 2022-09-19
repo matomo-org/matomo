@@ -630,7 +630,7 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate = Piwik::getDate();
+        $rawDate = Piwik::getDate(GeneralConfig::getConfigValue('default_day'));
         Period::checkDateFormat($rawDate);
 
         $periodStr = Piwik::getPeriod(GeneralConfig::getConfigValue('default_period'));
