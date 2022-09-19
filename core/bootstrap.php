@@ -44,6 +44,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_VENDOR_PATH . '/autoload.php';
 if (is_file(PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php')
     && !getenv('COMPOSER_BINARY') // if there, we're in a composer command
+    && isset($GLOBALS['MATOMO_ORIGINAL_AUTOLOADER'])
 ) {
     require_once PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php';
     \Piwik\Dependency\PrefixedSkippingAutoloader::setOriginalLoader($GLOBALS['MATOMO_ORIGINAL_AUTOLOADER']);
