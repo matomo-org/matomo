@@ -394,7 +394,16 @@ export default defineComponent({
             passwordConfirmation: password,
           },
         );
-        await navigator.clipboard.writeText(res.value);
+        await this.copyToClipboard(res.value);
+        // eslint-disable-next-line no-empty
+      } catch (e) {
+
+      }
+      this.loading = false;
+    },
+    async copyToClipboard(value: string) {
+      try {
+        await navigator.clipboard.writeText(value);
         this.copied = true;
         // eslint-disable-next-line no-empty
       } catch (e) {
@@ -406,7 +415,6 @@ export default defineComponent({
         });
         NotificationsStore.scrollToNotification(id);
       }
-      this.loading = false;
     },
     onResendInvite(password: string) {
       if (password === '') return;
