@@ -32,6 +32,7 @@ Usage: php trackerDbLoadTester.php -d=[DB NAME] -h=[DB HOST] -u=[DB USER] -p=[DB
     --cleanup   Delete all randomly named test databases
     -rs         Create visits for random sites starting at this siteid
     -re         Create visits for random sites ending at this siteid
+    -ac         Action count, create this many random page views per visit, default to 1 if ommitted.
     -smin       If using sequential database names then use this as the minimum sequential value, eg. -smin=1
     -smax       If using sequential database names then use this as the minimum sequential value, eg. -smax=100
     -nc         Start a new PDO connection for every request
@@ -67,8 +68,9 @@ $randomTableQuery = 0;
 $randomDb = false;
 $usePrepareCache = true;
 $tmpHack = false;
+$actionCount = 1;
 
-// List of tables to read from if randomTableQueery is used
+// List of tables to read from if randomTableQuery is used
 $tables = [
 'access', 'archive_invalidations', 'brute_force_log', 'changes', 'custom_dimensions', 'goal', 'locks', 'log_conversion_item',
 'log_profiling', 'logger_message', 'option', 'plugin_setting', 'privacy_logdata_anonymizations', 'report', 'report_subscriptions',
@@ -178,6 +180,9 @@ foreach ($argv as $arg) {
             break;
         case '-re':
             $randomSiteEnd = $kv[1];
+            break;
+        case '-ac':
+            $actionCount = $kv[1];
             break;
         case '-smin':
             $sequentialMin = $kv[1];
@@ -509,28 +514,35 @@ while ($requestCount < $requests || $requests < 0) {
         $site = rand($randomSiteStart, $randomSiteEnd);
     }
 
-    // Get random action, 50% chance of being new until pool is full, then always an existing action
-    $actionUrl = $queryGenerator->getRandomActionURL();
+    // Create actions for the visit
+    $idactions = [];
+    $actionUrl = '';
+    for ($i = 0; $i != $actionCount; $i++) {
 
-    // Check if the action exists in the db, create new action if not
-    $findActionQuery = $queryGenerator->getCheckActionExistsQuery($actionUrl);
-    $actionRows = query($prepareCache, $pdo, $findActionQuery, true, $usePrepareCache);
-    if (count($actionRows) === 0) {
-        if ($verbosity === 3) {
-            echo "New action, doing insert...\n";
+        // Get random action, 50% chance of being new until pool is full, then always an existing action
+        $actionUrl = $queryGenerator->getRandomActionURL();
+
+        // Check if the action exists in the db, create new action if not
+        $findActionQuery = $queryGenerator->getCheckActionExistsQuery($actionUrl);
+        $actionRows = query($prepareCache, $pdo, $findActionQuery, true, $usePrepareCache);
+        if (count($actionRows) === 0) {
+            if ($verbosity === 3) {
+                echo "New action, doing insert...\n";
+            }
+
+            // Insert new action
+            $insertActionQuery = $queryGenerator->getInsertActionQuery($actionUrl);
+            $visitorRows = query($prepareCache, $pdo, $insertActionQuery, false, $usePrepareCache);
+            $idactions[] = $pdo->lastInsertId();
+        } else {
+            $idactions[] = $actionRows[0]->idaction;
         }
 
-        // Insert new action
-        $insertActionQuery = $queryGenerator->getInsertActionQuery($actionUrl);
-        $visitorRows = query($prepareCache, $pdo, $insertActionQuery, false, $usePrepareCache);
-        $idaction = $pdo->lastInsertId();
-    } else {
-        $idaction = $actionRows[0]->idaction;
-    }
+        // Hacky workaround for int(11) idaction foreign keys on TiDB cloud test
+        if ($tmpHack && $dbName === 'sequential' && $seqNo > 250) {
+            $idactions[] = rand(1, 1000000);
+        }
 
-    // Hacky workaround for int(11) idaction foreign keys on TiDB cloud test
-    if ($tmpHack && $dbName === 'sequential' && $seqNo > 250) {
-        $idaction = rand(1,1000000);
     }
 
     // Get random visitor id (10% chance of a returning visitor id)
@@ -550,7 +562,7 @@ while ($requestCount < $requests || $requests < 0) {
         }
 
         // Insert new visit
-        $insertVisitorQuery = $queryGenerator->getInsertVisitorQuery($idvisitor, $idaction, $timestampUTC, $site);
+        $insertVisitorQuery = $queryGenerator->getInsertVisitorQuery($idvisitor, reset($idactions), $timestampUTC, $site);
         $visitorRows = query($prepareCache, $pdo, $insertVisitorQuery, false, $usePrepareCache);
         $idvisit = $pdo->lastInsertId();
         if ($verbosity == 3) {
@@ -577,19 +589,21 @@ while ($requestCount < $requests || $requests < 0) {
         echo "idvisit is $idvisit\n";
     }
 
-    // Insert the action link
+    // Insert the action link(s)
     $idlinkva = null;
-    if ($idvisit && $idaction) {
+    foreach($idactions as $idaction) {
+        if ($idvisit && $idaction) {
 
-        if ($verbosity == 3) {
-            echo "Inserting action link...\n";
+            if ($verbosity == 3) {
+                echo "Inserting action link...\n";
+            }
+            $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction, $timestampUTC, $site);
+            query($prepareCache, $pdo, $insertActionLinkQuery, false, $usePrepareCache);
+            $idlinkva = $pdo->lastInsertId();
         }
-        $insertActionLinkQuery = $queryGenerator->getInsertActionLinkQuery($idvisitor, $idvisit, $idaction, $timestampUTC, $site);
-        query($prepareCache, $pdo, $insertActionLinkQuery, false, $usePrepareCache);
-        $idlinkva = $pdo->lastInsertId();
     }
 
-    // Insert conversion
+    // Insert conversion (conversion will always use the last idlinkva if there are multiple actions
     if ($idlinkva && $conversionPercent > 0 && (rand(0, 100) < $conversionPercent)) {
 
         $idgoal = array_rand([1,2,3,4,5,6,7,8,9,10]);
@@ -598,7 +612,7 @@ while ($requestCount < $requests || $requests < 0) {
             echo "Inserting conversion...\n";
         }
 
-        $insertConversionQuery = $queryGenerator->getInsertConversionQuery($idvisitor, $idvisit, $idaction, $actionUrl, $timestampUTC,
+        $insertConversionQuery = $queryGenerator->getInsertConversionQuery($idvisitor, $idvisit, end($idactions), $actionUrl, $timestampUTC,
             $idlinkva, $idgoal, $site);
         query($prepareCache, $pdo, $insertConversionQuery, false, $usePrepareCache);
 
