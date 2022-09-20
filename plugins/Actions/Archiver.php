@@ -508,6 +508,9 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function archiveDayActionsGoalsPagesEntry(int $rankingQueryLimit, bool $isUrl): ?int
     {
+        if (Config::getInstance()->General['disable_archive_actions_goals']) {
+            return null;
+        }
         $linkField = ($isUrl ? 'visit_entry_idaction_url' : 'visit_entry_idaction_name');
         $resultSet = $this->getLogAggregator()->queryConversionsByEntryPageView($linkField, $rankingQueryLimit);
         if (!$resultSet) {
