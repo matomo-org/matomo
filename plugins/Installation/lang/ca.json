@@ -42,7 +42,7 @@
         "JsTagArchivingHelp1": "Per als llocs web de trànsit mitjà i alt, determinades optimitzacions ajuden a Matomo a funcionar més ràpid (com ara %1$sconfigurar l'arxivat automàtic%2$s).",
         "LargePiwikInstances": "Ajuda per als usuaris amb llocs web de gran trànsit",
         "Legend": "Llegenda",
-        "LoadDataInfileRecommended": "Hauríeu de solucionar aquest problema si el vostre servidor de Matomo fa un seguiment de llocs web d'alt trànsit (per exemple, &gt; 100.000 pàgines al mes).",
+        "LoadDataInfileRecommended": "Hauríeu de solucionar aquest problema si el vostre servidor de Matomo fa un seguiment de llocs web d'alt trànsit (per exemple, més de 100.000 pàgines al mes).",
         "LoadDataInfileUnavailableHelp": "Suggeriment: fer servir %1$s actualitzant el vostre programari PHP i MySQL i assegurant-vos que l'usuari de la vostra base de dades tingui el privilegi %2$s accelera molt el procés d'arxivat de Matomo.",
         "MatomoHttpRequestConfigInfo": "L'opció force_matomo_http_request a la configuració general està activada, recomanem desactivar-la per motius de seguretat. Per obtenir més informació, llegiu les nostres %1$sFAQ%2$s",
         "NfsFilesystemWarning": "El vostre servidor utilitza un sistema de fitxers NFS.",

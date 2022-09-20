@@ -99,7 +99,7 @@
         "TablesWarningHelp": "O di kaya piliin ang pag-gamit muli ng isang database tables o mag install ng bago upang mabura lahat ng datus sa database.",
         "TablesWithSameNamesFound": "Ang i-iilang %1$s mga table sa iyong database ng %2$s ay may kaparehong pangalan tulad ng mga tables sa Matomo na sinusubukang gawin.",
         "WeHopeYouWillEnjoyPiwik": "Umaasa kaming masiyahan ka sa paggamit ng Matomo kagaya ng aming kasiyahan sa paggawa nito.",
-        "Welcome": "Maligayang Pagdating!",
+        "Welcome": "Maligayang Pagdating",
         "WelcomeToCommunity": "Maligayang pagdating sa komunidad Matomo!"
     }
 }

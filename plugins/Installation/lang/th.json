@@ -57,10 +57,10 @@
         "SystemCheckPhpPdoAndMysqli": "ข้อมูลเพิ่มเติมเกี่ยวกับ: %1$sPHP PDO%2$s และ %3$sMYSQLI%4$s",
         "SystemCheckTimeLimitHelp": "บนเว็บไซต์การรับส่งข้อมูลสูง การดำเนินกระบวนการเก็บถาวรอาจต้องใช้เวลามากขึ้นกว่าในปัจจุบันได้รับอนุญาต ถ้าจำเป็น เปลี่ยนคำสั่ง max_execution_time ในแฟ้ม php.ini ของคุณ",
         "SystemCheckTracker": "สถานะ Tracker",
-        "SystemCheckWarnDomHelp": "คุณควรเปิดใช้ส่วนขยาย \"dom\" (เช่นการติดตั้ง \"php-dom\" และ\/หรือแพคเกจ \"php-xml\")",
-        "SystemCheckWarning": "Matomo จะทำงานได้ปกติแต่ฟีเจอร์บางอย่างอาจทำงานผิดพลาด",
+        "SystemCheckWarnDomHelp": "คุณควรเปิดใช้ส่วนขยาย \"dom\" (เช่นการติดตั้ง \"php-dom\" และ/หรือแพคเกจ \"php-xml\")",
         "SystemCheckWarnLibXmlHelp": "คุณควรเปิดใช้ส่วนขยาย \"libxml\" (เช่น \"ติดตั้ง PHP - libxml\" แพคเกจ) ตามที่จำเป็นต้องใช้นามสกุลอื่นๆ",
-        "SystemCheckWarnSimpleXMLHelp": "คุณควรเปิดใช้ส่วนขยาย \"SimpleXML\" (เช่นการติดตั้ง \"php-simplexml\" และ\/หรือแพคเกจ \"php-xml\")",
+        "SystemCheckWarnSimpleXMLHelp": "คุณควรเปิดใช้ส่วนขยาย \"SimpleXML\" (เช่นการติดตั้ง \"php-simplexml\" และ/หรือแพคเกจ \"php-xml\")",
+        "SystemCheckWarning": "Matomo จะทำงานได้ปกติแต่ฟีเจอร์บางอย่างอาจทำงานผิดพลาด",
         "SystemCheckWinPdoAndMysqliHelp": "บนเซิร์ฟเวอร์ของ Windows คุณสามารถเพิ่มบรรทัดต่อไปนี้เพื่อให้ php.ini ของคุณ: %s",
         "SystemCheckWriteDirs": "ไดเร็กทอรีสามารถเขียนได้",
         "SystemCheckWriteDirsHelp": "เพื่อแก้ปัญหานี้สำหรับระบบ Linux ลองพิมพ์คำสั่งต่อไปนี้ (s)",
@@ -73,6 +73,6 @@
         "TablesReuse": "ใช้ตารางที่มีอยู่",
         "TablesWarningHelp": "เลือกอันอื่นเพื่อใช้ฐานข้อมูลที่มีอยู่อีกครั้ง หรือเลือกติดตั้งใหม่ เพื่อลบข้อมูลที่มีอยู่ในฐานข้อมูล",
         "TablesWithSameNamesFound": "บางตาราง %1$s ในฐานข้อมูลของคุณ %2$s มีชื่อเดียวกันกับตารางที่ Matomo พยายามจะสร้าง",
-        "Welcome": "ยินดีต้อนรับ!"
+        "Welcome": "ยินดีต้อนรับ"
     }
 }

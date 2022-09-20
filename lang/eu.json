@@ -96,6 +96,7 @@
         "CompareTo": "Konparatu honekin:",
         "ComparisonCardTooltip1": "%2$s-ko '%1$s'-k bisita guztien %3$s ditu (%5$s guztirako %4$s).",
         "ComparisonCardTooltip2": "Bisita-kontaketa desberdina da %1$s-ko, %2$s gehi %3$s-(r)ekin alderatuta.",
+        "ComparisonRatioTooltip": "Hau %1$s aldaketa da %3$s-ko '%2$s' segmentuarekin alderatuta.",
         "Comparisons": "Konparaketak",
         "ComputedMetricAverageShortDocumentation": "\"%1$s\"ren batez besteko balioa.",
         "ComputedMetricCountDocumentation": "%s kopurua",
