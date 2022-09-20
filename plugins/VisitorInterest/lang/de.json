@@ -12,7 +12,7 @@
         "VisitsByDaysSinceLast": "Besuche pro Tage seit letztem Besuch",
         "VisitsPerDuration": "Besuche nach Besuchsdauer",
         "VisitsPerNbOfPages": "Besuche nach Seitenanzahl",
-        "WidgetLengths": "Besuchslänge",
+        "WidgetLengths": "Dauer der Besuche",
         "WidgetLengthsDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche eine bestimmte Gesamtzeit hatten. Zu Beginn wird der Bericht als Tagwolke angezeigt, häufigere Gesamtzeiten werden in einer größeren Schrift dargestellt.",
         "WidgetPages": "Seiten pro Besuch",
         "WidgetPagesDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche eine bestimmte Anzahl an Seitenaufrufen umfassten. Zu Beginn wird der Bericht als Tagwolke angezeigt, häufigere Anzahlen werden in einer größeren Schrift dargestellt.",

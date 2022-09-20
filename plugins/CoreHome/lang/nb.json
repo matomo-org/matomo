@@ -79,7 +79,7 @@
         "ReportGeneratedXAgo": "Rapport generert for %s siden",
         "ReportType": "Rapporttype",
         "ReportWithMetadata": "Rapport med metadata",
-        "ReportingCategoryHelpPrefix": "Hvordan hjelper «%1$s &gt; %2$s»-rapportsiden meg?",
+        "ReportingCategoryHelpPrefix": "Hvordan hjelper «%1$s → %2$s»-rapportsiden meg?",
         "RowLimit": "Radgrense",
         "SearchOnMatomo": "Søk etter «%1$s» på Matomo.org",
         "SeeAvailableVersions": "Vis tilgjengelige versjoner",

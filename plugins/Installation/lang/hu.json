@@ -72,6 +72,6 @@
         "TablesReuse": "Meglévő táblák felhasználása",
         "TablesWarningHelp": "Dönts a meglévő adatbázis táblák újrafelhasználása mellett vagy válaszd az teljes újratelepítést az adatbázisban található korábbi adatok törlésével.",
         "TablesWithSameNamesFound": "Néhány táblának (%1$s) az adatbázisodban (%2$s) ugyanaz a neve, mint amilyet a Matomo próbál létrehozni.",
-        "Welcome": "Üdvözöllek!"
+        "Welcome": "Üdvözöllek"
     }
 }

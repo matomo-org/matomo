@@ -56,10 +56,10 @@
         "SystemCheckPhpPdoAndMysqli": "Больш падрабязная інфармацыя па: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
         "SystemCheckTimeLimitHelp": "На вэб-сайтах з высокім трафікам, працэс архівавання можа спатрабаваць больш часу, чым дазволена. Калі неабходна, змяніце дырэктыву max_execution_time ў файле php.ini.",
         "SystemCheckTracker": "Статус адсочвання",
-        "SystemCheckWarnDomHelp": "Вы павінны ўключыць пашырэнне \"dom\" (Напр., усталяваць пакеты \"php-dom\" і\/або \"php-xml\")",
-        "SystemCheckWarning": "Matomo будзе працаваць звычайна, але некаторыя функцыі не будуць даступныя",
+        "SystemCheckWarnDomHelp": "Вы павінны ўключыць пашырэнне \"dom\" (Напр., усталяваць пакеты \"php-dom\" і/або \"php-xml\")",
         "SystemCheckWarnLibXmlHelp": "Вы павінны ўключыць пашырэнне \"libxml\" (Напр., усталяваць пакет \"php-libxml\"), гэта патрабуецца для іншых пашырэнняў ядра PHP.",
-        "SystemCheckWarnSimpleXMLHelp": "Вы павінны ўключыць пашырэнне \"SimpleXML\" (Напр., усталяваць пакеты \"php-simplexml\" і\/або \"php-xml\")",
+        "SystemCheckWarnSimpleXMLHelp": "Вы павінны ўключыць пашырэнне \"SimpleXML\" (Напр., усталяваць пакеты \"php-simplexml\" і/або \"php-xml\")",
+        "SystemCheckWarning": "Matomo будзе працаваць звычайна, але некаторыя функцыі не будуць даступныя",
         "SystemCheckWinPdoAndMysqliHelp": "На Windows серверы, вы можаце дадаць наступныя радкі ў ваш php.ini: %s",
         "SystemCheckWriteDirs": "Тэчкі з правамі запісу",
         "SystemCheckWriteDirsHelp": "Для выпраўлення гэтай памылкі ў АС Linux, паспрабуйце ўвесці наступныя каманды",
@@ -72,6 +72,6 @@
         "TablesReuse": "Выкарыстоўваць існыя табліцы",
         "TablesWarningHelp": "Абярыце адно з дзвюх: выкарыстоўваць існых табліц БД, ці чыстую ўсталёўку, якая выдаліць усе існыя дадзеныя ў базе дадзеных.",
         "TablesWithSameNamesFound": "Некаторыя %1$s табліцы ў Вашай базе дадзеных %2$s маюць супадальныя назвы з табліцамі, якія Matomo спрабуе стварыць.",
-        "Welcome": "Сардэчна запрашаем!"
+        "Welcome": "Сардэчна запрашаем"
     }
 }

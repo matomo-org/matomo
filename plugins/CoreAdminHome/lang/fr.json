@@ -91,7 +91,7 @@
         "NoKnownFailures": "Il n'y a aucune erreur de suivi connue.",
         "OptOutComplete": "Cookie d'exclusion installé. Vos visites sur ce site web ne seront PAS enregistrées par notre outil d'analyse web.",
         "OptOutCompleteBis": "Note : si vous nettoyez vos cookies et supprimez le cookie d'exclusion, ou bien si vous changez d'ordinateur et/ou de navigateur, il vous faudra de nouveau effectuer la procédure d'exclusion.",
-        "OptOutDntFound": "Vous n'êtes pas suivi parce que votre navigateur indique que vous ne voulez pas l'être. Ceci est un paramètre de votre navigateur et vous ne serez pas en mesure de participer avant d'avoir désactivé la fonctionnalité « ne pas suivre ».",
+        "OptOutDntFound": "Vous n'êtes pas suivi parce que votre navigateur indique que vous ne voulez pas l'être. Ceci est un paramètre de votre navigateur et vous ne serez pas en mesure d'accepter le suivi avant d'avoir désactivé la fonctionnalité « ne pas suivre ».",
         "OptOutErrorNoCookies": "La fonctionnalité de désactivation du suivi nécessite que les cookies soient autorisés.",
         "OptOutErrorNotHttps": "La fonctionnalité de désactivation du suivi pourrait ne pas fonctionner car ce site n'a pas été chargé en HTTPS. Veuillez recharger la page pour vérifier que le statut de ce suivi a bien été changé.",
         "OptOutErrorWindowOpen": "La fonctionnalité de désactivation du suivi pourrait ne pas marcher car il semble que la popup de désactivation a été bloquée. Veuillez recharger la page pour vérifier que le statut a bien été changé.",

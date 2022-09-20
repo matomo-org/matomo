@@ -1,6 +1,10 @@
 {
     "CoreHome": {
         "CategoryNoData": "Non hai datos nesta categoría. Intente \"Incluir todos os datos\".",
+        "ChangePeriod": "Cambiar período",
+        "ChangeVisualization": "Cambiar visualización",
+        "CheckForUpdates": "Buscar actualizacións",
+        "CheckPiwikOut": "Controla Matomo!",
         "ShowJSCode": "Ver o código javascript para insertar",
         "SystemSummaryPhpVersion": "Versión PHP"
     }
