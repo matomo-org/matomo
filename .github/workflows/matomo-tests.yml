@@ -36,7 +36,7 @@ jobs:
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
           - php: '8.1'
-            adapter: 'PDO_MYSQL'
+            adapter: 'MYSQLI'
           - php: '7.2'
             adapter: 'MYSQLI'
     steps:
