@@ -406,7 +406,8 @@ export default defineComponent({
         // eslint-disable-next-line no-empty
       } catch (e) {
         const id = NotificationsStore.show({
-          message: `<strong>${translate('UsersManager_CopyDenied')}</strong><br>${translate('UsersManager_CopyDeniedHints', [`<br>${value}`])}`,
+          message: `<strong>${translate('UsersManager_CopyDenied')}</strong><br>
+${translate('UsersManager_CopyDeniedHints', [`<br><span class="invite-link">${value}</span>`])}`,
           id: 'copyError',
           context: 'error',
           type: 'transient',

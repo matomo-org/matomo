@@ -572,6 +572,10 @@ describe("UsersManager", function () {
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForTimeout(500); // animation
+
+        await page.evaluate(function () {
+          $('.invite-link').hide();
+        });
         await page.waitForNetworkIdle();
 
       expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
