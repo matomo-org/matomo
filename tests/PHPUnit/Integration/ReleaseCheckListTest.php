@@ -53,7 +53,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $log = shell_exec("woff2_compress ".PIWIK_INCLUDE_PATH."/tmp/temp.ttf");
         } else {
             //todo this should be removed once travis retired
-            $command = PIWIK_INCLUDE_PATH."/../travis_woff2/woff2_compress 'temp.ttf'";
+            $command = PIWIK_INCLUDE_PATH."/../travis_woff2/woff2_compress '/tmp/temp.ttf'";
             $log = shell_exec($command);
         }
 
