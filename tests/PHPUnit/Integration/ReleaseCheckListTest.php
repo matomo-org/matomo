@@ -49,7 +49,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function test_woff2_fileIsUpToDate()
     {
         copy(PIWIK_INCLUDE_PATH."/plugins/Morpheus/fonts/matomo.ttf", PIWIK_INCLUDE_PATH."/tmp/temp.ttf");
-        $log = shell_exec("woff2_compress ".PIWIK_INCLUDE_PATH."/tmp/temp.ttf");
+        if (getenv('GITHUB')) {
+            $log = shell_exec("woff2_compress ".PIWIK_INCLUDE_PATH."/tmp/temp.ttf");
+        } else {
+            //todo this should be removed once travis retired
+            $command = PIWIK_INCLUDE_PATH."/../travis_woff2/woff2_compress 'temp.ttf'";
+            $log = shell_exec($command);
+        }
 
         $this->assertFileEquals(PIWIK_INCLUDE_PATH."/tmp/temp.woff2",
             PIWIK_INCLUDE_PATH."/plugins/Morpheus/fonts/matomo.woff2",
