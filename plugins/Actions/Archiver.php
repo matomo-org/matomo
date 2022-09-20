@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
@@ -485,7 +485,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function archiveDayActionsGoalsPages(int $rankingQueryLimit, bool $isUrl): ?int
     {
-        if (Config::getInstance()->General['disable_archive_actions_goals']) {
+        if (GeneralConfig::getConfigValue('disable_archive_actions_goals', $this->getProcessor()->getParams()->getSite()->getId())) {
             return null;
         }
         $linkField = ($isUrl ? 'idaction_url' : 'idaction_name');
@@ -508,7 +508,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function archiveDayActionsGoalsPagesEntry(int $rankingQueryLimit, bool $isUrl): ?int
     {
-        if (Config::getInstance()->General['disable_archive_actions_goals']) {
+        if (GeneralConfig::getConfigValue('disable_archive_actions_goals', $this->getProcessor()->getParams()->getSite()->getId())) {
             return null;
         }
         $linkField = ($isUrl ? 'visit_entry_idaction_url' : 'visit_entry_idaction_name');
