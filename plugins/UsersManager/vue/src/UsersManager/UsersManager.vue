@@ -93,12 +93,10 @@
           ))"
         ></h3>
         <h3><strong>
-            {{ translate('UsersManager_InviteLinkValidDays', inviteTokenExpiryDays) }}
+            {{ translate('UsersManager_InviteActionNotes', inviteTokenExpiryDays) }}
         </strong></h3>
       </div>
       <div class="modal-footer">
-        <p class="modal-notes">
-          {{ translate('UsersManager_InviteActionNotes', inviteTokenExpiryDays)}}</p>
         <span v-if="copied" class="success-copied">
           <i class="icon-success"></i>
           {{ translate('UsersManager_LinkCopied') }}</span>
@@ -408,7 +406,7 @@ export default defineComponent({
         // eslint-disable-next-line no-empty
       } catch (e) {
         const id = NotificationsStore.show({
-          message: e.message,
+          message: `<strong>${translate('UsersManager_CopyDenied')}</strong><br>${translate('UsersManager_CopyDeniedHints', [`<br>${value}`])}`,
           id: 'copyError',
           context: 'error',
           type: 'transient',

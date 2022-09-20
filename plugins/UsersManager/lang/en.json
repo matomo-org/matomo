@@ -208,8 +208,9 @@
         "SendInvite": "Send invite",
         "CopyLink": "Copy link",
         "LinkCopied": "Link copied",
-        "InviteLinkValidDays": "Invite links are valid for %1$s days.",
         "BackToUser": "Back to Users",
-        "InviteActionNotes": "* Any action will extend all the invite links for %1$s days"
+        "InviteActionNotes": "Please notes that resending an invite or copy invite link will extend the time limit for previous invites by %1$s days.",
+        "CopyDenied": "The request is not allowed due to your browser's settings.",
+        "CopyDeniedHints": "Please try again by either switching browsers or copying and sharing this link directly instead: %1$s"
     }
 }
