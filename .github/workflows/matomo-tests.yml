@@ -49,7 +49,7 @@ jobs:
           test-command: ${{ matrix.command }}
           redis-service: true
           git-head: ${{ github.head_ref }}
-          run_id: ${{ github.run_id }}
+          run-id: ${{ github.run_id }}
 
   Javascript:
     runs-on: ubuntu-20.04
