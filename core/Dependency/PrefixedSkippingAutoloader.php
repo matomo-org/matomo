@@ -72,7 +72,7 @@ class PrefixedSkippingAutoloader
             return false;
         }
 
-        $isPrefixedDependency = is_dir(PIWIK_VENDOR_PATH . '/prefixed/' . $dependency);
+        $isPrefixedDependency = is_dir($this->vendorPath . '/prefixed/' . $dependency);
         return $isPrefixedDependency;
     }
 }
