@@ -11,7 +11,7 @@ namespace Piwik\Dependency;
 
 use Piwik\CliMulti\CliPhp;
 use Piwik\Filesystem;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 class Prefixer
 {
@@ -31,17 +31,17 @@ class Prefixer
     /**
      * @var string[]
      */
-    private $dependenciesToPrefix;
+    private $dependenciesToPrefix = [];
 
     /**
      * @var string[]
      */
-    private $namespacesToInclude;
+    private $namespacesToInclude = [];
 
     /**
      * @var string[]
      */
-    private $coreNamespacesToPrefix;
+    private $coreNamespacesToPrefix = [];
 
     /**
      * @var string
@@ -221,6 +221,11 @@ EOF;
             }
 
             $dependencyComposerJson = json_decode(file_get_contents($dependencyComposerJson), true);
+            if (!empty($dependencyComposerJson['autoload']['files'])) { // handling file autoloaders not supported for now
+                unset($this->dependenciesToPrefix[array_search($dependency, $this->dependenciesToPrefix)]);
+                continue;
+            }
+
             if (!empty($dependencyComposerJson['autoload']['psr-4'])) { // only handling psr-4 for now
                 $this->namespacesToInclude = array_merge(
                     $this->namespacesToInclude,
