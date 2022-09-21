@@ -14,7 +14,7 @@ return array(
         if ($enableLogging) {
             return $previous;
         } else {
-            return $c->get(\Psr\Log\NullLogger::class);
+            return $c->get(\Matomo\Dependencies\Psr\Log\NullLogger::class);
         }
     }),
 
