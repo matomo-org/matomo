@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Timer;
 use Piwik\Url;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 class Logger
 {

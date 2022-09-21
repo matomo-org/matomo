@@ -23,7 +23,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Piwik\CronArchive\SegmentArchiving;
 
 /**

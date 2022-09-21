@@ -167,8 +167,7 @@ if (is_file(__DIR__ . '/prefixed/vendor/autoload.php')
     && isset(\$originalLoader)
 ) {
     require_once __DIR__ . '/prefixed/vendor/autoload.php';
-    \Piwik\Dependency\PrefixedSkippingAutoloader::setOriginalLoader(\$originalLoader);
-    \Piwik\Dependency\PrefixedSkippingAutoloader::register();
+    \Piwik\Dependency\PrefixedSkippingAutoloader::register(\$originalLoader, __DIR__);
 }
 
 return \$originalLoader;

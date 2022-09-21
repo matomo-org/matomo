@@ -88,7 +88,7 @@ class TrackerLoggingTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
             Config::class => \DI\decorate(function (Config $config) {
                 $config->tests['enable_logging'] = 1;
                 $config->log['log_writers'] = ['screen'];

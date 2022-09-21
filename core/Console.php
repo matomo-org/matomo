@@ -17,7 +17,7 @@ use Piwik\Dependency\PrefixedSkippingAutoloader;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreConsole\Commands\PrefixDependency;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Matomo\Dependencies\Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -89,7 +89,7 @@ class Console extends Application
             return $this->doRunImpl($input, $output);
         } catch (\Exception $ex) {
             try {
-                FrontController::generateSafeModeOutputFromException($ex);
+                // FrontController::generateSafeModeOutputFromException($ex);
             } catch (\Exception $ex) {
                 // ignore, we re-throw the original exception, not a wrapped one
             }
@@ -338,7 +338,18 @@ class Console extends Application
 
                     $name = ltrim($name, '\\');
                     if (substr($name, 0, strlen($prefix)) === $prefix) {
-                        class_alias(substr($name, strlen($prefix)), $name);
+                        $unprefixedName = substr($name, strlen($prefix));
+                        class_alias($unprefixedName, $name);
+
+                        // also alias all base classes/interfaces, since they don't get loaded when checking
+                        // function parameter types
+                        foreach (\class_parents($unprefixedName) as $parentClassName) {
+                            class_alias($parentClassName, $prefix . $parentClassName);
+                        }
+                        foreach (\class_implements($unprefixedName) as $implementedName) {
+                            class_alias($implementedName, $prefix . $implementedName);
+                        }
+
                         return true;
                     }
                 }, true, true);

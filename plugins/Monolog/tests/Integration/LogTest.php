@@ -276,12 +276,12 @@ class LogTest extends IntegrationTestCase
             'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
             'ini.log.string_message_format_trace' => self::STRING_MESSAGE_FORMAT,
             'ini.log.logger_file_path' => self::getLogFileLocation(),
-            'Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
         ));
         $newEnv->init();
 
-        $newMonologLogger = $newEnv->getContainer()->make('Psr\Log\LoggerInterface');
+        $newMonologLogger = $newEnv->getContainer()->make('Matomo\Dependencies\Psr\Log\LoggerInterface');
         $oldLogger = new Log($newMonologLogger);
         Log::setSingletonInstance($oldLogger);
     }

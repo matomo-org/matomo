@@ -98,7 +98,7 @@ class Model
     public function addChange(string $pluginName, array $change): void
     {
         if(!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
-            StaticContainer::get('Psr\Log\LoggerInterface')->warning(
+            StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface')->warning(
                 "Change item for plugin {plugin} missing version, title or description fields - ignored",
                 ['plugin' => $pluginName]);
             return;

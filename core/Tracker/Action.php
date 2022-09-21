@@ -14,7 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * An action

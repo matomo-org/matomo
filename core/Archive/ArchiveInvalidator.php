@@ -29,7 +29,7 @@ use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will

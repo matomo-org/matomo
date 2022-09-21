@@ -13,7 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Plugins\Overlay\Overlay;
 use Piwik\Session\SaveHandler\DbTable;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Zend_Session;
 
 /**

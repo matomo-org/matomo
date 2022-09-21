@@ -24,7 +24,7 @@ use Piwik\Url;
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
 use Matomo\Cache\Lazy;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  *

@@ -13,7 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Tests\Framework\Fixture;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Matomo\Dependencies\Monolog\Logger;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

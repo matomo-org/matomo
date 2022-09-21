@@ -20,7 +20,7 @@ use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Data Access object used to query archives

@@ -14,7 +14,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Timer;
-use Psr\Log\NullLogger;
+use Matomo\Dependencies\Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

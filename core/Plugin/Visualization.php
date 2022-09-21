@@ -34,7 +34,7 @@ use Piwik\SettingsPiwik;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.

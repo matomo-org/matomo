@@ -11,7 +11,7 @@ return array(
     'Matomo\Dependencies\Monolog\Logger' => DI\create('Matomo\Dependencies\Monolog\Logger')
         ->constructor('piwik', DI\get('log.handlers'), DI\get('log.processors')),
 
-    'Psr\Log\LoggerInterface' => DI\get('Matomo\Dependencies\Monolog\Logger'),
+    'Matomo\Dependencies\Psr\Log\LoggerInterface' => DI\get('Matomo\Dependencies\Monolog\Logger'),
 
     'log.handler.classes' => array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',

@@ -10,7 +10,7 @@ namespace Piwik\Concurrency;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Manages a simple distributed list stored in an Option. No locking occurs, so the list
@@ -42,7 +42,7 @@ class DistributedList
     public function __construct($optionName, LoggerInterface $logger = null)
     {
         $this->optionName = $optionName;
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface');
     }
 
     /**

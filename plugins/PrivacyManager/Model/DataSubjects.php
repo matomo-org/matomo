@@ -23,7 +23,7 @@ use Piwik\Plugin\LogTablesProvider;
 use Piwik\Site;
 use Piwik\Tracker\LogTable;
 use Piwik\Tracker\PageUrl;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 class DataSubjects
 {

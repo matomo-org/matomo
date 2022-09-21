@@ -20,7 +20,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

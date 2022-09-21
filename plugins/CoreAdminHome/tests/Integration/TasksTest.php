@@ -23,7 +23,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Failures;
 use Piwik\Tracker\Request;
-use Psr\Log\NullLogger;
+use Matomo\Dependencies\Psr\Log\NullLogger;
 
 /**
  * @group Core

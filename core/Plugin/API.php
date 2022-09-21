@@ -14,7 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Exception;
 
 /**
@@ -68,7 +68,7 @@ abstract class API
                 self::$instances[$class] = $container->get($class);
             } else {
                 /** @var LoggerInterface $logger */
-                $logger = $container->get('Psr\Log\LoggerInterface');
+                $logger = $container->get('Matomo\Dependencies\Psr\Log\LoggerInterface');
 
                 // BC with API defining a protected constructor
                 $logger->notice('The API class {class} defines a protected constructor which is deprecated, make the constructor public instead', ['class' => $class]);

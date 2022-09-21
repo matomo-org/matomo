@@ -10,7 +10,7 @@
 namespace Piwik\CronArchive;
 
 use Piwik\Concurrency\DistributedList;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 class ReArchiveList extends DistributedList
 {

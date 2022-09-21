@@ -15,8 +15,8 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Piwik;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LogLevel;
 
 /**
  * Service that purges temporary, error-ed, invalid and custom range archives from archive tables.
@@ -79,7 +79,7 @@ class ArchivePurger
         $this->yesterday = Date::factory('yesterday');
         $this->today = Date::factory('today');
         $this->now = time();
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface');
     }
 
     /**

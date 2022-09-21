@@ -308,12 +308,12 @@ class CommonTest extends TestCase
         $logger = new FakeLogger();
 
         $newEnv = new Environment('test', array(
-            'Psr\Log\LoggerInterface' => $logger,
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => $logger,
             'Tests.log.allowAllHandlers' => true,
         ));
         $newEnv->init();
 
-        $newMonologLogger = $newEnv->getContainer()->make('Psr\Log\LoggerInterface');
+        $newMonologLogger = $newEnv->getContainer()->make('Matomo\Dependencies\Psr\Log\LoggerInterface');
         $oldLogger = new Log($newMonologLogger);
         Log::setSingletonInstance($oldLogger);
 

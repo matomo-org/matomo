@@ -16,40 +16,31 @@ namespace Piwik\Dependency;
 class PrefixedSkippingAutoloader
 {
     public static $disabled = false;
-    private static $originalLoader;
+    private $originalLoader;
+    private $vendorPath;
 
-    public function __construct()
+    public function __construct($originalLoader, $vendorPath)
     {
-        if (!is_object(self::$originalLoader)) {
-            throw new \Exception('Expected self::$originalLoader to be set');
-        }
-    }
-
-    public static function register()
-    {
-        $wrappedLoader = new PrefixedSkippingAutoloader();
-
-        self::$originalLoader->unregister();
-
-        spl_autoload_register([$wrappedLoader, 'loadClass'], true, $prepend = true);
-    }
-
-    public static function setOriginalLoader($originalLoader)
-    {
-        if (!empty(self::$originalLoader)) {
-            return;
-        }
-
         if (!is_object($originalLoader)) {
             throw new \Exception('Expected $originalLoader to be class loader instance, instead got: ' . gettype($originalLoader));
         }
 
-        self::$originalLoader = $originalLoader;
+        $this->originalLoader = $originalLoader;
+        $this->vendorPath = $vendorPath;
+    }
+
+    public static function register($originalLoader, $vendorPath)
+    {
+        $wrappedLoader = new PrefixedSkippingAutoloader($originalLoader, $vendorPath);
+
+        $originalLoader->unregister();
+
+        spl_autoload_register([$wrappedLoader, 'loadClass'], true, $prepend = true);
     }
 
     public function loadClass($class)
     {
-        $filePath = self::$originalLoader->findFile($class);
+        $filePath = $this->originalLoader->findFile($class);
 
         if (!self::$disabled
             && (!$filePath
@@ -64,7 +55,7 @@ class PrefixedSkippingAutoloader
 
     private function isFileForPrefixedDependency($filePath)
     {
-        $composerAutoloadPath = PIWIK_VENDOR_PATH . '/composer/../';
+        $composerAutoloadPath = $this->vendorPath . '/composer/../';
         if (strpos($filePath, $composerAutoloadPath) !== 0) {
             return false;
         }

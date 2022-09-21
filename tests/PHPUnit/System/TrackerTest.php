@@ -430,7 +430,7 @@ class TrackerTest extends IntegrationTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
         );
     }

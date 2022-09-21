@@ -455,7 +455,7 @@ class ArchiveCronTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
 
             // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
             // is a translation token, and nothing else.

@@ -11,7 +11,7 @@ namespace Piwik\Tracker\TableLogAction;
 
 use Piwik\Common;
 use Piwik\Config;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 class Cache
 {

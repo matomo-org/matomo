@@ -20,7 +20,7 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
 use Piwik\Segment\SegmentExpression;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.

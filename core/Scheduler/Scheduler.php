@@ -10,7 +10,7 @@ namespace Piwik\Scheduler;
 
 use Piwik\Piwik;
 use Piwik\Timer;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Schedules task execution.

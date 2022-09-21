@@ -78,7 +78,7 @@ return [
 
     'entities.idNames' => DI\add(['idGoal', 'idDimension']),
 
-    'Psr\Log\LoggerInterface' => DI\create('Psr\Log\NullLogger'),
+    'Matomo\Dependencies\Psr\Log\LoggerInterface' => DI\create('Matomo\Dependencies\Psr\Log\NullLogger'),
 
     'Piwik\Translation\Loader\LoaderInterface' => DI\autowire('Piwik\Translation\Loader\LoaderCache')
         ->constructorParameter('loader', DI\get('Piwik\Translation\Loader\JsonFileLoader')),

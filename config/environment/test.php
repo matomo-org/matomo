@@ -9,7 +9,7 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 return array(
 
     // Disable logging
-    'Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
+    'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
         $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
         if ($enableLogging) {
             return $previous;

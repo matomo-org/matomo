@@ -22,7 +22,7 @@ use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Cleans up outdated archives
@@ -36,7 +36,7 @@ class Model
 
     public function __construct(LoggerInterface $logger = null)
     {
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface');
     }
 
     /**

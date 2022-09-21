@@ -947,7 +947,7 @@ class GoalManager
                 break;
             default:
                 try {
-                    StaticContainer::get('Psr\Log\LoggerInterface')->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                    StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface')->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
                 } catch (\Exception $e) {
                 }
                 $match = false;

@@ -25,7 +25,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Segment;
-use Psr\Log\NullLogger;
+use Matomo\Dependencies\Psr\Log\NullLogger;
 
 /**
  * @group Archiver

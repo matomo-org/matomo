@@ -303,7 +303,7 @@ class Common
                 throw $e;
             }
 
-            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+            $logger = StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface');
             $logger->debug('Unable to unserialize a string: {exception} (string = {string})', [
                 'exception' => $e,
                 'string' => $string,
@@ -1200,7 +1200,7 @@ class Common
             $info = var_export($info, true);
         }
 
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $logger = StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface');
         if (is_array($info) || is_object($info)) {
             $out = var_export($info, true);
             $logger->debug($out);

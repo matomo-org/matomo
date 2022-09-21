@@ -297,7 +297,7 @@ class Option
     private function trimOptionNameIfNeeded($name)
     {
         if (strlen($name) > 191) {
-            StaticContainer::get('Psr\Log\LoggerInterface')->debug("Option name '$name' is too long and was trimmed to 191 chars");
+            StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface')->debug("Option name '$name' is too long and was trimmed to 191 chars");
             $name = substr($name, 0, 191);
         }
 

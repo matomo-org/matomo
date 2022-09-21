@@ -16,7 +16,7 @@ use Piwik\Plugins\Login\Emails\SuspiciousLoginAttemptsInLastHourEmail;
 use Piwik\Plugins\Login\Model;
 use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Updater;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 class BruteForceDetection {
 

@@ -13,7 +13,7 @@ use Piwik\Http;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Check that mod_pagespeed is not enabled.

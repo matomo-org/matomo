@@ -3,8 +3,8 @@
 namespace Piwik\Tests\Framework\Mock;
 
 use Matomo\Dependencies\Monolog\Processor\PsrLogMessageProcessor;
-use Psr\Log\AbstractLogger;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\AbstractLogger;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 
 class FakeLogger extends AbstractLogger implements LoggerInterface
 {

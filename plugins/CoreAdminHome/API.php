@@ -191,7 +191,7 @@ class API extends \Piwik\Plugin\API
 
         // HTTP request: logs needs to be dumped in the HTTP response (on top of existing log destinations)
         /** @var \Monolog\Logger $logger */
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $logger = StaticContainer::get('Matomo\Dependencies\Psr\Log\LoggerInterface');
         $handler = new StreamHandler('php://output', Logger::INFO);
         $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
         $logger->pushHandler($handler);
