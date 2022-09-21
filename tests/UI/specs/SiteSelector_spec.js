@@ -18,6 +18,7 @@ describe("SiteSelector", function () {
         await page.waitForNetworkIdle();
 
         dialog = await page.$(selectorToCapture);
+        await page.waitForTimeout(500);
         expect(await dialog.screenshot()).to.matchImage('loaded');
     });
 
