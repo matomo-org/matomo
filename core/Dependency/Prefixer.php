@@ -94,7 +94,7 @@ class Prefixer
 
             $this->dependenciesToPrefix = $contents['prefixedDependencies'];
 
-            $this->vendorPath = PIWIK_INCLUDE_PATH . '/plugins/vendor';
+            $this->vendorPath = PIWIK_INCLUDE_PATH . '/plugins/' . $this->componentToPrefix . '/vendor';
 
             $this->collectCoreNamespacesToPrefix();
         }
@@ -182,6 +182,10 @@ EOF;
 
         $cliPhp = new CliPhp();
         $phpBinary = $cliPhp->findPhpBinary();
+
+        if (empty($this->namespacesToInclude)) {
+            throw new \Exception("Couldn't find any namespaces to prefix, dependencies may not be supported, or something might be wrong with the prefixing process.");
+        }
 
         $env = 'MATOMO_DEPENDENCIES_TO_PREFIX="' . addslashes(json_encode($this->dependenciesToPrefix)) . '" '
             . 'MATOMO_NAMESPACES_TO_PREFIX="' . addslashes(json_encode($this->namespacesToInclude)) . '"';
