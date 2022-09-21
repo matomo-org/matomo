@@ -15,7 +15,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
-use Psr\Log\LoggerInterface;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -166,7 +166,7 @@ if (is_file(__DIR__ . '/prefixed/vendor/autoload.php')
     && !getenv('COMPOSER_BINARY') // if there, we're in a composer command
     && isset(\$originalLoader)
 ) {
-    require_once PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php';
+    require_once __DIR__ . '/prefixed/vendor/autoload.php';
     \Piwik\Dependency\PrefixedSkippingAutoloader::setOriginalLoader(\$originalLoader);
     \Piwik\Dependency\PrefixedSkippingAutoloader::register();
 }
