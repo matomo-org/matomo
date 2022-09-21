@@ -14,7 +14,8 @@ use Isolated\Symfony\Component\Finder\Finder;
  * TODO: link to docs here
  */
 
-$dependenciesToPrefix = json_decode(getenv('MATOMO_DEPENDENCIES_TO_PREFIX'));
+$dependenciesToPrefix = json_decode(getenv('MATOMO_DEPENDENCIES_TO_PREFIX'), true);
+$namespacesToPrefix = json_decode(getenv('MATOMO_NAMESPACES_TO_PREFIX'), true);
 
 return [
     'prefix' => 'Matomo\\Dependencies',
@@ -43,8 +44,5 @@ return [
             return $content;
         },
     ],
-    'exclude-namespaces' => [
-        'Psr', // used by monolog but not prefixed (php-scoper can't tell it's part of a different dependency)
-        'Symfony\\Component',
-    ],
+    'include-namespaces' => $namespacesToPrefix,
 ];
