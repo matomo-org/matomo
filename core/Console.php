@@ -353,22 +353,6 @@ class Console extends Application
                         return true;
                     }
                 }, true, true);
-            } else { // running for plugin, core dependencies prefixed, plugin dependencies not
-                require_once PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php';
-                \Piwik\Dependency\PrefixedSkippingAutoloader::setOriginalLoader($GLOBALS['MATOMO_ORIGINAL_AUTOLOADER']);
-                \Piwik\Dependency\PrefixedSkippingAutoloader::register();
-
-                \spl_autoload_register(function ($name) {
-                    $prefix = 'Matomo\\Dependencies\\';
-
-                    $name = ltrim($name, '\\');
-                    if (substr($name, 0, strlen($prefix)) === $prefix
-                        && class_exists(substr($name, strlen($prefix)))
-                    ) {
-                        class_alias(substr($name, strlen($prefix)), $name);
-                        return true;
-                    }
-                }, true, true);
             }
         }
     }

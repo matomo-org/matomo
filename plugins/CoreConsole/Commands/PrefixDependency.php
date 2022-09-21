@@ -163,7 +163,6 @@ $proxyFileMarker
 \$GLOBALS['MATOMO_ORIGINAL_AUTOLOADER'] = \$originalLoader;
 
 if (is_file(__DIR__ . '/prefixed/vendor/autoload.php')
-    && !getenv('COMPOSER_BINARY') // if there, we're in a composer command
     && isset(\$originalLoader)
 ) {
     require_once __DIR__ . '/prefixed/vendor/autoload.php';
