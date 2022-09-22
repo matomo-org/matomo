@@ -254,11 +254,13 @@ export default defineComponent({
     },
     hasMultipleSites() {
       const initialSites = SitesStore.initialSitesFiltered.value
+        && SitesStore.initialSitesFiltered.value.length
         ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 1;
     },
     firstSiteName() {
       const initialSites = SitesStore.initialSitesFiltered.value
+        && SitesStore.initialSitesFiltered.value.length
         ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 0 ? initialSites[0].name : '';
     },
