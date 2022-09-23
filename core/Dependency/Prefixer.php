@@ -261,7 +261,7 @@ EOF;
             if (!empty($dependencyComposerJson['autoload']['psr-4'])) { // only handling psr-4 for now
                 $this->namespacesToInclude = array_merge(
                     $this->namespacesToInclude,
-                    array_keys($dependencyComposerJson['autoload']['psr-4']),
+                    array_keys($dependencyComposerJson['autoload']['psr-4'])
                 );
             }
 
