@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Få vev-analyserapporter levert i innboksen til e-posten din, eller din mobiltelefon.",
         "TopMenu": "E-post- og SMS-rapporter",
         "UserKey": "Brukernøkkel",
-        "VerificationText": "Koden er %1$s. For å bekrefte telefonnummeret ditt og motta Matomo-SMS-rapporter kan du kopiere denne koden i skjemaet tilgjengelig i Matomo &gt; %2$s &gt; %3$s."
+        "VerificationText": "Koden er %1$s. For å bekrefte telefonnummeret ditt og motta Matomo-SMS-rapporter kan du kopiere denne koden i skjemaet tilgjengelig i Matomo → %2$s → %3$s."
     }
 }

@@ -12,10 +12,10 @@ describe("FeedbackForm", function () {
         await page.goto("?idSite=1&period=year&date=2012-08-09&module=Feedback&action=index");
 
         await page.evaluate(function () {
-            $('.enrichedHeadline .title').each(function () {
-                if ($(this).text().indexOf("Matomo") !== -1) {
-                    var replace = $(this).text().replace(/Matomo\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Matomo');
-                    $(this).text(replace);
+            $('.enrichedHeadline').each(function () {
+                if ($(this).html().indexOf("Matomo") !== -1) {
+                    var replace = $(this).html().replace(/Matomo\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Matomo');
+                    $(this).html(replace);
                 }
             });
         });

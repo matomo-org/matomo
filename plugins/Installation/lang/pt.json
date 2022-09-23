@@ -153,7 +153,7 @@
         "TablesWithSameNamesFound": "Algumas %1$s tabelas na sua base de dados %2$s têm o mesmo nome que as tabelas que o Matomo está a tentar criar",
         "Timezone": "Fuso horário do site",
         "WeHopeYouWillEnjoyPiwik": "Esperamos que goste tanto de utilizar o Matomo como nós gostamos de o fazer.",
-        "Welcome": "Bem-vindo!",
+        "Welcome": "Bem-vindo",
         "WelcomeHelp": "<p>O Matomo é um software de web analytics gratuito/livre que faz com que seja simples obter a informação que pretende dos seus visitantes</p><p>Este processo está dividido em %s passos simples que vão demorar cerca de 5 minutos.</p>",
         "WelcomeToCommunity": "Bem-vindo à comunidade do Matomo!",
         "YouMayInstallPiwikNow": "Pode %1$sinstalar o Matomo agora%2$s"

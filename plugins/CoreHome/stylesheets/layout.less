@@ -33,6 +33,7 @@ nav {
     padding: 8px 10px 10px;
     display: inline-block;
     cursor: pointer;
+    color: @theme-color-header-text;
   }
 
   @media only screen and (min-width: 601px) {
@@ -387,6 +388,10 @@ nav {
     .collapsible-header {
       border-bottom: 0;
       cursor: pointer!important;
+      color: @theme-color-header-text;
+      & when (@theme-color-header-text = #ffffff) {
+        color: unset;
+      }
     }
 
     .collapsible-body {
