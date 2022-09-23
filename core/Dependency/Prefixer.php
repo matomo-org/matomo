@@ -93,6 +93,9 @@ class Prefixer
             }
 
             $this->dependenciesToPrefix = $contents['prefixedDependencies'];
+            if (empty($this->dependenciesToPrefix)) {
+                throw new \Exception("No dependencies to prefix in $pluginJson. The prefixedDependencies property should be an array of dependencies that should be prefixed.");
+            }
 
             $this->vendorPath = PIWIK_INCLUDE_PATH . '/plugins/' . $this->componentToPrefix . '/vendor';
 
@@ -204,6 +207,10 @@ EOF;
         $cliPhp = new CliPhp();
         $phpBinary = $cliPhp->findPhpBinary();
 
+        if (empty($this->coreNamespacesToPrefix)) {
+            throw new \Exception("Unexpected state: no core namespaces to prefix found.");
+        }
+
         $env = 'MATOMO_NAMESPACES_TO_PREFIX="' . addslashes(json_encode($this->coreNamespacesToPrefix)) . '"';
         $command = 'cd ' . $pluginPrefixedPath . ' && ' . $env . ' ' . $phpBinary . ' ' . $this->pathToPhpScoper
             . ' add --force --output-dir=../prefixed2 --config=' . PIWIK_INCLUDE_PATH . '/core-refs.scoper.inc.php';
@@ -225,11 +232,6 @@ EOF;
             }
 
             $dependencyComposerJson = json_decode(file_get_contents($dependencyComposerJson), true);
-            if (!empty($dependencyComposerJson['autoload']['files'])) { // handling file autoloaders not supported for now
-                unset($this->dependenciesToPrefix[array_search($dependency, $this->dependenciesToPrefix)]);
-                continue;
-            }
-
             if (!empty($dependencyComposerJson['autoload']['psr-4'])) { // only handling psr-4 for now
                 $this->namespacesToInclude = array_merge(
                     $this->namespacesToInclude,
@@ -261,6 +263,7 @@ EOF;
             if ($orgName === '.'
                 || $orgName === '..'
                 || $orgName === 'composer'
+                || $orgName === 'vendor'
                 || !is_dir("$corePrefixedPath/$orgName")
             ) {
                 continue;
@@ -275,7 +278,7 @@ EOF;
                     continue;
                 }
 
-                $composerJsonPath = "$orgPath/composer.json";
+                $composerJsonPath = "$orgPath/$depName/composer.json";
                 if (!is_file($composerJsonPath)) {
                     continue;
                 }
@@ -288,9 +291,16 @@ EOF;
 
                 $composerJson = json_decode(file_get_contents($composerJsonPath), true);
                 if (!empty($composerJson['autoload']['psr-4'])) { // only handling psr-4 for now
+                    $namespaces = array_keys($composerJson['autoload']['psr-4']);
+                    $namespaces = array_map(function ($n) {
+                        if (strpos($n, 'Matomo\\Dependencies\\') === 0) {
+                            $n = substr($n, strlen('Matomo\\Dependencies\\'));
+                        }
+                        return $n;
+                    }, $namespaces);
                     $this->coreNamespacesToPrefix = array_merge(
                         $this->coreNamespacesToPrefix,
-                        array_keys($composerJson['autoload']['psr-4']),
+                        $namespaces
                     );
                 }
             }
