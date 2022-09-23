@@ -13,7 +13,6 @@ use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
-use Piwik\Dependency\PrefixedSkippingAutoloader;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreConsole\Commands\PrefixDependency;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
@@ -332,7 +331,6 @@ class Console extends Application
             }
 
             if (!$isForPlugin) { // running as core, core dependencies not prefixed
-                PrefixedSkippingAutoloader::$disabled = true;
                 \spl_autoload_register(function ($name) {
                     $prefix = 'Matomo\\Dependencies\\';
 

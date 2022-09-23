@@ -145,6 +145,27 @@ class PrefixDependency extends ConsoleCommand
                 Filesystem::unlinkRecursive($vendorPath, true);
             }
         }
+
+        $output->writeln("Regenerating unprefixed autoloader...");
+
+        // composer does not recognize recursive symbolic links
+        foreach (scandir(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy') as $item) {
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+
+            $path = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $item;
+            if (is_link($path)) {
+                unlink($path);
+            }
+        }
+
+        $composerCommand = escapeshellarg($composerPath) . ' --working-dir=' . escapeshellarg($basePath)
+            . " dump-autoload --classmap-authoritative --no-interaction -q";
+        passthru($composerCommand, $returnCode);
+        if ($returnCode) {
+            throw new \Exception("Failed to invoke composer! Command was: $composerCommand");
+        }
     }
 
     private function proxyOriginalComposerAutoloader($plugin, OutputInterface $output)
@@ -160,13 +181,9 @@ class PrefixDependency extends ConsoleCommand
 $proxyFileMarker
 
 \$originalLoader = require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload_original.php';
-\$GLOBALS['MATOMO_ORIGINAL_AUTOLOADER'] = \$originalLoader;
 
-if (is_file(__DIR__ . '/prefixed/vendor/autoload.php')
-    && isset(\$originalLoader)
-) {
+if (is_file(__DIR__ . '/prefixed/vendor/autoload.php')) {
     require_once __DIR__ . '/prefixed/vendor/autoload.php';
-    \Piwik\Dependency\PrefixedSkippingAutoloader::register(\$originalLoader, __DIR__);
 }
 
 return \$originalLoader;
