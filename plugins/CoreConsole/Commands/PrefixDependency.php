@@ -27,7 +27,7 @@ class PrefixDependency extends ConsoleCommand
     const PHP_SCOPER_VERSION = '0.17.5';
     // const PHP_SCOPER_URL = 'https://github.com/humbug/php-scoper/releases/download/' . self::PHP_SCOPER_VERSION . '/php-scoper.phar';
     // using forked version for now
-    const PHP_SCOPER_URL = 'https://github.com/diosmosis/php-scoper/releases/download/included-ns2/php-scoper.phar';
+    const PHP_SCOPER_URL = 'https://github.com/diosmosis/php-scoper/releases/download/included-ns3/php-scoper.phar';
 
     const SUPPORTED_CORE_DEPENDENCIES = [
         'twig/twig',
