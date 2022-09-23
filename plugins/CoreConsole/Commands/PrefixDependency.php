@@ -122,27 +122,29 @@ class PrefixDependency extends ConsoleCommand
         $basePath = $plugin ? PIWIK_INCLUDE_PATH . '/plugins/' . $plugin : PIWIK_INCLUDE_PATH;
         $prefixed = "$basePath/vendor/prefixed";
 
-        file_put_contents("$prefixed/composer.json", '{ "autoload": { "classmap": [""] } }');
+        if (!empty($dependenciesToPrefix)) {
+            file_put_contents("$prefixed/composer.json", '{ "autoload": { "classmap": [""] } }');
 
-        $output->writeln("Generating prefixed autoloader...");
+            $output->writeln("Generating prefixed autoloader...");
 
-        $composerCommand = escapeshellarg($composerPath) . " --working-dir=" . escapeshellarg($prefixed)
-            . " dump-autoload --classmap-authoritative --no-interaction";
-        passthru($composerCommand, $returnCode);
-        if ($returnCode) {
-            throw new \Exception("Failed to invoke composer! Command was: $composerCommand");
-        }
+            $composerCommand = escapeshellarg($composerPath) . " --working-dir=" . escapeshellarg($prefixed)
+                . " dump-autoload --classmap-authoritative --no-interaction";
+            passthru($composerCommand, $returnCode);
+            if ($returnCode) {
+                throw new \Exception("Failed to invoke composer! Command was: $composerCommand");
+            }
 
-        Filesystem::remove("$prefixed/autoload.php");
-        Filesystem::unlinkRecursive("$prefixed/composer", true);
+            Filesystem::remove("$prefixed/autoload.php");
+            Filesystem::unlinkRecursive("$prefixed/composer", true);
 
-        Filesystem::remove("$prefixed/composer.json");
+            Filesystem::remove("$prefixed/composer.json");
 
-        $removeOriginal = !$input->getOption('keep-originals');
-        if ($removeOriginal) {
-            foreach ($dependenciesToPrefix as $dependency) {
-                $vendorPath = "$basePath/vendor/$dependency";
-                Filesystem::unlinkRecursive($vendorPath, true);
+            $removeOriginal = !$input->getOption('keep-originals');
+            if ($removeOriginal) {
+                foreach ($dependenciesToPrefix as $dependency) {
+                    $vendorPath = "$basePath/vendor/$dependency";
+                    Filesystem::unlinkRecursive($vendorPath, true);
+                }
             }
         }
 

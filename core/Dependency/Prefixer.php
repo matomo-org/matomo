@@ -93,9 +93,6 @@ class Prefixer
             }
 
             $this->dependenciesToPrefix = $contents['prefixedDependencies'];
-            if (empty($this->dependenciesToPrefix)) {
-                throw new \Exception("No dependencies to prefix in $pluginJson. The prefixedDependencies property should be an array of dependencies that should be prefixed.");
-            }
 
             $this->vendorPath = PIWIK_INCLUDE_PATH . '/plugins/' . $this->componentToPrefix . '/vendor';
 
@@ -157,6 +154,10 @@ EOF;
 
     private function scopeDependencies()
     {
+        if (empty($this->dependenciesToPrefix)) {
+            return;
+        }
+
         $command = $this->getPhpScoperCommand();
         passthru($command, $returnCode);
         if ($returnCode) {
@@ -172,10 +173,30 @@ EOF;
             throw new \Exception("Failed to run php-scoper for prefixing core dependencies in plugin dependencies! Command was: $command");
         }
 
-        // swap prefixed2 and prefixed
         $vendorPath = PIWIK_INCLUDE_PATH . '/plugins/' . $this->componentToPrefix . '/vendor';
-        Filesystem::unlinkRecursive("$vendorPath/prefixed", true);
-        rename("$vendorPath/prefixed2", "$vendorPath/prefixed");
+        if (empty($this->dependenciesToPrefix)) {
+            // php-scoper was run once on everything to make use of dependencies in core that were prefixed.
+            // in this case, we want to move everything in the prefixed2 directory back to vendor
+
+            foreach (scandir($vendorPath) as $child) {
+                if ($child === '..' || $child === '.' || $child === 'prefixed2') {
+                    continue;
+                }
+
+                $path = "$vendorPath/$child";
+                $prefixedPath = "$vendorPath/prefixed2/$child";
+                if (file_exists($path)) {
+                    Filesystem::unlinkRecursive($path, true);
+                }
+                rename($prefixedPath, $path);
+            }
+
+            Filesystem::unlinkRecursive("$vendorPath/prefixed2", true);
+        } else {
+            // swap prefixed2 and prefixed
+            Filesystem::unlinkRecursive("$vendorPath/prefixed", true);
+            rename("$vendorPath/prefixed2", "$vendorPath/prefixed");
+        }
     }
 
     private function getPhpScoperCommand()
@@ -202,7 +223,12 @@ EOF;
 
     private function getPhpScoperCommandForPrefixingCoreDepsInPlugin()
     {
-        $pluginPrefixedPath = PIWIK_INCLUDE_PATH . '/plugins/' . $this->componentToPrefix . '/vendor/prefixed';
+        $pluginPrefixedPath = PIWIK_INCLUDE_PATH . '/plugins/' . $this->componentToPrefix . '/vendor';
+        $outputDir = './prefixed2';
+        if (!empty($this->dependenciesToPrefix)) {
+            $pluginPrefixedPath .= '/prefixed';
+            $outputDir = '../prefixed2';
+        }
 
         $cliPhp = new CliPhp();
         $phpBinary = $cliPhp->findPhpBinary();
@@ -213,7 +239,7 @@ EOF;
 
         $env = 'MATOMO_NAMESPACES_TO_PREFIX="' . addslashes(json_encode($this->coreNamespacesToPrefix)) . '"';
         $command = 'cd ' . $pluginPrefixedPath . ' && ' . $env . ' ' . $phpBinary . ' ' . $this->pathToPhpScoper
-            . ' add --force --output-dir=../prefixed2 --config=' . PIWIK_INCLUDE_PATH . '/core-refs.scoper.inc.php';
+            . ' add --force --output-dir=' . $outputDir . ' --config=' . PIWIK_INCLUDE_PATH . '/core-refs.scoper.inc.php';
 
         $this->logger->debug('php-scoper command for core dependency refs in plugins: {command}', ['command' => $command]);
 
@@ -296,7 +322,8 @@ EOF;
                         if (strpos($n, 'Matomo\\Dependencies\\') === 0) {
                             $n = substr($n, strlen('Matomo\\Dependencies\\'));
                         }
-                        return $n;
+                        $n = rtrim($n, '\\');
+                        return '/^' . preg_quote($n) . '(\\\\|$)/';
                     }, $namespaces);
                     $this->coreNamespacesToPrefix = array_merge(
                         $this->coreNamespacesToPrefix,
