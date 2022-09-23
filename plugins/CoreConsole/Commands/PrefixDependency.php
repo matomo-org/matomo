@@ -47,8 +47,8 @@ class PrefixDependency extends ConsoleCommand
             'Specify a custom path to php-scoper. If not supplied, the PHAR will be downloaded from github.');
         $this->addOption('composer-path', null, InputOption::VALUE_REQUIRED,
             'Path to composer. Required to generate a new autoloader.', getenv('COMPOSER_BINARY'));
-        $this->addOption('remove-originals', null, InputOption::VALUE_NONE,
-            'If supplied, removes the original composer dependency after prefixing.');
+        $this->addOption('keep-originals', null, InputOption::VALUE_NONE,
+            'If supplied, keeps the original composer dependency files after prefixing (this may break autoloading).');
         $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'Prefix dependencies for a specific plugin.');
     }
 
@@ -138,7 +138,7 @@ class PrefixDependency extends ConsoleCommand
 
         Filesystem::remove("$prefixed/composer.json");
 
-        $removeOriginal = $input->getOption('remove-originals');
+        $removeOriginal = !$input->getOption('keep-originals');
         if ($removeOriginal) {
             foreach ($dependenciesToPrefix as $dependency) {
                 $vendorPath = "$basePath/vendor/$dependency";

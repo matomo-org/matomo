@@ -103,10 +103,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@php ./console composer:prefix-dependency --remove-originals"
+            "@php ./console composer:prefix-dependency"
         ],
         "post-update-cmd": [
-            "@php ./console composer:prefix-dependency --remove-originals"
+            "@php ./console composer:prefix-dependency"
         ]
     }
 }
