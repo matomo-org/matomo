@@ -112,7 +112,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $restrictToReturningVisitors = true
         ));
 
-        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
+        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = 'log_visit.profilable = 1', $selects, array());
         $row = $query->fetch();
         foreach ($prefixes as $recordName => $selectAsPrefix) {
             $cleanRow = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_VISITS, $selectAsPrefix);

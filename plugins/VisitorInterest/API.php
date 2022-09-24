@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 
 /**
  * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,
@@ -69,6 +70,14 @@ class API extends \Piwik\Plugin\API
             Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
         $dataTable->queueFilter('AddSegmentByRangeLabel', array('daysSinceLastVisit'));
         $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
+
+        // TODO: use transient cache in visits summary API
+        $unprofilableVisits = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, $segment)->getColumn('nb_profilable') ?? 0;
+        $dataTable->addRowFromSimpleArray([
+            'label' => Piwik::translate('General_Unprofilable'),
+            'nb_visits' => $unprofilableVisits,
+        ]);
+
         return $dataTable;
     }
 
