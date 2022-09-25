@@ -28,6 +28,11 @@ abstract class VisitorDetailsAbstract
     protected $details = array();
 
     /**
+     * @var bool
+     */
+    protected $isDataProfilable;
+
+    /**
      * Set details of current visit
      *
      * @ignore
@@ -333,5 +338,14 @@ abstract class VisitorDetailsAbstract
     public function getDb()
     {
         return Db::getReader();
+    }
+
+    /**
+     * @ignore
+     * @param bool $isProfilable
+     */
+    public function setDataProfilable($isProfilable)
+    {
+        $this->isDataProfilable = $isProfilable;
     }
 }
