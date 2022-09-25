@@ -15,6 +15,7 @@ use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Plugin;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\Visualizations\VisitorLog;
+use Piwik\Plugins\VisitsSummary\MajorityProfilable;
 
 class Visitor implements VisitorInterface
 {
@@ -29,9 +30,13 @@ class Visitor implements VisitorInterface
     {
         $visitor = array();
 
+        $majorityProfilable = new MajorityProfilable();
+        $isProfilable = $majorityProfilable->isPeriodMajorityProfilable(null, null, null, '');
+
         $instances = self::getAllVisitorDetailsInstances();
 
         foreach ($instances as $instance) {
+            $instance->setDataProfilable($isProfilable);
             $instance->setDetails($this->details);
             $instance->extendVisitorDetails($visitor);
         }

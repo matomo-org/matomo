@@ -17,19 +17,31 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function extendVisitorDetails(&$visitor)
     {
         $visitor['userId']                      = $this->getUserId();
-        $visitor['visitorType']                 = $this->getVisitorReturning();
-        $visitor['visitorTypeIcon']             = $this->getVisitorReturningIcon();
+
+        if ($this->isDataProfilable) {
+            $visitor['visitorType'] = $this->getVisitorReturning();
+            $visitor['visitorTypeIcon'] = $this->getVisitorReturningIcon();
+        }
+
         $visitor['visitConverted']              = $this->isVisitorGoalConverted();
         $visitor['visitConvertedIcon']          = $this->getVisitorGoalConvertedIcon();
-        $visitor['visitCount']                  = $this->getVisitCount();
+
+        if ($this->isDataProfilable) {
+            $visitor['visitCount'] = $this->getVisitCount();
+        }
+
         $visitor['visitEcommerceStatus']        = $this->getVisitEcommerceStatus();
         $visitor['visitEcommerceStatusIcon']    = $this->getVisitEcommerceStatusIcon();
-        $visitor['daysSinceFirstVisit']         = $this->getDaysSinceFirstVisit();
-        $visitor['secondsSinceFirstVisit']      = $this->getSecondsSinceFirstVisit();
-        $visitor['daysSinceLastEcommerceOrder'] = $this->getDaysSinceLastEcommerceOrder();
-        $visitor['secondsSinceLastEcommerceOrder'] = $this->getSecondsSinceLastEcommerceOrder();
-        $visitor['visitDuration']               = $this->getVisitLength();
-        $visitor['visitDurationPretty']         = $this->getVisitLengthPretty();
+
+        if ($this->isDataProfilable) {
+            $visitor['daysSinceFirstVisit']         = $this->getDaysSinceFirstVisit();
+            $visitor['secondsSinceFirstVisit'] = $this->getSecondsSinceFirstVisit();
+            $visitor['daysSinceLastEcommerceOrder'] = $this->getDaysSinceLastEcommerceOrder();
+            $visitor['secondsSinceLastEcommerceOrder'] = $this->getSecondsSinceLastEcommerceOrder();
+        }
+
+        $visitor['visitDuration'] = $this->getVisitLength();
+        $visitor['visitDurationPretty'] = $this->getVisitLengthPretty();
     }
 
     protected function getVisitEcommerceStatusIcon()

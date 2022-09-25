@@ -12,17 +12,22 @@ use Exception;
 use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\DataTableManipulator\ReportTotalsCalculator;
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
+use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Plugins\VisitsSummary\MajorityProfilable;
+use Piwik\Site;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -133,8 +138,48 @@ class DataTablePostProcessor
         $dataTable = $this->convertSegmentValueToSegment($dataTable);
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
+        $dataTable = $this->removeMetricsIfNotProfilable($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
         $dataTable = $this->applyMetricsFormatting($dataTable);
+        return $dataTable;
+    }
+
+    private function removeMetricsIfNotProfilable(DataTableInterface $dataTable)
+    {
+        if (Common::getRequestVar('disable_profilable_check', 0, 'int', $this->request) == 1) {
+            return $dataTable;
+        }
+
+        $dataTable->filter(function (DataTable $table) {
+            /** @var Site $site */
+            $site = $table->getMetadata('site');
+
+            /** @var Period $period */
+            $period = $table->getMetadata('period');
+
+            $segment = $table->getMetadata(DataTableFactory::TABLE_METADATA_SEGMENT_INDEX);
+
+            if (empty($site)
+                || empty($period)
+            ) {
+                return;
+            }
+
+            $dateString = $period->getDateStart()->toString();
+            if ($period->getLabel() == 'range') {
+                $dateString .= ',' . $period->getDateEnd()->toString();
+            }
+
+            $majorityProfilable = new MajorityProfilable();
+            if ($majorityProfilable->isPeriodMajorityProfilable($site->getId(), $period->getLabel(), $dateString, $segment)) {
+                return;
+            }
+
+            $metricsToRemove = $majorityProfilable->getMetricsToRemoveifNotProfilable();
+
+            $table->filter(DataTable\Filter\ColumnDelete::class, [$metricsToRemove]);
+        });
+
         return $dataTable;
     }
 
