@@ -111,6 +111,20 @@ class Map implements DataTableInterface
     }
 
     /**
+     * TODO
+     * @param $otherTables
+     * @param callable $filter
+     * @return void
+     */
+    public function multiFilter($otherTables, callable $filter)
+    {
+        foreach ($this->getDataTables() as $label => $table) {
+            $otherChildTables = array_map(function (Map $other) use ($label) { return $other->getTable($label); }, $otherTables);
+            $filter(...array_merge([$table], $otherChildTables));
+        }
+    }
+
+    /**
      * Apply a filter to all subtables contained by this instance.
      *
      * @param string|Closure $className Name of filter class or a Closure.

@@ -109,10 +109,10 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
             'FLOOR(log_visit.visitor_seconds_since_last / 86400)', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
-            $restrictToReturningVisitors = true
+            $restrictToReturningVisitors = true, $restrictToProfilable = true
         ));
 
-        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = 'log_visit.profilable = 1', $selects, array());
+        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), false, $selects, array());
         $row = $query->fetch();
         foreach ($prefixes as $recordName => $selectAsPrefix) {
             $cleanRow = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_VISITS, $selectAsPrefix);
