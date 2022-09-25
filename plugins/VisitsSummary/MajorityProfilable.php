@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Segment;
 
@@ -122,5 +123,24 @@ class MajorityProfilable
         }
 
         return $value;
+    }
+
+    public function getMetricsToRemoveifNotProfilable()
+    {
+        $metricsToRemove = [
+            Metrics::INDEX_NB_UNIQ_VISITORS,
+            Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS,
+            Metrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
+        ];
+
+        $metricIdToNameMap = Metrics::getMappingFromIdToName();
+        foreach ($metricsToRemove as $indexMetric) {
+            $metricsToRemove[] = $metricIdToNameMap[$indexMetric];
+        }
+
+        return $metricsToRemove;
     }
 }
