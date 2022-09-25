@@ -924,9 +924,19 @@ class Visualization extends ViewDataTable
         $periodObj = Period\Factory::build($period, $date);
         $periodStr = $periodObj->getPrettyString();
 
+        $segmentRequiresProfilable = false;
+
+        $segment = ApiRequest::getRawSegmentFromRequest();
+        if (!empty($segment)) {
+            $idSite = Common::getRequestVar('idSite', false, 'int');
+            $segment = new \Piwik\Segment($segment, [$idSite]);
+            $segmentRequiresProfilable = $segment->isRequiresProfilableData();
+        }
+
         // no profilable data so display information explaining why unique visitors is not displayed
         $notificationView = new View("@CoreHome/_nonProfilableDataWarning.twig");
         $notificationView->periodStr = $periodStr;
+        $notificationView->segmentRequiresProfilable = $segmentRequiresProfilable;
 
         $notification = new Notification($notificationView->render());
         $notification->priority = Notification::PRIORITY_HIGH;

@@ -58,4 +58,9 @@ class VisitorId extends VisitDimension
             parent::configureSegments($segmentsList, $dimensionSegmentFactory);
         }
     }
+
+    public function isRequiresProfilableData()
+    {
+        return true;
+    }
 }

@@ -105,6 +105,8 @@ class Segment
     const CACHE_KEY = 'segmenthashes';
     const SEGMENT_HAS_BUILT_CACHE_KEY ='segmenthashbuilt';
 
+    private $isRequiresProfilableData = false;
+
     /**
      * Constructor.
      *
@@ -252,6 +254,11 @@ class Segment
         // parse segments
         $expressions = $segment->parseSubExpressions();
         $expressions = $this->getExpressionsWithUnionsResolved($expressions);
+
+        // detect if requires profilable data before overwriting expressions w/ sql expressions
+        if (!empty($expressions)) {
+            $this->isRequiresProfilableData = $segment->isRequiresProfilableData($this->getAvailableSegments());
+        }
 
         // convert segments name to sql segment
         // check that user is allowed to view this segment
@@ -660,5 +667,10 @@ class Segment
     public function getOriginalString()
     {
         return $this->originalString;
+    }
+
+    public function isRequiresProfilableData()
+    {
+        return $this->isRequiresProfilableData;
     }
 }
