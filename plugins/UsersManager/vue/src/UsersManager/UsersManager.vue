@@ -146,6 +146,7 @@
   </div>
 </template>
 
+<!--suppress JSConstantReassignment, TypeScriptValidateTypes -->
 <script lang="ts">
 /* eslint-disable newline-per-chained-call */
 
@@ -392,6 +393,7 @@ export default defineComponent({
             passwordConfirmation: password,
           },
         );
+
         await this.copyToClipboard(res.value);
         // eslint-disable-next-line no-empty
       } catch (e) {
@@ -401,7 +403,19 @@ export default defineComponent({
     },
     async copyToClipboard(value: string) {
       try {
-        await navigator.clipboard.writeText(value);
+        const tempInput = document.createElement('input');
+        tempInput.style.top = '0';
+        tempInput.style.left = '0';
+        tempInput.style.position = 'fixed';
+        tempInput.value = value;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        if (window.location.protocol !== 'https:') {
+          document.execCommand('copy');
+        } else {
+          await navigator.clipboard.writeText(tempInput.value);
+        }
+        document.body.removeChild(tempInput);
         this.copied = true;
         // eslint-disable-next-line no-empty
       } catch (e) {
