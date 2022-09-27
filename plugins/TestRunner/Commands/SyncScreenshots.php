@@ -52,7 +52,7 @@ class SyncScreenshots extends ConsoleCommand
         $this->setDescription('For Piwik core devs. Copies screenshots '
             .'from travis artifacts to the tests/UI/expected-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
-        $this->addOption('agent', 'a', InputOption::VALUE_OPTIONAL, 'Build agent using you want to choose', 'github');
+        $this->addOption('agent', 'a', InputOption::VALUE_OPTIONAL, 'Build agent using you want to choose');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
         $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL,
