@@ -1,1 +1,5 @@
-{}
+{
+    "CustomDimensions": {
+        "CannotBeDeleted": "Uma dimensão personalizada não pode ser excluída, apenas desativada."
+    }
+}

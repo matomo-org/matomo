@@ -146,7 +146,7 @@
         "TablesWithSameNamesFound": "Některé %1$s tabulky ve vaší databázi %2$s mají stejná jména jako tabulky, které se snaží vytvořit Matomo",
         "Timezone": "Časové pásmo webových stránek",
         "WeHopeYouWillEnjoyPiwik": "Doufáme, že si užijete používání Matomou tak, jako si my užíváme jeho vývoj.",
-        "Welcome": "Vítejte!",
+        "Welcome": "Vítejte",
         "WelcomeHelp": "<p>Matomo je bezplatný software pro webovou analýzu, který usnadňuje získání informací, které chcete od svých návštěvníků.</p><p>Tento proces je rozdělen do %s jednoduchých kroků a trvá přibližně 5 minut.</p>",
         "WelcomeToCommunity": "Vítejte v komunitě Matomou!",
         "YouMayInstallPiwikNow": "Můžete %1$snyní nainstalovat Matomo%2$s"

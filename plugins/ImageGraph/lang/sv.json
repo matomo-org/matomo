@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Kolumn '%1$s' var inte hittad i den här rapporten. Pröva någon av %2$s",
-        "PluginDescription": "Generera fina statiska PNG-grafer för dina data rapporter."
+        "ColumnOrdinateMissing": "Kunde inte hitta en \"%1$s\"-kolumn i denna rapport. Försök någon av %2$s.",
+        "PluginDescription": "Generera vackra statiska PNG-grafbilder för alla dina datarapporter."
     }
 }
