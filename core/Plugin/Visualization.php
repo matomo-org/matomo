@@ -23,6 +23,7 @@ use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
+use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -30,6 +31,7 @@ use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\VisitsSummary\MajorityProfilable;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -146,6 +148,8 @@ use Psr\Log\LoggerInterface;
  */
 class Visualization extends ViewDataTable
 {
+    const NO_PROFILABLE_DATA_FOR_SEGMENT_NOTIFICATION_ID = 'no_profilable_data_for_segment';
+
     /**
      * The Twig template file to use when rendering, eg, `"@MyPlugin/_myVisualization.twig"`.
      *
@@ -214,6 +218,10 @@ class Visualization extends ViewDataTable
         $view = new View("@CoreHome/_dataTable");
         $view->assign($this->templateVars);
 
+        $view->notifications = $this->config->notifications;
+
+        $this->showNotificationIfCurrentPeriodHasNoProfilableData($view);
+
         if (!empty($loadingError)) {
             $view->error = $loadingError;
         }
@@ -248,7 +256,6 @@ class Visualization extends ViewDataTable
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
-        $view->notifications = [];
         $view->isComparing = $this->isComparing();
 
         if (!$this->supportsComparison()
@@ -903,5 +910,41 @@ class Visualization extends ViewDataTable
         }
 
         return $request;
+    }
+
+    private function showNotificationIfCurrentPeriodHasNoProfilableData(View $view)
+    {
+        $majorityProfilable = new MajorityProfilable();
+        if ($majorityProfilable->isPeriodMajorityProfilable(null, null, null, '')) {
+            return;
+        }
+
+        $date = $this->requestConfig->getRequestParam('date');
+        $period = $this->requestConfig->getRequestParam('period');
+        $periodObj = Period\Factory::build($period, $date);
+        $periodStr = $periodObj->getPrettyString();
+
+        $segmentRequiresProfilable = false;
+
+        $segment = ApiRequest::getRawSegmentFromRequest();
+        if (!empty($segment)) {
+            $idSite = Common::getRequestVar('idSite', false, 'int');
+            $segment = new \Piwik\Segment($segment, [$idSite]);
+            $segmentRequiresProfilable = $segment->isRequiresProfilableData();
+        }
+
+        // no profilable data so display information explaining why unique visitors is not displayed
+        $notificationView = new View("@CoreHome/_nonProfilableDataWarning.twig");
+        $notificationView->periodStr = $periodStr;
+        $notificationView->segmentRequiresProfilable = $segmentRequiresProfilable;
+
+        $notification = new Notification($notificationView->render());
+        $notification->priority = Notification::PRIORITY_HIGH;
+        $notification->context = Notification::CONTEXT_INFO;
+        $notification->flags = Notification::FLAG_CLEAR;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->raw = true;
+
+        $view->notifications[self::NO_PROFILABLE_DATA_FOR_SEGMENT_NOTIFICATION_ID] = $notification;
     }
 }

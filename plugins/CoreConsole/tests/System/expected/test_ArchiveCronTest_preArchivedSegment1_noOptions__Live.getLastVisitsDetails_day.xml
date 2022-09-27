@@ -6,6 +6,7 @@
 		<visitIp>175.41.192.40</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -142,6 +143,7 @@
 		<visitIp>175.41.193.46</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -278,6 +280,7 @@
 		<visitIp>175.41.192.40</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>

@@ -1,0 +1,7 @@
+<strong>{{ 'General_NonProfilableDataTitle'|translate }}</strong>
+
+{% if not segmentRequiresProfilable %}
+<p>{{ 'General_NonProfilableDataMessage1'|translate('<a href="" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
+{% else %}
+<p>{{ 'General_NonProfilableDataMessage2'|translate('<a href="" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
+{% endif %}

@@ -13,6 +13,7 @@ use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
 use Piwik\NoAccessException;
 use Piwik\Period\Range;
+use Piwik\Plugins\VisitsSummary\MajorityProfilable;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -168,6 +169,18 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public function addSparklineMetric($metricName, $order = null, $graphParams = null)
     {
+        $majorityProfilable = new MajorityProfilable();
+
+        $isProfilable = $majorityProfilable->isPeriodMajorityProfilable(null, null, null, '');
+        if (!$isProfilable) {
+            $metricsToRemove = $majorityProfilable->getMetricsToRemoveifNotProfilable();
+            if (is_array($metricName)) {
+                $metricName = array_diff($metricName, $metricsToRemove);
+            } else if (in_array($metricName, $metricsToRemove)) {
+                return;
+            }
+        }
+
         $this->sparkline_metrics[] = array(
             'columns' => $metricName,
             'order'   => $order,

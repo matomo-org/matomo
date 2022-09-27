@@ -537,7 +537,12 @@
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
         "YourSessionHasExpired": "Your session has expired due to inactivity. Please log in to continue.",
         "Update": "Update",
-        "Create": "Create"
+        "Create": "Create",
+        "ProfilableVisits": "Profilable Visits",
+        "ColumnProfilableVisitsDocumentation": "The total number of visits that we can confidently attribute to a specific visitor, because they were tracked with information that requires a user's consent.",
+        "NonProfilableDataTitle": "Data for this period is not Profilable",
+        "NonProfilableDataMessage1": "Most of the data recorded for the selected period and measurable is not profilable, meaning Matomo cannot accurately track visitors across multiple visits. Because of this the unique visitor count is not available in reports for this period. To learn more about why you're seeing this message %1$sread our documentation.%2$s",
+        "NonProfilableDataMessage2": "Most of the data recorded for the selected period and measurable is not profilable, but the segment you've selected requires profilable data in order to accurately select visits. The data displayed below should NOT be relied upon. To learn more about why you're seeing this message %1$sread our documentation.%2$s"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

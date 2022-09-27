@@ -15,10 +15,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
+use Piwik\Notification;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\VisitsSummary\MajorityProfilable;
 
 /**
  * Contains base display properties for {@link Piwik\Plugin\ViewDataTable}s. Manipulating these
@@ -568,6 +570,14 @@ class   Config
     public $controllerAction;
 
     /**
+     * Notifications at the top of the page to display when the visualization loads.
+     *
+     * @var Notification[]
+     */
+    public $notifications;
+
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -683,11 +693,14 @@ class   Config
      */
     public function setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors)
     {
+        $majorityProfilable = new MajorityProfilable();
+        $isProfilable = $majorityProfilable->isPeriodMajorityProfilable(null, null, null, '');
+
         if ($hasNbVisits || $hasNbUniqVisitors) {
-            $columnsToDisplay = array('label');
+            $columnsToDisplay = ['label'];
 
             // if unique visitors data is available, show it, otherwise just visits
-            if ($hasNbUniqVisitors) {
+            if ($hasNbUniqVisitors && $isProfilable) {
                 $columnsToDisplay[] = 'nb_uniq_visitors';
             } else {
                 $columnsToDisplay[] = 'nb_visits';
