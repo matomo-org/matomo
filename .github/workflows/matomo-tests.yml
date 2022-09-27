@@ -85,30 +85,31 @@ jobs:
           mysql-service: false
           git-head: ${{ github.head_ref }}
 
-  UI:
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        tests: [ 'UI' ]
-        php: [ '7.2' ]
-        parts: [ 0,1,2 ]
-        node: [ '16' ]
-    steps:
-      - name: running tests
-        uses: matomo-org/github-action-tests@v1
-        with:
-          test-type: ${{ matrix.tests }}
-          php-version: ${{ matrix.php }}
-          test-command: ${{ matrix.parts }}
-          run-number: ${{ github.run_number }}
-          node-version: ${{ matrix.node }}
-          repository: ${{ github.repository }}
-          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
-          run-id: ${{ github.run_id }}
-          php-memory: "-1"
-          redis-service: true
-          git-head: ${{ github.head_ref }}
-          merge-target: '4.x-dev'
+## turn off UI tests for now
+#  UI:
+#    runs-on: ubuntu-20.04
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        tests: [ 'UI' ]
+#        php: [ '7.2' ]
+#        parts: [ 0,1,2 ]
+#        node: [ '16' ]
+#    steps:
+#      - name: running tests
+#        uses: matomo-org/github-action-tests@v1
+#        with:
+#          test-type: ${{ matrix.tests }}
+#          php-version: ${{ matrix.php }}
+#          test-command: ${{ matrix.parts }}
+#          run-number: ${{ github.run_number }}
+#          node-version: ${{ matrix.node }}
+#          repository: ${{ github.repository }}
+#          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
+#          run-id: ${{ github.run_id }}
+#          php-memory: "-1"
+#          redis-service: true
+#          git-head: ${{ github.head_ref }}
+#          merge-target: '4.x-dev'
 
 
