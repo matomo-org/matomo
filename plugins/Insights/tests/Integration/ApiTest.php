@@ -121,7 +121,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('getPageUrls', $metadata['report']['action']);
         unset($metadata['report']);
 
-        $this->assertEqualsWithDelta($expectedMetadata, $metadata, 0.0001);
+        $this->assertEquals($expectedMetadata, $metadata);
     }
 
     public function test_getInsights_ShouldGoBackInPastDependingOnComparedToParameter()
