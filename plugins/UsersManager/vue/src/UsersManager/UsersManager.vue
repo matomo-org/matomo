@@ -404,7 +404,7 @@ export default defineComponent({
     async copyToClipboard(value: string) {
       try {
         const tempInput = document.createElement('input');
-        tempInput.style.top = '-10px';
+        tempInput.style.top = '-100px';
         tempInput.style.left = '0';
         tempInput.style.position = 'fixed';
         tempInput.value = value;
