@@ -48,14 +48,19 @@ class API extends \Piwik\Plugin\API
         $challenges = array();
 
         foreach ($this->challenges->getChallenges() as $challenge) {
-            $challenges[] = array(
+
+            if ($challenge->isDisabled()) {
+                continue;
+            }
+
+            $challenges[] = [
                 'id' => $challenge->getId(),
                 'name' => $challenge->getName(),
                 'description' => $challenge->getDescription(),
                 'isCompleted' => $challenge->isCompleted(),
                 'isSkipped' => $challenge->isSkipped(),
                 'url' => $challenge->getUrl()
-            );
+            ];
         }
 
         return $challenges;
