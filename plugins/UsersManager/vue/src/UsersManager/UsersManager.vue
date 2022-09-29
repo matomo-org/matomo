@@ -261,7 +261,7 @@ export default defineComponent({
   },
   methods: {
     showInviteActionPasswordConfirm(action: string) {
-      if (this.loading || this.copied) return;
+      if (this.loading) return;
       this.showPasswordConfirmationForInviteAction = true;
       this.inviteAction = action;
     },
@@ -381,7 +381,7 @@ export default defineComponent({
       });
     },
     async generateInviteLink(password: string) {
-      if (this.loading || this.copied) {
+      if (this.loading) {
         return;
       }
       this.loading = true;
@@ -404,7 +404,7 @@ export default defineComponent({
     async copyToClipboard(value: string) {
       try {
         const tempInput = document.createElement('input');
-        tempInput.style.top = '0';
+        tempInput.style.top = '-10px';
         tempInput.style.left = '0';
         tempInput.style.position = 'fixed';
         tempInput.value = value;
