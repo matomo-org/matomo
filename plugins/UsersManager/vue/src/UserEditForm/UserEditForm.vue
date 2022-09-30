@@ -154,7 +154,8 @@
             >
               {{ translate('UsersManager_InvitationSent') }}
               <span class="resend-link" @click="resendRequestedUser"
-                    v-html="$sanitize(translate('UsersManager_ResendInvite'))"></span>
+                    v-html="$sanitize(translate('UsersManager_ResendInvite') +
+                    '/'+ translate('UsersManager_CopyLink'))"></span>
             </p>
             <PasswordConfirmation
               v-model="showPasswordConfirmationForInviteUser"
