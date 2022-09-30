@@ -83,7 +83,7 @@
       <div class="btn-close modal-close"><i class="icon-close"></i></div>
       <div class="modal-content">
         <h2 class="modal-title">{{ translate('UsersManager_ResendInvite') }}</h2>
-        <h3
+        <p
           v-if="userBeingEdited"
           v-html="$sanitize(translate(
             'UsersManager_InviteConfirmMessage',
@@ -91,10 +91,10 @@
              `<strong>${userBeingEdited.email}</strong>`]
             ,
           ))"
-        ></h3>
-        <h3><strong>
+        ></p>
+        <p><strong>
             {{ translate('UsersManager_InviteActionNotes', inviteTokenExpiryDays) }}
-        </strong></h3>
+        </strong></p>
       </div>
       <div class="modal-footer">
         <span v-if="copied" class="success-copied">
