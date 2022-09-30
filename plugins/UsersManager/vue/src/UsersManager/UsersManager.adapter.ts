@@ -20,6 +20,9 @@ export default createAngularJsAdapter({
     initialSiteId: {
       angularJsBind: '@',
     },
+    inviteTokenExpiryDays: {
+      angularJsBind: '@',
+    },
     accessLevels: {
       angularJsBind: '<',
     },
