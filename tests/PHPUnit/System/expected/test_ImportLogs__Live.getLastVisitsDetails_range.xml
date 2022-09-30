@@ -6,6 +6,7 @@
 		<visitIp>174.97.139.63</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -167,6 +168,7 @@
 		<visitIp>206.190.75.8</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -334,6 +336,7 @@
 		<visitIp>193.159.20.129</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -505,6 +508,7 @@
 		<visitIp>50.244.17.130</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -693,6 +697,7 @@
 		<visitIp>84.194.72.21</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>outlink</type>
@@ -836,6 +841,7 @@
 		<visitIp>108.211.181.12</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1007,6 +1013,7 @@
 		<visitIp>219.101.46.222</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1166,6 +1173,7 @@
 		<visitIp>80.136.160.65</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1319,6 +1327,7 @@
 		<visitIp>188.107.238.9</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1492,6 +1501,7 @@
 		<visitIp>93.80.130.163</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1695,6 +1705,7 @@
 		<visitIp>176.41.226.154</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1860,6 +1871,7 @@
 		<visitIp>84.194.72.21</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2025,6 +2037,7 @@
 		<visitIp>175.41.192.40</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2388,6 +2401,7 @@
 		<visitIp>192.0.2.10</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2526,6 +2540,7 @@
 		<visitIp>175.41.191.47</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2664,6 +2679,7 @@
 		<visitIp>172.20.1.0</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2827,6 +2843,7 @@
 		<visitIp>173.5.0.0</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3035,6 +3052,7 @@
 		<visitIp>70.95.0.0</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3235,6 +3253,7 @@
 		<visitIp>173.5.0.0</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3373,6 +3392,7 @@
 		<visitIp>70.95.32.0</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3523,6 +3543,7 @@
 		<visitIp>0.0.0.0</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3683,6 +3704,7 @@
 		<visitIp>0.0.0.0</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3846,6 +3868,7 @@
 		<visitIp>72.45.67.32</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3984,6 +4007,7 @@
 		<visitIp>73.77.55.45</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -4122,6 +4146,7 @@
 		<visitIp>192.0.2.222</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -4242,6 +4267,7 @@
 		<visitIp>192.0.2.147</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -4361,6 +4387,7 @@
 		<visitIp>175.41.192.41</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -4503,6 +4530,7 @@
 		<visitIp>::ffff:123.45.67.89</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -4645,6 +4673,7 @@
 		<visitIp>175.41.192.43</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -4812,6 +4841,7 @@
 		<visitIp>175.41.192.42</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -4980,6 +5010,7 @@
 		<visitIp>72.44.32.11</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5122,6 +5153,7 @@
 		<visitIp>72.44.32.11</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5264,6 +5296,7 @@
 		<visitIp>1.2.3.4</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -5386,6 +5419,7 @@
 		<visitIp>175.41.192.41</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5528,6 +5562,7 @@
 		<visitIp>175.41.192.41</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5670,6 +5705,7 @@
 		<visitIp>0.0.0.0</visitIp>
 		
 		
+		<profilable>1</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5808,6 +5844,7 @@
 		<visitIp>0.0.0.0</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5946,6 +5983,7 @@
 		<visitIp>177.71.128.21</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6084,6 +6122,7 @@
 		<visitIp>177.71.128.21</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6222,6 +6261,7 @@
 		<visitIp>177.71.128.21</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6360,6 +6400,7 @@
 		<visitIp>175.41.192.34</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6498,6 +6539,7 @@
 		<visitIp>175.41.192.34</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6636,6 +6678,7 @@
 		<visitIp>0.0.0.0</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6774,6 +6817,7 @@
 		<visitIp>175.41.193.45</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6912,6 +6956,7 @@
 		<visitIp>175.41.191.45</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7050,6 +7095,7 @@
 		<visitIp>175.41.192.9</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7188,6 +7234,7 @@
 		<visitIp>175.41.192.9</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7326,6 +7373,7 @@
 		<visitIp>72.44.32.10</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7464,6 +7512,7 @@
 		<visitIp>72.44.32.10</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7602,6 +7651,7 @@
 		<visitIp>72.44.32.10</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7740,6 +7790,7 @@
 		<visitIp>175.41.192.40</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7878,6 +7929,7 @@
 		<visitIp>175.41.192.40</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -8016,6 +8068,7 @@
 		<visitIp>175.41.192.40</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -8154,6 +8207,7 @@
 		<visitIp>175.41.193.46</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -8292,6 +8346,7 @@
 		<visitIp>175.41.191.46</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -8430,6 +8485,7 @@
 		<visitIp>175.41.192.40</visitIp>
 		
 		
+		<profilable>0</profilable>
 		<actionDetails>
 			<row>
 				<type>action</type>

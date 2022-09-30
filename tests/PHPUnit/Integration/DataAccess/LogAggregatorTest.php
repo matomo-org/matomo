@@ -278,6 +278,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 6 => '0',
                 7 => '1',
                 39 => '0',
+                44 => '1',
             ],
             [
                 'label' => 'r',
@@ -289,6 +290,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 6 => '1',
                 7 => '1',
                 39 => '0',
+                44 => '1',
             ],
         ];
         $this->assertEquals($expected, $result);

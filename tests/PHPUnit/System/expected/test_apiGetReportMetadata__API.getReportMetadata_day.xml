@@ -81,12 +81,14 @@
 			<nb_users>Users</nb_users>
 			<nb_actions>Actions</nb_actions>
 			<max_actions>Maximum actions in one visit</max_actions>
+			<nb_profilable>Profilable Visits</nb_profilable>
 		</metrics>
 		<metricsDocumentation>
 			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_profilable>The total number of visits that we can confidently attribute to a specific visitor, because they were tracked with information that requires a user's consent.</nb_profilable>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
@@ -2714,6 +2716,7 @@
 			<nb_users>Users</nb_users>
 			<nb_actions>Actions</nb_actions>
 			<max_actions>Maximum actions in one visit</max_actions>
+			<nb_profilable>Profilable Visits</nb_profilable>
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
@@ -2747,6 +2750,7 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_profilable>The total number of visits that we can confidently attribute to a specific visitor, because they were tracked with information that requires a user's consent.</nb_profilable>
 			<avg_time_network>Average time (in seconds) it takes to connect to the server. This includes the time needed to lookup DNS and establish a TCP connection. This value might be 0 after the first request to a domain as the browser might cache the connection.</avg_time_network>
 			<avg_time_server>Average time (in seconds) it takes the server to generate the page. This is the time between the server receiving the request and starting to serve the response.</avg_time_server>
 			<avg_time_transfer>Average time (in seconds) it takes the browser to download the response from the server. This is the time from receiving the first byte till the response is complete.</avg_time_transfer>

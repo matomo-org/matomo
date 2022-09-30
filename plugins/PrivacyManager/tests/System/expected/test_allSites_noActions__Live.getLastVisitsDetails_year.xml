@@ -6,6 +6,7 @@
 		<visitIp>156.5.3.200</visitIp>
 		
 		<fingerprint>d5e8ac7a720f0405</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -118,6 +119,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -230,6 +232,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -342,6 +345,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -454,6 +458,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -566,6 +571,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -678,6 +684,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -786,6 +793,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -898,6 +906,7 @@
 		<visitIp>156.5.3.200</visitIp>
 		
 		<fingerprint>8eb6c0402c835718</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1010,6 +1019,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>c37c84be07b2ab16</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1122,6 +1132,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>077245205f2ee79c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1234,6 +1245,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>32df9bbcdb672be6</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1346,6 +1358,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>cdf190bfe8778de6</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1458,6 +1471,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>7e55cc2b68c0eb44</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1570,6 +1584,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>4ee1556fea48e95e</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1678,6 +1693,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f4b430914146e6ee</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1790,6 +1806,7 @@
 		<visitIp>156.5.3.200</visitIp>
 		
 		<fingerprint>7d83e53fe3960b63</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1902,6 +1919,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2014,6 +2032,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2126,6 +2145,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>353bbff99e5be135</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2238,6 +2258,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2350,6 +2371,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>ca3e24181288298d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -2462,6 +2484,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>259551f545941cb4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2570,6 +2593,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2682,6 +2706,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2794,6 +2819,7 @@
 		<visitIp>156.5.3.204</visitIp>
 		
 		<fingerprint>45d102bfa62b9a00</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2906,6 +2932,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3018,6 +3045,7 @@
 		<visitIp>156.5.3.210</visitIp>
 		
 		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3130,6 +3158,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>9f88465470cf09b8</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3242,6 +3271,7 @@
 		<visitIp>156.5.3.204</visitIp>
 		
 		<fingerprint>3c6f99b75d7ffea1</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3354,6 +3384,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>fe26c54b89d1bb52</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3466,6 +3497,7 @@
 		<visitIp>156.5.3.210</visitIp>
 		
 		<fingerprint>6cd6eb47f346457c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3578,6 +3610,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>8d8bc0ea9a9333de</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3690,6 +3723,7 @@
 		<visitIp>156.5.3.204</visitIp>
 		
 		<fingerprint>521775fbc1378e3f</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3802,6 +3836,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bfcdab4d0d75db11</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -3914,6 +3949,7 @@
 		<visitIp>156.5.3.210</visitIp>
 		
 		<fingerprint>902e8975f4e8467f</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4026,6 +4062,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4138,6 +4175,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4250,6 +4288,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>077245205f2ee79c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4362,6 +4401,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f4b430914146e6ee</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4474,6 +4514,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4586,6 +4627,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4698,6 +4740,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4810,6 +4853,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -4918,6 +4962,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>cdf190bfe8778de6</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5030,6 +5075,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>4ee1556fea48e95e</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5138,6 +5184,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5250,6 +5297,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>259551f545941cb4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5358,6 +5406,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5470,6 +5519,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>9f88465470cf09b8</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5582,6 +5632,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>8d8bc0ea9a9333de</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5694,6 +5745,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5806,6 +5858,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -5918,6 +5971,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6030,6 +6084,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>077245205f2ee79c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6142,6 +6197,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>32df9bbcdb672be6</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6254,6 +6310,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>cdf190bfe8778de6</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6366,6 +6423,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6478,6 +6536,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>353bbff99e5be135</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6590,6 +6649,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6702,6 +6762,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6814,6 +6875,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>fe26c54b89d1bb52</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -6926,6 +6988,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bfcdab4d0d75db11</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7038,6 +7101,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7150,6 +7214,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7262,6 +7327,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>c37c84be07b2ab16</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7374,6 +7440,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f4b430914146e6ee</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7486,6 +7553,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7598,6 +7666,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7710,6 +7779,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7822,6 +7892,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>cdf190bfe8778de6</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -7934,6 +8005,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8046,6 +8118,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8158,6 +8231,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8270,6 +8344,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>077245205f2ee79c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8382,6 +8457,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>7e55cc2b68c0eb44</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8494,6 +8570,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8606,6 +8683,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>ca3e24181288298d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -8718,6 +8796,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -8830,6 +8909,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f4b430914146e6ee</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -8942,6 +9022,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -9054,6 +9135,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9166,6 +9248,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -9278,6 +9361,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>077245205f2ee79c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9390,6 +9474,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f4b430914146e6ee</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -9502,6 +9587,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9614,6 +9700,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -9726,6 +9813,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9838,6 +9926,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>077245205f2ee79c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -9950,6 +10039,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10062,6 +10152,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10174,6 +10265,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10286,6 +10378,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>c37c84be07b2ab16</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10398,6 +10491,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>077245205f2ee79c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10510,6 +10604,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10622,6 +10717,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -10734,6 +10830,7 @@
 		<visitIp>156.5.3.200</visitIp>
 		
 		<fingerprint>d5e8ac7a720f0405</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -10846,6 +10943,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -10958,6 +11056,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11070,6 +11169,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11182,6 +11282,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11294,6 +11395,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -11406,6 +11508,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11514,6 +11617,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11626,6 +11730,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11738,6 +11843,7 @@
 		<visitIp>156.5.3.204</visitIp>
 		
 		<fingerprint>45d102bfa62b9a00</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -11850,6 +11956,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -11962,6 +12069,7 @@
 		<visitIp>156.5.3.210</visitIp>
 		
 		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -12074,6 +12182,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12186,6 +12295,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12298,6 +12408,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12410,6 +12521,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12518,6 +12630,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12630,6 +12743,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12742,6 +12856,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12854,6 +12969,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -12966,6 +13082,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13078,6 +13195,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13190,6 +13308,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13302,6 +13421,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13414,6 +13534,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13526,6 +13647,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13638,6 +13760,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -13750,6 +13873,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -13862,6 +13986,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -13974,6 +14099,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -14086,6 +14212,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -14198,6 +14325,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -14310,6 +14438,7 @@
 		<visitIp>156.5.3.200</visitIp>
 		
 		<fingerprint>d5e8ac7a720f0405</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14422,6 +14551,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14534,6 +14664,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14646,6 +14777,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14758,6 +14890,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -14870,6 +15003,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -14982,6 +15116,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15090,6 +15225,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15202,6 +15338,7 @@
 		<visitIp>156.5.3.200</visitIp>
 		
 		<fingerprint>7d83e53fe3960b63</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15314,6 +15451,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15426,6 +15564,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15538,6 +15677,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>353bbff99e5be135</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15650,6 +15790,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15762,6 +15903,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>ca3e24181288298d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -15874,6 +16016,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>259551f545941cb4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -15982,6 +16125,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16094,6 +16238,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16206,6 +16351,7 @@
 		<visitIp>156.5.3.204</visitIp>
 		
 		<fingerprint>45d102bfa62b9a00</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16318,6 +16464,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16430,6 +16577,7 @@
 		<visitIp>156.5.3.210</visitIp>
 		
 		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16542,6 +16690,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>8d8bc0ea9a9333de</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16654,6 +16803,7 @@
 		<visitIp>156.5.3.204</visitIp>
 		
 		<fingerprint>521775fbc1378e3f</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16766,6 +16916,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bfcdab4d0d75db11</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -16878,6 +17029,7 @@
 		<visitIp>156.5.3.210</visitIp>
 		
 		<fingerprint>902e8975f4e8467f</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -16990,6 +17142,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17102,6 +17255,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17214,6 +17368,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17326,6 +17481,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17438,6 +17594,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17550,6 +17707,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17658,6 +17816,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17770,6 +17929,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>259551f545941cb4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17878,6 +18038,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -17990,6 +18151,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>8d8bc0ea9a9333de</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18102,6 +18264,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18214,6 +18377,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18326,6 +18490,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18438,6 +18603,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18550,6 +18716,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>353bbff99e5be135</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18662,6 +18829,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18774,6 +18942,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18886,6 +19055,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bfcdab4d0d75db11</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -18998,6 +19168,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19110,6 +19281,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19222,6 +19394,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19334,6 +19507,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19446,6 +19620,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19558,6 +19733,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>075ecf13a1e1c3d5</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19670,6 +19846,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19782,6 +19959,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -19894,6 +20072,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20006,6 +20185,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>ca3e24181288298d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20118,6 +20298,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -20230,6 +20411,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -20342,6 +20524,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20454,6 +20637,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -20566,6 +20750,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20678,6 +20863,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>f71dd0793e981b1d</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -20790,6 +20976,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -20902,6 +21089,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -21014,6 +21202,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -21126,6 +21315,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -21238,6 +21428,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>6c3bdd7ebbc7b883</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -21350,6 +21541,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>15a82f79c9664e1c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -21462,6 +21654,7 @@
 		<visitIp>156.5.3.200</visitIp>
 		
 		<fingerprint>d5e8ac7a720f0405</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21574,6 +21767,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21686,6 +21880,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21798,6 +21993,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -21910,6 +22106,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -22022,6 +22219,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22134,6 +22332,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -22242,6 +22441,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -22354,6 +22554,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -22466,6 +22667,7 @@
 		<visitIp>156.5.3.204</visitIp>
 		
 		<fingerprint>45d102bfa62b9a00</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -22578,6 +22780,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22690,6 +22893,7 @@
 		<visitIp>156.5.3.210</visitIp>
 		
 		<fingerprint>a4d4a2fa60ee2f75</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -22802,6 +23006,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -22914,6 +23119,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23026,6 +23232,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23138,6 +23345,7 @@
 		<visitIp>156.5.3.209</visitIp>
 		
 		<fingerprint>9ff28a3b61810f93</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23246,6 +23454,7 @@
 		<visitIp>156.5.3.201</visitIp>
 		
 		<fingerprint>862f8758e8a04856</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23358,6 +23567,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23470,6 +23680,7 @@
 		<visitIp>156.5.3.205</visitIp>
 		
 		<fingerprint>e047d32ffaa9b618</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23582,6 +23793,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23694,6 +23906,7 @@
 		<visitIp>156.5.3.207</visitIp>
 		
 		<fingerprint>bb05333df7a99d87</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23806,6 +24019,7 @@
 		<visitIp>156.5.3.202</visitIp>
 		
 		<fingerprint>98850fa73c0eaad4</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -23918,6 +24132,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -24030,6 +24245,7 @@
 		<visitIp>156.5.3.206</visitIp>
 		
 		<fingerprint>8e7e63b0a38f8882</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -24142,6 +24358,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -24254,6 +24471,7 @@
 		<visitIp>156.5.3.208</visitIp>
 		
 		<fingerprint>2622a9fc22265dd0</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -24366,6 +24584,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -24478,6 +24697,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -24590,6 +24810,7 @@
 		<visitIp>156.5.3.211</visitIp>
 		
 		<fingerprint>2ed71e854068fc9c</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -24702,6 +24923,7 @@
 		<visitIp>156.5.3.203</visitIp>
 		
 		<fingerprint>6fd3fd0dd66dc7b3</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>0</goalConversions>

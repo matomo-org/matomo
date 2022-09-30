@@ -254,6 +254,8 @@ class Controller extends \Piwik\Plugin\Controller
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
         $view->config->documentation = $this->translator->translate($langString, '<br />');
 
+        Goals::addDataTableNotificationIfNotProfilable($view);
+
         if ($view instanceof Evolution) {
             $view->requestConfig->request_parameters_to_modify['format_metrics'] = 0;
         }
