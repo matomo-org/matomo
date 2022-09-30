@@ -360,17 +360,11 @@ class API extends \Piwik\Plugin\API
      * @param bool $fetchAliasUrls
      * @param false|string $pattern
      * @param false|int    $limit
-     * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false, $sitesToExclude = [])
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false)
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
-
-        // Remove the sites to exclude from the list of IDs.
-        if (is_array($sitesId) && is_array($sitesToExclude) && count($sitesToExclude)) {
-            $sitesId = array_diff($sitesId, $sitesToExclude);
-        }
 
         if ($pattern === false) {
             $sites = $this->getSitesFromIds($sitesId, $limit);
@@ -1730,18 +1724,11 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $pattern
      * @param int|false $limit
-     * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
      * @return array
      */
-    public function getPatternMatchSites($pattern, $limit = false, $sitesToExclude = [])
+    public function getPatternMatchSites($pattern, $limit = false)
     {
         $ids = $this->getSitesIdWithAtLeastViewAccess();
-
-        // Remove the sites to exclude from the list of IDs.
-        if (is_array($ids) && is_array($sitesToExclude) && count($sitesToExclude)) {
-            $ids = array_diff($ids, $sitesToExclude);
-        }
-
         if (empty($ids)) {
             return [];
         }
