@@ -30,6 +30,9 @@ class ChallengeSetupConsentManager extends Challenge
 
         if ($siteData === null) {
             // Grab the current site main page as a string
+            if (!isset($_REQUEST['idSite'])) {
+                return;
+            }
             $idSite = Common::getRequestVar('idSite', null, 'int');
             if (!$idSite) {
                 return;
