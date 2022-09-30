@@ -174,7 +174,7 @@ class ManagerTest extends IntegrationTestCase
             array(true, 'a0'),
             array(true, 'pluginNameTest'),
             array(true, 'PluginNameTest'),
-            array(true, 'PluginNameTest92323232eerwrwere938'),
+            array(true, 'PluginNameTest'.$this->generateRandomString()),
             array(true, 'a_ererer'),
             array(true, 'a_'),
             array(false, ''),
@@ -185,9 +185,19 @@ class ManagerTest extends IntegrationTestCase
             array(false, 'a-ererer'),
             array(false, '..'),
             array(false, '/'),
+            array(true, 'a'.$this->generateRandomString(59)),
+            array(false, 'a'.$this->generateRandomString(60)),
         );
     }
-
+   private function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
     private function getCacheForTrackerPlugins()
     {
         return PiwikCache::getEagerCache();
