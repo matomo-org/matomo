@@ -20,7 +20,10 @@ class ChallengeSetupConsentManager extends Challenge
     private $consentManagerName = null;
     private $isConnected = false;
 
-    public function __construct($siteData = null)
+    /**
+     * @param string|null $siteData    String of site content, content of the current site will be retrieved if left blank
+     */
+    public function __construct(?string $siteData = null)
     {
 
         parent::__construct();
@@ -37,9 +40,16 @@ class ChallengeSetupConsentManager extends Challenge
                 return;
             }
 
-            $siteData = Http::sendHttpRequestBy('curl', $url, 60, null, null,
-                null, 0, false, true);
+            try {
+                $siteData = Http::sendHttpRequestBy('curl', $url, 60, null, null,
+                    null, 0, false, true);
+            } catch (\Exception $e) {
+            }
 
+        }
+
+        if ($siteData === null) {
+            return;
         }
 
         // Loop the consent manager definitions and attempt to detect based on string matching
@@ -71,6 +81,11 @@ class ChallengeSetupConsentManager extends Challenge
 
     }
 
+    /**
+     * Return an array of consent manager definitions which can be used to detect their prescence and show guide links
+     *
+     * @return array[]
+     */
     private function getConsentManagerDefinitions() : array
     {
         return [
