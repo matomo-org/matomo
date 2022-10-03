@@ -3,6 +3,7 @@
         "Clicks": "%s klick",
         "ClicksFromXLinks": "%1$s klick från en av %2$s länkar",
         "Domain": "Domän",
+        "ErrorNoSiteUrls": "VARNING: Den här webbplatsen har inga webbadresser definierade i Matomo. Detta kan leda till att Overlay och andra funktioner inte fungerar eller beter sig konstigt. För att åtgärda detta lägger du till en URL i inställningarna för den här webbplatsen i avsnittet Matomo Administration.",
         "ErrorNotLoading": "Sessionen för sidöverlägg kunde inte startas.",
         "ErrorNotLoadingDetails": "Möjligtvis så har inte sidan som laddats till höger Matomo's spårningskod. I det här falletkan du prova att starta Sidöverlägg för en annan sida från rapporten \\\"Sidor\\\".",
         "ErrorNotLoadingDetailsSSL": "Eftersom du använder Matomo över https, så är den mest troliga orsaken att din webbläsare inte stödjer SSL. Försök att använda Matomo över http.",
@@ -16,6 +17,6 @@
         "PluginDescription": "Se din statistikdata som ett Overlay på din faktiska webbplats. Kolla hur många gånger dina användare har klickat på respektive länk. Notering: Kräver att du har aktiverat Översättningstillägget.",
         "RedirectUrlError": "Du försöker öppna ett överliggande lager för URL \"%1$s\". %2$s Ingen av domänerna från Matomo's inställningar matchar länken.",
         "RedirectUrlErrorAdmin": "Du kan lägga till domänen som en extra URL %1$si inställningarna%2$s.",
-        "RedirectUrlErrorUser": "Be administratören att lägga till domänen som en extra webbadress"
+        "RedirectUrlErrorUser": "Be administratören att lägga till domänen som en extra webbadress."
     }
 }
