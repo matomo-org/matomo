@@ -176,7 +176,7 @@ abstract class VisitDimension extends Dimension
 
     /**
      * The `onExistingVisit` method is triggered when a visitor was recognized meaning it is not a new visitor.
-     * You can overwrite any previous value set by the event `onNewVisit` by implememting this event. By returning boolean
+     * You can overwrite any previous value set by the event `onNewVisit` by implementing this event. By returning boolean
      * `false` no value will be updated.
      *
      * @param Request $request
