@@ -533,6 +533,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * TODO
+     * @return void
+     */
+    public function multiFilter($otherTables, callable $filter)
+    {
+        $filter(...array_merge([$this], $otherTables));
+    }
+
+    /**
      * Applies a filter to all subtables but not to this datatable.
      *
      * @param string|Closure $className Class name, eg. `"Sort"` or "Piwik\DataTable\Filters\Sort"`. If no

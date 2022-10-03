@@ -321,7 +321,7 @@ class LogAggregator
             return;
         }
 
-        $insertIntoStatement = 'INSERT IGNORE INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
 
         $transactionLevel->restorePreviousStatus();
@@ -416,6 +416,7 @@ class LogAggregator
             Metrics::INDEX_BOUNCE_COUNT                   => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
             Metrics::INDEX_NB_VISITS_CONVERTED            => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
             Metrics::INDEX_NB_USERS                       => "count(distinct " . self::LOG_VISIT_TABLE . ".user_id)",
+            Metrics::INDEX_NB_PROFILABLE                  => "sum(" . self::LOG_VISIT_TABLE . ".profilable)",
         );
     }
 
@@ -1268,7 +1269,8 @@ class LogAggregator
      *               ```
      * @api
      */
-    public static function getSelectsFromRangedColumn($column, $ranges, $table, $selectColumnPrefix, $restrictToReturningVisitors = false)
+    public static function getSelectsFromRangedColumn($column, $ranges, $table, $selectColumnPrefix, $restrictToReturningVisitors = false,
+                                                      $restrictToProfilable = false)
     {
         $selects = array();
         $extraCondition = '';
@@ -1282,9 +1284,19 @@ class LogAggregator
             // extra condition for the SQL SELECT that makes sure only returning visits are counted
             // when creating the 'days since last visit' report
             $extraCondition = 'and log_visit.visitor_returning = 1';
-            $extraSelect    = "sum(case when log_visit.visitor_returning = 0 then 1 else 0 end) "
+
+            $extraSelectCondition = '';
+            if ($restrictToProfilable) {
+                $extraSelectCondition = ' and log_visit.profilable = 1';
+            }
+
+            $extraSelect    = "sum(case when log_visit.visitor_returning = 0$extraSelectCondition then 1 else 0 end) "
                 . " as `" . $selectColumnPrefix . 'General_NewVisits' . "`";
             $selects[] = $extraSelect;
+        }
+
+        if ($restrictToProfilable) {
+            $extraCondition .= ' and log_visit.profilable = 1';
         }
 
         foreach ($ranges as $gap) {

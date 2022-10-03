@@ -166,6 +166,11 @@
 		<documentation>The number of times this page was visited.</documentation>
 	</row>
 	<row>
+		<name>Profilable Visits</name>
+		<id>nb_profilable</id>
+		<documentation>The total number of visits that we can confidently attribute to a specific visitor, because they were tracked with information that requires a user's consent.</documentation>
+	</row>
+	<row>
 		<name>Search Results pages</name>
 		<id>nb_pages_per_search</id>
 		<documentation>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</documentation>

@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 
 /**
  * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,
@@ -69,6 +70,33 @@ class API extends \Piwik\Plugin\API
             Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
         $dataTable->queueFilter('AddSegmentByRangeLabel', array('daysSinceLastVisit'));
         $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
+
+        // TODO: use transient cache somehow?
+        $unprofilableVisits = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, $segment, ['nb_visits', 'nb_profilable']);
+        $dataTable->multiFilter([$unprofilableVisits], function (DataTable $table, $unprofilableVisitsTable) {
+            if ($table->getRowsCount() == 0) {
+                return;
+            }
+
+            if ($unprofilableVisitsTable) {
+                $nbVisits = $unprofilableVisitsTable->getFirstRow()->getColumn('nb_visits') ?? 0;
+                $profilable = $unprofilableVisitsTable->getFirstRow()->getColumn('nb_profilable') ?? 0;
+            } else {
+                $nbVisits = 0;
+                $profilable = 0;
+            }
+
+            $unprofilable = $nbVisits - $profilable;
+
+            $row = new DataTable\Row();
+            $row->addColumns([
+                'label' => Piwik::translate('General_Unprofilable'),
+                Metrics::INDEX_NB_VISITS => $unprofilable,
+            ]);
+            $row->addMetadata('html_label_suffix', '<a href="#" target="_blank" rel="noreferrer noopener" style="margin-left:6px;transform: translateY(1px);display: inline-block;"><span class="icon-info"></span></a>');
+            $table->addRow($row);
+        });
+
         return $dataTable;
     }
 

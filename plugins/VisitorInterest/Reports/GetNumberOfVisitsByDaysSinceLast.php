@@ -42,7 +42,7 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
     {
         $view->requestConfig->filter_sort_column = 'label';
         $view->requestConfig->filter_sort_order  = 'asc';
-        $view->requestConfig->filter_limit = 15;
+        $view->requestConfig->filter_limit = 16;
 
         $view->config->show_search = false;
         $view->config->enable_sort = false;
