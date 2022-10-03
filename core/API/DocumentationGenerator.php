@@ -288,7 +288,7 @@ class DocumentationGenerator
         $aParameters['disable_queued_filters'] = false;
         $aParameters['disable_generic_filters'] = false;
         $aParameters['expanded'] = false;
-        $aParameters['idDimension'] = false;
+        $aParameters['idDimenson'] = false;
         $aParameters['format_metrics'] = false;
         $aParameters['compare'] = false;
         $aParameters['compareDates'] = false;
