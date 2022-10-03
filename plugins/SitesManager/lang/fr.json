@@ -2,8 +2,8 @@
     "SitesManager": {
         "AddMeasurable": "Ajouter un nouvel élément mesurable",
         "AddSite": "Ajouter un site",
-        "AdvancedTimezoneSupportNotFound": "Le support avancé des fuseaux horaires n'a pas été trouvé dans votre PHP (supporté en PHP&gt;=5.2). Vous pouvez toujours choisir un décalage UTC manuel.",
-        "AliasUrlHelp": "Il est recommandé, mais pas obligatoire, de spécifier les différentes URL, une par ligne, que vos visiteurs utilisent pour accéder à ce site Web. Les URLs alias d'un site web n'apparaîtront pas dans le rapport Referrers &gt; Websites. Notez qu'il n'est pas nécessaire de spécifier les URLs avec et sans 'www' car Matomo les prend automatiquement en compte.",
+        "AdvancedTimezoneSupportNotFound": "La prise en charge avancée des fuseaux horaires n'a pas été trouvée dans votre PHP (prise en charge dans PHP&gt;=5.2). Vous pouvez toujours choisir un décalage UTC manuel.",
+        "AliasUrlHelp": "Il est recommandé, mais pas obligatoire, de caractéristiques les différentes URL, une par ligne, que vos visiteurs utilisent pour accéder à ce site Web. Les URL alias d'un site web n'apparaîtront pas dans le rapport Referrers &gt; Sites Internet. Notez qu'il n'est pas nécessaire de spécifier les URL avec et sans 'www' car Matomo les prend automatiquement en compte.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Le fait de modifier votre fuseau horaire affectera uniquement les nouvelles données, ce n'est pas rétroactif.",
         "ChooseMeasurableTypeHeadline": "Que voudriez-vous mesurer ?",
         "Currency": "Devise",
