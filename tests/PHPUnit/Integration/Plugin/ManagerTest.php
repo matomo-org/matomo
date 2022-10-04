@@ -185,19 +185,11 @@ class ManagerTest extends IntegrationTestCase
             array(false, 'a-ererer'),
             array(false, '..'),
             array(false, '/'),
-            array(true, 'a'.$this->generateRandomString(59)),
-            array(false, 'a'.$this->generateRandomString(60)),
+            array(true, 'a'.Common::getRandomString(59)),
+            array(false, 'a'.Common::getRandomString(60)),
         );
     }
-   private function generateRandomString($length = 10) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
+
     private function getCacheForTrackerPlugins()
     {
         return PiwikCache::getEagerCache();
