@@ -753,6 +753,8 @@ class Access
             }
         }
 
+        //update status code to 401
+        Common::sendResponseCode(401);
         throw new NoAccessException($message);
     }
 
