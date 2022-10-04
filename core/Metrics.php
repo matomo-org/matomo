@@ -39,6 +39,7 @@ class Metrics
     const INDEX_REVENUE = 9;
     const INDEX_GOALS = 10;
     const INDEX_SUM_DAILY_NB_UNIQ_VISITORS = 11;
+    const INDEX_NB_PROFILABLE = 44;
 
     // Specific to the Actions reports
     const INDEX_PAGE_NB_HITS = 12;
@@ -122,6 +123,7 @@ class Metrics
         Metrics::INDEX_GOALS                                 => 'goals',
         Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_uniq_visitors',
         Metrics::INDEX_SUM_DAILY_NB_USERS                    => 'sum_daily_nb_users',
+        Metrics::INDEX_NB_PROFILABLE                         => 'nb_profilable',
 
         // Actions metrics
         Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
@@ -191,6 +193,7 @@ class Metrics
         Metrics::INDEX_SUM_VISIT_LENGTH,
         Metrics::INDEX_BOUNCE_COUNT,
         Metrics::INDEX_NB_VISITS_CONVERTED,
+        Metrics::INDEX_NB_PROFILABLE,
     );
 
     public static function getMappingFromIdToName()
@@ -368,6 +371,7 @@ class Metrics
             'entry_bounce_count'            => 'General_ColumnBounces',
             'exit_bounce_count'             => 'General_ColumnBounces',
             'exit_rate'                     => 'General_ColumnExitRate',
+            'nb_profilable'                 => 'General_ProfilableVisits',
         );
 
         $dailySum = ' (' . Piwik::translate('General_DailySum') . ')';
@@ -491,7 +495,8 @@ class Metrics
             'conversion_rate'      => 'General_ColumnConversionRateDocumentation',
             'avg_time_on_page'     => 'General_ColumnAverageTimeOnPageDocumentation',
             'nb_hits'              => 'General_ColumnPageviewsDocumentation',
-            'exit_rate'            => 'General_ColumnExitRateDocumentation'
+            'exit_rate'            => 'General_ColumnExitRateDocumentation',
+            'nb_profilable'        => 'General_ColumnProfilableVisitsDocumentation',
         );
 
         /**
