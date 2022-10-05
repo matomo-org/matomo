@@ -18,6 +18,7 @@ describe("SiteSelector", function () {
         await page.waitForNetworkIdle();
 
         dialog = await page.$(selectorToCapture);
+        await page.waitForTimeout(500);
         expect(await dialog.screenshot()).to.matchImage('loaded');
     });
 
@@ -41,6 +42,7 @@ describe("SiteSelector", function () {
 
     it("should search when one character typed into search input", async function() {
         await page.click('.reset');
+        await page.waitForTimeout(500);
         await page.type(".websiteSearch", "s");
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);

@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Web istatistikleri raporlarını e-postanıza ya da cep telefonunuza gönderin.",
         "TopMenu": "E-posta ve SMS raporları",
         "UserKey": "Kullanıcı anahtarı",
-        "VerificationText": "Kod: %1$s. Telefon numaranızı doğrulamak ve Matomo SMS raporlarını almak için lütfen Matomo &gt; %2$s &gt; %3$s bölümüne bu kodu kopyalayın."
+        "VerificationText": "Kod: %1$s. Telefon numaranızı doğrulamak ve Matomo SMS raporlarını almak için lütfen Matomo → %2$s → %3$s bölümüne bu kodu kopyalayın."
     }
 }
