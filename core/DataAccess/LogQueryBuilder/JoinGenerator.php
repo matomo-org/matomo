@@ -158,6 +158,8 @@ class JoinGenerator
                     $this->joinString .= ' LEFT JOIN';
                 }
 
+                $forceIndex = (isset($table['forceIndex']) ? ' FORCE INDEX('.$table['forceIndex'].') ' : '');
+
                 if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table'])) {
                     $logTable = $this->tables->getLogTable($table['table']);
                     if (!empty($availableLogTables)) {
@@ -170,7 +172,7 @@ class JoinGenerator
                     }
                 }
 
-                $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
+                $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias . $forceIndex
                                    . " ON " . $table['joinOn'];
                 continue;
             }

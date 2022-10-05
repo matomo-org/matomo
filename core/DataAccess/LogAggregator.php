@@ -327,10 +327,26 @@ class LogAggregator
         $transactionLevel->restorePreviousStatus();
     }
 
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    /**
+     * Generate a SQL query from the supplied parameters
+     *
+     * @param       $select
+     * @param       $from
+     * @param       $where
+     * @param       $groupBy
+     * @param       $orderBy
+     * @param int   $limit
+     * @param int   $offset
+     * @param int   $bindRepeat     Bind the parameters multiple times, used by subqueries
+     *
+     * @return array|mixed|string
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0, $bindRepeat = 1)
     {
         $segment = $this->segment;
-        $bind = $this->getGeneralQueryBindParams();
+        $bind = $this->getGeneralQueryBindParams($bindRepeat);
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
             // here we create the TMP table and apply the segment including the datetime and the requested idsite
@@ -754,12 +770,17 @@ class LogAggregator
      * Returns general bind parameters for all log aggregation queries. This includes the datetime
      * start of entities, datetime end of entities and IDs of all sites.
      *
+     * @param int $bindRepeat Bind the parameters this number of times
      * @return array
      */
-    public function getGeneralQueryBindParams()
+    public function getGeneralQueryBindParams(int $bindRepeat = 1)
     {
-        $bind = array($this->dateStart->toString(Date::DATE_TIME_FORMAT), $this->dateEnd->toString(Date::DATE_TIME_FORMAT));
-        $bind = array_merge($bind, $this->sites);
+        $bind = [];
+        for ($i = 0; $i < $bindRepeat; $i++) {
+            $bind[] = $this->dateStart->toString(Date::DATE_TIME_FORMAT);
+            $bind[] = $this->dateEnd->toString(Date::DATE_TIME_FORMAT);
+            $bind = array_merge($bind, $this->sites);
+        }
 
         return $bind;
     }
@@ -1084,67 +1105,179 @@ class LogAggregator
     }
 
     /**
-     * Similar to queryConversionsByDimension and will return data in the same format, but takes into account pageviews
-     * leading up to a conversion, not just the final page that triggered the conversion
+     * ORIGINAL QUERY
+     * Similar to queryConversionsByDimension and will return data in the same
+     * format, but takes into account pageviews leading up to a conversion, not
+     * just the final page that triggered the conversion
      *
      * @param string $linkField
-     * @param int $rankingQueryLimit
      *
      * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByPageView(string $linkField, $rankingQueryLimit = 0)
+    public function queryConversionsByPageView(string $linkField)
     {
+        $q = 'rightjoin';
 
-        $query = $this->generateQuery(
-        // SELECT ...
-            implode(
-                ', ',
-                array(
-                    'log_conversion.idgoal AS idgoal',
-                    sprintf('log_link_visit_action.%s AS idaction', $linkField),
-                    'log_action.type',
-                    'log_conversion.idvisit',
-                    sprintf('log_conversion.idvisit AS `%d`', Metrics::INDEX_GOAL_NB_VISITS_CONVERTED),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_subtotal'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_tax'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_shipping'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
-                    sprintf('%s AS `%d`', self::getSqlRevenue('log_conversion.revenue_discount'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
-                    sprintf('log_conversion.items AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
-                    sprintf('1 AS `%s`', Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ),
-                )
-            ),
-            // FROM...
-            array(
-                self::LOG_CONVERSION_TABLE,
-                array(
-                    "table" => "log_link_visit_action",
-                    "joinOn" => "log_link_visit_action.idvisit = log_conversion.idvisit AND log_link_visit_action.server_time <= log_conversion.server_time AND log_link_visit_action.".$linkField." IS NOT NULL"
+        if ($q == 'rightjoin') {
+
+            // RIGHT JOIN
+
+            $dbSettings = new \Piwik\Db\Settings();
+            $tablePrefix = $dbSettings->getTablePrefix();
+            $subQuery = sprintf("
+                MAX((SELECT COUNT(am.idaction)
+                 FROM %slog_conversion cam
+                 LEFT JOIN %slog_link_visit_action vam ON vam.idvisit = cam.idvisit
+                 LEFT JOIN %slog_action am ON am.idaction = vam.idaction_url
+                 WHERE cam.idgoal = log_conversion.idgoal AND vam.idvisit = log_link_visit_action.idvisit
+                 AND vam.idaction_url IS NOT NULL AND am.type = 1
+                 AND vam.server_time <= log_conversion.server_time
+                 GROUP BY cam.idgoal, cam.idvisit
+                 ORDER BY NULL)) AS `%d`              
+            ", $tablePrefix, $tablePrefix, $tablePrefix, Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE);
+
+            $localBind = $this->getGeneralQueryBindParams();
+
+            // Get unique pages visited before the goal conversion, one row per goal / visit / page combination
+            $query = $this->generateQuery(
+            // SELECT ...
+                implode(
+                    ', ',
+                    [
+                        "log_conversion.idgoal AS idgoal",
+                        "log_link_visit_action.".$linkField." AS idaction",
+                        "log_action.type AS type",
+                        sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS),
+                        sprintf('0 AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB),
+                        sprintf('COUNT(log_conversion.idvisit) AS `%d`', Metrics::INDEX_GOAL_NB_VISITS_CONVERTED),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), Metrics::INDEX_GOAL_REVENUE),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_tax)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
+                        sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
+                        $subQuery,
+                        sprintf('1 AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ),
+                    ]
                 ),
-                array(
-                    "table" => "log_action",
-                    "joinOn" => "log_action.idaction = log_link_visit_action.".$linkField." AND ".($linkField == 'idaction_url' ? 'log_action.type = 1' : 'log_action.type = 4')
-                )
-            ),
-            // WHERE ... AND ...
-            implode(
-                ' AND ',
-                array(
-                    'log_conversion.server_time >= ?',
-                    'log_conversion.server_time <= ?',
-                    'log_conversion.idsite IN ('.Common::getSqlStringFieldsArray($this->sites).')',
-                    'log_conversion.idgoal >= 0'
-                )
-            ),
 
-            // GROUP BY ...
-            false,
+                // FROM...
+                [
+                    self::LOG_CONVERSION_TABLE,
+                    [
+                        "table" => "log_link_visit_action",
+                        "join" => "RIGHT JOIN",
+                        "forceIndex" => "index_idsite_servertime",
+                        "joinOn" => "log_link_visit_action.idvisit = log_conversion.idvisit AND
+                                     log_link_visit_action.server_time >= ? AND 
+                                     log_link_visit_action.server_time <= ? AND
+                                     log_link_visit_action.idsite IN (".Common::getSqlStringFieldsArray($this->sites).")"
 
-            // ORDER ...
-            'NULL'
-        );
+                    ],
+                    [
+                        "table" => "log_action",
+                        "joinOn" => "log_action.idaction = log_link_visit_action.".$linkField
+                    ]
+                ],
+                // WHERE ... AND ...
+                implode(
+                    ' AND ',
+                    [
+                        'log_conversion.server_time >= ?',
+                        'log_conversion.server_time <= ?',
+                        'log_conversion.idsite IN ('.Common::getSqlStringFieldsArray($this->sites).')',
+                        'log_conversion.idgoal != 0',
+                        'log_link_visit_action.server_time <= log_conversion.server_time',
+                        'log_link_visit_action.'.$linkField.' IS NOT NULL',
+                        ($linkField == 'idaction_url' ? 'log_action.type = 1' : 'log_action.type = 4')
+                    ]
+                ),
 
-        return $this->getDb()->query($query['sql'], $query['bind']);
+                // GROUP BY ...
+                'log_conversion.idgoal, log_conversion.idvisit, log_link_visit_action.'.$linkField,
+
+                // ORDER ...
+                'NULL',
+                0, 0, 2
+            );
+
+            return $this->getDb()->query($query['sql'], $query['bind']);
+
+        } else {
+
+            // LEFT JOIN
+
+            $dbSettings = new \Piwik\Db\Settings();
+            $tablePrefix = $dbSettings->getTablePrefix();
+            $subQuery = sprintf("
+            MAX((SELECT COUNT(am.idaction)
+             FROM %slog_conversion cam
+             LEFT JOIN %slog_link_visit_action vam ON vam.idvisit = cam.idvisit
+             LEFT JOIN %slog_action am ON am.idaction = vam.idaction_url
+             WHERE cam.idgoal = log_conversion.idgoal AND vam.idvisit = log_link_visit_action.idvisit
+             AND vam.idaction_url IS NOT NULL AND am.type = 1
+             AND vam.server_time <= log_conversion.server_time
+             GROUP BY cam.idgoal, cam.idvisit
+             ORDER BY NULL)) AS `%d`              
+        ", $tablePrefix, $tablePrefix, $tablePrefix, Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE);
+
+            // Get unique pages visited before the goal conversion, one row per goal / visit / page combination
+            $query = $this->generateQuery(
+            // SELECT ...
+                implode(
+                    ', ',
+                    [
+                        "log_conversion.idgoal AS idgoal",
+                        "log_link_visit_action.".$linkField." AS idaction",
+                        "log_action.type AS type",
+                        sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS),
+                        sprintf('0 AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB),
+                        sprintf('COUNT(log_conversion.idvisit) AS `%d`', Metrics::INDEX_GOAL_NB_VISITS_CONVERTED),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue)'), Metrics::INDEX_GOAL_REVENUE),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_tax)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
+                        sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
+                        sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
+                        $subQuery,
+                        sprintf('1 AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ),
+                    ]
+                ),
+                // FROM...
+                [
+                    self::LOG_CONVERSION_TABLE,
+                    [
+                        "table" => "log_link_visit_action",
+                        "joinOn" => "log_link_visit_action.idvisit = log_conversion.idvisit AND log_link_visit_action.server_time <= log_conversion.server_time"
+                    ],
+                    [
+                        "table" => "log_action",
+                        "joinOn" => "log_action.idaction = log_link_visit_action.".$linkField
+                    ]
+                ],
+                // WHERE ... AND ...
+                implode(
+                    ' AND ',
+                    [
+                        'log_conversion.server_time >= ?',
+                        'log_conversion.server_time <= ?',
+                        'log_conversion.idsite IN ('.Common::getSqlStringFieldsArray($this->sites).')',
+                        'log_conversion.idgoal > 0',
+                        'log_link_visit_action.'.$linkField.' IS NOT NULL',
+                        ($linkField == 'idaction_url' ? 'log_action.type = 1' : 'log_action.type = 4')
+                    ]
+                ),
+
+                // GROUP BY ...
+                'log_conversion.idgoal, log_conversion.idvisit, log_action.idaction',
+
+                // ORDER ...
+                'NULL'
+            );
+
+            return $this->getDb()->query($query['sql'], $query['bind']);
+
+        }
     }
 
     /**
@@ -1161,7 +1294,7 @@ class LogAggregator
 
         $select = implode(
                 ', ',
-                array(
+                [
                     'log_conversion.idgoal AS idgoal',
                     sprintf('log_visit.%s AS idaction', $linkField),
                     'log_action.type',
@@ -1174,20 +1307,20 @@ class LogAggregator
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
                     sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
                     sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY)
-                )
+                ]
             );
 
-        $from = array(
+        $from = [
             $tableName,
-                array(
+                [
                     "table"  => "log_visit",
                     "joinOn" => "log_visit.idvisit = log_conversion.idvisit"
-                ),
-                array(
+                ],
+                [
                     "table" => "log_action",
                     "joinOn" => "log_action.idaction = log_visit.".$linkField
-                )
-        );
+                ]
+        ];
 
         $where   = $linkField.' IS NOT NULL AND log_conversion.idgoal >= 0';
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
