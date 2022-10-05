@@ -250,7 +250,7 @@ export default defineComponent({
   },
   mounted() {
     Matomo.on('hidePeriodSelector', () => {
-      window.$(this.$refs.root as HTMLElement).hide();
+      window.$(this.$refs.root as HTMLElement).parent().hide();
     });
 
     // some widgets might hide the period selector using the event above, so ensure it's
