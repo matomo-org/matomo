@@ -376,8 +376,8 @@ export default defineComponent({
       customCampaignKeyword: '',
       trackingCodeAbortController: null,
       isHighlighting: false,
-      consentManagerName: null,
-      consentManagerUrl: null,
+      consentManagerName: '',
+      consentManagerUrl: '',
       consentManagerIsConnected: false,
     };
   },
@@ -423,8 +423,12 @@ export default defineComponent({
               filter_limit: '-1',
             },
           ).then((response) => {
-            this.consentManagerName = response.name;
-            this.consentManagerUrl = response.url;
+            if (Object.prototype.hasOwnProperty.call(response, 'name')) {
+              this.consentManagerName = response.name;
+            }
+            if (Object.prototype.hasOwnProperty.call(response, 'url')) {
+              this.consentManagerUrl = response.url;
+            }
             this.consentManagerIsConnected = response.isConnected;
           }),
         );
@@ -492,7 +496,7 @@ export default defineComponent({
         '\'head',
       )}\n${trackingCode}`;
 
-      if (this.consentManagerName && this.consentManagerUrl) {
+      if (this.consentManagerName !== '' && this.consentManagerUrl !== '') {
         bodyText += translate('CoreAdminHome_JSTracking_ConsentManagerDetected', this.consentManagerName,
           this.consentManagerUrl);
         if (this.consentManagerIsConnected) {
