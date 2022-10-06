@@ -403,3 +403,9 @@
 .icon-new_releases:before {
   content: "\e902";
 }
+.icon-arrow-left-2:before {
+  content: "\ea40";
+}
+.icon-arrow-right-2:before {
+  content: "\ea3c";
+}
