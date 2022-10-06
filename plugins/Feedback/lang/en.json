@@ -1,5 +1,6 @@
 {
     "Feedback": {
+        "FrequentlyAskedQuestions": "Frequently Asked Questions",
         "DoYouHaveBugReportOrFeatureRequest": "Do you have a bug to report or a feature request?",
         "HowToCreateTicket": "Please read the recommendations on writing a good %1$sbug report%2$s or %3$sfeature request%4$s. Then register or login on %5$sour issue tracker%6$s and create a %7$snew issue%8$s.",
         "IWantTo": "I want to:",
@@ -57,12 +58,11 @@
         "RemindMeLater": "Remind me later",
         "NeverAskMeAgain": "Never ask me again",
         "HowCanWeHelp": "How can we help?",
-        "NotTrackingVisits": "Matomo isn't tracking any visits",
-        "TrackMultipleSites": "I need to track multiple sites or subdomains",
+        "NotTrackingVisits": "Why isn’t Matomo tracking any visits?",
+        "TrackMultipleSites": "How do I track multiple sites or subdomains?",
         "RemoveOtherLabel": "I want to see my 'Others' data",
         "PurgeOldData": "I want to remove some old data",
         "SearchHelpResources": "Search matomo.org help resources",
-        "PopularHelpTopics": "Popular help topics",
         "ReferMatomo": "Refer Matomo",
         "ReferBannerTitle": "Believe in Matomo?",
         "ReferBannerLonger": "Please help us spread the word about us so more people get control over their analytics data.",
@@ -81,6 +81,21 @@
         "FeedbackSubtitle": "Here's your chance to ask for it! Please describe in as much details as you can. <br/> Your feedback will help us improve Matomo. %1$s",
         "ThankYourForFeedback": "We really appreciate your feedback! %1$s We will be in touch in case we require more information about your feedback.",
         "Policy": "Your message and your email address will be sent to us by submitting this form. The information will be only used to improve our products and services. Your data will be processed by us, our hosting provider, and our support ticket provider. For more information have a look at %1$sMatomo's Privacy Policy%2$s.",
-        "MessageBodyValidationError": "The message body is too short (minimum is 10 characters)."
+        "MessageBodyValidationError": "The message body is too short (minimum is 10 characters).",
+        "HowToMigrateFromGA": "How do I migrate from Google Analytics?",
+        "HowToDefineAndTrackGoals": "How do I define and track Goal conversions?",
+        "HowToGetStartedWithMtm": "How do I get started with Matomo Tag Manager?",
+        "HowToMigrateFromGtm": "How do I migrate from Google Tag Manager?",
+        "HowToTrackEcommerce": "How do I track Ecommerce orders?",
+        "MatomoHelpCentre": "Matomo Help Centre",
+        "KnowledgeBase": "Knowledge Base",
+        "KnowledgeBaseDescription": "FAQs, comprehensive guides, how-to’s and troubleshooting documents.",
+        "CommunityForum": "Community Forum",
+        "CommunityForumDescription": "Ask questions, browse solutions or share your knowledge with the Matomo Community.",
+        "GlossaryDescription": "Learn the definitions of terminology used in Matomo and web analytics.",
+        "MatomoVideoTraining": "Matomo Video Training",
+        "MatomoVideoTrainingDescription": "Learn the fundamentals of web analytics and how to use Matomo.",
+        "MtmVideoTraining": "Matomo Tag Manager Video Training",
+        "MtmVideoTrainingDescription": "Get started or uncover more ways to master the power of Matomo Tag Manager."
     }
 }

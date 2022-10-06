@@ -331,19 +331,28 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
         $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
         $translationKeys[] = 'UsersManager_InviteSuccessNotification';
-        $translationKeys[] = 'UsersManager_ResendInviteConfirmSingle';
         $translationKeys[] = 'UsersManager_Status';
         $translationKeys[] = 'UsersManager_Active';
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
-        $translationKeys[] = 'UsersManager_ResendInviteSuccess';
         $translationKeys[] = 'UsersManager_InviteSuccess';
         $translationKeys[] = 'UsersManager_InviteDayLeft';
         $translationKeys[] = 'UsersManager_FilterByStatus';
         $translationKeys[] = 'UsersManager_ExpiredInviteAutomaticallyRemoved';
         $translationKeys[] = 'UsersManager_DeleteSuccess';
         $translationKeys[] = 'UsersManager_DeleteNotSuccessful';
-        $translationKeys[] = 'UsersManager_InviteConfirm';
+        $translationKeys[] = 'UsersManager_InviteConfirmMessage';
+        $translationKeys[] = 'UsersManager_ResendInvite';
+        $translationKeys[] = 'UsersManager_InvitationSent';
+        $translationKeys[] = 'UsersManager_SendInvite';
+        $translationKeys[] = 'UsersManager_CopyLink';
+        $translationKeys[] = 'UsersManager_LinkCopied';
+        $translationKeys[] = "UsersManager_AddNewUser";
+        $translationKeys[] = 'UsersManager_BackToUser';
+        $translationKeys[] = 'UsersManager_InviteActionNotes';
+        $translationKeys[] = 'UsersManager_CopyDenied';
+        $translationKeys[] = 'UsersManager_CopyDeniedHints';
+
     }
 }

@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Nonce;
@@ -90,6 +91,7 @@ class Controller extends ControllerAdmin
 
         $defaultReportSiteName = Site::getNameFor($idSiteSelected);
 
+        $view->inviteTokenExpiryDays = GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');
         $view->idSiteSelected = $idSiteSelected;
         $view->defaultReportSiteName = $defaultReportSiteName;
         $view->currentUserRole = Piwik::hasUserSuperUserAccess() ? 'superuser' : 'admin';

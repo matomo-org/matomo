@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Ger insikter om din trafik. Insikter är tillgängligt som widgetar för adminpanelen såväl som en ny ikon i rapporter, som låter dig se de viktigaste trenderna i din data.",
         "ControlComparedToDescription": "Tillväxt jämfört med",
         "ControlFilterByDescription": "Visa alla, endast förändringar, endast nya eller endast försvunna",
         "DatePeriodCombinationNotSupported": "Det är inte möjligt att generera insikter för datum och tid tillsammans.",
@@ -8,7 +7,7 @@
         "DayComparedToPreviousWeek": "samma dag förra veckan",
         "DayComparedToPreviousYear": "samma dag föregående år",
         "Filter": "Filter",
-        "FilterIncreaserAndDecreaser": "Ökar & minskar",
+        "FilterIncreaserAndDecreaser": "Ökare &amp; minskare",
         "FilterOnlyDecreaser": "Endast minskar",
         "FilterOnlyDisappeared": "Endast försvunna",
         "FilterOnlyIncreaser": "Endast ökar",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Upp- och Nedgångar",
         "NoResultMatchesCriteria": "Inga rader matchar kriteriet",
         "OverviewWidgetTitle": "Insiktsöversikt",
+        "PluginDescription": "Ger insikter om din trafik. Insikter är tillgängligt som widgetar för adminpanelen såväl som en ny ikon i rapporter, som låter dig se de viktigaste trenderna i din data.",
         "TitleConsideredInsightsChanges": "Raderna ökade eller minskade med minst %1$s besök (%2$s%% av %3$s totala besöken).",
         "TitleConsideredInsightsGrowth": "Följande rader har en tillväxt på minst %1$s%% jämfört med %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Betraktas förändringar endast om du växte med mer än %1$s%% besök eller minskade med mindre än %2$s%% besök, nya poster endast om de har ökat med mer än %3$s%% besök (%4$s), och försvunna rader om de minskade med mindre än %5$s%% besök (%6$s).",

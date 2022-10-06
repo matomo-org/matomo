@@ -22,7 +22,7 @@
         "CustomUnprocessedSegmentNoData": "Per visualizzare i dati di questo segmento, è necessario creare manualmente questo segmento nell'Editor dei Segmenti, quindi attendere un paio d'ore per il completamento della pre-elaborazione.",
         "DataAvailableAtLaterDate": "I report segmentati delle statistiche saranno disponibili più tardi. Ci scusiamo per l'inconveniente.",
         "DefaultAllVisits": "Tutte le visite",
-        "DragDropCondition": "Copia & Incolla condizione",
+        "DragDropCondition": "Condizione drag &amp; drop",
         "HideMessageInFuture": "Nascondi questo messaggio, in futuro",
         "LoadingSegmentedDataMayTakeSomeTime": "L'elaborazione dei dati visitatore segmentati può richiedere qualche minuto...",
         "OperatorAND": "E",

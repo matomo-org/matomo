@@ -333,8 +333,8 @@
           <td class="center actions-cell">
             <button
                 class="resend table-action"
-                title="Resend Invite"
-                @click="userToChange = user; showResendConfirm()"
+                title="Resend/Copy Invite Link"
+                @click="userToChange = user; resendRequestedUser()"
                 v-if="(
                   currentUserRole === 'superuser'
                   || (currentUserRole === 'admin' && user.invited_by === currentUserLogin)
@@ -423,30 +423,6 @@
             @click.prevent="
             userToChange = null;
             roleToChangeTo = null;"
-        >{{ translate('General_No') }}</a>
-      </div>
-    </div>
-    <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
-      <div class="modal-content">
-        <h3
-            v-if="userToChange"
-            v-html="$sanitize(translate(
-            'UsersManager_ResendInviteConfirmSingle',
-            `<strong>${userToChange.login}</strong>`,
-          ))"
-        ></h3>
-      </div>
-      <div class="modal-footer">
-        <a
-            href=""
-            class="modal-action modal-close btn"
-            @click.prevent="resendRequestedUser()"
-            style="margin-right:3.5px"
-        >{{ translate('General_Yes') }}</a>
-        <a
-            href=""
-            class="modal-action modal-close modal-no"
-            @click.prevent="userToChange = null; roleToChangeTo = null;"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
@@ -625,13 +601,7 @@ export default defineComponent({
     showDeleteConfirm() {
       this.showPasswordConfirmationForUserRemoval = true;
     },
-    showResendConfirm() {
-      $(this.$refs.resendInviteConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
-    },
+
     showAccessChangeConfirm() {
       $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
         .modal({
