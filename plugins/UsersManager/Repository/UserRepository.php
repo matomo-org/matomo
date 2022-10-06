@@ -105,6 +105,13 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
+    public function generateInviteToken(string $userLogin, $expiryInDays = null): string
+    {
+        $generatedToken = $this->model->generateRandomInviteToken();
+        $this->model->attachInviteLinkToken($userLogin, $generatedToken, $expiryInDays);
+        return $generatedToken;
+    }
+
     protected function sendUserCreationNotification(string $createdUserLogin): void
     {
         $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, [
@@ -150,6 +157,8 @@ class UserRepository
         unset($user['password']);
         unset($user['ts_password_modified']);
         unset($user['idchange_last_viewed']);
+        unset($user['invite_token']);
+        unset($user['invite_link_token']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);

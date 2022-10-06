@@ -174,6 +174,10 @@ export default defineComponent({
     },
     placeholder: String,
     defaultToFirstSite: Boolean,
+    sitesToExclude: {
+      type: Array,
+      default: () => [] as number[],
+    },
   },
   emits: ['update:modelValue', 'blur'],
   components: {
@@ -249,10 +253,15 @@ export default defineComponent({
         : '';
     },
     hasMultipleSites() {
-      return SitesStore.initialSites.value && SitesStore.initialSites.value.length > 1;
+      const initialSites = SitesStore.initialSitesFiltered.value
+        && SitesStore.initialSitesFiltered.value.length
+        ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
+      return initialSites && initialSites.length > 1;
     },
     firstSiteName() {
-      const initialSites = SitesStore.initialSites.value;
+      const initialSites = SitesStore.initialSitesFiltered.value
+        && SitesStore.initialSitesFiltered.value.length
+        ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 0 ? initialSites[0].name : '';
     },
     urlAllSites() {
@@ -338,14 +347,16 @@ export default defineComponent({
       return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
     },
     loadInitialSites() {
-      return SitesStore.loadInitialSites(this.onlySitesWithAdminAccess).then((sites) => {
+      return SitesStore.loadInitialSites(this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
         this.sites = sites || [];
       });
     },
     searchSite(term: string) {
       this.isLoading = true;
 
-      SitesStore.searchSite(term, this.onlySitesWithAdminAccess).then((sites) => {
+      SitesStore.searchSite(term, this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
         if (term !== this.searchTerm) {
           return; // search term changed in the meantime
         }
