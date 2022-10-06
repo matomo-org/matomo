@@ -250,7 +250,13 @@ export default defineComponent({
   },
   mounted() {
     Matomo.on('hidePeriodSelector', () => {
-      window.$(this.$refs.root as HTMLElement).parent().hide();
+      const elem = window.$(this.$refs.root as HTMLElement);
+      const attr = elem.attr('vue-entry');
+      if (typeof attr !== 'undefined' && attr !== false) {
+        elem.hide();
+      } else {
+        elem.parent().hide();
+      }
     });
 
     // some widgets might hide the period selector using the event above, so ensure it's
