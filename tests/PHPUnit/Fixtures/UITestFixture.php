@@ -22,6 +22,7 @@ use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
@@ -76,6 +77,8 @@ class UITestFixture extends SqlDump
     {
         parent::setUp();
 
+        EventDispatcher::$_SKIP_EVENTS_IN_TESTS = true;
+
         // fetch the installed versions of all plugins from options table
         $pluginVersions = Option::getLike('version_%');
         $plugins = [];
@@ -94,6 +97,8 @@ class UITestFixture extends SqlDump
         self::installAndActivatePlugins($this->getTestEnvironment());
 
         self::updateDatabase();
+
+        EventDispatcher::$_SKIP_EVENTS_IN_TESTS = false;
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(
