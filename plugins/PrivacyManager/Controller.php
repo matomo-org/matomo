@@ -21,6 +21,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
+use Piwik\Plugins\Tour\Dao\ConsentManagerDetector;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
@@ -164,7 +165,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function consent()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return $this->renderTemplate('askingForConsent');
+
+        $view = new View('@PrivacyManager/askingForConsent');
+
+        $consentManager = new ConsentManagerDetector();
+        if ($consentManager->consentManagerId) {
+            $view->consentManagerName = $consentManager->consentManagerName;
+            $view->consentManagerUrl = $consentManager->consentManagerUrl;
+            $view->consentManagerIsConnected = $consentManager->isConnected;
+        }
+        $this->setBasicVariablesView($view);
+        return $view->render();
     }
 
     public function gdprTools()

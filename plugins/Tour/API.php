@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Tour\Dao\ConsentManagerDetector;
 use Piwik\Plugins\Tour\Engagement\Levels;
 use Piwik\Plugins\Tour\Engagement\Challenges;
 
@@ -64,6 +65,26 @@ class API extends \Piwik\Plugin\API
         }
 
         return $challenges;
+    }
+
+    /**
+     * Detect consent manager details for a site
+     *
+     * @return null|array[]
+     */
+    public function detectConsentManager($idSite, $timeOut = 60)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $consentManager = new ConsentManagerDetector();
+        if ($consentManager->consentManagerId) {
+            return ['name' => $consentManager->consentManagerName,
+                    'url' => $consentManager->consentManagerUrl,
+                    'isConnected' => $consentManager->isConnected
+                ];
+        }
+
+        return null;
     }
 
     /**
