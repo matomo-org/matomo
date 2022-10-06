@@ -740,8 +740,10 @@ class Access
      */
     private function throwNoAccessException($message)
     {
+        $status = 200;
         if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
+            $status = 401;
 
             // Try to detect whether user was previously logged in so that we can display a different message
             $referrer = Url::getReferrer();
@@ -749,12 +751,13 @@ class Access
             if ($referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
                 strpos($referrer, $matomoUrl) === 0
             ) {
+                $status = 440;
                 $message = Piwik::translate('General_YourSessionHasExpired');
             }
         }
 
         //update status code to 401
-        Common::sendResponseCode(401);
+        Common::sendResponseCode($status);
         throw new NoAccessException($message);
     }
 
