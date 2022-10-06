@@ -649,6 +649,8 @@ export default defineComponent({
             'Navigation' => [
                 'arrow-left',
                 'arrow-right',
+                'arrow-left-2',
+                'arrow-right-2',
                 'arrow-top',
                 'arrow-bottom',
                 'arrow-collapsed',

@@ -231,6 +231,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "General_PleaseTryAgain";
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Username";
+        $translationKeys[] = "UsersManager_AddNewUser";
         $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitMySuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
@@ -281,6 +282,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
         $translationKeys[] = 'UsersManager_AuthTokenPurpose';
         $translationKeys[] = 'UsersManager_AuthTokens';
+        $translationKeys[] = 'UsersManager_BackToUser';
         $translationKeys[] = 'UsersManager_BasicInformation';
         $translationKeys[] = 'UsersManager_BulkActions';
         $translationKeys[] = 'UsersManager_Capabilities';
@@ -295,6 +297,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ClickToSelectDisplayedUsers';
         $translationKeys[] = 'UsersManager_ClickToSelectDisplayedWebsites';
         $translationKeys[] = 'UsersManager_ConfirmTokenCopied';
+        $translationKeys[] = 'UsersManager_CopyDenied';
+        $translationKeys[] = 'UsersManager_CopyDeniedHints';
+        $translationKeys[] = 'UsersManager_CopyLink';
         $translationKeys[] = 'UsersManager_CreateNewToken';
         $translationKeys[] = 'UsersManager_Decline';
         $translationKeys[] = 'UsersManager_DeleteAllTokens';
@@ -329,7 +334,10 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne';
         $translationKeys[] = 'UsersManager_IncludedInUsersRole';
         $translationKeys[] = 'UsersManager_InjectedHostCannotChangePwd';
+        $translationKeys[] = 'UsersManager_InvitationSent';
+        $translationKeys[] = 'UsersManager_InviteActionNotes';
         $translationKeys[] = 'UsersManager_InviteConfirm';
+        $translationKeys[] = 'UsersManager_InviteConfirmMessage';
         $translationKeys[] = 'UsersManager_InviteDayLeft';
         $translationKeys[] = 'UsersManager_InviteNewUser';
         $translationKeys[] = 'UsersManager_InviteSuccess';
@@ -337,6 +345,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_InviteUser';
         $translationKeys[] = 'UsersManager_LastSeen';
         $translationKeys[] = 'UsersManager_LastUsed';
+        $translationKeys[] = 'UsersManager_LinkCopied';
         $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupMessage';
         $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
@@ -352,35 +361,11 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_RemovePermissions';
         $translationKeys[] = 'UsersManager_RemoveSuperuserAccessConfirm';
         $translationKeys[] = 'UsersManager_ReportDateToLoadByDefault';
-        $translationKeys[] = 'UsersManager_ReportToLoadByDefault';
+        $translationKeys[] = 'UsersManager_ResendInvite';
         $translationKeys[] = 'UsersManager_ResendInviteConfirmSingle';
         $translationKeys[] = 'UsersManager_ResendInviteSuccess';
-        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthentication';
-        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthenticationInfo';
-        $translationKeys[] = 'UsersManager_Role';
-        $translationKeys[] = 'UsersManager_RoleFor';
-        $translationKeys[] = 'UsersManager_RolesHelp';
-        $translationKeys[] = 'UsersManager_SaveBasicInfo';
-        $translationKeys[] = 'UsersManager_SetPermission';
+        $translationKeys[] = 'UsersManager_SendInvite';
         $translationKeys[] = 'UsersManager_Status';
-        $translationKeys[] = 'UsersManager_SuperUserAccess';
-        $translationKeys[] = 'UsersManager_SuperUserIntro1';
-        $translationKeys[] = 'UsersManager_SuperUserIntro2';
-        $translationKeys[] = 'UsersManager_SuperUsersPermissionsNotice';
-        $translationKeys[] = 'UsersManager_TheDisplayedUsersAreSelected';
-        $translationKeys[] = 'UsersManager_TheDisplayedWebsitesAreSelected';
-        $translationKeys[] = 'UsersManager_TokenAuthIntro';
-        $translationKeys[] = 'UsersManager_TokenSuccessfullyGenerated';
-        $translationKeys[] = 'UsersManager_TokensWithExpireDateCreationBySystem';
-        $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
-        $translationKeys[] = 'UsersManager_TypeYourCurrentPassword';
-        $translationKeys[] = 'UsersManager_TypeYourPasswordAgain';
-        $translationKeys[] = 'UsersManager_UserSearch';
-        $translationKeys[] = 'UsersManager_Username';
-        $translationKeys[] = 'UsersManager_UsesTwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
-        $translationKeys[] = 'UsersManager_YourUsernameCannotBeChanged';
-        $translationKeys[] = 'UsersManager_YourVisitsAreIgnoredOnDomain';
-        $translationKeys[] = 'UsersManager_YourVisitsAreNotIgnored';
     }
 }
