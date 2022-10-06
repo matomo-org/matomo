@@ -24,6 +24,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVue\CoreVue;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
@@ -252,7 +253,7 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             $view = new View('@CoreUpdater/updateSuccess');
         }
-        $messages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        $messages = safe_unserialize(Request::fromPost()->getStringParameter('messages', ''));
         if (!is_array($messages)) {
             $messages = array();
         }

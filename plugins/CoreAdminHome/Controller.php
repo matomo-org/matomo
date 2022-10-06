@@ -25,6 +25,7 @@ use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Request;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Url;
@@ -154,20 +155,21 @@ class Controller extends ControllerAdmin
             $this->checkTokenInUrl();
 
             // Update email settings
-            $mail = array();
-            $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-            $mail['port'] = Common::getRequestVar('mailPort', '');
-            $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
-            $mail['type'] = Common::getRequestVar('mailType', '');
-            $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
-            $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
+            $request = Request::fromRequest();
+            $mail = [];
+            $mail['transport'] = $request->getBoolParameter('mailUseSmtp') ? 'smtp' : '';
+            $mail['port'] = $request->getStringParameter('mailPort', '');
+            $mail['host'] = $request->getStringParameter('mailHost', '');
+            $mail['type'] = $request->getStringParameter('mailType', '');
+            $mail['username'] = $request->getStringParameter('mailUsername', '');
+            $mail['password'] = $request->getStringParameter('mailPassword', '');
 
             if (!array_key_exists('mailPassword', $_POST) && Config::getInstance()->mail['host'] === $mail['host']) {
                 // use old password if it wasn't set in request (and the host wasn't changed)
                 $mail['password'] = Config::getInstance()->mail['password'];
             }
 
-            $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
+            $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
             Config::getInstance()->mail = $mail;
 

@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\Piwik;
+use Piwik\Plugin\API;
 use Piwik\Plugin\Manager;
 use ReflectionClass;
 use ReflectionMethod;
@@ -152,11 +153,14 @@ class Proxy
     {
         // Temporarily sets the Request array to this API call context
         return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, $parametersRequest) {
-            $returnedValue = null;
-
             $this->registerClass($className);
 
-            // instantiate the object
+            $request = new \Piwik\Request($parametersRequest);
+
+            /**
+             * instantiate the object
+             * @var API $object
+             */
             $object = $className::getInstance();
 
             // check method exists
@@ -166,7 +170,11 @@ class Proxy
             $parameterNamesDefaultValues = $this->getParametersList($className, $methodName);
 
             // load parameters in the right order, etc.
-            $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $parametersRequest);
+            if ($object->usesAutoSanitizeInputParams()) {
+                $finalParameters = $this->getSanitizedRequestParametersArray($parameterNamesDefaultValues, $request->getParameters());
+            } else {
+                $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $request);
+            }
 
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
@@ -399,16 +407,16 @@ class Proxy
     }
 
     /**
-     * Returns an array containing the values of the parameters to pass to the method to call
+     * Returns an array containing the *sanitized* values of the parameters to pass to the method to call
      *
      * @param array $requiredParameters array of (parameter name, default value)
      * @param array $parametersRequest
      * @throws Exception
      * @return array values to pass to the function call
      */
-    private function getRequestParametersArray($requiredParameters, $parametersRequest)
+    private function getSanitizedRequestParametersArray($requiredParameters, $parametersRequest)
     {
-        $finalParameters = array();
+        $finalParameters = [];
         foreach ($requiredParameters as $name => $defaultValue) {
             try {
                 if ($defaultValue instanceof NoDefaultValue) {
@@ -434,6 +442,34 @@ class Proxy
                 }
             } catch (Exception $e) {
                 throw new Exception(Piwik::translate('General_PleaseSpecifyValue', array($name)));
+            }
+            $finalParameters[$name] = $requestValue;
+        }
+        return $finalParameters;
+    }
+
+    /**
+     * Returns an array containing the values of the parameters to pass to the method to call
+     *
+     * @param array $requiredParameters array of (parameter name, default value)
+     * @param \Piwik\Request $request
+     * @throws Exception
+     * @return array values to pass to the function call
+     */
+    private function getRequestParametersArray($requiredParameters, \Piwik\Request $request): array
+    {
+        $finalParameters = [];
+        foreach ($requiredParameters as $name => $defaultValue) {
+            try {
+                $requestValue = null;
+
+                if ($defaultValue instanceof NoDefaultValue) {
+                    $requestValue = $request->getParameter($name);
+                } else {
+                    $requestValue = $request->getParameter($name, $defaultValue);
+                }
+            } catch (Exception $e) {
+                throw new Exception(Piwik::translate('General_PleaseSpecifyValue', [$name]));
             }
             $finalParameters[$name] = $requestValue;
         }
