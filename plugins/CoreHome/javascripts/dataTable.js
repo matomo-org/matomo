@@ -427,7 +427,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             var tableWidth = getTableWidth(domElem);
 
-            if (tableWidth <= maxTableWidth) {
+            if (tableWidth <= maxTableWidth && tableWidth > 0) {
                 return;
             }
 
