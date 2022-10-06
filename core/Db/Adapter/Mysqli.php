@@ -252,4 +252,110 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 
         return $major . '.' . $minor . '.' . $revision;
     }
+
+    /**
+     * Get a database lock
+     *
+     * @param string $lockName
+     * @param int    $maxRetries
+     *
+     * @return bool true if a lock was obtained
+     */
+    public function getLock(string $lockName, int $maxRetries = 30) : bool
+    {
+        if (strlen($lockName) > 64) {
+            throw new \Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
+        }
+
+        /*
+         * the server (e.g., shared hosting) may have a low wait timeout
+         * so instead of a single GET_LOCK() with a 30 second timeout,
+         * we use a 1 second timeout and loop, to avoid losing our MySQL
+         * connection
+         */
+        $sql = 'SELECT GET_LOCK(?, 1)';
+
+        while ($maxRetries > 0) {
+            $result = $this->fetchOne($sql, array($lockName));
+            if ($result == '1') {
+                return true;
+            }
+            $maxRetries--;
+        }
+
+        return false;
+    }
+
+    /**
+     * Release a database lock
+     *
+     * @param string $lockName
+     *
+     * @return bool True if the lock was released
+     */
+    public function releaseLock(string $lockName) : bool
+    {
+        return $this->fetchOne('SELECT RELEASE_LOCK(?)', [$lockName]) == '1';
+    }
+
+    /**
+     * Check if a database lock is available
+     *
+     * @param string $lockName
+     *
+     * @return bool  True if the lock is available
+     */
+    public function isLockAvailable(string $lockName) : bool
+    {
+        return (bool)$this->fetchOne('SELECT IS_FREE_LOCK(?)', [$lockName]);
+    }
+
+    /**
+     * Locks the supplied table or tables.
+     *
+     * **NOTE:** Matomo does not require the `LOCK TABLES` privilege to be available, it
+     * should still work if this has not been granted.
+     *
+     * @param string|array $tablesToRead The table or tables to obtain 'read' locks on. Table names must
+     *                                   be prefixed (see {@link Piwik\Common::prefixTable()}).
+     * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on. Table names must
+     *                                    be prefixed (see {@link Piwik\Common::prefixTable()}).
+     *
+     * @return bool  True if the lock statement completed successfully
+     */
+    public function lockTables($tablesToRead, $tablesToWrite = []) : bool
+    {
+        if (!is_array($tablesToRead)) {
+            $tablesToRead = array($tablesToRead);
+        }
+
+        if (!is_array($tablesToWrite)) {
+            $tablesToWrite = array($tablesToWrite);
+        }
+
+        $lockExprs = array();
+        foreach ($tablesToWrite as $table) {
+            $lockExprs[] = $table . " WRITE";
+        }
+
+        foreach ($tablesToRead as $table) {
+            $lockExprs[] = $table . " READ";
+        }
+
+        return self::fetchOne("LOCK TABLES " . implode(', ', $lockExprs)) == '1';
+    }
+
+    /**
+     * Releases all table locks.
+     *
+     * **NOTE:** Matomo does not require the `LOCK TABLES` privilege to be available. It
+     * should still work if this has not been granted.
+     *
+     * @return bool  True if the unlock statement completed successfully
+     */
+    public function unlockAllTables() : bool
+    {
+        return self::fetchOne("UNLOCK TABLES") == '1';
+    }
+
 }

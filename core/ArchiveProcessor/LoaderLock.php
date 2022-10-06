@@ -37,12 +37,14 @@ class LoaderLock
 
     public function setLock()
     {
-        Db::fetchOne('SELECT GET_LOCK(?,?)', array($this->id, self::MAX_LOCK_TIME));
+        $db = Db::get();
+        $db->getLock($this->id, self::MAX_LOCK_TIME);
     }
 
     public function unLock()
     {
-        Db::query('DO RELEASE_LOCK(?)', array($this->id));
+        $db = Db::get();
+        $db->releaseLock($this->id);
     }
 
     public function getId()
@@ -51,15 +53,17 @@ class LoaderLock
     }
 
     /**
-     * @description check if the lock is available to user
+     * Check if the lock is available to user
+     *
      * @param string $key
      * @return bool
+     *
      * @throws \Exception
      */
     public static function isLockAvailable($key)
     {
-        return (bool)Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$key]);
-
+        $db = Db::get();
+        return $db->isLockAvailable($key);
     }
 
 }

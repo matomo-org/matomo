@@ -507,35 +507,19 @@ class Db
     /**
      * Locks the supplied table or tables.
      *
-     * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
-     * should still work if it has not been granted.
+     * **NOTE:** Matomo does not require the `LOCK TABLES` privilege to be available. It
+     * should still work if this has not been granted.
      *
      * @param string|array $tablesToRead The table or tables to obtain 'read' locks on. Table names must
      *                                   be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on. Table names must
      *                                    be prefixed (see {@link Piwik\Common::prefixTable()}).
-     * @return \Zend_Db_Statement
+     * @return bool
      */
-    public static function lockTables($tablesToRead, $tablesToWrite = array())
+    public static function lockTables($tablesToRead, $tablesToWrite = []) : bool
     {
-        if (!is_array($tablesToRead)) {
-            $tablesToRead = array($tablesToRead);
-        }
-
-        if (!is_array($tablesToWrite)) {
-            $tablesToWrite = array($tablesToWrite);
-        }
-
-        $lockExprs = array();
-        foreach ($tablesToWrite as $table) {
-            $lockExprs[] = $table . " WRITE";
-        }
-
-        foreach ($tablesToRead as $table) {
-            $lockExprs[] = $table . " READ";
-        }
-
-        return self::exec("LOCK TABLES " . implode(', ', $lockExprs));
+        $db = Db::get();
+        return $db->lockTables($tablesToRead, $tablesToWrite);
     }
 
     /**
@@ -544,11 +528,12 @@ class Db
      * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
      * should still work if it has not been granted.
      *
-     * @return \Zend_Db_Statement
+     * @return bool
      */
-    public static function unlockAllTables()
+    public static function unlockAllTables() : bool
     {
-        return self::exec("UNLOCK TABLES");
+        $db = Db::get();
+        return $db->UnlockAllTables();
     }
 
     /**
@@ -729,29 +714,8 @@ class Db
      */
     public static function getDbLock($lockName, $maxRetries = 30)
     {
-        if (strlen($lockName) > 64) {
-            throw new \Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
-        }
-
-        /*
-         * the server (e.g., shared hosting) may have a low wait timeout
-         * so instead of a single GET_LOCK() with a 30 second timeout,
-         * we use a 1 second timeout and loop, to avoid losing our MySQL
-         * connection
-         */
-        $sql = 'SELECT GET_LOCK(?, 1)';
-
         $db = self::get();
-
-        while ($maxRetries > 0) {
-            $result = $db->fetchOne($sql, array($lockName));
-            if ($result == '1') {
-                return true;
-            }
-            $maxRetries--;
-        }
-
-        return false;
+        return $db->getLock($lockName, $maxRetries = 30);
     }
 
     /**
@@ -762,10 +726,8 @@ class Db
      */
     public static function releaseDbLock($lockName)
     {
-        $sql = 'SELECT RELEASE_LOCK(?)';
-
         $db = self::get();
-        return $db->fetchOne($sql, array($lockName)) == '1';
+        return $db->releaseLock($lockName);
     }
 
     /**
