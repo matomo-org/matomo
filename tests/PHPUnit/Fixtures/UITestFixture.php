@@ -10,13 +10,11 @@
 namespace Piwik\Tests\Fixtures;
 
 use Exception;
-use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
@@ -43,7 +41,6 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Psr\Container\ContainerInterface;
@@ -77,6 +74,8 @@ class UITestFixture extends SqlDump
     {
         parent::setUp();
 
+        // We need to disable events for running updates below.
+        // Otherwise PHP will run into a segfault when trying to execute updates for plugins.
         EventDispatcher::$_SKIP_EVENTS_IN_TESTS = true;
 
         // fetch the installed versions of all plugins from options table
