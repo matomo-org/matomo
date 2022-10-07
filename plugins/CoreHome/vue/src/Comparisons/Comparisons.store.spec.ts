@@ -10,7 +10,6 @@ import '../Periods/Week';
 import '../Periods/Month';
 import '../Periods/Year';
 import '../Periods/Range';
-import '../Matomo/Matomo.adapter'; // for $rootScope.$oldEmit
 import ComparisonsStore from './Comparisons.store';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
