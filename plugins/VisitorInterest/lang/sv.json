@@ -10,7 +10,6 @@
         "PluginDescription": "Rapporter för besöksbeteenden: antalet sidvisningar, tid på webbplatsen, dagar sedan senaste besök, och mycket mer.",
         "VisitNum": "Besöksnummer",
         "VisitsByDaysSinceLast": "Besök efter dagar sedan senaste besöket",
-        "visitsByVisitCount": "Besök efter besöksnummer",
         "VisitsPerDuration": "Besökstid",
         "VisitsPerNbOfPages": "Besökta sidor",
         "WidgetLengths": "Besökets längd",
@@ -19,6 +18,7 @@
         "WidgetPagesDocumentation": "I denna rapport kan du se hur många besök som involverade ett visst antal sidvisningar. Inledningsvis så visas rapporten som ett taggmoln, vanligare sidor visas i ett större typsnitt.",
         "WidgetVisitsByDaysSinceLast": "Besök per dag sedan senaste besöket",
         "WidgetVisitsByDaysSinceLastDocumentation": "I denna rapport kan du se hur många besök som var från besökare vars senaste besök var ett visst antal dagar sedan.",
-        "WidgetVisitsByNumDocumentation": "I denna rapport kan du se hur många besök som var det N:e besöket, dvs. besökare som besökt din webbplats minst N gånger."
+        "WidgetVisitsByNumDocumentation": "I denna rapport kan du se hur många besök som var det N:e besöket, dvs. besökare som besökt din webbplats minst N gånger.",
+        "visitsByVisitCount": "Besök efter besöksnummer"
     }
 }
