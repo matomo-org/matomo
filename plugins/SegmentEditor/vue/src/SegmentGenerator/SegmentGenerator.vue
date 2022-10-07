@@ -290,9 +290,6 @@ export default defineComponent({
     },
     segmentDefinition(newVal) {
       if ((newVal || '') !== (this.modelValue || '')) {
-        // reset state so update:modelValue can cancel the change
-        this.setSegmentString(this.modelValue);
-
         this.$emit('update:modelValue', newVal);
       }
     },
