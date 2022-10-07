@@ -250,19 +250,13 @@ export default defineComponent({
   },
   mounted() {
     Matomo.on('hidePeriodSelector', () => {
-      const elem = window.$(this.$refs.root as HTMLElement);
-      const attr = elem.attr('vue-entry');
-      if (typeof attr !== 'undefined' && attr !== false) {
-        elem.hide();
-      } else {
-        elem.parent().hide();
-      }
+      window.$(this.$refs.root as HTMLElement).parent().hide();
     });
 
     // some widgets might hide the period selector using the event above, so ensure it's
     // shown again when switching the page
     Matomo.on('piwikPageChange', () => {
-      window.$(this.$refs.root as HTMLElement).show();
+      window.$(this.$refs.root as HTMLElement).parent().show();
     });
 
     this.updateSelectedValuesFromHash();
