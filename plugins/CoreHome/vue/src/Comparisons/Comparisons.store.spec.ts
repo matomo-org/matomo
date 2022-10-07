@@ -176,7 +176,7 @@ describe('CoreHome/Comparisons.store', () => {
       angularApply();
       await wait();
 
-      expect(window.location.href).toEqual('http://localhost/#?period=day&date=2018-01-02&segment=abcdefg&category=MyModule1&subcategory=enabledPage&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=');
+      expect(window.location.href).toEqual('http://localhost/#?period=day&date=2018-01-02&segment=abcdefg&category=MyModule1&subcategory=enabledPage&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=');
     });
 
     it('should change the base comparison if the first segment is removed', async () => {
@@ -186,7 +186,7 @@ describe('CoreHome/Comparisons.store', () => {
       angularApply();
       await wait();
 
-      expect(window.location.href).toEqual('http://localhost/#?period=day&date=2018-01-02&segment=comparedsegment&category=MyModule1&subcategory=enabledPage&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=');
+      expect(window.location.href).toEqual('http://localhost/#?period=day&date=2018-01-02&segment=comparedsegment&category=MyModule1&subcategory=enabledPage&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=');
     });
   });
 
