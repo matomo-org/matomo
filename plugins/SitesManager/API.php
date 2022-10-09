@@ -1155,23 +1155,25 @@ class API extends \Piwik\Plugin\API
 
         $excludedUrls = $this->checkAndReturnCommaSeparatedStringList($excludedReferrers);
 
-        foreach (explode(',', $excludedUrls) ?: [] as $url) {
-            // We allow urls to be provided:
-            // - fully qualified like http://example.url/path
-            // - without protocol like example.url/path
-            // - with subdomain wildcard like .example.url/path
-            $prefixedUrl = 'https://' . ltrim(preg_replace('/^https?:\/\//', '', $url), '.');
-            $parsedUrl = @parse_url($prefixedUrl);
-            if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
-                throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
+        if ($excludedReferrers !== "") {
+            foreach (explode(',', $excludedUrls) ?: [] as $url) {
+                // We allow urls to be provided:
+                // - fully qualified like http://example.url/path
+                // - without protocol like example.url/path
+                // - with subdomain wildcard like .example.url/path
+                $prefixedUrl = 'https://'.ltrim(preg_replace('/^https?:\/\//', '', $url), '.');
+                $parsedUrl = @parse_url($prefixedUrl);
+                if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
+                    throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
+                }
             }
+
+            // update option
+            Option::set(self::OPTION_EXCLUDED_REFERRERS_GLOBAL, $excludedUrls);
+
+            // make sure tracker cache will reflect change
+            Cache::deleteTrackerCache();
         }
-
-        // update option
-        Option::set(self::OPTION_EXCLUDED_REFERRERS_GLOBAL, $excludedUrls);
-
-        // make sure tracker cache will reflect change
-        Cache::deleteTrackerCache();
     }
 
     /**
