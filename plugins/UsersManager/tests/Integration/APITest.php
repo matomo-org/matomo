@@ -854,6 +854,17 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function testGetUserCapabilitiesAfterFilter()
+    {
+        $this->addUserWithAccess('userLoginCapabilities', 'view', 1, 'searchTextdef@email.com');
+        $this->api->addCapabilities('userLoginCapabilities','tagmanager_write',1);
+
+        $access = $this->api->getSitesAccessForUser('userLoginCapabilities', null, 1, null, 'view');
+
+        $this->assertEquals(['tagmanager_write'], $access[0]['capabilities']);
+
+    }
+
     public function testGetSitesAccessForUserShouldIgnoreOffsetIfLimitNotSupplied()
     {
         $this->api->setUserAccess('userLogin', 'admin', [1]);
@@ -1354,7 +1365,7 @@ class APITest extends IntegrationTestCase
             }
         );
 
-        $this->api->resendInvite('pendingLoginTest');
+        $this->api->resendInvite('pendingLoginTest',true);
         self::assertTrue($eventWasFired);
     }
 
@@ -1385,7 +1396,7 @@ class APITest extends IntegrationTestCase
             }
         );
 
-        $this->api->resendInvite('pendingLoginTest');
+        $this->api->resendInvite('pendingLoginTest',1);
         self::assertTrue($eventWasFired);
     }
 
@@ -1426,7 +1437,7 @@ class APITest extends IntegrationTestCase
         // another admin tries to resend invite
         $this->setCurrentUser('anotherAdminUser', 'admin', 1);
 
-        $this->api->resendInvite('pendingLoginTest');
+        $this->api->resendInvite('pendingLoginTest',1);
     }
 
     public function testInvitedUserCanBeRemovedBySuperUser()
@@ -1551,6 +1562,7 @@ class APITest extends IntegrationTestCase
             unset($user['invite_expired_at']);
             unset($user['invite_accept_at']);
             unset($user['invite_token']);
+            unset($user['invite_link_token']);
             unset($user['invite_status']);
             unset($user['invited_by']);
         }

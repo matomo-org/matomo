@@ -69,7 +69,7 @@ export default defineComponent({
   },
   computed: {
     menuWithSubmenuItems() {
-      const menu = this.menu as Menu;
+      const menu = (this.menu || {}) as Menu;
       return Object.fromEntries(
         Object.entries(menu)
           // remove submenus that have no items that do not start w/ '_'

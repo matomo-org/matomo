@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -19,7 +20,7 @@ use ReflectionClass;
  */
 class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_deprecations()
+    public function testDeprecations()
     {
         $this->assertDeprecatedMethodIsRemovedInPiwik3b1('Piwik\SettingsServer', 'isApache');
 
@@ -74,17 +75,19 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\DevicePlugins\DevicePlugins', 'renameUserSettingsModuleAndAction');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\UserLanguage\UserLanguage', 'renameUserSettingsModuleAndAction');
 
-        $this->assertDeprecatedMethodIsRemovedInPiwik4('\Piwik\Plugin', 'getListHooksRegistered');
-        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getSql');
-        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'update');
-        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getMigrationQueries');
-        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updater', 'executeMigrationQueries');
+        $this->assertDeprecatedMethodIsRemovedInMatomo4('\Piwik\Plugin', 'getListHooksRegistered');
+        $this->assertDeprecatedMethodIsRemovedInMatomo4('Piwik\Updates', 'getSql');
+        $this->assertDeprecatedMethodIsRemovedInMatomo4('Piwik\Updates', 'update');
+        $this->assertDeprecatedMethodIsRemovedInMatomo4('Piwik\Updates', 'getMigrationQueries');
+        $this->assertDeprecatedMethodIsRemovedInMatomo4('Piwik\Updater', 'executeMigrationQueries');
 
-        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\SettingsPiwik', 'isPiwikInstalled');
-        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Piwik', 'doAsSuperUser');
+        $this->assertDeprecatedMethodIsRemovedInMatomo4('Piwik\SettingsPiwik', 'isPiwikInstalled');
+        $this->assertDeprecatedMethodIsRemovedInMatomo4('Piwik\Piwik', 'doAsSuperUser');
 
         $validTill = '2021-03-01';
         $this->assertDeprecatedMethodIsRemovedBeforeDate(CronArchive::class, 'checkNoDanglingInvalidations', $validTill);
+
+        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Common', 'getRequestVar');
     }
 
 
@@ -101,7 +104,6 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $methodExists = $class->hasMethod($method);
 
         if (!$now->isLater($removalDate)) {
-
             $errorMessage = $className . '::' . $method . ' should still exists until ' . $removalDate . ' although it is deprecated.';
             $this->assertTrue($methodExists, $errorMessage);
             return;
@@ -120,7 +122,6 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $classExists = class_exists($className);
 
         if (!$now->isLater($removalDate)) {
-
             $errorMessage = $className . ' should still exists until ' . $removalDate . ' although it is deprecated.';
             $this->assertTrue($classExists, $errorMessage);
             return;
@@ -140,9 +141,14 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwikVersion('3.0.0-b2', $className, $method);
     }
 
-    private function assertDeprecatedMethodIsRemovedInPiwik4($className, $method)
+    private function assertDeprecatedMethodIsRemovedInMatomo4($className, $method)
     {
         $this->assertDeprecatedMethodIsRemovedInPiwikVersion('4.0.0-b1', $className, $method);
+    }
+
+    private function assertDeprecatedMethodIsRemovedInMatomo6($className, $method)
+    {
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('6.0.0-b1', $className, $method);
     }
 
     private function assertDeprecatedMethodIsRemovedInPiwikVersion($piwikVersion, $className, $method)
@@ -153,7 +159,6 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $methodExists = $class->hasMethod($method);
 
         if (-1 === version_compare($version, $piwikVersion)) {
-
             $errorMessage = $className . '::' . $method . ' should still exists until ' . $piwikVersion . ' although it is deprecated.';
             $this->assertTrue($methodExists, $errorMessage);
             return;

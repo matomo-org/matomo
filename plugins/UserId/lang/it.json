@@ -1,10 +1,10 @@
 {
     "UserId": {
         "PluginDescription": "Mostra i report utente",
-        "ThereIsNoDataForThisReportHelp": "%1$sUlteriori informazioni su come generare dati per questo report nella nostra guida dell'utente.%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$sLeggi la guida utente per imparare come generare dati per questo report.%2$s",
         "UserId": "Id Utente",
-        "UserReportDocumentation": "Questo report mostra le visite e altre metriche generali per ogni singolo ID utente.",
+        "UserReportDocumentation": "Mostra le visite e altre metriche generali per ogni singolo ID utente.",
         "UserReportTitle": "ID Utente",
-        "VisitorsUserSubcategoryHelp": "Il report ID Utente mostra le visite associate a tutti gli utenti registrati e connessi. È possibile utilizzare questa sezione per comprendere l'utilizzo del sito web da parte di utenti specifici e identificare chi sono gli utenti più e meno attivi."
+        "VisitorsUserSubcategoryHelp": "Il report ID Utente mostra le visite associate a tutti gli utenti registrati e connessi. Aiuta a comprendere l'utilizzo del sito web da parte di utenti specifici e ad identificare gli utenti più e meno attivi."
     }
 }

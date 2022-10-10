@@ -8,11 +8,21 @@
         "CustomDimensionId": "Dimensioni custom (Id %d)",
         "CustomDimensions": "Dimensioni custom",
         "CustomDimensionsIntro": "Creando %1$sDimensioni Custom%2$s puoi raccogliere dati personalizzati per '%3$s'.",
+        "CustomDimensionsIntroNext": "Matomo creerà un report per ogni dimensione personalizzata (compreso il tasso di conversione per ogni obiettivo) e consentirà di segmentare facilmente gli utenti in base a questi valori. Le dimensioni personalizzate sono simili alle %1$svariabili personalizzate%2$s ma ci sono alcune %3$sdifferenze tra le dimensioni personalizzate e le variabili personalizzate%4$s.",
         "DimensionCreated": "Dimensione custom creata",
         "DimensionUpdated": "Dimensione custom aggiornata",
         "EmptyValue": "valore vuoto",
+        "ExampleCreateCustomDimensions": "Ad esempio, per creare %s una nuova azione Dimensioni personalizzate nell'ambito, eseguire il comando seguente:",
+        "ExampleValue": "dimensionValue",
         "ExceptionDimensionDoesNotExist": "La dimensione %1$d per il sito %2$d non esiste.",
         "ExceptionDimensionIsNotActive": "La dimensione %1$d per il sito %2$d non è attiva.",
-        "ExtractValue": "Estrai valore"
+        "ExtractValue": "Estrai valore",
+        "ExtractionsHelp": "È opzionale. È possibile utilizzare una regex per estrarre automaticamente il valore di questa dimensione personalizzata da un URL o da un titolo di pagina. In questo modo, il valore della dimensione personalizzata non deve essere impostato manualmente tramite un client di tracciamento. Il valore può comunque essere impostato manualmente tramite l'API di Matomo Tracker. I valori di dimensione impostati manualmente nei client di tracciamento hanno sempre la precedenza sulle estrazioni. Se vengono definite più estrazioni, viene utilizzata la prima estrazione che corrisponde. Non è necessario eseguire l'escape degli slash in avanti, poiché Matomo lo fa automaticamente. Ad esempio, utilizzare /news/ invece di \\/news/.",
+        "HowToCreateCustomDimension": "Per creare una nuova dimensione personalizzata, eseguire il seguente comando all'interno dell'installazione di Matomo:",
+        "HowToManyCreateCustomDimensions": "Se si desidera creare più dimensioni personalizzate contemporaneamente, è sufficiente aggiungere il numero di dimensioni da creare. Poiché tutte le modifiche al database verranno eseguite in un'unica istruzione, l'aggiunta di più dimensioni personalizzate in una sola volta non richiederà molto tempo.",
+        "HowToTrackManuallyViaHttp": "Per tracciare un valore tramite l'API HTTP Tracker, utilizzare il parametro di tracciamento 'dimension' seguito dall'id della dimensione personalizzata:",
+        "HowToTrackManuallyViaJs": "Per tracciare un valore nella chiamata del tracker JavaScript:",
+        "HowToTrackManuallyViaJsDetails": "Per ulteriori informazioni, leggete la guida del %1$stracker JavaScript per le dimensioni personalizzate.%2$s",
+        "IncreaseAvailableCustomDimensionsTakesLong": "La creazione di una nuova dimensione personalizzata può richiedere molto tempo, a seconda delle dimensioni del database, poiché richiede la modifica dello schema del database. Pertanto, è possibile farlo solo tramite un comando della console che deve essere eseguito alla riga di comando."
     }
 }

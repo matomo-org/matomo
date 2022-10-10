@@ -415,7 +415,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
             // TODO: this code destroys plots when a page is switched. there must be a better way of managing memory.
             if (typeof $.jqplot.visiblePlots == 'undefined') {
                 $.jqplot.visiblePlots = [];
-                window.CoreHome.Matomo.on('piwikPageChange', function () {
+                window.CoreHome.Matomo.on('matomoPageChange', function () {
                     for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                         if ($.jqplot.visiblePlots[i] == null) {
                             continue;

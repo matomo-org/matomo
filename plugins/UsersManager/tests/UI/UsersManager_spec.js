@@ -563,8 +563,28 @@ describe("UsersManager", function () {
         expect(await elem.screenshot()).to.matchImage('resend_popup');
     });
 
+    it('should show invite link copied when copy clicked', async function () {
+        await (await page.jQuery('.resend-invite-confirm-modal .btn-copy-link')).click();
+
+        await page.waitForTimeout(500); // animation
+        // password confirm
+        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
+
+        await page.waitForTimeout(500); // animation
+        await page.waitForNetworkIdle();
+
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
+    });
+
     it('should show resend success message', async function() {
-        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await (await page.jQuery('.resend-invite-confirm-modal .btn-resend')).click();
+
+        await page.waitForTimeout(500); // animation
+        // password confirm
+        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
+
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
@@ -620,6 +640,17 @@ describe("UsersManager", function () {
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_edit_permissions');
         });
+
+      it('should filter editing user permissions by access', async function () {
+            await page.evaluate(function () {
+              $('.access-filter select').val('string:admin').change();
+            });
+            await page.waitForTimeout(500); // wait for animation
+
+            await page.mouse.move(-10, -10);
+
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_filter_permissions');
+      });
 
         it('should show the add existing user modal', async function () {
             await page.click('.userEditForm .entityCancelLink');

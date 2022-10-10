@@ -17,6 +17,9 @@ use Piwik\Plugins\CustomDimensions\Tracker\CustomDimensionsRequestProcessor;
  */
 class CustomActionDimension extends ActionDimension
 {
+    protected $idDimension = null;
+    protected $actualName = null;
+
     public function __construct($column, $name, $idDimension)
     {
         $this->columnName = $column;

@@ -85,6 +85,7 @@ class UserInviteEmail extends Mail
     {
         $view = new View('@UsersManager/_userInviteEmail.twig');
         $view->login = $this->invitedUser['login'];
+        $view->loginPlugin = Piwik::getLoginPluginName();
         $view->emailAddress = $this->invitedUser['email'];
         $view->token = $this->token;
 

@@ -29,6 +29,8 @@
         "InstallAllPurchasedPluginsAction": "Satın alınmış %d uygulama ekini kur ve etkinleştir",
         "InstallPurchasedPlugins": "Satın alınmış uygulama eklerini kur",
         "InstallThesePlugins": "Bu işlem şu uygulama eklerini kurup etkinleştirecek:",
+        "InstallingNewPluginsViaMarketplaceOrUpload": "Uygulama eklerini mağazadan otomatik olarak kurabileceğiniz gibi .zip biçiminde %1$sbir uygulama eki yükleyebilirsiniz%2$s.",
+        "InstallingNewThemesViaMarketplaceOrUpload": "Temaları mağazadan otomatik olarak kurabileceğiniz gibi .zip biçiminde %1$sbir tema yükleyebilirsiniz%2$s.",
         "InstallingPlugin": "%s kuruluyor",
         "LastCommitTime": "(son işlem %s)",
         "LastUpdated": "Son güncelleme",

@@ -41,8 +41,8 @@
         "SMS_Content_Too_Long": "[too long]",
         "Available_Credits": "Available credits: %1$s",
         "TopLinkTooltip": "Get Web Analytics Reports delivered to your email inbox or your mobile phone.",
-        "TopMenu": "Email & SMS Reports",
+        "TopMenu": "Email &amp; SMS Reports",
         "UserKey": "Userkey",
-        "VerificationText": "Code is %1$s. To validate your phone number and receive Matomo SMS reports please copy this code in the form accessible via Matomo > %2$s > %3$s."
+        "VerificationText": "Code is %1$s. To validate your phone number and receive Matomo SMS reports please copy this code in the form accessible via Matomo → %2$s → %3$s."
     }
 }

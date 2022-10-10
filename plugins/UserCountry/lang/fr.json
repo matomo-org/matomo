@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "L'adresse IP %s est locale et ne peut être géo-localisée.",
+        "CannotLocalizeLocalIP": "L'adresse IP %s est locale et ne peut pas être géolocalisée.",
         "City": "Ville",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Continent",
@@ -39,7 +39,7 @@
         "VisitLocation": "Emplacement de la visite",
         "WidgetLocation": "Emplacement du visiteur",
         "country_a1": "Proxy anonyme",
-        "country_a2": "Fournisseur satellite",
+        "country_a2": "Fournisseur de services satellites",
         "country_cat": "Communautés de langue Catalane",
         "country_o1": "Autre pays",
         "getCityDocumentation": "Ce rapport montre dans quelle ville vos visiteurs étaient quand ils ont accédé à votre site web.",

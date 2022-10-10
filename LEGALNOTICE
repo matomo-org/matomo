@@ -237,6 +237,13 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: http://php-di.org/
 	License: MIT (Expat)
 
+    Name: Vue.js
+    Link: https://vuejs.org/
+    License: MIT (Expat)
+
+    Name: math.js
+    Link: https://mathjs.org/
+    License: Apache 2.0
 
 THIRD-PARTY CONTENT
 

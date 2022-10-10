@@ -394,7 +394,7 @@ class CoreHome extends \Piwik\Plugin
             foreach ($menu as $level1 => $level2) {
                 $translationKeys[] = $level1;
                 foreach ($level2 as $name => $params) {
-                    if (strpos($name, '_') !== 0) {
+                    if (strpos($name, '_') !== false) {
                         $translationKeys[] = $name;
                     }
                 }

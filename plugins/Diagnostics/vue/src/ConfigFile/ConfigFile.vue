@@ -48,7 +48,7 @@
         </td>
         <td class="value" v-html="$sanitize(humanReadableValue(configEntry.value))"></td>
         <td class="description">
-          {{ configEntry.description }}
+          <span v-html="$sanitize(configEntry.description)"></span>
 
           <span
             v-if="(configEntry.isCustomValue || configEntry.value === null)

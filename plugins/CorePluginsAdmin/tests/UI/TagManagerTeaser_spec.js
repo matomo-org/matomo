@@ -52,6 +52,7 @@ describe("TagManagerTeaser", function () {
     it('should show teaser to super user', async function () {
         unloadTagManager();
         await page.goto(urlBase);
+        await page.waitForSelector('.activateTagManager');
         expect(await page.screenshotSelector(pageSelector)).to.matchImage('superuser_page');
     });
 

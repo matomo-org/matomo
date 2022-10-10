@@ -2,6 +2,12 @@
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Questo report offre una panoramica informativa per ciascuno dei tuoi siti web, contenente le metriche più comuni sui tuoi visitatori.",
         "Evolution": "Evoluzione",
+        "EvolutionComparisonDay": "%1$s %2$s questo giorno rispetto a %3$s %2$s nel periodo parziale precedente (%4$s) Evoluzione: %5$s",
+        "EvolutionComparisonIncomplete": "Il periodo di tempo attualmente selezionato è al %1$s .",
+        "EvolutionComparisonMonth": "%1$s %2$s questo mese rispetto a %3$s %2$s nel periodo parziale precedente (%4$s) Evoluzione: %5$s",
+        "EvolutionComparisonProportional": "Quando anche il periodo precedente era completo al %1$s, ci sarebbe stata una stima di %2$s %3$s \n(su un totale di %4$s %3$s nel periodo precedente).",
+        "EvolutionComparisonWeek": "%1$s %2$s questa settimana rispetto a %3$s %2$s nel periodo parziale precedente (%4$s) Evoluzione: %5$s",
+        "EvolutionComparisonYear": "%1$s %2$s quest'anno rispetto a %3$s %2$s nel periodo parziale precedente (%4$s) Evoluzione: %5$s",
         "LoadingWebsites": "Caricamento siti web",
         "PluginDescription": "Guarda e confronta tutti i siti e le app in questa utile dashboard 'Tutti i Siti'.",
         "SingleWebsitesDashboardDocumentation": "Questo report offre una panoramica informativa per un sito web specifico, contenente le metriche più comuni sui tuoi visitatori.",

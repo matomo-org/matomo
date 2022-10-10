@@ -10,9 +10,7 @@
     </span>
 {% endset %}
 
-{% set showVersionInfo = (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
-
-{% if showVersionInfo %}
+{% if (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
 <div
     vue-entry="CoreHome.VersionInfoHeaderMessage"
     latest-version-available="{{ latest_version_available|default(null)|json_encode }}"
@@ -28,9 +26,7 @@
     piwik-version="{{ piwik_version|default(null)|json_encode }}"
     style="display:inline;"
 ></div>
-{% endif %}
 
-<span class="icon icon-reload hidden" title="{{ 'CoreHome_Refresh'|translate }}"></span>
 <span class="icon icon-arrowup"></span>
 <div style="clear:right"></div>
 {% else %}

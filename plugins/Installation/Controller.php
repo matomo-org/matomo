@@ -566,9 +566,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $files[] = 'tests/resources/screenshot-override/override.js';
         }
 
-        $result = StaticContainer::get('Piwik\Translation\Translator')->getJavascriptTranslations() . "\n";
-        $result .= AssetManager::compileCustomJs($files);
-        return $result;
+        return AssetManager::compileCustomJs($files);
     }
 
     private function getParam($name)

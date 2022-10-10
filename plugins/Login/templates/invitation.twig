@@ -16,7 +16,7 @@
                     </div>
                 {% endif %}
                 {% block content %}
-                    <form method="post" action="?module=Login&action=acceptInvitation">
+                    <form method="post" action="{{ linkTo({'module': loginPlugin, 'action': 'acceptInvitation', 'token': null}) }}">
                         <input type="hidden" name="token" value="{{ token }}"/>
                         <div class="row">
                             <div class="col s12 input-field">

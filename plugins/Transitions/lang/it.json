@@ -1,13 +1,13 @@
 {
     "Transitions": {
         "AvailableInOtherReports": "Lo sapevi? Le transizioni sono disponibili anche come azione di riga nei report seguenti:",
-        "AvailableInOtherReports2": "È sufficiente passare il mouse su uno di questi report e cliccare sull'icona transizioni %s per avviarlo.",
+        "AvailableInOtherReports2": "Avvia le transizioni facendo clic sulla relativa icona (%s) dopo aver passato il mouse su una riga in uno di questi rapporti.",
         "BouncesInline": "%s rimbalzi",
-        "DirectEntries": "Accessi Diretti",
+        "DirectEntries": "Accessi diretti",
         "ErrorBack": "Torna all'azione precedente",
         "ExitsInline": "%s uscite",
-        "FeatureDescription": "Transizioni ti fornisce un report che mostra le cose che i tuoi visitatori hanno fatto direttamente prima e dopo aver visualizzato una determinata pagina. Questa pagina spiega come accedere, comprendere e utilizzare il potente report Transizioni.",
-        "FromCampaigns": "Da Campagne",
+        "FeatureDescription": "Le transizioni sono un report che mostra le cose che i tuoi visitatori hanno fatto direttamente prima e dopo aver visualizzato una determinata pagina. Questa pagina spiega come accedere, comprendere e utilizzare il potente rapporto Transizioni.",
+        "FromCampaigns": "Da campagne",
         "FromPreviousPages": "Da Pagine Interne",
         "FromPreviousPagesInline": "%s da pagine interne",
         "FromPreviousSiteSearches": "Da Ricerca Interna",

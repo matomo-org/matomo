@@ -198,8 +198,6 @@ class GetCustomDimension extends Report
     public function initThisReportFromDimension($dimension)
     {
         $this->name = $dimension['name'];
-        $this->menuTitle = $this->name;
-        $this->widgetTitle = $this->name;
         $this->scopeOfDimension = $dimension['scope'];
         $this->subcategoryId = 'customdimension' . $dimension['idcustomdimension'];
         $dimensionField = CustomDimensionsRequestProcessor::buildCustomDimensionTrackingApiName($dimension);
