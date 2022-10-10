@@ -41,6 +41,8 @@ class BuildTracker extends ConsoleCommand
 
         $this->installYuiCompressorIfNeeded($output);
         $this->compress($plugin, $output);
+
+        return self::SUCCESS;
     }
 
     private function compress($plugin, OutputInterface $output)
