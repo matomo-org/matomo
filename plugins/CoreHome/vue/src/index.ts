@@ -6,57 +6,15 @@
  */
 
 import './noAdblockFlag';
-import './MatomoUrl/MatomoUrl.adapter';
-import './Matomo/Matomo.adapter';
 import './Periods/Day';
 import './Periods/Week';
 import './Periods/Month';
 import './Periods/Year';
 import './Periods/Range';
-import './Periods/Periods.adapter';
 import './AjaxHelper/AjaxHelper.adapter';
 import './PopoverHandler/PopoverHandler';
-import './Alert/Alert.adapter';
-import './DropdownMenu/DropdownMenu.adapter';
-import './FocusAnywhereButHere/FocusAnywhereButHere.adapter';
-import './FocusIf/FocusIf.adapter';
-import './ExpandOnClick/ExpandOnClick.adapter';
-import './ExpandOnHover/ExpandOnHover.adapter';
-import './ShowSensitiveData/ShowSensitiveData.adapter';
-import './DropdownButton/DropdownButton.adapter';
-import './SelectOnFocus/SelectOnFocus.adapter';
-import './SideNav/SideNav.adapter';
-import './MatomoDialog/MatomoDialog.adapter';
-import './EnrichedHeadline/EnrichedHeadline.adapter';
-import './ContentBlock/ContentBlock.adapter';
-import './Comparisons/Comparisons.adapter';
-import './MenuItemsDropdown/MenuItemsDropdown.adapter';
-import './DatePicker/DatePicker.adapter';
-import './DateRangePicker/DateRangePicker.adapter';
-import './PeriodDatePicker/PeriodDatePicker.adapter';
-import './SiteSelector/SiteSelector.adapter';
-import './SiteSelector/SitesStore.adapter';
-import './QuickAccess/QuickAccess.adapter';
-import './FieldArray/FieldArray.adapter';
-import './MultiPairField/MultiPairField.adapter';
-import './PeriodSelector/PeriodSelector.adapter';
-import './ReportingMenu/ReportingMenu.adapter';
-import './ReportingMenu/ReportingMenu.store.adapter';
-import './ReportingPages/ReportingPages.store.adapter';
-import './ReportMetadata/ReportMetadata.store.adapter';
-import './WidgetLoader/WidgetLoader.adapter';
-import './WidgetContainer/WidgetContainer.adapter';
-import './WidgetByDimensionContainer/WidgetByDimensionContainer.adapter';
-import './Widget/Widget.adapter';
-import './ReportingPage/ReportingPage.adapter';
-import './ReportExport/ReportExport.adapter';
-import './Sparkline/Sparkline.adapter';
-import './Progressbar/Progressbar.adapter';
-import './ContentIntro/ContentIntro.adapter';
-import './ContentTable/ContentTable.adapter';
-import './AjaxForm/AjaxForm.adapter';
+import './zenMode';
 import Matomo from './Matomo/Matomo';
-import createAngularJsAdapter from './createAngularJsAdapter';
 
 export { default as createVueApp } from './createVueApp';
 export { default as importPluginUmd } from './importPluginUmd';
@@ -64,16 +22,8 @@ export { default as useExternalPluginComponent } from './useExternalPluginCompon
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as getFormattedEvolution } from './getFormattedEvolution';
-export { createAngularJsAdapter };
-export {
-  transformAngularJsBoolAttr,
-  transformAngularJsIntAttr,
-  removeAngularJsSpecificProperties,
-  clone,
-  cloneThenApply,
-} from './createAngularJsAdapter';
+export { default as clone } from './clone';
 export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
-export { default as activityIndicatorAdapter } from './ActivityIndicator/ActivityIndicator.adapter';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export * from './translate';
 export { default as Alert } from './Alert/Alert.vue';
@@ -135,3 +85,9 @@ export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';
 export { default as AjaxForm } from './AjaxForm/AjaxForm.vue';
 export { default as Passthrough } from './Passthrough/Passthrough.vue';
+export { default as DataTableActions } from './DataTable/DataTableActions.vue';
+export {
+  default as VersionInfoHeaderMessage,
+} from './VersionInfoHeaderMessage/VersionInfoHeaderMessage.vue';
+export { default as MobileLeftMenu } from './MobileLeftMenu/MobileLeftMenu.vue';
+export { default as scrollToAnchorInUrl } from './scrollToAnchorInUrl';

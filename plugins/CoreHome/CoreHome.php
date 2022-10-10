@@ -16,10 +16,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Development;
 use Piwik\IP;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\Model as TrackerModel;
 
@@ -190,44 +192,11 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/startfrom.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/length.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/escape.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/htmldecode.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/urldecode.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/ucfirst.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/attributes.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/field-condition.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
-        // any angular JS file is loaded etc.
+        // any Vue UMD file is loaded etc.
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.min.js";
         $jsFiles[] = "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js";
     }
@@ -412,5 +381,32 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_StartDate';
         $translationKeys[] = 'CoreHome_EndDate';
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
+        $translationKeys[] = 'CoreHome_ChangeVisualization';
+        $translationKeys[] = 'General_ExportThisReport';
+        $translationKeys[] = 'Annotations_Annotations';
+        $translationKeys[] = 'CoreHome_CloseSearch';
+        $translationKeys[] = 'CoreHome_DataTableHowToSearch';
+        $translationKeys[] = 'CoreHome_ChangePeriod';
+        $translationKeys[] = 'General_NewUpdatePiwikX';
+        $translationKeys[] = 'CoreHome_SeeAvailableVersions';
+        $translationKeys[] = 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment';
+        $translationKeys[] = 'General_PiwikXIsAvailablePleaseUpdateNow';
+        $translationKeys[] = 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin';
+        $translationKeys[] = 'General_YouAreCurrentlyUsing';
+
+        // add admin menu translations
+        if (SettingsPiwik::isMatomoInstalled()
+            && Common::getRequestVar('module', '') != 'CoreUpdater'
+        ) {
+            $menu = MenuAdmin::getInstance()->getMenu();
+            foreach ($menu as $level1 => $level2) {
+                $translationKeys[] = $level1;
+                foreach ($level2 as $name => $params) {
+                    if (strpos($name, '_') !== false) {
+                        $translationKeys[] = $name;
+                    }
+                }
+            }
+        }
     }
 }

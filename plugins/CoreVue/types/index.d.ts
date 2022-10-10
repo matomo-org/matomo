@@ -78,14 +78,11 @@ declare global {
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
-    getAngularDependency(eventName: string): any;
-    isAngularRenderingThePage(): boolean;
     isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
-    compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
     compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string, extraProps?: Record<string, unknown>): void;
     destroyVueComponent(selector: JQuery|JQLite|HTMLElement|string): void;
     compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
@@ -190,10 +187,6 @@ declare global {
 
   let widgetsHelper: WidgetsHelper;
 
-  interface AnchorLinkFix {
-    scrollToAnchorInUrl(): void;
-  }
-
   interface NumberFormatter {
     formatNumber(value?: number|string): string;
     formatPercent(value?: number|string): string;
@@ -223,7 +216,6 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
-    anchorLinkFix: AnchorLinkFix;
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;

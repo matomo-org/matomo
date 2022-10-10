@@ -15,7 +15,7 @@ var sparklineDisplayWidth = 100;
 piwik.getSparklineColors = function () {
     var colors = piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
 
-    var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+    var comparisonService = window.CoreHome.ComparisonsStoreInstance;
     if (comparisonService.isComparing()) {
         var comparisons = comparisonService.getAllComparisonSeries();
         colors.lineColor = comparisons.map(function (comp) { return comp.color; });
@@ -63,7 +63,7 @@ window.initializeSparklines = function () {
         var graph = $(this);
 
         // we search for .widget to make sure eg in the Dashboard to not update any graph of another report
-        var selectorsToFindParent = ['.widget', '[piwik-widget-container]', '.reporting-page', 'body'];
+        var selectorsToFindParent = ['.widget', '.widget-container', '.reporting-page', 'body'];
         var index = 0, selector, parent;
         for (index; index < selectorsToFindParent.length; index++) {
             selector = selectorsToFindParent[index];

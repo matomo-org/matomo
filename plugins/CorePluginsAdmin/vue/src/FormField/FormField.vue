@@ -104,7 +104,6 @@ import FieldTextArray from './FieldTextArray.vue';
 import FieldTextarea from './FieldTextarea.vue';
 import FieldTextareaArray from './FieldTextareaArray.vue';
 import { processCheckboxAndRadioAvailableValues } from './utilities';
-import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
 
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
@@ -244,7 +243,7 @@ export default defineComponent({
         if ((formField.component as ComponentReference).plugin) {
           const { plugin, name } = formField.component as ComponentReference;
           if (!plugin || !name) {
-            throw new Error('Invalid component property given to piwik-field directive, must be '
+            throw new Error('Invalid component property given to FormField directive, must be '
               + '{plugin: \'...\',name: \'...\'}');
           }
 
@@ -252,11 +251,6 @@ export default defineComponent({
         }
 
         return markRaw(component);
-      }
-
-      // backwards compatibility w/ settings that use templateFile property
-      if (formField.templateFile) {
-        return markRaw(FieldAngularJsTemplate);
       }
 
       const { uiControl } = formField;
