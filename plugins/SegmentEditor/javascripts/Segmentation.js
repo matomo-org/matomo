@@ -286,8 +286,6 @@ Segmentation = (function($) {
             return segment;
         };
 
-        var segmentDefinition = undefined;
-
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
             $(html).find(".segment-content > h3")

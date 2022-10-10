@@ -3169,7 +3169,7 @@ var ShowSensitiveData_window = window,
       items: '*',
       track: true
     });
-    ShowSensitiveData_$(clickElement).on('click', onClickHandler);
+    ShowSensitiveData_$(clickElement).one('click', onClickHandler);
     ShowSensitiveData_$(clickElement).css({
       cursor: 'pointer'
     });

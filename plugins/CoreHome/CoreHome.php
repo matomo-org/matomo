@@ -14,7 +14,6 @@ use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
-use Piwik\Development;
 use Piwik\IP;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
