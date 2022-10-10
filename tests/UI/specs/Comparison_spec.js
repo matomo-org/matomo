@@ -180,7 +180,8 @@ describe("Comparison", function () {
             return $('.cellSubDataTable > .dataTable').length === 1;
         });
 
-        await page.mouse.move(-10, -10); // mae sure no row is highlighted
+        await page.mouse.move(-10, -10); // make sure no row is highlighted
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_loaded');
     });
@@ -189,7 +190,8 @@ describe("Comparison", function () {
         await page.click('.cellSubDataTable .dataTableNext');
         await page.waitForNetworkIdle();
 
-        await page.mouse.move(-10, -10); // mae sure no row is highlighted
+        await page.mouse.move(-10, -10); // make sure no row is highlighted
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_paginate');
     });

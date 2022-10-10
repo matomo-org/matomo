@@ -176,14 +176,22 @@ window.piwikHelper = {
 
         var useExternalPluginComponent = CoreHome.useExternalPluginComponent;
         var createVueApp = CoreHome.createVueApp;
-        var plugin = window[parts[0]];
-        if (!plugin) {
-          throw new Error('Unknown plugin in vue-entry: ' + entry);
-        }
+        var component;
 
-        var component = plugin[parts[1]];
-        if (!component) {
-          throw new Error('Unknown component in vue-entry: ' + entry);
+        var shouldLoadOnDemand = (piwik.pluginsToLoadOnDemand || []).indexOf(parts[0]) !== -1;
+        if (!shouldLoadOnDemand) {
+          var plugin = window[parts[0]];
+          if (!plugin) {
+            // plugin may not be activated
+            return;
+          }
+
+          component = plugin[parts[1]];
+          if (!component) {
+            throw new Error('Unknown component in vue-entry: ' + entry);
+          }
+        } else {
+          component = useExternalPluginComponent(parts[0], parts[1]);
         }
 
         var paramsStr = '';
@@ -194,8 +202,7 @@ window.piwikHelper = {
             return;
           }
 
-          // property binding
-          // append with underscore so reserved javascript keywords aren't accidentally used
+          // append '_' to avoid accidentally using javascript keywords
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -314,7 +321,7 @@ window.piwikHelper = {
     /**
      * Detects whether the current page is a reporting page or not.
      *
-     * @returns {number|jQuery|*}
+     * @returns {number}
      */
     isReportingPage: function ()
     {

@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
@@ -129,7 +128,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkTokenInUrl();
 
-        $layout      = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
+        $layout      = \Piwik\Request::fromRequest()->getStringParameter('layout');
         $layout      = strip_tags($layout);
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         $name        = Common::getRequestVar('name', '', 'string');
@@ -154,7 +153,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkTokenInUrl();
 
         if (Piwik::hasUserSuperUserAccess()) {
-            $layout = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
+            $layout = \Piwik\Request::fromRequest()->getStringParameter('layout');
             $layout = strip_tags($layout);
             $this->getModel()->createOrUpdateDashboard('', '1', $layout);
         }

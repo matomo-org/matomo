@@ -103,6 +103,8 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Wenn Sie Ihr Passwort ändern möchten, geben Sie ein neues ein. Ansonsten lassen Sie dieses Feld frei.",
         "IncludedInUsersRole": "In dieser Benutzerrolle miteinbezogen.",
         "InjectedHostCannotChangePwd": "Ihr Besuch erfolgt aktuell durch einen unbekannten Hostnamen (%1$s). Es ist somit nicht möglich Ihr Kennwort zu ändert bis dieser Umstand behoben ist.",
+        "InviteNewUser": "Einen neuen Benutzer einladen",
+        "InviteUser": "Benutzer einladen",
         "LastSeen": "Zuletzt gesehen",
         "LastUsed": "Zuletzt verwendet",
         "MainDescription": "Hier kann der Zugriff auf bestimmte Webseiten erteilt werden. Es ist auch möglich, Zugriff auf alle Webseiten zu erlauben, in dem Sie \"Für alle Webseiten anwenden\" im Webseitenselektor anwählen.",

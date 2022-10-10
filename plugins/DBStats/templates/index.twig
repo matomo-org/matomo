@@ -3,7 +3,7 @@
 {% set title %}{{ 'DBStats_DatabaseUsage'|translate }}{% endset %}
 
 {% block content %}
-<div vue-entry="DBStats.DBStatsIntro" total-space-used="{{ totalSpaceUsed|json_encode|e('html_attr') }}"></div>
+<div vue-entry="DBStats.DBStatsIntro" total-space-used="{{ totalSpaceUsed|json_encode }}"></div>
 
 <div class="row">
     <div class="col s12 m6">
@@ -12,14 +12,14 @@
         {{ trackerDataSummary|raw }}
     </div>
     <div class="col s12 m6">
-        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'General_GeneralInformation'|translate|e('html_attr') }}">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'General_GeneralInformation'|translate }}">
             <p style="font-size:1.4em;padding-left:21px;line-height:1.8em;">
                 <strong>{{ userCount }}</strong>&nbsp;{% if userCount == 1 %}{{ 'UsersManager_User'|translate }}{% else %}{{ 'UsersManager_MenuUsers'|translate }}{% endif %}
                 <br/>
                 <strong>{{ siteCount }}</strong>&nbsp;{% if siteCount == 1 %}{{ 'General_Website'|translate }}{% else %}{{ 'Referrers_Websites'|translate }}{% endif %}
             </p>
         </div>
-        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate }}">
             {% set clickDeleteLogSettings %}{{ 'PrivacyManager_DeleteDataSettings'|translate }}{% endset %}
             <p>
                 {{ 'PrivacyManager_DeleteDataDescription'|translate }}

@@ -14,6 +14,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
@@ -629,10 +630,10 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate = Piwik::getDate();
+        $rawDate = Piwik::getDate(GeneralConfig::getConfigValue('default_day'));
         Period::checkDateFormat($rawDate);
 
-        $periodStr = Piwik::getPeriod();
+        $periodStr = Piwik::getPeriod(GeneralConfig::getConfigValue('default_period'));
 
         if ($periodStr !== 'range') {
             $date      = Date::factory($this->strDate);
@@ -753,6 +754,7 @@ abstract class Controller
 
         $pluginManager = Plugin\Manager::getInstance();
         $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
+        $view->pluginsToLoadOnDemand = $pluginManager->getPluginUmdsToLoadOnDemand();
         $view->isMultiSitesEnabled = $pluginManager->isPluginActivated('MultiSites');
         $view->isSingleSite = Access::doAsSuperUser(function() {
             $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
@@ -912,7 +914,7 @@ abstract class Controller
 
         $periodValidator = new PeriodValidator();
 
-        $currentPeriod = Piwik::getPeriod();
+        $currentPeriod = Piwik::getPeriod(GeneralConfig::getConfigValue('default_period'));
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {

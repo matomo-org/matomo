@@ -35,7 +35,7 @@
         "JSTracking_Intro": "To track your web traffic with Matomo you need to make sure some extra code is added to each of your webpages.",
         "LargePiwikInstances": "Help for users with high-traffic websites",
         "Legend": "Legend",
-        "LoadDataInfileRecommended": "You should fix this problem if your Matomo server tracks high-traffic websites (e.g. > 100,000 pages per month).",
+        "LoadDataInfileRecommended": "You should fix this problem if your Matomo server tracks high-traffic websites (e.g. over 100,000 pages per month).",
         "LoadDataInfileUnavailableHelp": "Hint: Using %1$s by updating your PHP and MySQL software and ensuring your database user has the %2$s privilege speeds up Matomo's archiving process a lot.",
         "NfsFilesystemWarning": "Your server is using an NFS filesystem.",
         "NfsFilesystemWarningSuffixAdmin": "This means Matomo will be extremely slow when using file-based sessions.",
@@ -89,7 +89,7 @@
         "SystemCheckFilterHelp": "You need to configure and rebuild PHP with \"filter\" support (don't use --disable-filter).",
         "SystemCheckFunctions": "Required functions",
         "SystemCheckShellExecHelp": "It is recommended to turn on this PHP built-in function. %1$sRead this to learn more.%2$s",
-        "SystemCheckGDFreeType": "GD > 2.x + FreeType (graphics)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (graphics)",
         "SystemCheckGDHelp": "The sparklines (small graphs) and image graphs (in the Matomo mobile app and email reports) will not work.",
         "SystemCheckGlobHelp": "This built-in function has been turned off on your host. Matomo will attempt to emulate the function, but may encounter further security restrictions. Functionality may be impacted.",
         "SystemCheckGzcompressHelp": "You need to turn on the zlib extension and gzcompress function.",
@@ -136,7 +136,6 @@
         "SystemCheckCronArchiveProcessCLI": "Managing processes via CLI",
         "SystemCheckPhpSetting": "Set up your php.ini file like this to prevent critical errors: %s",
         "SystemCheckUpdateHttps": "Update over HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo cannot use HTTPS to update, it will fall back to the insecure HTTP update. Check that CURL or allow_url_fopen is supported and that the OpenSSL PHP-extension is installed: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/. If you like to disable HTTPS please set force_matomo_ssl_request to 0 under general config.",
         "PhpBinaryCheck" : "64-bit PHP Binary",
         "PhpBinaryCheckHelp": "32-bit <p>Upgrade to a 64-bit PHP binary by January 2026 to prevent bugs.</p>",
         "NotSupported": "not supported",
@@ -159,6 +158,6 @@
         "EmailPrivacyNotice": "Your email address will only be used to send you the newsletter. It is shared with Mad Mimi to do so, but the third-party provider may change. We will not share your email with anyone else or use your it for any other purpose. Unsubscribe at any time. The %1$sprivacy policy%2$s has more info.",
         "PerformanceSettingsDesc1": "Your Matomo is set up and ready to track and report on your website's traffic. Set up %1$sCLI archiving%2$s if you find it to be slow. This generates reports in the background, rather than on demand.",
         "PerformanceSettingsDesc2": "This requires adding a Matomo command to Cron which can't be done automatically by the installer. %1$sRead our FAQ to learn to set it up yourself.%2$s",
-        "MatomoSslRequestConfigInfo": "The force_matomo_ssl_request in the general config is turned off, we highly recommend switching it on"
+        "MatomoHttpRequestConfigInfo": "The option force_matomo_http_request in the general config is turned on, we highly recommend switching it off for security reasons. For more details please read our %1$sFAQ%2$s"
     }
 }

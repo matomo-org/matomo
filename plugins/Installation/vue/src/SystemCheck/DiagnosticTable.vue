@@ -7,7 +7,7 @@
 <template>
   <Passthrough v-for="(result, index) in results" :key="index">
     <tr>
-      <td>{{ result.label }}</td>
+      <td v-html="$sanitize(result.label)"></td>
       <td>
         <span v-for="(item, index) in result.items" :key="index">
           <span v-if="item.status === 'error'">

@@ -1,7 +1,7 @@
 {
     "MobileAppMeasurable": {
         "MobileApp": "Mobilapp",
-        "MobileApps": "Mobilappar",
-        "MobileAppDescription": "En mobilapp för iOS, Android och andra operativsystem."
+        "MobileAppDescription": "En inbyggd mobilapp för iOS, Android eller något annat mobiloperativsystem.",
+        "MobileApps": "Mobilappar"
     }
 }

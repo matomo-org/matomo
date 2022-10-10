@@ -37,7 +37,7 @@
         "DayOfWeek": "Dag i uken",
         "LocalTime": "Besøk pr. lokaltid",
         "NHour": "%st",
-        "PluginDescription": "Rapporterer lokal tid og tjenertid når dine besøkere ser ditt nettsted eller app.",
+        "PluginDescription": "Rapporterer lokal tid og tjenertid når dine besøkere ser ditt nettsted eller program.",
         "ServerTime": "Besøk pr. servertid",
         "SiteTime": "Besøk per time i sidens tidssone",
         "SubmenuTimes": "Tider",

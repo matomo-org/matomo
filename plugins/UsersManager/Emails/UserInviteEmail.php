@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -23,25 +24,34 @@ class UserInviteEmail extends Mail
     /**
      * @var object
      */
-    private $user;
+    private $invitedUser;
 
     /**
      * @var string
      */
     private $token;
+    /**
+     * @var int
+     */
+    private $expiryInDays;
+
+    private $siteName;
 
     /**
      * @param string $currentUser
-     * @param array $user
-     * @param string $idSite
+     * @param array  $invitedUser
+     * @param string $siteName
      * @param string $token
+     * @param int    $expiryInDays
      */
-    public function __construct($currentUser, $user, $token)
+    public function __construct($currentUser, $invitedUser, $siteName, $token, $expiryInDays)
     {
         parent::__construct();
-        $this->currentUser = $currentUser;
-        $this->user = $user;
-        $this->token = $token;
+        $this->currentUser  = $currentUser;
+        $this->invitedUser  = $invitedUser;
+        $this->token        = $token;
+        $this->expiryInDays = $expiryInDays;
+        $this->siteName = $siteName;
         $this->setUpEmail();
     }
 
@@ -49,7 +59,7 @@ class UserInviteEmail extends Mail
     private function setUpEmail()
     {
         $this->setDefaultFromPiwik();
-        $this->addTo($this->user['email']);
+        $this->addTo($this->invitedUser['email']);
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($this->getFrom(), $this->getFromName());
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
@@ -57,28 +67,33 @@ class UserInviteEmail extends Mail
 
     protected function getDefaultSubject()
     {
-        return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          [$this->currentUser, $this->user['login']]);
+        return Piwik::translate(
+            'CoreAdminHome_UserInviteSubject',
+            [$this->currentUser, $this->siteName]
+        );
     }
 
     private function getDefaultSubjectWithStyle()
     {
-        return Piwik::translate('CoreAdminHome_UserInviteSubject',
-          ["<strong>" . $this->currentUser . "</strong>", "<strong>" . $this->user['login'] . "</strong>"]);
+        return Piwik::translate(
+            'CoreAdminHome_UserInviteSubject',
+            ['<strong>' . $this->currentUser . '</strong>', '<strong>' . $this->siteName . '</strong>']
+        );
     }
 
     protected function getDefaultBodyView()
     {
         $view = new View('@UsersManager/_userInviteEmail.twig');
-        $view->login = $this->user['login'];
-        $view->emailAddress = $this->user['email'];
+        $view->login = $this->invitedUser['login'];
+        $view->loginPlugin = Piwik::getLoginPluginName();
+        $view->emailAddress = $this->invitedUser['email'];
         $view->token = $this->token;
 
         // content line for email body
         $view->content = $this->getDefaultSubjectWithStyle();
 
         //notes for email footer
-        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->user['login'], $this->currentUser]);
+        $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->currentUser,  $this->expiryInDays]);
         return $view;
     }
 }

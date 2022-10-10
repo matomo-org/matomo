@@ -33,6 +33,7 @@ nav {
     padding: 8px 10px 10px;
     display: inline-block;
     cursor: pointer;
+    color: @theme-color-header-text;
   }
 
   @media only screen and (min-width: 601px) {
@@ -131,20 +132,15 @@ nav {
     margin-left: 224px;
   }
 
-  &>.top_controls {
-    &> .icon-arrowup:before, &> .icon-arrowdown:before, &> .icon-reload:before {
-      padding: 17px 0 0 0;
+    &>.top_controls {
+      .icon-arrowup:before, .icon-arrowdown:before {
+      padding: 17px 0 0 0px;
       display: inline-block;
       cursor: pointer;
 
       @media screen and (max-width: 600px) {
         display: none;
       }
-    }
-
-    &> .icon-reload:before {
-      padding-right: 10px;
-      font-weight: lighter;
     }
   }
 
@@ -392,6 +388,10 @@ nav {
     .collapsible-header {
       border-bottom: 0;
       cursor: pointer!important;
+      color: @theme-color-header-text;
+      & when (@theme-color-header-text = #ffffff) {
+        color: unset;
+      }
     }
 
     .collapsible-body {

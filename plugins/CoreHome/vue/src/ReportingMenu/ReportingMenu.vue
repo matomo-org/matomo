@@ -221,7 +221,7 @@ export default defineComponent({
       );
     });
 
-    Matomo.on('piwikPageChange', () => {
+    Matomo.on('matomoPageChange', () => {
       if (!this.initialLoad) {
         window.globalAjaxQueue.abort();
       }
@@ -236,7 +236,7 @@ export default defineComponent({
         this.showSubcategoryHelpOnLoad = null;
       }
 
-      window.$('#loadingError').hide();
+      window.$('#loadingError,#loadingRateLimitError').hide();
 
       this.initialLoad = false;
     });

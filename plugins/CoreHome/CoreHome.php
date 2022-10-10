@@ -14,7 +14,6 @@ use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
-use Piwik\Development;
 use Piwik\IP;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
@@ -185,7 +184,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/refresh-button.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
@@ -308,6 +306,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_LoadingData';
         $translationKeys[] = 'General_Error';
         $translationKeys[] = 'General_ErrorRequest';
+        $translationKeys[] = 'General_ErrorRateLimit';
         $translationKeys[] = 'General_ErrorRequestFaqLink';
         $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
@@ -341,6 +340,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ShortcutCalendar';
         $translationKeys[] = 'CoreHome_ShortcutSearch';
         $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_ShortcutRefresh';
         $translationKeys[] = 'CoreHome_StandardReport';
         $translationKeys[] = 'CoreHome_ReportWithMetadata';
         $translationKeys[] = 'CoreHome_ReportType';
@@ -372,7 +372,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_StartDate';
         $translationKeys[] = 'CoreHome_EndDate';
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
-        $translationKeys[] = 'CoreHome_ShortcutRefresh';
         $translationKeys[] = 'CoreHome_ChangeVisualization';
         $translationKeys[] = 'General_ExportThisReport';
         $translationKeys[] = 'Annotations_Annotations';
@@ -394,7 +393,7 @@ class CoreHome extends \Piwik\Plugin
             foreach ($menu as $level1 => $level2) {
                 $translationKeys[] = $level1;
                 foreach ($level2 as $name => $params) {
-                    if (strpos($name, '_') !== 0) {
+                    if (strpos($name, '_') !== false) {
                         $translationKeys[] = $name;
                     }
                 }

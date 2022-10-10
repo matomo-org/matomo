@@ -16,7 +16,7 @@
 
       <span
         v-if="isMarketplaceEnabled || isPluginUploadEnabled"
-        v-html="$sanitize(teaserExtendPiwikByPluginText)"
+        v-html="$sanitize(teaserExtendMatomoByPluginText)"
         style="margin-right:3.5px"
       ></span>
 
@@ -51,7 +51,7 @@ export default defineComponent({
     ContentIntro,
   },
   computed: {
-    teaserExtendPiwikByPluginText() {
+    teaserExtendMatomoByPluginText() {
       const link = `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         module: 'Marketplace',

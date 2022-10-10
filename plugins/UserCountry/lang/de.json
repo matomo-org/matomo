@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "Die IP-Adresse %s ist eine lokale Adresse. Der Standort kann daher nicht ermittelt werden.",
+        "CannotLocalizeLocalIP": "Die IP-Adresse „%s“ ist lokal und kann daher nicht geolokalisiert werden.",
         "City": "Stadt",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",
@@ -37,7 +37,7 @@
         "SubmenuLocations": "Orte",
         "TestIPLocatorFailed": "Matomo hat die Überprüfung einer bekannten IP-Adresse (%1$s) durchgeführt, aber Ihr Server hat keine Informationen zurückgegeben. Diese Provider ist möglicherweise nicht korrekt konfiguriert (z.B. könnte die Geolocation-Datenbank falsch benannt sein oder im falschen Ordner liegen).",
         "ToGeolocateOldVisits": "Für Standortdaten für vergangene Besuche verwenden Sie bitte das %1$shier beschriebene Skript%2$s.",
-        "VisitLocation": "Besuchsort",
+        "VisitLocation": "Besucherstandort",
         "WidgetLocation": "Besucherstandort",
         "country_a1": "Anonymer Proxy",
         "country_a2": "Satelliten-Anbieter",

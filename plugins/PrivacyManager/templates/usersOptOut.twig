@@ -5,10 +5,11 @@
 {% block content %}
     <div
         vue-entry="PrivacyManager.UsersOptOut"
-        piwikurl="{{ piwikUrl|json_encode|e('html_attr') }}"
-        language="{{ language|json_encode|e('html_attr') }}"
-        is-super-user="{{ isSuperUser|json_encode|e('html_attr') }}"
-        dnt-support="{{ dntSupport|json_encode|e('html_attr') }}"
-        do-not-track-options="{{ doNotTrackOptions|default(null)|json_encode|e('html_attr') }}"
+        matomo-url="{{ piwikUrl|json_encode }}"
+        language="{{ language|json_encode }}"
+        language-options="{{ languageOptions|json_encode }}"
+        is-super-user="{{ isSuperUser|json_encode }}"
+        dnt-support="{{ dntSupport|json_encode }}"
+        do-not-track-options="{{ doNotTrackOptions|default(null)|json_encode }}"
     ></div>
 {% endblock %}

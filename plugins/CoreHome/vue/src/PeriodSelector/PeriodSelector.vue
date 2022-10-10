@@ -255,7 +255,7 @@ export default defineComponent({
 
     // some widgets might hide the period selector using the event above, so ensure it's
     // shown again when switching the page
-    Matomo.on('piwikPageChange', () => {
+    Matomo.on('matomoPageChange', () => {
       window.$(this.$refs.root as HTMLElement).show();
     });
 

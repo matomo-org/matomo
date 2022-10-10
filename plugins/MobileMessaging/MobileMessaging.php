@@ -120,44 +120,12 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_MobileReport_MobileMessagingSettingsLink';
         $translationKeys[] = 'ScheduledReports_SendReportTo';
         $translationKeys[] = 'MobileMessaging_PhoneNumbers';
-        $translationKeys[] = 'MobileMessaging_Settings_SMSProvider';
         $translationKeys[] = 'MobileMessaging_Settings_DelegatedSmsProviderOnlyAppliesToYou';
-        $translationKeys[] = 'MobileMessaging_PhoneNumbers';
         $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvided';
         $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvidedByAdmin';
         $translationKeys[] = 'MobileMessaging_Settings_DeleteAccountConfirm';
-        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Help';
-        $translationKeys[] = 'MobileMessaging_Settings_DelegatedPhoneNumbersOnlyUsedByYou';
-        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_Add';
-        $translationKeys[] = 'MobileMessaging_Settings_SelectCountry';
-        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help';
-        $translationKeys[] = 'MobileMessaging_Settings_CountryCode';
-        $translationKeys[] = 'MobileMessaging_Settings_PhoneNumber';
         $translationKeys[] = 'MobileMessaging_Settings_SuspiciousPhoneNumber';
-        $translationKeys[] = 'MobileMessaging_Settings_ManagePhoneNumbers';
-        $translationKeys[] = 'MobileMessaging_Settings_EnterActivationCode';
-        $translationKeys[] = 'MobileMessaging_Settings_ValidatePhoneNumber';
-        $translationKeys[] = 'MobileMessaging_Settings_VerificationCodeJustSent';
-        $translationKeys[] = 'MobileMessaging_Settings_InvalidActivationCode';
-        $translationKeys[] = 'MobileMessaging_Settings_PhoneActivated';
-        $translationKeys[] = 'MobileMessaging_Settings_LetUsersManageAPICredential';
-        $translationKeys[] = 'MobileMessaging_Settings_CredentialInvalid';
-        $translationKeys[] = 'MobileMessaging_Settings_CredentialProvided';
-        $translationKeys[] = 'MobileMessaging_Settings_PleaseSignUp';
-        $translationKeys[] = 'MobileMessaging_Settings_SMSProvider';
-        $translationKeys[] = 'MobileMessaging_Settings_UpdateOrDeleteAccount';
-        $translationKeys[] = 'ScheduledReports_SendReportTo';
-        $translationKeys[] = 'MobileMessaging_PhoneNumbers';
-        $translationKeys[] = 'MobileMessaging_MobileReport_NoPhoneNumbers';
-        $translationKeys[] = 'MobileMessaging_MobileReport_AdditionalPhoneNumbers';
-        $translationKeys[] = 'MobileMessaging_MobileReport_MobileMessagingSettingsLink';
         $translationKeys[] = 'MobileMessaging_SettingsMenu';
-        $translationKeys[] = 'MobileMessaging_Settings_SMSProvider';
-        $translationKeys[] = 'MobileMessaging_Settings_DelegatedSmsProviderOnlyAppliesToYou';
-        $translationKeys[] = 'MobileMessaging_PhoneNumbers';
-        $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvided';
-        $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvidedByAdmin';
-        $translationKeys[] = 'MobileMessaging_Settings_DeleteAccountConfirm';
     }
     
     public function validateReportParameters(&$parameters, $reportType)

@@ -8,12 +8,12 @@
 {% block content %}
 
     <div id="feedback-faq" class="admin">
-        <div vue-entry="CoreHome.ContentBlock" content-title="{{ "Feedback_HowCanWeHelp"|translate|e('html_attr') }}" class="feedback-help-resources">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ "Feedback_HowCanWeHelp"|translate }}" class="feedback-help-resources">
             <form target="_blank" method="GET" action="https://matomo.org/">
                 <div class="search-matomo-form z-depth-1">
                     <div class="search-field">
                         <span class="icon-search"></span>
-                        <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate|e('html_attr')}}" name="s"/>
+                        <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate}}" name="s"/>
                     </div>
                     <div class="search-button">
                         <input type="submit" value="Search" class="btn hide-on-small-only"/>
@@ -21,16 +21,17 @@
                 </div>
             </form>
 
-            <h4>{{'Feedback_PopularHelpTopics'|translate}}</h4>
+            <h4>{{'Feedback_FrequentlyAskedQuestions'|translate}}</h4>
             {% for helpTopic in popularHelpTopics %}
-                <p> &bull;  <a rel="noreferrer noopener" target="_blank" href="{{helpTopic.url|e('html_attr')}}?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides">{{helpTopic.title|translate}}</a></p>
+                <p> &bull;  <a rel="noreferrer noopener" target="_blank" href="{{helpTopic.url}}?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides">{{helpTopic.title|translate}}</a></p>
             {% endfor %}
 
-            <h4>{{ 'Feedback_CommunityHelp'|translate }}</h4>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=docs">{{ 'Feedback_UserGuides'|translate }}</a> - {{ 'Feedback_ViewUserGuides'|translate("","") }}.</p>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=FAQs">{{ 'Feedback_FAQs'|translate }}</a> - {{ 'Feedback_ViewAnswersToFAQ'|translate("","") }}.</p>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://forum.matomo.org/">{{ 'Feedback_Forums'|translate }}</a> - {{ 'Feedback_VisitTheForums'|translate("","") }}.</p>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({'module':"API",'action':"glossary"}) }}&mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=glossary">{{ 'API_Glossary'|translate }}</a> - {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }}</p>
+            <h4>{{ 'Feedback_MatomoHelpCentre'|translate }}</h4>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guides/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=docs">{{ 'Feedback_KnowledgeBase'|translate }}</a> - {{ 'Feedback_KnowledgeBaseDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/web-analytics-training/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=docs">{{ 'Feedback_MatomoVideoTraining'|translate }}</a> - {{ 'Feedback_MatomoVideoTrainingDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/tag-manager-training/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=docs">{{ 'Feedback_MtmVideoTraining'|translate }}</a> - {{ 'Feedback_MtmVideoTrainingDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://forum.matomo.org/">{{ 'Feedback_CommunityForum'|translate }}</a> - {{ 'Feedback_CommunityForumDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({'module':"API",'action':"glossary"}) }}&mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=glossary">{{ 'API_Glossary'|translate }}</a> - {{ 'Feedback_GlossaryDescription'|translate }}</p>
 
             <h4>{{ 'Feedback_ProfessionalHelp'|translate }}</h4>
             <p>{{ 'Feedback_ProfessionalServicesIntro'|translate }}</p>
@@ -52,8 +53,8 @@
         </div>
 
         <div vue-entry="CoreHome.ContentBlock"
-             content-title="{{ headline|e('html_attr') }}"
-             feature="{{ 'General_Help'|translate|e('html_attr') }}">
+             content-title="{{ headline }}"
+             feature="{{ 'General_Help'|translate }}">
             <p>{{ 'General_MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease'|translate(
                     "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>",
                     "</a>",
@@ -81,7 +82,7 @@
             <p> &bull;  <strong><a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/premium-plugins?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>All premium plugins.</a></strong></p>
         </div>
 
-        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate|e('html_attr') }}">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate }}">
             <p>{{ 'Feedback_HowToCreateTicket'|translate(
             "<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#submitting-a-bug-report'>",
             "</a>",

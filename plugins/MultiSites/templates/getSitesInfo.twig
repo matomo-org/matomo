@@ -19,10 +19,10 @@
                 <div
                     vue-entry="MultiSites.Dashboard"
                     display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
-                    page-size="{{ limit|json_encode|e('html_attr') }}"
+                    page-size="{{ limit|json_encode }}"
                     show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
-                    date-sparkline="{{ dateSparkline|json_encode|e('html_attr') }}"
-                    auto-refresh-today-report="{{ autoRefreshTodayReport|json_encode|e('html_attr') }}"
+                    date-sparkline="{{ dateSparkline|json_encode }}"
+                    auto-refresh-today-report="{{ autoRefreshTodayReport|json_encode }}"
                 ></div>
         {% if isWidgetized %}
             </div>

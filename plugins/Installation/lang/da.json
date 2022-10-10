@@ -116,7 +116,6 @@
         "SystemCheckTracker": "Sporingsstatus",
         "SystemCheckTrackerHelp": "GET forespørgsel til matomo.php fejlede. Prøv at hvisliste denne URL fra HTTP autentificering og deaktivér mod_security (du skal måske snakke med din hostingudbyder). Tjek din webservers fejl-logfil for yderligere information om denne fejl.",
         "SystemCheckUpdateHttps": "Opdater over HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo kan ikke anvende HTTPS til opdatering men vil falde tilbage til en usikker HTTP opdatering. Tjek at CURL eller allow_url_fopen understøttes og at openssl PHP udvidelse er installeret: https://matomo.org/faq/troubleshooting/faq_177/.",
         "SystemCheckViewFullSystemCheck": "Se hele systemtjekrapporten",
         "SystemCheckWarnDomHelp": "Aktiver \"Dom\" udvidelsen (f.eks. installere \"php-dom\"og/eller \"php-xml-pakken\").",
         "SystemCheckWarnLibXmlHelp": "Aktiver \"libxml\" udvidelsen (fx \"installere php-libxml\" pakken), som kræves af andre centrale PHP udvidelser.",
@@ -137,7 +136,7 @@
         "TablesWithSameNamesFound": "Nogle %1$s tabeller i databasen %2$s har samme navn, som dem Matomo prøver at oprette",
         "Timezone": "Hjemmesidens tidszone",
         "WeHopeYouWillEnjoyPiwik": "Vi håber du vil nyde at bruge Matomo så meget, som vi nyder at lave det.",
-        "Welcome": "Velkommen!",
+        "Welcome": "Velkommen",
         "WelcomeHelp": "<p>Matomo er et open source-webanalyseværktøj, der gør det let af få adgang til den ønskede information om dine besøgende.</p><p>Installationen er opdelt i %s lette trin og tager cirka 5 minutter.</p>",
         "WelcomeToCommunity": "Velkommen til fællesskab om Matomo!",
         "YouMayInstallPiwikNow": "Du kan %1$sinstallere Matomo nu%2$s"

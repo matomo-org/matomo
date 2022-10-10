@@ -7,7 +7,7 @@
 <template>
   <ContentBlock>
     <div class="sparkline">
-      <Sparkline :params="urlSparklineCountries"/>
+      <Sparkline :params="urlSparklineCountries" :width="100" :height="25"/>
       <div v-html="$sanitize(distinctCountriesText)"></div>
     </div>
     <br style="clear:left"/>

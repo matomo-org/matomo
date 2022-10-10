@@ -52,9 +52,14 @@ class Mysql implements SchemaInterface
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
-                          idchange_last_viewed TIMESTAMP NULL,
-                          invite_status enum('accept','pending','decline','expired') DEFAULT 'accept',
-                            PRIMARY KEY(login)
+                          idchange_last_viewed INTEGER UNSIGNED NULL,
+                          invited_by VARCHAR(100) NULL,
+                          invite_token VARCHAR(191) NULL,
+                          invite_link_token VARCHAR(191) NULL,
+                          invite_expired_at TIMESTAMP NULL,
+                          invite_accept_at TIMESTAMP NULL,
+                            PRIMARY KEY(login),
+                            UNIQUE INDEX `uniq_email` (`email`)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
             'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (
@@ -591,8 +596,8 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
-                    `idchange_last_viewed`, `invite_status`)
-                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL, 'accept');");
+                    `idchange_last_viewed`)
+                    VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL);");
 
         $model = new Model();
         $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);

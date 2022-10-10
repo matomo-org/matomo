@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -91,68 +92,10 @@ class TwoFactorAuth extends \Piwik\Plugin
         $translations[] = 'General_No';
         $translations[] = 'TwoFactorAuth_RequiredToSetUpTwoFactorAuthentication';
         $translations[] = 'TwoFactorAuth_SetUpTwoFactorAuthentication';
-        $translations[] = 'TwoFactorAuth_WarningChangingConfiguredDevice';
-        $translations[] = 'TwoFactorAuth_SetupIntroFollowSteps';
-        $translations[] = 'TwoFactorAuth_StepX';
-        $translations[] = 'TwoFactorAuth_RecoveryCodes';
-        $translations[] = 'TwoFactorAuth_SetupBackupRecoveryCodes';
-        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDevice';
-        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep1';
-        $translations[] = 'General_Or';
-        $translations[] = 'TwoFactorAuth_ConfirmSetup';
-        $translations[] = 'TwoFactorAuth_VerifyAuthCodeIntro';
-        $translations[] = 'TwoFactorAuth_AuthenticationCode';
-        $translations[] = 'TwoFactorAuth_VerifyAuthCodeHelp';
-        $translations[] = 'General_Confirm';
-        $translations[] = 'TwoFactorAuth_Your2FaAuthSecret';
-        $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2';
         $translations[] = 'TwoFactorAuth_SetupFinishedTitle';
         $translations[] = 'TwoFactorAuth_SetupFinishedSubtitle';
         $translations[] = 'General_Continue';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
-        $translations[] = 'TwoFactorAuth_AuthenticationCode';
         $translations[] = 'TwoFactorAuth_Verify';
-        $translations[] = 'TwoFactorAuth_VerifyIdentifyExplanation';
-        $translations[] = 'TwoFactorAuth_DontHaveYourMobileDevice';
-        $translations[] = 'TwoFactorAuth_EnterRecoveryCodeInstead';
-        $translations[] = 'TwoFactorAuth_AskSuperUserResetAuthenticationCode';
-        $translations[] = 'General_Logout';
-        $translations[] = 'TwoFactorAuth_NotPossibleToLogIn';
-        $translations[] = 'TwoFactorAuth_LostAuthenticationDevice';
-        $translations[] = 'TwoFactorAuth_RecoveryCodesExplanation';
-        $translations[] = 'TwoFactorAuth_RecoveryCodesSecurity';
-        $translations[] = 'TwoFactorAuth_RecoveryCodesAllUsed';
-        $translations[] = 'General_Download';
-        $translations[] = 'General_Print';
-        $translations[] = 'General_Copy';
-        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodes';
-        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodesInfo';
-        $translations[] = 'TwoFactorAuth_RecoveryCodesRegenerated';
-        $translations[] = 'General_ExceptionNonceMismatch';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
-        $translations[] = 'TwoFactorAuth_RecoveryCodes';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationRequired';
-        $translations[] = 'TwoFactorAuth_ConfigureDifferentDevice';
-        $translations[] = 'TwoFactorAuth_DisableTwoFA';
-        $translations[] = 'TwoFactorAuth_ShowRecoveryCodes';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled';
-        $translations[] = 'TwoFactorAuth_EnableTwoFA';
-        $translations[] = 'TwoFactorAuth_ConfirmDisableTwoFA';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
-        $translations[] = 'TwoFactorAuth_TwoFAShort';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIntro';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationRequired';
-        $translations[] = 'TwoFactorAuth_ConfigureDifferentDevice';
-        $translations[] = 'TwoFactorAuth_DisableTwoFA';
-        $translations[] = 'TwoFactorAuth_ShowRecoveryCodes';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled';
-        $translations[] = 'TwoFactorAuth_EnableTwoFA';
-        $translations[] = 'TwoFactorAuth_ConfirmDisableTwoFA';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
-        $translations[] = 'TwoFactorAuth_TwoFAShort';
-        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIntro';
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -268,11 +211,16 @@ class TwoFactorAuth extends \Piwik\Plugin
         $twoFa = $this->getTwoFa();
 
         $isUsing2FA = TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
-        if ($isUsing2FA && !Request::isRootRequestApiRequest() && Session::isStarted()) {
+        if ($isUsing2FA && Session::isStarted()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
-                $module = 'TwoFactorAuth';
-                $action = 'loginTwoFactorAuth';
+                if (!Request::isRootRequestApiRequest()) {
+                    $module = 'TwoFactorAuth';
+                    $action = 'loginTwoFactorAuth';
+                } else if (Common::getRequestVar('force_api_session', 0) == 1) {
+                    // don't allow API requests with session auth if 2fa code hasn't been verified.
+                    throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
+                }
             }
         } elseif (!$isUsing2FA && $twoFa->isUserRequiredToHaveTwoFactorEnabled()) {
             $module = 'TwoFactorAuth';
@@ -337,6 +285,10 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     private function removeTokenFromOutput($output)
     {
+        if (empty($output)) {
+            return $output;
+        }
+
         $token = Piwik::getCurrentUserTokenAuth();
         // make sure to not leak the token... otherwise someone could log in using someone's credentials...
         // and then maybe in the auth screen look into the DOM to find the token... and then bypass the

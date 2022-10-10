@@ -60,9 +60,13 @@
         "InvitationDeclineBody": "Decline this invitation?",
         "InvitationHints": "(you can leave the page to cancel this action)",
         "Accept": "Accept",
-        "Yes": "Yes",
-        "TermsRequired": "Please accept the terms and conditions",
         "PasswordRequired": "Please enter your password to continue",
-        "declineInvitationInfo": "Your invitation was declined."
+        "DeclineInvitationInfo": "Your invitation was declined.",
+        "BySigningUpPrivacyPolicy": "By signing up, I accept the %1$sprivacy policy%2$s",
+        "BySigningUpTermsAndCondition": "By signing up, I accept the %1$sterms &amp; conditions%2$s",
+        "BySigningUpPrivacyPolicyAndTermsAndCondition": "By signing up, I accept the %1$sprivacy policy%2$s and the %3$sterms &amp; conditions%4$s",
+        "AcceptPrivacyPolicy": "You need to accept the privacy policy.",
+        "AcceptTermsAndCondition": "You need to accept the terms &amp; conditions.",
+        "AcceptPrivacyPolicyAndTermsAndCondition": "You need to accept the privacy policy and the terms &amp; conditions."
     }
 }

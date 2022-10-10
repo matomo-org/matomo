@@ -70,12 +70,12 @@
 
     <p>
       {{ translate('TwoFactorAuth_VerifyIdentifyExplanation') }}
-      <span v-html="learnMoreText" />
+      <span v-html="$sanitize(learnMoreText)" />
 
       <br /><br />
       <strong>{{ translate('TwoFactorAuth_DontHaveYourMobileDevice') }}</strong>
       <br />
-      <a href="https://matomo.org/faq/how-to/faq_27248" rel="noreferrer noopener">
+      <a href="https://matomo.org/faq/how-to/faq_27248" rel="noreferrer noopener" target="_blank">
         {{ translate('TwoFactorAuth_EnterRecoveryCodeInstead') }}
       </a>
       <br />

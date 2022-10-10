@@ -1,6 +1,8 @@
 {
     "General": {
         "12HourClock": "১২-ঘন্টার ঘড়ি",
+        "24HourClock": "24 ঘণ্টার ঘড়ি",
+        "API": "এপিআই",
         "Action": "অ্যাকশন",
         "Actions": "অ্যাকশনস",
         "Add": "যোগ করুন",
@@ -8,7 +10,6 @@
         "All": "সব",
         "AllWebsitesDashboard": "সকল ওয়েবসাইটের ড্যাশবোর্ড",
         "And": "এবং",
-        "API": "এপিআই",
         "BackToPiwik": "Matomo এ ফিরে যান",
         "Cancel": "বাতিল করুন",
         "ChangePassword": "পাসওয়ার্ড পরিবর্তন",

@@ -1,9 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "&rsaquo; Collegamento diretto",
+        "DisplayDashboardInIframe": "Puoi anche visualizzare la dashboard Matomo completa nella tua applicazione o sito Web in un IFRAME (%1$svedi esempio%2$s). Il parametro della data può essere impostato su una data specifica di calendario, \"oggi\" o \"ieri\". Il parametro del periodo può essere impostato su \"giorno\", \"settimana\", \"mese\" o \n\"anno\". Il parametro language può essere impostato sul codice lingua di una traduzione, come language=fr. Ad esempio, per idSite=1 e date=ieri, puoi scrivere:",
+        "DisplayDashboardInIframeAllSites": "Puoi anche widgetizzare la dashboard di tutti i siti Web in un IFRAME (%1$svedi esempio%2$s)",
+        "EmbedIframe": "&rsaquo; Incorpora iFrame",
+        "Intro": "Con Matomo, puoi %1$sesportare i tuoi rapporti Web Analytics%2$s sul tuo blog, sito Web o dashboard Intranet... con un clic.",
         "OpenInNewWindow": "Apri in una nuova finestra",
-        "PluginDescription": "Mostra ogni report di Matomo nel tuo sito o nell'app con un semplice tag HTML.",
-        "ViewAccessRequired": "Questo utente ha almeno un accesso in scrittura. È possibile utilizzare solo i token di utenti che hanno solo accesso in visualizzazione. Vedi %1$s per ulteriori informazioni.",
-        "TopLinkTooltip": "Esporta i Reports di Matomo come Widgets e includi la Dashboard nella tua app come iFrame.",
-        "TooHighAccessLevel": "Questo utente dispone dell'accesso come super utente. Per l'incorporamento di widget non sono consentite autorizzazioni di token per utenti super. %1$sConsulta le nostre domande frequenti per ulteriori informazioni%2$s."
+        "PluginDescription": "Mostra ogni report di Matomo nel tuo sito o app con un semplice tag HTML incorporato.",
+        "Reports": "Rapporti Widgetize",
+        "SelectAReport": "Seleziona un report, copia e incolla nella tua pagina il codice di incorporamento sotto il widget:",
+        "TooHighAccessLevel": "Questo utente dispone dell'accesso come super utente. Non è consentito l'incorporamento di widget utilizzando token per super utenti. %1$sConsulta le domande frequenti per ulteriori informazioni.%2$s",
+        "TopLinkTooltip": "Esporta i rapporti di Matomo come widgets e includi la dashboard nella tua app come un iFrame.",
+        "ViewAccessRequired": "Questo utente ha almeno un accesso in scrittura. È possibile utilizzare solo i token di utenti che hanno solo accesso per visualizzare. Controlla %1$s per ulteriori informazioni.",
+        "ViewableAnonymously": "Se vuoi che i tuoi widget siano visibili a tutti, devi prima impostare i permessi di 'visualizzazione' per l'utente anonimo nella sezione %1$sGestione utenti%2$s. <br>In alternativa, se pubblichi widget su una pagina privata o protetta da password, non devi necessariamente consentire ad \"anonimi\" di visualizzare i tuoi rapporti. In questo caso, puoi aggiungere il parametro segreto <code>token_auth</code> nell'URL del widget. Puoi gestire i tuoi token di autenticazione nella tua pagina %3$sSicurezza%4$s."
     }
 }

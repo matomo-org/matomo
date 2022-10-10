@@ -6,8 +6,8 @@
 
     <div
         vue-entry="Login.BruteForceLog"
-        blocked-ips="{{ blockedIps|json_encode|e('html_attr') }}"
-        disallowed-ips="{{ disallowedIps|json_encode|e('html_attr') }}"
+        blocked-ips="{{ blockedIps|json_encode }}"
+        disallowed-ips="{{ disallowedIps|json_encode }}"
     ></div>
 
 {% endblock %}

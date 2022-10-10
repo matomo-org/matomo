@@ -1,5 +1,5 @@
 <div vue-directive="CoreHome.ContentIntro">
-    <h2>{{ 'CoreAdminHome_WhatIsNewTitle'|translate|e('html_attr') }}</h2>
+    <h2>{{ 'CoreAdminHome_WhatIsNewTitle'|translate }}</h2>
 </div>
 <div class="whatisnew">
 
@@ -17,7 +17,7 @@
                 {% if not change.link is empty and not change.link_name is empty %}
                 <p>
                     <br>
-                    <a class="change-link" href="{{ change.link|e('html_attr') }}" target="_blank" rel="noopener">{{ change.link_name }}</a>
+                    <a class="change-link" href="{{ change.link }}" target="_blank" rel="noopener">{{ change.link_name }}</a>
                 </p>
                 {% endif %}
             </div>

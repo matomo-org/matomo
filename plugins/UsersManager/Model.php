@@ -202,7 +202,13 @@ class Model
             }
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(a.access SEPARATOR "|") as access
+        $selector = "a.access";
+        if ($access) {
+            $selector = 'b.access';
+            $joins .= " LEFT JOIN ". Common::prefixTable('access') ." b on a.idsite = b.idsite AND a.login = b.login";
+        }
+
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT('.$selector.' SEPARATOR "|") as access
                   FROM ' . Common::prefixTable('access') . " a
                 $joins
                 $where
@@ -262,6 +268,25 @@ class Model
     {
         $salt = SettingsPiwik::getSalt();
         return hash(self::TOKEN_HASH_ALGO, $tokenAuth . $salt);
+    }
+
+    public function generateRandomInviteToken()
+    {
+        $count = 0;
+
+        do {
+            $token = $this->generateTokenAuth();
+
+            $count++;
+            if ($count > 20) {
+                // something seems wrong as the odds of that happening is basically 0. Only catching it to prevent
+                // endless loop in case there is some bug somewhere
+                throw new \Exception('Failed to generate token');
+            }
+
+        } while ($this->getUserByInviteToken($token));
+
+        return $token;
     }
 
     public function generateRandomTokenAuth()
@@ -369,6 +394,14 @@ class Model
           $expiredSince);
     }
 
+    public function getExpiredInvites($expiredSince)
+    {
+        $db = $this->getDb();
+
+        return $db->fetchAll("SELECT * FROM " . $this->userTable . " WHERE `invite_expired_at` is not null and invite_expired_at < ?",
+          $expiredSince);
+    }
+
     public function checkUserHasUnexpiredToken($login)
     {
         $db = $this->getDb();
@@ -377,7 +410,6 @@ class Model
         return $db->fetchOne("SELECT idusertokenauth FROM " . $this->tokenTable . " WHERE `login` = ? and " . $expired['sql'],
           $bind);
     }
-
 
     public function deleteAllTokensForUser($login)
     {
@@ -465,6 +497,16 @@ class Model
         return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE email = ?", $userEmail);
     }
 
+
+    public function getUserByInviteToken($tokenAuth)
+    {
+        $token = $this->hashTokenAuth($tokenAuth);
+        if (!empty($token)) {
+            $db = $this->getDb();
+            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ? or `invite_link_token` = ?", [$token ,$token]);
+        }
+    }
+
     public function getUserByTokenAuth($tokenAuth)
     {
         if ($tokenAuth === 'anonymous') {
@@ -478,7 +520,13 @@ class Model
         }
     }
 
-    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered, $inviteStatus = null)
+    /**
+     * @param $userLogin
+     * @param $hashedPassword
+     * @param $email
+     * @param $dateRegistered
+     */
+    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
     {
         $user = array(
           'login'                => $userLogin,
@@ -487,17 +535,28 @@ class Model
           'date_registered'      => $dateRegistered,
           'superuser_access'     => 0,
           'ts_password_modified' => Date::now()->getDatetime(),
-          'idchange_last_viewed' => null
+          'idchange_last_viewed' => null,
+          'invited_by'           => null,
         );
-
-
-        if ($inviteStatus) {
-            $user['invite_status'] = 'pending';
-        }
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
-        return $user;
+    }
+
+    public function attachInviteToken($userLogin, $token, $expiryInDays = 7)
+    {
+        $this->updateUserFields($userLogin, [
+          'invite_token'      => $this->hashTokenAuth($token),
+          'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime()
+        ]);
+    }
+
+    public function attachInviteLinkToken($userLogin, $token, $expiryInDays = 7)
+    {
+        $this->updateUserFields($userLogin, [
+            'invite_link_token' => $this->hashTokenAuth($token),
+            'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
+        ]);
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
@@ -593,6 +652,13 @@ class Model
         }
     }
 
+    public function deleteUser($userLogin): void
+    {
+        $this->deleteUserOnly($userLogin);
+        $this->deleteUserOptions($userLogin);
+        $this->deleteUserAccess($userLogin);
+    }
+
     /**
      * @param string $userLogin
      */
@@ -640,23 +706,6 @@ class Model
         return Db::get();
     }
 
-    public function getUserLoginsMatching($idSite = null, $pattern = null, $access = null, $logins = null)
-    {
-        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
-
-        list($joins, $bind) = $filter->getJoins('u');
-        list($where, $whereBind) = $filter->getWhere();
-
-        $bind = array_merge($bind, $whereBind);
-
-        $sql = 'SELECT u.login FROM ' . $this->userTable . " u $joins $where";
-
-        $db = $this->getDb();
-
-        $result = $db->fetchAll($sql, $bind);
-        $result = array_column($result, 'login');
-        return $result;
-    }
 
     /**
      * Returns all users and their access to `$idSite`.
@@ -675,9 +724,10 @@ class Model
       $offset = null,
       $pattern = null,
       $access = null,
+      $status = null,
       $logins = null
     ) {
-        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
+        $filter = new UserTableFilter($access, $idSite, $pattern, $status, $logins);
 
         list($joins, $bind) = $filter->getJoins('u');
         list($where, $whereBind) = $filter->getWhere();
@@ -735,12 +785,12 @@ class Model
         return $logins;
     }
 
-    public function getPendingUser($userLogin)
+    public function isPendingUser(string $userLogin): bool
     {
         $db = $this->getDb();
-        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE login = ? and invite_status not like ?";
-        $bind = [$userLogin, 'accept'];
-        return $db->fetchOne($sql, $bind);
+        $sql = "SELECT count(*) FROM " . $this->userTable . " WHERE (login = ? or email = ?) and invite_token is not null";
+        $bind = [$userLogin, $userLogin];
+        $count = (int) $db->fetchOne($sql, $bind);
+        return $count > 0;
     }
-
 }

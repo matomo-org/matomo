@@ -326,6 +326,18 @@ export default defineComponent({
   />
 </div>');
 
+        $snippets[] = $this->formSnippet('multitupletextfullwidth', 'values', '[]', [], '<div v-form>
+  <Field
+    uicontrol="multituple"
+    name="multitupletextfullwidth"
+    title="Multiple values full width (four)"
+    inline-help="Multi Tuple text and text full width"
+    :full-width="true"
+    :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'text\',\'availableValues\':null},\'field2\':{\'key\':\'value\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field3\':{\'key\':\'value2\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field4\':{\'key\':\'value3\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null}}"
+    v-model="values"
+  />
+</div>');
+
         $snippets[] = $this->formSnippet('multitupletextvalue3', 'values',
             '[{\'index\': \'test\', \'value\':\'myfoo\'},{\'index\': \'test 2\', \'value\':\'myfoo 2\'}]',
             [["index" => "test", "value" => "myfoo"], ["index" => "test 2", "value" => "myfoo 2"]], '<div v-form>
@@ -637,6 +649,8 @@ export default defineComponent({
             'Navigation' => [
                 'arrow-left',
                 'arrow-right',
+                'arrow-left-2',
+                'arrow-right-2',
                 'arrow-top',
                 'arrow-bottom',
                 'arrow-collapsed',

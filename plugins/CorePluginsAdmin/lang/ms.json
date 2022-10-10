@@ -1,6 +1,12 @@
 {
     "CorePluginsAdmin": {
+        "ActionUninstall": "Nyahpasang",
         "Activate": "Aktifkan",
+        "Activated": "Diaktifkan",
+        "Active": "Aktif",
+        "Activity": "Aktiviti",
+        "AlwaysActivatedPluginsList": "Pemalam berikut sentiasa diaktifkan dan tidak boleh dilumpuhkan: %s",
+        "AuthorHomepage": "Laman Utama Pengarang",
         "Inactive": "Tidak Aktif",
         "Version": "Versi"
     }

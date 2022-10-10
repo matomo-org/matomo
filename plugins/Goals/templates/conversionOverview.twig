@@ -1,5 +1,5 @@
 <div vue-entry="CoreHome.ContentBlock"
-     content-title="{{ 'Goals_ConversionsOverview'|translate|e('html_attr') }}">
+     content-title="{{ 'Goals_ConversionsOverview'|translate }}">
     <ul class="ulGoalTopElements">
         {% if topDimensions.country is defined %}
             <li>{{ 'Goals_BestCountries'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.country} %}</li>

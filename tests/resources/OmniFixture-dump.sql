@@ -1067,6 +1067,7 @@ CREATE TABLE `tagmanager_tag` (
   `idsite` int(11) unsigned NOT NULL,
   `type` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `description` VARCHAR(1000) NOT NULL,
   `status` varchar(10) NOT NULL,
   `parameters` mediumtext NOT NULL,
   `fire_trigger_ids` text NOT NULL,
@@ -1090,7 +1091,7 @@ CREATE TABLE `tagmanager_tag` (
 
 LOCK TABLES `tagmanager_tag` WRITE;
 /*!40000 ALTER TABLE `tagmanager_tag` DISABLE KEYS */;
-INSERT INTO `tagmanager_tag` VALUES (1,1,1,'Matomo','Pageview','active','{\"matomoConfig\":\"{{Matomo Configuration}}\"}','[1]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(2,2,1,'Matomo','Pageview','active','{\"matomoConfig\":\"{{Matomo Configuration}}\",\"trackingType\":\"pageview\",\"idGoal\":\"\",\"documentTitle\":\"\",\"customUrl\":\"\",\"eventCategory\":\"\",\"eventAction\":\"\",\"eventName\":\"\",\"eventValue\":\"\"}','[2]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(3,3,2,'Matomo','Pageview','active','{\"matomoConfig\":\"{{Matomo Configuration}}\"}','[3]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(4,4,2,'Matomo','Pageview','active','{\"matomoConfig\":\"{{Matomo Configuration}}\",\"trackingType\":\"pageview\",\"idGoal\":\"\",\"documentTitle\":\"\",\"customUrl\":\"\",\"eventCategory\":\"\",\"eventAction\":\"\",\"eventName\":\"\",\"eventValue\":\"\"}','[4]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(5,5,3,'Matomo','Pageview','active','{\"matomoConfig\":\"{{Matomo Configuration}}\"}','[5]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(6,6,3,'Matomo','Pageview','active','{\"matomoConfig\":\"{{Matomo Configuration}}\",\"trackingType\":\"pageview\",\"idGoal\":\"\",\"documentTitle\":\"\",\"customUrl\":\"\",\"eventCategory\":\"\",\"eventAction\":\"\",\"eventName\":\"\",\"eventValue\":\"\"}','[6]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL);
+INSERT INTO `tagmanager_tag` VALUES (1,1,1,'Matomo','Pageview','','active','{\"matomoConfig\":\"{{Matomo Configuration}}\"}','[1]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(2,2,1,'Matomo','Pageview','','active','{\"matomoConfig\":\"{{Matomo Configuration}}\",\"trackingType\":\"pageview\",\"idGoal\":\"\",\"documentTitle\":\"\",\"customUrl\":\"\",\"eventCategory\":\"\",\"eventAction\":\"\",\"eventName\":\"\",\"eventValue\":\"\"}','[2]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(3,3,2,'Matomo','Pageview','','active','{\"matomoConfig\":\"{{Matomo Configuration}}\"}','[3]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(4,4,2,'Matomo','Pageview','','active','{\"matomoConfig\":\"{{Matomo Configuration}}\",\"trackingType\":\"pageview\",\"idGoal\":\"\",\"documentTitle\":\"\",\"customUrl\":\"\",\"eventCategory\":\"\",\"eventAction\":\"\",\"eventName\":\"\",\"eventValue\":\"\"}','[4]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(5,5,3,'Matomo','Pageview','','active','{\"matomoConfig\":\"{{Matomo Configuration}}\"}','[5]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(6,6,3,'Matomo','Pageview','','active','{\"matomoConfig\":\"{{Matomo Configuration}}\",\"trackingType\":\"pageview\",\"idGoal\":\"\",\"documentTitle\":\"\",\"customUrl\":\"\",\"eventCategory\":\"\",\"eventAction\":\"\",\"eventName\":\"\",\"eventValue\":\"\"}','[6]','','unlimited',999,0,NULL,NULL,'2020-04-15 13:58:51','2020-04-15 13:58:51',NULL);
 /*!40000 ALTER TABLE `tagmanager_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1107,6 +1108,7 @@ CREATE TABLE `tagmanager_trigger` (
   `idsite` int(11) unsigned NOT NULL,
   `type` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `description` VARCHAR(1000) NOT NULL,
   `status` varchar(10) NOT NULL,
   `parameters` mediumtext NOT NULL,
   `conditions` mediumtext NOT NULL,
@@ -1124,7 +1126,7 @@ CREATE TABLE `tagmanager_trigger` (
 
 LOCK TABLES `tagmanager_trigger` WRITE;
 /*!40000 ALTER TABLE `tagmanager_trigger` DISABLE KEYS */;
-INSERT INTO `tagmanager_trigger` VALUES (1,1,1,'PageView','Pageview','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(2,2,1,'PageView','Pageview','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(3,3,2,'PageView','Pageview','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(4,4,2,'PageView','Pageview','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(5,5,3,'PageView','Pageview','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(6,6,3,'PageView','Pageview','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL);
+INSERT INTO `tagmanager_trigger` VALUES (1,1,1,'PageView','Pageview','','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(2,2,1,'PageView','Pageview','','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(3,3,2,'PageView','Pageview','','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(4,4,2,'PageView','Pageview','','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(5,5,3,'PageView','Pageview','','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(6,6,3,'PageView','Pageview','','active','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL);
 /*!40000 ALTER TABLE `tagmanager_trigger` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1141,6 +1143,7 @@ CREATE TABLE `tagmanager_variable` (
   `idsite` int(11) unsigned NOT NULL,
   `type` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `description` VARCHAR(1000) NOT NULL,
   `status` varchar(10) NOT NULL,
   `parameters` mediumtext NOT NULL,
   `lookup_table` mediumtext NOT NULL,
@@ -1160,7 +1163,7 @@ CREATE TABLE `tagmanager_variable` (
 
 LOCK TABLES `tagmanager_variable` WRITE;
 /*!40000 ALTER TABLE `tagmanager_variable` DISABLE KEYS */;
-INSERT INTO `tagmanager_variable` VALUES (1,1,1,'MatomoConfiguration','Matomo Configuration','active','','','','2020-04-15 13:58:50','2020-04-15 13:58:50',NULL),(2,2,1,'MatomoConfiguration','Matomo Configuration','active','{\"matomoUrl\":\"\\/\\/localhost\\/tests\\/PHPUnit\\/proxy\\/\",\"idSite\":\"1\",\"enableLinkTracking\":true,\"enableCrossDomainLinking\":false,\"enableDoNotTrack\":false,\"enableJSErrorTracking\":false,\"enableHeartBeatTimer\":false,\"trackAllContentImpressions\":false,\"trackVisibleContentImpressions\":false,\"disableCookies\":false,\"setSecureCookie\":false,\"cookieDomain\":\"\",\"cookiePath\":\"\",\"domains\":[],\"alwaysUseSendBeacon\":false,\"userId\":\"\",\"customDimensions\":[],\"bundleTracker\":true,\"registerAsDefaultTracker\":true,\"jsEndpoint\":\"matomo.js\",\"trackingEndpoint\":\"matomo.php\"}','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(3,3,2,'MatomoConfiguration','Matomo Configuration','active','','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(4,4,2,'MatomoConfiguration','Matomo Configuration','active','{\"matomoUrl\":\"\\/\\/localhost\\/tests\\/PHPUnit\\/proxy\\/\",\"idSite\":\"2\",\"enableLinkTracking\":true,\"enableCrossDomainLinking\":false,\"enableDoNotTrack\":false,\"enableJSErrorTracking\":false,\"enableHeartBeatTimer\":false,\"trackAllContentImpressions\":false,\"trackVisibleContentImpressions\":false,\"disableCookies\":false,\"setSecureCookie\":false,\"cookieDomain\":\"\",\"cookiePath\":\"\",\"domains\":[],\"alwaysUseSendBeacon\":false,\"userId\":\"\",\"customDimensions\":[],\"bundleTracker\":true,\"registerAsDefaultTracker\":true,\"jsEndpoint\":\"matomo.js\",\"trackingEndpoint\":\"matomo.php\"}','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(5,5,3,'MatomoConfiguration','Matomo Configuration','active','','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(6,6,3,'MatomoConfiguration','Matomo Configuration','active','{\"matomoUrl\":\"\\/\\/localhost\\/tests\\/PHPUnit\\/proxy\\/\",\"idSite\":\"3\",\"enableLinkTracking\":true,\"enableCrossDomainLinking\":false,\"enableDoNotTrack\":false,\"enableJSErrorTracking\":false,\"enableHeartBeatTimer\":false,\"trackAllContentImpressions\":false,\"trackVisibleContentImpressions\":false,\"disableCookies\":false,\"setSecureCookie\":false,\"cookieDomain\":\"\",\"cookiePath\":\"\",\"domains\":[],\"alwaysUseSendBeacon\":false,\"userId\":\"\",\"customDimensions\":[],\"bundleTracker\":true,\"registerAsDefaultTracker\":true,\"jsEndpoint\":\"matomo.js\",\"trackingEndpoint\":\"matomo.php\"}','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL);
+INSERT INTO `tagmanager_variable` VALUES (1,1,1,'MatomoConfiguration','Matomo Configuration','','active','','','','2020-04-15 13:58:50','2020-04-15 13:58:50',NULL),(2,2,1,'MatomoConfiguration','Matomo Configuration','','active','{\"matomoUrl\":\"\\/\\/localhost\\/tests\\/PHPUnit\\/proxy\\/\",\"idSite\":\"1\",\"enableLinkTracking\":true,\"enableCrossDomainLinking\":false,\"enableDoNotTrack\":false,\"enableJSErrorTracking\":false,\"enableHeartBeatTimer\":false,\"trackAllContentImpressions\":false,\"trackVisibleContentImpressions\":false,\"disableCookies\":false,\"setSecureCookie\":false,\"cookieDomain\":\"\",\"cookiePath\":\"\",\"domains\":[],\"alwaysUseSendBeacon\":false,\"userId\":\"\",\"customDimensions\":[],\"bundleTracker\":true,\"registerAsDefaultTracker\":true,\"jsEndpoint\":\"matomo.js\",\"trackingEndpoint\":\"matomo.php\"}','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(3,3,2,'MatomoConfiguration','Matomo Configuration','','active','','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(4,4,2,'MatomoConfiguration','Matomo Configuration','','active','{\"matomoUrl\":\"\\/\\/localhost\\/tests\\/PHPUnit\\/proxy\\/\",\"idSite\":\"2\",\"enableLinkTracking\":true,\"enableCrossDomainLinking\":false,\"enableDoNotTrack\":false,\"enableJSErrorTracking\":false,\"enableHeartBeatTimer\":false,\"trackAllContentImpressions\":false,\"trackVisibleContentImpressions\":false,\"disableCookies\":false,\"setSecureCookie\":false,\"cookieDomain\":\"\",\"cookiePath\":\"\",\"domains\":[],\"alwaysUseSendBeacon\":false,\"userId\":\"\",\"customDimensions\":[],\"bundleTracker\":true,\"registerAsDefaultTracker\":true,\"jsEndpoint\":\"matomo.js\",\"trackingEndpoint\":\"matomo.php\"}','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(5,5,3,'MatomoConfiguration','Matomo Configuration','','active','','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL),(6,6,3,'MatomoConfiguration','Matomo Configuration','','active','{\"matomoUrl\":\"\\/\\/localhost\\/tests\\/PHPUnit\\/proxy\\/\",\"idSite\":\"3\",\"enableLinkTracking\":true,\"enableCrossDomainLinking\":false,\"enableDoNotTrack\":false,\"enableJSErrorTracking\":false,\"enableHeartBeatTimer\":false,\"trackAllContentImpressions\":false,\"trackVisibleContentImpressions\":false,\"disableCookies\":false,\"setSecureCookie\":false,\"cookieDomain\":\"\",\"cookiePath\":\"\",\"domains\":[],\"alwaysUseSendBeacon\":false,\"userId\":\"\",\"customDimensions\":[],\"bundleTracker\":true,\"registerAsDefaultTracker\":true,\"jsEndpoint\":\"matomo.js\",\"trackingEndpoint\":\"matomo.php\"}','','','2020-04-15 13:58:51','2020-04-15 13:58:51',NULL);
 /*!40000 ALTER TABLE `tagmanager_variable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1256,7 +1259,6 @@ CREATE TABLE `user` (
   `superuser_access` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `date_registered` timestamp NULL DEFAULT NULL,
   `ts_password_modified` timestamp NULL DEFAULT NULL,
-  `invite_status`  enum('accept','pending','decline','expired'),
   PRIMARY KEY (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1267,7 +1269,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('superUserLogin','$2y$10$mbMrIm8ZN82gFoNsV76Z3.avOWosOlT.D/6Pz4EZzhmxbedUeOyzm','hello@example.org','',1,'2020-04-15 14:02:31','2020-04-15 14:02:31',null);
+INSERT INTO `user` VALUES ('superUserLogin','$2y$10$mbMrIm8ZN82gFoNsV76Z3.avOWosOlT.D/6Pz4EZzhmxbedUeOyzm','hello@example.org','',1,'2020-04-15 14:02:31','2020-04-15 14:02:31');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 

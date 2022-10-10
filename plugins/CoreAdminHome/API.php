@@ -48,11 +48,18 @@ class API extends \Piwik\Plugin\API
      */
     private $trackingFailures;
 
-    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator, Failures $trackingFailures)
+    /**
+     * @var OptOutManager
+     */
+    private $optOutManager;
+
+    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator, Failures $trackingFailures,
+                                OptOutManager $optOutManager)
     {
         $this->scheduler = $scheduler;
         $this->invalidator = $invalidator;
         $this->trackingFailures = $trackingFailures;
+        $this->optOutManager = $optOutManager;
     }
 
     /**
@@ -335,4 +342,52 @@ class API extends \Piwik\Plugin\API
 
         return array($toInvalidate, $invalidDates);
     }
+
+    /**
+     * Show the JavaScript opt out code
+     *
+     * @param string $backgroundColor
+     * @param string $fontColor
+     * @param string $fontSize
+     * @param string $fontFamily
+     * @param bool   $applyStyling
+     * @param bool   $showIntro
+     * @param string $matomoUrl
+     * @param string $language
+     *
+     * @return string
+     *
+     * @internal
+     */
+    public function getOptOutJSEmbedCode(string $backgroundColor, string $fontColor,
+                                         string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro,
+                                         string $matomoUrl, string $language): string
+    {
+
+        return $this->optOutManager->getOptOutJSEmbedCode($matomoUrl, $language, $backgroundColor, $fontColor, $fontSize,
+                                                          $fontFamily, $applyStyling, $showIntro);
+    }
+
+    /**
+     * Show the self-contained JavaScript opt out code
+     *
+     * @param string $backgroundColor
+     * @param string $fontColor
+     * @param string $fontSize
+     * @param string $fontFamily
+     * @param bool   $applyStyling
+     * @param bool   $showIntro
+     *
+     * @return string
+     *
+     * @internal
+     */
+    public function getOptOutSelfContainedEmbedCode(string $backgroundColor,
+                                                    string $fontColor, string $fontSize, string $fontFamily,
+                                                    bool $applyStyling = false, bool $showIntro = true): string
+    {
+        return $this->optOutManager->getOptOutSelfContainedEmbedCode($backgroundColor, $fontColor, $fontSize, $fontFamily, $applyStyling, $showIntro);
+    }
+
+
 }
