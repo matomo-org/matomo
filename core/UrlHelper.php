@@ -143,7 +143,6 @@ class UrlHelper
     {
         return $url && preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
             && strlen($matches[3]) > 0
-            && filter_var($url, FILTER_VALIDATE_URL)
             && !preg_match('/^(javascript:|vbscript:|data:)/i', $matches[1])
             ;
     }
