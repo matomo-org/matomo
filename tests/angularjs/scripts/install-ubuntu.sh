@@ -8,9 +8,7 @@ if ! [[ -z "$TRAVIS_BUILD_ID" ]]; then
   node --version
 fi
 
-cd ..
 npm config set loglevel error
-travis_retry npm install .
 
-cd ../..
+cd ../../..
 travis_retry npm install .
