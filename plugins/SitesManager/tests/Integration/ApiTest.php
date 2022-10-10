@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
@@ -1526,6 +1527,40 @@ class ApiTest extends IntegrationTestCase
         unset($sites[1]['ts_created']);
         $this->assertEquals($resultWanted, $sites);
     }
+
+
+    public function testSetGlobalExcludedReferrersWithEmptyValue()
+    {
+        API::getInstance()->setGlobalExcludedReferrers('');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('', $excludedReferrers);
+    }
+
+    public function testSetGlobalExcludedReferrersWithInvalidValue()
+    {
+        $this->expectExceptionMessage('SitesManager_ExceptionInvalidUrl');
+        API::getInstance()->setGlobalExcludedReferrers('example a');
+    }
+
+    public function testSetGlobalExcludedReferrersWithValidValue()
+    {
+        API::getInstance()->setGlobalExcludedReferrers('example.com');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('example.com', $excludedReferrers);
+
+
+        API::getInstance()->setGlobalExcludedReferrers('.example.com');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('.example.com', $excludedReferrers);
+
+
+        API::getInstance()->setGlobalExcludedReferrers('http://example.com/path');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('http://example.com/path', $excludedReferrers);
+
+    }
+
+
 
     public function provideContainerConfig()
     {

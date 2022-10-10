@@ -1155,8 +1155,7 @@ class API extends \Piwik\Plugin\API
 
         $excludedUrls = $this->checkAndReturnCommaSeparatedStringList($excludedReferrers);
 
-        if ($excludedReferrers !== "") {
-            foreach (explode(',', $excludedUrls) ?: [] as $url) {
+            foreach (!empty($excludedUrls) ? explode(',', $excludedUrls) : [] as $url) {
                 // We allow urls to be provided:
                 // - fully qualified like http://example.url/path
                 // - without protocol like example.url/path
@@ -1173,7 +1172,6 @@ class API extends \Piwik\Plugin\API
 
             // make sure tracker cache will reflect change
             Cache::deleteTrackerCache();
-        }
     }
 
     /**

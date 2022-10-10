@@ -50,7 +50,7 @@ class UrlHelper
         }
         return false;
     }
-    
+
     /**
      * Converts an array of query parameter name/value mappings into a query string.
      * Parameters that are in `$parametersToExclude` will not appear in the result.
@@ -143,6 +143,7 @@ class UrlHelper
     {
         return $url && preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
             && strlen($matches[3]) > 0
+            && filter_var($url, FILTER_VALIDATE_URL)
             && !preg_match('/^(javascript:|vbscript:|data:)/i', $matches[1])
             ;
     }
