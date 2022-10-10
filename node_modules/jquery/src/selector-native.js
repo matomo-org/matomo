@@ -6,6 +6,8 @@ define( [
 	"./var/indexOf"
 ], function( jQuery, document, documentElement, hasOwn, indexOf ) {
 
+"use strict";
+
 /*
  * Optional (non-Sizzle) selector module for custom builds.
  *
@@ -32,12 +34,32 @@ define( [
  */
 
 var hasDuplicate, sortInput,
+	rhtmlSuffix = /HTML$/i,
 	sortStable = jQuery.expando.split( "" ).sort( sortOrder ).join( "" ) === jQuery.expando,
 	matches = documentElement.matches ||
 		documentElement.webkitMatchesSelector ||
 		documentElement.mozMatchesSelector ||
 		documentElement.oMatchesSelector ||
-		documentElement.msMatchesSelector;
+		documentElement.msMatchesSelector,
+
+	// CSS string/identifier serialization
+	// https://drafts.csswg.org/cssom/#common-serializing-idioms
+	rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,
+	fcssescape = function( ch, asCodePoint ) {
+		if ( asCodePoint ) {
+
+			// U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
+			if ( ch === "\0" ) {
+				return "\uFFFD";
+			}
+
+			// Control characters and (dependent upon position) numbers get escaped as code points
+			return ch.slice( 0, -1 ) + "\\" + ch.charCodeAt( ch.length - 1 ).toString( 16 ) + " ";
+		}
+
+		// Other potentially-special ASCII characters get backslash-escaped
+		return "\\" + ch;
+	};
 
 function sortOrder( a, b ) {
 
@@ -110,7 +132,14 @@ function uniqueSort( results ) {
 	return results;
 }
 
+function escape( sel ) {
+	return ( sel + "" ).replace( rcssescape, fcssescape );
+}
+
 jQuery.extend( {
+	uniqueSort: uniqueSort,
+	unique: uniqueSort,
+	escapeSelector: escape,
 	find: function( selector, context, results, seed ) {
 		var elem, nodeType,
 			i = 0;
@@ -140,8 +169,6 @@ jQuery.extend( {
 
 		return results;
 	},
-	uniqueSort: uniqueSort,
-	unique: uniqueSort,
 	text: function( elem ) {
 		var node,
 			ret = "",
@@ -174,11 +201,14 @@ jQuery.extend( {
 		return a === bup || !!( bup && bup.nodeType === 1 && adown.contains( bup ) );
 	},
 	isXMLDoc: function( elem ) {
+		var namespace = elem.namespaceURI,
+			documentElement = ( elem.ownerDocument || elem ).documentElement;
 
-		// documentElement is verified for cases where it doesn't yet exist
-		// (such as loading iframes in IE - #4833)
-		var documentElement = elem && ( elem.ownerDocument || elem ).documentElement;
-		return documentElement ? documentElement.nodeName !== "HTML" : false;
+		// Assume HTML when documentElement doesn't yet exist, such as inside
+		// document fragments.
+		return !rhtmlSuffix.test( namespace ||
+			documentElement && documentElement.nodeName ||
+			"HTML" );
 	},
 	expr: {
 		attrHandle: {},
@@ -200,7 +230,7 @@ jQuery.extend( jQuery.find, {
 	attr: function( elem, name ) {
 		var fn = jQuery.expr.attrHandle[ name.toLowerCase() ],
 
-			// Don't get fooled by Object.prototype properties (jQuery #13807)
+			// Don't get fooled by Object.prototype properties (jQuery trac-13807)
 			value = fn && hasOwn.call( jQuery.expr.attrHandle, name.toLowerCase() ) ?
 				fn( elem, name, jQuery.isXMLDoc( elem ) ) :
 				undefined;

@@ -1,9 +1,11 @@
 define( [
 	"../core",
+	"../ajax",
 	"../event"
 ], function( jQuery ) {
 
-// Attach a bunch of functions for handling common AJAX events
+"use strict";
+
 jQuery.each( [
 	"ajaxStart",
 	"ajaxStop",
@@ -11,7 +13,7 @@ jQuery.each( [
 	"ajaxError",
 	"ajaxSuccess",
 	"ajaxSend"
-], function( i, type ) {
+], function( _i, type ) {
 	jQuery.fn[ type ] = function( fn ) {
 		return this.on( type, fn );
 	};
