@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\SitesManager\tests\Unit;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Option;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;

@@ -12,22 +12,23 @@ namespace Piwik\Plugins\SitesManager;
 
 use DateTimeZone;
 use Exception;
+use Matomo\Network\IPUtils;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\Model as CoreModel;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
-use Matomo\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
-use Piwik\Settings\Measurable\MeasurableProperty;
-use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\ProxyHttp;
 use Piwik\Scheduler\Scheduler;
+use Piwik\Settings\Measurable\MeasurableProperty;
+use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
@@ -36,7 +37,6 @@ use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\DataAccess\Model as CoreModel;
 
 /**
  * The SitesManager API gives you full control on Websites in Matomo (create, update and delete), and many methods to retrieve websites based on various attributes.
