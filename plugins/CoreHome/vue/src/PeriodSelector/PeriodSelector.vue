@@ -250,13 +250,13 @@ export default defineComponent({
   },
   mounted() {
     Matomo.on('hidePeriodSelector', () => {
-      window.$(this.$refs.root as HTMLElement).parent().hide();
+      window.$(this.$refs.root as HTMLElement).parent('#periodString').hide();
     });
 
     // some widgets might hide the period selector using the event above, so ensure it's
     // shown again when switching the page
     Matomo.on('piwikPageChange', () => {
-      window.$(this.$refs.root as HTMLElement).parent().show();
+      window.$(this.$refs.root as HTMLElement).parent('#periodString').show();
     });
 
     this.updateSelectedValuesFromHash();
