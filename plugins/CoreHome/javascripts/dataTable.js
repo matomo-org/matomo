@@ -421,6 +421,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var dataTableInCard = $domElem.parents('.card').first();
             var parentDataTable = $domElem.parent('.dataTable');
 
+            if ($domElem.is('.dataTableVizEvolution,.dataTableVizStackedBarEvolution')) {
+                return; // don't resize evolution charts
+            }
+
             dataTableInCard.width('');
             $domElem.width('');
             parentDataTable.width('');
