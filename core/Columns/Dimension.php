@@ -133,7 +133,7 @@ abstract class Dimension
     protected $acceptValues;
 
     /**
-     * Defines to which column in the MySQL database the segment belongs (if one is conifugred). Defaults to
+     * Defines to which column in the MySQL database the segment belongs (if one is configured). Defaults to
      * `$this.dbTableName . '.'. $this.columnName` but you can customize it eg like `HOUR(log_visit.visit_last_action_time)`.
      *
      * @param string $sqlSegment
