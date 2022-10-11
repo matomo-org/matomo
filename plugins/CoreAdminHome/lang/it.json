@@ -94,7 +94,7 @@
         "OptOutDntFound": "Non vieni tracciato poiché il tuo browser comunica che non lo desideri. Questa è un'impostazione del tuo browser, dunque non potrai effettuare l'opt-in finchè non disabiliti la funzionalità \"Non Tracciare\".",
         "OptOutErrorNoCookies": "La funzione per l'opt-out dal monitoraggio richiede che siano abilitati i cookies.",
         "OptOutErrorNotHttps": "La funzione di esclusione dal monitoraggio (opt-out) potrebbe non funzionare perché questo sito non è stato caricato su HTTPS. Ricarica la pagina per verificare se il tuo stato di rinuncia è cambiato.",
-        "OptOutErrorWindowOpen": "La funzione di esclusione dal monitoraggio (opt-out) potrebbe non funzionare perché sembra che il popup di disattivazione sia stato bloccato. Ricarica la pagina per verificare se il tuo stato di rinuncia è cambiato.",
+        "OptOutErrorWindowOpen": "La funzione di esclusione dal monitoraggio (opt-out) potrebbe non funzionare perché sembra che il popup di disattivazione sia stato bloccato. Ricarica la pagina per verificare se il tuo stato di opt-out è cambiato.",
         "OptOutExplanation": "Matomo è impegnato ad assicurare la riservatezza su Internet. Per dare ai tuoi visitatori la possibilità di escludersi dalle Statistiche Web di Matomo, è possibile aggiungere il seguente codice HTML in una pagina del tuo sito web, ad esempio in una pagina sulla privacy.",
         "OptOutExplanationIntro": "Questo codice mostrerà ai tuoi visitatori un iframe contenente un link per escludersi da Matomo (opt-out) impostando un cookie apposito nel loro browser. Guarda qui di seguito (o %1$s clicca qui %2$s) per vedere il contenuto che verrà mostrato dall'iframe.",
         "OptOutForYourVisitors": "Matomo opt-out per i tuoi visitatori",
