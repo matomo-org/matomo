@@ -95,11 +95,4 @@ class NonProfilableData extends Fixture
         $count = Db::fetchOne($sql);
         Assert::assertEquals(0, $count);
     }
-
-    public function provideContainerConfig()
-    {
-        return [
-            'tests.isProfilableCheckDisabled' => false,
-        ];
-    }
 }
