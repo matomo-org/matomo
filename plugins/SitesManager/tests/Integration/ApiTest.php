@@ -1536,12 +1536,6 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals('', $excludedReferrers);
     }
 
-    public function testSetGlobalExcludedReferrersWithInvalidValue()
-    {
-        $this->expectExceptionMessage('SitesManager_ExceptionInvalidUrl');
-        API::getInstance()->setGlobalExcludedReferrers('example a');
-    }
-
     public function testSetGlobalExcludedReferrersWithValidValue()
     {
         API::getInstance()->setGlobalExcludedReferrers('example.com');

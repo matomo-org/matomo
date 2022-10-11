@@ -1162,8 +1162,7 @@ class API extends \Piwik\Plugin\API
                 // - with subdomain wildcard like .example.url/path
                 $prefixedUrl = 'https://'.ltrim(preg_replace('/^https?:\/\//', '', $url), '.');
                 $parsedUrl = @parse_url($prefixedUrl);
-                if (false === $parsedUrl || filter_var($prefixedUrl,
-                        FILTER_VALIDATE_URL) === false || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
+                if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
                     throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
                 }
             }
