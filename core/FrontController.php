@@ -187,9 +187,6 @@ class FrontController extends Singleton
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         } catch(\Error $e) {
-            echo $e->getMessage();
-            echo $e->getTraceAsString()."\n";
-            echo get_class($e);exit;
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         }
