@@ -629,7 +629,7 @@
         "MetricMinMax": "%1$s com um intervalo entre %2$s e %3$s durante o período",
         "MetricsFor": "Métricas para %s",
         "MultiRowEvolutionTitle": "Evolução de múltiplas linhas",
-        "PickARow": "Escolher uma linha para comparação",
+        "PickARow": "Escolher uma linha para compar",
         "PickAnotherRow": "Escolha outra linha para comparar"
     }
 }

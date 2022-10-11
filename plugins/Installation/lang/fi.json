@@ -129,7 +129,7 @@
         "TablesWithSameNamesFound": "Osalla %1$s tauluista tietokannassa %2$s on sama nimi kuin tauluilla, joita Matomo yrittää luoda.",
         "Timezone": "Sivuston aikavyöhyke",
         "WeHopeYouWillEnjoyPiwik": "Toivomme että nautit Matomon käytöstä yhtä paljon kuin me nautimme sen luomisesta!",
-        "Welcome": "Tervetuloa!",
+        "Welcome": "Tervetuloa",
         "WelcomeHelp": "<p>Matomo on vapaa ja avoin web-analytiikkaohjelmisto, jonka avulla saat haluamaasi tietoa sivustojesi kävijöistä.</p><p>Tämä prosessi on jaettu %s helppoon vaiheeseen, ja niiden läpikäynti kestää noin 5 minuuttia.</p>",
         "WelcomeToCommunity": "Tervetuloa Matomo-yhteisöön!",
         "YouMayInstallPiwikNow": "Voit %1$sasentaa Matomon nyt%2$s"

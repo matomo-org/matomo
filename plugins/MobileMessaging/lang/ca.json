@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Obteniu informes d'anàlisi web a la vostra safata d'entrada de correu electrònic o al vostre telèfon mòbil.",
         "TopMenu": "Informes per Email i SMS",
         "UserKey": "Clau d'usuari",
-        "VerificationText": "El codi és %1$s. Per validar el vostre número de telèfon i rebre informes SMS de Matomo, copieu aquest codi en el formulari disponible mitjançant Matomo - %2$s -- %3$s."
+        "VerificationText": "El codi és %1$s. Per validar el vostre número de telèfon i rebre informes SMS de Matomo, copieu aquest codi en el formulari disponible mitjançant Matomo → %2$s → %3$s."
     }
 }

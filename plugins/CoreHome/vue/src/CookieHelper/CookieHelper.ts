@@ -3,7 +3,7 @@
  */
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function setCookie(name: string, val: string, seconds: number) {
+export function setCookie(name: string, val: string, seconds?: number) {
   const date = new Date();
 
   // set default day to 3 days

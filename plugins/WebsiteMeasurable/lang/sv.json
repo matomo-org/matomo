@@ -1,7 +1,7 @@
 {
     "WebsiteMeasurable": {
         "Website": "Webbplats",
-        "Websites": "Webbplatser",
-        "WebsiteDescription": "En webbplats består av webbsidor, vanligtvis från en enda domän."
+        "WebsiteDescription": "En webbplats består av webbsidor som vanligtvis tillhandahålls från en enda domän på webben.",
+        "Websites": "Webbplatser"
     }
 }

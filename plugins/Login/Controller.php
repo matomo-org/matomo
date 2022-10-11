@@ -27,6 +27,7 @@ use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
+use Piwik\Request;
 use Piwik\Session;
 use Piwik\Session\SessionInitializer;
 use Piwik\Url;
@@ -341,9 +342,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         if (empty($urlToRedirect)) {
-            $redirect = Common::unsanitizeInputValue(Common::getRequestVar('form_redirect', false));
-            $redirectParams = UrlHelper::getArrayFromQueryString(UrlHelper::getQueryFromUrl($redirect));
-            $module = Common::getRequestVar('module', '', 'string', $redirectParams);
+            $redirect = Request::fromRequest()->getStringParameter('form_redirect', '');
+            $module = Request::fromQueryString(UrlHelper::getQueryFromUrl($redirect))->getStringParameter('module', '');
             // when module is login, we redirect to home...
             if (!empty($module) && $module !== 'Login' && $module !== Piwik::getLoginPluginName() && $redirect) {
                 $host = Url::getHostFromUrl($redirect);

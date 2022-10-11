@@ -225,6 +225,7 @@ class Visualization extends ViewDataTable
 
         if (null === $this->dataTable) {
             $view->dataTable = null;
+            $view->dataTableHasNoData = true;
         } else {
             $view->dataTableHasNoData = !$this->isThereDataToDisplay();
             $view->dataTable          = $this->dataTable;
