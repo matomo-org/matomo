@@ -317,6 +317,14 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $url = 'https://raw.githubusercontent.com/matomo-org/referrer-spam-list/master/spammers.txt';
         $list = Http::sendHttpRequest($url, 30);
+
+        if (preg_match('/[<>&?"\']/', $list)) {
+            throw new \Exception(sprintf(
+                'The spammers list downloaded from %s contains unexpected characters, considering it a fail',
+                $url
+            ));
+        }
+
         $list = preg_split("/\r\n|\n|\r/", $list);
         if (count($list) < 10) {
             throw new \Exception(sprintf(
