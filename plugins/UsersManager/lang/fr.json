@@ -103,6 +103,8 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Si vous souhaitez modifier votre mot de passe tapez en un nouveau. Sinon laissez vide.",
         "IncludedInUsersRole": "Inclus dans le rôle de cet utilisateur.",
         "InjectedHostCannotChangePwd": "Vous êtes actuellement connecté depuis un hôte inconnu (%1$s). Vous ne pourrez modifier votre mot de passe tant que ce problème ne sera pas corrigé.",
+        "InviteNewUser": "Inviter un nouvel utilisateur",
+        "InviteUser": "Inviter un utilisateur",
         "LastSeen": "Vu pour la dernière fois",
         "LastUsed": "Dernière utilisation",
         "MainDescription": "Choisissez quels utilisateurs ont accès à quels sites. Vous pouvez aussi accorder accès à tous les sites d'un seul coup en sélectionnant \"Appliquer à tous les sites web\" dans le sélecteur de sites web.",

@@ -131,7 +131,7 @@
         "TablesWithSameNamesFound": "Enkele %1$s tabellen in uw database %2$s hebben dezelfde naam als de tabellen die Matomo probeert aan te maken.",
         "Timezone": "Tijdzone website",
         "WeHopeYouWillEnjoyPiwik": "We hopen dat je evenveel plezier hebt in het gebruiken van Matomo als dat wij hebben in het ontwikkelen.",
-        "Welcome": "Welkom!",
+        "Welcome": "Welkom",
         "WelcomeToCommunity": "Welkom bij de Matomo-gemeenschap!",
         "YouMayInstallPiwikNow": "U kunt %1$sMatomo nu installeren%2$s"
     }

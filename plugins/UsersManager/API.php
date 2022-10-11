@@ -28,8 +28,10 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Url;
 use Piwik\Validators\BaseValidator;
 
 /**
@@ -769,9 +771,9 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
 
         // check password confirmation only when using session auth
-        if (Common::getRequestVar('force_api_session', 0)) {
-            $this->confirmCurrentUserPassword($passwordConfirmation);
-        }
+       if (Common::getRequestVar('force_api_session', 0)) {
+           $this->confirmCurrentUserPassword($passwordConfirmation);
+       }
 
         if (empty($expiryInDays)) {
             $expiryInDays = Config\GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');
@@ -1521,16 +1523,24 @@ class API extends \Piwik\Plugin\API
         return $description;
     }
 
+
+
     /**
      * resend the invite email to user
      *
      * @param string $userLogin
      * @param int $expiryInDays
+     * @param string | null $passwordConfirmation
      * @throws NoAccessException
      */
-    public function resendInvite($userLogin, $expiryInDays = 7)
+    public function resendInvite($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if (!$this->model->isPendingUser($userLogin)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
@@ -1545,7 +1555,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
+        $token = $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -1553,5 +1563,53 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The new user's login.
          */
         Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
+
+        return $token;
     }
+
+    /**
+     * @param $userLogin
+     * @param int $expiryInDays
+     * @param string | null $passwordConfirmation
+     * @return string
+     * @throws NoAccessException
+     */
+    public function generateInviteLink($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        if (!$this->model->isPendingUser($userLogin)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+        }
+
+        $user = $this->model->getUser($userLogin);
+
+        // If user is not a super user check if the user was invited by the current user
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
+                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+            }
+        }
+
+        $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
+
+        /**
+         * Triggered after a new user invite token was generate.
+         *
+         * @param string $userLogin The new user's login.
+         */
+        Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
+
+        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
+                'module' => 'Login',
+                'action' => 'acceptInvitation',
+                'token'  => $token,
+            ]);
+    }
+
 }

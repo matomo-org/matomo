@@ -124,7 +124,7 @@
         "TablesWithSameNamesFound": "Neke %1$s tabele u vašoj bazi %2$s imaju ista imena kao i tabele koje Matomo pokušava da kreira",
         "Timezone": "Vremenska zona sajta",
         "WeHopeYouWillEnjoyPiwik": "Nadamo se da ćete uživati u korišćenju Matomo-a isto koliko smo mi uživali u njegovom stvaranju.",
-        "Welcome": "Dobrodošli!",
+        "Welcome": "Dobrodošli",
         "WelcomeToCommunity": "Dobrodošli u Matomo zajednicu!",
         "YouMayInstallPiwikNow": "Sada možete da %1$sinstalirate Matomo%2$s"
     }

@@ -254,6 +254,10 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     private function removeTokenFromOutput($output)
     {
+        if (empty($output)) {
+            return $output;
+        }
+
         $token = Piwik::getCurrentUserTokenAuth();
         // make sure to not leak the token... otherwise someone could log in using someone's credentials...
         // and then maybe in the auth screen look into the DOM to find the token... and then bypass the

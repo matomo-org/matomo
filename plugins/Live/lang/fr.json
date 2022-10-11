@@ -1,11 +1,11 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s actions en %2$s",
-        "AveragePageGenerationTime": "Chaque page a pris en moyenne %1$s à charger pour ce visiteur.",
+        "AveragePageGenerationTime": "Chaque page a pris %1$s à charger pour ce visiteur en moyenne.",
         "CalculatedOverNPageViews": "Calculé sur la base des %1$s dernières pages vues par ce visiteur.",
         "ClickToSeeAllContents": "Cliquez pour voir chaque interaction/affichage de contenu",
-        "ClickToViewAllActions": "Cliquez pour visualiser l'ensemble des actions de ce groupe en détails",
-        "ClickToViewMoreAboutVisit": "Cliquez pour afficher plus d'informations à propos de cette visite",
+        "ClickToViewAllActions": "Cliquez pour toutes les actions de ce groupe en détail",
+        "ClickToViewMoreAboutVisit": "Cliquez pour plus d'informations sur cette visite",
         "ConvertedNGoals": "Conversion de %s objectifs",
         "DisableVisitorProfile": "Désactiver le profil du visiteur uniquement",
         "DisableVisitorProfileDescription": "Ici vous pouvez désactiver la fonction de profil du visiteur. Toutes les fonctions liées au journal des visites resteront actives.",
@@ -14,7 +14,7 @@
         "FirstVisit": "Première visite",
         "GoalType": "Type",
         "HideMap": "Cacher la carte",
-        "KeywordRankedOnSearchResultForThisVisitor": "Le mot-clé %1$s a été noté %2$s dans la page de résultats de recherche %3$s pour ce visiteur",
+        "KeywordRankedOnSearchResultForThisVisitor": "Le mot clé \"%1$s\" a été classé %2$s sur la page de résultats de recherche %3$s pour ce visiteur",
         "LastHours": "Dernières %s heures",
         "LastMinutes": "Dernières %s minutes",
         "LastVisit": "Dernière visite",

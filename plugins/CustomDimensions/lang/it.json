@@ -12,6 +12,7 @@
         "DimensionCreated": "Dimensione custom creata",
         "DimensionUpdated": "Dimensione custom aggiornata",
         "EmptyValue": "valore vuoto",
+        "ExampleCreateCustomDimensions": "Ad esempio, per creare %s una nuova azione Dimensioni personalizzate nell'ambito, eseguire il comando seguente:",
         "ExampleValue": "dimensionValue",
         "ExceptionDimensionDoesNotExist": "La dimensione %1$d per il sito %2$d non esiste.",
         "ExceptionDimensionIsNotActive": "La dimensione %1$d per il sito %2$d non è attiva.",
