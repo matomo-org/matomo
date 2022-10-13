@@ -3895,7 +3895,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (!configFileTracking && windowAlias.location.protocol === 'file:') {
-                  return '';
+                    configDoNotTrack = true;
                 }
 
                 if (configDoNotTrack) {
