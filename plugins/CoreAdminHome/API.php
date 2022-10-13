@@ -151,7 +151,7 @@ class API extends \Piwik\Plugin\API
      * @hideExceptForSuperUser
      */
     public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false,
-                                              $_forceInvalidateNonexistant = false)
+                                              $_forceInvalidateNonexistent = false)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
         if (empty($idSites)) {
@@ -169,7 +169,7 @@ class API extends \Piwik\Plugin\API
         /** Date[]|string[] $dates */
         list($dates, $invalidDates) = $this->getDatesToInvalidateFromString($dates, $period);
 
-        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, (bool)$cascadeDown, (bool)$_forceInvalidateNonexistant);
+        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, (bool)$cascadeDown, (bool)$_forceInvalidateNonexistent);
 
         $output = $invalidationResult->makeOutputLogs();
         if ($invalidDates) {

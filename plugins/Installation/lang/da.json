@@ -136,7 +136,7 @@
         "TablesWithSameNamesFound": "Nogle %1$s tabeller i databasen %2$s har samme navn, som dem Matomo prøver at oprette",
         "Timezone": "Hjemmesidens tidszone",
         "WeHopeYouWillEnjoyPiwik": "Vi håber du vil nyde at bruge Matomo så meget, som vi nyder at lave det.",
-        "Welcome": "Velkommen!",
+        "Welcome": "Velkommen",
         "WelcomeHelp": "<p>Matomo er et open source-webanalyseværktøj, der gør det let af få adgang til den ønskede information om dine besøgende.</p><p>Installationen er opdelt i %s lette trin og tager cirka 5 minutter.</p>",
         "WelcomeToCommunity": "Velkommen til fællesskab om Matomo!",
         "YouMayInstallPiwikNow": "Du kan %1$sinstallere Matomo nu%2$s"

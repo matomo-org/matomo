@@ -392,10 +392,14 @@ archiving_custom_ranges[] =
 ; This feature will not work with the MYSQLI extension.
 archiving_query_max_execution_time = 7200
 
-
 ; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
 ; Here you can specify the comma separated list eg: "plugin1,plugin2"
 disable_archiving_segment_for_plugins = ""
+
+; By default Matomo will archive data showing the contribution of each action to goal conversions, for sites tracking millions
+; of visits with a large number of goals this may negatively impact archiving performance. You can disable archiving of action
+; goal contribution here:
+disable_archive_actions_goals = 0
 
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
@@ -1039,7 +1043,7 @@ innodb_lock_wait_timeout = 0
 ; For example "e_c==Media" means that all tracking requests will be excluded where the event category is Media.
 ; Multiple exclusions can be configured separated by a comma. The request will be excluded if any expressions matches (not all of them). For example: "e_c==Media,action_name=@privacy".
 ; This would also exclude any request from being tracked where the page title contains privacy.
-; All comparisons are performed case insensitve. The value to match on the right side should be URL encoded.
+; All comparisons are performed case insensitive. The value to match on the right side should be URL encoded.
 ; For example: "action_name=^foo%2Cbar" would exclude page titles that start with "foo,bar".
 ; For a list of tracking parameters you can use on the left side view https://developer.matomo.org/api-reference/tracking-api
 exclude_requests = ""

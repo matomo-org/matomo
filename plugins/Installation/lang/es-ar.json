@@ -151,7 +151,7 @@
         "TablesWithSameNamesFound": "Algunas %1$stablas en tu base de datos%2$s tienen los mismos nombres como las tablas Matomo que estás intentando crear",
         "Timezone": "Huso horario del sitio web",
         "WeHopeYouWillEnjoyPiwik": "Esperamos que estés disfrutando de Matomo tanto como nosotros disfrutamos hacerlo.",
-        "Welcome": "¡Bienvenido!",
+        "Welcome": "¡Bienvenido",
         "WelcomeHelp": "<p>Matomo es software libre de análisis de web que hace fácil obtener la información que querés de tus visitantes.</p> <p>Este proceso está dividido hasta en %s fáciles pasos y llevará unos 5 minutos.</p>",
         "WelcomeToCommunity": "¡Bienvenido a la comunidad Matomo!",
         "YouMayInstallPiwikNow": "Podés %1$sinstalar Matomo ahora%2$s"
