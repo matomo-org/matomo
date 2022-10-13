@@ -2187,7 +2187,6 @@ function PiwikTest() {
         equal( typeof tracker.disableHeartBeatTimer, 'function', 'disableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
         equal( typeof tracker.redirectFile, 'function', 'redirectFile' );
-        equal( typeof tracker.enableFileTracking, 'function', 'enableFileTracking' );
         equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
         equal( typeof tracker.trackGoal, 'function', 'trackGoal' );
         equal( typeof tracker.trackLink, 'function', 'trackLink' );
