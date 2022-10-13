@@ -11,28 +11,40 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
+use Piwik\Http;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class TestCustomCap extends Access\Capability {
+class TestCustomCap extends Access\Capability
+{
 
     const ID = 'testcustomcap';
-    public function getId(): string {
+
+    public function getId(): string
+    {
         return self::ID;
     }
-    public function getName(): string {
+
+    public function getName(): string
+    {
         return 'customcap';
     }
-    public function getCategory(): string {
+
+    public function getCategory(): string
+    {
         return 'test';
     }
-    public function getDescription(): string {
+
+    public function getDescription(): string
+    {
         return 'lorem ipsum';
     }
-    public function getIncludedInRoles(): array {
+
+    public function getIncludedInRoles(): array
+    {
         return array(Access\Role\Admin::ID);
     }
 
@@ -50,7 +62,7 @@ class AccessTest extends IntegrationTestCase
         $shouldBe = array('view', 'write', 'admin');
         $this->assertEquals($shouldBe, $accessList);
     }
-    
+
     private function getAccess()
     {
         return new Access(new Access\RolesProvider(), new Access\CapabilitiesProvider());
@@ -208,7 +220,8 @@ class AccessTest extends IntegrationTestCase
         $this->assertFalse($access->isUserHasSomeAdminAccess());
     }
 
-    public function test_CheckUserHasSomeAdminAccessWithSomeAccessFails_IfUserHasPermissionsToSitesButIsNotAuthenticated()
+    public function test_CheckUserHasSomeAdminAccessWithSomeAccessFails_IfUserHasPermissionsToSitesButIsNotAuthenticated(
+    )
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $mock = $this->createAccessMockWithAccessToSitesButUnauthenticated(array(2, 9));
@@ -241,8 +254,8 @@ class AccessTest extends IntegrationTestCase
         $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
 
         $mock->expects($this->once())
-             ->method('getRawSitesWithSomeViewAccess')
-             ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(2, 9))));
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(2, 9))));
 
         $mock->checkUserHasSomeAdminAccess();
     }
@@ -490,7 +503,7 @@ class AccessTest extends IntegrationTestCase
 
         $mock->expects($this->at(0))
             ->method('getRawSitesWithSomeViewAccess')
-            ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(1,2,3,4))));
+            ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(1, 2, 3, 4))));
 
         $mock->expects($this->at(1))
             ->method('getRawSitesWithSomeViewAccess')
@@ -545,8 +558,7 @@ class AccessTest extends IntegrationTestCase
             });
 
             $this->fail("Exception was not propagated by doAsSuperUser.");
-        } catch (Exception $ex)
-        {
+        } catch (Exception $ex) {
             // pass
         }
 
@@ -629,6 +641,23 @@ class AccessTest extends IntegrationTestCase
         $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
     }
 
+    public function test_APIPermissionResponseCode()
+    {
+        $url = Fixture::getTestRootUrl().'?'.http_build_query([
+                'module'     => 'API',
+                'method'     => 'getMatomoVersion',
+                'token_auth' => 'DONT_EXIST',
+            ]);
+        $ch = curl_init($url);
+        curl_exec($ch);
+
+        if (!curl_errno($ch)) {
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $this->assertEquals(401, $http_code);
+
+        }
+    }
+
     private function switchUser($user)
     {
         $mock = $this->createPiwikAuthMockInstance();
@@ -677,16 +706,24 @@ class AccessTest extends IntegrationTestCase
     private function createPiwikAuthMockInstance()
     {
         return $this->getMockBuilder('Piwik\\Auth')
-                    ->onlyMethods(array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
-            'setPassword', 'setPasswordHash'))
-                    ->getMock();
+            ->onlyMethods(array(
+                'authenticate',
+                'getName',
+                'getTokenAuthSecret',
+                'getLogin',
+                'setTokenAuth',
+                'setLogin',
+                'setPassword',
+                'setPasswordHash',
+            ))
+            ->getMock();
     }
 
     private function createAccessMockWithAccessToSitesButUnauthenticated($idSites)
     {
         $mock = $this->getMockBuilder('Piwik\Access')
-                     ->onlyMethods(array('getRawSitesWithSomeViewAccess', 'loadSitesIfNeeded'))
-                     ->getMock();
+            ->onlyMethods(array('getRawSitesWithSomeViewAccess', 'loadSitesIfNeeded'))
+            ->getMock();
 
         // this method will be actually never called as it is unauthenticated. The tests are supposed to fail if it
         // suddenly does get called as we should not query for sites if it is not authenticated.
