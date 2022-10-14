@@ -131,7 +131,17 @@ abstract class API
 
         $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
 
-        if (!StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
+        try {
+            if (
+                !StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect(
+                    $loginCurrentUser,
+                    $passwordConfirmation
+                )
+            ) {
+                throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+            }
+        } catch (Exception $e) {
+            // in case of any error (e.g. the provided password is too weak)
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
     }
