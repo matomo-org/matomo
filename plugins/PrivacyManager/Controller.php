@@ -130,7 +130,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function usersOptOut()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $language = LanguagesManager::getLanguageCodeForCurrentUser();
 
         $doNotTrackOptions = [
             ['key' => '1',
@@ -153,7 +152,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $this->renderTemplate('usersOptOut', [
-            'language' => $language,
+            'language' => LanguagesManager::getLanguageCodeForCurrentUser(),
             'currentLanguageCode' => LanguagesManager::getLanguageCodeForCurrentUser(),
             'languageOptions' => $languageOptions,
             'doNotTrackOptions' => $doNotTrackOptions,
