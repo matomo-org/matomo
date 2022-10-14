@@ -6,6 +6,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d5089722a4391cf9</fingerprint>
+		<profilable>1</profilable>
 		<actionDetails>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
