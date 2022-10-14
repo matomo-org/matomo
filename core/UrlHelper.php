@@ -50,7 +50,7 @@ class UrlHelper
         }
         return false;
     }
-    
+
     /**
      * Converts an array of query parameter name/value mappings into a query string.
      * Parameters that are in `$parametersToExclude` will not appear in the result.
