@@ -23,7 +23,7 @@ describe("UserCountry", function () {
         expect(await page.screenshotSelector('#content')).to.matchImage('admin_no_providers');
     });
 
-    it('should show geolocation admin with GeoIP2 providers', async function () {
+    it.only('should show geolocation admin with GeoIP2 providers', async function () {
         testEnvironment.pluginsToLoad = ['GeoIp2', 'Provider'];
         testEnvironment.save();
 

@@ -23,7 +23,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers → Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Matomo automatically considers both.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -40,7 +39,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>When enabled, Matomo will only track internal actions when the Page URL is one of the known URLs for your website. This prevents people from spamming your analytics with URLs for other websites.&lt;br /&gt;The domain and the path have to be an exact match and each valid subdomain has to be specified separately. For example when the known URLs are 'http://example.com/path' and 'http://good.example.com', tracking requests for 'http://example.com/otherpath' or 'http://bad.example.com' are ignored.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -61,7 +59,6 @@ https://www.example.org/</placeholder>
 				</availableValues>
 				<description />
 				<inlineHelp />
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -83,7 +80,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use CIDR notation eg. 1.2.3.4/24 or you can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;127.0.0.1&lt;/i&gt;</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -104,7 +100,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -125,7 +120,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>Enter the list of user agents to exclude from being tracked by Matomo.&lt;br /&gt;&lt;br /&gt;If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Matomo.&lt;br /&gt;You can use this to exclude some bots from being tracked. Regular expressions such as /bot|spider|crawl|scanner/i are supported.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -146,7 +140,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>Enter the list of hostnames and URLs, one per line, you want to exclude from referrer detection.&lt;br /&gt;&lt;br /&gt;Each entry needs to contain the hostname and may contain a path. If a path is provided a referrer will only be excluded if the path matches as well. URLs with and without 'www' are treated the same. Provided protocols will be ignored.&lt;br /&gt;e.g. &quot;www.example.org&quot; would match &quot;http://example.org/mypath&quot; and &quot;https://www.example.org/?param=1&quot; but not &quot;https://sub.example.org/&quot;&lt;br /&gt;&lt;br /&gt;To also exclude all subdomains of a certain hostname, prefix it with a dot. e.g. &quot;.sub.example.org&quot; would exclude &quot;http://sub.example.org/mypath&quot;, but also all its subdomains like &quot;https://new.sub.example.org/&quot;.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -166,7 +159,6 @@ https://www.example.org/</placeholder>
 				</availableValues>
 				<description />
 				<inlineHelp>You can use Matomo to track and report what visitors are searching in your website's internal search engine.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -183,7 +175,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description>Query parameter (Default): q,query,s,search,searchword,k,keyword &amp; Category parameter: </description>
 				<inlineHelp />
-				<templateFile />
 				<introduction />
 				<condition>1 &amp;&amp; sitesearch</condition>
 				<fullWidth>0</fullWidth>
@@ -203,7 +194,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>Enter a comma separated list of all query parameter names containing the site search keyword.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
 				<fullWidth>0</fullWidth>
@@ -223,7 +213,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>(optional)&lt;br /&gt;&lt;br /&gt;You may enter a comma-separated list of query parameters specifying the search category.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
 				<fullWidth>0</fullWidth>
@@ -243,7 +232,6 @@ https://www.example.org/</placeholder>
 				</availableValues>
 				<description />
 				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking and reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -266,7 +254,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws/guidelines.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -283,7 +270,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp>All visits-log related features always function.</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition>disable_visitor_log==0</condition>
 				<fullWidth>0</fullWidth>
@@ -308,7 +294,6 @@ https://www.example.org/</placeholder>
 				<availableValues />
 				<description />
 				<inlineHelp />
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
