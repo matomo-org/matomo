@@ -33,6 +33,7 @@ class XssTesting
         return $result;
     }
 
+    // kept after vue migration for proof angularjs injection does not apply
     public function forAngular($type, $sanitize = false)
     {
         $n = $this->addXssEntry($type, 'angular');
