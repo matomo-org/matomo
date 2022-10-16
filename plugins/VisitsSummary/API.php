@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
+use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
@@ -22,7 +23,7 @@ use Piwik\SettingsPiwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function get($idSite, $period, $date, $segment = false, $columns = false)
+    public function get($idSite, $period, $date, $segment = false, $columns = false, $_keepEmptyProfilable = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -33,6 +34,21 @@ class API extends \Piwik\Plugin\API
         $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $requestedColumns);
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
+
+        // nb_profilable can be 0 (no profilable visits) or false (was never archived). to keep the API output
+        // the same as before nb_profilable was added, we remove empty rows unless it's explicitly requested to
+        // keep them
+        if (!$_keepEmptyProfilable) {
+            $dataTable->filter(function (DataTable $dt) {
+                $row = $dt->getFirstRow();
+                if ($row) {
+                    $columns = array_filter($row->getColumns());
+                    if (empty($columns)) {
+                        $dt->setRows([]);
+                    }
+                }
+            });
+        }
 
         if (!empty($requestedColumns)) {
             $columnsToShow = $requestedColumns ?: $report->getAllMetrics();

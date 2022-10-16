@@ -26,6 +26,7 @@
 				<bounce_count_new>11</bounce_count_new>
 				<sum_visit_length_new>0</sum_visit_length_new>
 				<max_actions_new>1</max_actions_new>
+				<nb_profilable_new>0</nb_profilable_new>
 				<bounce_rate_new>100%</bounce_rate_new>
 				<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
 				<avg_time_on_site_new>0</avg_time_on_site_new>
@@ -45,6 +46,8 @@
 				<sum_visit_length_new_change_from>+0%</sum_visit_length_new_change_from>
 				<max_actions_new_change>+100%</max_actions_new_change>
 				<max_actions_new_change_from>-100%</max_actions_new_change_from>
+				<nb_profilable_new_change>+0%</nb_profilable_new_change>
+				<nb_profilable_new_change_from>+0%</nb_profilable_new_change_from>
 				<bounce_rate_new_change>+100%</bounce_rate_new_change>
 				<bounce_rate_new_change_from>-100%</bounce_rate_new_change_from>
 				<nb_actions_per_visit_new_change>+100%</nb_actions_per_visit_new_change>
@@ -105,6 +108,7 @@
 				<bounce_count_new>8</bounce_count_new>
 				<sum_visit_length_new>0</sum_visit_length_new>
 				<max_actions_new>1</max_actions_new>
+				<nb_profilable_new>0</nb_profilable_new>
 				<bounce_rate_new>100%</bounce_rate_new>
 				<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
 				<avg_time_on_site_new>0</avg_time_on_site_new>
@@ -124,6 +128,8 @@
 				<sum_visit_length_new_change_from>+0%</sum_visit_length_new_change_from>
 				<max_actions_new_change>+100%</max_actions_new_change>
 				<max_actions_new_change_from>-100%</max_actions_new_change_from>
+				<nb_profilable_new_change>+0%</nb_profilable_new_change>
+				<nb_profilable_new_change_from>+0%</nb_profilable_new_change_from>
 				<bounce_rate_new_change>+100%</bounce_rate_new_change>
 				<bounce_rate_new_change_from>-100%</bounce_rate_new_change_from>
 				<nb_actions_per_visit_new_change>+100%</nb_actions_per_visit_new_change>
@@ -184,6 +190,7 @@
 				<bounce_count_new>9</bounce_count_new>
 				<sum_visit_length_new>305</sum_visit_length_new>
 				<max_actions_new>3</max_actions_new>
+				<nb_profilable_new>1</nb_profilable_new>
 				<bounce_rate_new>82%</bounce_rate_new>
 				<nb_actions_per_visit_new>1.3</nb_actions_per_visit_new>
 				<avg_time_on_site_new>28</avg_time_on_site_new>
@@ -203,6 +210,8 @@
 				<sum_visit_length_new_change_from>-100%</sum_visit_length_new_change_from>
 				<max_actions_new_change>+100%</max_actions_new_change>
 				<max_actions_new_change_from>-100%</max_actions_new_change_from>
+				<nb_profilable_new_change>+100%</nb_profilable_new_change>
+				<nb_profilable_new_change_from>-100%</nb_profilable_new_change_from>
 				<bounce_rate_new_change>+100%</bounce_rate_new_change>
 				<bounce_rate_new_change_from>-100%</bounce_rate_new_change_from>
 				<nb_actions_per_visit_new_change>+100%</nb_actions_per_visit_new_change>
@@ -246,6 +255,7 @@
 		<bounce_count_new>2</bounce_count_new>
 		<sum_visit_length_new>0</sum_visit_length_new>
 		<max_actions_new>1</max_actions_new>
+		<nb_profilable_new>2</nb_profilable_new>
 		<bounce_rate_new>100%</bounce_rate_new>
 		<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
 		<avg_time_on_site_new>0</avg_time_on_site_new>
@@ -259,6 +269,7 @@
 				<bounce_count_new>2</bounce_count_new>
 				<sum_visit_length_new>0</sum_visit_length_new>
 				<max_actions_new>1</max_actions_new>
+				<nb_profilable_new>2</nb_profilable_new>
 				<bounce_rate_new>100%</bounce_rate_new>
 				<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
 				<avg_time_on_site_new>0</avg_time_on_site_new>
@@ -282,6 +293,7 @@
 				<bounce_count_new>0</bounce_count_new>
 				<sum_visit_length_new>0</sum_visit_length_new>
 				<max_actions_new>0</max_actions_new>
+				<nb_profilable_new>0</nb_profilable_new>
 				<bounce_rate_new>0%</bounce_rate_new>
 				<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
 				<avg_time_on_site_new>0</avg_time_on_site_new>
@@ -301,6 +313,8 @@
 				<sum_visit_length_new_change_from>+0%</sum_visit_length_new_change_from>
 				<max_actions_new_change>-100%</max_actions_new_change>
 				<max_actions_new_change_from>+100%</max_actions_new_change_from>
+				<nb_profilable_new_change>-100%</nb_profilable_new_change>
+				<nb_profilable_new_change_from>+100%</nb_profilable_new_change_from>
 				<bounce_rate_new_change>-100%</bounce_rate_new_change>
 				<bounce_rate_new_change_from>+100%</bounce_rate_new_change_from>
 				<nb_actions_per_visit_new_change>-100%</nb_actions_per_visit_new_change>
@@ -327,6 +341,7 @@
 				<bounce_count_new>0</bounce_count_new>
 				<sum_visit_length_new>0</sum_visit_length_new>
 				<max_actions_new>0</max_actions_new>
+				<nb_profilable_new>0</nb_profilable_new>
 				<bounce_rate_new>0%</bounce_rate_new>
 				<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
 				<avg_time_on_site_new>0</avg_time_on_site_new>
@@ -346,6 +361,8 @@
 				<sum_visit_length_new_change_from>+0%</sum_visit_length_new_change_from>
 				<max_actions_new_change>-100%</max_actions_new_change>
 				<max_actions_new_change_from>+100%</max_actions_new_change_from>
+				<nb_profilable_new_change>-100%</nb_profilable_new_change>
+				<nb_profilable_new_change_from>+100%</nb_profilable_new_change_from>
 				<bounce_rate_new_change>-100%</bounce_rate_new_change>
 				<bounce_rate_new_change_from>+100%</bounce_rate_new_change_from>
 				<nb_actions_per_visit_new_change>-100%</nb_actions_per_visit_new_change>
