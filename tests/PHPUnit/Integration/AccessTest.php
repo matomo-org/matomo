@@ -11,7 +11,6 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
-use Piwik\Http;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
