@@ -40,15 +40,6 @@ class MultiPair
     public $uiControl = null;
 
     /**
-     * Defines a custom template file for a UI control. This file should render a UI control and expose the value in a
-     * "formField.value" angular model. For an example see "plugins/CorePluginsAdmin/angularjs/form-field/field-text.html"
-     *
-     * @var string
-     * @deprecated use customFieldComponent instead
-     */
-    public $customUiControlTemplateFile = '';
-
-    /**
      * Array like ['plugin' => 'MyPlugin', 'component' => 'MyExportedCustomFieldComponent']. For an example see
      * "plugins/CorePluginsAdmin/vue/src/FormField/FieldText.vue"
      *
@@ -90,7 +81,6 @@ class MultiPair
             'key' => $this->key,
             'title' => $this->title,
             'uiControl' => $this->uiControl,
-            'templateFile' => $this->customUiControlTemplateFile,
             'component' => $this->customFieldComponent,
             'availableValues' => $this->availableValues,
         );

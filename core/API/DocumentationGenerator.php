@@ -50,7 +50,7 @@ class DocumentationGenerator
      */
     public function getApiDocumentationAsString($outputExampleUrls = true)
     {
-        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls = '', $displayTitlesAsAngularDirective = true);
+        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls = '', $displayTitlesAsEnrichedHeadline = true);
 
         return "<div vue-entry=\"CoreHome.ContentBlock\" content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
 				$toc</div>
@@ -66,7 +66,7 @@ class DocumentationGenerator
      */
     public function getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls = '')
     {
-        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective = false);
+        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline = false);
 
         return "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>
 				$toc
@@ -78,11 +78,11 @@ class DocumentationGenerator
         return "<a href='#$moduleName'>$moduleName</a><br/>";
     }
 
-    protected function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective)
+    protected function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline)
     {
         $str = '';
         $str .= "\n<a name='$moduleName' id='$moduleName'></a>";
-        if($displayTitlesAsAngularDirective) {
+        if($displayTitlesAsEnrichedHeadline) {
             $str .= "<div vue-entry=\"CoreHome.ContentBlock\" content-title='Module " . $moduleName . "'>";
         } else {
             $str .= "<h2>Module " . $moduleName . "</h2>";
@@ -105,7 +105,7 @@ class DocumentationGenerator
             $str .= "</div>\n";
         }
 
-        if($displayTitlesAsAngularDirective) {
+        if($displayTitlesAsEnrichedHeadline) {
             $str .= "</div>";
         }
 
@@ -354,10 +354,10 @@ class DocumentationGenerator
     /**
      * @param $outputExampleUrls
      * @param $prefixUrls
-     * @param $displayTitlesAsAngularDirective
+     * @param $displayTitlesAsEnrichedHeadline
      * @return array
      */
-    protected function generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective)
+    protected function generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline)
     {
         $str = $toc = '';
 
@@ -393,7 +393,7 @@ class DocumentationGenerator
 
             foreach ($toDisplay as $moduleName => $methods) {
                 $toc .= $this->prepareModuleToDisplay($moduleName);
-                $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective);
+                $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline);
             }
         }
         return array($toc, $str);
