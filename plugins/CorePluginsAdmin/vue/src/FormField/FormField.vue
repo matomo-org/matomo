@@ -7,7 +7,6 @@
 <template>
   <div
     class="form-group row matomo-form-field"
-    v-show="showField"
   >
     <h3
       v-if="formField.introduction"
@@ -150,7 +149,6 @@ interface FormField {
   component: Component | ComponentReference;
   inlineHelp?: string;
   inlineHelpBind?: unknown;
-  templateFile?: string;
 }
 
 interface OptionLike {
@@ -283,25 +281,10 @@ export default defineComponent({
         && this.formField.uiControl !== 'checkbox'
         && this.formField.uiControl !== 'radio';
     },
-    /**
-     * @deprecated here for angularjs BC support. shouldn't be used directly, instead use
-     *             GroupedSetting.vue.
-     */
-    showField() {
-      if (!this.formField
-        || !this.formField.condition
-        || !(this.formField.condition instanceof Function)
-      ) {
-        return true;
-      }
-
-      return this.formField.condition();
-    },
     processedModelValue() {
       const field = this.formField as FormField;
 
-      // convert boolean values since angular 1.6 uses strict equals when determining if a model
-      // value matches the ng-value of an input.
+      // handle boolean field types
       if (field.type === 'boolean') {
         const valueIsTruthy = this.modelValue && this.modelValue > 0 && this.modelValue !== '0';
 
