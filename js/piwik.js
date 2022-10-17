@@ -3894,11 +3894,11 @@ if (typeof window.Matomo !== 'object') {
                     deleteCookies();
                 }
 
-                if (!configFileTracking && windowAlias.location.protocol === 'file:') {
+                if (configDoNotTrack) {
                     return '';
                 }
 
-                if (configDoNotTrack) {
+                if (!configFileTracking && windowAlias.location.protocol === 'file:') {
                     return '';
                 }
 
