@@ -50,7 +50,7 @@ class AccessTest extends IntegrationTestCase
         $shouldBe = array('view', 'write', 'admin');
         $this->assertEquals($shouldBe, $accessList);
     }
-    
+
     private function getAccess()
     {
         return new Access(new Access\RolesProvider(), new Access\CapabilitiesProvider());
@@ -627,6 +627,23 @@ class AccessTest extends IntegrationTestCase
 
         Access::getInstance()->setSuperUserAccess(true);
         $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_APIPermissionResponseCode()
+    {
+        $url = Fixture::getTestRootUrl().'?'.http_build_query([
+                'module'     => 'API',
+                'method'     => 'getMatomoVersion',
+                'token_auth' => 'DONT_EXIST',
+            ]);
+        $ch = curl_init($url);
+        curl_exec($ch);
+
+        if (!curl_errno($ch)) {
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $this->assertEquals(401, $http_code);
+
+        }
     }
 
     private function switchUser($user)
