@@ -99,7 +99,7 @@ export default defineComponent({
         uiControlAttributes: {
           ...this.uiControlAttributes,
           disabled: this.disabled,
-          autocomplete: this.autocomplete,
+          autocomplete: this.autocomplete ? 'on' : 'off',
           tabindex: this.tabindex,
           autofocus: this.autofocus,
           rows: this.rows,
