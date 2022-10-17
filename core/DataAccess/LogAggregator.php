@@ -201,9 +201,9 @@ class LogAggregator
         return $this->segment;
     }
 
-    public function setQueryOriginHint($nameOfOrigiin)
+    public function setQueryOriginHint($nameOfOrigin)
     {
-        $this->queryOriginHint = $nameOfOrigiin;
+        $this->queryOriginHint = $nameOfOrigin;
     }
 
     public function getSegmentTmpTableName()

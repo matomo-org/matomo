@@ -385,7 +385,7 @@ class Map implements DataTableInterface
      * query results into one DataTable w/ different rows differentiated by site ID.
      *
      * Note: This DataTable/Map will be destroyed and will be no longer usable after the tables have been merged into
-     *       the new dataTable to reduce memory usage. Destroying all DataTables witihn the Map also seems to fix a
+     *       the new dataTable to reduce memory usage. Destroying all DataTables within the Map also seems to fix a
      *       Segmentation Fault that occurred in the AllWebsitesDashboard when having > 16k sites.
      *
      * @return DataTable|Map

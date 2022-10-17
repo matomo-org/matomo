@@ -305,10 +305,10 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
         label = this.multiEvolutionRows.join(',');
 
         if (this.multiEvolutionRowsSeries.length > 1) { // when comparison is active
-            var piwikUrl = piwikHelper.getAngularDependency('piwikUrl');
-            extraParams.compareDates = piwikUrl.getSearchParam('compareDates');
-            extraParams.comparePeriods = piwikUrl.getSearchParam('comparePeriods');
-            extraParams.compareSegments = piwikUrl.getSearchParam('compareSegments');
+            var MatomoUrl = window.CoreHome.MatomoUrl;
+            extraParams.compareDates = MatomoUrl.parsed.value.compareDates;
+            extraParams.comparePeriods = MatomoUrl.parsed.value.comparePeriods;
+            extraParams.compareSegments = MatomoUrl.parsed.value.compareSegments;
             extraParams.labelSeries = this.multiEvolutionRowsSeries.join(',');
 
             // remove override period/date/segment since we are sending compare params so we can have the whole set of comparison

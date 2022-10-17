@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
@@ -621,6 +622,46 @@ class ApiTest extends IntegrationTestCase
         unset($sites[0]['ts_created']);
         unset($sites[1]['ts_created']);
         $this->assertEquals($resultWanted, $sites);
+    }
+
+    /**
+     * Get the list of admin access sites with a site ID excluded.
+     */
+    public function testGetSitesWithAdminAccessShouldOnlyReturnSitesHavingActuallyAdminAccessFiltered()
+    {
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com/test/"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com/test/"]);
+        API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
+
+        $resultWanted = [
+            0 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD'],
+        ];
+
+        FakeAccess::setIdSitesAdmin([1, 3]);
+
+        $sites = API::getInstance()->getSitesWithAdminAccess(false, false, false, [1]);
+        $this->assertIsArray($sites);
+        $this->assertCount(1, $sites);
+
+        // we don't test the ts_created
+        unset($sites[0]['ts_created']);
+        $this->assertEquals($resultWanted, $sites);
+    }
+
+    /**
+     * Get the list of admin access sites with all site IDs excluded.
+     */
+    public function testGetSitesWithAdminAccessShouldOnlyReturnSitesHavingActuallyAdminAccessAllFiltered()
+    {
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com/test/"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com/test/"]);
+        API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
+
+        FakeAccess::setIdSitesAdmin([1, 3]);
+
+        $sites = API::getInstance()->getSitesWithAdminAccess(false, false, false, [1,2,3]);
+        $this->assertIsArray($sites);
+        $this->assertCount(0, $sites);
     }
 
     public function testGetSitesWithAdminAccessShouldApplyLimitIfSet()
@@ -1404,6 +1445,116 @@ class ApiTest extends IntegrationTestCase
         $result = API::getInstance()->getSitesIdFromTimezones(['UTC+10', 'Pacific/Auckland']);
         $this->assertEquals([$idsite2, $idsite3, $idsite4], $result);
     }
+
+    /**
+     * Get the list of filtered sites with no sites available.
+     */
+    public function testGetPatternMatchSitesNoneAvailable()
+    {
+        $sites = API::getInstance()->getPatternMatchSites('%');
+        $this->assertIsArray($sites);
+        $this->assertCount(0, $sites);
+    }
+
+    /**
+     * Get the list of filtered sites.
+     */
+    public function testGetPatternMatchSites()
+    {
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com/test/"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com/test/"]);
+        API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
+
+        $resultWanted = [
+            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+            1 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+            2 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+        ];
+
+        $sites = API::getInstance()->getPatternMatchSites('%');
+        $this->assertIsArray($sites);
+        $this->assertCount(3, $sites);
+
+        // we don't test the ts_created
+        unset($sites[0]['ts_created']);
+        unset($sites[1]['ts_created']);
+        unset($sites[2]['ts_created']);
+        $this->assertEquals($resultWanted, $sites);
+    }
+
+    /**
+     * Get the list sites filtered by site name.
+     */
+    public function testGetPatternMatchSitesFilteringBySiteName()
+    {
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com/test/"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com/test/"]);
+        API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
+
+        $resultWanted = [
+            0 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+        ];
+
+        $sites = API::getInstance()->getPatternMatchSites('site2');
+        $this->assertIsArray($sites);
+        $this->assertCount(1, $sites);
+
+        // we don't test the ts_created
+        unset($sites[0]['ts_created']);
+        $this->assertEquals($resultWanted, $sites);
+    }
+
+    /**
+     * Get the list of filtered sites with a site ID excluded.
+     */
+    public function testGetPatternMatchSitesFiltered()
+    {
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com/test/"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com/test/"]);
+        API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
+
+        $resultWanted = [
+            0 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+        ];
+
+        $sites = API::getInstance()->getPatternMatchSites('%', false, [1]);
+        $this->assertIsArray($sites);
+        $this->assertCount(2, $sites);
+
+        // we don't test the ts_created
+        unset($sites[0]['ts_created']);
+        unset($sites[1]['ts_created']);
+        $this->assertEquals($resultWanted, $sites);
+    }
+
+
+    public function testSetGlobalExcludedReferrersWithEmptyValue()
+    {
+        API::getInstance()->setGlobalExcludedReferrers('');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('', $excludedReferrers);
+    }
+
+    public function testSetGlobalExcludedReferrersWithValidValue()
+    {
+        API::getInstance()->setGlobalExcludedReferrers('example.com');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('example.com', $excludedReferrers);
+
+
+        API::getInstance()->setGlobalExcludedReferrers('.example.com');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('.example.com', $excludedReferrers);
+
+
+        API::getInstance()->setGlobalExcludedReferrers('http://example.com/path');
+        $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
+        $this->assertEquals('http://example.com/path', $excludedReferrers);
+
+    }
+
+
 
     public function provideContainerConfig()
     {

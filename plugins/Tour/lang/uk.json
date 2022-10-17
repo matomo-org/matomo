@@ -1,7 +1,12 @@
 {
     "Tour": {
-        "Engagement": "Повторні відвідування",
         "BrowseMarketplace": "Перегляд Маркету",
-        "CompletionTitle": "Відмінно!"
+        "ChangeVisualisation": "Змінити візуалізацію",
+        "CompletionTitle": "Відмінно.",
+        "Engagement": "Повторні відвідування",
+        "SelectDateRange": "Виберіть діапазон дат",
+        "SelectDateRangeDescription": "Виберіть проміжок часу в календарі.",
+        "SetupX": "Налаштування %s",
+        "ViewX": "Переглянути %s"
     }
 }

@@ -12,22 +12,23 @@ namespace Piwik\Plugins\SitesManager;
 
 use DateTimeZone;
 use Exception;
+use Matomo\Network\IPUtils;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\Model as CoreModel;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
-use Matomo\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
-use Piwik\Settings\Measurable\MeasurableProperty;
-use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\ProxyHttp;
 use Piwik\Scheduler\Scheduler;
+use Piwik\Settings\Measurable\MeasurableProperty;
+use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
@@ -36,7 +37,6 @@ use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\DataAccess\Model as CoreModel;
 
 /**
  * The SitesManager API gives you full control on Websites in Matomo (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -360,11 +360,17 @@ class API extends \Piwik\Plugin\API
      * @param bool $fetchAliasUrls
      * @param false|string $pattern
      * @param false|int    $limit
+     * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false)
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false, $sitesToExclude = [])
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
+
+        // Remove the sites to exclude from the list of IDs.
+        if (is_array($sitesId) && is_array($sitesToExclude) && count($sitesToExclude)) {
+            $sitesId = array_diff($sitesId, $sitesToExclude);
+        }
 
         if ($pattern === false) {
             $sites = $this->getSitesFromIds($sitesId, $limit);
@@ -1149,7 +1155,7 @@ class API extends \Piwik\Plugin\API
 
         $excludedUrls = $this->checkAndReturnCommaSeparatedStringList($excludedReferrers);
 
-        foreach (explode(',', $excludedUrls) ?: [] as $url) {
+        foreach (!empty($excludedUrls) ? explode(',', $excludedUrls) : [] as $url) {
             // We allow urls to be provided:
             // - fully qualified like http://example.url/path
             // - without protocol like example.url/path
@@ -1724,11 +1730,18 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $pattern
      * @param int|false $limit
+     * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
      * @return array
      */
-    public function getPatternMatchSites($pattern, $limit = false)
+    public function getPatternMatchSites($pattern, $limit = false, $sitesToExclude = [])
     {
         $ids = $this->getSitesIdWithAtLeastViewAccess();
+
+        // Remove the sites to exclude from the list of IDs.
+        if (is_array($ids) && is_array($sitesToExclude) && count($sitesToExclude)) {
+            $ids = array_diff($ids, $sitesToExclude);
+        }
+
         if (empty($ids)) {
             return [];
         }

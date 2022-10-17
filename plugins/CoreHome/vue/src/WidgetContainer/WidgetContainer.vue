@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div class="widget-container">
     <div
       v-for="(widget, index) in actualContainer"
       :key="index"

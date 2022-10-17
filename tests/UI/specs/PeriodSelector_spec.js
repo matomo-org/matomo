@@ -18,7 +18,7 @@ describe("PeriodSelector", function () {
 
         // disable broadcast.propagateNewPage & remove loading gif
         await page.evaluate(function () {
-            piwikHelper.isAngularRenderingThePage = function () {
+            piwikHelper.isReportingPage = function () {
                 return false;
             };
 

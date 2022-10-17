@@ -42,7 +42,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CONFIGURATION_RECORD_NAME, $idSite, $period, $date, $segment);
         // use GroupBy filter to avoid duplicate rows if old reports are displayed
-        $dataTable->queueFilter('GroupBy', array('label', __NAMESPACE__ . '\getConfigurationLabel'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getConfigurationLabel'));
         return $dataTable;
     }
 }

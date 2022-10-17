@@ -863,7 +863,7 @@ abstract class Controller
                                                                                     $invalidHost,
                                                                                     '</a>',
                                                                                     "<br/><a href=\"$validUrl\">",
-                                                                                    $validHost,
+                                                                                    Common::sanitizeInputValue($validHost),
                                                                                     '</a>'
                                                                                ));
             } elseif (Piwik::isUserIsAnonymous()) {

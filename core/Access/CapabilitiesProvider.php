@@ -34,7 +34,7 @@ class CapabilitiesProvider
              *
              *     public function addCapabilities(&$capabilities)
              *     {
-             *         $capabilities[] = new MyNewCapabilitiy();
+             *         $capabilities[] = new MyNewCapability();
              *     }
              *
              * @param Capability[] $reports An array of reports

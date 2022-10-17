@@ -436,11 +436,11 @@ class Fixture extends \PHPUnit\Framework\Assert
         Manager::getInstance()->loadPluginTranslations();
     }
 
-    protected static function resetPluginsInstalledConfig()
+    protected static function resetPluginsInstalledConfig($plugins = [])
     {
         $config = self::getConfig();
         $installed = $config->PluginsInstalled;
-        $installed['PluginsInstalled'] = [];
+        $installed['PluginsInstalled'] = $plugins;
         $config->PluginsInstalled = $installed;
     }
 

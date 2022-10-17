@@ -94,15 +94,13 @@ class Controller extends \Piwik\Plugin\Controller
         if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
             if (strpos($content, '<h2') !== false
                 || strpos($content, ' content-title=') !== false
-                || strpos($content, ' piwik-enriched-headline') !== false
                 || strpos($content, 'CoreHome.EnrichedHeadline') !== false
                 || strpos($content, '<h1') !== false ) {
                 // already includes title
                 return $content;
             }
 
-            if (strpos($content, 'piwik-content-block') === false
-                && strpos($content, '<!-- has-content-block -->') === false
+            if (strpos($content, '<!-- has-content-block -->') === false
                 && strpos($content, 'class="card"') === false
                 && strpos($content, "class='card'") === false
                 && strpos($content, 'class="card-content"') === false

@@ -5,40 +5,42 @@
 -->
 
 <template>
-  <PersonalSettings
-    :is-users-admin-enabled="isUsersAdminEnabled"
-    :title="title"
-    :user-login="userLogin"
-    :user-email="userEmail"
-    :current-language-code="currentLanguageCode"
-    :language-options="languageOptions"
-    :current-timeformat="currentTimeformat"
-    :time-formats="timeFormats"
-    :default-report="defaultReport"
-    :default-report-options="defaultReportOptions"
-    :default-report-id-site="defaultReportIdSite"
-    :default-report-site-name="defaultReportSiteName"
-    :default-date="defaultDate"
-    :available-default-dates="availableDefaultDates"
-  />
+  <div>
+    <PersonalSettings
+      :is-users-admin-enabled="isUsersAdminEnabled"
+      :title="title"
+      :user-login="userLogin"
+      :user-email="userEmail"
+      :current-language-code="currentLanguageCode"
+      :language-options="languageOptions"
+      :current-timeformat="currentTimeformat"
+      :time-formats="timeFormats"
+      :default-report="defaultReport"
+      :default-report-options="defaultReportOptions"
+      :default-report-id-site="defaultReportIdSite"
+      :default-report-site-name="defaultReportSiteName"
+      :default-date="defaultDate"
+      :available-default-dates="availableDefaultDates"
+    />
 
-  <NewsletterSettings v-if="showNewsletterSignup"></NewsletterSettings>
+    <NewsletterSettings v-if="showNewsletterSignup"></NewsletterSettings>
 
-  <PluginSettings mode="user"></PluginSettings>
+    <PluginSettings mode="user"></PluginSettings>
 
-  <ContentBlock
-    :content-title="translate('UsersManager_ExcludeVisitsViaCookie')"
-  >
-    <p v-html="$sanitize(yourVisitsAreText)"></p>
-    <span style="margin-left:20px;">
-      <a :href="setIgnoreCookieLink">
-        &rsaquo; {{ ignoreCookieSet
-          ? translate('UsersManager_ClickHereToDeleteTheCookie')
-          : translate('UsersManager_ClickHereToSetTheCookieOnDomain', piwikHost) }}
-        <br/>
-      </a>
-    </span>
-  </ContentBlock>
+    <ContentBlock
+      :content-title="translate('UsersManager_ExcludeVisitsViaCookie')"
+    >
+      <p v-html="$sanitize(yourVisitsAreText)"></p>
+      <span style="margin-left:20px;">
+        <a :href="setIgnoreCookieLink">
+          &rsaquo; {{ ignoreCookieSet
+            ? translate('UsersManager_ClickHereToDeleteTheCookie')
+            : translate('UsersManager_ClickHereToSetTheCookieOnDomain', piwikHost) }}
+          <br/>
+        </a>
+      </span>
+    </ContentBlock>
+  </div>
 </template>
 
 <script lang="ts">

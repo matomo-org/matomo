@@ -207,7 +207,6 @@ var Piwik_Popover = (function () {
             container.html(html);
 
             container.children().each(function (i, childNode) {
-                piwikHelper.compileAngularComponents(childNode);
                 piwikHelper.compileVueEntryComponents(childNode);
             });
 

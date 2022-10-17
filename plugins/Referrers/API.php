@@ -324,16 +324,21 @@ class API extends \Piwik\Plugin\API
     public function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getDataTable(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 
         // get the search engine and create the URL to the search result page
         $searchEngines = $this->getSearchEngines($idSite, $period, $date, $segment);
         $searchEngines->applyQueuedFilters();
-        $searchEngine  = $searchEngines->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
+        $row  = $searchEngines->getRowFromIdSubDataTable($idSubtable);
 
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\KeywordsFromSearchEngineId', array($searchEngines, $idSubtable));
-        $dataTable->filter('AddSegmentByLabel', array('referrerKeyword'));
-        $dataTable->queueFilter('PrependSegment', array('referrerName=='.$searchEngine.';referrerType==search;'));
+        $dataTable->filter('AddSegmentByLabel', ['referrerKeyword']);
+
+        if (!empty($row)) {
+            $searchEngine = $row->getColumn('label');
+            $dataTable->queueFilter('PrependSegment', ['referrerName==' . $searchEngine . ';referrerType==search;']);
+        }
 
         return $dataTable;
     }
