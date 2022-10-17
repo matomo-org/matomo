@@ -20,10 +20,12 @@ use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
@@ -72,10 +74,30 @@ class UITestFixture extends SqlDump
     {
         parent::setUp();
 
-        self::resetPluginsInstalledConfig();
+        // We need to disable events for running updates below.
+        // Otherwise PHP will run into a segfault when trying to execute updates for plugins.
+        EventDispatcher::$_SKIP_EVENTS_IN_TESTS = true;
+
+        // fetch the installed versions of all plugins from options table
+        $pluginVersions = Option::getLike('version_%');
+        $plugins = [];
+
+        foreach ($pluginVersions as $pluginName => $version) {
+            $name = substr($pluginName, 8);
+            if (Manager::getInstance()->isValidPluginName($name) && Manager::getInstance()->isPluginInFilesystem($name)) {
+                $plugins[] = $name;
+            }
+        }
+
+        self::resetPluginsInstalledConfig($plugins);
+
         self::updateDatabase();
+
         self::installAndActivatePlugins($this->getTestEnvironment());
+
         self::updateDatabase();
+
+        EventDispatcher::$_SKIP_EVENTS_IN_TESTS = false;
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(
