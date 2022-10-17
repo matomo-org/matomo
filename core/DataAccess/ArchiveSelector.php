@@ -287,7 +287,7 @@ class ArchiveSelector
                 // select a subtable id
                 $bind = array();
                 foreach ($recordNames as $recordName) {
-                    // to be backwards compatibe we need to look for the exact idSubtable blob and for the chunk
+                    // to be backwards compatible we need to look for the exact idSubtable blob and for the chunk
                     // that stores the subtables (a chunk stores many blobs in one blob)
                     $bind[] = $chunk->getRecordNameForTableId($recordName, $idSubtable);
                     $bind[] = self::appendIdSubtable($recordName, $idSubtable);

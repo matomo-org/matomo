@@ -15,8 +15,8 @@
     {% endif %}
 
     <span class="metricEvolution" title="{{ evolution.tooltip|rawSafeDecoded|e('html_attr') }}">
-    <img style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}"/>
-    <strong class="{{ evolutionClass }}">{{ evolutionPretty }}</strong></span>
+    <img style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}" alt="" />
+    <strong class="{{ evolutionClass }}" aria-hidden="true">{{ evolutionPretty }}</strong></span>
 {% endmacro %}
 
 {% macro singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) %}

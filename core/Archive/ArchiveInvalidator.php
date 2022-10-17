@@ -254,7 +254,7 @@ class ArchiveInvalidator
      * @param $period string
      * @param $segment Segment
      * @param bool $cascadeDown
-     * @param bool $forceInvalidateNonexistantRanges set true to force inserting rows for ranges in archive_invalidations
+     * @param bool $forceInvalidateNonexistentRanges set true to force inserting rows for ranges in archive_invalidations
      * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      *                     or a plugin name to only archive the specific plugin.
      * @param bool $ignorePurgeLogDataDate
@@ -262,7 +262,7 @@ class ArchiveInvalidator
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false)
+                                              $forceInvalidateNonexistentRanges = false, $name = null, $ignorePurgeLogDataDate = false)
     {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
@@ -320,7 +320,7 @@ class ArchiveInvalidator
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges, $name);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistentRanges, $name);
 
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
@@ -678,7 +678,7 @@ class ArchiveInvalidator
      * @throws \Exception
      */
     private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false,
-                                             $forceInvalidateNonexistantRanges = false, $name = null)
+                                             $forceInvalidateNonexistentRanges = false, $name = null)
     {
         $idSites = array_map('intval', $idSites);
 
@@ -690,7 +690,7 @@ class ArchiveInvalidator
             $table = ArchiveTableCreator::getNumericTable($tableDateObj);
             $yearMonths[] = $tableDateObj->toString('Y_m');
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges, $name);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name);
 
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
