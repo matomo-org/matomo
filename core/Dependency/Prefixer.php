@@ -237,6 +237,8 @@ EOF;
         if ($phpBinaryInEnv) {
             $phpBinary = $phpBinaryInEnv;
             $this->logger->info("Using PHP binary from environment variable: $phpBinary");
+        } else {
+            print "\$MATOMO_PREFIX_PHP is $phpBinaryInEnv\n";@ob_flush();
         }
 
         if (empty($this->coreNamespacesToPrefix)) {
