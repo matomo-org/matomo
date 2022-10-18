@@ -8,7 +8,7 @@
         "HoursAgo": "%s horas atrás",
         "MinutesAgo": "%s minutos atrás",
         "NoVisit": "Nenhuma visita",
-        "NoVisitsInfo": "Não há visitas exibidas atualmente, porque nenhuma visita para este período possui a informação de geolocalização correta (latitude e longitude).",
+        "NoVisitsInfo": "Nenhuma visita exibida, pois nenhuma visita para este período tem informações de geolocalização corretas (latitude e longitude).",
         "NoVisitsInfo2": "Para resolver este problema, verifique se você está usando um provedor de geolocalização GeoIP com um banco de cidades GeoIP. Se isso não resolver o problema, é possível (embora improvável) que suas visitas tenham endereços IPs que não possam ser geolocalizados.",
         "None": "Nenhum",
         "PluginDescription": "Este plugin fornece os widgets Mapa de Visitantes e o Mapa Tempo-Real. Nota: Requer o plugin UserCountry ativado.",
