@@ -8,7 +8,7 @@
         "Country": "Land",
         "CountryCode": "Länderkürzel",
         "CurrentLocationIntro": "Gemäß diesem Provider ist Ihr derzeitiger Standort",
-        "DefaultLocationProviderDesc1": "Die voreingestellte Standorterkennung versucht das Herkunftsland des Besuchers anhand dessen verwendeter Sprache zu erkennen.",
+        "DefaultLocationProviderDesc1": "Der Standard-Standortanbieter bestimmt das Land, aus dem die Besucher eine Verbindung herstellen, anhand der von ihnen gewählten Sprache.",
         "DefaultLocationProviderDesc2": "Dies ist nicht sehr genau, daher %1$swird empfohlen %2$sGeolocation-Datenbank%3$s zu installieren und zu nutzen.%4$s",
         "DefaultLocationProviderExplanation": "Sie benutzen den standardmäßigen Standortanbieter. Das bedeutet, dass Matomo den Standort durch die Sprache des Besuchers erahnen wird. %1$sLesen sie dies%2$s, um zu erfahren, wie Sie eine genauere Standorterkennung einrichten.",
         "DisabledLocationProvider": "Deaktiviert die Geolokalisierung.",

@@ -173,6 +173,7 @@
         "Edit": "Ändern",
         "EncryptedSmtpTransport": "Geben Sie hier die von Ihrem SMTP-Server benötigte Verschlüsselung ein.",
         "Error": "Fehler",
+        "ErrorRateLimit": "Ups... zu viele Anfragen. Dies geschieht, wenn Sie die Anzahl der zulässigen Anfragen an die API in einem bestimmten Zeitraum überschreiten.",
         "ErrorRequest": "Oops… während der Anfrage ist ein Problem aufgetreten. Möglicherweise war der Server temporär überlastet, oder eventuell haben Sie einen Bericht mit zu vielen Daten angefordert. Bitte noch einmal versuchen. Wenn dieser Fehler wiederholt auftritt %1$skontaktieren Sie bitte Ihren Matomo Administrator%2$s, um Unterstützung zu erhalten.",
         "ErrorRequestFaqLink": "Sehen Sie sich die Schritte zur Behebung dieses Problems in den FAQ an.",
         "ErrorTryAgain": "Fehler. Bitte versuchen Sie es später noch einmal.",

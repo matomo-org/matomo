@@ -1,30 +1,29 @@
 {
     "Feedback": {
+        "CommunityHelp": "Community hjælp",
+        "ContactUs": "Kontakt os",
         "DoYouHaveBugReportOrFeatureRequest": "Har du en fejlrapport eller en anmodning om en funktion?",
+        "Forums": "Forum",
+        "HowCanWeHelp": "Hvad kan vi hjælpe med?",
         "HowToCreateTicket": "Læs anbefalingerne om at skrive en god %1$sfejlrapport%2$s eller %3$sfunktionsanmodning%4$s. Tilmeld eller log ind på %5$svores emne tracker%6$s og opret et %7$snyt emne%8$s.",
         "IWantTo": "Jeg ønsker at:",
         "LearnWaysToParticipate": "Lær om alle de måder, du kan %1$s bidrage%2$s",
         "ManuallySendEmailTo": "Send din besked manuelt til",
         "PluginDescription": "Send tilbagemelding til Matomo holdet. Del dine ideer og forslag til at gøre Matomo til den bedste analyseplatform i verden!",
         "PrivacyClaim": "Matomo respekterer dit %1$sprivatliv%2$s og giver dig fuld kontrol over dine data.",
+        "ProfessionalHelp": "Professionel hjælp",
+        "ProfessionalServicesOfferIntro": "Hvilke ydelser kan du gøre brug af?",
         "RateFeatureLeaveMessageDislike": "Vi er kede af at høre, at du ikke kan lide det! Fortæl os, hvad vi kan gøre bedre.",
         "RateFeatureLeaveMessageLike": "Vi er glad for du kan lide det! Fortæl os hvad du kan lide mest eller hvis du har forslag til en ny funktion.",
         "RateFeatureSendFeedbackInformation": "Matomo vil sende Matomo-holdet en e-mail (med din e-mailadresse), så vi kan komme i kontakt med dig, hvis du har nogen spørgsmål.",
         "RateFeatureThankYouTitle": "Tak for din bedømmelse '%s'!",
         "RateFeatureTitle": "Kan du lide '%s' funktionen? Bedøm og efterlade en kommentar",
+        "SearchHelpResources": "Søg i hjælpeartikler på matomo.org",
         "SendFeedback": "Send tilbagemelding",
         "ThankYou": "Tak, fordi du hjælper med at gøre Matomo bedre!",
         "TopLinkTooltip": "Fortæl os hvad du mener eller anmod om professionel support",
         "ViewAnswersToFAQ": "Se svarene på %1$sOfte stillede spørgsmål%2$s",
         "ViewUserGuides": "Lær at konfigurere Matomo og hvordan man effektivt analyserer data med vores %1$sbrugervejledninger%2$s",
-        "CommunityHelp": "Community hjælp",
-        "ProfessionalHelp": "Professionel hjælp",
-        "ProfessionalServicesOfferIntro": "Hvilke ydelser kan du gøre brug af?",
-        "ContactUs": "Kontakt os",
-        "VisitTheForums": "Besøg %1$sforummet%2$s og få hjælp fra andre Matomo-brugere",
-        "Forums": "Forum",
-        "HowCanWeHelp": "Hvad kan vi hjælpe med?",
-        "SearchHelpResources": "Søg i hjælpeartikler på matomo.org",
-        "PopularHelpTopics": "Populære hjælpeartikler"
+        "VisitTheForums": "Besøg %1$sforummet%2$s og få hjælp fra andre Matomo-brugere"
     }
 }
