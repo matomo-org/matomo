@@ -50,7 +50,7 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    autocomplete: Boolean,
+    autocomplete: String,
     condition: Function,
     varType: String,
     autofocus: Boolean,
@@ -99,7 +99,7 @@ export default defineComponent({
         uiControlAttributes: {
           ...this.uiControlAttributes,
           disabled: this.disabled,
-          autocomplete: this.autocomplete ? 'on' : 'off',
+          autocomplete: this.autocomplete,
           tabindex: this.tabindex,
           autofocus: this.autofocus,
           rows: this.rows,
