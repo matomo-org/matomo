@@ -207,6 +207,11 @@ EOF;
         $cliPhp = new CliPhp();
         $phpBinary = $cliPhp->findPhpBinary();
 
+        $phpBinaryInEnv = getenv('MATOMO_PREFIX_PHP');
+        if ($phpBinaryInEnv) {
+            $phpBinary = $phpBinaryInEnv;
+        }
+
         if (empty($this->namespacesToInclude)) {
             throw new \Exception("Couldn't find any namespaces to prefix, dependencies may not be supported, or something might be wrong with the prefixing process.");
         }
@@ -236,9 +241,6 @@ EOF;
         $phpBinaryInEnv = getenv('MATOMO_PREFIX_PHP');
         if ($phpBinaryInEnv) {
             $phpBinary = $phpBinaryInEnv;
-            $this->logger->info("Using PHP binary from environment variable: $phpBinary");
-        } else {
-            print "\$MATOMO_PREFIX_PHP is $phpBinaryInEnv\n";@ob_flush();
         }
 
         if (empty($this->coreNamespacesToPrefix)) {
