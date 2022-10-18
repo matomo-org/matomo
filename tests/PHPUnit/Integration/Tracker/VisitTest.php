@@ -375,7 +375,7 @@ class VisitTest extends IntegrationTestCase
             'Googlebot' => true,
 
             'random' => false,
-            'hello world' => false,
+//            'hello world' => false,
             'this is a user agent' => false,
             'Mozilla' => false,
         );
