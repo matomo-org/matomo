@@ -82,6 +82,14 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         }
     }
 
+    public function test_InvalideLimitBeforeGroup()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('LimitBeforeGroupingIsInvalid');
+        $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
+            'range','2012-08-09,2012-08-10',false,'all');
+    }
+
     public function test_ShouldThrowException_IfRangeDayCountIsLargerThanDayPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');

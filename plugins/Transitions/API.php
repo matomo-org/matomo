@@ -65,6 +65,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        if ($limitBeforeGrouping && !is_int($limitBeforeGrouping)) {
+            throw new Exception('LimitBeforeGroupingIsInvalid');
+        }
+
         if (!$this->isPeriodAllowed($idSite, $period, $date)) {
             throw new Exception('PeriodNotAllowed');
         }
