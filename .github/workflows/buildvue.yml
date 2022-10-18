@@ -41,10 +41,10 @@ jobs:
             exit 0;
           fi
 
-          echo "islocalbranch=$BASE == $GITHUB_REPOSITORY" >> $GITHUB_OUTPUT
-          echo "branch=$REF" >> $GITHUB_OUTPUT
-          echo "base=$BASE_SHA" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+          echo ::set-output name=islocalbranch::$BASE == $GITHUB_REPOSITORY
+          echo ::set-output name=branch::$REF
+          echo ::set-output name=base::$BASE_SHA
+      - uses: actions/checkout@v2
         with:
           lfs: false
         if: steps.vars.outputs.branch != ''
@@ -61,7 +61,7 @@ jobs:
             exit 0;
           fi
 
-          echo "vue_modified=1" >> $GITHUB_OUTPUT
+          echo ::set-output name=vue_modified::1
         if: steps.vars.outputs.branch != ''
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -78,7 +78,7 @@ jobs:
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Get composer cache directory
         id: composer-cache
-        run:  echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -132,7 +132,7 @@ jobs:
             if [[ ! ${{ steps.vars.outputs.islocalbranch }} ]]
             then
               echo "It's only possible to update local branches automatically. Adding a comment instead."
-              echo "failure=1" >> $GITHUB_OUTPUT
+              echo ::set-output name=failure::1
             else
               cd $GITHUB_WORKSPACE
               git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
