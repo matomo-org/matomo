@@ -41,9 +41,9 @@ jobs:
             exit 0;
           fi
 
-          echo ::set-output name=islocalbranch::$BASE == $GITHUB_REPOSITORY
-          echo ::set-output name=branch::$REF
-          echo ::set-output name=base::$BASE_SHA
+          echo "islocalbranch=$BASE == $GITHUB_REPOSITORY" >> $GITHUB_OUTPUT
+          echo "branch=$REF" >> $GITHUB_OUTPUT
+          echo "base=$BASE_SHA" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
         with:
           lfs: false
@@ -61,7 +61,7 @@ jobs:
             exit 0;
           fi
 
-          echo ::set-output name=vue_modified::1
+          echo "vue_modified=1" >> $GITHUB_OUTPUT
         if: steps.vars.outputs.branch != ''
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -132,7 +132,7 @@ jobs:
             if [[ ! ${{ steps.vars.outputs.islocalbranch }} ]]
             then
               echo "It's only possible to update local branches automatically. Adding a comment instead."
-              echo ::set-output name=failure::1
+              echo "failure=1" >> $GITHUB_OUTPUT
             else
               cd $GITHUB_WORKSPACE
               git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
