@@ -111,7 +111,7 @@ install:
 
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; phpenv local 7.4; export MATOMO_PREFIX_PHP="$(phpenv which php)" ; phpenv local --unset; then
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then phpenv local 7.4; export MATOMO_PREFIX_PHP="$(phpenv which php)" ; phpenv local --unset; fi
   - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
 
 
