@@ -233,6 +233,11 @@ EOF;
         $cliPhp = new CliPhp();
         $phpBinary = $cliPhp->findPhpBinary();
 
+        $phpBinaryInEnv = getenv('MATOMO_PREFIX_PHP');
+        if ($phpBinaryInEnv) {
+            $phpBinary = $phpBinaryInEnv;
+        }
+
         if (empty($this->coreNamespacesToPrefix)) {
             throw new \Exception("Unexpected state: no core namespaces to prefix found.");
         }
