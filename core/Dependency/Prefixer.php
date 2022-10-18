@@ -236,6 +236,7 @@ EOF;
         $phpBinaryInEnv = getenv('MATOMO_PREFIX_PHP');
         if ($phpBinaryInEnv) {
             $phpBinary = $phpBinaryInEnv;
+            $this->logger->info("Using PHP binary from environment variable: $phpBinary");
         }
 
         if (empty($this->coreNamespacesToPrefix)) {

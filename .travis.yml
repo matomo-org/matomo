@@ -114,6 +114,7 @@ install:
   - if [[ "${TRAVIS_PHP_VERSION:0:3}" == "7.2" ]]; then phpenv local 7.4; export MATOMO_PREFIX_PHP="$(phpenv which php)" ; phpenv local --unset; fi
   - echo "${TRAVIS_PHP_VERSION:0:3}"
   - echo "$MATOMO_PREFIX_PHP"
+  - $MATOMO_PREFIX_PHP -v
   - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
 
 
