@@ -7,7 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 5.0.0
 
 ### Archiving
-* When posting the event `Archiving.getIdSitesToMarkArchivesAsInvalidated` started passing date, period and segment parameter along with idSites parameter.
+* When posting the event `Archiving.getIdSitesToMarkArchivesAsInvalidated` started passing date, period ,segment and name parameter along with idSites parameter.
 
 ## Matomo 4.12.0
 
