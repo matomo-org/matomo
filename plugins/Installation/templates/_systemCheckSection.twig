@@ -1,14 +1,4 @@
-{% import _self as local %}
-<p>{{ 'Installation_CopyBelowInfoForSupport'|translate }}
-    <br/> <br/>
-    <a href="javascript:void(0);"
-       onclick="var textarea = document.getElementById('matomo_system_check_info');textarea.select();document.execCommand('copy');jQuery(textarea).effect('highlight', {}, 600)"
-       class='btn'>{{ 'Installation_CopySystemCheck'|translate }}</a>
-    <a href="javascript:void(0);"
-       onclick="var textarea = document.getElementById('matomo_system_check_info');piwikHelper.sendContentAsDownload('matomo_system_check.txt', textarea.innerHTML);"
-       class='btn'>{{ 'Installation_DownloadSystemCheck'|translate }}</a>
-
-</p>
+{%- import _self as local -%}
 {% macro diagnosticInfo(results) -%}
 {% set error = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR') %}
 {% set warning = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING') %}
@@ -24,9 +14,7 @@
 {{ result.longErrorMessage|striptags('<br><p><strong><code>') }}
 {%- endif -%}
     {%- endfor -%}
-{%- endmacro %}
-<textarea style="width:100%;height: 200px;" readonly
-          id="matomo_system_check_info">
+{%- endmacro -%}
 <details>
 <summary>Click to view System Check</summary>
 
@@ -39,63 +27,3 @@
 ### Informational results
 {{ local.diagnosticInfo(diagnosticReport.getInformationalResults()) }}
 </details>
-</textarea>
-
-<table class="entityTable system-check" id="systemCheckRequired" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
-    {{ local.diagnosticTable(diagnosticReport.getMandatoryDiagnosticResults()) }}
-</table>
-
-<h3>{{ 'Installation_Optional'|translate }}</h3>
-
-<table class="entityTable system-check" id="systemCheckOptional" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
-    {{ local.diagnosticTable(diagnosticReport.getOptionalDiagnosticResults()) }}
-</table>
-
-<h3>{{ 'Installation_InformationalResults'|translate }}</h3>
-
-<table class="entityTable system-check" id="systemCheckInformational" {% if isInstallation is not defined %}piwik-content-table{% endif %}>
-    {{ local.diagnosticTable(diagnosticReport.getInformationalResults()) }}
-</table>
-
-{% macro diagnosticTable(results) %}
-
-    {% set error = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR') %}
-    {% set warning = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING') %}
-    {% set informational = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_INFORMATIONAL') %}
-
-    {% set errorIcon %} <span class="icon-error"></span> {% endset %}
-    {% set warningIcon %} <span class="icon-warning"></span> {% endset %}
-    {% set okIcon %} <span class="icon-ok"></span> {% endset %}
-    {% set infoIcon %} <span class="icon-info2"></span> {% endset %}
-
-    {% for result in results %}
-        <tr>
-            <td>{{ result.label|rawSafeDecoded }}</td>
-            <td>
-                {% for item in result.items %}
-
-                    {% if item.status == error %}
-                        {{ errorIcon }} <span class="err">{{ item.comment|raw }}</span>
-                    {% elseif item.status == warning %}
-                        {{ warningIcon }} {{ item.comment|raw }}
-                    {% elseif item.status == informational %}
-                        {{ infoIcon }} {{ item.comment|raw }}
-                    {% else %}
-                        {{ okIcon }} {{ item.comment|raw }}
-                    {% endif %}
-
-                    <br/>
-
-                {% endfor %}
-            </td>
-        </tr>
-        {% if result.longErrorMessage %}
-            <tr>
-                <td colspan="2" class="error" style="font-size: small;">
-                    {{ result.longErrorMessage|raw }}
-                </td>
-            </tr>
-        {% endif %}
-    {% endfor %}
-
-{% endmacro %}

@@ -62,7 +62,8 @@ declare global {
   type ModalConfirmCallbacks = Record<string, () => void>;
 
   interface ModalConfirmOptions {
-    onCloseEnd: () => void;
+    onCloseEnd?: () => void;
+    fixedFooter?: boolean;
   }
 
   interface CompileAngularComponentsOptions {
@@ -77,13 +78,11 @@ declare global {
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
     modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
-    getAngularDependency(eventName: string): any;
-    isAngularRenderingThePage(): boolean;
+    isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
     lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
-    compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
     compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string, extraProps?: Record<string, unknown>): void;
     destroyVueComponent(selector: JQuery|JQLite|HTMLElement|string): void;
     compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
@@ -159,7 +158,8 @@ declare global {
     visitorProfileEnabled: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
-    userLogin: string;
+    userLogin?: string;
+    userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
 
     updatePeriodParamsFromUrl(): void;
@@ -187,10 +187,6 @@ declare global {
 
   let widgetsHelper: WidgetsHelper;
 
-  interface AnchorLinkFix {
-    scrollToAnchorInUrl(): void;
-  }
-
   interface NumberFormatter {
     formatNumber(value?: number|string): string;
     formatPercent(value?: number|string): string;
@@ -206,6 +202,10 @@ declare global {
     new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
   }
 
+  interface SegmentedVisitorLogService {
+    show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
+  }
+
   interface Window {
     angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
@@ -216,11 +216,11 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
-    anchorLinkFix: AnchorLinkFix;
     $: JQueryStatic;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;
+    SegmentedVisitorLog: SegmentedVisitorLogService;
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;

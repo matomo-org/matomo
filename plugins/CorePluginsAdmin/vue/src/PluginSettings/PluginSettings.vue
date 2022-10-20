@@ -51,6 +51,7 @@ import {
   AjaxHelper,
   NotificationsStore,
   translate,
+  scrollToAnchorInUrl,
 } from 'CoreHome';
 import Setting from './Setting';
 import SettingsForSinglePlugin from './SettingsForSinglePlugin';
@@ -100,7 +101,7 @@ export default defineComponent({
         });
       });
 
-      window.anchorLinkFix.scrollToAnchorInUrl();
+      scrollToAnchorInUrl();
 
       this.addSectionsToTableOfContents();
     }).catch(() => {

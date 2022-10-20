@@ -3,76 +3,12 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-<div class="gdprOverview">
-    <div piwik-content-intro>
-        <h2>{{ 'PrivacyManager_GdprOverview'|translate }}</h2>
-        <p>
-            {{ 'PrivacyManager_GdprOverviewIntro1'|translate }}
-<br /><br />
-            {{ 'PrivacyManager_GdprOverviewIntro2'|translate }}
-        </p>
-    </div>
-
-    {{ postEvent('Template.afterGDPROverviewIntro') }}
-
-    <div piwik-content-block content-title="{{ 'PrivacyManager_GdprChecklists'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_GdprChecklistDesc1'|translate }}
-<br /><br />
-            {{ 'PrivacyManager_GdprChecklistDesc2'|translate('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/gdpr">', '</a>')|raw }}</p>
-    </div>
-    <div piwik-content-block content-title="{{ 'PrivacyManager_IndividualsRights'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_IndividualsRightsIntro'|translate }}</p>
-        <ol>
-            <li>{{ 'PrivacyManager_IndividualsRightsInform'|translate }}</li>
-            <li>{{ 'PrivacyManager_IndividualsRightsAccess'|translate('<a target="_blank" rel="noreferrer noopener" href="' ~ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) ~ '">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_IndividualsRightsErasure'|translate('<a target="_blank" rel="noreferrer noopener" href="' ~ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) ~ '">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_IndividualsRightsRectification'|translate('<a target="_blank" rel="noreferrer noopener" href="' ~ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) ~ '">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_IndividualsRightsPortability'|translate('<a target="_blank" rel="noreferrer noopener" href="' ~ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) ~ '">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_IndividualsRightsObject'|translate('<a target="_blank" rel="noreferrer noopener" href="' ~ linkTo({module: 'PrivacyManager', action: 'usersOptOut'}) ~ '">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_IndividualsRightsChildren'|translate }}</li>
-        </ol>
-    </div>
-
-    <div piwik-content-block content-title="{{ 'PrivacyManager_AwarenessDocumentation'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_AwarenessDocumentationIntro'|translate }}</p>
-        <ol>
-            <li>{{ 'PrivacyManager_AwarenessDocumentationDesc1'|translate }}</li>
-            <li>{{ 'PrivacyManager_AwarenessDocumentationDesc2'|translate }}</li>
-            <li>{{ 'PrivacyManager_AwarenessDocumentationDesc3'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/general/faq_18254/">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_AwarenessDocumentationDesc4'|translate('<a href="https://matomo.org/blog/2018/04/gdpr-how-to-fill-in-the-information-asset-register-when-using-matomo/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</li>
-        </ol>
-    </div>
-    <div piwik-content-block content-title="{{ 'PrivacyManager_SecurityProcedures'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_SecurityProceduresIntro'|translate }}</p>
-        <ol>
-            <li>{{ 'PrivacyManager_SecurityProceduresDesc1'|translate('<a href="https://matomo.org/docs/security/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_SecurityProceduresDesc2'|translate('<a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/international-transfers/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_SecurityProceduresDesc3'|translate('<a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</li>
-            <li>{{ 'PrivacyManager_SecurityProceduresDesc4'|translate('<a href="https://www.cnil.fr/en/guidelines-dpia" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</li>
-        </ol>
-    </div>
-
-    <div piwik-content-block content-title="{{ 'PrivacyManager_DataRetention'|translate|e('html_attr') }}">
-        <p>
-            {{ 'PrivacyManager_DataRetentionInMatomo'|translate }}
-        </p>
-        <ul>
-            {% if deleteLogsEnable %}
-                <li>{{ 'PrivacyManager_RawDataRemovedAfter'|translate('<strong>' ~ rawDataRetention ~ '</strong>')|raw }}</li>
-            {% else %}
-                <li>{{ 'PrivacyManager_RawDataNeverRemoved'|translate|raw }}</li>
-            {% endif %}
-            {% if deleteReportsEnable %}
-                <li>{{ 'PrivacyManager_ReportsRemovedAfter'|translate('<strong>' ~ reportRetention ~ '</strong>')|raw }}</li>
-            {% else %}
-                <li>{{ 'PrivacyManager_ReportsNeverRemoved'|translate|raw }}</li>
-            {% endif %}
-        </ul>
-        <p>
-            <br />
-            {{ 'PrivacyManager_DataRetentionOverall'|translate }}
-        </p>
-    </div>
-
-</div>
+<div
+    vue-entry="PrivacyManager.GdprOverview"
+    after-g-d-p-r-overview-intro-content="{{ afterGDPROverviewIntroContent|default(null)|json_encode }}"
+    delete-logs-enable="{{ (deleteLogsEnable == 1)|default(null)|json_encode }}"
+    delete-reports-enable="{{ (deleteReportsEnable == 1)|default(null)|json_encode }}"
+    raw-data-retention="{{ rawDataRetention|default(null)|json_encode }}"
+    report-retention="{{ reportRetention|default(null)|json_encode }}"
+></div>
 {% endblock %}

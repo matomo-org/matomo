@@ -6,6 +6,24 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.0.0
 
+### Breaking Changes
+
+* The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
+* The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
+
+### New APIs
+
+* The class `Piwik\Request` has been introduced. It will allow fetching parameters from a request, optionally validated / casted to a certain type. Use this class in favor of `Common::getRequestVar`.
+* All API are now able to overwrite the property `$autoSanitizeInputParams`. Setting this variable to `false` will prevent an automatic apply of `Common::sanitizeInputValues` on all parameter passed to the API methods. By now this property defaults to `true`, but this might change in upcoming major releases.
+
+### Deprecations
+
+* The method `Common::getRequestVar` is now deprecated, but will remain API until Matomo 6. You may already start using the new class `Piwik\Request` instead, but ensure to handle needed sanitizing / escaping yourself.
+
+### Other Breaking changes
+
+* Requests to ASPSMS and Clockwork API do no longer accept invalid SSL certificates. If you experience problems with mobile messaging please check your SSL setup.
+
 ### Archiving
 * When posting the event `Archiving.getIdSitesToMarkArchivesAsInvalidated` started passing date, period ,segment and name parameter along with idSites parameter.
 

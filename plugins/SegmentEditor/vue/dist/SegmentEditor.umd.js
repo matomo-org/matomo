@@ -144,13 +144,124 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/types.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=d27e660c
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
+  function SegmentGeneratorStore() {
+    var _this = this;
+
+    _classCallCheck(this, SegmentGeneratorStore);
+
+    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      isLoading: false,
+      segments: []
+    }));
+
+    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
+    }));
+
+    _defineProperty(this, "loadSegmentsAbort", void 0);
+
+    _defineProperty(this, "loadSegmentsPromise", void 0);
+
+    _defineProperty(this, "fetchedSiteId", void 0);
+  }
+
+  _createClass(SegmentGeneratorStore, [{
+    key: "loadSegments",
+    value: function loadSegments(siteId, visitSegmentsOnly) {
+      var _this2 = this;
+
+      if (this.loadSegmentsAbort) {
+        this.loadSegmentsAbort.abort();
+        this.loadSegmentsAbort = undefined;
+      }
+
+      this.privateState.isLoading = true;
+
+      if (this.fetchedSiteId !== siteId) {
+        this.loadSegmentsAbort = undefined;
+        this.fetchedSiteId = siteId;
+      }
+
+      if (!this.loadSegmentsPromise) {
+        var idSites = undefined;
+        var idSite = undefined;
+
+        if (siteId === 'all' || !siteId) {
+          idSites = 'all';
+          idSite = 'all';
+        } else if (siteId) {
+          idSites = siteId;
+          idSite = siteId;
+        }
+
+        this.loadSegmentsAbort = new AbortController();
+        this.loadSegmentsPromise = external_CoreHome_["AjaxHelper"].fetch({
+          method: 'API.getSegmentsMetadata',
+          filter_limit: '-1',
+          _hideImplementationData: 0,
+          idSites: idSites,
+          idSite: idSite
+        });
+      }
+
+      return this.loadSegmentsPromise.then(function (response) {
+        _this2.privateState.isLoading = false;
+
+        if (response) {
+          if (visitSegmentsOnly) {
+            _this2.privateState.segments = response.filter(function (s) {
+              return s.sqlSegment && s.sqlSegment.match(/log_visit\./);
+            });
+          } else {
+            _this2.privateState.segments = response;
+          }
+        }
+
+        return _this2.state.value.segments;
+      }).finally(function () {
+        _this2.privateState.isLoading = false;
+      });
+    }
+  }]);
+
+  return SegmentGeneratorStore;
+}();
+
+/* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=16883790
 
 var _hoisted_1 = {
   class: "segment-generator",
@@ -294,114 +405,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
   }, null, 8, _hoisted_20)])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=d27e660c
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=16883790
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
-  function SegmentGeneratorStore() {
-    var _this = this;
-
-    _classCallCheck(this, SegmentGeneratorStore);
-
-    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      isLoading: false,
-      segments: []
-    }));
-
-    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    _defineProperty(this, "loadSegmentsAbort", void 0);
-
-    _defineProperty(this, "loadSegmentsPromise", void 0);
-
-    _defineProperty(this, "fetchedSiteId", void 0);
-  }
-
-  _createClass(SegmentGeneratorStore, [{
-    key: "loadSegments",
-    value: function loadSegments(siteId, visitSegmentsOnly) {
-      var _this2 = this;
-
-      if (this.loadSegmentsAbort) {
-        this.loadSegmentsAbort.abort();
-        this.loadSegmentsAbort = undefined;
-      }
-
-      this.privateState.isLoading = true;
-
-      if (this.fetchedSiteId !== siteId) {
-        this.loadSegmentsAbort = undefined;
-        this.fetchedSiteId = siteId;
-      }
-
-      if (!this.loadSegmentsPromise) {
-        var idSites = undefined;
-        var idSite = undefined;
-
-        if (siteId === 'all' || !siteId) {
-          idSites = 'all';
-          idSite = 'all';
-        } else if (siteId) {
-          idSites = siteId;
-          idSite = siteId;
-        }
-
-        this.loadSegmentsAbort = new AbortController();
-        this.loadSegmentsPromise = external_CoreHome_["AjaxHelper"].fetch({
-          method: 'API.getSegmentsMetadata',
-          filter_limit: '-1',
-          _hideImplementationData: 0,
-          idSites: idSites,
-          idSite: idSite
-        });
-      }
-
-      return this.loadSegmentsPromise.then(function (response) {
-        _this2.privateState.isLoading = false;
-
-        if (response) {
-          if (visitSegmentsOnly) {
-            _this2.privateState.segments = response.filter(function (s) {
-              return s.sqlSegment && s.sqlSegment.match(/log_visit\./);
-            });
-          } else {
-            _this2.privateState.segments = response;
-          }
-        }
-
-        return _this2.state.value.segments;
-      }).finally(function () {
-        _this2.privateState.isLoading = false;
-      });
-    }
-  }]);
-
-  return SegmentGeneratorStore;
-}();
-
-/* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=17b64c0b
 
 var ValueInputvue_type_template_id_17b64c0b_hoisted_1 = ["placeholder", "title", "value"];
@@ -846,99 +854,6 @@ var _window = window,
 SegmentGeneratorvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var SegmentGenerator = (SegmentGeneratorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-/* harmony default export */ var SegmentGenerator_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: SegmentGenerator,
-  require: '?ngModel',
-  scope: {
-    segmentDefinition: {
-      angularJsBind: '@',
-      vue: 'modelValue'
-    },
-    addInitialCondition: {
-      angularJsBind: '=',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    visitSegmentsOnly: {
-      angularJsBind: '=',
-      transform: external_CoreHome_["transformAngularJsBoolAttr"]
-    },
-    idsite: {
-      angularJsBind: '='
-    }
-  },
-  directiveName: 'piwikSegmentGenerator',
-  $inject: ['$timeout'],
-  events: {
-    'update:modelValue': function updateModelValue(newValue, vm, scope, element, attrs, ngModel, $timeout) {
-      var currentValue = ngModel ? ngModel.$viewValue : scope.segmentDefinition;
-
-      if (newValue !== currentValue) {
-        $timeout(function () {
-          if (!ngModel) {
-            scope.segmentDefinition = newValue;
-            return;
-          } // ngModel being used
-
-
-          ngModel.$setViewValue(newValue);
-          ngModel.$render(); // not detected by the watch for some reason
-        });
-      }
-    }
-  },
-  postCreate: function postCreate(vm, scope, element, attrs, controller) {
-    // methods to forward for BC
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    element.scope().segmentGenerator = {
-      getSegmentString: function getSegmentString() {
-        return vm.modelValue;
-      }
-    };
-    var ngModel = controller;
-
-    if (!ngModel) {
-      scope.$watch('segmentDefinition', function (newVal) {
-        if (newVal !== vm.modelValue) {
-          Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-            vm.modelValue = newVal;
-          });
-        }
-      });
-      return;
-    } // ngModel being used
-
-
-    ngModel.$render = function () {
-      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-        vm.modelValue = Object(external_CoreHome_["removeAngularJsSpecificProperties"])(ngModel.$viewValue);
-      });
-    };
-
-    if (typeof scope.segmentDefinition !== 'undefined') {
-      ngModel.$setViewValue(scope.segmentDefinition);
-    } else {
-      ngModel.$setViewValue(vm.modelValue);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/types.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
 // CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -946,7 +861,6 @@ SegmentGeneratorvue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 
 
 

@@ -52,7 +52,7 @@ class DocumentationGenerator
     {
         list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls = '', $displayTitlesAsAngularDirective = true);
 
-        return "<div piwik-content-block content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
+        return "<div vue-entry=\"CoreHome.ContentBlock\" content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
 				$toc</div>
 				$str";
     }
@@ -83,7 +83,7 @@ class DocumentationGenerator
         $str = '';
         $str .= "\n<a name='$moduleName' id='$moduleName'></a>";
         if($displayTitlesAsAngularDirective) {
-            $str .= "<div piwik-content-block content-title='Module " . $moduleName . "'>";
+            $str .= "<div vue-entry=\"CoreHome.ContentBlock\" content-title='Module " . $moduleName . "'>";
         } else {
             $str .= "<h2>Module " . $moduleName . "</h2>";
         }

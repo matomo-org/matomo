@@ -10,14 +10,14 @@
 {% block content %}
 
 <div class="api-list">
-    <div piwik-content-block content-title="{{ title }}" rate="true">
+    <div vue-entry="CoreHome.ContentBlock" content-title="{{ title }}" rate="true">
         <p>{{ 'API_PluginDescription'|translate }}</p>
 
         <p>
             {{ 'API_MoreInformation'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/analytics-api'>","</a>","<a target='_blank' rel='noreferrer' href='https://developer.matomo.org/api-reference/reporting-api'>","</a>")|raw }}
         </p>
     </div>
-    <div piwik-content-block content-title="{{ 'API_UserAuthentication'|translate|e('html_attr') }}">
+    <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'API_UserAuthentication'|translate }}">
         <p>
             {{ 'API_UsingTokenAuth'|translate('','',"<code>token_auth</code>")|raw }} <a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/api-reference/reporting-api#authenticate-to-the-api-via-token_auth-parameter">{{ 'CoreAdminHome_LearnMore'|translate }}</a><br/>
             <br/>

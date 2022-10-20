@@ -25,9 +25,18 @@ class Diagnostics extends Plugin
     public function registerEvents()
     {
         return array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Visualization.onNoData' => ['function' => 'onNoData', 'before' => true],
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'Diagnostics_ConfigFileTitle';
+        $translations[] = 'Diagnostics_ConfigFileIntroduction';
+        $translations[] = 'Diagnostics_HideUnchanged';
+        $translations[] = 'Diagnostics_Sections';
     }
 
     public function getStylesheetFiles(&$stylesheets)

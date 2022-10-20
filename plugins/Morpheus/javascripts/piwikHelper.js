@@ -116,9 +116,7 @@ window.piwikHelper = {
      */
     escape: function (value)
     {
-        var escape = angular.element(document).injector().get('$sanitize');
-
-        return escape(value);
+        return window.vueSanitize(value);
     },
 
 	/**
@@ -147,10 +145,6 @@ window.piwikHelper = {
 		url = url.replace(/\|\|\|/g, '<wbr />&#8203;'); // &#8203; is for internet explorer
 		return url;
 	},
-
-    getAngularDependency: function (dependency) {
-        return angular.element(document).injector().get(dependency);
-    },
 
     // initial call for 'body' later in this file
     compileVueEntryComponents: function (selector, extraProps) {
@@ -182,27 +176,33 @@ window.piwikHelper = {
 
         var useExternalPluginComponent = CoreHome.useExternalPluginComponent;
         var createVueApp = CoreHome.createVueApp;
-        var plugin = window[parts[0]];
-        if (!plugin) {
-          throw new Error('Unknown plugin in vue-entry: ' + entry);
-        }
+        var component;
 
-        var component = plugin[parts[1]];
-        if (!component) {
-          throw new Error('Unknown component in vue-entry: ' + entry);
-        }
+        var shouldLoadOnDemand = (piwik.pluginsToLoadOnDemand || []).indexOf(parts[0]) !== -1;
+        if (!shouldLoadOnDemand) {
+          var plugin = window[parts[0]];
+          if (!plugin) {
+            // plugin may not be activated
+            return;
+          }
 
-        $(this).attr('ng-non-bindable', '');
+          component = plugin[parts[1]];
+          if (!component) {
+            throw new Error('Unknown component in vue-entry: ' + entry);
+          }
+        } else {
+          component = useExternalPluginComponent(parts[0], parts[1]);
+        }
 
         var paramsStr = '';
         var componentParams = {};
 
         function handleProperty(name, value) {
-          if (name === 'vue-entry' || name === 'class' || name === 'style') {
+          if (name === 'vue-entry' || name === 'class' || name === 'style' || name === 'id') {
             return;
           }
 
-          // append with underscore so reserved javascripy keywords aren't accidentally used
+          // append '_' to avoid accidentally using javascript keywords
           var camelName = toCamelCase(name) + '_';
           paramsStr += ':' + name + '=' + JSON.stringify(camelName) + ' ';
 
@@ -222,6 +222,8 @@ window.piwikHelper = {
           handleProperty(name, value);
         });
 
+        var element = this;
+
         // NOTE: we could just do createVueApp(component, componentParams), but Vue will not allow
         // slots to be in the vue-entry element this way. So instead, we create a quick
         // template that references the root component and wraps the vue-entry component's html.
@@ -230,7 +232,7 @@ window.piwikHelper = {
           template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
           data: function () {
             return componentParams;
-          }
+          },
         });
         app.component('root', component);
 
@@ -246,9 +248,12 @@ window.piwikHelper = {
           app.component(toKebabCase(componentName), component);
         });
 
-        app.mount(this);
+        var appInstance = app.mount(this);
+        $(this).data('vueAppInstance', appInstance);
 
+        var self = this;
         this.addEventListener('matomoVueDestroy', function () {
+          $(self).data('vueAppInstance', null);
           app.unmount();
         });
       });
@@ -309,85 +314,18 @@ window.piwikHelper = {
       });
     },
 
-    /**
-     * As we still have a lot of old jQuery code and copy html from node to node we sometimes have to trigger the
-     * compiling of angular components manually.
-     *
-     * @param selector
-     * @param {object} options
-     * @param {object} options.scope if supplied, the given scope will be used when compiling the template. Shouldn't
-     *                               be a plain object but an actual angular scope.
-     * @param {object} options.params if supplied, the properties in this object are
-     *                               added to the new scope.
-     */
-    compileAngularComponents: function (selector, options) {
-        options = options || {};
-
-        var $element = $(selector);
-
-        if (!$element.length) {
-            return;
-        }
-
-        angular.element(document).injector().invoke(function($compile, $rootScope) {
-            var scope = null;
-            if (options.scope) {
-                scope = options.scope;
-            } else if (!options.forceNewScope) { // TODO: docs
-                scope = angular.element($element).scope();
-            }
-            if (!scope) {
-                scope = $rootScope.$new(true);
-            }
-
-            if (options.params) {
-                $.extend(scope, options.params);
-            }
-
-            $compile($element)(scope);
-
-            setTimeout(function () {
-                piwikHelper.processDynamicHtml($element);
-            });
-        });
-    },
-
     processDynamicHtml: function ($element) {
         piwik.postEvent('Matomo.processDynamicHtml', $element);
     },
 
     /**
-     * Detection works currently only for directives defining an isolated scope. Functionality might need to be
-     * extended if needed. Under circumstances you might call this method before calling compileAngularComponents()
-     * to avoid compiling the same element twice.
-     * @param selector
-     */
-    isAlreadyCompiledAngularComponent: function (selector) {
-        var $element = $(selector);
-
-        return ($element.length && $element.hasClass('ng-isolate-scope'));
-    },
-
-    /**
-     * Detects whether angular is rendering the page. If so, the page will be reloaded automatically
-     * via angular as soon as it detects a $locationChange
-     *
-     * @returns {number|jQuery}
-     * @deprecated use isReportingPage() instead
-     */
-    isAngularRenderingThePage: function ()
-    {
-        return this.isReportingPage();
-    },
-
-    /**
      * Detects whether the current page is a reporting page or not.
      *
-     * @returns {number|jQuery|*}
+     * @returns {number}
      */
     isReportingPage: function ()
     {
-      return $('.reporting-page').length;
+        return $('.reporting-page').length;
     },
 
     /**

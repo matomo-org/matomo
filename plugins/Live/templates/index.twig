@@ -1,24 +1,8 @@
-{% if not isWidgetized %}<div piwik-content-block content-title="{{ 'Live_VisitorsInRealTime'|translate|e('html_attr') }}">{% endif %}
-
-<div piwik-live-widget-refresh live-refresh-after-ms="{{ liveRefreshAfterMs|e('html_attr') }}">
-    {% include "@Live/_totalVisitors.twig" %}
-
-    {{ visitors|raw }}
-</div>
-
-{% apply spaceless %}
-<div class="visitsLiveFooter">
-    <a title="{{ 'Live_OnClickPause'|translate('Live_VisitorsInRealTime'|translate) }}" href="javascript:void(0);" onclick="onClickPause();">
-        <img id="pauseImage" border="0" src="plugins/Live/images/pause.png" />
-    </a>
-    <a title="{{ 'Live_OnClickStart'|translate('Live_VisitorsInRealTime'|translate) }}" href="javascript:void(0);" onclick="onClickPlay();">
-        <img id="playImage" style="display: none;" border="0" src="plugins/Live/images/play.png" />
-    </a>
-    {% if not disableLink %}
-        &nbsp;
-        <a class="rightLink" href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&subcategory=Live_VisitorLog')">{{ 'Live_LinkVisitorLog'|translate }}</a>
-    {% endif %}
-</div>
-{% endapply %}
-
-{% if not isWidgetized %}</div>{% endif %}
+<div
+    vue-entry="Live.LivePage"
+    disable-link="{{ (disableLink == 1)|default(null)|json_encode }}"
+    visitors="{{ visitors|default(null)|json_encode }}"
+    initial-total-visitors="{{ initialTotalVisitors|default(null)|json_encode }}"
+    live-refresh-after-ms="{{ liveRefreshAfterMs|default(null)|json_encode }}"
+    is-widgetized="{{ (isWidgetized == 1)|default(null)|json_encode }}"
+></div>

@@ -1,29 +1,11 @@
 <div id="visitsTotal">
-    <table class="dataTable" cellspacing="0">
-        <thead>
-        <tr>
-            <th id="label" class="sortable label first" style="cursor: auto;">
-                <div id="thDIV">{{ 'General_Date'|translate }}</div>
-            </th>
-            <th class="sortable" style="cursor: auto;">
-                <div id="thDIV">{{ 'General_ColumnNbVisits'|translate }}</div>
-            </th>
-            <th class="sortable" style="cursor: auto;">
-                <div id="thDIV">{{ 'General_Actions'|translate }}</div>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="">
-            <td class="label column">{{ 'Live_LastHours'|translate(24) }}</td>
-            <td class="column" {% if countErrorToday %}title="{{ countErrorToday|e('html_attr') }}"{% endif %}>{{ visitorsCountToday|number }}</td>
-            <td class="column" {% if countErrorToday %}title="{{ countErrorToday|e('html_attr') }}"{% endif %}>{{ pisToday|number }}</td>
-        </tr>
-        <tr class="">
-            <td class="label column">{{ 'Live_LastMinutes'|translate(30) }}</td>
-            <td class="column" {% if countErrorHalfHour %}title="{{ countErrorHalfHour|e('html_attr') }}"{% endif %}>{{ visitorsCountHalfHour|number }}</td>
-            <td class="column" {% if countErrorHalfHour %}title="{{ countErrorHalfHour|e('html_attr') }}"{% endif %}>{{ pisHalfhour|number }}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div
+        vue-entry="Live.TotalVisitors"
+        count-error-today="{{ countErrorToday|default(null)|json_encode }}"
+        visitors-count-today="{{ (visitorsCountToday + 0)|default(null)|json_encode }}"
+        pis-today="{{ pisToday|default(null)|json_encode }}"
+        count-error-half-hour="{{ countErrorHalfHour|default(null)|json_encode }}"
+        visitors-count-half-hour="{{ (visitorsCountHalfHour + 0)|default(null)|json_encode }}"
+        pis-halfhour="{{ pisHalfhour|default(null)|json_encode }}"
+    ></div>
 </div>

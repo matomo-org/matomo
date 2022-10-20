@@ -11,15 +11,5 @@
 {% endmacro %}
 
 {% macro missingRequirementsPleaseUpdateNotice(plugin) %}
-    {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
-        {% for req in plugin.missingRequirements -%}
-            <div class="alert alert-danger">
-                {% set requirement = req.requirement|capitalize %}
-                {% if 'Php' == requirement %}
-                    {% set requirement = 'PHP' %}
-                {% endif %}
-                {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(requirement, req.actualVersion, req.requiredVersion) }}
-            </div>
-        {%- endfor %}
-    {% endif %}
+    <div vue-entry="Marketplace.MissingReqsNotice" plugin="{{ plugin|json_encode }}"></div>
 {% endmacro %}

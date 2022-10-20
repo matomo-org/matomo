@@ -229,6 +229,11 @@ class Controller extends Plugin\ControllerAdmin
             try {
                 $view->marketplacePluginNames = $this->marketplacePlugins->getAvailablePluginNames($themesOnly);
                 $view->pluginsHavingUpdate    = $this->marketplacePlugins->getPluginsHavingUpdate();
+
+                $view->pluginUpdateNonces = [];
+                foreach ($view->pluginsHavingUpdate as $name => $plugin) {
+                    $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
+                }
             } catch(Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
             }

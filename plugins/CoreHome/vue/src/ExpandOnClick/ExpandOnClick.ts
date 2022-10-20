@@ -12,6 +12,7 @@ import DirectiveUtilities from '../directiveUtilities';
 interface ExpandOnClickArgs {
   // input (specified by user)
   expander: string | HTMLElement,
+  onClosed?: () => void;
 
   // state
   isMouseDown?: boolean;
@@ -49,6 +50,10 @@ function onClickOutsideElement(
 
   if (!element.contains(event.target as HTMLElement)) {
     element.classList.remove('expanded');
+
+    if (binding.value?.onClosed) {
+      binding.value.onClosed();
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 <div class="SegmentEditor" style="display:none;">
-    <div class="segmentationContainer listHtml" title="{{ 'SegmentEditor_ChooseASegment'|translate|e('html_attr') }}. {{ 'SegmentEditor_CurrentlySelectedSegment'|translate(segmentDescription)|e('html_attr') }}">
+    <div class="segmentationContainer listHtml" title="{{ 'SegmentEditor_ChooseASegment'|translate }}. {{ 'SegmentEditor_CurrentlySelectedSegment'|translate(segmentDescription) }}">
         <a class="title" tabindex="4"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
         <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
@@ -72,7 +72,7 @@
             <h3 style="margin: 12px 6px;">{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
         </div>
         <div class="segment-footer">
-            <div piwik-rate-feature title="Segment Editor" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>
+            <div vue-entry="Feedback.RateFeature" title="&quot;{{ 'SegmentEditor_SegmentEditor'|translate }}&quot;" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>
             <a class="btn-flat delete" href="#">{{ 'General_Delete'|translate }}</a>
             <a class="btn-flat close" href="#">{{ 'General_Close'|translate }}</a>
             {% if isVisitorLogEnabled %}
