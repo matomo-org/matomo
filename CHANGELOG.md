@@ -24,6 +24,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * Requests to ASPSMS and Clockwork API do no longer accept invalid SSL certificates. If you experience problems with mobile messaging please check your SSL setup.
 
+### Archiving
+* When posting the event `Archiving.getIdSitesToMarkArchivesAsInvalidated` started passing date, period ,segment and name parameter along with idSites parameter.
+
 ## Matomo 4.12.0
 
 ### Breaking Changes
