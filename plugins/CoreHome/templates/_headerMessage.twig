@@ -17,7 +17,7 @@
     is-multi-server-environment="{{ isMultiServerEnvironment|json_encode }}"
     is-piwik-demo="{{ isPiwikDemo|json_encode }}"
     is-super-user="{{ isSuperUser|json_encode }}"
-    is-admin-area="{{ isAdminArea|json_encode }}"
+    is-admin-area="{{ isAdminArea|default(false)|json_encode }}"
     is-internet-enabled="{{ isInternetEnabled|json_encode }}"
     update-check="{{ updateCheck|default|json_encode }}"
     has-some-view-access="{{ hasSomeViewAccess|json_encode }}"
