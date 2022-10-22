@@ -533,6 +533,22 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Invokes `$filter` with this table and every table in `$otherTables`. The result of `$filter()` is returned.
+     *
+     * This method is used to iterate over multiple DataTable\Map's concurrently.
+     *
+     * See {@link \Piwik\DataTable\Map::multiFilter()} for more information.
+     *
+     * @param DataTable[] $otherTables
+     * @param callable filter A function like `function (DataTable $thisTable, $otherTable1, $otherTable2) {}`.
+     * @return mixed The result of $filter.
+     */
+    public function multiFilter($otherTables, $filter)
+    {
+        return $filter(...array_merge([$this], $otherTables));
+    }
+
+    /**
      * Applies a filter to all subtables but not to this datatable.
      *
      * @param string|Closure $className Class name, eg. `"Sort"` or "Piwik\DataTable\Filters\Sort"`. If no
