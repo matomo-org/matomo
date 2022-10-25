@@ -55,13 +55,13 @@ class API extends \Piwik\Plugin\API
      * @param $period
      * @param $date
      * @param bool $segment
-     * @param bool $limitBeforeGrouping
+     * @param int $limitBeforeGrouping
      * @param string $parts
      * @return array
      * @throws Exception
      */
     public function getTransitionsForAction($actionName, $actionType, $idSite, $period, $date,
-                                            $segment = false, $limitBeforeGrouping = false, $parts = 'all')
+                                            $segment = false, $limitBeforeGrouping = 0, $parts = 'all')
     {
         Piwik::checkUserHasViewAccess($idSite);
 
