@@ -1,5 +1,33 @@
 {
     "PagePerformance": {
-        "ColumnTimeServer": "Час на сервері"
+        "ColumnAveragePageLoadTime": "Середній час завантаження сторінки",
+        "ColumnAveragePageLoadTimeDocumentation": "Середній час (в секундах), який минає від моменту запиту сторінки до моменту її повного показу в браузері",
+        "ColumnAverageTimeDomCompletion": "Середній час виконання DOM",
+        "ColumnAverageTimeDomProcessing": "Середній час обробки DOM",
+        "ColumnAverageTimeNetwork": "Середній час роботи в мережі",
+        "ColumnAverageTimeOnLoad": "Середній час завантаження",
+        "ColumnAverageTimeServer": "Середній час роботи сервера",
+        "ColumnAverageTimeTransfer": "Середній час переходу",
+        "ColumnTimeDomCompletion": "Час завершення DOM",
+        "ColumnTimeDomProcessing": "Час обробки DOM",
+        "ColumnTimeNetwork": "Мережевий час",
+        "ColumnTimeOnLoad": "Час завантаження",
+        "ColumnTimeServer": "Час на сервері",
+        "ColumnTimeTransfer": "Час переходу",
+        "ColumnViewsWithTimeDomCompletion": "Перегляди сторінок з часом завершення DOM",
+        "ColumnViewsWithTimeDomProcessing": "Перегляди сторінок з часом обробки DOM",
+        "ColumnViewsWithTimeNetwork": "Перегляди сторінок з урахуванням мережевого часу",
+        "ColumnViewsWithTimeOnLoad": "Перегляди сторінок з часом завантаження",
+        "ColumnViewsWithTimeServer": "Перегляди сторінок з урахуванням серверного часу",
+        "ColumnViewsWithTimeTransfer": "Перегляд сторінок з урахуванням часу переходу",
+        "EvolutionOverPeriod": "Еволюція показників швидкодії сторінок",
+        "Overview": "Огляд швидкодії",
+        "PageLoadTime": "Час завантаження сторінки",
+        "PagePerformanceTitle": "Швидкодія сторінки для сторінки з %1$s \"%2$s\"",
+        "Performance": "Швидкодія",
+        "PerformanceTable": "Таблиця з показниками швидкодії",
+        "PluginDescription": "Додає звіти про швидкодію сторінки",
+        "RowActionDescription": "Показати звіт про швидкодію сторінки для цього рядка",
+        "RowActionTitle": "Відкрити звіт про швидкодію сторінки"
     }
 }
