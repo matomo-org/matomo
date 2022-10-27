@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\Tour\Dao\ConsentManagerDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -136,7 +137,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $javascriptGenerator->forceMatomoEndpoint();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
 
-        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
 
         // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
         $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
@@ -145,24 +146,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /**
          * @ignore
          */
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
 
         $trackerCodeGenerator = new TrackerCodeGenerator();
         $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
 
-        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', [
             'jsTag' => $rawJsTag,
             'showMatomoLinks' => $showMatomoLinks,
             'trackingUrl' => $trackingUrl,
             'idSite' => $this->idSite
-        ), $viewType = 'basic');
+        ], $viewType = 'basic');
 
-        return $this->renderTemplateAs('siteWithoutData', array(
-            'siteName'      => $this->site->getName(),
-            'idSite'        => $this->idSite,
-            'piwikUrl'      => $piwikUrl,
-            'emailBody'     => $emailContent,
-        ), $viewType = 'basic');
+        return $this->renderTemplateAs('siteWithoutData', [
+            'siteName'           => $this->site->getName(),
+            'idSite'             => $this->idSite,
+            'piwikUrl'           => $piwikUrl,
+            'emailBody'          => $emailContent,
+        ], $viewType = 'basic');
     }
 
     public function siteWithoutDataTabs()
@@ -201,13 +202,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
 
         $showMatomoLinks = true;
         /**
          * @ignore
          */
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
 
         $googleAnalyticsImporterMessage = '';
         if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
@@ -226,7 +227,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tagManagerActive = true;
         }
 
-        return $this->renderTemplateAs('_siteWithoutDataTabs', array(
+        $templateData = [
             'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
             'jsTag'         => $jsTag,
@@ -237,6 +238,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'gtmUsed' => $gtmUsed,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
-        ), $viewType = 'basic');
+            'consentManagerName' => false
+        ];
+
+        $consentManager = new ConsentManagerDetector();
+        if ($consentManager->consentManagerId) {
+            $templateData['consentManagerName'] = $consentManager->consentManagerName;
+            $templateData['consentManagerUrl'] = $consentManager->consentManagerUrl;
+            $templateData['consentManagerIsConnected'] = $consentManager->isConnected;
+        }
+
+        return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
 }
