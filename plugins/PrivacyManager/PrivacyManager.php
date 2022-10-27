@@ -452,9 +452,9 @@ class PrivacyManager extends Plugin
     /**
      * Returns the settings for the data purging feature.
      *
-     * @return array
+     * @return array<string, int>
      */
-    public static function getPurgeDataSettings()
+    public static function getPurgeDataSettings(): array
     {
         $settings = [];
 
@@ -462,7 +462,7 @@ class PrivacyManager extends Plugin
         $config = PiwikConfig::getInstance();
         foreach (self::$purgeDataOptions as $configKey => $configSection) {
             $values = $config->$configSection;
-            $settings[$configKey] = $values[$configKey];
+            $settings[$configKey] = (int) $values[$configKey];
         }
 
         if (!Controller::isDataPurgeSettingsEnabled()) {
@@ -473,7 +473,7 @@ class PrivacyManager extends Plugin
         foreach (self::$purgeDataOptions as $configName => $configSection) {
             $value = Option::get($configName);
             if ($value !== false) {
-                $settings[$configName] = $value;
+                $settings[$configName] = (int) $value;
             }
         }
 
@@ -489,7 +489,7 @@ class PrivacyManager extends Plugin
     {
         foreach (self::$purgeDataOptions as $configName => $configSection) {
             if (isset($settings[$configName])) {
-                Option::set($configName, $settings[$configName]);
+                Option::set($configName, (int) $settings[$configName]);
             }
         }
 

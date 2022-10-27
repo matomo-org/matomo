@@ -173,6 +173,7 @@
         "Edit": "Düzenle",
         "EncryptedSmtpTransport": "SMTP sunucunuz için gerekli aktarım katmanı şifrelemesini belirtin.",
         "Error": "Hata",
+        "ErrorRateLimit": "Çok fazla sayıda istek yapıldı. Bu sorun belirli bir zaman aralığında API üzerinden yapılmasına izin verilen istek sayısı sınırı aşıldığında ortaya çıkar.",
         "ErrorRequest": "İstek sırasında bir sorun çıktı. Sunucuda geçici bir sorun ortaya çıkmış olabileceği gibi çok fazla veri içeren bir rapor istemiş olabilirsiniz. Lütfen yeniden deneyin. Sorun sürüyorsa yardım almak için lütfen %1$sMatomo yöneticiniz ile görüşün%2$s.",
         "ErrorRequestFaqLink": "Bu sorunu gidermek için SSS bölümündeki adımlara bakın.",
         "ErrorTryAgain": "Hata. Lütfen daha sonra yeniden deneyin.",

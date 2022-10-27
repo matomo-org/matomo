@@ -234,7 +234,7 @@ class Segment
 
     /**
      * Set (overwrite) the type of this segment which is usually either a 'dimension' or a 'metric'.
-     * @param string $type See constansts TYPE_*
+     * @param string $type See constants TYPE_*
      * @api
      */
     public function setType($type)

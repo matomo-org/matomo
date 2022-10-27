@@ -747,7 +747,7 @@ class Common
     }
 
     /**
-     * Returns a human readable error message in case an error occcurred during the last json encode/decode.
+     * Returns a human readable error message in case an error occurred during the last json encode/decode.
      * Returns an empty string in case there was no error.
      *
      * @return string

@@ -1,7 +1,7 @@
 {
     "Dashboard": {
-        "AddAWidget": "Tilføj modul...",
-        "AddPreviewedWidget": "Tilføj forhåndsvist modul til kontrolpanelet.",
+        "AddAWidget": "Tilføj modul",
+        "AddPreviewedWidget": "Tilføj forhåndsvist modul til kontrolpanelet",
         "ChangeDashboardLayout": "Skift udformning på kontrolpanel",
         "CopyDashboardToUser": "Kopier kontrolpanel til bruger",
         "CreateNewDashboard": "Opret nyt kontrolpanel",
@@ -26,7 +26,7 @@
         "ResetDashboard": "Nulstil kontrolpanel",
         "ResetDashboardConfirm": "Nulstil kontrolpanel til standard?",
         "SelectDashboardLayout": "Vælg ny udformning på kontrolpanel",
-        "SelectWidget": "Vælg modul, som skal tilføjes kontrolpanelet.",
+        "SelectWidget": "Vælg modul, som skal tilføjes kontrolpanelet",
         "SetAsDefaultWidgets": "Indstil som standard modul valg",
         "SetAsDefaultWidgetsConfirm": "Skal de nuværende modul udvælgelser og kontrolpanel udformning bruges som standard kontrolpanel skabelon?",
         "SetAsDefaultWidgetsConfirmHelp": "Modul udvælgelse og kontrolpanelets udformning vil blive brugt når en bruger opretter et nyt kontrolpanel, eller når \"%s\" -funktionen bruges.",

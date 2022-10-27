@@ -1,7 +1,7 @@
 {
     "WebsiteMeasurable": {
         "Website": "Sitio de internet",
-        "Websites": "Sitios de internet",
-        "WebsiteDescription": "Un sitio de internet consiste de páginas usualmente hospedadas en un único dominio de internet."
+        "WebsiteDescription": "Un sitio web se compone de páginas web, normalmente servidas desde un único dominio en la web.",
+        "Websites": "Sitios de internet"
     }
 }

@@ -60,6 +60,9 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryGoalConversionsForVisits($idVisits)
     {
+        if (empty($idVisits)) {
+            return [];
+        }
         $sql = "
 				SELECT
 						log_conversion.idvisit,

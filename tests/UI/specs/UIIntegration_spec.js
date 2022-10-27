@@ -368,7 +368,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBaseGeneric + idSite3Params + "#?" + idSite3Params + "&category=General_Visitors&subcategory=General_RealTime");
             await page.mouse.move(-10, -10);
 
-            pageWrap = await page.$('.pageWrap');
+            pageWrap = await page.$('#root');
+            await page.evaluate(function() {
+              // hide navBar to skip random failed
+              $('#secondNavBar').hide();
+            });
             expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
         });
     });

@@ -156,8 +156,6 @@
         "RemoveUserAccess": "Hapus akses untuk '%1$s' untuk %2$s.",
         "ReportDateToLoadByDefault": "Tanggal laporan dimuat secara asali",
         "ReportToLoadByDefault": "Laporan dimuat secara asali",
-        "ResendInviteConfirmSingle": "Apakah Anda yakin ingin mengirim ulang undangan kepada %1$s?",
-        "ResendInviteSuccess": "Sukses! Undangan telah dikirim ulang ke pengguna %s",
         "ResetTwoFactorAuthentication": "Reset autentikasi dua faktor",
         "ResetTwoFactorAuthenticationInfo": "Jika pengguna tidak dapat masuk lagi karena kehilangan kode pemulihan atau perangkat autentikasi hilang, Anda dapat mengatur ulang autentikasi dua faktor untuk pengguna, sehingga mereka dapat masuk kembali.",
         "Role": "Peran",
