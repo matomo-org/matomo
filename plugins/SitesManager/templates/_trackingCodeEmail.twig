@@ -2,6 +2,10 @@
 
 {{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail'|translate("'head'") }}
 
+{% if consentManagerName %}
+{{ 'CoreAdminHome_JSTracking_ConsentManagerDetected'|translate(consentManagerName, consentManagerUrl) }}
+{% endif %}
+
 {{ jsTag|raw }}
 
 {% if showMatomoLinks %}{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate('https://developer.matomo.org/guides/tracking-javascript-guide')|raw }}{% endif %}

@@ -151,12 +151,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $trackerCodeGenerator = new TrackerCodeGenerator();
         $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
 
-        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', [
+        $emailTemplateData = [
             'jsTag' => $rawJsTag,
             'showMatomoLinks' => $showMatomoLinks,
             'trackingUrl' => $trackingUrl,
-            'idSite' => $this->idSite
-        ], $viewType = 'basic');
+            'idSite' => $this->idSite,
+            'consentManagerName' => false
+        ];
+
+        $consentManager = new ConsentManagerDetector();
+        if ($consentManager->consentManagerId) {
+            $emailTemplateData['consentManagerName'] = $consentManager->consentManagerName;
+            $emailTemplateData['consentManagerUrl'] = $consentManager->consentManagerUrl;
+        }
+
+        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
 
         return $this->renderTemplateAs('siteWithoutData', [
             'siteName'           => $this->site->getName(),
