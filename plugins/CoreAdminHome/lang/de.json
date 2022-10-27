@@ -50,7 +50,7 @@
         "JSTracking_CodeNoteBeforeClosingHeadEmail": "Stelen Sie sicher, dass dieser Code innerhalb eines Skript-Elementes auf jeder Seite Ihrer Webseite enthalten ist. Wir empfehlen den Code direkt vor dem schließenden Head-Tag einzubauen.",
         "JSTracking_CrossDomain": "Standardmäßig wird die Besucher-ID, welche einen eindeutigen Besucher identifiziert, in den Cookies des Browsers, auf welche nur von einer einzelnen Domain zugegriffen werden kann, gespeichert. Wenn Sie Domainübergreifendes Tracking aktivieren, können Sie alle Aktionen und Seitenaufrufe eines bestimmten Besuchers in demselben Besuch verfolgen, auch wenn sie Seiten auf mehreren Domänen anzeigen. Wenn ein Benutzer auf einen Link zu einer der Alias-URL Ihrer Webseite klickt, wird automatisch der URL-Parameter pk_vid angefügt, der die Besucher-ID an die neue Domain übergibt.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Hinweis: Um Cross Domain Linking zu unterstützen, müssen Sie mehr als einen Domainnamen (URLs) für Ihre Webseite definieren.",
-        "JSTracking_CustomCampaignQueryParam": "Benutzerdefinierte Anfrage-Parameter für Kampagnennamen &amp; Suchbegriff verwenden",
+        "JSTracking_CustomCampaignQueryParam": "Benutzerdefinierte Abfrageparameter für Kampagnennamen und Suchbegriffe verwenden",
         "JSTracking_CustomCampaignQueryParamDesc": "Hinweis: %1$sMatomo erkennt Parameter von Google Analytics automatisch.%2$s",
         "JSTracking_DisableCookies": "Alle Tracking Cookies deaktivieren",
         "JSTracking_DisableCookiesDesc": "Deaktiviert alle First-Party Cookies. Bestehende Matomo Cookies für diese Webseite werden beim nächsten Seitenaufruf gelöscht.",
