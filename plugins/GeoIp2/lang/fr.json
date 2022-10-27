@@ -42,7 +42,7 @@
         "LocationDatabaseHint": "Une base de données de localisation est une base de données de pays, villes ou régions.",
         "LocationProviderDesc_Php": "Ce fournisseur de localisation est le plus simple à installer car il ne nécessite pas de configuration de serveur (idéal pour un hébergement mutualisé !). Il utilise une base de données DBIP ou GeoIP 2 et l'API PHP de MaxMind pour déterminer avec précision l'emplacement de vos visiteurs.",
         "LocationProviderDesc_Php_WithExtension": "Ce service de localisation est plus performant grâce à l'installation de l'extension %1$smaxminddb%2$s.",
-        "LocationProviderDesc_ServerModule": "Ce service de localisation utilise le module GeoIP 2 qui peut être installé sur votre serveur HTTP. Ce service est rapide est précis mais %1$speut uniquement être utilisé avec le système de suivi du navigateur classique. %2$s",
+        "LocationProviderDesc_ServerModule": "Ce service de localisation utilise le module GeoIP 2 qui peut être installé sur votre serveur HTTP. Ce service est rapide et précis mais %1$speut uniquement être utilisé avec le système de suivi du navigateur classique. %2$s",
         "LocationProviderDesc_ServerModule2": "Si vous devez importer des fichiers de journaux ou bien effectuer quoi que ce soit d'autre qui requiert la définition des adresses IP, utilisez %3$sl'implémentation PHP GeoIP 2%4$s et installez %1$sl'extension maxminddb%2$s.",
         "MalFormedUpdateUrl": "L'url %1$s semble invalide. Veuillez vous assurer de saisir une URL valide commençant par http:// ou https://",
         "NotManagingGeoIPDBs": "Matomo ne gère actuellement aucune base de données DBIP ou MaxMind.",
