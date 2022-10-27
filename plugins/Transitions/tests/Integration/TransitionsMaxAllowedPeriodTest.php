@@ -85,7 +85,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
     public function test_ShouldThrowException_IfInvalidLimitBeforeGroup()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('LimitBeforeGroupingIsInvalid');
+        $this->expectExceptionMessage('limitBeforeGrouping has to be an integer.');
         $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
             'range','2012-08-09,2012-08-10',false,'all');
     }

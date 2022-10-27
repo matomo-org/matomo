@@ -70,7 +70,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
-            throw new Exception('LimitBeforeGroupingIsInvalid');
+            throw new Exception('limitBeforeGrouping has to be an integer.');
         }
         // get idaction of the requested action
         $idaction = $this->deriveIdAction($actionName, $actionType);

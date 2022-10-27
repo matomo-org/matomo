@@ -25,7 +25,6 @@
         "NoDataForAction": "No data for %s",
         "NoDataForActionDetails": "Either the action had no pageviews during the period, or it is invalid.",
         "PeriodNotAllowed": "Select a valid time period",
-        "LimitBeforeGroupingIsInvalid": "Limit Before Group has to be an integer.",
         "PeriodNotAllowedDetails": "Try selecting a period with fewer days for this feature.",
         "OutgoingTraffic": "Outgoing traffic",
         "PluginDescription": "Reports previous and following actions for each page URL in a new \"Transitions\" report, available in the \"Actions\" reports via a new icon.",
