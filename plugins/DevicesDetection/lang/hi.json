@@ -1,27 +1,28 @@
 {
     "DevicesDetection": {
+        "BotDetected": "इस उपयोगकर्ता-एजेंट को %1$s के रूप में पहचाना गया है। इस उपयोगकर्ता एजेंट के साथ विज़िट डिफ़ॉल्ट रूप से Matomo में ट्रैक नहीं की जाएंगी।",
         "BrowserEngine": "ब्राउज़र",
         "BrowserEngines": "ब्राउज़र इंजन",
         "BrowserFamily": "ब्राउज़र परिवार",
-        "Browsers": "ब्राउज़र्स",
         "BrowserVersion": "ब्राउज़र संस्करण",
         "BrowserVersions": "ब्राउज़र संस्करणों",
+        "Browsers": "ब्राउज़र्स",
         "Camera": "कैमरा",
         "CarBrowser": "कार ब्राउज़र",
-        "Software": "सॉफ्टवेयर",
         "ColumnBrowser": "ब्राउज़र",
         "ColumnOperatingSystem": "आपरेटिंग सिस्टम",
         "ColumnOperatingSystemVersion": "आपरेटिंग सिस्टम version",
         "Console": "कंसोल",
+        "Device": "न्यूनतम मूल्य",
+        "DeviceBrand": "डिवाइस ब्रांड",
+        "MobileApp": "मोबाइल एप्लिकेशन",
+        "OperatingSystemFamily": "आपरेटिंग सिस्टम परिवार",
+        "OperatingSystems": "आपरेटिंग सिस्टम",
+        "Software": "सॉफ्टवेयर",
+        "WidgetBrowsers": "आगंतुक ब्राउज़र",
         "dataTableLabelBrands": "ब्रांड",
         "dataTableLabelModels": "मॉडल",
         "dataTableLabelSystemVersion": "ऑपरेटिंग सिस्टम संस्करण",
-        "dataTableLabelTypes": "प्रकार",
-        "Device": "न्यूनतम मूल्य",
-        "DeviceBrand": "डिवाइस ब्रांड",
-        "OperatingSystemFamily": "आपरेटिंग सिस्टम परिवार",
-        "OperatingSystems": "आपरेटिंग सिस्टम",
-        "MobileApp": "मोबाइल एप्लिकेशन",
-        "WidgetBrowsers": "आगंतुक ब्राउज़र"
+        "dataTableLabelTypes": "प्रकार"
     }
 }
