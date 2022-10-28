@@ -18,7 +18,7 @@ class ConsentManagerDetector
     public $consentManagerId;               // Id of the detected consent manager, eg. 'osano'
     public $consentManagerName;             // Display name of the detected consent manager, eg. 'Osano'
     public $consentManagerUrl;              // Url for the configuration guide for the detected consent manager
-    public $isConnected;                    // True if the detected consent manager is already connected with Matomo
+    public $isConnected = false;            // True if the detected consent manager is already connected with Matomo
 
     /**
      * Construct a new ConsentManagerDetector class, this will query the site and populate the class properties with
@@ -53,7 +53,7 @@ class ConsentManagerDetector
 
         }
 
-        if ($siteData === null) {
+        if ($siteData === null || $siteData === '') {
             return;
         }
 
