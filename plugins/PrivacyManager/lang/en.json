@@ -203,7 +203,7 @@
         "LastAction": "Last action",
         "FindMatchingDataSubjects": "Find matching data subjects",
         "ConsentManager": "Consent Manager",
-        "ConsentManagerDetected": "%1$s consent manager was detected on this site. To learn about configuring Matomo to work with %1$s please read %2$s%3$s%4$sthis guide%5$s",
+        "ConsentManagerDetected": "%1$s consent manager was detected on your website. To learn about configuring Matomo to work with %1$s please read %2$s%3$s%4$sthis guide%5$s",
         "ConsentManagerConnected": "%1$s appears to already be configured to work with Matomo."
     }
 }
