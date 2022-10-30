@@ -425,8 +425,8 @@ abstract class Controller
     {
         // load translations from meta data
         $idSite = Common::getRequestVar('idSite');
-        $period = Common::getRequestVar('period');
-        $date = Common::getRequestVar('date');
+        $period = Piwik::getPeriod();
+        $date = Piwik::getDate();
         $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
 
         $columns = array_merge($columnsToDisplay ? $columnsToDisplay : array(), $selectableColumns);
