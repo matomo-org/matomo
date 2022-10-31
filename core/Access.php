@@ -440,7 +440,6 @@ class Access
     public function checkUserHasSuperUserAccess()
     {
         if (!$this->hasSuperUserAccess()) {
-            Common::sendResponseCode(401);
             $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
         }
     }
@@ -485,7 +484,6 @@ class Access
     public function checkUserHasSomeWriteAccess()
     {
         if (!$this->isUserHasSomeWriteAccess()) {
-            Common::sendResponseCode(401);
             $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('write')));
         }
     }
@@ -498,7 +496,6 @@ class Access
     public function checkUserHasSomeAdminAccess()
     {
         if (!$this->isUserHasSomeAdminAccess()) {
-            Common::sendResponseCode(401);
             $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
         }
     }
@@ -517,7 +514,6 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 
         if (count($idSitesAccessible) == 0) {
-            Common::sendResponseCode(401);
             $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
         }
     }
@@ -746,7 +742,6 @@ class Access
     {
         if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
-            Common::sendResponseCode(401);
 
             // Try to detect whether user was previously logged in so that we can display a different message
             $referrer = Url::getReferrer();
@@ -754,12 +749,10 @@ class Access
             if ($referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
                 strpos($referrer, $matomoUrl) === 0
             ) {
-                Common::sendResponseCode(440);
                 $message = Piwik::translate('General_YourSessionHasExpired');
             }
         }
 
-        //update status code to 401
         throw new NoAccessException($message);
     }
 

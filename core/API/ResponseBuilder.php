@@ -143,6 +143,10 @@ class ResponseBuilder
             http_response_code($e->getCode());
         }
 
+        if ($e->getTrace()[0]['function'] === 'throwNoAccessException') {
+            http_response_code(401);
+        }
+
         $this->sendHeaderIfEnabled();
 
         return $this->apiRenderer->renderException($message, $e);
