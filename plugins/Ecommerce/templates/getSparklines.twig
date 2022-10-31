@@ -1,6 +1,9 @@
 <div class="card"><div class="card-content">
-
-<div id='leftcolumn' style="clear:both;{% if not isWidget %}width:33%;'{% endif %}">
+{% if not isWidget %}
+<div class='col l4 m6 s12'>
+{% else %}
+<div class="col l12 m12 s12">
+{% endif %}
     <div class="sparkline">
         {{ sparkline(urlSparklineConversions) }}
 	    <div class="sparkline-metrics">
@@ -55,8 +58,11 @@
     </div>
 
 </div>
-
-<div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
+    {% if not isWidget %}
+    <div class='col l4 m6 s12'>
+    {% else %}
+    <div class="col l12 m12 s12">
+    {% endif %}
 
     <div class="sparkline">
         {{ sparkline(urlSparklineConversionRate) }}
@@ -92,8 +98,11 @@
     </div>
 
 </div>
-
-<div id='rightcolumn' {% if not isWidget %}style='width:30%;'{% endif %}>
+        {% if not isWidget %}
+        <div class='col l4 m6 s12'>
+        {% else %}
+        <div class="col l12 m12 s12">
+        {% endif %}
     <div>
         <img src='plugins/Morpheus/images/ecommerceAbandonedCart.png'> {{ 'General_AbandonedCarts'|translate }}
     </div>
