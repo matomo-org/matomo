@@ -633,7 +633,7 @@ class AccessTest extends IntegrationTestCase
     {
         $url = Fixture::getTestRootUrl().'?'.http_build_query([
                 'module'     => 'API',
-                'method'     => 'getMatomoVersion',
+                'method'     => 'API.getMatomoVersion',
                 'token_auth' => 'DONT_EXIST',
             ]);
         $ch = curl_init($url);
@@ -642,7 +642,8 @@ class AccessTest extends IntegrationTestCase
         if (!curl_errno($ch)) {
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $this->assertEquals(401, $http_code);
-
+        } else {
+            $this->markTestIncomplete('something wrong');
         }
     }
 
