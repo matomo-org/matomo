@@ -35,14 +35,14 @@ export default defineComponent({
   },
   data() {
     return {
-      currentName: String,
+      currentName: null,
     };
   },
   methods: {
     showHelp() {
-      if (this.currentName !== '') {
+      if (this.currentName) {
         NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
-        this.currentName = '';
+        this.currentName = null;
         return;
       }
       NotificationsStore.show({
