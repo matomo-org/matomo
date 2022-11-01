@@ -109,7 +109,7 @@
             <div class="collapsible-body">
               <ul>
                 <li v-for="subcategory in category.subcategories" :key="subcategory.id">
-                  <span v-if="subcategory.isGroup">
+                  <span style="display: grid" v-if="subcategory.isGroup">
                     <a
                       @click="loadSubcategory(category, subcat)"
                       :href="`#?${makeUrl(category, subcat)}`"
