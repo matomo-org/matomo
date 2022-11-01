@@ -39,7 +39,7 @@
                                             {{ name|translate|rawSafeDecoded }}
                                         </a>
                                         {% if urlParameters._help %}
-                                            <div piwik-show-help-link message="{{ urlParameters._help|e('html_attr') }}"></div>
+                                            <div piwik-show-help-link name="{{ urlParameters._name }}" message="{{ urlParameters._help|e('html_attr') }}"></div>
                                         {% endif %}
                                     </li>
                                 {% endif %}

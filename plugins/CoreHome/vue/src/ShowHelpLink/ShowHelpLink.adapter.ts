@@ -14,6 +14,9 @@ export default createAngularJsAdapter({
     message: {
       angularJsBind: '@',
     },
+    name: {
+      angularJsBind: '@',
+    },
   },
   directiveName: 'piwikShowHelpLink',
 });

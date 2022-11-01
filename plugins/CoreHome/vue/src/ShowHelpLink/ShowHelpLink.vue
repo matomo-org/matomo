@@ -5,22 +5,22 @@
 -->
 
 <template>
-<a
-  class="item-help-icon"
-  tabindex="5"
-  href="javascript:"
-  v-if="message"
-  @click="showHelp"
->
-<span class="icon-help" />
-</a>
+  <a
+    class="item-help-icon"
+    tabindex="5"
+    href="javascript:"
+    v-if="message"
+    @click="showHelp"
+  >
+    <span class="icon-help"/>
+  </a>
 </template>
 <script lang="ts">
 
 import { defineComponent } from 'vue';
 import { NotificationsStore } from '../Notification';
 
-const REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
+const REPORTING_HELP_NOTIFICATION_ID = 'reportingMenu-help';
 
 export default defineComponent({
   props: {
@@ -28,9 +28,31 @@ export default defineComponent({
       type: String,
       default: null,
     },
+    name: {
+      type: String,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      helpShown: {
+        type: Boolean,
+        default: false,
+      },
+      currentName: {
+        type: String,
+        default: null,
+      },
+    };
   },
   methods: {
     showHelp() {
+      if (this.helpShown && this.currentName === this.name) {
+        NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
+        this.helpShown = false;
+        this.currentName = null;
+        return;
+      }
       NotificationsStore.show({
         context: 'info',
         id: REPORTING_HELP_NOTIFICATION_ID,
@@ -41,6 +63,10 @@ export default defineComponent({
         placeat: '#notificationContainer',
         prepend: true,
       });
+      if (this.name) {
+        this.currentName = this.name;
+      }
+      this.helpShown = true;
     },
   },
 });
