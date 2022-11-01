@@ -9,7 +9,7 @@
     class="item-help-icon"
     tabindex="5"
     href="javascript:"
-    v-if="message"
+    v-if="message!==''"
     @click="showHelp"
   >
     <span class="icon-help"/>
@@ -26,11 +26,11 @@ export default defineComponent({
   props: {
     message: {
       type: String,
-      default: null,
+      default: '',
     },
     name: {
       type: String,
-      default: null,
+      default: '',
     },
   },
   data() {
@@ -41,7 +41,7 @@ export default defineComponent({
       },
       currentName: {
         type: String,
-        default: null,
+        default: '',
       },
     };
   },
@@ -50,7 +50,7 @@ export default defineComponent({
       if (this.helpShown && this.currentName === this.name) {
         NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
         this.helpShown = false;
-        this.currentName = null;
+        this.currentName = '';
         return;
       }
       NotificationsStore.show({
@@ -63,7 +63,7 @@ export default defineComponent({
         placeat: '#notificationContainer',
         prepend: true,
       });
-      if (this.name) {
+      if (this.name !== '') {
         this.currentName = this.name;
       }
       this.helpShown = true;
