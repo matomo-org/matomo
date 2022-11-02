@@ -298,7 +298,7 @@ class API extends \Piwik\Plugin\API
         $types[Action::TYPE_OUTLINK] = 'outlinks';
         $types[Action::TYPE_DOWNLOAD] = 'downloads';
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
@@ -343,7 +343,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception('limitBeforeGrouping has to be an integer.');
         }
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
 
         // we generate a single column that contains the interesting data for each referrer.
@@ -425,7 +425,7 @@ class API extends \Piwik\Plugin\API
         if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
             throw new Exception('limitBeforeGrouping has to be an integer.');
         }
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->setColumnToMarkExcludedRows('is_self');
