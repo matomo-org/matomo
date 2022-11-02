@@ -215,11 +215,15 @@ class API extends \Piwik\Plugin\API
      * @param $report
      * @param $idaction
      * @param string $actionType
-     * @param $limitBeforeGrouping
+     * @param int $limitBeforeGrouping
      * @param boolean $includeLoops
      */
-    private function addFollowingActions($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops = false)
+    private function addFollowingActions($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops = 0)
     {
+        if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
+            throw new Exception('limitBeforeGrouping has to be an integer.');
+        }
+
         $data = $this->queryFollowingActions(
             $idaction, $actionType, $logAggregator, $limitBeforeGrouping, $includeLoops);
 
@@ -234,12 +238,12 @@ class API extends \Piwik\Plugin\API
      * @param $idaction
      * @param $actionType
      * @param LogAggregator $logAggregator
-     * @param $limitBeforeGrouping
+     * @param  $limitBeforeGrouping
      * @param $includeLoops
      * @return array(followingPages:DataTable, outlinks:DataTable, downloads:DataTable)
      */
     protected function queryFollowingActions($idaction, $actionType, LogAggregator $logAggregator,
-                                          $limitBeforeGrouping = false, $includeLoops = false)
+                                          $limitBeforeGrouping = 0, $includeLoops = false)
     {
         $types = array();
 
@@ -329,11 +333,16 @@ class API extends \Piwik\Plugin\API
      * @param $idaction
      * @param $actionType
      * @param LogAggregator $logAggregator
-     * @param $limitBeforeGrouping
+     * @param int $limitBeforeGrouping
      * @return DataTable
+     * @throws Exception
      */
-    protected function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
+    protected function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = 0)
     {
+        if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
+            throw new Exception('limitBeforeGrouping has to be an integer.');
+        }
+
         $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
 
@@ -404,15 +413,18 @@ class API extends \Piwik\Plugin\API
      * @param $idaction
      * @param $actionType
      * @param LogAggregator $logAggregator
-     * @param $limitBeforeGrouping
+     * @param int $limitBeforeGrouping
      * @return array(previousPages:DataTable, loops:integer)
      */
-    protected function queryInternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
+    protected function queryInternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = 0)
     {
         $keyIsOther = 0;
         $keyIsPageUrlAction = 1;
         $keyIsSiteSearchAction = 2;
 
+        if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
+            throw new Exception('limitBeforeGrouping has to be an integer.');
+        }
         $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
