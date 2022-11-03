@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "평균 페이지 로드 시간",
         "ColumnTimeServer": "서버 시간"
     }
 }

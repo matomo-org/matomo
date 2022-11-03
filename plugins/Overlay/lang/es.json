@@ -3,6 +3,7 @@
         "Clicks": "%s clics",
         "ClicksFromXLinks": "%1$s clics desde uno de %2$s enlaces",
         "Domain": "Dominio",
+        "ErrorNoSiteUrls": "ADVERTENCIA: Este sitio web no tiene definida ninguna URL en Matomo. Esto puede hacer que la superposición y otras características se rompan o se comporten de forma extraña. Para solucionarlo, añada una URL en la configuración de este sitio web en la sección de administración de Matomo.",
         "ErrorNotLoading": "La sesión de superposición de página no puede ser aun iniciada.",
         "ErrorNotLoadingDetails": "Tal vez la página cargada a su derecha no posee el código de rastreo Matomo. En este caso, trate de lanzar Overlay para una página diferente desde las páginas de informe.",
         "ErrorNotLoadingDetailsSSL": "Ya que está utilizando Matomo sobre https, la causa más probable es que su sitio de internet no provea soporte SSL. Intente utilizar Matomo sobre http.",

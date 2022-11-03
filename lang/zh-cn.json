@@ -1,7 +1,7 @@
 {
     "General": {
-        "12HourClock": "12 小时制式",
-        "24HourClock": "24 小时制式",
+        "12HourClock": "12 小时制",
+        "24HourClock": "24 小时制",
         "API": "API",
         "AbandonedCarts": "被放弃的购物车",
         "AboutPiwikX": "关于 Matomo %s",
