@@ -69,6 +69,9 @@ class API extends \Piwik\Plugin\API
             throw new Exception('PeriodNotAllowed');
         }
 
+        if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
+            throw new Exception('limitBeforeGrouping has to be an integer.');
+        }
         //convert string to int
         $limitBeforeGrouping = intval($limitBeforeGrouping);
 
@@ -218,11 +221,8 @@ class API extends \Piwik\Plugin\API
      * @param int $limitBeforeGrouping
      * @param boolean $includeLoops
      */
-    private function addFollowingActions($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops = 0)
+    private function addFollowingActions($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping = 0, $includeLoops = 0)
     {
-        if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
-            throw new Exception('limitBeforeGrouping has to be an integer.');
-        }
 
         $data = $this->queryFollowingActions(
             $idaction, $actionType, $logAggregator, $limitBeforeGrouping, $includeLoops);
@@ -340,7 +340,6 @@ class API extends \Piwik\Plugin\API
     protected function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = 0)
     {
 
-        $limitBeforeGrouping = intval($limitBeforeGrouping);
         $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
 
@@ -420,7 +419,6 @@ class API extends \Piwik\Plugin\API
         $keyIsPageUrlAction = 1;
         $keyIsSiteSearchAction = 2;
 
-        $limitBeforeGrouping = intval($limitBeforeGrouping);
         $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
