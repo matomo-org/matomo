@@ -54,6 +54,12 @@ class PrefixDependency extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($this->isBeingInstalledAsComposerDependency()) {
+            $output->writeln('Detected Matomo being installed as composer dependency, skipping prefixing.');
+            $this->setUpPrefixRemovingAutoloader();
+            return;
+        }
+
         $composerPath = $this->getComposerPath($input);
         $phpScoperBinary = $this->downloadPhpScoperIfNeeded($input, $output);
 
@@ -228,5 +234,19 @@ EOF;
         }
 
         return $plugin;
+    }
+
+    private function isBeingInstalledAsComposerDependency()
+    {
+        $matomoVendorPath = PIWIK_INCLUDE_PATH . '/vendor';
+        return !is_dir($matomoVendorPath);
+    }
+
+    private function setUpPrefixRemovingAutoloader()
+    {
+        $prefixAutoloadPath = PIWIK_INCLUDE_PATH . '/prefixAutoload.php';
+
+        $content = '<?php return new \Piwik\Dependency\PrefixRemovingAutoloader();';
+        file_put_contents($prefixAutoloadPath, $content);
     }
 }
