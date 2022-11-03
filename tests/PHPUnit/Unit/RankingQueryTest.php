@@ -58,6 +58,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testExcludeRows()
     {
+
         $query = new RankingQuery(20);
         $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
@@ -95,7 +96,6 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $query->addLabelColumn('label');
         $query->setColumnToMarkExcludedRows('exclude_marker');
         $this->checkQuery($query, $innerQuery, $expected);
-
     }
 
     /**
@@ -140,57 +140,6 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
 		";
 
         $this->checkQuery($query, $innerQuery, $expected);
-    }
-    public function testInvalidFormatLimit()
-    {
-        $query = new RankingQuery('all');
-        $query->setOthersLabel('Others');
-        $query->addLabelColumn('label');
-        $query->addColumn('column');
-        $query->addColumn('columnSum', 'sum');
-
-        $innerQuery = "SELECT label, column, columnSum FROM myTable";
-
-        $expected = "
-			SELECT
-				CASE
-					WHEN counter = 6 THEN 'Others'
-					ELSE `label`
-				END AS `label`,
-				`column`,
-				sum(`columnSum`) AS `columnSum`
-			FROM (
-				SELECT
-					`label`,
-					CASE
-						WHEN @counter = 6 THEN 6
-						ELSE @counter:=@counter+1
-					END AS counter,
-					`column`,
-					`columnSum`
-				FROM
-					( SELECT @counter:=0 ) initCounter,
-					( SELECT label, column, columnSum FROM myTable ) actualQuery
-			 ) AS withCounter
-			GROUP BY counter
-		";
-
-        $this->checkQuery($query, $innerQuery, $expected);
-        $query = new RankingQuery(0.11);
-        $query->setOthersLabel('Others');
-        $query->addLabelColumn('label');
-        $query->addColumn('column');
-        $query->addColumn('columnSum', 'sum');
-        $this->checkQuery($query, $innerQuery, $expected);
-
-        $this->checkQuery($query, $innerQuery, $expected);
-        $query = new RankingQuery(-10);
-        $query->setOthersLabel('Others');
-        $query->addLabelColumn('label');
-        $query->addColumn('column');
-        $query->addColumn('columnSum', 'sum');
-        $this->checkQuery($query, $innerQuery, $expected);
-
     }
 
     /**

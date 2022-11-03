@@ -92,12 +92,11 @@ class RankingQuery
     /**
      * Constructor.
      *
-     * @param int $limit The result row limit. See {@link setLimit()}.
+     * @param int|false $limit The result row limit. See {@link setLimit()}.
      */
-    public function __construct($limit = 0)
+    public function __construct($limit = false)
     {
-        $limit = (int)$limit;
-        if ($limit > 0) {
+        if ($limit !==false) {
             $this->setLimit($limit);
         }
     }
