@@ -90,7 +90,7 @@ class Get extends Base
                         return;
                     }
 
-                    $pastValue = $previousDataRow->getColumn($columnName);
+                    $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
 
                     $currentValueFormatted = NumberFormatter::getInstance()->format($value);
                     $pastValueFormatted    = NumberFormatter::getInstance()->format($pastValue);
