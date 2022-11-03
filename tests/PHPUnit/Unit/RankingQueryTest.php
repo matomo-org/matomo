@@ -176,16 +176,15 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
 		";
 
         $this->checkQuery($query, $innerQuery, $expected);
-        $query = new RankingQuery(-10);
+        $query = new RankingQuery(0.11);
         $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
         $query->addColumn('column');
         $query->addColumn('columnSum', 'sum');
         $this->checkQuery($query, $innerQuery, $expected);
 
-
         $this->checkQuery($query, $innerQuery, $expected);
-        $query = new RankingQuery(-10.4);
+        $query = new RankingQuery(-10);
         $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
         $query->addColumn('column');
