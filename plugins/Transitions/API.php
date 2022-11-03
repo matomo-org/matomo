@@ -69,10 +69,9 @@ class API extends \Piwik\Plugin\API
             throw new Exception('PeriodNotAllowed');
         }
 
+        //convert string to int
         $limitBeforeGrouping = intval($limitBeforeGrouping);
-        if ($limitBeforeGrouping && !is_int($limitBeforeGrouping)) {
-            throw new Exception('limitBeforeGrouping has to be an integer.');
-        }
+
         // get idaction of the requested action
         $idaction = $this->deriveIdAction($actionName, $actionType);
         if ($idaction < 0) {
@@ -423,9 +422,6 @@ class API extends \Piwik\Plugin\API
         $keyIsPageUrlAction = 1;
         $keyIsSiteSearchAction = 2;
 
-        if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
-            throw new Exception('limitBeforeGrouping has to be an integer.');
-        }
         $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
