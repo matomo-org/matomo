@@ -73,7 +73,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception('limitBeforeGrouping has to be an integer.');
         }
         //convert string to int
-        $limitBeforeGrouping = intval($limitBeforeGrouping);
+        $limitBeforeGrouping = (int)$limitBeforeGrouping;
 
         // get idaction of the requested action
         $idaction = $this->deriveIdAction($actionName, $actionType);
@@ -221,7 +221,7 @@ class API extends \Piwik\Plugin\API
      * @param int $limitBeforeGrouping
      * @param boolean $includeLoops
      */
-    private function addFollowingActions($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping = 0, $includeLoops = 0)
+    private function addFollowingActions($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping = 0, $includeLoops = false)
     {
 
         $data = $this->queryFollowingActions(
@@ -298,7 +298,7 @@ class API extends \Piwik\Plugin\API
         $types[Action::TYPE_OUTLINK] = 'outlinks';
         $types[Action::TYPE_DOWNLOAD] = 'downloads';
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping: $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
@@ -340,7 +340,7 @@ class API extends \Piwik\Plugin\API
     protected function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = 0)
     {
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping: $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
 
         // we generate a single column that contains the interesting data for each referrer.
@@ -419,7 +419,7 @@ class API extends \Piwik\Plugin\API
         $keyIsPageUrlAction = 1;
         $keyIsSiteSearchAction = 2;
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping: $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->setColumnToMarkExcludedRows('is_self');
