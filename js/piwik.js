@@ -7055,12 +7055,14 @@ if (typeof window.Matomo !== 'object') {
              * requests that don't have to be replayed.
              *
              * @param request eg. "param=value&param2=value2"
+             * @param isFullRequest whether request is a full tracking request or not. If true, we don't call
+             *                      call getRequest() before pushing to the queue.
              */
-            this.queueRequest = function (request) {
-                trackCallback(function () {
-                    var fullRequest = getRequest(request);
-                    requestQueue.push(fullRequest);
-                });
+            this.queueRequest = function (request, isFullRequest) {
+              trackCallback(function () {
+                var fullRequest = isFullRequest ? request : getRequest(request);
+                requestQueue.push(fullRequest);
+              });
             };
 
             /**
@@ -7221,7 +7223,7 @@ if (typeof window.Matomo !== 'object') {
             * Calling this method will remove any previously given consent and during this page view no request
             * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
             * consent will be enforced. You may call this method if the user removes consent manually, or if you
-            * want to re-ask for consent after a specific time period. You can optionally define the lifetime of 
+            * want to re-ask for consent after a specific time period. You can optionally define the lifetime of
             * the CONSENT_REMOVED_COOKIE_NAME cookie in hours using a parameter.
             *
             * @param int hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
