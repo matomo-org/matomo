@@ -60,6 +60,8 @@ class PrefixDependency extends ConsoleCommand
             return;
         }
 
+        $this->removePrefixRemovingAutoloader(); // can remain during development
+
         $composerPath = $this->getComposerPath($input);
         $phpScoperBinary = $this->downloadPhpScoperIfNeeded($input, $output);
 
@@ -248,5 +250,13 @@ EOF;
 
         $content = '<?php return new \Piwik\Dependency\PrefixRemovingAutoloader();';
         file_put_contents($prefixAutoloadPath, $content);
+    }
+
+    private function removePrefixRemovingAutoloader()
+    {
+        $prefixAutoloadPath = PIWIK_INCLUDE_PATH . '/prefixAutoload.php';
+        if (is_file($prefixAutoloadPath)) {
+            unlink($prefixAutoloadPath);
+        }
     }
 }
