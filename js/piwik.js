@@ -7274,7 +7274,7 @@ if (typeof window.Matomo !== 'object') {
            * enable protocol file: format tracking
            */
             this.enableFileTracking = function (enable) {
-                configFileTracking = enable
+                configFileTracking = enable;
             };
 
             /**
