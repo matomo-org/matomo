@@ -96,6 +96,7 @@ class RankingQuery
      */
     public function __construct($limit = 0)
     {
+        $limit = intval($limit);
         if (is_int($limit) && $limit > 0) {
             $this->setLimit($limit);
         }

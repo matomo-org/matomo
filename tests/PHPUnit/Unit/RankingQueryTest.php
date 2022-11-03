@@ -89,6 +89,13 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
 		";
 
         $this->checkQuery($query, $innerQuery, $expected);
+
+        $query = new RankingQuery('20');
+        $query->setOthersLabel('Others');
+        $query->addLabelColumn('label');
+        $query->setColumnToMarkExcludedRows('exclude_marker');
+        $this->checkQuery($query, $innerQuery, $expected);
+
     }
 
     /**

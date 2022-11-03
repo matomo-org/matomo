@@ -69,6 +69,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception('PeriodNotAllowed');
         }
 
+        $limitBeforeGrouping = intval($limitBeforeGrouping);
         if ($limitBeforeGrouping && !is_int($limitBeforeGrouping)) {
             throw new Exception('limitBeforeGrouping has to be an integer.');
         }
