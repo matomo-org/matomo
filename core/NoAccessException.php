@@ -18,8 +18,25 @@ use Piwik\Http\HttpCodeException;
  */
 class NoAccessException extends HttpCodeException
 {
+    private $isHtmlMessage = false;
+
     public function __construct($message)
     {
         parent::__construct($message, $code = 401);
+    }
+
+    public function setIsHtmlMessage()
+    {
+        $this->isHtmlMessage = true;
+    }
+
+    public function isHtmlMessage()
+    {
+        return $this->isHtmlMessage;
+    }
+
+    public function __toString()
+    {
+        return $this->getMessage() . ' ' . $this->getFile() . ':' . $this->getLine();
     }
 }
