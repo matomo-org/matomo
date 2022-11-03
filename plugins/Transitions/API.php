@@ -339,10 +339,8 @@ class API extends \Piwik\Plugin\API
      */
     protected function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = 0)
     {
-        if ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping)) {
-            throw new Exception('limitBeforeGrouping has to be an integer.');
-        }
 
+        $limitBeforeGrouping = intval($limitBeforeGrouping);
         $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
 
@@ -422,6 +420,7 @@ class API extends \Piwik\Plugin\API
         $keyIsPageUrlAction = 1;
         $keyIsSiteSearchAction = 2;
 
+        $limitBeforeGrouping = intval($limitBeforeGrouping);
         $rankingQuery = new RankingQuery($limitBeforeGrouping ?? $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
