@@ -114,7 +114,7 @@ export default defineComponent({
   data(): DeleteOldLogsState {
     return {
       isLoading: false,
-      enabled: this.deleteData.config.delete_logs_enable === '1',
+      enabled: parseInt(this.deleteData.config.delete_logs_enable, 10) === 1,
       deleteOlderThan: this.deleteData.config.delete_logs_older_than,
       showPasswordConfirmModal: false,
     };

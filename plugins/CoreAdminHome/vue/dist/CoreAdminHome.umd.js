@@ -762,12 +762,12 @@ BrandingSettingsvue_type_script_lang_ts.render = BrandingSettingsvue_type_templa
   },
   directiveName: 'matomoBrandingSettings'
 }));
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=a947f986
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=14e9a186
 
-var SmtpSettingsvue_type_template_id_a947f986_hoisted_1 = {
+var SmtpSettingsvue_type_template_id_14e9a186_hoisted_1 = {
   id: "smtpSettings"
 };
-function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SmtpSettingsvue_type_template_id_14e9a186_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
@@ -790,7 +790,7 @@ function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, 
         }),
         title: _ctx.translate('General_UseSMTPServerForEmail'),
         "inline-help": _ctx.translate('General_SelectYesIfYouWantToSendEmailsViaServer')
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SmtpSettingsvue_type_template_id_a947f986_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SmtpSettingsvue_type_template_id_14e9a186_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "text",
         name: "mailHost",
         "model-value": _ctx.mailHost,
@@ -826,7 +826,7 @@ function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, 
         }),
         title: _ctx.translate('General_SmtpUsername'),
         "inline-help": _ctx.translate('General_OnlyEnterIfRequired'),
-        autocomplete: false
+        autocomplete: 'off'
       }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "password",
         name: "mailPassword",
@@ -839,7 +839,7 @@ function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, 
         }),
         title: _ctx.translate('General_SmtpPassword'),
         "inline-help": _ctx.passwordHelp,
-        autocomplete: false
+        autocomplete: 'off'
       }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "text",
         name: "mailFromAddress",
@@ -849,7 +849,7 @@ function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, 
         }),
         title: _ctx.translate('General_SmtpFromAddress'),
         "inline-help": _ctx.translate('General_SmtpFromEmailHelp', _ctx.mailHost),
-        autocomplete: false
+        autocomplete: 'off'
       }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "text",
         name: "mailFromName",
@@ -859,7 +859,7 @@ function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, 
         }),
         title: _ctx.translate('General_SmtpFromName'),
         "inline-help": _ctx.translate('General_NameShownInTheSenderColumn'),
-        autocomplete: false
+        autocomplete: 'off'
       }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "select",
         name: "mailEncryption",
@@ -880,7 +880,7 @@ function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, 
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=a947f986
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=14e9a186
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts
 
@@ -991,7 +991,7 @@ function SmtpSettingsvue_type_template_id_a947f986_render(_ctx, _cache, $props, 
 
 
 
-SmtpSettingsvue_type_script_lang_ts.render = SmtpSettingsvue_type_template_id_a947f986_render
+SmtpSettingsvue_type_script_lang_ts.render = SmtpSettingsvue_type_template_id_14e9a186_render
 
 /* harmony default export */ var SmtpSettings = (SmtpSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.adapter.ts
