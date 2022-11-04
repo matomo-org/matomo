@@ -142,6 +142,10 @@ function initializeVisitorActions(elem) {
         });
     });
 
+    // must be here before the logic to toggle the expanders so if plugins collapse items, the actions will
+    // be correctly counted
+    window.CoreHome.Matomo.postEvent('Live.initializeVisitorActions', elem);
+
     // hide expanders if content collapsing removed enough items
     $("ol.actionList", elem).each(function () {
         var actionsToDisplayCollapsed = +piwik.visitorLogActionsToDisplayCollapsed;
@@ -191,4 +195,3 @@ function initializeVisitorActions(elem) {
         $list.children(':not(.actionsForPageExpander):not(.duplicate)').removeClass('last-action').last().addClass('last-action');
     }
 }
-
