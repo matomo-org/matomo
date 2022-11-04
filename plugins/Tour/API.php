@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Tour;
 
 use Piwik\Piwik;
-use Piwik\Plugins\Tour\Dao\ConsentManagerDetector;
+use Piwik\SiteContentDetector;
 use Piwik\Plugins\Tour\Engagement\Levels;
 use Piwik\Plugins\Tour\Engagement\Challenges;
 
@@ -76,7 +76,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $consentManager = new ConsentManagerDetector();
+        $consentManager = SiteContentDetector::getInstance();
+        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
         if ($consentManager->consentManagerId) {
             return ['name' => $consentManager->consentManagerName,
                     'url' => $consentManager->consentManagerUrl,

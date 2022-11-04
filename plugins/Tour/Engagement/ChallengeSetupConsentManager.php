@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
-use Piwik\Plugins\Tour\Dao\ConsentManagerDetector;
+use Piwik\SiteContentDetector;
 
 
 class ChallengeSetupConsentManager extends Challenge
@@ -24,9 +24,9 @@ class ChallengeSetupConsentManager extends Challenge
     public function __construct(?string $siteData = null)
     {
         parent::__construct();
-        $this->consentManager = new ConsentManagerDetector($siteData);
+        $this->consentManager = SiteContentDetector::getInstance();
+        $this->consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER], null, $siteData);
     }
-
 
     public function getName()
     {

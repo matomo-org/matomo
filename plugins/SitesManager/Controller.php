@@ -17,7 +17,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\Tour\Dao\ConsentManagerDetector;
+use Piwik\SiteContentDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -159,7 +159,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false
         ];
 
-        $consentManager = new ConsentManagerDetector();
+        $consentManager = SiteContentDetector::getInstance();
+        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
         if ($consentManager->consentManagerId) {
             $emailTemplateData['consentManagerName'] = $consentManager->consentManagerName;
             $emailTemplateData['consentManagerUrl'] = $consentManager->consentManagerUrl;
@@ -250,7 +251,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false
         ];
 
-        $consentManager = new ConsentManagerDetector();
+        $consentManager = SiteContentDetector::getInstance();
+        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
         if ($consentManager->consentManagerId) {
             $templateData['consentManagerName'] = $consentManager->consentManagerName;
             $templateData['consentManagerUrl'] = $consentManager->consentManagerUrl;

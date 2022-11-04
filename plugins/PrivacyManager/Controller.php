@@ -21,7 +21,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
-use Piwik\Plugins\Tour\Dao\ConsentManagerDetector;
+use Piwik\SiteContentDetector;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
@@ -167,7 +167,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view = new View('@PrivacyManager/askingForConsent');
 
-        $consentManager = new ConsentManagerDetector();
+        $consentManager = SiteContentDetector::getInstance();
+        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        $view->consentManagerName = null;
         if ($consentManager->consentManagerId) {
             $view->consentManagerName = $consentManager->consentManagerName;
             $view->consentManagerUrl = $consentManager->consentManagerUrl;
