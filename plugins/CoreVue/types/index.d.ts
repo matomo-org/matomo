@@ -147,6 +147,7 @@ declare global {
      */
     siteName: string;
     currentSiteName: string;
+    siteMainUrl?: string;
     period?: string;
     currentDateString?: string;
     startDateString?: string;
