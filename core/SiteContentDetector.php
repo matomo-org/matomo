@@ -77,9 +77,10 @@ class SiteContentDetector
             return;
         }
 
-        // If the site data was already retrieved and stored in this object and it is for the same site id, then use it
-        // again rather then making another request
-        if ($this->siteData != null && $idSite == $this->siteId) {
+        // If the site data was already retrieved and stored in this object and it is for the same site id and we're
+        // not being passed a specific sitedata parameter, then use the stored sitedata  again rather then making another
+        // request
+        if ($siteData === null && $this->siteData != null && $idSite == $this->siteId) {
             $siteData = $this->siteData;
         }
 
@@ -156,6 +157,10 @@ class SiteContentDetector
                     break 2;
                 }
             }
+        }
+
+        if (!isset($defs[$this->consentManagerId]['connectedStrings'])) {
+            return;
         }
 
         // If a consent manager was detected then perform an additional check to see if it has been connected to Matomo

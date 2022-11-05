@@ -71,6 +71,7 @@ class API extends \Piwik\Plugin\API
      * Detect consent manager details for a site
      *
      * @return null|array[]
+     * @internal
      */
     public function detectConsentManager($idSite, $timeOut = 60)
     {
