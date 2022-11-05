@@ -132,8 +132,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-					<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 					<idsubdatatable>-1</idsubdatatable>
 				</row>
 				<row>
@@ -157,8 +157,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-					<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
+					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
 					<idsubdatatable>-1</idsubdatatable>
 				</row>
 			</comparisons>
@@ -244,8 +244,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-					<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 					<idsubdatatable>-1</idsubdatatable>
 				</row>
 				<row>
@@ -269,8 +269,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-					<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
+					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
 					<idsubdatatable>-1</idsubdatatable>
 				</row>
 			</comparisons>
@@ -357,8 +357,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-					<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 					<idsubdatatable>-1</idsubdatatable>
 				</row>
 				<row>
@@ -382,8 +382,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-					<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
+					<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
 					<idsubdatatable>-1</idsubdatatable>
 				</row>
 			</comparisons>
