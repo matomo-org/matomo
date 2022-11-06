@@ -32,9 +32,11 @@ class SiteContentDetector
     const TEST_SETTINGS_OPTION_NAME = 'site_content_detector.test_settings';
 
     // Content types
-    const CONSENT_MANAGER = 1;
-    const GA3 = 2;
-    const GA4 = 3;
+    const ALL_CONTENT = 1;
+    const CONSENT_MANAGER = 2;
+    const GA3 = 3;
+    const GA4 = 4;
+    const GTM = 5;
 
     // Detection detail
     public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
@@ -43,6 +45,7 @@ class SiteContentDetector
     public $isConnected = false;    // True if the detected consent manager is already connected with Matomo
     public $ga3;                    // True if GA3 was detected on the site
     public $ga4;                    // True if GA4 was detected on the site
+    public $gtm;                    // True if GTM was detected on the site
 
     private $siteData;
     private $siteId;
@@ -56,6 +59,20 @@ class SiteContentDetector
     }
 
     /**
+     * Reset the detection properties
+     */
+    private function resetDetectionProperties() : void
+    {
+        $this->consentManagerId = null;
+        $this->consentManagerUrl = null;
+        $this->consentManagerName = null;
+        $this->isConnected;
+        $this->ga3 = false;
+        $this->ga4 = false;
+        $this->gtm = false;
+    }
+
+    /**
      * This will query the site and populate the class properties with
      * the details of the detected content
      *
@@ -64,12 +81,10 @@ class SiteContentDetector
      * @param ?int        $idSite        Override the site ID, will use the site from the current request if null
      * @param string|null $siteData      String containing the site data to search, if blank then data will be retrieved
      *                                   from the current request site via cURL
-     * @param int         timeOut        How long to wait for the site to response, defaults to 60 seconds
+     * @param int         $timeOut       How long to wait for the site to response, defaults to 60 seconds
      */
-    public function detectContent(array $detectContent = [SiteContentDetector::CONSENT_MANAGER,
-                                                        SiteContentDetector::GA3,
-                                                        SiteContentDetector::GA4],
-                                ?int $idSite = null, ?string $siteData = null, int $timeOut = 60)
+    public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
+                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 60)
     {
 
         // Return test data if option set
@@ -78,11 +93,12 @@ class SiteContentDetector
         }
 
         // If the site data was already retrieved and stored in this object and it is for the same site id and we're
-        // not being passed a specific sitedata parameter, then use the stored sitedata  again rather then making another
-        // request
+        // not being passed a specific sitedata parameter then avoid making another request and just return
         if ($siteData === null && $this->siteData != null && $idSite == $this->siteId) {
-            $siteData = $this->siteData;
+            return;
         }
+
+        $this->resetDetectionProperties();
 
         // No site data was passed or previously retrieved, so grab the current site main page as a string
         if ($siteData === null) {
@@ -119,16 +135,20 @@ class SiteContentDetector
         $this->siteData = $siteData;
         $this->siteId = $idSite;
 
-        if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent)) {
+        if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->detectConsentManager();
         }
 
-        if (in_array(SiteContentDetector::GA3, $detectContent)) {
+        if (in_array(SiteContentDetector::GA3, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->detectGA3();
         }
 
-        if (in_array(SiteContentDetector::GA4, $detectContent)) {
+        if (in_array(SiteContentDetector::GA4, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->detectGA4();
+        }
+
+        if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $this->detectGTM();
         }
 
     }
@@ -194,6 +214,18 @@ class SiteContentDetector
     {
         if (strpos($this->siteData, 'gtag.js') !== false) {
              $this->ga4 = true;
+        }
+    }
+
+    /**
+     * Detect GTM usage from the site data
+     *
+     * @return void
+     */
+    private function detectGTM() : void
+    {
+        if (strpos($this->siteData, 'gtm.js') !== false) {
+             $this->gtm = true;
         }
     }
 
