@@ -20,7 +20,7 @@ use Piwik\Container\StaticContainer;
  * Usage:
  *
  * $contentDetector = SiteContentDetector::getInstance();
- * $contentDetector->detect(SiteContentDetector::GA3);
+ * $contentDetector->detectContent([SiteContentDetector::GA3]);
  * if ($contentDetector->ga3) {
  *      // site is using GA3
  * }
