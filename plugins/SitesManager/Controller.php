@@ -156,15 +156,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'showMatomoLinks' => $showMatomoLinks,
             'trackingUrl' => $trackingUrl,
             'idSite' => $this->idSite,
-            'consentManagerName' => false
+            'consentManagerName' => false,
+            'ga3Used' => false,
+            'ga4Used' => false,
+            'gtmUsed' => false,
         ];
 
-        $consentManager = SiteContentDetector::getInstance();
-        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
-        if ($consentManager->consentManagerId) {
-            $emailTemplateData['consentManagerName'] = $consentManager->consentManagerName;
-            $emailTemplateData['consentManagerUrl'] = $consentManager->consentManagerUrl;
+        $siteDetection = SiteContentDetector::getInstance();
+        $siteDetection->detectContent([SiteContentDetector::ALL_CONTENT]);
+        if ($siteDetection->consentManagerId) {
+            $emailTemplateData['consentManagerName'] = $siteDetection->consentManagerName;
+            $emailTemplateData['consentManagerUrl'] = $siteDetection->consentManagerUrl;
         }
+        $emailTemplateData['ga3Used'] = $siteDetection->ga3;
+        $emailTemplateData['ga4Used'] = $siteDetection->ga4;
+        $emailTemplateData['gtmUsed'] = $siteDetection->gtm;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
 
@@ -246,18 +252,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'siteType' => $siteType,
             'instruction' => SitesManager::getInstructionBySiteType($siteType),
             'gtmUsed' => $gtmUsed,
+            'ga3Used' => false,
+            'ga4Used' => false,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false
         ];
 
-        $consentManager = SiteContentDetector::getInstance();
-        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
-        if ($consentManager->consentManagerId) {
-            $templateData['consentManagerName'] = $consentManager->consentManagerName;
-            $templateData['consentManagerUrl'] = $consentManager->consentManagerUrl;
-            $templateData['consentManagerIsConnected'] = $consentManager->isConnected;
+        $siteDetection = SiteContentDetector::getInstance();
+        $siteDetection->detectContent([SiteContentDetector::ALL_CONTENT]);
+        if ($siteDetection->consentManagerId) {
+            $templateData['consentManagerName'] = $siteDetection->consentManagerName;
+            $templateData['consentManagerUrl'] = $siteDetection->consentManagerUrl;
+            $templateData['consentManagerIsConnected'] = $siteDetection->isConnected;
         }
+        $templateData['ga3Used'] = $siteDetection->ga3;
+        $templateData['ga4Used'] = $siteDetection->ga4;
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }

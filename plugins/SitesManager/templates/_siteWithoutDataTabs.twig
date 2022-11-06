@@ -60,6 +60,27 @@
         </div>
         {% endif %}
 
+        {% if ga3Used %}
+        <p></p><p></p>
+        <div class="system notification notification-info">
+             {{ 'SitesManager_GA3Detected'|translate('<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+        </div>
+        {% endif %}
+
+        {% if ga4Used %}
+        <p></p><p></p>
+        <div class="system notification notification-info">
+            {{ 'SitesManager_GA4Detected'|translate('<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+        </div>
+        {% endif %}
+
+        {% if gtmUsed %}
+        <p></p><p></p>
+        <div class="system notification notification-info">
+            {{ 'SitesManager_GTMDetected'|translate('<a href="', 'https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+        </div>
+        {% endif %}
+
         <h3>{{ 'CoreAdminHome_TrackingCode'|translate}}</h3>
 
         <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
