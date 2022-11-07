@@ -64,8 +64,8 @@
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<comparePeriod>range</comparePeriod>
 			<compareDate>2012-08-09,2012-08-16</compareDate>
-			<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
-			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
+			<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
+			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 			<idsubdatatable>-1</idsubdatatable>
 		</row>
 	</comparisons>

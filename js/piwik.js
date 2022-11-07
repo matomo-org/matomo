@@ -115,7 +115,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, enableFileTracking
  */
 /*global _paq:true */
 /*members push */
@@ -2450,7 +2450,9 @@ if (typeof window.Matomo !== 'object') {
                 // whether a tracking request has been sent yet during this page view
                 hasSentTrackingRequestYet = false,
 
-                configBrowserFeatureDetection = true;
+                configBrowserFeatureDetection = true,
+
+                configFileTracking = false;
 
             // Document title
             try {
@@ -3893,6 +3895,10 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (configDoNotTrack) {
+                    return '';
+                }
+
+                if (!configFileTracking && windowAlias.location.protocol === 'file:') {
                     return '';
                 }
 
@@ -7221,7 +7227,7 @@ if (typeof window.Matomo !== 'object') {
             * Calling this method will remove any previously given consent and during this page view no request
             * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
             * consent will be enforced. You may call this method if the user removes consent manually, or if you
-            * want to re-ask for consent after a specific time period. You can optionally define the lifetime of 
+            * want to re-ask for consent after a specific time period. You can optionally define the lifetime of
             * the CONSENT_REMOVED_COOKIE_NAME cookie in hours using a parameter.
             *
             * @param int hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
@@ -7262,6 +7268,13 @@ if (typeof window.Matomo !== 'object') {
             this.forgetUserOptOut = function () {
                 // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
                 this.setConsentGiven(false);
+            };
+
+          /**
+           * enable protocol file: format tracking
+           */
+            this.enableFileTracking = function () {
+                configFileTracking = true;
             };
 
             /**
@@ -7337,7 +7350,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

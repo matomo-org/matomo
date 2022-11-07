@@ -13,6 +13,19 @@ declare global {
   type QueryParameterValue = string | number | null | undefined | QueryParameterValue[];
   type QueryParameters = Record<string, QueryParameterValue | QueryParameters>;
 
+  class DataTable_RowAction {
+    protected dataTable: any;
+    public actionName: string;
+    public trEventName: string;
+
+    constructor(dataTable: any);
+
+    openPopover(apiAction: string, idSubtable: string|number, extraParams: QueryParameters);
+    trigger(tr: HTMLElement|JQuery, originalEvent: Event, subTableLabel: string);
+    performAction(idSubtable: string|number, tr: HTMLElement|JQuery, originalEvent: Event);
+    doOpenPopover(urlParam: string);
+  }
+
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
   }
@@ -128,6 +141,7 @@ declare global {
      */
     siteName: string;
     currentSiteName: string;
+    siteMainUrl?: string;
     period?: string;
     currentDateString?: string;
     startDateString?: string;
@@ -200,6 +214,20 @@ declare global {
     show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
   }
 
+  interface RowAction {
+    name: string;
+    dataTableIcon: string;
+    order: number;
+    dataTableIconTooltip?: string[];
+    isAvailableOnReport(dataTableParams: QueryParameters, tr: HTMLElement|JQuery): boolean;
+    isAvailableOnRow(dataTableParams: QueryParameters, tr: HTMLElement|JQuery): boolean;
+    createInstance(dataTable: any, urlParam: string): DataTable_RowAction;
+  }
+
+  interface DataTableRowActionsRegisteryService {
+    register(rowAction: RowAction);
+  }
+
   // the jquery type defs have trouble with $(HTMLElement | string | ...), so adding an overload
   // specifically for that
   interface JQueryStaticResolve {
@@ -220,6 +248,7 @@ declare global {
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
+    DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;

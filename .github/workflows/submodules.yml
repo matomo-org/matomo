@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: '4.x-dev'
+        ref: '5.x-dev'
         lfs: false
     - name: Prepare branches
       run: | 
@@ -46,14 +46,14 @@ jobs:
 
           git push origin --delete submodules || true
           git branch -D submodules || true
-          git fetch upstream 4.x-dev
-          git checkout -f upstream/4.x-dev
+          git fetch upstream 5.x-dev
+          git checkout -f upstream/5.x-dev
           git branch submodules
           git checkout -f submodules
     - name: Checkout submodules
       run: git submodule update --init --force
     - name: Update all submodules
-      run: git submodule foreach "git checkout 4.x-dev || git checkout master; git pull --ff-only"
+      run: git submodule foreach "git checkout 5.x-dev || git checkout master; git pull --ff-only"
     - name: Check for changes
       id: changes
       continue-on-error: true
@@ -95,7 +95,7 @@ jobs:
                   "title":"[automatic submodule updates]",
                   "body":"${{ steps.changes.outputs.message }}",
                   "head":"submodules",
-                  "base":"4.x-dev"
+                  "base":"5.x-dev"
                   }' \
                  --url https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls
       shell: bash

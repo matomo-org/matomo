@@ -50,7 +50,7 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    autocomplete: Boolean,
+    autocomplete: String,
     varType: String,
     autofocus: Boolean,
     tabindex: Number,

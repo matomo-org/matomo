@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: '4.x-dev'
+        ref: '5.x-dev'
         lfs: false
     - name: Install composer dependencies
       run: composer install
@@ -48,8 +48,8 @@ jobs:
 
           git push origin --delete composer-update || true
           git branch -D composer-update || true
-          git fetch upstream 4.x-dev
-          git checkout -f upstream/4.x-dev
+          git fetch upstream 5.x-dev
+          git checkout -f upstream/5.x-dev
           git branch composer-update
           git checkout -f composer-update
     - name: Update composer dependencies
@@ -88,7 +88,7 @@ jobs:
                   "title":"[automatic composer updates]",
                   "body":${{ steps.update.outputs.message }},
                   "head":"composer-update",
-                  "base":"4.x-dev"
+                  "base":"5.x-dev"
                   }' \
                  --url https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls
       shell: bash
