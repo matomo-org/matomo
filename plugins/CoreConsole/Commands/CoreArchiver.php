@@ -112,7 +112,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL,
             "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
         $command->addOption('concurrent-archivers', null, InputOption::VALUE_OPTIONAL,
-            "The number of max archivers to run in parallel. Depending on how you start the archiver as a cronjob, you may need to double the amount of archivers allowed if the same process appears twice in the `ps ex` output.", false);
+            "The number of max archivers to run in parallel. Depending on how you start the archiver as a cronjob, you may need to double the amount of archivers allowed if the same process appears twice in the `ps ex` output.", 3);
         $command->addOption('max-websites-to-process', null, InputOption::VALUE_REQUIRED,
             "Maximum number of websites to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage.");
         $command->addOption('max-archives-to-process', null, InputOption::VALUE_REQUIRED,
