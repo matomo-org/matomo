@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     if (window.piwikHelper) {
         setTimeout(function () {
-            // because of angular rendering replacing the content potentially...
+            // because of vue rendering replacing the content potentially...
             updateSystemCheck();
             setTimeout(function () {
                 updateSystemCheck();

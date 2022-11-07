@@ -6,10 +6,10 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularStatic, IScope } from 'angular';
 import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
+  import PlainObject = JQuery.PlainObject;
   type QueryParameterValue = string | number | null | undefined | QueryParameterValue[];
   type QueryParameters = Record<string, QueryParameterValue | QueryParameters>;
 
@@ -79,26 +79,20 @@ declare global {
     fixedFooter?: boolean;
   }
 
-  interface CompileAngularComponentsOptions {
-    scope?: IScope;
-    forceNewScope?: boolean;
-    params?: Record<string, unknown>;
-  }
-
   interface PiwikHelperGlobal {
     escape(text: string): string;
     redirect(params?: any);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
-    modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
+    modalConfirm(element: JQuery|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     isReportingPage(): boolean;
-    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
-    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
+    setMarginLeftToBeInViewport(elementToPosition: JQuery|Element|string): void;
+    lazyScrollTo(element: JQuery|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
-    compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string, extraProps?: Record<string, unknown>): void;
-    destroyVueComponent(selector: JQuery|JQLite|HTMLElement|string): void;
-    compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
+    compileVueEntryComponents(selector: JQuery|HTMLElement|string, extraProps?: Record<string, unknown>): void;
+    destroyVueComponent(selector: JQuery|HTMLElement|string): void;
+    compileVueDirectives(selector: JQuery|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
     showVisitorProfilePopup(visitorId: string, idSite: string|number): void;
@@ -234,8 +228,13 @@ declare global {
     register(rowAction: RowAction);
   }
 
+  // the jquery type defs have trouble with $(HTMLElement | string | ...), so adding an overload
+  // specifically for that
+  interface JQueryStaticResolve {
+    (selector: HTMLElement | string | JQuery | PlainObject, context?: Element | Document | JQuery | JQuery.Selector): JQuery;
+  }
+
   interface Window {
-    angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
     piwik: PiwikGlobal;
     piwikHelper: PiwikHelperGlobal;
@@ -244,7 +243,7 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
-    $: JQueryStatic;
+    $: JQueryStatic & JQueryStaticResolve;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;

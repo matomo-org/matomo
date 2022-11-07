@@ -200,7 +200,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $url = Common::getRequestVar('url', '');
 
-        $message = Piwik::translate('Overlay_RedirectUrlError', [Common::fixLbrace($url), '<br />']);
+        $message = Piwik::translate('Overlay_RedirectUrlError', [$url, '<br />']);
 
         $view = new View('@Overlay/showErrorWrongDomain');
         $this->addCustomLogoInfo($view);
