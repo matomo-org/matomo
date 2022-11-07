@@ -127,11 +127,7 @@
         "EmailInstructionsYourSiteId": "Your site ID: %1$s",
         "EmailInstructionsYourTrackingUrl": "Your tracking URL: %1$s",
         "DetectingYourSite": "Detecting your site",
-        "GA3Detected": "Google Analytics 3 was detected on your website. Did you know can easily migrate your historical analytics data and settings from GA to Matomo? %1$s%2$s%3$sLearn more in this guide%4$s",
-        "GA4Detected": "Google Analytics 4 was detected on your website. Did you know can easily migrate your historical analytics data and settings from GA to Matomo? %1$s%2$s%3$sLearn more in this guide%4$s",
-        "GTMDetected": "Google Tag Manager was detected on your website. Did you know can easily migrate your historical analytics data and settings from GTM to Matomo? %1$s%2$s%3$sLearn more in this guide%4$s",
-        "GA3DetectedEmail": "Google Analytics 3 was detected on your website. Did you know can easily migrate your historical analytics data and settings from GA to Matomo? Learn more here: %1$s",
-        "GA4DetectedEmail": "Google Analytics 4 was detected on your website. Did you know can easily migrate your historical analytics data and settings from GA to Matomo? Learn more here: %1$s",
-        "GTMDetectedEmail": "Google Tag Managaer was detected on your website. Did you know can easily migrate your historical analytics data and settings from GTM to Matomo? Learn more here: %1$s"
+        "GADetected": "%1$s was detected on your website. Did you know can easily migrate your historical analytics data and settings from %2$s to Matomo? %3$s%4$s%5$sLearn more in this guide%6$s",
+        "GADetectedEmail": "%1$s was detected on your website. Did you know can easily migrate your historical analytics data and settings from %2$s to Matomo? Learn more here: %3$s"
     }
 }
