@@ -9,20 +9,15 @@
     <FormField
       :model-value="modelValue"
       @update:model-value="changeValue($event)"
-      :form-field="settingWithComponent"
+      :form-field="setting"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IScope } from 'angular';
-import { Matomo } from 'CoreHome';
 import FormField from '../FormField/FormField.vue';
-import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
-
-// TODO: have to use angularjs here until there's an expression evaluating alternative
-let conditionScope: IScope;
+import expressions from '../expressions';
 
 export default defineComponent({
   props: {
@@ -41,29 +36,24 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   computed: {
-    // bc for angularjs field that uses templateFile
-    settingWithComponent() {
-      if (this.setting.templateFile) {
-        return {
-          ...this.setting,
-          component: FieldAngularJsTemplate,
-        };
-      }
-
-      return this.setting;
-    },
     showField() {
-      const condition = this.setting.condition as string;
+      let condition = this.setting.condition as string;
       if (!condition) {
         return true;
       }
 
-      if (!conditionScope) {
-        const $rootScope = Matomo.helper.getAngularDependency('$rootScope');
-        conditionScope = $rootScope.$new(true);
-      }
+      // math.js does not currently support &&/||/! (https://github.com/josdejong/mathjs/issues/844)
+      condition = condition.replace(/&&/g, ' and ');
+      condition = condition.replace(/\|\|/g, ' or ');
+      condition = condition.replace(/!/g, ' not ');
 
-      return conditionScope.$eval(condition, this.conditionValues);
+      try {
+        return expressions.evaluate(condition, this.conditionValues);
+      } catch (e) {
+        console.log(`failed to parse setting condition '${condition}': ${e.message}`);
+        console.log(this.conditionValues);
+        return false;
+      }
     },
   },
   methods: {

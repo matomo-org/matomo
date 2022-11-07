@@ -3,54 +3,14 @@
 {% set title %}{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }}{% endset %}
 
 {% block loginContent %}
-    {% embed 'contentBlock.twig' with {'title': ('TwoFactorAuth_TwoFactorAuthentication'|translate)} %}
-        {% block content %}
-
-            <div class="message_container">
-
-                {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}
-
-                {% if AccessErrorString %}
-                    <div piwik-notification
-                         noclear="true"
-                         context="error">
-                        <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
-                    </div>
-                {% endif %}
-            </div>
-
-            <form {{ form_data.attributes|raw }} ng-non-bindable class="loginTwoFaForm">
-                <div class="row">
-                    <div class="col s12 input-field">
-                        <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
-                        <input type="text" name="form_authcode" placeholder="" id="login_form_authcode" class="input" value="" size="20"
-                               autocorrect="off" autocapitalize="none" autocomplete="off"
-                               tabindex="10" autofocus="autofocus"/>
-                        <label for="login_form_authcode"><i class="icon-user icon"></i> {{ 'TwoFactorAuth_AuthenticationCode'|translate }}</label>
-                    </div>
-                </div>
-
-                <div class="row actions">
-                    <div class="col s12">
-                        <input class="submit btn" id='login_form_submit' type="submit" value="{{ 'TwoFactorAuth_Verify'|translate|e('html_attr') }}"
-                               tabindex="100"/>
-                    </div>
-                </div>
-
-            </form>
-
-            <p>{{ 'TwoFactorAuth_VerifyIdentifyExplanation'|translate }} {{ 'General_LearnMore'|translate('<a href="https://matomo.org/faq/general/faq_27245" rel="noreferrer noopener">', '</a>')|raw }}
-
-            <br /><br />
-            <strong>{{ 'TwoFactorAuth_DontHaveYourMobileDevice'|translate }}</strong>
-            <br />
-                <a href="https://matomo.org/faq/how-to/faq_27248" rel="noreferrer noopener">{{ 'TwoFactorAuth_EnterRecoveryCodeInstead'|translate }}</a>
-                <br />
-                <a href="mailto:{{ contactEmail|e('url') }}?subject={{ 'TwoFactorAuth_NotPossibleToLogIn'|translate|e('url') }}&body={{ 'TwoFactorAuth_LostAuthenticationDevice'|translate("\n\n", "\n\n", piwikUrl|default(''), "\n\n", userLogin, "https://matomo.org/faq/how-to/faq_27248")|e('url') }}" rel="noreferrer noopener">{{ 'TwoFactorAuth_AskSuperUserResetAuthenticationCode'|translate }}</a>
-                <br />
-                <a href="{{ linkTo({'module': loginModule, 'action': 'logout'}) }}" rel="noreferrer noopener">{{ 'General_Logout'|translate }}</a>
-            </p>
-
-        {% endblock %}
-    {% endembed %}
+    <div
+        vue-entry="TwoFactorAuth.LoginTwoFactorAuth"
+        form-data="{{ form_data|json_encode }}"
+        access-error-string="{{ AccessErrorString|default(null)|json_encode }}"
+        form-nonce="{{ nonce|json_encode }}"
+        login-module="{{ loginModule|json_encode }}"
+        piwik-url="{{ piwikUrl|default(null)|json_encode }}"
+        user-login="{{ userLogin|json_encode }}"
+        contact-email="{{ contactEmail|json_encode }}"
+    ></div>
 {% endblock %}

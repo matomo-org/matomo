@@ -49,6 +49,8 @@ abstract class API
 {
     private static $instances;
 
+    protected $autoSanitizeInputParams = true;
+
     /**
      * Returns the singleton instance for the derived class. If the singleton instance
      * has not been created, this method will create it.
@@ -131,8 +133,27 @@ abstract class API
 
         $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
 
-        if (!StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
+        try {
+            if (
+                !StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect(
+                    $loginCurrentUser,
+                    $passwordConfirmation
+                )
+            ) {
+                throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+            }
+        } catch (Exception $e) {
+            // in case of any error (e.g. the provided password is too weak)
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
+    }
+
+    /**
+     * @return bool
+     * @internal
+     */
+    public function usesAutoSanitizeInputParams()
+    {
+        return $this->autoSanitizeInputParams;
     }
 }

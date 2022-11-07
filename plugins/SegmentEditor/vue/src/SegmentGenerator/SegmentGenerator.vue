@@ -278,7 +278,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   watch: {
     modelValue(newVal) {
-      if (newVal !== this.segmentDefinition) {
+      if ((newVal || '') !== (this.segmentDefinition || '')) {
         this.setSegmentString(newVal);
       }
     },
@@ -289,10 +289,7 @@ export default defineComponent({
       },
     },
     segmentDefinition(newVal) {
-      if (newVal !== this.modelValue) {
-        // reset state so update:modelValue can cancel the change
-        this.setSegmentString(this.modelValue);
-
+      if ((newVal || '') !== (this.modelValue || '')) {
         this.$emit('update:modelValue', newVal);
       }
     },
@@ -416,7 +413,7 @@ export default defineComponent({
         }
       }
     },
-    setSegmentString(segmentStr: string) {
+    setSegmentString(segmentStr?: string|null) {
       this.conditions = [];
 
       if (!segmentStr) {

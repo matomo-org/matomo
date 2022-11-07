@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use Piwik\Request;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
 use Piwik\View;
@@ -197,7 +198,7 @@ class OptOutManager
                                          string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro): string
     {
         return '<div id="matomo-opt-out"></div>
-<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.($applyStyling ? '&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily : '').'&showIntro='.($showIntro ? '1' : '0').'"></script>';
+<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language='.$language.($applyStyling ? '&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily : '').'&showIntro='.($showIntro ? '1' : '0').'"></script>';
     }
 
     /**
@@ -609,10 +610,10 @@ JS;
     private function optOutStyling(?string $fontSize = null, ?string $fontColor = null, ?string $fontFamily = null,
                                    ?string $backgroundColor = null, bool $noBody = false): string
     {
-        $cssfontsize = ($fontSize ? : Common::unsanitizeInputValue(Common::getRequestVar('fontSize', false, 'string')));
-        $cssfontcolour = ($fontColor ? : Common::unsanitizeInputValue(Common::getRequestVar('fontColor', false, 'string')));
-        $cssfontfamily = ($fontFamily ? : Common::unsanitizeInputValue(Common::getRequestVar('fontFamily', false, 'string')));
-        $cssbackgroundcolor = ($backgroundColor ? : Common::unsanitizeInputValue(Common::getRequestVar('backgroundColor', false, 'string')));
+        $cssfontsize = ($fontSize ? : Request::fromRequest()->getStringParameter('fontSize', ''));
+        $cssfontcolour = ($fontColor ? : Request::fromRequest()->getStringParameter('fontColor', ''));
+        $cssfontfamily = ($fontFamily ? : Request::fromRequest()->getStringParameter('fontFamily', ''));
+        $cssbackgroundcolor = ($backgroundColor ? : Request::fromRequest()->getStringParameter('backgroundColor', ''));
 
         if (!$noBody) {
             $cssbody = 'body { ';

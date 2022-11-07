@@ -52,6 +52,7 @@ describe("TagManagerTeaser", function () {
     it('should show teaser to super user', async function () {
         unloadTagManager();
         await page.goto(urlBase);
+        await page.waitForSelector('.activateTagManager');
         expect(await page.screenshotSelector(pageSelector)).to.matchImage('superuser_page');
     });
 
@@ -62,6 +63,7 @@ describe("TagManagerTeaser", function () {
         await page.type('#login_form_password', 'superUserPass');
         await page.click('#login_form_submit');
 
+        await page.waitForSelector('.tagManagerGettingStarted');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
 

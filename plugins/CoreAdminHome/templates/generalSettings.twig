@@ -31,44 +31,44 @@
 
 {% if isGeneralSettingsAdminEnabled %}
     <div
-        matomo-archiving-settings
-        enable-browser-trigger-archiving="{{ (enableBrowserTriggerArchiving==1)|json_encode|e('html_attr') }}"
-        show-segment-archive-trigger-info="{{ (not not showSegmentArchiveTriggerInfo)|json_encode|e('html_attr') }}"
-        is-general-settings-admin-enabled="{{ (not not isGeneralSettingsAdminEnabled)|json_encode|e('html_attr') }}"
-        show-warning-cron="{{ (not not showWarningCron)|json_encode|e('html_attr') }}"
-        today-archive-time-to-live="{{ todayArchiveTimeToLive|e('html_attr') }}"
-        today-archive-time-to-live-default="{{ todayArchiveTimeToLiveDefault|e('html_attr') }}"
+        vue-entry="CoreAdminHome.ArchivingSettings"
+        enable-browser-trigger-archiving="{{ (enableBrowserTriggerArchiving==1)|json_encode }}"
+        show-segment-archive-trigger-info="{{ (not not showSegmentArchiveTriggerInfo)|json_encode }}"
+        is-general-settings-admin-enabled="{{ (not not isGeneralSettingsAdminEnabled)|json_encode }}"
+        show-warning-cron="{{ (not not showWarningCron)|json_encode }}"
+        today-archive-time-to-live="{{ todayArchiveTimeToLive }}"
+        today-archive-time-to-live-default="{{ todayArchiveTimeToLiveDefault }}"
     ></div>
 
     {% if not isMultiServerEnvironment %}
         <div
-            matomo-smtp-settings
-            mail="{{ mail|json_encode|e('html_attr') }}"
-            mail-types="{{ mailTypes|json_encode|e('html_attr') }}"
-            mail-encryptions="{{ mailEncryptions|json_encode|e('html_attr') }}"
+            vue-entry="CoreAdminHome.SmtpSettings"
+            mail="{{ mail|json_encode }}"
+            mail-types="{{ mailTypes|json_encode }}"
+            mail-encryptions="{{ mailEncryptions|json_encode }}"
         ></div>
     {% endif %}
 {% endif %}
 
 {% if customLogoEnabled %}
 <div
-    matomo-branding-settings
-    file-upload-enabled="{{ fileUploadEnabled|json_encode|e('html_attr') }}"
-    logos-writeable="{{ logosWriteable|json_encode|e('html_attr') }}"
-    use-custom-logo="{{ branding.use_custom_logo|json_encode|e('html_attr') }}"
-    path-user-logo-directory="{{ pathUserLogoDirectory|json_encode|e('html_attr') }}"
-    path-user-logo="{{ pathUserLogo|json_encode|e('html_attr') }}"
-    path-user-logo-small="{{ pathUserLogoSmall|json_encode|e('html_attr') }}"
-    path-user-logo-svg="{{ pathUserLogoSVG|json_encode|e('html_attr') }}"
-    has-user-logo="{{ hasUserLogo|json_encode|e('html_attr') }}"
-    path-user-favicon="{{ pathUserFavicon|json_encode|e('html_attr') }}"
-    has-user-favicon="{{ hasUserFavicon|json_encode|e('html_attr') }}"
-    is-plugins-admin-enabled="{{ isPluginsAdminEnabled|json_encode|e('html_attr') }}"
+    vue-entry="CoreAdminHome.BrandingSettings"
+    file-upload-enabled="{{ fileUploadEnabled|json_encode }}"
+    logos-writeable="{{ logosWriteable|json_encode }}"
+    use-custom-logo="{{ branding.use_custom_logo|json_encode }}"
+    path-user-logo-directory="{{ pathUserLogoDirectory|json_encode }}"
+    path-user-logo="{{ pathUserLogo|json_encode }}"
+    path-user-logo-small="{{ pathUserLogoSmall|json_encode }}"
+    path-user-logo-svg="{{ pathUserLogoSVG|json_encode }}"
+    has-user-logo="{{ hasUserLogo|json_encode }}"
+    path-user-favicon="{{ pathUserFavicon|json_encode }}"
+    has-user-favicon="{{ hasUserFavicon|json_encode }}"
+    is-plugins-admin-enabled="{{ isPluginsAdminEnabled|json_encode }}"
 ></div>
 {% endif %}
 
 {% if isDataPurgeSettingsEnabled %}
-    <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}"
+    <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate }}"
          anchor="deleteDataSettings">
         <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
         <p>
@@ -79,6 +79,6 @@
     </div>
 {% endif %}
 
-<div piwik-plugin-settings mode="admin"></div>
+<div vue-entry="CorePluginsAdmin.PluginSettings" mode="admin"></div>
 
 {% endblock %}

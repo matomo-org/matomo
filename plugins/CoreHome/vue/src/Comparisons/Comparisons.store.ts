@@ -262,7 +262,7 @@ export default class ComparisonsStore {
     };
 
     // change the page w/ these new param values
-    const baseParams = Matomo.helper.isAngularRenderingThePage()
+    const baseParams = Matomo.helper.isReportingPage()
       ? MatomoUrl.hashParsed.value
       : MatomoUrl.urlParsed.value;
     MatomoUrl.updateLocation({

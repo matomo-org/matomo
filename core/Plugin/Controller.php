@@ -425,8 +425,8 @@ abstract class Controller
     {
         // load translations from meta data
         $idSite = Common::getRequestVar('idSite');
-        $period = Common::getRequestVar('period');
-        $date = Common::getRequestVar('date');
+        $period = Piwik::getPeriod();
+        $date = Piwik::getDate();
         $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
 
         $columns = array_merge($columnsToDisplay ? $columnsToDisplay : array(), $selectableColumns);
@@ -754,6 +754,7 @@ abstract class Controller
 
         $pluginManager = Plugin\Manager::getInstance();
         $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
+        $view->pluginsToLoadOnDemand = $pluginManager->getPluginUmdsToLoadOnDemand();
         $view->isMultiSitesEnabled = $pluginManager->isPluginActivated('MultiSites');
         $view->isSingleSite = Access::doAsSuperUser(function() {
             $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
@@ -862,7 +863,7 @@ abstract class Controller
                                                                                     $invalidHost,
                                                                                     '</a>',
                                                                                     "<br/><a href=\"$validUrl\">",
-                                                                                    $validHost,
+                                                                                    Common::sanitizeInputValue($validHost),
                                                                                     '</a>'
                                                                                ));
             } elseif (Piwik::isUserIsAnonymous()) {

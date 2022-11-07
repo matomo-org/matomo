@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Receba relatórios de web analytics em seu email ou telefone móvel.",
         "TopMenu": "Relatórios de e-mail e SMS",
         "UserKey": "Chave do usuário",
-        "VerificationText": "O código é %1$s. Para confirmar o seu número de telefone e receber relatórios por SMS do Matomo, por favor copie este código para o formulário disponível via Matomo &gt; %2$s &gt; %3$s."
+        "VerificationText": "O código é %1$s. Para confirmar o seu número de telefone e receber relatórios por SMS do Matomo, por favor copie este código para o formulário disponível via Matomo → %2$s → %3$s."
     }
 }

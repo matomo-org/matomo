@@ -1,7 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "&rsaquo; Enlace directo",
+        "DisplayDashboardInIframe": "También puede mostrar el panel de control completo de Matomo en su aplicación o sitio web en un IFRAME (%1$según el ejemplo%2$s). El parámetro de fecha puede establecerse en una fecha específica del calendario, \"hoy\" o \"ayer\". El parámetro de período puede establecerse como \"día\", \"semana\", \"mes\" o\n \"año\". El parámetro de idioma puede establecerse con el código de idioma de una traducción, como language=fr. Por ejemplo, para idSite=1 y date=yesterday, se puede escribir:",
+        "DisplayDashboardInIframeAllSites": "También puede widgetizar el panel de control de todos los sitios web en un IFRAME (%1$sver ejemplo%2$s)",
+        "EmbedIframe": "&rsaquo; Incrustar Iframe",
+        "Intro": "Con Matomo, usted puede %1$sexportar sus informes de Web Analytics%2$s en su blog, sitio web o tablero de intranet... en un solo clic.",
         "OpenInNewWindow": "Abrir en una nueva ventana",
-        "PluginDescription": "Mostrar un informe Matomo en su sitio de internet o aplicación con una simple etiqueta HTML incrustada.",
-        "TopLinkTooltip": "Exportar los informes de Matomo como una aplicación (widget) e incrustar el panel en su aplicación como un elemento iframe."
+        "PluginDescription": "Muestra cualquier informe de Matomo en tu sitio web o aplicación con una simple etiqueta HTML \"embed\".",
+        "Reports": "Widgetizar informes",
+        "SelectAReport": "Seleccione un informe y copie y pegue en su página el código de inserción que aparece debajo del widget:",
+        "TooHighAccessLevel": "Este usuario tiene acceso de super-usuario. No se permite incrustar widgets con autenticación de token de superusuario. %1$sConsulte las FAQ para más información.%2$s",
+        "TopLinkTooltip": "Exporte los informes de Matomo como widgets e incruste el cuadro de mando en su aplicación como un iframe.",
+        "ViewAccessRequired": "Este usuario tiene al menos algún acceso de escritura. Sólo se pueden utilizar los tokens de los usuarios que sólo tienen acceso de visualización. Compruebe %1$s para más información.",
+        "ViewableAnonymously": "If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions to the anonymous user in the %1$sUsers Management section%2$s. <br>Alternatively, if you are publishing widgets on a password protected or private page, you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret <code>token_auth</code> parameter in the widget URL. You can manage your auth tokens on your %3$sSecurity page%4$s."
     }
 }

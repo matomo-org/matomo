@@ -111,7 +111,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>iOS / Fútbol / unknown</label>
+		<label>GNU/Linux / Chrome / unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
@@ -122,7 +122,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>GNU/Linux / Chrome / unknown</label>
+		<label>iOS / Fútbol / unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>

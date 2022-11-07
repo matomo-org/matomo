@@ -64,6 +64,38 @@ class TwoFactorAuth extends \Piwik\Plugin
         $translations[] = 'General_Confirm';
         $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2';
         $translations[] = 'TwoFactorAuth_SetupAuthenticatorOnDevice';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthentication';
+        $translations[] = 'General_Error';
+        $translations[] = 'TwoFactorAuth_VerifyIdentifyExplanation';
+        $translations[] = 'TwoFactorAuth_DontHaveYourMobileDevice';
+        $translations[] = 'TwoFactorAuth_EnterRecoveryCodeInstead';
+        $translations[] = 'TwoFactorAuth_NotPossibleToLogIn';
+        $translations[] = 'TwoFactorAuth_LostAuthenticationDevice';
+        $translations[] = 'TwoFactorAuth_AskSuperUserResetAuthenticationCode';
+        $translations[] = 'General_Logout';
+        $translations[] = 'TwoFactorAuth_Your2FaAuthSecret';
+        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodesInfo';
+        $translations[] = 'TwoFactorAuth_RecoveryCodesRegenerated';
+        $translations[] = 'General_ExceptionNonceMismatch';
+        $translations[] = 'TwoFactorAuth_TwoFAShort';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIntro';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationRequired';
+        $translations[] = 'TwoFactorAuth_ConfigureDifferentDevice';
+        $translations[] = 'TwoFactorAuth_DisableTwoFA';
+        $translations[] = 'TwoFactorAuth_ShowRecoveryCodes';
+        $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled';
+        $translations[] = 'TwoFactorAuth_EnableTwoFA';
+        $translations[] = 'TwoFactorAuth_ConfirmDisableTwoFA';
+        $translations[] = 'General_Yes';
+        $translations[] = 'General_No';
+        $translations[] = 'TwoFactorAuth_RequiredToSetUpTwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_SetUpTwoFactorAuthentication';
+        $translations[] = 'TwoFactorAuth_SetupFinishedTitle';
+        $translations[] = 'TwoFactorAuth_SetupFinishedSubtitle';
+        $translations[] = 'General_Continue';
+        $translations[] = 'TwoFactorAuth_Verify';
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -73,7 +105,6 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
         $jsFiles[] = "node_modules/qrcodejs2/qrcode.min.js";
     }
 
@@ -254,6 +285,10 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     private function removeTokenFromOutput($output)
     {
+        if (empty($output)) {
+            return $output;
+        }
+
         $token = Piwik::getCurrentUserTokenAuth();
         // make sure to not leak the token... otherwise someone could log in using someone's credentials...
         // and then maybe in the auth screen look into the DOM to find the token... and then bypass the

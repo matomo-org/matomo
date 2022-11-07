@@ -34,7 +34,7 @@
     {{ actionBlock|raw }}
     <div class="row">
         <div class="col {% if isSuperUser %}l4{% else %}l6{% endif %} m12 s12">
-            <div piwik-content-block content-title="{{ 'CorePluginsAdmin_WhatIsTagManager'|translate }}">
+            <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'CorePluginsAdmin_WhatIsTagManager'|translate }}">
                 <p>
                     {{ 'CorePluginsAdmin_WhatIsTagManagerDetails1'|translate }}<br /><br />
                     {{ 'CorePluginsAdmin_WhatIsTagManagerDetails2'|translate }}<br /><br />
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="col {% if isSuperUser %}l4{% else %}l6{% endif %} m12 s12">
-            <div piwik-content-block content-title="{{ 'CorePluginsAdmin_WhyUsingATagManager'|translate }}">
+            <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'CorePluginsAdmin_WhyUsingATagManager'|translate }}">
                 <p>
                     {{ 'CorePluginsAdmin_WhyUsingATagManagerDetails1'|translate }}
                     <br /><br />
@@ -57,7 +57,7 @@
         </div>
         {% if isSuperUser %}
             <div class="col l4 m12 s12">
-                <div piwik-content-block content-title="{{ 'CorePluginsAdmin_AreThereAnyRisks'|translate }}">
+                <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'CorePluginsAdmin_AreThereAnyRisks'|translate }}">
 
                     {{ 'CorePluginsAdmin_AreThereAnyRisksDetails1'|translate('<a rel="noreferrer noopener" href="https://en.wikipedia.org/wiki/Cross-site_scripting">', '</a>')|raw }}
                     <br /><br />

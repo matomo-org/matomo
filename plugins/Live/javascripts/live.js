@@ -173,8 +173,7 @@
             this.currentInterval = parseInt(this.options.interval, 10);
 
             if (0 === $(this.element).parents('.widget').length) {
-                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-                $rootScope.$emit('hidePeriodSelector');
+                window.CoreHome.Matomo.postEvent('hidePeriodSelector');
             }
 
             var self = this;

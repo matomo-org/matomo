@@ -194,7 +194,7 @@ class Get extends Base
 
                     $value = reset($columns);
                     $columnName = key($columns);
-                    $pastValue = $previousDataRow->getColumn($columnName);
+                    $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
 
                     if (!is_numeric($value)) {
                         return;

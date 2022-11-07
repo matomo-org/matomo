@@ -89,7 +89,7 @@ class ApiTest extends SystemTestCase
             'totals' => [
                 'nb_visits' => 42,
                 'growth_percent' => 0,
-                'growth_percent_numeric' => 354.2,
+                'growth_percent_numeric' => 354.20000000000005,
                 'grown' => 0,
                 'value_old' => 38,
                 'value_new' => 30,
@@ -103,7 +103,7 @@ class ApiTest extends SystemTestCase
             'totalsUnformatted' => [
                 'nb_visits' => 42,
                 'growth_percent' => 0,
-                'growth_percent_numeric' => 354.2,
+                'growth_percent_numeric' => 354.20000000000005,
                 'grown' => 0,
                 'value_old' => 38,
                 'value_new' => 30,
@@ -121,7 +121,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('getPageUrls', $metadata['report']['action']);
         unset($metadata['report']);
 
-        $this->assertEquals($expectedMetadata, $metadata);
+        $this->assertEqualsWithDelta($expectedMetadata, $metadata, 0.0001);
     }
 
     public function test_getInsights_ShouldGoBackInPastDependingOnComparedToParameter()

@@ -1,15 +1,18 @@
 {
     "API": {
-        "ChangeTokenHint": "Si quieres cambiar este token, por favor ve hacia tu %1$s página de ajustes de usuario %2$s",
+        "ChangeTokenHint": "Si quiere cambiar este token, vaya a su página de %1$sconfiguración personal%2$s.",
         "EvolutionMetricName": "Evolución %s",
+        "GenerateVisits": "Si no tiene datos para hoy, puede generar algunos utilizando el plugin %1$s yendo a 'Desarrollo → Generador de visitantes' en el área de administración de Matomo.",
         "Glossary": "Glosario",
         "KeepTokenSecret": "Este token_auth es tan secreto como su nombre de usuario y contraseña, %1$s no lo comparta %2$s!",
-        "LearnAboutCommonlyUsedTerms2": "Conozca más acerca de los términos más utilizados para maximizar sus analíticas Matomo.",
-        "LoadedAPIs": "Se han cargado %s APIs exitosamente",
-        "MoreInformation": "Para mayor información acerca de las APIs de Matomo, por favor lea la %1$s Introducción a las API Matomo %2$s y la %3$s Referencias de las API Matomo %4$s.",
-        "PluginDescription": "Toda la información en Matomo está disponible a través de simples APIs. Este complemento es el punto de entrada del servicio de internet, al que puede convocar para obtener la información analítica de internet sea en formato xml, json, php, csv, etc.",
+        "LearnAboutCommonlyUsedTerms2": "Conozca los términos más utilizados para sacar el máximo partido a los análisis de Matomo.",
+        "LoadedAPIs": "Cargadas %s API",
+        "MainMetricsReportDocumentation": "Este informe ofrece una visión general de las métricas más importantes en todas las categorías y plugins.",
+        "MoreInformation": "Más información sobre las APIs de Matomo disponible en %1$sIntroducción a la API de Matomo%2$s y la %3$sReferencia de la API de Matomo%4$s.",
+        "PluginDescription": "Todos los datos de Matomo están disponibles a través de simples APIs. Este plugin es el punto de entrada del servicio web, al que puedes llamar para obtener tus datos de analítica web en XML, JSON, PHP, CSV, etc.",
         "ReportingApiReference": "Informando Referencia API",
-        "TopLinkTooltip": "Acceda a sus datos de análisis de internet programáticamente, a través de una sencilla API en json, xml, etc.",
-        "UserAuthentication": "Autenticación de usuario"
+        "TopLinkTooltip": "Acceda a los datos de su Web Analytics de forma programada a través de una sencilla API en JSON, XML, etc.",
+        "UserAuthentication": "Autenticación de usuario",
+        "UsingTokenAuth": "Si quiere %1$solicitar datos dentro de un script, un crontab, etc.%2$s tiene que añadir el parámetro de URL '%3$s' a las llamadas a la API para las URL que requieren autenticación."
     }
 }

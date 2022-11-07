@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Proporciona información detallada acerca de su tráfico. Estos detalles están disponibles como módulos del panel de control y como un nuevo ícono en los informes que le permite ver las tendencias más importantes en sus datos.",
         "ControlComparedToDescription": "Crecimiento comparado con",
         "ControlFilterByDescription": "Muestra todos, solo los más activos, nuevos o solo desaparecidos",
         "DatePeriodCombinationNotSupported": "No es posible generar estadística para esta combinación de fecha y periodo.",
@@ -8,7 +7,7 @@
         "DayComparedToPreviousWeek": "el mismo día de la semana anterior",
         "DayComparedToPreviousYear": "el mismo día del año anterior",
         "Filter": "Filtro",
-        "FilterIncreaserAndDecreaser": "Aumentando & disminuyendo",
+        "FilterIncreaserAndDecreaser": "Incrementador &amp; reductor",
         "FilterOnlyDecreaser": "Solo disminuyendo",
         "FilterOnlyDisappeared": "Solo desaparecidos",
         "FilterOnlyIncreaser": "Solo creciente",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Los más activos",
         "NoResultMatchesCriteria": "Ninguna fila cumple los criterios",
         "OverviewWidgetTitle": "Información general de percepciones",
+        "PluginDescription": "Proporciona información detallada acerca de su tráfico. Estos detalles están disponibles como módulos del panel de control y como un nuevo ícono en los informes que le permite ver las tendencias más importantes en sus datos.",
         "TitleConsideredInsightsChanges": "Las filas que han aumentado o disminuido con al menos %1$s visitas (%2$s%% de %3$s visitas totales).",
         "TitleConsideredInsightsGrowth": "Las siguientes filas han crecido con al menos %1$s%% comparado con %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Son considerados pioneros solamente si han crecido con más de %1$s%% visitas o disminuido con menos de %2$s%% visitas, nuevos participantes solamente si han crecido con más de %3$s%% visitas (%4$s), y filas desaparecida solamente si han disminuido con menos de %5$s%% visitas (%6$s).",

@@ -428,6 +428,17 @@ class Manager
         return array_intersect_key(self::$pluginsToWebRootDirCache, array_flip($this->pluginsToLoad));
     }
 
+    public function getPluginUmdsToLoadOnDemand()
+    {
+        $pluginsToLoadOnDemand = [];
+        foreach ($this->getPluginsLoadedAndActivated() as $plugin) {
+            if (method_exists($plugin, 'shouldLoadUmdOnDemand') && $plugin->shouldLoadUmdOnDemand()) {
+                $pluginsToLoadOnDemand[] = $plugin->getPluginName();
+            }
+        }
+        return $pluginsToLoadOnDemand;
+    }
+
     /**
      * Returns the path to all plugins directories. Each plugins directory may contain several plugins.
      * All paths have a trailing slash '/'.
@@ -1193,7 +1204,7 @@ class Manager
 
     public function isValidPluginName($pluginName)
     {
-        return (bool) preg_match('/^[a-zA-Z]([a-zA-Z0-9_]*)$/D', $pluginName);
+        return (bool) preg_match('/^[a-zA-Z]([a-zA-Z0-9_]){0,59}$/D', $pluginName);
     }
 
     /**

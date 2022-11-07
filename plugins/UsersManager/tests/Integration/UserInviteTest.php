@@ -49,6 +49,34 @@ class UserInviteTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
+    public function testCopyLink()
+    {
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => $this->pendingUser['login'],
+                'email' => $this->pendingUser['email'],
+                'initialIdSite' => 1,
+                'expiryInDays' => 7
+            ]
+        );
+
+        $link = Request::processRequest(
+            'UsersManager.generateInviteLink',
+            [
+                'userLogin' => $this->pendingUser['login'],
+                'expiryInDays' => 7
+            ]
+        );
+
+        $response = Http::sendHttpRequest(
+            $link,
+            10
+        );
+
+        $this->assertStringContainsString('Accept invitation', $response, 'error on accept invite page');
+    }
+
     public function testInviteUser()
     {
         Request::processRequest(

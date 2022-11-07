@@ -85,6 +85,12 @@ return [
 
     'DeviceDetector\Cache\Cache' => DI\autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
 
+    // specify plugins to load on demand via DI config. mostly for tests.
+    'plugins.shouldLoadOnDemand' => [],
+
+    // allow users to override plugin hardcoded value and avoid loading on demand
+    'plugins.shouldNotLoadOnDemand' => [],
+
     'observers.global' => [],
 
     /**

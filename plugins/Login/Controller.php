@@ -27,6 +27,7 @@ use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
+use Piwik\Request;
 use Piwik\Session;
 use Piwik\Session\SessionInitializer;
 use Piwik\Url;
@@ -282,7 +283,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('bruteForceLog', [
           'blockedIps'     => $this->bruteForceDetection->getCurrentlyBlockedIps(),
-          'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
+          'disallowedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
         ]);
     }
 
@@ -333,6 +334,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $parsedUrl = parse_url($urlToRedirect);
 
+        if (!empty($urlToRedirect) && false === $parsedUrl) {
+            $e = new \Piwik\Exception\Exception('The redirect URL is not valid.');
+            $e->setIsHtmlMessage();
+            throw $e;
+        }
+
         // only use redirect url if host is trusted
         if (!empty($parsedUrl['host']) && !Url::isValidHost($parsedUrl['host'])) {
             $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "' . Common::sanitizeInputValue($parsedUrl['host']) . '"</i> under <i>[General]</i>');
@@ -341,9 +348,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         if (empty($urlToRedirect)) {
-            $redirect = Common::unsanitizeInputValue(Common::getRequestVar('form_redirect', false));
-            $redirectParams = UrlHelper::getArrayFromQueryString(UrlHelper::getQueryFromUrl($redirect));
-            $module = Common::getRequestVar('module', '', 'string', $redirectParams);
+            $redirect = Request::fromRequest()->getStringParameter('form_redirect', '');
+            $module = Request::fromQueryString(UrlHelper::getQueryFromUrl($redirect))->getStringParameter('module', '');
             // when module is login, we redirect to home...
             if (!empty($module) && $module !== 'Login' && $module !== Piwik::getLoginPluginName() && $redirect) {
                 $host = Url::getHostFromUrl($redirect);

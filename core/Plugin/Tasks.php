@@ -52,7 +52,7 @@ class Tasks
      * Schedule the given tasks/method to run once every hour.
      *
      * @param string $methodName             The name of the method that will be called when the task is being
-     *                                       exectuted. To make it work you need to create a public method having the
+     *                                       executed. To make it work you need to create a public method having the
      *                                       given method name in your Tasks class.
      * @param null|string $methodParameter   Can be null if the task does not need any parameter or a string. It is not
      *                                       possible to specify multiple parameters as an array etc. If you need to

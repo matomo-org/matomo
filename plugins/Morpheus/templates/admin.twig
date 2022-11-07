@@ -18,7 +18,7 @@
     {% include "@CoreHome/_topScreen.twig" %}
 
     <div class="top_controls">
-        <div piwik-quick-access ng-cloak class="piwikTopControl borderedControl"></div>
+        <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
 
         {% block topcontrols %}
         {% endblock %}
@@ -45,7 +45,7 @@
             {% endblock %}
             {% include "@CoreHome/_warningInvalidHost.twig" %}
 
-            <div class="admin" id="content" ng-cloak>
+            <div class="admin" id="content">
 
                 <div class="ui-confirm" id="alert">
                     <h2></h2>

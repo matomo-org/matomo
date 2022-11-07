@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div>
+  <div class="dateRangePicker">
     <div id="calendarRangeFrom">
       <h6>
         {{ translate('General_DateRangeFrom') }}

@@ -487,6 +487,8 @@ class Common
      * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
      *                   exists but has an incorrect type.
      * @return mixed The sanitized request parameter.
+     * @see Request::getParameter()
+     * @deprecated Use Request class instead, which will return raw values instead.
      * @api
      */
     public static function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
@@ -496,6 +498,7 @@ class Common
         }
 
         $varDefault = self::sanitizeInputValues($varDefault);
+
         if ($varType === 'int') {
             // settype accepts only integer
             // 'int' is simply a shortcut for 'integer'
@@ -527,10 +530,11 @@ class Common
         if ($varType === 'json') {
             $value = $requestArrayToUse[$varName];
             $value = json_decode($value, $assoc = true);
-            return self::sanitizeInputValues($value, $alreadyStripslashed = true);
+            return self::sanitizeInputValues($value, true);
         }
 
         $value = self::sanitizeInputValues($requestArrayToUse[$varName]);
+
         if (isset($varType)) {
             $ok = false;
 
@@ -747,7 +751,7 @@ class Common
     }
 
     /**
-     * Returns a human readable error message in case an error occcurred during the last json encode/decode.
+     * Returns a human readable error message in case an error occurred during the last json encode/decode.
      * Returns an empty string in case there was no error.
      *
      * @return string
