@@ -12,7 +12,7 @@ use Piwik\SiteContentDetector;
 
 /**
  * Fixture that adds one site with no visits and configures site content detection test data so that the
- * 'Osano' consent manager and GA3 will be detected on the site.
+ * 'Osano' consent manager will be detected on the site.
  */
 class EmptySiteWithSiteContentDetection extends Fixture
 {
@@ -31,8 +31,9 @@ class EmptySiteWithSiteContentDetection extends Fixture
                 'consentManagerName' => 'Osano',
                 'consentManagerUrl' => 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo',
                 'isConnected' => true,
-                'ga3' => true,
-                'ga4' => false
+                'ga3' => false,
+                'ga4' => false,
+                'gtm' => false
             ]);
 
     }
