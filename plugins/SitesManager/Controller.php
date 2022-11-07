@@ -251,7 +251,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'showMatomoLinks' => $showMatomoLinks,
             'siteType' => $siteType,
             'instruction' => SitesManager::getInstructionBySiteType($siteType),
-            'gtmUsed' => $gtmUsed,
+            'gtmUsed' => false,
             'ga3Used' => false,
             'ga4Used' => false,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
@@ -268,6 +268,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         $templateData['ga3Used'] = $siteDetection->ga3;
         $templateData['ga4Used'] = $siteDetection->ga4;
+        $templateData['gtmUsed'] = $siteDetection->gtm;
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
