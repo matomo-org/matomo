@@ -16,7 +16,7 @@
           :uicontrol="'password'"
           :disabled="!requiresPasswordConfirmation ? 'disabled' : undefined"
           :name="'currentUserPassword'"
-          :autocomplete="false"
+          :autocomplete="'off'"
           :full-width="true"
           :title="translate('UsersManager_YourCurrentPassword')"
         >
