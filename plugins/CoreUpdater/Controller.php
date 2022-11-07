@@ -101,11 +101,6 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/Morpheus/javascripts/piwikHelper.js',
             "plugins/CoreHome/javascripts/broadcast.js",
             'plugins/CoreUpdater/javascripts/updateLayout.js',
-            'node_modules/angular/angular.min.js',
-            'node_modules/angular-sanitize/angular-sanitize.min.js',
-            'node_modules/angular-animate/angular-animate.min.js',
-            'node_modules/angular-cookies/angular-cookies.min.js',
-            'node_modules/ng-dialog/js/ngDialog.min.js',
             'plugins/Installation/javascripts/installation.js',
         );
 

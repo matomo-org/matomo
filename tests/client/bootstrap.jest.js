@@ -16,16 +16,5 @@ require('jquery-ui-dist/jquery-ui');
 window.piwik = {};
 window._pk_translate = (name) => name;
 
-require('angular/angular.js');
-
 require('../../plugins/CoreHome/javascripts/broadcast');
 require('../../plugins/Morpheus/javascripts/piwikHelper');
-
-angular.module('piwikApp.service', []);
-angular.module('piwikApp', [
-  'piwikApp.service',
-]);
-
-angular.module('piwikApp').config(['$locationProvider', function($locationProvider) {
-  $locationProvider.html5Mode({ enabled: false, rewriteLinks: false }).hashPrefix('');
-}]);

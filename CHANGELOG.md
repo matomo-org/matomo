@@ -8,9 +8,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 
-* Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
+* AngularJS has been completely removed from the code base, existing AngularJS code will no longer work. It is recommended to convert that code to Vue.
+* The `Common::fixLbrace()` function has been removed. It was only necessary for AngularJS and no longer needs to be used.
 * The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
+* Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
 
 ### New APIs
 

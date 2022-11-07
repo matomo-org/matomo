@@ -14,7 +14,6 @@ use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
-use Piwik\Development;
 use Piwik\IP;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
@@ -168,14 +167,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "node_modules/mousetrap/mousetrap.min.js";
 
-        $devAngularJs = 'node_modules/angular/angular.js';
-        $jsFiles[] = Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devAngularJs)
-            ? $devAngularJs : 'node_modules/angular/angular.min.js';
-
-        $jsFiles[] = "node_modules/angular-sanitize/angular-sanitize.min.js";
-        $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";
-        $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";
-        $jsFiles[] = "node_modules/ng-dialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";

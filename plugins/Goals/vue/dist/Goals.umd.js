@@ -128,7 +128,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "GoalPageLink", function() { return /* reexport */ GoalPageLink_GoalPageLink; });
 __webpack_require__.d(__webpack_exports__, "ManageGoals", function() { return /* reexport */ ManageGoals; });
 __webpack_require__.d(__webpack_exports__, "ManageGoalsStore", function() { return /* reexport */ ManageGoals_store; });
-__webpack_require__.d(__webpack_exports__, "PiwikApiMock", function() { return /* reexport */ PiwikApiMock; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -210,7 +209,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element)
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=70c1dd16
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=0b9944b2
 
 var _hoisted_1 = {
   class: "manageGoals"
@@ -621,12 +620,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_65]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=70c1dd16
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=0b9944b2
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/PiwikApiMock.ts
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -634,70 +633,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
-* Matomo - free/libre analytics platform
-*
-* @link https://matomo.org
-* @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
-*/
-// the piwikApi angularjs service is passed in some frontend events to allow plugins to modify
-// a request before it is sent. for the time being in Vue we use this mock, which has the same
-// API as the piwikApi service, to modify the input used with AjaxHelper. this provides BC
-// with for plugins that haven't been converted.
-//
-// should be removed in Matomo 5.
-var PiwikApiMock = /*#__PURE__*/function () {
-  function PiwikApiMock(parameters, options) {
-    _classCallCheck(this, PiwikApiMock);
-
-    _defineProperty(this, "parameters", void 0);
-
-    _defineProperty(this, "options", void 0);
-
-    this.parameters = parameters;
-    this.options = options;
-  }
-
-  _createClass(PiwikApiMock, [{
-    key: "addParams",
-    value: function addParams(params) {
-      Object.assign(this.parameters, params);
-    }
-  }, {
-    key: "withTokenInUrl",
-    value: function withTokenInUrl() {
-      this.options.withTokenInUrl = true;
-    }
-  }, {
-    key: "reset",
-    value: function reset() {
-      var _this = this;
-
-      Object.keys(this.parameters).forEach(function (name) {
-        delete _this.parameters[name];
-      });
-      delete this.options.postParams;
-    }
-  }, {
-    key: "addPostParams",
-    value: function addPostParams(params) {
-      this.options.postParams = Object.assign(Object.assign({}, this.options.postParams), params);
-    }
-  }]);
-
-  return PiwikApiMock;
-}();
-
-
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts
-function ManageGoals_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function ManageGoals_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function ManageGoals_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ManageGoals_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ManageGoals_store_defineProperties(Constructor, staticProps); return Constructor; }
-
-function ManageGoals_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /*!
  * Matomo - free/libre analytics platform
@@ -711,16 +646,16 @@ var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
   function ManageGoalsStore() {
     var _this = this;
 
-    ManageGoals_store_classCallCheck(this, ManageGoalsStore);
+    _classCallCheck(this, ManageGoalsStore);
 
-    ManageGoals_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({}));
+    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({}));
 
-    ManageGoals_store_defineProperty(this, "idGoal", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+    _defineProperty(this, "idGoal", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.privateState.idGoal;
     }));
   }
 
-  ManageGoals_store_createClass(ManageGoalsStore, [{
+  _createClass(ManageGoalsStore, [{
     key: "setIdGoalShown",
     value: function setIdGoalShown(idGoal) {
       this.privateState.idGoal = idGoal;
@@ -732,7 +667,6 @@ var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
 
 /* harmony default export */ var ManageGoals_store = (new ManageGoals_store_ManageGoalsStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts
-
 
 
 
@@ -925,12 +859,17 @@ function ambiguousBoolToInt(n) {
       var isCreate = parameters.method === 'Goals.addGoal';
       var isUpdate = parameters.method === 'Goals.updateGoal';
       var options = {};
-      var piwikApiMock = new PiwikApiMock(parameters, options);
 
       if (isUpdate) {
-        external_CoreHome_["Matomo"].postEvent('Goals.beforeUpdateGoal', parameters, piwikApiMock);
+        external_CoreHome_["Matomo"].postEvent('Goals.beforeUpdateGoal', {
+          parameters: parameters,
+          options: options
+        });
       } else if (isCreate) {
-        external_CoreHome_["Matomo"].postEvent('Goals.beforeAddGoal', parameters, piwikApiMock);
+        external_CoreHome_["Matomo"].postEvent('Goals.beforeAddGoal', {
+          parameters: parameters,
+          options: options
+        });
       }
 
       if (parameters !== null && parameters !== void 0 && parameters.cancelRequest) {
@@ -1080,7 +1019,6 @@ ManageGoalsvue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
-
 
 
 
