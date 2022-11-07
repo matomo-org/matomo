@@ -154,11 +154,11 @@ class CronArchive
     public $concurrentRequestsPerWebsite = false;
 
     /**
-     * The number of concurrent archivers to run at once max.
+     * The number of concurrent archivers to run at once max. Default 3
      *
      * @var int|false
      */
-    public $maxConcurrentArchivers = false;
+    public $maxConcurrentArchivers = 3;
 
     /**
      * Maximum number of sites to process during a single execution of the archiver.
@@ -1366,6 +1366,11 @@ class CronArchive
     private function hasReachedMaxConcurrentArchivers()
     {
         $cliMulti = $this->makeCliMulti();
+
+        if ($this->maxConcurrentArchivers == "-1") {
+            return false;
+        }
+
         if ($this->maxConcurrentArchivers && $cliMulti->supportsAsync()) {
             $numRunning = 0;
             $processes = Process::getListOfRunningProcesses();
