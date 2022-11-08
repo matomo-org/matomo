@@ -11,7 +11,7 @@
             <li>{{ 'Goals_BestReferrers'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.website} %}</li>
         {% endif %}
         {% if topDimensions.entry_page is defined and topDimensions.entry_page|length > 0 %}
-            <li>{{ 'Goals_BestEntryPage'|translate }} {% include '@Goals/_listTopDimensionPage.twig' with {'topDimension':topDimensions.entry_page} %}</li>
+            <li>{{ 'Goals_BestEntryPage'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.entry_page|slice(0, 1)} %}</li>
         {% endif %}
         <li>
             {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_returning~"</strong>")|raw }}
