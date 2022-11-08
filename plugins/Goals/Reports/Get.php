@@ -140,15 +140,18 @@ class Get extends Base
             ]);
 
             // Adding conversion rate as extra processed metrics ensures it will be formatted
-            $view->config->filters[] = function (DataTable $t) {
-                $extraProcessedMetrics = $t->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            // This is not done when comparing, as comparison does its own formatting
+            if (!$view->isComparing()) {
+                $view->config->filters[] = function (DataTable $t) {
+                    $extraProcessedMetrics = $t->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
 
-                if (empty($extraProcessedMetrics)) {
-                    $extraProcessedMetrics = [];
-                }
-                $extraProcessedMetrics[] = new ConversionRate();
-                $t->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
-            };
+                    if (empty($extraProcessedMetrics)) {
+                        $extraProcessedMetrics = [];
+                    }
+                    $extraProcessedMetrics[] = new ConversionRate();
+                    $t->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+                };
+            }
 
             $allowMultiple = Common::getRequestVar('allow_multiple', 0, 'int');
 
