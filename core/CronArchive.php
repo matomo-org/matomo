@@ -158,7 +158,7 @@ class CronArchive
      *
      * @var int|false
      */
-    public $maxConcurrentArchivers = 3;
+    public $maxConcurrentArchivers = false;
 
     /**
      * Maximum number of sites to process during a single execution of the archiver.
