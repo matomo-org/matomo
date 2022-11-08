@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\API\Request;
+use Piwik\Cache;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataArray;
 use Piwik\DataTable;
@@ -468,8 +470,17 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function archiveDayActionsGoals(int $rankingQueryLimit): void
     {
-        $this->archiveDayActionsGoalsPages($rankingQueryLimit,true);
-        $this->archiveDayActionsGoalsPages($rankingQueryLimit,false);
+        if (GeneralConfig::getConfigValue('disable_archive_actions_goals', $this->getProcessor()->getParams()->getSite()->getId())) {
+            return;
+        }
+
+        $goals = $this->getGoalsForSite($this->getProcessor()->getParams()->getSite()->getId());
+
+        foreach ($goals as $idGoal) {
+            $this->archiveDayActionsGoalsPages(true, $idGoal);
+            $this->archiveDayActionsGoalsPages(false, $idGoal);
+        }
+
         $this->archiveDayActionsGoalsPagesEntry($rankingQueryLimit, true);
         $this->archiveDayActionsGoalsPagesEntry($rankingQueryLimit, false);
     }
@@ -477,24 +488,47 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * Query goal page view data and update actions data table
      *
-     * @param int   $rankingQueryLimit
      * @param bool  $isUrl              If true then query goal data by url, else by name
+     * @param int   $idGoal             Goal to archive
      *
      * @return int|null Count of records processed
      * @throws \Exception
      */
-    protected function archiveDayActionsGoalsPages(int $rankingQueryLimit, bool $isUrl): ?int
+    protected function archiveDayActionsGoalsPages(bool $isUrl, int $idGoal): ?int
     {
-        if (GeneralConfig::getConfigValue('disable_archive_actions_goals', $this->getProcessor()->getParams()->getSite()->getId())) {
-            return null;
-        }
         $linkField = ($isUrl ? 'idaction_url' : 'idaction_name');
-        $resultSet = $this->getLogAggregator()->queryConversionsByPageView($linkField, $rankingQueryLimit);
+        $resultSet = $this->getLogAggregator()->queryConversionsByPageView($linkField, $idGoal);
         if (!$resultSet) {
             return null;
         }
-
         return ArchivingHelper::updateActionsTableWithGoals($resultSet, true);
+    }
+
+    /**
+     * Get a list of goal ids for a site
+     *
+     * @param string $idSite
+     *
+     * @return array
+     */
+    private function getGoalsForSite(string $idSite) : array
+    {
+        $cache = Cache::getTransientCache();
+        $key   = 'ActionArchives_allGoalIds_' . $idSite;
+
+        if ($cache->contains($key)) {
+            return $cache->fetch($key);
+        }
+
+        $goalIds = [];
+
+        $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+
+        foreach ($siteGoals as $goal) {
+            $goalIds[] = $goal['idgoal'];
+        }
+        $cache->save($key, $goalIds);
+        return $goalIds;
     }
 
     /**

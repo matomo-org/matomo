@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class SomePageGoalVisitsWithConversions extends Fixture
 {
-    public $dateTime = '2009-01-04 00:11:42';
+    public $dateTime = '2009-01-05 00:00:00';
     public $idSite = 1;
     private $ticks = 0;
 
@@ -86,7 +86,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
         $t = self::getTracker(1, $this->dateTime, $defaultInit = true);
 
-        // Day 1 - 2009-01-04
+        // Day 1 - 2009-01-05
 
         // Visit 1: A > B > A/X > C > Conversion 1
         $this->doPageVisit($t, 'A', 'index.html');
@@ -118,7 +118,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
         $this->doPageVisit($t, 'C');
         $this->doConversion($t, 2);
 
-        // Day 2 - 2009-01-05
+        // Day 2 - 2009-01-06
 
         $this->dateTime = Date::factory($this->dateTime)->addDay(1)->getDatetime();
 
@@ -140,7 +140,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
         $this->doPageVisit($t, 'A', 'index.html');
         $this->doConversion($t, 1);
 
-        // Day 3 - 2009-01-06
+        // Day 3 - 2009-01-07
 
         $this->dateTime = Date::factory($this->dateTime)->addDay(1)->getDatetime();
 
