@@ -27,6 +27,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The methods `setExcludedReferrers` and `getExcludedReferrers` have been added to the JavaScript tracker. They allow setting and receiving the referrers the JavaScript tracker should ignore. If a referrer matches an entry on that list, it will not be passed with the tracking requests and the attribution cookie will stay unchanged. This can for example be used if you need to forward your users to an external service like SSO or payment and don't want any visits or conversions being attributed to those services.
 
+### New config.ini.php settings
+* A general config setting `enable_opcache_reset` defaulting to `1`. Provides a configuration switch for `opcache_reset` when general caches are cleared. This may be useful for multi-tenant installations that would rather manage opcache resets by themselves. This could also be used by scripts to temporarily switch off opcache resets.
+
 ## Matomo 4.11.0
 
 ### Breaking Changes
