@@ -576,16 +576,16 @@
         },
         {
             "name": "matomo/ini",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-ini.git",
-                "reference": "14c8cf5e78c8046a3e1b3f2fe8dc6cb474bc3f6b"
+                "reference": "b55c55da943f4ccd564d48fe6b218fbdada98c1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/14c8cf5e78c8046a3e1b3f2fe8dc6cb474bc3f6b",
-                "reference": "14c8cf5e78c8046a3e1b3f2fe8dc6cb474bc3f6b",
+                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/b55c55da943f4ccd564d48fe6b218fbdada98c1a",
+                "reference": "b55c55da943f4ccd564d48fe6b218fbdada98c1a",
                 "shasum": ""
             },
             "require": {
@@ -607,9 +607,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-ini/issues",
-                "source": "https://github.com/matomo-org/component-ini/tree/3.0.0"
+                "source": "https://github.com/matomo-org/component-ini/tree/3.0.1"
             },
-            "time": "2021-06-17T07:06:45+00:00"
+            "time": "2022-11-09T08:19:54+00:00"
         },
         {
             "name": "matomo/matomo-php-tracker",
