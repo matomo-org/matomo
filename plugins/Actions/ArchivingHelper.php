@@ -260,6 +260,21 @@ class ArchivingHelper
              return false;
         }
 
+        if ($isPages &&
+            isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]) &&
+            isset($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE]))
+        {
+            $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = 0;
+        }
+
+        if (isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB])) {
+            $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB] = (float) $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB];
+        }
+
+        if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB])) {
+            $row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB];
+        }
+
         if (!$isPages) {
             $nbEntrances = $actionRow->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS);
             $conversions = $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY];
@@ -275,17 +290,13 @@ class ArchivingHelper
 
                 // Calculate revenue per entry
                 if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
-                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = Piwik::getQuotientSafe(
+                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = (float) Piwik::getQuotientSafe(
                         $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
                         $nbEntrances,
                         GoalManager::REVENUE_PRECISION + 1);
                 }
             }
 
-        }
-
-        if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
-            $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
         }
 
         // Get goals column
@@ -302,6 +313,7 @@ class ArchivingHelper
         // Find metric columns in the goal query row and add them to the actions data table row
         foreach ($possibleMetrics as $metricKey => $columnName) {
             if (isset($row[$metricKey])) {
+
                 // Add metric
                 if (!isset($goalsColumn[$row['idgoal']][$metricKey])) {
                     $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];

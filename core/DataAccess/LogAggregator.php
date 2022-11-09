@@ -1143,7 +1143,7 @@ class LogAggregator
           yyy.pages_before AS `9`,
           SUM(yyy.attribution) AS `10`,
           COUNT(*) AS `12`,
-          ROUND(SUM(yyy.revenue),4) AS `15`  
+          ROUND(SUM(yyy.revenue),2) AS `15`  
         FROM (
           SELECT
             num_total AS pages_before,
