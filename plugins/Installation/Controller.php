@@ -31,6 +31,7 @@ use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
+use Piwik\SiteContentDetector;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -389,11 +390,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
 
+        $siteDetection = SiteContentDetector::getInstance();
+        $siteDetection->detectContent([SiteContentDetector::ALL_CONTENT]);
+
         $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
             'jsTag' => $rawJsTag,
             'showMatomoLinks' => $showMatomoLinks,
             'trackingUrl' => $trackingUrl,
-            'idSite' => $idSite
+            'idSite' => $idSite,
+            'gtmUsed' => $siteDetection->gtm,
+            'ga3Used' => $siteDetection->ga3,
+            'ga4Used' => $siteDetection->ga4,
+            'consentManagerName' => false,
+            'consentManagerUrl' => $siteDetection->consentManagerUrl,
+            'consentManagerIsConnected' => $siteDetection->isConnected
         ), $viewType = 'basic');
 
         // Load the Tracking code and help text from the SitesManager
@@ -404,6 +414,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
         $viewTrackingHelp->isInstall = true;
+
+        $viewTrackingHelp->gtmUsed = $siteDetection->gtm;
+        $viewTrackingHelp->ga3Used = $siteDetection->ga3;
+        $viewTrackingHelp->ga4Used = $siteDetection->ga4;
+        $viewTrackingHelp->consentManagerName = false;
+        $viewTrackingHelp->consentManagerUrl = $siteDetection->consentManagerUrl;
+        $viewTrackingHelp->consentManagerIsConnected = $siteDetection->isConnected;
 
         $view->trackingHelp = $viewTrackingHelp->render();
         $view->displaySiteName = $siteName;
