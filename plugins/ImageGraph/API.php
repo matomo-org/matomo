@@ -324,7 +324,8 @@ class API extends \Piwik\Plugin\API
                     'idGoal' => $idGoal,
                     'idDimension' => $idDimension,
                     'legendAppendMetric' => $legendAppendMetric,
-                    'labelUseAbsoluteUrl' => false
+                    'labelUseAbsoluteUrl' => false,
+                    'format_metrics' => 0
                 );
                 $processedReport = Request::processRequest('API.getRowEvolution', $parameters);
 
@@ -384,7 +385,8 @@ class API extends \Piwik\Plugin\API
                     'showTimer' => true,
                     'hideMetricsDoc' => false,
                     'idSubtable' => $idSubtable,
-                    'showRawMetrics' => false
+                    'showRawMetrics' => false,
+                    'format_metrics' => 0
                 );
                 $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
             }
