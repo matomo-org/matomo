@@ -33,7 +33,7 @@ class EmptySiteWithSiteContentDetection extends Fixture
         ];
 
         return [
-            \Piwik\SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('mockData', $mockData)
         ];
     }
