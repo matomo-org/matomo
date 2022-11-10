@@ -3260,7 +3260,7 @@ if (typeof window.Matomo !== 'object') {
                         if (requestType === 'string') {
                             sendRequest(clientHintsRequestQueue[i], configTrackerPause, callBackQueue[i]);
                         } else if (requestType === 'object') {
-                            sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause, callBackQueue[i]);
+                            sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause);
                         }
                     }
                     clientHintsRequestQueue = [];
@@ -7177,7 +7177,7 @@ if (typeof window.Matomo !== 'object') {
                     if (requestType === 'string') {
                         sendRequest(consentRequestsQueue[i], configTrackerPause, callBackQueue[i]);
                     } else if (requestType === 'object') {
-                        sendBulkRequest(consentRequestsQueue[i], configTrackerPause, callBackQueue[i]);
+                        sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
                     }
                 }
                 consentRequestsQueue = [];
